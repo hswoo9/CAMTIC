@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/ac/AcG20Ex_GW_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ac/AcG20Ex2_GW_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ac/AcCommon_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ac/CommonInfo_SQL.xml"/>
+
+	<sqlMap resource="egovframework/sqlmap/admin/AppGroupManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/AuditManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/EaDocDeptManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/FormManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/OptionManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/ProcessManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/SignInfoManage_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/TakeOverManage_SQL.xml"/>
+</sqlMapConfig>

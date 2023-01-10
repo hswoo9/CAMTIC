@@ -1,0 +1,1975 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+<!--	&lt;!&ndash; 첨부파일 ID Generation  Config&ndash;&gt;-->
+<!--    <bean name="egovFileIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="dataSource-${Globals.DbType}" />-->
+<!--        <property name="strategy" ref="fileStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="IDS"/>-->
+<!--        <property name="tableName"  value="FILE_ID"/>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 첨부파일 ID Generation  Strategy Config &ndash;&gt;-->
+<!--    <bean name="fileStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="FILE_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 게시판마스터 ID Generation  Config&ndash;&gt;-->
+<!--    <bean name="egovBBSMstrIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="dataSource-${Globals.DbType}" />-->
+<!--        <property name="strategy" ref="bbsMstrStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="IDS"/>-->
+<!--        <property name="tableName"  value="BBS_ID"/>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 게시판마스터 ID Generation  Strategy Config &ndash;&gt;-->
+<!--    <bean name="bbsMstrStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BBSMSTR_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 게시판템플릿 ID Generation  Config&ndash;&gt;-->
+<!--    <bean name="egovTmplatIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="dataSource-${Globals.DbType}" />-->
+<!--        <property name="strategy" ref="tmplatStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="IDS"/>-->
+<!--        <property name="tableName"  value="TMPLAT_ID"/>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 게시판템플릿 ID Generation  Strategy Config &ndash;&gt;-->
+<!--    <bean name="tmplatStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="TMPLAT_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--			-->
+<!--    &lt;!&ndash; 부서일정 ID Generation  Config&ndash;&gt;-->
+<!--    <bean name="deptSchdulManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="dataSource-${Globals.DbType}" />-->
+<!--        <property name="strategy" ref="DeptSchdulManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="IDS"/>-->
+<!--        <property name="tableName"  value="SCHDUL_ID"/>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 부서일정 ID Generation  Strategy Config &ndash;&gt;-->
+<!--    <bean name="DeptSchdulManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SCHDUL_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    -->
+<!--    &lt;!&ndash; 공통컴포넌트 3차사업 IDGEN &ndash;&gt;-->
+<!--    &lt;!&ndash; 위키북마크 &ndash;&gt;-->
+<!--    <bean name="egovWikiBookmarkIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovWikiBookmarkIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="WIKI_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovWikiBookmarkIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="WIKI" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 지식정보제공/지식정보요청 &ndash;&gt;-->
+<!--    <bean name="egovRequestOfferIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovRequestOfferIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="KNO_ID2"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovRequestOfferIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="KNO_ID2" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; RSS관리 &ndash;&gt;-->
+<!--    <bean name="egovRssTagManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovRssTagManageIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="RSS_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovRssTagManageIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="RSS_ID" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 쪽지관리 &ndash;&gt;-->
+<!--    <bean name="egovNoteManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovNoteManageIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NOTE_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovNoteManageIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="NOTE_ID" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 보낸쪽지함관리 &ndash;&gt;-->
+<!--    <bean name="egovNoteTrnsmitIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovNoteTrnsmitIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NOTE_TRNSMIT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovNoteTrnsmitIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="NOTE_TR" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 받은쪽지함관리 &ndash;&gt;-->
+<!--    <bean name="egovNoteRecptnIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovNoteRecptnIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NOTE_RECPTN_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovNoteRecptnIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="NOTE_RE" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 공통컴포넌트 2차사업 IDGEN &ndash;&gt;-->
+<!--    &lt;!&ndash; 시스템연계 &ndash;&gt;-->
+<!--    <bean name="egovSystemCntcIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovSystemCntcIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CNTC_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovSystemCntcIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="CNTC" />-->
+<!--        <property name="cipers" value="4" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 연계기관 &ndash;&gt;-->
+<!--    <bean name="egovCntcInsttIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovCntcInsttIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="INSTT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovCntcInsttIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="INS" />-->
+<!--        <property name="cipers" value="5" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 연계시스템 &ndash;&gt;-->
+<!--    <bean name="egovCntcSystemIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovCntcSystemIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SYS_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovCntcSystemIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SYS" />-->
+<!--        <property name="cipers" value="5" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 연계서비스 &ndash;&gt;-->
+<!--    <bean name="egovCntcServiceIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovCntcServiceIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SVC_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovCntcServiceIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SVC" />-->
+<!--        <property name="cipers" value="5" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 연계메시지 &ndash;&gt;-->
+<!--    <bean name="egovCntcMessageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovCntcMessageIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CNTC_MESSAGE_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovCntcMessageIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MSG" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 연계메시지항목 &ndash;&gt;-->
+<!--    <bean name="egovCntcMessageItemIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovCntcMessageItemIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ITEM_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovCntcMessageItemIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ITM" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 기관코드 수신 작업일련번호 &ndash;&gt;-->
+<!--    <bean name="egovInsttCodeRecptnIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="INSTT_CODE_OPERT"/>-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 행정코드 수신 작업일련번호 &ndash;&gt;-->
+<!--    <bean name="egovAdministCodeRecptnIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ADMIN_CODE_OPERT"/>-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 팝업창관리 &ndash;&gt;-->
+<!--    <bean name="egovPopupManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="egovPopupManageIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="POPUP_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="egovPopupManageIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="POPUP_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 최근검색어관리 &ndash;&gt;-->
+<!--    <bean name="egovSrchwrdManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="srchwrdManageIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SRCHWRD_MANAGEID"/>-->
+<!--    </bean>-->
+<!--    <bean name="srchwrdManageIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SRCMGR_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 최근검색어 &ndash;&gt;-->
+<!--    <bean name="egovSrchwrdIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="srchwrdIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SRCHWRD_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="srchwrdIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SRC_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    -->
+<!--    &lt;!&ndash; 행정전문용어사전 &ndash;&gt;-->
+<!--    <bean name="egovAdministrationWordIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="administrationWordIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ADMINIST_WORD_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="administrationWordIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ADMINIST_" />-->
+<!--        <property name="cipers" value="11" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; 개정정보보호정책확인 &ndash;&gt;-->
+<!--    <bean name="egovIndvdlInfoPolicyIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="indvdlInfoPolicyIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="INDVDL_INFO_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="indvdlInfoPolicyIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="INDVDL_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; 통합링크 &ndash;&gt;-->
+<!--    <bean name="egovUnityLinkIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="unityLinkIdMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="UNITY_LINK_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="unityLinkIdMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ULINK_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; 온라인메뉴얼 &ndash;&gt;-->
+<!--    <bean name="egovOnlineMenualIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="onlineMenualMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ONLINE_MUL_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="onlineMenualMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="OMUL_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; 온라인POLL관리 &ndash;&gt;      -->
+<!--    <bean name="egovOnlinePollManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="onlinePollManageMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="POLL_MGR_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="onlinePollManageMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="POLLMGR_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 온라인POLL항목 &ndash;&gt;-->
+<!--    <bean name="egovOnlinePollItemIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="onlinePollItemMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="POLL_IEM_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="onlinePollItemMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="POLLIEM_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 온라인POLL결과&ndash;&gt;-->
+<!--    <bean name="egovOnlinePollResultIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="onlinePollResultMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="POLL_RUT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="onlinePollResultMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="POLLRUT_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; TO BE DLEETED START&ndash;&gt;-->
+<!--    <bean name="egovIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="mixPrefixSample" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="ids"/>-->
+<!--        <property name="tableName"  value="COMTNWORDDICARYINFO"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="mixPrefixSample"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SAMPLE-" />-->
+<!--        <property name="cipers" value="5" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; TO BE DLEETED END&ndash;&gt;-->
+<!--    -->
+<!--       -->
+<!--    &lt;!&ndash; 게시판용 NTT_ID 생성 &ndash;&gt;-->
+<!--    <bean name="egovNttIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="nttIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NTT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="nttIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="cipers" value="20" />-->
+<!--    </bean> -->
+<!--        -->
+<!--    <bean name="egovClbIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="clbStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CLB_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="clbStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="CLB_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--        -->
+<!--    <bean name="egovCmmntyIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="cmmntyStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CMMNTY_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="cmmntyStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="CMMNTY_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>         -->
+
+<!--    <bean name="egovUsrCnfrmIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="usrCnfrmStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="USRCNFRM_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="usrCnfrmStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="USRCNFRM_" />-->
+<!--        <property name="cipers" value="11" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--                -->
+<!--    <bean name="egovMailMsgIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="mailMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="MAILMSG_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="mailMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MAILMSG_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--            -->
+<!--    <bean name="egovRestDeIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="RESTDE_ID"/>-->
+<!--    </bean>-->
+<!--            -->
+<!--    &lt;!&ndash; WordDicary... START&ndash;&gt;         -->
+<!--    <bean name="egovWordDicaryIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="wordDicaryStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="WORD_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="wordDicaryStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="WORDDICARY_" />-->
+<!--        <property name="cipers" value="9" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; WordDicary... END&ndash;&gt;   -->
+
+<!--    &lt;!&ndash; 회의관리 &ndash;&gt;   -->
+<!--    <bean name="egovMgtIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="mgtMsgtrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="MTG_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="mgtMsgtrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MTG_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; 행사/이벤트/켐페인 &ndash;&gt;     -->
+<!--    <bean name="egovEventInfoIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="mgtEventInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="EVENTINFO_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="mgtEventInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="EVENT_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash; 외부인사정보 &ndash;&gt;     -->
+<!--    <bean name="egovExtrlhrInfoIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="mgtExtrlhrInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="EXTRLHRINFO_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="mgtExtrlhrInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="EXTRLHR_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; 설문템플릿 &ndash;&gt;  -->
+<!--        <bean name="egovQustnrTmplatManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="QustnrTmplatManageInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QUSTNRTMPLA_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="QustnrTmplatManageInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QTMPLA_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 설문관리 &ndash;&gt;-->
+<!--    <bean name="egovQustnrManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="QustnrManageInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QUSTNRTMPLA_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="QustnrManageInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QMANAGE_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 설문문항  &ndash;&gt;-->
+<!--    <bean name="egovQustnrQestnManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="QustnrQestnManageInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QUSTNRQESTN_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="QustnrQestnManageInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QQESTN_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 설문항목 &ndash;&gt;-->
+<!--    <bean name="egovQustnrItemManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="QustnrItemManageInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QESTNR_QESITM_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="QustnrItemManageInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QESITM_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 설문응답자정보 &ndash;&gt;-->
+<!--    <bean name="qustnrRespondManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="QustnrRespondManageInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QESTNR_RPD_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="QustnrRespondManageInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QRPD_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 설문조사 &ndash;&gt;-->
+<!--    <bean name="qustnrRespondInfoIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="QustnrRespondInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QESRSPNS_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="QustnrRespondInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QRSPNS_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; 일정관리 &ndash;&gt;-->
+<!--    <bean name="diaryManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="DiaryManageInfotrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="DIARY_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="DiaryManageInfotrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="DIARY_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    -->
+<!--    &lt;!&ndash; SiteManage... START&ndash;&gt;         -->
+<!--    <bean name="egovSiteManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="siteManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SITE_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="siteManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SITE_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; SiteManage... END&ndash;&gt;   -->
+<!--    -->
+<!--    &lt;!&ndash; RecomendSiteManage... START&ndash;&gt;         -->
+<!--    <bean name="egovRecomendSiteManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="recomendSiteManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="RECOMEND_SITE_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="recomendSiteManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="RECOMEND_" />-->
+<!--        <property name="cipers" value="11" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; RecomendSiteManage... END&ndash;&gt;   -->
+
+<!--    &lt;!&ndash; HPCMManage... START&ndash;&gt;         -->
+<!--    <bean name="egovHpcmManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="hpcmManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="HPCM_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="hpcmManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="HPCM_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; HPCMManage... END&ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; NewsManage... START&ndash;&gt;         -->
+<!--    <bean name="egovNewsManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="newsManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NEWS_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="newsManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="NEWS_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; NewsManage... END&ndash;&gt;       -->
+<!--    -->
+<!--    &lt;!&ndash; FaqManage... START&ndash;&gt;          -->
+<!--    <bean name="egovFaqManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="faqManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="FAQ_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="faqManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="FAQ_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; FaqManage... END&ndash;&gt;        -->
+<!--    -->
+<!--    &lt;!&ndash;  명함 &ndash;&gt;-->
+<!--        <bean name="egovNcrdIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ncrdIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NCRD_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ncrdIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="NCRD_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 주소록 &ndash;&gt;-->
+<!--    <bean name="egovAdbkIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="adbkIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ADBK_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="adbkIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ADBK_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    <bean name="egovAdbkUserIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="adbkUserIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ADBKUSER_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="adbkUserIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ADBKUSER_" />-->
+<!--        <property name="cipers" value="11" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    -->
+<!--    &lt;!&ndash;  그룹 &ndash;&gt;-->
+<!--    <bean name="egovGroupIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="groupIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="GROUP_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="groupIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="GROUP_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 그룹 &ndash;&gt; -->
+
+<!--    &lt;!&ndash;  롤 ID &ndash;&gt;-->
+<!--    <bean name="egovRoleIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="roleIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ROLE_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="roleIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="" />-->
+<!--        <property name="cipers" value="6" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 롤 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash; StplatManage... START&ndash;&gt;           -->
+<!--    <bean name="egovStplatManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="stplatManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="USE_STPLAT_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="stplatManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="STPLAT_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; StplatManage... END&ndash;&gt;     -->
+
+<!--    &lt;!&ndash; CpyrhtPrtcPolicy... START&ndash;&gt;           -->
+<!--    <bean name="egovCpyrhtPrtcPolicyIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="cpyrhtPrtcPolicyStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CPYRHT_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="cpyrhtPrtcPolicyStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="CPYRHT_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; CpyrhtPrtcPolicy... END&ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; Qna... START&ndash;&gt;            -->
+<!--    <bean name="egovQnaManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="qnaManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="QA_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="qnaManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="QA_" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; Qna... END&ndash;&gt;      -->
+<!--            -->
+<!--    &lt;!&ndash; Cnslt... START&ndash;&gt;          -->
+<!--    <bean name="egovCnsltManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="cnsltManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CNSLT_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="cnsltManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="CNSLT_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; Cnslt... END&ndash;&gt;        -->
+
+<!--    &lt;!&ndash; Login Log... START&ndash;&gt;          -->
+<!--    <bean name="egovLoginLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="loginLogStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="LOGINLOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="loginLogStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="LOGIN_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; Login Log... END&ndash;&gt;        -->
+<!--        -->
+<!--    &lt;!&ndash; System Log... START&ndash;&gt;         -->
+<!--    <bean name="egovSysLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="sysLogStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SYSLOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="sysLogStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SYSLOG_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; System Log... END&ndash;&gt;       -->
+<!--        -->
+<!--    &lt;!&ndash; Web Log... START&ndash;&gt;            -->
+<!--    <bean name="egovWebLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="webLogStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="WEBLOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="webLogStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="WEBLOG_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; Web Log... END&ndash;&gt;      -->
+<!--        -->
+<!--    &lt;!&ndash; Trsmrcv Log... START&ndash;&gt;            -->
+<!--    <bean name="egovTrsmrcvLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="trsmrcvLogStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="TRSMRCVLOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="trsmrcvLogStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="TRSMRCV_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; Trsmrcv Log... END&ndash;&gt;      -->
+<!--        -->
+<!--    &lt;!&ndash;  배너 ID &ndash;&gt;-->
+<!--    <bean name="egovBannerIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="bannerIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="BANNER_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="bannerIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BANNER_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 배너 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  로그인화면이미지 ID &ndash;&gt;-->
+<!--    <bean name="egovLoginScrinImageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="loginScrinImageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="LSI_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="loginScrinImageIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="LSI_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 로그인화면이미지 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash; 메인화면이미지 ID &ndash;&gt;-->
+<!--    <bean name="egovMainImageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="mainImageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="MSI_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="mainImageIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MSI_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 메인화면이미지 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash; 인터넷서비스안내 ID &ndash;&gt;-->
+<!--    <bean name="egovIntnetSvcGuidanceIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="mainImageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ISG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="intnetSvcGuidanceIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ISG_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 인터넷서비스안내 ID &ndash;&gt;  -->
+<!--    -->
+<!--    &lt;!&ndash;  마이페이지 컨텐츠 ID &ndash;&gt;-->
+<!--    <bean name="egovIndvdlPgeIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="cntntsIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CNTNTS_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="cntntsIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="C" />-->
+<!--        <property name="cipers" value="19" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 마이페이지 컨텐츠 ID &ndash;&gt;       -->
+
+<!--    &lt;!&ndash; 보고서통계 ID &ndash;&gt;-->
+<!--    <bean name="egovReprtStatsIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="reprtStatsIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="RS_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="reprtStatsIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="RS_" />-->
+<!--        <property name="cipers" value="3" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 보고서통계 ID &ndash;&gt;        -->
+<!--    -->
+<!--    &lt;!&ndash; 자료이용현황통계 ID &ndash;&gt;-->
+<!--    <bean name="egovDtaUseStatsIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="dtaUseStatsIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="DUS_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="dtaUseStatsIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="DUS_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 자료이용현황통계 ID &ndash;&gt;    -->
+<!--    -->
+<!--    <bean name="egovSmsIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="smsStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SMS_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="smsStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SMS_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    -->
+<!--    <bean name="egovScrapIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="scrapStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SCRAP_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="scrapStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SCRIP_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>                 -->
+<!--    -->
+<!--    &lt;!&ndash;  부서 ID &ndash;&gt;-->
+<!--    <bean name="egovDeptManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="orgnztIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ORGNZT_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="orgnztIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ORGNZT_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 부서 ID &ndash;&gt;  -->
+<!--    -->
+<!--    &lt;!&ndash;  네트워크 ID &ndash;&gt;-->
+<!--    <bean name="egovNtwrkIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ntwrkIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NTWRK_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ntwrkIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="NID_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 네트워크 ID &ndash;&gt;     -->
+<!--    -->
+<!--    &lt;!&ndash; 서버장비 ID &ndash;&gt;-->
+<!--    <bean name="egovServerEqpmnIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ServerEqpmnIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SEVEQ_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ServerEqpmnIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SVE_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 서버장비 ID &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 서버 ID &ndash;&gt;-->
+<!--    <bean name="egovServerIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ServerIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SERVER_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ServerIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SRV_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 서버 ID &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 장애 ID &ndash;&gt;-->
+<!--    <bean name="egovTroblIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="TroblIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="TROBL_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="TroblIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="TBM_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 장애 ID &ndash;&gt; -->
+
+
+<!--    &lt;!&ndash;  동기화대상 서버 ID &ndash;&gt;-->
+<!--    <bean name="egovSynchrnServerIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="SynchrnServerIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SYNCHRNSERVER_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="SynchrnServerIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SSY_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash;  동기화대상 서버 ID &ndash;&gt;-->
+
+
+<!--    &lt;!&ndash;  회의실관리 ID &ndash;&gt;-->
+<!--    <bean name="egovMtgPlaceManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="mtgPlaceManageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="MTG_PLACE_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="mtgPlaceManageIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MTGP_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 회의실관리 ID &ndash;&gt;   -->
+<!--  -->
+<!--    &lt;!&ndash;  회의실예약 ID &ndash;&gt;-->
+<!--    <bean name="egovMtgPlaceResveIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="mtgPlaceResveIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="RESVE_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="mtgPlaceResveIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="RESVE_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 회의실예약 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  행사 ID &ndash;&gt;-->
+<!--    <bean name="egovEventManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="eventManageEventIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="EVENT_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="eventManageEventIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="EVENT_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 행사 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  행사접수 ID &ndash;&gt;-->
+<!--    <bean name="egovEventAtdrnIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="eventAtdrnApplcntIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="APPLCNT_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="eventAtdrnApplcntIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="APPLCNT_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 행사접수 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  포상 ID &ndash;&gt;-->
+<!--    <bean name="egovRwardManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="rwardManageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="RWARD_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="rwardManageIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="RWARD_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 포상 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  경조사 ID &ndash;&gt;-->
+<!--    <bean name="egovCtsnnManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ctsnnManageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="CTSNN_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ctsnnManageIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="CTSNN_" />-->
+<!--        <property name="cipers" value="14" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 경조사 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  기념일 ID &ndash;&gt;-->
+<!--    <bean name="egovAnnvrsryManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="annvrsryManageIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="ANN_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="annvrsryManageIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="ANN_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 기념일 ID &ndash;&gt;-->
+
+
+<!--    &lt;!&ndash; 간부일정 &ndash;&gt;-->
+<!--    <bean name="egovLeaderSchdulIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="LeaderSchdulStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="LEADER_SCHDUL_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="LeaderSchdulStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="LDSCHDUL_" />-->
+<!--        <property name="cipers" value="11" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 간부일정 &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 부서업무함 &ndash;&gt;-->
+<!--    <bean name="egovDeptJobBxIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="DeptJobBxStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="DEPT_JOB_BX_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="DeptJobBxStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="DX_" />-->
+<!--        <property name="cipers" value="3" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 부서업무함 &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 부서업무 &ndash;&gt;-->
+<!--    <bean name="egovDeptJobIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="DeptJobStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="DEPT_JOB_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="DeptJobStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="DEPTJOB_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 부서업무 &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 주간/월간 보고 &ndash;&gt;-->
+<!--    <bean name="egovWikMnthngReprtIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="WikMnthngReprtStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="WIKMNTHNG_REPRT"/>-->
+<!--    </bean>-->
+<!--    <bean name="WikMnthngReprtStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="WR" />-->
+<!--        <property name="cipers" value="4" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 주간/월간 보고 &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 메모 할일 &ndash;&gt;-->
+<!--    <bean name="egovMemoTodoIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="MemoTodoStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="MEMO_TODO_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="MemoTodoStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MEMOTODO_" />-->
+<!--        <property name="cipers" value="11" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 메모 할일 &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 메모 보고 &ndash;&gt;-->
+<!--    <bean name="egovMemoReprtIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="MemoReprtStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="MEMO_REPRT"/>-->
+<!--    </bean>-->
+<!--    <bean name="MemoReprtStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="MR" />-->
+<!--        <property name="cipers" value="4" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 메모 보고 &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 약식 결재 &ndash;&gt;-->
+<!--    <bean name="egovInfrmlSanctnIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy" ref="InfrmlSanctnStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="INFRML_SANCTN"/>-->
+<!--    </bean>-->
+<!--    <bean name="InfrmlSanctnStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="SANCTN_" />-->
+<!--        <property name="cipers" value="13" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 약식 결재 &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  DB서비스모니터링 ID &ndash;&gt;-->
+<!--    <bean name="egovDbMntrngLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="dbMntrngLogIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="DB_MNTRNG_LOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="dbMntrngLogIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="" />-->
+<!--        <property name="cipers" value="20" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; DB서비스모니터링 ID &ndash;&gt;   -->
+
+<!--    &lt;!&ndash;  송수신모니터링 ID &ndash;&gt;-->
+<!--    <bean name="egovTrsmrcvMntrngLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="trsmrcvMntrngLogIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="TR_MNTRNG_LOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="trsmrcvMntrngLogIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="" />-->
+<!--        <property name="cipers" value="20" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 송수신모니터링 ID &ndash;&gt;     -->
+
+<!--    &lt;!&ndash;  배치작업 ID &ndash;&gt;-->
+<!--    <bean name="egovBatchOpertIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="batchOpertIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="BATCH_OPERT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="batchOpertIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BAT" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 배치작업 ID &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; 배치스케줄 ID &ndash;&gt;-->
+<!--    <bean name="egovBatchSchdulIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="batchSchdulIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="BATCH_SCHDUL_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="batchSchdulIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BSC" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 배치스케줄 ID &ndash;&gt;     -->
+
+<!--    &lt;!&ndash; 배치결과 ID &ndash;&gt;-->
+<!--    <bean name="egovBatchResultIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="batchResultIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="BATCH_RESULT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="batchResultIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BRT" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 배치결과 ID &ndash;&gt;   -->
+<!--      -->
+<!--    &lt;!&ndash;  파일시스템모니터링 ID &ndash;&gt;-->
+<!--    <bean name="egovFileSysMntrngIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="fileSysMntrngIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="FILESYS_MNTRNG"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="fileSysMntrngIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="FILESYS_" />-->
+<!--        <property name="cipers" value="12" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 파일시스템모니터링 ID &ndash;&gt; -->
+<!--    -->
+<!--    &lt;!&ndash;  네트워크서비스모니터링 로그 ID &ndash;&gt;-->
+<!--    <bean name="egovNtwrkSvcMntrngLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ntwrkSvcMntrngLogIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="NTWRKSVC_LOGID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ntwrkSvcMntrngLogIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="" />-->
+<!--        <property name="cipers" value="20" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 네트워크서비스모니터링 로그 ID &ndash;&gt;    -->
+<!--    -->
+<!--    &lt;!&ndash;  파일시스템모니터링 로그 ID &ndash;&gt;-->
+<!--    <bean name="egovFileSysMntrngLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="fileSysMntrngLogIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="FILESYS_LOGID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="fileSysMntrngLogIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="" />-->
+<!--        <property name="cipers" value="20" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 파일시스템모니터링 로그 ID &ndash;&gt; -->
+<!--    -->
+<!--    &lt;!&ndash;  프록시서비스 ID &ndash;&gt;-->
+<!--    <bean name="egovProxySvcIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ProxySvcIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="PROXYSVC_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ProxySvcIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="PXY_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash;  프록시서비스 ID &ndash;&gt;-->
+<!--        -->
+<!--    &lt;!&ndash;  프록시Log ID &ndash;&gt;-->
+<!--    <bean name="egovProxyLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ProxyLogIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="PROXYLOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ProxyLogIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="PLG_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash;  프록시Log ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash; knoManage... START&ndash;&gt;          -->
+<!--    <bean name="egovDamManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="damManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="DAM_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="damManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="DMID_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; NewsManage... END&ndash;&gt;   -->
+<!--                    -->
+<!--    &lt;!&ndash;  백업작업 ID &ndash;&gt;-->
+<!--    <bean name="egovBackupOpertIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="backupOpertIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="BACKUP_OPERT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="backupOpertIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BAK" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 백업작업 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  백업결과 ID &ndash;&gt;-->
+<!--    <bean name="egovBackupResultIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="backupResultIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="BACKUP_RESULT_ID"/>-->
+<!--    </bean>-->
+<!--    <bean name="backupResultIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="BRT" />-->
+<!--        <property name="cipers" value="17" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash; 백업결과 ID &ndash;&gt;-->
+
+<!--    &lt;!&ndash;  서버자원 모니터링 Log ID &ndash;&gt;-->
+<!--    <bean name="egovServerResrceMntrngLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="ServerResrceMntrngLogIdStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="SVCRESMONTLOG_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="ServerResrceMntrngLogIdStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="LOG_" />-->
+<!--        <property name="cipers" value="16" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean> -->
+<!--    &lt;!&ndash;  서버자원 모니터링 ID &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; HttpMon... START&ndash;&gt;            -->
+<!--    <bean name="egovHttpManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="httpManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="HTTP_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="httpManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="HTTP_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; HttpMon... END&ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; HttpMonLog... START&ndash;&gt;         -->
+<!--    <bean name="egovHttpLogManageIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="httLManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="HTTL_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="httLManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="HTTL_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; HttpMonLog... END&ndash;&gt;   -->
+<!--    -->
+<!--    &lt;!&ndash; ProcessMon... START&ndash;&gt;         -->
+<!--    <bean name="egovProcessMonIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="procManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="PROC_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="procManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="PROC_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+<!--    &lt;!&ndash; ProcessMon... END&ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; ProcessMonLog... START&ndash;&gt;          -->
+<!--    <bean name="egovProcessMonLogIdGnrService"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"-->
+<!--        destroy-method="destroy">-->
+<!--        <property name="dataSource" ref="egov.dataSource" />-->
+<!--        <property name="strategy"   ref="prolManageStrategy" />-->
+<!--        <property name="blockSize"  value="10"/>-->
+<!--        <property name="table"      value="COMTECOPSEQ"/>-->
+<!--        <property name="tableName"  value="PROL_ID"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="prolManageStrategy"-->
+<!--        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">-->
+<!--        <property name="prefix" value="PROL_" />-->
+<!--        <property name="cipers" value="15" />-->
+<!--        <property name="fillChar" value="0" />-->
+<!--    </bean>     -->
+    <!-- ProcessMonLog... END-->      
+    
+</beans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+    <!-- 홈페이지의 주요기능인 협업(게시판, 일정관리)기능 작동과정에서 Exception 발생시 후처리를 위한 AOP설정  -->
+	<aop:config>
+<!--		<aop:pointcut id="serviceMethod" expression="execution(* egovframework.let..impl.*Impl.*(..)) or execution(* egovframework.com..impl.*Impl.*(..))" />-->
+	</aop:config>
+
+
+
+<!--	&lt;!&ndash; 템플릿 내에서 Exception 발생시 실제 처리를 위한 클래스 설정&ndash;&gt;-->
+<!--    <bean id="egovHandler" class="egovframework.com.cmm.EgovComExcepHndlr" />-->
+<!--    <bean id="otherHandler" class="egovframework.com.cmm.EgovComOthersExcepHndlr" />	-->
+	
+</beans>

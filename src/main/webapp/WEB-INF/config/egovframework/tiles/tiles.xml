@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+
+<!-- tiles Setting file -->
+<tiles-definitions>
+    <definition name="default_main" templateExpression="/WEB-INF/jsp/intra/main.jsp">
+        <put-attribute name="sub" expression="/WEB-INF/jsp/template/sub.jsp"/>
+        <put-attribute name="common" expression="/WEB-INF/jsp/template/common.jsp"/>
+        <put-attribute name="nav" expression="/WEB-INF/jsp/template/nav.jsp"/>
+        <put-attribute name="top" expression="/WEB-INF/jsp/template/top.jsp"/>
+        <put-attribute name="userInfo" expression="/WEB-INF/jsp/template/userInfo.jsp"/>
+        <put-attribute name="content" value="" />
+        <put-attribute name="footer" expression="/WEB-INF/jsp/template/footer.jsp"/>
+    </definition>
+
+    <!-- tiles view Expression -->
+    <definition name="*/*/*" extends="default_main">
+        <!-- Controller use -->
+        <put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+    </definition>
+
+    <definition name="empty" template="/WEB-INF/jsp/template/empty.jsp">
+        <put-attribute name="content" value=""/>
+    </definition>
+
+    <definition name="*/empty/*" extends="empty">
+        <put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+    </definition>
+
+    <definition name="/*/*" extends="default_main">
+        <put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+    </definition>
+</tiles-definitions>
+
+

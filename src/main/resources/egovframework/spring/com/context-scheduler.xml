@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd ">
+
+    <task:scheduler id="scheduler" pool-size="1"/>
+    <task:scheduled-tasks scheduler="scheduler">
+        <!-- 매 10초마다 Scheduler 작동 : 초 분 시간 일(Day of Month) 월 요일(Day of Week, 1-7 : SUN-SAT) 년도(생략가능) -->
+        <task:scheduled ref="schedulerService" method="setExtApiCheck" cron="0 0 22 * * ?" />
+    </task:scheduled-tasks>
+
+    <task:scheduler id="bsWorkTimeScheduler" pool-size="1"/>
+    <task:scheduled-tasks scheduler="bsWorkTimeScheduler">
+        <!-- 매 10초마다 Scheduler 작동 : 초 분 시간 일(Day of Month) 월 요일(Day of Week, 1-7 : SUN-SAT) 년도(생략가능) -->
+        <task:scheduled ref="schedulerService" method="setBsWorkTime" cron="0 0 23 * * ?" />
+    </task:scheduled-tasks>
+
+    <task:scheduler id="episScheduler" pool-size="1"/>
+    <!-- 매 10초마다 Scheduler 작동 : 초 분 시간 일(Day of Month) 월 요일(Day of Week, 1-7 : SUN-SAT) 년도(생략가능) -->
+    <task:scheduled-tasks scheduler="episScheduler">
+        <task:scheduled ref="schedulerService" method="epGrantCntsSvcyLeave" cron="0 0 01 * * ?"/>
+    </task:scheduled-tasks>
+
+
+</beans>
