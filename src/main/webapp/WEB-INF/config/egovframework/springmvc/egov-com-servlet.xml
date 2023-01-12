@@ -22,17 +22,18 @@
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
 	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
+
     <!-- 로그인 체크가 필요한 URL과 로그인 여부를 체크해준다 -->
-    <mvc:interceptors>
-        <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-            <property name="cacheSeconds" value="0" />
-            <property name="cacheMappings">
-                <props> <!-- 아래 경로에만 뒤로가기 제한시킴. -->
-                    <prop key="/intra/mainContent.do">86400</prop>
-                </props>
-            </property>
-        </bean>
-    </mvc:interceptors>
+<!--    <mvc:interceptors>-->
+<!--        <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">-->
+<!--            <property name="cacheSeconds" value="0" />-->
+<!--            <property name="cacheMappings">-->
+<!--                <props> &lt;!&ndash; 아래 경로에만 뒤로가기 제한시킴. &ndash;&gt;-->
+<!--                    <prop key="/intra/mainContent.do">86400</prop>-->
+<!--                </props>-->
+<!--            </property>-->
+<!--        </bean>-->
+<!--    </mvc:interceptors>-->
 
     <!-- Annotation 을 사용하지 않는 경우에 대한 MVC 처리 설정 -->
 

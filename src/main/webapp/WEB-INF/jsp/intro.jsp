@@ -1,71 +1,119 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="ko">
+<%--
+  Created by IntelliJ IDEA.
+  User: user
+  Date: 2023-01-10
+  Time: 오후 6:32
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta name="description" content="Crush it Able The most popular Admin Dashboard template and ui kit">
-<meta name="author" content="PuffinTheme the theme designer">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="shortcut icon" href="/images/favicon.png" type="image/png">-->
 
-<link rel="icon" href="../assets/images/logo2.png" type="image/x-icon"/>
+    <title>Quirk Responsive Admin Templates</title>
 
-<title>농림수산식품교육문화정보원</title>
+    <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
 
-<!-- Bootstrap Core and vandor -->
-<link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css" />
-
-<!-- Core css -->
-<link rel="stylesheet" href="../assets/css/intro.css"/>
-<link rel="stylesheet" href="../assets/css/main.css"/>
-<link rel="stylesheet" href="../assets/css/theme4.css" id="stylesheet"/>
-
-<style>
-body{z-index:-2; background-color:#798b6b;}
-
-
-</style>
-
+    <link rel="stylesheet" href="/css/quirk.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/lib/jquery/jquery.js"></script>
+    <script src="/lib/modernizr/modernizr.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/lib/html5shiv/html5shiv.js"></script>
+    <script src="/lib/respond/respond.src.js"></script>
+    <![endif]-->
 </head>
-<body>
-<div id="particles-js"></div>
-<div class="intro-line">
-    <div class="intro-bg">
-        <div class="intro_top">
-            <img src="../assets/images/intro-logo.png">
-        </div>
-        <div class="intro">
-            <div class="intro_box box1" style="margin-right:1%;">
-                <a href="main.jsp" target="_blank">
-                    <span class="intro-copy">농정-ONE 그룹웨어</span>
-                    <span class="intro-visit">Visit SITE +</span>
-                </a>
-            </div>
-            <div class="intro_box box2" style="margin-right:1%;">
-                <a href="<c:url value='/intra/mainContent.do'/>" target="_blank">
-                    <span class="intro-copy">인트라넷</span>
-                    <span class="intro-visit">Visit SITE +</span>
-                </a>
-            </div>
-            <div class="intro_box box3">
-                <a href="main.jsp" target="_blank">
-                    <span class="intro-copy">재무/회계 시스템</span>
-                    <span class="intro-visit">Visit SITE +</span>
-                </a>
-            </div>
-        </div>
-        <p class="footer-copy">주소 : 30148 세종특별자치시 국책연구원5로 19  / 대표번호 : 044-861-8888  / E-mail : admin@epis.or.kr</p>
+<style>
+    @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        text-align: center;
+        padding: 100px;
+        background: whitesmoke;
+        display: table-cell;
+    }
+
+    button {
+        margin: 20px;
+    }
+
+    .w-btn {
+        position: relative;
+        border: none;
+        display: inline-block;
+        padding: 15px 30px;
+        border-radius: 15px;
+        font-family: "paybooc-Light", sans-serif;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.25s;
+    }
+
+    .w-btn-outline {
+        position: relative;
+        padding: 15px 30px;
+        border-radius: 15px;
+        font-family: "paybooc-Light", sans-serif;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.25s;
+    }
+
+    .w-btn-indigo {
+        background-color: aliceblue;
+        color: #1e6b7b;
+    }
+
+    .w-btn-indigo-outline {
+        border: 3px solid aliceblue;
+        color: #1e6b7b;
+    }
+
+    .w-btn-indigo-outline:hover {
+        color: #1e6b7b;
+        background: aliceblue;
+    }
+</style>
+<body class="signwrapper">
+
+<div class="sign-overlay"></div>
+<div class="signpanel"></div>
+
+<div class="signin" style="position:absolute; top:49%; left:67%; width:399px; background-color:transparent; text-align:center;">
+    <div style="font-size:23px; color:#fff;">함께 성장하는 행복한 일터</div>
+    <div style="font-size:17px; color:#ffeb3b;"><i>성장하는 우리 Level UP</i></div>
+    <div style="font-size:17px; color:#ffeb3b;"><i>도약하는 캠틱 Jump UP</i></div>
+</div><!-- panel -->
+<div class="signin" style="position:absolute; top:82%; left:5%; width:300px; background-color:transparent;">
+    <div><img src="/images/logo_han.png" alt="" style="width:200px;"/></div>
+</div><!-- panel -->
+<div class="panel signin">
+    <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
+        <form action="#">
+            <button class="w-btn w-btn-indigo" id="mvBtn1" style="font-size: 20px;">
+                <a href="/indexA.do">메인A</a>
+            </button>
+            <button class="w-btn w-btn-indigo" id="mvBtn2" style="font-size: 20px;">
+                <a href="/indexB.do">메인B</a>
+            </button>
+        </form>
+        <hr class="invisible">
     </div>
-</div>
+</div><!-- panel -->
 
-<!-- jQuery and bootstrtap js -->
-<script src="../assets/bundles/lib.vendor.bundle.js"></script>
-
-<!-- start plugin js file  -->
-<!-- Start core js and page js -->
-<script src="../assets/js/core.js"></script>
-<script src='https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'></script>
-<script src="../assets/js/intro.js"></script>
 </body>
 </html>

@@ -91,24 +91,7 @@
 	<session-config>
         <session-timeout>600</session-timeout>
     </session-config>
-    
-	<error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/common/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/common/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/common/error.jsp</location>
-    </error-page>
 
 
-    <servlet>
-        <servlet-name>neosInit</servlet-name>
-        <servlet-class>egovframework.neos.cmm.util.init.NeosInit</servlet-class>
-        <load-on-startup>3</load-on-startup>
-    </servlet>
+
 </web-app>

@@ -9,7 +9,8 @@
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:/egovframework/egovProps/config-#{systemProperties['spring.profiles.active']}.properties</value>
+<!--                <value>classpath:/egovframework/egovProps/config-#{systemProperties['spring.profiles.active']}.properties</value>-->
+                <value>classpath:/egovframework/egovProps/config-dev.properties</value>
                 <!-- value>file:/product/jeus/egovProps/globals.properties</value-->
             </list>
         </property>

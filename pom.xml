@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>DJ_EPIS</groupId>
-    <artifactId>DJ_EPIS</artifactId>
+    <groupId>DJ_CAMTIC</groupId>
+    <artifactId>DJ_CAMTIC</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
-    <name>DJ_EPIS</name>
+    <name>DJ_CAMTIC</name>
     <url>http://www.egovframe.go.kr</url>
     <licenses>
         <license>

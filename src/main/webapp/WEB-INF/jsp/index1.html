@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--<link rel="shortcut icon" href="../images/favicon.png" type="image/png">-->
+
+  <title>CAM's Pot - CAMTIC</title>
+
+  <link rel="stylesheet" href="../lib/Hover/hover.css">
+  <link rel="stylesheet" href="../lib/fontawesome/css/font-awesome.css">
+  <link rel="stylesheet" href="../lib/weather-icons/css/weather-icons.css">
+  <link rel="stylesheet" href="../lib/ionicons/css/ionicons.css">
+  <link rel="stylesheet" href="../lib/jquery-toggles/toggles-full.css">
+  <link rel="stylesheet" href="../lib/morrisjs/morris.css">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/quirk.css">
+  
+  <script src="../lib/modernizr/modernizr.js"></script>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="../lib/html5shiv/html5shiv.js"></script>
+  <script src="../lib/respond/respond.src.js"></script>
+  <![endif]-->
+
+  <style>
+    body{font-family: 'GmarketSansMedium' }
+    .panel-title{font-family: 'GmarketSansMedium'}
+    .nav-quirk > li{font-family: 'GmarketSansMedium'}
+    .nav-quirk .children > li{font-family: 'GmarketSansMedium'}
+    .nav-tabs > li > a{font-family: 'GmarketSansMedium'}
+    .btn-quirk{font-family: 'GmarketSansMedium'}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="headerpanel">
+
+    <div class="logopanel">
+      <a href="index.html"></a>
+    </div><!-- logopanel -->
+
+    <div class="headerbar">
+
+      <div class="searchpanel">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="검색하세요">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+          </span>
+        </div><!-- input-group -->
+      </div>
+
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div id="noticePanel" class="btn-group">
+              <button class="btn btn-notice alert-notice" data-toggle="dropdown">
+                <i class="fa fa-globe"></i>
+              </button>
+              <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right">
+                <div role="tabpanel">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li class="active"><a data-target="#notification" data-toggle="tab">알림1</a></li>
+                    <li><a data-target="#reminders" data-toggle="tab">알림2</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="notification">
+                      <ul class="list-group notice-list">
+                        <li class="list-group-item unread">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <i class="fa fa-envelope"></i>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">인사발령</a></h5>
+                              <small>2022.01.05</small>
+                              <span>인사발령에관하여 알려드립니다</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item unread">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <i class="fa fa-user"></i>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">인사발령</a></h5>
+                              <small>2022.01.05</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <i class="fa fa-user"></i>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">인사발령</a></h5>
+                              <small>2022.01.05</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <i class="fa fa-thumbs-up"></i>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">인사발령</a></h5>
+                              <small>2022.01.05</small>
+                              <span>인사발령에관하여 알려드립니다</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <i class="fa fa-comment"></i>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">인사발령</a></h5>
+                              <small>2022.01.05</small>
+                              <span>인사발령에관하여 알려드립니다</span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>
+                    </div><!-- tab-pane -->
+
+                    <!--<div role="tabpanel" class="tab-pane" id="reminders">
+                      <h1 id="todayDay" class="today-day">...</h1>
+                      <h3 id="todayDate" class="today-date">...</h3>
+
+                      <h5 class="today-weather"><i class="wi wi-hail"></i> Cloudy 77 Degree</h5>
+                      <p>Thunderstorm in the area this afternoon through this evening</p>
+
+                      <h4 class="panel-title">Upcoming Events</h4>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <h4>20</h4>
+                              <p>Aug</p>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">HTML5/CSS3 Live! United States</a></h5>
+                              <small>San Francisco, CA</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <h4>05</h4>
+                              <p>Sep</p>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">Web Technology Summit</a></h5>
+                              <small>Sydney, Australia</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <h4>25</h4>
+                              <p>Sep</p>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">HTML5 Developer Conference 2015</a></h5>
+                              <small>Los Angeles CA United States</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2">
+                              <h4>10</h4>
+                              <p>Oct</p>
+                            </div>
+                            <div class="col-xs-10">
+                              <h5><a href="">AngularJS Conference 2015</a></h5>
+                              <small>Silicon Valley CA, United States</small>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>
+                    </div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-logged" data-toggle="dropdown">
+                <img src="images/photos/loggeduser.png" alt="" />
+                김캠틱님 환영합니다!
+                <!--<span class="caret"></span>-->
+              </button>
+              <!--<ul class="dropdown-menu pull-right">
+                <li><a href="#"><i class="glyphicon glyphicon-user"></i>마이페이지</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-log-out"></i>로그아웃</a></li>
+              </ul>-->
+            </div>
+          </li>
+          <li class="tooltips" data-toggle="tooltip" title="Log Out" style="margin-top:13px; font-size:25px;"><a href="signin.html"><i class="fa fa-sign-out"></i></a></li>
+        </ul>
+      </div><!-- header-right -->
+    </div><!-- headerbar -->
+  </div><!-- header-->
+</header>
+
+<section>
+
+  <div class="leftpanel">
+    <div class="leftpanelinner">
+
+      <!-- ################## LEFT PANEL PROFILE ################## -->
+
+      
+
+      <div class="leftpanel-userinfo collapse" id="loguserinfo">
+        <h5 class="sidebar-title">Address</h5>
+        <address>
+          4975 Cambridge Road
+          Miami Gardens, FL 33056
+        </address>
+        <h5 class="sidebar-title">Contact</h5>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <label class="pull-left">Email</label>
+            <span class="pull-right">me@themepixels.com</span>
+          </li>
+          <li class="list-group-item">
+            <label class="pull-left">Home</label>
+            <span class="pull-right">(032) 1234 567</span>
+          </li>
+          <li class="list-group-item">
+            <label class="pull-left">Mobile</label>
+            <span class="pull-right">+63012 3456 789</span>
+          </li>
+          <li class="list-group-item">
+            <label class="pull-left">Social</label>
+            <div class="social-icons pull-right">
+              <a href="#"><i class="fa fa-facebook-official"></i></a>
+              <a href="#"><i class="fa fa-twitter"></i></a>
+              <a href="#"><i class="fa fa-pinterest"></i></a>
+            </div>
+          </li>
+        </ul>
+      </div><!-- leftpanel-userinfo -->
+
+     
+
+      <div class="tab-content">
+
+        <!-- ################# MAIN MENU ################### -->
+
+        <div class="tab-pane active" id="mainmenu">
+          <h5 class="sidebar-title">CAM'S POT</h5>
+          <ul class="nav nav-pills nav-stacked nav-quirk">
+            <li class="active"><a href="#"><i class="fa fa-home"></i> <span>공지사항</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>업무보고</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>제안제도</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>오픈스터디</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>직원일정</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>설문조사</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>전산보완요청</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>홍보협조요청</span></a></li>
+            <li><a href="#"><i class="fa fa-cube"></i> <span>(OLD)직원세미나</span></a></li>
+          </ul>
+
+          <h5 class="sidebar-title">캠틱자료</h5>
+          <ul class="nav nav-pills nav-stacked nav-quirk">
+            <li class="nav-parent">
+              <a href=""><i class="fa fa-check-square"></i> <span>사업/아이템 제안</span></a>
+              <ul class="children">
+                <li><a href="#">사업/아이템1</a></li>
+                <li><a href="#">사업/아이템2</a></li>
+                <li><a href="#">사업/아이템3</a></li>
+                <li><a href="#">사업/아이템4</a></li>
+              </ul>
+            </li>
+            <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>업무노하우</span></a>
+              <ul class="children">
+                <li><a href="#">업무노하우1</a></li>
+                <li><a href="#">업무노하우2</a></li>
+                <li><a href="#">업무노하우3</a></li>
+              </ul>
+            </li>
+            <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>규정/지침/절차/양식</span></a>
+              <ul class="children">
+                <li><a href="#">규정</a></li>
+                <li><a href="#">지침</a></li>
+                <li><a href="#">절차</a></li>
+                <li><a href="#">양식</a></li>
+              </ul>
+            </li>
+            <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>법인 홍보자료</span></a>
+              <ul class="children">
+                <li><a href="#">홍보자료1</a></li>
+                <li><a href="#">홍보자료2</a></li>
+                <li><a href="#">홍보자료3</a></li>
+                <li><a href="#">홍보자료4</a></li>
+              </ul>
+            </li>
+            <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠틱 FAQ</span></a>
+              <ul class="children">
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">캠틱</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- tab-pane -->
+
+        <!-- ######################## EMAIL MENU ##################### -->
+        
+        
+
+      </div><!-- tab-content -->
+
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+
+  <div class="mainpanel">
+
+    <!--<div class="pageheader">
+      <h2><i class="fa fa-home"></i> Dashboard</h2>
+    </div>-->
+
+    <div class="contentpanel">
+
+      <div class="row">
+        <div class="col-md-9 col-lg-8 dash-left dash-left">
+            <div class="row panel-quick-page">
+                  <div style="display:flex; justify-content: space-evenly;">
+                    <img src="../images/GoCategory1_1.jpg">
+                    <img src="../images/GoCategory1_2.jpg">
+                    <img src="../images/GoCategory1_3.jpg">
+                    <img src="../images/GoCategory1_4.jpg">
+                    <img src="../images/GoCategory2_1.jpg">
+                    <img src="../images/GoCategory2_2.jpg">
+                    <img src="../images/GoCategory2_3.jpg">
+                    <img src="../images/GoCategory3_1.jpg">
+                    <img src="../images/GoCategory3_2.jpg">
+                    <img src="../images/GoCategory3_3.jpg">
+                    <img src="../images/GoCategory3_4.jpg">
+                  </div>
+            </div>
+
+          <div class="card">
+          <div class="panel panel-announcement">
+            <img src="../images/test.png">
+          </div><!-- panel -->
+          </div>
+
+          <div style="display:flex; justify-content: space-around;">
+            <div style="width:75px;">
+                <div class="panel panel-primary">
+                  <div class="panel-heading" style="padding:15px 0;">
+                    <h3 class="panel-title" style="text-align:center;">출근시간</h3>
+                  </div>
+                  <div class="panel-body timeBox">
+                    <p><strong>09:00</strong></p>
+                  </div>
+                </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">퇴근시간</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>18:00</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">근무시간</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>362:43</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">연가</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">오전반차</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">오후반차</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">경조휴가</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">병가</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">공가</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">출산휴가</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">선택근무</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">츨장</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+            <div style="width:75px;">
+              <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:15px 0;">
+                  <h3 class="panel-title" style="text-align:center;">대체휴가</h3>
+                </div>
+                <div class="panel-body timeBox">
+                  <p><strong>0명</strong></p>
+                </div>
+              </div><!-- panel -->
+            </div>
+          </div>
+
+
+
+          <div class="card">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-justified">
+              <li class="active"><a href="#tab1" data-toggle="tab"><strong>공지사항</strong></a></li>
+              <li><a href="#tab2" data-toggle="tab"><strong>업무보고</strong></a></li>
+              <li><a href="#tab3" data-toggle="tab"><strong>업무매뉴얼</strong></a></li>
+              <li><a href="#tab4" data-toggle="tab"><strong>홍보자료</strong></a></li>
+            </ul>
+  
+            <!-- Tab panes -->
+            <div class="tab-content mb20">
+              <div class="tab-pane active" id="tab1">
+                <div class="panel-body" style="padding:0 10px;">
+                  <ul class="nav nav-quirk" style="margin:0;">
+                    <li style="border-top:0;"><p style="padding: 10px 10px 0px;">2022년 연차휴가 사용 촉진 안내(2차)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">2022년 캠틱클러스터 워크숍 세부일정 안내(11.3~4)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">인사발령 공고(2022-23호)<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
+                    <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">전주혁신창업허브 승강기 정기점검 실시(10.31.(월) 법정의무)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-pane" id="tab2">
+                <div class="panel-body" style="padding:0 10px;">
+                  <ul class="nav nav-quirk" style="margin:0;">
+                    <li style="border-top:0;"><p style="padding: 10px 10px 0px;">	캠틱 주간업무 보고(22.11.07. ~ 22.11.11.)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">	2022년 11월 정기월례회의 자료<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">	2022년 10월 4Re's Leader 소통회의<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
+                    <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">	캠틱 주간업무 보고(22.10.24. ~ 22.10.28.)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-pane" id="tab3">
+                <div class="panel-body" style="padding:0 10px;">
+                  <ul class="nav nav-quirk" style="margin:0;">
+                    <li style="border-top:0;"><p style="padding: 10px 10px 0px;">	캠틱종합기술원 규정집(2022.11.01. 기준)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">예산변경매뉴얼(개정)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">사업비 반납매뉴얼<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
+                    <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">장비사용일지(2022.04.11. 개정)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-pane" id="tab4">
+                <div class="panel-body" style="padding:0 10px;">
+                  <ul class="nav nav-quirk" style="margin:0;">
+                    <li style="border-top:0;"><p style="padding: 10px 10px 0px;">캠틱종합기술원 소개자료(PPT)(2022.11.09.)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">	캠틱종합기술원 소개자료(PPT)(2022.10.18.)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">	캠틱종합기술원 소개자료(PPT)(2022.09.07.)<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
+                    <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">	캠틱종합기술원 소개자료(PPT)(2022.06.16.)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-8 col-md-8" style="padding-left:0!important;">
+            <div class="card">
+              <div class="panel panel-inverse">
+                <div class="panel-heading">
+                  <h3 class="panel-title">오픈스터디</h3>
+                </div>
+                <div class="panel-body" style="padding:0 10px;">
+                  <ul class="nav nav-quirk" style="margin:0;">
+                    <li style="border-top:0;"><p style="padding: 10px 10px 0px;">법인 경영지표 산출 Guide<span style="position:absolute; right:10px;">2022/07/22 10:00~11:00</span></p></li>
+                    <li><p style="padding: 10px 10px 0px;">[숨은 고수의 쉽고, 빠른 노하우 전수 2탄]-데이터 통계/분석(엑셀 활용)<span style="position:absolute; right:10px;">2022/06/21 13:30~15:30</span></p></li>
+                    <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">사업비사용시스템 기본설정 메뉴얼 설명회<span style="position:absolute; right:10px;">2022/05/20 14:00~15:00</span></p></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-2">
+            <div class="panel">
+              <div class="panel-heading" style="background-color: #505b72; padding:25px;">
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
+              </div>
+            </div><!-- panel -->
+          </div>
+          <div class="col-md-2 col-sm-2">
+            <div class="panel">
+              <div class="panel-heading" style="background-color: #505b72; padding:25px;">
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
+              </div>
+            </div><!-- panel -->
+          </div>
+          <div class="col-md-2 col-sm-2">
+            <div class="panel">
+              <div class="panel-heading" style="background-color: #505b72; padding:25px;">
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
+              </div>
+            </div><!-- panel -->
+          </div>
+          <div class="col-md-2 col-sm-2">
+            <div class="panel">
+              <div class="panel-heading" style="background-color: #505b72; padding:25px; margin-bottom:35px;">
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
+              </div>
+            </div><!-- panel -->
+          </div>
+          <div class="mainFooter" style="text-align:center; clear:both;">
+            <p style="margin:0;">(사)캠틱종합기술원 / 전북 전주시 덕진구 유상로 67 (우)54852</p>
+            <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
+          </div>
+        </div><!-- col-md-9 -->
+        <div class="col-md-3 col-lg-4 dash-right">
+          <div class="row">
+            <div class="col-sm-5 col-md-12 col-lg-6">
+              <div class="media leftpanel-profile">
+                <div class="media-left">
+                  <a href="#">
+                    <img src="../images/photos/loggeduser.png" alt="" class="media-object img-circle">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading">사원 홍길동</h4>
+                  <span>(사)캠틱종합기술원 관리팀</span>
+                </div>
+                <div class="mt10" style="display:flex;">
+                  <button class="btn btn-quirk infoBtn">출근</button>
+                  <button class="btn btn-quirk infoBtn">퇴근</button>  
+                </div>
+              </div><!-- leftpanel-profile -->
+            </div><!-- col-md-12 -->
+          </div><!-- row -->
+
+          <div class="row" style="margin-top:15px;">
+            <div class="col-sm-5 col-md-12 col-lg-6">
+              <div class="tab-pane" id="emailmenu">
+              <div class="panel-group" id="accordion3">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion3" href="#collapseOne3">
+                        결재현황
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne3" class="panel-collapse collapse in">
+                    <div class="panel-body" style="padding:0 10px;">
+                      <ul class="nav nav-quirk">
+                        <li><p style="padding: 10px 10px 0px;">진행<span style="position:absolute; right:10px;">0건</span></p></li>
+                        <li><p style="padding: 10px 10px 0px;">완료<span style="position:absolute; right:10px;">0건</span></p></li>
+                        <li><p style="padding: 10px 10px 0px;">반려<span style="position:absolute; right:10px;">0건</span></p></li>
+                        <li><p style="padding: 10px 10px 0px;">임시저장<span style="position:absolute; right:10px;">0건</span></p></li>
+                        <li><p style="padding: 10px 10px 0px;">열람<span style="position:absolute; right:10px;">0건</span></p></li>
+                        <li><p style="padding: 10px 10px 0px;">더보기<span style="position:absolute; right:10px;">0건</span></p></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="#collapseTwo3">
+                        전자결재
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <div class="mt10" style="display:flex;">
+                        <button class="btn btn-quirk infoBtn">목록</button>
+                        <button class="btn btn-quirk infoBtn">보고서 추가</button>  
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="#collapseThree3">
+                        근태현황
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseThree3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      근태현황
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="#collapseFour3">
+                        일일업무보고
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseFour3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      일일업무보고
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="#collapseFive3">
+                        지출결의
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseFive3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      지출결의
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="#collapseSix3">
+                        출장보고
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseSix3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      출장보고
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- row -->
+    </div><!-- contentpanel -->
+  </div><!-- mainpanel -->
+
+</section>
+
+<script src="../lib/jquery/jquery.js"></script>
+<script src="../lib/jquery-ui/jquery-ui.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.js"></script>
+<script src="../lib/jquery-toggles/toggles.js"></script>
+
+<script src="../lib/morrisjs/morris.js"></script>
+<script src="../lib/raphael/raphael.js"></script>
+
+<script src="../lib/flot/jquery.flot.js"></script>
+<script src="../lib/flot/jquery.flot.resize.js"></script>
+<script src="../lib/flot-spline/jquery.flot.spline.js"></script>
+
+<script src="../lib/jquery-knob/jquery.knob.js"></script>
+
+<script src="../js/quirk.js"></script>
+<script src="../js/dashboard.js"></script>
+
+</body>
+</html>
