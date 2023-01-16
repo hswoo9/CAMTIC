@@ -42,6 +42,9 @@
         .nav-quirk .children > li{font-family: 'GmarketSansMedium'}
         .nav-tabs > li > a{font-family: 'GmarketSansMedium'}
         .btn-quirk{font-family: 'GmarketSansMedium'}
+
+        .boxCss{width:145px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
+        .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
     </style>
 </head>
 
@@ -69,8 +72,14 @@
                 <ul class="headermenu">
                     <li>
                         <div id="noticePanel" class="btn-group">
-                            <button class="btn btn-notice alert-notice" data-toggle="dropdown">
-                                <i class="fa fa-globe"></i>
+                            <button class="btn btn-notice" data-toggle="dropdown">
+                                <i class="fa fa-sitemap"></i>
+                            </button>
+                            <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
+                                <i class="fa fa-envelope-o"></i>
+                            </button>
+                            <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
+                                <i class="fa fa-bell-o"></i>
                             </button>
                             <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right">
                                 <div role="tabpanel">
@@ -214,7 +223,6 @@
                     <li>
                         <div class="btn-group">
                             <button type="button" class="btn btn-logged" data-toggle="dropdown">
-                                <img src="images/photos/loggeduser.png" alt="" />
                                 김캠틱님 환영합니다!
                                 <!--<span class="caret"></span>-->
                             </button>
@@ -288,7 +296,6 @@
                         <li><a href="#"><i class="fa fa-cube"></i> <span>설문조사</span></a></li>
                         <li><a href="#"><i class="fa fa-cube"></i> <span>전산보완요청</span></a></li>
                         <li><a href="#"><i class="fa fa-cube"></i> <span>홍보협조요청</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>(OLD)직원세미나</span></a></li>
                     </ul>
 
                     <h5 class="sidebar-title">캠틱자료</h5>
@@ -354,6 +361,31 @@
             <div class="row">
                 <div class="col-md-9 col-lg-8 dash-left dash-left">
                     <div class="row panel-quick-page">
+                        <div style="display:flex; justify-content: space-between;">
+                            <div class="boxCss">
+                                <i class="fa fa-shopping-cart" style="font-size:40px;padding:11px;"></i><br>캠프로젝트 매니저
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-lightbulb-o" style="font-size:40px;padding:11px;"></i><br>캠아이템
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-calendar-o" style="font-size:40px;padding:11px;"></i><br>캠매니저2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-cloud-upload" style="font-size:40px;padding:11px;"></i><br>캠어취브2.0
+                            </div>
+                        </div>
+                    </div>
+                    <%--<div class="row panel-quick-page">
                         <div style="display:flex; justify-content: space-evenly;">
                             <img src="/images/GoCategory1_1.jpg">
                             <img src="/images/GoCategory1_2.jpg">
@@ -367,148 +399,13 @@
                             <img src="/images/GoCategory3_3.jpg">
                             <img src="/images/GoCategory3_4.jpg">
                         </div>
-                    </div>
+                    </div>--%>
 
-                    <div class="card">
+                    <%--<div class="card">
                         <div class="panel panel-announcement">
                             <img src="/images/test.png">
                         </div><!-- panel -->
-                    </div>
-
-                    <div style="display:flex; justify-content: space-around;">
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">출근시간</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>09:00</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">퇴근시간</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>18:00</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">근무시간</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>362:43</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">연가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">오전반차</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">오후반차</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">경조휴가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">병가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">공가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">출산휴가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">선택근무</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">츨장</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:75px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">대체휴가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                    </div>
-
-
+                    </div>--%>
 
                     <div class="card">
                         <!-- Nav tabs -->
@@ -564,51 +461,173 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-8 col-md-8" style="padding-left:0!important;">
-                        <div class="card">
-                            <div class="panel panel-inverse">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">오픈스터디</h3>
-                                </div>
-                                <div class="panel-body" style="padding:0 10px;">
-                                    <ul class="nav nav-quirk" style="margin:0;">
-                                        <li style="border-top:0;"><p style="padding: 10px 10px 0px;">법인 경영지표 산출 Guide<span style="position:absolute; right:10px;">2022/07/22 10:00~11:00</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">[숨은 고수의 쉽고, 빠른 노하우 전수 2탄]-데이터 통계/분석(엑셀 활용)<span style="position:absolute; right:10px;">2022/06/21 13:30~15:30</span></p></li>
-                                        <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">사업비사용시스템 기본설정 메뉴얼 설명회<span style="position:absolute; right:10px;">2022/05/20 14:00~15:00</span></p></li>
-                                    </ul>
+                    <div class="card">
+                        <div class="col-sm-8 col-md-8" style="padding-left:0!important;">
+                            <div class="card">
+                                <div class="panel panel-inverse">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">오픈스터디</h3>
+                                    </div>
+                                    <div class="panel-body" style="padding:0 10px;">
+                                        <ul class="nav nav-quirk" style="margin:0;">
+                                            <li style="border-top:0;"><p style="padding: 10px 10px 0px;">법인 경영지표 산출 Guide<span style="position:absolute; right:10px;">2022/07/22 10:00~11:00</span></p></li>
+                                            <li><p style="padding: 10px 10px 0px;">[숨은 고수의 쉽고, 빠른 노하우 전수 2탄]-데이터 통계/분석(엑셀 활용)<span style="position:absolute; right:10px;">2022/06/21 13:30~15:30</span></p></li>
+                                            <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">사업비사용시스템 기본설정 메뉴얼 설명회<span style="position:absolute; right:10px;">2022/05/20 14:00~15:00</span></p></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
+                            <div class="panel">
+                                <div class="panel-heading" style="background-color: #505b72; padding:25px;">
+                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
+                            <div class="panel">
+                                <div class="panel-heading" style="background-color: #505b72; padding:25px;">
+                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
+                            <div class="panel">
+                                <div class="panel-heading" style="background-color: #505b72; padding:25px;">
+                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
+                            <div class="panel">
+                                <div class="panel-heading" style="background-color: #505b72; padding:25px; margin-bottom:35px;">
+                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
                     </div>
-                    <div class="col-md-2 col-sm-2">
-                        <div class="panel">
-                            <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
-                            </div>
-                        </div><!-- panel -->
+
+                    <div class="col-md-12 col-lg-12" style="display:flex; justify-content: space-around; padding:0;">
+
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">근무시간</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>362:43</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">연가</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">오전반차</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">오후반차</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">경조휴가</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">병가</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">공가</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">출산휴가</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">선택근무</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">츨장</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
+                        <div style="width:95px;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" style="padding:15px 0;">
+                                    <h3 class="panel-title" style="text-align:center;">대체휴가</h3>
+                                </div>
+                                <div class="panel-body timeBox">
+                                    <p><strong>0명</strong></p>
+                                </div>
+                            </div><!-- panel -->
+                        </div>
                     </div>
-                    <div class="col-md-2 col-sm-2">
-                        <div class="panel">
-                            <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
-                            </div>
-                        </div><!-- panel -->
-                    </div>
-                    <div class="col-md-2 col-sm-2">
-                        <div class="panel">
-                            <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
-                            </div>
-                        </div><!-- panel -->
-                    </div>
-                    <div class="col-md-2 col-sm-2">
-                        <div class="panel">
-                            <div class="panel-heading" style="background-color: #505b72; padding:25px; margin-bottom:35px;">
-                                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
-                            </div>
-                        </div><!-- panel -->
-                    </div>
-                    <div class="mainFooter" style="text-align:center; clear:both;">
+
+
+
+
+
+
+                    <div class="mainFooter" style="text-align:center; clear:both;margin-top: 456px;">
                         <p style="margin:0;">(사)캠틱종합기술원 / 전북 전주시 덕진구 유상로 67 (우)54852</p>
                         <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
                     </div>
@@ -616,10 +635,10 @@
                 <div class="col-md-3 col-lg-4 dash-right">
                     <div class="row">
                         <div class="col-sm-5 col-md-12 col-lg-6">
-                            <div class="media leftpanel-profile">
-                                <div class="media-left">
+                            <div class="media leftpanel-profile" style="text-align:center;">
+                                <div>
                                     <a href="#">
-                                        <img src="/images/photos/loggeduser.png" alt="" class="media-object img-circle">
+                                        <img src="/images/photos/loggeduser.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
                                     </a>
                                 </div>
                                 <div class="media-body">
