@@ -328,6 +328,122 @@
                 var offset = $(".contents_13").offset();
                 $('html, body').animate({scrollTop : offset.top}, 400);
             });
+
+            $('.item_26').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_16').show();
+                $('.chart .contents_19').show();
+                $('.organization button').removeClass('active');
+                $('.item_16').addClass('active');
+                $('.item_26').addClass('active');
+                var offset = $(".contents_16").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_27').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_16').show();
+                $('.chart .contents_20').show();
+                $('.organization button').removeClass('active');
+                $('.item_16').addClass('active');
+                $('.item_27').addClass('active');
+                var offset = $(".contents_16").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_28').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_14').show();
+                $('.chart .contents_18').show();
+                $('.organization button').removeClass('active');
+                $('.item_9').addClass('active');
+                $('.item_28').addClass('active');
+                var offset = $(".contents_18").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_29').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_29').show();
+                $('.chart .contents_21').show();
+                $('.organization button').removeClass('active');
+                $('.item_29').addClass('active');
+                $('.item_30').addClass('active');
+                var offset = $(".contents_29").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_30').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_29').show();
+                $('.chart .contents_21').show();
+                $('.organization button').removeClass('active');
+                $('.item_29').addClass('active');
+                $('.item_30').addClass('active');
+                var offset = $(".contents_29").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_31').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_29').show();
+                $('.chart .contents_22').show();
+                $('.organization button').removeClass('active');
+                $('.item_29').addClass('active');
+                $('.item_31').addClass('active');
+                var offset = $(".contents_29").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_32').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_23').show();
+                $('.chart .contents_24').show();
+                $('.organization button').removeClass('active');
+                $('.item_32').addClass('active');
+                $('.item_33').addClass('active');
+                var offset = $(".contents_23").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_33').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_23').show();
+                $('.chart .contents_24').show();
+                $('.organization button').removeClass('active');
+                $('.item_32').addClass('active');
+                $('.item_33').addClass('active');
+                var offset = $(".contents_23").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_34').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_25').show();
+                $('.organization button').removeClass('active');
+                $('.item_34').addClass('active');
+                var offset = $(".contents_25").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
+
+            $('.item_35').on('click', function(e) {
+                e.preventDefault();
+                $('.chart .contents').hide();
+                $('.chart .contents_26').show();
+                $('.organization button').removeClass('active');
+                $('.item_35').addClass('active');
+                var offset = $(".contents_26").offset();
+                $('html, body').animate({scrollTop : offset.top}, 400);
+            });
         });
 
         $(document).ready(function() {
@@ -338,7 +454,7 @@
 
                 var k = $('#keyword').val();
                 var temp = $('.contents_1, .contents_2').find("table > tbody > tr > td:nth-child(3n+3):contains('" + k + "')");
-                var temp2 = $('.contents_3, .contents_4, .contents_5, .contents_6, .contents_7, .contents_8, .contents_9, .contents_10, .contents_11, .contents_12, .contents_13, .contents_14, .contents_15, .contents_16, .contents_17').find("table > tbody > tr > td:nth-child(4n+2):contains('" + k + "')");
+                var temp2 = $('.contents_3, .contents_4, .contents_5, .contents_6, .contents_7, .contents_8, .contents_9, .contents_10, .contents_11, .contents_12, .contents_13, .contents_14, .contents_15, .contents_16, .contents_17 .contents_18 .contents_19 .contents_20 .contents_21 .contents_22 .contents_23 .contents_24 .contents_25 .contents_26').find("table > tbody > tr > td:nth-child(4n+2):contains('" + k + "')");
 
                 $(temp).addClass( 'active' );
                 $(temp).parent().parent().parent().parent().show();
@@ -362,7 +478,7 @@
 
                     var k = $('#keyword').val();
                     var temp = $('.contents_1, .contents_2').find("table > tbody > tr > td:nth-child(3n+3):contains('" + k + "')");
-                    var temp2 = $('.contents_3, .contents_4, .contents_5, .contents_6, .contents_7, .contents_8, .contents_9, .contents_10, .contents_11, .contents_12, .contents_13, .contents_14, .contents_15, .contents_16, .contents_17').find("table > tbody > tr > td:nth-child(4n+2):contains('" + k + "')");
+                    var temp2 = $('.contents_3, .contents_4, .contents_5, .contents_6, .contents_7, .contents_8, .contents_9, .contents_10, .contents_11, .contents_12, .contents_13, .contents_14, .contents_15, .contents_16, .contents_17 .contents_18 .contents_19 .contents_20 .contents_21 .contents_22 .contents_23 .contents_24 .contents_25 .contents_26').find("table > tbody > tr > td:nth-child(4n+2):contains('" + k + "')");
 
                     $(temp).addClass( 'active' );
                     $(temp).parent().parent().parent().parent().show();
@@ -706,9 +822,9 @@
                                                 <div class="_body">
                                                     <dl>
                                                         <dt><button type="button" class="btn type_2 item item_9 item_5">경영기획관리본부</button></dt>
-                                                        <dd><button type="button" class="btn type_3 item item_10 item_6">2023경영기획팀</button></dd>
+                                                        <dd><button type="button" class="btn type_3 item item_10 item_6">2030경영기획팀</button></dd>
                                                         <dd><button type="button" class="btn type_3 item item_11 item_7">경영지원팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_23 item_8">단지관리팀</button></dd> <%--확인해야함--%>
+                                                        <dd><button type="button" class="btn type_3 item item_28 item_8">단지관리팀</button></dd> <%--확인해야함--%>
                                                     </dl>
                                                     <dl>
                                                         <dt><button type="button" class="btn type_2 item item_12 item_5">R&BD사업본부</button></dt>
@@ -725,19 +841,19 @@
                                                         <dd><button type="button" class="btn type_3 item item_25 item_27">일자리창업허브팀(익산)</button></dd><%--확인해야함--%>
                                                     </dl>
                                                     <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_20 item_5">항공우주사업부</button></dt>
-                                                        <dd><button type="button" class="btn type_3 item item_21 item_6">항공우주개발팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_22 item_7">항공우주기술팀</button></dd>
+                                                        <dt><button type="button" class="btn type_2 item item_29 item_5">항공우주사업부</button></dt>
+                                                        <dd><button type="button" class="btn type_3 item item_30 item_6">항공우주개발팀</button></dd>
+                                                        <dd><button type="button" class="btn type_3 item item_31 item_7">항공우주기술팀</button></dd>
                                                     </dl>
                                                     <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_20 item_5">드론사업부</button></dt><%--확인해야함--%>
-                                                        <dd><button type="button" class="btn type_3 item item_21 item_6">드론산업혁신지원센터</button></dd><%--확인해야함--%>
+                                                        <dt><button type="button" class="btn type_2 item item_32 item_5">드론사업부</button></dt><%--확인해야함--%>
+                                                        <dd><button type="button" class="btn type_3 item item_33 item_6">드론산업혁신지원센터</button></dd><%--확인해야함--%>
                                                     </dl>
                                                     <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_20 item_5">스마트매뉴팩처링사업부</button></dt><%--확인해야함--%>
+                                                        <dt><button type="button" class="btn type_2 item item_34 item_5">스마트매뉴팩처링사업부</button></dt><%--확인해야함--%>
                                                     </dl>
                                                     <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_20 item_5">시설관리·환경미화</button></dt><%--확인해야함--%>
+                                                        <dt><button type="button" class="btn type_2 item item_35 item_5">시설관리·환경미화</button></dt><%--확인해야함--%>
                                                     </dl>
                                                 </div>
                                             </dl>
@@ -766,7 +882,7 @@
                                                     <tr>
                                                         <td>원장</td>
                                                         <td>노상흡</td>
-                                                        <td>0301</td>
+                                                        <td>219-0301</td>
                                                         <td>원장</td>
                                                     </tr>
 
@@ -946,7 +1062,7 @@
                                                     <tr>
                                                         <td>본부장</td>
                                                         <td>송기정</td>
-                                                        <td>0330</td>
+                                                        <td>219-0330</td>
                                                         <td>경영기획관리본부 총괄</td>
                                                     </tr>
                                                     </tbody>
@@ -956,7 +1072,7 @@
 
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>2023경영기획팀</span>
+                                                        <span>2030경영기획팀</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -974,39 +1090,38 @@
                                                     <tr>
                                                         <td>팀장</td>
                                                         <td>나세영</td>
-                                                        <td>0348</td>
-                                                        <td>2023경영기획팀 총괄</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>김초민</td>
-                                                        <td>210-6523</td>
-                                                        <td>농생명·바이오 정책사업 발굴/성과홍보</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>윤정인</td>
-                                                        <td>210-6522</td>
-                                                        <td>인사/인권경영</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>구성태</td>
-                                                        <td>210-6527</td>
-                                                        <td>업무보고/홍보</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>전민경</td>
-                                                        <td>210-6524</td>
-                                                        <td>정책사업운영 농업사업화 기획 등</td>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
 
                                             <div class="contents contents_4">
-
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
                                                         <span>경영지원팀</span>
@@ -1025,76 +1140,94 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>경영지원팀장</td>
-                                                        <td>문현우</td>
-                                                        <td>210-6510</td>
-                                                        <td>경영지원팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>선임연구원</td>
-                                                        <td>주성일</td>
-                                                        <td>210-6513</td>
-                                                        <td>전기·통신/계약</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>선임연구원</td>
-                                                        <td>채대성</td>
-                                                        <td>210-6511</td>
-                                                        <td>예산/회계 관리</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>조용석</td>
-                                                        <td>210-6514</td>
-                                                        <td>건축/소방</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>김성진</td>
-                                                        <td>210-6516</td>
-                                                        <td>기계설비</td>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>김용은</td>
-                                                        <td>210-6517</td>
-                                                        <td>예산/회계</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>박자연</td>
-                                                        <td>210-6515</td>
-                                                        <td>일반행정/급여/지출</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>김진식</td>
-                                                        <td>210-6512</td>
-                                                        <td>총무/가족친화</td>
-                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
+                                            <div class="contents contents_18">
+                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
+                                                    <caption>
+                                                        <span>단지관리팀</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>최정숙</td>
-                                                        <td>210-6500</td>
-                                                        <td>환경관리</td>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>노형민</td>
-                                                        <td>210-6500</td>
-                                                        <td>환경관리</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
 
                                             <div class="contents contents_15">
-                                                <p class="logo_line mt100">산업혁신본부</p>
+                                                <p class="logo_line mt100">R&BD사업본부</p>
                                                 <table class="tbl_02 chart_tbl mt20">
-                                                    <caption>
-                                                        <span>산업혁신본부</span>
-                                                    </caption>
                                                     <colgroup>
                                                         <col width="196px">
                                                         <col width="240px">
@@ -1110,19 +1243,17 @@
                                                     </tr>
                                                     <tr>
                                                         <td>본부장</td>
-                                                        <td>이은미</td>
-                                                        <td>210-6570</td>
-                                                        <td>산업혁신본부 총괄</td>
+                                                        <td>송기정</td>
+                                                        <td>219-0330</td>
+                                                        <td>경영기획관리본부 총괄</td>
                                                     </tr>
-
-
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="contents contents_5">
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>통상전략팀</span>
+                                                        <span>복합소재뿌리기술센터</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -1138,46 +1269,34 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>통상전략팀장</td>
-                                                        <td>정세준</td>
-                                                        <td>210-6590</td>
-                                                        <td>통상전략팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>선임연구원</td>
-                                                        <td>정병두</td>
-                                                        <td>210-6591</td>
-                                                        <td>엑스포 전시/시설조성</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>선임연구원</td>
-                                                        <td>홍성무</td>
-                                                        <td>210-6592</td>
-                                                        <td>엑스포기획전시/홍보마케팅</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>선임연구원</td>
-                                                        <td>윤현순</td>
-                                                        <td>210-6593</td>
-                                                        <td>국내·외 바이어 유치/중국통상지원</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>전기남</td>
-                                                        <td>210-6595</td>
-                                                        <td>엑스포체험 전통식품마케팅</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>김태수</td>
-                                                        <td>210-6596</td>
-                                                        <td>B2B수출상담운영/해외기업유치</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>지은솔</td>
-                                                        <td>210-6594</td>
-                                                        <td>전통식품마케팅지원</td>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -1188,7 +1307,7 @@
 
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>기업육성팀</span>
+                                                        <span>신기술융합팀</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -1204,48 +1323,34 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>기업육성팀장</td>
-                                                        <td>남기상</td>
-                                                        <td>210-6571</td>
-                                                        <td>기업육성팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>이기준</td>
-                                                        <td>210-6573</td>
-                                                        <td>기업지원 / 마케팅지원</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>김영아</td>
-                                                        <td>210-6575</td>
-                                                        <td>기술지원/관리</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>임현호</td>
-                                                        <td>210-6578</td>
-                                                        <td>기업지원 사업화지원</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>이 휘</td>
-                                                        <td>210-6577</td>
-                                                        <td>기업지원/관리</td>
-                                                    </tr>
-                                                    <%--
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>이은호</td>
-                                                        <td>210-6578</td>
-                                                        <td>기업지원</td>
-                                                    </tr>
-                                                     --%>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>최형재</td>
-                                                        <td>210-6588</td>
-                                                        <td>지역특화사업지원</td>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
 
                                                     </tbody>
@@ -1256,7 +1361,7 @@
 
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>일자리창출팀</span>
+                                                        <span>제조혁신팀</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -1272,56 +1377,41 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>일자리창출팀장</td>
-                                                        <td>채윤주</td>
-                                                        <td>210-6580</td>
-                                                        <td>일자리창출팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>조영진</td>
-                                                        <td>210-6585</td>
-                                                        <td>현장실무교육/창업교육</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>양이정</td>
-                                                        <td>210-6581</td>
-                                                        <td>고용성장 패키지 지원</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>조선아</td>
-                                                        <td>210-6586</td>
-                                                        <td>직무교육/고용연계</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>안세영</td>
-                                                        <td>210-6587</td>
-                                                        <td>직무교육/고용연계</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>강석현</td>
-                                                        <td>210-6583</td>
-                                                        <td>전직교육/취업연계</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>김민지</td>
-                                                        <td>210-6584</td>
-                                                        <td>현장실무형교육</td>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="contents contents_16">
-                                                <p class="logo_line mt100">연구개발본부</p>
+                                                <p class="logo_line mt100">기업성장지원본부</p>
                                                 <table class="tbl_02 chart_tbl mt20">
-                                                    <caption>
-                                                        <span>연구개발본부</span>
-                                                    </caption>
                                                     <colgroup>
                                                         <col width="196px">
                                                         <col width="240px">
@@ -1347,11 +1437,9 @@
                                                 </table>
                                             </div>
                                             <div class="contents contents_8">
-
-
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>바이오융합팀</span>
+                                                        <span>지역산업육성팀</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -1367,28 +1455,34 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>바이오융합팀장</td>
-                                                        <td>한소천</td>
-                                                        <td>210-6555</td>
-                                                        <td>바이오융합팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>정은선</td>
-                                                        <td>210-6556</td>
-                                                        <td>초광역협력사업</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>국연지</td>
-                                                        <td>210-6557</td>
-                                                        <td>바이오융합소재 상용화</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>윤나래</td>
-                                                        <td>210-6558</td>
-                                                        <td>미래혁신식품기술개발</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -1398,7 +1492,7 @@
 
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>소재개발팀</span>
+                                                        <span>인재개발팀</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -1414,53 +1508,43 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>바이오융합팀장</td>
-                                                        <td>서향임</td>
-                                                        <td>210-6531</td>
-                                                        <td>바이오융합팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>정은정</td>
-                                                        <td>210-6532</td>
-                                                        <td>신규 국가사업 발굴 및 지원</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>이중근</td>
-                                                        <td>210-6534</td>
-                                                        <td>농생명핵심R&D 발굴 및 지원</td>
-                                                    </tr>
-                                                    <%--
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>송희주</td>
-                                                        <td>210-6546</td>
-                                                        <td>효소사업신규장비 구축/관리</td>
-                                                    </tr> --%>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>이승규</td>
-                                                        <td>210-6545</td>
-                                                        <td>효소사업 기술지원</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>강주원</td>
-                                                        <td>210-6538</td>
-                                                        <td>효소사업 네트워킹 및 인력양성</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
-
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
 
                                             <div class="contents contents_10">
-
-
                                                 <table class="tbl_02 chart_tbl mt_20 mb_50">
                                                     <caption>
-                                                        <span>기술확산팀</span>
+                                                        <span>일자리창업허브팀</span>
                                                     </caption>
                                                     <colgroup>
                                                         <col width="196px">
@@ -1476,30 +1560,347 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>기술확산팀장</td>
-                                                        <td>정이형</td>
-                                                        <td>210-6541</td>
-                                                        <td>기술확산팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>김희정</td>
-                                                        <td>210-6542</td>
-                                                        <td>R&BD사업기획 및 기술거래기관 운영</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>양재훈</td>
-                                                        <td>210-6544</td>
-                                                        <td>R&BD사업수행</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>박민화</td>
-                                                        <td>210-6548</td>
-                                                        <td>효소사업 품질분석지원</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
+                                            <div class="contents contents_19">
+                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
+                                                    <caption>
+                                                        <span>일자리창업허브팀(군산)</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="contents contents_20">
+                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
+                                                    <caption>
+                                                        <span>일자리창업허브팀(익산)</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="contents contents_29">
+                                                <p class="logo_line mt100">항공우주사업부</p>
+                                                <table class="tbl_02 chart_tbl mt20">
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무본부장</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>본부장</td>
+                                                        <td>송기정</td>
+                                                        <td>219-0330</td>
+                                                        <td>경영기획관리본부 총괄</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="contents contents_21">
+                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
+                                                    <caption>
+                                                        <span>항공우주개발팀</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="contents contents_22">
+                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
+                                                    <caption>
+                                                        <span>항공우주기술팀</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="contents contents_23">
+                                                <p class="logo_line mt100">드론사업부</p>
+                                                <table class="tbl_02 chart_tbl mt20">
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무본부장</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>본부장</td>
+                                                        <td>송기정</td>
+                                                        <td>219-0330</td>
+                                                        <td>경영기획관리본부 총괄</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="contents contents_24">
+                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
+                                                    <caption>
+                                                        <span>드론산업혁신지원센터</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1529,8 +1930,58 @@
                                                         <td>210-6550</td>
                                                         <td>바이오식품산업화센터 총괄</td>
                                                     </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
+                                            <div class="contents contents_25">
+                                                <p class="logo_line mt100">스마트매뉴팩처링사업부</p>
+                                                <table class="tbl_02 chart_tbl mt20">
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무본부장</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>본부장</td>
+                                                        <td>송기정</td>
+                                                        <td>219-0330</td>
+                                                        <td>경영기획관리본부 총괄</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
+                                            <div class="contents contents_26">
+                                                <p class="logo_line mt100">시설관리·환경미화</p>
+                                                <table class="tbl_02 chart_tbl mt20">
+                                                    <colgroup>
+                                                        <col width="196px">
+                                                        <col width="240px">
+                                                        <col width="204px">
+                                                        <col width="auto">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <th>성명</th>
+                                                        <th>연락처</th>
+                                                        <th>담당업무본부장</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>본부장</td>
+                                                        <td>송기정</td>
+                                                        <td>219-0330</td>
+                                                        <td>경영기획관리본부 총괄</td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1555,54 +2006,35 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>상품화지원팀장</td>
-                                                        <td>이정욱</td>
-                                                        <td>210-6551</td>
-                                                        <td>상품화지원팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>주임연구원</td>
-                                                        <td>한금철</td>
-                                                        <td>210-6553</td>
-                                                        <td>생산지원/제품가공</td>
-                                                    </tr>
-                                                    <%--<tr>
-                                                        <td>연구원</td>
-                                                        <td>이미선</td>
-                                                        <td>210-6536</td>
-                                                        <td>식품검사지원/미생물검사</td>
-                                                    </tr> --%>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>서진원</td>
-                                                        <td>210-6535</td>
-                                                        <td>식품검사지원/기기분석</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>송대길</td>
-                                                        <td>210-6552</td>
-                                                        <td>생산지원/소재지원</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>우혁제</td>
-                                                        <td>210-6536</td>
-                                                        <td>식품검사지원/미생물</td>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>전병조</td>
-                                                        <td>210-6537</td>
-                                                        <td>식품검사지원/이화학</td>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>연구원</td>
-                                                        <td>이찬희</td>
-                                                        <td>210-6554</td>
-                                                        <td>상품제형화</td>
-                                                    </tr>
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1627,26 +2059,43 @@
                                                         <th>담당업무</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>창업보육팀장</td>
-                                                        <td>오명숙</td>
-                                                        <td>210-6560</td>
-                                                        <td>창업보육팀 총괄</td>
+                                                        <td>팀장</td>
+                                                        <td>나세영</td>
+                                                        <td>219-0348</td>
+                                                        <td>2030경영기획팀 총괄</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>이근하</td>
-                                                        <td>210-6561</td>
-                                                        <td>창업지원/바이오교육</td>
+                                                        <td>책임행정원</td>
+                                                        <td>유수영</td>
+                                                        <td>219-0380</td>
+                                                        <td>벤처단지 중장기 운영 기획 등</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>연구원</td>
-                                                        <td>박희열</td>
-                                                        <td>210-6563</td>
-                                                        <td>BI운영/창업지원</td>
+                                                        <td>책임행정원</td>
+                                                        <td>문명희</td>
+                                                        <td>219-0318</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>이슬비</td>
+                                                        <td>219-0308</td>
+                                                        <td>사업관리/구매 담당</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>선임행정원</td>
+                                                        <td>최유미</td>
+                                                        <td>219-0418</td>
+                                                        <td>구매 및 사업관리</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
+                                        </div>
+                                        <div class="mt10" style="display:flex;justify-content: center;">
+                                            <button class="btn btn-quirk infoBtn" style="background-color: rgb(240, 240, 240); color: rgb(105, 108, 116);">2021년 1월</button>
+                                            <button class="btn btn-quirk infoBtn" style="background-color: rgb(240, 240, 240); color: rgb(105, 108, 116);">2022년 1월</button>
+                                            <button class="btn btn-quirk infoBtn" style="background-color: rgb(240, 240, 240); color: rgb(105, 108, 116);">2023년 1월</button>
                                         </div>
                                     </div>
                                 </div>
