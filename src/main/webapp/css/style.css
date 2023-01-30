@@ -7,3 +7,9 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 .panel-announcement{background-color: #509ef6!important;}
 .signpanel{background-image: url(../images/login_img_1.png); background-repeat: no-repeat; background-size: cover;}
 .signin{top:59%; left:67%; transform:none; background-color:transparent;}
+.tableThSt {background-color:#bdc3d1ad; padding:10px; text-align:center; color:#3b4354; vertical-align:middle;}
+.tableTdSt {background-color:#f6f7f8; padding:10px; text-align:center;}
+.panel-title{font-size:16px;}
+.radioInput{padding: 0 10px 0 3px; vertical-align: middle;}
+.textInput{width: 100%; line-height: 25px; border: 1px solid #d8dce3; border-radius: 5px;}
+

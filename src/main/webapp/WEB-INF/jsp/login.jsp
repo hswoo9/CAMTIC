@@ -15,7 +15,7 @@
     <meta name="author" content="">
     <!--<link rel="shortcut icon" href="/images/favicon.png" type="image/png">-->
 
-    <title>Quirk Responsive Admin Templates</title>
+    <title>CAM'S POT</title>
 
     <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
 

@@ -1080,7 +1080,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
   line-height: 1.42857143;
   color: #696c74;
@@ -2270,7 +2270,7 @@ th {
 .table > tfoot > tr > td {
   padding: 10px 15px;
   line-height: 1.42857143;
-  vertical-align: top;
+  vertical-align: middle;
   border-top: 1px solid #ffffff;
 }
 .table > thead > tr > th {
@@ -6016,7 +6016,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -6134,7 +6134,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -7327,7 +7327,7 @@ fieldset[disabled] .btn-info.active {
 .badge {
   font-size: 10px;
   font-weight: 500;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .label {
   font-weight: normal;
@@ -7379,7 +7379,7 @@ fieldset[disabled] .btn-info.active {
 .pager li {
   text-transform: uppercase;
   font-weight: 700;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .pager li > a,
 .pager li > span {
@@ -7420,7 +7420,7 @@ fieldset[disabled] .btn-info.active {
   font-weight: 700;
   color: #313745;
   letter-spacing: .2px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .panel-body {
   border-bottom-right-radius: 2px;
@@ -7815,7 +7815,7 @@ fieldset[disabled] .btn-info.active {
   border-bottom: 0;
   padding: 15px 15px 0;
   text-transform: uppercase;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .popover-content {
   padding: 15px;
@@ -7850,7 +7850,7 @@ fieldset[disabled] .btn-info.active {
 }
 .navbar-nav > li > a {
   text-transform: uppercase;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
   color: #818da7;
   padding-left: 15px;
@@ -7916,7 +7916,7 @@ fieldset[disabled] .btn-info.active {
   color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
   letter-spacing: .2px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
   font-size: 12px;
   margin: 0;
@@ -7972,7 +7972,7 @@ fieldset[disabled] .btn-info.active {
   border-bottom: 0;
   text-transform: uppercase;
   letter-spacing: .5px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   background-color: #d8dce3;
   color: #3b4354;
   font-size: 12px;
@@ -8546,7 +8546,7 @@ a.text-danger:focus {
 .dropzone .dz-message {
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   text-transform: uppercase;
   color: #696c74;
   margin-top: 45px;
@@ -8627,7 +8627,7 @@ a.text-danger:focus {
   border-radius: 0;
   padding: 14px 25px;
   text-transform: uppercase;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
   font-size: 12px;
   background-color: #9fa8bc;
@@ -8780,7 +8780,7 @@ a.text-danger:focus {
   color: #9fa8bc;
   border-radius: 100px;
   font-size: 18px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   text-align: center;
   padding-top: 8px;
   line-height: 20px;
@@ -8805,7 +8805,7 @@ a.text-danger:focus {
   display: block;
   text-transform: none;
   font-weight: normal;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
 }
 .wizard.wizard-style2 > .steps > ul > li + li > a {
@@ -8916,7 +8916,7 @@ ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
   background-color: rgba(17, 19, 24, 0.95);
   border-radius: 2px;
   padding: 15px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
   line-height: 1.42857143;
   color: rgba(255, 255, 255, 0.65);
@@ -8929,7 +8929,7 @@ ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
   font-weight: 700;
   text-shadow: none;
   text-transform: uppercase;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: .5px;
   font-size: 12px;
   color: #fff;
@@ -9134,7 +9134,7 @@ ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
 }
 .dataTables_paginate .pagination > .paginate_button.next,
 .dataTables_paginate .pagination > .paginate_button.previous {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -9170,7 +9170,7 @@ code {
   padding: 0;
 }
 p code {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
   letter-spacing: 0.2px;
 }
@@ -9238,7 +9238,7 @@ blockquote {
 }
 @media (min-width: 992px) {
   .headerbar {
-    margin-left: 220px;
+    margin-left: 177px;
     left: 0 !important;
   }
 }
@@ -9472,7 +9472,7 @@ blockquote {
 }
 .headermenu .dm-notice .nav-tabs > li > a {
   font-size: 12px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: .5px;
@@ -9654,7 +9654,7 @@ blockquote {
   margin: 20px 0 5px;
   text-transform: uppercase;
   font-weight: bold;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   color: #262b36;
 }
 .today-weather + p {
@@ -9793,8 +9793,9 @@ blockquote {
 .nav-quirk > li {
   border-top: 1px solid #eaecf0;
   text-transform: uppercase;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
+
 .nav-quirk > li > a {
   color: #505b72;
   padding: 12px 14px;
@@ -9905,7 +9906,7 @@ blockquote {
 .nav-quirk .children > li {
   margin-left: 21px;
   border-left: 1px solid #dbdfe6;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   text-transform: none;
   letter-spacing: normal;
   display: block;
@@ -10557,14 +10558,14 @@ blockquote {
   padding-right: 0;
   color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 600;
   letter-spacing: .5px;
 }
 .profile-left-heading .list-group .list-group-item a {
   float: right;
   color: #5bc0de;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family:'Noto Sans KR', sans-serif;
   font-weight: 500;
   letter-spacing: 1.5px;
 }
@@ -11858,7 +11859,7 @@ div.error {
 .btn-quirk {
   text-transform: uppercase;
   font-weight: 700;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: .5px;
 }
 .btn-stroke {
@@ -12126,7 +12127,7 @@ fieldset[disabled] .btn-fb.active {
   border-radius: 0;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8);
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
 }
 .tab-side-wrapper .nav-stacked > li > a:hover,
@@ -12952,7 +12953,7 @@ fieldset[disabled] .btn-fb.active {
   border: 0;
 }
 .nomail {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 300;
   color: #bdc3d1;
   position: absolute;
@@ -13619,7 +13620,7 @@ fieldset[disabled] .btn-fb.active {
   padding: 10px 25px;
   text-transform: uppercase;
   font-weight: 600;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   color: #fff;
   text-align: center;
   letter-spacing: .5px;
@@ -13907,7 +13908,7 @@ fieldset[disabled] .btn-fb.active {
   font-size: 200px;
   font-weight: 700;
   line-height: 160px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   color: #3b4354;
   margin: 0 0 20px;
 }
@@ -14004,7 +14005,7 @@ fieldset[disabled] .btn-fb.active {
   text-transform: none;
   font-weight: 200;
   font-size: 20px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: .7px;
 }
 .signwrapper .select2-dropdown {
@@ -14193,7 +14194,7 @@ fieldset[disabled] .btn-fb.active {
 }
 .signup .sign-sidebar .reason {
   font-weight: 700;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -14359,7 +14360,7 @@ fieldset[disabled] .btn-fb.active {
   border-top-left-radius: 2px;
   text-transform: uppercase;
   font-size: 12px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   margin-bottom: 1px;
   color: rgba(255, 255, 255, 0.9);
   text-align: center;
@@ -14488,7 +14489,7 @@ fieldset[disabled] .btn-fb.active {
   text-transform: none;
   font-weight: 200;
   font-size: 18px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: .5px;
 }
 .signin-demo .input-group-addon {

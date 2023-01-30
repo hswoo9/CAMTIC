@@ -35,14 +35,26 @@
     <script src="/lib/respond/respond.src.js"></script>
     <![endif]-->
 
-    <style>
-        body{font-family: 'GmarketSansMedium' }
-        .panel-title{font-family: 'GmarketSansMedium'}
-        .nav-quirk > li{font-family: 'GmarketSansMedium'}
-        .nav-quirk .children > li{font-family: 'GmarketSansMedium'}
-        .nav-tabs > li > a{font-family: 'GmarketSansMedium'}
-        .btn-quirk{font-family: 'GmarketSansMedium'}
+    <script src="/lib/jquery/jquery.js"></script>
+    <script src="/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="/lib/jquery-toggles/toggles.js"></script>
 
+    <script src="/lib/morrisjs/morris.js"></script>
+    <script src="/lib/raphael/raphael.js"></script>
+
+    <script src="/lib/flot/jquery.flot.js"></script>
+    <script src="/lib/flot/jquery.flot.resize.js"></script>
+    <script src="/lib/flot-spline/jquery.flot.spline.js"></script>
+
+    <script src="/lib/jquery-knob/jquery.knob.js"></script>
+
+    <script src="/js/quirk.js"></script>
+    <script src="/js/dashboard.js"></script>
+
+
+
+    <style>
         .boxCss{width:145px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
         .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
     </style>
@@ -52,12 +64,9 @@
 
 <header>
     <div class="headerpanel">
+        <a href="/indexB.do"><div class="logopanel"></div></a>
 
-        <div class="logopanel">
-            <a href="index.html"></a>
-        </div><!-- logopanel -->
-
-        <div class="headerbar">
+        <div class="headerbar" style="width:1460px;">
 
             <div class="searchpanel">
                 <div class="input-group">
@@ -72,12 +81,28 @@
                 <ul class="headermenu">
                     <li>
                         <div id="noticePanel" class="btn-group">
-                            <button class="btn btn-notice" data-toggle="dropdown">
-                                <i class="fa fa-sitemap"></i>
-                            </button>
-                            <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
-                                <i class="fa fa-envelope-o"></i>
-                            </button>
+                            <a href="/subHoliday/org.do">
+                                <button class="btn btn-notice" data-toggle="modal" data-target="#myModal" style="float:left; font-size:22px;">
+                                    <i class="fa fa-sitemap"></i>
+                                </button>
+                            </a>
+                            <!-- Modal -->
+                            <%--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">조직도</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="/images/photos/221102_organization_chart.png" alt="organization chart" style="width:872px;">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>--%>
                             <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
                                 <i class="fa fa-bell-o"></i>
                             </button>
@@ -154,67 +179,6 @@
                                             </ul>
                                             <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>
                                         </div><!-- tab-pane -->
-
-                                        <!--<div role="tabpanel" class="tab-pane" id="reminders">
-                                          <h1 id="todayDay" class="today-day">...</h1>
-                                          <h3 id="todayDate" class="today-date">...</h3>
-
-                                          <h5 class="today-weather"><i class="wi wi-hail"></i> Cloudy 77 Degree</h5>
-                                          <p>Thunderstorm in the area this afternoon through this evening</p>
-
-                                          <h4 class="panel-title">Upcoming Events</h4>
-                                          <ul class="list-group">
-                                            <li class="list-group-item">
-                                              <div class="row">
-                                                <div class="col-xs-2">
-                                                  <h4>20</h4>
-                                                  <p>Aug</p>
-                                                </div>
-                                                <div class="col-xs-10">
-                                                  <h5><a href="">HTML5/CSS3 Live! United States</a></h5>
-                                                  <small>San Francisco, CA</small>
-                                                </div>
-                                              </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                              <div class="row">
-                                                <div class="col-xs-2">
-                                                  <h4>05</h4>
-                                                  <p>Sep</p>
-                                                </div>
-                                                <div class="col-xs-10">
-                                                  <h5><a href="">Web Technology Summit</a></h5>
-                                                  <small>Sydney, Australia</small>
-                                                </div>
-                                              </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                              <div class="row">
-                                                <div class="col-xs-2">
-                                                  <h4>25</h4>
-                                                  <p>Sep</p>
-                                                </div>
-                                                <div class="col-xs-10">
-                                                  <h5><a href="">HTML5 Developer Conference 2015</a></h5>
-                                                  <small>Los Angeles CA United States</small>
-                                                </div>
-                                              </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                              <div class="row">
-                                                <div class="col-xs-2">
-                                                  <h4>10</h4>
-                                                  <p>Oct</p>
-                                                </div>
-                                                <div class="col-xs-10">
-                                                  <h5><a href="">AngularJS Conference 2015</a></h5>
-                                                  <small>Silicon Valley CA, United States</small>
-                                                </div>
-                                              </div>
-                                            </li>
-                                          </ul>
-                                          <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -243,44 +207,6 @@
 
     <div class="leftpanel">
         <div class="leftpanelinner">
-
-            <!-- ################## LEFT PANEL PROFILE ################## -->
-
-
-
-            <div class="leftpanel-userinfo collapse" id="loguserinfo">
-                <h5 class="sidebar-title">Address</h5>
-                <address>
-                    4975 Cambridge Road
-                    Miami Gardens, FL 33056
-                </address>
-                <h5 class="sidebar-title">Contact</h5>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <label class="pull-left">Email</label>
-                        <span class="pull-right">me@themepixels.com</span>
-                    </li>
-                    <li class="list-group-item">
-                        <label class="pull-left">Home</label>
-                        <span class="pull-right">(032) 1234 567</span>
-                    </li>
-                    <li class="list-group-item">
-                        <label class="pull-left">Mobile</label>
-                        <span class="pull-right">+63012 3456 789</span>
-                    </li>
-                    <li class="list-group-item">
-                        <label class="pull-left">Social</label>
-                        <div class="social-icons pull-right">
-                            <a href="#"><i class="fa fa-facebook-official"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </div>
-                    </li>
-                </ul>
-            </div><!-- leftpanel-userinfo -->
-
-
-
             <div class="tab-content">
 
                 <!-- ################# MAIN MENU ################### -->
@@ -301,41 +227,41 @@
                     <h5 class="sidebar-title">캠틱자료</h5>
                     <ul class="nav nav-pills nav-stacked nav-quirk">
                         <li class="nav-parent">
-                            <a href=""><i class="fa fa-check-square"></i> <span>사업/아이템 제안</span></a>
+                            <a href=""><i class="fa fa-check-square"></i> <span>캠인사이드</span></a>
                             <ul class="children">
-                                <li><a href="#">사업/아이템1</a></li>
-                                <li><a href="#">사업/아이템2</a></li>
-                                <li><a href="#">사업/아이템3</a></li>
-                                <li><a href="#">사업/아이템4</a></li>
+                                <li><a href="/subHoliday/subHolidayApplication.do">휴가신청</a></li>
+                                <li><a href="/subHoliday/org.do">조직도</a></li>
+                                <li><a href="#">휴가자동설정</a></li>
+                                <li><a href="#">휴가생성기준설정</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>업무노하우</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>캠아이템</span></a>
                             <ul class="children">
-                                <li><a href="#">업무노하우1</a></li>
-                                <li><a href="#">업무노하우2</a></li>
-                                <li><a href="#">업무노하우3</a></li>
+                                <li><a href="#">캠아이템</a></li>
+                                <li><a href="#">캠아이템</a></li>
+                                <li><a href="#">캠아이템</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>규정/지침/절차/양식</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>캠매니저</span></a>
                             <ul class="children">
-                                <li><a href="#">규정</a></li>
-                                <li><a href="#">지침</a></li>
-                                <li><a href="#">절차</a></li>
-                                <li><a href="#">양식</a></li>
+                                <li><a href="#">캠매니저</a></li>
+                                <li><a href="#">캠매니저</a></li>
+                                <li><a href="#">캠매니저</a></li>
+                                <li><a href="#">캠매니저</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>법인 홍보자료</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠퍼스</span></a>
                             <ul class="children">
-                                <li><a href="#">홍보자료1</a></li>
-                                <li><a href="#">홍보자료2</a></li>
-                                <li><a href="#">홍보자료3</a></li>
-                                <li><a href="#">홍보자료4</a></li>
+                                <li><a href="#">캠퍼스</a></li>
+                                <li><a href="#">캠퍼스</a></li>
+                                <li><a href="#">캠퍼스</a></li>
+                                <li><a href="#">캠퍼스</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠틱 FAQ</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠어취브</span></a>
                             <ul class="children">
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="#">캠틱</a></li>
+                                <li><a href="#">캠어취브</a></li>
+                                <li><a href="#">캠어취브</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -374,9 +300,11 @@
                             <div class="boxCss">
                                 <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM2.0
                             </div>
-                            <div class="boxCss">
-                                <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
-                            </div>
+                            <a href="/subHoliday/subHolidayApplication.do">
+                                <div class="boxCss">
+                                   <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
+                                </div>
+                            </a>
                             <div class="boxCss">
                                 <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스2.0
                             </div>
@@ -638,16 +566,16 @@
                             <div class="media leftpanel-profile" style="text-align:center;">
                                 <div>
                                     <a href="#">
-                                        <img src="/images/photos/loggeduser.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                                        <img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
                                     </a>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">사원 홍길동</h4>
                                     <span>(사)캠틱종합기술원 관리팀</span>
                                 </div>
-                                <div class="mt10" style="display:flex;">
-                                    <button class="btn btn-quirk infoBtn">출근</button>
-                                    <button class="btn btn-quirk infoBtn">퇴근</button>
+                                <div class="mt10" style="display:flex;justify-content: center;">
+                                    <button class="btn btn-quirk infoBtn" id="goWork">출근</button>
+                                    <button class="btn btn-quirk infoBtn" id="offWork">퇴근</button>
                                 </div>
                             </div><!-- leftpanel-profile -->
                         </div><!-- col-md-12 -->
@@ -759,25 +687,49 @@
             </div><!-- row -->
         </div><!-- contentpanel -->
     </div><!-- mainpanel -->
-
 </section>
+<script type="text/javascript">
+    var today = new Date();
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var seconds = today.getSeconds();
+    var todayTime = hours + ' : ' + minutes + ' : ' + seconds;
+    console.log(todayTime);
+    //function goWork(){
+        $('#goWork').click(function() {
+            if( $(this).html() == '출근' ) {
+                $(this).html(todayTime);
+                $(this).css("background-color", "#5bc0de");
+                $(this).css("color", "#FFF");
+                $('#offWork').html('퇴근');
+                $('#offWork').css("background-color", "#F0F0F0");
+                $('#offWork').css("color", "#696C74");
+            }
+            else {
+                $(this).html('출근');
+            }
+        });
+    //}
 
-<script src="/lib/jquery/jquery.js"></script>
-<script src="/lib/jquery-ui/jquery-ui.js"></script>
-<script src="/lib/bootstrap/js/bootstrap.js"></script>
-<script src="/lib/jquery-toggles/toggles.js"></script>
+        $('#offWork').click(function() {
+            if( $(this).html() == '퇴근' ) {
+                $(this).html(todayTime);
+                $(this).css("background-color", "#5bc0de");
+                $(this).css("color", "#FFF");
+                $('#goWork').html('출근');
+                $('#goWork').css("background-color", "#F0F0F0");
+                $('#goWork').css("color", "#696C74");
+            }
+            else {
+                $(this).html('퇴근');
+            }
+        });
 
-<script src="/lib/morrisjs/morris.js"></script>
-<script src="/lib/raphael/raphael.js"></script>
-
-<script src="/lib/flot/jquery.flot.js"></script>
-<script src="/lib/flot/jquery.flot.resize.js"></script>
-<script src="/lib/flot-spline/jquery.flot.spline.js"></script>
-
-<script src="/lib/jquery-knob/jquery.knob.js"></script>
-
-<script src="/js/quirk.js"></script>
-<script src="/js/dashboard.js"></script>
-
+</script>
 </body>
+
+
+
 </html>
+
+

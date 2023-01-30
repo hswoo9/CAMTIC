@@ -31,4 +31,14 @@ public class MainController {
     public String intro(){
         return "intro";
     }
+
+    @RequestMapping("/subHoliday/subHolidayApplication.do")
+    public String subHolidayApplication(){
+        return "/subHoliday/subHolidayApplication";
+    }
+
+    @RequestMapping("/subHoliday/org.do")
+    public String org(){
+        return "/subHoliday/org";
+    }
 }

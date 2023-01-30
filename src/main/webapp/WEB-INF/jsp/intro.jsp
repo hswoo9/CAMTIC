@@ -15,7 +15,7 @@
     <meta name="author" content="">
     <!--<link rel="shortcut icon" href="/images/favicon.png" type="image/png">-->
 
-    <title>Quirk Responsive Admin Templates</title>
+    <title>CAM'S POT</title>
 
     <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
 
@@ -105,10 +105,10 @@
     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
         <form action="#">
             <button class="w-btn w-btn-indigo" id="mvBtn1" style="font-size: 20px;">
-                <a href="/indexA.do">메인A</a>
+                <a href="/indexA.do">준비중</a>
             </button>
             <button class="w-btn w-btn-indigo" id="mvBtn2" style="font-size: 20px;">
-                <a href="/indexB.do">메인B</a>
+                <a href="/indexB.do">사용자</a>
             </button>
         </form>
         <hr class="invisible">
