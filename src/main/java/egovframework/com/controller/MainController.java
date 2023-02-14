@@ -2,7 +2,6 @@ package egovframework.com.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
@@ -20,11 +19,6 @@ public class MainController {
     @RequestMapping("/indexB.do")
     public String indexB(){
         return "indexB";
-    }
-
-    @RequestMapping("/login.do")
-    public String login(){
-        return "login";
     }
 
     @RequestMapping("/intro.do")

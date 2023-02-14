@@ -5,7 +5,11 @@
   Time: 오후 6:32
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +32,10 @@
     <script src="/lib/html5shiv/html5shiv.js"></script>
     <script src="/lib/respond/respond.src.js"></script>
     <![endif]-->
+
+    <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
+    <script type="text/javascript" src="/js/intra/common/common.js"></script>
+    <script type="text/javascript" src="/js/intra/login/login.js"></script>
 </head>
 
 <body class="signwrapper">
@@ -45,34 +53,37 @@
 </div><!-- panel -->
 <div class="panel signin">
     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
-        <form action="intro.do">
-            <div class="form-group mb10">
-                <div class="form-group mb10" style="font-size:18px; font-weight: 600; text-align:center;">
-                    로그인
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" placeholder="아이디를 입력하세요.">
-                </div>
+        <form:form name="loginForm" method="post" action="#LINK">
+        <div class="form-group mb10">
+            <div class="form-group mb10" style="font-size:18px; font-weight: 600; text-align:center;">
+                로그인
             </div>
-            <div class="form-group mb10">
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" placeholder="비밀번호를 입력하세요.">
-                </div>
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요.">
             </div>
-            <div>
-                <button class="btn btn-success btn-quirk btn-block" id="mvBtn">확인</button>
+        </div>
+        <div class="form-group mb10">
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input type="text" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요.">
             </div>
-            <div style="display:flex; justify-content: space-between;">
-                <div><input type="checkbox" name="" value="" style="margin-right:5px;"><a href="" class="forgot">아이디저장</a></div>
-                <div><a href="" class="forgot">비밀번호찾기</a></div>
-            </div>
-            <div style="text-align: right;">2023년 12월 31일 오전 10시 30분</div>
-        </form>
+        </div>
+        <div>
+            <button class="btn btn-success btn-quirk btn-block" id="mvBtn" onclick="login.actionLogin();">확인</button>
+        </div>
+        <div style="display:flex; justify-content: space-between;">
+            <div><input type="checkbox" name="" value="" style="margin-right:5px;"><a href="" class="forgot">아이디저장</a></div>
+            <div><a href="" class="forgot">비밀번호찾기</a></div>
+        </div>
+        <input type="hidden" name="message" id="message" value="${message}" />
+        </form:form>
+        <div style="text-align: right;">2023년 12월 31일 오전 10시 30분</div>
         <hr class="invisible">
     </div>
 </div><!-- panel -->
-
+<script>
+    login.dataSet();
+</script>
 </body>
 </html>

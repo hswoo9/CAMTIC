@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+
+    <select id="actionLogin" resultType="egovframework.com.devjitsu.main.dto.LoginVO" parameterType="map">
+        /* actionLogin */
+        SELECT
+            VEI.LOGIN_ID AS id,
+            VEI.EMP_NAME_KR AS name,
+            VEI.DEPT_NAME AS orgnztNm,
+            VEI.EMP_SEQ AS uniqId,
+            VEI.POSITION_CODE AS positionCode,
+            VEI.DUTY_NAME AS dutyNm
+
+        FROM
+            DJ_CAMTIC.V_EMP_INFO VEI
+        WHERE
+            LOGIN_ID = #{id}
+    </select>
+</mapper>

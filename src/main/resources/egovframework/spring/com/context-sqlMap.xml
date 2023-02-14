@@ -2,6 +2,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
+	<!-- SqlSession setup for MyBatis Database Layer -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/camtic/**/*.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSession" />
+	</bean>
+
+	<!--mssql -->
+	<bean id="sqlSessionMs" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceMs" />
+		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/camtic/**/*.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplateMs" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionMs"/>
+	</bean>
 
 
 </beans>
