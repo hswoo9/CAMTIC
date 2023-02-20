@@ -81,7 +81,7 @@
                 <ul class="headermenu">
                     <li>
                         <div id="noticePanel" class="btn-group">
-                            <a href="/subHoliday/org.do">
+                            <a href="/user/organizationChart.do">
                                 <button class="btn btn-notice" data-toggle="modal" data-target="#myModal" style="float:left; font-size:22px;">
                                     <i class="fa fa-sitemap"></i>
                                 </button>
