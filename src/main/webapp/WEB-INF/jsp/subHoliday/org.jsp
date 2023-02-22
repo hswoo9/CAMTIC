@@ -710,10 +710,10 @@
                         <li><a href="#"><i class="fa fa-cube"></i> <span>홍보협조요청</span></a></li>
                     </ul>
 
-                    <h5 class="sidebar-title">캠틱자료</h5>
+                    <h5 class="sidebar-title">업무</h5>
                     <ul class="nav nav-pills nav-stacked nav-quirk">
                         <li class="nav-parent">
-                            <a href=""><i class="fa fa-check-square"></i> <span>캠인사이드</span></a>
+                            <a href=""><i class="fa fa-check-square"></i> <span>캠알앤디</span></a>
                             <ul class="children">
                                 <li><a href="/subHoliday/subHolidayApplication.do">휴가신청</a></li>
                                 <li><a href="/subHoliday/org.do">조직도</a></li>
@@ -721,33 +721,35 @@
                                 <li><a href="#">휴가생성기준설정</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>캠아이템</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>비알앤디(지원사업)</span></a>
                             <ul class="children">
-                                <li><a href="#">캠아이템</a></li>
-                                <li><a href="#">캠아이템</a></li>
-                                <li><a href="#">캠아이템</a></li>
+                                <li><a href="#">비알앤디</a></li>
+                                <li><a href="#">비알앤디</a></li>
+                                <li><a href="#">비알앤디</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>캠매니저</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>엔지니어링</span></a>
                             <ul class="children">
-                                <li><a href="#">캠매니저</a></li>
-                                <li><a href="#">캠매니저</a></li>
-                                <li><a href="#">캠매니저</a></li>
-                                <li><a href="#">캠매니저</a></li>
+                                <h5 class="sidebar-title"><a href="/engineering/customerConsultation.do">프로젝트 등록 및 목록</a></h5>
+                                <li><a href="/engineering/estimate.do">개발상담서</a></li>
+                                <li><a href="/engineering/orderManagement.do">수주보고</a></li>
+                                <li><a href="/engineering/developmentPlan.do">개발계획서 등록(협업)</a></li>
+                                <li><a href="/engineering/outsourcingPurchase.do">구매/외주</a></li>
+                                <li><a href="/engineering/deliveryManagement.do">납품관리</a></li>
+                                <li><a href="/engineering/resultReport.do">완료보고서</a></li>
+                                <li><a href="#">원가보고서</a></li>
+                                <h5 class="sidebar-title"><a href="#">협업목록보기</a></h5>
+                                <h5 class="sidebar-title"><a href="#">사내가공 요청현황</a></h5>
+                                <h5 class="sidebar-title"><a href="#">사내가공일정</a></h5>
+                                <h5 class="sidebar-title"><a href="#">프로젝트 진행현황</a></h5>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠퍼스</span></a>
+                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>용역 및 기타</span></a>
                             <ul class="children">
                                 <li><a href="#">캠퍼스</a></li>
                                 <li><a href="#">캠퍼스</a></li>
                                 <li><a href="#">캠퍼스</a></li>
                                 <li><a href="#">캠퍼스</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠어취브</span></a>
-                            <ul class="children">
-                                <li><a href="#">캠어취브</a></li>
-                                <li><a href="#">캠어취브</a></li>
                             </ul>
                         </li>
                     </ul>

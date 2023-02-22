@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -23,9 +23,10 @@
     <link rel="stylesheet" href="/lib/ionicons/css/ionicons.css">
     <link rel="stylesheet" href="/lib/jquery-toggles/toggles-full.css">
     <link rel="stylesheet" href="/lib/morrisjs/morris.css">
+    <link rel="stylesheet" href="../lib/timepicker/jquery.timepicker.css">
 
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/quirk.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <script src="/lib/modernizr/modernizr.js"></script>
 
@@ -52,11 +53,10 @@
     <script src="/js/quirk.js"></script>
     <script src="/js/dashboard.js"></script>
 
-
-
     <style>
-        .boxCss{width:145px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
+        .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
         .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
+        .popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
     </style>
 </head>
 
@@ -65,7 +65,6 @@
 <header>
     <div class="headerpanel">
         <a href="/indexB.do"><div class="logopanel"></div></a>
-
         <div class="headerbar" style="width:1460px;">
 
             <div class="searchpanel">
@@ -81,13 +80,13 @@
                 <ul class="headermenu">
                     <li>
                         <div id="noticePanel" class="btn-group">
-                            <a href="/user/organizationChart.do">
+                            <a href="/subHoliday/org.do">
                                 <button class="btn btn-notice" data-toggle="modal" data-target="#myModal" style="float:left; font-size:22px;">
                                     <i class="fa fa-sitemap"></i>
                                 </button>
                             </a>
                             <!-- Modal -->
-                            <%--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -95,14 +94,14 @@
                                             <h4 class="modal-title" id="myModalLabel">조직도</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <img src="/images/photos/221102_organization_chart.png" alt="organization chart" style="width:872px;">
+                                            <a href="/subHoliday/org.do"></a>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>--%>
+                            </div>
                             <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
                                 <i class="fa fa-bell-o"></i>
                             </button>
@@ -207,6 +206,44 @@
 
     <div class="leftpanel">
         <div class="leftpanelinner">
+
+            <!-- ################## LEFT PANEL PROFILE ################## -->
+
+
+
+            <div class="leftpanel-userinfo collapse" id="loguserinfo">
+                <h5 class="sidebar-title">Address</h5>
+                <address>
+                    4975 Cambridge Road
+                    Miami Gardens, FL 33056
+                </address>
+                <h5 class="sidebar-title">Contact</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <label class="pull-left">Email</label>
+                        <span class="pull-right">me@themepixels.com</span>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="pull-left">Home</label>
+                        <span class="pull-right">(032) 1234 567</span>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="pull-left">Mobile</label>
+                        <span class="pull-right">+63012 3456 789</span>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="pull-left">Social</label>
+                        <div class="social-icons pull-right">
+                            <a href="#"><i class="fa fa-facebook-official"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div><!-- leftpanel-userinfo -->
+
+
+
             <div class="tab-content">
 
                 <!-- ################# MAIN MENU ################### -->
@@ -287,7 +324,7 @@
         <div class="contentpanel">
 
             <div class="row">
-                <div class="col-md-9 col-lg-8 dash-left dash-left">
+                <div class="col-md-10 col-lg-10 dash-left">
                     <div class="row panel-quick-page">
                         <div style="display:flex; justify-content: space-between;">
                             <div class="boxCss">
@@ -302,11 +339,9 @@
                             <div class="boxCss">
                                 <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM2.0
                             </div>
-                            <a href="/subHoliday/subHolidayApplication.do">
-                                <div class="boxCss">
-                                   <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
-                                </div>
-                            </a>
+                            <div class="boxCss">
+                                <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
+                            </div>
                             <div class="boxCss">
                                 <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스2.0
                             </div>
@@ -315,245 +350,129 @@
                             </div>
                         </div>
                     </div>
-                    <%--<div class="row panel-quick-page">
-                        <div style="display:flex; justify-content: space-evenly;">
-                            <img src="/images/GoCategory1_1.jpg">
-                            <img src="/images/GoCategory1_2.jpg">
-                            <img src="/images/GoCategory1_3.jpg">
-                            <img src="/images/GoCategory1_4.jpg">
-                            <img src="/images/GoCategory2_1.jpg">
-                            <img src="/images/GoCategory2_2.jpg">
-                            <img src="/images/GoCategory2_3.jpg">
-                            <img src="/images/GoCategory3_1.jpg">
-                            <img src="/images/GoCategory3_2.jpg">
-                            <img src="/images/GoCategory3_3.jpg">
-                            <img src="/images/GoCategory3_4.jpg">
-                        </div>
-                    </div>--%>
 
-                    <%--<div class="card">
-                        <div class="panel panel-announcement">
-                            <img src="/images/test.png">
-                        </div><!-- panel -->
-                    </div>--%>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">납품관리</h4>
+                        </div><div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table popupTable">
+                                <thead>
+                                <tr>
+                                    <th>프로젝트코드</th>
+                                    <td colspan="3" style="padding:5px;"><input type="text" class="textInput" value="Dl1e32301" disabled></td>
+                                </tr>
+                                <tr>
+                                    <th>프로젝트명</th>
+                                    <td colspan="3" style="padding:5px;"><input type="text" class="textInput" value="조영산업-FEMS구축사업" disabled></td>
+                                </tr>
+                                <tr>
+                                    <th>의뢰일자</th>
+                                    <td style="padding:5px;">
+                                        <div class="input-group" style="display:flex; ">
+                                            <input type="text" class="form-control" placeholder="yyyy/mm/dd" id="datepicker1" style="width:100px; border-right:0;">
+                                            <span class="input-group-addon" style="padding-right:22px;"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </td>
+                                    <th>납기일</th>
+                                    <td style="padding:5px;">
+                                        <div class="input-group" style="display:flex; ">
+                                            <input type="text" class="form-control" placeholder="yyyy/mm/dd" id="datepicker2" style="width:100px; border-right:0;">
+                                            <span class="input-group-addon" style="padding-right:22px;"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>개요</th>
+                                    <td colspan="3" style="padding:5px;"><textarea class="form-control" rows="2" placeholder="-FEMS구축"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <th>사양</th>
+                                    <td colspan="3" style="padding:5px;"><textarea class="form-control" rows="2" placeholder=""></textarea></td>
+                                </tr>
+                                <tr>
+                                    <th>납품목록</th>
+                                    <td style="padding:5px;"><input type="text" class="textInput" value="장비 및 시스템" style="width:50%;"></td>
+                                    <th>납품수량</th>
+                                    <td style="padding:5px;"><input type="text" class="textInput" value="1" style="width:30%;"></td>
+                                </tr>
+                                <tr>
+                                    <th>납품단위</th>
+                                    <td style="padding:5px;"><input type="text" class="textInput" value="SET" style="width:30%;"></td>
+                                    <th>납품장소</th>
+                                    <td style="padding:5px;"><input type="text" class="textInput" value="조영산업" style="width:50%;"></td>
+                                </tr>
+                                <tr>
+                                    <th>납품수단</th>
+                                    <td colspan="3">
+                                        <input type="radio" id="delivery1" name="delivery" value="고객수령" checked><label for="delivery1" class="radioInput">고객수령</label>
+                                        <input type="radio" id="delivery2" name="delivery" value="법인차량"><label for="delivery2" class="radioInput">법인차량</label>
+                                        <input type="radio" id="delivery3" name="delivery" value="외부업체"><label for="delivery3" class="radioInput">외부업체</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>품질보증</th>
+                                    <td colspan="3" style="padding:5px;"><textarea class="form-control" rows="2" placeholder=""></textarea></td>
+                                </tr>
+                                <tr>
+                                    <th>검수</th>
+                                    <td colspan="3" style="padding:5px;"><textarea class="form-control" rows="2" placeholder=""></textarea></td>
+                                </tr>
+                                <tr>
+                                    <th>계약서(발주서)</th>
+                                    <td colspan="3" style="padding:5px;"><input type="file"></td>
+                                </tr>
+                                <tr>
+                                    <th>제작사양서</th>
+                                    <td colspan="3" style="padding:5px;"><input type="file"></td>
+                                </tr>
+                                <tr>
+                                    <th>도면</th>
+                                    <td colspan="3" style="padding:5px;"><input type="file"></td>
+                                </tr>
+                                <tr>
+                                    <th>모델링</th>
+                                    <td colspan="3" style="padding:5px;"><input type="file"></td>
+                                </tr>
+                                <tr>
+                                    <th>기타</th>
+                                    <td colspan="3" style="padding:5px;"><input type="file"></td>
+                                </tr>
+                                <tr>
+                                    <th>수주금액</th>
+                                    <td style="padding:5px;"><input type="text" class="textInput" value="17,280,000" style="width:30%;" disabled></td>
+                                </tr>
+                                <tr>
+                                    <th>참여부서</th>
+                                    <td colspan="3">
+                                        <input type="radio" id="participating1" name="participating" value="부서내진행" checked><label for="participating1" class="radioInput">부서내진행</label>
+                                        <input type="radio" id="participating2" name="participating" value="부서간협업"><label for="participating2" class="radioInput">부서간협업</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>PM</th>
+                                    <td colspan="5" style="padding:5px;">
+                                        <select id="select1" class="form-control" style="width: 100px; background-color:#fff;">
+                                            <option value="장수영">장수영</option>
+                                            <option value="김수영">김수영</option>
+                                            <option value="최수영">최수영</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </thead>
+                            </table>
 
-                    <div class="card">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs nav-justified">
-                            <li class="active"><a href="#tab1" data-toggle="tab"><strong>공지사항</strong></a></li>
-                            <li><a href="#tab2" data-toggle="tab"><strong>업무보고</strong></a></li>
-                            <li><a href="#tab3" data-toggle="tab"><strong>업무매뉴얼</strong></a></li>
-                            <li><a href="#tab4" data-toggle="tab"><strong>홍보자료</strong></a></li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content mb20">
-                            <div class="tab-pane active" id="tab1">
-                                <div class="panel-body" style="padding:0 10px;">
-                                    <ul class="nav nav-quirk" style="margin:0;">
-                                        <li style="border-top:0;"><p style="padding: 10px 10px 0px;">2022년 연차휴가 사용 촉진 안내(2차)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">2022년 캠틱클러스터 워크숍 세부일정 안내(11.3~4)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">인사발령 공고(2022-23호)<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
-                                        <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">전주혁신창업허브 승강기 정기점검 실시(10.31.(월) 법정의무)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
-                                    </ul>
-                                </div>
+                            <div class="mt10" style="display:flex;justify-content: center;">
+                                <button class="btn btn-quirk infoBtn" style="width:140px;">저장</button>
+                                <button class="btn btn-quirk infoBtn" style="width:140px;">작업의뢰서 출력</button>
+                                <button class="btn btn-quirk infoBtn" style="width:140px;">수주승인 요청</button>
+                                <button class="btn btn-quirk infoBtn" style="width:140px;">계약서 및 파일저장</button>
+                                <button class="btn btn-quirk infoBtn" style="width:140px;">납기일 변동</button>
+                                <button class="btn btn-quirk infoBtn" style="width:140px;">닫기</button>
                             </div>
-                            <div class="tab-pane" id="tab2">
-                                <div class="panel-body" style="padding:0 10px;">
-                                    <ul class="nav nav-quirk" style="margin:0;">
-                                        <li style="border-top:0;"><p style="padding: 10px 10px 0px;">	캠틱 주간업무 보고(22.11.07. ~ 22.11.11.)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">	2022년 11월 정기월례회의 자료<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">	2022년 10월 4Re's Leader 소통회의<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
-                                        <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">	캠틱 주간업무 보고(22.10.24. ~ 22.10.28.)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab3">
-                                <div class="panel-body" style="padding:0 10px;">
-                                    <ul class="nav nav-quirk" style="margin:0;">
-                                        <li style="border-top:0;"><p style="padding: 10px 10px 0px;">	캠틱종합기술원 규정집(2022.11.01. 기준)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">예산변경매뉴얼(개정)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">사업비 반납매뉴얼<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
-                                        <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">장비사용일지(2022.04.11. 개정)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab4">
-                                <div class="panel-body" style="padding:0 10px;">
-                                    <ul class="nav nav-quirk" style="margin:0;">
-                                        <li style="border-top:0;"><p style="padding: 10px 10px 0px;">캠틱종합기술원 소개자료(PPT)(2022.11.09.)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">	캠틱종합기술원 소개자료(PPT)(2022.10.18.)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
-                                        <li><p style="padding: 10px 10px 0px;">	캠틱종합기술원 소개자료(PPT)(2022.09.07.)<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
-                                        <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">	캠틱종합기술원 소개자료(PPT)(2022.06.16.)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        </div><!-- table-responsive -->
                     </div>
-
-                    <div class="card">
-                        <div class="col-sm-8 col-md-8" style="padding-left:0!important;">
-                            <div class="card">
-                                <div class="panel panel-inverse">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">오픈스터디</h3>
-                                    </div>
-                                    <div class="panel-body" style="padding:0 10px;">
-                                        <ul class="nav nav-quirk" style="margin:0;">
-                                            <li style="border-top:0;"><p style="padding: 10px 10px 0px;">법인 경영지표 산출 Guide<span style="position:absolute; right:10px;">2022/07/22 10:00~11:00</span></p></li>
-                                            <li><p style="padding: 10px 10px 0px;">[숨은 고수의 쉽고, 빠른 노하우 전수 2탄]-데이터 통계/분석(엑셀 활용)<span style="position:absolute; right:10px;">2022/06/21 13:30~15:30</span></p></li>
-                                            <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">사업비사용시스템 기본설정 메뉴얼 설명회<span style="position:absolute; right:10px;">2022/05/20 14:00~15:00</span></p></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
-                            <div class="panel">
-                                <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
-                            <div class="panel">
-                                <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
-                            <div class="panel">
-                                <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div class="col-md-2 col-sm-2" style="padding-right:0;">
-                            <div class="panel">
-                                <div class="panel-heading" style="background-color: #505b72; padding:25px; margin-bottom:35px;">
-                                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 col-lg-12" style="display:flex; justify-content: space-around; padding:0;">
-
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">근무시간</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>362:43</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">연가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">오전반차</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">오후반차</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">경조휴가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">병가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">공가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">출산휴가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">선택근무</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">츨장</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                        <div style="width:95px;">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading" style="padding:15px 0;">
-                                    <h3 class="panel-title" style="text-align:center;">대체휴가</h3>
-                                </div>
-                                <div class="panel-body timeBox">
-                                    <p><strong>0명</strong></p>
-                                </div>
-                            </div><!-- panel -->
-                        </div>
-                    </div>
-
-
-
+                    </div><!-- panel -->
 
 
 
@@ -562,9 +481,9 @@
                         <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
                     </div>
                 </div><!-- col-md-9 -->
-                <div class="col-md-3 col-lg-4 dash-right">
+                <div class="col-md-3 col-lg-2 dash-right">
                     <div class="row">
-                        <div class="col-sm-5 col-md-12 col-lg-6">
+                        <div class="col-sm-5 col-md-12 col-lg-12">
                             <div class="media leftpanel-profile" style="text-align:center;">
                                 <div>
                                     <a href="#">
@@ -584,7 +503,7 @@
                     </div><!-- row -->
 
                     <div class="row" style="margin-top:15px;">
-                        <div class="col-sm-5 col-md-12 col-lg-6">
+                        <div class="col-sm-5 col-md-12 col-lg-12">
                             <div class="tab-pane" id="emailmenu">
                                 <div class="panel-group" id="accordion3">
                                     <div class="panel panel-primary">
@@ -691,6 +610,11 @@
     </div><!-- mainpanel -->
 </section>
 <script type="text/javascript">
+    $(function() {
+        $('#datepicker1').datepicker();
+        $('#datepicker2').datepicker();
+
+    });
     var today = new Date();
     var hours = today.getHours();
     var minutes = today.getMinutes();
@@ -698,34 +622,35 @@
     var todayTime = hours + ' : ' + minutes + ' : ' + seconds;
     console.log(todayTime);
     //function goWork(){
-        $('#goWork').click(function() {
-            if( $(this).html() == '출근' ) {
-                $(this).html(todayTime);
-                $(this).css("background-color", "#5bc0de");
-                $(this).css("color", "#FFF");
-                $('#offWork').html('퇴근');
-                $('#offWork').css("background-color", "#F0F0F0");
-                $('#offWork').css("color", "#696C74");
-            }
-            else {
-                $(this).html('출근');
-            }
-        });
+    $('#goWork').click(function() {
+        if( $(this).html() == '출근' ) {
+            $(this).html(todayTime);
+            $(this).css("background-color", "#5bc0de");
+            $(this).css("color", "#FFF");
+            $('#offWork').html('퇴근');
+            $('#offWork').css("background-color", "#F0F0F0");
+            $('#offWork').css("color", "#696C74");
+        }
+        else {
+            $(this).html('출근');
+        }
+    });
     //}
 
-        $('#offWork').click(function() {
-            if( $(this).html() == '퇴근' ) {
-                $(this).html(todayTime);
-                $(this).css("background-color", "#5bc0de");
-                $(this).css("color", "#FFF");
-                $('#goWork').html('출근');
-                $('#goWork').css("background-color", "#F0F0F0");
-                $('#goWork').css("color", "#696C74");
-            }
-            else {
-                $(this).html('퇴근');
-            }
-        });
+    $('#offWork').click(function() {
+        if( $(this).html() == '퇴근' ) {
+            $(this).html(todayTime);
+            $(this).css("background-color", "#5bc0de");
+            $(this).css("color", "#FFF");
+            $('#goWork').html('출근');
+            $('#goWork').css("background-color", "#F0F0F0");
+            $('#goWork').css("color", "#696C74");
+        }
+        else {
+            $(this).html('퇴근');
+        }
+    });
+
 
 </script>
 </body>
