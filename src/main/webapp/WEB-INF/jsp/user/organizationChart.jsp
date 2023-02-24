@@ -51,11 +51,40 @@
 
     <script src="/lib/jquery-knob/jquery.knob.js"></script>
 
+    <script src="/js/quirk.js"></script>
+    <script src="/js/dashboard.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
     <script type="text/javascript" src="/js/intra/common/common.js"></script>
 
+    <script type="text/javascript">
+        $(function() {
+            $('.toggleMain').click(function(e) {
+                e.preventDefault();
+
+                var $this = $(this);
+
+                if ($this.hasClass('toggled')) {
+                    $this.removeClass('toggled')
+                } else {
+                    $this.addClass('toggled');
+                }
+
+                if ($this.next().hasClass('show')) {
+                    $this.next().removeClass('show');
+                    $this.next().slideUp(350);
+                } else {
+                    $this.parent().parent().find('li .innerMain').removeClass('show');
+                    $this.parent().parent().find('li .innerMain').slideUp(350);
+                    $this.next().toggleClass('show');
+                    $this.next().slideToggle(350);
+                }
+            });
+
+        });
+    </script>
     <style>
         .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
         .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
@@ -142,6 +171,167 @@
 
         .vertical{writing-mode: vertical-rl; text-orientation: upright; transform: translate(-11%, 7%); letter-spacing: 2px;}
 
+
+        .popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
+
+
+        /* right 없어졌다 나왔다 */
+        .headerMenu{background-color:#3b4354; border:1px solid #3b4354; width:60px; height:50px; border-radius:50px 0 0 50px; position:absolute; top:1px; right:0;}
+        .mainInner div{
+            display:table-cell;
+            vertical-align: middle;
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 1.25px;
+        }
+        #sidebarMenu {
+            height: 100%;
+            position: fixed;
+            right: 10px;
+            width: 250px;
+            transform: translateX(270px);
+            transition: transform -250ms ease-in-out;
+        }
+        .sidebarMenuInner{
+            margin:0;
+            padding:0;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+        }
+        input[type="checkbox"]:checked ~ #sidebarMenu {
+            transform: translateX(0);
+        }
+
+        input[type=checkbox] {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            display: none;
+        }
+        .sidebarIconToggle {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            cursor: pointer;
+            position: absolute;
+            z-index: 99;
+            height: 100%;
+            width: 100%;
+            top: 19px;
+            right: 22px;
+            height: 22px;
+            width: 22px;
+        }
+        .spinner {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background-color: #fff;
+        }
+        .horizontal {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            position: relative;
+            float: left;
+            margin-top: 3px;
+        }
+        .diagonal.part-1 {
+            position: relative;
+            transition: all 0.3s;
+            box-sizing: border-box;
+            float: left;
+        }
+        .diagonal.part-2 {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            position: relative;
+            float: left;
+            margin-top: 3px;
+        }
+        input[type=checkbox]:checked ~ .sidebarIconToggle > .horizontal {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            opacity: 0;
+        }
+        input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            transform: rotate(135deg);
+            margin-top: 8px;
+        }
+        input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
+            transition: all 0.3s;
+            box-sizing: border-box;
+            transform: rotate(-135deg);
+            margin-top: -9px;
+        }
+
+
+        /* left menu 추가 css */
+        .accordion .innerMain {
+            padding-left: 1em;
+            overflow: hidden;
+            display: none;
+        }
+
+        .accordion li a {
+            display: block;
+            transition: background 0.3s ease;
+            position: relative;
+        }
+        .accordion li a.toggleMain:hover {
+            color:#259dab;
+        }
+
+        .toggleMain::before {
+            content: '\203A';
+            font-size: 20px;
+            position: absolute;
+            top: 7px;
+            right: 15px;
+            margin-right: 15px;
+            transition: .2s transform;
+            will-change: transform;
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+        }
+
+        .toggleMain.toggled::before {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+        }
+
+        .notoggle li {
+            position: relative;
+        }
+
+        .notoggle li a {
+            padding-left: 3em;
+        }
+
+        .notoggle li a:hover {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 0.15em;
+            border-bottom: 1px solid #000000;
+            text-decoration: underline;
+            color: #fefefe;
+        }
+
+        .notoggle li a::before {
+            content: '\2012';
+            position: absolute;
+            top: 9px;
+            left: -15px;
+            font-size: 17px;
+            margin-left: 35px;
+        }
+
+        .notoggle li a:hover::before {
+            content: '\203A';
+            font-size: 17px;
+            color: #fefefe;
+        }
     </style>
 </head>
 
@@ -151,7 +341,7 @@
     <div class="headerpanel">
         <a href="/indexB.do"><div class="logopanel"></div></a>
         <div class="headerbar">
-
+            <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             <div class="searchpanel">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="검색하세요">
@@ -165,7 +355,7 @@
                 <ul class="headermenu">
                     <li>
                         <div id="noticePanel" class="btn-group">
-                            <a href="/subHoliday/org.do">
+                            <a href="/user/organizationChart.do">
                                 <button class="btn btn-notice" data-toggle="modal" data-target="#myModal" style="float:left; font-size:22px;">
                                     <i class="fa fa-sitemap"></i>
                                 </button>
@@ -333,57 +523,314 @@
 
                 <!-- ################# MAIN MENU ################### -->
 
-                <div class="tab-pane active" id="mainmenu">
-                    <h5 class="sidebar-title">CAM'S POT</h5>
-                    <ul class="nav nav-pills nav-stacked nav-quirk">
-                        <li class="active"><a href="#"><i class="fa fa-home"></i> <span>공지사항</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>업무보고</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>제안제도</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>오픈스터디</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>직원일정</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>설문조사</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>전산보완요청</span></a></li>
-                        <li><a href="#"><i class="fa fa-cube"></i> <span>홍보협조요청</span></a></li>
-                    </ul>
+                <div class="" id="mainmenu">
+                    <h5 class="sidebar-title">업무</h5>
+                    <ul class="accordion nav nav-pills nav-stacked nav-quirk">
+                        <li>
+                            <a class="toggleMain" href="#">캠스팟2.0</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">게시판</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">공지사항</a></li>
+                                        <li><a href="#" class="toggleMain">업무보고</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="toggleMain">제안제도</a></li>
+                                <li><a href="#" class="toggleMain">직원일정</a></li>
+                                <li><a href="#" class="toggleMain">설문조사</a></li>
+                                <li>
+                                    <a href="#" class="toggleMain">내정보관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">기본정보관리</a></li>
+                                        <li><a href="#" class="toggleMain">학력</a></li>
+                                        <li><a href="#" class="toggleMain">경력</a></li>
+                                        <li><a href="#" class="toggleMain">자격/면허</a></li>
+                                        <li><a href="#" class="toggleMain">어학</a></li>
+                                        <li><a href="#" class="toggleMain">인사기록카드</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="toggleMain" href="#">캠인사이드2.0</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">근태관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">개인근태현황</a></li>
+                                        <li><a href="#" class="toggleMain">개인연차현황</a></li>
+                                        <li><a href="#" class="toggleMain">개인신청현황</a></li>
+                                        <li><a href="#" class="toggleMain">근태집계</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">증명서</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">증명서신청</a></li>
+                                        <li><a href="#" class="toggleMain">증명서발급</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">인사관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">인사정보변경신청</a></li>
+                                        <li><a href="#" class="toggleMain">인사기록카드</a></li>
+                                        <li><a href="#" class="toggleMain">성과결과조회</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">급여</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">급여명세서</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">시간외근무</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">신간외근무신청</a></li>
+                                        <li><a href="#" class="toggleMain">시간외근무현황</a></li>
+                                        <li><a href="#" class="toggleMain">시간외근무신청</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">유연근무</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">유연근무신청</a></li>
+                                        <li><a href="#" class="toggleMain">유연근무현황</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">출장관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">출장신청</a></li>
+                                        <li><a href="#" class="toggleMain">출장결과보고</a></li>
+                                        <li><a href="#" class="toggleMain">관내출장리스트</a></li>
+                                        <li><a href="#" class="toggleMain">관외출장리스트</a></li>
+                                        <li><a href="#" class="toggleMain">교통비기준정보</a></li>
+                                        <li><a href="#" class="toggleMain">직급별출장여비</a></li>
 
-                    <h5 class="sidebar-title">캠틱자료</h5>
-                    <ul class="nav nav-pills nav-stacked nav-quirk">
-                        <li class="nav-parent">
-                            <a href=""><i class="fa fa-check-square"></i> <span>캠인사이드</span></a>
-                            <ul class="children">
-                                <li><a href="/subHoliday/subHolidayApplication.do">휴가신청</a></li>
-                                <li><a href="/subHoliday/org.do">조직도</a></li>
-                                <li><a href="#">휴가자동설정</a></li>
-                                <li><a href="#">휴가생성기준설정</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">휴가관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">휴가신청</a></li>
+                                        <li><a href="#" class="toggleMain">휴가현황</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>캠아이템</span></a>
-                            <ul class="children">
-                                <li><a href="#">캠아이템</a></li>
-                                <li><a href="#">캠아이템</a></li>
-                                <li><a href="#">캠아이템</a></li>
+                        <li>
+                            <a class="toggleMain" href="#">캠퍼스2.0</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">학습관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">개인학습신청</a></li>
+                                        <li><a href="#" class="toggleMain">개인학습관리</a></li>
+                                        <li><a href="#" class="toggleMain">학습조관리</a></li>
+                                        <li><a href="#" class="toggleMain">전파학습관리</a></li>
+                                        <li><a href="#" class="toggleMain">O/T관리</a></li>
+                                        <li><a href="#" class="toggleMain">오픈스터디관리</a></li>
+                                        <li><a href="#" class="toggleMain">공통학습관리(캠화지등)</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="toggleMain">학습통계</a></li>
+                                <li><a href="#" class="toggleMain">목표기술서관리</a></li>
+                                <li><a href="#" class="toggleMain">직무기술서관리</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>캠매니저</span></a>
-                            <ul class="children">
-                                <li><a href="#">캠매니저</a></li>
-                                <li><a href="#">캠매니저</a></li>
-                                <li><a href="#">캠매니저</a></li>
-                                <li><a href="#">캠매니저</a></li>
+                        <li>
+                            <a class="toggleMain" href="#">캠프로젝트매니저</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">캠알앤디</a>
+                                    <ul class="innerMain children">
+                                        <li onclick=""><a class="toggleMain">휴가신청</a></li>
+                                        <li onclick="location.href='/user/organizationChart.do'"><a class="toggleMain">조직도</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">엔지니어링</a>
+                                    <ul class="innerMain children">
+                                        <li onclick=""><a class="toggleMain">프로젝트등록및목록</a></li>
+                                        <li onclick="location.href='/engineering/estimate.do'"><a class="toggleMain">개발상담서</a></li>
+                                        <li onclick=""><a class="toggleMain">수주보고</a></li>
+                                        <li onclick=""><a class="toggleMain">개발계획서등록(협업)</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠퍼스</span></a>
-                            <ul class="children">
-                                <li><a href="#">캠퍼스</a></li>
-                                <li><a href="#">캠퍼스</a></li>
-                                <li><a href="#">캠퍼스</a></li>
-                                <li><a href="#">캠퍼스</a></li>
+                        <li>
+                            <a class="toggleMain" href="#">캠CRM2.0</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">메인화면(통합검색)</a>
+                                    <ul class="innerMain children">
+                                        <li>
+                                            <a href="#" class="toggleMain">고객관리</a>
+                                            <ul class="innerMain children">
+                                                <li><a href="#" class="toggleMain">신규고객등록</a></li>
+                                                <li><a href="#" class="toggleMain">고객정보조회</a></li>
+                                                <li><a href="#" class="toggleMain">관계이력관리</a></li>
+                                                <li><a href="#" class="toggleMain">고객등급관리</a></li>
+                                                <li><a href="#" class="toggleMain">가족기업관리</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">고객통계</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">고객현황</a></li>
+                                        <li><a href="#" class="toggleMain">각종현황</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>캠어취브</span></a>
-                            <ul class="children">
-                                <li><a href="#">캠어취브</a></li>
-                                <li><a href="#">캠어취브</a></li>
+                        <li>
+                            <a class="toggleMain" href="#">캠아이템</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">기준정보</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">고객단가관리</a></li>
+                                        <li><a href="#" class="toggleMain">표준단가관리</a></li>
+                                        <li><a href="#" class="toggleMain">품목정보</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">수주관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">수주등록</a></li>
+                                        <li><a href="#" class="toggleMain">수주현황</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">출하관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">출하실적등록</a></li>
+                                        <li><a href="#" class="toggleMain">출하실적현황</a></li>
+                                        <li><a href="#" class="toggleMain">출하실적추이분석</a></li>
+                                        <li><a href="#" class="toggleMain">반품등록</a></li>
+                                        <li><a href="#" class="toggleMain">택배수발송등록</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">BOM</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">BOM등록</a></li>
+                                        <li><a href="#" class="toggleMain">BOM조회</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">구매관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">자재단가관리</a></li>
+                                        <li><a href="#" class="toggleMain">입고등록</a></li>
+                                        <li><a href="#" class="toggleMain">검수등록</a></li>
+                                        <li><a href="#" class="toggleMain">입고현황</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">재고관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">재고현황</a></li>
+                                        <li><a href="#" class="toggleMain">창고별재고현황</a></li>
+                                        <li><a href="#" class="toggleMain">재고이동등록</a></li>
+                                        <li><a href="#" class="toggleMain">재고이동현황</a></li>
+                                        <li><a href="#" class="toggleMain">안전재고마스터</a></li>
+                                        <li><a href="#" class="toggleMain">안전재고현황</a></li>
+                                        <li><a href="#" class="toggleMain">재고현황보고</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">마감관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">매출확정</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">시스템</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">고객관리</a></li>
+                                        <li><a href="#" class="toggleMain">창고등록</a></li>
+                                        <li><a href="#" class="toggleMain">기초코드등록</a></li>
+                                        <li><a href="#" class="toggleMain">품목마스터</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="toggleMain" href="#">캠매니저2.0</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">예산관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">예산현황</a></li>
+                                        <li><a href="#" class="toggleMain">예산통계</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="toggleMain">지출문서관리</a></li>
+                                <li>
+                                    <a href="#" class="toggleMain">결의서관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">지급신청서검토</a></li>
+                                        <li><a href="#" class="toggleMain">지출결의서</a></li>
+                                        <li><a href="#" class="toggleMain">반제결의서(지출)</a></li>
+                                        <li><a href="#" class="toggleMain">교육비입금관리</a></li>
+                                        <li><a href="#" class="toggleMain">수입결의서</a></li>
+                                        <li><a href="#" class="toggleMain">반제결의서(수입)</a></li>
+                                        <li><a href="#" class="toggleMain">여입신청서검토</a></li>
+                                        <li><a href="#" class="toggleMain">여입결의서</a></li>
+                                        <li><a href="#" class="toggleMain">반납신청서검토</a></li>
+                                        <li><a href="#" class="toggleMain">반납결의서</a></li>
+                                        <li><a href="#" class="toggleMain">대체신청서검토</a></li>
+                                        <li><a href="#" class="toggleMain">대체결의서</a></li>
+                                        <li><a href="#" class="toggleMain">더존연계현황</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="toggleMain">구매관리</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">구매요청관리</a></li>
+                                        <li><a href="#" class="toggleMain">지금관리</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="toggleMain" href="#">캠어취브</a>
+                            <ul class="innerMain children">
+                                <li><a href="#" class="toggleMain">법인추진실적집계</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="toggleMain" href="#">캠도큐먼트</a>
+                            <ul class="innerMain children">
+                                <li>
+                                    <a href="#" class="toggleMain">상신/보관함</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">양식목록</a></li>
+                                        <li><a href="#" class="toggleMain">구매요청등</a></li>
+                                        <li><a href="#" class="toggleMain">임시보관문서</a></li>
+                                        <li><a href="#" class="toggleMain">상신문서</a></li>
+                                        <li><a href="#" class="toggleMain">반려/회수함</a></li>
+                                        <li><a href="#" class="toggleMain">열람문서</a></li>
+
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="toggleMain">결재함</a></li>
+                                <li>
+                                    <a href="#" class="toggleMain">문서함</a>
+                                    <ul class="innerMain children">
+                                        <li><a href="#" class="toggleMain">기록물철</a></li>
+                                        <li><a href="#" class="toggleMain">외부문서접수함</a></li>
+                                        <li><a href="#" class="toggleMain">협약(MOU)보관함</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="toggleMain">결재설정관리</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -408,34 +855,6 @@
 
             <div class="row">
                 <div class="col-md-10 col-lg-10 dash-left">
-                    <div class="row panel-quick-page">
-                        <div style="display:flex; justify-content: space-between;">
-                            <div class="boxCss">
-                                <i class="fa fa-shopping-cart" style="font-size:40px;padding:11px;"></i><br>캠프로젝트 매니저
-                            </div>
-                            <div class="boxCss">
-                                <i class="fa fa-lightbulb-o" style="font-size:40px;padding:11px;"></i><br>캠아이템
-                            </div>
-                            <div class="boxCss">
-                                <i class="fa fa-calendar-o" style="font-size:40px;padding:11px;"></i><br>캠매니저2.0
-                            </div>
-                            <div class="boxCss">
-                                <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM2.0
-                            </div>
-                            <a href="/subHoliday/subHolidayApplication.do">
-                                <div class="boxCss">
-                                    <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
-                                </div>
-                            </a>
-                            <div class="boxCss">
-                                <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스2.0
-                            </div>
-                            <div class="boxCss">
-                                <i class="fa fa-cloud-upload" style="font-size:40px;padding:11px;"></i><br>캠어취브2.0
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="panel">
                         <div class="panel-body">
                                 <div class="chart __layout pt pb mop" style="width:1300px; margin:0 auto;">
@@ -550,9 +969,18 @@
                         <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
                     </div>
                 </div><!-- col-md-9 -->
-                <div class="col-md-3 col-lg-2 dash-right">
-                    <div class="row">
-                        <div class="col-sm-5 col-md-12 col-lg-12">
+                <div class="col-md-3 col-lg-2 dash-right" style="position:relative;">
+                    <div class="headerMenu"></div>
+                    <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+                    <label for="openSidebarMenu" class="sidebarIconToggle">
+                        <div class="spinner diagonal part-1"></div>
+                        <div class="spinner horizontal"></div>
+                        <div class="spinner diagonal part-2"></div>
+                    </label>
+                    <div id="sidebarMenu">
+                        <ul class="sidebarMenuInner">
+                            <div class="row">
+                                <div class="col-sm-5 col-md-12 col-lg-12">
                             <div class="media leftpanel-profile" style="text-align:center;">
                                 <div>
                                     <a href="#">

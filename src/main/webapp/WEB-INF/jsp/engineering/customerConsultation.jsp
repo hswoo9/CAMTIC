@@ -17,18 +17,23 @@
 
     <title>CAM's Pot - CAMTIC</title>
 
+
     <link rel="stylesheet" href="/lib/Hover/hover.css">
     <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
     <link rel="stylesheet" href="/lib/weather-icons/css/weather-icons.css">
     <link rel="stylesheet" href="/lib/ionicons/css/ionicons.css">
     <link rel="stylesheet" href="/lib/jquery-toggles/toggles-full.css">
     <link rel="stylesheet" href="/lib/morrisjs/morris.css">
-    <link rel="stylesheet" href="../lib/timepicker/jquery.timepicker.css">
+    <link rel="stylesheet" href="/lib/timepicker/jquery.timepicker.css">
+
 
     <link rel="stylesheet" href="/css/quirk.css">
     <link rel="stylesheet" href="/css/style.css">
 
+
+
     <script src="/lib/modernizr/modernizr.js"></script>
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -52,6 +57,10 @@
 
     <script src="/js/quirk.js"></script>
     <script src="/js/dashboard.js"></script>
+
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2023.1.117/styles/kendo.default-ocean-blue.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2023.1.117/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2023.1.117/js/kendo.all.min.js"></script>
 
     <style>
         .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
@@ -143,6 +152,15 @@
         #tab1:checked ~ #content1,
         #tab2:checked ~ #content2 {
             display: flex;
+        }
+
+        .demo-section label {
+            display: block;
+            margin: 15px 0 5px 0;
+        }
+        #get {
+            float: right;
+            margin: 25px auto 0;
         }
     </style>
 </head>
@@ -353,7 +371,7 @@
                         <li class="nav-parent">
                             <a href=""><i class="fa fa-check-square"></i> <span>캠알앤디</span></a>
                             <ul class="children">
-                                <li><a href="/subHoliday/subHolidayApplication.do">휴가신청</a></li>
+                                <li class="active"><a href="/subHoliday/subHolidayApplication.do">휴가신청</a></li>
                                 <li><a href="/subHoliday/org.do">조직도</a></li>
                                 <li><a href="#">휴가자동설정</a></li>
                                 <li><a href="#">휴가생성기준설정</a></li>
@@ -442,7 +460,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">프로젝트 등록 및 목록</h4>
                         </div>
-                        <div class="form-control" style="margin:0 auto; width:96%; height:60px;">
+                        <div class="form-control" style="margin:0 auto; width:96%; height:140px;">
                             <div style="display:flex; align-items: flex-start;">
                                 <div style="padding:10px;">검색조건</div>
                                 <div class="form-group" style="padding-right:10px;">
@@ -459,7 +477,8 @@
                                     <input type="text" class="form-control" placeholder="yyyy/mm/dd" id="datepicker5" style="width:100px;">
                                     <span class="input-group-addon" style="padding-right:22px;"><i class="glyphicon glyphicon-calendar"></i></span>
                                 </div>
-                                <div style="padding:10px;">대상부서</div>
+
+                                <%--<div style="padding:10px;">대상부서</div>
                                 <div class="form-group" style="padding-right:10px;">
                                     <select id="select2" class="form-control" style="width: 200px; background-color:#fff;">
                                         <option value="R&BD사업본부 제조혁신팀">R&BD사업본부 제조혁신팀</option>
@@ -480,7 +499,7 @@
                                         <option value="경영지원실 경영지원팀">경영지원실 경영지원팀</option>
                                         <option value="경영기획관리본부 단지관리팀">경영기획관리본부 단지관리팀</option>
                                     </select>
-                                </div>
+                                </div>--%>
                                 <div class="form-group" style="padding-right:10px;">
                                     <select id="select3" class="form-control" style="width: 100px; background-color:#fff;" data-placeholder="분류선택">
                                         <option value="지원 상품화">지원 상품화</option>
@@ -511,6 +530,32 @@
                                 </div>
                                 <div style="display:flex;justify-content: center; ">
                                     <button class="btn infoBtn" style="width:50px; height:40px; margin:0;">조회</button>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="k-justify-content-center">
+                                    <div class="k-w-300" style="margin-left:9px;">
+                                        <label for="optional">대상부서</label>
+                                        <select id="optional" multiple="multiple" data-placeholder="선택">
+                                            <option value="R&BD사업본부 제조혁신팀">R&BD사업본부 제조혁신팀</option>
+                                            <option value="R&BD사업본부 신기술융합팀">R&BD사업본부 신기술융합팀</option>
+                                            <option value="R&BD사업본부 복합소재뿌리기술센터">R&BD사업본부 복합소재뿌리기술센터</option>
+                                            <option value="미래전략기획본부">미래전략기획본부</option>
+                                            <option value="미래전략기획본부 미래전략기획팀">미래전략기획본부 미래전략기획팀</option>
+                                            <option value="미래전략기획본부 J-밸리혁신팀">미래전략기획본부 J-밸리혁신팀</option>
+                                            <option value="기업성장지원본부 인재개발팀">기업성장지원본부 인재개발팀</option>
+                                            <option value="기업성장지원본부 일자리창업팀">기업성장지원본부 일자리창업팀</option>
+                                            <option value="기업성장지원본부 지역산업육성팀">기업성장지원본부 지역산업육성팀</option>
+                                            <option value="스마트제조사업부">스마트제조사업부</option>
+                                            <option value="우주항공사업부">우주항공사업부</option>
+                                            <option value="우주개발팀">우주개발팀</option>
+                                            <option value="항공개발팀">항공개발팀</option>
+                                            <option value="드론사업부">드론사업부</option>
+                                            <option value="경영기획관리본부 2030경영기획팀">경영기획관리본부 2030경영기획팀</option>
+                                            <option value="경영지원실 경영지원팀">경영지원실 경영지원팀</option>
+                                            <option value="경영기획관리본부 단지관리팀">경영기획관리본부 단지관리팀</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1152,7 +1197,7 @@
                                             <tr>
                                                 <th>PM</th>
                                                 <td colspan="5" style="padding:5px;">
-                                                    <select id="select1" class="form-control" style="width: 100px; background-color:#fff;">
+                                                    <select id="select11" class="form-control" style="width: 100px; background-color:#fff;">
                                                         <option value="장수영">장수영</option>
                                                         <option value="김수영">김수영</option>
                                                         <option value="최수영">최수영</option>
@@ -1247,7 +1292,7 @@
                                             <tr style="text-align:center;">
                                                 <td>1</td>
                                                 <td>
-                                                    <select id="select1" class="form-control" style="width: 100px; background-color:#fff;">
+                                                    <select id="select12" class="form-control" style="width: 100px; background-color:#fff;">
                                                         <option value="설계">설계</option>
                                                         <option value="설계">설계</option>
                                                         <option value="설계">설계</option>
@@ -1476,6 +1521,18 @@
     </div><!-- mainpanel -->
 </section>
 <script type="text/javascript">
+    $(document).ready(function() {
+        // create MultiSelect from select HTML element
+        var required = $("#required").kendoMultiSelect().data("kendoMultiSelect");
+        var optional = $("#optional").kendoMultiSelect({
+            autoClose: false
+        }).data("kendoMultiSelect");
+
+        $("#get").click(function() {
+            alert("Attendees:\n\nRequired: " + required.value() + "\nOptional: " + optional.value());
+        });
+    });
+
     $(function() {
         $('#datepicker1').datepicker();
         $('#datepicker2').datepicker();

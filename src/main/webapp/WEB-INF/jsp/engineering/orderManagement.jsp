@@ -279,11 +279,11 @@
                                 <li><a href="#">비알앤디</a></li>
                             </ul>
                         </li>
-                        <li class="nav-parent"><a href=""><i class="fa fa-th-list"></i> <span>엔지니어링</span></a>
+                        <li class="nav-parent nav-active"><a href=""><i class="fa fa-th-list"></i> <span>엔지니어링</span></a>
                             <ul class="children">
                                 <h5 class="sidebar-title"><a href="/engineering/customerConsultation.do">프로젝트 등록 및 목록</a></h5>
                                 <li><a href="/engineering/estimate.do">개발상담서</a></li>
-                                <li><a href="/engineering/orderManagement.do">수주보고</a></li>
+                                <li class="active"><a href="/engineering/orderManagement.do">수주보고</a></li>
                                 <li><a href="/engineering/developmentPlan.do">개발계획서 등록(협업)</a></li>
                                 <li><a href="/engineering/outsourcingPurchase.do">구매/외주</a></li>
                                 <li><a href="/engineering/deliveryManagement.do">납품관리</a></li>
