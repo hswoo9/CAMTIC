@@ -5,7 +5,10 @@
   Time: 오후 5:11
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +43,6 @@
     <script src="/lib/bootstrap/js/bootstrap.js"></script>
     <script src="/lib/jquery-toggles/toggles.js"></script>
 
-    <script src="/lib/morrisjs/morris.js"></script>
     <script src="/lib/raphael/raphael.js"></script>
 
     <script src="/lib/flot/jquery.flot.js"></script>
@@ -49,464 +51,98 @@
 
     <script src="/lib/jquery-knob/jquery.knob.js"></script>
 
-    <script src="/js/quirk.js"></script>
-    <script src="/js/dashboard.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
+    <script type="text/javascript" src="/js/intra/common/common.js"></script>
 
     <style>
         .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
         .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
+        .panel {height: 833px;}
 
         /* 조직도 */
-        .tbl_02 {table-layout: fixed; width: 88%; vertical-align: middle; margin:0 auto;}
-        .tbl_02 th {border: 1px solid #d1d1d1; background: #f8f8f8; height: 40px; text-align: center; font-size: 13px; color: #2e2e2e; font-weight: 400;}
-        .tbl_02 th:first-child {border-left: none;}
-        .tbl_02 th:last-child {border-right: none;}
-        .tbl_02 td {height: 40px; text-align: center; font-size: 12px; color: #2e2e2e; border: 1px solid #d1d1d1;}
-        .tbl_02 td:first-child {border-left: none;}
-        .tbl_02 td:last-child {border-right: none;}
-
-        .tbl_02_gray {table-layout: fixed; width: 100%; vertical-align: middle;}
-        .tbl_02_gray th {border: 1px solid #636363; background: #f8f8f8; height: 51px; text-align: center; font-size: 16px; color: #2e2e2e; font-weight: 400;}
-        .tbl_02_gray th:first-child {border-left: none;}
-        .tbl_02_gray th:last-child {border-right: none;}
-        .tbl_02_gray td {height: 54px; text-align: center; font-size: 16px; color: #2e2e2e; border: 1px solid #636363; padding: 0 10px;}
-        .tbl_02_gray td:first-child {border-left: none;}
-        .tbl_02_gray td:last-child {border-right: none;}
-
-        .logo_line  {display: inline-block; font-size: 16px; color: #252525; font-weight: 500; position: relative; margin-left:6%;}
-        .organization {margin-top: 30px; }
-        .organization .boss {display: block; width: 230px; height: 52px; text-align: center; line-height: 52px; color: #fff; }
-        .organization .col_01 {background: linear-gradient(to bottom right, #008e99, #003b60);}
-        .organization .col_02 {background: #033a72;}
-        span.item_1.item.boss.col_01:focus{outline: 2px solid #000}
-
-        .organization .btn {display: block; text-align: center; border: 1px solid #828282; background: #fff; position: relative;}
-
-        .organization .type_1 {width: 188px; height: 47px; line-height: 45px; color: #033a72; background: #f9f9f9;}
-        .organization .type_2 {width: 170px; height: 47px; color: #000000; background: #f1f1f1;}
-        .organization .type_3 {width: 160px; height: 47px; color: #3d3d3d; background: #ffffff;}
-        button.btn.type_1.item.item_3:focus{outline:2px solid #000}
-        button.btn.type_2.item.item_23.item_2:focus{outline:2px solid #000}
-        button.btn.type_1.item.item_4:focus{outline:2px solid #000}
-        button.btn.type_2.item.item_9.item_5:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_10.item_6:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_11.item_7:focus{outline:2px solid #000}
-        button.btn.type_2.item.item_12.item_5:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_13.item_6:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_14.item_7:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_15.item_8:focus{outline:2px solid #000}
-        button.btn.type_2.item.item_16.item_5:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_17.item_6:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_18.item_7:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_19.item_8:focus{outline:2px solid #000}
-        button.btn.type_2.item.item_20.item_5:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_21.item_6:focus{outline:2px solid #000}
-        button.btn.type_3.item.item_22.item_7:focus{outline:2px solid #000}
-        .ml_600 {margin-left: 600px;}
+        .organizationCard{background-color:#fafafa; font-family: 'Noto Sans KR', sans-serif;}
+        .organization ._header{position:relative; min-width:1500px;}
+        .organization {width:1450px; margin:50px auto; transform: translateX(-7%);}
+        .organization .btn {display: block; text-align: left; border: 1px solid #222; background: #fff; position: relative; margin:0 auto; padding: 0.5rem!important; border-radius:0;}
+        .organization .type_1 {width: 100px; height: 100px; color: #222; background: #fff; text-align: center; border-radius: 50%; /* box-shadow: 0 2px 6px #234791; */
+            font-size: 18px; font-weight: 600; border: 3px solid #091851;}
+        .organization .type_2 {width: 122px; height: 50px; color: #222; background-color: #fff; text-align: center; /* box-shadow: 0 2px 6px #234791; */
+            font-size: 13px; font-weight: 600;}
+        .organization .type_4 {width: 50px; height: 150px; color: #222; background-color: #fff; text-align: center; /* box-shadow: 0 2px 6px #315DA9; */
+            font-size: 12px; font-weight: 600;padding:0 17px!important;}
         .organization .item {position: relative;}
-        .organization .item_1:before {content: ''; position: absolute; left: 50%; top: calc(100% + 1px); z-index: 1; transform: translateX(-50%); width: 1px; height: 87px; background: #c7c7c7; }
-        .organization .item_2:before {content: ''; position: absolute; left: 50%; top: calc(100% + 1px); z-index: 1; transform: translateX(-50%); width: 1px; height: 513px; background: #c7c7c7; } /*height:452px;*/
-        .organization .item_3:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 486px; height: 1px; background: #c7c7c7; }
-        .organization .item_4:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 486px; height: 1px; background: #c7c7c7; }
-        .organization .item_5:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 76px; height: 1px; background: #c7c7c7; }
-        .organization .item_6:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 37px; height: 1px; background: #c7c7c7; }
-        .organization .item_7:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 37px; height: 1px; background: #c7c7c7; }
-        .organization .item_8:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 32px; height: 1px; background: #c7c7c7; }
-        .organization .item_9:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 75px; height: 1px; background: #c7c7c7; }
-        .organization .item_26:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 32px; height: 1px; background: #c7c7c7; }
-        .organization .item_27:before {content: ''; position: absolute; right: calc(100% + 1px); top:  50%; z-index: 1; transform: translateY(-50%); width: 32px; height: 1px; background: #c7c7c7; }
+        .organization .item_1:before {content: ''; position: absolute; left: 50%; top: calc(100% + 1px); z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+        .organization .item_2 {height: 1px; width: 0; background-color: #222; position: absolute; left: 50%; top:113%; z-index: 0; transform: translateX(-50%);}
+        .organization .item_3:before {content: ''; position: absolute; left: 50%; top: -22%; z-index: 0; transform: translateX(-50%); width: 1px; height: 32px; background: #222; }
+        .organization .item_7 {height: 30px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%);}
+        .organization .item_8 {height: 60px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%);}
+        .organization .item_9:before {content: ''; position: absolute; left: 147%; top: calc(50% + 1px); z-index: 0; transform: translateX(-50%); width: 98px; height: 1px; background: #222; }
+        .organization .item_10:before {content: ''; position: absolute; left: -43%; top: calc(50% + 1px); z-index: 0; transform: translateX(-50%); width: 90px; height: 1px; background: #222; }
+        .organization .item_11:before {content: ''; position: absolute; left: 50%; top:-62%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+        .organization .item_11:after {content: ''; position: absolute; left: 50%; top:108%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+        .organization .item_12{height: 1px; width: 720px; background-color: #222; position: absolute; left: 26%; top:42%; z-index: 0; transform: translateX(-50%);}
+        .organization .item_13{height: 30px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%); top:42%;}
+        .organization .item_14{height: 365px; width: 1px; background-color: #222; position: absolute; left: 2%; z-index: 0; transform: translateX(-50%); top:42%;}
+        .organization .item_15{height: 1px; width: 500px; background-color: #222; position: absolute; left: 50%; top:221px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_16:before {content: ''; position: absolute; left: 50%; top:-261%; z-index: 0; transform: translateX(-50%); width: 1px; height: 124px; background: #222; }
+        .organization .item_17{height: 1px; width: 1000px; background-color: #222; position: absolute; left: 50%; top:276px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_18:before {content: ''; position: absolute; left: 50%; top:-72%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+        .organization .item_18:after {content: ''; position: absolute; left: 50%; top:105%; z-index: 0; transform: translateX(-50%); width: 1px; height: 104px; background: #222; }
+        .organization .item_19:before {content: ''; position: absolute; left: 50%; top:-225%; z-index: 0; transform: translateX(-50%); width: 1px; height: 107px; background: #222; }
+        .organization .item_19:after {content: ''; position: absolute; left: 50%; top:104%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+        .organization .item_20:after {content: ''; position: absolute; left: 50%; top:103%; z-index: 0; transform: translateX(-50%); width: 1px; height: 104px; background: #222; }
+        .organization .item_21{height: 1px; width: 500px; background-color: #222; position: absolute; left: 50%; top:108px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_22{height: 1px; width: 63px; background-color: #222; position: absolute; left: 16.6%; top: 554px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_23{height: 1px; width: 63px; background-color: #222; position: absolute; left: 27.8%; top: 554px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_24{height: 1px; width: 121px; background-color: #222; position: absolute; left: 38.85%; top: 554px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_25{height: 1px; width: 63px; background-color: #222; position: absolute; left: 50%; top: 554px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_26{height: 1px; width: 63px; background-color: #222; position: absolute; left: 83.2%; top: 554px; z-index: 0; transform: translateX(-50%);}
+        .organization .item_27:before {content: ''; position: absolute; left: 50%; top:-21%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
 
         .organization ._body dl dt {display: inline-block;}
         .organization ._body dl dd {display: inline-block;}
+        .directors{margin-top:30px!important;}
+        .auditor{margin-top:30px!important;}
+        .general{margin-top:71px!important; left:-323%;}
 
-        .organization ._body dl:first-child {margin: 86px 0 0 160px;}
-        .organization ._body dl:not(:first-child) {margin: 20px 0 0 160px;}
-        .organization ._body dl dd:nth-child(2) {margin-left: 32px;}
-        .organization ._body dl dd:nth-child(3) {margin-left: 34px;}
-        .organization ._body dl dd:nth-child(4) {margin-left: 26px;}
-        .organization ._body dl dd:nth-child(5) {margin-left: 26px;}
-        .organization ._body dl dd:nth-child(6) {margin-left: 26px;}
+        .miniBoxYellow{width: 5px; height: 48px; background-color: #F6CF7F; position: absolute; top: 0; left: 0;}
+        .miniSubBoxYellow{width: 48px; height: 7px; background-color: #F6CF7F; position: absolute; top: 0; left: 0;}
+        .miniBoxBlue{width: 5px; height: 48px; background-color: #183479; position: absolute; top: 0; left: 0;}
+        .miniSubBoxBlue{width: 48px; height: 7px; background-color: #183479; position: absolute; top: 0; left: 0;}
+        .miniBoxGreen{width: 5px; height: 48px; background-color: #215F26; position: absolute; top: 0; left: 0;}
+        .miniSubBoxGreen{width: 48px; height: 7px; background-color: #215F26; position: absolute; top: 0; left: 0;}
+        .miniBoxRed{width: 5px; height: 48px; background-color: #B43527; position: absolute; top: 0; left: 0;}
+        .miniSubBoxRed{width: 48px; height: 7px; background-color: #B43527; position: absolute; top: 0; left: 0;}
+        .miniBoxBrown{width: 5px; height: 48px; background-color: #6C3308; position: absolute; top: 0; left: 0;}
+        .miniSubBoxBrown{width: 48px; height: 7px; background-color: #6C3308; position: absolute; top: 0; left: 0;}
+        .miniBoxSky{width: 5px; height: 48px; background-color: #83AEE5; position: absolute; top: 0; left: 0;}
+        .miniSubBoxSky{width: 48px; height: 7px; background-color: #83AEE5; position: absolute; top: 0; left: 0;}
+        .miniBoxPeaGreen{width: 5px; height: 48px; background-color: #acfaac; position: absolute; top: 0; left: 0;}
+        .miniSubBoxPeaGreen{width: 48px; height: 7px; background-color: #acfaac; position: absolute; top: 0; left: 0;}
 
-        .chart_tbl {border-top: 1px solid #9ca7b2 !important; border-bottom: 1px solid #9ca7b2 !important;}
-        .chart_tbl th {font-weight: 500 px !important; border-color: #e8ebee !important; border-top: none !important;}
-        .chart_tbl td {color: #666666 !important; font-weight: 300 !important; border-color: #e8ebee !important;}
-        .chart_tbl tr:last-child td {border-bottom: none !important;}
 
-        .chart .bd_box_01 {padding: 34px 34px 38px 34px; border: 5px solid #f6f7f9; display: flex; justify-content: start; align-items:flex-start;}
-        .chart .bd_box_01 .box_tit {font-size: 18px; font-weight: 500; color: #309606; margin-top: -5px; width: 13% !important;}
-        .chart .bd_box_01 .box_tit>img {display: inline-block; vertical-align: -8px;}
-        .chart .bd_box_01 dl>dt {font-size: 15px; color: #1f1f1f; font-weight: 500; padding-right: 15px;}
-        .chart .bd_box_01 dl>dd {font-size: 14px; color: #333333; font-weight: 300; margin-top: 15px; padding-right: 15px;}
-        /*.chart .bd_box_01 dl {width:30% !important;}*/
-        .chart .bd_box_01 ddd {display: flex; justify-content: space-around; align-items: flex-start;  width: 87%;}
 
-        .contents_2 {display: none;}
+        /* 직원상세보기 팝업 */
+        .teamSubBox{margin-top:10px; display:flex;}
+        .personalBox{width:135px; height:260px; border:1px solid #eee; margin:0 5px; position:relative; background-color:#fff;}
+        .photoBox{width:100px; height:120px; border:1px solid #eee; margin:10px auto; border-radius:5px; background-color:#eee;}
+        .photoName{position: absolute; font-size: 13px; top: 57%; left: 50%; transform: translate(-50%, -50%); font-weight: bold;}
+        .contentBox {font-size:12px;position: absolute; left: 10px; top: 170px; line-height: 8px;}
+        .organization_bg {position: fixed; top: 0; left: 0; width: 100%; height: 100%;}
+        .window {position: relative;width: 100%;height: 100%;}
+        .organization_popup {position: absolute;top: 30%;left: 11%; background-color: #ffffff; border-radius:10px;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.6);width:auto;height:auto; padding:10px;}
+        .show .organization_popup {transform: translate(-50%, 0%); transition: all 0.5s;}
+        .pop-close{background: none;font-size: 30px;position: absolute;right: 20px; z-index: 6000;border: none;top: 2px; color: #fff;}
+        .detailTitle{background-color: #234791; border-radius: 10px 10px 0 0; padding: 10px; font-size: 15px; font-weight: 600; color: #fff;}
 
-        .mt100{margin-top:100px;}
-        .mt_20{margin-top:20px;}
-        .mb_50{margin-bottom:50px;}
+        .shadow{position: fixed; left: 0;top: 0; background: rgba(0, 0, 0, 0.52); width: 100%; height: 100%; display: none}
 
-        .inner .btn:hover {
-            background-color: #033a72 !important;
-            color: #f9f9f9 !important;
-            transition-property:background-color;
-            transition-duration:0.5s;
-        }
-
-        .__layout .active {
-            background-color: #033a72;
-            color: #f9f9f9 !important;
-            transition-property:background-color;
-            transition-duration:0.5s;
-        }
-
-        .sec_area h5 {
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: -0.75px;
-            color: #252525;
-            background-image: url(/resources/images/title_bar.png);
-            background-repeat: no-repeat;
-            background-position: top left;
-            padding: 17px 0;
-        }
+        .vertical{writing-mode: vertical-rl; text-orientation: upright; transform: translate(-11%, 7%); letter-spacing: 2px;}
 
     </style>
-    <script>
-        $(function(){
-            /* 21.11.04 조직도 추가 */
-            $('.chart .contents').hide();
-
-            $('.item_3').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_1').show();
-                $('.organization button').removeClass('active');
-                $(this).addClass('active');
-                var offset = $(".contents_1").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_4').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_2').show();
-                $('.organization button').removeClass('active');
-                $(this).addClass('active');
-                var offset = $(".contents_2").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_9, .item_10').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_14').show();
-                $('.chart .contents_3').show();
-                $('.organization button').removeClass('active');
-                $('.item_9').addClass('active');
-                $('.item_10').addClass('active');
-                var offset = $(".contents_14").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_11').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_14').show();
-                $('.chart .contents_4').show();
-                $('.organization button').removeClass('active');
-                $('.item_9').addClass('active');
-                $('.item_11').addClass('active');
-                var offset = $(".contents_14").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_12, .item_13').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_15').show();
-                $('.chart .contents_5').show();
-                $('.organization button').removeClass('active');
-                $('.item_12').addClass('active');
-                $('.item_13').addClass('active');
-                var offset = $(".contents_15").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_14').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_15').show();
-                $('.chart .contents_6').show();
-                $('.organization button').removeClass('active');
-                $('.item_12').addClass('active');
-                $('.item_14').addClass('active');
-                var offset = $(".contents_15").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_15').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_15').show();
-                $('.chart .contents_7').show();
-                $('.organization button').removeClass('active');
-                $('.item_12').addClass('active');
-                $('.item_15').addClass('active');
-                var offset = $(".contents_15").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_16, .item_17').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_16').show();
-                $('.chart .contents_8').show();
-                $('.organization button').removeClass('active');
-                $('.item_16').addClass('active');
-                $('.item_17').addClass('active');
-                var offset = $(".contents_16").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_18').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_16').show();
-                $('.chart .contents_9').show();
-                $('.organization button').removeClass('active');
-                $('.item_16').addClass('active');
-                $('.item_18').addClass('active');
-                var offset = $(".contents_16").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_19').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_16').show();
-                $('.chart .contents_10').show();
-                $('.organization button').removeClass('active');
-                $('.item_16').addClass('active');
-                $('.item_19').addClass('active');
-                var offset = $(".contents_16").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_20, .item_21').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_17').show();
-                $('.chart .contents_11').show();
-                $('.organization button').removeClass('active');
-                $('.item_20').addClass('active');
-                $('.item_21').addClass('active');
-                var offset = $(".contents_17").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_22').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_17').show();
-                $('.chart .contents_12').show();
-                $('.organization button').removeClass('active');
-                $('.item_20').addClass('active');
-                $('.item_22').addClass('active');
-                var offset = $(".contents_17").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_23').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_13').show();
-                $('.organization button').removeClass('active');
-                $('.item_23').addClass('active');
-                var offset = $(".contents_13").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_26').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_16').show();
-                $('.chart .contents_19').show();
-                $('.organization button').removeClass('active');
-                $('.item_16').addClass('active');
-                $('.item_26').addClass('active');
-                var offset = $(".contents_16").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_27').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_16').show();
-                $('.chart .contents_20').show();
-                $('.organization button').removeClass('active');
-                $('.item_16').addClass('active');
-                $('.item_27').addClass('active');
-                var offset = $(".contents_16").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_28').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_14').show();
-                $('.chart .contents_18').show();
-                $('.organization button').removeClass('active');
-                $('.item_9').addClass('active');
-                $('.item_28').addClass('active');
-                var offset = $(".contents_18").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_29').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_29').show();
-                $('.chart .contents_21').show();
-                $('.organization button').removeClass('active');
-                $('.item_29').addClass('active');
-                $('.item_30').addClass('active');
-                var offset = $(".contents_29").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_30').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_29').show();
-                $('.chart .contents_21').show();
-                $('.organization button').removeClass('active');
-                $('.item_29').addClass('active');
-                $('.item_30').addClass('active');
-                var offset = $(".contents_29").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_31').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_29').show();
-                $('.chart .contents_22').show();
-                $('.organization button').removeClass('active');
-                $('.item_29').addClass('active');
-                $('.item_31').addClass('active');
-                var offset = $(".contents_29").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_32').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_23').show();
-                $('.chart .contents_24').show();
-                $('.organization button').removeClass('active');
-                $('.item_32').addClass('active');
-                $('.item_33').addClass('active');
-                var offset = $(".contents_23").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_33').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_23').show();
-                $('.chart .contents_24').show();
-                $('.organization button').removeClass('active');
-                $('.item_32').addClass('active');
-                $('.item_33').addClass('active');
-                var offset = $(".contents_23").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_34').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_25').show();
-                $('.organization button').removeClass('active');
-                $('.item_34').addClass('active');
-                var offset = $(".contents_25").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-
-            $('.item_35').on('click', function(e) {
-                e.preventDefault();
-                $('.chart .contents').hide();
-                $('.chart .contents_26').show();
-                $('.organization button').removeClass('active');
-                $('.item_35').addClass('active');
-                var offset = $(".contents_26").offset();
-                $('html, body').animate({scrollTop : offset.top}, 400);
-            });
-        });
-
-        $(document).ready(function() {
-            $(".search_member").click(function() {
-                $(".chart .contents > table > tbody > tr > td").removeClass( 'active' );
-                $(".organization").hide();
-                $('.chart .contents').hide();
-
-                var k = $('#keyword').val();
-                var temp = $('.contents_1, .contents_2').find("table > tbody > tr > td:nth-child(3n+3):contains('" + k + "')");
-                var temp2 = $('.contents_3, .contents_4, .contents_5, .contents_6, .contents_7, .contents_8, .contents_9, .contents_10, .contents_11, .contents_12, .contents_13, .contents_14, .contents_15, .contents_16, .contents_17 .contents_18 .contents_19 .contents_20 .contents_21 .contents_22 .contents_23 .contents_24 .contents_25 .contents_26').find("table > tbody > tr > td:nth-child(4n+2):contains('" + k + "')");
-
-                $(temp).addClass( 'active' );
-                $(temp).parent().parent().parent().parent().show();
-
-                $(temp2).addClass( 'active' );
-                $(temp2).parent().parent().parent().parent().show();
-
-                if (k.trim() == '') {
-                    $('.chart .contents').hide();
-                    $(".organization").show();
-                    $(".chart .contents > table > tbody > tr > td").removeClass( 'active' );
-                }
-                $('html, body').animate({scrollTop : '420px'}, 100);
-            })
-
-            $("#keyword").keydown(function(e){
-                if(e.keyCode == 13){
-                    $(".chart .contents > table > tbody > tr > td").removeClass( 'active' );
-                    $(".organization").hide();
-                    $('.chart .contents').hide();
-
-                    var k = $('#keyword').val();
-                    var temp = $('.contents_1, .contents_2').find("table > tbody > tr > td:nth-child(3n+3):contains('" + k + "')");
-                    var temp2 = $('.contents_3, .contents_4, .contents_5, .contents_6, .contents_7, .contents_8, .contents_9, .contents_10, .contents_11, .contents_12, .contents_13, .contents_14, .contents_15, .contents_16, .contents_17 .contents_18 .contents_19 .contents_20 .contents_21 .contents_22 .contents_23 .contents_24 .contents_25 .contents_26').find("table > tbody > tr > td:nth-child(4n+2):contains('" + k + "')");
-
-                    $(temp).addClass( 'active' );
-                    $(temp).parent().parent().parent().parent().show();
-
-                    $(temp2).addClass( 'active' );
-                    $(temp2).parent().parent().parent().parent().show();
-
-                    if (k.trim() == '') {
-                        $('.chart .contents').hide();
-                        $(".organization").show();
-                        $(".chart .contents > table > tbody > tr > td").removeClass( 'active' );
-                    }
-                    $('html, body').animate({scrollTop : '420px'}, 100);
-                }
-            })
-
-
-            $("#keyword").keyup(function() {
-                var k = $('#keyword').val();
-                if (k.trim() == '') {
-                    $('.chart .contents').hide();
-                    $(".organization").show();
-                    $(".chart .contents > table > tbody > tr > td").removeClass( 'active' );
-                }
-            })
-        })
-
-    </script>
 </head>
 
 <body>
@@ -804,1298 +440,105 @@
                         <div class="panel-body">
                                 <div class="chart __layout pt pb mop" style="width:1300px; margin:0 auto;">
                                     <div class="inner">
-                                        <h2 style="text-align: center;margin-top: 35px;">조직도 및 연락처</h2>
                                         <div class="organization">
-                                            <dl>
-                                                <div class="_header">
-                                                    <%--<dl>
-                                                        <dt><span tabindex="0" class="item_1 item boss col_01">이사장</span></dt>
-                                                        <dd class="mt_20 mb_20 ml_600"><button type="button" class="btn type_1 item item_3">이사회</button></dd>
-                                                    </dl>--%>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_23 item_2">원장</button></dt>
-                                                        <%--<dd class="mt_20 mb_20 ml_600"><button type="button" class="btn type_1 item item_4">운영위원회</button></dd>--%>
-                                                    </dl>
+                                            <div class="_header">
+                                                <dl>
+                                                    <div style="display:flex; justify-content: space-between; margin:0 auto; width:100px;">
+                                                        <dt>
+                                                            <span style="display:none">이사장</span>
+                                                            <button type="button" class="btn type_1" onclick="fnCheck($(this).prev());">理 事 長</button>
+                                                        </dt>
+                                                    </div>
+                                                    <dt class="item_8"></dt> <!--이사장 세로막대기1-->
+                                                    <dt class="item_21"></dt> <!--이사장 아래 가로막대기-->
+                                                    <dt><button type="button" class="btn type_2" style="top:82px; left:440px; position:absolute;"><span class="miniBoxRed"></span>총회/이사회</button></dt>
+                                                    <dt><button type="button" class="btn type_2" style="top:82px; left:940px; position:absolute;"><span class="miniBoxRed"></span>감사</button></dt>
+                                                </dl>
+                                                <dl>
+                                                    <div style="display:flex; justify-content: space-between; margin:0 auto; width:100px;">
+                                                        <dt>
+                                                            <span style="display:none">원장</span>
+                                                            <button type="button" class="btn type_1" onclick="fnCheck($(this).prev());">院 長</button>
+                                                        </dt>
+                                                    </div>
+                                                    <dt class="item_8"></dt> <!--원장 세로막대기1-->
+                                                    <dt class="item_15"></dt> <!--원장 아래 가로막대기-->
+                                                    <dt><button type="button" class="btn type_2" style="top:196px; left:440px; position:absolute;"><span class="miniBoxRed"></span>운영위원회</button></dt>
+                                                    <dt><button type="button" class="btn type_2" style="top:196px; left:940px; position:absolute;"><span class="miniBoxRed"></span>인사위원회</button></dt>
+                                                    <dt class="item_17"></dt> <!--총괄본부장 아래 가로막대기-->
+                                                </dl>
+                                                <dl style="margin-left:12.6%; margin-top: 184px;">
+                                                    <div style="width: 1121px; display:flex; justify-content: space-between;">
+                                                        <dt style="top:168px;">
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxYellow"></span>미래전략기획본부</button>
+                                                        <dt class="item_22"></dt>
+                                                        <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:193px; width: 112px;">
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxYellow"></span><span class="vertical">미래전략기획팀&nbsp;</span></span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxYellow"></span><span class="vertical">J-밸리혁신팀&nbsp;</span></button></dt>
+                                                        </div>
+                                                        </dt>
+                                                        <dt style="top:168px;">
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxBlue"></span>R&BD 사업본부</button>
+                                                        <dt class="item_23"></dt>
+                                                        <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:361px; width: 112px;">
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">신기술융합팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">제조혁신팀&nbsp;</span></button></dt>
+                                                        </div>
+                                                        </dt>
+                                                        <dt style="top:168px;">
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxGreen"></span>기업성장지원본부</button>
+                                                        <dt class="item_24"></dt>
+                                                        <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:498px; width: 170px;">
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">지역산업육성팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">인재개발팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">일자리창업팀&nbsp;</span></button></dt>
+                                                        </div>
+                                                        </dt>
+                                                        <dt style="top:168px;">
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxRed"></span>우주항공사업부</button>
+                                                        <dt class="item_25"></dt>
+                                                        <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:694px; width: 112px;">
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">신기술융합팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">제조혁신팀&nbsp;</span></button></dt>
+                                                        </div>
+                                                        </dt>
+                                                        <dt style="top:168px;"><button type="button" class="btn type_2 item_16" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxBrown"></span>드론사업부</button></dt>
+                                                        <dt style="top:168px;"><button type="button" class="btn type_2 item_16" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxSky"></span>스마트제조사업부</button></dt>
+                                                        <dt style="top:168px;">
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxPeaGreen"></span>경영지원실</button>
+                                                        <dt class="item_26"></dt>
+                                                        <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:1192px; width: 112px;">
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxPeaGreen"></span><span class="vertical">사업지원팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxPeaGreen"></span><span class="vertical">경영지원팀&nbsp;</span></button></dt>
+                                                        </div>
+                                                        </dt>
+                                                    </div>
+                                                </dl>
+                                            </div>
+
+                                            <!-- 직원상세보기 팝업 -->
+                                            <div class="shadow"></div>
+                                            <div class="organization_bg" style="display: none;">
+                                                <div class="window">
+                                                    <div class="organization_popup">
+                                                        <div class="detailTitle">직원 상세보기</div>
+                                                        <button  onclick="fnCheckClose();" class="pop-close">x</button>
+                                                        <div class="teamSubBox">
+                                                            <div class="personalBox">
+                                                                <div class="photoBox" style="background-image:url('../images/sample/basicImage.png');">
+                                                                    <p class="photoName">김정원</p>
+                                                                    <div class="contentBox">
+                                                                        <p>직급 : <span>과장</span></p>
+                                                                        <p>생년월일 : <span>1980.08.06</span></p>
+                                                                        <p>입사일 : <span>2014.04.17</span></p>
+                                                                        <p>출신교 : <span>서울대학교</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </dl>
-                                            <dl>
-                                                <div class="_body">
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_9 item_5">경영기획관리본부</button></dt>
-                                                        <dd><button type="button" class="btn type_3 item item_10 item_6">2030경영기획팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_11 item_7">경영지원팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_28 item_8">단지관리팀</button></dd> <%--확인해야함--%>
-                                                    </dl>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_12 item_5">R&BD사업본부</button></dt>
-                                                        <dd><button type="button" class="btn type_3 item item_13 item_6">복합소재뿌리기술센터</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_14 item_7">신기술융합팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_15 item_8">제조혁신팀</button></dd>
-                                                    </dl>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_16 item_5">기업성장지원본부</button></dt>
-                                                        <dd><button type="button" class="btn type_3 item item_17 item_6">지역산업육성팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_18 item_7">인재개발팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_19 item_8">일자리창업허브팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_24 item_26">일자리창업허브팀(군산)</button></dd><%--확인해야함--%>
-                                                        <dd><button type="button" class="btn type_3 item item_25 item_27">일자리창업허브팀(익산)</button></dd><%--확인해야함--%>
-                                                    </dl>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_29 item_5">항공우주사업부</button></dt>
-                                                        <dd><button type="button" class="btn type_3 item item_30 item_6">항공우주개발팀</button></dd>
-                                                        <dd><button type="button" class="btn type_3 item item_31 item_7">항공우주기술팀</button></dd>
-                                                    </dl>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_32 item_5">드론사업부</button></dt><%--확인해야함--%>
-                                                        <dd><button type="button" class="btn type_3 item item_33 item_6">드론산업혁신지원센터</button></dd><%--확인해야함--%>
-                                                    </dl>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_34 item_5">스마트매뉴팩처링사업부</button></dt><%--확인해야함--%>
-                                                    </dl>
-                                                    <dl>
-                                                        <dt><button type="button" class="btn type_2 item item_35 item_5">시설관리·환경미화</button></dt><%--확인해야함--%>
-                                                    </dl>
-                                                </div>
-                                            </dl>
-                                        </div>
-
-                                        <div class="con_">
-                                            <div class="contents contents_13">
-                                                <p class="logo_line mt100">원장</p>
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <%--<caption>
-                                                        <span>원장</span>
-                                                    </caption>--%>
-                                                    <colgroup>
-                                                        <col width="147px">
-                                                        <col width="330px">
-                                                        <col width="164px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>원장</td>
-                                                        <td>노상흡</td>
-                                                        <td>219-0301</td>
-                                                        <td>원장</td>
-                                                    </tr>
-
-                                                    </tbody>
-                                                </table>
                                             </div>
-
-                                            <div class="contents contents_1">
-                                                <p class="logo_line mt100">이사회</p>
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>이사회</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="147px">
-                                                        <col width="330px">
-                                                        <col width="164px">
-                                                        <col width="147px">
-                                                        <col width="330px">
-                                                        <col width="auto">
-                                                    </colgroup>
-
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>구분</th>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>구분</th>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>이사장</td>
-                                                        <td>전라북도 행정부지사</td>
-                                                        <td>조봉업</td>
-                                                        <td>이사</td>
-                                                        <td>전북대학교 환경생명자원대학 교수</td>
-                                                        <td>이귀재</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>이사</td>
-                                                        <td>전북바이오융합산업진흥원장</td>
-                                                        <td>김동수</td>
-                                                        <td>이사</td>
-                                                        <td>참바다영어조합법인 대표</td>
-                                                        <td>김종학</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>이사</td>
-                                                        <td>전라북도 농축산식품극장</td>
-                                                        <td>신원식</td>
-                                                        <td>감사</td>
-                                                        <td>전라북도 농산품산업과장</td>
-                                                        <td>서재영</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>이사</td>
-                                                        <td>전주시 부시장</td>
-                                                        <td>박형배</td>
-                                                        <td>감사</td>
-                                                        <td>동명회계법인 공인회계사</td>
-                                                        <td>박상민</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>이사</td>
-                                                        <td>전북지방중소벤처기업청장</td>
-                                                        <td>윤종욱</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_2">
-                                                <p class="logo_line mt100">운영위원회</p>
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>운영위원회</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="147px">
-                                                        <col width="330px">
-                                                        <col width="164px">
-                                                        <col width="147px">
-                                                        <col width="330px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>구분</th>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>구분</th>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>위원장</td>
-                                                        <td>전북바이오융합산업진흥원장</td>
-                                                        <td>김동수</td>
-                                                        <td>학 계</td>
-                                                        <td>전북대학교 식품공학과 교수</td>
-                                                        <td>김영수</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>유관기관</td>
-                                                        <td>전라북도 농식품산업과장</td>
-                                                        <td>서재영</td>
-                                                        <td>학 계</td>
-                                                        <td>군산대학교 식품영양학과 교수</td>
-                                                        <td>유현희</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>유관기관</td>
-                                                        <td>전북지방중소벤처기업청 지역혁신과장</td>
-                                                        <td>이태준</td>
-                                                        <td>학 계</td>
-                                                        <td>원광대학교 식품영양학과 교수</td>
-                                                        <td>최준호</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>유관기관</td>
-                                                        <td>국립농업과학원 독성위해평가과 과장</td>
-                                                        <td>나영은</td>
-                                                        <td>학 계</td>
-                                                        <td>전주대학교 바이오기능성식품학과 교수</td>
-                                                        <td>정용준</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>유관기관</td>
-                                                        <td>전북연구개발특구 본부장</td>
-                                                        <td>조용철</td>
-                                                        <td>학 계</td>
-                                                        <td>우석대학교 제약공학과 교수</td>
-                                                        <td>한갑훈</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>유관기관</td>
-                                                        <td>aT 전북지역본부장</td>
-                                                        <td>류정한</td>
-                                                        <td>기 업</td>
-                                                        <td>(주)참고을 대표</td>
-                                                        <td>김윤권</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>유관기관</td>
-                                                        <td>전북창조경제혁신센터장</td>
-                                                        <td>박광진</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="contents contents_14">
-                                                <p class="logo_line mt100">경영기획관리본부</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <%--<caption>
-                                                        <span>기획경영본부</span>
-                                                    </caption>--%>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>송기정</td>
-                                                        <td>219-0330</td>
-                                                        <td>경영기획관리본부 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="contents contents_3">
-
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>2030경영기획팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_4">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>경영지원팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_18">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>단지관리팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_15">
-                                                <p class="logo_line mt100">R&BD사업본부</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>송기정</td>
-                                                        <td>219-0330</td>
-                                                        <td>경영기획관리본부 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="contents contents_5">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>복합소재뿌리기술센터</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-
-                                            <div class="contents contents_6">
-
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>신기술융합팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_7">
-
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>제조혁신팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="contents contents_16">
-                                                <p class="logo_line mt100">기업성장지원본부</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>장한수</td>
-                                                        <td>210-6530</td>
-                                                        <td>연구개발본부 총괄</td>
-                                                    </tr>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="contents contents_8">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>지역산업육성팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_9">
-
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>인재개발팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_10">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>일자리창업허브팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_19">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>일자리창업허브팀(군산)</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_20">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>일자리창업허브팀(익산)</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_29">
-                                                <p class="logo_line mt100">항공우주사업부</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>송기정</td>
-                                                        <td>219-0330</td>
-                                                        <td>경영기획관리본부 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_21">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>항공우주개발팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_22">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>항공우주기술팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_23">
-                                                <p class="logo_line mt100">드론사업부</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>송기정</td>
-                                                        <td>219-0330</td>
-                                                        <td>경영기획관리본부 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_24">
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>드론산업혁신지원센터</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_17">
-                                                <p class="logo_line mt100">바이오식품산업화센터</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <caption>
-                                                        <span>바이오식품산업화센터</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>센터장</td>
-                                                        <td>김대중</td>
-                                                        <td>210-6550</td>
-                                                        <td>바이오식품산업화센터 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_25">
-                                                <p class="logo_line mt100">스마트매뉴팩처링사업부</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>송기정</td>
-                                                        <td>219-0330</td>
-                                                        <td>경영기획관리본부 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_26">
-                                                <p class="logo_line mt100">시설관리·환경미화</p>
-                                                <table class="tbl_02 chart_tbl mt20">
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무본부장</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>본부장</td>
-                                                        <td>송기정</td>
-                                                        <td>219-0330</td>
-                                                        <td>경영기획관리본부 총괄</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_11">
-
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>상품화지원팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <div class="contents contents_12">
-
-                                                <table class="tbl_02 chart_tbl mt_20 mb_50">
-                                                    <caption>
-                                                        <span>창업보육팀</span>
-                                                    </caption>
-                                                    <colgroup>
-                                                        <col width="196px">
-                                                        <col width="240px">
-                                                        <col width="204px">
-                                                        <col width="auto">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>직위</th>
-                                                        <th>성명</th>
-                                                        <th>연락처</th>
-                                                        <th>담당업무</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>팀장</td>
-                                                        <td>나세영</td>
-                                                        <td>219-0348</td>
-                                                        <td>2030경영기획팀 총괄</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>유수영</td>
-                                                        <td>219-0380</td>
-                                                        <td>벤처단지 중장기 운영 기획 등</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>책임행정원</td>
-                                                        <td>문명희</td>
-                                                        <td>219-0318</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>이슬비</td>
-                                                        <td>219-0308</td>
-                                                        <td>사업관리/구매 담당</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>선임행정원</td>
-                                                        <td>최유미</td>
-                                                        <td>219-0418</td>
-                                                        <td>구매 및 사업관리</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="mt10" style="display:flex;justify-content: center;">
-                                            <button class="btn btn-quirk infoBtn" style="background-color: rgb(240, 240, 240); color: rgb(105, 108, 116);">2021년 1월</button>
-                                            <button class="btn btn-quirk infoBtn" style="background-color: rgb(240, 240, 240); color: rgb(105, 108, 116);">2022년 1월</button>
-                                            <button class="btn btn-quirk infoBtn" style="background-color: rgb(240, 240, 240); color: rgb(105, 108, 116);">2023년 1월</button>
                                         </div>
                                     </div>
                                 </div>
@@ -2235,6 +678,93 @@
         </div><!-- contentpanel -->
     </div><!-- mainpanel -->
 </section>
+<script>
+    // 직원상세보기 팝업
+    function fnCheck(e){
+        var data = {
+            deptNm : $(e).text().trim().replace(/ /gi, "")
+        }
+
+        var flag = false;
+
+        $.ajax({
+            url: "/user/getOrgDeptList",
+            data: data,
+            dataType : "json",
+            async: false,
+            success: function(rs){
+                var row = rs;
+                console.log("row");
+                console.log(row);
+                row = $.parseJSON(JSON.stringify(row));
+                console.log("row parse");
+                console.log(row);
+                var defaultImage = "background-image:url(\'../images/sample/basicImage.png\')";
+
+                $(".teamSubBox").html("");
+                var html = "";
+                for(var i = 0 ; i < row.length ; i++){
+
+                    var empImage = "background-image:url('"+row[i].FILE_PATH+ ''+'' +row[i].FILE_UUID+"')";
+
+                    if(row[i].SCHOOL_NAME == null || row[i].SCHOOL_NAME == ""){
+                        row[i].SCHOOL_NAME = "";
+                    }
+                    if(row[i].BDAY == null || row[i].BDAY == ""){
+                        row[i].BDAY = "";
+                    }
+                    if(row[i].POSITION_NAME == null || row[i].POSITION_NAME == ""){
+                        row[i].POSITION_NAME = "";
+                    }
+                    if(row[i].FILE_UUID == null || row[i].FILE_UUID == ""){
+                        empImage = defaultImage;
+                    }
+
+                    html +='<div class=shadow"></div>';
+                    html +='<div class="personalBox">'
+                    html +='    <div class="photoBox" style="' +empImage+ '; background-size:100px 107px;">';
+                    html +='        <p class="photoName">'+row[i].EMP_NAME_KR+'</p>';
+                    html +='        <div class="contentBox">';
+                    html +='            <p>직급 : <span>'+row[i].DUTY_NAME+'</span></p>';
+                    html +='            <p>생년월일 : <span>'+row[i].BDAY+'</span></p>';
+                    html +='            <p>입사일 : <span>'+row[i].BDAY+'</span></p>';
+                    html +='           <p>출신교 : <span>'+row[i].BDAY+'</span></p>';
+                    html +='        </div>';
+                    html +='    </div>';
+                    html +='</div>';
+                }
+                $(".teamSubBox").html(html);
+
+                if(row.length != 0 ){
+                    flag = true;
+                }
+            }
+        });
+
+        if(flag){
+            $(".organization_bg").show();
+            $(".shadow").show();
+        }
+
+    }
+    function fnCheckClose(){
+        $(".organization_bg").hide();
+        $(".shadow").hide();
+    }
+
+    $(document).keydown(function(e) {
+        var code = e.keyCode || e.which;
+        if (code == 27) {
+            $(".organization_bg").hide();
+            $(".shadow").hide();
+        }
+    });
+
+    $(document).ready(function() {
+
+    })
+
+</script>
 <script type="text/javascript">
     var today = new Date();
     var hours = today.getHours();

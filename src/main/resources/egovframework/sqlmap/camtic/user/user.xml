@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+    <select id="getOrgDeptList" parameterType="map" resultType="map">
+        /* getOrgDeptList */
+        SELECT
+            EMP_NAME_KR,
+            DUTY_NAME
+
+        FROM  DJ_CAMTIC.V_EMP_INFO VEI
+
+        WHERE VEI.ACTIVE = 'Y' and VEI.DEPT_NAME = #{deptNm}
+    </select>
+</mapper>
