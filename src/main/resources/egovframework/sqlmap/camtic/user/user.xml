@@ -7,7 +7,8 @@
         /* getOrgDeptList */
         SELECT
             EMP_NAME_KR,
-            DUTY_NAME
+            DUTY_NAME,
+            BDAY
 
         FROM  DJ_CAMTIC.V_EMP_INFO VEI
 

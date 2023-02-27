@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -22,18 +25,25 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/user/organizationChart.do")
-    public String openOrganizationChart() {
+    public String openOrganizationChart(Model model) {
+        model.addAttribute("toDate", getCurrentDateTime());
         return "user/organizationChart";
     }
 
-    @ResponseBody
+    //TODO. AJAX RETURN 오류로 JSONVIEW는 나중에 추가
     @RequestMapping(value = "/user/getOrgDeptList")
-    public String getOrgDeptList(@RequestParam Map<String, Object> params, Model model) throws Exception {
-        List<Map<String, Object>> getOrgDeptList = userService.getOrgDeptList(params);
+    @ResponseBody
+    public List<Map<String, Object>> getOrgDeptList(@RequestParam Map<String, Object> params, Model model) throws Exception {
+        return userService.getOrgDeptList(params);
+    }
 
-        model.addAttribute("deptList", getOrgDeptList);
-
-        return "jsonView";
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 
 }

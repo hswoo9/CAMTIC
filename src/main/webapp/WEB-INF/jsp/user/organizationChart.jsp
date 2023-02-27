@@ -57,7 +57,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
-    <script type="text/javascript" src="/js/intra/common/common.js"></script>
+    <script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
+    <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
+
+    <link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
 
     <script type="text/javascript">
         $(function() {
@@ -86,95 +89,6 @@
         });
     </script>
     <style>
-        .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
-        .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
-        .panel {height: 833px;}
-
-        /* 조직도 */
-        .organizationCard{background-color:#fafafa; font-family: 'Noto Sans KR', sans-serif;}
-        .organization ._header{position:relative; min-width:1500px;}
-        .organization {width:1450px; margin:50px auto; transform: translateX(-7%);}
-        .organization .btn {display: block; text-align: left; border: 1px solid #222; background: #fff; position: relative; margin:0 auto; padding: 0.5rem!important; border-radius:0;}
-        .organization .type_1 {width: 100px; height: 100px; color: #222; background: #fff; text-align: center; border-radius: 50%; /* box-shadow: 0 2px 6px #234791; */
-            font-size: 18px; font-weight: 600; border: 3px solid #091851;}
-        .organization .type_2 {width: 122px; height: 50px; color: #222; background-color: #fff; text-align: center; /* box-shadow: 0 2px 6px #234791; */
-            font-size: 13px; font-weight: 600;}
-        .organization .type_4 {width: 50px; height: 150px; color: #222; background-color: #fff; text-align: center; /* box-shadow: 0 2px 6px #315DA9; */
-            font-size: 12px; font-weight: 600;padding:0 17px!important;}
-        .organization .item {position: relative;}
-        .organization .item_1:before {content: ''; position: absolute; left: 50%; top: calc(100% + 1px); z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
-        .organization .item_2 {height: 1px; width: 0; background-color: #222; position: absolute; left: 50%; top:113%; z-index: 0; transform: translateX(-50%);}
-        .organization .item_3:before {content: ''; position: absolute; left: 50%; top: -22%; z-index: 0; transform: translateX(-50%); width: 1px; height: 32px; background: #222; }
-        .organization .item_7 {height: 30px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%);}
-        .organization .item_8 {height: 60px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%);}
-        .organization .item_9:before {content: ''; position: absolute; left: 147%; top: calc(50% + 1px); z-index: 0; transform: translateX(-50%); width: 98px; height: 1px; background: #222; }
-        .organization .item_10:before {content: ''; position: absolute; left: -43%; top: calc(50% + 1px); z-index: 0; transform: translateX(-50%); width: 90px; height: 1px; background: #222; }
-        .organization .item_11:before {content: ''; position: absolute; left: 50%; top:-62%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
-        .organization .item_11:after {content: ''; position: absolute; left: 50%; top:108%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
-        .organization .item_12{height: 1px; width: 720px; background-color: #222; position: absolute; left: 26%; top:42%; z-index: 0; transform: translateX(-50%);}
-        .organization .item_13{height: 30px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%); top:42%;}
-        .organization .item_14{height: 365px; width: 1px; background-color: #222; position: absolute; left: 2%; z-index: 0; transform: translateX(-50%); top:42%;}
-        .organization .item_15{height: 1px; width: 500px; background-color: #222; position: absolute; left: 50%; top:221px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_16:before {content: ''; position: absolute; left: 50%; top:-261%; z-index: 0; transform: translateX(-50%); width: 1px; height: 124px; background: #222; }
-        .organization .item_17{height: 1px; width: 1000px; background-color: #222; position: absolute; left: 50%; top:276px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_18:before {content: ''; position: absolute; left: 50%; top:-72%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
-        .organization .item_18:after {content: ''; position: absolute; left: 50%; top:105%; z-index: 0; transform: translateX(-50%); width: 1px; height: 104px; background: #222; }
-        .organization .item_19:before {content: ''; position: absolute; left: 50%; top:-225%; z-index: 0; transform: translateX(-50%); width: 1px; height: 107px; background: #222; }
-        .organization .item_19:after {content: ''; position: absolute; left: 50%; top:104%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
-        .organization .item_20:after {content: ''; position: absolute; left: 50%; top:103%; z-index: 0; transform: translateX(-50%); width: 1px; height: 104px; background: #222; }
-        .organization .item_21{height: 1px; width: 500px; background-color: #222; position: absolute; left: 50%; top:108px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_22{height: 1px; width: 63px; background-color: #222; position: absolute; left: 16.6%; top: 554px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_23{height: 1px; width: 63px; background-color: #222; position: absolute; left: 27.8%; top: 554px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_24{height: 1px; width: 121px; background-color: #222; position: absolute; left: 38.85%; top: 554px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_25{height: 1px; width: 63px; background-color: #222; position: absolute; left: 50%; top: 554px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_26{height: 1px; width: 63px; background-color: #222; position: absolute; left: 83.2%; top: 554px; z-index: 0; transform: translateX(-50%);}
-        .organization .item_27:before {content: ''; position: absolute; left: 50%; top:-21%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
-
-        .organization ._body dl dt {display: inline-block;}
-        .organization ._body dl dd {display: inline-block;}
-        .directors{margin-top:30px!important;}
-        .auditor{margin-top:30px!important;}
-        .general{margin-top:71px!important; left:-323%;}
-
-        .miniBoxYellow{width: 5px; height: 48px; background-color: #F6CF7F; position: absolute; top: 0; left: 0;}
-        .miniSubBoxYellow{width: 48px; height: 7px; background-color: #F6CF7F; position: absolute; top: 0; left: 0;}
-        .miniBoxBlue{width: 5px; height: 48px; background-color: #183479; position: absolute; top: 0; left: 0;}
-        .miniSubBoxBlue{width: 48px; height: 7px; background-color: #183479; position: absolute; top: 0; left: 0;}
-        .miniBoxGreen{width: 5px; height: 48px; background-color: #215F26; position: absolute; top: 0; left: 0;}
-        .miniSubBoxGreen{width: 48px; height: 7px; background-color: #215F26; position: absolute; top: 0; left: 0;}
-        .miniBoxRed{width: 5px; height: 48px; background-color: #B43527; position: absolute; top: 0; left: 0;}
-        .miniSubBoxRed{width: 48px; height: 7px; background-color: #B43527; position: absolute; top: 0; left: 0;}
-        .miniBoxBrown{width: 5px; height: 48px; background-color: #6C3308; position: absolute; top: 0; left: 0;}
-        .miniSubBoxBrown{width: 48px; height: 7px; background-color: #6C3308; position: absolute; top: 0; left: 0;}
-        .miniBoxSky{width: 5px; height: 48px; background-color: #83AEE5; position: absolute; top: 0; left: 0;}
-        .miniSubBoxSky{width: 48px; height: 7px; background-color: #83AEE5; position: absolute; top: 0; left: 0;}
-        .miniBoxPeaGreen{width: 5px; height: 48px; background-color: #acfaac; position: absolute; top: 0; left: 0;}
-        .miniSubBoxPeaGreen{width: 48px; height: 7px; background-color: #acfaac; position: absolute; top: 0; left: 0;}
-
-
-
-        /* 직원상세보기 팝업 */
-        .teamSubBox{margin-top:10px; display:flex;}
-        .personalBox{width:135px; height:260px; border:1px solid #eee; margin:0 5px; position:relative; background-color:#fff;}
-        .photoBox{width:100px; height:120px; border:1px solid #eee; margin:10px auto; border-radius:5px; background-color:#eee;}
-        .photoName{position: absolute; font-size: 13px; top: 57%; left: 50%; transform: translate(-50%, -50%); font-weight: bold;}
-        .contentBox {font-size:12px;position: absolute; left: 10px; top: 170px; line-height: 8px;}
-        .organization_bg {position: fixed; top: 0; left: 0; width: 100%; height: 100%;}
-        .window {position: relative;width: 100%;height: 100%;}
-        .organization_popup {position: absolute;top: 30%;left: 11%; background-color: #ffffff; border-radius:10px;
-            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.6);width:auto;height:auto; padding:10px;}
-        .show .organization_popup {transform: translate(-50%, 0%); transition: all 0.5s;}
-        .pop-close{background: none;font-size: 30px;position: absolute;right: 20px; z-index: 6000;border: none;top: 2px; color: #fff;}
-        .detailTitle{background-color: #234791; border-radius: 10px 10px 0 0; padding: 10px; font-size: 15px; font-weight: 600; color: #fff;}
-
-        .shadow{position: fixed; left: 0;top: 0; background: rgba(0, 0, 0, 0.52); width: 100%; height: 100%; display: none}
-
-        .vertical{writing-mode: vertical-rl; text-orientation: upright; transform: translate(-11%, 7%); letter-spacing: 2px;}
-
-
-        .popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
-
-
         /* right 없어졌다 나왔다 */
         .headerMenu{background-color:#3b4354; border:1px solid #3b4354; width:60px; height:50px; border-radius:50px 0 0 50px; position:absolute; top:1px; right:0;}
         .mainInner div{
@@ -865,7 +779,7 @@
                                                     <div style="display:flex; justify-content: space-between; margin:0 auto; width:100px;">
                                                         <dt>
                                                             <span style="display:none">이사장</span>
-                                                            <button type="button" class="btn type_1" onclick="fnCheck($(this).prev());">理 事 長</button>
+                                                            <button type="button" class="btn type_1" onclick="org.fnCheck($(this).prev());">理 事 長</button>
                                                         </dt>
                                                     </div>
                                                     <dt class="item_8"></dt> <!--이사장 세로막대기1-->
@@ -877,7 +791,7 @@
                                                     <div style="display:flex; justify-content: space-between; margin:0 auto; width:100px;">
                                                         <dt>
                                                             <span style="display:none">원장</span>
-                                                            <button type="button" class="btn type_1" onclick="fnCheck($(this).prev());">院 長</button>
+                                                            <button type="button" class="btn type_1" onclick="org.fnCheck($(this).prev());">院 長</button>
                                                         </dt>
                                                     </div>
                                                     <dt class="item_8"></dt> <!--원장 세로막대기1-->
@@ -889,46 +803,46 @@
                                                 <dl style="margin-left:12.6%; margin-top: 184px;">
                                                     <div style="width: 1121px; display:flex; justify-content: space-between;">
                                                         <dt style="top:168px;">
-                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxYellow"></span>미래전략기획본부</button>
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxYellow"></span>미래전략기획본부</button>
                                                         <dt class="item_22"></dt>
                                                         <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:193px; width: 112px;">
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxYellow"></span><span class="vertical">미래전략기획팀&nbsp;</span></span></button></dt>
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxYellow"></span><span class="vertical">J-밸리혁신팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxYellow"></span><span class="vertical">미래전략기획팀&nbsp;</span></span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxYellow"></span><span class="vertical">J-밸리혁신팀&nbsp;</span></button></dt>
                                                         </div>
                                                         </dt>
                                                         <dt style="top:168px;">
-                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxBlue"></span>R&BD 사업본부</button>
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxBlue"></span>R&BD 사업본부</button>
                                                         <dt class="item_23"></dt>
                                                         <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:361px; width: 112px;">
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">신기술융합팀&nbsp;</span></button></dt>
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">제조혁신팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">신기술융합팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">제조혁신팀&nbsp;</span></button></dt>
                                                         </div>
                                                         </dt>
                                                         <dt style="top:168px;">
-                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxGreen"></span>기업성장지원본부</button>
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxGreen"></span>기업성장지원본부</button>
                                                         <dt class="item_24"></dt>
                                                         <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:498px; width: 170px;">
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">지역산업육성팀&nbsp;</span></button></dt>
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">인재개발팀&nbsp;</span></button></dt>
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">일자리창업팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">지역산업육성팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">인재개발팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxGreen"></span><span class="vertical">일자리창업팀&nbsp;</span></button></dt>
                                                         </div>
                                                         </dt>
                                                         <dt style="top:168px;">
-                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxRed"></span>우주항공사업부</button>
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxRed"></span>우주항공사업부</button>
                                                         <dt class="item_25"></dt>
                                                         <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:694px; width: 112px;">
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">신기술융합팀&nbsp;</span></button></dt>
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxBlue"></span><span class="vertical">제조혁신팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxRed"></span><span class="vertical">우주개발팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxRed"></span><span class="vertical">항공개발팀&nbsp;</span></button></dt>
                                                         </div>
                                                         </dt>
-                                                        <dt style="top:168px;"><button type="button" class="btn type_2 item_16" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxBrown"></span>드론사업부</button></dt>
-                                                        <dt style="top:168px;"><button type="button" class="btn type_2 item_16" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxSky"></span>스마트제조사업부</button></dt>
+                                                        <dt style="top:168px;"><button type="button" class="btn type_2 item_16" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxBrown"></span>드론사업부</button></dt>
+                                                        <dt style="top:168px;"><button type="button" class="btn type_2 item_16" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxSky"></span>스마트제조사업부</button></dt>
                                                         <dt style="top:168px;">
-                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="fnCheck(this);"><span class="miniBoxPeaGreen"></span>경영지원실</button>
+                                                            <button type="button" class="btn type_2 item_16 item_20" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniBoxPeaGreen"></span>경영지원실</button>
                                                         <dt class="item_26"></dt>
                                                         <div class="_body" style="position: absolute; display:flex; justify-content: space-between; top: 587px; left:1192px; width: 112px;">
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxPeaGreen"></span><span class="vertical">사업지원팀&nbsp;</span></button></dt>
-                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="fnCheck(this);"><span class="miniSubBoxPeaGreen"></span><span class="vertical">경영지원팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxPeaGreen"></span><span class="vertical">사업지원팀&nbsp;</span></button></dt>
+                                                            <dt><button type="button" class="btn type_4 item_3" style="position:relative;" onclick="org.fnCheck(this);"><span class="miniSubBoxPeaGreen"></span><span class="vertical">경영지원팀&nbsp;</span></button></dt>
                                                         </div>
                                                         </dt>
                                                     </div>
@@ -941,7 +855,8 @@
                                                 <div class="window">
                                                     <div class="organization_popup">
                                                         <div class="detailTitle">직원 상세보기</div>
-                                                        <button  onclick="fnCheckClose();" class="pop-close">x</button>
+                                                        <button  onclick="org.fnCheckClose();" class="pop-close">x</button>
+                                                        <div class="teamBox">
                                                         <div class="teamSubBox">
                                                             <div class="personalBox">
                                                                 <div class="photoBox" style="background-image:url('../images/sample/basicImage.png');">
@@ -954,6 +869,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1107,79 +1023,6 @@
     </div><!-- mainpanel -->
 </section>
 <script>
-    // 직원상세보기 팝업
-    function fnCheck(e){
-        var data = {
-            deptNm : $(e).text().trim().replace(/ /gi, "")
-        }
-
-        var flag = false;
-
-        $.ajax({
-            url: "/user/getOrgDeptList",
-            data: data,
-            dataType : "json",
-            async: false,
-            success: function(rs){
-                var row = rs;
-                console.log("row");
-                console.log(row);
-                row = $.parseJSON(JSON.stringify(row));
-                console.log("row parse");
-                console.log(row);
-                var defaultImage = "background-image:url(\'../images/sample/basicImage.png\')";
-
-                $(".teamSubBox").html("");
-                var html = "";
-                for(var i = 0 ; i < row.length ; i++){
-
-                    var empImage = "background-image:url('"+row[i].FILE_PATH+ ''+'' +row[i].FILE_UUID+"')";
-
-                    if(row[i].SCHOOL_NAME == null || row[i].SCHOOL_NAME == ""){
-                        row[i].SCHOOL_NAME = "";
-                    }
-                    if(row[i].BDAY == null || row[i].BDAY == ""){
-                        row[i].BDAY = "";
-                    }
-                    if(row[i].POSITION_NAME == null || row[i].POSITION_NAME == ""){
-                        row[i].POSITION_NAME = "";
-                    }
-                    if(row[i].FILE_UUID == null || row[i].FILE_UUID == ""){
-                        empImage = defaultImage;
-                    }
-
-                    html +='<div class=shadow"></div>';
-                    html +='<div class="personalBox">'
-                    html +='    <div class="photoBox" style="' +empImage+ '; background-size:100px 107px;">';
-                    html +='        <p class="photoName">'+row[i].EMP_NAME_KR+'</p>';
-                    html +='        <div class="contentBox">';
-                    html +='            <p>직급 : <span>'+row[i].DUTY_NAME+'</span></p>';
-                    html +='            <p>생년월일 : <span>'+row[i].BDAY+'</span></p>';
-                    html +='            <p>입사일 : <span>'+row[i].BDAY+'</span></p>';
-                    html +='           <p>출신교 : <span>'+row[i].BDAY+'</span></p>';
-                    html +='        </div>';
-                    html +='    </div>';
-                    html +='</div>';
-                }
-                $(".teamSubBox").html(html);
-
-                if(row.length != 0 ){
-                    flag = true;
-                }
-            }
-        });
-
-        if(flag){
-            $(".organization_bg").show();
-            $(".shadow").show();
-        }
-
-    }
-    function fnCheckClose(){
-        $(".organization_bg").hide();
-        $(".shadow").hide();
-    }
-
     $(document).keydown(function(e) {
         var code = e.keyCode || e.which;
         if (code == 27) {
@@ -1187,10 +1030,6 @@
             $(".shadow").hide();
         }
     });
-
-    $(document).ready(function() {
-
-    })
 
 </script>
 <script type="text/javascript">

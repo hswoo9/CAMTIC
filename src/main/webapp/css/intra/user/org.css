@@ -1,0 +1,87 @@
+.boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
+.boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
+.panel {height: 833px;}
+
+/* 조직도 */
+.organizationCard{background-color:#fafafa; font-family: 'Noto Sans KR', sans-serif;}
+.organization ._header{position:relative; min-width:1500px;}
+.organization {width:1450px; margin:50px auto; transform: translateX(-7%);}
+.organization .btn {display: block; text-align: left; border: 1px solid #222; background: #fff; position: relative; margin:0 auto; padding: 0.5rem!important; border-radius:0;}
+.organization .type_1 {width: 100px; height: 100px; color: #222; background: #fff; text-align: center; border-radius: 50%; /* box-shadow: 0 2px 6px #234791; */
+    font-size: 18px; font-weight: 600; border: 3px solid #091851;}
+.organization .type_2 {width: 122px; height: 50px; color: #222; background-color: #fff; text-align: center; /* box-shadow: 0 2px 6px #234791; */
+    font-size: 13px; font-weight: 600;}
+.organization .type_4 {width: 50px; height: 150px; color: #222; background-color: #fff; text-align: center; /* box-shadow: 0 2px 6px #315DA9; */
+    font-size: 12px; font-weight: 600;padding:0 17px!important;}
+.organization .item {position: relative;}
+.organization .item_1:before {content: ''; position: absolute; left: 50%; top: calc(100% + 1px); z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+.organization .item_2 {height: 1px; width: 0; background-color: #222; position: absolute; left: 50%; top:113%; z-index: 0; transform: translateX(-50%);}
+.organization .item_3:before {content: ''; position: absolute; left: 50%; top: -22%; z-index: 0; transform: translateX(-50%); width: 1px; height: 32px; background: #222; }
+.organization .item_7 {height: 30px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%);}
+.organization .item_8 {height: 60px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%);}
+.organization .item_9:before {content: ''; position: absolute; left: 147%; top: calc(50% + 1px); z-index: 0; transform: translateX(-50%); width: 98px; height: 1px; background: #222; }
+.organization .item_10:before {content: ''; position: absolute; left: -43%; top: calc(50% + 1px); z-index: 0; transform: translateX(-50%); width: 90px; height: 1px; background: #222; }
+.organization .item_11:before {content: ''; position: absolute; left: 50%; top:-62%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+.organization .item_11:after {content: ''; position: absolute; left: 50%; top:108%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+.organization .item_12{height: 1px; width: 720px; background-color: #222; position: absolute; left: 26%; top:42%; z-index: 0; transform: translateX(-50%);}
+.organization .item_13{height: 30px; width: 1px; background-color: #222; position: absolute; left: 50%; z-index: 0; transform: translateX(-50%); top:42%;}
+.organization .item_14{height: 365px; width: 1px; background-color: #222; position: absolute; left: 2%; z-index: 0; transform: translateX(-50%); top:42%;}
+.organization .item_15{height: 1px; width: 500px; background-color: #222; position: absolute; left: 50%; top:221px; z-index: 0; transform: translateX(-50%);}
+.organization .item_16:before {content: ''; position: absolute; left: 50%; top:-261%; z-index: 0; transform: translateX(-50%); width: 1px; height: 124px; background: #222; }
+.organization .item_17{height: 1px; width: 1000px; background-color: #222; position: absolute; left: 50%; top:276px; z-index: 0; transform: translateX(-50%);}
+.organization .item_18:before {content: ''; position: absolute; left: 50%; top:-72%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+.organization .item_18:after {content: ''; position: absolute; left: 50%; top:105%; z-index: 0; transform: translateX(-50%); width: 1px; height: 104px; background: #222; }
+.organization .item_19:before {content: ''; position: absolute; left: 50%; top:-225%; z-index: 0; transform: translateX(-50%); width: 1px; height: 107px; background: #222; }
+.organization .item_19:after {content: ''; position: absolute; left: 50%; top:104%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+.organization .item_20:after {content: ''; position: absolute; left: 50%; top:103%; z-index: 0; transform: translateX(-50%); width: 1px; height: 104px; background: #222; }
+.organization .item_21{height: 1px; width: 500px; background-color: #222; position: absolute; left: 50%; top:108px; z-index: 0; transform: translateX(-50%);}
+.organization .item_22{height: 1px; width: 63px; background-color: #222; position: absolute; left: 16.6%; top: 554px; z-index: 0; transform: translateX(-50%);}
+.organization .item_23{height: 1px; width: 63px; background-color: #222; position: absolute; left: 27.8%; top: 554px; z-index: 0; transform: translateX(-50%);}
+.organization .item_24{height: 1px; width: 121px; background-color: #222; position: absolute; left: 38.85%; top: 554px; z-index: 0; transform: translateX(-50%);}
+.organization .item_25{height: 1px; width: 63px; background-color: #222; position: absolute; left: 50%; top: 554px; z-index: 0; transform: translateX(-50%);}
+.organization .item_26{height: 1px; width: 63px; background-color: #222; position: absolute; left: 83.2%; top: 554px; z-index: 0; transform: translateX(-50%);}
+.organization .item_27:before {content: ''; position: absolute; left: 50%; top:-21%; z-index: 0; transform: translateX(-50%); width: 1px; height: 30px; background: #222; }
+
+.organization ._body dl dt {display: inline-block;}
+.organization ._body dl dd {display: inline-block;}
+.directors{margin-top:30px!important;}
+.auditor{margin-top:30px!important;}
+.general{margin-top:71px!important; left:-323%;}
+
+.miniBoxYellow{width: 5px; height: 48px; background-color: #F6CF7F; position: absolute; top: 0; left: 0;}
+.miniSubBoxYellow{width: 48px; height: 7px; background-color: #F6CF7F; position: absolute; top: 0; left: 0;}
+.miniBoxBlue{width: 5px; height: 48px; background-color: #183479; position: absolute; top: 0; left: 0;}
+.miniSubBoxBlue{width: 48px; height: 7px; background-color: #183479; position: absolute; top: 0; left: 0;}
+.miniBoxGreen{width: 5px; height: 48px; background-color: #215F26; position: absolute; top: 0; left: 0;}
+.miniSubBoxGreen{width: 48px; height: 7px; background-color: #215F26; position: absolute; top: 0; left: 0;}
+.miniBoxRed{width: 5px; height: 48px; background-color: #B43527; position: absolute; top: 0; left: 0;}
+.miniSubBoxRed{width: 48px; height: 7px; background-color: #B43527; position: absolute; top: 0; left: 0;}
+.miniBoxBrown{width: 5px; height: 48px; background-color: #6C3308; position: absolute; top: 0; left: 0;}
+.miniSubBoxBrown{width: 48px; height: 7px; background-color: #6C3308; position: absolute; top: 0; left: 0;}
+.miniBoxSky{width: 5px; height: 48px; background-color: #83AEE5; position: absolute; top: 0; left: 0;}
+.miniSubBoxSky{width: 48px; height: 7px; background-color: #83AEE5; position: absolute; top: 0; left: 0;}
+.miniBoxPeaGreen{width: 5px; height: 48px; background-color: #acfaac; position: absolute; top: 0; left: 0;}
+.miniSubBoxPeaGreen{width: 48px; height: 7px; background-color: #acfaac; position: absolute; top: 0; left: 0;}
+
+
+
+/* 직원상세보기 팝업 */
+.teamSubBox{margin-top:10px; display:flex;}
+.personalBox{width:135px; height:260px; border:1px solid #eee; margin:0 5px; position:relative; background-color:#fff;}
+.photoBox{width:100px; height:120px; border:1px solid #eee; margin:10px auto; border-radius:5px; background-color:#eee;}
+.photoName{position: absolute; font-size: 13px; top: 57%; left: 50%; transform: translate(-50%, -50%); font-weight: bold;}
+.contentBox {font-size:12px;position: absolute; left: 10px; top: 170px; line-height: 8px;}
+.organization_bg {position: fixed; top: 0; left: 0; width: 100%; height: 100%;}
+.window {position: relative;width: 100%;height: 100%;}
+.organization_popup {position: absolute;top: 14%;left: 15%; background-color: #ffffff; border-radius:10px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.6);width:auto;height:auto; padding:10px;}
+.show .organization_popup {transform: translate(-50%, 0%); transition: all 0.5s;}
+.pop-close{background: none;font-size: 30px;position: absolute;right: 20px; z-index: 6000;border: none;top: 2px; color: #fff;}
+.detailTitle{background-color: #234791; border-radius: 10px 10px 0 0; padding: 10px; font-size: 15px; font-weight: 600; color: #fff;}
+
+.shadow{position: fixed; left: 0%;top: -20%; background: rgba(0, 0, 0, 0.52); width: 100vw; height: 200vh; display: none}
+
+.vertical{writing-mode: vertical-rl; text-orientation: upright; transform: translate(-11%, 7%); letter-spacing: 2px;}
+
+
+.popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
