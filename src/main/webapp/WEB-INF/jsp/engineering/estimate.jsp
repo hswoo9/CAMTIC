@@ -55,32 +55,6 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> //체크
-    <script type="text/javascript">
-        $(function() {
-            $('.toggleMain').click(function(e) {
-                e.preventDefault();
-
-                var $this = $(this);
-
-                if ($this.hasClass('toggled')) {
-                    $this.removeClass('toggled')
-                } else {
-                    $this.addClass('toggled');
-                }
-
-                if ($this.next().hasClass('show')) {
-                    $this.next().removeClass('show');
-                    $this.next().slideUp(350);
-                } else {
-                    $this.parent().parent().find('li .innerMain').removeClass('show');
-                    $this.parent().parent().find('li .innerMain').slideUp(350);
-                    $this.next().toggleClass('show');
-                    $this.next().slideToggle(350);
-                }
-            });
-
-        });
-    </script>
     <style>
         .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
         .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}

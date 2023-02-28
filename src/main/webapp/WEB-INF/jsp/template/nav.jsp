@@ -8,10 +8,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script type="text/javascript">
+  $(function() {
+    $('.toggleMain').click(function(e) {
+      e.preventDefault();
+
+      var $this = $(this);
+
+      if ($this.hasClass('toggled')) {
+        $this.removeClass('toggled')
+      } else {
+        $this.addClass('toggled');
+      }
+
+      if ($this.next().hasClass('show')) {
+        $this.next().slideToggle();
+        $this.next().removeClass('show');
+      } else {
+        $this.next().slideToggle();
+        $this.parent().parent().find('li .innerMain').removeClass('show');
+        $this.next().toggleClass('show');
+      }
+    });
+
+  });
+</script>
+
 <div class="tab-content">
-
   <!-- ################# MAIN MENU ################### -->
-
   <div class="" id="mainmenu">
     <h5 class="sidebar-title">업무</h5>
     <ul class="accordion nav nav-pills nav-stacked nav-quirk">

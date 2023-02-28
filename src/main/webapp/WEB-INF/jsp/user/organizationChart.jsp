@@ -61,33 +61,6 @@
     <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
 
     <link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
-
-    <script type="text/javascript">
-        $(function() {
-            $('.toggleMain').click(function(e) {
-                e.preventDefault();
-
-                var $this = $(this);
-
-                if ($this.hasClass('toggled')) {
-                    $this.removeClass('toggled')
-                } else {
-                    $this.addClass('toggled');
-                }
-
-                if ($this.next().hasClass('show')) {
-                    $this.next().removeClass('show');
-                    $this.next().slideUp(350);
-                } else {
-                    $this.parent().parent().find('li .innerMain').removeClass('show');
-                    $this.parent().parent().find('li .innerMain').slideUp(350);
-                    $this.next().toggleClass('show');
-                    $this.next().slideToggle(350);
-                }
-            });
-
-        });
-    </script>
     <style>
         /* right 없어졌다 나왔다 */
         .headerMenu{background-color:#3b4354; border:1px solid #3b4354; width:60px; height:50px; border-radius:50px 0 0 50px; position:absolute; top:1px; right:0;}
