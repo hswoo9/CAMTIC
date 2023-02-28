@@ -26,7 +26,6 @@
         $this.next().removeClass('show');
       } else {
         $this.next().slideToggle();
-        $this.parent().parent().find('li .innerMain').removeClass('show');
         $this.next().toggleClass('show');
       }
     });
