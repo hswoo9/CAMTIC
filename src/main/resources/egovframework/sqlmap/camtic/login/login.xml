@@ -11,7 +11,8 @@
             VEI.DEPT_NAME AS orgnztNm,
             VEI.EMP_SEQ AS uniqId,
             VEI.POSITION_CODE AS positionCode,
-            VEI.DUTY_NAME AS dutyNm
+            VEI.DUTY_NAME AS dutyNm,
+            VEI.DEPT_SEQ AS orgnztId
 
         FROM
             DJ_CAMTIC.V_EMP_INFO VEI

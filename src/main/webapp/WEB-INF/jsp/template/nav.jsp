@@ -64,7 +64,7 @@
           <li>
             <a href="#" class="toggleMain">결재설정</a>
             <ul class="innerMain children">
-              <li><a href="#" class="toggleMain">결재선 관리</a></li>
+              <li><a href="/approvalUser/approvalLineManagement.do">결재선 관리</a></li>
               <li><a href="#" class="toggleMain">부재설정</a></li>
             </ul>
           </li>

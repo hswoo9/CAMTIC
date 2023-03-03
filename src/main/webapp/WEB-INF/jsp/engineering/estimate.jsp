@@ -259,6 +259,31 @@
 
             <div class="row">
                 <div class="col-md-10 col-lg-10 dash-left">
+                    <div class="row panel-quick-page">
+                        <div style="display:flex; justify-content: space-between;">
+                            <div class="boxCss">
+                                <i class="fa fa-shopping-cart" style="font-size:40px;padding:11px;"></i><br>캠프로젝트 매니저
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-lightbulb-o" style="font-size:40px;padding:11px;"></i><br>캠아이템
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-calendar-o" style="font-size:40px;padding:11px;"></i><br>캠매니저2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스2.0
+                            </div>
+                            <div class="boxCss">
+                                <i class="fa fa-cloud-upload" style="font-size:40px;padding:11px;"></i><br>캠어취브2.0
+                            </div>
+                        </div>
+                    </div>
                     <div class="panel">
                         <div class="panel-heading">
                             <h4 class="panel-title">개발상담서 조회</h4>
