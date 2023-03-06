@@ -34,6 +34,9 @@
   });
 </script>
 
+<section>
+  <div class="leftpanel">
+    <div class="leftpanelinner">
 <div class="tab-content">
   <!-- ################# MAIN MENU ################### -->
   <div class="" id="mainmenu">
@@ -385,3 +388,5 @@
 
 
 </div><!-- tab-content -->
+    </div>
+  </div>
