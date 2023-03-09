@@ -37,6 +37,13 @@ public class UserController {
         return userService.getOrgDeptList(params);
     }
 
+    //TODO. AJAX RETURN 오류로 JSONVIEW는 나중에 추가
+    @RequestMapping("/user/getUserInfo")
+    @ResponseBody
+    public Map<String, Object> getUserInfo(@RequestParam Map<String, Object> params){
+        return userService.getUserInfo(params);
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

@@ -13,4 +13,9 @@ public class UserRepository extends AbstractDAO {
         return selectList("user.getOrgDeptList", param);
     }
 
+    public Map<String, Object> getUserInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("user.getUserInfo", params);
+    }
+
+
 }

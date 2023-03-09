@@ -14,4 +14,27 @@
 
         WHERE VEI.ACTIVE = 'Y' and VEI.DEPT_NAME = #{deptNm}
     </select>
+
+    <select id="getUserInfo" resultType="map" parameterType="map">
+        SELECT
+            VEI.EMP_SEQ,
+            VEI.EMP_NAME_KR,
+            VEI.LOGIN_ID,
+            VEI.DEPT_SEQ,
+            VEI.DEPT_NAME,
+            VEI.POSITION_CODE,
+            VEI.POSITION_CODE AS POSITION_NAME,
+            VEI.DUTY_CODE,
+            VEI.DUTY_NAME
+        FROM
+            DJ_CAMTIC.V_EMP_INFO VEI
+        WHERE 1=1
+        <choose>
+            <when test='active != null and !"".equals(active)'></when>
+            <otherwise>
+        AND VEI.ACTIVE = 'Y'
+            </otherwise>
+        </choose>
+        AND VEI.EMP_SEQ = #{empSeq}
+    </select>
 </mapper>

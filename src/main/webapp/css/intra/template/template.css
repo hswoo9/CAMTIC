@@ -91,7 +91,7 @@ input[type="checkbox"]:checked ~ #sidebarMenu {
     transform: translateX(0);
 }
 
-input[type=checkbox] {
+.openSidebarMenu {
     transition: all 0.3s;
     box-sizing: border-box;
     display: none;

@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.getOrgDeptList(param);
     }
 
+    @Override
+    public Map<String, Object> getUserInfo(Map<String, Object> params) {
+        return userRepository.getUserInfo(params);
+    }
+
 }
