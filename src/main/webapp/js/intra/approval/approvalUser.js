@@ -44,11 +44,12 @@ var appUser = {
             transport: {
                 read : {
                     url : "/approvalUser/getUserList",
+                    async : false,
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.DEPT_SEQ = appUser.global.deptSeq;
+                    data.DEPT_SEQ = $("#deptSeq").val();
                     return data;
                 }
             },
@@ -111,6 +112,7 @@ var appUser = {
             transport: {
                 read : {
                     url : "/approvalUser/getUserFavApproveRouteList",
+                    async : false,
                     dataType : "json",
                     type : "post"
                 },
