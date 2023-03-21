@@ -48,7 +48,7 @@
           <li>
             <a href="#" class="toggleMain">상신/보관함</a>
             <ul class="innerMain children">
-              <li><a href="#" class="toggleMain">양식목록</a></li>
+              <li><a href="/approvalUser/draftFormList.do">양식목록</a></li>
               <li><a href="#" class="toggleMain">임시보관문서</a></li>
               <li><a href="#" class="toggleMain">상신문서</a></li>
               <li><a href="#" class="toggleMain">반려/회수 문서</a></li>

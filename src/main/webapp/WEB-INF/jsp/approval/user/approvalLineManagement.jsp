@@ -15,30 +15,10 @@ To change this template use File | Settings | File Templates.
     .boxCss { width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center; }
     .boxCss:hover { background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%); }
     .popupTable th { padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad; }
-    .k-treeview .k-i-collapse:before { background: url("/images/ico/ico_organ03_open.png");content: ""; }
-    .k-treeview .k-i-expand:before { background: url("/images/ico/ico_organ03_close.png");content: ""; }
-    .k-treeview .k-treeview-top.k-treeview-bot .k-i-collapse:before { background: url("/images/ico/ico_organ01.png"); }
-    .k-treeview .k-treeview-top.k-treeview-bot .k-i-expand:before { background: url("/images/ico/ico_organ01.png"); }
-    .k-treeview .k-i-collapse-disabled, .k-treeview .k-i-expand-disabled { cursor: default; }
-    .k-treeview .k-treeview-top, .k-treeview .k-treeview-mid, .k-treeview .k-treeview-bot { background-image: url('/images/bg/treeview-nodes.png'); background-repeat: no-repeat; margin-left: -16px; padding-left: 16px; }
-    .k-treeview .k-item { background-image: url('/images/bg/treeview-line.png'); }
-    .k-treeview .k-last { background-image: none; }
-    .k-treeview .k-treeview-top { background-position: -91px 2px; }
-    .k-treeview .k-treeview-bot { background-position: -69px -17px; }
-    .k-treeview .k-treeview-mid { background-position: -47px -42px; }
-    /*.k-treeview .k-last .k-treeview-top { background-position: -25px -62px; }*/
-    .k-treeview .k-group .k-last .k-treeview-bot { background-position: -69px -22px; }
-    .k-treeview .k-item { background-repeat: no-repeat; }
-    .k-treeview .k-treeview-top.k-treeview-bot { background: none;}
-    .k-treeview .k-first { background-repeat: no-repeat; background-position: 0 16px; }
-    .k-grid-toolbar{ justify-content: flex-end !important; }
-    .k-grid-norecords{ justify-content: space-around; }
-    #approvalLineDataTb tbody tr:hover:not(.active) { background-color: #ededed; }
-    .active { background-color: rgb(241, 248, 255); }
-    #deptTree { width: auto !important; font-size: 12px; line-height: 1.4; }
     table { background-color: white; }
 </style>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalUser.js?${toDate}'/>"></script>
+<link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
+<script type="text/javascript" src="<c:url value='/js/intra/approval/draftFormList.js?${toDate}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -107,5 +87,5 @@ To change this template use File | Settings | File Templates.
 
 <script type="text/javascript">
     var datas = JSON.parse('${data}');
-    appUser.getDefaultScript(datas);
+    appUser.fnDefaultScript(datas);
 </script>

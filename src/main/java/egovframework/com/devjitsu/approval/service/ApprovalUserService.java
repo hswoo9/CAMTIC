@@ -6,6 +6,12 @@ import java.util.Map;
 public interface ApprovalUserService {
 
     /**
+     * KendoTreeView 양식목록
+     * @return
+     */
+    String getDraftFormList(Map<String, Object> params);
+
+    /**
      * 나의 즐겨찾기 결재선 리스트 조회
      * @param params
      * @return

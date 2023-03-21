@@ -78,6 +78,18 @@ public class ApprovalUserController {
         return approvalUserService.getUserFavApproveRouteDetail(params);
     }
 
+    @RequestMapping("/approvalUser/draftFormList.do")
+    public String draftFormList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        model.addAttribute("toDate", getCurrentDateTime());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", approvalUserService.getDraftFormList(params));
+
+        return "approval/user/draftFormList";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

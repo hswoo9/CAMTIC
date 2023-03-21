@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,43 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
 
     @Autowired
     private ApprovalUserRepository approvalUserRepository;
+
+    @Override
+    public String getDraftFormList(Map<String, Object> params) {
+        List<Map<String, Object>> getDocFormList = approvalUserRepository.getDraftFormList();
+
+        List<Map<String, Object>> treeList = new ArrayList<>();
+
+        for (Map<String, Object> map : getDocFormList) {
+            if(map.get("UPPER_FOLDER_ID").equals("0") || map.get("UPPER_FOLDER_ID").equals("999")){
+                map.put("expanded", true);
+            }
+        }
+
+        //양식 폴더
+        for (Map<String, Object> docFormFolder : getDocFormList) {
+            //양식 목록
+            for (Map<String, Object> docForm : getDocFormList) {
+                if(docFormFolder.get("FORM_FOLDER_ID").equals(docForm.get("UPPER_FOLDER_ID"))){
+                    List<Map<String, Object>> docFormList = new ArrayList<Map<String, Object>>();
+                    if(docFormFolder.containsKey("items")){
+                        docFormList = (List<Map<String, Object>>) docFormFolder.get("items");
+                        docFormList.add(docForm);
+                        docFormFolder.put("items", docFormList);
+                    }else{
+                        docFormList.add(docForm);
+                        docFormFolder.put("items", docFormList);
+                    }
+                }
+            }
+
+            if(docFormFolder.get("FORM_FOLDER_ID").equals("999")){
+                treeList.add(docFormFolder);
+            }
+        }
+
+        return new Gson().toJson(treeList);
+    }
 
     @Override
     public List<Map<String, Object>> getUserFavApproveRouteList(Map<String, Object> params) {

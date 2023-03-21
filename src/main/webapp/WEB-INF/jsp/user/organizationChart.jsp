@@ -12,7 +12,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 
 <link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
-<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
 
 <div class="col-md-10 col-lg-10 dash-left">

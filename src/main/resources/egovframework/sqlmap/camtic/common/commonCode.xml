@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="commonCode">
+
+    <select id="getHwpCtrlUrl" parameterType="string" resultType="string">
+        /* getHwpCtrlUrl */
+        SELECT
+            URL
+        FROM
+            DJ_CAMTIC.DJ_CO_ERP
+        WHERE
+            ACHR_GBN = #{achrGbn}
+    </select>
+
+    <select id="getCmGroupCodeList" resultType="map" parameterType="map">
+        /* getCmGroupCodeList */
+
+        SELECT
+            CCG.*,
+            CCG.CM_GROUP_CODE AS CM_GROUP_CODE_TEXT
+        FROM
+            DJ_CAMTIC.V_COM_GROUP_CODE CCG
+        WHERE
+            1=1
+        <if test='cmGroupCode != null and !"".equals(cmGroupCode)'>
+        AND
+            CCG.CM_GROUP_CODE LIKE CONCAT('%',#{cmGroupCode},'%')
+        </if>
+        <if test='dropDown != null and !"".equals(dropDown) and "Y".equals(dropDown)'>
+        GROUP BY
+            CCG.CM_GROUP_CODE
+        </if>
+        ORDER BY CM_GROUP_CODE ASC
+    </select>
+
+    <select id="getCmGroupCodeInfo" resultType="map" parameterType="map">
+        /* getCmGroupCodeInfo */
+
+        SELECT
+            CCG.*,
+            CCG.CM_GROUP_CODE AS CM_GROUP_CODE_TEXT
+        FROM
+            DJ_CAMTIC.V_COM_GROUP_CODE CCG
+        WHERE
+            CCG.CM_GROUP_CODE_ID = #{cmGroupCodeId}
+    </select>
+
+    <select id="getCmCodeList" resultType="map" parameterType="map">
+        /* getCmCodeList */
+
+        SELECT
+            *
+        FROM
+            DJ_CAMTIC.V_COM_CODE CC
+        WHERE
+            1=1
+        <if test='cmGroupCodeId != null and !"".equals(cmGroupCodeId)'>
+            <choose>
+                <when test="searchType == 1">
+                    AND CC.CM_GROUP_CODE_ID IN
+                    <foreach collection="cmGroupCodeId" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND
+                        CC.CM_GROUP_CODE_ID = #{cmGroupCodeId}
+                </otherwise>
+            </choose>
+        </if>
+        ORDER BY
+            CC.CM_CODE_ID
+    </select>
+
+    <select id="getCmCodeInfo" parameterType="map" resultType="map">
+        /* getCmCodeInfo */
+
+        SELECT
+            CC.*
+        FROM
+            DJ_CAMTIC.V_COM_CODE CC
+        WHERE
+            1=1
+        <if test='cmCodeId != null and !"".equals(cmCodeId)'>
+        AND
+            CC.CM_CODE_ID = #{cmCodeId}
+        </if>
+
+        <if test='cmCode != null and !"".equals(cmCode)'>
+            AND
+            CC.CM_CODE = #{cmCode}
+        </if>
+
+        <choose>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "temp".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '임시저장'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and ("draft".equals(cmCodeNm) or "tempDrafting".equals(cmCodeNm))'>AND CC.CM_CODE_NM = '상신'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "approve".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '결재'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "return".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '반려'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "reDrafting".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '재상신'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "retrieve".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '회수'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "finalType1Approve".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '전결'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "noApprove".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '결재안함'</when>
+            <when test='cmCodeNm != null and !"".equals(cmCodeNm) and "finalApprove".equals(cmCodeNm)'>AND CC.CM_CODE_NM = '최종결재'</when>
+        </choose>
+    </select>
+
+    <insert id="setCmGroupCodeSave" parameterType="map">
+        /* setCmCodeSave */
+
+        INSERT INTO DJ_CAMTIC.V_COM_GROUP_CODE
+        (
+            CM_GROUP_CODE, CM_GROUP_CODE_NM, CM_GROUP_CODE_DESC, REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{cmGroupCode}, #{cmGroupCodeNm}, #{cmGroupCodeDesc}, #{empSeq}
+        )
+    </insert>
+
+    <insert id="setCmCodeSave" parameterType="map">
+        /* setCmCodeSave */
+
+        INSERT INTO DJ_CAMTIC.V_COM_CODE
+        (
+            CM_CODE, CM_GROUP_CODE_ID, CM_CODE_NM, CM_CODE_DESC, REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{cmCode}, #{cmGroupCodeId}, #{cmCodeNm}, #{cmCodeDesc}, #{empSeq}
+        )
+    </insert>
+
+    <update id="setCmGroupCodeUpdate" parameterType="map">
+        /* setCmCodeUpdate */
+
+        UPDATE
+            DJ_CAMTIC.V_COM_GROUP_CODE
+        SET
+            CM_GROUP_CODE = #{cmGroupCode},
+            CM_GROUP_CODE_NM = #{cmGroupCodeNm},
+            CM_GROUP_CODE_DESC = #{cmGroupCodeDesc},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            CM_GROUP_CODE_ID = #{cmGroupCodeId}
+    </update>
+
+    <update id="setCmCodeUpdate" parameterType="map">
+        /* setCmCodeUpdate */
+
+        UPDATE
+            DJ_CAMTIC.V_COM_CODE
+        SET
+            CM_CODE = #{cmCode},
+            CM_CODE_NM = #{cmCodeNm},
+            CM_CODE_DESC = #{cmCodeDesc},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            CM_CODE_ID = #{cmCodeId}
+    </update>
+
+    <!-- CUST_EPIS -->
+    <select id="getCommCodeList" parameterType="Map" resultType="Map">
+        /* getCommCodeList */
+        SELECT
+            *
+        FROM
+            CUST_EPIS.COMMON_CODE
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            CODE IS NOT NULL
+        AND
+            CODE != ''
+		AND
+		    GROUP_CODE = #{group_code}
+        ORDER BY ORDER_NO, CODE
+    </select>
+</mapper>

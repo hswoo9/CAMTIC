@@ -1,0 +1,1094 @@
+/**
+ * 2022.06.28 by. deer
+ * 전자결재 관련 팝업 - 상신 팝업
+ *
+ * function / global variable / local variable setting
+ */
+var draft = {
+    global : {
+        dataType                : new Array(),
+        params                  : "",
+        type                    : "",
+        docInfo                 : null,
+        approversArr            : new Array(),
+        referencesArr           : new Array(),
+        receiversArr            : new Array(),
+        readersArr              : new Array(),
+        originalApproversArr    : new Array(),
+        lastApprover            : "",
+        hwpCtrl                 : "",
+        fileUploaded            : new Array(),
+        fileInitData            : "",
+        fileUploadFlag          : false,
+        draftDocInfo            : "",
+        flag                    : false,
+        purcFlag                : false,
+        purcParams              : "",
+        windowPopUrl : "",
+        popName : "",
+        popStyle : "",
+
+        /** 기안기 셋팅 옵션 (파일, editing mode)*/
+        templateFormFile : "",
+        templateFormOpt : "",
+        templateFormCustomField : "",
+        openFormat : "",
+        mod : "",
+        hwpFileTextData : "",
+        htmlFileTextData : "",
+
+        referencesDataSource : new kendo.data.DataSource({data:""}),
+
+        radioGroupData : "",
+
+        formData : new FormData(),
+        searchAjaxData : "",
+        saveAjaxData : "",
+    },
+
+    fnDefaultScript : function (params) {
+        document.querySelector('body').style.overflow = 'hidden';
+        if(draft.global.params.mod == "W"){
+            $("#loadingText").text("양식을 불러오는 중입니다.");
+        }else{
+            $("#loadingText").text("문서를 불러오는 중입니다.");
+        }
+
+        draft.global.params = params;
+
+        $("#menuCd").val(draft.global.params.menuCd);
+        $("#type").val(draft.global.params.type);
+        $("#formId").val(draft.global.params.formId);
+        $("#docId").val(draft.global.params.docId);
+        $("#docType").val(draft.global.params.docType);
+        $("#compSeq").val(draft.global.params.compSeq);
+        $("#linkageType").val(draft.global.params.linkageType);
+        $("#processId").val(draft.global.params.processId);
+        $("#docTitle").val(draft.global.params.DOC_TITLE);
+
+
+        customKendo.fn_textBox(["docTitle"]);
+
+        draft.global.type = $("#type").val();
+
+        $("#publicType").kendoRadioGroup({
+            items: draft.kendoRadioGroupDataSource(27),
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "001",
+        });
+
+
+        $("#urgentType").kendoRadioGroup({
+            items: draft.kendoRadioGroupDataSource(28),
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "000",
+        });
+
+        $("#securityType").kendoRadioGroup({
+            items: draft.kendoRadioGroupDataSource(29),
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "000",
+        });
+
+        $("#docGbn").kendoRadioGroup({
+            items: draft.kendoRadioGroupDataSource(30),
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "000",
+            change : function(e){
+                if(this.value() == "001"){
+                    $("#receiverTr").show();
+                }else{
+                    draft.global.receiversArr = [];
+                    $("#receiverName").val("");
+                    $("#receiverTr").hide();
+                }
+            }
+        });
+
+        $("#referencesListView").kendoListBox({
+            dataSource : draft.global.referencesDataSource,
+            dataTextField: "docTitle",
+            dataValueField: "docId",
+            template: kendo.template($("#template").html())
+        });
+
+        $(document).ready(function() {
+            draft.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", draft.global.params.hwpUrl, function () {draft.editorComplete();});
+            window.onresize();
+        });
+
+        window.onresize = function () {draft.resize()};
+
+        $("#approveModal").kendoWindow({
+            title: "결재의견",
+            visible: false,
+            modal: true,
+            width : 500,
+            position : {
+                top : 50,
+                left : 255
+            },
+            close: function () {
+                $("#approveModal").load(location.href + ' #approveModal');
+            }
+        });
+
+        var paramDiv = $('#paramDiv');
+
+        if(draft.global.params.linkageType == "2"){
+            paramDiv.append($("<input type='hidden' id='linkageProcessCode' name='linkageProcessCode' value='" + draft.global.params.linkageProcessCode + "'>" +
+                "<input type='hidden' id='approKey' name='approKey' value='" + draft.global.params.approKey + "'>"));
+        }
+
+        if(draft.global.params.linkageProcessCode != null){
+            if(draft.global.params.linkageProcessCode.indexOf("episPurc") > -1){
+                draft.global.purcFlag = true;
+            }else{
+                draft.global.purcFlag = false;
+            }
+        }
+
+        var purcParamsInput = $("<input type='hidden' id='purcFormCode' name='purcFormCode' value=''>" +
+            "<input type='hidden' id='purcInspFormCode' name='purcInspFormCode' value=''>" +
+            "<input type='hidden' id='contentGroup' name='contentGroup' value=''>" +
+            "<input type='hidden' id='contentPrevValue' name='contentPrevValue' value=''>" +
+            "<input type='hidden' id='contentId' name='contentId' value=''>" +
+            "<input type='hidden' id='contentValue' name='contentValue' value=''>");
+
+        if(draft.global.purcFlag){
+            draft.global.purcParams = {
+                purcFormCode : draft.global.params.purcFormCode,
+                contentGroup : draft.global.params.contentGroup,
+                contentPrevValue : draft.global.params.contentPrevValue,
+                contentId : draft.global.params.contentId,
+                contentValue : draft.global.params.contentValue
+            }
+
+            if(draft.global.params.purcInspFormCode != null){
+                draft.global.purcParams.purcInspFormCode = draft.global.params.purcInspFormCode;
+            }
+
+            if(draft.global.params.befUrl != null){
+                draft.global.purcParams.befUrl = draft.global.params.befUrl.replace("shift6", "&")
+            }else{
+                $("#backBtn").hide();
+            }
+
+            paramDiv.append(purcParamsInput);
+        }
+
+        if(draft.global.purcFlag){
+            $("#purcFormCode").val(draft.global.purcParams.purcFormCode);
+            $("#contentGroup").val(draft.global.purcParams.contentGroup);
+            $("#contentPrevValue").val(draft.global.purcParams.contentPrevValue);
+            $("#contentId").val(draft.global.purcParams.contentId);
+            $("#contentValue").val(draft.global.purcParams.contentValue);
+
+            draft.global.searchAjaxData = {
+                purcId : draft.global.purcParams.contentValue
+            }
+
+            if(draft.global.purcParams.purcInspFormCode != null){
+                $("#purcInspFormCode").val(draft.global.purcParams.purcInspFormCode);
+                draft.global.searchAjaxData = {
+                    purcInspId : draft.global.purcParams.contentValue,
+                    tmpPurcId : draft.global.purcParams.contentPrevValue
+                }
+            }
+
+            var result = customKendo.fn_customAjax("/purcReq/getDocFileSet.do", draft.global.searchAjaxData);
+            draft.getDocFileSet(result.docFile);
+        }
+
+        draft.setKendoUpload();
+    },
+
+    getDocFormTemplate : function(){
+        draft.global.searchAjaxData = {
+            formId : $("#formId").val(),
+        }
+
+        var result = customKendo.fn_customAjax("/approval/getTemplateFormFile", draft.global.searchAjaxData);
+        draft.global.flag = result.flag;
+        if(result.flag){
+            return result.formFile;
+        }
+    },
+
+    getDocFormReqOpt : function(){
+        draft.global.searchAjaxData = {
+            formId : $("#formId").val()
+        }
+
+        var returnArr = new Array();
+        var result = customKendo.fn_customAjax("/approval/getDocFormReqOpt.do", draft.global.searchAjaxData);
+
+        draft.global.flag = result.flag;
+
+        if(result.flag){
+            var formInfoReqOpt = result.formInfoReqOpt;
+            var formRdRcCfList = result.formRdRcCfList;
+            var formReaderList = formRdRcCfList.readerList;
+            var formReceiver = formRdRcCfList.receiverList;
+
+            returnArr.formInfoReqOpt = result.formInfoReqOpt;
+            returnArr.formCustomFieldList =  formRdRcCfList.formCustomFieldList;
+
+            /** 양식 정보 */
+            $("#formName").val(formInfoReqOpt.FORM_NAME);
+
+            /** 기본정보 조회 */
+            $("#publicType").data("kendoRadioGroup").value(formInfoReqOpt.PUBLIC_TYPE);
+            $("#urgentType").data("kendoRadioGroup").value(formInfoReqOpt.URGENT_TYPE);
+            $("#securityType").data("kendoRadioGroup").value(formInfoReqOpt.SECURITY_TYPE);
+            $("#docGbn").data("kendoRadioGroup").value(formInfoReqOpt.DOC_GBN);
+            $("#docGbn").data("kendoRadioGroup").trigger("change");
+
+            for(var i = 0; i < formReaderList.length; i++){
+                var readerData = {
+                    docId : $("#docId").val(),
+                    seqType : formReaderList[i].SEQ_TYPE,
+                    readerDeptSeq : formReaderList[i].READER_DEPT_SEQ,
+                    readerDeptName : formReaderList[i].READER_DEPT_NAME,
+                    readerEmpSeq : formReaderList[i].READER_EMP_SEQ,
+                    readerEmpName : formReaderList[i].READER_EMP_NAME,
+                    readerDutyCode : formReaderList[i].READER_DUTY_CODE,
+                    readerDutyName : formReaderList[i].READER_DUTY_NAME,
+                    readerDutyCode : formReaderList[i].READER_POSITION_CODE,
+                    readerDutyName : formReaderList[i].READER_POSITION_NAME,
+                    empSeq : $("#empSeq").val()
+                }
+                draft.global.readersArr.push(readerData);
+            }
+
+            for(var i = 0; i < formReceiver.length; i++){
+                var receiverData = {
+                    docId : $("#docId").val(),
+                    seqType : formReceiver[i].SEQ_TYPE,
+                    receiverDeptSeq : formReceiver[i].RECEIVER_DEPT_SEQ,
+                    receiverDeptName : formReceiver[i].RECEIVER_DEPT_NAME,
+                    receiverEmpSeq : formReceiver[i].RECEIVER_EMP_SEQ,
+                    receiverEmpName : formReceiver[i].RECEIVER_EMP_NAME,
+                    receiverDutyName : formReceiver[i].RECEIVER_DUTY_NAME,
+                    receiverPositionName : formReceiver[i].RECEIVER_POSITION_NAME,
+                    empSeq : $("#empSeq").val()
+                }
+                draft.global.receiversArr.push(receiverData);
+            }
+
+            $("#readerName").val(result.formRdRcCfList.readerName);
+            if(formInfoReqOpt.DOC_GBN == "001"){
+                $("#receiverName").val(result.formRdRcCfList.receiverName);
+            }
+        }
+
+        return returnArr;
+    },
+
+    kendoRadioGroupDataSource : function(cmGroupCodeId){
+        draft.global.radioGroupData = {
+            cmGroupCodeId : cmGroupCodeId
+        }
+
+        var radioArr = new Array();
+
+        var result = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", draft.global.radioGroupData);
+
+        if(result.flag){
+            var data = result;
+            for(var i = 0; i < data.length; i++){
+                if(data[i].CM_CODE_NM == "보안문서"){
+                    radioArr.push({label : data[i].CM_CODE_NM + " (결재선소유자 열람)", value : data[i].CM_CODE});
+                }else{
+                    radioArr.push({label : data[i].CM_CODE_NM, value : data[i].CM_CODE});
+                }
+            }
+        }
+
+        return radioArr;
+    },
+
+    editorComplete : function() {
+        if(draft.global.type != "drafting"){
+            draft.global.mod = "RW";
+            draft.global.openFormat = "HWPML2X";
+            draft.global.templateFormFile = draft.approvalReturnOrTempData($("#docId").val(), draft.global.type);
+        }else{
+            draft.global.mod = "W";
+            draft.global.openFormat = "HWP";
+            draft.global.templateFormFile = draft.getDocFormTemplate();
+            var templateFlag = draft.global.flag;
+            if(!templateFlag || draft.global.templateFormFile.filter(element => element.FORM_FILE_TYPE === "form").length == 0){
+                alert("양식 정보가 존재하지 않습니다.\n관리자에게 문의하세요.");
+                window.close();
+            }
+
+            draft.global.templateFormOpt = draft.getDocFormReqOpt().formInfoReqOpt;
+            draft.global.templateFormCustomField = draft.getDocFormReqOpt().formCustomFieldList;
+
+            var optFlag = draft.global.flag;
+            if(!optFlag){
+                alert("양식 정보가 존재하지 않습니다.\n관리자에게 문의하세요.");
+                window.close();
+            }
+        }
+
+        draft.global.templateFormOpt.doc_contents = editorContent;
+
+        hwpDocCtrl.defaultScript(
+            draft.global.hwpCtrl,
+            draft.global.openFormat,
+            draft.global.templateFormFile,
+            draft.global.templateFormOpt,
+            draft.global.templateFormCustomField,
+            draft.global.params,
+            $("#empSeq").val(),
+            draft.global.mod
+        );
+
+        draft.drafterArrAdd();
+    },
+
+    resize : function() {
+        if (document.getElementById("hwpctrl_frame") != null && typeof(document.getElementById("hwpctrl_frame")) != "undefined") {
+            var pHeight = (window.innerHeight - 20) + "px";
+            document.getElementById("hwpctrl_frame").style.width = "100%";
+            document.getElementById("hwpctrl_frame").style.height = pHeight;
+        }
+    },
+
+    approvalLinePop : function(){
+        draft.global.windowPopUrl = "/approval/approvalLineSettingPop.do";
+        draft.global.popName = "approvalLineSetting";
+        draft.global.popStyle ="width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    },
+
+    setHwpApprovalLinePut : function(){
+        /**
+         * approver = 결재자 직급, 결재자 직책
+         * approval = 결재자 이름
+         * approval_st = 결재유형 결재일
+         * */
+
+        hwpDocCtrl.putFieldsText(
+            ["approval", "approver", "cooperate", "cooperation"],
+            7,
+            "\n"
+        )
+
+        var approverMark = draft.global.templateFormOpt.APPROVER_MARK == "P" ? "approvePositionName" : "approveDutyName";
+        hwpDocCtrl.setArrayFieldsPut(
+            ["cooperation", "cooperate"],
+            ["approval", "approver"],
+            {
+                trueCase : "approveType",
+                trueValue : "1"
+            },
+            ["approveEmpName", approverMark],
+            draft.global.approversArr
+        );
+    },
+
+    archiveSelectPop : function(){
+        draft.global.windowPopUrl = "/approval/approvalArchiveSelectPop.do";
+        draft.global.popName = "approvalArchiveSelect";
+        draft.global.popStyle ="width=610, height=670, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    },
+
+    archiveSelectPopClose : function(e){
+        $("#aiKeyCode").val(e.aiKeyCode);
+        $("#aiTitle").val(e.name);
+    },
+
+    referencesSelectPop : function(){
+        draft.global.windowPopUrl = "/approval/approvalReferencesSelectPop.do";
+        draft.global.popName = "approvalReferencesSelect";
+        draft.global.popStyle ="width=1350, height=590, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    },
+
+    referencesListViewSetData : function(rs){
+        draft.global.referencesArr = rs;
+
+        $("#referencesListView").data("kendoListBox").setDataSource(rs);
+    },
+
+    referencesCancel : function(e){
+        var listBox = $("#referencesListView").data("kendoListBox");
+        listBox.remove(listBox.items().get($(e).closest("li").index()));
+        draft.global.referencesDataSource.remove($(e).closest("li"));
+    },
+
+    readerSelectPopup : function(){
+        draft.global.windowPopUrl = "/approval/approvalReaderSelectPopup.do";
+        draft.global.popName = "readerSelectPopup";
+        draft.global.popStyle ="width=1170, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    },
+
+    receiverSelectPopup : function(){
+        draft.global.windowPopUrl = "/approval/approvalReceiverSelectPopup.do";
+        draft.global.popName = "receiverSelectPopup";
+        draft.global.popStyle ="width=1170, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    },
+
+    readerSelectPopClose : function(e, readerNameStr){
+        $("#readerName").val(readerNameStr);
+        draft.global.readersArr = e;
+    },
+
+    receiverSelectPopClose : function(e, receiverNameStr){
+        $("#receiverName").val(receiverNameStr);
+        draft.global.receiversArr = e;
+    },
+
+    drafterArrAdd : function(){
+        if(draft.global.approversArr.filter(element => element.approveOrder === "0").length == 0){
+            draft.global.approversArr.unshift({
+                approveEmpSeq : $("#empSeq").val(),
+                approveEmpName : $("#empName").val(),
+                approveStatCodeDesc : "",
+                approveStatCode : "",
+                approvePositionName : $("#empPositionNm").val(),
+                approveDutyName : $("#empDutyNm").val(),
+                approveDeptSeq : $("#deptSeq").val(),
+                approveDeptName : $("#deptName").val(),
+                approveOrder : "0",
+                approveType : "0"
+            });
+        }
+    },
+
+    getDocFileSet : function (docFile){
+        console.log(docFile);
+        if(docFile.length > 0){
+            for(var i = 0; i < docFile.length; i++){
+                var data = {
+                    fileNo : docFile[i].FILE_NO == null ? docFile[i].file_no : docFile[i].FILE_NO,
+                    name: docFile[i].filename == null ? docFile[i].file_org_name + "." + docFile[i].file_ext : docFile[i].filename,
+                    size: docFile[i].FILE_SIZE == null ? docFile[i].file_size : docFile[i].FILE_SIZE,
+                    extension: docFile[i].FILE_EXT == null ? "." + docFile[i].file_ext : "." + docFile[i].FILE_EXT
+                }
+                draft.global.fileUploaded.push(data);
+            }
+        }
+    },
+
+    setKendoUpload : function(){
+        $("#files").kendoUpload({
+            async : {
+                saveUrl : getContextPath() + "/approval/setApproveDraftFileInit.do",
+                //removeUrl : "remove",
+                autoUpload : false
+            },
+            files : draft.global.fileUploaded,
+            localization : {
+                select : "파일업로드",
+                dropFilesHere : ""
+            },
+            upload: this.onUpload,
+            remove : this.onRemove,
+            success : this.onSuccess,
+            complete : this.onComplete
+        }).data("kendoUpload");
+    },
+
+    onUpload(e){
+        e.data = draft.global.fileInitData;
+    },
+
+    onRemove(e){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            e.data = {
+                fileNo : e.files[0].fileNo
+            };
+            customKendo.fn_customAjax(getContextPath() + "/common/commonFileDel.do", e.data);
+        }else{
+            e.preventDefault();
+        }
+    },
+
+    onSuccess : function(e){
+        if(e.operation == "upload") {
+            draft.global.fileUploadFlag = true;
+        }else if(e.operation == "remove"){
+            alert(e.XMLHttpRequest.responseJSON.rs.message);
+        }
+    },
+
+    onComplete : function(){
+        if(!draft.global.fileUploadFlag){
+            alert("첨부파일 등록 중 에러가 발생했습니다.");
+        }else{
+            if(draft.global.fileUploadFlag.draftDocInfo == null){
+                window.close();
+            }
+        }
+    },
+
+    approvalReturnOrTempData(docId, type){
+        draft.global.searchAjaxData = {
+            docId : docId,
+            cmCodeNm : type
+        }
+
+        var result = customKendo.fn_customAjax("/approval/getReturnDocDataInfo.do", draft.global.searchAjaxData);
+
+        if(result.flag){
+            var docFile =  result.docFileList;
+            var comCode = result.comCode;
+            var rs = result.rs;
+
+            if(draft.global.type == "reDrafting"){
+                $("#draftBtn").remove();
+                $("#btnDiv").prepend("<input type='hidden' id='approveStatCode' name='approveStatCode' value='" + comCode.CM_CODE + "'>" +
+                    "<input type='hidden' id='approveStatCodeDesc' name='approveStatCodeDesc' value='" + comCode.CM_CODE_NM + "'>" +
+                    '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
+                    '	<span class="k-button-text">상신</span>' +
+                    '</button>');
+            }
+
+            $("#formId").val(rs.docInfo.FORM_ID);
+            $("#formName").val(rs.docInfo.FORM_NAME);
+            $("#docNo").val(rs.docInfo.DOC_NO);
+            $("#atFileSn").val(rs.docInfo.ATFILE_SN);
+            $("#docId").val(rs.docInfo.DOC_ID);
+            $("#docOpt").val(rs.docInfo.DOC_OPT_ID);
+            $("#docTitle").val(rs.docInfo.DOC_TITLE);
+
+
+            $("#publicType").data("kendoRadioGroup").value(rs.docInfo.PUBLIC_TYPE);
+            $("#urgentType").data("kendoRadioGroup").value(rs.docInfo.URGENT_TYPE);
+            $("#securityType").data("kendoRadioGroup").value(rs.docInfo.SECURITY_TYPE);
+            $("#docGbn").data("kendoRadioGroup").value(rs.docInfo.DOC_GBN);
+            $("#docGbn").data("kendoRadioGroup").trigger("change");
+
+            $("#aiKeyCode").val(rs.docInfo.AIKEYCODE);
+            $("#aiTitle").val(rs.docInfo.AITITLE);
+
+            draft.getDocFileSet(docFile);
+
+            var approveOrder = 0;
+            for(var i = 0; i < rs.approveRoute.length; i++){
+                if(rs.approveRoute[i].APPROVE_ORDER != 0 && approveOrder < rs.approveRoute[i].APPROVE_ORDER){
+                    approveOrder = rs.approveRoute[i].APPROVE_ORDER;
+                }
+
+                var apprRoute = {
+                    empSeq : $("#empSeq").val(),
+                    approveEmpSeq : String(rs.approveRoute[i].APPROVE_EMP_SEQ),
+                    approveEmpName : rs.approveRoute[i].APPROVE_EMP_NAME,
+                    approveDeptSeq : rs.approveRoute[i].APPROVE_DEPT_SEQ,
+                    approveDeptName : rs.approveRoute[i].APPROVE_DEPT_NAME,
+                    approvePositionName : rs.approveRoute[i].APPROVE_POSITION_NAME,
+                    approveDutyName : rs.approveRoute[i].APPROVE_DUTY_NAME,
+                    approveDt : rs.approveRoute[i].APPROVE_DT,
+                    approveOrder : rs.approveRoute[i].APPROVE_ORDER,
+                    approveType : rs.approveRoute[i].APPROVE_TYPE
+                }
+                draft.global.approversArr.push(apprRoute);
+
+            }
+
+            if(draft.global.approversArr.find(element => element.approveType === "1") != null){
+                draft.global.lastApprover = draft.global.approversArr.find(element => element.approveType === "1");
+            }else {
+                draft.global.lastApprover = draft.global.approversArr.find(element => element.approveOrder === approveOrder);
+            }
+
+            draft.global.originalApproversArr = draft.global.approversArr;
+
+            draft.referencesListViewSetData(rs.referencesAll);
+
+            $("#readerName").val(rs.displayReaderName);
+            draft.global.readersArr = [];
+            for(var i = 0; i < rs.readerAll.length; i++){
+                var data = {
+                    seqType : rs.readerAll[i].SEQ_TYPE,
+                    readerEmpSeq : rs.readerAll[i].READER_EMP_SEQ,
+                    readerEmpName : rs.readerAll[i].READER_EMP_NAME,
+                    readerDeptSeq : rs.readerAll[i].READER_DEPT_SEQ,
+                    readerDeptName : rs.readerAll[i].READER_DEPT_NAME,
+                    readerDutyCode : rs.readerAll[i].READER_DUTY_CODE,
+                    readerDutyName : rs.readerAll[i].READER_DUTY_NAME,
+                    readerPositionCode : rs.readerAll[i].READER_POSITION_CODE,
+                    readerPositionName : rs.readerAll[i].READER_POSITION_NAME,
+                    empSeq : $("#empSeq").val()
+                }
+                draft.global.readersArr.push(data);
+            }
+
+            if(rs.docInfo.DOC_GBN == "001"){
+                $("#receiverName").val(rs.displayReceiverName);
+                draft.global.receiversArr = [];
+                for(var i = 0; i < rs.receiverAll.length; i++){
+                    var data = {
+                        seqType : rs.receiverAll[i].SEQ_TYPE,
+                        receiverEmpSeq : rs.receiverAll[i].RECEIVER_EMP_SEQ,
+                        receiverEmpName : rs.receiverAll[i].RECEIVER_EMP_NAME,
+                        receiverDeptSeq : rs.receiverAll[i].RECEIVER_DEPT_SEQ,
+                        receiverDeptName : rs.receiverAll[i].RECEIVER_DEPT_NAME,
+                        receiverDutyName : rs.receiverAll[i].RECEIVER_DUTY_NAME,
+                        receiverPositionName : rs.receiverAll[i].RECEIVER_POSITION_NAME,
+                        empSeq : $("#empSeq").val()
+                    }
+                    draft.global.receiversArr.push(data);
+                }
+            }
+        }
+
+        return result.rs.templateFile;
+    },
+
+    redirectPurcForm : function(){
+        draft.global.windowPopUrl = draft.global.purcParams.befUrl;
+        draft.global.popName = $("#approKey").val();
+        draft.global.popStyle ="width=1350, height=960, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+        window.close();
+    },
+
+    draftInitValidation : function(e) {
+        draft.global.flag = true;
+        if (draft.global.approversArr.length < 2) {
+            alert("결재선을 지정해주세요.");
+            draft.global.flag = false;
+            return;
+        } else if (!$("#docTitle").val()) {
+            alert("문서제목을 입력해주세요.");
+            draft.global.flag = false;
+            return
+        } /*else if (!$("#aiKeyCode").val()) {
+            alert("기록물철을 선택해주세요.");
+            draft.global.flag = false;
+            return
+        } */else if ($("#files").closest('.k-upload').find('.k-file').length == 0) {
+            if (!confirm("첨부된 파일이 없습니다. 계속하시겠습니까?")) {
+                draft.global.flag = false;
+                return;
+            }
+        }
+
+        if(draft.global.flag){
+            if($(e).hasClass("draft")){
+                if(confirm("상신하시겠습니까?")){
+                    draft.draftHwpDataInit(e);
+                }
+            }else{
+                if(confirm("재상신하시겠습니까?")){
+                    draft.draftHwpDataInit(e);
+                }
+            }
+        }
+    },
+
+    docTempInit : function(e){
+        hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
+
+        draft.draftHwpDataInit(e);
+    },
+
+    docTempSave : function(e){
+        draft.global.formData = new FormData();
+
+        draft.draftTypeDataSetting(e, "temp", draft.global.formData);
+
+        draft.docApproveLineDataSetting("temp", draft.global.formData);
+
+        $.ajax({
+            url : getContextPath() + "/approval/setApproveDraftInit.do",
+            type : 'post',
+            data : draft.global.formData,
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function (rs){
+                $("#loadingDiv").hide();
+                document.querySelector('body').style.overflow = 'auto';
+
+                var params = rs.params;
+                draft.global.fileInitData = params;
+
+                alert("처리되었습니다.");
+                if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                    $("#files").data("kendoUpload").upload();
+                }else{
+                    // window.close();
+                }
+            },
+            error : function (){
+                alert("처리 중 오류가 발생했습니다.");
+            }
+        })
+    },
+
+    draftHwpDataInit : function(e){
+        document.querySelector('body').style.overflow = 'hidden';
+        $("#loadingDiv").show();
+        $("#loadingText").text("문서를 변환 중 입니다.");
+
+        if(!$("#docNo").val() && !$(e).hasClass("temp")){
+            draft.global.searchAjaxData = {
+                type : draft.global.type,
+                docId : $("#docId").val(),
+                deptSeq : $("#deptSeq").val(),
+                docType : $("#docType").val()
+            }
+
+            var result = customKendo.fn_customAjax("/approval/getDeptDocNum.do", draft.global.searchAjaxData);
+            if(result.flag){
+                $("#docNo").val(result.rs.docNo);
+
+                hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
+                if($(e).hasClass("draft")){
+                    hwpDocCtrl.putFieldText('doc_num', result.rs.docNo);
+                    hwpDocCtrl.putFieldText('doc_runday', draft.global.dataType.nowCom);
+                }
+            }
+        }
+
+        if(!$(e).hasClass("draft") && !$(e).hasClass("temp")){
+            hwpDocCtrl.putFieldsText(
+                ["approval_st"],
+                8,
+                "\n"
+            )
+        }
+
+        if(!$(e).hasClass("temp")){
+            hwpDocCtrl.putFieldText('approval_st' + draft.global.approversArr.find(element => element.approveEmpSeq === "1").approveOrder, draft.global.dataType.nowCom + "(결재)");
+        }
+
+
+        hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
+            draft.global.hwpFileTextData = data;
+        })
+
+        hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
+            draft.global.htmlFileTextData = data;
+        })
+
+        if($(e).hasClass("draft")){
+            setTimeout(() => draft.draftInit(e), 200);
+        }else if($(e).hasClass("reDraft")){
+            setTimeout(() => draft.reDraftInit(e), 200);
+        }else{
+            setTimeout(() => draft.docTempSave(e), 200);
+        }
+    },
+
+    draftInit : function(e){
+        draft.global.formData = new FormData();
+
+        draft.draftTypeDataSetting(e, draft.global.type, draft.global.formData);
+
+        draft.docApproveLineDataSetting(draft.global.type, draft.global.formData);
+
+        $.ajax({
+            url : getContextPath() + "/approval/setApproveDraftInit.do",
+            type : 'post',
+            data : draft.global.formData,
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function (rs){
+                var params = rs.params;
+                draft.global.fileInitData = params;
+
+                if(params.draftDocInfo != null){
+                    if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                        $("#files").data("kendoUpload").upload();
+                    }
+
+                    draft.global.draftDocInfo = params.draftDocInfo;
+                    $("#approveCode").val(draft.global.draftDocInfo.draftUserApproveCode);
+                    $("#approveCodeNm").val(draft.global.draftDocInfo.draftUserApproveCodeDesc);
+                    $("#approveRouteId").val(draft.global.draftDocInfo.draftUserApproveRouteId);
+
+                    draft.approveKendoSetting();
+                }else{
+                    alert("처리되었습니다.");
+                    if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                        $("#files").data("kendoUpload").upload();
+                    }else{
+                        window.close();
+                    }
+                }
+            },
+            error : function (){
+                alert("처리 중 오류가 발생했습니다.");
+            }
+        })
+    },
+
+    reDraftInit : function(e){
+        draft.global.formData = new FormData();
+
+        draft.draftTypeDataSetting(e, "reDrafting", draft.global.formData);
+
+        draft.docApproveLineDataSetting("reDrafting", draft.global.formData);
+
+        $.ajax({
+            url : getContextPath() + '/approval/setApproveDraftInit.do',
+            type : 'POST',
+            data : draft.global.formData,
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function (rs){
+                var params = rs.params;
+                draft.global.fileInitData = params;
+
+                if(params.draftDocInfo != null){
+                    if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                        $("#files").data("kendoUpload").upload();
+                    }
+
+                    draft.global.draftDocInfo = params.draftDocInfo;
+                    $("#approveCode").val(draft.global.draftDocInfo.draftUserApproveCode);
+                    $("#approveCodeNm").val(draft.global.draftDocInfo.draftUserApproveCodeDesc);
+
+                    draft.approveKendoSetting();
+                }else{
+                    alert("처리되었습니다.");
+                    if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                        $("#files").data("kendoUpload").upload();
+                    }else{
+                        window.close();
+                    }
+                }
+            },
+            error : function (){
+                alert("처리 중 오류가 발생했습니다.");
+            }
+        })
+    },
+
+    draftTypeDataSetting : function(e, type, formData){
+        if(type == "tempDrafting" || type == "drafting"){
+            formData.append("type", "draft");
+        }else{
+            formData.append("type", type);
+        }
+
+        formData.append("docFileName", $("#docTitle").val());
+
+        formData.append("compSeq", $("#compSeq").val());
+        formData.append("menuCd", $("#menuCd").val());
+        formData.append("empSeq", $("#empSeq").val());
+
+        formData.append("linkageType", $("#linkageType").val());
+        formData.append("processId", $("#processId").val());
+        formData.append("approKey", '');
+        if(draft.global.params.linkageType == "2") {
+            formData.append("linkageProcessCode", $("#linkageProcessCode").val());
+            formData.delete("approKey");
+            formData.append("approKey", $("#approKey").val());
+        }
+
+        formData.append("formId", $("#formId").val());
+        formData.append("formName", $("#formName").val());
+
+        formData.append("docType", $("#docType").val());
+        formData.append("docNo", $("#docNo").val());
+        formData.append("docId", $("#docId").val());
+        formData.append("docTitle", $("#docTitle").val());
+        formData.append("docOpt", $("#docOpt").val());
+        formData.append("publicType", $("#publicType").getKendoRadioGroup().value());
+        formData.append("urgentType", $("#urgentType").getKendoRadioGroup().value());
+        formData.append("securityType", $("#securityType").getKendoRadioGroup().value());
+        formData.append("docGbn", $("#docGbn").getKendoRadioGroup().value());
+        formData.append("docContent", draft.global.htmlFileTextData);
+        formData.append("cmCodeNm", $(e).attr("name"));
+        formData.append("draftUserApproveType", draft.global.approversArr.filter(element => element.approveOrder === "0")[0].approveType);
+        formData.append("aiKeyCode", $("#aiKeyCode").val());
+        formData.append("atFileSn", $("#atFileSn").val());
+
+        /** 파일 STRING DATA */
+        formData.append("docHWPFileData", draft.global.hwpFileTextData);
+
+
+        if(type == "reDrafting"){
+            formData.append("approveStatCode", $("#approveStatCode").val());
+            formData.append("approveStatCodeDesc", $("#approveStatCodeDesc").val());
+        }
+
+        if(draft.global.purcFlag){
+            formData.append("purcGroupId", $("#contentGroup").val());
+            formData.append($("#contentId").val(), $("#contentValue").val());
+            if(draft.global.purcParams.purcInspFormCode != null){
+                if(draft.global.purcParams.purcInspFormCode == "54"){
+                    formData.append("prevPurcId", $("#contentPrevValue").val());
+                }else{
+                    formData.append("prevPurcInspId", $("#contentPrevValue").val());
+                }
+            }else{
+                formData.append("prevPurcId", $("#contentPrevValue").val());
+            }
+        }
+
+        return formData;
+    },
+
+    docApproveLineDataSetting : function(type, formData){
+        /** 재상신 임시저장시 결재선 변경 여부 확인 */
+        if(type == "reDrafting" || ((type == "temp"  || type == "tempDrafting") && draft.global.originalApproversArr.length > 0)){
+            const empSeqSort = function(a,b){
+                if(a.approveEmpSeq < b.approveEmpSeq){
+                    return -1
+                }else if(a.approveEmpSeq > b.approveEmpSeq){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            }
+
+            /** 결재선 변경 여부 검사 */
+            const compareArray = function(a, b){
+                if(JSON.stringify(a) == JSON.stringify(b)){
+                    return "N";
+                }else{
+                    return "Y";
+                }
+            }
+
+            draft.global.originalApproversArr.sort(empSeqSort);
+            draft.global.approversArr.sort(empSeqSort);
+
+            // console.log(compareArray(originalApproversArr, approversArr));
+            formData.append("approversRouteChange", compareArray(draft.global.originalApproversArr, draft.global.approversArr));
+
+            /** 재상신 임시저장시 결재선 변경 여부 확인 후 마지막 결재자 업데이트 */
+            if(compareArray(draft.global.originalApproversArr, draft.global.approversArr) == "Y"){
+                formData.append("lastApproveEmpSeq", draft.global.lastApprover.approveEmpSeq);
+                formData.append("lastApproveType", draft.global.lastApprover.approveType);
+            }
+        }
+
+        if(draft.global.formData.get("approversRouteChange") == null){
+            formData.append("approversRouteChange", "N");
+        }
+
+        /** 결재라인 */
+        formData.append("approversArr", JSON.stringify(draft.global.approversArr));
+
+        /** 참조문서 */
+        if(draft.global.referencesArr.length > 0){
+            formData.append("referencesArr", JSON.stringify(draft.global.referencesArr));
+        }
+
+        /** 열람자 */
+        if(draft.global.readersArr.length > 0) {
+            formData.append("readersArr", JSON.stringify(draft.global.readersArr));
+        }
+
+        if($("#docGbn").getKendoRadioGroup().value() == "001"){
+            /** 수신자 */
+            if(draft.global.receiversArr.length > 0) {
+                formData.append("receiversArr", JSON.stringify(draft.global.receiversArr));
+            }
+        }
+
+        if(type == "drafting" || type == "tempDrafting" || draft.global.lastApprover != null){
+            formData.append("lastApproveEmpSeq", draft.global.lastApprover.approveEmpSeq);
+            formData.append("lastApproveType", draft.global.lastApprover.approveType);
+        }
+
+        return formData;
+    },
+
+    approveKendoSetting : function(){
+        $("#approveEmpName").kendoTextBox({
+            readonly : true
+        });
+        $("#approveOpin").kendoTextArea({
+            rows:5,
+            cols:10,
+            resizable: "vertical"
+        });
+
+        $('#approveModal').data('kendoWindow').open();
+    },
+
+    docApprove : function(){
+        hwpDocCtrl.putFieldText('approval_st' + $("#approveOrder").val(), draft.global.dataType.nowCom + "(" + $("#approveCodeNm").val() + ")");
+
+        hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
+            draft.global.hwpFileTextData = data;
+        })
+
+        hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
+            draft.global.htmlFileTextData = data;
+        })
+
+        setTimeout(() => draft.docApproveAjax(), 200);
+    },
+
+    docApproveAjax : function(){
+        $.ajax({
+            url : getContextPath() + "/approval/setDocApproveNReturn.do",
+            type : "POST",
+            data : draft.makeApprovalFormData("approve"),
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function(){
+                alert("결재되었습니다.");
+                window.close();
+            },
+            error : function(){
+                alert("결재 중 에러가 발생했습니다.");
+            }
+        })
+    },
+
+    makeApprovalFormData(type){
+        draft.global.formData = new FormData();
+        draft.global.formData.append("type", type);
+        draft.global.formData.append("menuCd", $("#menuCd").val());
+        draft.global.formData.append("docId", draft.global.draftDocInfo.DOC_ID);
+        draft.global.formData.append("linkageProcessCode", draft.global.draftDocInfo.APPRO_KEY.split("_")[0]);
+        draft.global.formData.append("approKey", draft.global.draftDocInfo.APPRO_KEY);
+        draft.global.formData.append("atFileSn", draft.global.draftDocInfo.ATFILE_SN);
+
+        /** 한글 기안기 html 데이터 */
+        draft.global.formData.append("docContent", draft.global.htmlFileTextData);
+
+        /** 한글 기안기 HWP 데이터 */
+        draft.global.formData.append("docHWPFileData", draft.global.hwpFileTextData);
+
+        draft.global.formData.append("docFileName", $("#docTitle").val());
+        draft.global.formData.append("empSeq", $("#approveEmpSeq").val());
+
+        draft.global.formData.append("approveRouteId", $("#approveRouteId").val());
+        draft.global.formData.append("approveOrder", $("#approveOrder").val());
+        draft.global.formData.append("approveStatCode", $("#approveCode").val());
+        draft.global.formData.append("approveStatCodeDesc", $("#approveCodeNm").val());
+        draft.global.formData.append("approveEmpSeq", $("#approveEmpSeq").val());
+        draft.global.formData.append("approveEmpName", $("#approveEmpName").val());
+        draft.global.formData.append("approveOpin", $("#approveOpin").val());
+
+        return draft.global.formData;
+    }
+}

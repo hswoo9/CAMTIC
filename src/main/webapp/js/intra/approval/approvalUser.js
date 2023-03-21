@@ -29,7 +29,7 @@ var appUser = {
         });
     },
 
-    getDefaultScript : function(datas){
+    fnDefaultScript : function(datas){
 
         appUser.dateSet();
 

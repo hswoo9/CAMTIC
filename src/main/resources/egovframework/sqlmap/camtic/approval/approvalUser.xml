@@ -3,6 +3,55 @@
 
 <mapper namespace="approvalUser">
 
+    <select id="getDraftFormList" resultType="map">
+        /* getDraftFormList */
+        SELECT
+            CAST(FORM_FOLDER_ID AS CHAR) AS FORM_FOLDER_ID,
+            CAST(UPPER_FOLDER_ID AS CHAR) AS UPPER_FOLDER_ID,
+            FORM_ID,
+            FORM_NAME,
+            FOLDER_SORT,
+            FORM_SORT
+        FROM (
+            SELECT
+                '999' AS FORM_FOLDER_ID,
+                '0' AS UPPER_FOLDER_ID,
+                '' AS FORM_ID,
+                '양식' AS FORM_NAME,
+                '0' AS FOLDER_SORT,
+                0 AS FORM_SORT
+            FROM DUAL
+
+            UNION ALL
+
+            SELECT
+                FF.FORM_FOLDER_ID,
+                '999' AS UPPER_FOLDER_ID,
+                '' AS FORM_ID,
+                FF.FORM_FOLDER_NAME AS FORM_NAME,
+                FF.SORT AS FOLDER_SORT,
+                0 AS FORM_SORT
+            FROM
+                DJ_CAMTIC.A_FORM_FOLDER FF
+            WHERE
+                VISIBLE = 'Y'
+
+            UNION ALL
+
+            SELECT
+                '',
+                FI.FORM_FOLDER_ID AS UPPER_FOLDER_ID,
+                FI.FORM_ID,
+                FI.FORM_NAME,
+                (SELECT SORT FROM A_FORM_FOLDER WHERE FORM_FOLDER_ID = FI.FORM_FOLDER_ID) FOLDER_SORT,
+                FI.SORT AS FORM_SORT
+            FROM
+                DJ_CAMTIC.A_FORM FI
+            WHERE VISIBLE = 'Y'
+        )F
+        ORDER BY F.FOLDER_SORT ASC, F.FORM_SORT ASC
+    </select>
+
     <select id="getUserFavApproveRouteList" parameterType="map" resultType="map">
         /* getUserFavApproveRouteList */
         SELECT

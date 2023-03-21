@@ -70,11 +70,3 @@
   <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${toDate}'/>"></script>
   <script type="text/javascript" src="<c:url value='/js/intra/common/linkageProcessUtil.js?${toDate}'/>"></script>
 </head>
-
-<body>
-  <jsp:include page="/WEB-INF/jsp/template/header.jsp" flush="false"/>
-  <jsp:include page="/WEB-INF/jsp/template/nav.jsp" flush="false"/>
-
-  <div class="mainpanel">
-    <div class="contentpanel">
-      <div class="row">

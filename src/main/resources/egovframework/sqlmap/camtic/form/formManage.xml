@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="formManage">
+
+    <select id="getFormFolderList" parameterType="map" resultType="map">
+        /* getFormFolderList */
+        SELECT
+        FORM_FOLDER_ID,
+        FORM_COMP_SEQ,
+        FORM_COMP_NAME,
+        FORM_FOLDER_NAME,
+        SORT,
+        REMARK,
+        VISIBLE,
+        ACTIVE
+        FROM
+        DJ_CAMTIC.A_FORM_FOLDER
+        WHERE 1=1
+        <if test='searchCompSeq != null and searchCompSeq != ""'>
+            AND FORM_COMP_SEQ = #{searchCompSeq}
+        </if>
+        <if test='searchKeyWord != null and searchKeyWord != ""'>
+            AND FORM_FOLDER_NAME LIKE CONCAT('%', #{searchKeyWord}, '%')
+        </if>
+        <if test='searchActive != null and searchActive != ""'>
+            AND ACTIVE = #{searchActive}
+        </if>
+        ORDER BY SORT ASC
+    </select>
+
+    <insert id="setFormFolder" parameterType="map">
+        /* setFormFolder */
+        INSERT INTO DJ_CAMTIC.A_FORM_FOLDER
+        (
+            FORM_COMP_SEQ,
+            FORM_COMP_NAME,
+            FORM_FOLDER_NAME,
+            SORT,
+            REMARK,
+            VISIBLE,
+            ACTIVE,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{formCompSeq},
+                #{formCompName},
+                #{formFolderName},
+                #{sort},
+                #{remark},
+                #{visible},
+                #{active},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setFormFolderUpd" parameterType="map">
+        /* setFormFolderUpd */
+        UPDATE
+            DJ_CAMTIC.A_FORM_FOLDER
+        SET
+            FORM_FOLDER_NAME = #{formFolderName},
+            SORT = #{sort},
+            VISIBLE = #{visible},
+            ACTIVE = #{active},
+            REMARK = #{remark},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            FORM_FOLDER_ID = #{formFolderId}
+    </update>
+
+    <select id="getFormList" parameterType="map" resultType="map">
+        /* getFormList */
+        SELECT
+        FI.FORM_ID,
+        FI.FORM_COMP_NAME,
+        FF.FORM_FOLDER_ID,
+        FF.FORM_FOLDER_NAME,
+        FI.FORM_NAME,
+        FI.ACTIVE,
+        FI.VISIBLE,
+        FI.EMAIL_ADDRESS,
+        FI.APPROVER_MARK,
+        FI.SORT,
+        FI.HEADER_CAMPAIGN,
+        FI.FOOTER_CAMPAIGN,
+        FI.FORM_CONTENT,
+        FI.LINKAGE_TYPE,
+        FI.LINKAGE_PROCESS_ID,
+        FI.LINKAGE_POP_ACTIVE,
+        FI.LINKAGE_POP_WIDTH,
+        FI.LINKAGE_POP_HEIGHT,
+        FRO.FORM_REQ_OPT_ID,
+        FRO.PUBLIC_TYPE,
+        FRO.URGENT_TYPE,
+        FRO.SECURITY_TYPE,
+        FRO.DOC_GBN
+        FROM
+        DJ_CAMTIC.A_FORM FI
+        JOIN
+        DJ_CAMTIC.A_FORM_FOLDER FF
+        ON FI.FORM_FOLDER_ID = FF.FORM_FOLDER_ID
+        LEFT JOIN
+        DJ_CAMTIC.A_FORM_REQ_OPT FRO
+        ON FI.FORM_ID = FRO.FORM_ID
+        WHERE 1=1
+        <if test='searchCompSeq != null and searchCompSeq != ""'>
+            AND FI.FORM_COMP_SEQ = #{searchCompSeq}
+        </if>
+        <if test='searchKeyWord != null and searchKeyWord != ""'>
+            AND FI.FORM_NAME LIKE CONCAT('%', #{searchKeyWord}, '%')
+        </if>
+        <if test='searchActive != null and searchActive != ""'>
+            AND FI.ACTIVE = #{searchActive}
+        </if>
+        ORDER BY FF.SORT ASC, FI.SORT ASC
+    </select>
+
+    <select id="getTemplateFormFile" parameterType="map" resultType="map">
+        /* getTemplateFormFile */
+        SELECT
+            *
+        FROM
+            DJ_CAMTIC.A_FORM_FILE
+        WHERE
+            FORM_ID = #{formId}
+          AND
+            FILE_HOST_ADDRESS = #{fileHostAddress}
+    </select>
+
+    <select id="getDocFormInfoReqOpt" parameterType="map" resultType="map">
+        /* getDocFormInfoReqOpt */
+        SELECT
+            FI.FORM_ID,
+            FI.FORM_COMP_NAME,
+            FF.FORM_FOLDER_ID,
+            FF.FORM_FOLDER_NAME,
+            FI.FORM_NAME,
+            FI.ACTIVE,
+            FI.EMAIL_ADDRESS,
+            FI.APPROVER_MARK,
+            FI.SORT,
+            FI.HEADER_CAMPAIGN,
+            FI.FOOTER_CAMPAIGN,
+            FI.FORM_CONTENT,
+            FI.LINKAGE_TYPE,
+            FI.LINKAGE_PROCESS_ID,
+            FI.LINKAGE_POP_ACTIVE,
+            FI.LINKAGE_POP_WIDTH,
+            FI.LINKAGE_POP_HEIGHT,
+            FRO.FORM_REQ_OPT_ID,
+            FRO.PUBLIC_TYPE,
+            FRO.URGENT_TYPE,
+            FRO.SECURITY_TYPE,
+            FRO.DOC_GBN
+        FROM
+            DJ_CAMTIC.A_FORM FI
+                JOIN
+            DJ_CAMTIC.A_FORM_FOLDER FF
+            ON FI.FORM_FOLDER_ID = FF.FORM_FOLDER_ID
+                LEFT JOIN
+            DJ_CAMTIC.A_FORM_REQ_OPT FRO
+            ON FI.FORM_ID = FRO.FORM_ID
+        WHERE 1=1
+          AND
+            FI.FORM_ID = #{formId}
+    </select>
+
+    <select id="getFormReaderList" parameterType="map" resultType="map">
+        /* getFormReaderList */
+        SELECT
+            FORM_ID,
+            SEQ_TYPE,
+            READER_EMP_SEQ,
+            IFNULL(READER_EMP_NAME, READER_DEPT_NAME) AS READER_EMP_NAME,
+            READER_DEPT_SEQ,
+            READER_DEPT_NAME,
+            IFNULL(READER_POSITION_CODE, '-') AS READER_POSITION_CODE,
+            IFNULL(READER_POSITION_NAME, '-') AS READER_POSITION_NAME,
+            IFNULL(READER_DUTY_CODE, '-') AS READER_DUTY_CODE,
+            IFNULL(READER_DUTY_NAME, '-') AS READER_DUTY_NAME
+        FROM
+            DJ_CAMTIC.A_FORM_READER
+        WHERE
+            FORM_ID = #{formId}
+    </select>
+
+    <select id="getFormReceiverList" parameterType="map" resultType="map">
+        /* getFormReceiverList */
+        SELECT
+            FORM_ID,
+            SEQ_TYPE,
+            RECEIVER_EMP_SEQ,
+            IFNULL(RECEIVER_EMP_NAME, RECEIVER_DEPT_NAME) AS RECEIVER_EMP_NAME,
+            RECEIVER_DEPT_SEQ,
+            RECEIVER_DEPT_NAME,
+            IFNULL(RECEIVER_POSITION_NAME, '-') AS RECEIVER_POSITION_NAME,
+            IFNULL(RECEIVER_DUTY_NAME, '-') AS RECEIVER_DUTY_NAME
+        FROM
+            DJ_CAMTIC.A_FORM_RECEIVER
+        WHERE
+            FORM_ID = #{formId}
+    </select>
+
+    <select id="getFormCustomFieldList" parameterType="map" resultType="map">
+        /* getFormCustomFieldList */
+        SELECT
+            FORM_ID,
+            FIELD_NAME,
+            FIELD_EXP,
+            EI.EMP_NAME_KR
+        FROM
+            DJ_CAMTIC.A_FORM_CUSTOM_FIELD FCF
+                LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+            ON FCF.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            FORM_ID = #{formId}
+    </select>
+
+    <insert id="setForm" parameterType="map">
+        /* setForm */
+        INSERT INTO DJ_CAMTIC.A_FORM
+        (
+        FORM_COMP_SEQ,
+        FORM_COMP_NAME,
+        FORM_FOLDER_ID,
+        FORM_NAME,
+        ACTIVE,
+        VISIBLE,
+        EMAIL_ADDRESS,
+        APPROVER_MARK,
+        SORT,
+        HEADER_CAMPAIGN,
+        FOOTER_CAMPAIGN,
+        FORM_CONTENT,
+        LINKAGE_TYPE,
+        LINKAGE_PROCESS_ID,
+        LINKAGE_POP_ACTIVE,
+        LINKAGE_POP_WIDTH,
+        LINKAGE_POP_HEIGHT,
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        #{formCompSeq},
+        #{formCompName},
+        #{formFolderId},
+        #{formName},
+        #{active},
+        #{visible},
+        #{emailAddress},
+        #{approverMark},
+        #{sort},
+        #{headerCampaign},
+        #{footerCampaign},
+        #{formContent},
+        #{linkageType},
+        #{linkageProcessId},
+        #{linkagePopActive},
+        #{linkagePopWidth},
+        #{linkagePopHeight},
+        #{empSeq}
+        )
+
+        <selectKey keyProperty="formId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DJ_CAMTIC' AND TABLE_NAME = 'A_FORM'
+        </selectKey>
+    </insert>
+
+    <update id="setFormUpd" parameterType="map">
+        /* setFormUpd */
+        UPDATE
+            DJ_CAMTIC.A_FORM
+        SET
+            FORM_FOLDER_ID = #{formFolderId},
+            FORM_NAME = #{formName},
+            ACTIVE = #{active},
+            VISIBLE = #{visible},
+            EMAIL_ADDRESS = #{emailAddress},
+            APPROVER_MARK = #{approverMark},
+            SORT = #{sort},
+            HEADER_CAMPAIGN = #{headerCampaign},
+            FOOTER_CAMPAIGN = #{footerCampaign},
+            FORM_CONTENT = #{formContent},
+            LINKAGE_TYPE = #{linkageType},
+            LINKAGE_PROCESS_ID = #{linkageProcessId},
+            LINKAGE_POP_ACTIVE = #{linkagePopActive},
+            LINKAGE_POP_WIDTH = #{linkagePopWidth},
+            LINKAGE_POP_HEIGHT = #{linkagePopHeight},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            FORM_ID = #{formId}
+    </update>
+
+    <select id="getTemplateFormFileExists" parameterType="map" resultType="map">
+        SELECT
+            FILE_UUID AS file_uuid,
+            FILE_PATH AS file_path
+        FROM
+            DJ_CAMTIC.A_FORM_FILE
+        WHERE
+            FORM_ID = #{formId}
+          AND
+            FORM_FILE_TYPE = #{formFileType}
+          AND
+            FILE_HOST_ADDRESS = #{fileHostAddress}
+    </select>
+
+    <delete id="setTemplateFormFileDelOne" parameterType="map">
+        /* setTemplateFormFileDelOne */
+        DELETE FROM DJ_CAMTIC.A_FORM_FILE WHERE FORM_ID = #{formId} AND FORM_FILE_TYPE = #{formFileType} AND FILE_HOST_ADDRESS = #{fileHostAddress}
+    </delete>
+
+    <insert id="setTemplateFormFile" parameterType="map">
+        /* setTemplateFormFile */
+        INSERT INTO DJ_CAMTIC.A_FORM_FILE
+        (
+            FORM_ID,
+            FORM_FILE_TYPE,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            FILE_HOST_ADDRESS,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{formId},
+                #{formFileType},
+                #{fileUUID},
+                #{fileOrgName},
+                #{filePath},
+                #{fileSize},
+                #{fileExt},
+                #{fileHostAddress},
+                #{empSeq}
+            )
+    </insert>
+
+    <insert id="setFormReqOpt" parameterType="map">
+        /* setFormReqOpt */
+        INSERT INTO DJ_CAMTIC.A_FORM_REQ_OPT
+        (
+            FORM_ID,
+            PUBLIC_TYPE,
+            URGENT_TYPE,
+            SECURITY_TYPE,
+            DOC_GBN,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{formId},
+                #{publicType},
+                #{urgentType},
+                #{securityType},
+                #{docGbn},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setFormReqOptUpd" parameterType="map">
+        /* setFormReqOptUpd */
+        UPDATE
+            DJ_CAMTIC.A_FORM_REQ_OPT
+        SET
+            PUBLIC_TYPE = #{publicType},
+            URGENT_TYPE = #{urgentType},
+            SECURITY_TYPE = #{securityType},
+            DOC_GBN = #{docGbn},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            FORM_ID = #{formId}
+          AND
+            FORM_REQ_OPT_ID = #{formReqOptId}
+    </update>
+
+    <insert id="setFormReader" parameterType="list">
+        /* setFormReader */
+        INSERT INTO DJ_CAMTIC.A_FORM_READER
+        (
+        FORM_ID,
+        SEQ_TYPE,
+        READER_EMP_SEQ,
+        READER_EMP_NAME,
+        READER_DEPT_SEQ,
+        READER_DEPT_NAME,
+        READER_DUTY_CODE,
+        READER_DUTY_NAME,
+        READER_POSITION_CODE,
+        READER_POSITION_NAME,
+        REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.formId},
+            #{item.seqType},
+            #{item.readerEmpSeq},
+            #{item.readerEmpName},
+            #{item.readerDeptSeq},
+            #{item.readerDeptName},
+            #{item.readerDutyCode},
+            #{item.readerDutyName},
+            #{item.readerPositionCode},
+            #{item.readerPositionName},
+            #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="setFormReceiver" parameterType="list">
+        /* setFormReaderReceiver */
+        INSERT INTO DJ_CAMTIC.A_FORM_RECEIVER
+        (
+        FORM_ID,
+        SEQ_TYPE,
+        RECEIVER_EMP_SEQ,
+        RECEIVER_EMP_NAME,
+        RECEIVER_DEPT_SEQ,
+        RECEIVER_DEPT_NAME,
+        RECEIVER_DUTY_NAME,
+        RECEIVER_POSITION_NAME,
+        REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.formId},
+            #{item.seqType},
+            #{item.receiverEmpSeq},
+            #{item.receiverEmpName},
+            #{item.receiverDeptSeq},
+            #{item.receiverDeptName},
+            #{item.receiverDutyName},
+            #{item.receiverPositionName},
+            #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="setFormCustomField" parameterType="list">
+        /* setFormCustomField */
+        INSERT INTO DJ_CAMTIC.A_FORM_CUSTOM_FIELD
+        (
+        FORM_ID,
+        FIELD_NAME,
+        FIELD_EXP,
+        REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.formId},
+            #{item.fieldName},
+            #{item.fieldExp},
+            #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="setFormReaderDel" parameterType="map">
+        /* setFormReaderDel */
+        DELETE
+        FROM DJ_CAMTIC.A_FORM_READER
+        WHERE FORM_ID = #{formId}
+    </delete>
+
+    <delete id="setFormReceiverDel" parameterType="map">
+        /* setFormReceiverDel */
+        DELETE
+        FROM DJ_CAMTIC.A_FORM_RECEIVER
+        WHERE FORM_ID = #{formId}
+    </delete>
+
+    <delete id="setFormCustomFieldDel" parameterType="map">
+        /* setFormCustomFieldDel */
+        DELETE
+        FROM DJ_CAMTIC.A_FORM_CUSTOM_FIELD
+        WHERE FORM_ID = #{formId}
+    </delete>
+
+    <select id="getDocFormLinkagePopUrl" parameterType="map" resultType="map">
+        /* getDocFormLinkagePopUrl */
+        SELECT
+            IFNULL(LINKAGE_PROCESS_NAME, '') AS LINKAGE_PROCESS_NAME,
+            IFNULL(LINKAGE_PROCESS_POPUP_URL, '') AS LINKAGE_PROCESS_POPUP_URL,
+            IFNULL(MAX(LINKAGE_PROCESS_NAME), 0) AS NULL_CHECK
+        FROM
+            DJ_CAMTIC.A_LINKAGE_PROCESS
+        WHERE
+            LINKAGE_PROCESS_ID = #{linkageProcessId}
+    </select>
+
+    <select id="getLinkageProcessList" parameterType="map" resultType="map">
+        /* getLinkageProcessList */
+        SELECT
+        LINKAGE_PROCESS_ID,
+        LINKAGE_PROCESS_COMP_SEQ,
+        LINKAGE_PROCESS_COMP_NAME,
+        LINKAGE_PROCESS_CODE,
+        LINKAGE_PROCESS_NAME,
+        TEMP_PROCESS_URL,
+        DRAFT_PROCESS_URL,
+        DRAFT_CANCEL_PROCESS_URL,
+        RETRIEVE_PROCESS_URL,
+        APPROVE_PROCESS_URL,
+        FINAL_APPROVAL_PROCESS_URL,
+        RETURN_PROCESS_URL,
+        DELETE_PROCESS_URL,
+        ACTIVE
+        FROM
+        DJ_CAMTIC.A_LINKAGE_PROCESS
+        WHERE 1=1
+        <if test='searchCompSeq != null and searchCompSeq != ""'>
+            AND LINKAGE_PROCESS_COMP_SEQ = #{searchCompSeq}
+        </if>
+        <if test='searchKeyWord != null and searchKeyWord != ""'>
+            AND LINKAGE_PROCESS_NAME LIKE CONCAT('%', #{searchKeyWord}, '%')
+        </if>
+        ORDER BY REG_DATE ASC
+    </select>
+
+    <select id="setProcessValidationChk" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            DJ_CAMTIC.A_LINKAGE_PROCESS
+        WHERE
+            LINKAGE_PROCESS_CODE = #{linkageProcessCode}
+    </select>
+
+    <select id="getLinkageProcess" parameterType="map" resultType="string">
+        /* getLinkageProcess */
+        SELECT
+            CASE WHEN #{type} = 'temp' THEN TEMP_PROCESS_URL
+                 WHEN (#{type} = 'draft' OR #{type} = 'reDrafting' ) THEN DRAFT_PROCESS_URL
+                 WHEN #{type} = 'draftCancel' THEN DRAFT_CANCEL_PROCESS_URL
+                 WHEN #{type} = 'retrieve' THEN RETRIEVE_PROCESS_URL
+                 WHEN #{type} = 'approve' THEN APPROVE_PROCESS_URL
+                 WHEN #{type} = 'return' THEN RETURN_PROCESS_URL
+                 WHEN #{type} = 'delete' THEN DELETE_PROCESS_URL
+                 WHEN (#{type} = 'finalApprove' OR #{type} = 'finalType1Approve') THEN FINAL_APPROVAL_PROCESS_URL
+                END AS URL
+        FROM
+            DJ_CAMTIC.A_LINKAGE_PROCESS
+        WHERE
+            LINKAGE_PROCESS_CODE = #{linkageProcessCode}
+    </select>
+
+    <insert id="setLinkageProcess" parameterType="map">
+        /* setLinkageProcess */
+        INSERT INTO DJ_CAMTIC.A_LINKAGE_PROCESS
+        (
+            LINKAGE_PROCESS_COMP_SEQ,
+            LINKAGE_PROCESS_COMP_NAME,
+            LINKAGE_PROCESS_CODE,
+            LINKAGE_PROCESS_NAME,
+            TEMP_PROCESS_URL,
+            DRAFT_PROCESS_URL,
+            DRAFT_CANCEL_PROCESS_URL,
+            RETRIEVE_PROCESS_URL,
+            APPROVE_PROCESS_URL,
+            FINAL_APPROVAL_PROCESS_URL,
+            RETURN_PROCESS_URL,
+            DELETE_PROCESS_URL,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{linkageProcessCompSeq},
+                #{linkageProcessCompName},
+                #{linkageProcessCode},
+                #{linkageProcessName},
+                #{tempProcessUrl},
+                #{draftProcessUrl},
+                #{draftCancelProcessUrl},
+                #{retrieveProcessUrl},
+                #{approveProcessUrl},
+                #{finalApprovalProcessUrl},
+                #{returnProcessUrl},
+                #{deleteProcessUrl},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setLinkageProcessUpd" parameterType="map">
+        /* setLinkageProcessUpd */
+        UPDATE
+            DJ_CAMTIC.A_LINKAGE_PROCESS
+        SET
+            LINKAGE_PROCESS_NAME = #{linkageProcessName},
+            TEMP_PROCESS_URL = #{tempProcessUrl},
+            DRAFT_PROCESS_URL = #{draftProcessUrl},
+            DRAFT_CANCEL_PROCESS_URL = #{draftCancelProcessUrl},
+            RETRIEVE_PROCESS_URL = #{retrieveProcessUrl},
+            APPROVE_PROCESS_URL = #{approveProcessUrl},
+            FINAL_APPROVAL_PROCESS_URL = #{finalApprovalProcessUrl},
+            RETURN_PROCESS_URL = #{returnProcessUrl},
+            DELETE_PROCESS_URL = #{deleteProcessUrl},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            LINKAGE_PROCESS_ID = #{linkageProcessId}
+    </update>
+</mapper>
