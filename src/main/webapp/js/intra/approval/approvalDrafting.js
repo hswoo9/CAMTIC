@@ -215,7 +215,7 @@ var draft = {
         var result = customKendo.fn_customAjax("/approval/getTemplateFormFile", draft.global.searchAjaxData);
         draft.global.flag = result.flag;
         if(result.flag){
-            return result.formFile;
+            return result;
         }
     },
 
@@ -225,13 +225,13 @@ var draft = {
         }
 
         var returnArr = new Array();
-        var result = customKendo.fn_customAjax("/approval/getDocFormReqOpt.do", draft.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getDocFormReqOpt", draft.global.searchAjaxData);
 
         draft.global.flag = result.flag;
 
         if(result.flag){
-            var formInfoReqOpt = result.formInfoReqOpt;
-            var formRdRcCfList = result.formRdRcCfList;
+            var formInfoReqOpt = result;
+            var formRdRcCfList = result;
             var formReaderList = formRdRcCfList.readerList;
             var formReceiver = formRdRcCfList.receiverList;
 
@@ -280,9 +280,9 @@ var draft = {
                 draft.global.receiversArr.push(receiverData);
             }
 
-            $("#readerName").val(result.formRdRcCfList.readerName);
+            $("#readerName").val(result.readerName);
             if(formInfoReqOpt.DOC_GBN == "001"){
-                $("#receiverName").val(result.formRdRcCfList.receiverName);
+                $("#receiverName").val(result.receiverName);
             }
         }
 
@@ -321,6 +321,8 @@ var draft = {
             draft.global.mod = "W";
             draft.global.openFormat = "HWP";
             draft.global.templateFormFile = draft.getDocFormTemplate();
+            console.log("폼파일");
+            console.log(draft.global.templateFormFile);
             var templateFlag = draft.global.flag;
             if(!templateFlag || draft.global.templateFormFile.filter(element => element.FORM_FILE_TYPE === "form").length == 0){
                 alert("양식 정보가 존재하지 않습니다.\n관리자에게 문의하세요.");

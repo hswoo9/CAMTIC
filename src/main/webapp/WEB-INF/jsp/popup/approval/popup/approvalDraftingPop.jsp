@@ -16,7 +16,7 @@
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
-    .pop_head h1 {font-size: 12px; color: #fff; line-height: 32px; padding-left: 16px;}
+    .pop_head h1 {font-size: 12px; color: #fff; line-height: 32px; padding-left: 16px; margin: 0;}
     .th-color {background-color: #d2e2f3;}
     .k-list-item span.k-list-item-text {width: 100%;}
     .k-list-item.k-selected.k-hover, .k-list-item.k-selected:hover {color : black;}
@@ -30,6 +30,8 @@
     #loadingDiv {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999; opacity: 1; transition: 0.5s ease;}
     #loadingDiv #loadingSpinner{position: absolute; top: 50%; left: 42%; margin: -40px 0 0 -40px;}
     .d-flex{flex-direction: column; align-items: center;}
+    .table-bordered {border: 1px solid #dee2e6 !important;}
+    .red-star {color: red; margin-right: 5px;}
 </style>
 
 <body>

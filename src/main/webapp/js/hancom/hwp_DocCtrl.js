@@ -148,9 +148,9 @@ var hwpDocCtrl = {
             empSeq : hwpDocCtrl.global.loginEmpInfo.loginEmpSeq
         }
 
-        var result = customKendo.fn_customAjax("/userManagement/getUserInfo.do", hwpDocCtrl.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/user/getUserInfo", hwpDocCtrl.global.searchAjaxData);
         if(result.flag){
-            hwpDocCtrl.global.loginEmpInfo = result.rs;
+            hwpDocCtrl.global.loginEmpInfo = result;
             if(hwpDocCtrl.global.HwpCtrl.FieldExist("dept_name")){
                 hwpDocCtrl.global.HwpCtrl.MoveToField('dept_name', true, true, false);
                 hwpDocCtrl.putFieldText('dept_name', hwpDocCtrl.global.loginEmpInfo.DEPT_NAME);
