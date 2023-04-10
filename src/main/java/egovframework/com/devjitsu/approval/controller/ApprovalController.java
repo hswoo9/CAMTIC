@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import egovframework.com.devjitsu.approval.service.ApprovalService;
 import egovframework.com.devjitsu.approval.service.ApprovalUserService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.formManagement.service.FormManagementService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ import java.util.Map;
 public class ApprovalController {
 
     private static final Logger logger = LoggerFactory.getLogger(ApprovalController.class);
+
+    @Autowired
+    private CommonService commonService;
 
     @Autowired
     private CommonCodeService commonCodeService;
@@ -99,11 +103,11 @@ public class ApprovalController {
 
     /** 결재선 지정 */
     @RequestMapping("/approval/approvalLineSettingPop.do")
-    public String selectApprovalLine(HttpServletRequest request, Model model){
+    public String selectApprovalLine(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        //model.addAttribute("data", commonService.ctDept(loginVO.getOrgnztId()));
+        model.addAttribute("data", commonService.getUserList(params));
         model.addAttribute("loginVO", loginVO);
 
         return "popup/approval/popup/approvalLineSettingPop";

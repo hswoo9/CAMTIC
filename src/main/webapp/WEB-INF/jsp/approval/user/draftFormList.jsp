@@ -30,9 +30,9 @@ To change this template use File | Settings | File Templates.
         <div class="panel-body">
             <table style="width: 100%">
                 <tr>
-                    <td style="padding: 15px 0px 15px 0px; width: 256px;">
+                    <td style="padding: 15px 0px 15px 0px; width: 320px;">
                         <div>
-                            <input id="formSearch" name="formSearch" placeholder="양식명" style="width: 217px" onkeypress="if(window.event.keyCode==13){draftFormList.getDraftFromSearch()}"/>
+                            <input id="formSearch" name="formSearch" placeholder="양식명" style="width: 281px" onkeypress="if(window.event.keyCode==13){draftFormList.getDraftFromSearch()}"/>
                             <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draftFormList.getDraftFromSearch()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
@@ -48,7 +48,7 @@ To change this template use File | Settings | File Templates.
                 </tr>
                 <tr>
                     <td>
-                        <div id="gridForm" style="width:255px; overflow: auto;border: 1px solid #dedfdf;">
+                        <div id="gridForm" style="width:319px; overflow: auto;border: 1px solid #dedfdf;">
                             <div id="formTreeViewDiv" style="height:739px;">
 
                             </div>
