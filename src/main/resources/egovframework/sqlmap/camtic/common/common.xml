@@ -16,15 +16,29 @@
             DJ_CAMTIC.V_EMP_INFO VEI
         WHERE
             1 = 1
-        AND
-            VEI.ACTIVE = 'Y'
+        AND VEI.ACTIVE = 'Y'
         <if test="DEPT_SEQ != null and DEPT_SEQ != ''">
-            AND
-            VEI.DEPT_SEQ = #{DEPT_SEQ}
+        AND VEI.DEPT_SEQ = #{DEPT_SEQ}
         </if>
         <if test="deptName != null and deptName != ''">
-            AND
-            VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
+        AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
+        </if>
+    </select>
+
+    <select id="getUserListTotal" parameterType="map" resultType="map">
+        /* getUserListTotal */
+        SELECT
+            COUNT(1)
+        FROM
+            DJ_CAMTIC.V_EMP_INFO VEI
+        WHERE
+            1 = 1
+        AND VEI.ACTIVE = 'Y'
+        <if test="DEPT_SEQ != null and DEPT_SEQ != ''">
+        AND VEI.DEPT_SEQ = #{DEPT_SEQ}
+        </if>
+        <if test="deptName != null and deptName != ''">
+        AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
         </if>
     </select>
 

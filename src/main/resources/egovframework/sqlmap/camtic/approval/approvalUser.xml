@@ -193,4 +193,21 @@
             FAV_ROUTE_ID = #{favRouteId}
     </delete>
 
+    <select id="getOrgPullPath" parameterType="map" resultType="String">
+        /* getOrgPullPath */
+        SELECT
+        <if test="langCode != null and langCode != ''">
+            display_path_name_${langCode}
+        </if>
+        <if test="langCode == null or langCode == ''">
+            display_path_name_kr
+        </if>
+        FROM
+        NEOS.T_CO_ORGCHART_NAME
+        WHERE
+        SEQ = #{c_oiorgcode}
+        AND GBN_ORG = 'd'
+
+    </select>
+
 </mapper>

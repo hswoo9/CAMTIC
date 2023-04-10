@@ -39,4 +39,11 @@ public interface ApprovalUserService {
      */
     List<Map<String, Object>> getUserFavApproveRouteDetail(Map<String, Object> params);
 
+    /**
+     * 부재정보 중복체크
+     * @param params
+     * @return
+     */
+    Map<String, Object> getAbsentDuplicate(Map<String, Object> params);
+
 }

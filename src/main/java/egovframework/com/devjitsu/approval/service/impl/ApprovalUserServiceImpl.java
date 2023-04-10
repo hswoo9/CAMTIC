@@ -124,4 +124,20 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         return approvalUserRepository.getUserFavApproveRouteDetail(params);
     }
 
+    @Override
+    public Map<String, Object> getAbsentDuplicate(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+        int cnt = 0;
+        List<Map<String, Object>> list = new ArrayList<>();
+        String orgPullPath = null;
+        orgPullPath = approvalUserRepository.getOrgPullPath(params);
+        list = approvalUserRepository.getAbsentDuplicate(params);
+        cnt = list.size();
+        map.put("dupleList", list);
+        map.put("cnt", Integer.valueOf(cnt));
+        map.put("pathName", orgPullPath);
+
+        return map;
+    }
+
 }

@@ -1,0 +1,89 @@
+.k-grid-toolbar{
+    justify-content: flex-end !important;
+}
+.k-widget.k-treeview {
+    overflow: hidden;
+}
+#approvalLineDataTb tbody tr:hover:not(.active) {
+    background-color: #ededed;
+}
+.active{
+    background-color: rgb(241, 248, 255);
+}
+#treeViewDiv{
+    width: auto !important;
+}
+.k-treeview .k-i-collapse:before{background: url("/images/ico/ico_organ03_open.png");content: "";}
+.k-treeview .k-i-expand:before{background: url("/images/ico/ico_organ03_close.png");content: "";}
+.k-treeview .k-treeview-top.k-treeview-bot .k-i-collapse:before{background: url("/images/ico/ico_organ01.png")}
+.k-treeview .k-treeview-top.k-treeview-bot .k-i-expand:before{background: url("/images/ico/ico_organ01.png")}
+/*yh*/
+.k-treeview .k-top.k-bot .k-i-collapse{background: url("/images/ico/ico_organ01.png")}
+.k-treeview .k-top.k-bot .k-i-expand{background: url("/images/ico/ico_organ01.png")}
+
+.k-treeview .k-i-expand-disabled, .k-treeview .k-i-collapse-disabled {
+    cursor: default
+}
+/*yh*/
+.k-treeview .k-treeview-top,
+.k-treeview .k-treeview-mid,
+.k-treeview .k-treeview-bot {
+    background-image: url('/images/bg/treeview-nodes.png');
+    background-repeat: no-repeat;
+    margin-left: -16px;
+    padding-left: 16px;
+}
+.k-treeview .k-treeview-top .k-treeview-bot{background: none; background-position: -25px -66px;}
+/*yh*/
+.k-treeview .k-item { background-image: url('/images/bg/treeview-line.png'); }
+.k-treeview .k-last { background-image: none; }
+.k-treeview .k-treeview-top { background-position: -91px 0; }
+.k-treeview .k-treeview-bot { background-position: -69px -22px; }
+.k-treeview .k-treeview-mid { background-position: -47px -44px; }
+.k-treeview .k-last .k-treeview-top { background-position: -25px -66px; }
+.k-treeview .k-group .k-last { background-position: -69px -22px; }
+.k-treeview .k-item {
+    background-repeat: no-repeat;
+}
+/*yh*/
+.k-treeview .k-first {
+    background-repeat: no-repeat;
+    background-position: 0 16px;
+}
+
+.pop_head{
+    height: 32px;
+    position: relative;
+    background: #1385db;
+}
+.pop_head h1 {
+    font-size: 12px;
+    color: #fff;
+    line-height: 32px;
+    padding-left: 16px;
+}
+
+#treeview{
+    background: #fff;
+    overflow: auto;
+    font-size: 12px;
+}
+
+li.k-item.k-treeview-item:last-child{background:#fff;}
+li.k-item.k-treeview-item:last-child .k-treeview-mid{padding-top:2px;}
+.k-treeview-leaf.k-selected{background-color: #1984c8!important;}
+.k-treeview-leaf.k-selected.k-hover, .k-treeview-leaf.k-selected:hover{background-color: #1A5089!important;}
+.k-drag-clue, .k-grid-header, .k-grouping-header, .k-header, .k-menu, .k-panelbar>.k-panelbar-header>.k-link, .k-progressbar, .k-state-highlight, .k-tabstrip, .k-tabstrip-items .k-item, .k-toolbar{background-color: #E4EBF3;}
+.k-grid-content tr:last-child>td, .k-grid-content-locked tr:last-child>td{border-bottom-width: 1px;}
+
+.approve101{
+    color: blue;
+    font-size: 14px;
+    vertical-align: bottom;
+}
+
+.approveNo{
+    color: red;
+    font-size: 14px;
+    vertical-align: bottom;
+}

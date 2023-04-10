@@ -12,4 +12,6 @@ public interface CommonService {
     String ctDept(String deptSeq);
 
     List<Map<String, Object>> getUserList(Map<String, Object> params);
+
+    int getUserListTotal(Map<String, Object> map);
 }

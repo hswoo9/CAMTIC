@@ -18,7 +18,7 @@ To change this template use File | Settings | File Templates.
     table { background-color: white; }
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
-<script type="text/javascript" src="<c:url value='/js/intra/approval/draftFormList.js?${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalUser.js?${toDate}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
