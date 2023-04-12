@@ -107,7 +107,7 @@ public class ApprovalController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        model.addAttribute("data", commonService.getUserList(params));
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
         model.addAttribute("loginVO", loginVO);
 
         return "popup/approval/popup/approvalLineSettingPop";

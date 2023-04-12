@@ -8,6 +8,7 @@ var appUser = {
     treeClick : function(e) {
         var item = $("#deptTree").data("kendoTreeView").dataItem(e.node);
         appUser.global.deptSeq = item.dept_seq;
+        $("#deptSeq").val(item.dept_seq);
         $("#deptUserGrid").data("kendoGrid").dataSource.read();
     },
 

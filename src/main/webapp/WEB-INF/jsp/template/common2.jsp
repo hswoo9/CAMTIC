@@ -45,7 +45,6 @@
   <script src="/lib/bootstrap/js/bootstrap.js"></script>
   <script src="/lib/jquery-toggles/toggles.js"></script>
 
-  <script src="/lib/morrisjs/morris.js"></script>
   <script src="/lib/raphael/raphael.js"></script>
 
   <script src="/lib/flot/jquery.flot.js"></script>
@@ -53,9 +52,6 @@
   <script src="/lib/flot-spline/jquery.flot.spline.js"></script>
 
   <script src="/lib/jquery-knob/jquery.knob.js"></script>
-
-  <script src="/js/quirk.js"></script>
-  <script src="/js/dashboard.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 

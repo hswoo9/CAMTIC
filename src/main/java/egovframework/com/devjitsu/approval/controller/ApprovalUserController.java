@@ -32,10 +32,10 @@ public class ApprovalUserController {
     public String openOrganizationChart(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         model.addAttribute("toDate", getCurrentDateTime());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        model.addAttribute("loginVO", login);
-        model.addAttribute("data", commonService.ctDept((String) login.getOrgnztId()));
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
 
         return "approval/user/approvalLineManagement";
     }

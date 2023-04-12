@@ -86,8 +86,33 @@ var lineSettingPop = {
             deptSeq : dept
         }
 
+        var deptUserDataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/approvalUser/getUserList",
+                    async : false,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data, operation) {
+                    data.DEPT_SEQ = dept;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data;
+                },
+                total: function (data) {
+                    return data.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#userList").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/common/empInformation", lineSettingPop.global.searchAjaxData),
+            dataSource: deptUserDataSource,
             height: 415,
             sortable: true,
             scrollable: true,
@@ -104,16 +129,16 @@ var lineSettingPop = {
             },
             columns: [
                 {
-                    field: "dept_name",
+                    field: "DEPT_NAME",
                     title: "부서",
                     width: "100px",
                 }, {
-                    field: "duty",
+                    field: "DUTY_NAME",
                     title: "직책",
                     width: "100px",
                 }, {
-                    field: "emp_name",
-                    title: "성명",
+                    field: "EMP_NAME_KR",
+                    title: "이름",
                     width: "100px",
                 }, {
                     width: "70px",
@@ -125,9 +150,10 @@ var lineSettingPop = {
     treeClick : function(e) {
         var item = $("#treeview").data("kendoTreeView").dataItem(e.node);
         deptSeq = item.dept_seq;
+        alert(deptSeq);
         deptName = item.dept_name;
         lineSettingPop.treeViewReload(deptSeq);
-        // $("#userList").data("kendoGrid").dataSource.read();
+        $("#userList").data("kendoGrid").dataSource.read();
     },
 
     onDataBound : function(){
