@@ -135,16 +135,17 @@
           <li>
             <a href="#" class="toggleMain">시간외근무</a>
             <ul class="innerMain children">
-              <li><a href="#" class="toggleMain">신간외근무신청</a></li>
-              <li><a href="#" class="toggleMain">시간외근무현황</a></li>
-              <li><a href="#" class="toggleMain">시간외근무신청</a></li>
+              <li><a href="/subHoliday/overWkReq.do">시간외근무신청</a></li>
+              <li><a href="/subHoliday/overWkApp.do">시간외근무승인</a></li>
+              <li><a href="/subHoliday/overWkAdminView.do">시간외근무현황(관리자)</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">유연근무</a>
             <ul class="innerMain children">
-              <li><a href="#" class="toggleMain">유연근무신청</a></li>
-              <li><a href="#" class="toggleMain">유연근무현황</a></li>
+              <li><a href="/workPlan/workPlanReq.do">유연근무신청</a></li>
+              <li><a href="/workPlan/workPlanApp.do">유연근무승인</a></li>
+              <li><a href="/workPlan/workPlanAdminView.do">유연근무현황(관리자)</a></li>
             </ul>
           </li>
           <li>
