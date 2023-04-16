@@ -57,10 +57,21 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+  <style>
+    .k-scheduler-header-wrap .k-scheduler-table tbody tr th:last-child {color: blue;}
+    .k-scheduler-header-wrap .k-scheduler-table tbody tr th:first-child {color: red;}
+    .k-scheduler-content .k-scheduler-table tbody tr td:last-child {color: blue;}
+    .k-scheduler-content .k-scheduler-table tbody tr td:first-child {color: red;}
+    .k-scheduler-table td {vertical-align: top !important;}
+  </style>
+
+  <!-- Theme -->
+  <link rel="stylesheet" type="text/css" href="<c:url value='/css/kendoui/kendo.silver.min.css' />" />
 
   <!--Kendo ui js-->
   <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
   <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
+  <script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
   <link rel="stylesheet" href="/css/kendoui/kendo.default-main.min.css"/>
   <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
   <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>

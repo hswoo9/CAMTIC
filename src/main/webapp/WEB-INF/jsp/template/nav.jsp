@@ -135,9 +135,9 @@
           <li>
             <a href="#" class="toggleMain">시간외근무</a>
             <ul class="innerMain children">
-              <li><a href="/subHoliday/overWkReq.do">시간외근무신청</a></li>
-              <li><a href="/subHoliday/overWkApp.do">시간외근무승인</a></li>
-              <li><a href="/subHoliday/overWkAdminView.do">시간외근무현황(관리자)</a></li>
+              <li><a href="/overWk/overWkReq.do">시간외근무신청</a></li>
+              <li><a href="/overWk/overWkApp.do">시간외근무승인</a></li>
+              <li><a href="/overWk/overWkAdminView.do">시간외근무현황(관리자)</a></li>
             </ul>
           </li>
           <li>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="overWk">
+
+    <select id="getWorkCodeList" parameterType="map" resultType="map">
+        /* getWorkCodeList */
+        SELECT
+        *
+        FROM
+        DJ_CAMTIC.V_WORK_CODE WC
+        JOIN
+        DJ_CAMTIC.V_WORK_GROUP_CODE WGC
+        ON WC.WK_GROUP_CODE_ID = WGC.WK_GROUP_CODE_ID
+        WHERE
+        WGC.ACTIVE = 'Y'
+        AND
+        WGC.WK_GROUP_CODE = #{wkGroupCode}
+    </select>
+
+    <select id="getOverWorkPlanReqList" parameterType="map" resultType="map">
+        /* getOverWorkPlanReqList */
+        SELECT
+        OWP.OVER_WORK_PLAN_ID,
+        WC.WK_CODE_NM,
+        CONCAT(OWP.APPLY_DATE, ' ', OWP.APPLY_START_HOUR,':', OWP.APPLY_START_MIN, ' ~ ', OWP.APPLY_DATE, ' ', OWP.APPLY_END_HOUR, ':', OWP.APPLY_END_MIN, '') AS APPLY_TIME,
+        FORMAT(OWP.APPLY_HOUR/60, 1) AS APPLY_HOUR,
+        FORMAT(IFNULL(OWP.AGREE_HOUR, 0)/60, 1) AS AGREE_HOUR,
+        FORMAT(IFNULL(OWP.AGREE_HOUR_NIGHT, 0)/60, 1) AS AGREE_HOUR_NIGHT,
+        CONCAT(IFNULL(OWP.AGREE_HOUR, 0) + IFNULL(OWP.AGREE_HOUR_NIGHT, 0)) AS TOTAL_AGREE_HOUR,
+        OWP.STATUS,
+        DATE_FORMAT(OWP.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+        DATE_FORMAT(OWP.APPLY_DATE, '%Y-%m-%d') AS APPLY_DATE,
+        CONCAT(DATE_FORMAT(OWP.APPLY_DATE, '%Y-%m-%d'), ' ', OWP.APPLY_START_HOUR, ':', OWP.APPLY_START_MIN) AS START_DATE,
+        CONCAT(DATE_FORMAT(OWP.APPLY_DATE, '%Y-%m-%d'), ' ', OWP.APPLY_END_HOUR, ':', OWP.APPLY_END_MIN) AS END_DATE,
+        OWP.APPR_STAT,
+        VEI.EMP_SEQ,
+        (SELECT APPROVAL_STAT FROM DJ_EPIS.V_APPROVAL_BOX WHERE CONNECTION_KEY = OWP.OVER_WORK_PLAN_ID AND CONNECTION_TYPE = 'overWorkPlan' ) as AB_APPR_STAT
+        FROM
+        DJ_CAMTIC.V_OVER_WORK_PLAN OWP
+        JOIN
+        DJ_CAMTIC.V_EMP_INFO VEI
+        ON VEI.EMP_SEQ = OWP.REQUEST_EMP_SEQ
+        JOIN
+        DJ_CAMTIC.V_WORK_CODE WC
+        ON WC.WK_CODE = OWP.APPLY_OVER_WORK_TYPE
+        WHERE
+        VEI.EMP_SEQ = #{empSeq}
+        AND
+        OWP.ACTIVE = 'Y'
+        <if test="startDay != null and startDay != '' and endDay != null and endDay != ''">
+            <![CDATA[
+            AND
+            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(OWP.REG_DATE, '%Y%m%d')
+            AND
+            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(OWP.REG_DATE, '%Y%m%d')
+            ]]>
+        </if>
+        <if test='status != null and !status.equals("")'>
+            AND
+            OWP.APPR_STAT = #{status}
+        </if>
+        <if test="vacUseHistUse != null and vacUseHistUse != ''">
+            AND OWP.VAC_USE_HIST_USE = #{vacUseHistUse}
+        </if>
+        ORDER BY OWP.REG_DATE DESC
+    </select>
+
+
+</mapper>
