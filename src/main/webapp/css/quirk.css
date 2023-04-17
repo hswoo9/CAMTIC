@@ -2268,7 +2268,7 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 10px 15px;
+  padding: 5px 15px;
   line-height: 1.42857143;
   vertical-align: middle;
   border-top: 1px solid #ffffff;
@@ -7976,6 +7976,8 @@ fieldset[disabled] .btn-info.active {
   background-color: #d8dce3;
   color: #3b4354;
   font-size: 12px;
+  text-align:center;
+  vertical-align: middle;
 }
 .table > thead > tr:first-child {
   border-top-right-radius: 2px;
@@ -13060,11 +13062,7 @@ fieldset[disabled] .btn-fb.active {
 .email-editor .note-editor .note-statusbar .note-resizebar {
   border-top: 0;
 }
-.table > thead > tr > td,
-.table > thead > tr > th {
-  padding-top: 13px;
-  padding-bottom: 13px;
-}
+
 .table > .success > tr > th,
 .table > .success > tr > td {
   background-color: #505b72;
@@ -14516,3 +14514,5 @@ fieldset[disabled] .btn-fb.active {
 .paddingtop20 {
   padding-top: 20px;
 }
+
+input{border:1px solid #eee; line-height:25px; border-radius:3px;}

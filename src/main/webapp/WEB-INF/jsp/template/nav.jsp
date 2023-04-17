@@ -122,7 +122,7 @@
             <a href="#" class="toggleMain">인사관리</a>
             <ul class="innerMain children">
               <li><a href="#" class="toggleMain">인사정보변경신청</a></li>
-              <li><a href="#" class="toggleMain">인사기록카드</a></li>
+              <li onclick="location.href='/appointment/userPersonnelRecord.do'"><a class="toggleMain">인사기록카드</a></li>
               <li><a href="#" class="toggleMain">성과결과조회</a></li>
             </ul>
           </li>
@@ -164,7 +164,7 @@
             <a href="#" class="toggleMain">휴가관리</a>
             <ul class="innerMain children">
               <li><a href="#" class="toggleMain">휴가신청</a></li>
-              <li><a href="#" class="toggleMain">휴가현황</a></li>
+              <li onclick="location.href='/subHoliday/subHolidayStatus.do'"><a class="toggleMain">휴가현황</a></li>
             </ul>
           </li>
         </ul>

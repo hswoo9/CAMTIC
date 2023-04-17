@@ -1,17 +1,5 @@
 html{font-family: 'Noto Sans KR', sans-serif;}
 body{font-family: 'Noto Sans KR', sans-serif;}
-.infoBtn{width:100px; margin:10px 5px;}
-.infoBtn:hover{background-color:#5bc0de; color:#fff!important;}
-.timeBox{padding:10px 0 5px; text-align:center; font-size:15px;padding: 10px 0 5px!important;}
-.logopanel{background-image: url(../images/logo.png); background-repeat: no-repeat; background-position: center; background-size:200px;}
-.panel-announcement{background-color: #509ef6!important;}
-.signpanel{background-image: url(../images/login_img_1.png); background-repeat: no-repeat; background-size: cover;}
-.signin{top:59%; left:67%; transform:none; background-color:transparent;}
-.tableThSt {background-color:#bdc3d1ad; padding:10px; text-align:center; color:#3b4354; vertical-align:middle;}
-.tableTdSt {background-color:#f6f7f8; padding:10px; text-align:center;}
-.panel-title{font-size:16px;}
-.radioInput{padding: 0 10px 0 3px; vertical-align: middle;}
-.textInput{width: 100%; line-height: 25px; border: 1px solid #d8dce3; border-radius: 5px;}
 
 /*select 스타일 색상 변경*/
 .k-button-solid-base{background-color: #E4EBF3!important;}
@@ -46,104 +34,20 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 .k-picker:focus-within, .k-widget.k-picker:focus-within{border-color: #1A5089!important; box-shadow:0 0 4px 0 rgb(26 80 137 /75%)!important;}
 .k-drag-clue, .k-grid-header, .k-grouping-header, .k-header, .k-menu, .k-panelbar>.k-panelbar-header>.k-link, .k-progressbar, .k-state-highlight, .k-tabstrip, .k-tabstrip-items .k-item, .k-toolbar{background-color: #edf5ff!important;}
 .k-button-solid-base.k-focus, .k-button-solid-base:focus{border-color: #1A5089!important; box-shadow:0 0 4px 0 rgb(26 80 137 /75%)!important;}
+.k-filter-row th, .k-grid-header th.k-header{font-size:12px; text-align:center;}
 
 /*드롭박스 스타일 색상 변경*/
 .k-picker, .k-widget.k-picker{background-color: #fff!important;}
 
-/*input 스타일 색상 변경*/
-.inputline{border:1px solid #bbb!important; height:26px; border-radius:4px;}
-
-/*라인버튼 */
-.lineBtn{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; background-color:#fff;}
-
-/*백그라운드버튼*/
-.backgroundBtn{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; background: #1A5089; color: #fff;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; margin-bottom:5px; }
-
-/*취소버튼*/
-.cancelBtn{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; background: #1A5089; color: #fff;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; margin-bottom:5px;}
-.cancelBtn:hover{background-color:#007bff; border:1px solid #007bff;}
-.cancelBtn:active{background-color:#007bff; border:1px solid #007bff; box-shadow: 0 0 0 3px rgb(0,123,255,0.5);}
-
-/*저장버튼*/
-.saveBtn{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; background: #1A5089; color: #fff;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; margin:0 5px 5px 0;}
-.saveBtn:hover{background-color:#007bff; border:1px solid #007bff;}
-.saveBtn:active{background-color:#007bff; border:1px solid #007bff; box-shadow: 0 0 0 3px rgb(0,123,255,0.5);}
-
-/*일괄등록버튼 */
-.bulkAdd{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; height:34px;}
-
-/*추가버튼 */
-.addBtn{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; height:34px;}
-
-/*조회버튼 */
-.checkBtn{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; background-color:#fff;}
-
-/*선택삭제*/
-.selectDel{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; background: #1A5089; color: #fff;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; margin-bottom:5px; }
-
-/*엑셀다운로드*/
-.excelDownload{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; background: #1A5089; color: #fff;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; margin-bottom:5px;}
-
-/*결재완료 확인(새로고침)*/
-.paymentConfirm{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; background: #1A5089; color: #fff;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; margin-bottom:5px;}
-
-/*파일첨부 업로드*/
-.fileUpload{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; vertical-align:middle; background-color:#fff; font-size:14px;}
-
-/*조직망연동 */
-.organizationConnect{border: 1px solid transparent; padding: 0.375rem 0.75rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; height:34px; background-color:#fff;}
-
-/*일괄등록-양식다운로드 */
-.formBtnDown{border: 1px solid transparent; padding: 0.3rem 0.5rem; border-radius: 0.25rem; color: #1A5089;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    border-color: #1A5089; height:34px; vertical-align:middle; background-color:#fff;}
-
-/* 톡알람 common.jsp */
-.talkNotice{width:300px; height:85px; background-color:#002954; color:#fff; z-index:5000;
-    position:fixed; right:0; bottom:0; font-size:12px; border-radius:10px 10px 0 0;}
-.closeNotice{font-size:20px; position:absolute; top:5px; right:15px;}
-.talkBox{width:50px; height:50px; background-color:darkgrey; position:absolute; top:20px; left:20px;}
-.talkName{position:absolute; top:25px; left:80px; font-weight:bold;}
-.talkContent{position:absolute; top:50px; left:80px;}
+/*table 스타일 색상 변경*/
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
+    border:1px solid rgba(0,0,0,.08);
+}
+.table-bordered{border-collapse:collapse; border-left: 1px solid rgba(0,0,0,.08);}
+.tableThSt {background-color:#edf5ff; overflow: hidden; text-align:center; color:#313131;
+    padding: 6px 8px!important; font-weight: 400; white-space: nowrap; text-overflow: ellipsis;}
+.tableTdSt{text-align: center; background-color: #fff; color:#313131;padding: 6px 8px!important;}
+.panel-title{font-size:16px;}
 
 
 
-.k-grid td{font-size:12px;}
-.k-grid .k-column-title{font-size:13px;}
-.k-button .k-button-text, .k-button .k-text{font-size:13px;}
-.k-list-item{font-size:12px;}
-
-.k-expander-header.k-state-hover, .k-expander-header:hover{background-color:#d2e2f3;}
-.k-expander-header.k-state-focused, .k-expander-header:focus{box-shadow:none;}
-.k-tabstrip{border-color:#d2e2f3; border-radius:5px;}
-.k-tabstrip:focus{box-shadow:none;}
-.k-tabstrip>.k-content{border-color:#d2e2f3;}
-.k-expander.k-state-focus{box-shadow:none;}
-.k-grid-header .k-grid-header-wrap th.k-header {text-align:center; vertical-align: middle; font-size:12px;}
-.k-grid .k-column-title{margin:0 auto;}
-#userVacStat td{text-align:center;}
-.k-grid tr{text-align:center;}

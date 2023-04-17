@@ -32,6 +32,11 @@ public class MainController {
         return "/subHoliday/subHolidayApplication";
     }
 
+    @RequestMapping("/subHoliday/subHolidayStatus.do")
+    public String subHolidayStatus(){
+        return "/subHoliday/subHolidayStatus";
+    }
+
     @RequestMapping("/subHoliday/org.do")
     public String org(){
         return "/subHoliday/org";
@@ -70,5 +75,10 @@ public class MainController {
     @RequestMapping("/engineering/deliveryManagement.do")
     public String deliveryManagement(){
         return "/engineering/deliveryManagement";
+    }
+
+    @RequestMapping("/appointment/userPersonnelRecord.do")
+    public String userPersonnelRecord(){
+        return "/appointment/userPersonnelRecord";
     }
 }
