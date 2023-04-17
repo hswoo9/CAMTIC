@@ -83,6 +83,7 @@ public class ApprovalController {
         model.addAttribute("hwpUrl", hwpUrl);
         params.remove("DOC_CONTENTS");
         model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("toDate", getCurrentDateTime());
 
         return "popup/approval/popup/approvalDraftingPop";
     }

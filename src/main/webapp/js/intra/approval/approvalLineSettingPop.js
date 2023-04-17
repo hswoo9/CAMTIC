@@ -10,8 +10,8 @@ var lineSettingPop = {
         pathName : "",
         searchAjaxData : "",
         approversArr : opener.draft.global.approversArr != null ? opener.draft.global.approversArr : new Array(),
-        approveAddBtn : function (e) {
-            return '<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="lineSettingPop.addTable(\'' + e.emp_seq + '\',\'userClick\')">' +
+        approveAddBtn : function(e) {
+            return '<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="lineSettingPop.addTable(\'' + e.EMP_SEQ + '\',\'userClick\')">' +
                 '<span class="k-button-text">추가</span>	' +
                 '</button>';
         },
