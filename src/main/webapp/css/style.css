@@ -5,6 +5,18 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 .k-button-solid-base{background-color: #E4EBF3!important;}
 .k-list-item.k-selected{background-color: #1A5089!important;}
 .k-list-item.k-hover, .k-list-item:hover{background-color: #E4EBF3!important;}
+.signpanel{
+    background-image: url(../images/login_img_1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.signin{
+    top: 59%;
+    left: 67%;
+    transform: none;
+    background-color: transparent;
+}
 
 /*캘린더 스타일 색상 변경*/
 .k-calendar>.k-header{background-color: #E4EBF3!important;}
@@ -48,6 +60,8 @@ body{font-family: 'Noto Sans KR', sans-serif;}
     padding: 6px 8px!important; font-weight: 400; white-space: nowrap; text-overflow: ellipsis;}
 .tableTdSt{text-align: center; background-color: #fff; color:#313131;padding: 6px 8px!important;}
 .panel-title{font-size:16px;}
+
+
 
 
 
