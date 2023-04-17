@@ -96,7 +96,7 @@
 </div><!-- col-md-9 -->
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
-
+<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvalService.jsp?v=${today}"></jsp:include>
 <script type="text/javascript">
     /*var datas = JSON.parse('${data}');*/
     /*draftFormList.fnDefaultScript(datas);*/
