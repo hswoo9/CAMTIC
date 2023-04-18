@@ -3,7 +3,9 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="true"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<link rel="stylesheet" href="/css/quirk.css">
+<link rel="stylesheet" href="/css/style.css">
 <style>
   .removeDay{
     text-decoration:line-through;
@@ -139,7 +141,6 @@
       overWkPop.fn_originDataSet();
     }
   })
-
 </script>
 </body>
 </html>

@@ -20,17 +20,17 @@ $("#empName, #workingTime, #applyStartHour, #applyStartTime").kendoTextBox({read
 $("#startDay, #endDay, #applyDate").attr("readOnly", true);
 
 /** 저장 데이터 삭제 */
-function selectChkDel(){
+function selectChkApp(){
     var flag = true;
 
     if($("input[name='owpPk']:checked").length == 0){
-        alert("삭제할 데이터를 선택해주세요.");
+        alert("대상을 선택해주세요.");
         return;
-    }else if(!confirm("선택한 데이터를 삭제하시겠습니까?")){
+    }else if(!confirm("선택한 대상을 승인하시겠습니까?")){
         return;
     }
 
-    var owpAr = new Array();
+    /*var owpAr = new Array();
     var grid = $("#mainGrid").data("kendoGrid");
     $("input[name='owpPk']:checked").each(function(){
         var dataItem = grid.dataItem($(this).closest("tr"));
@@ -45,9 +45,9 @@ function selectChkDel(){
         alert("결재 진행중이거나 종결된 항목은 삭제할 수 없습니다.");
         owpAr = new Array();
         return;
-    }
+    }*/
 
-    $.ajax({
+    /*$.ajax({
         url : getContextPath()+'/overWorkPlan/setOverWorkPlanDel.do',
         data : {
             owpAr : owpAr
@@ -59,7 +59,18 @@ function selectChkDel(){
             alert(rs.message);
             gridReload();
         }
-    })
+    })*/
+}
+
+function selectChkReturn() {
+    var flag = true;
+
+    if ($("input[name='owpPk']:checked").length == 0) {
+        alert("대상을 선택해주세요.");
+        return;
+    } else if (!confirm("선택한 대상을 반려하시겠습니까?")) {
+        return;
+    }
 }
 
 /** 결재 관련 함수 */
@@ -142,15 +153,6 @@ var overWk = {
 
     fn_defaultScript : function(){
 
-        $("#spclVacManageTabStrip").kendoTabStrip({
-            scrollable: true,
-            animation:  {
-                open: {
-                    effects: "fadeIn"
-                }
-            }
-        }).data("kendoTabStrip").select(0);
-
         overWk.schedulerInit();
 
         $("#nowDateWeekNumOfMonth").text("[" + "2023년" + " " + "04월" + " " + "2째주" + " 초과근무 현황]");
@@ -221,21 +223,6 @@ var overWk = {
             sortable: true,
             scrollable: true,
             toolbar : [
-                {
-                    name : 'button',
-                        template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="overWk.overWkPlanPopup()">' +
-                            '	<span class="k-button-text">신청</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="selectChkDel()">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>';
-                    }
-                }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -319,58 +306,6 @@ var overWk = {
                         }
                     },
                     width: 80
-                }, {
-                    title : "승인요청",
-                    template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>승인요청</span>" +
-                                "</button>";*/
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.OVER_WORK_PLAN_ID+"' appType='N' approvalKind='overWorkPlan'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>승인요청</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "E"){
-                            /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재상신</span>" +
-                                "</button>";*/
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.OVER_WORK_PLAN_ID+"' appType='E' approvalKind='overWorkPlan'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재요청</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "Y"){
-                            return "-";
-                        } else if(e.APPR_STAT =="C"){
-                            /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                "<span class='k-button-text'>취소</span>" +
-                                "</button>";*/
-                            if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                                if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }else{
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>취소</span>" +
-                                        "</button>";
-                                }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>취소</span>" +
-                                    "</button>";
-                            }
-
-                        } else {
-                            return "-";
-                        }
-                    },
-                    width: 80
                 }]
         }).data("kendoGrid");
 
@@ -445,39 +380,6 @@ var overWk = {
                 dataSource : schRsDs
             }
         ];
-        kendo.culture("ko-KR");
-        $("#scheduler").kendoScheduler({
-            date: new Date(),
-            startTime: new Date(),
-            height: 671,
-            views: [
-                "month"
-            ],
-            timezone: "Etc/UTC",
-            selectable: false,
-            editable : false,
-            dataSource: schDataSource,
-            resources: schResources,
-            /*
-            editable : {
-                template : $("#customEditorWorkPlanTemplate").html(),
-                destroy : false
-            },
-            */
-
-        });
-
-        $("#scheduler").on("dblclick", ".k-event", function(e){
-            var scheduler = $("#scheduler").getKendoScheduler();
-            var event = scheduler.occurrenceByUid($(this).data("uid"));
-            if(scheduler.viewName() == "month"){
-                console.log(event);
-                overWk.global.openerParams = [];
-                overWk.global.openerParams = event;
-                popWin = window.open(getContextPath() +"/overWkPop.do?overWorkPlanId="+event.id, "workPlanReqPop", "width=1100, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-            }else{
-            }
-        });
     },
 
 }
