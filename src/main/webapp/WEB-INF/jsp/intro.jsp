@@ -111,7 +111,7 @@
                 <a href="/indexB.do">사용자</a>
             </button>
             <button class="w-btn w-btn-indigo" id="mvBtn3" style="font-size: 20px;">
-                <a href="/CAMTIC">캠틱홈페이지</a>
+                <a href="/camtic">캠틱홈페이지</a>
             </button>
         </form>
         <hr class="invisible">

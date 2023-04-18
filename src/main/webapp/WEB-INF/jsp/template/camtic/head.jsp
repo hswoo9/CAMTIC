@@ -28,7 +28,7 @@
   </div>
   <div class="bot">
     <div class="inner">
-      <h1 class="logo"><a href="/CAMTIC">캠틱종합기술원</a></h1>
+      <h1 class="logo"><a href="/camtic">캠틱종합기술원</a></h1>
       <ul class="gnb">
         <li class="<?pubGnb('1');?>">
           <a href="#"><span>캠틱소개</span><i aria-hidden="true"></i></a>
