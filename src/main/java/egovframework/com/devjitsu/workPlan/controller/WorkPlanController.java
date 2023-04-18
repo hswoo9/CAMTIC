@@ -3,8 +3,6 @@ package egovframework.com.devjitsu.workPlan.controller;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
-import egovframework.com.devjitsu.overWk.controller.OverWkController;
-import egovframework.com.devjitsu.overWk.service.OverWkService;
 import egovframework.com.devjitsu.workPlan.service.WorkPlanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class WorkPlanController {
@@ -99,7 +96,7 @@ public class WorkPlanController {
         model.addAttribute("loginVO", (LoginVO) session.getAttribute("LoginVO"));
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
-        return "popup/workPlan/workPlanReqPop";
+        return "popup/workPlan/workPlanRegPop";
     }
 
     //유연근무 신청 저장 데이터 (마이페이지)

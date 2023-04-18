@@ -249,7 +249,7 @@
   </div>
 </div>
 <script type="text/javascript" src="/js/intra/workPlan/workPlanRegPop.js?v=${today}"/>
-<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvelService.jsp?v=${today}"></jsp:include>
+<%--<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvelService.jsp?v=${today}"></jsp:include>--%>
 <script>
   workPlanRegPop.defaultScript();
 </script>

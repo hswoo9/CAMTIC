@@ -898,7 +898,7 @@ var workPlan = {
     },
 
     workPlanRegPopup : function(){
-        popWin = window.open("workPlanReqPop.do", "workPlanReqPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        popWin = window.open(getContextPath()+"/workPlanReqPop.do", "workPlanReqPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 }
 
