@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="workPlan">
+
+    <select id="getWorkPlanReqChangeList" resultType="map" parameterType="map">
+        /* getWorkPlanReqChangeList */
+
+        SELECT
+        WPC.WORK_PLAN_CHANGE_ID,
+        DI.DOC_ID,
+        DATE_FORMAT(WPC.REQUEST_DATE, '%Y-%m-%d') AS REQUEST_DATE,
+        (
+        CASE WHEN WPC.WORK_PLAN_TYPE = 101 THEN '시차출퇴근제'
+        WHEN WPC.WORK_PLAN_TYPE = 102 THEN '시간제근무제'
+        WHEN WPC.WORK_PLAN_TYPE = 103 THEN '선택제근무제'
+        END
+        ) AS WORK_PLAN_TYPE,
+        CONCAT(DATE_FORMAT(WPC.START_DATE, '%Y년 %m월 %d일'), ' ~ ', DATE_FORMAT(WPC.END_DATE, '%Y년 %m월 %d일')) AS APPLY_DATE,
+        GROUP_CONCAT(DISTINCT WPCD.WEEKDAY SEPARATOR '|') AS WEEKDAY,
+        GROUP_CONCAT(DISTINCT WPCD.WORK_PLAN_CHANGE_DETAIL_ID SEPARATOR '|') AS WORK_PLAN_CHANGE_DETAIL_ID,
+        DATE_FORMAT(WPC.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+        DATE_FORMAT(WPC.REQUEST_DATE, '%Y-%m-%d') AS REQUEST_DATE,
+        DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
+        WPC.STATUS,
+        WPC.APPR_STAT,
+        WPC.APPLY_REASON,
+        (SELECT APPROVAL_STAT FROM CAM_APPROVAL.DJ_APPROVAL_BOX WHERE CONNECTION_KEY = WPC.WORK_PLAN_CHANGE_ID AND CONNECTION_TYPE = 'workPlan' ) as AB_APPR_STAT
+        FROM
+        CAM_INSIDE.DJ_WORK_PLAN_CHANGE WPC
+        JOIN
+        CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL WPCD
+        ON WPC.WORK_PLAN_CHANGE_ID = WPCD.WORK_PLAN_CHANGE_ID
+        LEFT JOIN
+        CAM_APPROVAL.DJ_DOC_INFO DI
+        ON DI.DOC_ID = WPC.DOC_ID
+        WHERE
+        WPC.ACTIVE = 'Y'
+        AND
+        WPC.REQUEST_EMP_SEQ = #{empSeq}
+        <![CDATA[
+        AND
+            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(WPC.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(WPC.REG_DATE, '%Y%m%d')
+        ]]>
+        <if test='status != null and !status.equals("")'>
+            AND STATUS = #{status}
+        </if>
+
+        GROUP BY
+        WPC.WORK_PLAN_CHANGE_ID
+        ORDER BY WPC.REG_DATE DESC
+    </select>
+
+
+</mapper>

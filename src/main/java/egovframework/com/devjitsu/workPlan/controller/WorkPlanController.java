@@ -3,17 +3,27 @@ package egovframework.com.devjitsu.workPlan.controller;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
+import egovframework.com.devjitsu.overWk.controller.OverWkController;
+import egovframework.com.devjitsu.overWk.service.OverWkService;
 import egovframework.com.devjitsu.workPlan.service.WorkPlanService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class WorkPlanController {
+
+    private static final Logger logger = LoggerFactory.getLogger(WorkPlanController.class);
     @Autowired
     private CommonService commonService;
 
@@ -37,7 +47,7 @@ public class WorkPlanController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
 
-        return "workPlan/workPlanReq";
+        return "workplan/workPlanReq";
     }
 
     /**
@@ -54,7 +64,7 @@ public class WorkPlanController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
 
-        return "workPlan/workPlanApp";
+        return "workplan/workPlanApp";
     }
 
     /**
@@ -71,6 +81,34 @@ public class WorkPlanController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
 
-        return "workPlan/workPlanAdminView";
+        return "workplan/workPlanAdminView";
     }
+
+    /**
+     * 유연근무 > 신청팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/workPlan/workPlanReqPop.do")
+    public String workPlanReqPopup(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
+        System.out.println("===================================================================");
+        System.out.println(params);
+        System.out.println("===================================================================");
+        HttpSession session = request.getSession();
+        model.addAttribute("loginVO", (LoginVO) session.getAttribute("LoginVO"));
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        return "popup/workPlan/workPlanReqPop";
+    }
+
+    //유연근무 신청 저장 데이터 (마이페이지)
+    @RequestMapping("/workPlan/getWorkPlanReqSubList.do")
+    public String getWorkPlanReqSubList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        List<Map<String, Object>> list = workPlanService.getWorkPlanReqChangeList(params);
+        model.addAttribute("data", list);
+
+        return "jsonView";
+    }
+
 }
