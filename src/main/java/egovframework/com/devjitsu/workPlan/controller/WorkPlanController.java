@@ -96,7 +96,7 @@ public class WorkPlanController {
         model.addAttribute("loginVO", (LoginVO) session.getAttribute("LoginVO"));
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
-        return "popup/workPlan/workPlanRegPop";
+        return "popup/workPlan/workPlanReqPop";
     }
 
     //유연근무 신청 저장 데이터 (마이페이지)
