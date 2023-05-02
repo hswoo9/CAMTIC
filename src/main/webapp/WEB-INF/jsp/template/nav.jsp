@@ -121,9 +121,8 @@
           <li>
             <a href="#" class="toggleMain">인사관리</a>
             <ul class="innerMain children">
-              <li><a href="#" class="toggleMain">인사정보변경신청</a></li>
+              <li onclick="location.href='/appointment/userPersonList.do'"><a href="#" class="toggleMain">직원조회목록</a></li>
               <li onclick="location.href='/appointment/userPersonnelRecord.do'"><a class="toggleMain">인사기록카드</a></li>
-              <li><a href="#" class="toggleMain">성과결과조회</a></li>
             </ul>
           </li>
           <li>

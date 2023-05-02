@@ -81,4 +81,9 @@ public class MainController {
     public String userPersonnelRecord(){
         return "/appointment/userPersonnelRecord";
     }
+
+    @RequestMapping("/appointment/userPersonList.do")
+    public String userPersonList(){
+        return "/appointment/userPersonList";
+    }
 }
