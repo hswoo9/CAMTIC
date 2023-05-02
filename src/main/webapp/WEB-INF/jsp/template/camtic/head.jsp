@@ -16,9 +16,10 @@
 <header id="header">
   <div class="top">
     <ul class="link">
-      <li><a href="#"><span>인재개발센터</span></a></li>
+      <%--<li><a href="#"><span>인재개발센터</span></a></li>
       <li><a href="#"><span>잡매칭센터</span></a></li>
-      <li><a href="#"><span>전주첨단벤처단지</span></a></li>
+      <li><a href="#"><span>전주첨단벤처단지</span></a></li>--%>
+      <li><a href="#"><span>성장개발센터</span></a></li>
     </ul>
     <div class="sns">
       <a href="#" class="insta">인스타그램</a>
