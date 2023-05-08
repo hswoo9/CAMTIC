@@ -10,8 +10,29 @@
     transition: background 0.3s ease;
     position: relative;
 }
+
+.accordion li a.toggleMain.toggled {
+    color:#259dab !important;
+}
+
 .accordion li a.toggleMain:hover {
     color:#259dab;
+}
+
+.accordion li a.toggleMain1.toggled {
+    color:#259dab !important;
+}
+
+.accordion li a.toggleMain1:hover {
+    color:#259dab;
+}
+
+/*.menuHover{
+    color: red !important;
+}*/
+
+.leftChange{
+    color: #259dab !important;
 }
 
 .toggleMain::before {
@@ -157,6 +178,7 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 
 
 /* left menu 추가 css */
+/*
 .accordion .innerMain {
     padding-left: 1em;
     overflow: hidden;
@@ -221,4 +243,4 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     content: '\203A';
     font-size: 17px;
     color: #fefefe;
-}
+}*/
