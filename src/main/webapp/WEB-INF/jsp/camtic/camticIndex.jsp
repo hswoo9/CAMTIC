@@ -331,7 +331,8 @@
             <div class="roll">
               <div class="swiper-wrapper">
                 <a href="#" class="swiper-slide">
-                  <i style="background-image:url(https://fakeimg.pl/580x370?text=1);">동영상 제목</i>
+                  <iframe width="580" height="370" src="https://www.youtube.com/embed/tBQ9ewstL9E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  <%--<i style="background-image:url(https://fakeimg.pl/580x370?text=1);">동영상 제목</i>--%>
                 </a>
                 <a href="#" class="swiper-slide">
                   <i style="background-image:url(https://fakeimg.pl/580x370?text=2);">동영상 제목</i>
