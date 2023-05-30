@@ -16,6 +16,7 @@
     </select>
 
     <select id="getUserInfo" resultType="map" parameterType="map">
+        /* getUserInfo */
         SELECT
             VEI.EMP_SEQ,
             VEI.EMP_NAME_KR,

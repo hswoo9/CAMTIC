@@ -417,8 +417,9 @@ var lineSettingPop = {
             c_aietime : hour+':'+minute,
         }
 
-        var result = customKendo.fn_customAjax("/approval/getAbsentSetChk.do", lineSettingPop.global.searchAjaxData);
-        if(result.flag){
+        var result = customKendo.fn_customAjax("/approval/getAbsentSetChk", lineSettingPop.global.searchAjaxData);
+
+        if(result.dupleList.length > 0){
             pathName = result.pathName;
 
             for(i = 0; i < result.dupleList.length; i ++){

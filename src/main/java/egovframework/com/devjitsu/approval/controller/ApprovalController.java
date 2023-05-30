@@ -5,11 +5,13 @@ import egovframework.com.devjitsu.approval.service.ApprovalService;
 import egovframework.com.devjitsu.approval.service.ApprovalUserService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.formManagement.service.FormManagementService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +20,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ApprovalController {
 
     private static final Logger logger = LoggerFactory.getLogger(ApprovalController.class);
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
+
+    @Value("#{properties['File.Base.DownDirectory']}")
+    private String BASE_DOWN_DIR;
 
     @Autowired
     private CommonService commonService;
@@ -121,7 +130,18 @@ public class ApprovalController {
      * @return
      */
     @RequestMapping("/approval/getAbsentSetChk")
-    public String getAbsentSetChk(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    @ResponseBody
+    public Map<String, Object> getAbsentSetChk(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        List<Map<String, Object>> dupleList = new ArrayList<>();
+
+
+        result.put("dupleList", dupleList);
+
+        return result;
+
         /*HttpSession session = request.getSession();
         LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 
@@ -143,8 +163,43 @@ public class ApprovalController {
             model.addAttribute("MSG", "부재자가 설정하려는 기간에 부재중으로 지정되어있어 부재중으로 설정할 수 없습니다.");
             return "jsonView";
         }*/
+    }
 
-        return "jsonView";
+    /** 상신전 부여할 문서번호 조회 */
+    @RequestMapping("/approval/getDeptDocNum")
+    @ResponseBody
+    public Map<String, Object> getDeptDocNum(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("rs", approvalService.getDeptDocNum(params));
+        return result;
+    }
+
+    /** 결재문서 상신, 재상신 */
+    @RequestMapping("/approval/setApproveDraftInit")
+    @ResponseBody
+    public Map<String, Object> setApproveDraftInit(@RequestParam Map<String, Object> params, Model model) throws IOException {
+
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            if(EgovStringUtil.nullConvert(params.get("docHWPFileData")).equals("")){
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        approvalService.setApproveDocInfo(params, BASE_DIR);
+        result.put("params", params);
+        return result;
+    }
+
+    /** 결재문서 결재, 반려 */
+    @RequestMapping("/approval/setDocApproveNReturn")
+    @ResponseBody
+    public Map<String, Object> setDocApproveNReturn(@RequestParam Map<String, Object> params, Model model) throws IOException {
+        approvalService.setDocApproveNReturn(params, BASE_DIR);
+        return params;
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

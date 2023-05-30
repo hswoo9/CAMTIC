@@ -42,4 +42,50 @@
         </if>
     </select>
 
+    <insert id="insOneFileInfo" parameterType="map" >
+        /* insOneFileInfo */
+        INSERT INTO DJ_CAMTIC.V_FILE_INFO
+        (
+        FILE_CD,
+        FILE_UUID,
+        FILE_ORG_NAME,
+        FILE_PATH,
+        FILE_SIZE,
+        FILE_EXT,
+        EMP_SEQ,
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        #{fileCd},
+        #{fileUUID},
+        #{fileOrgName},
+        #{filePath},
+        #{fileSize},
+        #{fileExt},
+        #{empSeq},
+        #{empSeq}
+        )
+
+        <selectKey keyProperty="file_no" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DJ_CAMTIC' AND TABLE_NAME = 'V_FILE_INFO'
+        </selectKey>
+    </insert>
+
+    <update id="updOneFileInfo" parameterType="map">
+        /* updOneFileInfo */
+        UPDATE
+            DJ_CAMTIC.V_FILE_INFO
+        SET
+            FILE_UUID = #{fileUUID},
+            FILE_ORG_NAME = #{fileOrgName},
+            FILE_PATH = #{filePath},
+            FILE_SIZE = #{fileSize},
+            FILE_EXT = #{fileExt},
+            MOD_DATE = NOW(),
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            FILE_NO = #{fileNo}
+    </update>
+
 </mapper>

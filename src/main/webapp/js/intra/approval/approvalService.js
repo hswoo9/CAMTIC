@@ -42,7 +42,7 @@ var approvelService = {
             c_aietime : hour+':'+minute,
         }
 
-        var result = customKendo.fn_customAjax("/approval/getAbsentSetChk.do", approvelService.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getAbsentSetChk", approvelService.global.searchAjaxData);
         if(result.flag){
             pathName = result.pathName;
 

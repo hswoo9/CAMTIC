@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commFile">
+
+    <select id="commFile.selectGroupPathList" parameterType="HashMap" resultType="HashMap">
+        /*selectGroupPathList*/
+        SELECT
+            *
+        FROM
+            neos.t_co_group_path
+        WHERE
+            true
+        <if test="groupSeq != null and groupSeq != ''">
+            AND group_seq = #{groupSeq}
+        </if>
+        <if test="osType != null and osType != ''">
+            AND os_type = #{osType}
+        </if>
+        <if test="pathSeq != null and pathSeq != ''">
+            AND path_seq = #{pathSeq}
+        </if>
+        ORDER BY path_seq
+    </select>
+
+    <insert id="commFile.commFileInfoInsert" parameterType="map" useGeneratedKeys="true" keyProperty="attach_file_id">
+        insert into DJ_CAMTIC.dj_attach_file
+        (
+            target_table_name,
+            target_id,
+            file_seq
+        )
+        values
+            (
+                #{targetTableName}
+            ,#{targetId}
+            ,#{fileSeq}
+            )
+    </insert>
+    <update id="commFile.commFileInfoUpdate" parameterType="map" >
+        UPDATE DJ_CAMTIC.dj_attach_file SET
+            file_name = #{attach_file_id}
+                                          ,real_file_name = #{fileNm}
+                                          , file_extension = #{ext}
+                                          , file_path = #{filePath}
+                                          , file_size = #{fileSize}
+        WHERE attach_file_id = #{attach_file_id}
+    </update>
+
+    <select id="commFile.getCommFileSeq" parameterType="map" resultType="Integer">
+        select ifnull(max(file_seq),0)+1 as fileSeq from  DJ_CAMTIC.dj_attach_file where target_table_name = #{targetTableName} and target_id = #{targetId}
+    </select>
+
+    <select id="commFile.getAttachFileList" parameterType="map" resultType="map">
+        SELECT
+        <choose>
+            <when test='purcFile == null or "".equals(purcFile)'>
+                CASE WHEN VPIT.PURC_BP_FILE = VFI.FILE_NO THEN "1"
+                    WHEN VPIT.PURC_PR_FILE = VFI.FILE_NO THEN "2"
+                    WHEN VPIT.PURC_TN_FILE = VFI.FILE_NO THEN "3"
+                    WHEN VPIT.PURC_TO_FILE = VFI.FILE_NO THEN "4"
+                    WHEN VPIT.PURC_ETC_FILE = VFI.FILE_NO THEN "5"
+                END AS fileType,
+            </when>
+            <when test='purcFile != null and !"".equals(purcFile) and "otherFile".equals(purcFile)'>
+                CASE WHEN VPIT.PURC_BP_FILE = VFI.FILE_NO THEN "1"
+                    WHEN VPIT.PURC_PR_FILE = VFI.FILE_NO THEN "2"
+                    WHEN VPIT.PURC_TN_FILE = VFI.FILE_NO THEN "3"
+                    WHEN VPIT.PURC_TO_FILE = VFI.FILE_NO THEN "4"
+                END AS fileType,
+            </when>
+            <when test='purcFile != null and !"".equals(purcFile) and "etcFile".equals(purcFile)'>
+                "etc" AS fileType,
+            </when>
+        </choose>
+            VFI.*
+        FROM
+            DJ_CAMTIC.V_FILE_INFO VFI
+        JOIN
+            DJ_CAMTIC.V_PURC_INFO_TEMP VPIT
+        ON
+        <choose>
+            <when test='purcFile == null or "".equals(purcFile)'>
+                (
+                    VFI.FILE_NO = VPIT.PURC_BP_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_PR_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_TN_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_TO_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_ETC_FILE
+                )
+            </when>
+            <when test='purcFile != null and !"".equals(purcFile) and "otherFile".equals(purcFile)'>
+                (
+                    VFI.FILE_NO = VPIT.PURC_BP_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_PR_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_TN_FILE OR
+                    VFI.FILE_NO = VPIT.PURC_TO_FILE
+                )
+            </when>
+            <when test='purcFile != null and !"".equals(purcFile) and "etcFile".equals(purcFile)'>
+                VFI.FILE_NO = VPIT.PURC_ETC_FILE
+            </when>
+            <when test='purcFile != null and !"".equals(purcFile) and "form1After".equals(purcFile)'>
+                VPIT.PURC_ID = VFI.CONTENT_ID
+            </when>
+        </choose>
+        WHERE
+            VPIT.PURC_ID = #{purcId}
+    </select>
+
+    <delete id="commFile.setCommFileDelete">
+        /*commFile.setCommFileDelete*/
+        DELETE FROM DJ_CAMTIC.DJ_ATTACH_FILE WHERE UPPER(TARGET_TABLE_NAME) = UPPER(#{targetTableName}) AND TARGET_ID = #{targetId}
+    </delete>
+
+
+</mapper>

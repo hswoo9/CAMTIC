@@ -2,7 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="approval">
+    <select id="getApproveUserInfo" resultType="map" parameterType="String">
+        /* getApproveUserInfo */
+        SELECT
+            VUI.EMP_SEQ,
+            VUI.EMP_NAME,
+            VUI.DEPT_SEQ,
+            VUI.DEPT_NAME,
+            VUI.POSITION_NAME AS POSITION_NAME,
+            VUI.DUTY_NAME AS DUTY_NAME
+        FROM
+            (
+                SELECT
+                    EMP_SEQ,
+                    EMP_NAME_KR AS EMP_NAME,
+                    LOGIN_ID,
+                    DEPT_SEQ,
+                    DEPT_NAME,
+                    POSITION_CODE,
+                    POSITION_CODE AS POSITION_NAME,
+                    DUTY_CODE,
+                    DUTY_NAME,
+                    ACTIVE
+                FROM
+                    DJ_CAMTIC.V_EMP_INFO
+            )VUI
+        WHERE
+            VUI.ACTIVE = 'Y'
+          AND
+            VUI.EMP_SEQ = #{approveEmpSeq}
+    </select>
+
+    <update id="setLinkageProcessDocInterlockUpd" parameterType="map">
+        /* setLinkageProcessDocInterlockUpd */
+        UPDATE
+            DJ_CAMTIC.A_DOC_INTERLOCK
+        SET
+        <choose>
+            <when test='DOC_ID != null and !"".equals(DOC_ID)'>DOC_ID = #{DOC_ID},</when>
+            <when test='docId != null and !"".equals(docId)'>DOC_ID = #{docId},</when>
+        </choose>
+            DOC_TITLE = #{docTitle},
+            MOD_EMP_SEQ  = #{empSeq}
+        WHERE
+            APPRO_KEY = #{approKey}
+    </update>
+
     <select id="getLinkageProcessDocInterlock" parameterType="map" resultType="map">
+        /* getLinkageProcessDocInterlock */
         SELECT
             APPRO_KEY,
             DOC_ID,
@@ -13,4 +60,626 @@
         WHERE
             APPRO_KEY = #{approKey}
     </select>
+
+    <select id="getDeptDocNum" parameterType="map" resultType="map">
+        /* getDeptDocNum */
+        SELECT
+            DEPT_SEQ AS deptSeq,
+            DOC_TYPE AS docType,
+            CASE WHEN DEPT_NICK_NAME_USE = 'Y' THEN CONCAT(DEPT_NICK_NAME, '-', APPLY_YEAR, RIGHT(CONCAT('000', DOC_NUM), 4))
+                 ELSE CONCAT(DEPT_NAME, '-', APPLY_YEAR, RIGHT(CONCAT('000', DOC_NUM), 4))
+                END docNo,
+            CAST((DOC_NUM + 1) AS CHAR) AS nextDocNo
+        FROM
+            DJ_CAMTIC.A_DOC_NUM
+        WHERE
+            DOC_TYPE = #{docType}
+          AND
+            DEPT_SEQ = #{deptSeq}
+    </select>
+
+    <update id="setDeptDocNumUpd" parameterType="map">
+        UPDATE
+            DJ_CAMTIC.A_DOC_NUM
+        SET
+            DOC_NUM = #{nextDocNo}
+        WHERE
+            DOC_TYPE = #{docType}
+          AND
+            DEPT_SEQ = #{deptSeq}
+    </update>
+
+    <select id="getApprovalDocNoChk" parameterType="map" resultType="String">
+        /* getApprovalDocNoChk */
+        SELECT
+            IFNULL(DOC_NO, '')
+        FROM
+            DJ_CAMTIC.A_DOC_INFO
+        WHERE
+            DOC_ID = #{docId}
+    </select>
+
+    <insert id="setApproveDocInfo" parameterType="map">
+        /* setApproveDocInfo */
+        INSERT INTO DJ_CAMTIC.A_DOC_INFO
+        (
+        DOC_MENU_CD,
+        FORM_ID,
+        APPRO_KEY,
+        AIKEYCODE,
+        DOC_NO,
+        DOC_TITLE,
+        DOC_CONTENT,
+        DRAFT_EMP_SEQ,
+        DRAFT_EMP_NAME,
+        DRAFT_DEPT_SEQ,
+        DRAFT_DEPT_NAME,
+        DRAFT_POSITION_NAME,
+        DRAFT_DUTY_NAME,
+        DRAFT_DT,
+        ATFILE_SN,
+        LAST_APPROVE_EMP_SEQ,
+        LAST_APPROVE_EMP_NAME,
+        LAST_APPROVE_POSITION_NAME,
+        LAST_APPROVE_DUTY_NAME,
+        LAST_APPROVE_TYPE,
+        APPROVE_STAT_CODE_DESC,
+        APPROVE_STAT_CODE,
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        #{menuCd},
+        #{formId},
+        #{approKey},
+        #{aiKeyCode},
+        #{docNo},
+        #{docTitle},
+        #{docContent},
+        #{draftEmpSeq},
+        #{draftEmpName},
+        #{draftDeptSeq},
+        #{draftDeptName},
+        #{draftPositionName},
+        #{draftDutyName},
+        <choose>
+            <when test='approveStatCode != null and approveStatCode.equals("10")'>NOW(),</when>
+            <when test='approveStatCode == null or approveStatCode.equals("111")'>NULL,</when>
+        </choose>
+        #{atfileSn},
+        #{lastApproveEmpSeq},
+        #{lastApproveEmpName},
+        #{lastApprovePositionName},
+        #{lastApproveDutyName},
+        #{lastApproveType},
+        #{approveStatCodeDesc},
+        #{approveStatCode},
+        #{empSeq}
+        )
+
+        <selectKey keyProperty="DOC_ID" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DJ_CAMTIC' AND TABLE_NAME = 'A_DOC_INFO'
+        </selectKey>
+    </insert>
+
+    <select id="getApproveDocFileInfo" parameterType="map" resultType="String">
+        /* getApproveDocFileInfo */
+        SELECT
+            IFNULL((
+                SELECT
+                    FILE_UUID
+                FROM
+                    DJ_CAMTIC.V_FILE_INFO
+                WHERE 1=1
+                AND
+                    FILE_PATH LIKE '%approveDocFile%'
+                AND
+                    FILE_EXT = 'hwp'
+        <choose>
+            <when test='DOC_ID != null and !"".equals(DOC_ID)'>
+                AND DOC_ID = #{DOC_ID}
+            </when>
+            <when test='docId != null and !"".equals(docId)'>
+                AND DOC_ID = #{docId}
+            </when>
+        </choose>
+                ), ''
+            ) AS FILE_UUID
+        FROM
+            DUAL
+    </select>
+
+    <update id="setApproveDocFileUpD" parameterType="map">
+        /* setApproveDocFileUpD */
+        UPDATE
+            DJ_CAMTIC.A_DOC_INFO
+        SET
+            MOD_DATE = NOW(),
+            ATFILE_SN = #{fileNo},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            DOC_ID = #{DOC_ID}
+    </update>
+
+    <update id="setApproveFileDocIdUpD" parameterType="map">
+        /* setApproveFileDocIdUpD */
+        UPDATE
+            DJ_CAMTIC.V_FILE_INFO
+        SET
+        MOD_DATE = NOW(),
+        <choose>
+            <when test='DOC_ID != null and !"".equals(DOC_ID)'>DOC_ID = #{DOC_ID},</when>
+            <when test='docId != null and !"".equals(docId)'>DOC_ID = #{docId},</when>
+        </choose>
+        MOD_EMP_SEQ = #{empSeq}
+        WHERE
+        FILE_NO = #{fileNo}
+    </update>
+
+    <insert id="setApproveDocOpt" parameterType="map">
+        /* setApproveDocOpt */
+        INSERT INTO DJ_CAMTIC.A_DOC_OPT
+        (
+        DOC_ID,
+        PUBLIC_TYPE,
+        PUBLIC_REASON_TEXT,
+        PUBLIC_REASON,
+        PRIVATE_REASON,
+        URGENT_TYPE,
+        SECURITY_TYPE,
+        DOC_GBN,
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        <choose>
+            <when test='DOC_ID != null and !"".equals(DOC_ID)'>#{DOC_ID},</when>
+            <when test='docId != null and !"".equals(docId)'>#{docId},</when>
+        </choose>
+        #{publicType},
+        #{publicReasonText},
+        #{publicReason},
+        #{privateReason},
+        #{urgentType},
+        #{securityType},
+        #{docGbn},
+        #{empSeq}
+        )
+    </insert>
+
+    <update id="setApproveDocOptUpd" parameterType="map">
+        /* setApproveDocOptUpd */
+        UPDATE
+            DJ_CAMTIC.A_DOC_OPT
+        SET
+            PUBLIC_TYPE = #{publicType},
+            PUBLIC_REASON_TEXT = #{publicReasonText},
+            PUBLIC_REASON = #{publicReason},
+            PRIVATE_REASON = #{privateReason},
+            URGENT_TYPE = #{urgentType},
+            SECURITY_TYPE = #{securityType},
+            DOC_GBN = #{docGbn},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            DOC_ID = #{docId}
+    </update>
+
+    <insert id="setDocApproveRoute" parameterType="map">
+        /* setDocApproveRoute */
+        INSERT INTO DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        (
+        DOC_ID,
+        APPROVE_EMP_SEQ,
+        APPROVE_EMP_NAME,
+        <if test='approveStatCodeDesc != null and !"".equals(approveStatCodeDesc)'>
+            APPROVE_STAT_CODE_DESC,
+            APPROVE_STAT_CODE,
+        </if>
+        APPROVE_POSITION_NAME,
+        APPROVE_DUTY_NAME,
+        APPROVE_DEPT_SEQ,
+        APPROVE_DEPT_NAME,
+        APPROVE_TYPE,
+        <if test='approveOrder != null and "0".equals(approveOrder)'>
+            APPROVE_DT,
+        </if>
+        APPROVE_ORDER,
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        #{docId},
+        #{approveEmpSeq},
+        #{approveEmpName},
+        <if test='approveStatCodeDesc != null and !"".equals(approveStatCodeDesc)'>
+            #{approveStatCodeDesc},
+            #{approveStatCode},
+        </if>
+        #{approvePositionName},
+        #{approveDutyName},
+        #{approveDeptSeq},
+        #{approveDeptName},
+        #{approveType},
+        <if test='approveOrder != null and "0".equals(approveOrder)'>
+            NOW(),
+        </if>
+        #{approveOrder},
+        #{empSeq}
+        )
+    </insert>
+
+    <insert id="setDocReceiver" parameterType="list">
+        /* setDocReceiver */
+        INSERT INTO DJ_CAMTIC.A_DOC_RECEIVER
+        (
+        DOC_ID,
+        SEQ_TYPE,
+        RECEIVER_EMP_SEQ,
+        RECEIVER_EMP_NAME,
+        RECEIVER_DEPT_SEQ,
+        RECEIVER_DEPT_NAME,
+        RECEIVER_DUTY_NAME,
+        RECEIVER_POSITION_NAME,
+        REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            <choose>
+                <when test='item.DOC_ID != null and !"".equals(item.DOC_ID)'>#{item.DOC_ID},</when>
+                <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
+            </choose>
+            #{item.seqType},
+            #{item.receiverEmpSeq},
+            #{item.receiverEmpName},
+            #{item.receiverDeptSeq},
+            #{item.receiverDeptName},
+            #{item.receiverDutyName},
+            #{item.receiverPositionName},
+            #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="setDocReferences" parameterType="map">
+        /* setDocReferences */
+        INSERT INTO DJ_CAMTIC.A_DOC_REFERENCES
+        (
+            DOC_ID,
+            REFERENCES_DOC_ID,
+            REFERENCES_DOC_NO,
+            REFERENCES_APPRO_KEY,
+            REFERENCES_DOC_TITLE,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{docId},
+                #{referencesDocId},
+                #{referencesDocNo},
+                #{referencesDocApproKey},
+                #{referencesDocTitle},
+                #{empSeq}
+            )
+    </insert>
+
+    <insert id="setDocReader" parameterType="list">
+        /* setDocReader */
+        INSERT INTO DJ_CAMTIC.A_DOC_READER
+        (
+        DOC_ID,
+        SEQ_TYPE,
+        READER_EMP_SEQ,
+        READER_EMP_NAME,
+        READER_DEPT_SEQ,
+        READER_DEPT_NAME,
+        READER_DUTY_CODE,
+        READER_DUTY_NAME,
+        READER_POSITION_CODE,
+        READER_POSITION_NAME,
+        READING_START_DT,
+        READING_END_DT,
+        REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            <choose>
+                <when test='item.DOC_ID != null and !"".equals(item.DOC_ID)'>#{item.DOC_ID},</when>
+                <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
+            </choose>
+            #{item.seqType},
+            #{item.readerEmpSeq},
+            #{item.readerEmpName},
+            #{item.readerDeptSeq},
+            #{item.readerDeptName},
+            #{item.readerDutyCode},
+            #{item.readerDutyName},
+            #{item.readerPositionCode},
+            #{item.readerPositionName},
+            #{item.readingStartDt},
+            #{item.readingEndDt},
+            #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getDocInfo" parameterType="map" resultType="map">
+        /* getDocInfo */
+        SELECT
+            DI.DOC_ID,
+            DI.AIKEYCODE,
+            DI.DOC_MENU_CD,
+            F.FORM_ID,
+            F.FORM_NAME,
+            DI.APPRO_KEY,
+            (
+                SELECT
+                    CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
+                FROM
+                    NEOS.A_ARCHIVEINFO A
+                JOIN
+                    DJ_CAMTIC.V_COM_CODE B
+                ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
+                WHERE
+                A.C_AIKEYCODE = DI.AIKEYCODE
+            ) AS AITITLE,
+        DI.DOC_NO,
+        DI.DOC_TITLE,
+        DI.DOC_CONTENT,
+        DI.DRAFT_EMP_SEQ,
+        DI.LAST_APPROVE_EMP_SEQ,
+        DI.LAST_APPROVE_TYPE,
+        DI.DRAFT_DT,
+        DI.APPROVE_STAT_CODE,
+        DO.DOC_OPT_ID,
+        IFNULL(DO.PUBLIC_TYPE, '001') AS PUBLIC_TYPE,
+        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 27 AND CM_CODE = DO.PUBLIC_TYPE) AS PUBLIC_TYPE_KR,
+        REPLACE(REPLACE(DO.PUBLIC_REASON_TEXT, '\n', ''), '\r', '') AS PUBLIC_REASON_TEXT,
+        DO.PUBLIC_REASON,
+        DO.PRIVATE_REASON,
+        IFNULL(DO.URGENT_TYPE, '000') AS URGENT_TYPE,
+        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 28 AND CM_CODE = DO.URGENT_TYPE) AS URGENT_TYPE_KR,
+        IFNULL(DO.SECURITY_TYPE, '000') AS SECURITY_TYPE,
+        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 29 AND CM_CODE = DO.SECURITY_TYPE) AS SECURITY_TYPE_KR,
+        IFNULL(DO.DOC_GBN, '000') AS DOC_GBN,
+        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 30 AND CM_CODE = DO.DOC_GBN) AS DOC_GBN_KR,
+        DI.ATFILE_SN,
+        (SELECT FILE_NO FROM DJ_CAMTIC.V_FILE_INFO WHERE DOC_ID = DI.DOC_ID AND FILE_EXT = 'html') AS HTMLAT_FILE_SN,
+        FI.FILE_CD,
+        FI.FILE_PATH,
+        FI.FILE_UUID,
+        FI.FILE_ORG_NAME,
+        FI.FILE_EXT,
+        CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS FILE_DOWN_PATH,
+        (SELECT COUNT(*) FROM DJ_CAMTIC.V_FILE_INFO WHERE DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FILE_NO AND FILE_EXT != 'html') as FILE_CONT,
+        (SELECT COUNT(*) FROM DJ_CAMTIC.A_DOC_REFERENCES WHERE DOC_ID = DI.DOC_ID) as REFERENCES_CONT
+        FROM
+        DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+        DJ_CAMTIC.A_FORM F
+        ON DI.FORM_ID = F.FORM_ID
+        LEFT JOIN
+        DJ_CAMTIC.V_FILE_INFO FI
+        ON DI.ATFILE_SN = FI.FILE_NO
+        LEFT JOIN
+        DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        WHERE
+        DI.ACTIVE = 'Y'
+        <choose>
+            <when test='DOC_ID != null and !DOC_ID.equals("")'>
+                AND DI.DOC_ID = #{DOC_ID}
+            </when>
+            <otherwise>
+                AND DI.DOC_ID = #{docId}
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="getApproveRouteId" parameterType="map" resultType="int">
+        /* getApproveRouteId */
+        SELECT
+        APPROVE_ROUTE_ID
+        FROM
+        DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        WHERE
+        APPROVE_EMP_SEQ = #{empSeq}
+        <choose>
+            <when test='DOC_ID != null and !DOC_ID.equals("")'>
+                AND DOC_ID = #{DOC_ID}
+            </when>
+            <otherwise>
+                AND DOC_ID = #{docId}
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="setDocInfoStatUp" parameterType="map">
+        /* setDocInfoStatUp */
+        UPDATE
+        DJ_CAMTIC.A_DOC_INFO
+        SET
+        <if test='type != null and !"retrieve".equals(type)'>
+            DOC_CONTENT = #{docContent},
+        </if>
+        <if test='type != null and "return".equals(type)'>
+            RETURN_YN = 'Y',
+            RETURN_OPIN = #{approveOpin},
+            <choose>
+                <when test='subApproval != null and !"".equals(subApproval) and "Y".equals(subApproval)'>
+                    RETURN_EMP_SEQ = #{proxyApproveEmpSeq},
+                </when>
+                <otherwise>
+                    RETURN_EMP_SEQ = #{approveEmpSeq},
+                </otherwise>
+            </choose>
+        </if>
+        <if test='approveStatCode != null and ("100".equals(approveStatCode) or "101".equals(approveStatCode))'>
+            LAST_APPROVE_DT = NOW(),
+        </if>
+        <if test='type != null and "approve".equals(type) and !"0".equals(approveOrder)'>
+            APPROVE_ORDER = (${approveOrder} + 1),
+        </if>
+        APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
+        APPROVE_STAT_CODE = #{approveStatCode},
+        APPROVE_OPIN = #{approveOpin},
+        APPROVE_DT = NOW(),
+        <choose>
+            <when test='subApproval != null and !"".equals(subApproval) and "Y".equals(subApproval)'>
+                MOD_EMP_SEQ = #{proxyApproveEmpSeq},
+            </when>
+            <otherwise>
+                MOD_EMP_SEQ = #{approveEmpSeq},
+            </otherwise>
+        </choose>
+        MOD_DATE = NOW()
+        WHERE
+        DOC_ID = #{docId}
+    </update>
+
+    <update id="setDocApproveRouteUp" parameterType="map">
+        /* setDocApproveRouteUp */
+        UPDATE
+        DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        SET
+        <if test='subApproval != null and !"".equals(subApproval) and "Y".equals(subApproval)'>
+            PROXY_APPROVE_DEPT_SEQ = #{proxyApproveDeptSeq},
+            PROXY_APPROVE_EMP_SEQ = #{proxyApproveEmpSeq},
+            DOC_READ_DT = CASE WHEN DOC_READ_DT IS NULL THEN NOW() ELSE DOC_READ_DT END,
+        </if>
+        APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
+        APPROVE_STAT_CODE = #{approveStatCode},
+        APPROVE_OPIN = #{approveOpin},
+        APPROVE_DT = NOW(),
+        APPROVE_CANCEL_DT = NULL,
+        <choose>
+            <when test='subApproval != null and !"".equals(subApproval) and "Y".equals(subApproval)'>
+                MOD_EMP_SEQ = #{proxyApproveEmpSeq},
+            </when>
+            <otherwise>
+                MOD_EMP_SEQ = #{approveEmpSeq},
+            </otherwise>
+        </choose>
+        MOD_DATE = NOW()
+        WHERE
+        DOC_ID = #{docId}
+        AND
+        APPROVE_ROUTE_ID = #{approveRouteId}
+    </update>
+
+    <select id="getDocApproveType2List" parameterType="map" resultType="map">
+        /* getDocApproveType2List */
+        SELECT
+            APPROVE_ROUTE_ID AS approveRouteId,
+            APPROVE_EMP_SEQ AS approveEmpSeq,
+            DOC_ID AS docId
+        FROM
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        WHERE
+            DOC_ID = #{docId} AND APPROVE_STAT_CODE IS NULL
+    </select>
+
+    <update id="setDocApproveRouteNoApproveUp" parameterType="map">
+        /* setDocApproveRouteNoApproveUp */
+        UPDATE
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        SET
+            APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
+            APPROVE_STAT_CODE = #{approveStatCode},
+            APPROVE_OPIN = #{approveOpin},
+            APPROVE_DT = NOW(),
+            MOD_EMP_SEQ = #{approveEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            APPROVE_ROUTE_ID = #{approveRouteId} AND DOC_ID = #{docId}
+    </update>
+
+    <update id="setReferDocInfoStatUp" parameterType="map">
+        /* setReferDocInfoStatUp */
+        UPDATE
+        DJ_CAMTIC.A_DOC_INFO
+        SET
+        <if test='docNo != null and !docNo.equals("")'>
+            DOC_NO = #{docNo},
+        </if>
+        AIKEYCODE = #{aiKeyCode},
+        DOC_TITLE = #{docTitle},
+        DOC_CONTENT = #{docContent},
+        <if test='type != null and !type.equals("") and type.equals("draft")'>
+            DRAFT_DT = NOW(),
+        </if>
+        <if test='atfileSn != null and !atfileSn.equals("")'>
+            ATFILE_SN = #{atfileSn},
+        </if>
+        <if test='approveStatCode != null and !approveStatCode.equals("") and approveStatCode.equals("50")'>
+            APPROVE_ORDER = '1',
+        </if>
+        APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
+        APPROVE_STAT_CODE = #{approveStatCode},
+        <if test='(approversRouteChange != null and approversRouteChange.equals("Y")) or (lastApproveEmpSeq != null and !lastApproveEmpSeq.equals(""))'>
+            LAST_APPROVE_EMP_SEQ = #{lastApproveEmpSeq},
+            LAST_APPROVE_EMP_NAME = #{lastApproveEmpName},
+            LAST_APPROVE_POSITION_NAME = #{lastApprovePositionName},
+            LAST_APPROVE_DUTY_NAME = #{lastApproveDutyName},
+            LAST_APPROVE_TYPE = #{lastApproveType},
+        </if>
+        <if test='type != null and !type.equals("temp")'>
+            REPTIT_DRFT_YN = 'Y',
+            REPTIT_DRFT_DT = NOW(),
+        </if>
+        MOD_EMP_SEQ = #{empSeq},
+        MOD_DATE = NOW()
+        WHERE
+        DOC_ID = #{docId}
+    </update>
+
+    <update id="setReferDocApproveRouteUp" parameterType="map">
+        UPDATE
+        DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        SET
+        <choose>
+            <when test='approveOrder != null and "0".equals(approveOrder)'>
+                APPROVE_STAT_CODE = #{approveStatCode},
+                APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
+                APPROVE_DT = NOW(),
+                DOC_READ_DT = NOW(),
+            </when>
+            <otherwise>
+                APPROVE_STAT_CODE = NULL,
+                APPROVE_STAT_CODE_DESC = NULL,
+                PROXY_APPROVE_DEPT_SEQ = NULL,
+                PROXY_APPROVE_EMP_SEQ = NULL,
+                APPROVE_DT = NULL,
+                DOC_READ_DT = NULL,
+            </otherwise>
+        </choose>
+        APPROVE_OPIN = NULL,
+        RE_TYPE = 'Y',
+        MOD_EMP_SEQ = #{empSeq},
+        MOD_DATE = NOW()
+        WHERE
+        DOC_ID = #{docId}
+        AND
+        APPROVE_EMP_SEQ = #{approveEmpSeq}
+    </update>
+
+    <update id="setReferDocApproveRouteDel" parameterType="map">
+        DELETE FROM DJ_CAMTIC.A_DOC_APPROVE_ROUTE WHERE DOC_ID = #{docId}
+    </update>
+
+    <update id="setDocReceiverDel" parameterType="map">
+        DELETE FROM DJ_CAMTIC.A_DOC_RECEIVER WHERE DOC_ID = #{docId}
+    </update>
+
+    <update id="setDocReferencesDel" parameterType="map">
+        DELETE FROM DJ_CAMTIC.A_DOC_REFERENCES WHERE DOC_ID = #{docId}
+    </update>
+
+    <update id="setDocReaderDel" parameterType="map">
+        DELETE FROM DJ_CAMTIC.A_DOC_READER WHERE DOC_ID = #{docId}
+    </update>
+
+
 </mapper>

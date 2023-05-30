@@ -19,4 +19,6 @@ public class CommonRepository extends AbstractDAO {
     public int getUserListTotal(Map<String, Object> map) {
         return (int) selectOne("common.getUserListTotal", map);
     }
+    public void insOneFileInfo(Map<String, Object> params) { insert("common.insOneFileInfo", params);}
+    public void updOneFileInfo(Map<String, Object> params) { update("common.updOneFileInfo", params);}
 }

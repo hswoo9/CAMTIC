@@ -665,7 +665,7 @@ var draft = {
 
     draftInitValidation : function(e) {
         draft.global.flag = true;
-        if (draft.global.approversArr.length < 2) {
+        if (draft.global.approversArr.length < 1) {
             alert("결재선을 지정해주세요.");
             draft.global.flag = false;
             return;
@@ -752,7 +752,7 @@ var draft = {
                 docType : $("#docType").val()
             }
 
-            var result = customKendo.fn_customAjax("/approval/getDeptDocNum.do", draft.global.searchAjaxData);
+            var result = customKendo.fn_customAjax("/approval/getDeptDocNum", draft.global.searchAjaxData);
             if(result.flag){
                 $("#docNo").val(result.rs.docNo);
 
@@ -802,7 +802,7 @@ var draft = {
         draft.docApproveLineDataSetting(draft.global.type, draft.global.formData);
 
         $.ajax({
-            url : getContextPath() + "/approval/setApproveDraftInit.do",
+            url : "/approval/setApproveDraftInit",
             type : 'post',
             data : draft.global.formData,
             dataType : "json",
@@ -1047,7 +1047,7 @@ var draft = {
 
     docApproveAjax : function(){
         $.ajax({
-            url : getContextPath() + "/approval/setDocApproveNReturn.do",
+            url : "/approval/setDocApproveNReturn",
             type : "POST",
             data : draft.makeApprovalFormData("approve"),
             dataType : "json",
