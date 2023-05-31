@@ -1,6 +1,6 @@
 package egovframework.com.devjitsu.workPlan.controller;
 
-import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.system.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.workPlan.service.WorkPlanService;

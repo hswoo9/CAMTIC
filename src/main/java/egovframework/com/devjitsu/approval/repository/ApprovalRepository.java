@@ -62,4 +62,7 @@ public class ApprovalRepository extends AbstractDAO {
     public void setDocReferencesDel(Map<String, Object> params) { delete("approval.setDocReferencesDel", params);}
     public void setDocReaderDel(Map<String, Object> params){ delete("approval.setDocReaderDel", params);}
 
+    /** 시스템 연동 첨부파일 조회(구매계약) */
+    public List<Map<String, Object>> getDocAttachmentListForSys(Map<String, Object> params) { return selectList("approval.getDocAttachmentListForSys", params);}
+
 }

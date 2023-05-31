@@ -28,6 +28,55 @@ public class ApprovalUserController {
     @Autowired
     private ApprovalUserService approvalUserService;
 
+    /**
+     * 양식목록
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/draftFormList.do")
+    public String draftFormList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        model.addAttribute("toDate", getCurrentDateTime());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", approvalUserService.getDraftFormList(params));
+
+        return "approval/user/draftFormList";
+    }
+
+    /**
+     * 상신문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/storageBoxDraftDocList.do")
+    public String storageBoxDraftDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        model.addAttribute("toDate", getCurrentDateTime());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+
+        return "approval/user/DocStorageBox/storageBoxDraftDocList";
+    }
+
+    /**
+     * 사용자 문서별 리스트 (열람문서 제외)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/getUserDocStorageBoxList")
+    @ResponseBody
+    public Map<String, Object> getUserDocStorageBoxList(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", approvalUserService.getUserDocStorageBoxList(params));
+        return result;
+    }
+
     @RequestMapping("/approvalUser/approvalLineManagement.do")
     public String openOrganizationChart(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -76,18 +125,6 @@ public class ApprovalUserController {
     @ResponseBody
     public List<Map<String, Object>> getUserFavApproveRouteDetail(@RequestParam Map<String, Object> params, Model model){
         return approvalUserService.getUserFavApproveRouteDetail(params);
-    }
-
-    @RequestMapping("/approvalUser/draftFormList.do")
-    public String draftFormList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        model.addAttribute("toDate", getCurrentDateTime());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
-        model.addAttribute("loginVO", login);
-        model.addAttribute("data", approvalUserService.getDraftFormList(params));
-
-        return "approval/user/draftFormList";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

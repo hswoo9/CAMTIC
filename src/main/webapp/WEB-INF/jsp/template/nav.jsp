@@ -93,7 +93,7 @@
             <ul class="innerMain children a_a">
               <li><a href="/approvalUser/draftFormList.do?menu=a_a" class="toggleMain1">양식목록</a></li>
               <li><a href="#" class="toggleMain1">임시보관문서</a></li> <%--menu=a_a--%>
-              <li><a href="#" class="toggleMain1">상신문서</a></li>
+              <li><a href="/approvalUser/storageBoxDraftDocList.do?menu=a_a" class="toggleMain1">상신문서</a></li>
               <li><a href="#" class="toggleMain1">반려/회수 문서</a></li>
               <li><a href="#" class="toggleMain1">열람문서</a></li>
             </ul>

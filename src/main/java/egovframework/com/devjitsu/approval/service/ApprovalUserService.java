@@ -12,6 +12,13 @@ public interface ApprovalUserService {
     String getDraftFormList(Map<String, Object> params);
 
     /**
+     * 사용자 문서별 리스트(열람문서 제외)
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getUserDocStorageBoxList(Map<String, Object> params);
+
+    /**
      * 나의 즐겨찾기 결재선 리스트 조회
      * @param params
      * @return

@@ -3,7 +3,7 @@ package egovframework.com.devjitsu.approval.controller;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.approval.service.ApprovalService;
 import egovframework.com.devjitsu.approval.service.ApprovalUserService;
-import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.system.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.formManagement.service.FormManagementService;
@@ -200,6 +200,57 @@ public class ApprovalController {
     public Map<String, Object> setDocApproveNReturn(@RequestParam Map<String, Object> params, Model model) throws IOException {
         approvalService.setDocApproveNReturn(params, BASE_DIR);
         return params;
+    }
+
+    /** 결재문서 상세보기 */
+    @RequestMapping("/approval/approvalDocView.do")
+    public String approvalDocView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String hwpUrl = "";
+
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        Map<String, Object> rs = approvalService.getDocInfoApproveRoute(params);
+        rs.put("approveNowRoute", approvalService.getDocApproveNowRoute(params));
+        rs.put("approvePrevRoute", approvalService.getDocApprovePrevRoute(params));
+
+        model.addAttribute("docContent", rs.get("docContent"));
+        rs.remove("docContent");
+        params.remove("absentUserQuery");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("rs", new Gson().toJson(rs));
+        model.addAttribute("loginVO", new Gson().toJson(loginVO));
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "popup/approval/popup/approvalDocView";
+    }
+
+    /** 결재문서 열람자 열람시간 업데이트 */
+    @RequestMapping("/approval/setDocReaderReadUser")
+    @ResponseBody
+    public Map<String, Object> setDocReaderReadUser(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        approvalService.setDocReaderReadUser(params);
+        return params;
+    }
+
+    /** 결재문서 첨부파일 리스트 */
+    @RequestMapping("/approval/getDocAttachmentList")
+    @ResponseBody
+    public Map<String, Object> getDocAttachmentList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", approvalService.getDocAttachmentList(params));
+        return result;
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

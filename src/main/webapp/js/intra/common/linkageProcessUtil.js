@@ -175,7 +175,7 @@ function approveDocView(docId, approKey, menuCd, deleteFlag){
 
 	var mod = "V";
 	var pop = "" ;
-	var url = _g_contextPath_ + '/approval/approvalDocView.do?docId='+docId+'&menuCd=' + menuCd + '&mod=' + mod + '&approKey='+approKey;
+	var url = '/approval/approvalDocView.do?docId='+docId+'&menuCd=' + menuCd + '&mod=' + mod + '&approKey='+approKey;
 	var width = "1000";
 	var height = "950";
 	windowX = Math.ceil( (window.screen.width  - width) / 2 );
@@ -186,7 +186,7 @@ function approveDocView(docId, approKey, menuCd, deleteFlag){
 
 function docApproveLineView(docId){
 	var pop = "" ;
-	var url = _g_contextPath_ + '/approval/approvalLineViewPop.do?docId='+docId+'&view=lineView';
+	var url = '/approval/approvalLineViewPop.do?docId='+docId+'&view=lineView';
 	var width = "1000";
 	var height = "355";
 	windowX = Math.ceil( (window.screen.width  - width) / 2 );
@@ -246,7 +246,7 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 
 	if(confirm("문서를 회수하시겠습니까?")){
 		$.ajax({
-			url : getContextPath()+"/approval/setApproveRetrieve.do",
+			url : "/approval/setApproveRetrieve",
 			data : {
 				linkageType : linkageType,
 				linkageProcessCode : approKey.split("_")[0],

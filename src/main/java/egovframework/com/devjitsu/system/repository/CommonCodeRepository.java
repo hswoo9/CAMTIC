@@ -1,4 +1,4 @@
-package egovframework.com.devjitsu.common.repository;
+package egovframework.com.devjitsu.system.repository;
 
 import egovframework.com.devjitsu.main.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
@@ -20,6 +20,7 @@ public class CommonCodeRepository extends AbstractDAO {
      */
     public List<Map<String, Object>> getCmGroupCodeList(Map<String, Object> params){ return selectList("commonCode.getCmGroupCodeList", params);}
     public List<Map<String, Object>> getCmCodeList(Map<String, Object> params){ return selectList("commonCode.getCmCodeList", params);}
+    public List<Map<String, Object>> getCustomCodeList(Map<String, Object> params){ return selectList("commonCode.getCustomCodeList", params);}
     public Map<String, Object> getCmGroupCodeInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("commonCode.getCmGroupCodeInfo", params);}
     public void setCmGroupCodeSave(Map<String, Object> params) { insert("commonCode.setCmGroupCodeSave", params);}
     public void setCmGroupCodeUpdate(Map<String, Object> params) { update("commonCode.setCmGroupCodeUpdate", params);}

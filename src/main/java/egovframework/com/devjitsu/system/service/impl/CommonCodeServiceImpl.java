@@ -1,9 +1,9 @@
-package egovframework.com.devjitsu.common.service.impl;
+package egovframework.com.devjitsu.system.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import egovframework.com.devjitsu.common.repository.CommonCodeRepository;
-import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.system.repository.CommonCodeRepository;
+import egovframework.com.devjitsu.system.service.CommonCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,11 @@ public class CommonCodeServiceImpl implements CommonCodeService {
         }
 
         return commonCommonCodeRepository.getCmCodeList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCustomCodeList(Map<String, Object> params) {
+        return commonCommonCodeRepository.getCustomCodeList(params);
     }
 
     @Override

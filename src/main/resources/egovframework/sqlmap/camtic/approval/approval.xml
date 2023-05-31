@@ -407,23 +407,23 @@
     <select id="getDocInfo" parameterType="map" resultType="map">
         /* getDocInfo */
         SELECT
-            DI.DOC_ID,
-            DI.AIKEYCODE,
-            DI.DOC_MENU_CD,
-            F.FORM_ID,
-            F.FORM_NAME,
-            DI.APPRO_KEY,
-            (
-                SELECT
-                    CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
-                FROM
-                    NEOS.A_ARCHIVEINFO A
-                JOIN
-                    DJ_CAMTIC.V_COM_CODE B
-                ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
-                WHERE
-                A.C_AIKEYCODE = DI.AIKEYCODE
-            ) AS AITITLE,
+        DI.DOC_ID,
+        DI.AIKEYCODE,
+        DI.DOC_MENU_CD,
+        F.FORM_ID,
+        F.FORM_NAME,
+        DI.APPRO_KEY,
+        (
+        SELECT
+        CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
+        FROM
+        NEOS.A_ARCHIVEINFO A
+        JOIN
+        DJ_CAMTIC.V_COM_CODE B
+        ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
+        WHERE
+        A.C_AIKEYCODE = DI.AIKEYCODE
+        ) AS AITITLE,
         DI.DOC_NO,
         DI.DOC_TITLE,
         DI.DOC_CONTENT,
@@ -495,6 +495,334 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="getDocAttachmentList" parameterType="map" resultType="map">
+        /* getDocAttachmentList */
+        SELECT
+            CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE) AS ZIP_NAME,
+            FI.FILE_NO,
+            CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
+            FI.FILE_EXT,
+            FI.FILE_SIZE,
+            FI.FILE_UUID AS fileUUID,
+            FI.FILE_PATH AS FILE_DOWN_PATH
+            -- CONCAT('/upload/', FI.FILE_CD, '/', DATE_FORMAT(FI.REG_DT, '%Y/%m/%d'), '/') AS FILE_DOWN_PATH
+        FROM
+            DJ_CAMTIC.V_FILE_INFO FI
+                LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+            ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
+        WHERE
+            DI.DOC_ID = #{docId}
+    </select>
+
+    <select id="getDocApproveAllRoute" parameterType="map" resultType="map">
+        /* getDocApproveAllRoute */
+        SELECT
+            DI.DRAFT_EMP_SEQ,
+            DI.LAST_APPROVE_EMP_SEQ,
+            DI.LAST_APPROVE_EMP_NAME,
+            DAR.APPROVE_ROUTE_ID,
+            DAR.APPROVE_EMP_SEQ,
+            DAR.APPROVE_EMP_NAME,
+            DAR.APPROVE_DEPT_SEQ,
+            DAR.APPROVE_DEPT_NAME,
+            DAR.APPROVE_POSITION_NAME,
+            DAR.APPROVE_DUTY_NAME,
+            DAR.APPROVE_STAT_CODE,
+            DAR.APPROVE_STAT_CODE_DESC,
+            DAR.APPROVE_TYPE,
+            DAR.PROXY_APPROVE_EMP_SEQ,
+            CASE WHEN DAR.PROXY_APPROVE_EMP_SEQ IS NOT NULL THEN CONCAT('원결재 : [', DAR.APPROVE_POSITION_NAME, '] ', DAR.APPROVE_EMP_NAME)
+            ELSE ''
+            END ORIGIN_APPROVE_EMP_NAME,
+            DATE_FORMAT(DAR.DOC_READ_DT, '%Y-%m-%d %H:%s') AS DOC_READ_DT,
+            DATE_FORMAT(DAR.APPROVE_DT, '%Y. %m. %d') AS APPROVE_DT,
+            DATE_FORMAT(DAR.APPROVE_DT, '%Y-%m-%d %H:%s') AS APPROVE_DT2,
+            DAR.APPROVE_ORDER
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
+        ON DAR.DOC_ID = DI.DOC_ID
+        <if test='view != null and !"".equals(view) and "lineView".equals(view)'>
+            AND (DAR.APPROVE_STAT_CODE != 111 OR DAR.APPROVE_STAT_CODE IS NULL)
+        </if>
+        WHERE
+            DI.DOC_ID = #{docId}
+        ORDER BY
+            DAR.APPROVE_ORDER ASC
+    </select>
+
+    <select id="getDocReceiverAll" parameterType="map" resultType="map">
+        /* getDocReceiverAll */
+        SELECT
+            DR.RECEIVER_ID,
+            DR.SEQ_TYPE,
+            DR.RECEIVER_EMP_SEQ,
+            IFNULL(DR.RECEIVER_EMP_NAME, DR.RECEIVER_DEPT_NAME) AS RECEIVER_EMP_NAME,
+            DR.RECEIVER_DEPT_SEQ,
+            DR.RECEIVER_DEPT_NAME,
+            IFNULL(DR.RECEIVER_POSITION_NAME, '-') AS RECEIVER_POSITION_NAME,
+            IFNULL(DR.RECEIVER_EMP_NAME, DR.RECEIVER_DEPT_NAME) AS RECEIVER_EMP_NAME,
+            IFNULL(DR.RECEIVER_DUTY_NAME, '-') AS RECEIVER_DUTY_NAME
+        FROM
+            DJ_CAMTIC.A_DOC_RECEIVER DR
+        WHERE
+            DR.DOC_ID = #{docId}
+        ORDER BY DR.RECEIVER_ID ASC
+    </select>
+
+    <select id="getDocReferencesAll" parameterType="map" resultType="map">
+        /* getDocReferencesAll */
+        SELECT
+            DRFN.REFERENCES_ID,
+            DRFN.REFERENCES_DOC_ID,
+            DRFN.REFERENCES_DOC_NO,
+            DRFN.REFERENCES_APPRO_KEY,
+            DRFN.REFERENCES_DOC_TITLE
+        FROM
+            DJ_CAMTIC.A_DOC_REFERENCES DRFN
+        WHERE
+            DRFN.DOC_ID = #{docId}
+          AND
+            DRFN.ACTIVE = 'Y'
+        ORDER BY
+            DRFN.REFERENCES_ID ASC
+    </select>
+
+    <select id="getDocReaderAll" parameterType="map" resultType="map">
+        /* getDocReaderAll */
+        SELECT
+            DR.READER_ID,
+            DR.SEQ_TYPE,
+            DR.READER_EMP_SEQ,
+            IFNULL(DR.READER_EMP_NAME, DR.READER_DEPT_NAME) AS READER_EMP_NAME,
+            DR.READER_DEPT_SEQ,
+            DR.READER_DEPT_NAME,
+            IFNULL(DR.READER_POSITION_CODE, '-') AS READER_POSITION_CODE,
+            IFNULL(DR.READER_POSITION_NAME, '-') AS READER_POSITION_NAME,
+            IFNULL(DR.READER_DUTY_CODE, '-') AS READER_DUTY_CODE,
+            IFNULL(DR.READER_DUTY_NAME, '-') AS READER_DUTY_NAME,
+            DATE_FORMAT(READING_START_DT, '%Y-%m-%d') AS READING_START_DT,
+            DATE_FORMAT(READING_END_DT, '%Y-%m-%d') AS READING_END_DT
+        FROM
+            DJ_CAMTIC.A_DOC_READER DR
+        WHERE
+            DR.DOC_ID = #{docId}
+        ORDER BY
+            DR.READER_ID ASC
+    </select>
+
+    <select id="getDocApproveNowRoute" parameterType="map" resultType="map">
+        /* getDocApproveNowRoute */
+        SELECT
+            DI.LAST_APPROVE_EMP_SEQ,
+            DI.LAST_APPROVE_EMP_NAME,
+            DI.LAST_APPROVE_TYPE,
+            DAR.APPROVE_ROUTE_ID,
+            DAR.APPROVE_EMP_SEQ,
+            DAR.APPROVE_EMP_NAME,
+            DAR.APPROVE_DEPT_SEQ,
+            DAR.APPROVE_TYPE,
+            DAR.APPROVE_STAT_CODE_DESC,
+            DAR.APPROVE_STAT_CODE,
+            DAR.APPROVE_ORDER
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
+            ON DAR.DOC_ID = DI.DOC_ID
+        WHERE
+            DI.DOC_ID = #{docId}
+          AND
+            DAR.APPROVE_STAT_CODE IS NULL
+        ORDER BY
+            DAR.APPROVE_ORDER ASC
+            LIMIT 0, 1
+    </select>
+
+    <select id="getDocApprovePrevRoute" parameterType="map" resultType="map">
+        /* getDocApprovePrevRoute */
+        SELECT
+            DI.LAST_APPROVE_EMP_SEQ,
+            DI.LAST_APPROVE_EMP_NAME,
+            DI.LAST_APPROVE_TYPE,
+            DAR.APPROVE_ROUTE_ID,
+            DAR.APPROVE_EMP_SEQ,
+            DAR.APPROVE_EMP_NAME,
+            DAR.APPROVE_DEPT_SEQ,
+            DAR.PROXY_APPROVE_DEPT_SEQ,
+            DAR.PROXY_APPROVE_EMP_SEQ,
+            DAR.APPROVE_TYPE,
+            DAR.APPROVE_STAT_CODE_DESC,
+            DAR.APPROVE_STAT_CODE,
+            DAR.APPROVE_ORDER
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+                JOIN
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
+            ON DAR.DOC_ID = DI.DOC_ID AND DAR.APPROVE_ORDER = (DI.APPROVE_ORDER - 1)
+        WHERE
+            DI.DOC_ID = #{docId}
+          AND
+            DAR.APPROVE_ORDER != 0
+    </select>
+
+    <select id="getUserDocReadUserChk" parameterType="map" resultType="int">
+        /* getUserDocReadUserChk */
+        SELECT
+            COUNT(*)
+        FROM (
+                 SELECT
+                     DI.DOC_ID
+                 FROM
+                     DJ_CAMTIC.A_DOC_INFO DI
+                         JOIN (
+                         SELECT
+                             DOC_ID
+                         FROM
+                             DJ_CAMTIC.A_DOC_READER DRD
+                                 INNER JOIN (
+                                 ${deptPathQuery}
+                                 )OC
+                                            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'epis_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+                         GROUP BY DRD.DOC_ID
+                     )DRD
+                              ON DI.DOC_ID = DRD.DOC_ID
+                         JOIN
+                     DJ_CAMTIC.A_FORM FORM
+                     ON DI.FORM_ID = FORM.FORM_ID
+                 WHERE
+                     1=1
+                   AND (
+                             DI.APPROVE_STAT_CODE = 100 OR
+                             DI.APPROVE_STAT_CODE = 101
+                     )
+                   AND
+                     DI.ACTIVE = 'Y'
+                   AND
+                     DI.DOC_ID = #{docId}
+                 GROUP BY DI.DOC_ID
+             )A
+    </select>
+
+    <select id="setDocReaderReadCnt" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            DJ_CAMTIC.A_DOC_READER_USER
+        WHERE
+            DOC_ID = #{docId}
+          AND
+            READER_EMP_SEQ = #{empSeq}
+          AND
+            READER_DEPT_SEQ = #{deptSeq}
+    </select>
+
+    <insert id="setDocReaderUser" parameterType="map">
+        INSERT INTO DJ_CAMTIC.A_DOC_READER_USER
+        (
+            DOC_ID,
+            READER_EMP_SEQ,
+            READER_EMP_NAME,
+            READER_DEPT_SEQ,
+            READER_DEPT_NAME,
+            READER_DUTY_CODE,
+            READER_DUTY_NAME,
+            READER_POSITION_CODE,
+            READER_POSITION_NAME,
+            NEW_DOC_READ_DT,
+            LAST_DOC_READ_DT,
+            REG_EMP_SEQ
+        )
+        SELECT
+            DOC_ID,
+            EMP.EMP_SEQ,
+            EMP.EMP_NAME,
+            EMP.DEPT_SEQ,
+            EMP.DEPT_NAME,
+            EMP.DUTY_CODE,
+            (SELECT B.DP_NAME FROM DJ_CAMTIC.V_DP_CODE_INFO B WHERE B.DP_SEQ = EMP.DUTY_CODE) as DUTY_NAME,
+            EMP.POSITION_CODE,
+            (SELECT B.DP_NAME FROM DJ_CAMTIC.V_DP_CODE_INFO B WHERE B.DP_SEQ = EMP.POSITION_CODE) as POSITION_NAME,
+            NOW(),
+            NOW(),
+            EMP.EMP_SEQ
+        FROM (
+                 SELECT
+                     @rownum:=@rownum+1 AS RNUM,
+                E.EMP_SEQ AS EMP_SEQ,
+                E.LOGIN_ID AS USER_ID,
+                E.LOGIN_PASSWD AS USER_PW,
+                E.ERP_EMP_NUM AS ERP_EMP_NUM,
+                EM.EMP_NAME AS EMP_NAME,
+                ED.DEPT_SEQ AS DEPT_SEQ,
+                DM.DEPT_NAME AS DEPT_NAME,
+                EC.JOB_CODE AS JOB_CODE,
+                EC.STATUS_CODE AS STATUS_CODE,
+                ED.DUTY_CODE AS DUTY_CODE,
+                ED.POSITION_CODE AS POSITION_CODE,
+                E.GENDER_CODE AS GENDER_CODE,
+                DATE_FORMAT(E.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
+                DATE_FORMAT(EC.RESIGN_DAY, '%Y-%m-%d') AS RESIGN_DAY,
+                EC.WORK_STATUS AS WORK_STATUS,
+                E.USE_YN AS USE_YN
+                 FROM
+                     (SELECT @ROWNUM := 0) R, NEOS.T_CO_EMP E
+                     LEFT JOIN
+                     NEOS.T_CO_EMP_MULTI EM
+                 ON E.GROUP_SEQ = EM.GROUP_SEQ AND E.EMP_SEQ = EM.EMP_SEQ AND EM.LANG_CODE = 'kr'
+                     LEFT JOIN
+                     NEOS.T_CO_EMP_DEPT ED
+                     ON E.GROUP_SEQ = ED.GROUP_SEQ AND E.EMP_SEQ = ED.EMP_SEQ AND ED.MAIN_DEPT_YN = 'Y'
+                     LEFT JOIN
+                     NEOS.T_CO_COMP C
+                     ON E.GROUP_SEQ = C.GROUP_SEQ AND ED.COMP_SEQ = C.COMP_SEQ
+                     LEFT JOIN
+                     NEOS.T_CO_DEPT_MULTI DM
+                     ON E.GROUP_SEQ = DM.GROUP_SEQ AND C.COMP_SEQ = DM.COMP_SEQ AND ED.DEPT_SEQ = DM.DEPT_SEQ AND DM.LANG_CODE = 'kr'
+                     LEFT JOIN
+                     NEOS.T_CO_EMP_COMP EC
+                     ON EC.COMP_SEQ = C.COMP_SEQ AND EC.EMP_SEQ = E.EMP_SEQ
+                 WHERE
+                     E.USE_YN != 'D'
+                   AND
+                     E.USE_YN = 'Y'
+             )EMP
+                 INNER JOIN (
+            SELECT
+                DOC_ID
+            FROM
+                DJ_CAMTIC.A_DOC_READER DRD
+                    INNER JOIN (
+                    ${deptPathQuery}
+                    )OC
+                               ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'epis_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+            WHERE
+                DRD.DOC_ID = #{docId}
+            GROUP BY DOC_ID
+        )DRD
+        WHERE EMP.EMP_SEQ  = #{empSeq}
+          AND   EMP.DEPT_SEQ = #{deptSeq}
+            LIMIT 1
+    </insert>
+
+    <update id="setDocReaderUserReadDtUpd" parameterType="map">
+        /* setDocReaderUserReadDtUpd */
+        UPDATE
+            DJ_CAMTIC.A_DOC_READER_USER
+        SET
+            LAST_DOC_READ_DT = NOW(),
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            DOC_ID = #{docId}
+          AND
+            READER_EMP_SEQ = #{empSeq}
+          AND
+            READER_DEPT_SEQ = #{deptSeq}
+    </update>
 
     <update id="setDocInfoStatUp" parameterType="map">
         /* setDocInfoStatUp */
@@ -680,6 +1008,85 @@
     <update id="setDocReaderDel" parameterType="map">
         DELETE FROM DJ_CAMTIC.A_DOC_READER WHERE DOC_ID = #{docId}
     </update>
+
+    <select id="getDocAttachmentListForSys" parameterType="map" resultType="map">
+        /* getDocAttachmentListForSys */
+        SELECT
+        CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE) AS ZIP_NAME,
+        VFI.FILE_NO,
+        CONCAT(VFI.FILE_ORG_NAME, '.', VFI.FILE_EXT) AS filename,
+        VFI.FILE_EXT,
+        VFI.FILE_SIZE,
+        VFI.FILE_UUID AS fileUUID,
+        VFI.FILE_PATH AS FILE_DOWN_PATH
+        FROM
+        DJ_CAMTIC.V_FILE_INFO VFI
+        <choose>
+            <when test='step != null and !"".equals(step) and "episPurcStep1".equals(step)'>
+                JOIN
+                DJ_CAMTIC.V_PURC_INFO VPI
+                ON (
+                VFI.FILE_NO = VPI.PURC_BP_FILE OR
+                VFI.FILE_NO = VPI.PURC_PR_FILE OR
+                VFI.FILE_NO = VPI.PURC_TN_FILE OR
+                VFI.FILE_NO = VPI.PURC_TO_FILE OR
+                VFI.FILE_NO = VPI.PURC_ETC_FILE
+                )
+                JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = VPI.PURC_DOC_ID
+            </when>
+            <when test='step != null and !"".equals(step) and ("episPurcInsp".equals(step) or "episPurcInspResult".equals(step) or "episPurcContPay".equals(step))'>
+                JOIN
+                DJ_CAMTIC.V_PURC_INSP VPI
+                ON
+                CONCAT('insp_', VPI.PURC_INSP_ID) = VFI.CONTENT_ID
+                JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = VPI.DOC_ID
+            </when>
+            <when test='step != null and !"".equals(step) and ("episPurcCgContDept".equals(step) or "episPurcCgBusDept".equals(step))'>
+                JOIN
+                DJ_CAMTIC.V_PURC_CHANGE VPC
+                ON
+                <choose>
+                    <when test='"episPurcCgContDept".equals(step)'>
+                        (
+                        VFI.CONTENT_ID = CONCAT('change_', VPC.PURC_CHANGE_ID) OR
+                        VFI.CONTENT_ID = CONCAT('change_', (SELECT PURC_CHANGE_ID FROM DJ_CAMTIC.V_PURC_CHANGE WHERE PURC_CHANGE_NT_ID = VPC.PURC_CHANGE_ID))
+                        )
+                    </when>
+                    <otherwise>
+                        VFI.CONTENT_ID = CONCAT('change_', VPC.PURC_CHANGE_ID)
+                    </otherwise>
+                </choose>
+                JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = VPC.DOC_ID
+            </when>
+            <when test='step != null and !"".equals(step) and ("episPurcAdaPay".equals(step) or "episPurcReadyMdPay".equals(step))'>
+                JOIN
+                DJ_CAMTIC.V_PURC_PAY VPP
+                ON
+                VFI.CONTENT_ID = CONCAT('pay_', VPP.PURC_PAY_ID)
+                JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = VPP.DOC_ID
+            </when>
+            <otherwise>
+                JOIN DJ_CAMTIC.V_PURC_INFO VPI ON VPI.PURC_ID = VFI.CONTENT_ID
+                JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = VPI.PURC_DOC_ID
+            </otherwise>
+        </choose>
+        WHERE 1=1
+        <choose>
+            <when test='step != null and !"".equals(step) and ("episPurcInsp".equals(step) or "episPurcInspResult".equals(step) or "episPurcContPay".equals(step))'>
+                AND VPI.PURC_INSP_ID = #{id}
+            </when>
+            <when test='step != null and !"".equals(step) and ("episPurcCgContDept".equals(step) or "episPurcCgBusDept".equals(step))'>
+                AND VPC.PURC_CHANGE_ID = #{id}
+            </when>
+            <when test='step != null and !"".equals(step) and ("episPurcAdaPay".equals(step) or "episPurcReadyMdPay".equals(step))'>
+                AND VPP.PURC_PAY_ID = #{id}
+            </when>
+            <otherwise>
+                AND VPI.PURC_ID = #{id}
+            </otherwise>
+        </choose>
+
+    </select>
 
 
 </mapper>

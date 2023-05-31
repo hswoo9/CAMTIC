@@ -62,6 +62,11 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
     }
 
     @Override
+    public List<Map<String, Object>> getUserDocStorageBoxList(Map<String, Object> params) {
+        return approvalUserRepository.getUserDocStorageBoxList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getUserFavApproveRouteList(Map<String, Object> params) {
         return approvalUserRepository.getUserFavApproveRouteList(params);
     }

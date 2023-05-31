@@ -3,13 +3,15 @@ package egovframework.com.devjitsu.approval.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.approval.repository.ApprovalRepository;
+import egovframework.com.devjitsu.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.approval.service.ApprovalService;
-import egovframework.com.devjitsu.common.repository.CommonCodeRepository;
+import egovframework.com.devjitsu.system.repository.CommonCodeRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.ConvertUtil;
 import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.formManagement.repository.FormManagementRepository;
 import egovframework.com.devjitsu.user.service.UserService;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
@@ -37,6 +37,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Autowired
     private ApprovalRepository approvalRepository;
+
+    @Autowired
+    private ApprovalUserRepository approvalUserRepository;
 
     @Autowired
     private CommonRepository commonRepository;
@@ -64,12 +67,170 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public Map<String, Object> getDocInfoApproveRoute(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, Object> docInfo = approvalRepository.getDocInfo(params);
+        params.put("fileNo", docInfo.get("ATFILE_SN"));
+        //TODO.한글파일 다운로드 추후 수정 필요함.
+        //result.put("templateFile", commonRepository.getApprovalDocHwpFile(params));
+
+        List<Map<String, Object>> receiverList = approvalRepository.getDocReceiverAll(params);
+        List<Map<String, Object>> readerList = approvalRepository.getDocReaderAll(params);
+
+        if(docInfo.get("DOC_GBN").equals("001")){
+            result.put("receiverAll", receiverList);
+        }
+        result.put("readerAll", readerList);
+
+        String displayReceiverName = "";
+        String displayReaderName = "";
+
+        for(Map<String, Object> map : receiverList){
+            if(map.get("SEQ_TYPE").equals("u")){
+                displayReceiverName += ", " + map.get("RECEIVER_EMP_NAME") + "(" + map.get("RECEIVER_DUTY_NAME") + ")";
+            }else{
+                displayReceiverName += ", " + map.get("RECEIVER_DEPT_NAME");
+            }
+        }
+
+        for(Map<String, Object> map : readerList){
+            if(map.get("SEQ_TYPE").equals("u")){
+                displayReaderName += ", " + map.get("READER_EMP_NAME") + "(" + map.get("READER_DUTY_NAME") + ")";
+            }else{
+                displayReaderName += ", " + map.get("READER_DEPT_NAME");
+            }
+        }
+
+        result.put("approveRoute", approvalRepository.getDocApproveAllRoute(params));
+        result.put("referencesAll", approvalRepository.getDocReferencesAll(params));
+
+        result.put("displayReceiverName", displayReceiverName == "" ? "" : displayReceiverName.substring(2));
+        result.put("displayReaderName", displayReaderName == "" ? "" : displayReaderName.substring(2));
+
+        result.put("docContent", docInfo.get("DOC_CONTENT"));
+        docInfo.remove("DOC_CONTENT");
+        result.put("docInfo", docInfo);
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getDocApproveNowRoute(Map<String, Object> params) {
+        List<String> absentUserList = new ArrayList<>();
+        String absentUserEmpSeq = getAbsentUserQuery(params);
+        if(!StringUtils.isEmpty(absentUserEmpSeq)){
+            if(absentUserEmpSeq.indexOf(",") > -1){
+                absentUserList = Arrays.asList(absentUserEmpSeq.split(","));
+            }else{
+                absentUserList.add(absentUserEmpSeq);
+            }
+        }
+
+        Map<String, Object> result = approvalRepository.getDocApproveNowRoute(params);
+        if(!MapUtils.isEmpty(result) || absentUserList.size() > 0) {
+            if(absentUserList.size() > 0){
+                for (String s : absentUserList) {
+                    if (!MapUtils.isEmpty(result)){
+                        if(result.get("APPROVE_EMP_SEQ").equals(Integer.parseInt(s))){
+                            result.put("SUB_APPROVAL", "Y");
+                        }else{
+                            result.put("SUB_APPROVAL", "N");
+                        }
+                    }
+                }
+            }else{
+                result.put("SUB_APPROVAL", "N");
+            }
+        }else{
+            result = new HashMap<>();
+            result.put("SUB_APPROVAL", "N");
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getDocApprovePrevRoute(Map<String, Object> params) {
+        List<String> absentUserList = new ArrayList<>();
+        String absentUserEmpSeq = getAbsentUserQuery(params);
+        if(!StringUtils.isEmpty(absentUserEmpSeq)){
+            if(absentUserEmpSeq.indexOf(",") > -1){
+                absentUserList = Arrays.asList(absentUserEmpSeq.split(","));
+            }else{
+                absentUserList.add(absentUserEmpSeq);
+            }
+        }
+
+        Map<String, Object> result = approvalRepository.getDocApprovePrevRoute(params);
+        if(!MapUtils.isEmpty(result) || absentUserList.size() > 0) {
+            if(absentUserList.size() > 0){
+                for (String s : absentUserList) {
+                    if (!MapUtils.isEmpty(result)){
+                        if(result.get("APPROVE_EMP_SEQ").equals(Integer.parseInt(s))){
+                            result.put("SUB_APPROVAL", "Y");
+                        }else{
+                            result.put("SUB_APPROVAL", "N");
+                        }
+                    }
+                }
+            }else{
+                result.put("SUB_APPROVAL", "N");
+            }
+        }else{
+            result = new HashMap<>();
+            result.put("SUB_APPROVAL", "N");
+        }
+
+        return result;
+    }
+
+    @Override
     @Transactional
     public void setApproveDocInfo(Map<String, Object> params, String base_dir) throws IOException {
         params = setDocInfo(params, base_dir);
 
         if(params.get("linkageType").equals("2")){
             linkageProcessSend(params);
+        }
+    }
+
+    @Override
+    public void setDocReaderReadUser(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("batchDocReadArr"))){
+            StringBuilder deptPathQuery = new StringBuilder();
+            deptPathQuery = getDeptPathQuery(params);
+            params.put("deptPathQuery", deptPathQuery.toString());
+
+            /** 문서의 열람자에 내가 포함 되는지 */
+            int userDocReadUserChk = approvalRepository.getUserDocReadUserChk(params);
+            if(userDocReadUserChk != 0){
+                int docReaderUserCnt = approvalRepository.setDocReaderReadCnt(params);
+                if(docReaderUserCnt > 0){
+                    approvalRepository.setDocReaderUserReadDtUpd(params);
+                }else{
+                    approvalRepository.setDocReaderUser(params);
+                }
+            }
+        }else{
+            Gson gson = new Gson();
+            List<Map<String, Object>> batchDocReadArr = gson.fromJson((String) params.get("batchDocReadArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+            for(Map<String, Object> map : batchDocReadArr){
+                StringBuilder deptPathQuery = new StringBuilder();
+                deptPathQuery = getDeptPathQuery(map);
+                map.put("deptPathQuery", deptPathQuery.toString());
+
+                /** 문서의 열람자에 내가 포함 되는지 */
+                int userDocReadUserChk = approvalRepository.getUserDocReadUserChk(map);
+                if(userDocReadUserChk != 0){
+                    int docReaderUserCnt = approvalRepository.setDocReaderReadCnt(map);
+                    if(docReaderUserCnt > 0){
+                        approvalRepository.setDocReaderUserReadDtUpd(map);
+                    }else{
+                        approvalRepository.setDocReaderUser(map);
+                    }
+                }
+            }
         }
     }
 
@@ -164,6 +325,21 @@ public class ApprovalServiceImpl implements ApprovalService {
         }
 
         return params;
+    }
+
+    @Override
+    public List<Map<String, Object>> getDocAttachmentList(Map<String, Object> params) {
+        List<Map<String, Object>> returnMap = approvalRepository.getDocAttachmentList(params);
+
+        if(!StringUtils.isEmpty(params.get("approKey"))){
+            Map<String, Object> fileSearchMap = new HashMap<>();
+            String approKey = params.get("approKey").toString();
+            fileSearchMap.put("step", approKey.split("_")[0]);
+            fileSearchMap.put("id", approKey.split("_")[1]);
+            returnMap.addAll(approvalRepository.getDocAttachmentListForSys(fileSearchMap));
+        }
+
+        return returnMap;
     }
 
     private void linkageProcessSend(Map<String, Object> params) throws IOException {
@@ -405,6 +581,49 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             commonRepository.updOneFileInfo(approveDocFileSaveMap);
         }
+    }
+
+    /** 대결자 추출 */
+    private String getAbsentUserQuery(Map<String, Object> paramMap) {
+        String np307 = "";
+        try {
+//            np307 = CommonCodeUtil.getOptionValue(EgovStringUtil.isNullToString(paramMap.get("groupSeq")), EgovStringUtil.isNullToString(paramMap.get("compSeq")), "np307");
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        paramMap.put("np307", np307);
+        StringBuilder absentUserQuery = new StringBuilder();
+        String absentUserEmpSeq = "";
+//        absentUserQuery.append("\n SELECT '" + paramMap.get("empSeq") + "' AS C_UIUSERKEY , '" + paramMap.get("deptSeq") + "' AS C_OIORGCODE FROM DUAL");
+//        if (np307.equals("2")) {
+//            List<Map<String, Object>> empDeptList = approvalUserRepository.getEmpDeptList(paramMap);
+//            for (int j = 0; j < empDeptList.size(); j++) {
+//                absentUserQuery.append("\n UNION ALL");
+//                absentUserQuery.append("\n SELECT  '" + ((Map)empDeptList.get(j)).get("EMP_SEQ") + "' AS C_UIUSERKEY , '" + ((Map)empDeptList.get(j)).get("DEPT_SEQ") + "' AS C_OIORGCODE FROM DUAL");
+//            }
+//        }
+        List<Map<String, Object>> absentUserList = approvalUserRepository.getAbsentUserList(paramMap);
+        for (int i = 0; i < absentUserList.size(); i++) {
+            absentUserEmpSeq += "," + absentUserList.get(i).get("C_UIUSERKEY");
+            absentUserQuery.append("\n SELECT  '" + ((Map)absentUserList.get(i)).get("C_UIUSERKEY") + "' AS C_UIUSERKEY , '" + ((Map)absentUserList.get(i)).get("C_OIORGCODE") + "' AS C_OIORGCODE FROM DUAL");
+        }
+        return absentUserEmpSeq == "" ? "" : absentUserEmpSeq.substring(1);
+    }
+
+    /** 열람자 추출 */
+    private StringBuilder getDeptPathQuery(Map<String, Object> params) {
+        List<Map<String, Object>> list = approvalUserRepository.getDeptPathList(params);
+        StringBuilder deptPathQuery = new StringBuilder();
+        deptPathQuery.append("\n SELECT  'u' AS GBN_ORG , '" + params.get("groupSeq") + "' AS GROUP_SEQ, '" + params.get("compSeq") +
+                "' AS COMP_SEQ, '" + params.get("deptSeq") + "' AS DEPT_SEQ, '" + params.get("empSeq") + "' AS EMP_SEQ   FROM DUAL");
+        for (int i = 0; i < list.size(); i++) {
+            deptPathQuery.append("\n UNION ALL");
+            deptPathQuery.append("\n SELECT  '" + ((Map)list.get(i)).get("GBN_ORG") + "' AS GBN_ORG , '" + ((Map)list.get(i)).get("GROUP_SEQ") +
+                    "' AS GROUP_SEQ, '" + ((Map)list.get(i)).get("COMP_SEQ") + "' AS COMP_SEQ, '" + ((Map)list.get(i)).get("DEPT_SEQ") +
+                    "' AS DEPT_SEQ, '" + ((Map)list.get(i)).get("EMP_SEQ") + "' AS EMP_SEQ   FROM DUAL");
+        }
+
+        return deptPathQuery;
     }
 
 

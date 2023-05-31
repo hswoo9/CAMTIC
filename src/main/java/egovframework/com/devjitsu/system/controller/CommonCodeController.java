@@ -1,6 +1,6 @@
-package egovframework.com.devjitsu.common.controller;
+package egovframework.com.devjitsu.system.controller;
 
-import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.system.service.CommonCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +27,13 @@ public class CommonCodeController {
     @ResponseBody
     public List<Map<String, Object>> getCmCodeList(Model model, @RequestParam Map<String, Object> params){
         return commonCodeService.getCmCodeList(params);
+    }
+
+    //커스텀 코드리스트
+    @RequestMapping("/system/commonCodeManagement/getCustomCodeList")
+    public Map<String, Object> getCustomCodeList(Model model, @RequestParam Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("codeList", commonCodeService.getCustomCodeList(params));
+        return result;
     }
 }

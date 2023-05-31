@@ -1,4 +1,4 @@
-package egovframework.com.devjitsu.common.service;
+package egovframework.com.devjitsu.system.service;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,13 @@ public interface CommonCodeService {
      * @return
      */
     List<Map<String, Object>> getCmCodeList(Map<String, Object> params);
+
+    /**
+     * 커스텀 코드리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getCustomCodeList(Map<String, Object> params);
 
     /**
      * 한글 기안기 서버 URL 조회
