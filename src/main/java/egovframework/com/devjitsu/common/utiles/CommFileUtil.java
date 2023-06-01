@@ -200,7 +200,7 @@ public class CommFileUtil {
                         listMap.put("fileOrgName", originFileName.split("[.]")[0]);
                         listMap.put("fileUUID", storedFileName);
                         listMap.put("fileSize", multipartFile.getSize());
-                        listMap.put("filePath", "http:\\\\121.186.165.80:8010\\upload\\" + basePath + "/");
+                        listMap.put("filePath", "http:\\\\218.158.231.186:8080\\upload\\" + basePath + "/");
                     }
                 }
             }
@@ -257,7 +257,7 @@ public class CommFileUtil {
                     listMap = new HashMap<String, Object>();
                     listMap.put("fileOrgName", originFileName);
                     listMap.put("fileUUID", storedFileName + "." + ext);
-                    listMap.put("filePath", "http:\\\\121.186.165.80:8010\\upload\\" + basePath + "/");
+                    listMap.put("filePath", "http:\\\\218.158.231.186:8080\\upload\\" + basePath + "/");
                     listMap.put("fileHostAddress", "localhost");
                 }
             }
