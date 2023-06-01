@@ -276,13 +276,13 @@ public class ApprovalServiceImpl implements ApprovalService {
         }
 
         // 결재문서 HWP 형식 파일 저장
-        /*Map<String, Object> approveDocFileSaveMap = new HashMap<>();
+        Map<String, Object> approveDocFileSaveMap = new HashMap<>();
         if(!EgovStringUtil.nullConvert(params.get("docHWPFileData")).equals("")){
             ConvertUtil convertUtil = new ConvertUtil();
             String prevFile = approvalRepository.getApproveDocFileInfo(params);
 
             approveDocFileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docHWPFileData")), "hwp", params, base_dir, prevFile);
-            //TODO.approveDocFileSaveMap 원인 파악 불가 나중에 해결해야함
+
             if((params.get("type").equals("draft") || params.get("type").equals("temp")) && StringUtils.isEmpty(params.get("atFileSn"))) {
                 commonRepository.insOneFileInfo(approveDocFileSaveMap);
                 params.put("fileNo", approveDocFileSaveMap.get("file_no"));
@@ -293,7 +293,7 @@ public class ApprovalServiceImpl implements ApprovalService {
                 approveDocFileSaveMap.put("fileNo", params.get("atFileSn"));
                 commonRepository.updOneFileInfo(approveDocFileSaveMap);
             }
-        }*/
+        }
 
         if(StringUtils.isEmpty(params.get("docOpt"))){
             approvalRepository.setApproveDocOpt(params);
@@ -563,8 +563,7 @@ public class ApprovalServiceImpl implements ApprovalService {
         if(!EgovStringUtil.nullConvert(params.get("docHWPFileData")).equals("")){
             ConvertUtil convertUtil = new ConvertUtil();
             String prevFile = approvalRepository.getApproveDocFileInfo(params);
-            //TODO.approveDocFileSaveMap 원인 파악 불가 나중에 해결해야함
-            /*approveDocFileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docHWPFileData")), "hwp", params, base_dir, prevFile);
+            approveDocFileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docHWPFileData")), "hwp", params, base_dir, prevFile);
             approveDocFileSaveMap.put("fileNo", params.get("atFileSn"));
 
             if(!StringUtils.isEmpty(params.get("type")) && params.get("type").equals("cancel")){
@@ -577,7 +576,7 @@ public class ApprovalServiceImpl implements ApprovalService {
                         approveDocFileSaveMap.put("empSeq", params.get("proxyApproveEmpSeq"));
                     }
                 }
-            }*/
+            }
 
             commonRepository.updOneFileInfo(approveDocFileSaveMap);
         }
