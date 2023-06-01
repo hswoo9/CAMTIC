@@ -143,7 +143,7 @@ public class ConvertUtil {
         String path = "";
 
         String devUrl = "http:\\\\121.186.165.80:8010";
-        String prodUrl = "http:\\\\10.10.10.114:80";
+        String prodUrl = "http:\\\\121.186.165.80:8010";
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("121.186.165.80")){
             path = devUrl + base_dir + "approveDocFile/" + params.get("menuCd");

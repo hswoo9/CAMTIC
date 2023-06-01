@@ -238,7 +238,7 @@ public class CommFileUtil {
                 }
 
                 if(isUpload) {
-                    String serverFilePath = "/usr/local/tomcat8/dj_camtic/upload/" + basePath;
+                    String serverFilePath = "/home/upload/" + basePath;
 //                    String serverFilePath = "/data/upload/" + basePath;
 
 
