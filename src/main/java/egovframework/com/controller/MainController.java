@@ -32,10 +32,7 @@ public class MainController {
         return "/subHoliday/subHolidayApplication";
     }
 
-    @RequestMapping("/subHoliday/subHolidayStatus.do")
-    public String subHolidayStatus(){
-        return "/subHoliday/subHolidayStatus";
-    }
+
 
     @RequestMapping("/subHoliday/org.do")
     public String org(){
