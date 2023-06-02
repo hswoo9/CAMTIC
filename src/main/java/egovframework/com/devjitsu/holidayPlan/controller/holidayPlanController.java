@@ -1,21 +1,12 @@
 package egovframework.com.devjitsu.holidayPlan.controller;
 
-import egovframework.com.devjitsu.system.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
-import egovframework.com.devjitsu.main.dto.LoginVO;
-import egovframework.com.devjitsu.workPlan.service.WorkPlanService;
+import egovframework.com.devjitsu.system.service.CommonCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class holidayPlanController {
@@ -30,9 +21,28 @@ public class holidayPlanController {
 
 
 
+    //휴가관리 페이지
     @RequestMapping("/subHoliday/subHolidayStatus.do")
     public String subHolidayStatus(){
         return "/subHoliday/subHolidayStatus";
+    }
+
+    //휴가신청관리 페이지
+    @RequestMapping("/subHoliday/subHolidayReq.do")
+    public String subHolidayReq(){
+        return "/subHoliday/subHolidayReq";
+    }
+
+    //휴가사용현황 페이지
+    @RequestMapping("/subHoliday/subHolidayMod.do")
+    public String subHolidayMod(){
+        return "/subHoliday/subHolidayMod";
+    }
+
+    //휴가설정 페이지
+    @RequestMapping("/subHoliday/subHolidaySetting.do")
+    public String subHolidaySetting(){
+        return "/subHoliday/subHolidaySetting";
     }
 
     @RequestMapping("/subHoliday/holidayPlanReqPop.do")

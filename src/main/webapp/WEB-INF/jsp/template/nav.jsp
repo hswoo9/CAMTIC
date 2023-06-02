@@ -151,14 +151,14 @@
             <ul class="innerMain children c_a">
               <li><a href="/appointment/userPersonList.do?menu=c_a" class="toggleMain1">인사관리</a></li>
               <li><a href="/appointment/userPersonnelRecord.do?menu=c_a" class="toggleMain1">인사기록카드</a></li>
-              <li><a href="" class="toggleMain1">성과결과조회</a></li>
-              <li><a href="" class="toggleMain1">인사정보변경신청</a></li>
+              <li><a href="/Inside/performanceResultList.do?menu=c_a" class="toggleMain1">성과결과조회</a></li>
+              <li><a href="/Inside/userInfoMod.do?menu=c_a" class="toggleMain1">인사정보변경신청</a></li>
               <li><a href="/user/organizationChart.do?menu=c_a" class="toggleMain1">조직도관리</a></li>
               <li>
                 <a href="#" class="toggleMain1">임용문서관리</a>
                 <ul class="innerMain children c_a_1">
-                  <li><a href="" class="toggleMain2">근로계약서</a></li>
-                  <li><a href="" class="toggleMain2">연봉계약서</a></li>
+                  <li><a href="/Inside/employmentReq.do?menu=c_a_1" class="toggleMain2">근로계약서</a></li>
+                  <li><a href="/Inside/agreementReq.do?menu=c_a_1" class="toggleMain2">연봉계약서</a></li>
                 </ul>
               </li>
             </ul>
@@ -166,70 +166,70 @@
           <li>
             <a href="#" class="toggleMain">급여관리</a>
             <ul class="innerMain children c_b">
-              <li><a href="#" class="toggleMain1">급여명세서</a></li>
+              <li><a href="/Inside/payslipList.do?menu=c_b" class="toggleMain1">급여명세서</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">휴가관리</a>
             <ul class="innerMain children c_c">
-              <li><a href="#" class="toggleMain1">휴가관리</a></li>
-              <li><a href="#" class="toggleMain1">휴가신청관리</a></li>
+              <li><a href="/subHoliday/subHolidayReq.do?menu=c_c" class="toggleMain1">휴가관리</a></li>
+              <li><a href="/subHoliday/subHolidayMod.do?menu=c_c" class="toggleMain1">휴가신청관리</a></li>
               <li><a href="/subHoliday/subHolidayStatus.do?menu=c_c" class="toggleMain1">휴가사용현황</a></li>
-              <li><a href="#" class="toggleMain1">휴가설정</a></li>
+              <li><a href="/subHoliday/subHolidaySetting.do?menu=c_c" class="toggleMain1">휴가설정</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">증명서관리</a>
             <ul class="innerMain children c_d">
-              <li><a href="#" class="toggleMain1">증명서신청</a></li>
-              <li><a href="#" class="toggleMain1">증명서관리</a></li>
+              <li><a href="/Inside/certificateReq.do?menu=c_d" class="toggleMain1">증명서신청</a></li>
+              <li><a href="/Inside/certificateMod.do?menu=c_d" class="toggleMain1">증명서관리</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">발령/포상관리</a>
             <ul class="innerMain children c_e">
-              <li><a href="#" class="toggleMain1">발령관리</a></li>
-              <li><a href="#" class="toggleMain1">포상관리</a></li>
+              <li><a href="/Inside/historyReq.do?menu=c_e" class="toggleMain1">발령관리</a></li>
+              <li><a href="/Inside/rewardReq.do?menu=c_e" class="toggleMain1">포상관리</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">채용관리</a>
             <ul class="innerMain children c_f">
-              <li><a href="#" class="toggleMain1">채용관리</a></li>
+              <li><a href="/Inside/recruitList.do?menu=c_f" class="toggleMain1">채용관리</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">인사평가</a>
             <ul class="innerMain children c_g">
-              <li><a href="#" class="toggleMain1">평가등록</a></li>
-              <li><a href="#" class="toggleMain1">평가관리</a></li>
+              <li><a href="/Inside/evaluationReq.do?menu=c_g" class="toggleMain1">평가등록</a></li>
+              <li><a href="/Inside/evaluationList.do?menu=c_g" class="toggleMain1">평가관리</a></li>
               <li>
                 <a href="#" class="toggleMain1">평가결과조회</a>
                 <ul class="innerMain children c_g_1">
-                  <li><a href="" class="toggleMain2">6월팀원평가결과</a></li>
+                  <li><a href="/Inside/evaluationResultList.do?menu=c_g" class="toggleMain2">6월팀원평가결과</a></li>
                 </ul>
               </li>
               <li>
                 <a href="#" class="toggleMain1">평가통계조회</a>
                 <ul class="innerMain children c_g_1">
-                  <li><a href="" class="toggleMain2">단장평균</a></li>
-                  <li><a href="" class="toggleMain2">팀장평균</a></li>
-                  <li><a href="" class="toggleMain2">팀원평균</a></li>
+                  <li><a href="/Inside/evaluationStatA.do?menu=c_g" class="toggleMain2">단장평균</a></li>
+                  <li><a href="/Inside/evaluationStatB.do?menu=c_g" class="toggleMain2">팀장평균</a></li>
+                  <li><a href="/Inside/evaluationStatC.do?menu=c_g" class="toggleMain2">팀원평균</a></li>
                 </ul>
               </li>
-              <li><a href="#" class="toggleMain1">직원면담카드</a></li>
+              <li><a href="/Inside/employeeInterviewCard.do?menu=c_g" class="toggleMain1">직원면담카드</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">참여율관리</a>
             <ul class="innerMain children c_h">
-              <li><a href="#" class="toggleMain1">직원급여관리</a></li>
-              <li><a href="#" class="toggleMain1">사대보험요율관리</a></li>
-              <li><a href="#" class="toggleMain1">참여율신청목록</a></li>
-              <li><a href="#" class="toggleMain1">직원별참여현황</a></li>
-              <li><a href="#" class="toggleMain1">사업별참여현황</a></li>
-              <li><a href="#" class="toggleMain1">월별급여지급현황</a></li>
-              <li><a href="#" class="toggleMain1">인건비현황</a></li>
+              <li><a href="/Inside/employeeSalaryManage.do?menu=c_h" class="toggleMain1">직원급여관리</a></li>
+              <li><a href="/Inside/socialRateManage.do?menu=c_h" class="toggleMain1">사대보험요율관리</a></li>
+              <li><a href="/Inside/participationRateList.do?menu=c_h" class="toggleMain1">참여율신청목록</a></li>
+              <li><a href="/Inside/employeeParticipationList.do?menu=c_h" class="toggleMain1">직원별참여현황</a></li>
+              <li><a href="/Inside/businessParticipationList.do?menu=c_h" class="toggleMain1">사업별참여현황</a></li>
+              <li><a href="/Inside/monthlyPayList.do?menu=c_h" class="toggleMain1">월별급여지급현황</a></li>
+              <li><a href="/Inside/laborList.do?menu=c_h" class="toggleMain1">인건비현황</a></li>
             </ul>
           </li>
           <h5 class="sidebar-title">자산관리</h5>
