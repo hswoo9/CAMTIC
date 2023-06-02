@@ -236,51 +236,51 @@
           <li>
             <a href="#" class="toggleMain">자산관리</a>
             <ul class="innerMain children c_i">
-              <li><a href="#" class="toggleMain1">자산리스트</a></li>
-              <li><a href="#" class="toggleMain1">구매내역</a></li>
+              <li><a href="/Inside/assetList.do?menu=c_i" class="toggleMain1">자산리스트</a></li>
+              <li><a href="/Inside/proposalList.do?menu=c_i" class="toggleMain1">구매내역</a></li>
               <li>
                 <a href="#" class="toggleMain1">분류관리</a>
                 <ul class="innerMain children c_i_1">
-                  <li><a href="" class="toggleMain2">소속/구분관리</a></li>
-                  <li><a href="" class="toggleMain2">카테고리관리</a></li>
-                  <li><a href="" class="toggleMain2">위치관리</a></li>
+                  <li><a href="/Inside/affiliationManage.do?menu=c_i_1" class="toggleMain2">소속/구분관리</a></li>
+                  <li><a href="/Inside/categoryManage.do?menu=c_i_1" class="toggleMain2">카테고리관리</a></li>
+                  <li><a href="/Inside/locationManage.do?menu=c_i_1" class="toggleMain2">위치관리</a></li>
                 </ul>
               </li>
-              <li><a href="#" class="toggleMain1">PDA연동목록</a></li>
+              <li><a href="/Inside/pdaPeristalsisList.do?menu=c_i" class="toggleMain1">PDA연동목록</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">지식재산권관리</a>
             <ul class="innerMain children c_j">
-              <li><a href="#" class="toggleMain1">지식재산권리스트</a></li>
-              <li><a href="#" class="toggleMain1">접수내역</a></li>
+              <li><a href="/Inside/rprList.do?menu=c_j" class="toggleMain1">지식재산권리스트</a></li>
+              <li><a href="/Inside/rprReceiptList.do?menu=c_j" class="toggleMain1">접수내역</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">도서관리</a>
             <ul class="innerMain children c_k">
-              <li><a href="#" class="toggleMain1">도서리스트</a></li>
+              <li><a href="/Inside/bookList.do?menu=c_k" class="toggleMain1">도서리스트</a></li>
             </ul>
           </li>
           <h5 class="sidebar-title">출장관리</h5>
           <li>
             <a href="#" class="toggleMain">출장관리</a>
             <ul class="innerMain children c_l">
-              <li><a href="#" class="toggleMain1">출장신청</a></li>
-              <li><a href="#" class="toggleMain1">출장결과보고</a></li>
-              <li><a href="#" class="toggleMain1">관내출장리스트</a></li>
-              <li><a href="#" class="toggleMain1">관외출장리스트</a></li>
-              <li><a href="#" class="toggleMain1">교통비기준정보</a></li>
-              <li><a href="#" class="toggleMain1">직급별출장여비</a></li>
+              <li><a href="/Inside/bustripReq.do?menu=c_l" class="toggleMain1">출장신청</a></li>
+              <li><a href="/Inside/bustripResult.do?menu=c_l" class="toggleMain1">출장결과보고</a></li>
+              <li><a href="/Inside/inBustripList.do?menu=c_l" class="toggleMain1">관내출장리스트</a></li>
+              <li><a href="/Inside/outBustripList.do?menu=c_l" class="toggleMain1">관외출장리스트</a></li>
+              <li><a href="/Inside/transportationCostInfo.do?menu=c_l" class="toggleMain1">교통비기준정보</a></li>
+              <li><a href="/Inside/dutyBustripExpenses.do?menu=c_l" class="toggleMain1">직급별출장여비</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">차량/회의실관리</a>
             <ul class="innerMain children c_m">
-              <li><a href="#" class="toggleMain1">차량사용신청</a></li>
-              <li><a href="#" class="toggleMain1">회의실사용신청</a></li>
-              <li><a href="#" class="toggleMain1">차량관리</a></li>
-              <li><a href="#" class="toggleMain1">회의실관리</a></li>
+              <li><a href="/Inside/carReq.do?menu=c_m" class="toggleMain1">차량사용신청</a></li>
+              <li><a href="/Inside/meetingRoomReq.do?menu=c_m" class="toggleMain1">회의실사용신청</a></li>
+              <li><a href="/Inside/carManage.do?menu=c_m" class="toggleMain1">차량관리</a></li>
+              <li><a href="/Inside/meetingRoomManage.do?menu=c_m" class="toggleMain1">회의실관리</a></li>
             </ul>
           </li>
           <h5 class="sidebar-title">문서관리</h5>
