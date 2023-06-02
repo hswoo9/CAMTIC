@@ -88,4 +88,22 @@
             FILE_NO = #{fileNo}
     </update>
 
+    <select id="getApprovalDocHwpFile" parameterType="map" resultType="map">
+        /* getApprovalDocHwpFile */
+        SELECT
+            FILE_NO,
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            REG_EMP_SEQ
+        FROM
+            DJ_CAMTIC.V_FILE_INFO
+        WHERE
+            FILE_NO = #{fileNo}
+    </select>
+
 </mapper>

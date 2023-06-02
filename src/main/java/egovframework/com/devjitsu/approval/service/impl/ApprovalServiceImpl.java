@@ -72,8 +72,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 
         Map<String, Object> docInfo = approvalRepository.getDocInfo(params);
         params.put("fileNo", docInfo.get("ATFILE_SN"));
-        //TODO.한글파일 다운로드 추후 수정 필요함.
-        //result.put("templateFile", commonRepository.getApprovalDocHwpFile(params));
+
+        result.put("templateFile", commonRepository.getApprovalDocHwpFile(params));
 
         List<Map<String, Object>> receiverList = approvalRepository.getDocReceiverAll(params);
         List<Map<String, Object>> readerList = approvalRepository.getDocReaderAll(params);

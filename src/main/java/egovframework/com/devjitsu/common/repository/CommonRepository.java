@@ -21,4 +21,6 @@ public class CommonRepository extends AbstractDAO {
     }
     public void insOneFileInfo(Map<String, Object> params) { insert("common.insOneFileInfo", params);}
     public void updOneFileInfo(Map<String, Object> params) { update("common.updOneFileInfo", params);}
+
+    public Map<String, Object> getApprovalDocHwpFile(Map<String, Object> params) { return (Map<String, Object>) selectOne("common.getApprovalDocHwpFile", params);}
 }
