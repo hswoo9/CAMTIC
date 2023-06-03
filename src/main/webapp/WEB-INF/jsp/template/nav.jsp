@@ -287,31 +287,31 @@
           <li>
             <a href="#" class="toggleMain">문서관리</a>
             <ul class="innerMain children c_n">
-              <li><a href="#" class="toggleMain1">등록대장</a></li>
-              <li><a href="#" class="toggleMain1">접수대장</a></li>
-              <li><a href="#" class="toggleMain1">개발사업수주대장</a></li>
-              <li><a href="#" class="toggleMain1">계약대장</a></li>
+              <li><a href="/Inside/documentList.do?menu=c_n" class="toggleMain1">등록대장</a></li>
+              <li><a href="/Inside/inComeList.do?menu=c_n" class="toggleMain1">접수대장</a></li>
+              <li><a href="/Inside/docOrderList.do?menu=c_n" class="toggleMain1">개발사업수주대장</a></li>
+              <li><a href="/Inside/docuList.do?menu=c_n" class="toggleMain1">계약대장</a></li>
             </ul>
           </li>
           <li>
-            <a href="#" class="toggleMain">문서고</a>
+            <a href="/Inside/doclist.do?menu=c_n" class="toggleMain">문서고</a>
           </li>
           <li>
-            <a href="#" class="toggleMain">야근/휴일식대대장</a>
+            <a href="/Inside/snackList.do?menu=c_n" class="toggleMain">야근/휴일식대대장</a>
           </li>
           <h5 class="sidebar-title">근태관리</h5>
           <li>
             <a href="#" class="toggleMain">근태관리</a>
             <ul class="innerMain children c_o">
-              <li><a href="#" class="toggleMain1">개인근태현황</a></li>
-              <li><a href="#" class="toggleMain1">개인연차현황</a></li>
-              <li><a href="#" class="toggleMain1">근태신청현황</a></li>
-              <li><a href="#" class="toggleMain1">근태집계</a></li>
-              <li><a href="#" class="toggleMain1">직원근태내역</a></li>
-              <li><a href="#" class="toggleMain1">월별근태보고</a></li>
-              <li><a href="#" class="toggleMain1">선택근로</a></li>
-              <li><a href="#" class="toggleMain1">연장근로</a></li>
-              <li><a href="#" class="toggleMain1">휴일근로</a></li>
+              <li><a href="/Inside/personAttendList.do?menu=c_o" class="toggleMain1">개인근태현황</a></li>
+              <li><a href="/Inside/personAnnvMain.do?menu=c_o" class="toggleMain1">개인연차현황</a></li>
+              <li><a href="/Inside/personReqManage.do?menu=c_o" class="toggleMain1">근태신청현황</a></li>
+              <li><a href="/Inside/attendStat.do?menu=c_o" class="toggleMain1">근태집계</a></li>
+              <li><a href="/Inside/personAttendStat.do?menu=c_o" class="toggleMain1">직원근태내역</a></li>
+              <li><a href="/Inside/monthAttendStat.do?menu=c_o" class="toggleMain1">월별근태보고</a></li>
+              <li><a href="/Inside/workChoiceReq.do?menu=c_o" class="toggleMain1">선택근로</a></li>
+              <li><a href="/Inside/overWorkReq.do?menu=c_o" class="toggleMain1">연장근로</a></li>
+              <li><a href="/Inside/holidayWorkReq.do?menu=c_o" class="toggleMain1">휴일근로</a></li>
             </ul>
           </li>
           <li>
