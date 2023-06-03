@@ -18,7 +18,7 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">휴가관리</h4>
+            <h4 class="panel-title">휴가현황</h4>
             <div class="title-road">휴가관리 &gt; 휴가현황</div>
         </div>
 
