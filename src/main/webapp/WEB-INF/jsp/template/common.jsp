@@ -63,6 +63,8 @@
     .k-scheduler-content .k-scheduler-table tbody tr td:last-child {color: blue;}
     .k-scheduler-content .k-scheduler-table tbody tr td:first-child {color: red;}
     .k-scheduler-table td {vertical-align: top !important;}
+    .k-grid-toolbar {justify-content: flex-end !important;}
+    .k-editor-toolbar {display: flex; flex-direction: row; justify-content: flex-end;}
   </style>
 
   <!-- Theme -->
@@ -83,6 +85,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/popup/common/fileAppendModal.jsp"></jsp:include>
   <jsp:include page="/WEB-INF/jsp/template/header.jsp" flush="false"/>
   <jsp:include page="/WEB-INF/jsp/template/nav.jsp" flush="false"/>
 

@@ -13,6 +13,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>title</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="/css/kendoui/kendo.default-main.min.css"/>
+    <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
+    <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>
     <script type="text/javascript" src="<c:url value='/js/intra/appointment/employmentReq.js?v=2'/>"></script>
 </head>
 <body>
@@ -22,7 +25,7 @@
 </div>
 <div>
     <!-- 저장 버튼 -->
-    <button id="saveX" style="margin-top: 15px;">저장</button>
+    <button id="saveX" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base"  style="margin-top: 15px;">저장</button>
     <input type="hidden" id="code" value="${params.code}" />
 </div>
 <script>

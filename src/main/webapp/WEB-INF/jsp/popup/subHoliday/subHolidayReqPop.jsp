@@ -6,6 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=12312${today}"></script>
 <style>
   .removeDay{
     text-decoration:line-through;
@@ -45,7 +46,7 @@
       <div class="col-lg-11" style="margin:0 auto;">
         <div class="table-responsive">
           <div class="popupTitleSt">휴가신청</div>
-          <form id="holidayPlanReqPop">
+          <form id="subHolidayReqPop">
             <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
             <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
             <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -83,12 +84,22 @@
               <tr>
                 <th>신청구분</th>
                 <td colspan="3">
-                  <input type="text" id="holidayCate" name="holidayCate" class="defaultVal" style="width: 20%;">
+                  <input type="text" id="holidayCate" name="holidayCate" class="defaultVal" style="width: 20%;" onchange="subHolidayReqPop.dataSetChange();">
                 </td>
               </tr>
+              </thead>
+            </table>
+            <table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">
+              <colgroup>
+                <col width="10%">
+                <col width="30%">
+                <col width="20%">
+                <col width="30%">
+              </colgroup>
+              <thead>
               <tr>
-                <th>기간</th>
-                <td colspan="3">
+                <th id="varianceTH">기간</th>
+                <td id="varianceTD" colspan="3">
                   <input id="start_date" style="width:20%; margin-right:5px;"><input id="start_time" style="width:15%;">
                   ~
                   <input id="end_date" style="width:20%; margin-right:5px;"><input id="end_time" style="width:15%;">
@@ -124,8 +135,8 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row" class="text-center th-color">사유</th>
-                <td colspan="3">
+                <th id="varianceTH2" scope="row" class="text-center th-color">사유</th>
+                <td id="varianceTD2" colspan="3">
                   <textarea name="apply_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
                 </td>
               </tr>
@@ -139,31 +150,30 @@
                 <th scope="row" class="text-center th-color">업무인수자</th>
                 <td colspan="3">
                   <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">
-                  <input type="button" class="k-button k-button-solid-info k-rounded" value="검색" onclick=""/>
+                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                  <br>
+                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>
                 </td>
               </tr>
               <tr>
                 <th scope="row" class="text-center th-color">신청일</th>
                 <td colspan="3">
                   <input type="date" id="now_date" style="width: 20%;">
-
-                  <span>*신청일 기준 변경 안됨</span>
                 </td>
               </tr>
-
               </thead>
             </table>
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
           <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info k-rounded" value="결재" onclick=""/>
           <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick=""/>
         </div>
       </div>
     </div>
 </div>
-<script type="text/javascript" src="/js/intra/holidayPlan/holidayPlanRegPop.js?v=${today}"></script>
 <script>
-  holidayPlanRegPop.defaultScript();
+  subHolidayReqPop.defaultScript();
 </script>
 </body>

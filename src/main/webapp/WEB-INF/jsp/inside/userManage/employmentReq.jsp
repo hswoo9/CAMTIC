@@ -11,9 +11,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
-<script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
-<script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js?v=5'/>"></script>
 <script type="text/javascript" src="/js/intra/inside/userManage/employmentReq.js?v=${toDate}"/></script>
 <style>
     .k-grid-toolbar {
@@ -34,8 +31,8 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">근로계약서</h4>
-            <div class="title-road">인사관리 > 임용문서관리 > 근로계약서</div>
+            <h4 class="panel-title">근로계약서 작성</h4>
+            <div class="title-road">인사관리 > 임용문서관리 > 근로계약서 작성</div>
         </div>
 
         <div class="panel-body">
@@ -46,7 +43,7 @@
                 </textarea>
             </div>
             <div style="float:right; margin-top: 10px;">
-                <button type="button" id="drawSign" class="k-button k-button-solid-base k-button-md" onClick="employmentReq.drawSignPop();">
+                <button type="button" id="drawSign" class="k-button k-button-solid-base k-button-md" onclick="employmentReq.drawSignPop();">
                     <span class="k-icon k-i-file-pdf"></span> PDF 다운로드
                 </button>
             </div>

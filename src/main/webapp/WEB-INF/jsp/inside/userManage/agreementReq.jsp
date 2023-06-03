@@ -11,6 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<script type="text/javascript" src="/js/intra/inside/userManage/agreementReq.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -19,11 +20,35 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
+            <h4 class="panel-title">연봉계약서 작성</h4>
+            <div class="title-road">인사관리 > 임용문서관리 > 연봉계약서 작성</div>
+        </div>
+
+        <div class="panel-body">
+            <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+
+            <div>
+                <textarea id="editor" style="height: 920px;">
+                </textarea>
+            </div>
+            <div style="float:right; margin-top: 10px;">
+                <button type="button" id="drawSign" class="k-button k-button-solid-base k-button-md" onclick="agreementReq.drawSignPop();">
+                    <span class="k-icon k-i-file-pdf"></span> PDF 다운로드
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading">
             <h4 class="panel-title">연봉계약서</h4>
         </div>
 
         <div class="panel-body">
+            <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
+            <div id="mainGrid"></div>
         </div>
 
     </div>
@@ -31,4 +56,5 @@
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
+    agreementReq.init();
 </script>

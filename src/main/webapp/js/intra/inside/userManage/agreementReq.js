@@ -1,4 +1,4 @@
-var employmentReq = {
+var agreementReq = {
     global : {
         now : new Date(),
         params  : "",
@@ -9,8 +9,8 @@ var employmentReq = {
     },
 
     init : function(params){
-        employmentReq.drawCell();
-        employmentReq.mainGrid();
+        agreementReq.drawCell();
+        agreementReq.mainGrid();
     },
 
     mainGrid : function() {
@@ -104,7 +104,7 @@ var employmentReq = {
     drawCell : function() {
         var html = '<table role="grid" style="margin-left:auto; margin-right:auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; font-size:14px; line-height:40px; width:630px;">'
             + '    <tr contenteditable="false">'
-            + '    <th colspan="4" style="height: 150px;"><input type="text" style="width: 80%;border : none;text-align: center; font-size:23px; font-weight:bold; color: #4a4a4a;" value="근로계약서" readonly/></th>'
+            + '    <th colspan="4" style="height: 150px;"><input type="text" style="width: 80%;border : none;text-align: center; font-size:23px; font-weight:bold; color: #4a4a4a;" value="연봉계약서" readonly/></th>'
             + '</tr>'
             + '<tr contenteditable="false">'
             + '    <td colspan="4" style="height: 150px; padding: 5px 0; color: #4a4a4a; text-align:center;">'
