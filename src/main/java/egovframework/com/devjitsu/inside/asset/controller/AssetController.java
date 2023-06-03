@@ -1,4 +1,4 @@
-package egovframework.com.devjitsu.inside.controller;
+package egovframework.com.devjitsu.inside.asset.controller;
 
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.user.service.UserService;
@@ -16,81 +16,101 @@ import java.util.Date;
 import java.util.Locale;
 
 @Controller
-public class EvaluationController {
+public class AssetController {
 
-    private static final Logger logger = LoggerFactory.getLogger(EvaluationController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AssetController.class);
 
     @Autowired
     private UserService userService;
 
-    //평가등록
-    @RequestMapping("/Inside/evaluationReq.do")
-    public String evaluationReq(HttpServletRequest request, Model model) {
+    //자산리스트
+    @RequestMapping("/Inside/assetList.do")
+    public String assetList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/evaluationReq";
+        return "inside/asset/assetList";
     }
 
-    //평가관리
-    @RequestMapping("/Inside/evaluationList.do")
-    public String evaluationList(HttpServletRequest request, Model model) {
+    //구매내역
+    @RequestMapping("/Inside/proposalList.do")
+    public String proposalList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/evaluationList";
+        return "inside/asset/proposalList";
     }
 
-    //평가결과조회
-    @RequestMapping("/Inside/evaluationResultList.do")
-    public String evaluationResultList(HttpServletRequest request, Model model) {
+    //소속/구분관리
+    @RequestMapping("/Inside/affiliationManage.do")
+    public String affiliationManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/evaluationResultList";
+        return "inside/asset/affiliationManage";
     }
 
-    //평가통계조회
-    @RequestMapping("/Inside/evaluationStatA.do")
-    public String evaluationStatA(HttpServletRequest request, Model model) {
+    //카테고리관리
+    @RequestMapping("/Inside/categoryManage.do")
+    public String categoryManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/evaluationStatA";
+        return "inside/asset/categoryManage";
     }
 
-    //평가통계조회
-    @RequestMapping("/Inside/evaluationStatB.do")
-    public String evaluationStatB(HttpServletRequest request, Model model) {
+    //위치관리
+    @RequestMapping("/Inside/locationManage.do")
+    public String locationManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/evaluationStatB";
+        return "inside/asset/locationManage";
     }
 
-    //평가통계조회
-    @RequestMapping("/Inside/evaluationStatC.do")
-    public String evaluationStatC(HttpServletRequest request, Model model) {
+    //PDA연동목록
+    @RequestMapping("/Inside/pdaPeristalsisList.do")
+    public String pdaPeristalsisList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/evaluationStatC";
+        return "inside/asset/pdaPeristalsisList";
     }
 
-    //직원면담카드
-    @RequestMapping("/Inside/employeeInterviewCard.do")
-    public String employeeInterviewCard(HttpServletRequest request, Model model) {
+    //지식재산권리스트
+    @RequestMapping("/Inside/rprList.do")
+    public String rprList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/employeeInterviewCard";
+        return "inside/asset/rprList";
+    }
+
+    //접수내역
+    @RequestMapping("/Inside/rprReceiptList.do")
+    public String rprReceiptList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/asset/rprReceiptList";
+    }
+
+    //도서리스트
+    @RequestMapping("/Inside/bookList.do")
+    public String bookList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/asset/bookList";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

@@ -1,4 +1,4 @@
-package egovframework.com.devjitsu.inside.controller;
+package egovframework.com.devjitsu.inside.certificate.controller;
 
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.user.service.UserService;

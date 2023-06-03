@@ -1,4 +1,4 @@
-package egovframework.com.devjitsu.inside.controller;
+package egovframework.com.devjitsu.inside.salary.controller;
 
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.user.service.UserService;
@@ -16,31 +16,21 @@ import java.util.Date;
 import java.util.Locale;
 
 @Controller
-public class HistoryController {
+public class SalaryController {
 
-    private static final Logger logger = LoggerFactory.getLogger(HistoryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SalaryController.class);
 
     @Autowired
     private UserService userService;
 
-    //발령관리 페이지
-    @RequestMapping("/Inside/historyReq.do")
-    public String historyReq(HttpServletRequest request, Model model) {
+    //급여명세서 페이지
+    @RequestMapping("/Inside/payslipList.do")
+    public String performanceResultList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/historyReq";
-    }
-
-    //포상관리 페이지
-    @RequestMapping("/Inside/rewardReq.do")
-    public String rewardReq(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/userManage/rewardReq";
+        return "inside/userManage/payslipList";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

@@ -1,4 +1,4 @@
-package egovframework.com.devjitsu.inside.controller;
+package egovframework.com.devjitsu.inside.recruit.controller;
 
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.user.service.UserService;
@@ -16,21 +16,21 @@ import java.util.Date;
 import java.util.Locale;
 
 @Controller
-public class SalaryController {
+public class RecruitController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SalaryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RecruitController.class);
 
     @Autowired
     private UserService userService;
 
-    //급여명세서 페이지
-    @RequestMapping("/Inside/payslipList.do")
-    public String performanceResultList(HttpServletRequest request, Model model) {
+    //채용관리 페이지
+    @RequestMapping("/Inside/recruitList.do")
+    public String certificateReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/payslipList";
+        return "inside/userManage/recruitList";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
