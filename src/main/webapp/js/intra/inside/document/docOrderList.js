@@ -1,23 +1,20 @@
 /**
  * 2023.06.03
  * 작성자 : 김지혜
- * 내용 : 문서관리 - 등록대장
+ * 내용 : 문서관리 - 개발사업 수주대장
  */
 
-var documentList = {
+var docOrderList = {
     fn_defaultScript: function () {
 
-        $("#deptComp").kendoDropDownList({
+        $("#division").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
+                {text: "제작", value: "제작"},
+                {text: "가공", value: "가공"},
+                {text: "사업", value: "사업"},
+                {text: "기타", value: "기타"}
             ],
             index: 0
         });
@@ -27,11 +24,8 @@ var documentList = {
             dataValueField: "value",
             dataSource: [
                 {text: "문서번호", value: "문서번호"},
-                {text: "시행일자", value: "시행일자"},
-                {text: "수신처", value: "수신처"},
-                {text: "발송일자", value: "발송일자"},
-                {text: "담당자", value: "담당자"},
-                {text: "비고", value: "비고"}
+                {text: "문서제목(건명)", value: "문서제목(건명)"},
+                {text: "발주업체", value: "발주업체"}
             ],
             index: 0
         });
@@ -84,43 +78,55 @@ var documentList = {
                 columns: [
                     {
                         field: "",
-                        title: "순번",
+                        title: "연번",
                         width: "5%",
                         template: "#= record-- #"
                     }, {
                         field: "",
-                        title: "문서번호",
-                        width: "20%"
+                        title: "구분",
+                        width: "5%"
                     }, {
                         field: "",
-                        title: "시행 일자",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "수신처(수신 기관)",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "제목",
-                        width: "20%"
-                    }, {
-                        field: "",
-                        title: "발송 일자",
+                        title: "계약 번호",
                         width: "10%"
                     }, {
                         field: "",
-                        title: "담당자",
+                        title: "상품화 코드",
                         width: "10%"
                     }, {
                         field: "",
-                        title: "비고",
+                        title: "계약 일시",
+                        width: "10%"
+                    }, {
+                        field: "",
+                        title: "계약명",
+                        width: "15%"
+                    }, {
+                        field: "",
+                        title: "계약 금액",
+                        width: "10%"
+                    }, {
+                        field: "",
+                        title: "계약 기간",
+                        width: "15%"
+                    }, {
+                        field: "",
+                        title: "계약 업체",
+                        width: "10%"
+                    }, {
+                        field: "",
+                        title: "계약서",
+                        width: "5%"
+                    }, {
+                        field: "",
+                        title: "납품서",
                         width: "5%"
                     }]
             }).data("kendoGrid");
         },
 
-    documentPopup : function(){
-        var url = "/Inside/pop/documentPop.do";
+    docOrderPopup : function(){
+        var url = "/Inside/pop/docOrderPop.do";
         var name = "popup test";
         var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
