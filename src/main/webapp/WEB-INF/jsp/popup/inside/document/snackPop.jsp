@@ -67,7 +67,7 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>이용 일시</th>
-                        <td><input type="date"><input type="time" style="margin-left:5px;"></td>
+                        <td><input id="use_date" type="date" style="width: 50%;"><input id="use_time" type="time" style="width: 50%;"></td>
                         <%--<td><input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 100%;"></td>--%>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>식대 구분</th>
                         <td colspan><input type="text" id="mealsDivision" style="width: 100%; margin-right:10px;"></td>

@@ -6,6 +6,20 @@
 var now = new Date();
 var snackPop = {
     fn_defaultScript: function () {
+        $("#use_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth()))
+        });
+
+        $("#use_time").kendoTimePicker({
+            culture : "ko-KR",
+            format : "HH:mm",
+            interval : 10,
+            value : "09:00"
+        });
 
         $("#mealsDivision").kendoDropDownList({
             dataTextField: "text",
