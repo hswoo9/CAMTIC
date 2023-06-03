@@ -173,7 +173,7 @@
             <a href="#" class="toggleMain">휴가관리</a>
             <ul class="innerMain children c_c">
               <li><a href="/subHoliday/subHolidayList.do?menu=c_c" class="toggleMain1">휴가관리</a></li>
-              <li><a href="/subHoliday/subHolidayMod.do?menu=c_c" class="toggleMain1">휴가신청관리</a></li>
+              <li><a href="/subHoliday/subHolidayMod.do?menu=c_c" class="toggleMain1">전체휴가현황</a></li>
               <li><a href="/subHoliday/subHolidayStat.do?menu=c_c" class="toggleMain1">휴가사용현황</a></li>
               <li><a href="/subHoliday/subHolidaySetting.do?menu=c_c" class="toggleMain1">휴가설정</a></li>
             </ul>

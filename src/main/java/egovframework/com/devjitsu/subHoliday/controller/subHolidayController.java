@@ -27,10 +27,10 @@ public class subHolidayController {
         return "/subHoliday/subHolidayList";
     }
 
-    //휴가신청관리 페이지
-    @RequestMapping("/subHoliday/subHolidayMod.do")
-    public String subHolidayMod(){
-        return "/subHoliday/subHolidayMod";
+    //전체휴가현황 페이지
+    @RequestMapping("/subHoliday/subHolidayAdmin.do")
+    public String subHolidayAdmin(){
+        return "/subHoliday/subHolidayAdmin";
     }
 
     //휴가사용현황 페이지
@@ -45,9 +45,16 @@ public class subHolidayController {
         return "/subHoliday/subHolidaySetting";
     }
 
+    //휴가신청
     @RequestMapping("/subHoliday/subHolidayReqPop.do")
     public String subHolidayReqPop(){
         return "/popup/subHoliday/subHolidayReqPop";
+    }
+
+    //휴가신청
+    @RequestMapping("/subHoliday/searchHolidayPop.do")
+    public String searchHolidayPop(){
+        return "/popup/subHoliday/searchHolidayPop";
     }
 
 

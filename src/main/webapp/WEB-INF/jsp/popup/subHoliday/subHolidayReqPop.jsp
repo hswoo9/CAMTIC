@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=12312${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=${today}"></script>
 <style>
   .removeDay{
     text-decoration:line-through;

@@ -11,13 +11,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayAdmin.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">휴가관리</h4>
+            <h4 class="panel-title">휴가신청관리</h4>
         </div>
 
         <div class="panel-body">

@@ -26,15 +26,21 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
             <div>
-                <div style="display:flex; justify-content: space-between;">
-                    <div>
-                        <span>조회년도</span>
-                        <input id="datePicker" style="width:150px;">
-                    </div>
-                    <div>
-                        <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayList.subHolidayReqPop();">신청</button>
-                    </div>
-                </div>
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex; justify-content: space-between;">
+                                <div>
+                                    <span>조회년도</span>
+                                    <input id="datePicker" style="width:150px;">
+                                </div>
+                                <div>
+                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayList.subHolidayReqPop();">신청</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -109,17 +115,24 @@
             <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
             <div>
-                <div style="display:flex;">
-                    <div class="mr20">
-                        <span>신청구분</span>
-                        <input type="text" id="holidayCate" style="width: 150px;">
-                    </div>
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex; justify-content: space-between;">
+                    <div style="display:flex;">
+                        <div class="mr20">
+                            <span>신청구분</span>
+                            <input type="text" id="holidayCate" style="width: 150px;">
+                        </div>
 
-                    <div>
-                        <span>상태</span>
-                        <input type="text" id="status" style="width: 150px;">
+                        <div>
+                            <span>상태</span>
+                            <input type="text" id="status" style="width: 150px;">
+                        </div>
                     </div>
-                </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
             <div id="mainGrid" style="margin:20px 0;"></div>
