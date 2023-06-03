@@ -32,6 +32,17 @@ public class DocumentController {
         model.addAttribute("loginVO", login);
         return "inside/document/documentList";
     }
+    
+    //등록대장 - 문서등록 팝업창
+    @RequestMapping("/Inside/pop/documentPop.do")
+    public String documentPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/documentPop";
+    }
+    
 
     //접수대장
     @RequestMapping("/Inside/inComeList.do")
@@ -42,6 +53,17 @@ public class DocumentController {
         model.addAttribute("loginVO", login);
         return "inside/document/inComeList";
     }
+
+    //접수대장 - 문서접수 팝업창
+    @RequestMapping("/Inside/pop/inComePop.do")
+    public String inComePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/inComePop";
+    }
+
 
     //개발사업수주대장
     @RequestMapping("/Inside/docOrderList.do")
