@@ -11,7 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
-<script type="text/javascript" src="/js/intra/inside/certificate/certificateReq.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/certificate/certificateAdmin.js?v=${today}"/></script>
 
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
@@ -22,8 +22,8 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">증명서신청</h4>
-            <div class="title-road">증명서관리 &gt; 증명서신청</div>
+            <h4 class="panel-title">증명서관리</h4>
+            <div class="title-road">증명서관리 &gt; 증명서관리</div>
         </div>
 
         <div class="panel-body">
@@ -61,5 +61,5 @@
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
-    certificateReq.init();
+    certificateAdmin.init();
 </script>

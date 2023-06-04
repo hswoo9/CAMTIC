@@ -182,7 +182,7 @@
             <a href="#" class="toggleMain">증명서관리</a>
             <ul class="innerMain children c_d">
               <li><a href="/Inside/certificateReq.do?menu=c_d" class="toggleMain1">증명서신청</a></li>
-              <li><a href="/Inside/certificateMod.do?menu=c_d" class="toggleMain1">증명서관리</a></li>
+              <li><a href="/Inside/certificateAdmin.do?menu=c_d" class="toggleMain1">증명서관리</a></li>
             </ul>
           </li>
           <li>

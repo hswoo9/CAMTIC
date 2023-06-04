@@ -33,14 +33,24 @@ public class CertificateController {
         return "inside/userManage/certificateReq";
     }
 
-    //증명서관리 페이지
-    @RequestMapping("/Inside/certificateMod.do")
-    public String certificateMod(HttpServletRequest request, Model model) {
+    //증명서신청 팝업 페이지
+    @RequestMapping("/Inside/certificateReqPop.do")
+    public String certificateReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/certificateMod";
+        return "popup/inside/certificate/certificateReqPop";
+    }
+
+    //증명서관리 페이지
+    @RequestMapping("/Inside/certificateAdmin.do")
+    public String certificateAdmin(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/certificateAdmin";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
