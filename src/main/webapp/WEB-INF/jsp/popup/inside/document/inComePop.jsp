@@ -67,7 +67,7 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
-                        <td colspan="3"><input type="text" id="" style="width: 100%; margin-right:10px;" value="캠틱종합기술원"></td>
+                        <td colspan="3"><input type="text" id="division" style="width: 100%; margin-right:10px;" value="캠틱종합기술원"></td>
 
                     </tr>
                     <tr>
@@ -78,17 +78,17 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>발신기관</th>
-                        <td><input type="text" id="applyDate" style="width: 96%;" value=""></td>
+                        <td><input type="text" id="sentAgency" style="width: 96%;" value=""></td>
                         <th scope="row" class="text-center th-color">담당자</th>
-                        <td><input type="text" id="workingTime" style="width: 50%;" value="홍길동">
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                        <td><input type="text" id="manager" style="width: 50%;" value="홍길동">
+                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
                                 직원 선택
                             </button>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>제목</th>
-                        <td colspan="3"><input type="text" id="applyReason" style="width: 100%;"></td>
+                        <td colspan="3"><input type="text" id="title" style="width: 100%;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>담당 부서</th>

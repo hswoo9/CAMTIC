@@ -297,7 +297,7 @@
             <a href="/Inside/doclist.do?menu=c_n" class="toggleMain">문서고</a>
           </li>
           <li>
-            <a href="/Inside/snackList.do?menu=c_n" class="toggleMain">야근/휴일식대대장</a>
+            <a href="/Inside/snackList.do?menu=c_n" class="toggleMain1">야근/휴일식대대장</a>
           </li>
           <h5 class="sidebar-title">근태관리</h5>
           <li>

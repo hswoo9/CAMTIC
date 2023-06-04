@@ -39,7 +39,7 @@
         align-items: center;
     }
 </style>
-<script type="text/javascript" src="/js/intra/inside/document/documentPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/document/docuPop.js?v=${today}"/></script>
 
 <!DOCTYPE html>
 <html>
@@ -63,36 +63,46 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th colspan="4">문서 등록 대장</th>
+                        <th colspan="4">계약대장</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약 기관</th>
+                        <td colspan="3"><input type="text" id="contAgency" style="width: 150px; margin-right:10px;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
                         <td><input type="text" id="division" style="width: 150px; margin-right:10px;"></td>
-                        <td colspan="3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>시행 일자</th>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약 일시</th>
                         <td><input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 100%;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>발송 일자</th>
-                        <td><input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 100%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>수신처</th>
-                        <td><input type="text" id="destination" style="width: 96%;" value="내부 결재"></td>
-                        <th scope="row" class="text-center th-color">담당자</th>
-                        <td><input type="text" id="manager" style="width: 50%;" value="홍길동">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
-                                직원 선택
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약건명</th>
+                        <td colspan="3"><input type="text" id="contractTitle" style="width: 100%;"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약 금액</th>
+                        <td><input type="text" id="contractAmount" style="width: 100%; text-align: right;" value="원"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약 기간</th>
+                        <td><input type="text" id="startDay2" onchange="dateValidationCheck('startDay2', this.value)" style="width: 45%;">
+                            ~
+                            <input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 45%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약 업체(자)</th>
+                        <td colspan="3"><input type="text" id="contractor" style="width: 37%;">
+                            <button type="button" id="search" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                검색
                             </button>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>제목</th>
-                        <td colspan="3"><input type="text" id="title" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
                         <th scope="row" class="text-center th-color">비고</th>
                         <td colspan="3"><textarea type="text" id="remark" style="width: 100%;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">첨부</th>
+                        <td colspan="3" style="padding:5px;"><input type="file"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -107,7 +117,7 @@
 
 
 <script>
-    documentPop.fn_defaultScript();
+    docuPop.fn_defaultScript();
     overWk.fn_defaultScript();
 </script>
 </body>

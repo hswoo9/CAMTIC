@@ -64,7 +64,6 @@ public class DocumentController {
         return "popup/inside/document/inComePop";
     }
 
-
     //개발사업수주대장
     @RequestMapping("/Inside/docOrderList.do")
     public String docOrderList(HttpServletRequest request, Model model) {
@@ -75,6 +74,16 @@ public class DocumentController {
         return "inside/document/docOrderList";
     }
 
+    //개발사업수주대장 - 수주대장 팝업창
+    @RequestMapping("/Inside/pop/docOrderPop.do")
+    public String docOrderPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/docOrderPop";
+    }
+
     //계약대장
     @RequestMapping("/Inside/docuList.do")
     public String docuList(HttpServletRequest request, Model model) {
@@ -83,6 +92,16 @@ public class DocumentController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/document/docuList";
+    }
+
+    //계약대장 - 계약대장 팝업창
+    @RequestMapping("/Inside/Pop/docuPop.do")
+    public String docuPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/docuPop";
     }
 
     //문서고
@@ -103,6 +122,16 @@ public class DocumentController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/document/snackList";
+    }
+
+    //야근/휴일식대대장 팝업창
+    @RequestMapping("/Inside/Pop/snackPop.do")
+    public String snackPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/snackPop";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
