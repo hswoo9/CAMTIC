@@ -51,10 +51,16 @@ public class subHolidayController {
         return "/popup/subHoliday/subHolidayReqPop";
     }
 
-    //휴가신청
+    //전체휴가현황
     @RequestMapping("/subHoliday/searchHolidayPop.do")
     public String searchHolidayPop(){
         return "/popup/subHoliday/searchHolidayPop";
+    }
+
+    //연차일괄신청
+    @RequestMapping("/subHoliday/subHolidayReqBatchPop.do")
+    public String subHolidayReqBatchPop(){
+        return "/popup/subHoliday/subHolidayReqBatchPop";
     }
 
 

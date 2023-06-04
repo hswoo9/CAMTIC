@@ -1,35 +1,10 @@
 var now = new Date();
 var docContent = "";
 
-var subHolidayReqPop = {
+var subHolidayReqBatchPop = {
 
-    defaultScript : function(){
-
-        subHolidayReqPop.dataSet();
-
-        $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({
-            enable: false
-        });
-
-        $("#holidayCate").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택하세요", value: "" },
-                { text: "연가", value: "1" },
-                { text: "오전반차", value: "2" },
-                { text: "오후반차", value: "3" },
-                { text: "병가", value: "4" },
-                { text: "공가", value: "5" },
-                { text: "경조휴가", value: "6" },
-                { text: "출산휴가", value: "7" },
-                { text: "대체휴가", value: "8" },
-                { text: "근속포상휴가", value: "9" },
-                { text: "휴일근로", value: "0" }
-            ],
-            index : 0,
-            enable : true
-        });
+    init : function(){
+        subHolidayReqBatchPop.dataSet();
     },
 
     dataSet : function() {
@@ -41,20 +16,6 @@ var subHolidayReqPop = {
             value : new Date(now.setMonth(now.getMonth() - 1))
         });
 
-        $("#start_time").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "09:00"
-        });
-
-        $("#end_time").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "18:00"
-        });
-
         $("#end_date").kendoDatePicker({
             depth: "month",
             start: "month",
@@ -63,15 +24,35 @@ var subHolidayReqPop = {
             value : new Date()
         });
 
-        $("#now_date").kendoTextBox({
-            enable: false
+        $("#dept").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "부서선택", value: "" },
+                { text: "미래전략기획본부", value: "1" },
+                { text: "R&BD사업본부", value: "2" },
+                { text: "기업성장지원본부", value: "3" },
+                { text: "우주항공사업부", value: "4" },
+                { text: "드론사업부", value: "5" },
+                { text: "스마트제조사업부", value: "6" },
+                { text: "경영지원실", value: "7" }
+            ],
+            index: 0
         });
 
-        $("#holiday_date").kendoTextBox({
-            enable: false
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "검색선택", value: "" },
+                { text: "성명", value: "" },
+                { text: "부서명", value: "1" },
+                { text: "팀명", value: "2" },
+                { text: "직급", value: "3" },
+            ],
+            index: 0
         });
 
-        document.getElementById('now_date').valueAsDate = new Date();
     },
 
     dataSetChange : function() {
@@ -133,7 +114,7 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html);
-            subHolidayReqPop.dataSet();
+            subHolidayReqBatchPop.dataSet();
         }else if($("#holidayCate").val() == 8) {
             var html2 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
                 '              <colgroup>\n' +
@@ -147,7 +128,7 @@ var subHolidayReqPop = {
                 '                <th>휴일 근로 일자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input id="holiday_date" style="width:20%; margin-right:5px;">' +
-                '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
+                '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayReqBatchPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -217,7 +198,7 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html2);
-            subHolidayReqPop.dataSet();
+            subHolidayReqBatchPop.dataSet();
         }else {
             var html3 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
                 '              <colgroup>\n' +
@@ -294,7 +275,7 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html3);
-            subHolidayReqPop.dataSet();
+            subHolidayReqBatchPop.dataSet();
         }
     },
 
