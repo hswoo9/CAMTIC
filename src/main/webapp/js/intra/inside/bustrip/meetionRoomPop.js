@@ -114,8 +114,8 @@ var meetingRoomPop = {
 
     exSpecificDayPopup : function(){
         var url = "/Inside/Pop/exSpecificDayPop.do";
-        var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
+        var name = "특정일 제외 팝업";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     }
 }
