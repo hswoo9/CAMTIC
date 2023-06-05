@@ -313,23 +313,23 @@
               <li><a href="/Inside/monthAttendStat.do?menu=c_o" class="toggleMain1">월별근태보고</a></li>
               <li><a href="/Inside/workChoiceReq.do?menu=c_o" class="toggleMain1">선택근로</a></li>
               <li><a href="/Inside/overWorkReq.do?menu=c_o" class="toggleMain1">연장근로</a></li>
-              <li><a href="/Inside/holidayWorkReq.do?menu=c_o" class="toggleMain1">휴일근로</a></li>
+              <li><a href="/Inside/holidayWorkReq.do?menu=c_o" class="toggleMain1">휴일근로현황</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">유연근무</a>
             <ul class="innerMain children c_p">
-              <li><a href="/workPlan/workPlanReq.do?menu=c_f" class="toggleMain1">유연근무신청</a></li>
-              <li><a href="/workPlan/workPlanApp.do?menu=c_f" class="toggleMain1">유연근무승인</a></li>
-              <li><a href="/workPlan/workPlanAdminView.do?menu=c_f" class="toggleMain1">유연근무현황</a></li>
+              <li><a href="/workPlan/workPlanReq.do?menu=c_p" class="toggleMain1">유연근무신청</a></li>
+              <li><a href="/workPlan/workPlanApp.do?menu=c_p" class="toggleMain1">유연근무승인</a></li>
+              <li><a href="/workPlan/workPlanAdminView.do?menu=c_p" class="toggleMain1">유연근무현황</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">시간외근무</a>
             <ul class="innerMain children c_q">
-              <li><a href="/overWk/overWkReq.do?menu=c_e" class="toggleMain1">시간외근무신청</a></li>
-              <li><a href="/overWk/overWkApp.do?menu=c_e" class="toggleMain1">시간외근무승인</a></li>
-              <li><a href="/overWk/overWkAdminView.do?menu=c_e" class="toggleMain1">시간외근무현황</a></li>
+              <li><a href="/overWk/overWkReq.do?menu=c_q" class="toggleMain1">시간외근무신청</a></li>
+              <li><a href="/overWk/overWkApp.do?menu=c_q" class="toggleMain1">시간외근무승인</a></li>
+              <li><a href="/overWk/overWkAdminView.do?menu=c_q" class="toggleMain1">시간외근무현황</a></li>
             </ul>
           </li>
         </ul>

@@ -11,6 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<script type="text/javascript" src="/js/intra/inside/attend/monthAttendStat.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -19,16 +20,209 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">월별근ㅌ태보고</h4>
+            <h4 class="panel-title">월별근태보고</h4>
+            <div class="title-road">근태관리 &gt; 월별근태보고</div>
         </div>
 
         <div class="panel-body">
+            <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
+            <div>
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex; justify-content: space-between;">
+                                <div>
+                                    <span>조회 기간</span>
+                                    <input type="text" id="datePicker" style="width: 50%; margin-left: 10px;">
+                                </div>
+                                <div>
+                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                        <span class="k-icon k-i-search k-button-icon"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin:20px 0;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <colgroup>
+                                <col width="8%" >
+                                <col width="12%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th rowspan="2">인원</th>
+                                <th rowspan="2">평균 근무시간</th>
+                                <th colspan="2">휴가</th>
+                                <th colspan="2">지참</th>
+                                <th colspan="2">조퇴</th>
+                                <th colspan="2">지각</th>
+                                <th colspan="2">기타</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- table-responsive -->
+                </div>
+
+                <h4 class="panel-title">* 팀별 근태내역</h4>
+                <div style="margin:20px 0;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <colgroup>
+                                <col width="10%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                                <col width="7.5%" >
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th rowspan="2">팀명</th>
+                                <th rowspan="2">인원</th>
+                                <th rowspan="2">평균 근무시간</th>
+                                <th colspan="2">휴가</th>
+                                <th colspan="2">지참</th>
+                                <th colspan="2">조퇴</th>
+                                <th colspan="2">지각</th>
+                                <th colspan="2">기타</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                                <th style="text-align: center;">명</th>
+                                <th style="text-align: center;">건</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="text-align: center;">경영지원팀</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- table-responsive -->
+                </div>
+                <h4 class="panel-title">* 개인별 근태내역</h4>
+                <div style="margin:20px 0;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <colgroup>
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                                <col width="10%" >
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>부서명</th>
+                                <th>팀명</th>
+                                <th>이름</th>
+                                <th>직위</th>
+                                <th>평균 근무시간</th>
+                                <th>휴가</th>
+                                <th>지참</th>
+                                <th>조퇴</th>
+                                <th>지각</th>
+                                <th>기타</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="text-align: center;">경영지원실</td>
+                                <td style="text-align: center;">경영지원팀</td>
+                                <td style="text-align: center;">유지연</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- table-responsive -->
+                </div>
+            </div>
         </div>
-
     </div>
+</div>
 </div><!-- col-md-9 -->
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
+    monthAttendStat.fn_defaultScript();
+    monthAttendStat.mainGrid();
 </script>
