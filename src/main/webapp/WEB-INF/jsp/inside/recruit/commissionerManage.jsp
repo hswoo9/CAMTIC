@@ -22,8 +22,8 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">채용관리</h4>
-            <div class="title-road">채용관리 &gt; 채용관리</div>
+            <h4 class="panel-title">평가위원관리</h4>
+            <div class="title-road">채용관리 &gt; 평가위원관리</div>
         </div>
 
         <div class="panel-body">
