@@ -112,7 +112,7 @@ var certificateReq = {
                     title: "발급 구분"
                 }, {
                     field: "",
-                    title: "부수"
+                    title: "부서"
                 }, {
                     field: "",
                     title: "성명"

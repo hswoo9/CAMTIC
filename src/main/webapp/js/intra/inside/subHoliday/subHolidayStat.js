@@ -28,11 +28,11 @@ var subHolidayStat = {
         });
 
         $("#holidayYear").kendoDatePicker({
-            depth: "month",
-            start: "month",
+            start: "decade",
+            depth: "decade",
             culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            format : "yyyy",
+            value : new Date()
         });
 
         $("#dept").kendoDropDownList({

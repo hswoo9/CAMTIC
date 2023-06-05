@@ -1,21 +1,13 @@
 var now = new Date();
 
-var subHolidaySetting = {
+var historyReqPop = {
 
     init : function(){
-        subHolidaySetting.dataSet();
-        subHolidaySetting.mainGrid();
+        historyReqPop.dataSet();
+        historyReqPop.mainGrid();
     },
 
     dataSet() {
-        $("#holidayYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
-
         $("#dept").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -50,31 +42,38 @@ var subHolidaySetting = {
                 { text: "사업지원팀", value: "11" }
             ],
             index: 0
-        });
-
-        $("#status").kendoDropDownList({
+        });$("#historyType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
+                { text: "임용 (정규직)", value: "1" },
+                { text: "임용 (계약직)", value: "2" },
+                { text: "임용 (인턴 사원)", value: "3" },
+                { text: "임용 (단기 직원)", value: "4" },
+                { text: "임용 (위촉 직원)", value: "5" },
+                { text: "임용 (경비 / 환경)", value: "6" },
+                { text: "승진 (직급)", value: "7" },
+                { text: "승진 (직위)", value: "8" },
+                { text: "전보", value: "9" },
+                { text: "겸직", value: "10" },
+                { text: "직무 대리", value: "11" },
+                { text: "파견", value: "12" },
+                { text: "면직", value: "13" },
+                { text: "강등", value: "14" },
+                { text: "조직 개편", value: "15" },
+                { text: "호칭 변경", value: "16" },
+                { text: "기타", value: "17" }
             ],
             index: 0
         });
 
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "" },
-                { text: "부서명", value: "1" },
-                { text: "팀명", value: "2" },
-                { text: "직급", value: "3" },
-            ],
-            index: 0
+        $("#historyDate").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
         });
     },
 
@@ -113,11 +112,24 @@ var subHolidaySetting = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">선택완료</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>"
+                }, {
                     field: "",
                     title: "부서"
                 }, {
@@ -125,40 +137,16 @@ var subHolidaySetting = {
                     title: "팀"
                 }, {
                     field: "",
-                    title: "직위"
-                }, {
-                    field: "",
-                    title: "이름"
-                }, {
-                    title: "기존",
-                    columns: [
-                        {
-                            field: "",
-                            title: "발생 연차"
-                        }, {
-                            field: "",
-                            title: "전년 사용"
-                        }, {
-                            field: "",
-                            title: "전 전년 사용"
-                        }
-                    ]
-                }, {
-                    title: "보상",
-                    columns: [
-                        {
-                            field: "",
-                            title: "발생 연차"
-                        }, {
-                            field: "",
-                            title: "전년 사용"
-                        }, {
-                            field: "",
-                            title: "전 전년 사용"
-                        }
-                    ]
+                    title: "성명"
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    historyReqPopPop : function() {
+        var url = "/inside/historyReqPopPop.do";
+        var name = "historyReqPopPop";
+        var option = "width=800, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }

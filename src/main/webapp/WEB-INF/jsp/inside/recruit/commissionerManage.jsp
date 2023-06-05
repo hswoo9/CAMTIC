@@ -11,7 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
-<script type="text/javascript" src="/js/intra/inside/history/historyReq.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/commissionerManage.js?v=${today}"/></script>
 
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
@@ -22,8 +22,8 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">발령관리</h4>
-            <div class="title-road">발령/포상관리 &gt; 발령관리</div>
+            <h4 class="panel-title">채용관리</h4>
+            <div class="title-road">채용관리 &gt; 채용관리</div>
         </div>
 
         <div class="panel-body">
@@ -35,26 +35,16 @@
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;">
                                 <div class="mr10">
-                                    <span>발령구분</span>
-                                    <input type="text" id="historyType" style="width: 140px;">
+                                    <span>성명</span>
+                                    <input type="text" id="searchName" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <span>부서</span>
-                                    <input type="text" id="dept" style="width: 140px;">
+                                    <span>기관명</span>
+                                    <input type="text" id="searchComp" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <span>조회기간</span>
-                                    <input type="text" id="start_date" style="width: 140px;">
-                                    ~
-                                    <input type="text" id="end_date" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>발령기준</span>
-                                    <input type="text" id="appointmentType" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
+                                    <span>전문분야</span>
+                                    <input type="text" id="expertise" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
                                     <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
@@ -71,5 +61,5 @@
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
-    historyReq.init();
+    commissionerManage.init();
 </script>

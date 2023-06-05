@@ -1,18 +1,23 @@
 var now = new Date();
 
-var certificateReqPop = {
+var rewardReq = {
 
     init : function(){
-        certificateReqPop.dataSet();
-        certificateReqPop.mainGrid();
+        rewardReq.dataSet();
+        rewardReq.mainGrid();
     },
 
     dataSet() {
-        $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({
-            enable: false
+
+        $("#start_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 1))
         });
 
-        $("#requestDate, #subDate").kendoDatePicker({
+        $("#end_date").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
@@ -20,43 +25,44 @@ var certificateReqPop = {
             value : new Date()
         });
 
-        $("#certifiType").kendoDropDownList({
+        $("#rewardType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "재직증명서", value: "1" },
-                { text: "경력증명서", value: "2" }
+                { text: "전체", value: "" },
+                { text: "내부표창", value: "1" },
+                { text: "외부표창", value: "2" }
             ],
             index: 0
         });
 
-        $("#number").kendoDropDownList({
+        $("#dept").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "1", value: "1" },
-                { text: "2", value: "2" },
-                { text: "3", value: "3" },
-                { text: "4", value: "4" },
-                { text: "5", value: "5" },
-                { text: "6", value: "6" },
-                { text: "7", value: "7" },
-                { text: "8", value: "8" },
-                { text: "9", value: "9" }
+                { text: "부서선택", value: "" },
+                { text: "미래전략기획본부", value: "1" },
+                { text: "R&BD사업본부", value: "2" },
+                { text: "기업성장지원본부", value: "3" },
+                { text: "우주항공사업부", value: "4" },
+                { text: "드론사업부", value: "5" },
+                { text: "스마트제조사업부", value: "6" },
+                { text: "경영지원실", value: "7" }
             ],
             index: 0
         });
 
-        $("#usage").kendoDropDownList({
+        $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "금융기관 제출용", value: "1" },
-                { text: "교육기관 제출용", value: "2" },
-                { text: "관공서 제출용", value: "3" },
-                { text: "타사 제출용", value: "4" },
-                { text: "개인증빙용", value: "5" },
-                { text: "기타사유", value: "6" }
+                { text: "성명", value: "" },
+                { text: "직급", value: "1" },
+                { text: "등급", value: "2" },
+                { text: "직책", value: "3" },
+                { text: "직무", value: "4" },
+                { text: "호수", value: "5" },
+                { text: "비고", value: "6" }
             ],
             index: 0
         });
@@ -101,15 +107,22 @@ var certificateReqPop = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="certificateReqPop.certificateReqPopPop();">' +
-                            '	<span class="k-button-text">신청</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardReqPop();">' +
+                            '	<span class="k-button-text">포상 등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">취소</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardReqBatchPop();">' +
+                            '	<span class="k-button-text">포상 일괄등록</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardReqPop();">' +
+                            '	<span class="k-button-text">포상 구분 관리</span>' +
                             '</button>';
                     }
                 }
@@ -157,10 +170,17 @@ var certificateReqPop = {
         }).data("kendoGrid");
     },
 
-    certificateReqPopPop : function() {
-        var url = "/inside/certificateReqPopPop.do";
-        var name = "certificateReqPopPop";
-        var option = "width=800, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    rewardReqPop : function() {
+        var url = "/Inside/rewardReqPop.do";
+        var name = "rewardReqPop";
+        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    rewardReqBatchPop : function() {
+        var url = "/Inside/rewardReqBatchPop.do";
+        var name = "rewardReqBatchPop";
+        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

@@ -1,14 +1,14 @@
 var now = new Date();
 
-var certificateAdmin = {
+var recruitList = {
 
     init : function(){
-        certificateAdmin.dataSet();
-        certificateAdmin.mainGrid();
+        recruitList.dataSet();
+        recruitList.mainGrid();
     },
 
     dataSet() {
-        $("#certifiYear").kendoDatePicker({
+        $("#recruitYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
             culture : "ko-KR",
@@ -16,26 +16,15 @@ var certificateAdmin = {
             value : new Date()
         });
 
-        $("#issueType").kendoDropDownList({
+        $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
-                { text: "재직증명서", value: "1" },
-                { text: "경력증명서", value: "2" }
-            ],
-            index: 0
-        });
-
-        $("#status").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
+                { text: "구분", value: "" },
+                { text: "모집분야", value: "1" },
+                { text: "공고명", value: "2" },
+                { text: "공고번호", value: "3" },
+                { text: "지원자", value: "4" }
             ],
             index: 0
         });
@@ -76,6 +65,30 @@ var certificateAdmin = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">결재상신</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">채용공고등록</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">채용공고관리</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -119,10 +132,17 @@ var certificateAdmin = {
         }).data("kendoGrid");
     },
 
-    certificateAdminPop : function() {
-        var url = "/Inside/certificateAdminPop.do";
-        var name = "certificateAdminPop";
-        var option = "width=800, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    recruitReqPop : function() {
+        var url = "/Inside/recruitReqPop.do";
+        var name = "recruitReqPop";
+        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    recruitAdminPop : function() {
+        var url = "/Inside/recruitAdminPop.do";
+        var name = "recruitAdminPop";
+        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

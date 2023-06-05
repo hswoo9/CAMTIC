@@ -30,7 +30,27 @@ public class RecruitController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/recruitList";
+        return "inside/recruit/recruitList";
+    }
+
+    //평가위원관리 페이지
+    @RequestMapping("/Inside/commissionerManage.do")
+    public String commissionerManage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/recruit/commissionerManage";
+    }
+
+    //외부의원 면접심사 페이지
+    @RequestMapping("/Inside/externalInterview.do")
+    public String externalInterview(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/recruit/externalInterview";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

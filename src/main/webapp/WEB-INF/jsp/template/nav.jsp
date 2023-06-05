@@ -196,6 +196,8 @@
             <a href="#" class="toggleMain">채용관리</a>
             <ul class="innerMain children c_f">
               <li><a href="/Inside/recruitList.do?menu=c_f" class="toggleMain1">채용관리</a></li>
+              <li><a href="/Inside/commissionerManage.do?menu=c_f" class="toggleMain1">평가위원관리</a></li>
+              <li><a href="/Inside/externalInterview.do?menu=c_f" class="toggleMain1">외부의원 면접심사</a></li>
             </ul>
           </li>
           <li>

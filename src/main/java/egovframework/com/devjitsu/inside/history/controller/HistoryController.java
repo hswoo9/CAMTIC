@@ -33,6 +33,16 @@ public class HistoryController {
         return "inside/userManage/historyReq";
     }
 
+    //발령신청 페이지
+    @RequestMapping("/Inside/historyReqPop.do")
+    public String historyReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/history/historyReqPop";
+    }
+
     //포상관리 페이지
     @RequestMapping("/Inside/rewardReq.do")
     public String rewardReq(HttpServletRequest request, Model model) {
