@@ -93,6 +93,16 @@ public class BustripController {
         return "inside/bustrip/carReq";
     }
 
+    //차량사용신청 팝업창
+    @RequestMapping("/Inside/Pop/carPop.do")
+    public String carPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/carPop";
+    }
+
     //회의실사용신청
     @RequestMapping("/Inside/meetingRoomReq.do")
     public String meetingRoomReq(HttpServletRequest request, Model model) {
@@ -103,6 +113,16 @@ public class BustripController {
         return "inside/bustrip/meetingRoomReq";
     }
 
+    //회의실사용신청 팝업창
+    @RequestMapping("/Inside/Pop/meetingRoomPop.do")
+    public String meetingRoomReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/meetingRoomPop";
+    }
+
     //차량관리
     @RequestMapping("/Inside/carManage.do")
     public String carManage(HttpServletRequest request, Model model) {
@@ -111,6 +131,16 @@ public class BustripController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/bustrip/carManage";
+    }
+
+    //차량관리 팝업창
+    @RequestMapping("/Inside/Pop/carManagePop.do")
+    public String carManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/carManagePop";
     }
 
     //회의실관리
