@@ -35,18 +35,16 @@ $(function(){
         value : new Date()
     });
 
+    $("#titleContent").kendoTextBox();
+
     $("#status").kendoDropDownList({
         dataTextField: "text",
         dataValueField: "value",
         dataSource: [
-            { text: "전체", value: "" },
-            { text: "미결재", value: "0" },
-            { text: "상신", value: "10" },
-            { text: "결재진행중", value: "20" },
-            { text: "반려", value: "30" },
-            { text: "회수", value: "40" },
-            { text: "재상신", value: "50" },
-            { text: "종결", value: "100" },
+            { text: "작성 중", value: "작성 중" },
+            { text: "제출", value: "제출" },
+            { text: "승인", value: "승인" },
+            { text: "반려", value: "반려" }
         ],
         index: 0
     });
@@ -94,7 +92,7 @@ $(function(){
             {
                 name : 'button',
                 template : function (e){
-                    return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="selectChkDel()">' +
+                    return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="/*selectChkDel()*/">' +
                         '	<span class="k-button-text">선택삭제</span>' +
                         '</button>';
                 }
@@ -103,12 +101,15 @@ $(function(){
                 text: '엑셀다운로드'
             }, {
                 name : 'button',
+                text: '신청'
+            } /*{
+                name : 'button',
                 template : function (e){
                     return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="workPlan.workPlanRegPopup()">' +
                         '	<span class="k-button-text">추가</span>' +
                         '</button>';
                 }
-            }
+            }*/
         ],
         excel : {
             fileName : "유연근무변경 저장 목록.xlsx",
@@ -134,61 +135,42 @@ $(function(){
                 template : "<input type='checkbox' id='wpcPk#=WORK_PLAN_CHANGE_ID#' name='wpcPk' value='#=WORK_PLAN_CHANGE_ID#' class='k-checkbox checkbox'/>",
                 width: 30
             }, {
-                field: "WORK_PLAN_TYPE",
-                title: "근무유형",
+                field: "",
+                title: "순번",
                 width: 90
             }, {
-                field: "APPLY_DATE",
-                title: "적용기간",
+                field: "",
+                title: "부서",
                 width: 210
             }, {
-                field : "MON",
-                title : "월",
+                field : "",
+                title : "팀",
                 width: 80
             }, {
-                field : "TUE",
-                title : "화",
+                field : "",
+                title : "성명",
                 width: 80
             }, {
-                field : "WED",
-                title : "수",
+                field : "",
+                title : "근무 유형",
                 width: 80
             }, {
-                field : "THU",
-                title : "목",
+                field : "",
+                title : "신청일자",
                 width: 80
             }, {
-                field : "FRI",
-                title : "금",
+                field : "",
+                title : "적용기간",
                 width: 80
             },{
-                field: "REG_DATE",
-                title: "등록일자",
+                field: "",
+                title: "진행 상태",
                 width: 70
             },{
-                field: "REQUEST_DATE",
-                title: "신청일자",
+                field: "",
+                title: "승인 요청",
                 width: 70
-            },{
-                field: "DRAFT_DT",
-                title: "요청일자",
-                width: 70,
-                template : function(e){
-                    if(e.STATUS != "50"){
-                        if(e.DRAFT_DT == null){
-                            return "-";
-                        }else if (e.DRAFT_DT != null){
-                            return e.DRAFT_DT;
-                        }
-                    }else if(e.STATUS == "50"){
-                        if(e.REPTIT_DRFT_DT == null){
-                            return "-";
-                        }else if (e.REPTIT_DRFT_DT != null){
-                            return e.REPTIT_DRFT_DT;
-                        }
-                    }
-                }
-            }, {
+            }/*,{
                 field : "STATUS",
                 title : "승인상태",
                 template : function(e){
@@ -212,19 +194,19 @@ $(function(){
                 title : "승인요청",
                 template : function(e){
                     if(e.APPR_STAT == "N"){
-                        /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
+                        /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
                             "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                             "<span class='k-button-text'>승인요청</span>" +
-                            "</button>";*/
+                            "</button>";*!/
                         return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.WORK_PLAN_CHANGE_ID+"' appType='N' approvalKind='workPlan'>" +
                             "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                             "<span class='k-button-text'>승인요청</span>" +
                             "</button>";
                     } else if(e.APPR_STAT == "E"){
-                        /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
+                        /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
                             "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                             "<span class='k-button-text'>재상신</span>" +
-                            "</button>";*/
+                            "</button>";*!/
                         return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.WORK_PLAN_CHANGE_ID+"' appType='E' approvalKind='workPlan'>" +
                             "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                             "<span class='k-button-text'>재요청</span>" +
@@ -256,7 +238,7 @@ $(function(){
                     }
                 },
                 width: 100
-            }]
+            }*/]
     }).data("kendoGrid");
 
     $("#checkAll").click(function(){
