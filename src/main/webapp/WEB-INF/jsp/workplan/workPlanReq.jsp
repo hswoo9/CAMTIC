@@ -20,7 +20,7 @@
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">유연근무 신청</h4>
-            <div class="title-road">유연근무 > 유연근무신청</div>
+            <div class="title-road">유연근무 > 유연근무 신청</div>
         </div>
 
         <div class="panel-body">
@@ -37,16 +37,20 @@
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tbody>
                     <tr>
-                        <td colspan="3">
-                            <span class="pdr5">조회기간</span>
-                            <input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 15%;">
-                            ~
-                            <input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 15%;">
-                            <span class="pdr5 pdl3per">결재상태</span>
-                            <input type="text" id="status" style="width: 15%;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">
-                                <span class="k-icon k-i-search k-button-icon"></span>
-                            </button>
+                        <td>
+                            <div>
+                                <span class="pdr5">조회기간</span>
+                                <input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 15%;">
+                                ~
+                                <input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 15%; margin-right: 10px;">
+                                <span class="pdr5 pdl3per">성명</span>
+                                <input type="text" id="titleContent" style="width: 200px; margin-right: 10px;" value="홍길동">
+                                <span class="pdr5 pdl3per">진행 상태</span>
+                                <input type="text" id="status" style="width: 15%; margin-right:10px;">
+                                <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <span class="k-icon k-i-search k-button-icon"></span>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
