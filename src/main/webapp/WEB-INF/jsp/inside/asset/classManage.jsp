@@ -11,7 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
-<script type="text/javascript" src="/js/intra/inside/asset/proposalList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/asset/classManage.js?v=${today}"/></script>
 
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
@@ -22,20 +22,46 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">구매내역</h4>
-            <div class="title-road">자산관리 &gt; 구매내역</div>
+            <h4 class="panel-title">분류관리</h4>
+            <div class="title-road">자산관리 &gt; 분류관리</div>
         </div>
 
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
             <div>
+                <div class="col-md-4 col-lg-4">
+                    소속관리
+                    <div id="mainGrid" style="margin:5px 0;"></div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    구분관리
+                    <div id="mainGrid2" style="margin:5px 0;"></div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    위치관리
+                    <div id="mainGrid3" style="margin:5px 0;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div>
+                카테고리관리
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;">
                                 <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px;">
+                                    <span>카테고리</span>
+                                    <input type="text" id="drop1" style="width: 140px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>소속코드</span>
+                                    <input type="text" id="drop2" style="width: 140px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>명칭</span>
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
@@ -45,7 +71,7 @@
                         </td>
                     </tr>
                 </table>
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="mainGrid4" style="margin:10px 0;"></div>
             </div>
         </div>
     </div>
@@ -53,5 +79,5 @@
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
-    proposalList.init();
+    classManage.init();
 </script>

@@ -240,14 +240,7 @@
             <ul class="innerMain children c_i">
               <li><a href="/Inside/assetList.do?menu=c_i" class="toggleMain1">자산리스트</a></li>
               <li><a href="/Inside/proposalList.do?menu=c_i" class="toggleMain1">구매내역</a></li>
-              <li>
-                <a href="#" class="toggleMain1">분류관리</a>
-                <ul class="innerMain children c_i_1">
-                  <li><a href="/Inside/affiliationManage.do?menu=c_i_1" class="toggleMain2">소속/구분관리</a></li>
-                  <li><a href="/Inside/categoryManage.do?menu=c_i_1" class="toggleMain2">카테고리관리</a></li>
-                  <li><a href="/Inside/locationManage.do?menu=c_i_1" class="toggleMain2">위치관리</a></li>
-                </ul>
-              </li>
+              <li><a href="/Inside/classManage.do?menu=c_i_1" class="toggleMain1">분류관리</a>              </li>
               <li><a href="/Inside/pdaPeristalsisList.do?menu=c_i" class="toggleMain1">PDA연동목록</a></li>
             </ul>
           </li>

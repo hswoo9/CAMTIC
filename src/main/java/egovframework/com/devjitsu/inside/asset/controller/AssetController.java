@@ -43,34 +43,14 @@ public class AssetController {
         return "inside/asset/proposalList";
     }
 
-    //소속/구분관리
-    @RequestMapping("/Inside/affiliationManage.do")
-    public String affiliationManage(HttpServletRequest request, Model model) {
+    //분류관리
+    @RequestMapping("/Inside/classManage.do")
+    public String classManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/asset/affiliationManage";
-    }
-
-    //카테고리관리
-    @RequestMapping("/Inside/categoryManage.do")
-    public String categoryManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/asset/categoryManage";
-    }
-
-    //위치관리
-    @RequestMapping("/Inside/locationManage.do")
-    public String locationManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/asset/locationManage";
+        return "inside/asset/classManage";
     }
 
     //PDA연동목록
