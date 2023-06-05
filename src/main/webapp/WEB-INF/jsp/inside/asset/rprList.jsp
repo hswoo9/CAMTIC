@@ -23,7 +23,7 @@
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">지식재산권 리스트</h4>
-            <div class="title-road">자산관리 &gt; 지식재산권 리스트</div>
+            <div class="title-road">지식재산권관리 &gt; 지식재산권 리스트</div>
         </div>
 
         <div class="panel-body">

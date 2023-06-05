@@ -23,7 +23,7 @@
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">접수내역</h4>
-            <div class="title-road">자산관리 &gt; 접수내역</div>
+            <div class="title-road">지식재산권관리 &gt; 접수내역</div>
         </div>
 
         <div class="panel-body">
