@@ -73,6 +73,16 @@ public class AttendController {
         return "inside/attend/personAttendStat";
     }
 
+    //근태 조정 팝업창
+    @RequestMapping("/Inside/Pop/personAttendStatPop.do")
+    public String personAttendStatPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/attend/personAttendStatPop";
+    }
+
     //월별근태보고
     @RequestMapping("/Inside/monthAttendStat.do")
     public String monthAttendStat(HttpServletRequest request, Model model) {
