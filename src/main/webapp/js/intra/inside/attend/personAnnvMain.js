@@ -81,10 +81,6 @@ var personAnnvMain = {
                     width: "10%"
                 }, {
                     field: "",
-                    title: "근태 구분",
-                    width: "10%"
-                }, {
-                    field: "",
                     title: "사용 일수",
                     width: "10%"
                 }, {

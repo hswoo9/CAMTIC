@@ -44,7 +44,7 @@
                             <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="/*carManage.carManagePopup();*/">
+                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="carManage.carManagePopup();">
                                 등록
                             </button>
                         </td>

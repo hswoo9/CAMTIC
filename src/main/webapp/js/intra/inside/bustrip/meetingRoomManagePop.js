@@ -1,10 +1,10 @@
 /**
  * 2023.06.05
  * 작성자 : 김지혜
- * 내용 : 차량/회의실관리 - 차량관리 팝업페이지
+ * 내용 : 차량/회의실관리 - 회의실 정보 팝업페이지
  */
 var now = new Date();
-var carManagePop = {
+var meetingRoomManagePop = {
     fn_defaultScript: function () {
 
         $("#division").kendoDropDownList({

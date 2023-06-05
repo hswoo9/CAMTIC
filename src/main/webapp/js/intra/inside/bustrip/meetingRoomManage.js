@@ -1,10 +1,10 @@
 /**
  * 2023.06.05
  * 작성자 : 김지혜
- * 내용 : 차량/회의실관리 - 차량관리
+ * 내용 : 차량/회의실관리 - 회의실 관리
  */
 
-var carManage = {
+var meetingRoomManage = {
     fn_defaultScript: function () {
 
         $("#useYN").kendoDropDownList({
@@ -17,27 +17,12 @@ var carManage = {
             index: 0
         });
 
-        $("#dept").kendoDropDownList({
+        $("#space").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
-        });
-
-        $("#carStyle").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "차량 종류", value: "차량 종류"},
-                {text: "차량 번호", value: "차량 번호"}
+                {text: "회의실 명", value: "회의실 명"},
+                {text: "장소", value: "장소"}
             ],
             index: 0
         });
@@ -101,15 +86,15 @@ var carManage = {
                         template: "#= record-- #"
                     }, {
                         field: "",
-                        title: "차량 종류",
+                        title: "회의실 명",
                         width: "22.5%"
                     }, {
                         field: "",
-                        title: "차량 번호",
+                        title: "장소",
                         width: "22.5%"
                     }, {
                         field: "",
-                        title: "사용 부서",
+                        title: "수용 인원",
                         width: "22.5%"
                     }, {
                         field: "",
@@ -119,8 +104,8 @@ var carManage = {
             }).data("kendoGrid");
         },
 
-    carManagePopup : function(){
-        var url = "/Inside/Pop/carManagePop.do";
+    meetingRoomManagePopup : function(){
+        var url = "/Inside/Pop/meetingRoomManagePop.do";
         var name = "popup test";
         var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);

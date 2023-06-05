@@ -39,7 +39,7 @@
         align-items: center;
     }
 </style>
-<script type="text/javascript" src="/js/intra/inside/bustrip/carManagePop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/meetingRoomManagePop.js?v=${today}"/></script>
 
 <!DOCTYPE html>
 <html>
@@ -63,7 +63,7 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th colspan="4">차량 정보 (아직)</th>
+                        <th colspan="4">회의실 정보 (아직)</th>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
@@ -107,7 +107,7 @@
 
 
 <script>
-    carManagePop.fn_defaultScript();
+    meetingRoomManagePop.fn_defaultScript();
     overWk.fn_defaultScript();
 </script>
 </body>

@@ -117,6 +117,10 @@ var personAttendList = {
                     width: "10%"
                 }, {
                     field: "",
+                    title: "근무형태",
+                    width: "10%"
+                }, {
+                    field: "",
                     title: "근태 항목",
                     width: "10%"
                 }, {
@@ -126,7 +130,7 @@ var personAttendList = {
                 }, {
                     field: "",
                     title: "신청 내역",
-                    width: "20%"
+                    width: "10%"
                 }]
         }).data("kendoGrid");
     }

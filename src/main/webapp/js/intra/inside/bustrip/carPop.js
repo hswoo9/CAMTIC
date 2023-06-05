@@ -14,6 +14,22 @@ var carPop = {
             value : new Date(now.setMonth(now.getMonth()))
         });
 
+        $("#apply_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth()))
+        });
+
+        $("#use_date2").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth()))
+        });
+
         $("#use_time").kendoTimePicker({
             culture : "ko-KR",
             format : "HH:mm",
@@ -21,29 +37,55 @@ var carPop = {
             value : "09:00"
         });
 
-        $("#mealsDivision").kendoDropDownList({
+        $("#use_time2").kendoTimePicker({
+            culture : "ko-KR",
+            format : "HH:mm",
+            interval : 10,
+            value : "09:00"
+        });
+
+        $("#useDept").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "야간 간식", value: "야간 간식"},
-                {text: "휴일 식대", value: "휴일 식대"},
-                {text: "평일 식대", value: "평일 식대"}
+                {text: "미래전략기획본부", value: "미래전략기획본부"},
+                {text: "R&BD사업본부", value: "R&BD사업본부"},
+                {text: "기업성장지원본부", value: "기업성장지원본부"},
+                {text: "우주항공사업부", value: "우주항공사업부"},
+                {text: "드론사업부", value: "드론사업부"},
+                {text: "스마트제조사업부", value: "스마트제조사업부"},
+                {text: "경영지원실", value: "경영지원실"}
             ],
             index: 0
         });
 
-        $("#payDivision").kendoDropDownList({
+        $("#useCar").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "개인", value: "개인"},
-                {text: "법인", value: "법인"},
-                {text: "외상", value: "외상"}
+                {text: "카니발", value: "카니발"},
+                {text: "아반떼", value: "아반떼"},
+                {text: "트럭", value: "트럭"}
             ],
             index: 0
         });
 
-        $("#UseReason").kendoTextBox();
+        $("#raceDivision").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "개인 사유", value: "개인 사유"},
+                {text: "업무용", value: "업무용"}
+            ],
+            index: 0
+        });
+
+        $("#racePurpose").kendoTextBox();
+        $("#destination").kendoTextBox();
+        $("#waypoint").kendoTextBox();
+        $("#driver").kendoTextBox();
+        $("#name").kendoTextBox();
+        $("#tel").kendoTextBox();
 
     }
 }

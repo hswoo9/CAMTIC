@@ -56,65 +56,66 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
-                        <col width="20%">
                         <col width="30%">
-                        <col width="20%">
-                        <col width="30%">
+                        <col width="70%">
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th colspan="4">차량 사용 신청(아직)</th>
+                        <th colspan="4">차량 사용 신청</th>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>이용 일시</th>
-                        <td><input id="use_date" type="date" style="width: 50%;"><input id="use_time" type="time" style="width: 50%;"></td>
-                        <%--<td><input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 100%;"></td>--%>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>식대 구분</th>
-                        <td colspan><input type="text" id="mealsDivision" style="width: 100%; margin-right:10px;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>운행 일시</th>
+                        <td><input id="use_date" type="date" style="width: 20%;"><input id="use_time" type="time" style="width: 20%;">
+                        ~<input id="use_date2" type="date" style="width: 20%;"><input id="use_time2" type="time" style="width: 20%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>이용자</th>
-                        <td><input type="text" id="user" style="width: 65%;">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 부서</th>
+                        <td><input type="text" id="useDept" style="width: 40%;"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 차량</th>
+                        <td><input type="text" id="useCar" style="width: 40%;"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">운행 구분</th>
+                        <td><input type="text" id="raceDivision" style="width: 40%;"></input></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">운행 목적</th>
+                        <td><input type="text" id="racePurpose" style="width: 100%;"></input></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">목적지</th>
+                        <td><input type="text" id="destination" style="width: 100%;"></input></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">경유지</th>
+                        <td><input type="text" id="waypoint" style="width: 100%;"></input></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">운행자</th>
+                        <td><input type="text" id="driver" style="width: 20%;" value="홍길동">
+                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
                                 직원 선택
                             </button>
                         </td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>결제 구분</th>
-                        <td colspan><input type="text" id="payDivision" style="width: 100%; margin-right:10px;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>거래확인 서류 수령자</th>
-                        <td><input type="text" id="recipient" style="width: 100%;" value="홍길동"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>법인카드</th>
-                        <td><input type="text" id="corporCard" style="width: 75%; text-align: right;">
-                        <button type="button" id="CardSearch" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="">
-                            검색
-                        </button>
+                        <th scope="row" class="text-center th-color">긴급 연락처</th>
+                        <td>성명 : <input type="text" id="name" style="width: 20%;"></input>
+                            연락처 : <input type="text" id="tel" style="width: 30%;"></input>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>주문처</th>
-                        <td colspan><input type="text" id="restaurant" style="width: 65%;">
-                            <button type="button" id="restaurantSearch" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
-                                음식점 선택
-                            </button>
-                        </td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>이용 금액</th>
-                        <td><input type="text" id="usAmount" style="width: 100%; text-align: right;" value="원"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">이용 사유</th>
-                        <td colspan="3"><textarea type="text" id="UseReason" style="width: 100%;"></textarea></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">첨부</th>
-                        <td colspan="3" style="padding:5px;"><input type="file"></td>
+                        <th scope="row" class="text-center th-color">신청 일자</th>
+                        <td><input id="apply_date" type="date" style="width: 20%;"></input></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="button" style="margin-right:5px;" class="k-button k-rounded k-button-solid k-button-solid-info" value="결재 신청" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="삭제"  onclick=""/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick=""/>
             </div>
         </div>

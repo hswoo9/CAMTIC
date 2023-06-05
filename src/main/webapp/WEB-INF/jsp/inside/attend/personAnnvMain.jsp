@@ -44,27 +44,25 @@
                                 <col width="5%" >
                                 <col width="5%" >
                                 <col width="5%" >
-                                <col width="5%" >
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th rowspan="2">귀속년도</th>
                                     <th colspan="2">연차 적용 기간</th>
-                                    <th colspan="5">부여 (A)</th>
-                                    <th colspan="3">소진 (B)</th>
+                                    <th colspan="4">부여 (A)</th>
+                                    <th colspan="4">소진 (B)</th>
                                     <th rowspan="2">잔여연차 (A-B)</th>
-                                    <th rowspan="2">변경이력</th>
                                 </tr>
                                 <tr>
                                     <th>시작일자</th>
                                     <th>종료일자</th>
-                                    <th>기본</th>
-                                    <th>기본 조정</th>
-                                    <th>가산 일수</th>
-                                    <th>이월</th>
+                                    <th>발생연차</th>
+                                    <th>전년 발생</th>
+                                    <th>전 전년 발생</th>
                                     <th>소계</th>
-                                    <th>사용</th>
-                                    <th>사용 조정</th>
+                                    <th>올해 사용</th>
+                                    <th>전년 사용</th>
+                                    <th>전 전년 사용</th>
                                     <th>소계</th>
                                 </tr>
                             </thead>
@@ -82,7 +80,6 @@
                                 <td style="text-align: center;">0일</td>
                                 <td style="text-align: center;">0일</td>
                                 <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">[보기]</td>
                             </tr>
                             </tbody>
                         </table>

@@ -115,12 +115,22 @@ public class BustripController {
 
     //회의실사용신청 팝업창
     @RequestMapping("/Inside/Pop/meetingRoomPop.do")
-    public String meetingRoomReqPop(HttpServletRequest request, Model model) {
+    public String meetingRoomPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/meetingRoomPop";
+    }
+
+    //회의실 사용 특정일 제외 팝업창
+    @RequestMapping("/Inside/Pop/exSpecificDayPop.do")
+    public String exSpecificDayPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/exSpecificDayPop";
     }
 
     //차량관리
@@ -151,6 +161,16 @@ public class BustripController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/bustrip/meetingRoomManage";
+    }
+
+    //회의실관리 팝업창
+    @RequestMapping("/Inside/Pop/meetingRoomManagePop.do")
+    public String meetingRoomManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/meetingRoomManagePop";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
