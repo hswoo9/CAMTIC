@@ -149,8 +149,8 @@
           <li>
             <a href="#" class="toggleMain">인사관리</a>
             <ul class="innerMain children c_a">
-              <li><a href="/appointment/userPersonList.do?menu=c_a" class="toggleMain1">인사관리</a></li>
-              <li><a href="/appointment/userPersonnelRecord.do?menu=c_a" class="toggleMain1">인사기록카드</a></li>
+              <li><a href="/Inside/userPersonList.do?menu=c_a" class="toggleMain1">인사관리</a></li>
+              <li><a href="/Inside/userPersonnelRecord.do?menu=c_a" class="toggleMain1">인사기록카드</a></li>
               <li><a href="/Inside/performanceResultList.do?menu=c_a" class="toggleMain1">성과결과조회</a></li>
               <li><a href="/Inside/userInfoMod.do?menu=c_a" class="toggleMain1">인사정보변경신청</a></li>
               <li><a href="/user/organizationChart.do?menu=c_a" class="toggleMain1">조직도관리</a></li>

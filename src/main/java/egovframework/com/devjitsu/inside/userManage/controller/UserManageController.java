@@ -29,6 +29,18 @@ public class UserManageController {
     @Autowired
     private CommonCodeService commonCodeService;
 
+    //인사기록카드 페이지
+    @RequestMapping("/Inside/userPersonList.do")
+    public String userPersonList(){
+        return "inside/userManage/userPersonList";
+    }
+
+    //직원조회목록 페이지
+    @RequestMapping("/Inside/userPersonnelRecord.do")
+    public String userPersonnelRecord(){
+        return "inside/userManage/userPersonnelRecord";
+    }
+
     //성과결과조회 페이지
     @RequestMapping("/Inside/performanceResultList.do")
     public String performanceResultList(HttpServletRequest request, Model model) {
