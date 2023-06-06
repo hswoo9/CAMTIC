@@ -8,7 +8,6 @@
 
         SELECT
         WPC.WORK_PLAN_CHANGE_ID,
-        DI.DOC_ID,
         DATE_FORMAT(WPC.REQUEST_DATE, '%Y-%m-%d') AS REQUEST_DATE,
         (
         CASE WHEN WPC.WORK_PLAN_TYPE = 101 THEN '시차출퇴근제'
@@ -21,37 +20,147 @@
         GROUP_CONCAT(DISTINCT WPCD.WORK_PLAN_CHANGE_DETAIL_ID SEPARATOR '|') AS WORK_PLAN_CHANGE_DETAIL_ID,
         DATE_FORMAT(WPC.REG_DATE, '%Y-%m-%d') AS REG_DATE,
         DATE_FORMAT(WPC.REQUEST_DATE, '%Y-%m-%d') AS REQUEST_DATE,
-        DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
         WPC.STATUS,
         WPC.APPR_STAT,
+        WPC.APPR_STAT AS apprStat,
         WPC.APPLY_REASON,
-        (SELECT APPROVAL_STAT FROM CAM_APPROVAL.DJ_APPROVAL_BOX WHERE CONNECTION_KEY = WPC.WORK_PLAN_CHANGE_ID AND CONNECTION_TYPE = 'workPlan' ) as AB_APPR_STAT
+        (SELECT APPROVAL_STAT FROM CAM_APPROVAL.DJ_APPROVAL_BOX WHERE CONNECTION_KEY = WPC.WORK_PLAN_CHANGE_ID AND CONNECTION_TYPE = 'workPlan' ) as AB_APPR_STAT,
+        EI.*
         FROM
         CAM_INSIDE.DJ_WORK_PLAN_CHANGE WPC
         JOIN
         CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL WPCD
         ON WPC.WORK_PLAN_CHANGE_ID = WPCD.WORK_PLAN_CHANGE_ID
-        LEFT JOIN
-        CAM_APPROVAL.DJ_DOC_INFO DI
-        ON DI.DOC_ID = WPC.DOC_ID
+        JOIN
+        DJ_CAMTIC.V_EMP_INFO EI
+        ON WPC.REQUEST_EMP_SEQ = EI.EMP_SEQ
         WHERE
         WPC.ACTIVE = 'Y'
-        AND
-        WPC.REQUEST_EMP_SEQ = #{empSeq}
+        <if test="empSeq != null and empSeq != ''">
+            AND WPC.REQUEST_EMP_SEQ = #{empSeq}
+        </if>
+
         <![CDATA[
         AND
             DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(WPC.REG_DATE, '%Y%m%d')
         AND
             DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(WPC.REG_DATE, '%Y%m%d')
         ]]>
-        <if test='status != null and !status.equals("")'>
-            AND STATUS = #{status}
-        </if>
-
         GROUP BY
         WPC.WORK_PLAN_CHANGE_ID
         ORDER BY WPC.REG_DATE DESC
     </select>
 
+    <insert id="setWorkPlanChange" parameterType="map" >
+        /* setWorkPlanChange */
 
+        INSERT INTO CAM_INSIDE.DJ_WORK_PLAN_CHANGE
+        (
+        REQUEST_EMP_SEQ, REQUEST_DATE, APPLY_MONTH, WORK_PLAN_TYPE, WORK_WEEK_TIME, WORK_MONTH_TIME, START_DATE, END_DATE,
+        REQUEST_POSITION, REQUEST_DEPT_SEQ, REQUEST_DEPT_NAME, REQUEST_DUTY, APPLY_REASON, REG_EMP_SEQ, APPR_STAT
+        <if test="changeDetail != null and changeDetail != ''">
+            , STATUS
+        </if>
+        )
+        VALUES
+        (
+        #{request_emp_seq}, #{request_date}, #{apply_month}, #{work_plan_type}, #{work_week_time}, #{work_month_time}, #{start_date}, #{end_date},
+        #{request_position}, #{request_dept_seq}, #{request_dept_name}, #{request_duty}, #{apply_reason}, #{request_emp_seq}, #{appr_stat}
+        <if test="changeDetail != null and changeDetail != ''">
+            , '1'
+        </if>
+        )
+
+        <selectKey keyProperty="WORK_PLAN_CHANGE_ID" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_WORK_PLAN_CHANGE'
+        </selectKey>
+    </insert>
+
+    <insert id="saveWorkPlanChangeDetail" parameterType="map">
+        /* setWorkPlanChangeDetail */
+
+        INSERT INTO CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL
+        (
+        WORK_PLAN_CHANGE_ID, WORK_PLAN_DETAIL_ID, EMP_SEQ, COMMON_CODE_ID, WORK_DATE, WEEKDAY, ATTEND_TIME, LEAVE_TIME, CHANGER_DEPT_NAME, CHANGER_POSITION, CHANGER_DUTY
+        )
+        SELECT
+        #{workPlanChangeId} as WORK_PLAN_CHANGE_ID,
+        (SELECT WORK_PLAN_DETAIL_ID FROM CAM_INSIDE.DJ_WORK_PLAN_DETAIL WHERE EMP_SEQ = #{request_emp_seq} AND DATE_FORMAT(WORK_DATE, '%Y%m%d') = DATE_FORMAT(a.selected_date, '%Y%m%d')) as WORK_PLAN_DETAIL_ID,
+        #{request_emp_seq} as EMP_SEQ,
+        #{common_code_id} as COMMON_CODE_ID,
+        DATE_FORMAT(a.selected_date, '%Y%m%d') as WORK_DATE,
+        a.weekday as WEEKDAY,
+        a.attend_time as ATTEND_TIME,
+        a.leave_time as LEAVE_TIME,
+        #{request_dept_name} as CHANGER_DEPT_NAME,
+        #{request_position} as CHANGER_POSITION,
+        #{request_duty} as CHANGER_DUTY
+        FROM
+        (
+        select
+        selected_date,
+        WEEKDAY(selected_date) as weekdayNumber,
+        CASE WEEKDAY(selected_date)
+        WHEN '0' THEN CONCAT(#{monAttendTime})
+        WHEN '1' THEN CONCAT(#{tueAttendTime})
+        WHEN '2' THEN CONCAT(#{wedAttendTime})
+        WHEN '3' THEN CONCAT(#{thuAttendTime})
+        WHEN '4' THEN CONCAT(#{friAttendTime})
+        END as attend_time,
+        CASE WEEKDAY(selected_date)
+        WHEN '0' THEN CONCAT(#{monLeaveTime})
+        WHEN '1' THEN CONCAT(#{tueLeaveTime})
+        WHEN '2' THEN CONCAT(#{wedLeaveTime})
+        WHEN '3' THEN CONCAT(#{thuLeaveTime})
+        WHEN '4' THEN CONCAT(#{friLeaveTime})
+        END as leave_time,
+        CASE WEEKDAY(selected_date)
+        WHEN '0' THEN '월'
+        WHEN '1' THEN '화'
+        WHEN '2' THEN '수'
+        WHEN '3' THEN '목'
+        WHEN '4' THEN '금'
+        END as weekday
+        from
+        (select adddate(#{start_date},t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i) selected_date from
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v
+        where selected_date
+        between DATE_FORMAT(#{start_date}, '%Y-%m-%d') and DATE_FORMAT(CONCAT(#{endYearMonth}, CONCAT(DAY(LAST_DAY(CONCAT(#{end_date}))))), '%Y-%m-%d')
+        ) a
+        where
+        (
+        a.weekdayNumber != '5'
+        and a.weekdayNumber != '6'
+        <if test="dayUse != null and dayUse != ''">
+            and a.weekdayNumber IN(${dayUse})
+        </if>
+        )
+    </insert>
+
+    <select id="getWkCommonCodeWpT" parameterType="map" resultType="map">
+        /* getWkCommonCodeWpT */
+
+        SELECT
+            *
+        FROM
+            DJ_CAMTIC.V_WORK_CODE
+        WHERE
+            WK_GROUP_CODE_ID = #{wkGroupCodeId}
+    </select>
+
+    <update id="updateApprStat" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_WORK_PLAN_CHANGE
+        SET APPR_STAT = #{apprStat}
+        WHERE
+            WORK_PLAN_CHANGE_ID IN
+            (
+            <foreach collection="selectArr" item="item" separator=",">
+                #{item}
+            </foreach>
+            )
+    </update>
 </mapper>

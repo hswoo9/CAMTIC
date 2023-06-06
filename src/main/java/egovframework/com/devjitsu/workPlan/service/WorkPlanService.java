@@ -10,4 +10,11 @@ public interface WorkPlanService {
      * @return
      */
     List<Map<String, Object>> getWorkPlanReqChangeList(Map<String, Object> params);
+
+    Map<String, Object> setWorkPlanChangeOrDetail(Map<String, Object> params) throws Exception;
+
+    List<Map<String, Object>> getWkCommonCodeWpT(Map<String, Object> params);
+    Map<String, Object> updateApprStat(Map<String, Object> params);
+
+
 }

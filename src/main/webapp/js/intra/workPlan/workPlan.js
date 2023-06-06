@@ -59,9 +59,10 @@ $(function(){
         serverPaging: false,
         transport: {
             read : {
-                url : getContextPath()+"/workPlan/getWorkPlanReqSubList.do",
+                url : getContextPath() + "/getWorkPlanReqSubList.do",
                 dataType : "json",
-                type : "post"
+                type : "post",
+                async : false
             },
             parameterMap: function(data, operation) {
                 data.empSeq = $("#empSeq").val();
@@ -74,6 +75,7 @@ $(function(){
         },
         schema : {
             data: function (data) {
+                console.log(data);
                 return data.data;
             },
             total: function (data) {
@@ -137,112 +139,55 @@ $(function(){
             {
                 headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
                 template : "<input type='checkbox' id='wpcPk#=WORK_PLAN_CHANGE_ID#' name='wpcPk' value='#=WORK_PLAN_CHANGE_ID#' class='k-checkbox checkbox'/>",
-                width: 30
+                width: "50px"
             }, {
                 field: "",
                 title: "순번",
-                width: 90
+                width: "50px",
             }, {
-                field: "",
+                field: "DEPT_NAME",
                 title: "부서",
-                width: 210
+                width: "100px"
             }, {
                 field : "",
                 title : "팀",
-                width: 80
+                width: "80px"
             }, {
-                field : "",
+                field : "EMP_NAME_KR",
                 title : "성명",
-                width: 80
+                width: "80px"
             }, {
-                field : "",
+                field : "WORK_PLAN_TYPE",
                 title : "근무 유형",
-                width: 80
+                width: "80px"
             }, {
-                field : "",
+                field : "REQUEST_DATE",
                 title : "신청일자",
-                width: 80
+                width: "80px"
             }, {
-                field : "",
+                field : "APPLY_DATE",
                 title : "적용기간",
-                width: 80
+                width: "200px"
             },{
                 field: "",
                 title: "진행 상태",
-                width: 70
+                width: "70px",
+                template : function(row){
+                    if(row.apprStat == "N"){
+                        return "대기";
+                    }else if(row.apprStat == "Y"){
+                        return "승인";
+                    }else if(row.apprStat == "E"){
+                        return "반려";
+                    }else{
+                        return "";
+                    }
+                }
             },{
                 field: "",
                 title: "승인 요청",
-                width: 70
-            }/*,{
-                field : "STATUS",
-                title : "승인상태",
-                template : function(e){
-                    var apprStat = e.APPR_STAT;
-                    if(apprStat != null){
-                        if(apprStat == "N"){
-                            return "";
-                        } else if(apprStat == "Y"){
-                            return "승인";
-                        } else if(apprStat =="C"){
-                            return "진행중";
-                        } else if(apprStat =="E"){
-                            return "반려";
-                        }
-                    }else{
-                        return "-";
-                    }
-                },
-                width: 80
-            }, {
-                title : "승인요청",
-                template : function(e){
-                    if(e.APPR_STAT == "N"){
-                        /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
-                            "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                            "<span class='k-button-text'>승인요청</span>" +
-                            "</button>";*!/
-                        return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.WORK_PLAN_CHANGE_ID+"' appType='N' approvalKind='workPlan'>" +
-                            "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                            "<span class='k-button-text'>승인요청</span>" +
-                            "</button>";
-                    } else if(e.APPR_STAT == "E"){
-                        /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
-                            "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                            "<span class='k-button-text'>재상신</span>" +
-                            "</button>";*!/
-                        return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.WORK_PLAN_CHANGE_ID+"' appType='E' approvalKind='workPlan'>" +
-                            "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                            "<span class='k-button-text'>재요청</span>" +
-                            "</button>";
-                    } else if(e.APPR_STAT == "Y"){
-                        return "-";
-                    } else if(e.APPR_STAT =="C"){
-                        if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                            if(e.AB_APPR_STAT == "I"){
-                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"workPlan.fn_apprWorkPlanCancel("+e.WORK_PLAN_CHANGE_ID+")\">" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>회수</span>" +
-                                    "</button>";
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"workPlan.fn_apprWorkPlanCancel("+e.WORK_PLAN_CHANGE_ID+")\">" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>취소</span>" +
-                                    "</button>";
-                            }
-                        }else{
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"workPlan.fn_apprWorkPlanCancel("+e.WORK_PLAN_CHANGE_ID+")\">" +
-                                "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                "<span class='k-button-text'>취소</span>" +
-                                "</button>";
-                        }
-
-                    } else {
-                        return "-";
-                    }
-                },
-                width: 100
-            }*/]
+                width: "70px"
+            }]
     }).data("kendoGrid");
 
     $("#checkAll").click(function(){
@@ -280,7 +225,7 @@ function selectChkDel(){
     }
 
     $.ajax({
-        url : getContextPath()+"/workPlan/setWorkPlanReqChangeDel.do",
+        url : getContextPath()+"/setWorkPlanReqChangeDel.do",
         data : {
             changeAr : changeAr
         },
@@ -294,18 +239,6 @@ function selectChkDel(){
             }
         }
     })
-}
-
-function workPlanDrafting(workPlanChangeId, type){
-    popWin = window.open(getContextPath()+"/workPlan/workPlanApprovalPop.do?menuCd=" + menuCd + "&type=" + type + "&workPlanChangeId="+workPlanChangeId, "workPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-}
-
-function workPlanReDrafting(docId, workPlanChangeId, type){
-    popWin = window.open(getContextPath()+"/workPlan/workPlanApprovalPop.do?menuCd="+ menuCd + "&docId=" + docId + "&type=" + type + "&workPlanChangeId="+workPlanChangeId, "workPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-}
-
-function workPlanTempDrafting(docId, overWorkPlanId, type){
-    popWin = window.open(getContextPath()+"/workPlan/workPlanApprovalPop.do?menuCd="+ menuCd + "&docId=" + docId + "&type=" + type + "&workPlanChangeId="+workPlanChangeId, "workPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
 
 function gridReload(){
@@ -425,7 +358,7 @@ function timeDiff(type){
 function allApplyRadioGroupMake(type){
     var radioList = new Array();
     $.ajax({
-        url : getContextPath()+"/workPlan/getWkCommonCodeWpT.do",
+        url : getContextPath()+"/getWkCommonCodeWpT.do",
         data : {
             wkGroupCodeId : type
         },
@@ -727,7 +660,7 @@ function workPlanChangeSubSave(){
             }
 
             $.ajax({
-                url : getContextPath()+"/workPlan/setWorkPlanChangeOrDetail.do",
+                url : getContextPath()+"/setWorkPlanChangeOrDetail.do",
                 data : {
                     workPlanChange : JSON.stringify(workPlanChangeArr)
                 },
@@ -789,7 +722,7 @@ var workPlan = {
             var data = {
                 workPlanChangeId : e
             };
-            var ds = customKendo.fn_customAjax("/workPlan/setApprWorkPlanCancel", data);
+            var ds = customKendo.fn_customAjax("/setApprWorkPlanCancel", data);
             alert(ds.message);
             gridReload();
         }
@@ -799,7 +732,7 @@ var workPlan = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : "/workPlan/getWorkPlanDefaultList.do",
+                    url : "/getWorkPlanDefaultList.do",
                     dataType: "json"
                 },
                 parameterMap: function(data) {
@@ -885,6 +818,10 @@ var workPlan = {
 
     workPlanRegPopup : function(){
         popWin = window.open(getContextPath()+"/workPlanReqPop.do", "workPlanReqPop", "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     }
 }
 

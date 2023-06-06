@@ -145,7 +145,7 @@ var workPlanRegPop = {
 
         var radioList = new Array();
         $.ajax({
-            url : getContextPath()+"/workPlan/getWkCommonCodeWpT.do",
+            url : getContextPath()+"/getWkCommonCodeWpT.do",
             data : {
                 wkGroupCodeId : type
             },
@@ -348,61 +348,53 @@ var workPlanRegPop = {
                 var EYear = changeEMonth.getFullYear();
                 var EMonth = changeEMonth.getMonth()+1;
                 var intervalMonth = (Number(EYear+""+("00"+(EMonth+1)).slice(-2)) - Number(SYear+""+("00"+(SMonth+1)).slice(-2))) + 1;
+                var startYear = String(SYear);
+                var startMonth = String(SMonth).length == 1 ? "0" + String(SMonth) : String(SMonth);
+                var endYear = String(EYear);
+                var endMonth = String(EMonth).length == 1 ? "0" + String(EMonth) : String(EMonth);
+                var startYearMonth = startYear + startMonth;
+                var endYearMonth = endYear + endMonth;
+                var saveParams = {
+                    request_emp_seq : $("#empSeq").val(),
+                    request_date : $("#apply_month").val().replaceAll("-", ""),
+                    apply_month : startYearMonth,
+                    work_plan_type : $("#work_plan_type").val(),
+                    work_week_time : "W" + $("#work_week_time").getKendoRadioGroup().value(),
+                    work_month_time : $("#work_month_time").val(),
+                    start_date : $("#start_date").val().replaceAll("-", ""),
+                    end_date : $("#end_date").val().replaceAll("-", ""),
+                    request_position : $("#positionCode").val(),
+                    request_dept_seq : $("#deptSeq").val(),
+                    request_dept_name : $("#deptName").val(),
+                    request_duty : $("#dutyCode").val(),
+                    apply_reason : $("#apply_reason").val(),
+                    appr_stat : "N",
+                    startYearMonth : startYearMonth,
+                    endYearMonth : endYearMonth,
 
-                var workPlanChangeArr = new Array();
-                for(var i = 0; i < intervalMonth; i++){
-                    var workPlanChangeDetailArr = new Array();
-                    var ChangeData = {
-                        request_emp_seq : $("#empSeq").val(),
-                        request_date : $("#apply_month").val().replaceAll("-", ""),
-                        apply_month : SYear+""+("00"+(SMonth+i)).slice(-2),
-                        work_plan_type : $("#work_plan_type").val(),
-                        work_week_time : "W" + $("#work_week_time").getKendoRadioGroup().value(),
-                        work_month_time : $("#work_month_time").val(),
-                        start_date : $("#start_date").val().replaceAll("-", ""),
-                        end_date : $("#end_date").val().replaceAll("-", ""),
-                        request_position : $("#positionCode").val(),
-                        request_dept_seq : $("#deptSeq").val(),
-                        request_dept_name : $("#deptName").val(),
-                        request_duty : $("#dutyCode").val(),
-                        apply_reason : $("#apply_reason").val(),
-                        appr_stat : "N",
+                    common_code_id : workPlanType,
+
+                    dayUse : "",
+                };
+
+                $.each($("input[name='dayChk']:checked"), function(){
+
+                    saveParams[$(this).attr("day")+"AttendTime"] = $(this).parent().parent().find("input[name='w_s_time']").val();
+                    saveParams[$(this).attr("day")+"LeaveTime"] = $(this).parent().parent().find("input[name='w_e_time']").val();
+                    saveParams[$(this).attr("day")+"Use"] = "Y";
+                    if(saveParams.dayUse == ""){
+                        saveParams.dayUse = $(this).attr("dayNum");
+                    }else{
+                        saveParams.dayUse += "," + $(this).attr("dayNum");
                     }
+                });
 
-                    for(var j = 0; j < workPlanRegPop.monthDiff(); j++){
-                        var sameCheckDate = new Date($("#start_date").val());
-                        sameCheckDate.setDate(sameCheckDate.getDate() + j);
 
-                        var detailYearMonth = sameCheckDate.getFullYear() + "" + ("00" + (sameCheckDate.getMonth() + 1)).slice(-2);
-                        if((workPlanRegPop.getDate(sameCheckDate) != "토요일" || workPlanRegPop.getDate(sameCheckDate) != "일요일") && detailYearMonth == ChangeData.apply_month){
-                            $.each($("#byDayWeekWTime tr"), function(){
-                                if($(this).find("td:eq(1)").text() == workPlanRegPop.getDate(sameCheckDate) && !$(this).hasClass("removeDay")) {
-                                    var ChangeDetailData = {
-                                        emp_seq : $("#empSeq").val(),
-                                        common_code_id : workPlanType,
-                                        work_date : detailYearMonth + "" + ("00" + sameCheckDate.getDate()).slice(-2),
-                                        weekday : workPlanRegPop.getDate(sameCheckDate),
-                                        attend_time : $(this).find("input[name=w_s_time]").val(),
-                                        leave_time : $(this).find("input[name=w_e_time]").val(),
-                                        changer_dept_name : $("#deptName").val(),
-                                        changer_position : $("#positionCode").val(),
-                                        changer_duty : $("#dutyCode").val()
-                                    }
-                                    workPlanChangeDetailArr.push(ChangeDetailData);
-                                }
-                            })
-                        }
-                        sameCheckDate.setDate(sameCheckDate.getDate() - j);
-                    }
-                    ChangeData.detailData = workPlanChangeDetailArr;
-                    workPlanChangeArr.push(ChangeData);
-                }
+                console.log(saveParams);
 
                 $.ajax({
-                    url : getContextPath()+"/workPlan/setWorkPlanChangeOrDetail.do",
-                    data : {
-                        workPlanChange : JSON.stringify(workPlanChangeArr)
-                    },
+                    url : getContextPath()+"/setWorkPlanChangeOrDetail.do",
+                    data : saveParams,
                     dataType : "json",
                     type : "POST",
                     success : function(rs){

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,10 +103,30 @@ public class WorkPlanController {
 
     //유연근무 신청 저장 데이터 (마이페이지)
     @RequestMapping("/workPlan/getWorkPlanReqSubList.do")
-    public String getWorkPlanReqSubList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    @ResponseBody
+    public Map<String, Object> getWorkPlanReqSubList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         List<Map<String, Object>> list = workPlanService.getWorkPlanReqChangeList(params);
-        model.addAttribute("data", list);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("data", list);
+        return resultMap;
+    }
 
+    @RequestMapping("/workPlan/setWorkPlanChangeOrDetail.do")
+    public String setWorkPlanChangeSubOrDetail(@RequestParam Map<String, Object> params, Model model) throws Exception {
+        Map<String, Object> result = workPlanService.setWorkPlanChangeOrDetail(params);
+        model.addAttribute("result", result);
+        return "jsonView";
+    }
+
+    @RequestMapping("/workPlan/getWkCommonCodeWpT.do")
+    public String getWkCommonCodeWpT(Model model, @RequestParam Map<String, Object> params){
+        model.addAttribute("codeList", workPlanService.getWkCommonCodeWpT(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/workPlan/updateApprStat")
+    public String updateApprStat(Model model, @RequestParam Map<String, Object> params){
+        model.addAttribute("data", workPlanService.updateApprStat(params));
         return "jsonView";
     }
 

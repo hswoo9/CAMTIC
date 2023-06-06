@@ -120,7 +120,7 @@
                     </thead>
                     <tr>
                       <td rowspan="2" class="text-center">
-                        <input type="checkbox" id="monChk" name="dayChk" day="mon" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
+                        <input type="checkbox" id="monChk" name="dayChk" day="mon" dayNum="0" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
                       </td>
                       <td rowspan="2" class="text-center" style="vertical-align: middle;">월</td>
                       <td rowspan="2">
@@ -145,7 +145,7 @@
                     </tr>
                     <tr>
                       <td class="text-center">
-                        <input type="checkbox" id="tueChk" name="dayChk" day="tue" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
+                        <input type="checkbox" id="tueChk" name="dayChk" day="tue" dayNum="1" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
                       </td>
                       <td class="text-center" style="vertical-align: middle;">화</td>
                       <td>
@@ -164,7 +164,7 @@
                     </tr>
                     <tr>
                       <td class="text-center">
-                        <input type="checkbox" id="wedChk" name="dayChk" day="wed" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
+                        <input type="checkbox" id="wedChk" name="dayChk" day="wed" dayNum="2" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
                       </td>
                       <td class="text-center" style="vertical-align: middle;">수</td>
                       <td>
@@ -183,7 +183,7 @@
                     </tr>
                     <tr>
                       <td class="text-center">
-                        <input type="checkbox" id="thuChk" name="dayChk" day="thu" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
+                        <input type="checkbox" id="thuChk" name="dayChk" day="thu" dayNum="3" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
                       </td>
                       <td class="text-center" style="vertical-align: middle;">목</td>
                       <td>
@@ -202,7 +202,7 @@
                     </tr>
                     <tr>
                       <td class="text-center">
-                        <input type="checkbox" id="friChk" name="dayChk" day="fri" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
+                        <input type="checkbox" id="friChk" name="dayChk" day="fri" dayNum="4" class="k-checkbox checkbox" onchange="workPlanRegPop.removeDayChk(this)">
                       </td>
                       <td class="text-center" style="vertical-align: middle;">금</td>
                       <td>
@@ -247,10 +247,9 @@
       </div>
     </div>
 </div>
-<script type="text/javascript" src="/js/intra/workPlan/workPlanRegPop.js?v=${today}"/>
-<%--<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvelService.jsp?v=${today}"></jsp:include>--%>
+<script type="text/javascript" src="/js/intra/workPlan/workPlanRegPop.js?v=${today}"></script>
 <script>
-  workPlanRegPop.defaultScript();
+    workPlanRegPop.defaultScript();
 </script>
 </body>
 </html>

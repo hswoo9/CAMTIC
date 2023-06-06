@@ -67,105 +67,172 @@ var workPlanApp = {
         });
 
     },
-        mainGrid: function () {
-            var dataSource = new kendo.data.DataSource({
-                serverPaging: false,
-                transport: {
-                    read : {
-                        url : '',
-                        dataType : "json",
-                        type : "post"
-                    },
-                    parameterMap: function(data, operation) {
-                        return data;
-                    }
+    mainGrid: function () {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : getContextPath() + "/getWorkPlanReqSubList.do",
+                    dataType : "json",
+                    type : "post",
+                    async : false
                 },
-                schema : {
-                    data: function (data) {
-                        return data;
-                    },
-                    total: function (data) {
-                        return data.length;
-                    },
+                parameterMap: function(data, operation) {
+                    data.startDay = $("#startDay").val();
+                    data.endDay = $("#endDay").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    console.log(data.data);
+                    return data.data;
                 },
-                pageSize: 10,
-            });
+                total: function (data) {
+                    return data.data.length;
+                },
+            },
+            pageSize: 10,
+        });
 
-            $("#mainGrid").kendoGrid({
-                dataSource: dataSource,
-                sortable: true,
-                scrollable: true,
-                height: 489,
-                pageable : {
-                    refresh : true,
-                    pageSizes : [ 10, 20, 30, 50, 100 ],
-                    buttonCount : 5
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar: [
+                {
+                    name: 'excel',
+                    text: '엑셀다운로드'
                 },
-                toolbar: [
-                    {
-                        name: 'excel',
-                        text: '엑셀다운로드'
-                    },
-                    {
-                        name: '',
-                        text: '반려'
-                    },
-                    {
-                        name: '',
-                        text: '반려 취소'
-                    },
-                    {
-                        name: '',
-                        text: '승인'
-                    },
-                    {
-                        name: '',
-                        text: '승인 취소'
+                {
+                    name: 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("E");\'>' +
+                            '	<span class="k-button-text">반려</span>' +
+                            '</button>';
                     }
-                ],
-                noRecords: {
-                    template: "데이터가 존재하지 않습니다."
                 },
-                columns: [
-                    {
-                        headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                        template : "<input type='checkbox' id='ehiPk#=DOCUMENT_ID#' name='ehiPk' value='#=DOCUMENT_ID#' class='k-checkbox checkbox'/>",
-                        width: 50
-                    }, {
-                        field: "",
-                        title: "순번",
-                        width: "5%",
-                        template: "#= record-- #"
-                    }, {
-                        field: "",
-                        title: "부서",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "팀",
-                        width: "10%"
-                    }, {
-                        field: "",
-                        title: "성명",
-                        width: "10%"
-                    }, {
-                        field: "",
-                        title: "근무 유형",
-                        width: "20%"
-                    }, {
-                        field: "",
-                        title: "신청일자",
-                        width: "10%"
-                    }, {
-                        field: "",
-                        title: "적용기간",
-                        width: "20%"
-                    }, {
-                        field: "",
-                        title: "진행 상태",
-                        width: "10%"
-                    }]
-            }).data("kendoGrid");
+                {
+                    name: 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("N");\'>' +
+                            '	<span class="k-button-text">반려취소</span>' +
+                            '</button>';
+                    }
+                },
+                {
+                    name: 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("Y");\'>' +
+                            '	<span class="k-button-text">승인</span>' +
+                            '</button>';
+                    }
+                },
+                {
+                    name: 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("N");\'>' +
+                            '	<span class="k-button-text">승인취소</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='wpcPk#=WORK_PLAN_CHANGE_ID#' name='wpcPk' value='#=WORK_PLAN_CHANGE_ID#' class='k-checkbox checkbox'/>",
+                    width: 50
+                }, {
+                    field: "",
+                    title: "순번",
+                    width: "50px",
+                }, {
+                    field: "DEPT_NAME",
+                    title: "부서",
+                    width: "100px"
+                }, {
+                    field: "",
+                    title: "팀",
+                    width: "80px"
+                }, {
+                    field: "EMP_NAME_KR",
+                    title: "성명",
+                    width: "80px"
+                }, {
+                    field: "WORK_PLAN_TYPE",
+                    title: "근무 유형",
+                    width: "80px"
+                }, {
+                    field: "REQUEST_DATE",
+                    title: "신청일자",
+                    width: "80px"
+                }, {
+                    field: "APPLY_DATE",
+                    title: "적용기간",
+                    width: "200px"
+                }, {
+                    field: "",
+                    title: "진행 상태",
+                    width: "70px",
+                    template : function(row){
+                        console.log(row);
+                        if(row.apprStat == "N"){
+                            return "대기";
+                        }else if(row.apprStat == "Y"){
+                            return "승인";
+                        }else if(row.apprStat == "E"){
+                            return "반려";
+                        }else{
+                            return "";
+                        }
+                    }
+                }]
+        }).data("kendoGrid");
+    },
+
+    updateApprStat : function(type){
+        var checkGroup = $("input[name='wpcPk']:checked");
+        var dataList = [];
+        if(checkGroup.length > 0){
+            $.each(checkGroup, function(i, v){
+               dataList.push($(v).val());
+            });
+            console.log(dataList);
+            var saveParams = {
+                empSeq : $("#empSeq").val(),
+                apprStat : type,
+                selectList : JSON.stringify(dataList),
+            };
+
+            $.ajax({
+                url: getContextPath() + "/updateApprStat",
+                data: saveParams,
+                dataType: "json",
+                type: "POST",
+                async: false,
+                success: function (result) {
+                    alert(result.data.message);
+                    workPlanApp.gridReload();
+                }
+            });
+        }else{
+            alert("1개이상 선택해주세요.");
+            return;
         }
+
+    },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    }
 }
 

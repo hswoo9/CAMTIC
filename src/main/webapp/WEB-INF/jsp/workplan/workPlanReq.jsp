@@ -12,10 +12,6 @@
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/workPlan/workPlan.js?v=${today}"/></script>
 
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -44,10 +40,10 @@
                                 ~
                                 <input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 15%; margin-right: 10px;">
                                 <span class="pdr5 pdl3per">성명</span>
-                                <input type="text" id="titleContent" style="width: 200px; margin-right: 10px;" value="홍길동">
+                                <input type="text" id="titleContent" style="width: 200px; margin-right: 10px;" value="">
                                 <span class="pdr5 pdl3per">진행 상태</span>
                                 <input type="text" id="status" style="width: 15%; margin-right:10px;">
-                                <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="workPlan.gridReload();">
                                     <span class="k-icon k-i-search k-button-icon"></span>
                                 </button>
                             </div>
