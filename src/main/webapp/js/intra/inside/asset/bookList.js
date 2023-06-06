@@ -62,14 +62,14 @@ var bookList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="bookList.bookManagePopUp();">' +
                             '	<span class="k-button-text">분류관리</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="bookList.bookRegisPopup();">' +
                             '	<span class="k-button-text">도서등록</span>' +
                             '</button>';
                     }
@@ -112,17 +112,17 @@ var bookList = {
         }).data("kendoGrid");
     },
 
-    recruitReqPop : function() {
-        var url = "/Inside/recruitReqPop.do";
-        var name = "recruitReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    bookManagePopUp : function() {
+        var url = "/Inside/Pop/bookManagePop.do";
+        var name = "bookManagePop";
+        var option = "width = 500, height = 320, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
-    recruitAdminPop : function() {
-        var url = "/Inside/recruitAdminPop.do";
-        var name = "recruitAdminPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    bookRegisPopup : function() {
+        var url = "/Inside/Pop/bookRegisPop.do";
+        var name = "bookRegisPop";
+        var option = "width = 1000, height = 500, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     }
 }

@@ -148,5 +148,13 @@ var equipmentList = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    equipmentUsePopup : function(){
+        var url = "/Inside/Pop/equipmentUsePop.do";
+        var name = "equipmentUsePop";
+        var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
+
 }

@@ -153,6 +153,26 @@ public class AssetController {
         return "inside/asset/rprList";
     }
 
+    //지식재산권 리스트 - 지식재산권 일괄변경 팝업
+    @RequestMapping("/Inside/Pop/rprChangePop.do")
+    public String rprChangePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/rprChangePop";
+    }
+
+    //지식재산권 리스트 - 직무발명 신고 팝업
+    @RequestMapping("/Inside/Pop/jobInvenReportPop.do")
+    public String jobInvenReportPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/jobInvenReportPop";
+    }
+
     //접수내역
     @RequestMapping("/Inside/rprReceiptList.do")
     public String rprReceiptList(HttpServletRequest request, Model model) {
@@ -173,6 +193,16 @@ public class AssetController {
         return "inside/asset/equipmentList";
     }
 
+    //장비사용 등록 팝업창
+    @RequestMapping("/Inside/Pop/equipmentUsePop.do")
+    public String equipmentUsePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/equipmentUsePop";
+    }
+    
     //장비관리 (관리자)
     @RequestMapping("/Inside/equipmentListAdminView.do")
     public String equipmentListAdminView(HttpServletRequest request, Model model) {
@@ -183,6 +213,16 @@ public class AssetController {
         return "inside/asset/equipmentListAdminView";
     }
 
+    //장비관리 팝업창 (관리자)
+    @RequestMapping("/Inside/Pop/equipmentmangePop.do")
+    public String equipmentmangePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/equipmentmangePop";
+    }
+
     //도서리스트
     @RequestMapping("/Inside/bookList.do")
     public String bookList(HttpServletRequest request, Model model) {
@@ -191,6 +231,26 @@ public class AssetController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/asset/bookList";
+    }
+
+    //도서 분류관리 팝업창
+    @RequestMapping("/Inside/Pop/bookManagePop.do")
+    public String bookManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookManagePop";
+    }
+
+    //도서등록 팝업창
+    @RequestMapping("/Inside/Pop/bookRegisPop.do")
+    public String bookRegisPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookRegisPop";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

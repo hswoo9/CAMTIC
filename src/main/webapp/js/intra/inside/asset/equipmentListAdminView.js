@@ -141,5 +141,12 @@ var equipmentListAdminView = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    equipmentmangePopup : function(){
+        var url = "/Inside/Pop/equipmentmangePop.do";
+        var name = "equipmentmangePop";
+        var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
 }

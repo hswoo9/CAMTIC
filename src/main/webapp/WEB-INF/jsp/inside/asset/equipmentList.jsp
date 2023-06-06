@@ -49,7 +49,7 @@
                                     <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick=""/>
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="장비사용 등록" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="장비사용 등록" onclick="equipmentList.equipmentUsePopup();"/>
                                 </div>
                             </div>
                         </td>

@@ -152,7 +152,7 @@ var rprList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rprList.rprChangePopup();">' +
                             '	<span class="k-button-text">일괄 변경</span>' +
                             '</button>';
                     }
@@ -166,7 +166,7 @@ var rprList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rprList.jobInvenReportPopup();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
@@ -241,17 +241,17 @@ var rprList = {
         }).data("kendoGrid");
     },
 
-    recruitReqPop : function() {
-        var url = "/Inside/recruitReqPop.do";
-        var name = "recruitReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    rprChangePopup : function() {
+        var url = "/Inside/Pop/rprChangePop.do";
+        var name = "rprChangePop";
+        var option = "width = 400, height = 300, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
-    recruitAdminPop : function() {
-        var url = "/Inside/recruitAdminPop.do";
-        var name = "recruitAdminPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    jobInvenReportPopup : function() {
+        var url = "/Inside/Pop/jobInvenReportPop.do";
+        var name = "jobInvenReportPop";
+        var option = "width = 500, height = 500, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     }
 }
