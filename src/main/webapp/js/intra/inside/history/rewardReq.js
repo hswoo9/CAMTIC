@@ -121,7 +121,7 @@ var rewardReq = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardGubunPop();">' +
                             '	<span class="k-button-text">포상 구분 관리</span>' +
                             '</button>';
                     }
@@ -171,16 +171,23 @@ var rewardReq = {
     },
 
     rewardReqPop : function() {
-        var url = "/Inside/rewardReqPop.do";
+        var url = "/Inside/pop/rewardReqPop.do";
         var name = "rewardReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1300, height=505, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
     rewardReqBatchPop : function() {
-        var url = "/Inside/rewardReqBatchPop.do";
+        var url = "/Inside/pop/rewardReqBatchPop.do";
         var name = "rewardReqBatchPop";
         var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    rewardGubunPop : function() {
+        var url = "/Inside/pop/rewardGubunPop.do";
+        var name = "rewardGubunPop";
+        var option = "width=550, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

@@ -53,6 +53,36 @@ public class HistoryController {
         return "inside/userManage/rewardReq";
     }
 
+    //포상관리등록 페이지
+    @RequestMapping("/Inside/pop/rewardReqPop.do")
+    public String rewardReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/history/rewardReqPop";
+    }
+
+    //포상관리일괄등록 페이지
+    @RequestMapping("/Inside/pop/rewardReqBatchPop.do")
+    public String rewardReqBatchPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/history/rewardReqBatchPop";
+    }
+
+    //포상구분관리 페이지
+    @RequestMapping("/Inside/pop/rewardGubunPop.do")
+    public String rewardGubunPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/history/rewardGubunPop";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();
