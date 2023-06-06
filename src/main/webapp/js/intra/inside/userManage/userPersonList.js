@@ -440,9 +440,9 @@ var userPersonList = {
     },
 
     userReqPop : function() {
-        var url = "/Inside/userReqPop.do";
+        var url = "/Inside/pop/userReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1200, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

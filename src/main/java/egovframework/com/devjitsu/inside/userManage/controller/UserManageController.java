@@ -31,14 +31,32 @@ public class UserManageController {
 
     //인사기록카드 페이지
     @RequestMapping("/Inside/userPersonList.do")
-    public String userPersonList(){
+    public String userPersonList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
         return "inside/userManage/userPersonList";
     }
 
     //직원조회목록 페이지
     @RequestMapping("/Inside/userPersonnelRecord.do")
-    public String userPersonnelRecord(){
+    public String userPersonnelRecord(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
         return "inside/userManage/userPersonnelRecord";
+    }
+
+    //직원조회목록 페이지
+    @RequestMapping("/Inside/pop/userReqPop.do")
+    public String userReqPop(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/userReqPop";
     }
 
     //성과결과조회 페이지
