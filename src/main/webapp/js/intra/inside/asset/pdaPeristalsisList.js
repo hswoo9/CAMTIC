@@ -1,10 +1,10 @@
 var now = new Date();
 
-var assetList = {
+var pdaPeristalsisList = {
 
     init : function(){
-        assetList.dataSet();
-        assetList.mainGrid();
+        pdaPeristalsisList.dataSet();
+        pdaPeristalsisList.mainGrid();
     },
 
     dataSet() {
@@ -53,38 +53,13 @@ var assetList = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "차량운반구", value: "1" },
-                { text: "장비", value: "2" },
-                { text: "비품", value: "3" },
-                { text: "공구", value: "4" }
+                { text: "2022 정기 재물조사", value: "1" },
+                { text: "미지정", value: "2" }
             ],
             index: 0
         });
 
         $("#drop4").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "자동차", value: "1" },
-                { text: "자전거", value: "2" },
-                { text: "카트", value: "3" },
-                { text: "지게차", value: "4" }
-            ],
-            index: 0
-        });
-
-        $("#drop5").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "자동차", value: "1" }
-            ],
-            index: 0
-        });
-
-        $("#drop6").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -99,12 +74,36 @@ var assetList = {
             index: 0
         });
 
+        $("#drop5").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "실시", value: "1" },
+                { text: "미실시", value: "2" }
+            ],
+            index: 0
+        });
+
+        $("#drop6").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "변경", value: "1" },
+                { text: "미변경", value: "2" }
+            ],
+            index: 0
+        });
+
+
         $("#drop7").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "11B-대한드론축구협회", value: "1" }
+                { text: "변경", value: "1" },
+                { text: "미변경", value: "2" }
             ],
             index: 0
         });
@@ -114,19 +113,9 @@ var assetList = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "승인", value: "1" },
-                { text: "미승인", value: "2" }
-            ],
-            index: 0
-        });
-
-        $("#drop9").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "대", value: "1" },
-                { text: "소", value: "2" }
+                { text: "20개", value: "1" },
+                { text: "50개", value: "2" },
+                { text: "100개", value: "3" }
             ],
             index: 0
         });
@@ -137,13 +126,13 @@ var assetList = {
             dataSource: [
                 { text: "전체", value: "" },
                 { text: "자산명", value: "1" },
-                { text: "공고명", value: "2" },
-                { text: "규격", value: "3" },
-                { text: "모델", value: "4" },
-                { text: "사용자", value: "5" }
+                { text: "자산호", value: "2" },
+                { text: "모델", value: "3" }
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
     },
 
     mainGrid : function() {
@@ -185,22 +174,8 @@ var assetList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="assetList.goodsManagePopup();">' +
-                            '	<span class="k-button-text">물품관리관 관리</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="assetList.bulkChangePopup();">' +
-                            '	<span class="k-button-text">일괄 변경</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="assetList.addAssetPopup();">' +
-                            '	<span class="k-button-text">자산 추가</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">위치이동</span>' +
                             '</button>';
                     }
                 }, {
@@ -224,51 +199,30 @@ var assetList = {
                     title: "자산 번호"
                 }, {
                     field: "",
-                    title: "등록 일자"
+                    title: "구입 일자"
                 }, {
                     field: "",
                     title: "자산명"
                 }, {
                     field: "",
-                    title: "모델명"
+                    title: "기존위치"
                 }, {
                     field: "",
-                    title: "규결"
+                    title: "신규위치"
                 }, {
                     field: "",
-                    title: "설치 장소"
+                    title: "자산상태"
                 }, {
                     field: "",
-                    title: "사용자"
+                    title: "적용일"
                 }, {
                     field: "",
-                    title: "구입가격(원)"
+                    title: "재물조사"
                 }, {
                     field: "",
-                    title: "상태"
+                    title: "바코드"
                 }
             ]
         }).data("kendoGrid");
-    },
-
-    goodsManagePopup : function() {
-        var url = "/Inside/Pop/goodsManagePop.do";
-        var name = "goodsManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
-        var popup = window.open(url, name, option);
-    },
-
-    bulkChangePopup : function() {
-        var url = "/Inside/Pop/bulkChangePop.do";
-        var name = "bulkChangePop";
-        var option = "width = 460, height = 410, top = 100, left = 200, location = no, _blank"
-        var popup = window.open(url, name, option);
-    },
-
-    addAssetPopup : function() {
-        var url = "/Inside/Pop/addAssetPop.do";
-        var name = "addAssetPop";
-        var option = "width = 1000, height = 700, top = 100, left = 200, location = no, _blank"
-        var popup = window.open(url, name, option);
     }
 }

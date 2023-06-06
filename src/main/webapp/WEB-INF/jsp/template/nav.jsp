@@ -240,7 +240,7 @@
             <ul class="innerMain children c_i">
               <li><a href="/Inside/assetList.do?menu=c_i" class="toggleMain1">자산리스트</a></li>
               <li><a href="/Inside/proposalList.do?menu=c_i" class="toggleMain1">구매내역</a></li>
-              <li><a href="/Inside/classManage.do?menu=c_i_1" class="toggleMain1">분류관리</a>              </li>
+              <li><a href="/Inside/classManage.do?menu=c_i" class="toggleMain1">분류관리</a></li>
               <li><a href="/Inside/pdaPeristalsisList.do?menu=c_i" class="toggleMain1">PDA연동목록</a></li>
             </ul>
           </li>
@@ -252,9 +252,16 @@
             </ul>
           </li>
           <li>
-            <a href="#" class="toggleMain">도서관리</a>
+            <a href="#" class="toggleMain">장비관리</a>
             <ul class="innerMain children c_k">
-              <li><a href="/Inside/bookList.do?menu=c_k" class="toggleMain1">도서리스트</a></li>
+              <li><a href="/Inside/equipmentList.do?menu=c_k" class="toggleMain1">장비관리</a></li>
+              <li><a href="/Inside/equipmentListAdminView.do?menu=c_k" class="toggleMain1">장비관리 (관리자)</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">도서관리</a>
+            <ul class="innerMain children c_l">
+              <li><a href="/Inside/bookList.do?menu=c_l" class="toggleMain1">도서리스트</a></li>
             </ul>
           </li>
           <h5 class="sidebar-title">출장관리</h5>

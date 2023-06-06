@@ -1,10 +1,10 @@
 var now = new Date();
 
-var rprReceiptList = {
+var bookList = {
 
     init : function(){
-        rprReceiptList.dataSet();
-        rprReceiptList.mainGrid();
+        bookList.dataSet();
+        bookList.mainGrid();
     },
 
     dataSet() {

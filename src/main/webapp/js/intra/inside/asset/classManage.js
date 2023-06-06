@@ -72,7 +72,7 @@ var classManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.belongManagePopup();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -128,7 +128,7 @@ var classManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.divisionManagePopup();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -184,7 +184,7 @@ var classManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.locationManagePopup();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -240,7 +240,7 @@ var classManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.categoriesManagePopup();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -303,17 +303,31 @@ var classManage = {
         }).data("kendoGrid");
     },
 
-    recruitReqPop : function() {
-        var url = "/Inside/recruitReqPop.do";
-        var name = "recruitReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    belongManagePopup : function() {
+        var url = "/Inside/Pop/belongManagePop.do";
+        var name = "belongManagePop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
-    recruitAdminPop : function() {
-        var url = "/Inside/recruitAdminPop.do";
-        var name = "recruitAdminPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    divisionManagePopup : function() {
+        var url = "/Inside/Pop/divisionManagePop.do";
+        var name = "divisionManagePop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    },
+
+    locationManagePopup : function() {
+        var url = "/Inside/Pop/locationManagePop.do";
+        var name = "locationManagePop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    },
+
+    categoriesManagePopup : function() {
+        var url = "/Inside/Pop/categoriesManagePop.do";
+        var name = "categoriesManagePop";
+        var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     }
 }

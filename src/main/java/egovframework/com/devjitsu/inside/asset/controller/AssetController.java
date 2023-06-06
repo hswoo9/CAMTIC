@@ -33,6 +33,46 @@ public class AssetController {
         return "inside/asset/assetList";
     }
 
+    //자산리스트 - 물품관리관 관리 팝업
+    @RequestMapping("/Inside/Pop/goodsManagePop.do")
+    public String goodsManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/goodsManagePop";
+    }
+
+    //자산리스트 - 자산목록 일괄변경 팝업
+    @RequestMapping("/Inside/Pop/bulkChangePop.do")
+    public String bulkChangePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bulkChangePop";
+    }
+
+    //자산리스트 - 자산 추가 팝업
+    @RequestMapping("/Inside/Pop/addAssetPop.do")
+    public String addAssetPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/addAssetPop";
+    }
+
+    //자산리스트 - 사업 선택 - 연구개발과제 선택 팝업
+    @RequestMapping("/Inside/Pop/rdTaskPop.do")
+    public String rdTaskPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/rdTaskPop";
+    }
+
     //구매내역
     @RequestMapping("/Inside/proposalList.do")
     public String proposalList(HttpServletRequest request, Model model) {
@@ -53,6 +93,46 @@ public class AssetController {
         return "inside/asset/classManage";
     }
 
+    //분류관리 - 소속관리 팝업창
+    @RequestMapping("/Inside/Pop/belongManagePop.do")
+    public String belongManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/belongManagePop";
+    }
+
+    //분류관리 - 구분관리 팝업창
+    @RequestMapping("/Inside/Pop/divisionManagePop.do")
+    public String divisionManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/divisionManagePop";
+    }
+
+    //분류관리 - 위치관리 팝업창
+    @RequestMapping("/Inside/Pop/locationManagePop.do")
+    public String locationManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/locationManagePop";
+    }
+
+    //분류관리 > 카테고리관리 - 카테고리 관리 추가 팝업창
+    @RequestMapping("/Inside/Pop/categoriesManagePop.do")
+    public String categoriesManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/categoriesManagePop";
+    }
+    
     //PDA연동목록
     @RequestMapping("/Inside/pdaPeristalsisList.do")
     public String pdaPeristalsisList(HttpServletRequest request, Model model) {
@@ -81,6 +161,26 @@ public class AssetController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/asset/rprReceiptList";
+    }
+
+    //장비관리
+    @RequestMapping("/Inside/equipmentList.do")
+    public String equipmentList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/asset/equipmentList";
+    }
+
+    //장비관리 (관리자)
+    @RequestMapping("/Inside/equipmentListAdminView.do")
+    public String equipmentListAdminView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/asset/equipmentListAdminView";
     }
 
     //도서리스트
