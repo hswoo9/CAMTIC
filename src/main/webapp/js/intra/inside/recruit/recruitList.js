@@ -76,14 +76,14 @@ var recruitList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="recruitList.recruitReqPop();">' +
                             '	<span class="k-button-text">채용공고등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop();">' +
                             '	<span class="k-button-text">채용공고관리</span>' +
                             '</button>';
                     }
@@ -133,16 +133,16 @@ var recruitList = {
     },
 
     recruitReqPop : function() {
-        var url = "/Inside/recruitReqPop.do";
+        var url = "/Inside/pop/recruitReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1400, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
     recruitAdminPop : function() {
-        var url = "/Inside/recruitAdminPop.do";
+        var url = "/Inside/pop/recruitAdminPop.do";
         var name = "recruitAdminPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

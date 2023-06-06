@@ -257,11 +257,11 @@ var overWk = {
                     width: 30
                 }, {
                     field: "WK_CODE_NM",
-                    title: "초과근무유형",
+                    title: "시간외근무유형",
                     width: 100
                 }, {
                     field: "APPLY_TIME",
-                    title: "초과근무시간",
+                    title: "시간외근무시간",
                     width: 200
                 }, {
                     field : "APPLY_HOUR",

@@ -25,5 +25,12 @@ public interface OverWkService {
 
     Map<String, Object> updateApprStat(Map<String, Object> params);
 
+    /**
+     * 초과근무 유저 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getOverWorkPlanUserList(Map<String, Object> params);
+
 
 }

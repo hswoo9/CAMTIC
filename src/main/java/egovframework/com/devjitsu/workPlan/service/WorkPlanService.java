@@ -18,6 +18,13 @@ public interface WorkPlanService {
 
     List<Map<String, Object>> getWorkPlanDefaultList(Map<String, Object> params);
 
+    /**
+     * 유연근무 현황 유저 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getWorkPlanUserList(Map<String, Object> params);
+
 
 
 }

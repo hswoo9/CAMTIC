@@ -10,8 +10,7 @@ var workPlanAdminView = {
     },
 
     fn_defaultScript: function () {
-
-        $("#datePicker").kendoDatePicker({
+        $("#apply_month").kendoDatePicker({
             value: new Date(),
             start: "year",
             depth: "year",
@@ -71,95 +70,151 @@ var workPlanAdminView = {
         });
 
     },
-        mainGrid: function () {
-            var dataSource = new kendo.data.DataSource({
-                serverPaging: false,
-                transport: {
-                    read : {
-                        url : '',
-                        dataType : "json",
-                        type : "post"
-                    },
-                    parameterMap: function(data, operation) {
-                        return data;
+
+    mainGrid: function () {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/workPlan/getWorkPlanUserList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.apply_month = $("#apply_month").val().replace("-","");
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            height: 250,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: workPlanAdminView.onDataBound,
+            columns: [
+                {
+                    field: "",
+                    title: "부서",
+                    width: "25%",
+                    field: "DEPT_NAME"
+
+                }, {
+                    field: "",
+                    title: "팀",
+                    width: "25%",
+                    field: "DEPT_NAME"
+                }, {
+                    field: "",
+                    title: "신청자",
+                    width: "25%",
+                    field: "EMP_NAME"
+                }, {
+                    field: "",
+                    title: "직급",
+                    width: "25%",
+                    field: "DUTY_NAME"
+                }]
+        }).data("kendoGrid");
+    },
+
+    mainGrid2: function () {
+        var dataSource2 = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/workPlan/getWorkPlanReqSubList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#searchEmpSeq").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.data;
+                },
+                total: function (data) {
+                    return data.data.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid2").kendoGrid({
+            dataSource: dataSource2,
+            sortable: true,
+            scrollable: true,
+            height: 250,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "WORK_PLAN_TYPE",
+                    title: "근무 유형",
+                    width: "25%"
+                }, {
+                    field: "REQUEST_DATE",
+                    title: "신청일자",
+                    width: "25%"
+                }, {
+                    field: "APPLY_DATE",
+                    title: "적용기간",
+                    width: "25%"
+                }, {
+                    field: "",
+                    title: "진행 상태",
+                    width: "25%",
+                    template : function(row){
+                        if(row.apprStat == "N"){
+                            return "대기";
+                        }else if(row.apprStat == "Y"){
+                            return "승인";
+                        }else if(row.apprStat == "E"){
+                            return "반려";
+                        }else{
+                            return "";
+                        }
                     }
-                },
-                schema : {
-                    data: function (data) {
-                        return data;
-                    },
-                    total: function (data) {
-                        return data.length;
-                    },
-                },
-                pageSize: 10,
-            });
+                }]
+        }).data("kendoGrid");
+    },
 
-            $("#mainGrid").kendoGrid({
-                dataSource: dataSource,
-                sortable: true,
-                scrollable: true,
-                height: 489,
-                pageable : {
-                    refresh : true,
-                    pageSizes : [ 10, 20, 30, 50, 100 ],
-                    buttonCount : 5
-                },
-                noRecords: {
-                    template: "데이터가 존재하지 않습니다."
-                },
-                columns: [
-                    {
-                        field: "",
-                        title: "부서",
-                        width: "25%"
-                    }, {
-                        field: "",
-                        title: "팀",
-                        width: "25%"
-                    }, {
-                        field: "",
-                        title: "신청자",
-                        width: "25%"
-                    }, {
-                        field: "",
-                        title: "직급",
-                        width: "25%"
-                    }]
-            }).data("kendoGrid");
+    onDataBound : function(){
+        var grid = this;
 
-            $("#mainGrid2").kendoGrid({
-                dataSource: dataSource,
-                sortable: true,
-                scrollable: true,
-                height: 489,
-                pageable : {
-                    refresh : true,
-                    pageSizes : [ 10, 20, 30, 50, 100 ],
-                    buttonCount : 5
-                },
-                noRecords: {
-                    template: "데이터가 존재하지 않습니다."
-                },
-                columns: [
-                    {
-                        field: "",
-                        title: "근무 유형",
-                        width: "25%"
-                    }, {
-                        field: "",
-                        title: "신청일자",
-                        width: "25%"
-                    }, {
-                        field: "",
-                        title: "적용기간",
-                        width: "25%"
-                    }, {
-                        field: "",
-                        title: "진행 상태",
-                        width: "25%"
-                    }]
-            }).data("kendoGrid");
-        }
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this));
+            console.log(dataItem);
+            $("#searchEmpSeq").val(dataItem.EMP_SEQ);
+            workPlanAdminView.mainGrid2();
+        });
+    }
 }
 

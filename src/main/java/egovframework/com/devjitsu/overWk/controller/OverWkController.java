@@ -165,4 +165,14 @@ public class OverWkController {
         model.addAttribute("rs", overWkService.updateApprStat(params));
         return "jsonView";
     }
+
+    //유연근무 현황 유저 데이터
+    @RequestMapping("/overWk/getOverWorkPlanUserList.do")
+    @ResponseBody
+    public Map<String, Object> getOverWorkPlanUserList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        List<Map<String, Object>> list = overWkService.getOverWorkPlanUserList(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("list", list);
+        return resultMap;
+    }
 }

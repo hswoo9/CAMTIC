@@ -21,5 +21,9 @@ public class OverWkRepository extends AbstractDAO {
         return (int) update("overWk.updateApprStat", params);
     }
 
+    public List<Map<String, Object>> getOverWorkPlanUserList(Map<String, Object> params) {
+        return selectList("overWk.getOverWorkPlanUserList", params);
+    }
+
 
 }

@@ -33,6 +33,26 @@ public class RecruitController {
         return "inside/recruit/recruitList";
     }
 
+    //채용관리 페이지
+    @RequestMapping("/Inside/pop/recruitReqPop.do")
+    public String recruitReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/recruitReqPop";
+    }
+
+    //채용관리 페이지
+    @RequestMapping("/Inside/pop/recruitAdminPop.do")
+    public String recruitAdminPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/recruitAdminPop";
+    }
+
     //평가위원관리 페이지
     @RequestMapping("/Inside/commissionerManage.do")
     public String commissionerManage(HttpServletRequest request, Model model) {
@@ -41,6 +61,16 @@ public class RecruitController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/recruit/commissionerManage";
+    }
+
+    //평가위원등록 페이지
+    @RequestMapping("/Inside/pop/commissionerReqPop.do")
+    public String commissionerReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/commissionerReqPop";
     }
 
     //외부의원 면접심사 페이지

@@ -1,18 +1,23 @@
 var now = new Date();
 
-var commissionerManage = {
+var transportationCostInfo = {
 
     init : function(){
-        commissionerManage.dataSet();
-        commissionerManage.mainGrid();
+        transportationCostInfo.dataSet();
+        transportationCostInfo.mainGrid();
     },
 
     dataSet() {
-        $("#expertise").kendoDropDownList({
+        $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" }
+                { text: "전체", value: "" },
+                { text: "분류별", value: "1" },
+                { text: "도서명", value: "2" },
+                { text: "저자", value: "3" },
+                { text: "요청자", value: "4" },
+                { text: "비치장소", value: "5" }
             ],
             index: 0
         });
@@ -58,33 +63,23 @@ var commissionerManage = {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">입력</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="commissionerManage.commissionerReqPop();">' +
-                            '	<span class="k-button-text">등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">등록양식 다운로드</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">등록양식 업로드</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'excel',
-                    text: '전체위원 다운로드'
                 }
             ],
             noRecords: {
@@ -97,43 +92,38 @@ var commissionerManage = {
                     width: 50
                 }, {
                     field: "",
-                    title: "발급 번호"
+                    title: "정렬순서"
                 }, {
                     field: "",
-                    title: "요청일"
+                    title: "교통수단"
                 }, {
                     field: "",
-                    title: "발급 구분"
+                    title: "출장시간"
                 }, {
                     field: "",
-                    title: "부서"
+                    title: "정산금액"
                 }, {
                     field: "",
-                    title: "성명"
+                    title: "적용기간"
                 }, {
                     field: "",
-                    title: "제출예정일"
-                }, {
-                    field: "",
-                    title: "용도"
-                }, {
-                    field: "",
-                    title: "처리 상태"
-                }, {
-                    field: "",
-                    title: "처리일"
-                }, {
-                    field: "",
-                    title: "처리자"
+                    title: "비고"
                 }
             ]
         }).data("kendoGrid");
     },
 
-    commissionerReqPop : function() {
-        var url = "/Inside/pop/commissionerReqPop.do";
+    recruitReqPop : function() {
+        var url = "/Inside/recruitReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=800, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    recruitAdminPop : function() {
+        var url = "/Inside/recruitAdminPop.do";
+        var name = "recruitAdminPop";
+        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

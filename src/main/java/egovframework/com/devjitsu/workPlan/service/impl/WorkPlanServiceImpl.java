@@ -106,4 +106,9 @@ public class WorkPlanServiceImpl implements WorkPlanService {
         }
         return changeList;
     }
+
+    @Override
+    public List<Map<String, Object>> getWorkPlanUserList(Map<String, Object> params){
+        return workPlanRepository.getWorkPlanUserList(params);
+    }
 }

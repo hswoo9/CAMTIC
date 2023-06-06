@@ -22,8 +22,8 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">관내출장리스트</h4>
-            <div class="title-road">출장관리 &gt; 관내출장리스트</div>
+            <h4 class="panel-title">관외출장리스트</h4>
+            <div class="title-road">출장관리 &gt; 관외출장리스트</div>
         </div>
 
         <div class="panel-body">

@@ -65,4 +65,9 @@ public class OverWkServiceImpl implements OverWkService {
         resultMap.put("message", message);
         return resultMap;
     }
+
+    @Override
+    public List<Map<String, Object>> getOverWorkPlanUserList(Map<String, Object> params){
+        return overWkRepository.getOverWorkPlanUserList(params);
+    }
 }

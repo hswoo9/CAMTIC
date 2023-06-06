@@ -12,6 +12,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="searchEmpSeq" value=""/>
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
@@ -36,7 +37,7 @@
                     <tr>
                         <td style="border-bottom:0;">
                             <span>년월</span>
-                            <input type="text" id="datePicker" style="width: 10%; margin-left: 10px; margin-right:10px;">
+                            <input type="text" id="apply_month" style="width: 10%; margin-left: 10px; margin-right:10px;">
                             <span>부서</span>
                             <input type="text" id="dept" style="width: 150px; margin-right:10px;">
                             <span>팀</span>
@@ -72,4 +73,5 @@
 <script type="text/javascript">
     workPlanAdminView.fn_defaultScript();
     workPlanAdminView.mainGrid();
+    workPlanAdminView.mainGrid2();
 </script>

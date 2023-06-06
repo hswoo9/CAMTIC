@@ -137,4 +137,14 @@ public class WorkPlanController {
         return "jsonView";
     }
 
+    //유연근무 현황 유저 데이터
+    @RequestMapping("/workPlan/getWorkPlanUserList.do")
+    @ResponseBody
+    public Map<String, Object> getWorkPlanUserList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        List<Map<String, Object>> list = workPlanService.getWorkPlanUserList(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("list", list);
+        return resultMap;
+    }
+
 }

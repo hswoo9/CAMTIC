@@ -20,28 +20,19 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="searchEmpSeq" value=""/>
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">시간 외 근무 현황(관리자)</h4>
+            <div class="title-road">유연근무 > 시간 외 근무 현황</div>
         </div>
 
         <div class="panel-body">
 
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
-            <div>
-                <span id="nowDateWeekNumOfMonth"></span>
-                <%--<table class="table table-bordered" style="margin-top:5px;">
-                    <tr>
-                        <th>주 누계</th>
-                        <td>0</td>
-                        <th>월 누계</th>
-                        <td>0.0</td>
-                    </tr>
-                </table>--%>
-            </div>
 
             <div style="margin-bottom:10px;">
                 <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">--%>
@@ -51,51 +42,44 @@
                 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <tbody>
                     <tr>
-                        <td colspan="3">
-                            <span class="pdr5">조회기간</span>
-                            <input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 15%;">
-                            ~
-                            <input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 15%;">
-                            <span class="pdr5 pdl3per">승인상태</span>
-                            <input type="text" id="status" style="width: 15%;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">
-                                <span class="k-icon k-i-search k-button-icon"></span>
+                        <td style="border-bottom:0;">
+                            <span>년월</span>
+                            <input type="text" id="apply_month" style="width: 10%; margin-left: 10px; margin-right:10px;">
+                            <span>부서</span>
+                            <input type="text" id="dept" style="width: 150px; margin-right:10px;">
+                            <span>팀</span>
+                            <input type="text" id="team" style="width: 150px; margin-right:10px;">
+
+                            <span>성명</span>
+                            <input type="text" id="name" style="width: 100px; margin-right:10px;">
+                            <button type="button" id="approButton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0; margin-right:10px;" onclick="">
+                                선택
                             </button>
-                            <span class="pdr5 pdl3per">사원검색</span>
-                            <input type="text" id="search" style="width: 15%;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">
+                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </td>
                     </tr>
-                    </tbody>
                 </table>
             </div>
-
-            <div>
-                <div id="spclVacManageTabStrip">
-                    <div>
-                        <div id="mainGrid" style="margin-top: 10px">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="panel-body">
+            <div id="mainGrid"></div>
         </div>
 
+        <h4 class="panel-title" style="margin-left: 20px;">상세내역</h4>
+
+        <div class="panel-body">
+            <div id="mainGrid2"></div>
+        </div>
     </div>
+</div>
 </div><!-- col-md-9 -->
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
-<%--<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvalService.jsp?v=${today}"></jsp:include>--%>
 <script type="text/javascript">
-    /*var datas = JSON.parse('${data}');*/
-    /*draftFormList.fnDefaultScript(datas);*/
-    overWk.fn_defaultScript();
-
-    $("#checkAll").click(function(){
-        if($(this).is(":checked")) $("input[name=owpPk]").prop("checked", true);
-        else $("input[name=owpPk]").prop("checked", false);
-    });
+    overWkAdminView.fn_defaultScript();
+    overWkAdminView.mainGrid();
+    overWkAdminView.mainGrid2();
 </script>

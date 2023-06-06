@@ -268,8 +268,6 @@
           <li>
             <a href="#" class="toggleMain">출장관리</a>
             <ul class="innerMain children c_l">
-              <li><a href="/Inside/bustripReq.do?menu=c_l" class="toggleMain1">출장신청</a></li>
-              <li><a href="/Inside/bustripResult.do?menu=c_l" class="toggleMain1">출장결과보고</a></li>
               <li><a href="/Inside/inBustripList.do?menu=c_l" class="toggleMain1">관내출장리스트</a></li>
               <li><a href="/Inside/outBustripList.do?menu=c_l" class="toggleMain1">관외출장리스트</a></li>
               <li><a href="/Inside/transportationCostInfo.do?menu=c_l" class="toggleMain1">교통비기준정보</a></li>

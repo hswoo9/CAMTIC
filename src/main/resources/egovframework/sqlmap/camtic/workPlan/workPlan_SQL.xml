@@ -40,12 +40,14 @@
             AND WPC.REQUEST_EMP_SEQ = #{empSeq}
         </if>
 
+        <if test="startDay != null and startDay != '' and endDay != null and endDay != ''">
         <![CDATA[
         AND
             DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(WPC.REG_DATE, '%Y%m%d')
         AND
             DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(WPC.REG_DATE, '%Y%m%d')
         ]]>
+        </if>
         GROUP BY
         WPC.WORK_PLAN_CHANGE_ID
         ORDER BY WPC.REG_DATE DESC
@@ -223,5 +225,25 @@
           AND
             VEI.EMP_SEQ = #{empSeq}
         ORDER BY VWPD.WORK_DATE ASC
+    </select>
+
+    <select id="getWorkPlanUserList" parameterType="map" resultType="map">
+        /* getWorkPlanUserList */
+        SELECT
+            EI.EMP_NAME_KR AS EMP_NAME,
+            EI.DEPT_NAME,
+            EI.DUTY_NAME,
+            EI.EMP_SEQ
+        FROM
+            CAM_INSIDE.DJ_WORK_PLAN_CHANGE WPC JOIN CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL WPCD ON WPC.WORK_PLAN_CHANGE_ID = WPCD.WORK_PLAN_CHANGE_ID
+                                               JOIN
+            DJ_CAMTIC.V_EMP_INFO EI ON WPC.REQUEST_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            WPC.ACTIVE = 'Y'
+          AND
+            DATE_FORMAT(WPC.REG_DATE, '%Y%m') = #{apply_month}
+        GROUP BY
+            EMP_NAME_KR
+        ORDER BY WPC.REG_DATE DESC
     </select>
 </mapper>

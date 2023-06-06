@@ -1,18 +1,30 @@
 var now = new Date();
 
-var commissionerManage = {
+var recruitAdminPop = {
 
     init : function(){
-        commissionerManage.dataSet();
-        commissionerManage.mainGrid();
+        recruitAdminPop.dataSet();
+        recruitAdminPop.mainGrid();
     },
 
     dataSet() {
-        $("#expertise").kendoDropDownList({
+        $("#recruitYear").kendoDatePicker({
+            start: "decade",
+            depth: "decade",
+            culture : "ko-KR",
+            format : "yyyy",
+            value : new Date()
+        });
+
+        $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" }
+                { text: "구분", value: "" },
+                { text: "모집분야", value: "1" },
+                { text: "공고명", value: "2" },
+                { text: "공고번호", value: "3" },
+                { text: "지원자", value: "4" }
             ],
             index: 0
         });
@@ -53,43 +65,33 @@ var commissionerManage = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
             toolbar : [
                 {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                            '	<span class="k-button-text">결재상신</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="commissionerManage.commissionerReqPop();">' +
-                            '	<span class="k-button-text">등록</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="recruitAdminPop.recruitReqPop();">' +
+                            '	<span class="k-button-text">채용공고등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">등록양식 다운로드</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="recruitAdminPop.recruitAdminPop();">' +
+                            '	<span class="k-button-text">채용공고관리</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">등록양식 업로드</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'excel',
-                    text: '전체위원 다운로드'
                 }
             ],
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
@@ -97,43 +99,53 @@ var commissionerManage = {
                     width: 50
                 }, {
                     field: "",
-                    title: "발급 번호"
+                    title: "순번"
                 }, {
                     field: "",
-                    title: "요청일"
+                    title: "공고번호"
                 }, {
                     field: "",
-                    title: "발급 구분"
+                    title: "공고명"
                 }, {
                     field: "",
-                    title: "부서"
+                    title: "모집기간"
                 }, {
                     field: "",
-                    title: "성명"
+                    title: "모집분야"
                 }, {
                     field: "",
-                    title: "제출예정일"
+                    title: "경력"
                 }, {
                     field: "",
-                    title: "용도"
+                    title: "채용인원"
                 }, {
                     field: "",
-                    title: "처리 상태"
+                    title: "접수인원"
                 }, {
                     field: "",
-                    title: "처리일"
+                    title: "서류심사"
                 }, {
                     field: "",
-                    title: "처리자"
+                    title: "면접심사"
+                }, {
+                    field: "",
+                    title: "상태"
                 }
             ]
         }).data("kendoGrid");
     },
 
-    commissionerReqPop : function() {
-        var url = "/Inside/pop/commissionerReqPop.do";
+    recruitReqPop : function() {
+        var url = "/Inside/pop/recruitReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=800, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1400, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    recruitAdminPop : function() {
+        var url = "/Inside/pop/recruitAdminPop.do";
+        var name = "recruitAdminPop";
+        var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

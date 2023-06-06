@@ -22,8 +22,8 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">직급별출장여비</h4>
-            <div class="title-road">출장관리 &gt; 직급별출장여비</div>
+            <h4 class="panel-title">직급별 출장여비</h4>
+            <div class="title-road">출장관리 &gt; 직급별 출장여비</div>
         </div>
 
         <div class="panel-body">

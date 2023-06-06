@@ -130,4 +130,30 @@
         </foreach>
         )
     </update>
+
+    <select id="getOverWorkPlanUserList" parameterType="map" resultType="map">
+        /* getOverWorkPlanUserList */
+        SELECT
+            VEI.EMP_NAME_KR AS EMP_NAME,
+            VEI.DEPT_NAME,
+            VEI.DUTY_NAME,
+            VEI.EMP_SEQ
+        FROM
+            CAM_INSIDE.DJ_OVER_WORK_PLAN OWP
+                JOIN
+            DJ_CAMTIC.V_EMP_INFO VEI
+            ON VEI.EMP_SEQ = OWP.REQUEST_EMP_SEQ
+                JOIN
+            DJ_CAMTIC.V_WORK_CODE WC
+            ON WC.WK_CODE = OWP.APPLY_OVER_WORK_TYPE
+        WHERE
+            1=1
+          AND
+            OWP.ACTIVE = 'Y'
+          AND
+            DATE_FORMAT(OWP.REG_DATE, '%Y%m') = #{apply_month}
+        GROUP BY
+            EMP_NAME_KR
+        ORDER BY OWP.REG_DATE DESC
+    </select>
 </mapper>
