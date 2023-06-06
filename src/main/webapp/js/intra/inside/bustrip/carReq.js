@@ -32,6 +32,7 @@ var carReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                { text: "전체", value: "" },
                 {text: "카니발", value: "카니발"},
                 {text: "아반떼", value: "아반떼"},
                 {text: "트럭", value: "트럭"}
@@ -43,6 +44,7 @@ var carReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                { text: "전체", value: "" },
                 {text: "업무용", value: "업무용"},
                 {text: "개인 사유", value: "개인 사유"}
             ],
@@ -53,6 +55,7 @@ var carReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                { text: "전체", value: "" },
                 {text: "목적지", value: "목적지"},
                 {text: "경유지", value: "경유지"},
                 {text: "운행자", value: "운행자"}

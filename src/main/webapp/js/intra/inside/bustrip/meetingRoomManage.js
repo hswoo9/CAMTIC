@@ -11,6 +11,7 @@ var meetingRoomManage = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "사용", value: "사용"},
                 {text: "미사용", value: "미사용"}
             ],
@@ -21,6 +22,7 @@ var meetingRoomManage = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "회의실 명", value: "회의실 명"},
                 {text: "장소", value: "장소"}
             ],
@@ -107,7 +109,7 @@ var meetingRoomManage = {
     meetingRoomManagePopup : function(){
         var url = "/Inside/Pop/meetingRoomManagePop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
+        var option = "width = 500, height = 400, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 }

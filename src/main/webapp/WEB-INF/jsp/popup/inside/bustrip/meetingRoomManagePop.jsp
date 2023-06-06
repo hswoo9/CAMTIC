@@ -57,42 +57,39 @@
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="20%">
-                        <col width="30%">
-                        <col width="20%">
-                        <col width="30%">
+                        <col width="80%">
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th colspan="4">회의실 정보 (아직)</th>
+                        <th colspan="2">회의실 등록</th>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
-                        <td><input type="text" id="division" style="width: 150px; margin-right:10px;"></td>
-                        <td colspan="3"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 여부</th>
+                        <td><input type="text" id="useYN" style="width: 50%; margin-right:10px;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>시행 일자</th>
-                        <td><input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 100%;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>발송 일자</th>
-                        <td><input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>회의실 명</th>
+                        <td><input type="text" id="meetingRoomName" style="width: 50%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>수신처</th>
-                        <td><input type="text" id="destination" style="width: 96%;" value="내부 결재"></td>
-                        <th scope="row" class="text-center th-color">담당자</th>
-                        <td><input type="text" id="manager" style="width: 50%;" value="홍길동">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
-                                직원 선택
-                            </button>
-                        </td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>장소</th>
+                        <td><input type="text" id="space" style="width: 50%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>제목</th>
-                        <td colspan="3"><input type="text" id="title" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>수용 인원</th>
+                        <td><input type="text" id="Num" style="width: 50%;">명</td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">비고</th>
-                        <td colspan="3"><textarea type="text" id="remark" style="width: 100%;"></textarea></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>대관 여부</th>
+                        <td><input type="text" id="coronationYN" style="width: 50%;"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>대관료</th>
+                        <td><input type="text" id="rentalFee" style="width: 50%; text-align: right;" value="원"> (VAT 포함 금액)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">특이사항</th>
+                        <td><textarea type="text" id="significant" style="width: 100%;"></textarea></td>
                     </tr>
                     </tbody>
                 </table>
@@ -108,7 +105,6 @@
 
 <script>
     meetingRoomManagePop.fn_defaultScript();
-    overWk.fn_defaultScript();
 </script>
 </body>
 </html>

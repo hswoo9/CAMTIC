@@ -7,44 +7,37 @@ var now = new Date();
 var meetingRoomManagePop = {
     fn_defaultScript: function () {
 
-        $("#division").kendoDropDownList({
+        $("#useYN").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
+                {text: "선택하세요", value: ""},
+                {text: "사용", value: "사용"},
+                {text: "미사용", value: "미사용"}
             ],
             index: 0
         });
 
-        $("#remark").kendoTextBox();
+        $("#meetingRoomName").kendoTextBox();
+        $("#space").kendoTextBox();
+        $("#Num").kendoTextBox();
+
+        $("#coronationYN").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "해당없음", value: ""},
+                {text: "가능", value: "가능"},
+                {text: "불가능", value: "불가능"}
+            ],
+            index: 0
+        });
+
+        $("#rentalFee").kendoTextBox();
+
+        $("#significant").kendoTextBox();
 
     }
 }
 
-var overWk = {
-    fn_defaultScript : function(){
 
-        $("#startDay").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#endDay").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-    }
-}
