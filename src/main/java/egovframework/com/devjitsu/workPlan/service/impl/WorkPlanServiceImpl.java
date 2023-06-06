@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,5 +75,35 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 
         resultMap.put("message", message);
         return resultMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getWorkPlanDefaultList(Map<String, Object> params) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        List<Map<String, Object>> originList = new ArrayList<>();
+        List<Map<String, Object>> changeList = new ArrayList<>();
+        originList = workPlanRepository.getWorkPlanDefaultList(params);
+        changeList = workPlanRepository.getWorkPlanChangeList(params);
+        if(originList.size() > 0){
+            if(changeList.size() > 0){
+                for(int i = 0 ; i < originList.size() ; i++){
+                    for(int j = 0 ; j < changeList.size() ; j++){
+                        String originWorkDate = originList.get(i).get("WORK_DATE").toString();
+                        String changeWorkDate = changeList.get(j).get("WORK_DATE").toString();
+                    }
+                }
+            }else{
+                resultList = originList;
+            }
+        }else{
+            if(changeList.size() > 0){
+                    for(int j = 0 ; j < changeList.size() ; j++){
+                        String changeWorkDate = changeList.get(j).get("WORK_DATE").toString();
+                    }
+            }else{
+                resultList = changeList;
+            }
+        }
+        return changeList;
     }
 }

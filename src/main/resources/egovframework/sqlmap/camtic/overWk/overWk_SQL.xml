@@ -34,10 +34,9 @@
         CONCAT(DATE_FORMAT(OWP.APPLY_DATE, '%Y-%m-%d'), ' ', OWP.APPLY_START_HOUR, ':', OWP.APPLY_START_MIN) AS START_DATE,
         CONCAT(DATE_FORMAT(OWP.APPLY_DATE, '%Y-%m-%d'), ' ', OWP.APPLY_END_HOUR, ':', OWP.APPLY_END_MIN) AS END_DATE,
         OWP.APPR_STAT,
-        VEI.EMP_SEQ,
-        (SELECT APPROVAL_STAT FROM CAM_INSIDE.V_APPROVAL_BOX WHERE CONNECTION_KEY = OWP.OVER_WORK_PLAN_ID AND CONNECTION_TYPE = 'overWorkPlan' ) as AB_APPR_STAT
+        VEI.EMP_SEQ
         FROM
-        DJ_CAMTIC.V_OVER_WORK_PLAN OWP
+        CAM_INSIDE.DJ_OVER_WORK_PLAN OWP
         JOIN
         DJ_CAMTIC.V_EMP_INFO VEI
         ON VEI.EMP_SEQ = OWP.REQUEST_EMP_SEQ
@@ -45,7 +44,11 @@
         DJ_CAMTIC.V_WORK_CODE WC
         ON WC.WK_CODE = OWP.APPLY_OVER_WORK_TYPE
         WHERE
-        VEI.EMP_SEQ = #{empSeq}
+            1=1
+        <if test="empSeq != null and empSeq != ''">
+            AND VEI.EMP_SEQ = #{empSeq}
+        </if>
+
         AND
         OWP.ACTIVE = 'Y'
         <if test="startDay != null and startDay != '' and endDay != null and endDay != ''">
@@ -66,5 +69,65 @@
         ORDER BY OWP.REG_DATE DESC
     </select>
 
+    <select id="getApplyDateOwpCheck" resultType="map" parameterType="map">
+        /*getApplyDateOwpCheck
+         SELECT DJ_EPIS.FN_APPLY_DATE_OWP_CHECK(#{empSeq}, #{applyDate}, #{startTime}, #{endTime}) AS result*/
+    </select>
 
+    <insert id="setOverWorkPlan" parameterType="map">
+        /* setOverWorkPlan */
+        INSERT INTO
+            CAM_INSIDE.DJ_OVER_WORK_PLAN
+        (
+            REQUEST_EMP_SEQ,
+            REQUEST_POSITION,
+            REQUEST_DEPT_SEQ,
+            REQUEST_DEPT_NAME,
+            REQUEST_DUTY,
+            APPLY_OVER_WORK_TYPE,
+            APPLY_DATE,
+            APPLY_START_HOUR,
+            APPLY_START_MIN,
+            APPLY_END_HOUR,
+            APPLY_END_MIN,
+            APPLY_HOUR,
+            APPLY_REASON,
+            DINNER_TIME_USE,
+            REMARK,
+            REG_EMP_SEQ,
+            APPR_STAT
+        )
+        VALUES
+            (
+                #{request_emp_seq},
+                #{request_position},
+                #{request_dept_seq},
+                #{request_dept_name},
+                #{request_duty},
+                #{apply_over_workType},
+                #{apply_date},
+                #{apply_start_hour},
+                #{apply_start_min},
+                #{apply_end_hour},
+                #{apply_end_min},
+                #{apply_hour},
+                #{apply_reason},
+                #{dinner_time_use},
+                #{remark},
+                #{request_emp_seq},
+                #{apprStat}
+            )
+    </insert>
+
+    <update id="updateApprStat" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_OVER_WORK_PLAN
+        SET APPR_STAT = #{apprStat}
+        WHERE
+        OVER_WORK_PLAN_ID IN
+        (
+        <foreach collection="selectArr" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
 </mapper>

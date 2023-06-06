@@ -194,6 +194,9 @@ $(function(){
         if($(this).is(":checked")) $("input[name=wpcPk]").prop("checked", true);
         else $("input[name=wpcPk]").prop("checked", false);
     });
+
+
+    workPlan.schedulerInit();
 });
 
 /* TODO. 2022.07.02 유연근무 신청서(기안전) 삭제 */
@@ -732,24 +735,26 @@ var workPlan = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : "/getWorkPlanDefaultList.do",
-                    dataType: "json"
+                    url : getContextPath() + "/getWorkPlanDefaultList.do",
+                    dataType: "json",
+                    async : false,
                 },
                 parameterMap: function(data) {
                     data.empSeq = $("#empSeq").val();
+                    data.status = 'Y';
                     return data;
                 }
             },
             schema: {
                 data: function (data) {
                     workPlan.global.dataList = data.list;
+                    console.log(data.list);
                     return data.list;
                 },
                 model: {
-                    id: "workPlanId",
+                    id: "workPlanChangeId",
                     fields: {
-                        workPlanId : { from : "WORK_PLAN_ID" },
-                        empSeq : { from : "EMP_SEQ" },
+                        workPlanChangeId : { from : "WORK_PLAN_CHANGE_ID" },
                         title: {
                             from: "TITLE", defaultValue: "No title",
                             validation: {
@@ -758,16 +763,14 @@ var workPlan = {
                         },
                         start: { type: "date", from: "START_DATE" },
                         end: { type: "date", from: "END_DATE" },
-                        totalDate : { from : "TOTAL_DATE" },
-                        commonCodeId : { from : "COMMON_CODE_ID" },
-                        workPlanDetailId : { from : "work_plan_detail_id"}
+                        commonCodeId: { from: "COMMON_CODE_ID" },
                     }
                 }
             },
             filter: {
                 logic: "or",
                 filters: [
-                    { field: "commonCodeId", operator: "eq", value: 101 },
+                    { field: "commonCodeId", operator: "eq", value: 105 },
                 ]
             }
         });

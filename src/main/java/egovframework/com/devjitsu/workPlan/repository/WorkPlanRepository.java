@@ -20,4 +20,12 @@ public class WorkPlanRepository extends AbstractDAO  {
         return (int) update("workPlan.updateApprStat", params);
     }
 
+    public List<Map<String, Object>> getWorkPlanDefaultList(Map<String, Object> params){
+        return selectList("workPlan.getWorkPlanDefaultList", params);
+    }
+
+    public List<Map<String, Object>> getWorkPlanChangeList(Map<String, Object> params){
+        return selectList("workPlan.getWorkPlanChangeList", params);
+    }
+
 }

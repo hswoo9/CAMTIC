@@ -16,5 +16,8 @@ public interface WorkPlanService {
     List<Map<String, Object>> getWkCommonCodeWpT(Map<String, Object> params);
     Map<String, Object> updateApprStat(Map<String, Object> params);
 
+    List<Map<String, Object>> getWorkPlanDefaultList(Map<String, Object> params);
+
+
 
 }

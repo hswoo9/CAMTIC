@@ -163,4 +163,65 @@
             </foreach>
             )
     </update>
+
+    <select id="getWorkPlanDefaultList" parameterType="map" resultType="map">
+        SELECT
+            VEI.EMP_NAME_KR AS EMP_NAME,
+            VEI.DEPT_NAME,
+            VWP.WORK_PLAN_ID,
+            CONCAT(DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.ATTEND_TIME) AS START_DATE,
+            CONCAT(DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.LEAVE_TIME) AS END_DATE,
+            CONCAT(DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.ATTEND_TIME, ' ~ ', DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.LEAVE_TIME) AS TOTAL_DATE,
+            CONCAT(SUBSTRING(VWPD.ATTEND_TIME, 1, 2), '-', SUBSTRING(VWPD.LEAVE_TIME, 1, 2)) AS TITLE,
+            VWPD.COMMON_CODE_ID,
+            DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d') AS WORK_DATE
+        FROM
+            CAM_INSIDE.DJ_WORK_PLAN VWP
+                JOIN
+            CAM_INSIDE.DJ_WORK_PLAN_DETAIL VWPD
+            ON
+                VWPD.WORK_PLAN_ID = VWP.WORK_PLAN_ID
+                JOIN
+            DJ_CAMTIC.V_EMP_INFO VEI
+            ON VWP.REQUEST_EMP_SEQ = VEI.EMP_SEQ
+        WHERE
+            VEI.ACTIVE = 'Y'
+          AND
+            VWP.ACTIVE = 'Y'
+          AND
+            VEI.EMP_SEQ = #{empSeq}
+        ORDER BY VWPD.WORK_DATE ASC
+    </select>
+
+    <select id="getWorkPlanChangeList" parameterType="map" resultType="map">
+        SELECT
+            VEI.EMP_NAME_KR AS EMP_NAME,
+            VEI.DEPT_NAME,
+            VWP.WORK_PLAN_CHANGE_ID,
+            CONCAT(DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.ATTEND_TIME) AS START_DATE,
+            CONCAT(DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.LEAVE_TIME) AS END_DATE,
+            CONCAT(DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.ATTEND_TIME, ' ~ ', DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d'), ' ', VWPD.LEAVE_TIME) AS TOTAL_DATE,
+            CONCAT(SUBSTRING(VWPD.ATTEND_TIME, 1, 2), '-', SUBSTRING(VWPD.LEAVE_TIME, 1, 2)) AS TITLE,
+            VWPD.COMMON_CODE_ID,
+            DATE_FORMAT(VWPD.WORK_DATE, '%Y-%m-%d') AS WORK_DATE
+        FROM
+            CAM_INSIDE.DJ_WORK_PLAN_CHANGE VWP
+                JOIN
+            CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL VWPD
+            ON
+                VWPD.WORK_PLAN_CHANGE_ID = VWP.WORK_PLAN_CHANGE_ID
+                JOIN
+            DJ_CAMTIC.V_EMP_INFO VEI
+            ON VWP.REQUEST_EMP_SEQ = VEI.EMP_SEQ
+        WHERE
+            VEI.ACTIVE = 'Y'
+          AND
+            VWP.ACTIVE = 'Y'
+          <if test="status != null and status != ''">
+              AND VWP.APPR_STAT = #{status}
+          </if>
+          AND
+            VEI.EMP_SEQ = #{empSeq}
+        ORDER BY VWPD.WORK_DATE ASC
+    </select>
 </mapper>

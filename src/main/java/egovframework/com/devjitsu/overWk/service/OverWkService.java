@@ -18,4 +18,12 @@ public interface OverWkService {
      * @return
      */
     List<Map<String, Object>> getOverWorkPlanReqList(Map<String, Object> params);
+
+    Map<String, Object> getApplyDateOwpCheck(Map<String, Object> params);
+
+    Map<String, Object> setOverWorkPlan(Map<String, Object> params);
+
+    Map<String, Object> updateApprStat(Map<String, Object> params);
+
+
 }

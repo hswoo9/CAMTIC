@@ -17,10 +17,6 @@
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/overWk/overWkApp.js?v=${today}"/></script>
 
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -83,10 +79,7 @@
 </div><!-- col-md-9 -->
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
-<%--<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvalService.jsp?v=${today}"></jsp:include>--%>
 <script type="text/javascript">
-    /*var datas = JSON.parse('${data}');*/
-    /*draftFormList.fnDefaultScript(datas);*/
     overWk.fn_defaultScript();
 
     $("#checkAll").click(function(){

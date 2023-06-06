@@ -130,4 +130,11 @@ public class WorkPlanController {
         return "jsonView";
     }
 
+    @RequestMapping("/workPlan/getWorkPlanDefaultList.do")
+    public String getWorkPlanDefaultList(Model model, @RequestParam Map<String, Object> params){
+        List<Map<String, Object>> list = workPlanService.getWorkPlanDefaultList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
 }

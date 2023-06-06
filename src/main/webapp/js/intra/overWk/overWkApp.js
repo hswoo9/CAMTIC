@@ -47,11 +47,17 @@ function selectChkApp(){
         return;
     }*/
 
-    /*$.ajax({
-        url : getContextPath()+'/overWorkPlan/setOverWorkPlanDel.do',
-        data : {
-            owpAr : owpAr
-        },
+    var owpAr = [];
+    $.each($("input[name='owpPk']:checked"), function(i, v){
+        owpAr.push($(v).val());
+    });
+    var saveParams = {
+        owpAr : JSON.stringify(owpAr),
+        empSeq : $("#empSeq").val()
+    }
+    $.ajax({
+        url : getContextPath()+'/setOverWorkPlan.do',
+        data : saveParams,
         dataType : "json",
         type : "POST",
         success : function (result){
@@ -59,7 +65,7 @@ function selectChkApp(){
             alert(rs.message);
             gridReload();
         }
-    })*/
+    })
 }
 
 function selectChkReturn() {
@@ -153,7 +159,7 @@ var overWk = {
 
     fn_defaultScript : function(){
 
-        overWk.schedulerInit();
+
 
         $("#nowDateWeekNumOfMonth").text("[" + "2023년" + " " + "04월" + " " + "2째주" + " 초과근무 현황]");
 
@@ -193,25 +199,22 @@ var overWk = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/overWk/getOverWorkPlanReqList',
+                    url : getContextPath() + '/getOverWorkPlanReqList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.empSeq = 1;
-                    data.status = 'N';
                     data.startDay = $("#startDay").val();
                     data.endDay = $("#endDay").val();
-
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.data;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.data.length;
                 },
             },
             pageSize: 10,
@@ -226,14 +229,14 @@ var overWk = {
                 {
                     name : 'button',
                         template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="selectChkApp()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'overWk.updateApprStat("Y");\'>' +
                             '	<span class="k-button-text">승인</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="selectChkReturn()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'overWk.updateApprStat("E");\'>' +
                             '	<span class="k-button-text">반려</span>' +
                             '</button>';
                     }
@@ -308,7 +311,7 @@ var overWk = {
                         var apprStat = e.APPR_STAT;
                         if(apprStat != null){
                             if(apprStat == "N"){
-                                return "";
+                                return "대기";
                             } else if(apprStat == "Y"){
                                 return "승인";
                             } else if(apprStat =="C"){
@@ -323,6 +326,8 @@ var overWk = {
                     width: 80
                 }]
         }).data("kendoGrid");
+
+        overWk.schedulerInit();
 
     },
 
@@ -346,19 +351,19 @@ var overWk = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : '/overWk/getOverWorkPlanReqList',
+                    url : getContextPath() + '/getOverWorkPlanReqList',
                     dataType: "json"
                 },
                 parameterMap: function(data) {
-                    data.empSeq = 1;
-                    data.status = 'N';
+                    data.empSeq = $("#empSeq").val();
+                    data.status = 'Y';
                     return data;
                 }
             },
             schema: {
                 data: function (data) {
-                    overWk.global.dataList = data;
-                    return data;
+                    overWk.global.dataList = data.data;
+                    return data.data;
                 },
                 model: {
                     id: "overWorkPlanId",
@@ -395,6 +400,38 @@ var overWk = {
                 dataSource : schRsDs
             }
         ];
+    },
+
+    updateApprStat : function(type){
+        var checkGroup = $("input[name='owpPk']:checked");
+        var dataList = [];
+        if(checkGroup.length > 0){
+            $.each(checkGroup, function(i, v){
+                dataList.push($(v).val());
+            });
+            console.log(dataList);
+            var saveParams = {
+                empSeq : $("#empSeq").val(),
+                apprStat : type,
+                owpAr : JSON.stringify(dataList),
+            };
+
+            $.ajax({
+                url: getContextPath() + "/updateApprStat",
+                data: saveParams,
+                dataType: "json",
+                type: "POST",
+                async: false,
+                success: function (result) {
+                    alert(result.rs.message);
+                    gridReload();
+                }
+            });
+        }else{
+            alert("1개이상 선택해주세요.");
+            return;
+        }
+
     },
 
 }

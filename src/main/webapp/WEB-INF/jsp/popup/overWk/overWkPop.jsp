@@ -113,8 +113,8 @@
         </table>
       </div>
       <div class="btn-st">
-        <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick="overWkPlanPop.overWorkApplySave()"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick="overWkPlanPop.fn_windowClose()"/>
+        <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick="overWkPop.overWorkApplySave()"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick="overWkPop.fn_windowClose()"/>
       </div>
     </div>
   </div>
@@ -131,8 +131,7 @@
   </c:otherwise>
 </c:choose>
 
-<script type="text/javascript" src="/js/intra/overWkPlan/overWkPlanPop.js?v=${today}"/>
-<%--<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvelService.jsp?v=${today}"></jsp:include>--%>
+<script type="text/javascript" src="/js/intra/overWk/overWkPop.js?v=${today}"></script>
 <script>
   overWkPop.defaultScript();
   overWkPop.findApplyDateWorkTime();

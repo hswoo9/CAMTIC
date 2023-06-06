@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -130,13 +131,9 @@ public class OverWkController {
      * @return
      */
     @RequestMapping("/overWk/getOverWorkPlanReqList")
-    @ResponseBody
-    public List<Map<String, Object>> getOverWorkPlanReqList(@RequestParam Map<String, Object> params, Model model){
+    public String getOverWorkPlanReqList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", overWkService.getOverWorkPlanReqList(params));
-
-        /*return "jsonView";*/
-
-        return overWkService.getOverWorkPlanReqList(params);
+        return "jsonView";
     }
 
     /**
@@ -149,5 +146,23 @@ public class OverWkController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    @RequestMapping(value = "/overWk/getApplyDateOwpCheck.do")
+    public String getApplyDateOwpCheck(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("rs", overWkService.getApplyDateOwpCheck(params));
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/overWk/setOverWorkPlan.do")
+    public String setOverWorkPlan(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("rs", overWkService.setOverWorkPlan(params));
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/overWk/updateApprStat")
+    public String updateApprStat(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("rs", overWkService.updateApprStat(params));
+        return "jsonView";
     }
 }

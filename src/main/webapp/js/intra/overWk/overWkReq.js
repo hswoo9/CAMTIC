@@ -48,7 +48,7 @@ function selectChkDel(){
     }
 
     $.ajax({
-        url : getContextPath()+'/overWorkPlan/setOverWorkPlanDel.do',
+        url : getContextPath()+'//setOverWorkPlanDel.do',
         data : {
             owpAr : owpAr
         },
@@ -64,15 +64,15 @@ function selectChkDel(){
 
 /** 결재 관련 함수 */
 function overWorkPlanDrafting(overWorkPlanId, type){
-    popWin = window.open(getContextPath()+"/overWorkPlan/overWkPlanApprovalPop.do?menuCd=" + menuCd + "&type=" + type + "&overWorkPlanId=" + overWorkPlanId, "overWorkPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    popWin = window.open(getContextPath()+"//overWkPlanApprovalPop.do?menuCd=" + menuCd + "&type=" + type + "&overWorkPlanId=" + overWorkPlanId, "overWorkPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
 
 function overWorkPlanReDrafting(docId, overWorkPlanId, type){
-    popWin = window.open(getContextPath()+"/overWorkPlan/overWkPlanApprovalPop.do?menuCd="+ menuCd + "&docId=" + docId + "&type=" + type + "&overWorkPlanId=" + overWorkPlanId, "overWorkPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    popWin = window.open(getContextPath()+"//overWkPlanApprovalPop.do?menuCd="+ menuCd + "&docId=" + docId + "&type=" + type + "&overWorkPlanId=" + overWorkPlanId, "overWorkPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
 
 function overWorkPlanTempDrafting(docId, overWorkPlanId, type){
-    popWin = window.open(getContextPath()+"/overWorkPlan/overWkPlanApprovalPop.do?menuCd="+ menuCd + "&docId=" + docId + "&type=" + type + "&overWorkPlanId=" + overWorkPlanId, "overWorkPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    popWin = window.open(getContextPath()+"//overWkPlanApprovalPop.do?menuCd="+ menuCd + "&docId=" + docId + "&type=" + type + "&overWorkPlanId=" + overWorkPlanId, "overWorkPlanApprovalPop", "width=1030, height=930, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
 
 /** 신청 저장 grid reload */
@@ -191,25 +191,24 @@ var overWk = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/overWk/getOverWorkPlanReqList',
+                    url : getContextPath() + '/getOverWorkPlanReqList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.empSeq = 1;
-                    data.status = 'N';
+                    data.empSeq = $("#empSeq").val();
+                    //data.status = 'N';
                     data.startDay = $("#startDay").val();
                     data.endDay = $("#endDay").val();
-
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.data;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.data.length;
                 },
             },
             pageSize: 10,
@@ -300,16 +299,16 @@ var overWk = {
                         }
                     }
                 }, {
-                    field : "STATUS",
+                    field : "",
                     title : "승인상태",
                     template : function(e){
                         var apprStat = e.APPR_STAT;
                         if(apprStat != null){
                             if(apprStat == "N"){
-                                return "";
+                                return "대기";
                             } else if(apprStat == "Y"){
                                 return "승인";
-                            } else if(apprStat =="C"){
+                            } else if(apprStat == "C"){
                                 return "진행중";
                             } else if(apprStat =="E"){
                                 return "반려";
@@ -319,23 +318,23 @@ var overWk = {
                         }
                     },
                     width: 80
-                }, {
+                }/*, {
                     title : "승인요청",
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
+                            /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>승인요청</span>" +
-                                "</button>";*/
+                                "</button>";*!/
                             return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.OVER_WORK_PLAN_ID+"' appType='N' approvalKind='overWorkPlan'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>승인요청</span>" +
                                 "</button>";
                         } else if(e.APPR_STAT == "E"){
-                            /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
+                            /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>재상신</span>" +
-                                "</button>";*/
+                                "</button>";*!/
                             return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.OVER_WORK_PLAN_ID+"' appType='E' approvalKind='overWorkPlan'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>재요청</span>" +
@@ -343,10 +342,10 @@ var overWk = {
                         } else if(e.APPR_STAT == "Y"){
                             return "-";
                         } else if(e.APPR_STAT =="C"){
-                            /*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
+                            /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
                                 "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                 "<span class='k-button-text'>취소</span>" +
-                                "</button>";*/
+                                "</button>";*!/
                             if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
                                 if(e.AB_APPR_STAT == "I"){
                                     return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
@@ -371,7 +370,7 @@ var overWk = {
                         }
                     },
                     width: 80
-                }]
+                }*/]
         }).data("kendoGrid");
 
     },
@@ -381,7 +380,7 @@ var overWk = {
             var data = {
                 overWorkPlanId : key
             };
-            var ds = customKendo.fn_customAjax("/overWorkPlan/setApprOverWkPlanCancel", data);
+            var ds = customKendo.fn_customAjax("//setApprOverWkPlanCancel", data);
             alert(ds.message);
             gridReload();
             customKendo.fn_kendoWindowClose("approveMemberPop");
@@ -393,22 +392,26 @@ var overWk = {
     },
 
     schedulerInit : function(){
+
+        var schColor = ["#F7EFE5", "#B9F3FC", "#93C6E7", "#A084DC", "#E8D2A6", "#03C988", "#FFC93C"];
+
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : '/overWk/getOverWorkPlanReqList',
-                    dataType: "json"
+                    url : getContextPath() + '/getOverWorkPlanReqList',
+                    dataType: "json",
+                    async : false,
                 },
                 parameterMap: function(data) {
-                    data.empSeq = 1;
-                    data.status = 'N';
+                    data.empSeq = $("#empSeq").val();
+                    data.status = 'Y';
                     return data;
                 }
             },
             schema: {
                 data: function (data) {
-                    overWk.global.dataList = data;
-                    return data;
+                    console.log(data);
+                    return data.data;
                 },
                 model: {
                     id: "overWorkPlanId",

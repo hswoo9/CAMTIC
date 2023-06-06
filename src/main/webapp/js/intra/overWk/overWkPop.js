@@ -212,7 +212,7 @@ var overWkPop = {
         var result;
 
         $.ajax({
-            url : getContextPath()+'/common/getApplyDateOwpCheck.do',
+            url : getContextPath()+'/getApplyDateOwpCheck.do',
             data : {
                 empSeq : $("#empSeq").val(),
                 applyDate : $("#applyDate").val(),
@@ -234,6 +234,7 @@ var overWkPop = {
         var flag = true;
         var chkVal = overWkPop.getApplyDateOwpCheck();
 
+        /*
         if(chkVal != null){
             if(chkVal.result == "C"){
                 alert("해당 일자에 결재 진행중인 초과근무 목록이 존재합니다.");
@@ -245,16 +246,17 @@ var overWkPop = {
                 return;
             }
         }
+         */
 
         if(!$("#empSeq").val()){
             alert("신청자가 선택되지 않았습니다.");
             flag = false;
             return;
-        }else if(!$("#workingTime").val()){
+        }/*else if(!$("#workingTime").val()){
             alert("신청일에 근무시간이 없습니다.");
             flag = false;
             return;
-        }else if(!$("#applyStartTime").val()){
+        }*/else if(!$("#applyStartTime").val()){
             alert("신청시작 시간이 없습니다.");
             flag = false;
             return;
@@ -271,7 +273,7 @@ var overWkPop = {
         if(confirm("신청내용을 저장하시겠습니까?")){
             if(flag){
                 $.ajax({
-                    url : getContextPath()+'/overWorkPlan/setOverWorkPlan.do',
+                    url : getContextPath()+'/setOverWorkPlan.do',
                     data : {
                         request_emp_seq : $("#empSeq").val(),
                         request_position : $("#positionCode").val(),
@@ -292,10 +294,11 @@ var overWkPop = {
                     },
                     dataType : "json",
                     type : "POST",
+                    async : false,
                     success : function (rs){
-                        var rs = rs.result;
-                        alert(rs.message);
-                        if(rs.code == "200"){
+                        var data = rs.rs;
+                        alert(data.message);
+                        if(data.code == "200"){
                             overWkPop.fn_windowClose();
                         }
                     }
