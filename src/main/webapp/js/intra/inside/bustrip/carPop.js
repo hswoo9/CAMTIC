@@ -48,6 +48,7 @@ var carPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: ""},
                 {text: "미래전략기획본부", value: "미래전략기획본부"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
                 {text: "기업성장지원본부", value: "기업성장지원본부"},
@@ -63,6 +64,7 @@ var carPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: ""},
                 {text: "카니발", value: "카니발"},
                 {text: "아반떼", value: "아반떼"},
                 {text: "트럭", value: "트럭"}

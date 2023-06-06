@@ -43,6 +43,7 @@ var meetingRoomReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "교육1실 (본부동 3층)", value: "교육1실 (본부동 3층)"},
                 {text: "교육2실 (본부동 3층)", value: "교육2실 (본부동 3층)"},
                 {text: "교육4실 (본부동 지하)", value: "교육4실 (본부동 지하)"},
@@ -56,6 +57,7 @@ var meetingRoomReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "품질교육", value: "품질교육"},
                 {text: "기술교육", value: "기술교육"},
                 {text: "경영교육", value: "경영교육"},
@@ -70,19 +72,9 @@ var meetingRoomReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "무료", value: "무료"},
                 {text: "유료", value: "유료"}
-            ],
-            index: 0
-        });
-
-        $("#useCar").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "카니발", value: "카니발"},
-                {text: "아반떼", value: "아반떼"},
-                {text: "트럭", value: "트럭"}
             ],
             index: 0
         });
@@ -91,6 +83,7 @@ var meetingRoomReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "업무용", value: "업무용"},
                 {text: "개인 사유", value: "개인 사유"}
             ],
@@ -101,6 +94,7 @@ var meetingRoomReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "등록자", value: "등록자"},
                 {text: "담당자", value: "담당자"},
                 {text: "특이사항", value: "특이사항"}
