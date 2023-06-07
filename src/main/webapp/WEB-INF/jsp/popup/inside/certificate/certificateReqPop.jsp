@@ -45,7 +45,7 @@
     <div class="card-header" style="padding-top:45px;">
       <div class="col-lg-11" style="margin:0 auto;">
         <div class="table-responsive">
-          <div class="popupTitleSt">휴가신청</div>
+          <div class="popupTitleSt">증명서신청</div>
           <form id="subHolidayReqPop">
             <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
             <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">

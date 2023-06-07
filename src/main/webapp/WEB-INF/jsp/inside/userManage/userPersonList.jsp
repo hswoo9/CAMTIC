@@ -37,11 +37,11 @@
                         <td style="border-bottom:0; background-color: white"">
                             <div style="display:flex;">
                                 <div class="mr10">
-                                    <span>부서선택</span>
+                                    <span>부서</span>
                                     <input type="text" id="deptComp" style="width: 150px; margin-right:10px;">
                                 </div>
                                 <div class="mr10">
-                                    <span>팀선택</span>
+                                    <span>팀</span>
                                     <input type="text" id="deptTeam" style="width: 200px; margin-right:10px;">
                                 </div>
                                 <div class="mr10">
@@ -49,7 +49,6 @@
                                     <input type="text" id="userGender" style="width:70px; margin-right:10px;">
                                 </div>
                                 <div class="mr10">
-                                    <span>구분</span>
                                     <input type="text" id="userKind" style="width: 100px;">
                                     <input type="text" id="kindContent" style="width: 200px;">
                                 </div>
@@ -59,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="mt10">
-                                <span>출장기간</span>
+                                <span>조회기간</span>
                                 <input type="text" id="start_date" style="width: 140px;">
                                 ~
                                 <input type="text" id="end_date" style="width: 140px;">
