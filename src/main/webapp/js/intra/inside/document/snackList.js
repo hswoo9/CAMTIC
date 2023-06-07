@@ -19,6 +19,7 @@ var snackList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "미래전략기획본부", value: "미래전략기획본부"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
                 {text: "기업성장지원본부", value: "기업성장지원본부"},
@@ -34,6 +35,7 @@ var snackList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "야간 간식", value: "야간 간식"},
                 {text: "휴일 식대", value: "휴일 식대"},
                 {text: "평일 식대", value: "평일 식대"}
@@ -45,6 +47,7 @@ var snackList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "개인", value: "개인"},
                 {text: "법인", value: "법인"},
                 {text: "외상", value: "외상"}
@@ -56,6 +59,7 @@ var snackList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "순대이야기", value: "순대이야기"},
                 {text: "지리산밥상", value: "지리산밥상"},
                 {text: "김밥한끼", value: "김밥한끼"},
@@ -71,6 +75,7 @@ var snackList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "결재", value: "결재"},
                 {text: "미결재", value: "미결재"}
             ],

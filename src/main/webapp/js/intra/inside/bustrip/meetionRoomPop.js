@@ -10,6 +10,7 @@ var meetingRoomPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: "" },
                 {text: "달력 화면", value: "달력 화면"},
                 {text: "등록 화면", value: "등록 화면"}
             ],
@@ -50,6 +51,7 @@ var meetingRoomPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: "" },
                 {text: "기간 등록", value: "기간 등록"},
                 {text: "일별 등록", value: "일별 등록"}
             ],
@@ -71,6 +73,7 @@ var meetingRoomPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: "" },
                 {text: "교육1실 (본부동 3층, 30명)", value: "교육1실 (본부동 3층, 30명)"},
                 {text: "교육2실 (본부동 3층, 16명)", value: "교육2실 (본부동 3층, 16명)"},
                 {text: "교육4실 (본부동 3층, 25명)", value: "교육4실 (본부동 3층, 25명)"},
@@ -85,10 +88,11 @@ var meetingRoomPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "기타", value: "기타"},
+                {text: "선택하세요", value: "" },
                 {text: "교육 훈련", value: "교육 훈련"},
                 {text: "일반 회의", value: "일반 회의"},
-                {text: "대관", value: "대관"}
+                {text: "대관", value: "대관"},
+                {text: "기타", value: "기타"}
             ],
             index: 0
         });
@@ -99,6 +103,7 @@ var meetingRoomPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: "" },
                 {text: "유료", value: "유료"},
                 {text: "무료", value: "무료"}
             ],

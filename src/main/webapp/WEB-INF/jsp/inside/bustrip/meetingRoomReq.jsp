@@ -5,6 +5,8 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+    .k-grid .k-cell-inner {justify-content: center;}
     table { background-color: white; }
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/meetingRoomReq.js?v=${today}"/></script>

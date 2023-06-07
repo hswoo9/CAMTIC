@@ -1,16 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+    .k-grid .k-cell-inner>.k-link {
+        justify-content: center;
+    }
+    .k-filter-row th, .k-grid-header th.k-header {
+        vertical-align: middle;
+    }
+</style>
 <script type="text/javascript" src="/js/intra/inside/attend/personAnnvMain.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -26,24 +28,24 @@
 
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
             <div>
+                <h4 class="panel-title">* 연차 현황</h4>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="10%" >
+                                <col width="8" >
+                                <col width="8%" >
+                                <col width="8%" >
+                                <col width="10%" >
+                                <col width="8%" >
+                                <col width="8%" >
                             </colgroup>
                             <thead>
                                 <tr>
@@ -84,11 +86,10 @@
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
+                    <h4 class="panel-title">* 2023년도 상세 사용 일수 내역 (전체 건수 0 건 / 사용 일수 0 일)</h4>
+                    <div id="mainGrid" style="margin:20px 0;"></div>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
-            <div id="mainGrid"></div>
         </div>
     </div>
 </div>

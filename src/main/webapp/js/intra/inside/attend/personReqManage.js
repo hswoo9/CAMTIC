@@ -19,6 +19,7 @@ var personReqManage = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "승인 전", value: "승인 전"},
                 {text: "결재 종결", value: "결재 종결"},
                 {text: "결재 상신", value: "결재 상신"},
@@ -31,6 +32,7 @@ var personReqManage = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "연가", value: "연가"},
                 {text: "오전 반차", value: "오전 반차"},
                 {text: "오후 반차", value: "오후 반차"},
@@ -109,7 +111,7 @@ var personReqManage = {
                 }, {
                     field: "",
                     title: "부서",
-                    width: "10%"
+                    width: "20%"
                 }, {
                     field: "",
                     title: "직위",

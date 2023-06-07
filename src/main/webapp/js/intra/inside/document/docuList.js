@@ -11,6 +11,7 @@ var docuList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "제작", value: "제작"},
                 {text: "가공", value: "가공"},
                 {text: "구매", value: "구매"},
@@ -30,6 +31,7 @@ var docuList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "검색구분", value: "" },
                 {text: "문서번호", value: "문서번호"},
                 {text: "문서제목(건명)", value: "문서제목(건명)"},
                 {text: "발주업체", value: "발주업체"}
@@ -127,7 +129,7 @@ var docuList = {
     docuPopup : function(){
         var url = "/Inside/Pop/docuPop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
+        var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 }

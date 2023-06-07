@@ -19,6 +19,7 @@ var holidayWorkReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "미래전략기획본부", value: "미래전략기획본부"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
                 {text: "기업성장지원본부", value: "기업성장지원본부"},
@@ -34,6 +35,7 @@ var holidayWorkReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "제조혁신팀", value: "제조혁신팀"},
                 {text: "신기술융합팀", value: "신기술융합팀"},
                 {text: "우주개발팀", value: "우주개발팀"},
@@ -58,6 +60,7 @@ var holidayWorkReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 { text: "작성 중", value: "작성 중" },
                 { text: "제출", value: "제출" },
                 { text: "반려", value: "반려" },

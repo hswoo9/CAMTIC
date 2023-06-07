@@ -7,6 +7,10 @@ var now = new Date();
 var inComePop = {
     fn_defaultScript: function () {
 
+        $("#division").kendoTextBox();
+        $("#sentAgency").kendoTextBox();
+        $("#manager").kendoTextBox();
+
         $("#deptPart").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -38,12 +42,6 @@ var inComePop = {
 
         $("#remark").kendoTextBox();
 
-    },
-    inComePopup : function(){
-        var url = "/Inside/pop/inComePop.do";
-        var name = "popup test";
-        var option = "width = 1000, height = 380, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
     }
 }
 

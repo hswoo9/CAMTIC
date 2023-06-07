@@ -11,6 +11,7 @@ var documentList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "미래전략기획본부", value: "미래전략기획본부"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
                 {text: "기업성장지원본부", value: "기업성장지원본부"},
@@ -26,6 +27,7 @@ var documentList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "제목", value: ""},
                 {text: "문서번호", value: "문서번호"},
                 {text: "시행일자", value: "시행일자"},
                 {text: "수신처", value: "수신처"},
@@ -122,7 +124,7 @@ var documentList = {
     documentPopup : function(){
         var url = "/Inside/pop/documentPop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
+        var option = "width = 750, height = 360, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 }

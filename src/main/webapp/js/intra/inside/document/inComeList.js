@@ -11,6 +11,7 @@ var inComeList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "캠틱종합기술원", value: "캠틱종합기술원"},
                 {text: "발전협의회", value: "R&발전협의회"}
             ],
@@ -21,6 +22,7 @@ var inComeList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: ""},
                 {text: "전직원", value: "전직원"},
                 {text: "경영지원실", value: "경영지원실"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
@@ -34,6 +36,7 @@ var inComeList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "제목", value: ""},
                 {text: "접수번호", value: "접수번호"},
                 {text: "시행일자", value: "시행일자"},
                 {text: "발신기관", value: "발신기관"},
@@ -139,7 +142,7 @@ var inComeList = {
     inComePopup : function(){
         var url = "/Inside/pop/inComePop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
+        var option = "width = 850, height = 400, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 }
