@@ -153,7 +153,7 @@ var overWk = {
 
         overWk.schedulerInit();
 
-        $("#nowDateWeekNumOfMonth").text("[" + "2023년" + " " + "04월" + " " + "2째주" + " 초과근무 현황]");
+        //$("#nowDateWeekNumOfMonth").text("[" + "2023년" + " " + "04월" + " " + "2째주" + " 초과근무 현황]");
 
         /** 초과근무 상신 영역 */
         $("#startDay").kendoDatePicker({
@@ -254,7 +254,19 @@ var overWk = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
                     template : "<input type='checkbox' id='owpPk#=OVER_WORK_PLAN_ID#' name='owpPk' value='#=OVER_WORK_PLAN_ID#' class='k-checkbox checkbox'/>",
-                    width: 30
+                    width: 40
+                }, {
+                    field: "",
+                    title: "순번",
+                    width: "50px",
+                }, {
+                    field: "DEPT_NAME",
+                    title: "부서",
+                    width: "150px"
+                }, {
+                    field : "EMP_NAME",
+                    title : "성명",
+                    width: "80px"
                 }, {
                     field: "WK_CODE_NM",
                     title: "시간외근무유형",
@@ -300,7 +312,7 @@ var overWk = {
                     }
                 }, {
                     field : "",
-                    title : "승인상태",
+                    title : "진행 상태",
                     template : function(e){
                         var apprStat = e.APPR_STAT;
                         if(apprStat != null){
@@ -318,59 +330,11 @@ var overWk = {
                         }
                     },
                     width: 80
-                }/*, {
-                    title : "승인요청",
-                    template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>승인요청</span>" +
-                                "</button>";*!/
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.OVER_WORK_PLAN_ID+"' appType='N' approvalKind='overWorkPlan'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>승인요청</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "E"){
-                            /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanReq("+e.OVER_WORK_PLAN_ID+")\">" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재상신</span>" +
-                                "</button>";*!/
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' key='"+e.OVER_WORK_PLAN_ID+"' appType='E' approvalKind='overWorkPlan'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재요청</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "Y"){
-                            return "-";
-                        } else if(e.APPR_STAT =="C"){
-                            /!*return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWkPlan.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                "<span class='k-button-text'>취소</span>" +
-                                "</button>";*!/
-                            if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                                if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }else{
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>취소</span>" +
-                                        "</button>";
-                                }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"overWk.fn_apprOverWkPlanCancel("+e.OVER_WORK_PLAN_ID+")\">" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>취소</span>" +
-                                    "</button>";
-                            }
-
-                        } else {
-                            return "-";
-                        }
-                    },
-                    width: 80
-                }*/]
+                },{
+                    field: "",
+                    title: "승인 요청",
+                    width: "70px"
+                }]
         }).data("kendoGrid");
 
     },

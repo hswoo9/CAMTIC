@@ -20,13 +20,13 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="searchEmpSeq" value=""/>
+<input type="hidden" id="searchEmpSeq" value="99999"/>
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">시간 외 근무 현황(관리자)</h4>
-            <div class="title-road">유연근무 > 시간 외 근무 현황</div>
+            <div class="title-road">시간외근무 &gt; 시간 외 근무 현황</div>
         </div>
 
         <div class="panel-body">
@@ -74,7 +74,6 @@
             <div id="mainGrid2"></div>
         </div>
     </div>
-</div>
 </div><!-- col-md-9 -->
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>

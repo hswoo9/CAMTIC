@@ -10,12 +10,11 @@ var overWkPop = {
 
         $("#applyOverWorkType").kendoRadioGroup({
             items: [
-                { label : "평일", value : "0101" },
-                { label : "휴일", value : "0102" }
+                { label : "평일", value : "0101" }
             ],
             layout : "horizontal",
             labelPosition : "after",
-            value : "01",
+            value : "0101",
         }).data("kendoRadioGroup");
 
         $("#applyDate").kendoDatePicker({

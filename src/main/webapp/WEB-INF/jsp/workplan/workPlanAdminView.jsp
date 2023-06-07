@@ -12,7 +12,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="searchEmpSeq" value=""/>
+<input type="hidden" id="searchEmpSeq" value="99999"/>
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
@@ -64,7 +64,6 @@
 
         <div class="panel-body">
             <div id="mainGrid2"></div>
-        </div>
         </div>
     </div>
 </div><!-- col-md-9 -->

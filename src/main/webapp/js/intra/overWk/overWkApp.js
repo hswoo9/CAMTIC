@@ -161,7 +161,7 @@ var overWk = {
 
 
 
-        $("#nowDateWeekNumOfMonth").text("[" + "2023년" + " " + "04월" + " " + "2째주" + " 초과근무 현황]");
+        //$("#nowDateWeekNumOfMonth").text("[" + "2023년" + " " + "04월" + " " + "2째주" + " 초과근무 현황]");
 
         /** 초과근무 상신 영역 */
         $("#startDay").kendoDatePicker({
@@ -262,12 +262,24 @@ var overWk = {
                     template : "<input type='checkbox' id='owpPk#=OVER_WORK_PLAN_ID#' name='owpPk' value='#=OVER_WORK_PLAN_ID#' class='k-checkbox checkbox'/>",
                     width: 30
                 }, {
+                    field: "",
+                    title: "순번",
+                    width: "50px",
+                }, {
+                    field: "DEPT_NAME",
+                    title: "부서",
+                    width: "150px"
+                }, {
+                    field : "EMP_NAME",
+                    title : "성명",
+                    width: "80px"
+                }, {
                     field: "WK_CODE_NM",
-                    title: "초과근무유형",
+                    title: "시간외근무유형",
                     width: 100
                 }, {
                     field: "APPLY_TIME",
-                    title: "초과근무시간",
+                    title: "시간외근무시간",
                     width: 200
                 }, {
                     field : "APPLY_HOUR",

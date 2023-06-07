@@ -147,11 +147,7 @@ $(function(){
             }, {
                 field: "DEPT_NAME",
                 title: "부서",
-                width: "100px"
-            }, {
-                field : "",
-                title : "팀",
-                width: "80px"
+                width: "150px"
             }, {
                 field : "EMP_NAME_KR",
                 title : "성명",

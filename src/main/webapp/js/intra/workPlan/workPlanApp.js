@@ -160,10 +160,6 @@ var workPlanApp = {
                     title: "부서",
                     width: "100px"
                 }, {
-                    field: "",
-                    title: "팀",
-                    width: "80px"
-                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     width: "80px"

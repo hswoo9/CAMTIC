@@ -112,29 +112,39 @@ public class WorkPlanController {
     }
 
     @RequestMapping("/workPlan/setWorkPlanChangeOrDetail.do")
-    public String setWorkPlanChangeSubOrDetail(@RequestParam Map<String, Object> params, Model model) throws Exception {
+    @ResponseBody
+    public Map<String, Object> setWorkPlanChangeSubOrDetail(@RequestParam Map<String, Object> params, Model model) throws Exception {
         Map<String, Object> result = workPlanService.setWorkPlanChangeOrDetail(params);
-        model.addAttribute("result", result);
-        return "jsonView";
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+        return resultMap;
     }
 
     @RequestMapping("/workPlan/getWkCommonCodeWpT.do")
-    public String getWkCommonCodeWpT(Model model, @RequestParam Map<String, Object> params){
-        model.addAttribute("codeList", workPlanService.getWkCommonCodeWpT(params));
-        return "jsonView";
+    @ResponseBody
+    public Map<String, Object> getWkCommonCodeWpT(Model model, @RequestParam Map<String, Object> params){
+        List<Map<String, Object>> list = workPlanService.getWkCommonCodeWpT(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("codeList", list);
+        return resultMap;
     }
 
     @RequestMapping("/workPlan/updateApprStat")
-    public String updateApprStat(Model model, @RequestParam Map<String, Object> params){
-        model.addAttribute("data", workPlanService.updateApprStat(params));
-        return "jsonView";
+    @ResponseBody
+    public Map<String, Object> updateApprStat(Model model, @RequestParam Map<String, Object> params){
+        Map<String, Object> data = workPlanService.updateApprStat(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("data", data);
+        return resultMap;
     }
 
     @RequestMapping("/workPlan/getWorkPlanDefaultList.do")
-    public String getWorkPlanDefaultList(Model model, @RequestParam Map<String, Object> params){
+    @ResponseBody
+    public Map<String, Object> getWorkPlanDefaultList(Model model, @RequestParam Map<String, Object> params){
         List<Map<String, Object>> list = workPlanService.getWorkPlanDefaultList(params);
-        model.addAttribute("list", list);
-        return "jsonView";
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("list", list);
+        return resultMap;
     }
 
     //유연근무 현황 유저 데이터

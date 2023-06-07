@@ -62,7 +62,7 @@
           <tbody>
           <tr>
             <th scope="row" class="text-center th-color"><span class="red-star">*</span>신청구분</th>
-            <td colspan="5">초과근무</td>
+            <td colspan="5">시간외근무</td>
           </tr>
           <tr>
             <th class="text-center th-color"><span class="red-star">*</span>근무유형</th>

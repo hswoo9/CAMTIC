@@ -131,9 +131,12 @@ public class OverWkController {
      * @return
      */
     @RequestMapping("/overWk/getOverWorkPlanReqList")
-    public String getOverWorkPlanReqList(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("data", overWkService.getOverWorkPlanReqList(params));
-        return "jsonView";
+    @ResponseBody
+    public Map<String, Object> getOverWorkPlanReqList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = overWkService.getOverWorkPlanReqList(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("data", list);
+        return resultMap;
     }
 
     /**
@@ -149,21 +152,30 @@ public class OverWkController {
     }
 
     @RequestMapping(value = "/overWk/getApplyDateOwpCheck.do")
-    public String getApplyDateOwpCheck(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
-        model.addAttribute("rs", overWkService.getApplyDateOwpCheck(params));
-        return "jsonView";
+    @ResponseBody
+    public Map<String, Object> getApplyDateOwpCheck(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        Map<String, Object> rs = overWkService.getApplyDateOwpCheck(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("rs", rs);
+        return resultMap;
     }
 
     @RequestMapping(value = "/overWk/setOverWorkPlan.do")
-    public String setOverWorkPlan(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
-        model.addAttribute("rs", overWkService.setOverWorkPlan(params));
-        return "jsonView";
+    @ResponseBody
+    public Map<String, Object> setOverWorkPlan(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        Map<String, Object> rs = overWkService.setOverWorkPlan(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("rs", rs);
+        return resultMap;
     }
 
     @RequestMapping(value = "/overWk/updateApprStat")
-    public String updateApprStat(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
-        model.addAttribute("rs", overWkService.updateApprStat(params));
-        return "jsonView";
+    @ResponseBody
+    public Map<String, Object> updateApprStat(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        Map<String, Object> rs = overWkService.updateApprStat(params);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("rs", rs);
+        return resultMap;
     }
 
     //유연근무 현황 유저 데이터
