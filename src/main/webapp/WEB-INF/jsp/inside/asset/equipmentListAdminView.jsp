@@ -29,9 +29,7 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회년월</span>
-                                    <input type="text" id="start_date" style="width: 130px;">
-                                    ~
-                                    <input type="text" id="end_date" style="width: 130px;">
+                                    <input type="text" id="datePicker" style="width: 60%; margin-left: 10px;">
                                 </div>
                                 <div class="mr10">
                                     <span>구분</span>

@@ -8,20 +8,12 @@ var equipmentListAdminView = {
     },
 
     dataSet() {
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
+        $("#datePicker").kendoDatePicker({
+            value: new Date(),
+            start: "year",
+            depth: "year",
+            format: "yyyy-MM",
+            width: "150px"
         });
 
         $("#drop1").kendoDropDownList({
@@ -146,7 +138,7 @@ var equipmentListAdminView = {
     equipmentmangePopup : function(){
         var url = "/Inside/Pop/equipmentmangePop.do";
         var name = "equipmentmangePop";
-        var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
+        var option = "width = 1300, height = 800, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 }
