@@ -53,6 +53,16 @@ public class BustripController {
         return "inside/bustrip/inBustripList";
     }
 
+    //관내출장 신청 페이지
+    @RequestMapping("/Inside/pop/inBustripReqPop.do")
+    public String inBustripReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/inBustripReqPop";
+    }
+
     //관외출장리스트
     @RequestMapping("/Inside/outBustripList.do")
     public String outBustripList(HttpServletRequest request, Model model) {
@@ -61,6 +71,16 @@ public class BustripController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/bustrip/outBustripList";
+    }
+
+    //관외출장 신청 페이지
+    @RequestMapping("/Inside/pop/outBustripReqPop.do")
+    public String outBustripReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/outBustripReqPop";
     }
 
     //교통비기준정보
