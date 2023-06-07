@@ -38,6 +38,14 @@
         justify-content: center;
         align-items: center;
     }
+
+    input#checkAll {
+        margin: 0;
+    }
+
+    .k-grid .k-cell-inner>.k-link {
+        justify-content: center;
+    }
 </style>
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentmangePop.js?v=${today}"/></script>
 
@@ -72,16 +80,16 @@
                         </td>
                     </tr>
                 </table>
-                <div class="col-md-6 col-lg-6 dash-left">
-                    <div class="col-md-10 col-lg-10 dash-left mt10">
-                        장비목록
-                        <div id="mainGrid" style="margin:10px 0;"></div>
-                    </div>
-                    <div class="col-md-2 col-lg-2 dash-left" style="position: absolute; right: -16px; top: 50%;">
-                    </div>
+
+                <div class="col-md-6 col-lg-6 dash-left mt10" style="border: 1px solid #d5d5d5;">
+                    <div class="mt10"></div>
+                    <span style="font-weight: bold;">· 장비목록</span>
+                    <div id="mainGrid" style="margin:10px 0;"></div>
                 </div>
-                <div class="col-md-6 col-lg-6 dash-left mt-10">
-                    <table class="table table-bordered mb-0" id="">
+                <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 543px;">
+                    <div class="mt10"></div>
+                    <span style="font-weight: bold;">· 장비등록</span>
+                    <table class="table table-bordered mb-0 mt10" id="">
                         <colgroup>
                             <col width="25%">
                             <col width="25%">
@@ -120,9 +128,9 @@
                             </td>
                         </tr>
                         </thead>
-                        </table>
-                    </div><!-- table-responsive -->
-                </div>
+                    </table>
+                </div><!-- table-responsive -->
+            </div>
             </div>
         </div>
     </div>
