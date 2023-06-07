@@ -62,7 +62,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>진행상항</th>
+                            <th>진행상황</th>
                             <td>승인</td>
                         </tr>
                         </thead>

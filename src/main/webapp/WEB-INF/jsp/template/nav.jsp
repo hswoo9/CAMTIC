@@ -309,8 +309,8 @@
               <li><a href="/Inside/attendStat.do?menu=c_o" class="toggleMain1">근태집계</a></li>
               <li><a href="/Inside/personAttendStat.do?menu=c_o" class="toggleMain1">직원근태내역</a></li>
               <li><a href="/Inside/monthAttendStat.do?menu=c_o" class="toggleMain1">월별근태보고</a></li>
-              <li><a href="/Inside/workChoiceReq.do?menu=c_o" class="toggleMain1">선택근로</a></li>
-              <li><a href="/Inside/overWorkReq.do?menu=c_o" class="toggleMain1">연장근로</a></li>
+              <%--<li><a href="/Inside/workChoiceReq.do?menu=c_o" class="toggleMain1">선택근로</a></li>
+              <li><a href="/Inside/overWorkReq.do?menu=c_o" class="toggleMain1">연장근로</a></li>--%>
               <li><a href="/Inside/holidayWorkReq.do?menu=c_o" class="toggleMain1">휴일근로현황</a></li>
             </ul>
           </li>
