@@ -124,7 +124,6 @@ var pdaPeristalsisList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
                 { text: "자산명", value: "1" },
                 { text: "자산호", value: "2" },
                 { text: "모델", value: "3" }

@@ -18,6 +18,8 @@ var proposalList = {
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
     },
 
     mainGrid : function() {

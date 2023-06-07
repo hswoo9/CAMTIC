@@ -111,6 +111,9 @@ var rprList = {
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
+
     },
 
     mainGrid : function() {

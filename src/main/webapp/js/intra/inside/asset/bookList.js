@@ -21,6 +21,8 @@ var bookList = {
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
     },
 
     mainGrid : function() {

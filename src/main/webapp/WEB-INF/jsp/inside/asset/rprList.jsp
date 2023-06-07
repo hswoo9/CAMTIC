@@ -36,13 +36,13 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>기준</span>
-                                    <input type="text" id="drop1" style="width: 120px;">
+                                    <input type="text" id="drop1" style="width: 120px; margin-left: 29px;">
                                 </div>
                                 <div class="mr10">
                                     <span>조회기간</span>
-                                    <input type="text" id="start_date" style="width: 100px;">
+                                    <input type="text" id="start_date" style="width: 125px;">
                                     ~
-                                    <input type="text" id="end_date" style="width: 100px;">
+                                    <input type="text" id="end_date" style="width: 125px;">
                                 </div>
                                 <div class="mr10">
                                     <span>구분</span>
@@ -64,10 +64,10 @@
                                 </div>
                                 <div class="mr10">
                                     <span>기술이전</span>
-                                    <input type="text" id="drop6" style="width: 120px;">
+                                    <input type="text" id="drop6" style="width: 125px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px;">
+                                    <input type="text" id="searchType" style="width: 80px; margin-left: 7px; margin-right: 6px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">

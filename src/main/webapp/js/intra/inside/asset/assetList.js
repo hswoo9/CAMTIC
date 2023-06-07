@@ -144,6 +144,21 @@ var assetList = {
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
+
+        $("#drop10").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "20개", value: "1" },
+                { text: "50개", value: "2" },
+                { text: "100개", value: "3" }
+            ],
+            index: 0
+        });
+
     },
 
     mainGrid : function() {
@@ -233,7 +248,7 @@ var assetList = {
                     title: "모델명"
                 }, {
                     field: "",
-                    title: "규결"
+                    title: "규격"
                 }, {
                     field: "",
                     title: "설치 장소"

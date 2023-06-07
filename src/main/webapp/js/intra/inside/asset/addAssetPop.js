@@ -11,7 +11,6 @@ var addAssetPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
                 { text: "CAMTIC", value: "CAMTIC" },
                 { text: "드론산업", value: "드론산업" },
                 { text: "벤처단지", value: "벤처단지" }
@@ -23,7 +22,6 @@ var addAssetPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
                 { text: "자산", value: "자산" },
                 { text: "소모품", value: "소모품" },
                 { text: "부대품", value: "부대품" }
@@ -35,7 +33,6 @@ var addAssetPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
                 { text: "대분류", value: "대분류" },
                 { text: "차량운반구", value: "차량운반구" },
                 { text: "장비", value: "장비" },
@@ -49,7 +46,6 @@ var addAssetPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
                 { text: "중분류", value: "중분류" },
                 { text: "자동차", value: "자동차" },
                 { text: "자전거", value: "자전거" },
@@ -63,7 +59,6 @@ var addAssetPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
                 { text: "소분류", value: "소분류" },
                 { text: "자동차", value: "자동차" },
             ],

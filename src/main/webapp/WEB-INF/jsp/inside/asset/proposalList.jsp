@@ -35,7 +35,7 @@
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;">
                                 <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px;">
+                                    <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">

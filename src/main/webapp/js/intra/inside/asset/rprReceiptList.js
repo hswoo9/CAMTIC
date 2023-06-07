@@ -45,6 +45,8 @@ var rprReceiptList = {
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
     },
 
     mainGrid : function() {
@@ -87,10 +89,6 @@ var rprReceiptList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
-                    width: 50
-                }, {
                     field: "",
                     title: "순번"
                 }, {

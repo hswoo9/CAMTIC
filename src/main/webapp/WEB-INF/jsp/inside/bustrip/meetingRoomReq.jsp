@@ -34,34 +34,53 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
-                        <td style="border-bottom:0;">
-                            <span>년월</span>
-                            <input type="text" id="datePicker" style="width: 10%; margin-left: 10px; margin-right:10px;">
-                            <span>회의실 구분</span>
-                            <input type="text" id="meetingRoomDivision" style="width: 150px; margin-right:10px;">
-                            <span>사용 목적</span>
-                            <input type="text" id="usePurpose" style="width: 150px; margin-right:10px;">
-                            <span>대관료</span>
-                            <input type="text" id="rentalFee" style="width: 150px; margin-right:10px;">
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex;">
+                                <div class="mr10">
+                                    <span>년월</span>
+                                    <input type="text" id="datePicker" style="width: 150px; margin-left:24px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>회의실 구분</span>
+                                    <input type="text" id="meetingRoomDivision" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>사용 목적</span>
+                                    <input type="text" id="usePurpose" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>대관료</span>
+                                    <input type="text" id="rentalFee" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                        달력 보기 (BAR)
+                                    </button>
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="meetingRoomReq.meetingRoomPopup();">
+                                        회의실 사용 신청
+                                    </button>
+                                </div>
+                            </div>
 
-                            <span>검색구분</span>
-                            <input type="text" id="searchDivision" style="width: 150px; margin-right:10px;">
-                            <input type="text" id="name" style="width: 100px; margin-right:10px;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                <span class="k-icon k-i-search k-button-icon"></span>
-                            </button>
-                            <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-right:10px;" onclick="">
-                                검색 초기화
-                            </button>
-                            <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
-                                달력 보기 (BAR)
-                            </button>
-                            <%--<button type="button" id="list" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
-                                목록 보기
-                            </button>--%>
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="meetingRoomReq.meetingRoomPopup();">
-                                회의실 사용 신청
-                            </button>
+                            <div style="display:flex;" class="mt10">
+                                <div class="mr10">
+                                    <span>검색구분</span>
+                                    <input type="text" id="searchDivision" style="width: 150px; margin-right:10px;">
+                                    <input type="text" id="name" style="width: 100px;">
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                        검색
+                                    </button>
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-right:10px;" onclick="">
+                                        검색 초기화
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>

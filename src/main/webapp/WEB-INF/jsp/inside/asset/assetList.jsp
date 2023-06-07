@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -36,9 +29,9 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회기간</span>
-                                    <input type="text" id="start_date" style="width: 100px;">
+                                    <input type="text" id="start_date" style="width: 150px;">
                                     ~
-                                    <input type="text" id="end_date" style="width: 100px;">
+                                    <input type="text" id="end_date" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
                                     <span>자산소속</span>
@@ -68,7 +61,7 @@
                                 </div>
                                 <div class="mr10">
                                     <span>설치장소</span>
-                                    <input type="text" id="drop7" style="width: 120px;">
+                                    <input type="text" id="drop7" style="width: 135px;">
                                 </div>
                                 <div class="mr10">
                                     <span>등록상태</span>
@@ -76,10 +69,10 @@
                                 </div>
                                 <div class="mr10">
                                     <span>바코드</span>
-                                    <input type="text" id="drop9" style="width: 120px;">
+                                    <input type="text" id="drop9" style="width: 120px; margin-left: 12px; margin-right: 40px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px;">
+                                    <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
@@ -89,6 +82,7 @@
                             <div style="display:flex;" class="mt10">
                                 <div class="mr10">
                                     <span>목록</span>
+                                    <input type="text" id="drop10" style="width: 120px; margin-left:24px; margin-right: 6px;">
                                     <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="바코드 출력(대)" onclick=""/>
                                 </div>
                                 <div class="mr10">

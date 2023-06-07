@@ -29,7 +29,7 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>구분</span>
-                                    <input type="text" id="searchType" style="width: 140px;">
+                                    <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
