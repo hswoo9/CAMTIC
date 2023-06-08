@@ -48,34 +48,36 @@
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="onDisplay();">
                                         상세검색
                                     </button>
                                 </div>
                             </div>
-                            <div style="display:flex;" class="mt10">
-                                <div class="mr10">
-                                    <span>상태</span>
-                                    <input type="text" id="situation" style="width: 100px; margin-left:28px;">
+                            <div style="display: none;" id="noneDiv"> <%--상세검색 버튼을 클릭시 div가 보이도록--%>
+                                <div style="display:flex;" class="mt10">
+                                    <div class="mr10">
+                                        <span>상태</span>
+                                        <input type="text" id="situation" style="width: 100px; margin-left:28px;">
+                                    </div>
+                                    <div class="mr10">
+                                        <span>근태 항목</span>
+                                        <input type="text" id="attendanceItems" style="width: 200px;">
+                                    </div>
+                                    <div class="mr10">
+                                        <span>성명</span>
+                                        <input type="text" id="name" style="width: 200px;">
+                                    </div>
                                 </div>
-                                <div class="mr10">
-                                    <span>근태 항목</span>
-                                    <input type="text" id="attendanceItems" style="width: 200px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>성명</span>
-                                    <input type="text" id="name" style="width: 200px;">
-                                </div>
-                            </div>
-                            <div style="display:flex;" class="mt10">
-                                <div class="mr10">
-                                    <span>직원 구분</span>
-                                    <input type="text" id="staffDivision" style="width: 200px;">
-                                </div>
-                                <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                        검색 초기화
-                                    </button>
+                                <div style="display:flex;" class="mt10">
+                                    <div class="mr10">
+                                        <span>직원 구분</span>
+                                        <input type="text" id="staffDivision" style="width: 200px;">
+                                    </div>
+                                    <div class="mr10">
+                                        <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                            검색 초기화
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -152,4 +154,7 @@
 <script type="text/javascript">
     personAttendStat.fn_defaultScript();
     personAttendStat.mainGrid();
+    function onDisplay() {
+        $('#noneDiv').show();
+    }
 </script>
