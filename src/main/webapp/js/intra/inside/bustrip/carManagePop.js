@@ -7,7 +7,7 @@ var now = new Date();
 var carManagePop = {
     fn_defaultScript: function () {
 
-        $("#useYN").kendoDropDownList({
+        $("#RuseYN").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -21,7 +21,7 @@ var carManagePop = {
         $("#carType").kendoTextBox();
         $("#carNum").kendoTextBox();
 
-        $("#dept").kendoDropDownTree({
+        $("#Rdept").kendoDropDownTree({
             placeholder: "부서 선택",
             checkboxes: true,
             checkAll: true,

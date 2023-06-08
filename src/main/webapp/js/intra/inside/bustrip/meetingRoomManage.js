@@ -3,10 +3,16 @@
  * 작성자 : 김지혜
  * 내용 : 차량/회의실관리 - 회의실 관리
  */
-
+var now = new Date();
 var meetingRoomManage = {
     fn_defaultScript: function () {
-
+        $("#registrant_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth()))
+        });
         $("#useYN").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -30,6 +36,37 @@ var meetingRoomManage = {
         });
 
         $("#titleContent").kendoTextBox();
+
+        $("#useYN1").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "사용", value: "사용"},
+                {text: "미사용", value: "미사용"}
+            ],
+            index: 0
+        });
+
+        $("#meetingRoomName").kendoTextBox();
+        $("#space1").kendoTextBox();
+        $("#Num").kendoTextBox();
+
+        $("#coronationYN").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "해당없음", value: ""},
+                {text: "가능", value: "가능"},
+                {text: "불가능", value: "불가능"}
+            ],
+            index: 0
+        });
+
+        $("#rentalFee").kendoTextBox();
+        $("#registrant").kendoTextBox();
+
+        $("#significant").kendoTextBox();
     },
         mainGrid: function () {
             var dataSource = new kendo.data.DataSource({
@@ -67,14 +104,11 @@ var meetingRoomManage = {
                 },
                 toolbar: [
                     {
-                        name: 'excel',
-                        text: '엑셀다운로드'
-                    }, {
-                        name: '',
-                        text: '수정'
-                    }, {
                         name: '',
                         text: '삭제'
+                    }, {
+                        name: '',
+                        text: '신규'
                     }
                 ],
                 noRecords: {
@@ -82,6 +116,10 @@ var meetingRoomManage = {
                 },
                 columns: [
                     {
+                        headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                        template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                        width: 50
+                    }, {
                         field: "",
                         title: "순번",
                         width: "10%",
@@ -89,19 +127,27 @@ var meetingRoomManage = {
                     }, {
                         field: "",
                         title: "회의실 명",
-                        width: "22.5%"
+                        width: "15%"
                     }, {
                         field: "",
                         title: "장소",
-                        width: "22.5%"
+                        width: "15%"
                     }, {
                         field: "",
                         title: "수용 인원",
-                        width: "22.5%"
+                        width: "15%"
+                    }, {
+                        field: "",
+                        title: "등록자",
+                        width: "15%"
+                    }, {
+                        field: "",
+                        title: "등록일자",
+                        width: "15%"
                     }, {
                         field: "",
                         title: "사용 여부",
-                        width: "22.5%"
+                        width: "15%"
                     }]
             }).data("kendoGrid");
         },

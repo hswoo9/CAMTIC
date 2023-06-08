@@ -7,7 +7,7 @@ var now = new Date();
 var meetingRoomManagePop = {
     fn_defaultScript: function () {
 
-        $("#useYN").kendoDropDownList({
+        $("#useYN1").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -19,7 +19,7 @@ var meetingRoomManagePop = {
         });
 
         $("#meetingRoomName").kendoTextBox();
-        $("#space").kendoTextBox();
+        $("#space1").kendoTextBox();
         $("#Num").kendoTextBox();
 
         $("#coronationYN").kendoDropDownList({
