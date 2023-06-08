@@ -97,34 +97,25 @@ var commissionerManage = {
                     width: 50
                 }, {
                     field: "",
-                    title: "발급 번호"
-                }, {
-                    field: "",
-                    title: "요청일"
-                }, {
-                    field: "",
-                    title: "발급 구분"
-                }, {
-                    field: "",
-                    title: "부서"
+                    title: "연번"
                 }, {
                     field: "",
                     title: "성명"
                 }, {
                     field: "",
-                    title: "제출예정일"
+                    title: "성별"
                 }, {
                     field: "",
-                    title: "용도"
+                    title: "기관(소속)"
                 }, {
                     field: "",
-                    title: "처리 상태"
+                    title: "직급(직책)"
                 }, {
                     field: "",
-                    title: "처리일"
+                    title: "휴대폰"
                 }, {
                     field: "",
-                    title: "처리자"
+                    title: "비고"
                 }
             ]
         }).data("kendoGrid");

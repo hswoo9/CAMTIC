@@ -137,34 +137,34 @@ var rewardReq = {
                     width: 50
                 }, {
                     field: "",
-                    title: "발급 번호"
-                }, {
-                    field: "",
-                    title: "요청일"
-                }, {
-                    field: "",
-                    title: "발급 구분"
-                }, {
-                    field: "",
-                    title: "부서"
+                    title: "순번"
                 }, {
                     field: "",
                     title: "성명"
                 }, {
                     field: "",
-                    title: "제출예정일"
+                    title: "내/외부"
                 }, {
                     field: "",
-                    title: "용도"
+                    title: "포상구분"
                 }, {
                     field: "",
-                    title: "처리 상태"
+                    title: "포상일자"
                 }, {
                     field: "",
-                    title: "처리일"
+                    title: "공적사항"
                 }, {
                     field: "",
-                    title: "처리자"
+                    title: "시행처"
+                }, {
+                    field: "",
+                    title: "관련파일"
+                }, {
+                    field: "",
+                    title: "비고"
+                }, {
+                    field: "",
+                    title: "기록인"
                 }
             ]
         }).data("kendoGrid");

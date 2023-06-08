@@ -99,34 +99,37 @@ var recruitList = {
                     width: 50
                 }, {
                     field: "",
-                    title: "발급 번호"
+                    title: "순번"
                 }, {
                     field: "",
-                    title: "요청일"
+                    title: "공고번호"
                 }, {
                     field: "",
-                    title: "발급 구분"
+                    title: "공고명"
                 }, {
                     field: "",
-                    title: "부서"
+                    title: "모집기간"
                 }, {
                     field: "",
-                    title: "성명"
+                    title: "모집분야"
                 }, {
                     field: "",
-                    title: "제출예정일"
+                    title: "경력"
                 }, {
                     field: "",
-                    title: "용도"
+                    title: "채용인원"
                 }, {
                     field: "",
-                    title: "처리 상태"
+                    title: "접수인원"
                 }, {
                     field: "",
-                    title: "처리일"
+                    title: "서류심사"
                 }, {
                     field: "",
-                    title: "처리자"
+                    title: "면접심사"
+                }, {
+                    field: "",
+                    title: "상태"
                 }
             ]
         }).data("kendoGrid");
