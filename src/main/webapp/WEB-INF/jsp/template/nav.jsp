@@ -117,7 +117,7 @@
         </ul>
       </li>
       <li>
-        <a class="toggleMain" href="#">캠스팟2.0</a>
+        <a class="toggleMain" href="#">캠스팟</a>
         <ul class="innerMain children b">
           <li>
             <a href="#" class="toggleMain">게시판</a>
@@ -143,7 +143,7 @@
         </ul>
       </li>
       <li>
-        <a class="toggleMain" href="#">캠인사이드2.0</a>
+        <a class="toggleMain" href="#">캠인사이드</a>
         <ul class="innerMain children c">
           <h5 class="sidebar-title">인사관리</h5>
           <li>
@@ -333,27 +333,33 @@
         </ul>
       </li>
       <li>
-        <a class="toggleMain" href="#">캠퍼스2.0</a>
+        <a class="toggleMain" href="#">캠퍼스</a>
         <ul class="innerMain children d">
           <li>
             <a href="#" class="toggleMain">학습관리</a>
             <ul class="innerMain children d_a">
-              <li><a href="#" class="toggleMain1">개인학습신청</a></li> <%--menu=d_a--%>
-              <li><a href="#" class="toggleMain1">개인학습관리</a></li>
-              <li><a href="#" class="toggleMain1">학습조관리</a></li>
-              <li><a href="#" class="toggleMain1">전파학습관리</a></li>
-              <li><a href="#" class="toggleMain1">O/T관리</a></li>
-              <li><a href="#" class="toggleMain1">오픈스터디관리</a></li>
-              <li><a href="#" class="toggleMain1">공통학습관리(캠화지등)</a></li>
+              <li><a href="/Campus/eduReq.do?menu=d_a" class="toggleMain1">개인학습신청</a></li> <%--menu=d_a--%>
+              <li><a href="/Campus/eduInfo.do?menu=d_a" class="toggleMain1">개인학습관리</a></li>
+              <li><a href="/Campus/studyInfo.do?menu=d_a" class="toggleMain1">학습조관리</a></li>
+              <li><a href="/Campus/propagInfo.do?menu=d_a" class="toggleMain1">전파학습관리</a></li>
+              <li><a href="/Campus/ojtInfo.do?menu=d_a" class="toggleMain1">OJT관리</a></li>
+              <li><a href="/Campus/openStudyInfo.do?menu=d_a" class="toggleMain1">오픈스터디관리</a></li>
+              <li><a href="/Campus/eduManagement.do?menu=d_a" class="toggleMain1">공통학습관리(캠화지등)</a></li>
             </ul>
           </li>
-          <li><a href="#" class="toggleMain1">학습통계</a></li> <%--menu=d_b--%>
-          <li><a href="#" class="toggleMain1">목표기술서관리</a></li>
-          <li><a href="#" class="toggleMain1">직무기술서관리</a></li>
+          <li><a href="/Campus/eduStat.do?menu=d_b" class="toggleMain1">학습통계</a></li> <%--menu=d_b--%>
+          <li>
+            <a href="#" class="toggleMain1">목표기술서관리</a>
+            <ul class="innerMain children d_c">
+              <li><a href="/Campus/targetInfo.do?menu=d_c" class="toggleMain1">목표기술서작성</a></li>
+              <li><a href="/Campus/systemManagement.do?menu=d_c" class="toggleMain1">학습체계도관리</a></li>
+            </ul>
+          </li>
+          <li><a href="/Campus/dutyInfo.do?menu=d_d" class="toggleMain1">직무기술서작성</a></li>
         </ul>
       </li>
       <li>
-        <a class="toggleMain" href="#">캠프로젝트매니저</a>
+        <a class="toggleMain" href="#">캠프로젝트</a>
         <ul class="innerMain children e">
           <li>
             <a href="#" class="toggleMain">캠알앤디</a>
@@ -379,7 +385,7 @@
         </ul>
       </li>
       <li>
-        <a class="toggleMain" href="#">캠CRM2.0</a>
+        <a class="toggleMain" href="#">캠CRM</a>
         <ul class="innerMain children f">
           <li>
             <a href="#" class="toggleMain">메인화면(통합검색)</a>
@@ -479,7 +485,7 @@
         </ul>
       </li>
       <li>
-        <a class="toggleMain" href="#">캠매니저2.0</a>
+        <a class="toggleMain" href="#">캠매니저</a>
         <ul class="innerMain children h">
           <li>
             <a href="#" class="toggleMain">예산관리</a>
