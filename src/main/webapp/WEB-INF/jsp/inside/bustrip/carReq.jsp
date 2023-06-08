@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     table { background-color: white; }
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carReq.js?v=${today}"/></script>
@@ -35,25 +36,42 @@
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0;">
-                            <span>년월</span>
-                            <input type="text" id="datePicker" style="width: 10%; margin-left: 10px; margin-right:10px;">
-                            <span>사용 차량</span>
-                            <input type="text" id="useCar" style="width: 150px; margin-right:10px;">
-                            <span>운행 구분</span>
-                            <input type="text" id="raceDivision" style="width: 150px; margin-right:10px;">
-
-                            <span>검색구분</span>
-                            <input type="text" id="searchDivision" style="width: 150px; margin-right:10px;">
-                            <input type="text" id="name" style="width: 100px; margin-right:10px;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                <span class="k-icon k-i-search k-button-icon"></span>
-                            </button>
-                            <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-right:10px;" onclick="">
-                                검색 초기화
-                            </button>
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carReq.carPopup();">
-                                차량 사용 신청
-                            </button>
+                            <div style="display:flex;">
+                                <div class="mr10">
+                                    <span>년월</span>
+                                    <input type="text" id="datePicker" style="width: 130px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>사용 차량</span>
+                                    <input type="text" id="useCar" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>운행 구분</span>
+                                    <input type="text" id="raceDivision" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                <span>검색구분</span>
+                                    <input type="text" id="searchDivision" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                    <input type="text" id="name" style="width: 100px;">
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                        <span>검색</span>
+                                    </button>
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                        검색 초기화
+                                    </button>
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carReq.carPopup();">
+                                        차량 사용 신청
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>

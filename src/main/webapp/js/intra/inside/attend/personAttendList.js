@@ -19,6 +19,7 @@ var personAttendList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "승인 전", value: "승인 전"},
                 {text: "결재 종결", value: "결재 종결"},
                 {text: "결재 상신", value: "결재 상신"},
@@ -31,6 +32,7 @@ var personAttendList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "정상 출근", value: "정상 출근"},
                 {text: "지각", value: "지각"},
                 {text: "연가", value: "연가"},

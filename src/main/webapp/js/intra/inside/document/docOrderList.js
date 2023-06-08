@@ -11,6 +11,7 @@ var docOrderList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "제작", value: "제작"},
                 {text: "가공", value: "가공"},
                 {text: "사업", value: "사업"},
@@ -23,6 +24,7 @@ var docOrderList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "문서번호", value: "문서번호"},
                 {text: "문서제목(건명)", value: "문서제목(건명)"},
                 {text: "발주업체", value: "발주업체"}
@@ -128,7 +130,7 @@ var docOrderList = {
     docOrderPopup : function(){
         var url = "/Inside/pop/docOrderPop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
+        var option = "width = 1100, height = 600, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 }

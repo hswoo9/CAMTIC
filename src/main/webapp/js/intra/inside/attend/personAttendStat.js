@@ -19,6 +19,7 @@ var personAttendStat = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "미래전략기획본부", value: "미래전략기획본부"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
                 {text: "기업성장지원본부", value: "기업성장지원본부"},
@@ -34,6 +35,7 @@ var personAttendStat = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "제조혁신팀", value: "제조혁신팀"},
                 {text: "신기술융합팀", value: "신기술융합팀"},
                 {text: "우주개발팀", value: "우주개발팀"},
@@ -56,6 +58,7 @@ var personAttendStat = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "승인 전", value: "승인 전"},
                 {text: "결재 종결", value: "결재 종결"},
                 {text: "결재 상신", value: "결재 상신"},
@@ -68,6 +71,7 @@ var personAttendStat = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "정상 출근", value: "정상 출근"},
                 {text: "지각", value: "지각"},
                 {text: "연가", value: "연가"},
@@ -137,6 +141,13 @@ var personAttendStat = {
             },
             toolbar: [
                 {
+                    name : 'button',
+                    template : function (e) {
+                        return "<button type=\"button\" class=\"k-grid-save-changes k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick='personAttendStat.personAttendStatPopup()'>" +
+                            '	<span>근태조정</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }

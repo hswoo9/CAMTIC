@@ -72,6 +72,10 @@
                         <td><input type="text" id="contratNum" style="width: 100%; margin-right:10px;"></td>
                     </tr>
                     <tr>
+                        <th scope="row" class="text-center th-color"><span class="red-star"></span>계약명</th>
+                        <td colspan="3"><input type="text" id="contratName" style="width: 100%;"></td>
+                    </tr>
+                    <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>계약 업체</th>
                         <td colspan="3"><input type="text" id="contractor" style="width: 37%;" value="페스코">
                             <button type="button" id="contractorSearch" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
@@ -142,7 +146,7 @@
             </div>
             <div class="btn-st">
                 <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기"  onclick=""/>
             </div>
         </div>
     </div>

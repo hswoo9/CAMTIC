@@ -5,6 +5,8 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+    .k-grid .k-cell-inner {justify-content: center;}
     table { background-color: white; }
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carManage.js?v=${today}"/></script>
@@ -35,18 +37,32 @@
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0;">
-                            <span>사용 여부</span>
-                            <input type="text" id="useYN" style="width: 150px; margin-right:10px;">
-                            <span>사용 부서</span>
-                            <input type="text" id="dept" style="width: 200px; margin-right:10px;">
-                            <input type="text" id="carStyle" style="width: 200px; margin-right:10px;">
-                            <input type="text" id="titleContent" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                <span class="k-icon k-i-search k-button-icon"></span>
-                            </button>
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="carManage.carManagePopup();">
-                                등록
-                            </button>
+                            <div style="display:flex;">
+                                <div class="mr10">
+                                    <span>사용 여부</span>
+                                    <input type="text" id="useYN" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>사용 부서</span>
+                                    <input type="text" id="dept" style="width: 200px;">
+                                </div>
+                                <div class="mr10">
+                                    <input type="text" id="carStyle" style="width: 200px;">
+                                </div>
+                                <div class="mr10">
+                                    <input type="text" id="titleContent" style="width: 200px;">
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                        <span>조회</span>
+                                    </button>
+                                </div>
+                                <div class="mr10">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="carManage.carManagePopup();">
+                                        등록
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>

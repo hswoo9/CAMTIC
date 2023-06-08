@@ -1,16 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+    .k-grid .k-cell-inner>.k-link {
+        justify-content: center;
+    }
+</style>
 <script type="text/javascript" src="/js/intra/inside/attend/personReqManage.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -23,34 +22,37 @@
             <h4 class="panel-title">근태신청현황</h4>
             <div class="title-road">근태관리 &gt; 근태신청현황</div>
         </div>
-
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
             <div>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex; justify-content: space-between;">
-                                <div>
+                            <div style="display:flex;">
+                                <div class="mr10">
                                     <span>조회 기간</span>
-                                    <input type="text" id="startDay" style="width: 20%;">
+                                    <input type="text" id="startDay" style="width: 130px;">
                                     ~
-                                    <input type="text" id="endDay" style="width: 20%; margin-right:10px;">
+                                    <input type="text" id="endDay" style="width: 130px;">
+                                </div>
+                                <div class="mr10">
                                     <span>상태</span>
                                     <input type="text" id="situation" style="width: 150px; margin-right:10px;">
+                                </div>
+                                <div class="mr10">
                                     <span>근태 항목</span>
                                     <input type="text" id="attendanceItems" style="width: 200px; margin-right:10px;">
                                 </div>
                                 <div>
                                     <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                        <span class="k-icon k-i-search k-button-icon"></span>
+                                        <span>검색</span>
                                     </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 </table>
+                <h4 class="panel-title">* 신청 현황</h4>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -114,11 +116,10 @@
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
+                    <h4 class="panel-title">* 근태 신청 현황 : 0건</h4>
+                    <div id="mainGrid" style="margin:20px 0;"></div>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
-            <div id="mainGrid"></div>
         </div>
     </div>
 </div>

@@ -7,10 +7,14 @@ var now = new Date();
 var personAttendStatPop = {
     fn_defaultScript: function () {
 
+        $("#time").kendoTextBox();
+        $("#user").kendoTextBox();
+
         $("#attendanceItems").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "전체", value: "" },
                 {text: "정상 출근", value: "정상 출근"},
                 {text: "지각", value: "지각"},
                 {text: "연가", value: "연가"},

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -12,6 +5,11 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <script type="text/javascript" src="/js/intra/inside/attend/personAttendStat.js?v=${toDate}"/></script>
+
+<style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+    .k-grid .k-cell-inner {justify-content: center;}
+</style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -23,55 +21,67 @@
             <h4 class="panel-title">직원근태내역</h4>
             <div class="title-road">근태관리 &gt; 직원근태내역</div>
         </div>
-
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
             <div>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex; justify-content: space-between;">
-                                <div>
+                            <div style="display:flex;">
+                                <div class="mr10">
                                     <span>조회 기간</span>
-                                    <input type="text" id="startDay" style="width: 20%;">
+                                    <input type="text" id="startDay" style="width: 130px;">
                                     ~
-                                    <input type="text" id="endDay" style="width: 20%; margin-right:10px;">
+                                    <input type="text" id="endDay" style="width: 130px;">
+                                </div>
+                                <div class="mr10">
                                     <span>부서</span>
-                                    <input type="text" id="dept" style="width: 150px; margin-right:10px;">
+                                    <input type="text" id="dept" style="width: 150px;">
+                                </div>
+                                <div class="mr10">
                                     <span>팀</span>
-                                    <input type="text" id="team" style="width: 200px; margin-right:10px;">
+                                    <input type="text" id="team" style="width: 200px;">
+                                </div>
+                                <div class="mr10">
                                     <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                        <span class="k-icon k-i-search k-button-icon"></span>
+                                        <span>검색</span>
                                     </button>
                                 </div>
-                                <div>
-                                    <button type="button" id="attendStat" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="personAttendStat.personAttendStatPopup();">
-                                        근태조정
-                                    </button>
+                                <div class="mr10">
                                     <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
                                         상세검색
                                     </button>
                                 </div>
                             </div>
-                            <div>
-                                <span>상태</span>
-                                <input type="text" id="situation" style="width: 150px; margin-right:10px;">
-                                <span>근태 항목</span>
-                                <input type="text" id="attendanceItems" style="width: 200px; margin-right:10px;">
-                                <span>성명</span>
-                                <input type="text" id="name" style="width: 200px;">
+                            <div style="display:flex;" class="mt10">
+                                <div class="mr10">
+                                    <span>상태</span>
+                                    <input type="text" id="situation" style="width: 100px; margin-left:28px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>근태 항목</span>
+                                    <input type="text" id="attendanceItems" style="width: 200px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>성명</span>
+                                    <input type="text" id="name" style="width: 200px;">
+                                </div>
                             </div>
-                            <div>
-                                <span>직원 구분</span>
-                                <input type="text" id="staffDivision" style="width: 80%; margin-right:10px;">
-                                <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                    검색 초기화
-                                </button>
+                            <div style="display:flex;" class="mt10">
+                                <div class="mr10">
+                                    <span>직원 구분</span>
+                                    <input type="text" id="staffDivision" style="width: 200px;">
+                                </div>
+                                <div class="mr10">
+                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                        검색 초기화
+                                    </button>
+                                </div>
                             </div>
                         </td>
                     </tr>
                 </table>
+                <h4 class="panel-title">* 부서</h4>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -129,11 +139,10 @@
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
+                    <h4 class="panel-title">* 근태 현황</h4>
+                    <div id="mainGrid" style="margin:20px 0;"></div>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
-            <div id="mainGrid"></div>
         </div>
     </div>
 </div>

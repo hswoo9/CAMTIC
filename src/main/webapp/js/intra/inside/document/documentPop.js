@@ -11,6 +11,7 @@ var documentPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                {text: "선택하세요", value: ""},
                 {text: "미래전략기획본부", value: "미래전략기획본부"},
                 {text: "R&BD사업본부", value: "R&BD사업본부"},
                 {text: "기업성장지원본부", value: "기업성장지원본부"},
@@ -22,6 +23,9 @@ var documentPop = {
             index: 0
         });
 
+        $("#destination").kendoTextBox();
+        $("#manager").kendoTextBox();
+        $("#title").kendoTextBox();
         $("#remark").kendoTextBox();
 
     },

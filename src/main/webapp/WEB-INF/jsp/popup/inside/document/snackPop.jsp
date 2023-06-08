@@ -107,7 +107,7 @@
                         <td colspan="3"><textarea type="text" id="UseReason" style="width: 100%;"></textarea></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">첨부</th>
+                        <th scope="row" class="text-center th-color">영수증</th>
                         <td colspan="3" style="padding:5px;"><input type="file"></td>
                     </tr>
                     </tbody>
@@ -124,7 +124,6 @@
 
 <script>
     snackPop.fn_defaultScript();
-    overWk.fn_defaultScript();
 </script>
 </body>
 </html>

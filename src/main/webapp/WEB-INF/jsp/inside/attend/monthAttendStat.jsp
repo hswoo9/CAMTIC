@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -12,6 +5,10 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <script type="text/javascript" src="/js/intra/inside/attend/monthAttendStat.js?v=${toDate}"/></script>
+
+<style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+</style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -38,13 +35,14 @@
                                 </div>
                                 <div>
                                     <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
-                                        <span class="k-icon k-i-search k-button-icon"></span>
+                                        <span>검색</span>
                                     </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 </table>
+                <h3 class="panel-title" style="text-align: center;"> 2023년 5월 직원 근태현황</h3>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
