@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userManage">
+    <select id="getUserPersonnelRecordList" parameterType="map" resultType="map">
+        /* getUserPersonnelRecordList */
+        SELECT
+            a.emp_seq AS 'empSeq',
+            a.erp_emp_seq AS 'erpEmpSeq',
+            a.login_id AS 'loginId',
+            a.EMP_NAME_KR AS 'empName',
+            a.EMP_NAME_CN AS 'empNameCn',
+            a.BDAY as 'bDay',
+            a.ZIP_CODE AS 'zipCode',
+            a.ADDR AS 'addr',
+            a.OLD_ADDR AS 'oldAdrr',
+            a.ADDR_DETAIL AS 'addrDetail',
+            a.ADDR_REFERENCES AS 'addrReferences',
+            a.OFFICE_TEL_NUM AS 'officeTelNum',
+            a.MOBILE_TEL_NUM AS 'mobileTelNum',
+            a.JOIN_DAY AS 'joinDay',
+            a.RESIGN_DAY AS 'resignDay'
+        FROM
+            cam_hr.dj_emp_info AS a
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+    </select>
+    <select id="getEducationalList" parameterType="map" resultType="map">
+        /* getEducationalList */
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+            LEFT join
+            cam_hr.dj_emp_educational AS b
+            on
+            a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+    </select>
+    <select id="getMilitarySvcInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+            LEFT join
+            cam_hr.dj_emp_military_svc_info AS b
+            on
+            a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+    </select>
+</mapper>

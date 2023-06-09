@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.userManage.controller;
 
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.system.service.CommonCodeService;
 import egovframework.com.devjitsu.user.service.UserService;
@@ -14,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class UserManageController {
@@ -28,6 +27,9 @@ public class UserManageController {
 
     @Autowired
     private CommonCodeService commonCodeService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     //인사기록카드 페이지
     @RequestMapping("/Inside/userPersonList.do")
@@ -44,8 +46,16 @@ public class UserManageController {
     public String userPersonnelRecord(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> map = new HashMap<>();
+        map.put("empSeq", login.getUniqId());
+        Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map);
+        List<Map<String,Object>> educationalList = userManageService.getEducationalList(map);
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("uprList", userPersonnelRecordList);
+        model.addAttribute("eList", educationalList);
+        model.addAttribute("mInfo", militarySvcInfo);
         return "inside/userManage/userPersonnelRecord";
     }
 
@@ -116,6 +126,85 @@ public class UserManageController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    @RequestMapping("/useManage/userPersonnelRecordPop.do")
+    public String userPersonnelRecordEduAddPop(@RequestParam String popName) {
+        switch(popName) {
+            case "degree":
+                return "popup/inside/userManage/userPersonnelRecordDegreePop";
+            case "career":
+                return "popup/inside/userManage/userPersonnelRecordCareerPop";
+            case "military":
+                return "popup/inside/userManage/userPersonnelRecordMilitaryPop";
+            case "family":
+                return "popup/inside/userManage/userPersonnelRecordFamilyPop";
+            case "license":
+                return "popup/inside/userManage/userPersonnelRecordLicensePop";
+            case "job":
+                return "popup/inside/userManage/userPersonnelRecordJobPop";
+            case "appointing":
+                return "popup/inside/userManage/userPersonnelRecordAppointingPop";
+            case "reward":
+                return "popup/inside/userManage/userPersonnelRecordRewardPop";
+            case "edu":
+                return "popup/inside/userManage/userPersonnelRecordEduPop";
+            case "workEval":
+                return "popup/inside/userManage/userPersonnelRecordWorkEvalPop";
+            case "proposal":
+                return "popup/inside/userManage/userPersonnelRecordProposalPop";
+        }
+        return "redirect:inside/userManage/userPersonnelRecord";
+    }
+    @RequestMapping("/useManage/setUserPersonnelRecordInfo")
+    public void setUserDegreeInfo(@RequestParam Map<String,Object> map) {
+        System.out.println("D A T A : : : : : : : : : : "+map);
+        switch(map.get("type").toString()) {
+            case "degree":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserDegreeInfo(map);
+                break;
+            case "career":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserCareerInfo(map);
+                break;
+            case "military":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserMilitarySvcInfo(map);
+                break;
+            case "family":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserFamilyInfo(map);
+                break;
+            case "license":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserLicenseInfo(map);
+                break;
+            case "job":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserJobInfo(map);
+                break;
+            case "appointing":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserAppointingInfo(map);
+                break;
+            case "reward":
+                System.out.println(map.get("type").toString());
+                //.setUserRewardInfo(map);
+                break;
+            case "edu":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserEduInfo(map);
+                break;
+            case "workEval":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserWorkEvalInfo(map);
+                break;
+            case "proposal":
+                System.out.println(map.get("type").toString());
+                //userManageService.setUserProposalInfo(map);
+                break;
+        }
     }
 
 }

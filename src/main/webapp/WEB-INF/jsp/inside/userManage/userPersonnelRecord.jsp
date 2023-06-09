@@ -72,37 +72,37 @@
                                         <th>사원번호</th>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${data.ERP_EMP_SEQ eq null or data.ERP_EMP_SEQ eq ''}">
-                                                    <input type="hidden" id="empSeq" name="empSeq" value="${data.EMP_SEQ}">
-                                                    <input type="hidden" id="erpEmpSeq" name="erpEmpSeq" value="${data.ERP_EMP_SEQ}">
+                                                <c:when test="${uprList.empSeq eq null or uprList.empSeq eq ''}">
+                                                    <input type="hidden" id="empSeq" name="empSeq" value="${uprList.empSeq}">
+                                                    <input type="text" id="erpEmpSeq" name="erpEmpSeq" value="">
                                                     <input id="erpEmpSeq" name="erpEmpSeq">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="hidden" id="empSeq" name="empSeq" value="${data.EMP_SEQ}">
-                                                    <input type="hidden" id="erpEmpSeq" name="erpEmpSeq" value="${data.ERP_EMP_SEQ}">
+                                                    <input type="hidden" id="empSeq" name="empSeq" value="${uprList.empSeq}">
+                                                    <input type="text" id="erpEmpSeq" name="erpEmpSeq" value="${uprList.erpEmpSeq}">
                                                     <span>${data.ERP_EMP_SEQ}</span>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <th>아이디</th>
                                         <td>
-                                            <input type="text" id="loginId" name="loginId" class="userInfoTextBox" placeholder="아이디 입력" value="${data.LOGIN_ID}" style="width: 40%;">
+                                            <input type="text" id="loginId" name="loginId" class="userInfoTextBox" placeholder="아이디 입력" value="${uprList.loginId}" style="width: 40%;">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>이름</th>
                                         <td>
-                                            <input type="text" id="empNameKr" name="empNameKr" class="userInfoTextBox" placeholder="(한글)" style="width: 50%" value="${data.EMP_NAME_KR}">
+                                            <input type="text" id="empNameKr" name="empNameKr" class="userInfoTextBox" placeholder="(한글)" style="width: 50%" value="${uprList.empName}">
                                         </td>
                                         <th>한자</th>
                                         <td>
-                                            <input type="text" id="empNameCn" name="empNameCn" class="userInfoTextBox" placeholder="(한자)" style="width: 50%" value="${data.EMP_NAME_CN}">
+                                            <input type="text" id="empNameCn" name="empNameCn" class="userInfoTextBox" placeholder="(한자)" style="width: 50%" value="${uprList.empNameCn}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>생년월일</th>
                                         <td>
-                                            <input type="text" id="bDay" name="bDay" class="userInfoDatePicker" style="width: 40%;">
+                                            <input type="text" id="bDay" name="bDay" class="userInfoDatePicker" value="${uprList.bDay}" style="width: 40%;">
                                         </td>
                                         <th>주민등록번호</th>
                                         <td>
@@ -112,23 +112,23 @@
                                     <tr>
                                         <th>현주소</th>
                                         <td colspan="3">
-                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" value="${data.ZIP_CODE}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
+                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
                                             <input type="button" class="k-button-solid-info k-rounded k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
-                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 30%;margin-top: 3px;" value="${data.ADDR}" placeholder="도로명주소" onclick="addrSearch()" readonly>
-                                            <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 30%;margin-top: 3px;" value="${data.OLD_ADDR}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
+                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
+                                            <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
                                             <span id="guide" style="color:#999;display:none"></span>
-                                            <input type="text" id="addrDetail" name="addrDetail" style="width: 50%;margin-top: 3px;" value="${data.ADDR_DETAIL}" placeholder="상세주소">
-                                            <input type="text" id="addrReferences" name="addrReferences" style="width: 10%;margin-top: 3px;" value="${data.ADDR_REFERENCES}" placeholder="참고항목">
+                                            <input type="text" id="addrDetail" name="addrDetail" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
+                                            <input type="text" id="addrReferences" name="addrReferences" style="width: 10%;margin-top: 3px;" value="${uprList.addrReferences}" placeholder="참고항목">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>사무실 전화</th>
                                         <td>
-                                            <input type="text" id="officeTelNum" name="officeTelNum" placeholder="숫자만 입력" value="${data.OFFICE_TEL_NUM}" style="width: 50%;">
+                                            <input type="text" id="officeTelNum" name="officeTelNum" placeholder="숫자만 입력" value="${uprList.officeTelNum}" style="width: 50%;">
                                         </td>
                                         <th>휴대폰</th>
                                         <td>
-                                            <input type="text" id="mobileTelNum" name="mobileTelNum" placeholder="숫자만 입력" value="${data.MOBILE_TEL_NUM}" style="width: 50%;">
+                                            <input type="text" id="mobileTelNum" name="mobileTelNum" placeholder="숫자만 입력" value="${uprList.mobileTelNum}" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -140,7 +140,7 @@
                                     <tr>
                                         <th>입사일</th>
                                         <td>
-                                            <input type="text" id="joinDay" name="joinDay" class="userInfoDatePicker" style="width: 40%;" value="${data.JOIN_DAY}">
+                                            <input type="text" id="joinDay" name="joinDay" class="userInfoDatePicker" style="width: 40%;" value="${uprList.joinDay}">
                                         </td>
                                         <th>퇴사일</th>
                                         <td>
@@ -168,7 +168,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;학력사항</div>
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addDegreeBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -199,28 +199,26 @@
                                         <th>학위</th>
                                         <th>성적</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>고등학교</td>
-                                        <td>2007-03-02~2010-02-05</td>
-                                        <td>군산제일고등학교</td>
-                                        <td>고등학교</td>
-                                        <td>졸업</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>대학교</td>
-                                        <td>2010-03-02~2015-02-16</td>
-                                        <td>전북대학교 국문과</td>
-                                        <td>대학교</td>
-                                        <td>졸업</td>
-                                        <td>-</td>
-                                        <td><span class="k-icon k-i-file-txt" style="cursor:pointer;"></span></td>
-                                        <td>4.2</td>
-                                    </tr>
+                                    <c:forEach var="l" items="${eList}" varStatus="status">
+                                        <c:choose>
+                                            <c:when test="${l.EDUCATIONAL_ID eq null}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox eduCheckBox' onclick=''></td>
+                                                    <td>${l.SCHOOL_NAME}</td>
+                                                    <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
+                                                    <td>${l.SCHOOL_NAME}</td>
+                                                    <td>${l.DEGREE_CODE}</td>
+                                                    <td>졸업</td>
+                                                    <td>${l.RMK}</td>
+                                                    <td>학위</td>
+                                                    <td>성적</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -230,7 +228,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;경력사항</div>
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addCareerBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -278,7 +276,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;병력사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addMilitaryBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -296,17 +294,24 @@
                                     <tr>
                                         <th>종류</th>
                                         <td>
-                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" style="width: 50%" value="${data.EMP_NAME_KR}">
+                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" style="width: 50%" value="${mList.MILITARY_SVC_TYPE}">
                                         </td>
                                         <th>사유</th>
                                         <td>
-                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" style="width: 50%" value="${data.EMP_NAME_CN}">
+                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" style="width: 50%" value="${mList.M_UNFUL_REASON}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>복무기간</th>
                                         <td>
-                                            <input type="text" id="" name="" class="userInfoDatePicker" style="width: 40%;">
+                                            <c:choose>
+                                                <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null}">
+                                                    <input type="text" id="" name="" class="userInfoDatePicker" style="width: 40%;" value="">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="text" id="" name="" class="userInfoDatePicker" style="width: 40%;" value="${mList.M_ENLIST_DAY}~${mList.M_DISCHARGE_DAY}">
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
                                         <th>최종계급</th>
                                         <td>
@@ -332,7 +337,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;가족사항</div>
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addFamilyBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -374,7 +379,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;자격증 및 면허, 어학능력 사항</div>
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addLicenseBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -419,7 +424,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;직무사항</div>
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addJobBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -455,7 +460,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;발령사항</div>
                             <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -494,7 +499,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;상벌사항</div>
                             <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addRewardBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -539,7 +544,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;평생학습</div>
                             <div id="lifelonglearningInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addEduBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -610,7 +615,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;근무평가</div>
                             <div id="workevaluationInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addWorkEvalBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -652,7 +657,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;제안제도</div>
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addProposalBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
                             </div>
@@ -877,6 +882,105 @@
                 alert("정보 등록 중 에러가 발생했습니다.");
             }
         });
+    }
+    //학력 degree
+    //경력 careerInfo
+    //병력 military
+    //가족 family
+    //면허 license
+    //직무 job
+    //발령 appointing
+    //상벌 reward
+    //교육 edu
+    //근무평가 workEval
+    //제안제도 proposal
+    //학력추가
+    function addDegreeBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=degree";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //경력추가
+    function addCareerBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=career";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //병력추가
+    function addMilitaryBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=military";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //가족추가
+    function addFamilyBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=family";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //보유면허추가
+    function addLicenseBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=license";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //직무사항추가
+    function addJobBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=job";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //발령사항추가
+    function addAppointingBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=appointing";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //상벌사항추가
+    function addRewardBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=reward";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //교육사항추가
+    function addEduBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=edu";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //근무평가추가
+    function addWorkEvalBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=workEval";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
+    //제안제도추가
+    function addProposalBtn(e) {
+        console.log(e);
+        var url = "/useManage/userPersonnelRecordPop.do?popName=proposal";
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 
 </script>
