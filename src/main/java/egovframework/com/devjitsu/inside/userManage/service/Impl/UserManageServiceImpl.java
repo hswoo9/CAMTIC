@@ -25,4 +25,10 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getMilitarySvcInfo(map);
     }
 
+/*    @Override
+    public void setUserReqDetail(Map<String, Object> params) {
+        userManageRepository.setUserReqDetail(params);
+    }*/
+
+
 }

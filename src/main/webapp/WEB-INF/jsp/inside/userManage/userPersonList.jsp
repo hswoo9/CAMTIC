@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -12,6 +5,8 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+    .k-grid .k-cell-inner {justify-content: center;}
     table { background-color: white; }
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
@@ -34,7 +29,7 @@
             <div style="margin-bottom:10px;">
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
-                        <td style="border-bottom:0; background-color: white"">
+                        <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>부서</span>

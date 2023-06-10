@@ -1,16 +1,20 @@
 var now = new Date();
 var docContent = "";
 
-var subHolidayReqPop = {
+var userReqPop = {
+
+    global : {
+        openerParams : [],
+    },
 
     defaultScript : function(){
-        subHolidayReqPop.dataSet();
+        userReqPop.dataSet();
     },
 
     dataSet : function() {
-        $("#text1, #text2, #text3, #text4, #text5, #text6, #text7, #text8, #text9, #text10, #text11, #text12, #text13, #text14, #text15, #text16, #text17, #text18, #text19, #text20, #text21, #text22, #text23, #text24, #text25, #text26, #text27, #text28, #text29, #text30, #text31, #text32, #text33, #text34").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #text8, #text9, #text10, #text11, #text12, #text13, #text14, #text15, #text16, #text17, #text18, #text19, #text20, #text21, #text22, #text23, #text24, #text25, #text26, #text27, #text28, #text29, #text30, #text31, #text32, #text33, #text34").kendoTextBox();
 
-        $("#drop1").kendoDropDownList({
+        $("#dutyCode").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -26,7 +30,7 @@ var subHolidayReqPop = {
             index: 0
         });
 
-        $("#drop2").kendoDropDownList({
+        $("#deptName").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -42,7 +46,7 @@ var subHolidayReqPop = {
             index: 0
         });
 
-        $("#drop3").kendoDropDownList({
+        $("#positionOrNum").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -66,7 +70,7 @@ var subHolidayReqPop = {
             index: 0
         });
 
-        $("#drop4").kendoDropDownList({
+        $("#deptTeamName").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -89,7 +93,7 @@ var subHolidayReqPop = {
             index: 0
         });
 
-        $("#drop5").kendoDropDownList({
+        $("#jobCode").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -101,19 +105,21 @@ var subHolidayReqPop = {
             index: 0
         });
 
-        $("#drop6").kendoDropDownList({
+        $("#positionName").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 {text: "선택하세요", value: ""},
-                {text: "R&D", value: "R&D"},
-                {text: "A&D", value: "A&D"},
-                {text: "P&M", value: "P&M"}
+                {text: "원장", value: "원장"},
+                {text: "본부장", value: "본부장"},
+                {text: "사업부장", value: "사업부장"},
+                {text: "센터장", value: "센터장"},
+                {text: "팀장", value: "팀장"}
             ],
             index: 0
         });
 
-        $("#drop7").kendoDropDownList({
+        $("#degreeCode").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -320,7 +326,7 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html);
-            subHolidayReqPop.dataSet();
+            userReqPop.dataSet();
         }else if($("#holidayCate").val() == 8) {
             var html2 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
                 '              <colgroup>\n' +
@@ -334,7 +340,7 @@ var subHolidayReqPop = {
                 '                <th>휴일 근로 일자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input id="holiday_date" style="width:20%; margin-right:5px;">' +
-                '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
+                '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -404,7 +410,7 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html2);
-            subHolidayReqPop.dataSet();
+            userReqPop.dataSet();
         }else {
             var html3 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
                 '              <colgroup>\n' +
@@ -481,15 +487,12 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html3);
-            subHolidayReqPop.dataSet();
+            userReqPop.dataSet();
         }
     },
 
-    searchHolidayPop : function() {
-        var url = "/subHoliday/searchHolidayPop.do";
-        var name = "searchHolidayPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
+    fn_windowClose : function(){
+        window.close();
     }
 }
 

@@ -67,62 +67,62 @@
               <tr>
                 <th>이름</th>
                 <td>
-                  <input type="text" id="text1" style="width: 50%;">
+                  <input type="text" id="empNameKr" style="width: 50%;">
                 </td>
                 <th>직원구분</th>
                 <td>
-                  <input type="text" id="drop1" style="width: 50%;">
+                  <input type="text" id="dutyCode" style="width: 50%;">
                   <input type="checkbox" id="check1"> 임시직원
                 </td>
               </tr>
               <tr>
                 <th>비밀번호</th>
                 <td>
-                  <input type="text" id="text2" style="width: 50%;"> 미입력시 변경 안됨
+                  <input type="text" id="loginPasswd" style="width: 50%;"> 미입력시 변경 안됨
                 </td>
                 <th>아이디</th>
                 <td>
-                  <input type="text" id="text33" style="width: 50%;"> *전담인력 필수
+                  <input type="text" id="loginId" style="width: 50%;"> *전담인력 필수
                 </td>
               </tr>
               <tr>
                 <th>주민등록번호</th>
                 <td>
-                  <input type="text" id="text3" style="width: 30%;"> - <input type="text" id="text4" style="width: 30%;">
+                  <input type="text" id="resRegisNum1" style="width: 30%;"> - <input type="text" id="resRegisNum2" style="width: 30%;">
                 </td>
                 <th>비밀번호 확인</th>
                 <td>
-                  <input type="text" id="text5" style="width: 50%;">
+                  <input type="text" id="checkPasswd" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>부서</th>
                 <td>
-                  <input type="text" id="drop2" style="width: 50%;">
+                  <input type="text" id="deptName" style="width: 50%;">
                 </td>
                 <th>CAPS 번호</th>
                 <td>
-                  <input type="text" id="text6" style="width: 50%;">
+                  <input type="text" id="capsNum" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>직급/등급</th>
                 <td>
-                  <input type="text" id="drop3" style="width: 50%;">
+                  <input type="text" id="positionOrNum" style="width: 50%;">
                 </td>
                 <th>팀</th>
                 <td>
-                  <input type="text" id="drop4" style="width: 50%;">
+                  <input type="text" id="deptTeamName" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>직군</th>
                 <td>
-                  <input type="text" id="drop5" style="width: 50%;">
+                  <input type="text" id="jobCode" style="width: 50%;">
                 </td>
                 <th>직책</th>
                 <td>
-                  <input type="text" id="drop6" style="width: 50%;">
+                  <input type="text" id="positionName" style="width: 50%;">
                 </td>
               </tr>
               <tr>
@@ -130,43 +130,43 @@
                 <td></td>
                 <th>학위</th>
                 <td>
-                  <input type="text" id="drop7" style="width: 50%;">
+                  <input type="text" id="degreeCode" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>직무사항</th>
                 <td colspan="3">
-                  <input type="text" id="text34" style="width: 70%;">
+                  <input type="text" id="jobDetail" style="width: 70%;">
                 </td>
               </tr>
               <tr>
                 <th>입사 일자</th>
                 <td>
-                  <input type="text" id="drop8" style="width: 20%;">
-                  <input type="text" id="drop9" style="width: 20%;">
-                  <input type="text" id="drop10" style="width: 20%;">
+                  <input type="text" id="regDate1" style="width: 20%;">
+                  <input type="text" id="regDate2" style="width: 20%;">
+                  <input type="text" id="regDate3" style="width: 20%;">
                 </td>
                 <th>홈페이지 게시</th>
                 <td>
-                  <input type="radio" name="radio1" id="radio1_1" checked> 게시
-                  <input type="radio" name="radio1" id="radio1_2"> 비게시
+                  <input type="radio" name="radio1" id="homePageActive" checked> 게시
+                  <input type="radio" name="radio1" id="homePageNonActive"> 비게시
                 </td>
               </tr>
               <tr>
                 <th>전직경력</th>
                 <td>
-                  <input type="text" id="text7" style="width: 15%;"> 개월
+                  <input type="text" id="beforCareer" style="width: 15%;"> 개월
                 </td>
                 <th>경과년차</th>
                 <td>
-                  <input type="text" id="text8" style="width: 15%;"> 년도기준
-                  <input type="text" id="text9" style="width: 15%;"> 년차
+                  <input type="text" id="elapsedYear1" style="width: 15%;"> 년도기준
+                  <input type="text" id="elapsedYear2" style="width: 15%;"> 년차
                 </td>
               </tr>
               <tr>
-                <th>전직경력</th>
+                <th>계좌정보</th>
                 <td colspan="3">
-                  예금주 <input type="text" id="text10" style="width: 20%;"> 은행명 <input type="text" id="text11" style="width: 20%;"> 계좌번호  <input type="text" id="text12" style="width: 40%;">
+                  예금주 <input type="text" id="accountH	older" style="width: 20%;"> 은행명 <input type="text" id="bankName" style="width: 20%;"> 계좌번호  <input type="text" id="accountN	um" style="width: 40%;">
                 </td>
               </tr>
               <tr>
@@ -179,32 +179,40 @@
                 <th>거주지</th>
                 <td colspan="3">
                   <div style="display: flex">
-                    <input type="text" id="text13" style="width: 15%;">
+                    <input type="text" id="addrDetail1" style="width: 15%;">
                     <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick=""/>
                   </div>
                   <div style="display: flex" class="mt5">
-                    <input type="text" id="text14" style="width: 80%;">
+                    <input type="text" id="addrDetail2" style="width: 80%;">
                   </div>
                 </td>
               </tr>
               <tr>
                 <th>전화번호</th>
                 <td>
-                  <input type="text" id="text15" style="width: 12%;"> - <input type="text" id="text16" style="width: 15%;"> - <input type="text" id="text17" style="width: 15%;">
+                  <input type="text" id="officeTelNum1" style="width: 12%;"> - <input type="text" id="officeTelNum2" style="width: 15%;"> - <input type="text" id="officeTelNum3" style="width: 15%;">
                 </td>
                 <th>휴대폰</th>
                 <td>
-                  <input type="text" id="text18" style="width: 12%;"> - <input type="text" id="text19" style="width: 15%;"> - <input type="text" id="text20" style="width: 15%;">
+                  <input type="text" id="mobileTelNum1" style="width: 12%;"> - <input type="text" id="mobileTelNum2" style="width: 15%;"> - <input type="text" id="mobileTelNum3" style="width: 15%;">
                 </td>
               </tr>
               <tr>
                 <th>이메일</th>
                 <td>
-                  <input type="text" id="text21" style="width: 50%;">
+                  <input type="text" id="emailAddr" style="width: 50%;">
                 </td>
                 <th>차량소유</th>
                 <td>
-                  <input type="checkbox" id="check2"> 차량을 소유하고 있음
+                  <input type="checkbox" id="carActive"> 차량을 소유하고 있음
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <th>차량번호</th>
+                <td>
+                  <input type="text" id="carNum">
                 </td>
               </tr>
               </thead>
@@ -223,75 +231,93 @@
               <tr>
                 <th>한자 이름</th>
                 <td>
-                  <input type="text" id="text22" style="width: 50%;">
+                  <input type="text" id="empNameCn" style="width: 50%;">
                 </td>
                 <th>영문 이름</th>
                 <td>
-                  <input type="text" id="text23" style="width: 50%;">
+                  <input type="text" id="empNameEn" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>생년월일</th>
                 <td>
-                  <input type="text" id="drop11" style="width: 20%;">
-                  <input type="text" id="drop12" style="width: 20%;">
-                  <input type="text" id="drop13" style="width: 20%;">
+                  <input type="text" id="bday1" style="width: 20%;">
+                  <input type="text" id="bday2" style="width: 20%;">
+                  <input type="text" id="bday3" style="width: 20%;">
                 </td>
                 <th>긴급 연락처</th>
                 <td>
-                  <input type="text" id="text24" style="width: 50%;">
+                  <input type="text" id="emgTelNum" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>본적</th>
                 <td colspan="3">
-                  <input type="text" id="text25" style="width: 80%;">
+                  <input type="text" id="legalDomicile" style="width: 80%;">
                 </td>
               </tr>
               <tr>
                 <th>결혼 관계</th>
                 <td>
-                  <input type="radio" name="radio2" id="radio2_1" checked> 기혼
-                  <input type="radio" name="radio2" id="radio2_2"> 미혼
+                  <input type="radio" name="radio2" id="weddingActive" checked> 기혼
+                  <input type="radio" name="radio2" id="weddingNonActive"> 미혼
                 </td>
                 </td>
                 <th>혈액형</th>
                 <td>
-                  <input type="radio" name="radio3" id="radio3_1" checked> A형
-                  <input type="radio" name="radio3" id="radio3_2"> B형
-                  <input type="radio" name="radio3" id="radio3_3"> O형
-                  <input type="radio" name="radio3" id="radio3_4"> AB형
+                  <input type="radio" name="radio3" id="bloodType1" checked> A형
+                  <input type="radio" name="radio3" id="bloodType2"> B형
+                  <input type="radio" name="radio3" id="bloodType3"> O형
+                  <input type="radio" name="radio3" id="bloodType4"> AB형
+                </td>
+              </tr>
+              <tr>
+                <th>결혼기념일</th>
+                <td>
+                  <input type="text" id="weddingDay">
+                </td>
+                <th>재직여부</th>
+                <td>
+                  <input type="checkbox" id="check3"> 퇴사직원임
                 </td>
               </tr>
               <tr>
                 <th>취미</th>
                 <td>
-                  <input type="text" id="text26" style="width: 50%;">
+                  <input type="text" id="hobby" style="width: 50%;">
                 </td>
-                <th>특기</th>
+                <th>퇴사일자</th>
                 <td>
-                  <input type="text" id="text27" style="width: 50%;">
+                  <input type="text" id="resignDay" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>종교</th>
                 <td>
-                  <input type="text" id="text28" style="width: 50%;">
+                  <input type="text" id="religion" style="width: 50%;">
                 </td>
-                <th>신장</th>
+                <th>특기</th>
                 <td>
-                  <input type="text" id="text29" style="width: 50%;"> cm
+                  <input type="text" id="specialty" style="width: 50%;">
                 </td>
               </tr>
               <tr>
                 <th>체중</th>
                 <td>
-                  <input type="text" id="text30" style="width: 50%;"> kg
+                  <input type="text" id="weight" style="width: 50%;"> kg
                 </td>
+                <th>신장</th>
+                <td>
+                  <input type="text" id="height" style="width: 50%;"> cm
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
                 <th>시력</th>
                 <td>
-                  좌 <input type="text" id="text31" style="width: 20%;">
-                  우 <input type="text" id="text32" style="width: 20%;"> (안경 착용 시력)
+                  좌 <input type="text" id="vision1" style="width: 20%;">
+                  우 <input type="text" id="vision2" style="width: 20%;"> (안경 착용 시력)
                 </td>
               </tr>
             </table>
@@ -299,12 +325,12 @@
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
           <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick=""/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기" onclick=""/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기" onclick="userReqPop.fn_windowClose()"/>
         </div>
       </div>
     </div>
 </div>
 <script>
-  subHolidayReqPop.defaultScript();
+  userReqPop.defaultScript();
 </script>
 </body>
