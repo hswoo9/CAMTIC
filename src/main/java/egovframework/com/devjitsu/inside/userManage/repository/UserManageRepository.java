@@ -23,4 +23,16 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getCodeList() {
         return selectList("userManage.getCodeList");
     }
+
+    public Map<String, Object> setUserReqDetailInsert(Map<String, Object> params) {
+        return (Map<String,Object>)insert("userManage.setUserReqDetailInsert", params);
+    }
+
+    public List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params) {
+        return selectList("userManage.getDeptCodeList2", params);
+    }
+
+    public List<Map<String,Object>> getDeptCodeList (Map<String,Object> params) {
+        return selectList("userManage.getDeptCodeList", params);
+    }
 }

@@ -10,4 +10,9 @@ public interface UserManageService{
     Map<String,Object> getMilitarySvcInfo (Map<String,Object> map);
     List<Map<String,Object>> getAllUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getCodeList();
+
+    Map<String, Object> setUserReqDetailInsert(Map<String, Object> params);
+
+    List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params);
+    List<Map<String,Object>> getDeptCodeList (Map<String,Object> params);
 }

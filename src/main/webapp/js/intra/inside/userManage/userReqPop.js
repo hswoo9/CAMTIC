@@ -4,6 +4,8 @@ var docContent = "";
 var userReqPop = {
 
     global : {
+        codeDropDownDept : [],
+        codeDropDownDept2 : [],
         openerParams : [],
     },
 
@@ -12,25 +14,25 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #text8, #text9, #text10, #text11, #text12, #text13, #text14, #text15, #text16, #text17, #text18, #text19, #text20, #text21, #text22, #text23, #text24, #text25, #text26, #text27, #text28, #text29, #text30, #text31, #text32, #text33, #text34").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #addr, #addrDetail, #officeTelNum1, #officeTelNum2, #officeTelNum3, #mobileTelNum1, #mobileTelNum2, #mobileTelNum3, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
 
         $("#dutyCode").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 {text: "선택하세요", value: ""},
-                {text: "정규직원", expanded: true},
-                {text: "계약직원", expanded: true},
-                {text: "인턴사원", expanded: true},
-                {text: "경비/환경", expanded: true},
-                {text: "단기직원", expanded: true},
-                {text: "위촉직원", expanded: true},
-                {text: "연수생/학생연구원", expanded: true}
+                {text: "정규직원", value : "1"},
+                {text: "계약직원", value : "2"},
+                {text: "인턴사원", value : "3"},
+                {text: "경비/환경", value : "4"},
+                {text: "단기직원", value : "5"},
+                {text: "위촉직원", value : "6"},
+                {text: "연수생/학생연구원", value : "7"}
             ],
             index: 0
         });
 
-        $("#deptName").kendoDropDownList({
+        /*$("#deptName").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -44,7 +46,7 @@ var userReqPop = {
                 {text: "경영지원실", value: "경영지원실"}
             ],
             index: 0
-        });
+        });*/
 
         $("#positionOrNum").kendoDropDownList({
             dataTextField: "text",
@@ -70,28 +72,60 @@ var userReqPop = {
             index: 0
         });
 
-        $("#deptTeamName").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "제조혁신팀", value: "제조혁신팀"},
-                {text: "신기술융합팀", value: "신기술융합팀"},
-                {text: "우주개발팀", value: "우주개발팀"},
-                {text: "항공개발팀", value: "항공개발팀"},
-                {text: "사업지원팀", value: "사업지원팀"},
-                {text: "인재개발팀", value: "인재개발팀"},
-                {text: "일자리창업팀", value: "일자리창업팀"},
-                {text: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터"},
-                {text: "지역산업육성팀", value: "지역산업육성팀"},
-                {text: "경영지원팀", value: "경영지원팀"},
-                {text: "미래전략기획팀", value: "미래전략기획팀"},
-                {text: "J-밸리혁신팀", value: "J-밸리혁신팀"},
-                {text: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
-                {text: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
-            ],
-            index: 0
+        $.ajax({
+            url : "/userManage/getDeptCodeList2",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(result){
+                var ds = result.list;
+                ds.unshift({deptName: '선택하세요', deptSeq: ''});
+
+                $("#deptName").kendoDropDownList({
+                    dataTextField: "deptName",
+                    dataValueField: "deptSeq",
+                    dataSource: ds,
+                    index: 0,
+                    change : function(){
+                        var data = {
+                            deptSeq : $("#deptName").val()
+                        }
+
+                        $.ajax({
+                            url : "/userManage/getDeptCodeList",
+                            type : "post",
+                            async: false,
+                            data : data,
+                            dataType : "json",
+                            success : function(result){
+                                var ds = result.list;
+                                ds.unshift({text: '선택하세요', value: ''});
+
+                                $("#deptTeamName").kendoDropDownList({
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    dataSource: ds,
+                                    index: 0,
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
+
+
+
+        $("#deptTeamName").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: ''}
+            ],
+            index: 0,
+        });
+
+
 
         $("#jobCode").kendoDropDownList({
             dataTextField: "text",
@@ -124,12 +158,12 @@ var userReqPop = {
             dataValueField: "value",
             dataSource: [
                 {text: "선택하세요", value: ""},
-                {text: "전담직원", value: "R&D"}
+                {text: "고졸", value: "고졸"}
             ],
             index: 0
         });
 
-        $("#drop8").kendoDropDownList({
+        $("#regDate1").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -138,7 +172,7 @@ var userReqPop = {
             index: 0
         });
 
-        $("#drop9").kendoDropDownList({
+        $("#regDate2").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -158,7 +192,7 @@ var userReqPop = {
             index: 0
         });
 
-        $("#drop10").kendoDropDownList({
+        $("#regDate3").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -263,6 +297,38 @@ var userReqPop = {
                 {text: "31", value: "31"}
             ],
             index: 0
+        });
+
+        $("#homePageActive").kendoRadioGroup({
+            items: [
+                { label : "게시", value : "Y" },
+                { label : "비게시", value : "N" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "Y",
+        });
+
+        $("#weddingActive").kendoRadioGroup({
+            items: [
+                { label : "기혼", value : "Y" },
+                { label : "미혼", value : "N" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "Y",
+        });
+
+        $("#bloodType").kendoRadioGroup({
+            items: [
+                { label : "A형", value : "A형" },
+                { label : "B형", value : "B형" },
+                { label : "O형", value : "O형" },
+                { label : "AB형", value : "AB형" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "A형",
         });
 
     },
@@ -490,6 +556,89 @@ var userReqPop = {
             userReqPop.dataSet();
         }
     },
+
+    userReqSave : function (){
+        //var chkVal = userReqPop.setUserReqDetail();
+
+
+        if(confirm("신청내용을 저장하시겠습니까?")){
+            var data = {
+                EMP_SEQ : $("#empSeq").val(),
+                ERP_EMP_SEQ : "",
+                EMP_NAME_KR : $("#empNameKr").val(), //이름
+                LOGIN_PASSWD : $("#loginPasswd").val(), //비밀번호
+                LOGIN_ID : $("#loginId").val(), //아이디
+                RES_REGIS_NUM : $("#resRegisNum1").val() + "-" + $("#resRegisNum2").val(), //주민등록번호
+                CHECK_PASSWD : $("#checkPasswd").val(), //비밀번호 확인
+                CAPS_NUM : $("#capsNum").val(), //CAPS 번호
+
+                DUTY_CODE : $("#dutyCode").val(), //직원구분
+                DEPT_NAME : $("#deptName").val(), //부서
+                DEPT_SEQ : $("#deptTeamName").val(), //팀
+
+                JOB_DETAIL : $("#jobDetail").val(), //직무사항
+                BEFOR_CAREER : $("#beforCareer").val(), //전직경력
+                ELAPSED_YEAR : $("#elapsedYear1").val() + "년도" + $("#elapsedYear2").val(), //경과년파
+                ACCOUNT_HOLDER : $("#accountHolder").val(), //예금주
+                BANK_NAME : $("#bankName").val(), //은행명
+                ACCOUNT_NUM : $("#accountNum").val(), //계좌번호
+                ADDR : $("#addr").val(), //우편번호 현주소(주소)
+                ADDR_DETAIL : $("#addrDetail").val(), //거주지 지번주소
+                OFFICE_TEL_NUM : $("#officeTelNum1").val() + "-" + $("#officeTelNum2").val() + "-" + $("#officeTelNum3").val(), //전화번호
+                MOBILE_TEL_NUM : $("#mobileTelNum1").val() + "-" + $("#mobileTelNum2").val() + "-" + $("#mobileTelNum3").val(), //전화번호
+                EMAIL_ADDR : $("#emailAddr").val(), //이메일
+
+                CAR_NUM : $("#carNum").val(), //차량번호
+                EMP_NAME_CN : $("#empNameCn").val(), //한자 이름
+                EMP_NAME_EN : $("#empNameEn").val(), //영문 이름
+
+                EMG_TEL_NUM : $("#emgTelNum").val(), //긴급 연락처
+                LEGAL_DOMICILE : $("#legalDomicile").val(), //본적
+
+                HOBBY : $("#hobby").val(), //취미
+                RELIGION : $("#religion").val(), //종교
+                SPECIALTY : $("#specialty").val(), //특기
+                WEIGHT : $("#weight").val(), //체중
+                HEIGHT : $("#height").val(), //신장
+                VISION : $("#vision1").val() + "좌" + $("#vision2").val() + "우", //시력
+
+                HOME_PAGE_ACTIVE : $("#homePageActive").getKendoRadioGroup().value(), //홈페이지 게시
+                WEDDING_ACTIVE : $("#weddingActive").getKendoRadioGroup().value(), //결혼 관계
+                BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value() //혈액형
+            }
+
+            if(data.EMP_NAME_KR == null || data.EMP_NAME_KR == ''){
+                alert("이름을 입력해주세요.");
+                return false;
+            }else if(data.LOGIN_PASSWD == null || data.LOGIN_PASSWD == ''){
+                alert(" 비밀번호를 입력해주세요.");
+                return false;
+            }else if(data.LOGIN_ID == null || data.LOGIN_ID == ''){
+                alert("아이디를 입력해주세요.");
+                return false;
+            }else if(data.CHECK_PASSWD == null || data.CHECK_PASSWD == ''){
+                alert("비밀번호 확인을 입력해주세요.");
+                return false;
+            }
+
+            console.log(data);
+
+            // $.ajax({
+            //     url : '/userManage/setUserReqDetailInsert',
+            //     data : data,
+            //     dataType : "json",
+            //     type : "POST",
+            //     async : false,
+            //     success : function (result){
+            //         alert(result.message);
+            //         //window.close();
+            //     }
+            // })
+        }
+
+    },
+
+
 
     fn_windowClose : function(){
         window.close();
