@@ -50,4 +50,22 @@
         WHERE
             a.EMP_SEQ = #{empSeq};
     </select>
+    <select id="getAllUserPersonnelRecordList" parameterType="map" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_hr.dj_emp_military_svc_info AS a
+        WHERE
+            a.ACTIVE = 'N'
+          and
+            a.REG_DATE BETWEEN concat(#{sDate},' 00:00:00') and concat(#{eDate}, ' 23:59:59');
+    </select>
+    <select id="getCodeList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_hr_code
+        WHERE
+            ACTIVE = 'Y'
+    </select>
 </mapper>

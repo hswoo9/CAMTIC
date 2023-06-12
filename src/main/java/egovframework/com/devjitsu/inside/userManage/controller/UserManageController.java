@@ -206,5 +206,14 @@ public class UserManageController {
                 break;
         }
     }
-
+    @RequestMapping("/userManage/getAllUserPersonnelRecordList")
+    public String getAllUserPersonnelRecordList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getAllUserPersonnelRecordList(map));
+        return "jsonView";
+    }
+    @RequestMapping("/userManage/getCodeList")
+    public String getCodeList(Model model) {
+        model.addAttribute("rs", userManageService.getCodeList());
+        return "jsonView";
+    }
 }

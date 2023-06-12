@@ -17,6 +17,10 @@ public class UserManageRepository extends AbstractDAO {
     public Map<String,Object> getMilitarySvcInfo (Map<String,Object> map) {
         return (Map<String,Object>)selectOne("userManage.getMilitarySvcInfo", map);
     }
-
-    /*public void setUserReqDetail(Map<String, Object> params) { insert("userManage.setUserReqDetail", params);}*/
+    public List<Map<String,Object>> getAllUserPersonnelRecordList (Map<String,Object> map) {
+        return selectList("userManage.getAllUserPersonnelRecordList", map);
+    }
+    public List<Map<String,Object>> getCodeList() {
+        return selectList("userManage.getCodeList");
+    }
 }

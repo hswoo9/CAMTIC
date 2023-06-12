@@ -132,36 +132,31 @@
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
   /*fn_datePicker
   fn_textBox*/
+  var codeSet;
+  var codeDropDown=[];
+
   $(function(){
     fn_default();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
     customKendo.fn_datePicker("eDate", '', "yyyy-MM-dd", '');
-    var dropDownDataSource = [
-      { text: "중학교", value: "1" },
-      { text: "고등학교", value: "2" },
-      { text: "전문대학", value: "3" },
-      { text: "대학교", value: "4" },
-      { text: "대학원", value: "5" },
-    ];
-    customKendo.fn_dropDownList("gubun",dropDownDataSource, "text","value");
-    var dropDownDataSource = [
-      { text: "전문학사", value: "1" },
-      { text: "학사", value: "2" },
-      { text: "석사", value: "3" },
-      { text: "박사", value: "4" },
-    ];
-    customKendo.fn_dropDownList("degree",dropDownDataSource, "text","value");
-    var dropDownDataSource = [
-      { text: "졸업", value: "1" },
-      { text: "졸업예정", value: "2" },
-      { text: "수료", value: "3" },
-      { text: "재학", value: "4" },
-      { text: "휴학", value: "5" },
-      { text: "중퇴", value: "6" },
-    ];
-    customKendo.fn_dropDownList("graduation",dropDownDataSource, "text","value");
+    fn_codeSet();
+    $("#gubun").kendoDropDownList({
+      dataTextField: "HR_DT_CODE_NM",
+      dataValueField: "value",
+      dataSource: edCodeDataSource("B01")
+    });
+    $("#degree").kendoDropDownList({
+      dataTextField: "HR_DT_CODE_NM",
+      dataValueField: "value",
+      dataSource: edCodeDataSource("B02")
+    });
+    $("#graduation").kendoDropDownList({
+      dataTextField: "HR_DT_CODE_NM",
+      dataValueField: "value",
+      dataSource: edCodeDataSource("B03")
+    });
     customKendo.fn_textBox("score");
     $("#bmk").kendoTextArea({
       rows : 5,
@@ -181,6 +176,54 @@
     }
     customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
   }
+  function fn_codeSet() {
+    $.ajax({
+      url : '/userManage/getCodeList',
+      type : "post",
+      async : false,
+      dataType : "json",
+      success : function(result) {
+        codeSet = result.rs;
+        codeDropDown = result.rs;
+      }
+    })
+  }
+
+  function edCodeDataSource(code) {
+    var data = [];
+    var defaultCode = "";
+    if(code != ""){
+      switch (code){
+        case "B01" :
+          defaultCode = "학력구분"
+          break
+        case "B02" :
+          defaultCode = "학위"
+          break
+        case "B03" :
+          defaultCode = "졸업"
+          break
+        case "B04" :
+          defaultCode = "전역여부"
+          break
+        default :
+          defaultCode = "가족관계"
+          break
+      }
+      data.push({"HR_DT_CODE_NM": defaultCode, "value" : ""});
+    }else {
+      data.push({"HR_DT_CODE_NM": "선택하세요", "value" : ""});
+    }
+
+    for(var i = 0 ; i < codeDropDown.length ; i++){
+      codeDropDown[i].value = codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE + codeDropDown[i].HR_DT_CODE;
+      if(codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE == code){
+        data.push(codeDropDown[i]);
+      }
+    }
+    return data;
+  }
+
   function fn_windowClose() {
     window.close();
   }
