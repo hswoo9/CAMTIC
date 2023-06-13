@@ -120,6 +120,15 @@
         <a class="toggleMain" href="#">캠스팟</a>
         <ul class="innerMain children b">
           <li>
+            <a href="#" class="toggleMain">개인정보</a>
+            <a href="#" class="toggleMain">이미지관리</a>
+            <a href="#" class="toggleMain">권한조회</a>
+            <a href="#" class="toggleMain">인사기록카드</a>
+            <a href="#" class="toggleMain">근태관리</a>
+            <a href="#" class="toggleMain">휴가관리</a>
+            <a href="#" class="toggleMain">직무발명신고</a>
+          </li>
+          <%--<li>
             <a href="#" class="toggleMain">게시판</a>
             <ul class="innerMain children b_a">
               <li><a href="#" class="toggleMain1">공지사항</a></li> <!--menu=b_a-->
@@ -132,12 +141,176 @@
           <li>
             <a href="#" class="toggleMain">내정보관리</a>
             <ul class="innerMain children b_c">
-              <li><a href="#" class="toggleMain1">기본정보관리</a></li> <%--menu=b_c--%>
+              <li><a href="#" class="toggleMain1">기본정보관리</a></li> &lt;%&ndash;menu=b_c&ndash;%&gt;
               <li><a href="#" class="toggleMain1">학력</a></li>
               <li><a href="#" class="toggleMain1">경력</a></li>
               <li><a href="#" class="toggleMain1">자격/면허</a></li>
               <li><a href="#" class="toggleMain1">어학</a></li>
               <li><a href="#" class="toggleMain1">인사기록카드</a></li>
+            </ul>
+          </li>--%>
+        </ul>
+      </li>
+      <li>
+        <a class="toggleMain" href="#">캠프로젝트</a>
+        <ul class="innerMain children e">
+          <li>
+            <a href="#" class="toggleMain">캠알앤디</a>
+            <ul class="innerMain children e_a">
+              <li><a href="#" class="toggleMain1">휴가신청</a></li>
+              <%--<li onclick=""><a class="toggleMain">휴가신청</a></li>--%>
+              <%--<li onclick="location.href='/user/organizationChart.do'"><a class="toggleMain">조직도</a></li>--%>
+              <li><a href="/user/organizationChart.do?menu=e_a" class="toggleMain1">조직도</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">엔지니어링</a>
+            <ul class="innerMain children e_b">
+              <li><a href="#" class="toggleMain1">프로젝트등록및목록</a></li>
+              <%--<li onclick=""><a class="toggleMain">프로젝트등록및목록</a></li>--%>
+              <%--<li onclick="location.href='/engineering/estimate.do'"><a class="toggleMain">개발상담서</a></li>--%>
+              <li><a href="/engineering/estimate.do?menu=e_b" class="toggleMain1">개발상담서</a></li>
+              <li><a href="#" class="toggleMain1">수주보고</a></li>
+              <li><a href="#" class="toggleMain1">개발계획서등록(협업)</a></li>
+              <%--<li onclick=""><a class="toggleMain">개발계획서등록(협업)</a></li>--%>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a class="toggleMain" href="#">캠아이템</a>
+        <ul class="innerMain children g">
+          <li>
+            <a href="#" class="toggleMain">기준정보</a>
+            <ul class="innerMain children g_a">
+              <li><a href="#" class="toggleMain1">고객단가관리</a></li> <%--menu=g_a--%>
+              <li><a href="#" class="toggleMain1">표준단가관리</a></li>
+              <li><a href="#" class="toggleMain1">품목정보</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">수주관리</a>
+            <ul class="innerMain children g_b">
+              <li><a href="#" class="toggleMain1">수주등록</a></li> <%--menu=g_b--%>
+              <li><a href="#" class="toggleMain1">수주현황</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">출하관리</a>
+            <ul class="innerMain children g_c">
+              <li><a href="#" class="toggleMain1">출하실적등록</a></li> <%--menu=g_c--%>
+              <li><a href="#" class="toggleMain1">출하실적현황</a></li>
+              <li><a href="#" class="toggleMain1">출하실적추이분석</a></li>
+              <li><a href="#" class="toggleMain1">반품등록</a></li>
+              <li><a href="#" class="toggleMain1">택배수발송등록</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">BOM</a>
+            <ul class="innerMain children g_d">
+              <li><a href="#" class="toggleMain1">BOM등록</a></li> <%--menu=g_d--%>
+              <li><a href="#" class="toggleMain1">BOM조회</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">구매관리</a>
+            <ul class="innerMain children g_e">
+              <li><a href="#" class="toggleMain1">자재단가관리</a></li> <%--menu=g_e--%>
+              <li><a href="#" class="toggleMain1">입고등록</a></li>
+              <li><a href="#" class="toggleMain1">검수등록</a></li>
+              <li><a href="#" class="toggleMain1">입고현황</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">재고관리</a>
+            <ul class="innerMain children g_f">
+              <li><a href="#" class="toggleMain1">재고현황</a></li> <%--menu=g_f--%>
+              <li><a href="#" class="toggleMain1">창고별재고현황</a></li>
+              <li><a href="#" class="toggleMain1">재고이동등록</a></li>
+              <li><a href="#" class="toggleMain1">재고이동현황</a></li>
+              <li><a href="#" class="toggleMain1">안전재고마스터</a></li>
+              <li><a href="#" class="toggleMain1">안전재고현황</a></li>
+              <li><a href="#" class="toggleMain1">재고현황보고</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">마감관리</a>
+            <ul class="innerMain children g_g">
+              <li><a href="#" class="toggleMain1">매출확정</a></li> <%--menu=g_g--%>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">시스템</a>
+            <ul class="innerMain children g_h">
+              <li><a href="#" class="toggleMain1">고객관리</a></li> <%--menu=g_h--%>
+              <li><a href="#" class="toggleMain1">창고등록</a></li>
+              <li><a href="#" class="toggleMain1">기초코드등록</a></li>
+              <li><a href="#" class="toggleMain1">품목마스터</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a class="toggleMain" href="#">캠매니저</a>
+        <ul class="innerMain children h">
+          <li>
+            <a href="#" class="toggleMain">예산관리</a>
+            <ul class="innerMain children h_a">
+              <li><a href="#" class="toggleMain1">예산현황</a></li> <%--menu=h_a--%>
+              <li><a href="#" class="toggleMain1">예산통계</a></li>
+            </ul>
+          </li>
+          <li><a href="#" class="toggleMain1">지출문서관리</a></li> <%--menu=h_b--%>
+          <li>
+            <a href="#" class="toggleMain">결의서관리</a>
+            <ul class="innerMain children h_c">
+              <li><a href="#" class="toggleMain1">지급신청서검토</a></li> <%--menu=h_c--%>
+              <li><a href="#" class="toggleMain1">지출결의서</a></li>
+              <li><a href="#" class="toggleMain1">반제결의서(지출)</a></li>
+              <li><a href="#" class="toggleMain1">교육비입금관리</a></li>
+              <li><a href="#" class="toggleMain1">수입결의서</a></li>
+              <li><a href="#" class="toggleMain1">반제결의서(수입)</a></li>
+              <li><a href="#" class="toggleMain1">여입신청서검토</a></li>
+              <li><a href="#" class="toggleMain1">여입결의서</a></li>
+              <li><a href="#" class="toggleMain1">반납신청서검토</a></li>
+              <li><a href="#" class="toggleMain1">반납결의서</a></li>
+              <li><a href="#" class="toggleMain1">대체신청서검토</a></li>
+              <li><a href="#" class="toggleMain1">대체결의서</a></li>
+              <li><a href="#" class="toggleMain1">더존연계현황</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">구매관리</a>
+            <ul class="innerMain children h_d">
+              <li><a href="#" class="toggleMain1">구매요청관리</a></li> <%--menu=h_d--%>
+              <li><a href="#" class="toggleMain1">지금관리</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a class="toggleMain" href="#">캠CRM</a>
+        <ul class="innerMain children f">
+          <li>
+            <a href="#" class="toggleMain">메인화면(통합검색)</a>
+            <ul class="innerMain children f_a">
+              <li>
+                <a href="#" class="toggleMain">고객관리</a>
+                <ul class="innerMain children f_a">
+                  <li><a href="#" class="toggleMain1">신규고객등록</a></li> <%--menu=f_a--%>
+                  <li><a href="#" class="toggleMain1">고객정보조회</a></li>
+                  <li><a href="#" class="toggleMain1">관계이력관리</a></li>
+                  <li><a href="#" class="toggleMain1">고객등급관리</a></li>
+                  <li><a href="#" class="toggleMain1">가족기업관리</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">고객통계</a>
+            <ul class="innerMain children f_b">
+              <li><a href="#" class="toggleMain1">고객현황</a></li> <%--menu=f_b--%>
+              <li><a href="#" class="toggleMain1">각종현황</a></li>
             </ul>
           </li>
         </ul>
@@ -356,170 +529,6 @@
             </ul>
           </li>
           <li><a href="/Campus/dutyInfo.do?menu=d_d" class="toggleMain1">직무기술서작성</a></li>
-        </ul>
-      </li>
-      <li>
-        <a class="toggleMain" href="#">캠프로젝트</a>
-        <ul class="innerMain children e">
-          <li>
-            <a href="#" class="toggleMain">캠알앤디</a>
-            <ul class="innerMain children e_a">
-              <li><a href="#" class="toggleMain1">휴가신청</a></li>
-              <%--<li onclick=""><a class="toggleMain">휴가신청</a></li>--%>
-              <%--<li onclick="location.href='/user/organizationChart.do'"><a class="toggleMain">조직도</a></li>--%>
-              <li><a href="/user/organizationChart.do?menu=e_a" class="toggleMain1">조직도</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">엔지니어링</a>
-            <ul class="innerMain children e_b">
-              <li><a href="#" class="toggleMain1">프로젝트등록및목록</a></li>
-              <%--<li onclick=""><a class="toggleMain">프로젝트등록및목록</a></li>--%>
-              <%--<li onclick="location.href='/engineering/estimate.do'"><a class="toggleMain">개발상담서</a></li>--%>
-              <li><a href="/engineering/estimate.do?menu=e_b" class="toggleMain1">개발상담서</a></li>
-              <li><a href="#" class="toggleMain1">수주보고</a></li>
-              <li><a href="#" class="toggleMain1">개발계획서등록(협업)</a></li>
-              <%--<li onclick=""><a class="toggleMain">개발계획서등록(협업)</a></li>--%>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a class="toggleMain" href="#">캠CRM</a>
-        <ul class="innerMain children f">
-          <li>
-            <a href="#" class="toggleMain">메인화면(통합검색)</a>
-            <ul class="innerMain children f_a">
-              <li>
-                <a href="#" class="toggleMain">고객관리</a>
-                <ul class="innerMain children f_a">
-                  <li><a href="#" class="toggleMain1">신규고객등록</a></li> <%--menu=f_a--%>
-                  <li><a href="#" class="toggleMain1">고객정보조회</a></li>
-                  <li><a href="#" class="toggleMain1">관계이력관리</a></li>
-                  <li><a href="#" class="toggleMain1">고객등급관리</a></li>
-                  <li><a href="#" class="toggleMain1">가족기업관리</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">고객통계</a>
-            <ul class="innerMain children f_b">
-              <li><a href="#" class="toggleMain1">고객현황</a></li> <%--menu=f_b--%>
-              <li><a href="#" class="toggleMain1">각종현황</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a class="toggleMain" href="#">캠아이템</a>
-        <ul class="innerMain children g">
-          <li>
-            <a href="#" class="toggleMain">기준정보</a>
-            <ul class="innerMain children g_a">
-              <li><a href="#" class="toggleMain1">고객단가관리</a></li> <%--menu=g_a--%>
-              <li><a href="#" class="toggleMain1">표준단가관리</a></li>
-              <li><a href="#" class="toggleMain1">품목정보</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">수주관리</a>
-            <ul class="innerMain children g_b">
-              <li><a href="#" class="toggleMain1">수주등록</a></li> <%--menu=g_b--%>
-              <li><a href="#" class="toggleMain1">수주현황</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">출하관리</a>
-            <ul class="innerMain children g_c">
-              <li><a href="#" class="toggleMain1">출하실적등록</a></li> <%--menu=g_c--%>
-              <li><a href="#" class="toggleMain1">출하실적현황</a></li>
-              <li><a href="#" class="toggleMain1">출하실적추이분석</a></li>
-              <li><a href="#" class="toggleMain1">반품등록</a></li>
-              <li><a href="#" class="toggleMain1">택배수발송등록</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">BOM</a>
-            <ul class="innerMain children g_d">
-              <li><a href="#" class="toggleMain1">BOM등록</a></li> <%--menu=g_d--%>
-              <li><a href="#" class="toggleMain1">BOM조회</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">구매관리</a>
-            <ul class="innerMain children g_e">
-              <li><a href="#" class="toggleMain1">자재단가관리</a></li> <%--menu=g_e--%>
-              <li><a href="#" class="toggleMain1">입고등록</a></li>
-              <li><a href="#" class="toggleMain1">검수등록</a></li>
-              <li><a href="#" class="toggleMain1">입고현황</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">재고관리</a>
-            <ul class="innerMain children g_f">
-              <li><a href="#" class="toggleMain1">재고현황</a></li> <%--menu=g_f--%>
-              <li><a href="#" class="toggleMain1">창고별재고현황</a></li>
-              <li><a href="#" class="toggleMain1">재고이동등록</a></li>
-              <li><a href="#" class="toggleMain1">재고이동현황</a></li>
-              <li><a href="#" class="toggleMain1">안전재고마스터</a></li>
-              <li><a href="#" class="toggleMain1">안전재고현황</a></li>
-              <li><a href="#" class="toggleMain1">재고현황보고</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">마감관리</a>
-            <ul class="innerMain children g_g">
-              <li><a href="#" class="toggleMain1">매출확정</a></li> <%--menu=g_g--%>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">시스템</a>
-            <ul class="innerMain children g_h">
-              <li><a href="#" class="toggleMain1">고객관리</a></li> <%--menu=g_h--%>
-              <li><a href="#" class="toggleMain1">창고등록</a></li>
-              <li><a href="#" class="toggleMain1">기초코드등록</a></li>
-              <li><a href="#" class="toggleMain1">품목마스터</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a class="toggleMain" href="#">캠매니저</a>
-        <ul class="innerMain children h">
-          <li>
-            <a href="#" class="toggleMain">예산관리</a>
-            <ul class="innerMain children h_a">
-              <li><a href="#" class="toggleMain1">예산현황</a></li> <%--menu=h_a--%>
-              <li><a href="#" class="toggleMain1">예산통계</a></li>
-            </ul>
-          </li>
-          <li><a href="#" class="toggleMain1">지출문서관리</a></li> <%--menu=h_b--%>
-          <li>
-            <a href="#" class="toggleMain">결의서관리</a>
-            <ul class="innerMain children h_c">
-              <li><a href="#" class="toggleMain1">지급신청서검토</a></li> <%--menu=h_c--%>
-              <li><a href="#" class="toggleMain1">지출결의서</a></li>
-              <li><a href="#" class="toggleMain1">반제결의서(지출)</a></li>
-              <li><a href="#" class="toggleMain1">교육비입금관리</a></li>
-              <li><a href="#" class="toggleMain1">수입결의서</a></li>
-              <li><a href="#" class="toggleMain1">반제결의서(수입)</a></li>
-              <li><a href="#" class="toggleMain1">여입신청서검토</a></li>
-              <li><a href="#" class="toggleMain1">여입결의서</a></li>
-              <li><a href="#" class="toggleMain1">반납신청서검토</a></li>
-              <li><a href="#" class="toggleMain1">반납결의서</a></li>
-              <li><a href="#" class="toggleMain1">대체신청서검토</a></li>
-              <li><a href="#" class="toggleMain1">대체결의서</a></li>
-              <li><a href="#" class="toggleMain1">더존연계현황</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="toggleMain">구매관리</a>
-            <ul class="innerMain children h_d">
-              <li><a href="#" class="toggleMain1">구매요청관리</a></li> <%--menu=h_d--%>
-              <li><a href="#" class="toggleMain1">지금관리</a></li>
-            </ul>
-          </li>
         </ul>
       </li>
       <li>

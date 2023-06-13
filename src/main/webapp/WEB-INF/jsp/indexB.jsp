@@ -16,33 +16,35 @@
     .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
     .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
     .popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
+    .timeBoxSt{text-align: center; font-size: 20px;}
+    .timeBox{padding: 10px;}
 </style>
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="row panel-quick-page">
         <div style="display:flex; justify-content: space-between;">
             <div class="boxCss">
-                <i class="fa fa-shopping-cart" style="font-size:40px;padding:11px;"></i><br>캠프로젝트 매니저
+                <i class="fa fa-shopping-cart" style="font-size:40px;padding:11px;"></i><br>캠프로젝트
             </div>
             <div class="boxCss">
                 <i class="fa fa-lightbulb-o" style="font-size:40px;padding:11px;"></i><br>캠아이템
             </div>
             <div class="boxCss">
-                <i class="fa fa-calendar-o" style="font-size:40px;padding:11px;"></i><br>캠매니저2.0
+                <i class="fa fa-calendar-o" style="font-size:40px;padding:11px;"></i><br>캠매니저
             </div>
             <div class="boxCss">
-                <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM2.0
+                <i class="fa fa-users" style="font-size:40px;padding:11px;"></i><br>캠CRM
             </div>
-            <a href="/subHoliday/subHolidayApplication.do">
+            <a href="/Inside/userPersonList.do">
                 <div class="boxCss">
-                   <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드2.0
+                   <i class="fa fa-location-arrow" style="font-size:40px;padding:11px;"></i><br>캠인사이드
                 </div>
             </a>
             <div class="boxCss">
-                <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스2.0
+                <i class="fa fa-pencil" style="font-size:40px;padding:11px;"></i><br>캠퍼스
             </div>
             <div class="boxCss">
-                <i class="fa fa-cloud-upload" style="font-size:40px;padding:11px;"></i><br>캠어취브2.0
+                <i class="fa fa-cloud-upload" style="font-size:40px;padding:11px;"></i><br>캠어취브
             </div>
         </div>
     </div>
@@ -142,28 +144,28 @@
         <div class="col-md-2 col-sm-2" style="padding-right:0;">
             <div class="panel">
                 <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
+                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">일정관리</a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-2 col-sm-2" style="padding-right:0;">
             <div class="panel">
                 <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
+                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">전산보완요청</a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-2 col-sm-2" style="padding-right:0;">
             <div class="panel">
                 <div class="panel-heading" style="background-color: #505b72; padding:25px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">법인일정</a></h3>
+                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">홍보협조요청</a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-2 col-sm-2" style="padding-right:0;">
             <div class="panel">
-                <div class="panel-heading" style="background-color: #505b72; padding:25px; margin-bottom:35px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#">직원일정</a></h3>
+                <div class="panel-heading logopanel" style="background-color: #505b72; padding:25px; margin-bottom:35px;height: 69px;">
+                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#"></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
@@ -176,8 +178,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">근무시간</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>362:43</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>362:43</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -186,8 +188,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">연가</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -196,8 +198,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">오전반차</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -206,8 +208,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">오후반차</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -216,8 +218,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">경조휴가</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -226,8 +228,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">병가</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -236,8 +238,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">공가</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -246,8 +248,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">출산휴가</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -256,8 +258,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">선택근무</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -266,8 +268,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">츨장</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
@@ -276,8 +278,8 @@
                 <div class="panel-heading" style="padding:15px 0;">
                     <h3 class="panel-title" style="text-align:center;">대체휴가</h3>
                 </div>
-                <div class="panel-body timeBox">
-                    <p><strong>0명</strong></p>
+                <div class="timeBox">
+                    <p class="timeBoxSt"><strong>0명</strong></p>
                 </div>
             </div><!-- panel -->
         </div>
