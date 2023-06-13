@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="campus">
+    <select id="getCodeList" resultType="map" parameterType="map">
+        /* getCodeList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_CAMPUS_CODE CC
+        WHERE
+            ACTIVE = 'Y'
+    </select>
+
+    <select id="getTargetOne" resultType="map" parameterType="map">
+        /* getTargetOne */
+        SELECT
+            EDU_TARGET_ID,
+            TARGET_YEAR,
+            TARGET_CODE,
+            LOGIN_ID,
+            STATUS,
+            REG_EMP_SEQ,
+            REG_DATE
+        FROM
+            CAMPUS.DJ_EDU_TARGET ET
+        WHERE
+            TARGET_YEAR = #{TARGET_YEAR}
+        AND REG_EMP_SEQ = #{REG_EMP_SEQ}
+    </select>
+
+    <select id="getTargetList" resultType="map" parameterType="map">
+        /* getTargetList */
+        SELECT
+            ETD.EDU_TARGET_DETAIL_ID,
+            ETD.EDU_TARGET_ID,
+            ET.TARGET_YEAR,
+            ET.TARGET_CODE,
+            ET.LOGIN_ID,
+            ETD.EDU_CATEGORY_DETAIL_ID,
+            ETD.TARGET_CLASS,
+            ETD.DUTY_CLASS,
+            ETD.STATUS
+        FROM
+            CAMPUS.DJ_EDU_TARGET ET
+        LEFT JOIN
+            CAMPUS.DJ_EDU_TARGET_DETAIL ETD ON ET.EDU_TARGET_ID = ETD.EDU_TARGET_ID
+        WHERE
+            ET.TARGET_YEAR = #{TARGET_YEAR}
+        AND ET.REG_EMP_SEQ = #{REG_EMP_SEQ}
+    </select>
+
+    <select id="getTargetCategoryList" resultType="map" parameterType="map">
+        /* getTargetCategoryList */
+        SELECT
+            EDU_CATEGORY_ID,
+            EDU_CATEGORY_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY
+        WHERE
+            EDU_CATEGORY_ID IN (
+                SELECT
+                    EDU_CATEGORY_ID
+                FROM
+                    CAMPUS.DJ_EDU_TARGET ET
+                LEFT JOIN
+                    CAMPUS.DJ_EDU_TARGET_DETAIL ETD ON ET.EDU_TARGET_ID = ETD.EDU_TARGET_ID
+                LEFT JOIN
+                    CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON ETD.EDU_CATEGORY_DETAIL_ID = ECD.EDU_CATEGORY_DETAIL_ID
+                WHERE
+                    ET.TARGET_YEAR = #{TARGET_YEAR}
+                AND ET.REG_EMP_SEQ = #{REG_EMP_SEQ}
+            )
+    </select>
+
+    <select id="getTargetCategoryDetailList" resultType="map" parameterType="map">
+        /* getTargetCategoryDetailList */
+        SELECT
+            ETD.EDU_TARGET_DETAIL_ID,
+            ETD.TARGET_CLASS,
+            ECD.EDU_CATEGORY_DETAIL_ID,
+            ECD.EDU_CATEGORY_DETAIL_NAME
+        FROM
+            CAMPUS.DJ_EDU_TARGET ET
+        LEFT JOIN
+            CAMPUS.DJ_EDU_TARGET_DETAIL ETD ON ET.EDU_TARGET_ID = ETD.EDU_TARGET_ID
+        LEFT JOIN
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON ETD.EDU_CATEGORY_DETAIL_ID = ECD.EDU_CATEGORY_DETAIL_ID
+        WHERE
+            ET.TARGET_YEAR = #{TARGET_YEAR}
+          AND
+            ET.REG_EMP_SEQ = #{REG_EMP_SEQ}
+    </select>
+
+    <select id="getEduCategoryList" resultType="map" parameterType="map">
+        /* getEduCategoryList */
+        SELECT
+        EC.EDU_CATEGORY_ID,
+        EC.EDU_CATEGORY_NAME,
+        EC.LARGE_CATEGORY_ID,
+        EC.LARGE_CATEGORY_NAME
+        FROM
+        CAMPUS.DJ_EDU_CATEGORY EC
+        WHERE
+        EC.ACTIVE = 'Y'
+        <if test='LARGE_CATEGORY_ID != null and LARGE_CATEGORY_ID != ""'>
+            AND EC.LARGE_CATEGORY_ID in (${LARGE_CATEGORY_ID})
+        </if>
+        ORDER BY EC.ORDER
+    </select>
+
+    <select id="getEduCategoryDetailList" resultType="map" parameterType="map">
+        /* getEduCategoryDetailList */
+        SELECT
+            ECD.EDU_CATEGORY_DETAIL_ID,
+            ECD.EDU_CATEGORY_DETAIL_NAME,
+            ECD.EDU_CATEGORY_ID,
+            ECD.EDU_CATEGORY_NAME,
+            ECD.LEVEL_ID,
+            ECD.LEVEL_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
+        WHERE
+            ECD.ACTIVE = 'Y'
+        <if test='LEVEL_ID != null and LEVEL_ID != ""'>
+        AND ECD.LEVEL_ID = #{LEVEL_ID}
+        </if>
+        ORDER BY ECD.ORDER
+    </select>
+
+    <insert id="setTargetInsert" parameterType="map">
+        /* setTargetInsert */
+        INSERT INTO CAMPUS.DJ_EDU_TARGET
+            (
+                TARGET_YEAR,
+                TARGET_CODE,
+                LOGIN_ID,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{TARGET_YEAR},
+                #{TARGET_CODE},
+                #{LOGIN_ID},
+                #{REG_EMP_SEQ}
+            )
+    </insert>
+
+    <update id="setTargetDetailInsert" parameterType="map">
+        /* setTargetDetailInsert */
+        INSERT INTO CAMPUS.DJ_EDU_TARGET_DETAIL
+            (
+                EDU_TARGET_ID,
+                EDU_CATEGORY_DETAIL_ID,
+                REG_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="EDU_CATEGORY_DETAIL_ID" item="item" separator=" , ">
+            (
+                (SELECT EDU_TARGET_ID FROM CAMPUS.DJ_EDU_TARGET WHERE TARGET_YEAR = #{TARGET_YEAR} AND REG_EMP_SEQ = #{REG_EMP_SEQ}),
+                #{item.EDU_CATEGORY_DETAIL_ID},
+                #{REG_EMP_SEQ}
+            )
+        </foreach>
+    </update>
+
+    <delete id="setTargetDetailDelete" parameterType="map">
+        /* setTargetDetailDelete */
+        DELETE FROM CAMPUS.DJ_EDU_TARGET_DETAIL WHERE EDU_TARGET_ID = (SELECT EDU_TARGET_ID FROM CAMPUS.DJ_EDU_TARGET WHERE TARGET_YEAR = #{TARGET_YEAR} AND REG_EMP_SEQ = #{REG_EMP_SEQ})
+    </delete>
+</mapper>

@@ -11,6 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/campus/systemManagement.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -24,7 +25,43 @@
 
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
+            <div>
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex;">
+                                <div style="width: 100%">
+                                    <input type="text" id="detailSearch" style="width: 90%;">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin:20px 0;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <colgroup>
+                                <col width="20%" >
+                                <col width="20%" >
+                                <col width="20%" >
+                                <col width="20%" >
+                                <col width="20%" >
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>구분</th>
+                                    <th>LEVEL 1</th>
+                                    <th>LEVEL 2</th>
+                                    <th>LEVEL 3</th>
+                                    <th>LEVEL 4</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableData">
+                            </tbody>
+                        </table>
+                    </div><!-- table-responsive -->
+                </div>
+            </div>
         </div>
 
     </div>

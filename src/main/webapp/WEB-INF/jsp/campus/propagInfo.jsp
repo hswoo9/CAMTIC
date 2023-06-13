@@ -11,6 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/campus/propagInfo.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
