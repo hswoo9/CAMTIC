@@ -151,7 +151,7 @@
             <ul class="innerMain children c_a">
               <li><a href="/Inside/userPersonList.do?menu=c_a" class="toggleMain1">인사관리</a></li>
               <li><a href="/Inside/userPersonnelRecord.do?menu=c_a" class="toggleMain1">인사기록카드</a></li>
-              <li><a href="/Inside/performanceResultList.do?menu=c_a" class="toggleMain1">성과결과조회</a></li>
+              <%--<li><a href="/Inside/performanceResultList.do?menu=c_a" class="toggleMain1">성과결과조회</a></li>--%>
               <li><a href="/Inside/userInfoMod.do?menu=c_a" class="toggleMain1">인사정보변경신청</a></li>
               <li><a href="/user/organizationChart.do?menu=c_a" class="toggleMain1">조직도관리</a></li>
               <li>
@@ -163,12 +163,12 @@
               </li>
             </ul>
           </li>
-          <li>
+          <%--<li>
             <a href="#" class="toggleMain">급여관리</a>
             <ul class="innerMain children c_b">
               <li><a href="/Inside/payslipList.do?menu=c_b" class="toggleMain1">급여명세서</a></li>
             </ul>
-          </li>
+          </li>--%>
           <li>
             <a href="#" class="toggleMain">휴가관리</a>
             <ul class="innerMain children c_c">
@@ -306,7 +306,7 @@
               <li><a href="/Inside/personAttendList.do?menu=c_o" class="toggleMain1">개인근태현황</a></li>
               <li><a href="/Inside/personAnnvMain.do?menu=c_o" class="toggleMain1">개인연차현황</a></li>
               <li><a href="/Inside/personReqManage.do?menu=c_o" class="toggleMain1">근태신청현황</a></li>
-              <li><a href="/Inside/attendStat.do?menu=c_o" class="toggleMain1">근태집계</a></li>
+              <%--<li><a href="/Inside/attendStat.do?menu=c_o" class="toggleMain1">근태집계</a></li>--%>
               <li><a href="/Inside/personAttendStat.do?menu=c_o" class="toggleMain1">직원근태내역</a></li>
               <li><a href="/Inside/monthAttendStat.do?menu=c_o" class="toggleMain1">월별근태보고</a></li>
               <%--<li><a href="/Inside/workChoiceReq.do?menu=c_o" class="toggleMain1">선택근로</a></li>

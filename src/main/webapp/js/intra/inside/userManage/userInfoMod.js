@@ -93,20 +93,24 @@ var userInfoMod = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/userManage/getAllUserPersonnelRecordList',
+                    async : false,
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+                    data.sDate = $("#start_date").val();
+                    data.eDate = $("#end_date").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    console.log('데이터 : ',data);
+                    return data.rs;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.rs.length;
                 },
             },
             pageSize: 10,
@@ -127,14 +131,14 @@ var userInfoMod = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_approval()">' +
                             '	<span class="k-button-text">승인</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_return()">' +
                             '	<span class="k-button-text">반려</span>' +
                             '</button>';
                     }
@@ -159,28 +163,28 @@ var userInfoMod = {
                     template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
-                    field: "",
+                    field: "MSI_INFO_ID",
                     title: "번호"
                 }, {
-                    field: "",
+                    field: "EMP_SEQ",
                     title: "부서"
                 }, {
-                    field: "",
+                    field: "MILITARY_SVC_TYPE",
                     title: "팀"
                 }, {
-                    field: "",
+                    field: "MILITARY_SVC_TYPE",
                     title: "직책"
                 }, {
-                    field: "",
+                    field: "MILITARY_SVC_TYPE",
                     title: "성명"
                 }, {
-                    field: "",
+                    field: "REG_DATE",
                     title: "신청일"
                 }, {
-                    field: "",
+                    field: "M_UNFUL_REASON",
                     title: "신청항목"
                 }, {
-                    field: "",
+                    field: "ACTIVE",
                     title: "처리상태"
                 }
             ]
@@ -199,5 +203,23 @@ var userInfoMod = {
         var name = "recruitAdminPop";
         var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_approval : function() {
+        $.each($('.checkbox:checked'), function(index, item) {
+            console.log('체크된 값 : ', $(item).parent());
+            $.each($(item).parent().parent().find('td'), function(index, item) {
+               console.log(index,'번째 td 값 : ', $(item).text());
+            });
+        });
+    },
+
+    fn_return : function() {
+        $.each($('.checkbox:checked'), function(index, item) {
+            console.log('체크된 값 : ', $(item).parent());
+            $.each($(item).parent().parent().find('td'), function(index, item) {
+                console.log(index,'번째 td 값 : ', $(item).text());
+            });
+        });
     }
 }

@@ -114,20 +114,20 @@
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
   /*fn_datePicker
   fn_textBox*/
+  var codeSet;
+  var codeDropDown = [];
   $(function(){
     fn_default();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
     customKendo.fn_datePicker("eDate", '', "yyyy-MM-dd", '');
-    var dropDownDataSource = [
-      { text: "면제", value: "1" },
-      { text: "필", value: "2" },
-      { text: "미필", value: "3" },
-      { text: "특례", value: "4" },
-      { text: "해당없음", value: "5" },
-    ];
-    customKendo.fn_dropDownList("mGubun",dropDownDataSource, "text","value");
+    fn_codeSet();
+    $("#mGubun").kendoDropDownList({
+      dataTextField: "HR_DT_CODE_NM",
+      dataValueField: "value",
+      dataSource: edCodeDataSource("B04")
+    });
     customKendo.fn_textBox("reason");
     customKendo.fn_textBox("rank");
     customKendo.fn_textBox("mType");
@@ -146,6 +146,55 @@
     }
     customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
   }
+
+  function fn_codeSet() {
+    $.ajax({
+      url : '/userManage/getCodeList',
+      type : "post",
+      async : false,
+      dataType : "json",
+      success : function(result) {
+        codeSet = result.rs;
+        codeDropDown = result.rs;
+      }
+    })
+  }
+
+  function edCodeDataSource(code) {
+    var data = [];
+    var defaultCode = "";
+    if(code != ""){
+      switch (code){
+        case "B01" :
+          defaultCode = "학력구분"
+          break
+        case "B02" :
+          defaultCode = "학위"
+          break
+        case "B03" :
+          defaultCode = "졸업"
+          break
+        case "B04" :
+          defaultCode = "전역여부"
+          break
+        case "B05" :
+          defaultCode = "가족관계"
+          break
+      }
+      data.push({"HR_DT_CODE_NM": defaultCode, "value" : ""});
+    }else {
+      data.push({"HR_DT_CODE_NM": "선택하세요", "value" : ""});
+    }
+
+    for(var i = 0 ; i < codeDropDown.length ; i++){
+      codeDropDown[i].value = codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE + codeDropDown[i].HR_DT_CODE;
+      if(codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE == code){
+        data.push(codeDropDown[i]);
+      }
+    }
+    return data;
+  }
+
   function fn_windowClose() {
     window.close();
   }

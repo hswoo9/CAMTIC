@@ -8,6 +8,11 @@ public interface UserManageService{
     Map<String,Object> getUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getEducationalList (Map<String,Object> map);
     Map<String,Object> getMilitarySvcInfo (Map<String,Object> map);
+    List<Map<String,Object>> getAllUserPersonnelRecordList (Map<String,Object> map);
+    List<Map<String,Object>> getCodeList();
 
-    /*void setUserReqDetail(Map<String, Object> params);*/
+    Map<String, Object> setUserReqDetailInsert(Map<String, Object> params);
+
+    List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params);
+    List<Map<String,Object>> getDeptCodeList (Map<String,Object> params);
 }

@@ -50,4 +50,71 @@
         WHERE
             a.EMP_SEQ = #{empSeq};
     </select>
+    <select id="getAllUserPersonnelRecordList" parameterType="map" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_hr.dj_emp_military_svc_info AS a
+        WHERE
+            a.ACTIVE = 'N'
+          and
+            a.REG_DATE BETWEEN concat(#{sDate},' 00:00:00') and concat(#{eDate}, ' 23:59:59');
+    </select>
+    <select id="getCodeList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_hr_code
+        WHERE
+            ACTIVE = 'Y'
+    </select>
+
+    <insert id="setUserReqDetailInsert" parameterType="map">
+        /*setUserReqDetailInsert*/
+        INSERT INTO CAM_HR.DJ_EMP_INFO
+        (
+            EMP_SEQ,
+            EMP_NAME_KR, LOGIN_PASSWD, LOGIN_ID, RES_REGIS_NUM, CHECK_PASSWD, CAPS_NUM,
+            ERP_EMP_SEQ, DUTY_CODE, DEPT_NAME, DEPT_SEQ,
+            JOB_DETAIL, BEFOR_CAREER, ELAPSED_YEAR, ACCOUNT_HOLDER, BANK_NAME, ACCOUNT_NUM,
+            ADDR, ADDR_DETAIL, OFFICE_TEL_NUM, MOBILE_TEL_NUM, EMAIL_ADDR, CAR_NUM,
+            EMP_NAME_CN, EMP_NAME_EN, EMG_TEL_NUM, LEGAL_DOMICILE, HOBBY, RELIGION,
+            SPECIALTY, WEIGHT, HEIGHT, VISION,
+            HOME_PAGE_ACTIVE, WEDDING_ACTIVE, BLOOD_TYPE
+        )
+        VALUES
+        (
+            (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
+            #{EMP_NAME_KR}, #{LOGIN_PASSWD}, #{LOGIN_ID}, #{RES_REGIS_NUM}, #{CHECK_PASSWD}, #{CAPS_NUM},
+            #{ERP_EMP_SEQ}, #{DUTY_CODE}, #{DEPT_NAME}, #{DEPT_SEQ},
+            #{JOB_DETAIL}, #{BEFOR_CAREER}, #{ELAPSED_YEAR}, #{ACCOUNT_HOLDER}, #{BANK_NAME}, #{ACCOUNT_NUM},
+            #{ADDR}, #{ADDR_DETAIL}, #{OFFICE_TEL_NUM}, #{MOBILE_TEL_NUM}, #{EMAIL_ADDR}, #{CAR_NUM},
+            #{EMP_NAME_CN}, #{EMP_NAME_EN}, #{EMG_TEL_NUM}, #{LEGAL_DOMICILE}, #{HOBBY}, #{RELIGION},
+            #{SPECIALTY}, #{WEIGHT}, #{HEIGHT}, #{VISION},
+            #{HOME_PAGE_ACTIVE}, #{WEDDING_ACTIVE}, #{BLOOD_TYPE}
+        )
+    </insert>
+
+    <select id="getDeptCodeList2" parameterType="map" resultType="map">
+        /*getDeptCodeList2*/
+        SELECT
+            DI.DEPT_NAME AS deptName,
+            DI.DEPT_SEQ AS deptSeq
+        FROM
+            CAM_HR.DJ_DEPT_INFO DI
+        WHERE
+            DI.DEPT_LEVEL = 1
+    </select>
+
+    <select id="getDeptCodeList" parameterType="map" resultType="map">
+        /*getDeptCodeList*/
+        SELECT
+            DEPT_NAME AS text,
+            DEPT_SEQ AS value
+        FROM
+            CAM_HR.DJ_DEPT_INFO
+        WHERE
+            PARENT_DEPT_SEQ = #{deptSeq}
+    </select>
+
 </mapper>

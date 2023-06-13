@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -206,5 +208,57 @@ public class UserManageController {
                 break;
         }
     }
+    @RequestMapping("/userManage/getAllUserPersonnelRecordList")
+    public String getAllUserPersonnelRecordList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getAllUserPersonnelRecordList(map));
+        return "jsonView";
+    }
+    @RequestMapping("/userManage/getCodeList")
+    public String getCodeList(Model model) {
+        model.addAttribute("rs", userManageService.getCodeList());
+        return "jsonView";
+    }
+
+    //직원추가
+    @RequestMapping("/userManage/setUserReqDetailInsert")
+    @ResponseBody
+    public Map<String, Object> setUserInfoReqSave(@RequestParam Map<String, Object> params) {
+        Map<String,Object> result = new HashMap<>();
+
+        String code = "";
+        String message = "";
+        try{
+            userManageService.setUserReqDetailInsert(params);
+            code = "200";
+            message = "저장되었습니다.";
+        }catch (Exception e){
+            code = "500";
+            message = "실패했습니다.";
+        }
+        result.put("code", code);
+        result.put("message", message);
+
+        return result;
+    }
+
+    //유저코드 - 부서코드리스트
+    @RequestMapping("/userManage/getDeptCodeList2")
+    @ResponseBody
+    public Map<String, Object> getDeptCodeList2(@RequestParam Map<String, Object> params){
+        Map<String,Object> result = new HashMap<>();
+        result.put("list", userManageService.getDeptCodeList2(params));
+        return result;
+    }
+
+    //유저코드 - 팀코드리스트
+    @RequestMapping("/userManage/getDeptCodeList")
+    @ResponseBody
+    public Map<String, Object> getDeptCodeList(@RequestParam Map<String, Object> params){
+        Map<String,Object> result = new HashMap<>();
+        result.put("list", userManageService.getDeptCodeList(params));
+        return result;
+    }
+
+
 
 }

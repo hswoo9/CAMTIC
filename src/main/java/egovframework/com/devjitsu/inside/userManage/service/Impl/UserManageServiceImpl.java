@@ -16,6 +16,7 @@ public class UserManageServiceImpl implements UserManageService {
     public Map<String, Object> getUserPersonnelRecordList(Map<String, Object> map) {
         return userManageRepository.getUserPersonnelRecordList(map);
     }
+    @Override
     public List<Map<String,Object>> getEducationalList (Map<String,Object> map) {
         return userManageRepository.getEducationalList(map);
     }
@@ -25,10 +26,27 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getMilitarySvcInfo(map);
     }
 
-/*    @Override
-    public void setUserReqDetail(Map<String, Object> params) {
-        userManageRepository.setUserReqDetail(params);
-    }*/
+    @Override
+    public Map<String, Object> setUserReqDetailInsert(Map<String, Object> params) {
+        return userManageRepository.setUserReqDetailInsert(params);
+    }
 
+    @Override
+    public List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params) {
+        return userManageRepository.getDeptCodeList2(params);
+    }
 
+    @Override
+    public List<Map<String,Object>> getDeptCodeList (Map<String,Object> params) {
+        return userManageRepository.getDeptCodeList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllUserPersonnelRecordList(Map<String, Object> map) {
+        return userManageRepository.getAllUserPersonnelRecordList(map);
+    }
+    @Override
+    public List<Map<String,Object>> getCodeList() {
+        return userManageRepository.getCodeList();
+    }
 }
