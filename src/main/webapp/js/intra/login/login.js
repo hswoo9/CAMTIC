@@ -17,7 +17,7 @@ var login = {
             alert("비밀번호를 입력하세요");
             return false;
         } else {
-            var loginUrl = getContextPath() + "/loginAccess.do";
+            var loginUrl = "/loginAccess";
             document.loginForm.action= loginUrl;
             document.loginForm.submit();
         }

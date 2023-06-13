@@ -35,7 +35,7 @@
 
     <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
     <script type="text/javascript" src="/js/intra/common/common.js"></script>
-    <script type="text/javascript" src="/js/intra/login/login.js"></script>
+    <script type="text/javascript" src="/js/intra/login/login.js?v=1"></script>
 </head>
 
 <body class="signwrapper">
@@ -53,7 +53,7 @@
 </div><!-- panel -->
 <div class="panel signin">
     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
-        <form:form name="loginForm" method="post" action="#LINK">
+        <form:form name="loginForm" method="post" action="/loginAccess">
         <div class="form-group mb10">
             <div class="form-group mb10" style="font-size:18px; font-weight: 600; text-align:center;">
                 로그인
