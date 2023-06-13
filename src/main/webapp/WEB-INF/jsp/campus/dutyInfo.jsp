@@ -11,7 +11,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
-<script type="text/javascript" src="/js/intra/campus/eduManagement.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/campus/dutyInfo.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
@@ -24,7 +25,6 @@
 
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
         </div>
 
     </div>
@@ -32,5 +32,5 @@
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
-    eduManagement.init();
+    dutyInfo.init();
 </script>
