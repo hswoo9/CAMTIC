@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,20 +54,57 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    @Transactional
-    public Object setTargetInsert(Map<String, Object> params) {
-        return campusRepository.setTargetInsert(params);
+    public Map<String, Object> setTargetInsert(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            campusRepository.setTargetInsert(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        }catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
+        }
+        return result;
     }
 
     @Override
     @Transactional
-    public Object setTargetDetailInsert(Map<String, Object> params) {
-        if (params.containsKey("REG_EMP_SEQ") == true && params.get("REG_EMP_SEQ") != null && !params.get("REG_EMP_SEQ").equals("")) {
-            campusRepository.setTargetDetailDelete(params);
+    public Map<String, Object> setTargetDetailInsert(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            if (params.containsKey("empSeq") == true && params.get("empSeq") != null && !params.get("empSeq").equals("")) {
+                campusRepository.setTargetDetailDelete(params);
+            }
+            Gson gson = new Gson();
+            List<Map<String, Object>> SYSTEM_CATEGORY_DETAIL_LIST = gson.fromJson((String) params.get("eduCategoryDetailIdList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            params.put("eduCategoryDetailIdList", SYSTEM_CATEGORY_DETAIL_LIST);
+            campusRepository.setTargetDetailInsert(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        }catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
         }
-        Gson gson = new Gson();
-        List<Map<String, Object>> SYSTEM_CATEGORY_DETAIL_LIST = gson.fromJson((String) params.get("EDU_CATEGORY_DETAIL_ID"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-        params.put("EDU_CATEGORY_DETAIL_ID", SYSTEM_CATEGORY_DETAIL_LIST);
-        return campusRepository.setTargetDetailInsert(params);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> setEduTargetDetailUpdate(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Gson gson = new Gson();
+            List<Map<String, Object>> EDU_TARGET_DETAIL_LIST = gson.fromJson((String) params.get("eduTargetDetailIdList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            params.put("eduTargetDetailIdList", EDU_TARGET_DETAIL_LIST);
+            campusRepository.setEduTargetDetailUpdate(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        } catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
+        }
+        return result;
     }
 }

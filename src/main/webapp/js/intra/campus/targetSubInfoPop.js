@@ -1,6 +1,6 @@
 var now = new Date();
 
-var targetInfoPop = {
+var targetSubInfoPop = {
     global : {
         codeDropDown : [],
         level0List : [],
@@ -11,10 +11,10 @@ var targetInfoPop = {
     },
 
     init : function(){
-        targetInfoPop.dataSet();
-        targetInfoPop.tableDetailSet();
-        targetInfoPop.tableSet();
-        targetInfoPop.tableDataSet();
+        targetSubInfoPop.dataSet();
+        targetSubInfoPop.tableDetailSet();
+        targetSubInfoPop.tableSet();
+        targetSubInfoPop.tableDataSet();
     },
 
     dataSet : function() {
@@ -25,7 +25,7 @@ var targetInfoPop = {
             async: false,
             success : function(result){
                 console.log(result.list);
-                targetInfoPop.global.codeDropDown = result.list;
+                targetSubInfoPop.global.codeDropDown = result.list;
             }
         });
 
@@ -36,9 +36,9 @@ var targetInfoPop = {
             autoClose: false,
             dataTextField: "CAMPUS_DT_CODE_NM",
             dataValueField: "CAMPUS_DT_CODE",
-            dataSource : targetInfoPop.campusDataSource("P01"),
+            dataSource : targetSubInfoPop.campusDataSource("P01"),
             change: function(e) {
-                targetInfoPop.tableSet();
+                targetSubInfoPop.tableSet();
             },
             value: ["0", "1", "2", "3"]
         });
@@ -56,9 +56,9 @@ var targetInfoPop = {
 
     campusDataSource : function(code) {
         var data = [];
-        for(var i = 0 ; i < targetInfoPop.global.codeDropDown.length ; i++){
-            if(targetInfoPop.global.codeDropDown[i].CAMPUS_MC_CODE + targetInfoPop.global.codeDropDown[i].CAMPUS_MD_CODE == code){
-                data.push(targetInfoPop.global.codeDropDown[i]);
+        for(var i = 0 ; i < targetSubInfoPop.global.codeDropDown.length ; i++){
+            if(targetSubInfoPop.global.codeDropDown[i].CAMPUS_MC_CODE + targetSubInfoPop.global.codeDropDown[i].CAMPUS_MD_CODE == code){
+                data.push(targetSubInfoPop.global.codeDropDown[i]);
             }
         }
         return data;
@@ -74,7 +74,7 @@ var targetInfoPop = {
             dataType : "json",
             async: false,
             success : function(detailResult){
-                targetInfoPop.global.level0List = detailResult.list;
+                targetSubInfoPop.global.level0List = detailResult.list;
             }
         });
 
@@ -87,7 +87,7 @@ var targetInfoPop = {
             dataType : "json",
             async: false,
             success : function(detailResult){
-                targetInfoPop.global.level1List = detailResult.list;
+                targetSubInfoPop.global.level1List = detailResult.list;
             }
         });
 
@@ -100,7 +100,7 @@ var targetInfoPop = {
             dataType : "json",
             async: false,
             success : function(detailResult){
-                targetInfoPop.global.level2List = detailResult.list;
+                targetSubInfoPop.global.level2List = detailResult.list;
             }
         });
 
@@ -113,7 +113,7 @@ var targetInfoPop = {
             dataType : "json",
             async: false,
             success : function(detailResult){
-                targetInfoPop.global.level3List = detailResult.list;
+                targetSubInfoPop.global.level3List = detailResult.list;
             }
         });
     },
@@ -138,7 +138,7 @@ var targetInfoPop = {
                     html += "   <td style='text-align: center;'>"+list[i].EDU_CATEGORY_NAME+"</td>";
                     html += "   <td style='text-align: left;'>";
 
-                    var detailList0 = targetInfoPop.global.level0List;
+                    var detailList0 = targetSubInfoPop.global.level0List;
                     for(var j = 0; j < detailList0.length; j++) {
                         if(detailList0[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += "   <div style='display: flex'>";
@@ -151,7 +151,7 @@ var targetInfoPop = {
                     html += "   </td>";
                     html += "   <td style='text-align: left;'>";
 
-                    var detailList1 = targetInfoPop.global.level1List;
+                    var detailList1 = targetSubInfoPop.global.level1List;
                     for(var j = 0; j < detailList1.length; j++) {
                         if(detailList1[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += "   <div style='display: flex'>";
@@ -164,7 +164,7 @@ var targetInfoPop = {
                     html += "   </td>";
                     html += "   <td style='text-align: left;'>";
 
-                    var detailList2 = targetInfoPop.global.level2List;
+                    var detailList2 = targetSubInfoPop.global.level2List;
                     for(var j = 2; j < detailList2.length; j++) {
                         if(detailList2[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += "   <div style='display: flex'>";
@@ -177,7 +177,7 @@ var targetInfoPop = {
                     html += "   </td>";
                     html += "   <td style='text-align: left;'>";
 
-                    var detailList3 = targetInfoPop.global.level3List;
+                    var detailList3 = targetSubInfoPop.global.level3List;
                     for(var j = 0; j < detailList3.length; j++) {
                         if(detailList3[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += "   <div style='display: flex'>";
@@ -201,7 +201,7 @@ var targetInfoPop = {
             data : {
                 targetYear : $("#targetYear").val(),
                 empSeq : $("#empSeq").val(),
-                dutyClass : 1
+                dutyClass : 2
             },
             type : "post",
             dataType : "json",
@@ -244,9 +244,11 @@ var targetInfoPop = {
             url : "/campus/setTargetDetailInsert",
             data : {
                 targetYear : $("#targetYear").val(),
+                TARGET_CODE : $("#loginId").val()+$("#targetYear").val(),
+                LOGIN_ID : $("#loginId").val(),
                 empSeq : $("#empSeq").val(),
                 eduCategoryDetailIdList : JSON.stringify(eduCategoryDetailIdArr),
-                dutyClass : 1
+                dutyClass : 2
             },
             type : "post",
             dataType : "json",

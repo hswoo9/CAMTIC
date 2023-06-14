@@ -26,6 +26,18 @@
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
             <div>
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex;">
+                                <div>
+                                    <span>적용년도</span>
+                                    <input type="text" id="targetYear" style="width: 140px;">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <table class="table table-bordered">
                     <colgroup>
                         <col width="20%" >
@@ -41,30 +53,19 @@
                 <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP1 : 목표기술서 등록" onclick="targetInfo.targetAddYearPop();"/>
                 <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP2-1 : 주업무 선택" onclick="targetInfo.targetInfoPop();"/>
                 <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP2-2 : 주업무 현황 및 목표 설정" onclick="targetInfo.targetMainSetPop();"/>
+                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP3-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>
+                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP3-2 : 연계업무 현황 및 목표 설정" onclick="targetInfo.targetSubSetPop();"/>
 
-                <div style="text-align: center; margin: auto;">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
+                <div class="non" style="text-align: center; margin: auto;">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
 
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
-                            <colgroup>
-                                <col width="50%" >
-                                <col width="50%" >
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>주업무</th>
-                                    <th>보조업무</th>
-                                </tr>
-                            </thead>
                             <tbody id="tableData">
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
                 </div>
-
-
-
             </div>
         </div>
 

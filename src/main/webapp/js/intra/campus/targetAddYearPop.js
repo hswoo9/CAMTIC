@@ -23,8 +23,8 @@ var targetAddYearPop = {
         $.ajax({
             url : "/campus/getTargetOne",
             data : {
-                TARGET_YEAR : $("#targetYear").val(),
-                REG_EMP_SEQ : $("#empSeq").val()
+                targetYear : $("#targetYear").val(),
+                empSeq : $("#empSeq").val()
             },
             type : "post",
             dataType : "json",
@@ -39,10 +39,10 @@ var targetAddYearPop = {
             $.ajax({
                 url : "/campus/setTargetInsert",
                 data : {
-                    TARGET_YEAR : $("#targetYear").val(),
-                    TARGET_CODE : $("#loginId").val()+$("#targetYear").val(),
-                    LOGIN_ID : $("#loginId").val(),
-                    REG_EMP_SEQ : $("#empSeq").val()
+                    targetYear : $("#targetYear").val(),
+                    targetCode : $("#loginId").val()+$("#targetYear").val(),
+                    loginId : $("#loginId").val(),
+                    empSeq : $("#empSeq").val()
                 },
                 type : "post",
                 dataType : "json",

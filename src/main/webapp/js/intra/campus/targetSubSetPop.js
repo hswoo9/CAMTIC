@@ -1,14 +1,14 @@
 var now = new Date();
 
-var targetMainSetPop = {
+var targetSubSetPop = {
     global: {
         targetCategoryList: [],
         targetCategoryDetailList: []
     },
 
     init: function () {
-        targetMainSetPop.dataSet();
-        targetMainSetPop.tableSet();
+        targetSubSetPop.dataSet();
+        targetSubSetPop.tableSet();
     },
 
     dataSet: function () {
@@ -29,13 +29,13 @@ var targetMainSetPop = {
             data: {
                 targetYear : $("#targetYear").val(),
                 empSeq : $("#empSeq").val(),
-                dutyClass : 1
+                dutyClass : 2
             },
             type: "post",
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetMainSetPop.global.targetCategoryList = Result.list;
+                targetSubSetPop.global.targetCategoryList = Result.list;
             }
         });
 
@@ -44,23 +44,23 @@ var targetMainSetPop = {
             data: {
                 targetYear : $("#targetYear").val(),
                 empSeq : $("#empSeq").val(),
-                dutyClass : 1
+                dutyClass : 2
             },
             type: "post",
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetMainSetPop.global.targetCategoryDetailList = Result.list;
+                targetSubSetPop.global.targetCategoryDetailList = Result.list;
             }
         });
     },
 
     tableSet: function () {
-        targetMainSetPop.tableDetailSet();
-        console.log(targetMainSetPop.global.targetCategoryList);
-        console.log(targetMainSetPop.global.targetCategoryDetailList);
-        const list = targetMainSetPop.global.targetCategoryList;
-        const detailList = targetMainSetPop.global.targetCategoryDetailList;
+        targetSubSetPop.tableDetailSet();
+        console.log(targetSubSetPop.global.targetCategoryList);
+        console.log(targetSubSetPop.global.targetCategoryDetailList);
+        const list = targetSubSetPop.global.targetCategoryList;
+        const detailList = targetSubSetPop.global.targetCategoryDetailList;
         let color = "#ffffff";
         let eduCategoryIdList = [];
 
@@ -68,7 +68,7 @@ var targetMainSetPop = {
         if(list.length > 0) {
             html += "<tr style='background-color: #fee3ef'>";
             html += "   <td rowspan='2' style='text-align: center'>구분</td>";
-            html += "   <td colspan='"+list.length+"' style='text-align: center'>주업무</td>";
+            html += "   <td colspan='"+list.length+"' style='text-align: center'>연계업무</td>";
             html += "</tr>";
 
             html += "<tr style='background-color: #fee3ef'>";
@@ -138,7 +138,7 @@ var targetMainSetPop = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetMainSetPop.tableSet();
+                targetSubSetPop.tableSet();
                 opener.targetInfo.tableSet();
             }
         });
