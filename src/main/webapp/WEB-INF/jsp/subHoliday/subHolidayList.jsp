@@ -14,12 +14,18 @@
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayList.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+<input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+<input type="hidden" id="apprStat" value="N">
+<input type="hidden" id="vacUseHistId" value="">
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">휴가현황</h4>
-            <div class="title-road">휴가관리 &gt; 휴가현황</div>
+            <h4 class="panel-title">휴가관리</h4>
+            <div class="title-road">휴가관리 &gt; 휴가관리</div>
         </div>
 
         <div class="panel-body">
@@ -112,28 +118,26 @@
 
         <div class="panel-body">
             <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
             <div>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex; justify-content: space-between;">
-                    <div style="display:flex;">
-                        <div class="mr20">
-                            <span>신청구분</span>
-                            <input type="text" id="holidayCate" style="width: 150px;">
-                        </div>
-
-                        <div>
-                            <span>상태</span>
-                            <input type="text" id="status" style="width: 150px;">
-                        </div>
-                    </div>
+                                <div style="display:flex;">
+                                    <div class="mr20">
+                                        <span>신청구분</span>
+                                        <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:150px;">
+                                    </div>
+                                    <div>
+                                        <span>상태</span>
+                                        <input type="text" id="status" style="width: 150px;">
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
             </div>
-
             <div id="mainGrid" style="margin:20px 0;"></div>
         </div>
 

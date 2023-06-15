@@ -155,26 +155,26 @@
         <a class="toggleMain" href="#">캠프로젝트</a>
         <ul class="innerMain children e">
           <li>
-            <a href="#" class="toggleMain">캠알앤디</a>
-            <ul class="innerMain children e_a">
+            <a href="#" class="toggleMain">캠프로젝트관리</a>
+            <%--<ul class="innerMain children e_a">
               <li><a href="#" class="toggleMain1">휴가신청</a></li>
-              <%--<li onclick=""><a class="toggleMain">휴가신청</a></li>--%>
-              <%--<li onclick="location.href='/user/organizationChart.do'"><a class="toggleMain">조직도</a></li>--%>
+              &lt;%&ndash;<li onclick=""><a class="toggleMain">휴가신청</a></li>&ndash;%&gt;
+              &lt;%&ndash;<li onclick="location.href='/user/organizationChart.do'"><a class="toggleMain">조직도</a></li>&ndash;%&gt;
               <li><a href="/user/organizationChart.do?menu=e_a" class="toggleMain1">조직도</a></li>
-            </ul>
+            </ul>--%>
           </li>
-          <li>
+          <%--<li>
             <a href="#" class="toggleMain">엔지니어링</a>
             <ul class="innerMain children e_b">
               <li><a href="#" class="toggleMain1">프로젝트등록및목록</a></li>
-              <%--<li onclick=""><a class="toggleMain">프로젝트등록및목록</a></li>--%>
-              <%--<li onclick="location.href='/engineering/estimate.do'"><a class="toggleMain">개발상담서</a></li>--%>
+              &lt;%&ndash;<li onclick=""><a class="toggleMain">프로젝트등록및목록</a></li>&ndash;%&gt;
+              &lt;%&ndash;<li onclick="location.href='/engineering/estimate.do'"><a class="toggleMain">개발상담서</a></li>&ndash;%&gt;
               <li><a href="/engineering/estimate.do?menu=e_b" class="toggleMain1">개발상담서</a></li>
               <li><a href="#" class="toggleMain1">수주보고</a></li>
               <li><a href="#" class="toggleMain1">개발계획서등록(협업)</a></li>
-              <%--<li onclick=""><a class="toggleMain">개발계획서등록(협업)</a></li>--%>
+              &lt;%&ndash;<li onclick=""><a class="toggleMain">개발계획서등록(협업)</a></li>&ndash;%&gt;
             </ul>
-          </li>
+          </li>--%>
         </ul>
       </li>
       <li>
@@ -260,9 +260,9 @@
               <li><a href="#" class="toggleMain1">예산통계</a></li>
             </ul>
           </li>
-          <li><a href="#" class="toggleMain1">지출문서관리</a></li> <%--menu=h_b--%>
+          <li><a href="#" class="toggleMain1">지출관리</a></li> <%--menu=h_b--%>
           <li>
-            <a href="#" class="toggleMain">결의서관리</a>
+            <a href="#" class="toggleMain">결의관리</a>
             <ul class="innerMain children h_c">
               <li><a href="#" class="toggleMain1">지급신청서검토</a></li> <%--menu=h_c--%>
               <li><a href="#" class="toggleMain1">지출결의서</a></li>
@@ -283,31 +283,24 @@
             <a href="#" class="toggleMain">구매관리</a>
             <ul class="innerMain children h_d">
               <li><a href="#" class="toggleMain1">구매요청관리</a></li> <%--menu=h_d--%>
-              <li><a href="#" class="toggleMain1">지금관리</a></li>
+              <li><a href="#" class="toggleMain1">자금관리</a></li>
             </ul>
           </li>
+          <li><a href="#" class="toggleMain1">더존연계</a></li> <%--menu=h_b--%>
+          <li><a href="#" class="toggleMain1">e-나라도움</a></li> <%--menu=h_b--%>
         </ul>
       </li>
       <li>
         <a class="toggleMain" href="#">캠CRM</a>
         <ul class="innerMain children f">
           <li>
-            <a href="#" class="toggleMain">메인화면(통합검색)</a>
-            <ul class="innerMain children f_a">
-              <li>
-                <a href="#" class="toggleMain">고객관리</a>
-                <ul class="innerMain children f_a">
-                  <li><a href="#" class="toggleMain1">신규고객등록</a></li> <%--menu=f_a--%>
-                  <li><a href="#" class="toggleMain1">고객정보조회</a></li>
-                  <li><a href="#" class="toggleMain1">관계이력관리</a></li>
-                  <li><a href="#" class="toggleMain1">고객등급관리</a></li>
-                  <li><a href="#" class="toggleMain1">가족기업관리</a></li>
-                </ul>
-              </li>
-            </ul>
+            <a href="#" class="toggleMain">고객관리</a>
           </li>
           <li>
-            <a href="#" class="toggleMain">고객통계</a>
+            <a href="#" class="toggleMain">이력관리</a>
+          </li>
+          <li>
+            <a href="#" class="toggleMain">통계조회</a>
             <ul class="innerMain children f_b">
               <li><a href="#" class="toggleMain1">고객현황</a></li> <%--menu=f_b--%>
               <li><a href="#" class="toggleMain1">각종현황</a></li>
