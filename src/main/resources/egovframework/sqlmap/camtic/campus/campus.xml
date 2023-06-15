@@ -25,8 +25,8 @@
         FROM
             CAMPUS.DJ_EDU_TARGET ET
         WHERE
-            TARGET_YEAR = #{TARGET_YEAR}
-        AND REG_EMP_SEQ = #{REG_EMP_SEQ}
+            TARGET_YEAR = #{targetYear}
+        AND REG_EMP_SEQ = #{empSeq}
     </select>
 
     <select id="getTargetList" resultType="map" parameterType="map">
@@ -46,19 +46,22 @@
         LEFT JOIN
             CAMPUS.DJ_EDU_TARGET_DETAIL ETD ON ET.EDU_TARGET_ID = ETD.EDU_TARGET_ID
         WHERE
-            ET.TARGET_YEAR = #{TARGET_YEAR}
-        AND ET.REG_EMP_SEQ = #{REG_EMP_SEQ}
+            ET.TARGET_YEAR = #{targetYear}
+        AND ET.REG_EMP_SEQ = #{empSeq}
+        <if test='dutyClass != null and dutyClass != ""'>
+            AND ETD.DUTY_CLASS = #{dutyClass}
+        </if>
     </select>
 
     <select id="getTargetCategoryList" resultType="map" parameterType="map">
         /* getTargetCategoryList */
         SELECT
-            EDU_CATEGORY_ID,
-            EDU_CATEGORY_NAME
+            EC.EDU_CATEGORY_ID,
+            EC.EDU_CATEGORY_NAME
         FROM
-            CAMPUS.DJ_EDU_CATEGORY
+            CAMPUS.DJ_EDU_CATEGORY EC
         WHERE
-            EDU_CATEGORY_ID IN (
+            EC.EDU_CATEGORY_ID IN (
                 SELECT
                     EDU_CATEGORY_ID
                 FROM
@@ -68,8 +71,11 @@
                 LEFT JOIN
                     CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON ETD.EDU_CATEGORY_DETAIL_ID = ECD.EDU_CATEGORY_DETAIL_ID
                 WHERE
-                    ET.TARGET_YEAR = #{TARGET_YEAR}
-                AND ET.REG_EMP_SEQ = #{REG_EMP_SEQ}
+                    ET.TARGET_YEAR = #{targetYear}
+                AND ET.REG_EMP_SEQ = #{empSeq}
+                <if test='dutyClass != null and dutyClass != ""'>
+                    AND ETD.DUTY_CLASS = #{dutyClass}
+                </if>
             )
     </select>
 
@@ -78,8 +84,10 @@
         SELECT
             ETD.EDU_TARGET_DETAIL_ID,
             ETD.TARGET_CLASS,
+            ECD.EDU_CATEGORY_ID,
             ECD.EDU_CATEGORY_DETAIL_ID,
-            ECD.EDU_CATEGORY_DETAIL_NAME
+            ECD.EDU_CATEGORY_DETAIL_NAME,
+            ECD.LEVEL_ID
         FROM
             CAMPUS.DJ_EDU_TARGET ET
         LEFT JOIN
@@ -87,24 +95,27 @@
         LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON ETD.EDU_CATEGORY_DETAIL_ID = ECD.EDU_CATEGORY_DETAIL_ID
         WHERE
-            ET.TARGET_YEAR = #{TARGET_YEAR}
-          AND
-            ET.REG_EMP_SEQ = #{REG_EMP_SEQ}
+            ET.TARGET_YEAR = #{targetYear}
+        AND
+            ET.REG_EMP_SEQ = #{empSeq}
+        <if test='dutyClass != null and dutyClass != ""'>
+            AND ETD.DUTY_CLASS = #{dutyClass}
+        </if>
     </select>
 
     <select id="getEduCategoryList" resultType="map" parameterType="map">
         /* getEduCategoryList */
         SELECT
-        EC.EDU_CATEGORY_ID,
-        EC.EDU_CATEGORY_NAME,
-        EC.LARGE_CATEGORY_ID,
-        EC.LARGE_CATEGORY_NAME
+            EC.EDU_CATEGORY_ID,
+            EC.EDU_CATEGORY_NAME,
+            EC.LARGE_CATEGORY_ID,
+            EC.LARGE_CATEGORY_NAME
         FROM
-        CAMPUS.DJ_EDU_CATEGORY EC
+            CAMPUS.DJ_EDU_CATEGORY EC
         WHERE
         EC.ACTIVE = 'Y'
-        <if test='LARGE_CATEGORY_ID != null and LARGE_CATEGORY_ID != ""'>
-            AND EC.LARGE_CATEGORY_ID in (${LARGE_CATEGORY_ID})
+        <if test='largeCategoryId != null and largeCategoryId != ""'>
+            AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
         </if>
         ORDER BY EC.ORDER
     </select>
@@ -122,8 +133,8 @@
             CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
         WHERE
             ECD.ACTIVE = 'Y'
-        <if test='LEVEL_ID != null and LEVEL_ID != ""'>
-        AND ECD.LEVEL_ID = #{LEVEL_ID}
+        <if test='levelId != null and levelId != ""'>
+        AND ECD.LEVEL_ID = #{levelId}
         </if>
         ORDER BY ECD.ORDER
     </select>
@@ -139,33 +150,60 @@
             )
         VALUES
             (
-                #{TARGET_YEAR},
-                #{TARGET_CODE},
-                #{LOGIN_ID},
-                #{REG_EMP_SEQ}
+                #{targetYear},
+                #{targetCode},
+                #{loginId},
+                #{empSeq}
             )
     </insert>
 
-    <update id="setTargetDetailInsert" parameterType="map">
+    <insert id="setTargetDetailInsert" parameterType="map">
         /* setTargetDetailInsert */
         INSERT INTO CAMPUS.DJ_EDU_TARGET_DETAIL
             (
                 EDU_TARGET_ID,
                 EDU_CATEGORY_DETAIL_ID,
+                DUTY_CLASS,
                 REG_EMP_SEQ
             )
         VALUES
-        <foreach collection="EDU_CATEGORY_DETAIL_ID" item="item" separator=" , ">
+        <foreach collection="eduCategoryDetailIdList" item="item" separator=" , ">
             (
-                (SELECT EDU_TARGET_ID FROM CAMPUS.DJ_EDU_TARGET WHERE TARGET_YEAR = #{TARGET_YEAR} AND REG_EMP_SEQ = #{REG_EMP_SEQ}),
-                #{item.EDU_CATEGORY_DETAIL_ID},
-                #{REG_EMP_SEQ}
+                (SELECT EDU_TARGET_ID FROM CAMPUS.DJ_EDU_TARGET WHERE TARGET_YEAR = #{targetYear} AND REG_EMP_SEQ = #{empSeq}),
+                #{item.eduCategoryDetailId},
+                #{dutyClass},
+                #{empSeq}
             )
+        </foreach>
+    </insert>
+
+    <update id="setEduTargetDetailUpdate" parameterType="map">
+        /* setEduTargetDetailUpdate */
+        UPDATE
+            CAMPUS.DJ_EDU_TARGET_DETAIL
+        SET
+            TARGET_CLASS = #{classNum}
+        WHERE
+            EDU_TARGET_DETAIL_ID IN
+        <foreach collection="eduTargetDetailIdList" item="item" open="(" separator="," close=")">
+            #{item.eduTargetDetailId}
         </foreach>
     </update>
 
     <delete id="setTargetDetailDelete" parameterType="map">
         /* setTargetDetailDelete */
-        DELETE FROM CAMPUS.DJ_EDU_TARGET_DETAIL WHERE EDU_TARGET_ID = (SELECT EDU_TARGET_ID FROM CAMPUS.DJ_EDU_TARGET WHERE TARGET_YEAR = #{TARGET_YEAR} AND REG_EMP_SEQ = #{REG_EMP_SEQ})
+        DELETE FROM
+            CAMPUS.DJ_EDU_TARGET_DETAIL
+        WHERE
+            EDU_TARGET_ID = (
+                SELECT
+                    EDU_TARGET_ID
+                FROM
+                    CAMPUS.DJ_EDU_TARGET
+                WHERE
+                    TARGET_YEAR = #{targetYear}
+                AND REG_EMP_SEQ = #{empSeq}
+            )
+        AND DUTY_CLASS = #{dutyClass}
     </delete>
 </mapper>

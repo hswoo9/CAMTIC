@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/campus/targetMainSetPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/campus/targetSubInfoPop.js?v=${today}"></script>
 <style>
   .removeDay{
     text-decoration:line-through;
@@ -65,13 +65,17 @@
 
       <div>
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+          <colgroup>
+            <col width="25%">
+            <col width="80%">
+          </colgroup>
           <tr>
-            <td>
-              STEP2-2 : 주업무 현황 및 목표 설정
-              <br> 1. 앞서 STEP 2-1에서 설정한 주업무의 직무는 모두 현황으로 저장되어 있습니다. 목표를 구분하시기 바랍니다.
-              <br> 2. 저장 후 다음단계인 "STEP 2-2 : 주업무의 현황 및 레벨설정" 으로 이동합니다.
-              <br> 3. 이 단계까지 완성하시면 주업무의 학습현황 및 목표설정은 완료되며,
-              <br> 4. 학습 목표기술서 메인화면에서 "학습목표"를 입력하시기 바랍니다.
+            <td colspan="2">
+              STEP3-1 : 연계업무 선택
+              <br> 1. 아래의 목록에서 자신의 연계업무를 체크하여 선택합니다.
+              <br> 2. 저장 후 다음단계인 "STEP 3-2 : 연계업무의 현황 및 레벨설정" 으로 이동합니다.
+              <br> 3. 선택된 연계업무는 모두 현황으로 저장되오니 "STEP 3-2" 단계에서 목표를 지정하시기 바랍니다.
+              <br> 4. 주업무의 등록/수정을 원하시면 "여기(STEP 2 : 주업무 선택)"를 클릭하시기 바랍니다.
             </td>
           </tr>
           <tr>
@@ -83,11 +87,34 @@
                 </div>
               </div>
             </td>
+            <td style="border-bottom:0; background-color: white">
+              <div style="display:flex;">
+                <div style="width: 100%">
+                  <input type="text" id="detailSearch" style="width: 90%;">
+                </div>
+              </div>
+            </td>
           </tr>
         </table>
         <div style="margin:20px 0;">
           <div class="table-responsive">
             <table class="table table-bordered">
+              <colgroup>
+                <col width="20%" >
+                <col width="20%" >
+                <col width="20%" >
+                <col width="20%" >
+                <col width="20%" >
+              </colgroup>
+              <thead>
+              <tr>
+                <th>구분</th>
+                <th>LEVEL 0</th>
+                <th>LEVEL 1</th>
+                <th>LEVEL 2</th>
+                <th>LEVEL 3</th>
+              </tr>
+              </thead>
               <tbody id="tableData">
               </tbody>
             </table>
@@ -95,13 +122,13 @@
         </div>
       </div>
       <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="현황저장" onclick="targetMainSetPop.setEduTargetDetailUpdate('target', 1)"/>
-        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="목표저장" onclick="targetMainSetPop.setEduTargetDetailUpdate('target', 2)"/>
+        <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick="targetSubInfoPop.saveTarget();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick="window.close();"/>
       </div>
     </div>
   </div>
 </div><!-- col-md-9 -->
 <script>
-  targetMainSetPop.init();
+  targetSubInfoPop.init();
 </script>
 </body>

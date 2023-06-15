@@ -109,10 +109,10 @@
               <thead>
               <tr>
                 <th>구분</th>
+                <th>LEVEL 0</th>
                 <th>LEVEL 1</th>
                 <th>LEVEL 2</th>
                 <th>LEVEL 3</th>
-                <th>LEVEL 4</th>
               </tr>
               </thead>
               <tbody id="tableData">

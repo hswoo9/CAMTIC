@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/campus/targetMainSetPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/campus/targetSubSetPop.js?v=${today}"></script>
 <style>
   .removeDay{
     text-decoration:line-through;
@@ -67,10 +67,10 @@
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
           <tr>
             <td>
-              STEP2-2 : 주업무 현황 및 목표 설정
-              <br> 1. 앞서 STEP 2-1에서 설정한 주업무의 직무는 모두 현황으로 저장되어 있습니다. 목표를 구분하시기 바랍니다.
-              <br> 2. 저장 후 다음단계인 "STEP 2-2 : 주업무의 현황 및 레벨설정" 으로 이동합니다.
-              <br> 3. 이 단계까지 완성하시면 주업무의 학습현황 및 목표설정은 완료되며,
+              STEP3-2 : 주업무 현황 및 목표 설정
+              <br> 1. 앞서 STEP 3-1에서 설정한 연계업무의 직무는 모두 현황으로 저장되어 있습니다. 목표를 구분하시기 바랍니다.
+              <br> 2. 각 직무의 체크박스에 체크선택 하여 하단의 "현황저장"과 "목표저장" 버튼을 이용하여 각각 설정합니다.
+              <br> 3. 이 단계까지 완성하시면 연계업무의 학습현황 및 목표설정은 완료되며,
               <br> 4. 학습 목표기술서 메인화면에서 "학습목표"를 입력하시기 바랍니다.
             </td>
           </tr>
@@ -95,13 +95,13 @@
         </div>
       </div>
       <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="현황저장" onclick="targetMainSetPop.setEduTargetDetailUpdate('target', 1)"/>
-        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="목표저장" onclick="targetMainSetPop.setEduTargetDetailUpdate('target', 2)"/>
+        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="현황저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 1)"/>
+        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="목표저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 2)"/>
       </div>
     </div>
   </div>
 </div><!-- col-md-9 -->
 <script>
-  targetMainSetPop.init();
+  targetSubSetPop.init();
 </script>
 </body>

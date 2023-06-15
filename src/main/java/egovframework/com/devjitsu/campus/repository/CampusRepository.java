@@ -36,15 +36,19 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduCategoryDetailList", params);
     }
 
-    public Object setTargetInsert(Map<String, Object> params) {
-        return insert("campus.setTargetInsert", params);
+    public void setTargetInsert(Map<String, Object> params) {
+        insert("campus.setTargetInsert", params);
     }
 
-    public Object setTargetDetailInsert(Map<String, Object> params) {
-        return insert("campus.setTargetDetailInsert", params);
+    public void setTargetDetailInsert(Map<String, Object> params) {
+        insert("campus.setTargetDetailInsert", params);
     }
 
-    public Object setTargetDetailDelete(Map<String, Object> params) {
-        return insert("campus.setTargetDetailDelete", params);
+    public void setEduTargetDetailUpdate(Map<String, Object> params) {
+        update("campus.setEduTargetDetailUpdate", params);
+    }
+
+    public void setTargetDetailDelete(Map<String, Object> params) {
+        delete("campus.setTargetDetailDelete", params);
     }
 }

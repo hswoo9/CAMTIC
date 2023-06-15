@@ -57,7 +57,7 @@ var systemManagement = {
         $.ajax({
             url : "/campus/getEduCategoryDetailList",
             data : {
-                LEVEL_ID : "0"
+                levelId : "0"
             },
             type : "post",
             dataType : "json",
@@ -70,7 +70,7 @@ var systemManagement = {
         $.ajax({
             url : "/campus/getEduCategoryDetailList",
             data : {
-                LEVEL_ID : "1"
+                levelId : "1"
             },
             type : "post",
             dataType : "json",
@@ -83,7 +83,7 @@ var systemManagement = {
         $.ajax({
             url : "/campus/getEduCategoryDetailList",
             data : {
-                LEVEL_ID : "2"
+                levelId : "2"
             },
             type : "post",
             dataType : "json",
@@ -96,7 +96,7 @@ var systemManagement = {
         $.ajax({
             url : "/campus/getEduCategoryDetailList",
             data : {
-                LEVEL_ID : "3"
+                levelId : "3"
             },
             type : "post",
             dataType : "json",
@@ -111,7 +111,7 @@ var systemManagement = {
         $.ajax({
             url : "/campus/getEduCategoryList",
             data : {
-                LARGE_CATEGORY_ID : $("#detailSearch").data("kendoDropDownTree").value().toString()
+                largeCategoryId : $("#detailSearch").data("kendoDropDownTree").value().toString()
             },
             type : "post",
             dataType : "json",
@@ -123,7 +123,7 @@ var systemManagement = {
                 var mColor = "#ffffff";
                 var html = "";
 
-                for (var i = 0; i < list.length; i++) {
+                for(var i = 0; i < list.length; i++) {
                     if(list[i].LARGE_CATEGORY_ID == 0) {
                         mColor = "#e1ecff";
                     }else if(list[i].LARGE_CATEGORY_ID == 1) {
@@ -138,7 +138,7 @@ var systemManagement = {
                     html += "   <td style='text-align: left; background-color: "+mColor+"'>";
 
                     var detailList0 = systemManagement.global.level0List;
-                    for (var j = 0; j < detailList0.length; j++) {
+                    for(var j = 0; j < detailList0.length; j++) {
                         if(detailList0[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += detailList0[j].EDU_CATEGORY_DETAIL_NAME+"<br>";
                         }
@@ -148,7 +148,7 @@ var systemManagement = {
                     html += "   <td style='text-align: left; background-color: "+mColor+"'>";
 
                     var detailList1 = systemManagement.global.level1List;
-                    for (var j = 0; j < detailList1.length; j++) {
+                    for(var j = 0; j < detailList1.length; j++) {
                         if(detailList1[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += detailList1[j].EDU_CATEGORY_DETAIL_NAME+"<br>";
                         }
@@ -158,7 +158,7 @@ var systemManagement = {
                     html += "   <td style='text-align: left; background-color: "+mColor+"'>";
 
                     var detailList2 = systemManagement.global.level2List;
-                    for (var j = 2; j < detailList2.length; j++) {
+                    for(var j = 2; j < detailList2.length; j++) {
                         if(detailList2[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += detailList2[j].EDU_CATEGORY_DETAIL_NAME+"<br>";
                         }
@@ -168,7 +168,7 @@ var systemManagement = {
                     html += "   <td style='text-align: left; background-color: "+mColor+"'>";
 
                     var detailList3 = systemManagement.global.level3List;
-                    for (var j = 0; j < detailList3.length; j++) {
+                    for(var j = 0; j < detailList3.length; j++) {
                         if(detailList3[j].EDU_CATEGORY_ID === list[i].EDU_CATEGORY_ID) {
                             html += detailList3[j].EDU_CATEGORY_DETAIL_NAME+"<br>";
                         }

@@ -58,12 +58,19 @@ public interface CampusService {
      * @param params
      * @return
      */
-    Object setTargetInsert(Map<String, Object> params);
+    Map<String, Object> setTargetInsert(Map<String, Object> params);
 
     /**
      * 주업무등록팝업 직무 등록
      * @param params
      * @return
      */
-    Object setTargetDetailInsert(Map<String, Object> params);
+    Map<String, Object> setTargetDetailInsert(Map<String, Object> params);
+
+    /**
+     * 현황/목표설정팝업 현황/목표 설정
+     * @param params
+     * @return
+     */
+    Map<String, Object> setEduTargetDetailUpdate(Map<String, Object> params);
 }

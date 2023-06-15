@@ -124,7 +124,7 @@ public class CampusController {
         return "popup/campus/targetAddYearPop";
     }
 
-    //목표기술서작성 - 목표등록팝업
+    //목표기술서작성 - 주업무등록팝업
     @RequestMapping("/Campus/pop/targetInfoPop.do")
     public String targetInfoPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -142,6 +142,26 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/campus/targetMainSetPop";
+    }
+
+    //목표기술서작성 - 연계업무등록팝업
+    @RequestMapping("/Campus/pop/targetSubInfoPop.do")
+    public String targetSubInfoPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/campus/targetSubInfoPop";
+    }
+
+    //목표기술서작성 - 연계업무현황 및 목표설정팝업
+    @RequestMapping("/Campus/pop/targetSubSetPop.do")
+    public String targetSubSetPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/campus/targetSubSetPop";
     }
 
     //학습체계도관리
@@ -260,15 +280,22 @@ public class CampusController {
     //목표기술서작성 - 연도등록팝업 - 연도등록
     @RequestMapping("/campus/setTargetInsert")
     @ResponseBody
-    public Object setTargetInsert(@RequestParam Map<String, Object> params) {
+    public Map<String, Object> setTargetInsert(@RequestParam Map<String, Object> params) {
         return campusService.setTargetInsert(params);
     }
 
     //목표기술서작성 - 목표등록팝업 - 직무등록
     @RequestMapping("/campus/setTargetDetailInsert")
     @ResponseBody
-    public Object setTargetDetailInsert(@RequestParam Map<String, Object> params) {
+    public Map<String, Object> setTargetDetailInsert(@RequestParam Map<String, Object> params) {
         return campusService.setTargetDetailInsert(params);
+    }
+
+    //목표기술서작성 - 현황/목표설정팝업 - 현황/목표설정
+    @RequestMapping("/campus/setEduTargetDetailUpdate")
+    @ResponseBody
+    public Map<String, Object> setEduTargetDetailUpdate(@RequestParam Map<String, Object> params) {
+        return campusService.setEduTargetDetailUpdate(params);
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
