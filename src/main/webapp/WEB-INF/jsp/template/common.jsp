@@ -65,6 +65,7 @@
     .k-scheduler-table td {vertical-align: top !important;}
     .k-grid-toolbar {justify-content: flex-end !important;}
     .k-editor-toolbar {display: flex; flex-direction: row; justify-content: flex-end;}
+    .k-grid .k-cell-inner>.k-link {justify-content: center;}
   </style>
 
   <!-- Theme -->

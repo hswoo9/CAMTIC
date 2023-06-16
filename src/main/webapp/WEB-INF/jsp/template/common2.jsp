@@ -30,6 +30,10 @@
 
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .k-editor-toolbar {display: flex; flex-direction: row; justify-content: flex-end;}
+    .k-grid .k-cell-inner>.k-link {justify-content: center;}
+  </style>
 
 
   <script src="/lib/modernizr/modernizr.js"></script>
