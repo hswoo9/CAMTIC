@@ -41,7 +41,7 @@ var equipmentmangePop = {
             index: 0
         });
 
-        $("#division1").kendoDropDownList({
+        $("#eqipmnGbnName").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -53,10 +53,10 @@ var equipmentmangePop = {
             index: 0
         });
 
-        $("#name1").kendoTextBox();
-        $("#value").kendoTextBox();
+        $("#eqipmnName").kendoTextBox();
+        $("#regtrName").kendoTextBox();
 
-        $("#write_date").kendoDatePicker({
+        $("#regDe").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
@@ -106,8 +106,14 @@ var equipmentmangePop = {
                     name: '',
                     text: '삭제'
                 }, {
-                    name: '',
+                    name: 'button',
                     text: '신규'
+                    /*template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.dataClear()">'
+                            '   <span class="k-button-text">신규</span>' +
+                                '</button>';
+
+                    }*/
                 }
             ],
             noRecords: {
@@ -120,22 +126,59 @@ var equipmentmangePop = {
                     width: 50
                 }, {
                     field: "",
-                    title: "순번"
+                    title: "순번",
+                    template: "#= record-- #"
                 }, {
-                    field: "",
+                    field: "eqipmn_gbn_name",
                     title: "구분"
                 }, {
-                    field: "",
+                    field: "eqipmn_name",
                     title: "장비명"
                 },{
-                    field: "",
+                    field: "regtr_name",
                     title: "등록자"
                 }, {
-                    field: "",
+                    field: "reg_de",
                     title: "등록 일자"
                 }
             ]
         }).data("kendoGrid");
+    },
+    equipSave : function (){
+
+        if(confirm("저장하시겠습니까?")){
+            var data = {
+                eqipmnName : $("#eqipmnName").val(), //장비명
+                eqipmnGbnName : $("#eqipmnGbnName").val(), //구분명
+                regtrName : $("#regtrName").val(), //등록자명
+                regDe : $("#regDe").val(), //등록일자
+            }
+
+            if(data.eqipmnName == null || data.eqipmnName == ''){
+                alert("장비명을 입력하세요.")
+                return false;
+            }else if(data.eqipmnGbnName == null || data.eqipmnGbnName == ''){
+                alert("구분을 선택하세요.")
+                return false;
+            }else if(data.regtrName == null || data.regtrName == ''){
+                alert("등록자를 입력하세요.")
+                return false;
+            }else if(data.regDe == null || data.regDe == ''){
+                alert("등록 일자를 입력하세요.")
+                return false;
+            }
+            console.log(data);
+
+            $.ajax({
+                url : '/asset/setEquipmentInsert',
+                data : data,
+                dataType: "json",
+                type : "get",
+                async : false,
+            });
+            alert("저장 성공!");
+            location.reload();
+        }
     }
 }
 

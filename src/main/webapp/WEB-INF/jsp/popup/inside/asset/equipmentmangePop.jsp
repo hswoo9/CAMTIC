@@ -89,6 +89,9 @@
                 <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 543px;">
                     <div class="mt10"></div>
                     <span style="font-weight: bold;">· 장비등록</span>
+                    <button type="button" id="save" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0; margin-left: 468px;" onclick="equipmentmangePop.equipSave()">
+                        저장
+                    </button>
                     <table class="table table-bordered mb-0 mt10" id="">
                         <colgroup>
                             <col width="25%">
@@ -98,25 +101,17 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th scope="row" class="text-center th-color"><span class="red-star"></span>장비등록</th>
-                            <td colspan="3">
-                                <button type="button" id="save" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0; margin-left: 80%" onclick="">
-                                    저장
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
-                            <td colspan><input type="text" id="division1" style="width: 100%;">
+                            <td colspan><input type="text" id="eqipmnGbnName" style="width: 100%;">
                             </td>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>장비명</th>
-                            <td><input type="text" id="name1" style="width: 100%;"></td>
+                            <td><input type="text" id="eqipmnName" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록자</th>
                             <td colspan="3">
-                                <input type="text" id="value" style="width: 65%;">
-                                <button type="button" id="search1" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0; onclick="">
+                                <input type="text" id="regtrName" style="width: 65%;">
+                                <button type="button" id="search1" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
                                 검색
                                 </button>
                             </td>
@@ -124,7 +119,7 @@
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록 일자</th>
                             <td colspan="3">
-                                <input id="write_date" type="date" style="width: 50%;">
+                                <input id="regDe" type="date" style="width: 50%;">
                             </td>
                         </tr>
                         </thead>

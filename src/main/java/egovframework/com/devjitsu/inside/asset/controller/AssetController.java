@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.asset.controller;
 
+import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.user.service.UserService;
 import org.slf4j.Logger;
@@ -8,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class AssetController {
@@ -22,6 +27,9 @@ public class AssetController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AssetService assetService;
 
     //자산리스트
     @RequestMapping("/Inside/assetList.do")
@@ -223,6 +231,12 @@ public class AssetController {
         return "popup/inside/asset/equipmentmangePop";
     }
 
+    //장비관리 팝업창 (관리자) - 장비등록
+    @RequestMapping("/asset/setEquipmentInsert")
+    public void setEquipmentInsert(@RequestParam Map<String, Object> params) {
+        assetService.setEquipmentInsert(params);
+    }
+
     //도서리스트
     @RequestMapping("/Inside/bookList.do")
     public String bookList(HttpServletRequest request, Model model) {
@@ -261,5 +275,19 @@ public class AssetController {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
     }
+
+    @RequestMapping("/asset/getTest")
+    public String getAllUserPersonnelRecordList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getTest(map));
+        return "jsonView";
+    }
+
+    /*@RequestMapping("/asset/getEqipmnList")
+    @ResponseBody
+    public Map<String, Object> getEqipmnList(@RequestParam Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", assetService.getEqipmnList(params));
+        return result;
+    }*/
 
 }

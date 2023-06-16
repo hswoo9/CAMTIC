@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="asset">
+
+    <insert id="setEquipmentInsert" parameterType="map">
+        /*setEquipmentInsert*/
+        INSERT INTO CAM_INSIDE.DJ_EQIPMN_MST
+        (
+
+            eqipmn_name, eqipmn_gbn_name, regtr_name, reg_de, create_dt, actvt_yn
+        )
+        VALUES
+        (
+
+            #{eqipmnName}, #{eqipmnGbnName}, #{regtrName}, #{regDe}, NOW(), 'Y'
+        )
+    </insert>
+
+    <select id="getTest" parameterType="map" resultType="map">
+        SELECT * FROM CAM_INSIDE.DJ_EQIPMN_MST
+
+    </select>
+
+    <!--<select id="getEqipmnList" parameterType="map" resultType="map">
+        /*getEqipmnList*/
+        select
+            eqipmn_name as text,
+            eqipmn_mst_sn as value
+        from
+            cam_inside.dj_eqipmn_mst
+        where
+
+
+    </select>-->
+
+
+</mapper>
