@@ -51,6 +51,7 @@ var targetAddYearPop = {
                     console.log(result);
                     alert("년도 저장이 완료되었습니다.");
                     window.close();
+                    opener.window.location.reload();
                 },
                 error : function() {
                     alert("데이터 저장 중 에러가 발생했습니다.");

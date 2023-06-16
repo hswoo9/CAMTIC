@@ -24,6 +24,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getTargetYearList(Map<String, Object> params){
+        return campusRepository.getTargetYearList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getTargetOne(Map<String, Object> params){
         return campusRepository.getTargetOne(params);
     }
@@ -31,6 +36,11 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public List<Map<String, Object>> getTargetList(Map<String, Object> params){
         return campusRepository.getTargetList(params);
+    }
+
+    @Override
+    public Map<String, Object> getCategoryOne(Map<String, Object> params){
+        return campusRepository.getCategoryOne(params);
     }
 
     @Override
@@ -52,6 +62,19 @@ public class CampusServiceImpl implements CampusService {
     public List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params){
         return campusRepository.getEduCategoryDetailList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEduPlanList(Map<String, Object> params){
+        return campusRepository.getEduPlanList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduPlanOne(Map<String, Object> params){
+        return campusRepository.getEduPlanOne(params);
+    }
+
+
+
 
     @Override
     public Map<String, Object> setTargetInsert(Map<String, Object> params) {
@@ -99,6 +122,51 @@ public class CampusServiceImpl implements CampusService {
             List<Map<String, Object>> EDU_TARGET_DETAIL_LIST = gson.fromJson((String) params.get("eduTargetDetailIdList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
             params.put("eduTargetDetailIdList", EDU_TARGET_DETAIL_LIST);
             campusRepository.setEduTargetDetailUpdate(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        } catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> setEduPlanInsert(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            campusRepository.setEduPlanInsert(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        }catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> setEduPlanUpdate(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            campusRepository.setEduPlanUpdate(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        } catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> updateApprStat(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            campusRepository.updateApprStat(params);
             result.put("code", "200");
             result.put("message", "데이터 저장이 완료되었습니다.");
         } catch (Exception e) {

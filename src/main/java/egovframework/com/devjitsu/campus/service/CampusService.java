@@ -12,6 +12,13 @@ public interface CampusService {
     List<Map<String, Object>> getCodeList(Map<String, Object> params);
 
     /**
+     * 목표기술서 등록된 연도 조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getTargetYearList(Map<String, Object> params);
+
+    /**
      * 연도등록팝업 해당연도 중복 조회
      * @param params
      * @return
@@ -24,6 +31,13 @@ public interface CampusService {
      * @return
      */
     List<Map<String, Object>> getTargetList(Map<String, Object> params);
+
+    /**
+     * 학습체계도 구분명
+     * @param params
+     * @return
+     */
+    Map<String, Object> getCategoryOne(Map<String, Object> params);
 
     /**
      * 목표기술서 작성 유저별 구분 리스트
@@ -54,6 +68,23 @@ public interface CampusService {
     List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params);
 
     /**
+     * 학습체계도 학습계획 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getEduPlanList(Map<String, Object> params);
+
+    /**
+     * 학습체계도 학습계획 데이터
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getEduPlanOne(Map<String, Object> params);
+
+
+
+
+    /**
      * 연도등록팝업 연도 등록
      * @param params
      * @return
@@ -73,4 +104,25 @@ public interface CampusService {
      * @return
      */
     Map<String, Object> setEduTargetDetailUpdate(Map<String, Object> params);
+
+    /**
+     * 학습계획 등록
+     * @param params
+     * @return
+     */
+    Map<String, Object> setEduPlanInsert(Map<String, Object> params);
+
+    /**
+     * 학습계획 수정
+     * @param params
+     * @return
+     */
+    Map<String, Object> setEduPlanUpdate(Map<String, Object> params);
+
+    /**
+     * 학습계획 수정
+     * @param params
+     * @return
+     */
+    Map<String, Object> updateApprStat(Map<String, Object> params);
 }

@@ -42,16 +42,6 @@ var targetInfoPop = {
             },
             value: ["0", "1", "2", "3"]
         });
-
-        $("#targetYear").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: new Date().getFullYear()+"년", value: new Date().getFullYear() },
-                { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
-            ],
-            index: 0
-        });
     },
 
     campusDataSource : function(code) {

@@ -12,12 +12,20 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getCodeList", params);
     }
 
+    public List<Map<String, Object>> getTargetYearList(Map<String, Object> params) {
+        return selectList("campus.getTargetYearList", params);
+    }
+
     public List<Map<String, Object>> getTargetOne(Map<String, Object> params) {
         return selectList("campus.getTargetOne", params);
     }
 
     public List<Map<String, Object>> getTargetList(Map<String, Object> params) {
         return selectList("campus.getTargetList", params);
+    }
+
+    public Map<String, Object> getCategoryOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getCategoryOne", params);
     }
 
     public List<Map<String, Object>> getTargetCategoryList(Map<String, Object> params) {
@@ -36,6 +44,17 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduCategoryDetailList", params);
     }
 
+    public List<Map<String, Object>> getEduPlanList(Map<String, Object> params) {
+        return selectList("campus.getEduPlanList", params);
+    }
+
+    public List<Map<String, Object>> getEduPlanOne(Map<String, Object> params) {
+        return selectList("campus.getEduPlanOne", params);
+    }
+
+
+
+
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);
     }
@@ -50,5 +69,17 @@ public class CampusRepository extends AbstractDAO  {
 
     public void setTargetDetailDelete(Map<String, Object> params) {
         delete("campus.setTargetDetailDelete", params);
+    }
+
+    public void setEduPlanInsert(Map<String, Object> params) {
+        insert("campus.setEduPlanInsert", params);
+    }
+
+    public void setEduPlanUpdate(Map<String, Object> params) {
+        update("campus.setEduPlanUpdate", params);
+    }
+
+    public void updateApprStat(Map<String, Object> params) {
+        update("campus.updateApprStat", params);
     }
 }

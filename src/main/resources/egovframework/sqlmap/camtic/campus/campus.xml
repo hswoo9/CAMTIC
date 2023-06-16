@@ -12,6 +12,18 @@
             ACTIVE = 'Y'
     </select>
 
+    <select id="getTargetYearList" resultType="map" parameterType="map">
+        /* getTargetYearList */
+        SELECT
+            CONCAT(ET.TARGET_YEAR, '년') AS TEXT,
+            ET.TARGET_YEAR AS VALUE
+        FROM
+            CAMPUS.DJ_EDU_TARGET ET
+        WHERE
+            ET.REG_EMP_SEQ = #{empSeq}
+        ORDER BY EDU_TARGET_ID DESC
+    </select>
+
     <select id="getTargetOne" resultType="map" parameterType="map">
         /* getTargetOne */
         SELECT
@@ -53,6 +65,18 @@
         </if>
     </select>
 
+    <select id="getCategoryOne" resultType="map" parameterType="map">
+        /* getCategoryOne */
+        SELECT
+            EC.EDU_CATEGORY_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY EC
+                LEFT JOIN
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON EC.EDU_CATEGORY_ID = ECD.EDU_CATEGORY_ID
+        WHERE ECD.EDU_CATEGORY_ID = #{eduCategoryId}
+        GROUP BY EC.EDU_CATEGORY_NAME
+    </select>
+
     <select id="getTargetCategoryList" resultType="map" parameterType="map">
         /* getTargetCategoryList */
         SELECT
@@ -87,7 +111,8 @@
             ECD.EDU_CATEGORY_ID,
             ECD.EDU_CATEGORY_DETAIL_ID,
             ECD.EDU_CATEGORY_DETAIL_NAME,
-            ECD.LEVEL_ID
+            ECD.LEVEL_ID,
+            ETD.STATUS
         FROM
             CAMPUS.DJ_EDU_TARGET ET
         LEFT JOIN
@@ -137,6 +162,34 @@
         AND ECD.LEVEL_ID = #{levelId}
         </if>
         ORDER BY ECD.ORDER
+    </select>
+
+    <select id="getEduPlanList" resultType="map" parameterType="map">
+        /* getEduPlanList */
+        SELECT
+            EP.EDU_PLAN_ID,
+            EP.EDU_CATEGORY_ID,
+            EP.EDU_PLAN
+        FROM
+            CAMPUS.DJ_EDU_PLAN EP
+        WHERE
+            TARGET_YEAR = #{targetYear}
+        AND REG_EMP_SEQ = #{empSeq}
+        AND DUTY_CLASS = #{dutyClass}
+    </select>
+
+    <select id="getEduPlanOne" resultType="map" parameterType="map">
+        /* getEduPlanOne */
+        SELECT
+            EP.EDU_PLAN_ID,
+            EP.EDU_PLAN
+        FROM
+            CAMPUS.DJ_EDU_PLAN EP
+        WHERE
+            EDU_CATEGORY_ID = #{eduCategoryId}
+        AND TARGET_YEAR = #{targetYear}
+        AND DUTY_CLASS = #{dutyClass}
+        AND REG_EMP_SEQ = #{empSeq}
     </select>
 
     <insert id="setTargetInsert" parameterType="map">
@@ -206,4 +259,45 @@
             )
         AND DUTY_CLASS = #{dutyClass}
     </delete>
+
+    <insert id="setEduPlanInsert" parameterType="map">
+        /* setEduPlanInsert */
+        INSERT INTO CAMPUS.DJ_EDU_PLAN
+            (
+                EDU_CATEGORY_ID,
+                TARGET_YEAR,
+                DUTY_CLASS,
+                EDU_PLAN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{eduCategoryId},
+                #{targetYear},
+                #{dutyClass},
+                #{eduPlan},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setEduPlanUpdate" parameterType="map">
+        /* setEduPlanUpdate */
+        UPDATE
+            CAMPUS.DJ_EDU_PLAN
+        SET
+            EDU_PLAN = #{eduPlan}
+        WHERE
+            EDU_PLAN_ID = #{eduPlanId}
+    </update>
+
+    <update id="updateApprStat" parameterType="map">
+        /* updateApprStat */
+        UPDATE
+            CAMPUS.DJ_EDU_TARGET
+        SET
+            STATUS = ${status}
+        WHERE
+            TARGET_YEAR = #{targetYear}
+        AND REG_EMP_SEQ = #{empSeq}
+    </update>
 </mapper>

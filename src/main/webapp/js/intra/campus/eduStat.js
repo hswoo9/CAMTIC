@@ -7,7 +7,7 @@ var eduStat = {
         eduStat.mainGrid();
     },
 
-    dataSet() {
+    eduPlanReqPop
     },
 
     mainGrid : function() {

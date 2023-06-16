@@ -46,7 +46,7 @@
                     <thead>
                         <tr>
                             <th>승인상태</th>
-                            <td>승인</td>
+                            <td id="stat">작성 중</td>
                         </tr>
                     </thead>
                 </table>
@@ -56,9 +56,10 @@
                 <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP3-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>
                 <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="STEP3-2 : 연계업무 현황 및 목표 설정" onclick="targetInfo.targetSubSetPop();"/>
 
-                <div class="non" style="text-align: center; margin: auto;">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
+                <div class="non" style="text-align: center; margin: auto; margin-top: 10px">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
 
-                <div style="margin:20px 0;">
+                <div class="mt20" ">
+                    <b>color : <font color="#9a4167">현황</font>, <font color="#418bd7">목표</font></b>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody id="tableData">
@@ -66,6 +67,8 @@
                         </table>
                     </div><!-- table-responsive -->
                 </div>
+                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="승인요청" onclick="targetInfo.updateApprStat('10');"/>
+                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="승인" onclick="targetInfo.updateApprStat('100');"/>
             </div>
         </div>
 

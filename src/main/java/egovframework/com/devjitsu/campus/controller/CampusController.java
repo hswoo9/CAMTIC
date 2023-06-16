@@ -104,7 +104,7 @@ public class CampusController {
         return "campus/eduStat";
     }
 
-    //목표기술서작성
+    //목표기술서 작성페이지
     @RequestMapping("/Campus/targetInfo.do")
     public String targetInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -114,7 +114,7 @@ public class CampusController {
         return "campus/targetInfo";
     }
 
-    //목표기술서작성 - 연도등록팝업
+    //목표기술서 - STEP1: 목표기술서 등록팝업
     @RequestMapping("/Campus/pop/targetAddYearPop.do")
     public String targetAddYearPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -124,44 +124,59 @@ public class CampusController {
         return "popup/campus/targetAddYearPop";
     }
 
-    //목표기술서작성 - 주업무등록팝업
+    //목표기술서 - STEP2-1: 주업무 선택팝업
     @RequestMapping("/Campus/pop/targetInfoPop.do")
-    public String targetInfoPop(HttpServletRequest request, Model model) {
+    public String targetInfoPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
         return "popup/campus/targetInfoPop";
     }
 
-    //목표기술서작성 - 주업무현황 및 목표설정팝업
+    //목표기술서 - STEP2-2: 주업무 현황 및 목표 설정팝업
     @RequestMapping("/Campus/pop/targetMainSetPop.do")
-    public String targetMainClassSet(HttpServletRequest request, Model model) {
+    public String targetMainClassSet(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
         return "popup/campus/targetMainSetPop";
     }
 
-    //목표기술서작성 - 연계업무등록팝업
+    //목표기술서 - STEP3-1: 연계업무 선택팝업
     @RequestMapping("/Campus/pop/targetSubInfoPop.do")
-    public String targetSubInfoPop(HttpServletRequest request, Model model) {
+    public String targetSubInfoPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
         return "popup/campus/targetSubInfoPop";
     }
 
-    //목표기술서작성 - 연계업무현황 및 목표설정팝업
+    //목표기술서 - STEP3-2: 연계업무 현황 및 목표 설정팝업
     @RequestMapping("/Campus/pop/targetSubSetPop.do")
-    public String targetSubSetPop(HttpServletRequest request, Model model) {
+    public String targetSubSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
         return "popup/campus/targetSubSetPop";
+    }
+
+    //목표기술서 - STEP4-1: 학습계획 작성팝업
+    @RequestMapping("/Campus/pop/eduPlanReqPop.do")
+    public String eduPlanPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/campus/eduPlanReqPop";
     }
 
     //학습체계도관리
@@ -208,6 +223,16 @@ public class CampusController {
         return result;
     }
 
+    //목표기술서 등록된 연도 조회
+    @RequestMapping("/campus/getTargetYearList")
+    @ResponseBody
+    public Map<String, Object> getTargetYearList(@RequestParam Map<String, Object> params) {
+        List<Map<String, Object>> list = campusService.getTargetYearList(params);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        return result;
+    }
+
     //목표기술서작성 - 해당연도 중복 조회
     @RequestMapping("/campus/getTargetOne")
     @ResponseBody
@@ -235,6 +260,13 @@ public class CampusController {
             result.put("list", list);
         }
         return result;
+    }
+
+    //목표기술서작성 - 해당연도 중복 조회
+    @RequestMapping("/campus/getCategoryOne")
+    @ResponseBody
+    public Map<String, Object> getCategoryOne(@RequestParam Map<String, Object> params) {
+        return campusService.getCategoryOne(params);
     }
 
     //목표기술서작성 - 유저별 선택 구분 리스트
@@ -277,6 +309,33 @@ public class CampusController {
         return result;
     }
 
+    //학습체계도 - 학습계획리스트
+    @RequestMapping("/campus/getEduPlanList")
+    @ResponseBody
+    public Map<String, Object> getEduPlanList(@RequestParam Map<String, Object> params) {
+        List<Map<String, Object>> list = campusService.getEduPlanList(params);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        return result;
+    }
+
+    //목표기술서작성 - 학습계획설정팝업 - 학습계획데이터조회
+    @RequestMapping("/campus/getEduPlanOne")
+    @ResponseBody
+    public Map<String, Object> getEduPlanOne(@RequestParam Map<String, Object> params) {
+        List<Map<String, Object>> list = campusService.getEduPlanOne(params);
+        Map<String, Object> result = new HashMap<>();
+        result.put("flag", false);
+        if(list.size() > 0) {
+            result.put("flag", true);
+            result.put("list", list);
+        }
+        return result;
+    }
+
+
+
+
     //목표기술서작성 - 연도등록팝업 - 연도등록
     @RequestMapping("/campus/setTargetInsert")
     @ResponseBody
@@ -296,6 +355,27 @@ public class CampusController {
     @ResponseBody
     public Map<String, Object> setEduTargetDetailUpdate(@RequestParam Map<String, Object> params) {
         return campusService.setEduTargetDetailUpdate(params);
+    }
+
+    //목표기술서작성 - 학습계획 - 등록
+    @RequestMapping("/campus/setEduPlanInsert")
+    @ResponseBody
+    public Map<String, Object> setEduPlanInsert(@RequestParam Map<String, Object> params) {
+        return campusService.setEduPlanInsert(params);
+    }
+
+    //목표기술서작성 - 학습계획 - 수정
+    @RequestMapping("/campus/setEduPlanUpdate")
+    @ResponseBody
+    public Map<String, Object> setEduPlanUpdate(@RequestParam Map<String, Object> params) {
+        return campusService.setEduPlanUpdate(params);
+    }
+
+    //목표기술서작성 - 승인프로세스(임시)
+    @RequestMapping("/campus/updateApprStat")
+    @ResponseBody
+    public Map<String, Object> updateApprStat(@RequestParam Map<String, Object> params) {
+        return campusService.updateApprStat(params);
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
