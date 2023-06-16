@@ -563,13 +563,11 @@ var userReqPop = {
 
         if(confirm("신청내용을 저장하시겠습니까?")){
             var data = {
-                EMP_SEQ : $("#empSeq").val(),
-                ERP_EMP_SEQ : "",
+                //ERP_EMP_SEQ : "",
                 EMP_NAME_KR : $("#empNameKr").val(), //이름
                 LOGIN_PASSWD : $("#loginPasswd").val(), //비밀번호
                 LOGIN_ID : $("#loginId").val(), //아이디
                 RES_REGIS_NUM : $("#resRegisNum1").val() + "-" + $("#resRegisNum2").val(), //주민등록번호
-                CHECK_PASSWD : $("#checkPasswd").val(), //비밀번호 확인
                 CAPS_NUM : $("#capsNum").val(), //CAPS 번호
 
                 DUTY_CODE : $("#dutyCode").val(), //직원구분
@@ -578,7 +576,7 @@ var userReqPop = {
 
                 JOB_DETAIL : $("#jobDetail").val(), //직무사항
                 BEFOR_CAREER : $("#beforCareer").val(), //전직경력
-                ELAPSED_YEAR : $("#elapsedYear1").val() + "년도" + $("#elapsedYear2").val(), //경과년파
+                //ELAPSED_YEAR : $("#elapsedYear1").val() + "년도" + $("#elapsedYear2").val(), //경과년파
                 ACCOUNT_HOLDER : $("#accountHolder").val(), //예금주
                 BANK_NAME : $("#bankName").val(), //은행명
                 ACCOUNT_NUM : $("#accountNum").val(), //계좌번호
@@ -588,7 +586,7 @@ var userReqPop = {
                 MOBILE_TEL_NUM : $("#mobileTelNum1").val() + "-" + $("#mobileTelNum2").val() + "-" + $("#mobileTelNum3").val(), //전화번호
                 EMAIL_ADDR : $("#emailAddr").val(), //이메일
 
-                CAR_NUM : $("#carNum").val(), //차량번호
+                CAR_NUM : $("#carNum1").val()+$("#carNum2").val()+$("#carNum3").val(), //차량번호
                 EMP_NAME_CN : $("#empNameCn").val(), //한자 이름
                 EMP_NAME_EN : $("#empNameEn").val(), //영문 이름
 
@@ -597,51 +595,76 @@ var userReqPop = {
 
                 HOBBY : $("#hobby").val(), //취미
                 RELIGION : $("#religion").val(), //종교
-                SPECIALTY : $("#specialty").val(), //특기
+                SPECIALITY : $("#specialty").val(), //특기
                 WEIGHT : $("#weight").val(), //체중
                 HEIGHT : $("#height").val(), //신장
-                VISION : $("#vision1").val() + "좌" + $("#vision2").val() + "우", //시력
+                VISIONL : $("#vision1").val(), //좌시력
+                VISIONR : $("#vision2").val(), //우시력
 
                 HOME_PAGE_ACTIVE : $("#homePageActive").getKendoRadioGroup().value(), //홈페이지 게시
                 WEDDING_ACTIVE : $("#weddingActive").getKendoRadioGroup().value(), //결혼 관계
                 BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value() //혈액형
             }
-
-            if(data.EMP_NAME_KR == null || data.EMP_NAME_KR == ''){
-                alert("이름을 입력해주세요.");
-                return false;
-            }else if(data.LOGIN_PASSWD == null || data.LOGIN_PASSWD == ''){
-                alert(" 비밀번호를 입력해주세요.");
-                return false;
-            }else if(data.LOGIN_ID == null || data.LOGIN_ID == ''){
-                alert("아이디를 입력해주세요.");
-                return false;
-            }else if(data.CHECK_PASSWD == null || data.CHECK_PASSWD == ''){
-                alert("비밀번호 확인을 입력해주세요.");
-                return false;
-            }
-
-            console.log(data);
-
-            // $.ajax({
-            //     url : '/userManage/setUserReqDetailInsert',
-            //     data : data,
-            //     dataType : "json",
-            //     type : "POST",
-            //     async : false,
-            //     success : function (result){
-            //         alert(result.message);
-            //         //window.close();
-            //     }
-            // })
+            //userReqPop.fn_regex2(data);
+            $.ajax({
+                url : '/userManage/setUserReqDetailInsert',
+                data : data,
+                dataType : "application/json",
+                type : "POST",
+                async : false,
+                success : function (result){
+                    window.close();
+                    opener.parent.userPersonList.gridReload();
+                }
+            })
         }
 
     },
 
-
-
     fn_windowClose : function(){
         window.close();
+    },
+
+    fn_regex : function (type, value) {
+        // 숫자 검사기
+        let reg_num = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/;
+        let reg_mobile = /^\d{3}-\d{3,4}-\d{4}$/;
+        let space = /\s/g;
+        switch (type) {
+            case "1" :
+                if(!reg_num.test(value)){
+                    alert("주민등록번호 숫자만 입력해주세요.");
+                    $("#resRegisNum1").val("");
+                    return false;
+                }
+                return value;
+            case "2" :
+                if(!reg_num.test(value)){
+                    alert("휴대폰 번호 오류.");
+                    $("#resRegisNum1").val("");
+                    return false;
+                }
+            case "3" :
+                if(!reg_num.test(value)){
+                    alert("공백 불가.");
+                    return false;
+                }
+                return value;
+        }
+    },
+    fn_regex2 : function (data) {
+        var check = true;
+        $.each(data, function(index, item) {
+            if(item == 'undefined' || item == "" || item == null){
+                alert("빈값이 있습니다.");
+                console.log($(item));
+                check = false;
+                return false;
+            }
+        })
+        if(check==ture){
+
+        }
     }
 }
 

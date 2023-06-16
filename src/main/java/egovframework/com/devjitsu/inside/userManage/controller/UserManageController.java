@@ -58,6 +58,12 @@ public class UserManageController {
         model.addAttribute("uprList", userPersonnelRecordList);
         model.addAttribute("eList", educationalList);
         model.addAttribute("mInfo", militarySvcInfo);
+        model.addAttribute("cList", userManageService.getCareerInfoList(map));
+        model.addAttribute("fList", userManageService.getFamilyInfoList(map));
+        model.addAttribute("lList", userManageService.getLicenceInfoList(map));
+        model.addAttribute("aList", userManageService.getAppointInfoList(map));
+        model.addAttribute("rList", userManageService.getRewardInfoList(map));
+        //model.addAttribute("fList", userManageService.getFamilyInfoList(map));
         return "inside/userManage/userPersonnelRecord";
     }
 
@@ -159,58 +165,120 @@ public class UserManageController {
         return "redirect:inside/userManage/userPersonnelRecord";
     }
     @RequestMapping("/useManage/setUserPersonnelRecordInfo")
-    public void setUserDegreeInfo(@RequestParam Map<String,Object> map) {
-        System.out.println("D A T A : : : : : : : : : : "+map);
-        switch(map.get("type").toString()) {
+    public String setUserDegreeInfo(@RequestParam Map<String,Object> map, Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("EMP_SEQ", login.getUniqId());
+        params.put("EMP_NAME", login.getName());
+        params.putAll(map);
+        System.out.println("D A T A : : : : : : : : : : "+params);
+        switch(params.get("type").toString()) {
             case "degree":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserDegreeInfo(map);
+                try {
+                    userManageService.setEducationalInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "career":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserCareerInfo(map);
+                try {
+                    userManageService.setCareerInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "military":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserMilitarySvcInfo(map);
+                try {
+                    userManageService.setMilitaryInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "family":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserFamilyInfo(map);
+                try {
+                    userManageService.setFmailyInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "license":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserLicenseInfo(map);
+                try {
+                    userManageService.setLicenceInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "job":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserJobInfo(map);
+                try {
+                    userManageService.setJobInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "appointing":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserAppointingInfo(map);
+                try {
+                    userManageService.setAppointingInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "reward":
-                System.out.println(map.get("type").toString());
-                //.setUserRewardInfo(map);
+                try {
+                    userManageService.setRewardInfo(params); //////
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "edu":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserEduInfo(map);
+                try {
+                    userManageService.setEduInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "workEval":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserWorkEvalInfo(map);
+                try {
+                    userManageService.setWorkEvalInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
             case "proposal":
-                System.out.println(map.get("type").toString());
-                //userManageService.setUserProposalInfo(map);
+                try {
+                    userManageService.setProposalInfo(params);
+                    model.addAttribute("rs", "SUCCESS");
+                }catch (Exception e) {
+                    model.addAttribute("rs", "FAILED");
+                    e.printStackTrace();
+                }
                 break;
         }
+        return "jsonView";
     }
-    @RequestMapping("/userManage/getAllUserPersonnelRecordList")
-    public String getAllUserPersonnelRecordList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("rs", userManageService.getAllUserPersonnelRecordList(map));
+    @RequestMapping("/userManage/getPersonRecordApplyList")
+    public String getPersonRecordApplyList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("list", userManageService.getPersonRecordApplyList(map));
         return "jsonView";
     }
     @RequestMapping("/userManage/getCodeList")
@@ -224,7 +292,7 @@ public class UserManageController {
     @ResponseBody
     public Map<String, Object> setUserInfoReqSave(@RequestParam Map<String, Object> params) {
         Map<String,Object> result = new HashMap<>();
-
+        System.out.println("test : : : : : : : : "+params);
         String code = "";
         String message = "";
         try{
@@ -258,7 +326,36 @@ public class UserManageController {
         result.put("list", userManageService.getDeptCodeList(params));
         return result;
     }
+    @RequestMapping("/userManage/getEmpInfoList")
+    public String getEmpInfoList(@RequestParam Map<String,Object> map, Model model) {
+        System.out.println("map : "+map);
+        model.addAttribute("list", userManageService.getEmpInfoList(map));
+        return "jsonView";
+    }
 
-
+    @RequestMapping("/userManage/setUpdateUserInfoModY")
+    @ResponseBody
+    public Map<String,Object> setUpdateUserInfoModY(@RequestParam Map<String,Object> map, Model model) {
+        Map<String,Object> tmp = new HashMap<>();
+        try{
+            userManageService.setUpdateUserInfoModY(map);
+            tmp.put("rs","SUCCESS");
+        }catch (Exception e) {
+            tmp.put("rs","FAILED");
+        }
+        return tmp;
+    }
+    @RequestMapping("/userManage/setUpdateUserInfoModN")
+    @ResponseBody
+    public Map<String,Object> setUpdateUserInfoModN(@RequestParam Map<String,Object> map, Model model) {
+        Map<String,Object> tmp = new HashMap<>();
+        try{
+            userManageService.setUpdateUserInfoModN(map);
+            tmp.put("rs","SUCCESS");
+        }catch (Exception e) {
+            tmp.put("rs","FAILED");
+        }
+        return tmp;
+    }
 
 }

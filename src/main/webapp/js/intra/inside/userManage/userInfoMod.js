@@ -1,10 +1,13 @@
 var now = new Date();
 
 var userInfoMod = {
+    global : {
+        searchAjaxData : "",
+    },
 
     init : function(){
         userInfoMod.dataSet();
-        userInfoMod.mainGrid();
+        userInfoMod.gridReload();
     },
 
     dataSet() {
@@ -13,7 +16,7 @@ var userInfoMod = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            value : ""
         });
 
         $("#end_date").kendoDatePicker({
@@ -21,7 +24,7 @@ var userInfoMod = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : ""
         });
 
         $("#drop1").kendoDropDownList({
@@ -88,36 +91,9 @@ var userInfoMod = {
         });
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '/userManage/getAllUserPersonnelRecordList',
-                    async : false,
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    data.sDate = $("#start_date").val();
-                    data.eDate = $("#end_date").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    console.log('데이터 : ',data);
-                    return data.rs;
-                },
-                total: function (data) {
-                    return data.rs.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid : function(url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -163,32 +139,99 @@ var userInfoMod = {
                     template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
-                    field: "MSI_INFO_ID",
-                    title: "번호"
+                    field: "",
+                    title: "번호",
+                    template : function (e) {
+                        return '<input type="hidden" value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
+                    }
                 }, {
-                    field: "EMP_SEQ",
+                    field: "DEPT_NAME",
                     title: "부서"
                 }, {
-                    field: "MILITARY_SVC_TYPE",
+                    field: "DEPT_TEAM_NAME",
                     title: "팀"
                 }, {
-                    field: "MILITARY_SVC_TYPE",
+                    field: "POSITION_NAME",
                     title: "직책"
                 }, {
-                    field: "MILITARY_SVC_TYPE",
+                    field: "EMP_NAME",
                     title: "성명"
                 }, {
                     field: "REG_DATE",
                     title: "신청일"
                 }, {
-                    field: "M_UNFUL_REASON",
+                    field: "typeName",
                     title: "신청항목"
                 }, {
-                    field: "ACTIVE",
-                    title: "처리상태"
+                    field : "admin_approval",
+                    title: "처리상태",
+                    template : function (e){
+                        if(e.admin_approval == 'N') {
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_approvalTest(this)">' +
+                                '	<span class="k-button-text">승인</span>' +
+                                '</button>';
+                        } else if(e.admin_approval == 'Y') {
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_cancelTest(this)">' +
+                                '	<span class="k-button-text">승인취소</span>' +
+                                '</button>';
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
+    },
+    fn_approvalTest : function(e) {
+        if(confirm("승인 하시겠습니까?")){
+            var data = {
+                EMP_SEQ : e.parentElement.parentElement.children[1].children[0].value,
+                TYPE : e.parentElement.parentElement.children[1].children[1].value,
+                ID : e.parentElement.parentElement.children[1].children[2].value,
+                KEY : e.parentElement.parentElement.children[1].children[3].value
+            }
+            $.ajax({
+                url : '/userManage/setUpdateUserInfoModY',
+                data : data,
+                dataType : "json",
+                type : "POST",
+                async : false,
+                success : function (data){
+                    alert("승인 되었습니다.");
+                    if(data.rs == 'SUCCESS') {
+                        $('#mainGrid').data('kendoGrid').dataSource.read();
+                    }else {
+                        alert("승인에 실패하였습니다.");
+                    }
+                }
+            })
+
+        }
+    },
+
+    fn_cancelTest : function(e) {
+        if(confirm("취소 하시겠습니까?")){
+            var data = {
+                EMP_SEQ : e.parentElement.parentElement.children[1].children[0].value,
+                TYPE : e.parentElement.parentElement.children[1].children[1].value,
+                ID : e.parentElement.parentElement.children[1].children[2].value,
+                KEY : e.parentElement.parentElement.children[1].children[3].value
+            }
+            $.ajax({
+                url : '/userManage/setUpdateUserInfoModN',
+                data : data,
+                dataType : "json",
+                type : "POST",
+                async : false,
+                success : function (data){
+                    alert("취소 되었습니다.");
+                    if(data.rs == 'SUCCESS') {
+                        $('#mainGrid').data('kendoGrid').dataSource.read();
+                    }else {
+                        alert("취소에 실패하였습니다.");
+                    }
+                }
+            })
+
+        }
     },
 
     recruitReqPop : function() {
@@ -221,5 +264,18 @@ var userInfoMod = {
                 console.log(index,'번째 td 값 : ', $(item).text());
             });
         });
+    },
+
+    gridReload : function() {
+        console.log('gridReload');
+        userInfoMod.global.searchAjaxData = {
+            startDate : $('#start_date').val(),
+            endDate : $("#end_date").val(),
+            drop1 : $("#drop1").val(),
+            name : $("#name").val(),
+        }
+        console.log(userInfoMod.global.searchAjaxData);
+        userInfoMod.mainGrid('/userManage/getPersonRecordApplyList',userInfoMod.global.searchAjaxData);
     }
+
 }

@@ -8,11 +8,29 @@ public interface UserManageService{
     Map<String,Object> getUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getEducationalList (Map<String,Object> map);
     Map<String,Object> getMilitarySvcInfo (Map<String,Object> map);
+    List<Map<String,Object>> getCareerInfoList (Map<String,Object> map);
+    List<Map<String,Object>> getFamilyInfoList(Map<String,Object> map);
+    List<Map<String,Object>> getLicenceInfoList(Map<String,Object> map);
+    List<Map<String,Object>> getAppointInfoList (Map<String,Object> map);
+    List<Map<String,Object>> getRewardInfoList (Map<String,Object> map);
     List<Map<String,Object>> getAllUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getCodeList();
-
-    Map<String, Object> setUserReqDetailInsert(Map<String, Object> params);
-
     List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params);
     List<Map<String,Object>> getDeptCodeList (Map<String,Object> params);
+    List<Map<String,Object>> getEmpInfoList (Map<String,Object> map);
+    void setUserReqDetailInsert(Map<String, Object> params);
+    void setEducationalInfo (Map<String,Object> map);
+    void setCareerInfo (Map<String,Object> map);
+    void setMilitaryInfo (Map<String,Object> map);
+    void setFmailyInfo (Map<String,Object> map);
+    void setLicenceInfo (Map<String,Object> map);
+    void setJobInfo (Map<String,Object> map);
+    void setAppointingInfo (Map<String,Object> map);
+    void setRewardInfo (Map<String,Object> map);
+    void setEduInfo (Map<String,Object> map);
+    void setWorkEvalInfo (Map<String,Object> map);
+    void setProposalInfo (Map<String,Object> map);
+    List<Map<String,Object>> getPersonRecordApplyList(Map<String,Object> map);
+    void setUpdateUserInfoModY(Map<String,Object> map);
+    void setUpdateUserInfoModN(Map<String,Object> map);
 }

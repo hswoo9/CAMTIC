@@ -37,6 +37,8 @@
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
             a.EMP_SEQ = #{empSeq};
+            and
+            a.admin_approval = 'Y';
     </select>
     <select id="getMilitarySvcInfo" parameterType="map" resultType="map">
         SELECT
@@ -49,17 +51,156 @@
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
             a.EMP_SEQ = #{empSeq};
+            and
+            a.admin_approval = 'Y';
     </select>
-    <select id="getAllUserPersonnelRecordList" parameterType="map" resultType="map">
+    <select id="getCareerInfoList" parameterType="map" resultType="map">
         SELECT
-            a.*
+            *
         FROM
-            cam_hr.dj_emp_military_svc_info AS a
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_career AS b
+            on
+            a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.ACTIVE = 'N'
-          and
-            a.REG_DATE BETWEEN concat(#{sDate},' 00:00:00') and concat(#{eDate}, ' 23:59:59');
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
     </select>
+    <select id="getFamilyInfoList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_family_info AS b
+            on
+                a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
+    </select>
+    <select id="getLicenceInfoList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_certificate AS b
+            on
+                a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
+    </select>
+    <select id="getAppointInfoList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_appoint AS b
+            on
+                a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
+    </select>
+    <select id="getRewardInfoList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_reword AS b
+            on
+                a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
+    </select>
+
+
+    <insert id="setUserReqDetailInsert" parameterType="map">
+        /*setUserReqDetailInsert*/
+        INSERT INTO CAM_HR.DJ_EMP_INFO(
+        EMP_SEQ,
+        EMP_NAME_KR,
+        LOGIN_PASSWD,
+        LOGIN_ID,
+        RES_REGIS_NUM,
+        CAPS_NUM,
+        DUTY_CODE,
+        DEPT_NAME,
+        DEPT_SEQ,
+        JOB_DETAIL,
+        BEFOR_CAREER,
+        ACCOUNT_HOLDER,
+        BANK_NAME,
+        ACCOUNT_NUM,
+        ADDR,
+        ADDR_DETAIL,
+        OFFICE_TEL_NUM,
+        MOBILE_TEL_NUM,
+        EMAIL_ADDR,
+        CAR_NUM,
+        EMP_NAME_CN,
+        EMP_NAME_EN,
+        EMG_TEL_NUM,
+        LEGAL_DOMICILE,
+        HOBBY,
+        RELIGION,
+        SPECIALITY,
+        WEIGHT,
+        HEIGHT,
+        VISIONL,
+        VISIONR,
+        HOME_PAGE_ACTIVE,
+        WEDDING_ACTIVE,
+        BLOOD_TYPE
+        )VALUES(
+        (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
+        #{EMP_NAME_KR},
+        #{LOGIN_PASSWD},
+        #{LOGIN_ID},
+        #{RES_REGIS_NUM},
+        #{CAPS_NUM},
+        #{DUTY_CODE},
+        #{DEPT_NAME},
+        #{DEPT_SEQ},
+        #{JOB_DETAIL},
+        #{BEFOR_CAREER},
+        #{ACCOUNT_HOLDER},
+        #{BANK_NAME},
+        #{ACCOUNT_NUM},
+        #{ADDR},
+        #{ADDR_DETAIL},
+        #{OFFICE_TEL_NUM},
+        #{MOBILE_TEL_NUM},
+        #{EMAIL_ADDR},
+        #{CAR_NUM},
+        #{EMP_NAME_CN},
+        #{EMP_NAME_EN},
+        #{EMG_TEL_NUM},
+        #{LEGAL_DOMICILE},
+        #{HOBBY},
+        #{RELIGION},
+        #{SPECIALITY},
+        #{WEIGHT},
+        #{HEIGHT},
+        #{VISIONL},
+        #{VISIONR},
+        #{HOME_PAGE_ACTIVE},
+        #{WEDDING_ACTIVE},
+        #{BLOOD_TYPE}
+        )
+    </insert>
+
     <select id="getCodeList" parameterType="map" resultType="map">
         SELECT
             *
@@ -68,32 +209,6 @@
         WHERE
             ACTIVE = 'Y'
     </select>
-
-    <insert id="setUserReqDetailInsert" parameterType="map">
-        /*setUserReqDetailInsert*/
-        INSERT INTO CAM_HR.DJ_EMP_INFO
-        (
-            EMP_SEQ,
-            EMP_NAME_KR, LOGIN_PASSWD, LOGIN_ID, RES_REGIS_NUM, CHECK_PASSWD, CAPS_NUM,
-            ERP_EMP_SEQ, DUTY_CODE, DEPT_NAME, DEPT_SEQ,
-            JOB_DETAIL, BEFOR_CAREER, ELAPSED_YEAR, ACCOUNT_HOLDER, BANK_NAME, ACCOUNT_NUM,
-            ADDR, ADDR_DETAIL, OFFICE_TEL_NUM, MOBILE_TEL_NUM, EMAIL_ADDR, CAR_NUM,
-            EMP_NAME_CN, EMP_NAME_EN, EMG_TEL_NUM, LEGAL_DOMICILE, HOBBY, RELIGION,
-            SPECIALTY, WEIGHT, HEIGHT, VISION,
-            HOME_PAGE_ACTIVE, WEDDING_ACTIVE, BLOOD_TYPE
-        )
-        VALUES
-        (
-            (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
-            #{EMP_NAME_KR}, #{LOGIN_PASSWD}, #{LOGIN_ID}, #{RES_REGIS_NUM}, #{CHECK_PASSWD}, #{CAPS_NUM},
-            #{ERP_EMP_SEQ}, #{DUTY_CODE}, #{DEPT_NAME}, #{DEPT_SEQ},
-            #{JOB_DETAIL}, #{BEFOR_CAREER}, #{ELAPSED_YEAR}, #{ACCOUNT_HOLDER}, #{BANK_NAME}, #{ACCOUNT_NUM},
-            #{ADDR}, #{ADDR_DETAIL}, #{OFFICE_TEL_NUM}, #{MOBILE_TEL_NUM}, #{EMAIL_ADDR}, #{CAR_NUM},
-            #{EMP_NAME_CN}, #{EMP_NAME_EN}, #{EMG_TEL_NUM}, #{LEGAL_DOMICILE}, #{HOBBY}, #{RELIGION},
-            #{SPECIALTY}, #{WEIGHT}, #{HEIGHT}, #{VISION},
-            #{HOME_PAGE_ACTIVE}, #{WEDDING_ACTIVE}, #{BLOOD_TYPE}
-        )
-    </insert>
 
     <select id="getDeptCodeList2" parameterType="map" resultType="map">
         /*getDeptCodeList2*/
@@ -116,5 +231,408 @@
         WHERE
             PARENT_DEPT_SEQ = #{deptSeq}
     </select>
+    <select id="getEmpInfoList" parameterType="map" resultType="map">
+        SELECT
+        a.*,
+        date_format(a.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        FROM
+        CAM_HR.dj_emp_info	AS a
+        WHERE
+        a.active = 'Y'
+        <if test='START_DATE != null and !"".equals(START_DATE)'>
+            <![CDATA[
+	    AND
+	        DATE_FORMAT(#{START_DATE}, '%Y%m%d') <= DATE_FORMAT(a.JOIN_DAY, '%Y%m%d')
+	    AND
+	        DATE_FORMAT(#{END_DATE}, '%Y%m%d') >= DATE_FORMAT(a.JOIN_DAY, '%Y%m%d')
+	    ]]>
+        </if>
+        <if test='EMP_NAME_KR != null and !"".equals(EMP_NAME_KR)'>
+            <choose>
+                <when test='"성명".equals(USER_KIND)'>
+                    and
+                    a.EMP_NAME_KR like CONCAT('%', #{EMP_NAME_KR}, '%')
+                </when>
+                <when test='"직급".equals(USER_KIND)'>
+                    and
+                    a.POSITION_NAME like CONCAT('%', #{EMP_NAME_KR}, '%')
+                </when>
+                <when test='"직책".equals(USER_KIND)'>
+                    and
+                    a.DUTY_NAME like CONCAT('%', #{EMP_NAME_KR}, '%')
+                </when>
+                <when test='"메일주소".equals(USER_KIND)'>
+                    and
+                    a.EMAIL_ADDR like CONCAT('%', #{EMP_NAME_KR}, '%')
+                </when>
+                <when test='"전화번호".equals(USER_KIND)'>
+                    and
+                    a.HOME_TEL_NUM like CONCAT('%', #{EMP_NAME_KR}, '%')
+                </when>
+                <otherwise>
+                    and
+                    a.MOBILE_TEL_NUM like CONCAT('%', #{EMP_NAME_KR}, '%')
+                </otherwise>
+            </choose>
+        </if>
 
+    </select>
+    <insert id="setEducationalInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_educational(
+              EMP_SEQ
+             ,EMP_NAME
+             ,ADMISSION_DAY
+             ,GRADUATION_DAY
+             ,DEGREE_CODE
+             ,REG_EMP_SEQ
+             ,REG_DATE
+             ,SCHOOL_NAME
+             ,RMK
+        )VALUES (
+            #{EMP_SEQ}
+            ,#{EMP_NAME}
+            ,#{sDate}
+            ,#{eDate}
+            ,#{degree}
+            ,#{EMP_SEQ}
+            ,NOW()
+            ,#{school}
+            ,#{bmk}
+        )
+    </insert>
+    <insert id="setCareerInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_career(
+              EMP_SEQ
+             ,EMP_NAME
+             ,EMPLOY_DEPT_NAME
+             ,JOIN_DAY
+             ,RESIGN_DAY
+             ,POSITION_OR_DUTY
+             ,CAREER_PERIOD
+             ,REG_EMP_SEQ
+             ,REG_DATE
+             ,RMK
+        )VALUES (
+            #{EMP_SEQ}
+            ,#{EMP_NAME}
+            ,#{place}
+            ,#{sDate}
+            ,#{eDate}
+            ,#{position}
+            ,#{dateY}
+            ,#{EMP_SEQ}
+            ,NOW()
+            ,#{bmk}
+            )
+    </insert>
+    <insert id="setMilitaryInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_military_svc_info(
+                 EMP_SEQ
+                ,EMP_NAME
+                ,MILITARY_SVC_TYPE
+                ,M_UNFUL_REASON
+                ,M_ENLIST_DAY
+                ,M_DISCHARGE_DAY
+                ,REG_EMP_SEQ
+                ,REG_DATE
+        )VALUES (
+                #{EMP_SEQ}
+                ,#{EMP_NAME}
+                ,#{mGubun}
+                ,#{reason}
+                ,#{sDate}
+                ,#{eDate}
+                ,#{EMP_SEQ}
+                ,now()
+                )
+    </insert>
+    <insert id="setFmailyInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_family_info(
+                EMP_SEQ
+                ,EMP_NAME
+                ,FAMILY_CODE
+                ,FAMILY_NAME
+                ,FAMILY_BIRTH
+                ,FAMILY_JOB
+                ,INCLUDE_YN
+                ,REG_EMP_SEQ
+                ,REG_DATE
+        )VALUES (
+                #{EMP_SEQ}
+                ,#{EMP_NAME}
+                ,#{relation}
+                ,#{fName}
+                ,#{bDay}
+                ,#{job}
+                ,#{cohab}
+                ,#{EMP_SEQ}
+                ,now()
+                )
+    </insert>
+    <insert id="setLicenceInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_certificate(
+                  EMP_SEQ
+                 ,EMP_NAME
+                 ,CERTIFICATE_NAME
+                 ,CERTIFICATE_NUM
+                 ,ACQUISITION_DAY
+                 ,ISSUER
+                 ,RMK
+                 ,REG_EMP_SEQ
+                 ,REG_DATE
+        )VALUES (
+                #{EMP_SEQ}
+                ,#{EMP_NAME}
+                ,#{licenseName}
+                ,#{licenseNum}
+                ,#{sDate}
+                ,#{agency}
+                ,#{bmk}
+                ,#{EMP_SEQ}
+                ,now()
+                )
+    </insert>
+    <insert id="setAppointingInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_appoint(
+                  EMP_SEQ
+                 ,EMP_NAME
+                 ,APPOINT_DAY
+                 ,APPOINT_TITLE
+                 ,APPOINT_COMMENT
+                 ,RMK
+                 ,REG_EMP_SEQ
+                 ,REG_DATE
+        )VALUES (
+                #{EMP_SEQ}
+                ,#{EMP_NAME}
+                ,#{sDate}
+                ,#{aGubun}
+                ,#{reason}
+                ,#{bmk}
+                ,#{EMP_SEQ}
+                ,now()
+                )
+    </insert>
+    <insert id="setRewardInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_reword(
+                  EMP_SEQ
+                 ,EMP_NAME
+                 ,REWORD_DAY
+                 ,REWORD_NAME
+                 ,REWORD_AGENCY_NAME
+                 ,REWORD_REASON
+                 ,REG_EMP_SEQ
+                 ,REG_DATE
+        )VALUES (
+                #{EMP_SEQ}
+                ,#{EMP_NAME}
+                ,#{sDate}
+                ,#{rGubun}
+                ,#{agency}
+                ,#{rIssue}
+                ,#{EMP_SEQ}
+                ,now()
+                )
+    </insert>
+
+    <select id="getPersonRecordApplyList" parameterType="map" resultType="map">
+        SELECT
+        A.*
+        from
+        (SELECT
+        a.EDUCATIONAL_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_educational' AS 'type',
+        '학력사항' AS 'typeName',
+        'EDUCATIONAL_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_educational AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        union
+        SELECT
+        a.CAREER_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_career' AS 'type',
+        '경력사항' AS 'typeName',
+        'CAREER_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_career AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.MSI_INFO_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_military_svc_info' AS 'type',
+        '병력사항' AS 'typeName',
+        'MSI_INFO_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_military_svc_info AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.FAMILY_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_family_info' AS 'type',
+        '가족사항' AS 'typeName',
+        'FAMILY_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_family_info AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.CERTIFICATE_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_certificate' AS 'type',
+        '보유면허' AS 'typeName',
+        'CERTIFICATE_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_certificate AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.APPOINT_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_appoint' AS 'type',
+        '발령사항' AS 'typeName',
+        'APPOINT_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_appoint AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.REWORD_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_reword' AS 'type',
+        '포상사항' AS 'typeName',
+        'REWORD_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_reword AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq) AS A
+        WHERE
+        1=1
+        <if test='name != null and !"".equals(name)'>
+            and
+            A.EMP_NAME LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test='drop1 != null and !"".equals(drop1)'>
+            and
+        <choose>
+            <when test='"1".equals(drop1)'>
+                A.typeName = '학력사항'
+            </when>
+            <when test='"2".equals(drop1)'>
+                A.typeName = '경력사항'
+            </when>
+            <when test='"3".equals(drop1)'>
+                A.typeName = '병력사항'
+            </when>
+            <when test='"4".equals(drop1)'>
+                A.typeName = '가족사항'
+            </when>
+            <when test='"5".equals(drop1)'>
+                A.typeName = '보유면허'
+            </when>
+        </choose>
+        </if>
+        <if test='startDate != null and !"".equals(startDate)'>
+            <![CDATA[
+		AND
+		DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(A.REG_DATE, '%Y%m%d')
+		AND
+		DATE_FORMAT(#{endDate}, '%Y%m%d') >= DATE_FORMAT(A.REG_DATE, '%Y%m%d')
+		]]>
+        </if>
+        ORDER BY a.reg_date DESC
+    </select>
+
+    <update id="setUpdateUserInfoModY" parameterType="map">
+        UPDATE cam_hr.${TYPE}
+        SET
+            ADMIN_APPROVAL = 'Y',
+            ADMIN_APPROVAL_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{EMP_SEQ}
+            and
+            ${KEY} = #{ID}
+    </update>
+    <update id="setUpdateUserInfoModN" parameterType="map">
+        UPDATE cam_hr.${TYPE}
+        SET
+            ADMIN_APPROVAL = 'N',
+            ADMIN_APPROVAL_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{EMP_SEQ}
+          and
+            ${KEY} = #{ID}
+    </update>
 </mapper>

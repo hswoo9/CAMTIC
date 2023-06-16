@@ -53,7 +53,7 @@
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
             <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-            <table class="table table-bordered mb-0" id="userReqPop">
+            <table class="table table-bordered mb-0" id="userReqPop" style="width: 1200px;">
               <colgroup>
                 <col width="13%">
                 <col width="37%">

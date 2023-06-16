@@ -161,7 +161,13 @@
         bmk : $("#bmk").val(),
         type : "edu",
     }
-    customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+    if(result.flag){
+      alert("등록되었습니다.");
+      fn_windowClose();
+    }else{
+      alert("등록에 실패하였습니다.");
+    }
   }
   function fn_windowClose() {
     window.close();

@@ -48,7 +48,7 @@
                                     <input type="text" id="kindContent" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">검색</button>
+                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
 <%--                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">상세검색</button>--%>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                     <input type="text" id="end_date_detail" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">검색</button>
+                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
 <%--                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">일반검색</button>--%>
                                 </div>
                             </div>

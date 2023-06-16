@@ -6,9 +6,15 @@
 var now = new Date();
 
 var userPersonList = {
+    global : {
+        searchAjaxData : "",
+    },
+
     init : function () {
         userPersonList.dataSet();
-        userPersonList.mainGrid();
+        userPersonList.gridReload();
+        userPersonList.mainGrid2();
+        //userPersonList.mainGrid();
     },
 
     dataSet() {
@@ -101,7 +107,7 @@ var userPersonList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            value : ""
         });
 
         $("#end_date").kendoDatePicker({
@@ -109,7 +115,7 @@ var userPersonList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : ""
         });
 
         $("#drop1").kendoDropDownList({
@@ -292,12 +298,12 @@ var userPersonList = {
         });
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
+    mainGrid : function(url,params) {
+        /*var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/userManage/getEmpInfoList',
                     dataType : "json",
                     type : "post"
                 },
@@ -307,37 +313,39 @@ var userPersonList = {
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    console.log(data.rs)
+                    return data.rs;
                 },
                 total: function (data) {
-                    return data.length;
+                    console.log(data.rs.length);
+                    return data.rs.length;
                 },
             },
             pageSize: 10,
-        });
+        });*/
 
-        $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+        var mainGrid = $("#mainGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
             height: 489,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 20, 30, 50, 100],
+                buttonCount: 5
             },
-            toolbar : [
+            toolbar: [
                 {
-                    name : 'button',
-                    template : function (e){
+                    name: 'button',
+                    template: function (e) {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userPersonList.userReqPop();">' +
                             '	<span class="k-button-text">직원 추가</span>' +
                             '</button>';
                     }
                 }, {
-                    name : 'button',
-                    template : function (e){
+                    name: 'button',
+                    template: function (e) {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
@@ -353,36 +361,37 @@ var userPersonList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    template: "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
-                    field: "",
-                    title: "번호"
+                    field: "EMP_SEQ",
+                    title: "사번"
                 }, {
-                    field: "",
+                    field: "EMP_NAME_KR",
                     title: "성명"
                 }, {
-                    field: "",
+                    field: "DEPT_NAME",
                     title: "부서(실)"
                 }, {
-                    field: "",
+                    field: "DEPT_TEAM_NAME",
                     title: "부서(팀)"
                 }, {
-                    field: "",
+                    field: "DUTY_NAME",
                     title: "직위"
                 }, {
-                    field: "",
+                    field: "HOME_TEL_NUM",
                     title: "전화번호"
                 }, {
-                    field: "",
+                    field: "MOBILE_TEL_NUM",
                     title: "핸드폰"
                 }, {
-                    field: "",
+                    field: "JOIN_DAY2",
                     title: "입사일"
                 }
             ]
         }).data("kendoGrid");
-
+    },
+    mainGrid2 : function() {
         $("#mainGrid2").kendoGrid({
             dataSource: dataSource,
             sortable: true,
@@ -444,5 +453,21 @@ var userPersonList = {
         var name = "recruitReqPop";
         var option = "width=1200, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    gridReload : function() {
+        console.log('gridReload');
+        userPersonList.global.searchAjaxData = {
+            USER_KIND : $('#userKind').val(),
+            EMP_NAME_KR : $("#kindContent").val(),
+            START_DATE : $("#start_date").val(),
+            END_DATE : $("#end_date").val(),
+        }
+        console.log(userPersonList.global.searchAjaxData);
+        userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
+    },
+
+    gridReloadDetail : function() {
+        console.log('gridReloadDetail');
     }
 }

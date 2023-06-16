@@ -201,7 +201,7 @@
                                     </tr>
                                     <c:forEach var="l" items="${eList}" varStatus="status">
                                         <c:choose>
-                                            <c:when test="${l.EDUCATIONAL_ID eq null}">
+                                            <c:when test="${l.EDUCATIONAL_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
 
                                             </c:when>
                                             <c:otherwise>
@@ -257,16 +257,25 @@
                                         <th>비고</th>
                                         <th>파일</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>2016-10-10 ~ 2017-12-17</td>
-                                        <td>대성금속공업(주)</td>
-                                        <td>사원</td>
-                                        <td>시험사출,설비유지보수</td>
-                                        <td>1년1개월</td>
-                                        <td>-</td>
-                                        <td><span class="k-icon k-i-file-txt" style="cursor:pointer;"></span></td>
-                                    </tr>
+                                    <c:forEach var="l" items="${cList}" varStatus="status">
+                                        <c:choose>
+                                            <c:when test="${l.CAREER_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
+                                                    <td>${l.EMPLOY_DEPT_NAME}</td>
+                                                    <td>${l.POSITION_OR_DUTY}</td>
+                                                    <td>${l.MAIN_TASK}</td>
+                                                    <td>${l.CAREER_PERIOD}</td>
+                                                    <td>${l.RMK}</td>
+                                                    <td><span class="k-icon k-i-file-txt" style="cursor:pointer;"></span></td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -305,7 +314,7 @@
                                         <th>복무기간</th>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null}">
+                                                <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null or l.ADMIN_APPROVAL eq 'N'}">
                                                     <input type="text" id="" name="" class="userInfoDatePicker" style="width: 40%;" value="">
                                                 </c:when>
                                                 <c:otherwise>
@@ -362,14 +371,23 @@
                                         <th>직업</th>
                                         <th>동거여부</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>부</td>
-                                        <td>권정인</td>
-                                        <td>540425</td>
-                                        <td>대성금속공업(주)</td>
-                                        <td>유</td>
-                                    </tr>
+                                    <c:forEach var="l" items="${fList}">
+                                        <c:choose>
+                                            <c:when test="${l.FAMILY_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                    <tr>
+                                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                        <td>${l.FAMILY_CODE_NAME}</td>
+                                                        <td>${l.FAMILY_NAME}</td>
+                                                        <td>${l.FAMILY_BIRTH}</td>
+                                                        <td>${l.FAMILY_JOB}</td>
+                                                        <td>${l.INCLUDE_YN}</td>
+                                                    </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -406,15 +424,23 @@
                                         <th>비고</th>
                                         <th>파일</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>전자기기기능사</td>
-                                        <td>1997.12.10</td>
-                                        <td>97901140426E</td>
-                                        <td>한국산업인력공단(주)</td>
-                                        <td>-</td>
-                                        <td><span class="k-icon k-i-file-txt" style="cursor:pointer;"></span></td>
-                                    </tr>
+                                    <c:forEach var="l" items="${lList}">
+                                        <c:choose>
+                                            <c:when test="${l.CERTIFICATE_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td>${l.CERTIFICATE_NAME}</td>
+                                                    <td>${l.ACQUISITION_DAY}</td>
+                                                    <td>${l.CERTIFICATE_NUM}</td>
+                                                    <td>${l.ISSUER}</td>
+                                                    <td>${l.RMK}</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -483,13 +509,22 @@
                                         <th>발령일자</th>
                                         <th>비고</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>임용(정규직)</td>
-                                        <td>2022-03-10</td>
-                                        <td>R&BD사업본부 복합소재생산기술지원센터 책임연구원0</td>
-                                        <td>-</td>
-                                    </tr>
+                                    <c:forEach var="l" items="${aList}">
+                                        <c:choose>
+                                            <c:when test="${l.APPOINT_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td>${l.APPOINT_TITLE}</td>
+                                                    <td>${l.APPOINT_DAY}</td>
+                                                    <td>${l.APPOINT_TITLE}</td>
+                                                    <td>${l.RMK}</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -526,15 +561,23 @@
                                         <th>시행처</th>
                                         <th>파일</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>내부</td>
-                                        <td></td>
-                                        <td>2021.05.04</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
+                                    <c:forEach var="l" items="${rList}">
+                                        <c:choose>
+                                            <c:when test="${l.REWORD_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td>-</td>
+                                                    <td>${l.REWORD_NAME}</td>
+                                                    <td>${l.REWORD_DAY}</td>
+                                                    <td>${l.REWORD_REASON}</td>
+                                                    <td>${l.REWORD_AGENCY_NAME}</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>

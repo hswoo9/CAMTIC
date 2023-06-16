@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/css/kendoui/kendo.default-main.min.css"/>
     <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
     <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>
-    <script type="text/javascript" src="<c:url value='/js/intra/appointment/employmentReq.js?v=2'/>"></script>
+    <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/employmentReq.js?v=3'/>"></script>
 </head>
 <body>
 <!-- 서명 공간 -->
@@ -123,9 +123,9 @@
                 canvas.on("touchcancel", touchdraw);
                 canvas.on("touchmove", touchdraw);
                 // save 버튼을 누르면 imageupload.php로 base64코드를 보내서 이미지로 변환합니다.
-                $("#save").on("click", function(){
+                $("#saveX").on("click", function(){
                     var code = $("#code").val();
-                    epmReq.fn_popCanvasSave(code);
+                    employmentReq.fn_popCanvasSave(code);
                 });
             },
             onLoad: function(){
