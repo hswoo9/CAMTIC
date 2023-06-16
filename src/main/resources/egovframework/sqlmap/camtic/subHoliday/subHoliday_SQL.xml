@@ -20,7 +20,9 @@
         RMK,
         SUBHOLIDAY_TARGET_SEQ,
         RMK_OTHER,
-        REG_EMP_SEQ
+        REG_EMP_SEQ,
+        SUBHOLIDAY_WORK_DAY,
+        SUBHOLIDAY_ALTERNATIVE_DAY
         <if test="approvalReason != null and approvalReason != ''">
             , APPROVAL_REASON
         </if>
@@ -39,7 +41,9 @@
         #{rmk},
         #{vacTargetSeq},
         #{rmkOther},
-        #{saveSeq}
+        #{saveSeq},
+        #{vacWorkDt},
+        #{vacUseAlDt}
         <if test="approvalReason != null and approvalReason != ''">
             , #{approvalReason}
         </if>
@@ -223,6 +227,54 @@
         <if test="pageSize != null and pageSize != ''">
             LIMIT ${skip} , ${pageSize}
         </if>
+    </select>
+
+    <select id="getUserVacList" resultType="map" parameterType="map">
+        /* getUserVacList */
+
+        SELECT
+        VUI.EMP_SEQ,
+        VUI.EMP_NAME_KR,
+        VUI.DEPT_NAME,
+        VUI.POSITION_NAME,
+        VUI.DUTY_NAME,
+        DATE_FORMAT(VUI.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
+        VUI.ACTIVE,
+        VC.APPLY_YEAR,
+        CONCAT(VC.APPLY_YEAR, '-01-01') AS ST_APPLY_DATE,
+        CONCAT(VC.APPLY_YEAR, '-12-31') AS EN_APPLY_DATE,
+        VC.GRANT_DAY,
+        VC.MDTN_DAY,
+        VC.EXTRA_DAY,
+        VC.USE_DAY,
+        ((VC.GRANT_DAY + VC.MDTN_DAY + VC.EXTRA_DAY) - (VC.USE_DAY)) AS REMAIN_VAC,
+        VC.ACTIVE,
+        VC.HOLIDAY_ID
+        FROM
+        CAM_INSIDE.DJ_HOLIDAY VC
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO VUI
+        ON VC.EMP_SEQ = VUI.EMP_SEQ
+        <if test='active != null and !"".equals(active)'>
+            AND VUI.USE_YN = #{active}
+        </if>
+        <if test='userNm != null and !"".equals(userNm)'>
+            AND (VUI.USER_ID LIKE CONCAT('%',#{userNm},'%') OR VUI.EMP_NAME LIKE CONCAT('%',#{userNm},'%'))
+        </if>
+        <if test='deptName != null and !"".equals(deptName)'>
+            AND VUI.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+        </if>
+        <if test='positionDutyNm != null and !"".equals(positionDutyNm)'>
+            AND (VUI.DP_NAME LIKE CONCAT('%',#{positionDutyNm},'%') OR VUI.DP_NAME LIKE CONCAT('%',#{positionDutyNm},'%'))
+        </if>
+
+        <choose>
+            <when test='vacStatus != null and vacStatus.equals("Y")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
+            <when test='vacStatus != null and vacStatus.equals("N")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
+            <when test='vacStatus != null and vacStatus.equals("NULL")'>AND VC.APPLY_YEAR IS NULL</when>
+        </choose>
+
+
     </select>
 
 

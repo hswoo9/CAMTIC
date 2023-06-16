@@ -26,4 +26,11 @@ public interface SubHolidayService {
 
     int getVacUseHistoryListTotal(Map<String, Object> params);
 
+    /**
+     * 전체 사용자 연차 현황 리스트
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> getUserVacList(Map<String, Object> params);
+
 }

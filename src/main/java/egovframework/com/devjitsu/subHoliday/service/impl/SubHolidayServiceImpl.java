@@ -58,4 +58,9 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         return subHolidayRepository.getVacUseHistoryListTotal(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getUserVacList(Map<String, Object> params) {
+        return subHolidayRepository.getUserVacList(params);
+    }
+
 }

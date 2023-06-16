@@ -67,7 +67,7 @@ var subHolidayReqPop = {
             if(!flag){
                 return;
             }
-        }else if (!$("#edtHolidayKindTop").val()) {
+        }/*else if (!$("#edtHolidayKindTop").val()) {
             alert("휴가구분을 선택해주세요.");
             flag = false;
             return;
@@ -79,7 +79,7 @@ var subHolidayReqPop = {
             alert("휴가 종료일을 선택해주세요.");
             flag = false;
             return;
-        }
+        }*/
 
         if (confirm("저장하시겠습니까?")) {
             if (flag) {
@@ -91,10 +91,6 @@ var subHolidayReqPop = {
                     applyDate: subHolidayReqPop.global.now.getFullYear() + monthStr.substring(monthStr.length-2, monthStr.length) + dayStr.substring(dayStr.length-2, dayStr.length),
                     saveSeq: $("#empSeq").val(),
                     saveDate: subHolidayReqPop.global.now.getFullYear() + monthStr.substring(monthStr.length-2, monthStr.length) + dayStr.substring(dayStr.length-2, dayStr.length),
-                    vacUseStDt: $("#edtHolidayStartDateTop_1").val(),
-                    vacUseStTime: $("#edtHolidayStartHourTop_1").val(),
-                    vacUseEndt: $("#edtHolidayEndDateTop_1").val(),
-                    vacUseEnTime: $("#edtHolidayEndHourTop_1").val(),
                     rmk: $("#holiday_reason").val(),
                     rmkOther : $("#other_reason").val(),
                     vacTargetSeq: $("#empSeq").val(),
@@ -102,6 +98,25 @@ var subHolidayReqPop = {
 
                 if($("#vacUseHistId").val() != null && $("#vacUseHistId").val() != ""){
                     data.vacUseHistId = $("#vacUseHistId").val();
+                }
+                if($("#edtHolidayKindTop").val() == 11){
+                    data.vacUseStDt = $("#edtHolidayStartDateTop_3").val();
+                    data.vacUseStTime = $("#edtHolidayStartHourTop_3").val();
+                    data.vacUseEndt = $("#edtHolidayEndDateTop_3").val();
+                    data.vacUseEnTime = $("#edtHolidayEndHourTop_3").val();
+                    data.vacUseAlDt = $("#edtHolidayAlternativeDate_3").val();
+                    data.vacWorkDt = $("#edtHolidayWorkDay_3").val();
+                }else if($("#edtHolidayKindTop").val() == 9){
+                    data.vacUseStDt = $("#edtHolidayStartDateTop_2").val();
+                    data.vacUseStTime = $("#edtHolidayStartHourTop_2").val();
+                    data.vacUseEndt = $("#edtHolidayEndDateTop_2").val();
+                    data.vacUseEnTime = $("#edtHolidayEndHourTop_2").val();
+                    data.vacWorkDt = $("#edtHolidayWorkDay_3").val();
+                }else{
+                    data.vacUseStDt = $("#edtHolidayStartDateTop_1").val();
+                    data.vacUseStTime = $("#edtHolidayStartHourTop_1").val();
+                    data.vacUseEndt = $("#edtHolidayEndDateTop_1").val();
+                    data.vacUseEnTime = $("#edtHolidayEndHourTop_1").val();
                 }
             }
 
@@ -277,7 +292,7 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th>대체휴가일자</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <input id="edtHolidayStartDateTop_3" style="width:20%; margin-right:5px;">\n' +
+                '                  <input id="edtHolidayAlternativeDate_3" style="width:20%; margin-right:5px;">\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -301,7 +316,7 @@ var subHolidayReqPop = {
                 '                      </tr>\n' +
                 '                      <tr style="background-color:#fff; text-align:center;">\n' +
                 '                       <td>\n' +
-                '                        <input type="text" id="edtHolidayWorkDate_3" name="edtHolidayStartDateTop_3" data-bind="value:start" style="width: 80%;">\n' +
+                '                        <input type="text" id="edtHolidayWorkDay_3" name="edtHolidayWorkDay_3" data-bind="value:start" style="width: 80%;">\n' +
                 '                       </td>\n' +
                 '                       <td>\n' +
                 '                        <input type="text" id="edtHolidayStartHourTop_3" name="edtHolidayStartHourTop_3" className="timeInput" data-bind="value:start" style="width: 20%;">\n' +
@@ -330,7 +345,7 @@ var subHolidayReqPop = {
             $("#holidayPlanReqPopTbVal").html(html);
             subHolidayReqPop.dataSet();
 
-            $("#edtHolidayWorkDate_3").kendoDatePicker({
+            $("#edtHolidayAlternativeDate_3").kendoDatePicker({
                 culture : "ko-KR",
                 format : "yyyy-MM-dd",
                 interval : 1,
@@ -346,7 +361,7 @@ var subHolidayReqPop = {
                 }
             });
 
-            $("#edtHolidayStartDateTop_3").kendoDatePicker({
+            $("#edtHolidayWorkDay_3").kendoDatePicker({
                 culture : "ko-KR",
                 format : "yyyy-MM-dd",
                 interval : 1,
@@ -419,7 +434,7 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th>휴일 근로 일자</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <input id="edtHolidayWorkDate_3" style="width:20%; margin-right:5px;">\n' +
+                '                  <input id="edtHolidayWorkDay_3" style="width:20%; margin-right:5px;">\n' +
                 '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
@@ -494,7 +509,7 @@ var subHolidayReqPop = {
             $("#holidayPlanReqPopTbVal").html(html2);
             subHolidayReqPop.dataSet();
 
-            $("#edtHolidayWorkDate_3").kendoDatePicker({
+            $("#edtHolidayWorkDay_3").kendoDatePicker({
                 culture : "ko-KR",
                 format : "yyyy-MM-dd",
                 interval : 1,
@@ -502,9 +517,9 @@ var subHolidayReqPop = {
                 //min : new Date(holiAnnLv.global.year, holiAnnLv.global.month, holiAnnLv.global.date),
                 change : function(){
                     var startDate = new Date(this.value());
-                    var endDate = new Date($("#edtHolidayAlternativeDate_3").val());
+                    var endDate = new Date($("#edtHolidayWorkDay_3 ").val());
                     if(startDate > endDate){
-                        $("#edtHolidayAlternativeDate_3").data("kendoDatePicker").value($("#edtHolidayAlternativeDate_3").val());
+                        $("#edtHolidayWorkDay_3 ").data("kendoDatePicker").value($("#edtHolidayWorkDay_3 ").val());
                     }
                     /*subHolidayReqPop.fn_getEmpWorkPlan($("#edtHolidayKindTop").val());*/
                 }

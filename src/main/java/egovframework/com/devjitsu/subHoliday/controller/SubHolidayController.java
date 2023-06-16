@@ -122,5 +122,12 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/getUserVacList.do")
+    public String getUserVacList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        model.addAttribute("result", subHolidayService.getUserVacList(params));
+
+        return "jsonView";
+    }
+
 
 }

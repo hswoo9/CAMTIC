@@ -30,4 +30,6 @@ public class SubHolidayRepository extends AbstractDAO  {
         return (int) selectOne("subHoliday.getVacUseHistoryListTotal", params);
     }
 
+    public List<Map<String, Object>> getUserVacList(Map<String, Object> params) { return selectList("subHoliday.getUserVacList", params);}
+
 }
