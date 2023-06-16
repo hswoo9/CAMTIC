@@ -9,5 +9,5 @@ public interface AssetService {
 
     List<Map<String, Object>> getTest(Map<String, Object> params);
 
-    /*List<Map<String, Object>> getEqipmnList(Map<String, Object> params);*/
+    List<Map<String, Object>> getEqipmnList(Map<String, Object> params);
 }

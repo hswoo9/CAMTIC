@@ -67,7 +67,7 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>구분</span>
-                                    <input type="text" id="division" style="width: 140px;">
+                                    <input type="text" id="mainEqipmnGbnName" style="width: 140px;">
                                 </div>
                                 <div class="mr20">
                                     <span>장비명</span>

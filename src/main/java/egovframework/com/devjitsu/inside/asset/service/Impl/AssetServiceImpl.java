@@ -24,9 +24,9 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getTest(params);
     }
 
-    /*@Override
+    @Override
     public List<Map<String,Object>> getEqipmnList(Map<String, Object> params) {
         return assetRepository.getEqipmnList(params);
-    }*/
+    }
 
 }

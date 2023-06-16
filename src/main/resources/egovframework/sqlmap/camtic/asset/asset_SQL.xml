@@ -8,12 +8,12 @@
         INSERT INTO CAM_INSIDE.DJ_EQIPMN_MST
         (
 
-            eqipmn_name, eqipmn_gbn_name, regtr_name, reg_de, create_dt, actvt_yn
+            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, reg_de, create_dt, actvt_yn
         )
         VALUES
         (
 
-            #{eqipmnName}, #{eqipmnGbnName}, #{regtrName}, #{regDe}, NOW(), 'Y'
+            #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regDe}, NOW(), 'Y'
         )
     </insert>
 
@@ -22,17 +22,16 @@
 
     </select>
 
-    <!--<select id="getEqipmnList" parameterType="map" resultType="map">
+    <select id="getEqipmnList" parameterType="map" resultType="map">
         /*getEqipmnList*/
-        select
-            eqipmn_name as text,
-            eqipmn_mst_sn as value
-        from
-            cam_inside.dj_eqipmn_mst
-        where
-
-
-    </select>-->
+        SELECT
+            CM_CODE_NM AS TEXT,
+            CM_CODE AS VALUE
+        FROM
+            CAM_COMMON.DJ_COM_CODE
+        WHERE
+            CM_GROUP_CODE_ID = 1
+    </select>
 
 
 </mapper>

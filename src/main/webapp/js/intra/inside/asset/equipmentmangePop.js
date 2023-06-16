@@ -5,9 +5,14 @@
  */
 var now = new Date();
 var equipmentmangePop = {
+
+    global : {
+        eqipmnGbnName : []
+    },
+
     fn_defaultScript: function () {
 
-        $("#division").kendoDropDownList({
+        /*$("#division").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -17,7 +22,7 @@ var equipmentmangePop = {
                 {text: "메이커스페이스", value: "메이커스페이스"}
             ],
             index: 0
-        });
+        });*/
 
         $("#use_date").kendoDatePicker({
             depth: "month",
@@ -41,18 +46,6 @@ var equipmentmangePop = {
             index: 0
         });
 
-        $("#eqipmnGbnName").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택하세요", value: "" },
-                {text: "복합소재", value: "복합소재"},
-                {text: "드론산업", value: "드론산업"},
-                {text: "메이커스페이스", value: "메이커스페이스"}
-            ],
-            index: 0
-        });
-
         $("#eqipmnName").kendoTextBox();
         $("#regtrName").kendoTextBox();
 
@@ -64,6 +57,29 @@ var equipmentmangePop = {
             value : new Date(now.setMonth(now.getMonth()))
         });
 
+        $.ajax({
+            url : "/asset/getEqipmnList",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function (result){
+                var ds = result.list;
+                ds.unshift({TEXT: '전체', VALUE: ''});
+
+                $("#eqipmnGbnName").kendoDropDownList({
+                    dataTextField: "TEXT",
+                    dataValueField: "VALUE",
+                    dataSource: ds,
+                    index: 0
+                }),
+                $("#mainEqipmnGbnName").kendoDropDownList({
+                    dataTextField: "TEXT",
+                    dataValueField: "VALUE",
+                    dataSource: ds,
+                    index: 0
+                })
+            }
+        })
     },
 
     mainGrid : function() {
@@ -149,7 +165,8 @@ var equipmentmangePop = {
         if(confirm("저장하시겠습니까?")){
             var data = {
                 eqipmnName : $("#eqipmnName").val(), //장비명
-                eqipmnGbnName : $("#eqipmnGbnName").val(), //구분명
+                eqipmnGbnName : $("#eqipmnGbnName").data("kendoDropDownList").text(), //구분명
+                eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
                 regtrName : $("#regtrName").val(), //등록자명
                 regDe : $("#regDe").val(), //등록일자
             }

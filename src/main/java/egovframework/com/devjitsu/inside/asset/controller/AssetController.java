@@ -282,12 +282,12 @@ public class AssetController {
         return "jsonView";
     }
 
-    /*@RequestMapping("/asset/getEqipmnList")
+    @RequestMapping("/asset/getEqipmnList")
     @ResponseBody
     public Map<String, Object> getEqipmnList(@RequestParam Map<String, Object> params){
         Map<String, Object> result = new HashMap<>();
         result.put("list", assetService.getEqipmnList(params));
         return result;
-    }*/
+    }
 
 }

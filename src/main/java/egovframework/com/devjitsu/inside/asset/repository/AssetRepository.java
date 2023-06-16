@@ -17,7 +17,7 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.setEquipmentInsert", params);
     }
 
-    /*public List<Map<String, Object>> getEqipmnList(Map<String, Object> params) {
+    public List<Map<String, Object>> getEqipmnList(Map<String, Object> params) {
         return selectList("asset.getEqipmnList", params);
-    }*/
+    }
 }
