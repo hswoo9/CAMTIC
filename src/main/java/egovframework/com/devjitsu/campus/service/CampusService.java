@@ -102,6 +102,13 @@ public interface CampusService {
      */
     List<Map<String, Object>> getEduPlanOne(Map<String, Object> params);
 
+    /**
+     * 학습통계 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getEduStat(Map<String, Object> params);
+
 
 
 
@@ -118,6 +125,13 @@ public interface CampusService {
      * @return
      */
     void setEduResultInsert(Map<String, Object> params);
+
+    /**
+     * 학습관리 학습조관리 저장
+     * @param params
+     * @return
+     */
+    void setStudyInfoInsert(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

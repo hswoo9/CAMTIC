@@ -88,6 +88,11 @@ public class CampusServiceImpl implements CampusService {
         return campusRepository.getEduPlanOne(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getEduStat(Map<String, Object> params){
+        return campusRepository.getEduStat(params);
+    }
+
 
 
 
@@ -100,6 +105,11 @@ public class CampusServiceImpl implements CampusService {
     public void setEduResultInsert(Map<String, Object> params) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
+    }
+
+    @Override
+    public void setStudyInfoInsert(Map<String, Object> params) {
+        campusRepository.setStudyInfoInsert(params);
     }
 
     @Override

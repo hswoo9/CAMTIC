@@ -149,6 +149,16 @@ public class CampusController {
         return "campus/eduManagement";
     }
 
+    //개인학습관리 - 학습결과보고서조회팝업
+    @RequestMapping("/Campus/pop/studyReqPop.do")
+    public String studyReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/campus/studyReqPop";
+    }
+
     //학습통계
     @RequestMapping("/Campus/eduStat.do")
     public String eduStat(HttpServletRequest request, Model model) {
@@ -410,6 +420,16 @@ public class CampusController {
         return result;
     }
 
+    //학습통계 리스트
+    @RequestMapping("/campus/getEduStat")
+    @ResponseBody
+    public Map<String, Object> getEduStat(@RequestParam Map<String, Object> params) {
+        List<Map<String, Object>> list = campusService.getEduStat(params);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        return result;
+    }
+
 
 
 
@@ -426,6 +446,13 @@ public class CampusController {
         campusService.setEduResultInsert(params);
         params.put("status", "30");
         campusService.updateEduInfoApprStat(params);
+        return "jsonView";
+    }
+
+    //학습관리 - 학습조신청 - 저장
+    @RequestMapping("/campus/setStudyInfoInsert")
+    public String setStudyInfoInsert(@RequestParam Map<String, Object> params) {
+        campusService.setStudyInfoInsert(params);
         return "jsonView";
     }
 
