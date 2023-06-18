@@ -26,8 +26,22 @@
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
+            <div style="margin-bottom:10px;">
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            <div style="display:flex;">
+                                <div>
+                                    <span>조회년도</span>
+                                    <input type="text" id="eduYear" style="width: 140px;">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div id="mainGrid" style="margin:20px 0;"></div>
+            </div>
         </div>
-
     </div>
 </div><!-- col-md-9 -->
 

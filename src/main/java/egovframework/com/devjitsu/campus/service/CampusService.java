@@ -12,6 +12,13 @@ public interface CampusService {
     List<Map<String, Object>> getCodeList(Map<String, Object> params);
 
     /**
+     * 개인학습관리 개인학습 리스트 조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getEduInfoList(Map<String, Object> params);
+
+    /**
      * 목표기술서 등록된 연도 조회
      * @param params
      * @return
@@ -83,6 +90,13 @@ public interface CampusService {
 
 
 
+
+    /**
+     * 학습신청 교육수강신청서 저장
+     * @param params
+     * @return
+     */
+    void setEduInfoInsert(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

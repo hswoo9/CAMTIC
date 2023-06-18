@@ -58,7 +58,7 @@
 
                 <div class="non" style="text-align: center; margin: auto; margin-top: 10px">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
 
-                <div class="mt20" ">
+                <div class="mt20">
                     <b>color : <font color="#9a4167">현황</font>, <font color="#418bd7">목표</font></b>
                     <div class="table-responsive">
                         <table class="table table-bordered">

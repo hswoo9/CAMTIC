@@ -12,6 +12,32 @@
             ACTIVE = 'Y'
     </select>
 
+    <select id="getEduInfoList" resultType="map" parameterType="map">
+        /* getEduInfoList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    EI.EDU_NAME,
+                    EI.START_DT,
+                    EI.END_DT,
+                    EI.CARE_LOCATION,
+                    CONCAT('Level. ', EI.LEVEL_ID) AS LEVEL_ID,
+                    EI.EDU_FORM_TYPE,
+                    EI.STATUS
+                FROM
+                    CAMPUS.DJ_EDU_INFO EI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    EI.REG_EMP_SEQ = #{empSeq}
+                AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear} || DATE_FORMAT(END_DT, '%Y') = #{eduYear})
+                ORDER BY EI.REG_DATE DESC
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <select id="getTargetYearList" resultType="map" parameterType="map">
         /* getTargetYearList */
         SELECT
@@ -191,6 +217,86 @@
         AND DUTY_CLASS = #{dutyClass}
         AND REG_EMP_SEQ = #{empSeq}
     </select>
+
+    <insert id="setEduInfoInsert" parameterType="map">
+        /* setEduInfoInsert */
+        INSERT INTO CAMPUS.DJ_EDU_INFO
+            (
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                DEPT_NAME,
+                EDU_CATEGORY_DETAIL_ID,
+                EDU_CATEGORY_DETAIL_NAME,
+                LEVEL_ID,
+                EDU_NAME,
+                EDU_OBJECT,
+                EDU_CONTENT,
+                START_DT,
+                END_DT,
+                TERM_DAY,
+                TERM_TIME,
+                CARE_NAME,
+                CARE_LOCATION,
+                CARE_TEL_NUM,
+                EDU_MONEY,
+                EDU_MONEY_TYPE,
+                TRAVEL_MONEY_TYPE,
+                RETURN_MONEY,
+                RETURN_DOC,
+                ATTACH_DOC_NAME,
+                REG_DT,
+                <if test='eduFormType == "3"'>
+                    OBJECT_FORUM_TYPE,
+                    <if test='objectForumType == "1"'>
+                        OBJECT_FORUM_VAL,
+                    </if>
+                </if>
+                <if test='eduFormType == "5"'>
+                    BOOK_WRITER_NAME,
+                    BOOK_PAGE_VAL,
+                    BOOK_PULISH_NAME,
+                </if>
+                EDU_FORM_TYPE
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptName},
+                #{eduCategoryDetailId},
+                #{eduCategoryDetailName},
+                #{levelId},
+                #{eduName},
+                #{eduObject},
+                #{eduContent},
+                #{startDt},
+                #{endDt},
+                #{termDay},
+                #{termTime},
+                #{careName},
+                #{careLocation},
+                #{careTelNum},
+                #{eduMoney},
+                #{eduMoneyType},
+                #{travelMoneyType},
+                #{returnMoney},
+                #{returnDoc},
+                #{attachDocName},
+                #{regDate},
+                <if test='eduFormType == "3"'>
+                    #{objectForumType},
+                    <if test='objectForumType == "1"'>
+                        #{objectForumVal},
+                    </if>
+                </if>
+                <if test='eduFormType == "5"'>
+                    #{bookWriter},
+                    #{bookPage},
+                    #{bookPulish},
+                </if>
+                #{eduFormType}
+            )
+    </insert>
 
     <insert id="setTargetInsert" parameterType="map">
         /* setTargetInsert */

@@ -26,8 +26,25 @@
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
+            <div style="margin-bottom:10px;">
+                <table class="table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf; margin-bottom: 0">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white">
+                            아래의 목록중 <b>학습종류를 선택하시기 바랍니다.</b>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf; width: 250px;">
+                    <tr>
+                        <td style="border-bottom:0; background-color: white; padding: 0">
+                            <span id="eduFormType" style="flex-direction: column; padding: 15px"></span>
+                        </td>
+                    </tr>
+                </table>
+                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="학습신청" onclick="eduReq.eduReqPop();"/>
+            </div>
         </div>
-
     </div>
 </div><!-- col-md-9 -->
 
