@@ -50,8 +50,6 @@
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentmangePop.js?v=${today}"/></script>
 
 <!DOCTYPE html>
-<html>
-<body>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
@@ -110,8 +108,12 @@
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록자</th>
                             <td colspan="3">
-                                <input type="text" id="regtrName" style="width: 65%;">
-                                <button type="button" id="search1" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
+                                <input type="text" id="regtrName" style="width: 65%;" disabled="disabled">
+                                <!-- emp_seq -->
+                                <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+                                <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
+                                <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+                                <button type="button" id="search1" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="regSearch();">
                                 검색
                                 </button>
                             </td>
@@ -119,7 +121,7 @@
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록 일자</th>
                             <td colspan="3">
-                                <input id="regDe" type="date" style="width: 50%;">
+                                <input type="date" id="regDe" style="width: 50%;">
                             </td>
                         </tr>
                         </thead>
@@ -134,6 +136,11 @@
 <script>
     equipmentmangePop.fn_defaultScript();
     equipmentmangePop.mainGrid();
+    equipmentmangePop.dataClear();
+
+    function regSearch() {
+        window.open("/common/deptListPop.do","조직도","width=750,height=650");
+    }
 </script>
 </body>
 </html>

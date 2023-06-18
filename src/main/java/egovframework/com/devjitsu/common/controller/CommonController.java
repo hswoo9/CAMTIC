@@ -2,16 +2,20 @@ package egovframework.com.devjitsu.common.controller;
 
 import egovframework.com.devjitsu.approval.service.ApprovalService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.main.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +50,17 @@ public class CommonController {
         }
 
         return resultMap;
+    }
+
+    @RequestMapping("/common/deptListPop.do")
+    public String deptListLine(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/common/deptListPop";
     }
 
 }

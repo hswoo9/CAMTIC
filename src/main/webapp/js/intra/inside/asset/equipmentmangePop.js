@@ -12,25 +12,8 @@ var equipmentmangePop = {
 
     fn_defaultScript: function () {
 
-        /*$("#division").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택하세요", value: "" },
-                {text: "복합소재", value: "복합소재"},
-                {text: "드론산업", value: "드론산업"},
-                {text: "메이커스페이스", value: "메이커스페이스"}
-            ],
-            index: 0
-        });*/
-
-        $("#use_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()))
-        });
+        customKendo.fn_datePicker("regDe", '', "yyyy-MM-dd", new Date());
+        $("#regDe").attr("readonly", true);
 
         $("#name").kendoTextBox();
 
@@ -49,13 +32,13 @@ var equipmentmangePop = {
         $("#eqipmnName").kendoTextBox();
         $("#regtrName").kendoTextBox();
 
-        $("#regDe").kendoDatePicker({
+        /*$("#regDe").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()))
-        });
+            /!*value : new Date(now.setMonth(now.getMonth()))*!/
+        });*/
 
         $.ajax({
             url : "/asset/getEqipmnList",
@@ -80,6 +63,13 @@ var equipmentmangePop = {
                 })
             }
         })
+    },
+
+    dataClear : function() {
+        $("#eqipmnGbnName").data("kendoDropDownList").value("");
+        $("#eqipmnName").val("");
+        $("#regtrName").val("");
+        $("#regDe").val("");
     },
 
     mainGrid : function() {
@@ -123,13 +113,13 @@ var equipmentmangePop = {
                     text: '삭제'
                 }, {
                     name: 'button',
-                    text: '신규'
-                    /*template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.dataClear()">'
+                    /*text: '신규'*/
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.dataClear()">' +
+                            '	<span class="k-icon k-i-plus k-button-icon"></span>' +
                             '   <span class="k-button-text">신규</span>' +
-                                '</button>';
-
-                    }*/
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -171,11 +161,11 @@ var equipmentmangePop = {
                 regDe : $("#regDe").val(), //등록일자
             }
 
-            if(data.eqipmnName == null || data.eqipmnName == ''){
-                alert("장비명을 입력하세요.")
-                return false;
-            }else if(data.eqipmnGbnName == null || data.eqipmnGbnName == ''){
+            if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
                 alert("구분을 선택하세요.")
+                return false;
+            }else if(data.eqipmnName == null || data.eqipmnName == ''){
+                alert("장비명을 입력하세요.")
                 return false;
             }else if(data.regtrName == null || data.regtrName == ''){
                 alert("등록자를 입력하세요.")
