@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/lib/ionicons/css/ionicons.css">
   <link rel="stylesheet" href="/lib/jquery-toggles/toggles-full.css">
   <link rel="stylesheet" href="/lib/morrisjs/morris.css">
-  <link rel="stylesheet" href="../lib/timepicker/jquery.timepicker.css">
+  <link rel="stylesheet" href="/lib/timepicker/jquery.timepicker.css">
   <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
   <link rel="stylesheet" href="/css/style.css">

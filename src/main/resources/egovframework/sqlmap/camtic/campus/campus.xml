@@ -20,6 +20,7 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    EI.EDU_INFO_ID,
                     EI.EDU_NAME,
                     EI.START_DT,
                     EI.END_DT,
@@ -33,9 +34,35 @@
                 WHERE
                     EI.REG_EMP_SEQ = #{empSeq}
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear} || DATE_FORMAT(END_DT, '%Y') = #{eduYear})
-                ORDER BY EI.REG_DATE DESC
+                ORDER BY EI.REG_DATE
             ) RE
         ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getEduInfoOne" resultType="map" parameterType="map">
+        /* getEduInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_EDU_INFO EI
+        WHERE
+            EI.EDU_INFO_ID = #{eduInfoId}
+    </select>
+
+    <select id="getEduResultOne" resultType="map" parameterType="map">
+        /* getEduResultOne */
+        SELECT
+            EI.*,
+            ER.EDU_TEACHER_NAME,
+            ER.EDU_EVAL,
+            ER.EDU_POINT,
+            ER.FBLIST
+        FROM
+            CAMPUS.DJ_EDU_INFO EI
+                LEFT JOIN
+            CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID
+        WHERE
+            EI.EDU_INFO_ID = #{eduInfoId}
     </select>
 
     <select id="getTargetYearList" resultType="map" parameterType="map">
@@ -298,6 +325,40 @@
             )
     </insert>
 
+    <update id="setEduInfoUpdate" parameterType="map">
+        /* setEduInfoUpdate */
+        UPDATE
+            CAMPUS.DJ_EDU_INFO
+        SET
+            TERM_DAY = #{termDay},
+            TERM_TIME = #{termTime},
+            EDU_CONTENT = #{eduContent}
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
+    </update>
+
+    <insert id="setEduResultInsert" parameterType="map">
+        /* setEduResultInsert */
+        INSERT INTO CAMPUS.DJ_EDU_RESULT
+            (
+                EDU_INFO_ID,
+                EDU_TEACHER_NAME,
+                EDU_EVAL,
+                EDU_POINT,
+                FBLIST,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{eduInfoId},
+                #{eduTeacherName},
+                #{eduEval},
+                #{eduPoint},
+                #{FBList},
+                #{empSeq}
+            )
+    </insert>
+
     <insert id="setTargetInsert" parameterType="map">
         /* setTargetInsert */
         INSERT INTO CAMPUS.DJ_EDU_TARGET
@@ -394,6 +455,16 @@
             EDU_PLAN = #{eduPlan}
         WHERE
             EDU_PLAN_ID = #{eduPlanId}
+    </update>
+
+    <update id="updateEduInfoApprStat" parameterType="map">
+        /* updateEduInfoApprStat */
+        UPDATE
+            CAMPUS.DJ_EDU_INFO
+        SET
+            STATUS = ${status}
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
     </update>
 
     <update id="updateApprStat" parameterType="map">

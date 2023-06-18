@@ -29,6 +29,16 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public Map<String, Object> getEduInfoOne(Map<String, Object> params){
+        return campusRepository.getEduInfoOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getEduResultOne(Map<String, Object> params){
+        return campusRepository.getEduResultOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getTargetYearList(Map<String, Object> params){
         return campusRepository.getTargetYearList(params);
     }
@@ -84,6 +94,12 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setEduInfoInsert(Map<String, Object> params) {
         campusRepository.setEduInfoInsert(params);
+    }
+
+    @Override
+    public void setEduResultInsert(Map<String, Object> params) {
+        campusRepository.setEduInfoUpdate(params);
+        campusRepository.setEduResultInsert(params);
     }
 
     @Override
@@ -162,6 +178,21 @@ public class CampusServiceImpl implements CampusService {
 
         try {
             campusRepository.setEduPlanUpdate(params);
+            result.put("code", "200");
+            result.put("message", "데이터 저장이 완료되었습니다.");
+        } catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "데이터 저장 중 에러가 발생했습니다.");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> updateEduInfoApprStat(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            campusRepository.updateEduInfoApprStat(params);
             result.put("code", "200");
             result.put("message", "데이터 저장이 완료되었습니다.");
         } catch (Exception e) {

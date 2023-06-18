@@ -1,15 +1,57 @@
 var now = new Date();
 
-var eduReqPop = {
+var eduInfoViewPop = {
     global : {
+        eduInfoId : "",
+        eduFormType : ""
     },
 
     init : function(){
-        eduReqPop.dataSet();
+        eduInfoViewPop.dataSet();
     },
 
     dataSet : function() {
-        const eduFormType = $("#eduFormType").val();
+        eduInfoViewPop.global.eduInfoId = $("#eduInfoId").val();
+        let eduInfoId = eduInfoViewPop.global.eduInfoId;
+
+        $.ajax({
+            url : "/campus/getEduResultOne",
+            data : {
+                eduInfoId : eduInfoId
+            },
+            type : "post",
+            dataType : "json",
+            async: false,
+            success : function(result){
+                console.log(result.data);
+                const data = result.data;
+
+                eduInfoViewPop.global.eduFormType = data.EDU_FORM_TYPE;
+                $("#eduCategoryDetailNameTd").text(data.EDU_CATEGORY_DETAIL_NAME);
+                $("#levelIdTd").text(data.LEVEL_ID+" 레벨");
+                $("#eduNameTd").text(data.EDU_NAME);
+                $("#eduObjectTd").text(data.EDU_OBJECT.replace(/\n+/g, "<br>"));
+                $("#eduContentTd").text(data.EDU_CONTENT.replace(/\n+/g, "<br>"));
+                $("#dtTd").text(data.START_DT+"~"+data.END_DT+" (총 "+data.TERM_DAY+"일 "+data.TERM_TIME+"시간)");
+                $("#careTd").html("기관명 : "+data.CARE_NAME+"<br>소재지 : "+data.CARE_LOCATION+" (전화 : "+data.CARE_TEL_NUM+")");
+                $("#eduMoneyTd").text(data.EDU_MONEY+" 원");
+                $("#eduMoneyTypeTd").text(data.EDU_MONEY_TYPE);
+                $("#travelMoneyTypeTd").text(data.TRAVEL_MONEY_TYPE);
+                $("#returnMoneyTd").text(data.RETURN_MONEY+" 원");
+                $("#returnDocTd").text(data.RETURN_DOC);
+                $("#attachDocNameTd").text(data.RETURN_DOC);
+                $("#regDateTd").text(data.REG_DT);
+
+            },
+            error: function(e) {
+                console.log(e);
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+                window.close();
+            }
+        });
+
+        const eduFormType = eduInfoViewPop.global.eduFormType;
+
         if(eduFormType == "2") {
             $("#careNameVar").text("사이트명");
             $("#careLocationVar").text("URL");
@@ -237,9 +279,9 @@ var eduReqPop = {
         }
 
         if($("#eduInfoId").val() == "") {
-            eduReqPop.setEduInfoInsert(data);
+            eduInfoViewPop.setEduInfoInsert(data);
         }else {
-            eduReqPop.setEduInfoUpdate(data);
+            eduInfoViewPop.setEduInfoUpdate(data);
         }
     },
 
@@ -290,6 +332,43 @@ var eduReqPop = {
     targetEduSetPop: function() {
         var url = "/Campus/pop/targetEduSetPop.do?targetYear="+$("#regDate").val().substring(0,4);
         var name = "targetEduSetPop";
+        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    updateApprStat: function(status) {
+        $.ajax({
+            url: "/campus/updateEduInfoApprStat",
+            data: {
+                eduInfoId : eduInfoViewPop.global.eduInfoId,
+                status : status
+            },
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (Result) {
+                if(status == "10") {
+                    alert("승인요청이 완료되었습니다.");
+                    opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                }else {
+                    alert("승인이 완료되었습니다.");
+                    opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                }
+                targetInfo.global.targetCategoryMainList = Result.list;
+            }
+        });
+    },
+
+    eduResultReqPop: function() {
+        var url = "/Campus/pop/eduResultReqPop.do?eduInfoId="+eduInfoViewPop.global.eduInfoId;
+        var name = "_self";
+        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    eduResultViewPop: function() {
+        var url = "/Campus/pop/eduResultViewPop.do?eduInfoId="+eduInfoViewPop.global.eduInfoId;
+        var name = "_self";
         var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     }

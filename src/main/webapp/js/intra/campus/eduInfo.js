@@ -67,6 +67,7 @@ var eduInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : eduInfo.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -80,7 +81,7 @@ var eduInfo = {
                     template : "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 200
                 }, {
-                    field: "EDU_NAME",
+                    field: "CARE_LOCATION",
                     title: "교육장소",
                     width: 200
                 }, {
@@ -124,10 +125,14 @@ var eduInfo = {
                         if(row.STATUS == "0") {
                             return "계획";
                         }else if(row.STATUS == "10") {
-                            return "신청완료";
+                            return "학습신청 승인요청중";
                         }else if(row.STATUS == "20") {
-                            return "교육완료";
+                            return "신청완료";
                         }else if(row.STATUS == "30") {
+                            return "교육완료";
+                        }else if(row.STATUS == "40") {
+                            return "결과보고서 승인요청중";
+                        }else if(row.STATUS == "50") {
                             return "이수완료";
                         }else {
                             return "교육취소"
@@ -138,10 +143,19 @@ var eduInfo = {
         }).data("kendoGrid")
     },
 
-    popup : function() {
-        var url = "/Campus/pop/popup.do";
+    onDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const eduInfoId = dataItem.EDU_INFO_ID;
+            eduInfo.eduInfoViewPop(eduInfoId);
+        });
+    },
+
+    eduInfoViewPop : function(eduInfoId) {
+        var url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
         var name = "popup";
-        var option = "width = 340, height = 390, top = 100, left = 200, location = no";
+        var option = "width = 1170, height = 900, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     }
 }

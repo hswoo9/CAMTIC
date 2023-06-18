@@ -19,6 +19,20 @@ public interface CampusService {
     List<Map<String, Object>> getEduInfoList(Map<String, Object> params);
 
     /**
+     * 개인학습관리 개인학습조회팝업 단일데이터 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getEduInfoOne(Map<String, Object> params);
+
+    /**
+     * 개인학습관리 결과보고서조회팝업 단일데이터 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getEduResultOne(Map<String, Object> params);
+
+    /**
      * 목표기술서 등록된 연도 조회
      * @param params
      * @return
@@ -99,6 +113,13 @@ public interface CampusService {
     void setEduInfoInsert(Map<String, Object> params);
 
     /**
+     * 학습관리 학습결과보고서 저장
+     * @param params
+     * @return
+     */
+    void setEduResultInsert(Map<String, Object> params);
+
+    /**
      * 연도등록팝업 연도 등록
      * @param params
      * @return
@@ -134,7 +155,14 @@ public interface CampusService {
     Map<String, Object> setEduPlanUpdate(Map<String, Object> params);
 
     /**
-     * 학습계획 수정
+     * 개인학습관리 - 승인프로세스(임시)
+     * @param params
+     * @return
+     */
+    Map<String, Object> updateEduInfoApprStat(Map<String, Object> params);
+
+    /**
+     * 목표기술서작성 - 승인프로세스(임시)
      * @param params
      * @return
      */
