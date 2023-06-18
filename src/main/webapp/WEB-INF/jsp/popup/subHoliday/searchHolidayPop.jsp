@@ -41,6 +41,15 @@
   }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
+
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+<input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+<input type="hidden" id="apprStat" value="N">
+<input type="hidden" id="vacUseHistId" value="">
+
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header" style="padding-top:45px;">
       <div class="col-lg-11" style="margin:0 auto;">
@@ -65,8 +74,8 @@
         </div>
         <div id="mainGrid" style="margin:20px 0;"></div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick=""/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info k-rounded" value="확인" onclick="searchHolidayReqPop.fn_selectChkUse()"/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="searchHolidayReqPop.fn_topTableClose()"/>
         </div>
       </div>
     </div>

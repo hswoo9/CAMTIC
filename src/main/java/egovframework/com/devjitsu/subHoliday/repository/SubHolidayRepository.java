@@ -16,6 +16,10 @@ public class SubHolidayRepository extends AbstractDAO  {
         update("subHoliday.updateVacUseHist", params);
     }
 
+    public void updateVacUseHistWork(Map<String, Object> params){
+        update("subHoliday.updateVacUseHistWork", params);
+    }
+
     public void setOverWorkVacUse(Map<String, Object> params){
         update("subHoliday.setOverWorkVacUse", params);
     }
@@ -25,6 +29,8 @@ public class SubHolidayRepository extends AbstractDAO  {
     }
 
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryList", params);}
+
+    public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryWorkList", params);}
 
     public int getVacUseHistoryListTotal(Map<String, Object> params) {
         return (int) selectOne("subHoliday.getVacUseHistoryListTotal", params);

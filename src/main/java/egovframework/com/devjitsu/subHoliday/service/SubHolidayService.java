@@ -24,6 +24,8 @@ public interface SubHolidayService {
      */
     List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params);
 
+    List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params);
+
     int getVacUseHistoryListTotal(Map<String, Object> params);
 
     /**

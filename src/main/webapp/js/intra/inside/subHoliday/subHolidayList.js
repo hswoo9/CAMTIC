@@ -98,24 +98,6 @@ var subHolidayList = {
             height: 522,
             sortable: true,
             scrollable: true,
-            toolbar : [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayList.fn_selectChkDel()">' +
-                            '	<span class="k-button-text">선택삭제</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
-                }
-            ],
-            excel : {
-                fileName : "휴가신청 저장 목록.xlsx",
-                filterable : true,
-                allPages: true
-            },
             noRecords: {
                 template: "<div style='margin: auto;'>데이터가 존재하지 않습니다.</div>"
             },
@@ -140,7 +122,6 @@ var subHolidayList = {
                         } else {
                             return "";
                         }
-
                     },
                     width: 40
                 }, {
@@ -154,10 +135,26 @@ var subHolidayList = {
                             field: "SUBHOLIDAY_ST_DT",
                             title: "부터",
                             width: 190,
+                            template: function(dataItem) {
+                                if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
+                                    return dataItem.SUBHOLIDAY_WORK_DAY;
+                                }
+                                else {
+                                    return dataItem.SUBHOLIDAY_ST_DT;
+                                }
+                            }
                         }, {
                             field: "SUBHOLIDAY_EN_DT",
                             title: "까지",
                             width: 190,
+                            template: function(dataItem) {
+                                if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
+                                    return dataItem.SUBHOLIDAY_WORK_DAY;
+                                }
+                                else {
+                                    return dataItem.SUBHOLIDAY_EN_DT;
+                                }
+                            }
                         }, {
                             field: "SUBHOLIDAY_USE_DAY",
                             title: "일수(시간)",
@@ -222,8 +219,6 @@ var subHolidayList = {
                                     "<span class='k-button-text'>취소</span>" +
                                     "</button>";
                             }
-
-
                         } else {
                             return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayList.fn_vacSave()\">" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +

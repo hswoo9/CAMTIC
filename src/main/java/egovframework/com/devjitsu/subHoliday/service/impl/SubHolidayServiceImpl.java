@@ -27,20 +27,16 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     @Override
     @Transactional
     public void setVacUseHist(Map<String, Object> params) {
-
         if(params.containsKey("vacUseHistId")){
             subHolidayRepository.updateVacUseHist(params);
         }else{
-            subHolidayRepository.setVacUseHist(params);
+            if(params.containsKey("checkUseYn")){
+                subHolidayRepository.setVacUseHist(params);
+                subHolidayRepository.updateVacUseHistWork(params);
+            }else {
+                subHolidayRepository.setVacUseHist(params);
+            }
         }
-
-        /*if(params.containsKey("overWorkArr")) {
-            Gson gson = new Gson();
-            List<String> overWorkList = gson.fromJson((String) params.get("overWorkArr").toString(), new TypeToken<List<String>>() {}.getType());
-            params.put("overWorkList", overWorkList);
-            params.put("vacUseHistUse", "T");
-            subHolidayRepository.setOverWorkVacUse(params);
-        }*/
     }
 
     @Override
@@ -51,6 +47,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     @Override
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params) {
         return subHolidayRepository.getVacUseHistoryList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params) {
+        return subHolidayRepository.getVacUseHistoryWorkList(params);
     }
 
     @Override

@@ -170,7 +170,7 @@
         <div class="btn-st" style="margin-top:10px; text-align:center;">
           <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()"/>
           <%--<input type="button" class="k-button k-button-solid-info k-rounded" value="결재" onclick=""/>--%>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="subHolidayReqPop.fn_topTableClear()"/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="subHolidayReqPop.fn_topTableClose()"/>
         </div>
       </div>
     </div>

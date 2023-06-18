@@ -37,7 +37,12 @@ var subHolidayReqPop = {
         $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({
             enable: false
         });
+
+
+
     },
+
+
 
     fn_vacEdtHolidaySaveModal: function(){
         var flag = true;
@@ -112,6 +117,7 @@ var subHolidayReqPop = {
                     data.vacUseEndt = $("#edtHolidayEndDateTop_2").val();
                     data.vacUseEnTime = $("#edtHolidayEndHourTop_2").val();
                     data.vacWorkDt = $("#edtHolidayWorkDay_3").val();
+                    data.checkUseYn = 'Y';
                 }else{
                     data.vacUseStDt = $("#edtHolidayStartDateTop_1").val();
                     data.vacUseStTime = $("#edtHolidayStartHourTop_1").val();
@@ -248,6 +254,11 @@ var subHolidayReqPop = {
         });
         $("#edtHolidayEndDateTop").val($("#edtHolidayEndDateTop").val());
 
+    },
+
+    fn_topTableClose : function(){
+        var topWindow = window.top;
+        topWindow.close();
     },
 
     fn_topTableClear : function(){
@@ -435,6 +446,7 @@ var subHolidayReqPop = {
                 '                <th>휴일 근로 일자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input id="edtHolidayWorkDay_3" style="width:20%; margin-right:5px;">\n' +
+                '                  <input type="hidden" id="hisPk" name="hisPk" value="${data.SUBHOLIDAY_USE_ID}">\n' +
                 '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
@@ -509,20 +521,17 @@ var subHolidayReqPop = {
             $("#holidayPlanReqPopTbVal").html(html2);
             subHolidayReqPop.dataSet();
 
-            $("#edtHolidayWorkDay_3").kendoDatePicker({
-                culture : "ko-KR",
-                format : "yyyy-MM-dd",
-                interval : 1,
-                value : new Date(),
-                //min : new Date(holiAnnLv.global.year, holiAnnLv.global.month, holiAnnLv.global.date),
-                change : function(){
-                    var startDate = new Date(this.value());
-                    var endDate = new Date($("#edtHolidayWorkDay_3 ").val());
-                    if(startDate > endDate){
-                        $("#edtHolidayWorkDay_3 ").data("kendoDatePicker").value($("#edtHolidayWorkDay_3 ").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlan($("#edtHolidayKindTop").val());*/
-                }
+            var data = "-"; // 적절한 값으로 초기화합니다.
+            function sendMeData(data) {
+                console.log(data);
+                document.getElementById("edtHolidayWorkDay_3").innerHTML = data;
+                return data; // 값을 반환합니다.
+            }
+
+            var result = sendMeData(data);
+            $("#edtHolidayWorkDay_3").kendoTextBox({
+                value: result,
+                enable: false
             });
 
             $("#edtHolidayStartDateTop_2").kendoDatePicker({
@@ -733,6 +742,12 @@ var subHolidayReqPop = {
         var name = "searchHolidayPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    sendMeData : function(request) {
+        console.log(request);
+        $("#edtHolidayWorkDay_3").val(request.SUBHOLIDAY_WORK_DAY);
     }
+
 }
 

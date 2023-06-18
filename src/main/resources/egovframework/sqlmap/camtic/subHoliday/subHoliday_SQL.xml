@@ -72,11 +72,21 @@
             , APPROVAL_REASON = #{approvalReason}
         </if>
         WHERE
-        VAC_USE_HIST_ID = #{vacUseHistId}
+        SUBHOLIDAY_USE_ID = #{vacUseHistId}
+    </update>
+
+    <update id="updateVacUseHistWork" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            SUBHOLIDAY_WORK_DAY_YN = 'Y'
+        WHERE
+            SUBHOLIDAY_WORK_DAY = #{vacWorkDt}
+        AND
+            SUBHOLIDAY_CODE_ID = '11'
     </update>
 
     <update id="setOverWorkVacUse" parameterType="map">
-        UPDATE DJ_EPIS.V_OVER_WORK_PLAN
+        UPDATE COM_INSIDE.DJ_OVER_WORK_PLAN
         SET
         VAC_USE_HIST_USE = #{vacUseHistUse},
         VAC_USE_HIST_USE_ID = #{vacUseHistId},
@@ -110,6 +120,19 @@
         <if test="notCode != null and notCode!= ''">
             AND SUBHOLIDAY_CODE_ID != '9'
         </if>
+    </select>
+
+    <select id="getVacUseHistoryWorkList" parameterType="map" resultType="map">
+        SELECT
+            VUH.*,
+            VCD.SUBHOLIDAY_DT_CODE_NM
+        FROM
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
+                JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
+            ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+            WHERE VUH.SUBHOLIDAY_CODE_ID = '11'
+            AND VUH.SUBHOLIDAY_WORK_DAY_YN = 'N'
     </select>
 
     <select id="getVacUseHistoryList" parameterType="map" resultType="map">

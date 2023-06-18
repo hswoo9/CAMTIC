@@ -122,6 +122,12 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/getVacUseHistoryWorkList")
+    public String getVacUseHistoryWorkList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", subHolidayService.getVacUseHistoryWorkList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/subHoliday/getUserVacList.do")
     public String getUserVacList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         model.addAttribute("result", subHolidayService.getUserVacList(params));
