@@ -12,6 +12,10 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getCodeList", params);
     }
 
+    public List<Map<String, Object>> getEduInfoList(Map<String, Object> params) {
+        return selectList("campus.getEduInfoList", params);
+    }
+
     public List<Map<String, Object>> getTargetYearList(Map<String, Object> params) {
         return selectList("campus.getTargetYearList", params);
     }
@@ -54,6 +58,10 @@ public class CampusRepository extends AbstractDAO  {
 
 
 
+
+    public void setEduInfoInsert(Map<String, Object> params) {
+        insert("campus.setEduInfoInsert", params);
+    }
 
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);

@@ -24,6 +24,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getEduInfoList(Map<String, Object> params){
+        return campusRepository.getEduInfoList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getTargetYearList(Map<String, Object> params){
         return campusRepository.getTargetYearList(params);
     }
@@ -75,6 +80,11 @@ public class CampusServiceImpl implements CampusService {
 
 
 
+
+    @Override
+    public void setEduInfoInsert(Map<String, Object> params) {
+        campusRepository.setEduInfoInsert(params);
+    }
 
     @Override
     public Map<String, Object> setTargetInsert(Map<String, Object> params) {

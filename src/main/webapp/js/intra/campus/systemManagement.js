@@ -185,7 +185,7 @@ var systemManagement = {
     systemAdminPop : function() {
         var url = "/Campus/pop/systemAdminPop.do";
         var name = "systemAdminPop";
-        var option = "width = 1200, height = 675, top = 100, left = 200, location = no"
+        var option = "width = 1200, height = 675, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     }
 }

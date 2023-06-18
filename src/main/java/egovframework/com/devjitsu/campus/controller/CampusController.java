@@ -34,6 +34,28 @@ public class CampusController {
         return "campus/eduReq";
     }
 
+    //개인학습신청 - 학습신청팝업
+    @RequestMapping("/Campus/pop/eduReqPop.do")
+    public String eduReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/campus/eduReqPop";
+    }
+
+    //개인학습신청 - 학습신청팝업 - 목표기술서선택팝업
+    @RequestMapping("/Campus/pop/targetEduSetPop.do")
+    public String targetEduSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/campus/targetEduSetPop";
+    }
+
     //개인학습관리
     @RequestMapping("/Campus/eduInfo.do")
     public String eduInfo(HttpServletRequest request, Model model) {
@@ -223,14 +245,20 @@ public class CampusController {
         return result;
     }
 
-    //목표기술서 등록된 연도 조회
+    //개인학습관리 - 개인학습리스트 조회
+    @RequestMapping("/campus/getEduInfoList")
+    public String getEduInfoList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getEduInfoList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //목표기술서 등록된연도 조회
     @RequestMapping("/campus/getTargetYearList")
-    @ResponseBody
-    public Map<String, Object> getTargetYearList(@RequestParam Map<String, Object> params) {
+    public String getTargetYearList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getTargetYearList(params);
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        return result;
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
     //목표기술서작성 - 해당연도 중복 조회
@@ -335,6 +363,13 @@ public class CampusController {
 
 
 
+
+    //학습신청 - 교육수강신청서 - 저장
+    @RequestMapping("/campus/setEduInfoInsert")
+    public String setEduInfoInsert(@RequestParam Map<String, Object> params) {
+        campusService.setEduInfoInsert(params);
+        return "jsonView";
+    }
 
     //목표기술서작성 - 연도등록팝업 - 연도등록
     @RequestMapping("/campus/setTargetInsert")
