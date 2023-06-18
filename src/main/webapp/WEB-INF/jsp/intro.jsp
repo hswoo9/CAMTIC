@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,20 +104,26 @@
 </div><!-- panel -->
 <div class="panel signin">
     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
-        <form action="#">
-            <button class="w-btn w-btn-indigo" id="mvBtn1" style="font-size: 20px;">
-                <a href="/indexA.do">준비중</a>
-            </button>
-            <button class="w-btn w-btn-indigo" id="mvBtn2" style="font-size: 20px;">
-                <a href="/indexB.do">사용자</a>
-            </button>
-            <button class="w-btn w-btn-indigo" id="mvBtn3" style="font-size: 20px;">
-                <a href="/camtic">캠틱홈페이지</a>
-            </button>
-        </form>
+        <button class="w-btn w-btn-indigo" id="mvBtn1" style="font-size: 20px;">
+            <a href="/indexA.do">준비중</a>
+        </button>
+        <button class="w-btn w-btn-indigo" id="mvBtn2" style="font-size: 20px;" onclick="goIntra();">
+            사용자
+        </button>
+        <button class="w-btn w-btn-indigo" id="mvBtn3" style="font-size: 20px;" onclick="goHome();">
+            <a href="">캠틱홈페이지</a>
+        </button>
         <hr class="invisible">
     </div>
 </div><!-- panel -->
+<script>
+    function goIntra() {
+        location.href = "/indexB.do";
+    }
+    function goHome() {
+        location.href = "/camtic";
+    }
+</script>
 
 </body>
 </html>
