@@ -77,7 +77,7 @@ var equipmentmangePop = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : "/asset/getEqipmnRegList",
                     dataType : "json",
                     type : "post"
                 },
@@ -158,7 +158,8 @@ var equipmentmangePop = {
                 eqipmnGbnName : $("#eqipmnGbnName").data("kendoDropDownList").text(), //구분명
                 eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
                 regtrName : $("#regtrName").val(), //등록자명
-                regDe : $("#regDe").val(), //등록일자
+                regtrSn : $("#empSeq").val(), //등록자 사원번호
+                regDe : $("#regDe").val() //등록일자
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){

@@ -14,19 +14,22 @@ public class AssetServiceImpl implements AssetService {
     @Autowired
     private AssetRepository assetRepository;
 
+    //장비관리 팝업창 (관리자) - 장비등록
     @Override
     public void setEquipmentInsert(Map<String, Object> params) {
         assetRepository.setEquipmentInsert(params);
     }
 
-    @Override
-    public List<Map<String, Object>> getTest(Map<String, Object> params) {
-        return assetRepository.getTest(params);
-    }
-
+    //공통코드 - 장비관리구분
     @Override
     public List<Map<String,Object>> getEqipmnList(Map<String, Object> params) {
         return assetRepository.getEqipmnList(params);
+    }
+
+    //장비등록 목록 조회
+    @Override
+    public List<Map<String, Object>> getEqipmnRegList(Map<String, Object> params) {
+        return assetRepository.getEqipmnRegList(params);
     }
 
 }

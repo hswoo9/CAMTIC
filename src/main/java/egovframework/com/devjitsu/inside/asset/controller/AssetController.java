@@ -276,12 +276,7 @@ public class AssetController {
         return formatter.format(today);
     }
 
-    @RequestMapping("/asset/getTest")
-    public String getAllUserPersonnelRecordList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("rs", assetService.getTest(map));
-        return "jsonView";
-    }
-
+    //공통코드 - 장비관리구분
     @RequestMapping("/asset/getEqipmnList")
     @ResponseBody
     public Map<String, Object> getEqipmnList(@RequestParam Map<String, Object> params){
@@ -289,5 +284,13 @@ public class AssetController {
         result.put("list", assetService.getEqipmnList(params));
         return result;
     }
+
+    //장비등록 목록 조회
+    @RequestMapping("/asset/getEqipmnRegList")
+    public String getEqipmnRegList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getEqipmnRegList(map));
+        return "jsonView";
+    }
+
 
 }
