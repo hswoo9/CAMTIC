@@ -23,7 +23,7 @@
         /*getEqipmnList*/
         SELECT
             CM_CODE_NM AS TEXT,
-            CM_CODE AS VALUE
+            CM_CODE_ID AS VALUE
         FROM
             CAM_COMMON.DJ_COM_CODE
         WHERE
@@ -34,9 +34,53 @@
     <select id="getEqipmnRegList" parameterType="map" resultType="map">
         /*getEqipmnRegList*/
         SELECT
-            *
+            eqipmn_mst_sn as EQIPMN_MST_SN,
+            eqipmn_gbn_name AS EQIPMN_GBN_NAME,
+            eqipmn_name AS EQIPMN_NAME,
+            regtr_name AS REGTR_NAME,
+            reg_de AS REG_DE,
+            actvt_yn as ACTVT_YN
         FROM
             CAM_INSIDE.DJ_EQIPMN_MST
+        WHERE
+            1=1
+        <if test="eqipmnGbnCmmnCdSn != null and eqipmnGbnCmmnCdSn != ''">
+            AND eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}
+        </if>
+        <if test="eqipmnName != null and eqipmnName != ''">
+            AND EQIPMN_NAME LIKE CONCAT('%', #{eqipmnName}, '%')
+        </if>
+            AND ACTVT_YN = 'Y'
     </select>
+
+    <!--장비등록 목록 삭제-->
+    <update id="setEquipmentDelete" parameterType="java.util.List">
+        /* setEquipmentDelete */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPMN_MST
+        SET
+            actvt_yn = 'N', updt_dt  = NOW()
+        WHERE
+            eqipmn_mst_sn IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--장비등록 목록 업데이트-->
+    <update id="setEquipmentUpdate" parameterType="map">
+        /* setEquipmentUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPMN_MST
+        SET
+            eqipmn_name = #{eqipmnName}, eqipmn_gbn_name = #{eqipmnGbnName},
+            eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}, regtr_name = #{regtrName},
+            regtr_sn = #{regtrSn}, updt_dt  = NOW()
+        WHERE
+            eqipmn_mst_sn = #{eqipmnMstSn}
+    </update>
+
 
 </mapper>

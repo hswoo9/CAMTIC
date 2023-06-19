@@ -4,10 +4,13 @@
  * 내용 : 자산관리 > 장비관리 - 장비관리 (관리자) 팝업창
  */
 var now = new Date();
+var record = 0;
 var equipmentmangePop = {
 
     global : {
-        eqipmnGbnName : []
+        eqipmnGbnName : [],
+        dataCheck : false,
+        eqipmnMstSn : "",
     },
 
     fn_defaultScript: function () {
@@ -15,7 +18,7 @@ var equipmentmangePop = {
         customKendo.fn_datePicker("regDe", '', "yyyy-MM-dd", new Date());
         $("#regDe").attr("readonly", true);
 
-        $("#name").kendoTextBox();
+        $("#mainEqipmnName").kendoTextBox();
 
         $("#companyDivision").kendoDropDownList({
             dataTextField: "text",
@@ -70,9 +73,13 @@ var equipmentmangePop = {
         $("#eqipmnName").val("");
         $("#regtrName").val("");
         $("#regDe").val("");
+
+        $("#save").removeAttr("onclick");
+        $("#save").attr("onclick", "equipmentmangePop.equipSave();");
+
     },
 
-    mainGrid : function() {
+    mainGrid : function(e) {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -82,15 +89,19 @@ var equipmentmangePop = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+
+                    data.eqipmnName = $("#mainEqipmnName").val();
+                    data.eqipmnGbnCmmnCdSn = $("#mainEqipmnGbnName").getKendoDropDownList().value();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.rs;
                 },
                 total: function (data) {
-                    return data.length;
+                    record = data.rs.length
+                    return data.rs.length;
                 },
             },
             pageSize: 10,
@@ -110,7 +121,12 @@ var equipmentmangePop = {
             toolbar : [
                 {
                     name: '',
-                    text: '삭제'
+                    text: '삭제',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.selectChkDel()">' +
+                            '   <span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
                 }, {
                     name: 'button',
                     /*text: '신규'*/
@@ -125,31 +141,60 @@ var equipmentmangePop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : equipmentmangePop.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
-                    width: 50
+                    template : "<input type='checkbox' id='' name='eqmnPk' value='' class='k-checkbox checkbox'/>",
+                    template : "<input type='checkbox' id='eqmnPk#=EQIPMN_MST_SN#' name='eqmnPk' value='#=EQIPMN_MST_SN#' class='k-checkbox checkbox'/>",
+                    width: "5.5%"
                 }, {
                     field: "",
                     title: "순번",
-                    template: "#= record-- #"
+                    template: "#= record-- #",
+                    width: "10%"
                 }, {
-                    field: "eqipmn_gbn_name",
-                    title: "구분"
+                    field: "EQIPMN_GBN_NAME",
+                    title: "구분",
+                    width: "20%"
                 }, {
-                    field: "eqipmn_name",
+                    field: "EQIPMN_NAME",
                     title: "장비명"
                 },{
-                    field: "regtr_name",
+                    field: "REGTR_NAME",
                     title: "등록자"
                 }, {
-                    field: "reg_de",
+                    field: "REG_DE",
                     title: "등록 일자"
                 }
             ]
         }).data("kendoGrid");
+
+        $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
+            var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
+            var dropdownlist = $("#eqipmnGbnName").data("kendoDropDownList");
+            dropdownlist.text(selectedItem.EQIPMN_GBN_NAME);
+            dropdownlist.value(selectedItem.EQIPMN_GBN_CMMN_CD_SN);
+            console.log(selectedItem);
+            $("#eqipmnName").val(selectedItem.EQIPMN_NAME);
+            $("#regtrName").val(selectedItem.REGTR_NAME);
+            $("#regDe").val(selectedItem.REG_DE);
+            //pk
+            equipmentmangePop.global.eqipmnMstSn = selectedItem.EQIPMN_MST_SN;
+            $("#save").removeAttr("onclick");
+            $("#save").attr("onclick", "equipmentmangePop.equipUpdate();");
+        });
     },
+
+    gridReload : function() {
+        var data = {
+            eqipmnGbnName : $("#mainEqipmnGbnName").getKendoDropDownList().text(),
+            eqipmnName : $("#mainEqipmnName").val()
+        };
+
+        equipmentmangePop.mainGrid("/asset/getEqipmnRegList", data);
+    },
+
     equipSave : function (){
 
         if(confirm("저장하시겠습니까?")){
@@ -159,7 +204,8 @@ var equipmentmangePop = {
                 eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
                 regtrName : $("#regtrName").val(), //등록자명
                 regtrSn : $("#empSeq").val(), //등록자 사원번호
-                regDe : $("#regDe").val() //등록일자
+                /*regDe : $("#regDe").val() //등록일자*/
+                regDe : $("#regDe").val().replaceAll('-','') //등록일자
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -182,11 +228,87 @@ var equipmentmangePop = {
                 data : data,
                 dataType: "json",
                 type : "get",
-                async : false,
+                async : false
             });
-            alert("저장 성공!");
+            alert("저장 되었습니다.");
             location.reload();
         }
+    },
+
+    equipUpdate : function(){
+        if(confirm("수정하시겠습니까?")){
+            var data = {
+                eqipmnName : $("#eqipmnName").val(), //장비명
+                eqipmnGbnName : $("#eqipmnGbnName").data("kendoDropDownList").text(), //구분명
+                eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
+                regtrName : $("#regtrName").val(), //등록자명
+                regtrSn : $("#empSeq").val(), //등록자 사원번호
+                regDe : $("#regDe").val(), //등록일자
+                eqipmnMstSn : equipmentmangePop.global.eqipmnMstSn
+            }
+
+            if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
+                alert("구분을 선택하세요.")
+                return false;
+            }else if(data.eqipmnName == null || data.eqipmnName == ''){
+                alert("장비명을 입력하세요.")
+                return false;
+            }else if(data.regtrName == null || data.regtrName == ''){
+                alert("등록자를 입력하세요.")
+                return false;
+            }else if(data.regDe == null || data.regDe == ''){
+                alert("등록 일자를 입력하세요.")
+                return false;
+            }
+            console.log(data);
+
+            $.ajax({
+                url : '/asset/setEquipmentUpdate',
+                data : data,
+                dataType: "json",
+                type : "get",
+                async : false,
+            });
+            alert("수정 되었습니다.");
+            location.reload();
+        }
+    },
+
+    selectChkDel : function (){
+        if($("input[name='eqmnPk']:checked").length == 0){
+            alert("장비목록을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 삭제하시겠습니까?")){
+            return;
+        }
+
+        var eqmnPk = new Array();
+        $("input[name='eqmnPk']").each(function(){
+            if(this.checked){
+                eqmnPk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/asset/setEquipmentDelete',
+            data : {
+                eqmnPk : eqmnPk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
     }
+
+
+
+
 }
 

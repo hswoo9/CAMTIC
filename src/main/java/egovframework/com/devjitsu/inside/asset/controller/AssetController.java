@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class AssetController {
@@ -292,5 +289,17 @@ public class AssetController {
         return "jsonView";
     }
 
+    //장비등록 목록 삭제
+    @RequestMapping("/asset/setEquipmentDelete")
+    public String setEquipmentDelete(@RequestParam(value = "eqmnPk[]") List<String> eqmnPk, Model model){
+        model.addAttribute("rs", assetService.setEquipmentDelete(eqmnPk));
+        return "jsonView";
+    }
 
+    //장비등록 목록 업데이트
+    @RequestMapping("/asset/setEquipmentUpdate")
+    public String setEquipmentUpdate(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", assetService.setEquipmentUpdate(params));
+        return "jsonView";
+    }
 }

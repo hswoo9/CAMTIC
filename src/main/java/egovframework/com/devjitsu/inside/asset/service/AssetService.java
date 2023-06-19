@@ -13,4 +13,10 @@ public interface AssetService {
 
     //장비등록 목록 조회
     List<Map<String, Object>> getEqipmnRegList(Map<String, Object> params);
+
+    //장비등록 목록 삭제
+    Map<String, Object> setEquipmentDelete(List<String> eqmnPk);
+
+    //장비등록 목록 업데이트
+    Map<String, Object> setEquipmentUpdate(Map<String, Object> params);
 }

@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,5 +32,43 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String, Object>> getEqipmnRegList(Map<String, Object> params) {
         return assetRepository.getEqipmnRegList(params);
     }
+
+    //장비등록 목록 삭제
+    @Override
+    public Map<String, Object> setEquipmentDelete(List<String> eqmnPk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setEquipmentDelete(eqmnPk);
+
+            result.put("code", "200");
+            result.put("message", "장비목록 삭제가 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "장비목록 삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //장비등록 목록 업데이트
+    @Override
+    public Map<String, Object> setEquipmentUpdate(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setEquipmentUpdate(params);
+
+            result.put("code", "200");
+            result.put("message", "장비목록 수정이 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "장비목록 수정 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    
 
 }

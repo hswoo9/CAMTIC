@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
@@ -42,9 +44,8 @@
     input#checkAll {
         margin: 0;
     }
-
-    .k-grid .k-cell-inner>.k-link {
-        justify-content: center;
+    .k-grid tbody, .k-grid tfoot, .k-grid thead {
+        text-align: center;
     }
 </style>
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentmangePop.js?v=${today}"/></script>
@@ -69,10 +70,10 @@
                                 </div>
                                 <div class="mr20">
                                     <span>장비명</span>
-                                    <input type="text" id="name" style="width: 150px;">
+                                    <input type="text" id="mainEqipmnName" style="width: 150px;">
                                 </div>
                                 <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentmangePop.mainGrid();"/>
                                 </div>
                             </div>
                         </td>
@@ -100,10 +101,10 @@
                         <thead>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
-                            <td colspan><input type="text" id="eqipmnGbnName" style="width: 100%;">
+                            <td colspan><input type="text" id="eqipmnGbnName" style="width: 130px;">
                             </td>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>장비명</th>
-                            <td><input type="text" id="eqipmnName" style="width: 100%;"></td>
+                            <td><input type="text" id="eqipmnName" style="width: 150px;"></td>
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록자</th>
