@@ -14,7 +14,6 @@
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayList.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
 <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
@@ -143,6 +142,17 @@
 
     </div>
 </div><!-- col-md-9 -->
+
+<form id="subHolidayDraftFrm" method="post">
+    <input type="hidden" id="purcFormCode" name="purcFormCode" value="1"/>
+    <input type="hidden" id="menuCd" name="menuCd" value="subHoliday">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="purcGroupId" name="purcGroupId" value="1"/>
+    <input type="hidden" id="purcPlanId" name="purcPlanId" value="1"/>
+    <input type="hidden" id="prevPurcId" name="prevPurcId" value="1"/>
+    <input type="hidden" id="purcId" name="purcId" value=""/>
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">

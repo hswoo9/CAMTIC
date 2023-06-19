@@ -144,65 +144,12 @@ var draft = {
                 "<input type='hidden' id='approKey' name='approKey' value='" + draft.global.params.approKey + "'>"));
         }
 
-        if(draft.global.params.linkageProcessCode != null){
-            if(draft.global.params.linkageProcessCode.indexOf("episPurc") > -1){
-                draft.global.purcFlag = true;
-            }else{
-                draft.global.purcFlag = false;
-            }
-        }
-
         var purcParamsInput = $("<input type='hidden' id='purcFormCode' name='purcFormCode' value=''>" +
             "<input type='hidden' id='purcInspFormCode' name='purcInspFormCode' value=''>" +
             "<input type='hidden' id='contentGroup' name='contentGroup' value=''>" +
             "<input type='hidden' id='contentPrevValue' name='contentPrevValue' value=''>" +
             "<input type='hidden' id='contentId' name='contentId' value=''>" +
             "<input type='hidden' id='contentValue' name='contentValue' value=''>");
-
-        if(draft.global.purcFlag){
-            draft.global.purcParams = {
-                purcFormCode : draft.global.params.purcFormCode,
-                contentGroup : draft.global.params.contentGroup,
-                contentPrevValue : draft.global.params.contentPrevValue,
-                contentId : draft.global.params.contentId,
-                contentValue : draft.global.params.contentValue
-            }
-
-            if(draft.global.params.purcInspFormCode != null){
-                draft.global.purcParams.purcInspFormCode = draft.global.params.purcInspFormCode;
-            }
-
-            if(draft.global.params.befUrl != null){
-                draft.global.purcParams.befUrl = draft.global.params.befUrl.replace("shift6", "&")
-            }else{
-                $("#backBtn").hide();
-            }
-
-            paramDiv.append(purcParamsInput);
-        }
-
-        if(draft.global.purcFlag){
-            $("#purcFormCode").val(draft.global.purcParams.purcFormCode);
-            $("#contentGroup").val(draft.global.purcParams.contentGroup);
-            $("#contentPrevValue").val(draft.global.purcParams.contentPrevValue);
-            $("#contentId").val(draft.global.purcParams.contentId);
-            $("#contentValue").val(draft.global.purcParams.contentValue);
-
-            draft.global.searchAjaxData = {
-                purcId : draft.global.purcParams.contentValue
-            }
-
-            if(draft.global.purcParams.purcInspFormCode != null){
-                $("#purcInspFormCode").val(draft.global.purcParams.purcInspFormCode);
-                draft.global.searchAjaxData = {
-                    purcInspId : draft.global.purcParams.contentValue,
-                    tmpPurcId : draft.global.purcParams.contentPrevValue
-                }
-            }
-
-            var result = customKendo.fn_customAjax("/purcReq/getDocFileSet.do", draft.global.searchAjaxData);
-            draft.getDocFileSet(result.docFile);
-        }
 
         draft.setKendoUpload();
     },
@@ -932,20 +879,6 @@ var draft = {
         if(type == "reDrafting"){
             formData.append("approveStatCode", $("#approveStatCode").val());
             formData.append("approveStatCodeDesc", $("#approveStatCodeDesc").val());
-        }
-
-        if(draft.global.purcFlag){
-            formData.append("purcGroupId", $("#contentGroup").val());
-            formData.append($("#contentId").val(), $("#contentValue").val());
-            if(draft.global.purcParams.purcInspFormCode != null){
-                if(draft.global.purcParams.purcInspFormCode == "54"){
-                    formData.append("prevPurcId", $("#contentPrevValue").val());
-                }else{
-                    formData.append("prevPurcInspId", $("#contentPrevValue").val());
-                }
-            }else{
-                formData.append("prevPurcId", $("#contentPrevValue").val());
-            }
         }
 
         return formData;

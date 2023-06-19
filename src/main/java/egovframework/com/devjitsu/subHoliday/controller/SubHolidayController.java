@@ -71,6 +71,15 @@ public class SubHolidayController {
         return "/popup/subHoliday/subHolidayReqPop";
     }
 
+    //휴가신청 전자결재
+    @RequestMapping("/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do")
+    public String subHolidayApprovalPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop";
+    }
+
     //전체휴가현황
     @RequestMapping("/subHoliday/searchHolidayPop.do")
     public String searchHolidayPop(){
