@@ -1,8 +1,5 @@
 package egovframework.com.devjitsu.subHoliday.service.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.subHoliday.repository.SubHolidayRepository;
 import egovframework.com.devjitsu.subHoliday.service.SubHolidayService;
 import org.slf4j.Logger;
@@ -11,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +42,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     @Override
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params) {
         return subHolidayRepository.getVacUseHistoryList(params);
+    }
+
+    @Override
+    public Map<String, Object> getVacUseHistoryOne(Map<String, Object> params) {
+        return subHolidayRepository.getVacUseHistoryOne(params);
     }
 
     @Override

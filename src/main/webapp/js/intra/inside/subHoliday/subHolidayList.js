@@ -189,7 +189,7 @@ var subHolidayList = {
                     title : "승인요청",
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting();' key='"+e.SUBHOLIDAY_USE_ID+"' appType='N' approvalKind='holiday'>" +
+                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");' key='"+e.SUBHOLIDAY_USE_ID+"' appType='N' approvalKind='holiday'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>승인요청</span>" +
                                 "</button>";
@@ -299,7 +299,8 @@ var subHolidayList = {
         var popup = window.open(url, name, option);
     },
 
-    subHolidayDrafting : function() {
+    subHolidayDrafting : function(subHolidayId) {
+        $("#subHolidayId").val(subHolidayId);
         $("#subHolidayDraftFrm").one("submit", function() {
             var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
             var name = "subHolidayApprovalPop";

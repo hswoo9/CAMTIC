@@ -12,7 +12,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
 <div id="approveDataPop">
-    test
+    ...
 </div>
 <script>
     approvalDataInit();
@@ -28,9 +28,10 @@
         approvalParams.menuCd = "subHoliday";
         approvalParams.docType = "A";
 
-
         approvalParams.linkageProcessId = "20";
         approvalParams.linkageType = "1";
+
+        approvalParams.subHolidayId = ${data.subHolidayId};
 
         linkageProcessOn(approvalParams);
         window.close();

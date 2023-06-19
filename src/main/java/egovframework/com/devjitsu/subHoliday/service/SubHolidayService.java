@@ -1,9 +1,5 @@
 package egovframework.com.devjitsu.subHoliday.service;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import egovframework.com.devjitsu.main.dto.LoginVO;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +19,13 @@ public interface SubHolidayService {
      * @return
      */
     List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params);
+
+    /**
+     * 사용자 휴가저장 단일 데이터
+     * @param params
+     * @return
+     */
+    Map<String, Object> getVacUseHistoryOne(Map<String, Object> params);
 
     List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params);
 

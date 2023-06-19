@@ -146,6 +146,25 @@
         ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
     </select>
 
+    <select id="getVacUseHistoryOne" resultType="map" parameterType="map">
+        /* getVacUseHistoryOne */
+        SELECT
+            SUH.*,
+            SCD.SUBHOLIDAY_DT_CODE_NM,
+            EI.EMP_NAME_KR,
+            EI.DEPT_NAME,
+            EI.DEPT_TEAM_NAME,
+            EI.POSITION_NAME
+        FROM
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH
+        LEFT JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE SCD ON SUH.SUBHOLIDAY_CODE_ID = SCD.SUBHOLIDAY_CODE_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI ON EI.EMP_SEQ = SUH.REG_EMP_SEQ
+        WHERE
+            SUH.SUBHOLIDAY_USE_ID = #{subholidayUseId}
+    </select>
+
     <select id="getVacUseHistoryList2" parameterType="map" resultType="map">
         /* getVacUseHistoryList */
         SELECT

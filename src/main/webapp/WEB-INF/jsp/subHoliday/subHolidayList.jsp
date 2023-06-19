@@ -144,14 +144,10 @@
 </div><!-- col-md-9 -->
 
 <form id="subHolidayDraftFrm" method="post">
-    <input type="hidden" id="purcFormCode" name="purcFormCode" value="1"/>
     <input type="hidden" id="menuCd" name="menuCd" value="subHoliday">
     <input type="hidden" id="type" name="type" value="drafting">
-    <input type="hidden" id="purcGroupId" name="purcGroupId" value="1"/>
-    <input type="hidden" id="purcPlanId" name="purcPlanId" value="1"/>
-    <input type="hidden" id="prevPurcId" name="prevPurcId" value="1"/>
-    <input type="hidden" id="purcId" name="purcId" value=""/>
     <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
 </form>
 
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>

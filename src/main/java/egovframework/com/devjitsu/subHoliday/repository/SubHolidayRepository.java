@@ -1,6 +1,5 @@
 package egovframework.com.devjitsu.subHoliday.repository;
 
-import egovframework.com.devjitsu.main.dto.LoginVO;
 import egovframework.com.devjitsu.main.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +28,8 @@ public class SubHolidayRepository extends AbstractDAO  {
     }
 
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryList", params);}
+
+    public Map<String, Object> getVacUseHistoryOne(Map<String, Object> params){ return (Map<String, Object>)selectOne("subHoliday.getVacUseHistoryOne", params);}
 
     public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryWorkList", params);}
 

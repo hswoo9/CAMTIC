@@ -20,7 +20,55 @@ var hwpDocCtrl = {
         htmlFileTextData : "",
     },
 
+    dataSet : function() {
+        const data = hwpDocCtrl.global.params;
+        if(data.menuCd == "subHoliday") {
+            const subHolidayId = data.subHolidayId;
+            if(subHolidayId == null || subHolidayId == undefined || subHolidayId == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url : "/subHoliday/getVacUseHistoryOne",
+                data : {
+                    subholidayUseId : subHolidayId
+                },
+                type : "post",
+                dataType : "json",
+                async: false,
+                success : function(result){
+                    //console.log(result.data);
+                    const ResultData = result.data;
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
+                    hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
+                    hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('holidayDate', true, true, false);
+                    hwpDocCtrl.putFieldText('holidayDate', ResultData.SUBHOLIDAY_ST_DT+" "+ResultData.SUBHOLIDAY_ST_TIME+" "+ResultData.SUBHOLIDAY_EN_DT+" "+ResultData.SUBHOLIDAY_EN_TIME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('approvalReason', true, true, false);
+                    hwpDocCtrl.putFieldText('approvalReason', ResultData.RMK);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('rmkOther', true, true, false);
+                    hwpDocCtrl.putFieldText('rmkOther', ResultData.RMK_OTHER);
+                },
+                error: function(e) {
+                    console.log(e);
+                    alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+                    window.close();
+                }
+            });
+        }
+    },
+
     defaultScript : function (HwpCtrl, openFormat, templateFormFile, templateFormOpt, templateCustomField, params, loginEmpSeq, mod) {
+        console.log(params);
         hwpDocCtrl.global.HwpCtrl = HwpCtrl;
         hwpDocCtrl.global.mod = mod;
 
@@ -53,6 +101,7 @@ var hwpDocCtrl = {
                 if(res.result){
                     if(hwpDocCtrl.global.mod == "W"){
                         hwpDocCtrl.openCallBack();
+                        hwpDocCtrl.dataSet();
                     }else if (hwpDocCtrl.global.mod == "RW"){
                         hwpDocCtrl.modOpenCallBack();
                     }else if (hwpDocCtrl.global.mod == "V"){

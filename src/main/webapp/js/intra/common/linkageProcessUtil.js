@@ -84,11 +84,11 @@ function makeParams(params, form, url){
 		form.append(docId);
 		url += "&docId="+params.docId;
 	}
-	if(params.purcFormCode){
-		var purcFormCode = $('<input type="hidden" name="purcFormCode"/>');
-		purcFormCode.val(params.purcFormCode);
-		form.append(purcFormCode);
-		url += "&purcFormCode="+params.purcFormCode;
+	if(params.subHolidayId){
+		var subHolidayId = $('<input type="hidden" name="purcFormCode"/>');
+		subHolidayId.val(params.subHolidayId);
+		form.append(subHolidayId);
+		url += "&subHolidayId="+params.subHolidayId;
 	}
 	if(params.purcInspFormCode){
 		var purcInspFormCode = $('<input type="hidden" name="purcInspFormCode"/>');

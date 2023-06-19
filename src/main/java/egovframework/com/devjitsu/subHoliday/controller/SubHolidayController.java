@@ -73,9 +73,10 @@ public class SubHolidayController {
 
     //휴가신청 전자결재
     @RequestMapping("/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do")
-    public String subHolidayApprovalPop(HttpServletRequest request, Model model) {
+    public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop";
     }
@@ -128,6 +129,19 @@ public class SubHolidayController {
     public String getVacUseHistoryList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", subHolidayService.getVacUseHistoryList(params));
        /* model.addAttribute("totalCount", subHolidayService.getVacUseHistoryListTotal(params));*/
+        return "jsonView";
+    }
+
+    /**
+     * 마이페이지 > 복무 > 근무상황 > 연차
+     * 휴가사용내역 조회 only one
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/subHoliday/getVacUseHistoryOne")
+    public String getVacUseHistoryOne(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", subHolidayService.getVacUseHistoryOne(params));
         return "jsonView";
     }
 

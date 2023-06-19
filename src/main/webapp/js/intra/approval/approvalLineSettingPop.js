@@ -150,7 +150,7 @@ var lineSettingPop = {
     treeClick : function(e) {
         var item = $("#treeview").data("kendoTreeView").dataItem(e.node);
         deptSeq = item.dept_seq;
-        alert(deptSeq);
+        //alert(deptSeq);
         deptName = item.dept_name;
         lineSettingPop.treeViewReload(deptSeq);
         $("#userList").data("kendoGrid").dataSource.read();
