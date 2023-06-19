@@ -203,7 +203,7 @@ var subHolidaySetting = {
                     width : 90
                 }, {
                     field : "DUTY_NAME",
-                    title : "직책",
+                    title : "직위",
                     width : 90
                 },{
                     field : "DEPT_NAME",

@@ -165,17 +165,6 @@ var subHolidayStat = {
             height: 700,
             sortable: false,
             scrollable: true,
-            toolbar : [
-                {
-                    name : 'excel', text: '엑셀다운로드'
-                }, {
-                    template: "<span>휴가/연차 표기 방식 - 일/시간/분</span>"
-                }
-            ],
-            excel : {
-                fileName : "사용자 연차 현황.xlsx",
-                filterable : true
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -186,11 +175,11 @@ var subHolidayStat = {
                     title: "부서",
                     width: 80
                 }, {
-                    field: "",
+                    field: "dept_team_name",
                     title: "팀",
                     width: 80
                 }, {
-                    field: "",
+                    field: "duty_name",
                     title: "직위",
                     width: 50
                 }, {
@@ -201,7 +190,7 @@ var subHolidayStat = {
                     title: "발생",
                     columns: [
                         {
-                            field: "ANNUAL",
+                            field: "grant_day",
                             title: "총연차",
                             width: 50
                         }, {
@@ -226,7 +215,7 @@ var subHolidayStat = {
                             title: "전년<br>사용",
                             width: 50
                         }, {
-                            field: "USE_DAY",
+                            field: "use_day",
                             title: "금년<br>사용",
                             width: 50
                         }, {

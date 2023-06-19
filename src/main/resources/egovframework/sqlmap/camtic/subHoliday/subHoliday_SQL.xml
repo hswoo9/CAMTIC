@@ -306,6 +306,7 @@
                VUI.emp_name_kr,
                VUI.dept_name,
                VUI.position_name,
+               VUI.dept_team_name,
                VUI.duty_name,
                Date_format(VUI.join_day, '%Y-%m-%d') AS JOIN_DAY,
                VUI.active,
