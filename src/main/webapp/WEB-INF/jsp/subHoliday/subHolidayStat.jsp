@@ -17,6 +17,13 @@
     .k-grid .k-cell-inner {justify-content: center;}
 </style>
 
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+<input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+<input type="hidden" id="apprStat" value="N">
+<input type="hidden" id="vacUseHistId" value="">
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">

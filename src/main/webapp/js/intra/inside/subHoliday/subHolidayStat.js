@@ -1,10 +1,25 @@
 var now = new Date();
 
 var subHolidayStat = {
+    global : {
+        activeList : [
+            {
+                text : "재직", value : "Y"
+            }, {
+                text : "퇴직", value : "N"
+            }
+        ],
+        vacStatus : [
+            { text: "확정", value: "Y" },
+            { text: "사용대기", value: "N" },
+            { text: "미생성", value: "NULL" }
+        ],
+        selectEmpData : [],
+    },
 
     init : function(){
         subHolidayStat.dataSet();
-        subHolidayStat.mainGrid();
+        subHolidayStat.fn_makerGrid();
     },
 
     dataSet() {
@@ -116,79 +131,87 @@ var subHolidayStat = {
         });
     },
 
-    mainGrid : function() {
+    fn_makerGrid : function(){
+
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : getContextPath() + "/getUserVacListStat.do",
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+                    data.active = $("#active").val();
+                    data.userNm = $("#userNm").val();
+                    data.deptName = $("#deptName").val();
+                    data.positionDutyNm = $("#positionDutyNm").val();
+                    data.vacStatus = $("#vacStatus").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.result;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.result.length;
                 },
-            },
-            pageSize: 10,
+            }
         });
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            sortable: true,
+            height: 700,
+            sortable: false,
             scrollable: true,
-            selectable: "row",
-            height: 489,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
-            },
             toolbar : [
                 {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="$(\'#fileAppendM\').data(\'kendoWindow\').open();">' +
-                            '	<span class="k-button-text">취소</span>' +
-                            '</button>';
-                    }
+                    name : 'excel', text: '엑셀다운로드'
+                }, {
+                    template: "<span>휴가/연차 표기 방식 - 일/시간/분</span>"
                 }
             ],
+            excel : {
+                fileName : "사용자 연차 현황.xlsx",
+                filterable : true
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: subHolidayStat.onDataBound,
             columns: [
                 {
-                    field: "",
-                    title: "부서"
+                    field: "dept_name",
+                    title: "부서",
+                    width: 80
                 }, {
                     field: "",
-                    title: "팀"
+                    title: "팀",
+                    width: 80
                 }, {
                     field: "",
-                    title: "직위"
+                    title: "직위",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "이름"
+                    field: "emp_name_kr",
+                    title: "이름",
+                    width: 80
                 }, {
                     title: "발생",
                     columns: [
                         {
-                            field: "",
-                            title: "총 연차"
+                            field: "ANNUAL",
+                            title: "총연차",
+                            width: 50
                         }, {
                             field: "",
-                            title: "기존"
+                            title: "기존",
+                            width: 50
                         }, {
                             field: "",
-                            title: "보상"
+                            title: "보상",
+                            width: 50
                         }
                     ]
                 }, {
@@ -196,58 +219,89 @@ var subHolidayStat = {
                     columns: [
                         {
                             field: "",
-                            title: "전 전년<br>사용"
+                            title: "전전년<br>사용",
+                            width: 50
                         }, {
                             field: "",
-                            title: "전년<br>사용"
+                            title: "전년<br>사용",
+                            width: 50
                         }, {
-                            field: "",
-                            title: "금년<br>사용"
+                            field: "USE_DAY",
+                            title: "금년<br>사용",
+                            width: 50
                         }, {
-                            field: "",
-                            title: "오전<br>반차"
+                            field: "MORNING",
+                            title: "오전<br>반차",
+                            width: 50
                         }, {
-                            field: "",
-                            title: "오후<br>반차"
+                            field: "AFTERNOON",
+                            title: "오후<br>반차",
+                            width: 50
                         }, {
                             title: "잔여연차",
                             columns: [
                                 {
-                                    field: "",
-                                    title: "총 잔여"
+                                    field: "REMAIN_VAC",
+                                    title: "총잔여",
+                                    width: 50
                                 }, {
                                     field: "",
-                                    title: "기존"
+                                    title: "기존",
+                                    width: 50
                                 }, {
                                     field: "",
-                                    title: "보상"
+                                    title: "보상",
+                                    width: 50
                                 }
                             ]
                         }
                     ]
                 }, {
-                    field: "",
-                    title: "병가"
+                    field: "SICK",
+                    title: "병가",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "공가"
+                    field: "PUBLICHOLI",
+                    title: "공가",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "경조<br>휴가"
+                    field: "CONDOLENCES",
+                    title: "경조<br>휴가",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "출산<br>휴가"
+                    field: "MATERNITY",
+                    title: "출산<br>휴가",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "대체<br>휴가"
+                    field: "ALTERNATIVE",
+                    title: "대체<br>휴가",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "근속<br>포상<br>휴가"
+                    field: "LONGAWARD",
+                    title: "근속<br>포상<br>휴가",
+                    width: 50
                 }, {
-                    field: "",
-                    title: "휴일<br>근로"
+                    field: "HOLIDAYWORK",
+                    title: "휴일<br>근로",
+                    width: 50
                 }
             ]
         }).data("kendoGrid");
-    }
+    },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    onDataBound : function(){
+        var grid = this;
+        grid.element.off('dbclick');
+        subHolidayStat.global.selectEmpData = [];
+
+        grid.tbody.find("tr").click(function (e) {
+            var dataItem = grid.dataItem($(this));
+            subHolidayStat.global.selectEmpData = dataItem;
+            $("#userVacSetting").data("kendoWindow").open();
+        });
+    },
 }

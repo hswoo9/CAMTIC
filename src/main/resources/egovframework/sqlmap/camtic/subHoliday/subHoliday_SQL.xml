@@ -296,8 +296,92 @@
             <when test='vacStatus != null and vacStatus.equals("N")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
             <when test='vacStatus != null and vacStatus.equals("NULL")'>AND VC.APPLY_YEAR IS NULL</when>
         </choose>
+    </select>
 
+    <select id="getUserVacListStat" resultType="map" parameterType="map">
+        /* getUserVacListStat */
+        /*1(연차), 3(오전반차), 4(오후반차), 5(병가), 6(공가), 7(경조휴가), 8(출산휴가), 9(대체휴가), 10(근속포상휴가), 11(휴일근로)*/
 
+        SELECT VUI.emp_seq,
+               VUI.emp_name_kr,
+               VUI.dept_name,
+               VUI.position_name,
+               VUI.duty_name,
+               Date_format(VUI.join_day, '%Y-%m-%d') AS JOIN_DAY,
+               VUI.active,
+               VC.apply_year,
+               Concat(VC.apply_year, '-01-01') AS ST_APPLY_DATE,
+               Concat(VC.apply_year, '-12-31') AS EN_APPLY_DATE,
+               VC.grant_day,
+               VC.mdtn_day,
+               VC.extra_day,
+               VC.use_day,
+               ( ( VC.grant_day + VC.mdtn_day + VC.extra_day ) - ( VC.use_day ) ) AS REMAIN_VAC,
+               VC.active,
+               VC.holiday_id,
+               Sum(CASE
+                       WHEN VUH.subholiday_code_id = 1 THEN 1
+                       ELSE 0
+                   END) AS ANNUAL,
+               Sum(CASE
+                       WHEN VUH.subholiday_code_id = 3 THEN 1
+                       ELSE 0
+                   END) AS MORNING,
+               Sum(CASE
+                       WHEN VUH.subholiday_code_id = 4 THEN 1
+                       ELSE 0
+                   END) AS AFTERNOON,
+               Sum(CASE
+                       WHEN VUH.subholiday_code_id = 5 THEN 1
+                       ELSE 0
+                   END) AS SICK,
+               Sum(CASE
+                       WHEN VUH.subholiday_code_id = 6 THEN 1
+                       ELSE 0
+                   END) AS PUBLICHOLI,
+       Sum(CASE
+             WHEN VUH.subholiday_code_id = 7 THEN 1
+             ELSE 0
+           END) AS CONDOLENCES,
+       Sum(CASE
+             WHEN VUH.subholiday_code_id = 8 THEN 1
+             ELSE 0
+           END) AS MATERNITY,
+       Sum(CASE
+             WHEN VUH.subholiday_code_id = 9 THEN 1
+             ELSE 0
+           END) AS ALTERNATIVE,
+       Sum(CASE
+             WHEN VUH.subholiday_code_id = 10 THEN 1
+             ELSE 0
+           END) AS LONGAWARD,
+       Sum(CASE
+             WHEN VUH.subholiday_code_id = 11 THEN 1
+             ELSE 0
+           END) AS HOLIDAYWORK
+        FROM   cam_inside.dj_holiday VC
+            LEFT JOIN cam_hr.dj_emp_info VUI
+        ON VC.emp_seq = VUI.emp_seq
+            LEFT JOIN cam_inside.dj_subholiday_use_hist VUH
+            ON VUI.emp_seq = VUH.reg_emp_seq
+        WHERE  VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
+        GROUP BY VUI.emp_seq,
+            VUI.emp_name_kr,
+            VUI.dept_name,
+            VUI.position_name,
+            VUI.duty_name,
+            Date_format(VUI.join_day, '%Y-%m-%d'),
+            VUI.active,
+            VC.apply_year,
+            Concat(VC.apply_year, '-01-01'),
+            Concat(VC.apply_year, '-12-31'),
+            VC.grant_day,
+            VC.mdtn_day,
+            VC.extra_day,
+            VC.use_day,
+            ( ( VC.grant_day + VC.mdtn_day + VC.extra_day ) - ( VC.use_day ) ),
+            VC.active,
+            VC.holiday_id;
     </select>
 
 
