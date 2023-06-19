@@ -162,11 +162,22 @@ var subHolidayStat = {
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 700,
-            sortable: false,
+            height: 522,
+            sortable: true,
             scrollable: true,
             noRecords: {
-                template: "데이터가 존재하지 않습니다."
+                template: "<div style='margin: auto;'>데이터가 존재하지 않습니다.</div>"
+            },
+            pageable: {
+                refresh: true,
+                pageSize : 10,
+                pageSizes: [10, 20, 50, "ALL"],
+                buttonCount: 5,
+                messages: {
+                    display: "{0} - {1} of {2}",
+                    itemsPerPage: "",
+                    empty: "데이터가 없습니다.",
+                }
             },
             dataBound: subHolidayStat.onDataBound,
             columns: [
