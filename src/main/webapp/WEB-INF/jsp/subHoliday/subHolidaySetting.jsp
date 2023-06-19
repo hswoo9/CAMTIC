@@ -16,6 +16,9 @@
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}
+    tr:hover {
+        cursor: pointer;
+    }
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>

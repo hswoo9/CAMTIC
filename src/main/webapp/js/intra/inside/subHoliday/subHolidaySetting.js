@@ -25,12 +25,12 @@ var subHolidaySetting = {
 
         $("#userVacSetting").kendoWindow({
             title: "연가 설정",
-            width: "1000px",
+            width: "500px",
             visible: false,
             modal: true,
             position : {
                 top : "30%",
-                left : "25%"
+                left : "40%"
             },
             open : function(data){
                 console.log("-----");
@@ -45,12 +45,16 @@ var subHolidaySetting = {
                     htmlStr += "<input type='hidden' id='targetVacId' value=''>";
                 }
 
-                htmlStr += "<table class='table table-bordered' style='border: 1px solid #dedfdf; text-align: center;'>";
+                htmlStr += "<table class='table table-bordered' style='border: 1px solid #dedfdf;'>";
                 htmlStr += "<colgroup>";
-                htmlStr += "<col width=''>";
+                htmlStr += "<col width='5%'>";
+                htmlStr += "<col width='15%'>";
+                htmlStr += "<col width='30%'>";
+                htmlStr += "<col width='20%'>";
+                htmlStr += "<col width='30%'>";
                 htmlStr += "</colgroup>";
                 htmlStr += "<tr>";
-                htmlStr += "<th class='text-center th-color'>부서</th>";
+                htmlStr += "<th colspan='2' class='text-center th-color'>부서</th>";
                 htmlStr += "<td>";
                 htmlStr += "<span id='targetDeptName'>"+ subHolidaySetting.global.selectEmpData.DEPT_NAME +"</span>";
                 htmlStr += "</td>";
@@ -58,7 +62,9 @@ var subHolidaySetting = {
                 htmlStr += "<td>";
                 htmlStr += "<span id='targetPositionName'>"+ subHolidaySetting.global.selectEmpData.POSITION_NAME +"</span>";
                 htmlStr += "</td>";
-                htmlStr += "<th class='text-center th-color'>직책</th>";
+                htmlStr += "</tr>";
+                htmlStr += "<tr>";
+                htmlStr += "<th colspan='2' class='text-center th-color'>직책</th>";
                 htmlStr += "<td>";
                 htmlStr += "<span id='targetDutyName'>"+ subHolidaySetting.global.selectEmpData.DUTY_NAME +"</span>";
                 htmlStr += "</td>";
@@ -68,30 +74,42 @@ var subHolidaySetting = {
                 htmlStr += "</td>";
                 htmlStr += "</tr>";
                 htmlStr += "<tr>";
-                htmlStr += "<th class='text-center th-color'>적용연도</th>";
+                htmlStr += "<th rowspan='2' class='text-center th-color'>부여</th>";
+                htmlStr += "<th class='text-center th-color'>기본</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='targetApplyYear'>";
+                htmlStr += "<input type='text' id='targetGrantDay' style='width:90%;' value='"+ subHolidaySetting.changeMinuteToHour(subHolidaySetting.global.selectEmpData.GRANT_DAY) +"'>";
                 htmlStr += "</td>";
-                /*                htmlStr += "<th class='text-center th-color'>적용기간</th>";
-                                htmlStr += "<td colspan='2'>";
-                                htmlStr += "<input type='text' id='targetStApplyDate'> ~ <input type='text' id='targetEnApplyDate'>";
-                                htmlStr += "</td>";*/
-                htmlStr += "<th class='text-center th-color'>부여일</th>";
+                htmlStr += "<th class='text-center th-color'>기본조정</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='targetGrantDay' onkeyup='subHolidaySetting.keyPressNumberCheck(this)' value='"+ subHolidaySetting.changeMinuteToHour(subHolidaySetting.global.selectEmpData.GRANT_DAY) +"'>";
+                htmlStr += "<input type='text' id='targetMdtnDay' style='width:90%;' onkeyup='subHolidaySetting.keyPressNumberCheck(this)' value='"+ subHolidaySetting.changeMinuteToHour(subHolidaySetting.global.selectEmpData.MDTN_DAY) +"'>";
                 htmlStr += "</td>";
-                htmlStr += "<th class='text-center th-color'>조정일</th>";
+                htmlStr += "</tr>";
+                htmlStr += "<tr>";
+                htmlStr += "<th class='text-center th-color'>가산일수</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='targetMdtnDay' onkeyup='subHolidaySetting.keyPressNumberCheck(this)' value='"+ subHolidaySetting.changeMinuteToHour(subHolidaySetting.global.selectEmpData.MDTN_DAY) +"'>";
+                htmlStr += "<input type='text' id='' style='width:90%;'>";
                 htmlStr += "</td>";
-                htmlStr += "<td colspan='2'>";
+                htmlStr += "<th class='text-center th-color'>이월</th>";
+                htmlStr += "<td>";
+                htmlStr += "<input type='text' id='' style='width:90%;'>";
+                htmlStr += "</td>";
+                htmlStr += "</tr>";
+                htmlStr += "<tr>";
+                htmlStr += "<th class='text-center th-color'>소진</th>";
+                htmlStr += "<th class='text-center th-color'>사용</th>";
+                htmlStr += "<td>";
+                htmlStr += "<input type='text' id='' style='width:90%;'>";
+                htmlStr += "</td>";
+                htmlStr += "<th class='text-center th-color'>사용조정</th>";
+                htmlStr += "<td>";
+                htmlStr += "<input type='text' id='' style='width:50%;'>";
+                htmlStr += "</td>";
+                htmlStr += "</tr>";
+                htmlStr += "</table>";
                 htmlStr += "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidaySetting.saveUserVac()\">" +
                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                     "<span class='k-button-text'>저장</span>" +
                     "</button>";
-                htmlStr += "</td>";
-                htmlStr += "</tr>";
-                htmlStr += "</table>";
 
 
                 $("#userVacSetting").html(htmlStr);
@@ -189,7 +207,8 @@ var subHolidaySetting = {
                     width : 90
                 },{
                     field : "DEPT_NAME",
-                    title : "부서"
+                    title : "부서",
+                    width : 90
                 }, {
                     title : "재직구분",
                     template : function (e){
@@ -199,7 +218,7 @@ var subHolidaySetting = {
                             return "퇴직";
                         }
                     },
-                    width : 80,
+                    width : 70,
                 }, {
                     field : "JOIN_DAY",
                     title : "입사일",
@@ -237,7 +256,7 @@ var subHolidaySetting = {
                         {
                             field : "GRANT_DAY",
                             title : "기본",
-                            width : 80,
+                            width : 70,
                             template : function(e){
                                 if(e.GRANT_DAY == null){
                                     return "-";
@@ -248,7 +267,7 @@ var subHolidaySetting = {
                         }, {
                             field : "MDTN_DAY",
                             title : "기본조정",
-                            width : 80,
+                            width : 70,
                             template : function(e){
                                 if(e.MDTN_DAY == null){
                                     return "-";
@@ -259,7 +278,7 @@ var subHolidaySetting = {
                         },{
                             field : "EXTRA_DAY",
                             title : "가산일수",
-                            width : 80,
+                            width : 70,
                             template : function(e){
                                 if(e.EXTRA_DAY == null){
                                     return "-";
@@ -270,7 +289,7 @@ var subHolidaySetting = {
                         }, {
                             field : "SAV_GRANT_DAY",
                             title : "이월",
-                            width : 80,
+                            width : 70,
                             template : function(e){
                                 if(e.SAV_GRANT_DAY == null){
                                     return "-";
@@ -286,7 +305,7 @@ var subHolidaySetting = {
                         {
                             field : "USE_DAY",
                             title : "사용",
-                            width : 80,
+                            width : 70,
                             template : function(e){
                                 if(e.USE_DAY == null){
                                     return "-";
@@ -299,13 +318,13 @@ var subHolidaySetting = {
                             template : function (e){
                                 return "-";
                             },
-                            width : 80
+                            width : 70
                         }
                     ]
                 }, {
                     field : "REMAIN_VAC",
                     title : "잔여연차<br>(A-B)",
-                    width : 80,
+                    width : 70,
                     template : function(e){
                         if(e.REMAIN_VAC == null){
                             return "-";
@@ -340,7 +359,7 @@ var subHolidaySetting = {
         grid.element.off('dbclick');
         subHolidaySetting.global.selectEmpData = [];
 
-        grid.tbody.find("tr").dblclick(function (e) {
+        grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this));
             subHolidaySetting.global.selectEmpData = dataItem;
             $("#userVacSetting").data("kendoWindow").open();
