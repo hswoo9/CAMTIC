@@ -192,11 +192,11 @@ var subHolidayStat = {
                 }, {
                     field: "duty_name",
                     title: "직위",
-                    width: 50
+                    width: 70
                 }, {
                     field: "emp_name_kr",
                     title: "이름",
-                    width: 80
+                    width: 70
                 }, {
                     title: "발생",
                     columns: [
