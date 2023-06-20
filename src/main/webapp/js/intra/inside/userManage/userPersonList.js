@@ -13,7 +13,6 @@ var userPersonList = {
     init : function () {
         userPersonList.dataSet();
         userPersonList.gridReload();
-        userPersonList.mainGrid2();
         //userPersonList.mainGrid();
     },
 
@@ -299,31 +298,6 @@ var userPersonList = {
     },
 
     mainGrid : function(url,params) {
-        /*var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '/userManage/getEmpInfoList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    console.log(data.rs)
-                    return data.rs;
-                },
-                total: function (data) {
-                    console.log(data.rs.length);
-                    return data.rs.length;
-                },
-            },
-            pageSize: 10,
-        });*/
-
         var mainGrid = $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -391,9 +365,9 @@ var userPersonList = {
             ]
         }).data("kendoGrid");
     },
-    mainGrid2 : function() {
+    mainGrid2 : function(url,params) {
         $("#mainGrid2").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -411,16 +385,16 @@ var userPersonList = {
                     field: "",
                     title: "번호"
                 }, {
-                    field: "",
+                    field: "EMP_NAME_KR",
                     title: "성명"
                 }, {
-                    field: "",
+                    field: "DEPT_NAME",
                     title: "부서(실)"
                 }, {
-                    field: "",
+                    field: "DEPT_TEAM_NAME",
                     title: "부서(팀)"
                 }, {
-                    field: "",
+                    field: "DUTY_NAME",
                     title: "직위"
                 }, {
                     field: "",
@@ -438,10 +412,10 @@ var userPersonList = {
                     field: "",
                     title: "재직여부"
                 }, {
-                    field: "",
+                    field: "JOIN_DAY2",
                     title: "입사일"
                 }, {
-                    field: "",
+                    field: "RESIGN_DAY2",
                     title: "퇴사일"
                 }
             ]
@@ -468,6 +442,25 @@ var userPersonList = {
     },
 
     gridReloadDetail : function() {
+        var testDropDownTree1 = $("#detailSearch1").data("kendoDropDownTree");
+        var testDropDownTree2 = $("#detailSearch2").data("kendoDropDownTree");
+        var testDropDownTree3 = $("#detailSearch3").data("kendoDropDownTree");
+        var testDropDownTree4 = $("#detailSearch4").data("kendoDropDownTree");
+        var testDropDownTree5 = $("#detailSearch5").data("kendoDropDownTree");
+        var testDropDownTree6 = $("#detailSearch6").data("kendoDropDownTree");
+        var testDropDownTree7 = $("#detailSearch7").data("kendoDropDownTree");
+        var testDropDownTree8 = $("#detailSearch8").data("kendoDropDownTree");
+            /*<foreach collection="testList" item="item" separator="or">
+                or
+                a.DEPT_NAME = #{item}
+            </foreach>*/
         console.log('gridReloadDetail');
+        userPersonList.global.searchAjaxData = {
+            IN_OUT_CHECK : $('#drop1').val(), // 입퇴사 현황
+            START_DATE : $("#start_date_detail").val(), // 조회 기간 시작일
+            END_DATE : $("#end_date_detail").val(), // 조회 기간 종료일
+        }
+        console.log(userPersonList.global.searchAjaxData);
+        userPersonList.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList.global.searchAjaxData);
     }
 }
