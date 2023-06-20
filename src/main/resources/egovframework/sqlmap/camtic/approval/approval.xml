@@ -669,6 +669,42 @@
             DAR.APPROVE_ORDER != 0
     </select>
 
+    <select id="getIsExistsAbsent" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            NEOS.A_ABSENTINFO AA
+        WHERE
+            AA.C_OIORGCODE = #{deptSeq}
+          AND
+            AA.C_UIUSERKEY = #{empSeq}
+          AND
+            (
+                    (
+                        DATE_FORMAT(NOW(), '%Y%m%d%H%i') BETWEEN CONCAT(DATE_FORMAT(AA.C_AISDAY, '%Y%m%d'), REPLACE(AA.C_AIStime , ':', '')) AND
+                            CONCAT(DATE_FORMAT(AA.C_AIEDAY, '%Y%m%d'), REPLACE(AA.C_AIetime, ':', ''))
+                        )
+                    OR
+                    (
+                                AA.C_AIFLAG  = '0' AND DATE_FORMAT(NOW(),'%Y%m%d%H%i') &gt; CONCAT( DATE_FORMAT(AA.C_AIEDAY ,'%Y%m%d'), REPLACE(AA.C_AIetime  , ':', '') )
+                        )
+                )
+          AND
+            AA.C_AISTATUS = '1'
+    </select>
+
+    <update id="setDocApproveRouteReadDt" parameterType="map">
+        UPDATE
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        SET
+            DOC_READ_DT = NOW(),
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            DOC_ID = #{docId}
+        AND APPROVE_EMP_SEQ = #{empSeq}
+    </update>
+
     <select id="getUserDocReadUserChk" parameterType="map" resultType="int">
         /* getUserDocReadUserChk */
         SELECT

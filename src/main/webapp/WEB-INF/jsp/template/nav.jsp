@@ -101,7 +101,7 @@
           <li>
             <a href="#" class="toggleMain">결재함</a>
             <ul class="innerMain children a_b">
-              <li><a href="#" class="toggleMain1">결재대기문서</a></li> <%--menu=a_b--%>
+              <li><a href="/approvalUser/approveWaitDocList.do?menu=a_b" class="toggleMain1">결재대기문서</a></li> <%--menu=a_b--%>
               <li><a href="#" class="toggleMain1">결재예정문서</a></li>
               <li><a href="#" class="toggleMain1">결재완료문서</a></li>
               <li><a href="#" class="toggleMain1">결재반려문서</a></li>

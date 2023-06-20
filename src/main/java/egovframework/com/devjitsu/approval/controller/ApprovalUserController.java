@@ -77,6 +77,46 @@ public class ApprovalUserController {
         return result;
     }
 
+    /**
+     * 전자문서 > 전자결재 > 결재함
+     */
+
+    /**
+     * 결재대기문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/approveWaitDocList.do")
+    public String approveWaitDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+
+        return "approval/user/Box/approveWaitDocList";
+    }
+
+    /**
+     * 결재함 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/getApproveDocBoxList")
+    public String getApproveDocBoxList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        model.addAttribute("list", approvalUserService.getApproveDocBoxList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 결재선관리
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/approvalUser/approvalLineManagement.do")
     public String openOrganizationChart(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

@@ -175,6 +175,20 @@ public class ApprovalController {
         return result;
     }
 
+    /** 결재자 부재체크 */
+    @RequestMapping("/approval/getIsExistsAbsent")
+    public String getIsExistsAbsent(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", approvalService.getIsExistsAbsent(params));
+        return "jsonView";
+    }
+
+    /**결재문서 결재자 열람시간 업데이트 */
+    @RequestMapping("/approval/setDocApproveRouteReadDt.do")
+    public String setDocApproveRouteReadDt(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        approvalService.setDocApproveRouteReadDt(params);
+        return "jsonView";
+    }
+
     /** 결재문서 상신, 재상신 */
     @RequestMapping("/approval/setApproveDraftInit")
     @ResponseBody
@@ -192,6 +206,13 @@ public class ApprovalController {
         approvalService.setApproveDocInfo(params, BASE_DIR);
         result.put("params", params);
         return result;
+    }
+
+    /** 결재자별 결재상태 공통코드 조회 */
+    @RequestMapping("/approval/getCmCodeInfo")
+    public String getCmCodeInfo(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", approvalService.getByApproveCmCodeInfo(params));
+        return "jsonView";
     }
 
     /** 결재문서 결재, 반려 */

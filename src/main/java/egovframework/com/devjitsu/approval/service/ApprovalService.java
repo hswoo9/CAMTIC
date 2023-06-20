@@ -21,6 +21,19 @@ public interface ApprovalService {
     Map<String, Object> getDeptDocNum(Map<String, Object> params);
 
     /**
+     * 결재자 부재체크
+     * @param params
+     * @return
+     */
+    int getIsExistsAbsent(Map<String, Object> params);
+
+    /**
+     * 현재 결재순번 결재자 문서 최초 열람시간
+     * @param params
+     */
+    void setDocApproveRouteReadDt(Map<String, Object> params);
+
+    /**
      * 결재 문서 정보
      */
     Map<String, Object> getDocInfoApproveRoute(Map<String, Object> params);
@@ -46,6 +59,13 @@ public interface ApprovalService {
      * @param params
      */
     void setDocReaderReadUser(Map<String, Object> params);
+
+    /**
+     * 결재자별 결재상태 공통코드 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getByApproveCmCodeInfo(Map<String, Object> params);
 
     /**
      * 문서 결재

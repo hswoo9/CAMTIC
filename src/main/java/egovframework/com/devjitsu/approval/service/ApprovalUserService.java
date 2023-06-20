@@ -18,6 +18,15 @@ public interface ApprovalUserService {
      */
     List<Map<String, Object>> getUserDocStorageBoxList(Map<String, Object> params);
 
+    /** 결재함 */
+
+    /**
+     * 결재함 상태별 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getApproveDocBoxList(Map<String, Object> params);
+
     /**
      * 나의 즐겨찾기 결재선 리스트 조회
      * @param params

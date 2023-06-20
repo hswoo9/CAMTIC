@@ -67,6 +67,16 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public int getIsExistsAbsent(Map<String, Object> params) {
+        return approvalRepository.getIsExistsAbsent(params);
+    }
+
+    @Override
+    public void setDocApproveRouteReadDt(Map<String, Object> params) {
+        approvalRepository.setDocApproveRouteReadDt(params);
+    }
+
+    @Override
     public Map<String, Object> getDocInfoApproveRoute(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 
@@ -232,6 +242,36 @@ public class ApprovalServiceImpl implements ApprovalService {
                 }
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> getByApproveCmCodeInfo(Map<String, Object> params) {
+        String cmCodeNm = params.get("cmCodeNm") == null ? "" : params.get("cmCodeNm").toString();
+
+        Map<String, Object> returnMap = new HashMap<>();
+        if(cmCodeNm == ""){
+            if(params.get("subApproval").equals("Y")){
+                if(params.get("lastApproveEmpSeq").equals(params.get("nowApproveEmpSeq")) && params.get("nowApproveType").equals("2")){
+                    cmCodeNm = "finalType1Approve";
+                }else if(params.get("lastApproveEmpSeq").equals(params.get("nowApproveEmpSeq")) && params.get("nowApproveType").equals("0")){
+                    cmCodeNm = "finalApprove";
+                }else{
+                    cmCodeNm = "approve";
+                }
+            }else{
+                if(params.get("lastApproveEmpSeq").equals(params.get("loginEmpSeq")) && params.get("nowApproveType").equals("2")){
+                    cmCodeNm = "finalType1Approve";
+                }else if(params.get("lastApproveEmpSeq").equals(params.get("loginEmpSeq")) && params.get("nowApproveType").equals("0")){
+                    cmCodeNm = "finalApprove";
+                }else{
+                    cmCodeNm = "approve";
+                }
+            }
+        }
+
+        params.put("cmCodeNm", cmCodeNm);
+        returnMap.putAll(commonCodeRepository.getCmCodeInfo(params));
+        return returnMap;
     }
 
     @Override

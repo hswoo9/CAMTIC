@@ -207,7 +207,7 @@ var docView = {
             deptSeq : docView.global.loginVO.orgnztId,
         }
 
-        var result = customKendo.fn_customAjax("/approval/getIsExistsAbsent.do", docView.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getIsExistsAbsent", docView.global.searchAjaxData);
         if(result.flag){
            if(result.rs == 0){
                docView.global.isExistsAbsent = true;
@@ -225,7 +225,7 @@ var docView = {
             empSeq : docView.global.loginVO.uniqId,
         }
 
-        var result = customKendo.fn_customAjax("/approval/setDocApproveRouteReadDt.do", docView.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/setDocApproveRouteReadDt", docView.global.searchAjaxData);
 
         if(!result.flag){
             alert("시스템 오류가 발생했습니다.");
@@ -384,7 +384,7 @@ var docView = {
             loginEmpSeq : docView.global.loginVO.uniqId,
         }
 
-        var result = customKendo.fn_customAjax("/approval/getCmCodeInfo.do", docView.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getCmCodeInfo", docView.global.searchAjaxData);
 
         if(result.flag) {
             $("#approveOrder").val(docView.global.rs.approveNowRoute.APPROVE_ORDER);
@@ -425,7 +425,7 @@ var docView = {
             cmCodeNm : "return",
         }
 
-        var result = customKendo.fn_customAjax("/approval/getCmCodeInfo.do", docView.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getCmCodeInfo", docView.global.searchAjaxData);
 
         if(result.flag) {
             $("#returnEmpSeq").val(docView.global.loginVO.uniqId);
