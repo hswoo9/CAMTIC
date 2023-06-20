@@ -21,7 +21,7 @@ public class AssetServiceImpl implements AssetService {
         assetRepository.setEquipmentInsert(params);
     }
 
-    //공통코드 - 장비관리구분
+    //공통코드 - 장비관리구분 조회
     @Override
     public List<Map<String,Object>> getEqipmnList(Map<String, Object> params) {
         return assetRepository.getEqipmnList(params);
@@ -69,6 +69,22 @@ public class AssetServiceImpl implements AssetService {
         return result;
     }
 
-    
+    //장비관리 팝업창 - 장비사용 등록
+    @Override
+    public void setEquipmentUseInsert(Map<String, Object> params) {
+        assetRepository.setEquipmentUseInsert(params);
+    }
+
+    //장비사용 등록 - 장비명 조회
+    @Override
+    public List<Map<String,Object>> getEqipmnNameList(Map<String, Object> params) {
+        return assetRepository.getEqipmnNameList(params);
+    }
+
+    //장비사용 등록 - 업체구분 조회
+    @Override
+    public List<Map<String,Object>> getPrtpcoGbnNameList(Map<String, Object> params) {
+        return assetRepository.getPrtpcoGbnNameList(params);
+    }
 
 }

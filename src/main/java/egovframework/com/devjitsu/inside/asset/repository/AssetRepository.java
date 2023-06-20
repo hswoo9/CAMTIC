@@ -14,7 +14,7 @@ public class AssetRepository extends AbstractDAO {
         insert("asset.setEquipmentInsert", params);
     }
 
-    //공통코드 - 장비관리구분
+    //공통코드 - 장비관리구분 조회
     public List<Map<String, Object>> getEqipmnList(Map<String, Object> params) {
         return selectList("asset.getEqipmnList", params);
     }
@@ -29,5 +29,21 @@ public class AssetRepository extends AbstractDAO {
 
     //장비등록 목록 업데이트
     public void setEquipmentUpdate(Map<String, Object> params) { update("asset.setEquipmentUpdate", params);}
+
+    //장비관리 팝업창 - 장비사용 등록
+    public void setEquipmentUseInsert(Map<String, Object> params) {
+        insert("asset.setEquipmentUseInsert", params);
+    }
+
+    //장비사용 등록 - 장비명 조회
+    public List<Map<String, Object>> getEqipmnNameList(Map<String, Object> params) {
+        return selectList("asset.getEqipmnNameList", params);
+    }
+
+    //장비사용 등록 - 업체구분 조회
+    public List<Map<String, Object>> getPrtpcoGbnNameList(Map<String, Object> params) {
+        return selectList("asset.getPrtpcoGbnNameList", params);
+    }
+
 
 }

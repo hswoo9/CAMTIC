@@ -273,7 +273,7 @@ public class AssetController {
         return formatter.format(today);
     }
 
-    //공통코드 - 장비관리구분
+    //공통코드 - 장비관리구분 조회
     @RequestMapping("/asset/getEqipmnList")
     @ResponseBody
     public Map<String, Object> getEqipmnList(@RequestParam Map<String, Object> params){
@@ -302,4 +302,29 @@ public class AssetController {
         model.addAttribute("rs", assetService.setEquipmentUpdate(params));
         return "jsonView";
     }
+
+    //장비관리 팝업창 - 장비사용 등록
+    @RequestMapping("/asset/setEquipmentUseInsert")
+    public void setEquipmentUseInsert(@RequestParam Map<String, Object> params) {
+        assetService.setEquipmentUseInsert(params);
+    }
+
+    //장비사용 등록 - 장비명 조회
+    @RequestMapping("/asset/getEqipmnNameList")
+    @ResponseBody
+    public Map<String, Object> getEqipmnNameList(@RequestParam Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", assetService.getEqipmnNameList(params));
+        return result;
+    }
+
+    //장비사용 등록 - 업체구분 조회
+    @RequestMapping("/asset/getPrtpcoGbnNameList")
+    @ResponseBody
+    public Map<String, Object> getPrtpcoGbnNameList(@RequestParam Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", assetService.getPrtpcoGbnNameList(params));
+        return result;
+    }
+    
 }

@@ -124,6 +124,7 @@ var deptListPop = {
         console.log(row.EMP_NAME_KR);
         console.log(row.EMP_SEQ);
         opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
+        opener.parent.$("#userName").val(row.EMP_NAME_KR);
         //emp_seq, dept_seq, dept_name
         opener.parent.$("#empSeq").val(row.EMP_SEQ);
         opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
