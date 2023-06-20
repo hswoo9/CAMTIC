@@ -101,7 +101,7 @@
                         <thead>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
-                            <td colspan><input type="text" id="eqipmnGbnName" style="width: 130px;">
+                            <td colspan><input type="text" id="eqipmnGbnName" style="width: 150px;">
                             </td>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>장비명</th>
                             <td><input type="text" id="eqipmnName" style="width: 150px;"></td>
@@ -121,9 +121,11 @@
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록 일자</th>
-                            <td colspan="3">
-                                <input type="date" id="regDe" style="width: 50%;">
+                            <td colspan>
+                                <input type="date" id="regDe" style="width: 100%;">
                             </td>
+                            <th scope="row" class="text-center th-color"><span class="red-star"></span>정렬순번</th>
+                            <td><input type="text" id="sortSn" style="width: 150px;"></td>
                         </tr>
                         </thead>
                     </table>

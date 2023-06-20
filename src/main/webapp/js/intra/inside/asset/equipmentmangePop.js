@@ -34,6 +34,7 @@ var equipmentmangePop = {
 
         $("#eqipmnName").kendoTextBox();
         $("#regtrName").kendoTextBox();
+        $("#sortSn").kendoTextBox();
 
         /*$("#regDe").kendoDatePicker({
             depth: "month",
@@ -73,6 +74,7 @@ var equipmentmangePop = {
         $("#eqipmnName").val("");
         $("#regtrName").val("");
         $("#regDe").val("");
+        $("#sortSn").val("");
 
         $("#save").removeAttr("onclick");
         $("#save").attr("onclick", "equipmentmangePop.equipSave();");
@@ -145,13 +147,13 @@ var equipmentmangePop = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='eqmnPk' value='' class='k-checkbox checkbox'/>",
+                    /*template : "<input type='checkbox' id='' name='eqmnPk' value='' class='k-checkbox checkbox'/>",*/
                     template : "<input type='checkbox' id='eqmnPk#=EQIPMN_MST_SN#' name='eqmnPk' value='#=EQIPMN_MST_SN#' class='k-checkbox checkbox'/>",
                     width: "5.5%"
                 }, {
-                    field: "",
+                    field: "SORT_SN",
                     title: "순번",
-                    template: "#= record-- #",
+                    /*template: "#= record-- #",*/
                     width: "10%"
                 }, {
                     field: "EQIPMN_GBN_NAME",
@@ -173,27 +175,28 @@ var equipmentmangePop = {
         $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
             var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
             var dropdownlist = $("#eqipmnGbnName").data("kendoDropDownList");
-            dropdownlist.text(selectedItem.EQIPMN_GBN_NAME);
-            dropdownlist.value(selectedItem.EQIPMN_GBN_CMMN_CD_SN);
+            dropdownlist.text(selectedItem.EQIPMN_GBN_NAME); //구분명
+            dropdownlist.value(selectedItem.EQIPMN_GBN_CMMN_CD_SN); //구분값
             console.log(selectedItem);
-            $("#eqipmnName").val(selectedItem.EQIPMN_NAME);
-            $("#regtrName").val(selectedItem.REGTR_NAME);
-            $("#regDe").val(selectedItem.REG_DE);
+            $("#eqipmnName").val(selectedItem.EQIPMN_NAME); //장비명
+            $("#regtrName").val(selectedItem.REGTR_NAME); //등록자
+            $("#regDe").val(selectedItem.REG_DE); //등록 일자
+            $("#sortSn").val(selectedItem.SORT_SN); //순번
             //pk
             equipmentmangePop.global.eqipmnMstSn = selectedItem.EQIPMN_MST_SN;
-            $("#save").removeAttr("onclick");
-            $("#save").attr("onclick", "equipmentmangePop.equipUpdate();");
+            $("#save").removeAttr("onclick"); //더블 클릭하고 저장 버튼 클릭시 속성값 제거
+            $("#save").attr("onclick", "equipmentmangePop.equipUpdate();"); //업데이트 속성값 적용
         });
     },
 
-    gridReload : function() {
+/*    gridReload : function() {
         var data = {
             eqipmnGbnName : $("#mainEqipmnGbnName").getKendoDropDownList().text(),
             eqipmnName : $("#mainEqipmnName").val()
         };
 
         equipmentmangePop.mainGrid("/asset/getEqipmnRegList", data);
-    },
+    },*/
 
     equipSave : function (){
 
@@ -204,8 +207,8 @@ var equipmentmangePop = {
                 eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
                 regtrName : $("#regtrName").val(), //등록자명
                 regtrSn : $("#empSeq").val(), //등록자 사원번호
-                /*regDe : $("#regDe").val() //등록일자*/
-                regDe : $("#regDe").val().replaceAll('-','') //등록일자
+                regDe : $("#regDe").val().replaceAll('-',''), //등록일자
+                sortSn : $("#sortSn").val() //정렬순번
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -219,6 +222,9 @@ var equipmentmangePop = {
                 return false;
             }else if(data.regDe == null || data.regDe == ''){
                 alert("등록 일자를 입력하세요.")
+                return false;
+            }else if(data.sortSn == null || data.sortSn == '') {
+                alert("정렬순번을 입력하세요.")
                 return false;
             }
             console.log(data);
@@ -243,7 +249,8 @@ var equipmentmangePop = {
                 eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
                 regtrName : $("#regtrName").val(), //등록자명
                 regtrSn : $("#empSeq").val(), //등록자 사원번호
-                regDe : $("#regDe").val(), //등록일자
+                regDe : $("#regDe").val().replaceAll('-',''), //등록일자
+                sortSn : $("#sortSn").val(), //정렬순번
                 eqipmnMstSn : equipmentmangePop.global.eqipmnMstSn
             }
 
@@ -258,6 +265,9 @@ var equipmentmangePop = {
                 return false;
             }else if(data.regDe == null || data.regDe == ''){
                 alert("등록 일자를 입력하세요.")
+                return false;
+            }else if(data.sortSn == null || data.sortSn == '') {
+                alert("정렬순번을 입력하세요.")
                 return false;
             }
             console.log(data);

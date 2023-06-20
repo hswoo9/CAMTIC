@@ -9,12 +9,12 @@
         INSERT INTO CAM_INSIDE.DJ_EQIPMN_MST
         (
 
-            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, regtr_sn, reg_de, create_dt, actvt_yn
+            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, regtr_sn, reg_de, create_dt, actvt_yn, sort_sn
         )
         VALUES
         (
 
-            #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regtrSn}, #{regDe}, NOW(), 'Y'
+            #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regtrSn}, #{regDe}, NOW(), 'Y', #{sortSn}
         )
     </insert>
 
@@ -39,7 +39,8 @@
             eqipmn_name AS EQIPMN_NAME,
             regtr_name AS REGTR_NAME,
             reg_de AS REG_DE,
-            actvt_yn as ACTVT_YN
+            actvt_yn as ACTVT_YN,
+            sort_sn as SORT_SN
         FROM
             CAM_INSIDE.DJ_EQIPMN_MST
         WHERE
@@ -51,6 +52,7 @@
             AND EQIPMN_NAME LIKE CONCAT('%', #{eqipmnName}, '%')
         </if>
             AND ACTVT_YN = 'Y'
+        ORDER BY SORT_SN ASC
     </select>
 
     <!--장비등록 목록 삭제-->
@@ -59,7 +61,7 @@
         UPDATE
             CAM_INSIDE.DJ_EQIPMN_MST
         SET
-            actvt_yn = 'N', updt_dt  = NOW()
+            actvt_yn = 'N', updt_dt = NOW()
         WHERE
             eqipmn_mst_sn IN
         (
@@ -77,7 +79,7 @@
         SET
             eqipmn_name = #{eqipmnName}, eqipmn_gbn_name = #{eqipmnGbnName},
             eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}, regtr_name = #{regtrName},
-            regtr_sn = #{regtrSn}, updt_dt  = NOW()
+            reg_de = #{regDe}, regtr_sn = #{regtrSn}, updt_dt  = NOW(), sort_sn = #{sortSn}
         WHERE
             eqipmn_mst_sn = #{eqipmnMstSn}
     </update>
