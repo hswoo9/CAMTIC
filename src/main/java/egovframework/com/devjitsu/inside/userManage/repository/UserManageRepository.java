@@ -32,8 +32,14 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getCodeList() {
         return selectList("userManage.getCodeList");
     }
-    public List<Map<String,Object>> getAssetCodeList() {
-        return selectList("userManage.getAssetCodeList");
+    public List<Map<String,Object>> getAssetMcCodeList() {
+        return selectList("userManage.getAssetMcCodeList");
+    }
+    public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {
+        return selectList("userManage.getAssetMdCodeList", map);
+    }
+    public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
+        return selectList("userManage.getAssetDtCodeList", map);
     }
     public List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params) {
         return selectList("userManage.getDeptCodeList2", params);

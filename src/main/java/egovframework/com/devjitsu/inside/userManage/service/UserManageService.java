@@ -15,7 +15,9 @@ public interface UserManageService{
     List<Map<String,Object>> getRewardInfoList (Map<String,Object> map);
     List<Map<String,Object>> getAllUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getCodeList();
-    List<Map<String,Object>> getAssetCodeList();
+    List<Map<String,Object>> getAssetMcCodeList();
+    List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
+    List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
     List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params);
     List<Map<String,Object>> getDeptCodeList (Map<String,Object> params);
     List<Map<String,Object>> getEmpInfoList (Map<String,Object> map);

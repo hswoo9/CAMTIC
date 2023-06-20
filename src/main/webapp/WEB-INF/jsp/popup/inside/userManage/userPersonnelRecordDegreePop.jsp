@@ -175,8 +175,9 @@
       type : "degree",
     }
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+    console.log(result.rs);
     if(result.flag){
-      if(result == "SUCCESS") {
+      if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");
         fn_windowClose();
       }else{

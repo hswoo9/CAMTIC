@@ -3,12 +3,18 @@ var now = new Date();
 var assetList = {
 
     global : {
-        codeDropDown : "",
+        codeDropDown : [{
+            AST_MC_CODE_NM : "선택하세요",
+            AST_MC_CODE : ""
+        }],
+        mdCode : "",
+        dtCode : "",
     },
 
     init : function(){
-        assetList.dataSet();
         assetList.mainGrid();
+        assetList.fn_codeSet();
+        assetList.dataSet();
     },
 
     dataSet() {
@@ -51,46 +57,48 @@ var assetList = {
             ],
             index: 0
         });
-
-        /*$('#drop3').kendoDropDownList({
+        $('#drop3').kendoDropDownList({
             dataTextField: "AST_MC_CODE_NM",
-            dataValueField: "value",
-            dataSource: assetList.edCodeDataSource("0")
-        });*/
-        $("#drop3").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "차량운반구", value: "1" },
-                { text: "장비", value: "2" },
-                { text: "비품", value: "3" },
-                { text: "공구", value: "4" }
-            ],
-            index: 0
+            dataValueField: "AST_MC_CODE",
+            dataSource: assetList.global.codeDropDown
         });
-
-        $("#drop4").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "자동차", value: "1" },
-                { text: "자전거", value: "2" },
-                { text: "카트", value: "3" },
-                { text: "지게차", value: "4" }
-            ],
-            index: 0
+        $('#drop3').on('change', function(){
+            var data = {
+                AST_MC_CODE : $('#drop3').val(),
+            }
+            assetList.global.mdCode = customKendo.fn_customAjax('/userManage/getAssetMdCodeList',data);
+            if(assetList.global.mdCode.rs.length > 0) {
+                $('#md').css('display','block');
+                $('#drop4').data('kendoDropDownList').setDataSource(assetList.global.mdCode.rs);
+                $('#drop4').data('kendoDropDownList').select(0);
+            }else{
+                $('#md').css('display','none');
+                $('#dt').css('display','none');
+            }
         });
-
+        $('#drop4').kendoDropDownList({
+            dataTextField: "AST_MD_CODE_NM",
+            dataValueField: "AST_MD_CODE",
+            index:0
+        });
+        $('#drop4').on('change', function(){
+            var data = {
+                AST_MC_CODE : $('#drop3').val(),
+                AST_MD_CODE : $('#drop4').val(),
+            }
+            assetList.global.dtCode = customKendo.fn_customAjax('/userManage/getAssetDtCodeList',data);
+            if(assetList.global.dtCode.rs.length > 0) {
+                $('#dt').css('display','block');
+                $('#drop5').data('kendoDropDownList').setDataSource(assetList.global.dtCode.rs);
+                $('#drop5').data('kendoDropDownList').select(0);
+            }else{
+                $('#dt').css('display','none');
+            }
+        });
         $("#drop5").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "자동차", value: "1" }
-            ],
-            index: 0
+            dataTextField: "AST_DT_CODE_NM",
+            dataValueField: "AST_DT_CODE",
+            index:0
         });
 
         $("#drop6").kendoDropDownList({
@@ -298,35 +306,16 @@ var assetList = {
 
     fn_codeSet : function() {
         $.ajax({
-            url : '/userManage/getAssetCodeList',
+            url : '/userManage/getAssetMcCodeList',
             type : "post",
             async : false,
             dataType : "json",
             success : function(result) {
-                codeSet = result.rs;
-                codeDropDown = result.rs;
+                $.each(result.rs, function(index, item){
+                    assetList.global.codeDropDown.push(item);
+                })
+                console.log(assetList.global.codeDropDown);
             }
         })
     },
-
-    edCodeDataSource : function(code) {
-        var data = [];
-        var defaultCode = "";
-        if (code != "") {
-            switch (code) {
-                case "0" :
-                    defaultCode = "테스트"
-            }
-            data.push({"AST_MC_CODE_NM": defaultCode, "value": ""});
-        } else {
-            data.push({"AST_MC_CODE_NM": "선택하세요", "value": ""});
-        }
-        /*for (var i = 0; i < codeDropDown.length; i++) {
-            codeDropDown[i].value = codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE + codeDropDown[i].HR_DT_CODE;
-            if (codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE == code) {
-                data.push(codeDropDown[i]);
-            }
-        }*/
-        return data;
-    }
 }

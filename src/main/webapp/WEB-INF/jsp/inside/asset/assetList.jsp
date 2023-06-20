@@ -45,11 +45,11 @@
                                     <span>대분류</span>
                                     <input type="text" id="drop3" style="width: 120px;">
                                 </div>
-                                <div class="mr10">
+                                <div class="mr10" id="md" style="display: none;">
                                     <span>중분류</span>
                                     <input type="text" id="drop4" style="width: 120px;">
                                 </div>
-                                <div class="mr10">
+                                <div class="mr10" id="dt" style="display: none;">
                                     <span>소분류</span>
                                     <input type="text" id="drop5" style="width: 120px;">
                                 </div>
