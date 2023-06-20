@@ -2,6 +2,10 @@ var now = new Date();
 
 var assetList = {
 
+    global : {
+        codeDropDown : "",
+    },
+
     init : function(){
         assetList.dataSet();
         assetList.mainGrid();
@@ -48,6 +52,11 @@ var assetList = {
             index: 0
         });
 
+        /*$('#drop3').kendoDropDownList({
+            dataTextField: "AST_MC_CODE_NM",
+            dataValueField: "value",
+            dataSource: assetList.edCodeDataSource("0")
+        });*/
         $("#drop3").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -285,5 +294,39 @@ var assetList = {
         var name = "addAssetPop";
         var option = "width = 1000, height = 700, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
+    },
+
+    fn_codeSet : function() {
+        $.ajax({
+            url : '/userManage/getAssetCodeList',
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(result) {
+                codeSet = result.rs;
+                codeDropDown = result.rs;
+            }
+        })
+    },
+
+    edCodeDataSource : function(code) {
+        var data = [];
+        var defaultCode = "";
+        if (code != "") {
+            switch (code) {
+                case "0" :
+                    defaultCode = "테스트"
+            }
+            data.push({"AST_MC_CODE_NM": defaultCode, "value": ""});
+        } else {
+            data.push({"AST_MC_CODE_NM": "선택하세요", "value": ""});
+        }
+        /*for (var i = 0; i < codeDropDown.length; i++) {
+            codeDropDown[i].value = codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE + codeDropDown[i].HR_DT_CODE;
+            if (codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE == code) {
+                data.push(codeDropDown[i]);
+            }
+        }*/
+        return data;
     }
 }

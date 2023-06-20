@@ -124,6 +124,34 @@
         and
             a.admin_approval = 'Y';
     </select>
+    <select id="getDutyInfoList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_duty_info AS b
+            on
+            a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
+    </select>
+    <select id="getProposalInfoList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+                LEFT join
+            cam_hr.dj_emp_proposal_info AS b
+            on
+            a.EMP_SEQ = b.EMP_SEQ
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+        and
+            a.admin_approval = 'Y';
+    </select>
 
 
     <insert id="setUserReqDetailInsert" parameterType="map">
@@ -209,6 +237,14 @@
         WHERE
             ACTIVE = 'Y'
     </select>
+    <select id="getAssetCodeList" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_inside.dj_asset_code
+        WHERE
+            ACTIVE = 'Y'
+    </select>
 
     <select id="getDeptCodeList2" parameterType="map" resultType="map">
         /*getDeptCodeList2*/
@@ -275,6 +311,17 @@
                 </otherwise>
             </choose>
         </if>
+
+    </select>
+    <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
+        SELECT
+            a.*,
+            date_format(a.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+            date_format(a.RESIGN_DAY,'%Y-%m-%d') AS RESIGN_DAY2
+        FROM
+            CAM_HR.dj_emp_info	AS a
+        WHERE
+            a.active = 'Y'
 
     </select>
     <insert id="setEducationalInfo" parameterType="map">
@@ -434,6 +481,50 @@
                 ,now()
                 )
     </insert>
+    <insert id="setJobInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_duty_info(
+                EMP_SEQ
+                , EMP_NAME
+                , POSITON_NAME
+                , WORK_PAY
+                , DUTY_DETAIL
+                , WORK_JOIN_DAY
+                , WORK_LEAVE_DAY
+                , REG_EMP_SEQ
+                , REG_DATE
+        )VALUES (
+                #{EMP_SEQ}
+                , #{EMP_NAME}
+                , #{POSITON_NAME}
+                , #{WORK_PAY}
+                , #{DUTY_DETAIL}
+                , #{sDate}
+                , #{eDate}
+                , #{EMP_SEQ}
+                , NOW()
+        )
+    </insert>
+    <insert id="setProposalInfo" parameterType="map">
+        INSERT INTO cam_hr.dj_emp_proposal_info(
+            EMP_SEQ
+            ,EMP_NAME
+            ,PROPOSAL_GUBUN
+            ,PROPOSAL_DETAIL
+            ,PROPOSAL_CHECK_CHOICE
+            ,PROPOSAL_DATE
+            ,REG_EMP_SEQ
+            ,REG_DATE
+        )VALUES (
+            #{EMP_SEQ}
+            ,#{EMP_NAME}
+            ,#{pGubun}
+            ,#{PROPOSAL_DETAIL}
+            ,#{PROPOSAL_CHECK_CHOICE}
+            ,#{sDate}
+            ,#{EMP_SEQ}
+            ,NOW()
+        )
+    </insert>
 
     <select id="getPersonRecordApplyList" parameterType="map" resultType="map">
         SELECT
@@ -574,6 +665,46 @@
         'REWORD_ID' AS 'key'
         FROM
         cam_hr.dj_emp_reword AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.DUTY_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_duty_info' AS 'type',
+        '직무사항' AS 'typeName',
+        'DUTY_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_duty_info AS a
+        LEFT join
+        cam_hr.dj_emp_info AS b
+        on
+        a.emp_seq = b.emp_seq
+        UNION
+        SELECT
+        a.PROPOSAL_ID AS 'ID',
+        b.EMP_SEQ,
+        b.DEPT_NAME,
+        b.DEPT_TEAM_NAME,
+        b.POSITION_NAME,
+        a.EMP_NAME,
+        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+        a.REG_DATE as 'REG_DATE2',
+        a.admin_approval,
+        'dj_emp_proposal_info' AS 'type',
+        '제안제도' AS 'typeName',
+        'PROPOSAL_ID' AS 'key'
+        FROM
+        cam_hr.dj_emp_proposal_info AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on

@@ -471,12 +471,21 @@
                                         <th>주요직무</th>
                                         <th>직급</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>2021.01.17~2022.01.17</td>
-                                        <td>시험사출, 설비유지보수</td>
-                                        <td>대리</td>
-                                    </tr>
+                                    <c:forEach var="l" items="${dList}">
+                                        <c:choose>
+                                            <c:when test="${l.DUTY_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
+                                                    <td>${l.DUTY_DETAIL}</td>
+                                                    <td>${l.POSITON_NAME}</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -723,13 +732,22 @@
                                         <th>주요제안내용</th>
                                         <th>현재상태</th>
                                     </tr>
-                                    <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
+                                    <c:forEach var="l" items="${pList}">
+                                        <c:choose>
+                                            <c:when test="${l.PROPOSAL_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td>${l.PROPOSAL_GUBUN}</td>
+                                                    <td>${l.PROPOSAL_DATE}</td>
+                                                    <td>${l.PROPOSAL_DETAIL}</td>
+                                                    <td>${l.PROPOSAL_CHECK_CHOICE}</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>

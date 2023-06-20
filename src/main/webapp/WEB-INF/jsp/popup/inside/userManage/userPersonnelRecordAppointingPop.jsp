@@ -123,8 +123,12 @@
     }
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
     if(result.flag){
-      alert("등록되었습니다.");
-      fn_windowClose();
+      if(result == "SUCCESS") {
+        alert("등록되었습니다.");
+        fn_windowClose();
+      }else{
+        alert("등록에 실패하였습니다.");
+      }
     }else{
       alert("등록에 실패하였습니다.");
     }

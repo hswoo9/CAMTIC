@@ -63,7 +63,8 @@ public class UserManageController {
         model.addAttribute("lList", userManageService.getLicenceInfoList(map));
         model.addAttribute("aList", userManageService.getAppointInfoList(map));
         model.addAttribute("rList", userManageService.getRewardInfoList(map));
-        //model.addAttribute("fList", userManageService.getFamilyInfoList(map));
+        model.addAttribute("dList", userManageService.getDutyInfoList(map));
+        model.addAttribute("pList", userManageService.getProposalInfoList(map));
         return "inside/userManage/userPersonnelRecord";
     }
 
@@ -333,6 +334,13 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/userManage/getEmpInfoDetailList")
+    public String getEmpInfoDetailList(@RequestParam Map<String,Object> map, Model model) {
+        System.out.println("map : "+map);
+        model.addAttribute("list", userManageService.getEmpInfoDetailList(map));
+        return "jsonView";
+    }
+
     @RequestMapping("/userManage/setUpdateUserInfoModY")
     @ResponseBody
     public Map<String,Object> setUpdateUserInfoModY(@RequestParam Map<String,Object> map, Model model) {
@@ -356,6 +364,12 @@ public class UserManageController {
             tmp.put("rs","FAILED");
         }
         return tmp;
+    }
+
+    @RequestMapping("/userManage/getAssetCodeList")
+    public String getAssetCodeList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("list", userManageService.getAssetCodeList());
+        return "jsonView";
     }
 
 }

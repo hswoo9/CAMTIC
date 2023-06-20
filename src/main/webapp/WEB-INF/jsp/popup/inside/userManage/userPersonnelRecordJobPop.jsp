@@ -78,7 +78,7 @@
             <tr>
               <th>주요직무</th>
               <td colspan="2">
-                <input type="text" id="work" value="test" style="width: 95%;">
+                <input type="text" id="work" value="" style="width: 95%;">
               </td>
             </tr>
             <tr>
@@ -112,19 +112,24 @@
     customKendo.fn_textBox("work");
     customKendo.fn_textBox("rank");
   }
+
   function fu_addInfo() {
     var data = {
-      pay : $("#pay").val(),
+      WORK_PAY : $("#pay").val(),
       sDate : $("#sDate").val(),
       eDate : $("#eDate").val(),
-      work : $("#work").val(),
-      rank : $("#rank").val(),
+      DUTY_DETAIL : $("#work").val(),
+      POSITON_NAME : $("#rank").val(),
       type : "job",
     }
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
     if(result.flag){
-      alert("등록되었습니다.");
-      fn_windowClose();
+      if(result == "SUCCESS") {
+        alert("등록되었습니다.");
+        fn_windowClose();
+      }else{
+        alert("등록에 실패하였습니다.");
+      }
     }else{
       alert("등록에 실패하였습니다.");
     }

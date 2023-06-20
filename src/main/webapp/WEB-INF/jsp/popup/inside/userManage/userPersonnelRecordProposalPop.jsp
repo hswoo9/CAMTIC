@@ -45,7 +45,7 @@
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
       <div class="table-responsive">
-        <div class="popupTitleSt">학력추가</div>
+        <div class="popupTitleSt">제안제도</div>
         <form id="subHolidayReqPop">
           <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
           <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
@@ -61,60 +61,30 @@
             </colgroup>
             <thead>
             <tr>
-              <th colspan="3">학력등록</th>
+              <th colspan="3">제안제도</th>
             </tr>
             <tr>
               <th>구분</th>
               <td colspan="2">
-                <input type="text" id="gubun" style="width: 50%;">
+                <input type="text" id="pGubun" style="width: 50%;">
               </td>
             </tr>
             <tr>
-              <th>기간</th>
+              <th>년월일</th>
               <td colspan="2">
-                <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
+                <input type="text" id="sDate" style="width: 45%;">
               </td>
             </tr>
             <tr>
-              <th>학교 및 학과</th>
+              <th>주요제안내용</th>
               <td colspan="2">
-                <input type="text" id="school" style="width: 50%;">
+                <input type="text" id="proposal" style="width: 100%;">
               </td>
             </tr>
             <tr>
-              <th>학위</th>
+              <th>채택여부</th>
               <td colspan="2">
-                <input type="text" id="gkrdnl" value="test" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>졸업</th>
-              <td colspan="2">
-                <input type="text" id="whfdjq" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>성적</th>
-              <td colspan="2">
-                <input type="text" id="score" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>학위증빙</th>
-              <td colspan="2">
-                <input type="file">
-              </td>
-            </tr>
-            <tr>
-              <th>성적증빙</th>
-              <td colspan="2">
-                <input type="file">
-              </td>
-            </tr>
-            <tr>
-              <th>비고</th>
-              <td colspan="2">
-                <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+                <input type="text" id="status" value="" style="width: 100%;">
               </td>
             </tr>
           </table>
@@ -137,34 +107,26 @@
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
-    customKendo.fn_datePicker("eDate", '', "yyyy-MM-dd", '');
-    var dropDownDataSource = [
-      { text: "대졸", value: "1" },
-      { text: "고졸", value: "2" },
-      { text: "중졸", value: "3" }
-    ];
-    customKendo.fn_dropDownList("gkrdnl",dropDownDataSource, "text","value");
     customKendo.fn_textBox("gubun");
-    $("#bmk").kendoTextArea({
-      rows : 5,
-    });
+    customKendo.fn_textBox("status");
+    customKendo.fn_textBox("proposal");
   }
   function fu_addInfo() {
     var data = {
-        gubun : $("#gubun").val(),
+        pGubun : $("#pGubun").val(),
         sDate : $("#sDate").val(),
-        eDate : $("#eDate").val(),
-        school : $("#school").val(),
-        gkrdnl : $("#gkrdnl").val(),
-        whfdjq : $("#whfdjq").val(),
-        score : $("#score").val(),
-        bmk : $("#bmk").val(),
+        PROPOSAL_DETAIL : $("#proposal").val(),
+        PROPOSAL_CHECK_CHOICE : $("#status").val(),
         type : "proposal",
     }
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
     if(result.flag){
-      alert("등록되었습니다.");
-      fn_windowClose();
+      if(result == "SUCCESS") {
+        alert("등록되었습니다.");
+        fn_windowClose();
+      }else{
+        alert("등록에 실패하였습니다.");
+      }
     }else{
       alert("등록에 실패하였습니다.");
     }

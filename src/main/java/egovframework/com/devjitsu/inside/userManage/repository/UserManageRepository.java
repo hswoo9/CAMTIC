@@ -32,7 +32,9 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getCodeList() {
         return selectList("userManage.getCodeList");
     }
-
+    public List<Map<String,Object>> getAssetCodeList() {
+        return selectList("userManage.getAssetCodeList");
+    }
     public List<Map<String,Object>> getDeptCodeList2 (Map<String,Object> params) {
         return selectList("userManage.getDeptCodeList2", params);
     }
@@ -41,6 +43,9 @@ public class UserManageRepository extends AbstractDAO {
     }
     public List<Map<String,Object>> getEmpInfoList (Map<String,Object> map) {
         return selectList("userManage.getEmpInfoList", map);
+    }
+    public List<Map<String,Object>> getEmpInfoDetailList(Map<String,Object> map) {
+        return selectList("userManage.getEmpInfoDetailList", map);
     }
     public void setUserReqDetailInsert(Map<String, Object> params) {
         insert("userManage.setUserReqDetailInsert", params);
@@ -92,5 +97,11 @@ public class UserManageRepository extends AbstractDAO {
     }
     public void setUpdateUserInfoModN(Map<String,Object> map) {
         update("userManage.setUpdateUserInfoModN", map);
+    }
+    public List<Map<String,Object>> getDutyInfoList(Map<String,Object> map) {
+        return selectList("userManage.getDutyInfoList", map);
+    }
+    public List<Map<String,Object>> getProposalInfoList(Map<String,Object> map) {
+        return selectList("userManage.getProposalInfoList", map);
     }
 }

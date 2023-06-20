@@ -63,10 +63,25 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String,Object>> getCodeList() {
         return userManageRepository.getCodeList();
     }
-
+    @Override
+    public List<Map<String,Object>> getAssetCodeList() {
+        return userManageRepository.getAssetCodeList();
+    }
     @Override
     public List<Map<String, Object>> getEmpInfoList(Map<String, Object> map) {
         return userManageRepository.getEmpInfoList(map);
+    }
+    @Override
+    public List<Map<String,Object>> getEmpInfoDetailList(Map<String,Object> map) {
+        return userManageRepository.getEmpInfoDetailList(map);
+    }
+    @Override
+    public List<Map<String,Object>> getDutyInfoList(Map<String,Object> map) {
+        return userManageRepository.getDutyInfoList(map);
+    }
+    @Override
+    public List<Map<String,Object>> getProposalInfoList(Map<String,Object> map) {
+        return userManageRepository.getProposalInfoList(map);
     }
 
     @Override
