@@ -41,6 +41,8 @@ public class SubHolidayController {
         model.addAttribute("loginVO", login);
         return "/subHoliday/subHolidayList";
 
+    }
+
     /**
      * 휴가 결재 상태값에 따른 UPDATE 메서드
      * @param bodyMap
@@ -64,8 +66,6 @@ public class SubHolidayController {
         return "jsonView";
     }
 
-
-    }
 
     //전체휴가현황 페이지
     @RequestMapping("/subHoliday/subHolidayAdmin.do")
