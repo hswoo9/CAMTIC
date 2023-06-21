@@ -102,5 +102,9 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return assetRepository.getAssetDtCodeList(map);
     }
+    @Override
+    public List<Map<String,Object>> getClassManageList(Map<String,Object> map) {
+        return assetRepository.getClassManageList(map);
+    }
 
 }

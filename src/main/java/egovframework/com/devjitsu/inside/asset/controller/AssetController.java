@@ -357,5 +357,11 @@ public class AssetController {
         }
         return "jsonView";
     }
+
+    @RequestMapping("/inside/getClassManageList")
+    public String getClassManageList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getClassManageList(map));
+        return "jsonView";
+    }
     
 }

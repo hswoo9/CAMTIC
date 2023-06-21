@@ -5,6 +5,10 @@ var classManage = {
     init : function(){
         classManage.dataSet();
         classManage.mainGrid();
+        classManage.gridReload();
+        classManage.gridReload2();
+        classManage.gridReload3();
+        classManage.gridReload4();
     },
 
     dataSet() {
@@ -34,7 +38,7 @@ var classManage = {
 
         $("#searchVal").kendoTextBox();
     },
-    testGrid : function(url, params) {
+    mainGrid : function(url, params) {
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource3(url,params),
             sortable: true,
@@ -82,42 +86,19 @@ var classManage = {
                     field: "",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "INSIDE_DT_CODE_NM",
                     title: "소속"
                 }, {
-                    field: "",
+                    field: "INSIDE_DT_CODE",
                     title: "소속코드"
                 }
             ]
         }).data("kendoGrid");
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid2 : function(url, params) {
         $("#mainGrid2").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource3(url,params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -163,17 +144,19 @@ var classManage = {
                     field: "",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "INSIDE_DT_CODE_NM",
                     title: "소속"
                 }, {
-                    field: "",
+                    field: "INSIDE_DT_CODE",
                     title: "소속코드"
                 }
             ]
         }).data("kendoGrid");
+    },
 
+    mainGrid3 : function(url, params) {
         $("#mainGrid3").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource3(url,params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -227,9 +210,11 @@ var classManage = {
                 }
             ]
         }).data("kendoGrid");
+    },
 
+    mainGrid4 : function(url, params) {
         $("#mainGrid4").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource3(url,params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -338,6 +323,24 @@ var classManage = {
         var data = {
             INSIDE_MD_CODE : '01',
         }
-        classManage.testGrid('',data);
+        classManage.mainGrid('/inside/getClassManageList',data);
+    },
+    gridReload2 : function() {
+        var data = {
+            INSIDE_MD_CODE : '02',
+        }
+        classManage.mainGrid2('/inside/getClassManageList',data);
+    },
+    gridReload3 : function() {
+        var data = {
+            INSIDE_MD_CODE : '',
+        }
+        classManage.mainGrid3('/inside/getClassManageList',data);
+    },
+    gridReload4 : function() {
+        var data = {
+            INSIDE_MD_CODE : '',
+        }
+        classManage.mainGrid4('/inside/getClassManageList',data);
     }
 }

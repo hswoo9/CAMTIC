@@ -173,4 +173,15 @@
             a.AST_MD_CODE = #{AST_MD_CODE}
     </select>
 
+    <select id="getClassManageList" parameterType="map" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_inside.dj_inside_code AS a
+        WHERE
+            a.INSIDE_MD_CODE = #{INSIDE_MD_CODE}
+          and
+            a.ACTIVE = 'Y';
+    </select>
+
 </mapper>

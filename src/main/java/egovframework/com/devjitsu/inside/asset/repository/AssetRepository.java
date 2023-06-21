@@ -57,5 +57,8 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return selectList("asset.getAssetDtCodeList", map);
     }
+    public List<Map<String,Object>> getClassManageList(Map<String,Object> map) {
+        return selectList("asset.getClassManageList", map);
+    }
 
 }

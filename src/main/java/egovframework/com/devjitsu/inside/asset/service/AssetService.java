@@ -33,4 +33,5 @@ public interface AssetService {
     List<Map<String,Object>> getAssetMcCodeList();
     List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
     List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
+    List<Map<String,Object>> getClassManageList(Map<String,Object> map);
 }
