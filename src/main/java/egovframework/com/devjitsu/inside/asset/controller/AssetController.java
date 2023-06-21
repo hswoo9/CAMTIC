@@ -326,5 +326,36 @@ public class AssetController {
         result.put("list", assetService.getPrtpcoGbnNameList(params));
         return result;
     }
+    @RequestMapping("/inside/getInsideCodeList")
+    public String getInsideCodeList(Model model) {
+        model.addAttribute("rs", assetService.getInsideCodeList());
+        return "jsonView";
+    }
+    @RequestMapping("/inside/getAssetMcCodeList")
+    public String getAssetMcCodeList(Model model) {
+        model.addAttribute("rs", assetService.getAssetMcCodeList());
+        return "jsonView";
+    }
+    @RequestMapping("/inside/getAssetMdCodeList")
+    public String getAssetMdCodeList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getAssetMdCodeList(map));
+        return "jsonView";
+    }
+    @RequestMapping("/inside/getAssetDtCodeList")
+    public String getAssetDtCodeList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getAssetDtCodeList(map));
+        return "jsonView";
+    }
+    @RequestMapping("/inside/setAssetInfo")
+    public String setAssetInfo(@RequestParam Map<String,Object> map, Model model) {
+        System.out.println(map);
+        try {
+            //assetService.setAssetInfo(map);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+        }
+        return "jsonView";
+    }
     
 }

@@ -45,5 +45,17 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.getPrtpcoGbnNameList", params);
     }
 
+    public List<Map<String,Object>> getInsideCodeList() {
+        return selectList("userManage.getInsideCodeList");
+    }
+    public List<Map<String,Object>> getAssetMcCodeList() {
+        return selectList("userManage.getAssetMcCodeList");
+    }
+    public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {
+        return selectList("userManage.getAssetMdCodeList", map);
+    }
+    public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
+        return selectList("userManage.getAssetDtCodeList", map);
+    }
 
 }

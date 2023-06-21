@@ -28,4 +28,9 @@ public interface AssetService {
 
     //장비사용 등록 - 업체구분 조회
     List<Map<String, Object>> getPrtpcoGbnNameList(Map<String, Object> params);
+
+    List<Map<String,Object>> getInsideCodeList();
+    List<Map<String,Object>> getAssetMcCodeList();
+    List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
+    List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
 }

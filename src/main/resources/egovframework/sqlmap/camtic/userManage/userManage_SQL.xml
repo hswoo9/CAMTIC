@@ -237,39 +237,6 @@
         WHERE
             ACTIVE = 'Y'
     </select>
-    <select id="getAssetCodeList" resultType="map">
-        SELECT
-            *
-        FROM
-            cam_inside.dj_asset_code
-        WHERE
-            ACTIVE = 'Y'
-    </select>
-    <select id="getAssetMdCodeList" parameterType="map" resultType="map">
-        SELECT distinct
-            a.AST_MD_CODE,
-            a.AST_MD_CODE_NM
-        FROM
-            cam_inside.dj_asset_code AS a
-        WHERE
-            a.ACTIVE = 'Y'
-            and
-            a.AST_MC_CODE = #{AST_MC_CODE}
-    </select>
-    <select id="getAssetDtCodeList" parameterType="map" resultType="map">
-        SELECT
-            a.AST_DT_CODE,
-            a.AST_DT_CODE_NM,
-            CONCAT(a.AST_MC_CODE,a.AST_MD_CODE,a.AST_DT_CODE) AS 'AST_CODE'
-        FROM
-            cam_inside.dj_asset_code AS a
-        WHERE
-            a.ACTIVE = 'Y'
-          and
-            a.AST_MC_CODE = #{AST_MC_CODE}
-          and
-            a.AST_MD_CODE = #{AST_MD_CODE}
-    </select>
     <select id="getDeptCodeList2" parameterType="map" resultType="map">
         /*getDeptCodeList2*/
         SELECT

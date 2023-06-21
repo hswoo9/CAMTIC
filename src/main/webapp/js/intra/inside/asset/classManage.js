@@ -34,33 +34,9 @@ var classManage = {
 
         $("#searchVal").kendoTextBox();
     },
-
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    testGrid : function(url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource3(url,params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -114,6 +90,31 @@ var classManage = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    mainGrid : function() {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data, operation) {
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data;
+                },
+                total: function (data) {
+                    return data.length;
+                },
+            },
+            pageSize: 10,
+        });
 
         $("#mainGrid2").kendoGrid({
             dataSource: dataSource,
@@ -331,5 +332,12 @@ var classManage = {
         var name = "categoriesManagePop";
         var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
+    },
+
+    gridReload : function() {
+        var data = {
+            INSIDE_MD_CODE : '01',
+        }
+        classManage.testGrid('',data);
     }
 }

@@ -3,6 +3,7 @@ var now = new Date();
 var assetList = {
 
     global : {
+        insideCodeDropDown : "",
         codeDropDown : [{
             AST_MC_CODE_NM : "선택하세요",
             AST_MC_CODE : ""
@@ -13,7 +14,8 @@ var assetList = {
 
     init : function(){
         assetList.mainGrid();
-        assetList.fn_codeSet();
+        assetList.fn_astCodeSet();
+        assetList.fn_insideCodeSet();
         assetList.dataSet();
     },
 
@@ -25,7 +27,6 @@ var assetList = {
             format : "yyyy-MM-dd",
             value : new Date(now.setMonth(now.getMonth() - 1))
         });
-
         $("#end_date").kendoDatePicker({
             depth: "month",
             start: "month",
@@ -33,29 +34,15 @@ var assetList = {
             format : "yyyy-MM-dd",
             value : new Date()
         });
-
         $("#drop1").kendoDropDownList({
-            dataTextField: "text",
+            dataTextField: "INSIDE_DT_CODE_NM",
             dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "CAMTIC", value: "1" },
-                { text: "드론산업", value: "2" },
-                { text: "벤처단지", value: "3" }
-            ],
-            index: 0
+            dataSource: assetList.edCodeDataSource("B01")
         });
-
         $("#drop2").kendoDropDownList({
-            dataTextField: "text",
+            dataTextField: "INSIDE_DT_CODE_NM",
             dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "자산", value: "1" },
-                { text: "소모품", value: "2" },
-                { text: "부대품", value: "3" }
-            ],
-            index: 0
+            dataSource: assetList.edCodeDataSource("B02")
         });
         $('#drop3').kendoDropDownList({
             dataTextField: "AST_MC_CODE_NM",
@@ -66,9 +53,10 @@ var assetList = {
             var data = {
                 AST_MC_CODE : $('#drop3').val(),
             }
-            assetList.global.mdCode = customKendo.fn_customAjax('/userManage/getAssetMdCodeList',data);
+            assetList.global.mdCode = customKendo.fn_customAjax('/inside/getAssetMdCodeList',data);
             if(assetList.global.mdCode.rs.length > 0) {
                 $('#md').css('display','block');
+                $('#dt').css('display','none');
                 $('#drop4').data('kendoDropDownList').setDataSource(assetList.global.mdCode.rs);
                 $('#drop4').data('kendoDropDownList').select(0);
             }else{
@@ -86,7 +74,7 @@ var assetList = {
                 AST_MC_CODE : $('#drop3').val(),
                 AST_MD_CODE : $('#drop4').val(),
             }
-            assetList.global.dtCode = customKendo.fn_customAjax('/userManage/getAssetDtCodeList',data);
+            assetList.global.dtCode = customKendo.fn_customAjax('/inside/getAssetDtCodeList',data);
             if(assetList.global.dtCode.rs.length > 0) {
                 $('#dt').css('display','block');
                 $('#drop5').data('kendoDropDownList').setDataSource(assetList.global.dtCode.rs);
@@ -100,22 +88,11 @@ var assetList = {
             dataValueField: "AST_DT_CODE",
             index:0
         });
-
         $("#drop6").kendoDropDownList({
-            dataTextField: "text",
+            dataTextField: "INSIDE_DT_CODE_NM",
             dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "활용", value: "1" },
-                { text: "불용·불용", value: "2" },
-                { text: "불용·요정", value: "3" },
-                { text: "불용·유휴", value: "4" },
-                { text: "불용·부족", value: "5" },
-                { text: "처분·폐기", value: "6" }
-            ],
-            index: 0
+            dataSource: assetList.edCodeDataSource("B03")
         });
-
         $("#drop7").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -125,7 +102,6 @@ var assetList = {
             ],
             index: 0
         });
-
         $("#drop8").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -304,9 +280,9 @@ var assetList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_codeSet : function() {
+    fn_astCodeSet : function() {
         $.ajax({
-            url : '/userManage/getAssetMcCodeList',
+            url : '/inside/getAssetMcCodeList',
             type : "post",
             async : false,
             dataType : "json",
@@ -318,4 +294,46 @@ var assetList = {
             }
         })
     },
+
+    fn_insideCodeSet : function() {
+        $.ajax({
+            url : '/inside/getInsideCodeList',
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(result) {
+                console.log(result);
+                assetList.global.insideCodeDropDown = result.rs;
+            }
+        })
+    },
+
+    edCodeDataSource : function(code) {
+        var data = [];
+        var defaultCode = "";
+        if(code != ""){
+            switch (code){
+                case "B01" :
+                    defaultCode = "자산소속"
+                    break
+                case "B02" :
+                    defaultCode = "자산분류"
+                    break
+                case "B03" :
+                    defaultCode = "자산상태"
+                    break
+            }
+            data.push({"INSIDE_DT_CODE_NM": defaultCode, "value" : ""});
+        }else {
+            data.push({"INSIDE_DT_CODE_NM": "선택하세요", "value" : ""});
+        }
+
+        for(var i = 0 ; i < assetList.global.insideCodeDropDown.length ; i++){
+            assetList.global.insideCodeDropDown[i].value = assetList.global.insideCodeDropDown[i].INSIDE_MC_CODE + assetList.global.insideCodeDropDown[i].INSIDE_MD_CODE + assetList.global.insideCodeDropDown[i].INSIDE_DT_CODE;
+            if(assetList.global.insideCodeDropDown[i].INSIDE_MC_CODE + assetList.global.insideCodeDropDown[i].INSIDE_MD_CODE == code){
+                data.push(assetList.global.insideCodeDropDown[i]);
+            }
+        }
+        return data;
+    }
 }
