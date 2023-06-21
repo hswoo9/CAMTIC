@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.approval.service.ApprovalService;
+import egovframework.com.devjitsu.subHoliday.repository.SubHolidayRepository;
 import egovframework.com.devjitsu.system.repository.CommonCodeRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.ConvertUtil;
@@ -49,6 +50,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Autowired
     private FormManagementRepository formManagementRepository;
+
+    @Autowired
+    private SubHolidayRepository subHolidayRepository;
 
     @Override
     public Map<String, Object> getLinkageProcessDocInterlock(Map<String, Object> params) {
@@ -341,7 +345,7 @@ public class ApprovalServiceImpl implements ApprovalService {
             approvalRepository.setApproveDocOptUpd(params);
         }
 
-        /** 상신자 결재유형 조회 Tyep == 1 자기전결 */
+        /** 상신자 결재유형 조회 Type == 1 자기전결 */
         if(params.get("draftUserApproveType").equals("2")){
             Map<String, Object> docInfoMap = approvalRepository.getDocInfo(params);
             docInfoMap.put("cmCodeNm", "finalType1Approve");
@@ -362,6 +366,15 @@ public class ApprovalServiceImpl implements ApprovalService {
             Map<String, Object> draftDocInfo = (Map<String, Object>) params.get("draftDocInfo");
             draftDocInfo.put("draftUserApproveRouteId", draftUserApproveRouteId);
             params.put("draftDocInfo", draftDocInfo);
+        }
+
+        if(params.get("type").toString().equals("draft") && params.containsKey("menuCd")) {
+            if(params.get("menuCd").toString().equals("subHoliday")) {
+                String reqContentId = params.get("reqContentId").toString();
+                params.put("reqContentId", reqContentId);
+                params.put("status", "C");
+                subHolidayRepository.updateApprStat(params);
+            }
         }
 
         return params;
@@ -472,6 +485,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             System.out.println("응답코드 : "+ code);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+        }
+
+        if(params.containsKey("menuCd") && params.containsKey("approveStatCodeDesc")) {
+            if(params.get("menuCd").toString().equals("subHoliday") && params.get("approveStatCodeDesc").toString().equals("100")) {
+                params.put("status", "Y");
+                subHolidayRepository.updateApprFinalStat(params);
+            }
         }
     }
 

@@ -404,6 +404,27 @@
             VC.holiday_id;
     </select>
 
+    <update id="updateApprStat" parameterType="map">
+        /* updateApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            APPR_STAT = #{status},
+            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y%m%d'),
+            DOC_ID = #{DOC_ID}
+        WHERE
+            SUBHOLIDAY_USE_ID = #{reqContentId}
+    </update>
+
+    <update id="updateApprFinalStat" parameterType="map">
+        /* updateApprFinalStat */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            APPR_STAT = #{status}
+        WHERE
+            DOC_ID = #{DOC_ID}
+    </update>
 
 
 </mapper>

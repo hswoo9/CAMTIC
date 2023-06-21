@@ -256,7 +256,7 @@ var docView = {
 
     docApproveAjax : function(){
         docView.global.searchAjaxData = docView.makeApprovalFormData("approve");
-        var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn.do", docView.global.searchAjaxData);
+        var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn", docView.global.searchAjaxData);
 
         if(result.flag) {
             alert("결재되었습니다.");
