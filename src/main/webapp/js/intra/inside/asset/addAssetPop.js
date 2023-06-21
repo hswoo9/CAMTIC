@@ -5,64 +5,100 @@
  */
 var now = new Date();
 var addAssetPop = {
+
+    global: {
+        codeDropDown : [{
+            AST_MC_CODE_NM : "대분류",
+            AST_MC_CODE : ""
+        }],
+        mdCode : [{
+            AST_MD_CODE_NM : "중분류",
+            AST_MD_CODE : ""
+        }],
+        dtCode : [{
+            AST_DT_CODE_NM : "소분류",
+            AST_DT_CODE : ""
+        }],
+        insideCodeDropDown : "",
+    },
+
     fn_defaultScript: function () {
+        addAssetPop.fn_astCodeSet();
+        addAssetPop.fn_insideCodeSet();
 
         $("#select1").kendoDropDownList({
-            dataTextField: "text",
+            dataTextField: "INSIDE_DT_CODE_NM",
             dataValueField: "value",
-            dataSource: [
-                { text: "CAMTIC", value: "CAMTIC" },
-                { text: "드론산업", value: "드론산업" },
-                { text: "벤처단지", value: "벤처단지" }
-            ],
-            index: 0
+            dataSource: addAssetPop.edCodeDataSource("B01")
         });
 
         $("#select2").kendoDropDownList({
-            dataTextField: "text",
+            dataTextField: "INSIDE_DT_CODE_NM",
             dataValueField: "value",
-            dataSource: [
-                { text: "자산", value: "자산" },
-                { text: "소모품", value: "소모품" },
-                { text: "부대품", value: "부대품" }
-            ],
-            index: 0
+            dataSource: addAssetPop.edCodeDataSource("B02")
         });
 
-        $("#select3").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "대분류", value: "대분류" },
-                { text: "차량운반구", value: "차량운반구" },
-                { text: "장비", value: "장비" },
-                { text: "비품", value: "비품" },
-                { text: "공구", value: "공구" }
-            ],
-            index: 0
+        $('#select3').kendoDropDownList({
+            dataTextField: "AST_MC_CODE_NM",
+            dataValueField: "AST_MC_CODE",
+            dataSource: addAssetPop.global.codeDropDown
         });
 
-        $("#select4").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "중분류", value: "중분류" },
-                { text: "자동차", value: "자동차" },
-                { text: "자전거", value: "자전거" },
-                { text: "카트", value: "카트" },
-                { text: "지게차", value: "지게차" }
-            ],
-            index: 0
+        $('#select3').on('change', function(){
+            var data = {
+                AST_MC_CODE : $('#select3').val(),
+            }
+            var tmp = customKendo.fn_customAjax('/inside/getAssetMdCodeList',data);
+            addAssetPop.global.mdCode = [{
+                AST_MD_CODE_NM : "중분류",
+                AST_MD_CODE : ""
+            }];
+            addAssetPop.global.dtCode = [{
+                AST_DT_CODE_NM : "소분류",
+                AST_DT_CODE : ""
+            }];
+            $('#select5').data('kendoDropDownList').setDataSource(addAssetPop.global.dtCode);
+            $('#select5').data('kendoDropDownList').select(0);
+            $.each(tmp.rs, function(index, item) {
+                addAssetPop.global.mdCode.push(item);
+            })
+            if(addAssetPop.global.mdCode.length > 1) {
+                $('#select4').data('kendoDropDownList').setDataSource(addAssetPop.global.mdCode);
+                $('#select4').data('kendoDropDownList').select(0);
+            }else{
+            }
         });
 
-        $("#select5").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "소분류", value: "소분류" },
-                { text: "자동차", value: "자동차" },
-            ],
-            index: 0
+        $('#select4').kendoDropDownList({
+            dataTextField: "AST_MD_CODE_NM",
+            dataValueField: "AST_MD_CODE",
+            dataSource: addAssetPop.global.mdCode
+        });
+
+        $('#select4').on('change', function(){
+            var data = {
+                AST_MC_CODE : $('#select3').val(),
+                AST_MD_CODE : $('#select4').val(),
+            }
+            var tmp = customKendo.fn_customAjax('/inside/getAssetDtCodeList',data);
+            addAssetPop.global.dtCode = [{
+                AST_DT_CODE_NM : "소분류",
+                AST_DT_CODE : ""
+            }];
+            $.each(tmp.rs, function(index, item) {
+                addAssetPop.global.dtCode.push(item);
+            })
+            if(addAssetPop.global.dtCode.length > 1) {
+                $('#select5').data('kendoDropDownList').setDataSource(addAssetPop.global.dtCode);
+                $('#select5').data('kendoDropDownList').select(0);
+            }else{
+            }
+        });
+
+        $('#select5').kendoDropDownList({
+            dataTextField: "AST_DT_CODE_NM",
+            dataValueField: "AST_DT_CODE",
+            dataSource: addAssetPop.global.dtCode
         });
 
         $("#addAssetStatus").kendoDropDownList({
@@ -168,6 +204,78 @@ var addAssetPop = {
         var name = "rdTaskPop";
         var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
+    },
+
+    fn_astCodeSet : function() {
+        $.ajax({
+            url : '/inside/getAssetMcCodeList',
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(result) {
+                $.each(result.rs, function(index, item){
+                    addAssetPop.global.codeDropDown.push(item);
+                })
+                console.log(addAssetPop.global.codeDropDown);
+            }
+        })
+    },
+
+    fn_insideCodeSet : function() {
+        $.ajax({
+            url : '/inside/getInsideCodeList',
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(result) {
+                console.log(result);
+                addAssetPop.global.insideCodeDropDown = result.rs;
+            }
+        })
+    },
+
+    edCodeDataSource : function(code) {
+        var data = [];
+        var defaultCode = "";
+        if(code != ""){
+            switch (code){
+                case "B01" :
+                    defaultCode = "자산소속"
+                    break
+                case "B02" :
+                    defaultCode = "자산분류"
+                    break
+                case "B03" :
+                    defaultCode = "자산상태"
+                    break
+            }
+            data.push({"INSIDE_DT_CODE_NM": defaultCode, "value" : ""});
+        }else {
+            data.push({"INSIDE_DT_CODE_NM": "선택하세요", "value" : ""});
+        }
+
+        for(var i = 0 ; i < addAssetPop.global.insideCodeDropDown.length ; i++){
+            addAssetPop.global.insideCodeDropDown[i].value = addAssetPop.global.insideCodeDropDown[i].INSIDE_MC_CODE + addAssetPop.global.insideCodeDropDown[i].INSIDE_MD_CODE + addAssetPop.global.insideCodeDropDown[i].INSIDE_DT_CODE;
+            if(addAssetPop.global.insideCodeDropDown[i].INSIDE_MC_CODE + addAssetPop.global.insideCodeDropDown[i].INSIDE_MD_CODE == code){
+                data.push(addAssetPop.global.insideCodeDropDown[i]);
+            }
+        }
+        return data;
+    },
+    fn_saveAstInfo : function() {
+        var data = {
+            TEST1 : $("#select1").val(),
+            TEST2 : $("#select2").val(),
+            TEST3 : $("#select3").val(),
+            TEST4 : $("#select4").val(),
+            TEST5 : $("#select5").val(),
+        }
+        var test = customKendo.fn_customAjax('/inside/setAssetInfo',data);
+        //console.log(test.rs);
+    },
+
+    fn_cancelAstPop : function() {
+        window.close();
     }
 }
 

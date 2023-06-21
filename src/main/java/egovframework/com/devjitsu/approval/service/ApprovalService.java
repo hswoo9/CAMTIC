@@ -7,6 +7,12 @@ import java.util.Map;
 public interface ApprovalService {
 
     /**
+     * 연동 문서 기본 정보 저장
+     * @param params
+     */
+    void setLinkageProcessDocInterlock(Map<String, Object> params);
+
+    /**
      * 연동문서 기본정보 불러오기
      * @param params
      * @return

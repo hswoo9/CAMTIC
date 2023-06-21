@@ -40,4 +40,13 @@ public interface SubHolidayService {
 
     public List<Map<String, Object>> getUserVacListStat(Map<String, Object> params);
 
+    void setUserVac(Map<String, Object> params);
+
+    /**
+     * 휴가 전자결재 상태값 업데이트
+     * @param params
+     * @throws Exception
+     */
+    void updateDocState(Map<String, Object> bodyMap) throws Exception;
+
 }

@@ -125,6 +125,65 @@
             CM_GROUP_CODE_ID = 2
     </select>
 
+    <select id="getAssetCodeList" resultType="map">
+        SELECT
+            *
+        FROM
+            cam_inside.dj_asset_code
+        WHERE
+            ACTIVE = 'Y'
+    </select>
+    <select id="getInsideCodeList" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_inside.dj_inside_code AS a
+    </select>
+    <select id="getAssetMcCodeList" resultType="map">
+        SELECT distinct
+            a.AST_GROUP_CODE_ID,
+            a.AST_MC_CODE,
+            a.AST_MC_CODE_NM
+        FROM
+            cam_inside.dj_asset_code AS a
+    </select>
+    <select id="getAssetMdCodeList" parameterType="map" resultType="map">
+        SELECT distinct
+            a.AST_MD_CODE,
+            a.AST_MD_CODE_NM
+        FROM
+            cam_inside.dj_asset_code AS a
+        WHERE
+            a.ACTIVE = 'Y'
+          and
+            a.AST_MC_CODE = #{AST_MC_CODE}
+    </select>
+    <select id="getAssetDtCodeList" parameterType="map" resultType="map">
+        SELECT
+            a.AST_DT_CODE,
+            a.AST_DT_CODE_NM,
+            CONCAT(a.AST_MC_CODE,a.AST_MD_CODE,a.AST_DT_CODE) AS 'AST_CODE'
+        FROM
+            cam_inside.dj_asset_code AS a
+        WHERE
+            a.ACTIVE = 'Y'
+          and
+            a.AST_MC_CODE = #{AST_MC_CODE}
+          and
+            a.AST_MD_CODE = #{AST_MD_CODE}
+    </select>
+
+    <select id="getClassManageList" parameterType="map" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_inside.dj_inside_code AS a
+        WHERE
+            a.INSIDE_MD_CODE = #{INSIDE_MD_CODE}
+          and
+            a.ACTIVE = 'Y';
+    </select>
+
     <!--장비사용 목록 조회-->
     <select id="getEqipmnUseList" parameterType="map" resultType="map">
         /*getEqipmnUseList*/

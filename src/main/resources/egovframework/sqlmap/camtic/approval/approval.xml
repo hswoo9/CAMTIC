@@ -2,6 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="approval">
+
+    <insert id="setLinkageProcessDocInterlock" parameterType="map">
+        /* setLinkageProcessDocInterlock */
+        INSERT INTO DJ_CAMTIC.A_DOC_INTERLOCK
+            (
+                APPRO_KEY,
+                DOC_ID,
+                DOC_TITLE,
+                DOC_CONTENTS,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{approKey},
+                #{docId},
+                #{docTitle},
+                #{docContents},
+                #{empSeq}
+            )
+        ON DUPLICATE KEY UPDATE
+            DOC_ID       = #{docId},
+            DOC_TITLE    = #{docTitle},
+            DOC_CONTENTS = #{docContents},
+            MOD_EMP_SEQ  = #{empSeq}
+    </insert>
+
     <select id="getApproveUserInfo" resultType="map" parameterType="String">
         /* getApproveUserInfo */
         SELECT

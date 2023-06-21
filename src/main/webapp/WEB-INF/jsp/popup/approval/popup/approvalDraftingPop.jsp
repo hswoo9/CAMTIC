@@ -10,9 +10,9 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="false"/>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=8'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${toDate}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=8'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${toDate}'/>"></script>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
@@ -72,6 +72,8 @@
             <input type="hidden" id="empDutyNm" name="empDutyNm" value="${loginVO.dutyNm}">
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
+
+            <input type="hidden" id="reqContentId" name="reqContentId">
         </div>
         <div class="mb-10" id="btnDiv" style="text-align: right;">
             <button type="button" name="temp" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">

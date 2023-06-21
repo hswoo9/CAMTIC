@@ -41,8 +41,31 @@ public class SubHolidayController {
         model.addAttribute("loginVO", login);
         return "/subHoliday/subHolidayList";
 
-
     }
+
+    /**
+     * 휴가 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/subHoliday/subHolidayReqApp")
+    public String subHolidayReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            subHolidayService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
 
     //전체휴가현황 페이지
     @RequestMapping("/subHoliday/subHolidayAdmin.do")
@@ -165,5 +188,10 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/setUserVac")
+    public String setUserVac(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        subHolidayService.setUserVac(params);
+        return "jsonView";
+    }
 
 }

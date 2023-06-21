@@ -64,18 +64,6 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getCodeList();
     }
     @Override
-    public List<Map<String,Object>> getAssetMcCodeList() {
-        return userManageRepository.getAssetMcCodeList();
-    }
-    @Override
-    public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {
-        return userManageRepository.getAssetMdCodeList(map);
-    }
-    @Override
-    public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
-        return userManageRepository.getAssetDtCodeList(map);
-    }
-    @Override
     public List<Map<String, Object>> getEmpInfoList(Map<String, Object> map) {
         return userManageRepository.getEmpInfoList(map);
     }

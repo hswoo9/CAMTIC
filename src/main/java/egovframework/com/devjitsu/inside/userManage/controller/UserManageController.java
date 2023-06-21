@@ -365,20 +365,6 @@ public class UserManageController {
         }
         return tmp;
     }
-    @RequestMapping("/userManage/getAssetMcCodeList")
-    public String getAssetMcCodeList(Model model) {
-        model.addAttribute("rs", userManageService.getAssetMcCodeList());
-        return "jsonView";
-    }
-    @RequestMapping("/userManage/getAssetMdCodeList")
-    public String getAssetMdCodeList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("rs", userManageService.getAssetMdCodeList(map));
-        return "jsonView";
-    }
-    @RequestMapping("/userManage/getAssetDtCodeList")
-    public String getAssetDtCodeList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("rs", userManageService.getAssetDtCodeList(map));
-        return "jsonView";
-    }
+
 
 }

@@ -53,6 +53,24 @@ public class ApprovalController {
     @Autowired
     private FormManagementService formManagementService;
 
+    /** 시스템 연계 테이블 인서트 */
+    @RequestMapping("/linkageProcess/setLinkageProcessDocInterlock")
+    public String setLinkageProcessDocInterlock(@RequestParam Map<String, Object> params, Model model){
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            approvalService.setLinkageProcessDocInterlock(params);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "시스템연동 연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+
+        return "jsonView";
+    }
+
     /** 양식 파일 정보 조회 */
     @RequestMapping("/approval/getTemplateFormFile")
     @ResponseBody

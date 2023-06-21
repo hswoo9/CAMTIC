@@ -87,6 +87,26 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getPrtpcoGbnNameList(params);
     }
 
+    public List<Map<String,Object>> getInsideCodeList() {
+        return assetRepository.getInsideCodeList();
+    }
+    @Override
+    public List<Map<String,Object>> getAssetMcCodeList() {
+        return assetRepository.getAssetMcCodeList();
+    }
+    @Override
+    public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {
+        return assetRepository.getAssetMdCodeList(map);
+    }
+    @Override
+    public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
+        return assetRepository.getAssetDtCodeList(map);
+    }
+    @Override
+    public List<Map<String,Object>> getClassManageList(Map<String,Object> map) {
+        return assetRepository.getClassManageList(map);
+    }
+
     //장비사용 목록 조회
     @Override
     public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {

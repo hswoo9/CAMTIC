@@ -45,6 +45,21 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.getPrtpcoGbnNameList", params);
     }
 
+    public List<Map<String,Object>> getInsideCodeList() {
+        return selectList("asset.getInsideCodeList");
+    }
+    public List<Map<String,Object>> getAssetMcCodeList() {
+        return selectList("asset.getAssetMcCodeList");
+    }
+    public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {
+        return selectList("asset.getAssetMdCodeList", map);
+    }
+    public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
+        return selectList("asset.getAssetDtCodeList", map);
+    }
+    public List<Map<String,Object>> getClassManageList(Map<String,Object> map) {
+        return selectList("asset.getClassManageList", map);
+    }
     //장비사용 목록 조회
     public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {
         return selectList("asset.getEqipmnUseList", params);

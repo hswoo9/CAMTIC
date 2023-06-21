@@ -29,9 +29,9 @@
         approvalParams.docType = "A";
 
         approvalParams.linkageProcessId = "20";
-        approvalParams.linkageType = "1";
-
-        approvalParams.subHolidayId = ${data.subHolidayId};
+        approvalParams.linkageType = "2";
+        approvalParams.linkageProcessCode = "camticHoliday";
+        approvalParams.approKey = "camticHoliday_${data.subHolidayId}";
 
         linkageProcessOn(approvalParams);
         window.close();

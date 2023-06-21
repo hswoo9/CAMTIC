@@ -39,11 +39,6 @@ var subHolidaySetting = {
                 $("#userVacSetting").empty();
                 var htmlStr = "";
                 htmlStr += "<input type='hidden' id='targetEmpSeq' value='"+ subHolidaySetting.global.selectEmpData.EMP_SEQ +"'>";
-                if(subHolidaySetting.global.selectEmpData.VAC_ID != null){
-                    htmlStr += "<input type='hidden' id='targetVacId' value='"+ subHolidaySetting.global.selectEmpData.VAC_ID +"'>";
-                }else{
-                    htmlStr += "<input type='hidden' id='targetVacId' value=''>";
-                }
 
                 htmlStr += "<table class='table table-bordered' style='border: 1px solid #dedfdf;'>";
                 htmlStr += "<colgroup>";
@@ -77,32 +72,32 @@ var subHolidaySetting = {
                 htmlStr += "<th rowspan='2' class='text-center th-color'>부여</th>";
                 htmlStr += "<th class='text-center th-color'>기본</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='targetGrantDay' style='width:90%;' value='"+ subHolidaySetting.changeMinuteToHour(subHolidaySetting.global.selectEmpData.GRANT_DAY) +"'>";
+                htmlStr += "<input type='text' id='targetGrantDay' style='width:90%;' value='"+ subHolidaySetting.global.selectEmpData.GRANT_DAY +"'>";
                 htmlStr += "</td>";
                 htmlStr += "<th class='text-center th-color'>기본조정</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='targetMdtnDay' style='width:90%;' onkeyup='subHolidaySetting.keyPressNumberCheck(this)' value='"+ subHolidaySetting.changeMinuteToHour(subHolidaySetting.global.selectEmpData.MDTN_DAY) +"'>";
+                htmlStr += "<input type='text' id='targetMdtnDay' style='width:90%;' value='"+ subHolidaySetting.global.selectEmpData.MDTN_DAY +"'>";
                 htmlStr += "</td>";
                 htmlStr += "</tr>";
                 htmlStr += "<tr>";
                 htmlStr += "<th class='text-center th-color'>가산일수</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='' style='width:90%;'>";
+                htmlStr += "<input type='text' id='targetExtraDay' style='width:90%;' value='"+ subHolidaySetting.global.selectEmpData.EXTRA_DAY +"'>";
                 htmlStr += "</td>";
                 htmlStr += "<th class='text-center th-color'>이월</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='' style='width:90%;'>";
+                htmlStr += "<input type='text' id='targetCarryoverDay' style='width:90%;' value='"+ subHolidaySetting.global.selectEmpData.CARRYOVER_DAY +"'>";
                 htmlStr += "</td>";
                 htmlStr += "</tr>";
                 htmlStr += "<tr>";
                 htmlStr += "<th class='text-center th-color'>소진</th>";
                 htmlStr += "<th class='text-center th-color'>사용</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='' style='width:90%;'>";
+                htmlStr += "<input type='text' id='targetUseDay' style='width:90%;' value='"+ subHolidaySetting.global.selectEmpData.USE_DAY +"'>";
                 htmlStr += "</td>";
                 htmlStr += "<th class='text-center th-color'>사용조정</th>";
                 htmlStr += "<td>";
-                htmlStr += "<input type='text' id='' style='width:50%;'>";
+                htmlStr += "<input type='text' id='targetAdjustmentUseDay' style='width:90%;' value='"+ subHolidaySetting.global.selectEmpData.ADJUSTMENT_USE_DAY +"'>";
                 htmlStr += "</td>";
                 htmlStr += "</tr>";
                 htmlStr += "</table>";
@@ -119,7 +114,7 @@ var subHolidaySetting = {
                 }
                 customKendo.fn_datePicker("targetStApplyDate", "", "yyyy-MM-dd", new Date());
                 customKendo.fn_datePicker("targetEnApplyDate", "", "yyyy-MM-dd", new Date());
-                customKendo.fn_textBox(['targetGrantDay', 'targetMdtnDay']);
+                customKendo.fn_textBox(['targetGrantDay', 'targetMdtnDay','targetExtraDay','targetCarryoverDay','targetUseDay','targetAdjustmentUseDay']);
             }
         });
 
@@ -287,14 +282,14 @@ var subHolidaySetting = {
                                 }
                             }
                         }, {
-                            field : "SAV_GRANT_DAY",
+                            field : "CARRYOVER_DAY",
                             title : "이월",
                             width : 70,
                             template : function(e){
-                                if(e.SAV_GRANT_DAY == null){
+                                if(e.CARRYOVER_DAY == null){
                                     return "-";
                                 }else{
-                                    return e.SAV_GRANT_DAY;
+                                    return e.CARRYOVER_DAY;
                                 }
                             }
                         }
@@ -314,11 +309,16 @@ var subHolidaySetting = {
                                 }
                             }
                         }, {
+                            field : "ADJUSTMENT_USE_DAY",
                             title : "사용조정",
-                            template : function (e){
-                                return "-";
-                            },
-                            width : 70
+                            width : 70,
+                            template : function(e){
+                                if(e.ADJUSTMENT_USE_DAY == null){
+                                    return "-";
+                                }else{
+                                    return e.ADJUSTMENT_USE_DAY;
+                                }
+                            }
                         }
                     ]
                 }, {
@@ -373,18 +373,17 @@ var subHolidaySetting = {
 
             var saveData = {};
             saveData.targetEmpSeq = $("#targetEmpSeq").val();
-            saveData.empSeq = $("#empSeq").val();
             saveData.vacCodeId = "1";
-            saveData.applyYear = $("#targetApplyYear").val();
-            saveData.grantDay = subHolidaySetting.changeHourToMinute($("#targetGrantDay").val());
-            saveData.mdtnDay = subHolidaySetting.changeHourToMinute($("#targetMdtnDay").val());
-            saveData.remainDay = parseInt(saveData.grantDay) + parseInt(saveData.mdtnDay);
-            if($("#targetVacId").val() != null){
-                saveData.vacId = $("#targetVacId").val();
-            }
+            saveData.grantDay = $("#targetGrantDay").val();
+            saveData.mdtnDay = $("#targetMdtnDay").val();
+            saveData.extraDay = $("#targetExtraDay").val();
+            saveData.carryoverDay = $("#targetCarryoverDay").val();
+            saveData.useDay = $("#targetUseDay").val();
+            saveData.adjustmentUseDay = $("#targetAdjustmentUseDay").val();
+            saveData.vacId = $("#targetVacId").val();
 
             $.ajax({
-                url : getContextPath() + '/subHoliday/setUserVac',
+                url : getContextPath() + '/setUserVac',
                 data :  saveData,
                 dataType : "json",
                 type : "POST",

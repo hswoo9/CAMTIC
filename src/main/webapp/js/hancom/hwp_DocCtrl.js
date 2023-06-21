@@ -23,7 +23,8 @@ var hwpDocCtrl = {
     dataSet : function() {
         const data = hwpDocCtrl.global.params;
         if(data.menuCd == "subHoliday") {
-            const subHolidayId = data.subHolidayId;
+            const subHolidayId = data.approKey.split("_")[1];
+            $("#reqContentId").val(subHolidayId);
             if(subHolidayId == null || subHolidayId == undefined || subHolidayId == "") {
                 alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
             }
@@ -37,7 +38,7 @@ var hwpDocCtrl = {
                 dataType : "json",
                 async: false,
                 success : function(result){
-                    console.log(result.data);
+                    //console.log(result.data);
                     const ResultData = result.data;
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
