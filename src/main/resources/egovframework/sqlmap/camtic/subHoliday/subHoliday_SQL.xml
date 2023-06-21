@@ -165,112 +165,6 @@
             SUH.SUBHOLIDAY_USE_ID = #{subholidayUseId}
     </select>
 
-    <select id="getVacUseHistoryList2" parameterType="map" resultType="map">
-        /* getVacUseHistoryList */
-        SELECT
-        VUH.SUBHOLIDAY_USE_ID,
-        VUH.SUBHOLIDAY_CODE_ID,
-        VCD.SUBHOLIDAY_DT_CODE_NM,
-        CONCAT(VUH.SUBHOLIDAY_ST_DT, ' ', VUH.SUBHOLIDAY_ST_TIME) AS SUBHOLIDAY_ST_DT,
-        CONCAT(VUH.SUBHOLIDAY_EN_DT, ' ', VUH.SUBHOLIDAY_EN_TIME) AS SUBHOLIDAY_EN_DT,
-        CONCAT(VUH.SUBHOLIDAY_USE_DAY, '(', VUH.SUBHOLIDAY_USE_HOUR, ')') AS SUBHOLIDAY_USE_DAY,
-        VUH.SUBHOLIDAY_USE_HOUR,
-        VUH.RMK,
-        VUH.APPROVAL_REASON,
-        <if test='mdCode != null and !"".equals(mdCode) and "02".equals(mdCode)'>
-            VCD.AFTFAT_MNT_YN,
-            VCD.AFTFAT_MNT_MTH_CMMN_CD,
-        </if>
-        VUH.APPR_STAT,
-        /*IF((SELECT COUNT(*) FROM DJ_EPIS.V_VAC_PROOF_FILE VPF WHERE VPF.TARGET_ID = VUH.SUBHOLIDAY_USE_ID) > 0, "Y", "N") AS PROOF_FILE_YN,
-        (SELECT VPF.FILE_ID FROM DJ_EPIS.V_VAC_PROOF_FILE VPF WHERE VPF.TARGET_ID = VUH.SUBHOLIDAY_USE_ID) as FILE_ID,
-        IFNULL((SELECT VPF.APPR_STAT FROM DJ_EPIS.V_VAC_PROOF_FILE VPF WHERE VPF.TARGET_ID = SUBHOLIDAY_USE_ID), 'NOFILE') as fileApprStat,*/
-        DI.DOC_ID,
-        DI.DOC_NO,
-        VUH.STATUS,
-        DATE_FORMAT(VUH.SAVE_DATE, '%Y-%m-%d') AS SAVE_DATE,
-        DATE_FORMAT(VUH.APPLY_DATE, '%Y-%m-%d') AS APPLY_DATE,
-        DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
-        DATE_FORMAT(DI.REPTIT_DRFT_DT, '%Y-%m-%d') AS REPTIT_DRFT_DT,
-        DATE_FORMAT(VUH.APPROVAL_SEND_DATE, '%Y-%m-%d') AS APPROVAL_SEND_DATE
-        ,(SELECT emp_name FROM neos.t_co_emp_multi WHERE emp_seq = VUH.SUBHOLIDAY_TARGET_SEQ AND lang_code = 'kr' AND use_yn = 'Y') as targetEmpName
-        ,VUH.SUBHOLIDAY_TARGET_SEQ as vacTargetSeq
-        ,(SELECT emp_name FROM neos.t_co_emp_multi WHERE emp_seq = VUH.APPLY_SEQ AND lang_code = 'kr' AND use_yn = 'Y') as applyEmpName,
-        VCD.SUBHOLIDAY_MD_CODE,
-        (SELECT APPROVAL_STAT FROM CAM_APPROVAL.DJ_APPROVAL_BOX WHERE CONNECTION_KEY = VUH.SUBHOLIDAY_USE_ID AND CONNECTION_TYPE = 'holidayFile' ) as AB_APPR_STAT
-        FROM
-        CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
-        <if test="deptSeq != null and deptSeq != ''">
-            LEFT JOIN
-            CAM_HR.DJ_EMP_INFO VEI
-            ON
-            VEI.EMP_SEQ = VUH.SUBHOLIDAY_TARGET_SEQ
-        </if>
-        <choose>
-            <when test='mdCode != null and !"".equals(mdCode) and "02".equals(mdCode)'>
-                JOIN
-                (
-                SELECT
-                VCD.VAC_CODE_ID,
-                VAC_MD_CODE,
-                VCD.VAC_DT_CODE_NM,
-                VSSU.AFTFAT_MNT_YN,
-                VSSU.AFTFAT_MNT_MTH_CMMN_CD
-                FROM
-                DJ_EPIS.V_SPCL VSC
-                JOIN
-                DJ_EPIS.V_SPCL_VAC_SETUP VSSU
-                ON VSC.SPCL_VAC_SETUP_ID = VSSU.SPCL_VAC_SETUP_ID
-                JOIN
-                CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
-                ON VSSU.VAC_CODE_ID = VCD.SUBHOLIDAY_CODE_ID AND SUBHOLIDAY_MD_CODE = #{mdCode}
-                WHERE
-                1=1
-                <if test="empSeq != null and empSeq != ''">
-                    AND VSC.EMP_SEQ = #{empSeq}
-                </if>
-
-                )VCD
-                ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
-            </when>
-            <otherwise>
-                JOIN
-                CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
-                ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
-            </otherwise>
-        </choose>
-        LEFT JOIN
-        CAM_APPROVAL.DJ_DOC_INFO DI
-        ON DI.DOC_ID = VUH.DOC_ID
-        WHERE
-        VUH.ACTIVE = 'Y'
-        <if test="empSeq != null and empSeq != ''">
-            AND VUH.SUBHOLIDAY_TARGET_SEQ = #{empSeq}
-        </if>
-        <if test="empName != null and empName != ''">
-            AND VEI.EMP_NAME_KR LIKE CONCAT('%', #{empName}, '%')
-        </if>
-        <if test="deptSeq != null and deptSeq != ''">
-            AND VEI.DEPT_SEQ = #{deptSeq}
-        </if>
-        <![CDATA[
-        AND
-            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y%m%d')
-        AND
-            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y%m%d')
-        ]]>
-        <if test='applyVacationDivision != null and !applyVacationDivision.equals("")'>
-            AND VUH.SUBHOLIDAY_CODE_ID = #{applyVacationDivision}
-        </if>
-        <if test='mdCode != null and !"".equals(mdCode)'>
-            AND VCD.SUBHOLIDAY_MD_CODE = #{mdCode}
-        </if>
-        ORDER BY VUH.SAVE_DATE DESC
-        <if test="pageSize != null and pageSize != ''">
-            LIMIT ${skip} , ${pageSize}
-        </if>
-    </select>
-
     <select id="getUserVacList" resultType="map" parameterType="map">
         /* getUserVacList */
 
@@ -289,6 +183,8 @@
         VC.MDTN_DAY,
         VC.EXTRA_DAY,
         VC.USE_DAY,
+        VC.CARRYOVER_DAY,
+        VC.ADJUSTMENT_USE_DAY,
         ((VC.GRANT_DAY + VC.MDTN_DAY + VC.EXTRA_DAY) - (VC.USE_DAY)) AS REMAIN_VAC,
         VC.ACTIVE,
         VC.HOLIDAY_ID
@@ -424,6 +320,25 @@
             APPR_STAT = #{status}
         WHERE
             DOC_ID = #{DOC_ID}
+    </update>
+
+    <update id="setUserVacUpdate" parameterType="map">
+        /* setUserVacUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_HOLIDAY
+        SET
+            GRANT_DAY = #{grantDay},
+            MDTN_DAY = #{mdtnDay},
+            REMAIN_DAY = CONCAT(#{grantDay} + #{mdtnDay} - #{useDay}),
+            EXTRA_DAY = #{extraDay},
+            CARRYOVER_DAY = #{carryoverDay},
+            USE_DAY = #{useDay},
+            ADJUSTMENT_USE_DAY = #{adjustmentUseDay},
+            RMK = CONCAT(IFNULL(#{rmk}, '관리자 연차 수정')),
+            MOD_EMP_SEQ = #{targetEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{targetEmpSeq}
     </update>
 
 

@@ -165,5 +165,10 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/setUserVac")
+    public String setUserVac(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        subHolidayService.setUserVac(params);
+        return "jsonView";
+    }
 
 }

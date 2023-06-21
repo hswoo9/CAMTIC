@@ -69,4 +69,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         return subHolidayRepository.getUserVacListStat(params);
     }
 
+    @Override
+    public void setUserVac(Map<String, Object> params) {
+            subHolidayRepository.setUserVacUpdate(params);
+
+
+    }
+
 }
