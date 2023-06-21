@@ -29,24 +29,24 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회기간</span>
-                                    <input type="text" id="start_date" style="width: 130px;">
+                                    <input type="text" id="usePdStrDe" style="width: 130px;">
                                     ~
-                                    <input type="text" id="end_date" style="width: 130px;">
+                                    <input type="text" id="usePdEndDe" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <span>구분</span>
-                                    <input type="text" id="drop1" style="width: 100px;">
+                                    <input type="text" id="mainEqipmnGbnName" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
                                     <span>업체구분</span>
-                                    <input type="text" id="drop2" style="width: 100px;">
+                                    <input type="text" id="mainPrtpcoGbnName" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentList.mainGrid();"/>
                                 </div>
                                 <div class="mr10">
                                     <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="장비사용 등록" onclick="equipmentList.equipmentUsePopup();"/>
@@ -56,6 +56,7 @@
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
+            </div>
             </div>
         </div>
     </div>

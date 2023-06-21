@@ -45,5 +45,20 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.getPrtpcoGbnNameList", params);
     }
 
+    //장비사용 목록 조회
+    public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {
+        return selectList("asset.getEqipmnUseList", params);
+    }
+
+    //장비사용 목록 삭제
+    public void setEquipmenUseDelete(List<String> eqmnUsePk) { update("asset.setEquipmenUseDelete", eqmnUsePk);}
+
+    //장비사용 목록 업데이트
+    public void setEquipmenUseUpdate(Map<String, Object> params) { update("asset.setEquipmenUseUpdate", params);}
+
+    //장비사용 등록 수정 창 조회
+    public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
+        return selectList("asset.getEqipmnUseUpdateList", params);
+    }
 
 }

@@ -189,15 +189,6 @@ var equipmentmangePop = {
         });
     },
 
-/*    gridReload : function() {
-        var data = {
-            eqipmnGbnName : $("#mainEqipmnGbnName").getKendoDropDownList().text(),
-            eqipmnName : $("#mainEqipmnName").val()
-        };
-
-        equipmentmangePop.mainGrid("/asset/getEqipmnRegList", data);
-    },*/
-
     equipSave : function (){
 
         if(confirm("저장하시겠습니까?")){
@@ -208,7 +199,8 @@ var equipmentmangePop = {
                 regtrName : $("#regtrName").val(), //등록자명
                 regtrSn : $("#empSeq").val(), //등록자 사원번호
                 regDe : $("#regDe").val().replaceAll('-',''), //등록일자
-                sortSn : $("#sortSn").val() //정렬순번
+                sortSn : $("#sortSn").val(), //정렬순번,
+                crtrSn : $("#empSeq").val() //생성자sn - 로그인한 계정
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -251,6 +243,7 @@ var equipmentmangePop = {
                 regtrSn : $("#empSeq").val(), //등록자 사원번호
                 regDe : $("#regDe").val().replaceAll('-',''), //등록일자
                 sortSn : $("#sortSn").val(), //정렬순번
+                updusrSn : $("#empSeq").val(),
                 eqipmnMstSn : equipmentmangePop.global.eqipmnMstSn
             }
 

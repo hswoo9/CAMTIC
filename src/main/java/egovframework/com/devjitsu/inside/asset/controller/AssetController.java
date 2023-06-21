@@ -326,5 +326,47 @@ public class AssetController {
         result.put("list", assetService.getPrtpcoGbnNameList(params));
         return result;
     }
-    
+
+    //장비사용 목록 조회
+    @RequestMapping("/asset/getEqipmnUseList")
+    public String getEqipmnUseList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getEqipmnUseList(map));
+        return "jsonView";
+    }
+
+    //장비사용 목록 삭제
+    @RequestMapping("/asset/setEquipmenUseDelete")
+    public String setEquipmenUseDelete(@RequestParam(value = "eqmnUsePk[]") List<String> eqmnUsePk, Model model){
+        model.addAttribute("rs", assetService.setEquipmenUseDelete(eqmnUsePk));
+        return "jsonView";
+    }
+
+    //장비사용 목록 업데이트
+    @RequestMapping("/asset/setEquipmenUseUpdate")
+    public String setEquipmenUseUpdate(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", assetService.setEquipmenUseUpdate(params));
+        return "jsonView";
+    }
+
+    //장비사용 수정 팝업창
+    @RequestMapping("/Inside/Pop/equipmentUseUpdatePop.do")
+    public String equipmentUseUpdatePop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("pk", params.get("pk"));
+
+        System.out.println("pk값----" + params.get("pk"));
+        System.out.println("params 값----" + params);
+        return "popup/inside/asset/equipmentUseUpdatePop";
+    }
+
+    //장비사용 등록 수정 창 조회
+    @RequestMapping("/asset/getEqipmnUseUpdateList")
+    public String getEqipmnUseUpdateList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getEqipmnUseUpdateList(map));
+        return "jsonView";
+    }
+
 }

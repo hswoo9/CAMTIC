@@ -8,15 +8,7 @@ var equipmentList = {
     },
 
     dataSet() {
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
+        $("#usePdStrDe").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
@@ -24,28 +16,12 @@ var equipmentList = {
             value : new Date()
         });
 
-        $("#drop1").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "복합소재", value: "1" },
-                { text: "드론산업", value: "2" },
-                { text: "메이커스페이스", value: "3" }
-            ],
-            index: 0
-        });
-
-        $("#drop2").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "도내(단지)", value: "1" },
-                { text: "도내(단지 외)", value: "2" },
-                { text: "도외", value: "3" }
-            ],
-            index: 0
+        $("#usePdEndDe").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() + 1))
         });
 
         $("#searchType").kendoDropDownList({
@@ -61,24 +37,66 @@ var equipmentList = {
         });
 
         $("#searchVal").kendoTextBox();
+
+        $.ajax({
+            url : "/asset/getEqipmnList",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function (result){
+                var ds = result.list;
+                ds.unshift({TEXT: '전체', VALUE: ''});
+
+                $("#mainEqipmnGbnName").kendoDropDownList({
+                    dataTextField: "TEXT",
+                    dataValueField: "VALUE",
+                    dataSource: ds,
+                    index: 0
+                })
+            }
+        })
+
+        $.ajax({
+            url : "/asset/getPrtpcoGbnNameList",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function (result){
+                var ds = result.list;
+                ds.unshift({TEXT: '전체', VALUE: ''});
+
+                $("#mainPrtpcoGbnName").kendoDropDownList({
+                    dataTextField: "TEXT",
+                    dataValueField: "VALUE",
+                    dataSource: ds,
+                    index: 0
+                })
+            }
+        })
+
     },
 
-    mainGrid : function() {
+    mainGrid : function(e) {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/asset/getEqipmnUseList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+
+                    data.usePdStrDe = $("#usePdStrDe").val().replaceAll('-','');
+                    data.usePdEndDe = $("#usePdEndDe").val().replaceAll('-','');
+                    data.eqipmnGbnCmmnCdSn = $("#mainEqipmnGbnName").getKendoDropDownList().value();
+                    data.prtpcoGbnSn = $("#mainPrtpcoGbnName").getKendoDropDownList().value();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.rs;
                 },
                 total: function (data) {
                     return data.length;
@@ -99,60 +117,136 @@ var equipmentList = {
                 buttonCount : 5
             },
             toolbar : [
-                {
+                /*{
                     name: '',
-                    text: '수정'
-                }, {
+                    text: '수정',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkUp();">' +
+                            '   <span class="k-button-text">수정</span>' +
+                            '</button>';
+                    }
+                }, */{
                     name: '',
-                    text: '선택 삭제'
+                    text: '선택 삭제',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkDel()">' +
+                            '   <span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : equipmentList.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
-                    width: 50
+                    template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#' class='k-checkbox checkbox'/>",
+                    width: "2.6%"
                 }, {
-                    field: "",
+                    field: "SORT_SN",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "EQIPMN_GBN_NAME",
                     title: "구분"
                 }, {
-                    field: "",
+                    field: "EQIPMN_NAME",
                     title: "장비명"
                 }, {
-                    field: "",
-                    title: "사용기간"
+                    title : "사용기간",
+                    columns : [
+                        {
+                            field : "USE_PD_STR_DE",
+                            title : "시작일자",
+                        }, {
+                            field: "USE_PD_END_DE",
+                            title: "종료일자"
+                        }
+                    ]
                 }, {
-                    field: "",
+                    field: "USER_NAME",
                     title: "사용자"
                 }, {
-                    field: "",
+                    field: "OPER_CN",
                     title: "작업내용"
                 }, {
-                    field: "",
+                    field: "USE_TIME",
                     title: "총 사용시간"
                 }, {
-                    field: "",
+                    field: "USE_AMT",
                     title: "사용대금"
                 }, {
-                    field: "",
+                    field: "CLIENT_PRTPCO_NAME",
                     title: "의뢰업체"
                 }, {
-                    field: "",
+                    field: "PRTPCO_GBN_NAME",
                     title: "업체구분"
                 }
             ]
         }).data("kendoGrid");
+
+        //장비사용 목록 리스트 더블 클릭시 수정 팝업창
+        $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
+            var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
+            console.log(selectedItem);
+            console.log(selectedItem.EQIPMN_USE_SN);
+            /*equipmentList.equipmentUsePopup(123);*/
+            //pk
+            equipmentList.equipmentUseUpdatePop(selectedItem.EQIPMN_USE_SN);
+
+/*            $("#eqipmnGbnName").val(selectedItem.EQIPMN_GBN_NAME);
+            $("#eqipmnGbnCmmnCdSn").val(selectedItem.EQIPMN_GBN_CMMN_CD_SN);*/
+
+        });
+
     },
 
-    equipmentUsePopup : function(){
-        var url = "/Inside/Pop/equipmentUsePop.do";
+    selectChkDel : function (){
+        if($("input[name='eqmnUsePk']:checked").length == 0){
+            alert("삭제할 장비목록을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 삭제하시겠습니까?")){
+            return;
+        }
+
+        var eqmnUsePk = new Array();
+        $("input[name='eqmnUsePk']").each(function(){
+            if(this.checked){
+                eqmnUsePk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/asset/setEquipmenUseDelete',
+            data : {
+                eqmnUsePk : eqmnUsePk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
+    },
+
+    equipmentUsePopup : function(data){
+        console.log(data);
+        var url = "/Inside/Pop/equipmentUsePop.do"
         var name = "equipmentUsePop";
+        var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    equipmentUseUpdatePop : function(data){
+        console.log(data);
+        var url = "/Inside/Pop/equipmentUseUpdatePop.do?pk="+data;
+        var name = "equipmentUseUpdatePop";
         var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }

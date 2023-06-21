@@ -28,4 +28,18 @@ public interface AssetService {
 
     //장비사용 등록 - 업체구분 조회
     List<Map<String, Object>> getPrtpcoGbnNameList(Map<String, Object> params);
+
+    //장비사용 목록 조회
+    List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
+
+    //장비사용 목록 삭제
+    Map<String, Object> setEquipmenUseDelete(List<String> eqmnUsePk);
+
+    //장비사용 목록 업데이트
+    Map<String, Object> setEquipmenUseUpdate(Map<String, Object> params);
+
+    //장비사용 등록 수정 창 조회
+    List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params);
+
+
 }
