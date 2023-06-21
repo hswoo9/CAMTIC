@@ -20,7 +20,7 @@ function linkageProcessOn(params){
 	url = makeParams(params, form, url);
 	url = url.replace("&", "?");
 
-	window.open(url, "viewer", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50", "newWindow");
+	window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
 }
 
 function makeParams(params, form, url){

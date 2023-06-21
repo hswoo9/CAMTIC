@@ -64,7 +64,7 @@
               <th>학습목표</th>
               <td id="eduCategoryDetailNameTd"></td>
               <th>목표레벨</th>
-              <td id="levelIdTd">
+              <td id="levelIdTd"></td>
             </tr>
             <tr id="eduNameTr">
               <th id="eduNameVar">과정명</th>

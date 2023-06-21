@@ -267,8 +267,11 @@ var docView = {
             //        alert(result.message);
             //    }
             //}
+            try {
+                opener.parent.gridReload();
+            }catch (e) {
 
-            opener.parent.gridReload();
+            }
             window.close();
         }else{
             alert("결재 중 에러가 발생했습니다.");
@@ -298,7 +301,11 @@ var docView = {
                 }
             }
 
-            opener.parent.gridReload();
+            try {
+                opener.parent.gridReload();
+            }catch (e) {
+
+            }
             window.close();
         }else{
             alert("결재취소 중 에러가 발생했습니다.");
@@ -326,7 +333,11 @@ var docView = {
                 }
             }
 
-            opener.parent.gridReload();
+            try {
+                opener.parent.gridReload();
+            }catch (e) {
+
+            }
             window.close();
         }else{
             alert("반려 중 에러가 발생했습니다.");

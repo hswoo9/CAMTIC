@@ -142,3 +142,7 @@ var approveWaitDocList = {
         docApprovalRetrieve(docId, approKey, linkageType, type, function(){approveWaitDocList.gridReload()});
     }
 }
+
+function gridReload() {
+    $("#mainGrid").data("kendoGrid").dataSource.read();
+}

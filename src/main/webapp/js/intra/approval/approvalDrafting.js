@@ -777,6 +777,11 @@ var draft = {
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
                     }else{
+                        try {
+                            opener.parent.gridReload();
+                        }catch (e) {
+
+                        }
                         window.close();
                     }
                 }

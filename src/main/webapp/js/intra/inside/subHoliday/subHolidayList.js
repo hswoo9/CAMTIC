@@ -189,17 +189,20 @@ var subHolidayList = {
                     title : "승인요청",
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");' key='"+e.SUBHOLIDAY_USE_ID+"' appType='N' approvalKind='holiday'>" +
+                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>승인요청</span>" +
                                 "</button>";
                         } else if(e.APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup'  key='"+e.SUBHOLIDAY_USE_ID+"' appType='E' approvalKind='holiday'>" +
+                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>재요청</span>" +
                                 "</button>";
                         } else if(e.APPR_STAT == "Y"){
-                            return "-";
+                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                "<span class='k-button-text'>결재</span>" +
+                                "</button>";
                         } else if(e.APPR_STAT =="C"){
                             if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
                                 if(e.AB_APPR_STAT == "I"){
@@ -210,13 +213,13 @@ var subHolidayList = {
                                 }else{
                                     return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayList.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
                                         "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>취소</span>" +
+                                        "<span class='k-button-text'>회수</span>" +
                                         "</button>";
                                 }
                             }else{
                                 return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayList.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
                                     "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>취소</span>" +
+                                    "<span class='k-button-text'>회수</span>" +
                                     "</button>";
                             }
                         } else {
@@ -304,11 +307,15 @@ var subHolidayList = {
         $("#subHolidayDraftFrm").one("submit", function() {
             var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
             var name = "subHolidayApprovalPop";
-            var option = "width=1200, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
             var popup = window.open(url, name, option);
             this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
             this.method = 'POST';
             this.target = 'subHolidayApprovalPop';
         }).trigger("submit");
     }
+}
+
+function gridReload() {
+    $("#mainGrid").data("kendoGrid").dataSource.read();
 }
