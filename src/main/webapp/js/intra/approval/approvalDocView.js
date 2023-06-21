@@ -261,12 +261,12 @@ var docView = {
         if(result.flag) {
             alert("결재되었습니다.");
 
-            var result = docView.setAlarmEvent("approve")
-            if(result.flag){
-                if(result.rs!= "SUCCESS") {
-                    alert(result.message);
-                }
-            }
+            //var result = docView.setAlarmEvent("approve")
+            //if(result.flag){
+            //    if(result.rs!= "SUCCESS") {
+            //        alert(result.message);
+            //    }
+            //}
 
             opener.parent.gridReload();
             window.close();

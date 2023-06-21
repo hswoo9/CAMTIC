@@ -46,8 +46,8 @@ public class SubHolidayRepository extends AbstractDAO  {
         update("subHoliday.updateApprStat", params);
     }
 
-    public void updateApprFinalStat(Map<String, Object> params) {
-        update("subHoliday.updateApprFinalStat", params);
+    public void updateFinalApprStat(Map<String, Object> params) {
+        update("subHoliday.updateFinalApprStat", params);
     }
 
     public void setUserVacUpdate(Map<String, Object> params){

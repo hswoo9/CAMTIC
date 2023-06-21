@@ -844,11 +844,6 @@ var draft = {
         formData.append("compSeq", $("#compSeq").val());
         formData.append("menuCd", $("#menuCd").val());
         formData.append("empSeq", $("#empSeq").val());
-
-        if($("#menuCd").val() == "subHoliday") {
-            formData.append("reqContentId", $("#reqContentId").val());
-        }
-
         formData.append("linkageType", $("#linkageType").val());
         formData.append("processId", $("#processId").val());
         formData.append("approKey", '');

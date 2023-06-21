@@ -84,12 +84,6 @@ function makeParams(params, form, url){
 		form.append(docId);
 		url += "&docId="+params.docId;
 	}
-	if(params.subHolidayId){
-		var subHolidayId = $('<input type="hidden" name="purcFormCode"/>');
-		subHolidayId.val(params.subHolidayId);
-		form.append(subHolidayId);
-		url += "&subHolidayId="+params.subHolidayId;
-	}
 	if(params.purcInspFormCode){
 		var purcInspFormCode = $('<input type="hidden" name="purcInspFormCode"/>');
 		purcInspFormCode.val(params.purcInspFormCode);
@@ -155,7 +149,7 @@ function setLinkageProcessDocInterlock(params){
 		$.ajax({
 			type : 'POST',
 			async: false,
-			url : '/linkageProcess/setLinkageProcessDocInterlock.do',
+			url : '/linkageProcess/setLinkageProcessDocInterlock',
 			data: data,
 			dataType : 'json',
 			success : function(data) {

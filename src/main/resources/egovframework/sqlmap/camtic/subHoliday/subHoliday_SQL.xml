@@ -306,20 +306,21 @@
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
         SET
             APPR_STAT = #{status},
-            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y%m%d'),
-            DOC_ID = #{DOC_ID}
+            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{approveEmpSeq},
+            DOC_ID = #{docId}
         WHERE
-            SUBHOLIDAY_USE_ID = #{reqContentId}
+            SUBHOLIDAY_USE_ID = #{subholidayUseId}
     </update>
 
-    <update id="updateApprFinalStat" parameterType="map">
+    <update id="updateFinalApprStat" parameterType="map">
         /* updateApprFinalStat */
         UPDATE
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
         SET
             APPR_STAT = #{status}
         WHERE
-            DOC_ID = #{DOC_ID}
+            SUBHOLIDAY_USE_ID = #{subholidayUseId}
     </update>
 
     <update id="setUserVacUpdate" parameterType="map">

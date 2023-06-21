@@ -5,12 +5,11 @@ import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.approval.service.ApprovalService;
-import egovframework.com.devjitsu.subHoliday.repository.SubHolidayRepository;
-import egovframework.com.devjitsu.system.repository.CommonCodeRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.ConvertUtil;
 import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.formManagement.repository.FormManagementRepository;
+import egovframework.com.devjitsu.system.repository.CommonCodeRepository;
 import egovframework.com.devjitsu.user.service.UserService;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
@@ -51,8 +50,10 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Autowired
     private FormManagementRepository formManagementRepository;
 
-    @Autowired
-    private SubHolidayRepository subHolidayRepository;
+    @Override
+    public void setLinkageProcessDocInterlock(Map<String, Object> params) {
+        approvalRepository.setLinkageProcessDocInterlock(params);
+    }
 
     @Override
     public Map<String, Object> getLinkageProcessDocInterlock(Map<String, Object> params) {
@@ -368,15 +369,6 @@ public class ApprovalServiceImpl implements ApprovalService {
             params.put("draftDocInfo", draftDocInfo);
         }
 
-        if(params.get("type").toString().equals("draft") && params.containsKey("menuCd")) {
-            if(params.get("menuCd").toString().equals("subHoliday")) {
-                String reqContentId = params.get("reqContentId").toString();
-                params.put("reqContentId", reqContentId);
-                params.put("status", "C");
-                subHolidayRepository.updateApprStat(params);
-            }
-        }
-
         return params;
     }
 
@@ -430,28 +422,8 @@ public class ApprovalServiceImpl implements ApprovalService {
                 parameter += "&approveEmpSeq=" + params.get("approveEmpSeq");
             }
 
-            if(!StringUtils.isEmpty(params.get("prevPurcId"))){
-                parameter += "&prevPurcId=" + params.get("prevPurcId");
-            }
-
-            if(!StringUtils.isEmpty(params.get("prevPurcChangeId"))){
-                parameter += "&prevPurcChangeId=" + params.get("prevPurcChangeId");
-            }
-
-            if(!StringUtils.isEmpty(params.get("prevPurcPayId"))){
-                parameter += "&prevPurcPayId=" + params.get("prevPurcPayId");
-            }
-
-            if(!StringUtils.isEmpty(params.get("prevPurcInspId"))){
-                parameter += "&prevPurcInspId=" + params.get("prevPurcInspId");
-            }
-
-            if(!StringUtils.isEmpty(params.get("purcGroupId"))){
-                parameter += "&purcGroupId=" + params.get("purcGroupId");
-            }
-
-            if(!StringUtils.isEmpty(params.get("purcPlanId"))){
-                parameter += "&purcPlanId=" + params.get("purcPlanId");
+            if(!StringUtils.isEmpty(params.get("reqContentId"))){
+                parameter += "&reqContentId=" + params.get("reqContentId");
             }
 
             if(!StringUtils.isEmpty(params.get("processId"))){
@@ -468,10 +440,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             /** URL url = new URL("http://localhost:8080"+ urlStr); */
             /** 서버 url */
-//            URL url = new URL("http://127.0.0.1:8010"+ urlStr);
-//            URL url = new URL("http://127.0.0.1:5959"+ urlStr);
-            URL url = new URL("http://127.0.0.1"+ urlStr);
-//             URL url = new URL("http://localhost:8080"+ urlStr);
+            //URL url = new URL("http://127.0.0.1:8010"+ urlStr);
+            //URL url = new URL("http://127.0.0.1:5959"+ urlStr);
+            //URL url = new URL("http:\\\\218.158.231.186:8080"+ urlStr);
+            URL url = new URL("http://localhost:8080"+ urlStr);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -485,13 +457,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             System.out.println("응답코드 : "+ code);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-        }
-
-        if(params.containsKey("menuCd") && params.containsKey("approveStatCodeDesc")) {
-            if(params.get("menuCd").toString().equals("subHoliday") && params.get("approveStatCodeDesc").toString().equals("100")) {
-                params.put("status", "Y");
-                subHolidayRepository.updateApprFinalStat(params);
-            }
         }
     }
 
