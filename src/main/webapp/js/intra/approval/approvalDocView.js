@@ -289,7 +289,7 @@ var docView = {
     docApproveCancelAjax : function(){
         docView.global.searchAjaxData = docView.makeApprovalFormData("cancel");
 
-        var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveCancel.do", docView.global.searchAjaxData);
+        var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveCancel", docView.global.searchAjaxData);
 
         if(result.flag) {
             alert("결재취소 되었습니다.");

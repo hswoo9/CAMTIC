@@ -131,6 +131,99 @@
         </choose>
     </select>
 
+    <select id="getUserReadDocStorageBoxList" parameterType="map" resultType="map">
+        /* getUserReadDocStorageBoxList */
+        SELECT
+            DI.DOC_ID,
+            DO.SECURITY_TYPE,
+            FORM.FORM_NAME,
+            DI.DOC_MENU_CD,
+            DI.APPRO_KEY,
+            DI.DOC_NO,
+            DI.DOC_TITLE,
+            DI.APPROVE_STAT_CODE_DESC,
+            DI.APPROVE_STAT_CODE,
+            DI.REPTIT_DRFT_YN,
+            DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+            DATE_FORMAT(DI.REPTIT_DRFT_DT,'%Y-%m-%d') AS REPTIT_DRFT_DT,
+            DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
+            DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            CASE WHEN (SELECT READER_USER_ID FROM DJ_CAMTIC.A_DOC_READER_USER A WHERE A.DOC_ID = DRD.DOC_ID AND READER_EMP_SEQ = #{empSeq}) IS NULL
+            THEN 'N' ELSE 'Y'
+            END READER_YN
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+            DJ_CAMTIC.A_DOC_OPT DO ON DI.DOC_ID = DO.DOC_ID
+        JOIN (
+            SELECT
+                DOC_ID,
+                MIN(DATE_FORMAT(DRD.REG_DATE, '%Y%m%d')) AS READER_DAY,
+                MIN(DATE_FORMAT(DRD.REG_DATE, '%H%i%s')) AS READER_TIME,
+                ACTIVE AS ACTIVE,
+                MIN(IF(DATE_FORMAT(DRD.REG_DATE, '%Y%m%d') = DATE_FORMAT(DRD.MOD_DATE, '%Y%m%d'), DATE_FORMAT(DRD.REG_DATE, '%Y%m%d'), DATE_FORMAT(DRD.MOD_DATE, '%Y%m%d'))) as RDDAY ,
+                MIN(IF(DATE_FORMAT(DRD.REG_DATE, '%H%i%s') = DATE_FORMAT(DRD.MOD_DATE, '%H%i%s'), DATE_FORMAT(DRD.REG_DATE, '%H%i%s'), DATE_FORMAT(DRD.MOD_DATE, '%H%i%s'))) as RDTIME
+            FROM
+                DJ_CAMTIC.A_DOC_READER DRD
+        INNER JOIN (
+            ${deptPathQuery}
+        )OC ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+        WHERE 1=1
+        <![CDATA[
+            AND
+                DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(DRD.READING_START_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(NOW(), '%Y%m%d') <= DATE_FORMAT(DRD.READING_END_DT, '%Y%m%d')
+            ]]>
+        GROUP BY DOC_ID
+        )DRD
+        ON DI.DOC_ID = DRD.DOC_ID
+        JOIN
+        DJ_EPIS.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        WHERE
+        1=1
+        AND (
+        DI.APPROVE_STAT_CODE = 100 OR
+        DI.APPROVE_STAT_CODE = 101
+        )
+        AND
+        DI.ACTIVE = 'Y'
+        AND
+        DI.DEL_FLAG = 'N'
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <if test='docTitle != null and !"".equals(docTitle)'>
+            AND
+            DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+        </if>
+
+        GROUP BY DI.DOC_ID
+        ORDER BY DI.DRAFT_DT DESC
+    </select>
+
+    <update id="setCheckedDocDel" parameterType="list">
+        /* setCheckedDocDel */
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE
+                DJ_CAMTIC.A_DOC_INFO
+            SET
+                DEL_FLAG = 'Y',
+                DEL_EMP_SEQ = #{item.empSeq},
+                MOD_EMP_SEQ = #{item.empSeq},
+                MOD_DATE = now()
+            WHERE
+                DOC_ID = #{item.docId}
+        </foreach>
+    </update>
+
     <select id="getUserFavApproveRouteList" parameterType="map" resultType="map">
         /* getUserFavApproveRouteList */
         SELECT
@@ -171,17 +264,13 @@
     <select id="getDeptPathList" parameterType="map" resultType="map">
         /* getDeptPathList */
         SELECT
-            B.GBN_ORG AS GBN_ORG,
-            C.GROUP_SEQ AS GROUP_SEQ,
-            B.comp_seq AS COMP_SEQ,
-            (CASE WHEN B.GBN_ORG = 'c' THEN '0' ELSE IFNULL(B.DEPT_SEQ, '0') END) AS DEPT_SEQ,
+            'd' AS GBN_ORG,
+            GROUP_SEQ AS GROUP_SEQ,
+            COMP_SEQ AS COMP_SEQ,
+            DEPT_SEQ AS DEPT_SEQ,
             '0' AS EMP_SEQ
         FROM
-            NEOS.T_CO_ORGCHART_NAME B
-                INNER JOIN
-            NEOS.T_CO_COMP C ON B.COMP_SEQ = C.COMP_SEQ
-                INNER JOIN
-            NEOS.T_CO_ORGCHART_NAME A ON CONCAT(A.PATH, '|')  LIKE CONCAT(B.PATH, '|%') AND A.GBN_ORG = 'd' AND A.DEPT_SEQ = #{deptSeq}
+            CAM_HR.DJ_DEPT_INFO
     </select>
 
     <select id="getApproveDocBoxList" parameterType="map" resultType="map">

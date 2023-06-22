@@ -63,5 +63,5 @@ To change this template use File | Settings | File Templates.
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script type="text/javascript">
-    storageBoxDraftDocList.fnDefaultScript();
+    storageBoxDraft.init();
 </script>

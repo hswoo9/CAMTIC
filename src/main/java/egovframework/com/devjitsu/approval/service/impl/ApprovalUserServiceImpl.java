@@ -67,6 +67,21 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
     }
 
     @Override
+    public List<Map<String, Object>> getUserReadDocStorageBoxList(Map<String, Object> params) {
+        StringBuilder deptPathQuery = new StringBuilder();
+        deptPathQuery = getDeptPathQuery(params);
+        params.put("deptPathQuery", deptPathQuery.toString());
+        return approvalUserRepository.getUserReadDocStorageBoxList(params);
+    }
+
+    @Override
+    public void setCheckedDocDel(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> docIdList = gson.fromJson((String) params.get("docArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        approvalUserRepository.setCheckedDocDel(docIdList);
+    }
+
+    @Override
     public List<Map<String, Object>> getApproveDocBoxList(Map<String, Object> params) {
         StringBuilder absentUserQuery = new StringBuilder();
         //TODO. 대결자 임시 생략
@@ -153,6 +168,22 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         map.put("pathName", orgPullPath);
 
         return map;
+    }
+
+    /** 열람자 부서 추출 */
+    private StringBuilder getDeptPathQuery(Map<String, Object> params) {
+        List<Map<String, Object>> list = approvalUserRepository.getDeptPathList(params);
+        StringBuilder deptPathQuery = new StringBuilder();
+        deptPathQuery.append("\n SELECT  'u' AS GBN_ORG , '" + params.get("groupSeq") + "' AS GROUP_SEQ, '" + params.get("compSeq") +
+                "' AS COMP_SEQ, '" + params.get("deptSeq") + "' AS DEPT_SEQ, '" + params.get("empSeq") + "' AS EMP_SEQ   FROM DUAL");
+        for (int i = 0; i < list.size(); i++) {
+            deptPathQuery.append("\n UNION ALL");
+            deptPathQuery.append("\n SELECT  '" + ((Map)list.get(i)).get("GBN_ORG") + "' AS GBN_ORG , '" + ((Map)list.get(i)).get("GROUP_SEQ") +
+                    "' AS GROUP_SEQ, '" + ((Map)list.get(i)).get("COMP_SEQ") + "' AS COMP_SEQ, '" + ((Map)list.get(i)).get("DEPT_SEQ") +
+                    "' AS DEPT_SEQ, '" + ((Map)list.get(i)).get("EMP_SEQ") + "' AS EMP_SEQ   FROM DUAL");
+        }
+
+        return deptPathQuery;
     }
 
 }

@@ -1,23 +1,33 @@
-var storageBoxTempSaveDocList = {
+/**
+ * 2022.06.28 by. deer
+ * 마이페이지 > 결재 > 상신/보관함 > 임시보관문서
+ *
+ * function / global variable / local variable setting
+ */
+
+var storageBoxTemp = {
     global : {
         now : new Date(),
         searchAjaxData : "",
+        saveAjaxData : "",
+
+        checkedDocArr : new Array()
     },
 
-    fnDefaultScript : function(params){
+    init : function(){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxTempSaveDocList.global.now.setMonth(storageBoxTempSaveDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxTemp.global.now.setMonth(storageBoxTemp.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        storageBoxTempSaveDocList.gridReload();
+        storageBoxTemp.gridReload();
     },
 
     mainGrid : function(url, params){
         var mainGrid = $("#mainGrid").kendoGrid({
             height: 489,
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2(url, params, 10),
             scrollable: true,
             pageable: {
                 refresh: true,
@@ -34,10 +44,17 @@ var storageBoxTempSaveDocList = {
                 {
                     name : 'excel',
                     text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="storageBoxTemp.setCheckedDocDel()">' +
+                            '	<span class="k-button-text">문서 삭제</span>' +
+                            '</button>';
+                    }
                 }
             ],
             excel : {
-                fileName : "상신문서 목록.xlsx",
+                fileName : "임시보관문서 목록.xlsx",
                 filterable : true
             },
             noRecords: {
@@ -45,6 +62,10 @@ var storageBoxTempSaveDocList = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    width: '3%',
+                    template : "<input type='checkbox' id='docId#=DOC_ID#' name='docId' value='#=DOC_ID#' class='k-checkbox checkbox'/>"
+                }, {
                     field : "FORM_NAME",
                     title : "문서종류",
                     width : 180
@@ -77,73 +98,65 @@ var storageBoxTempSaveDocList = {
                         style : "text-align : left;"
                     }
                 }, {
-                    field : "DRAFT_DT",
-                    title : "기안일",
-                    width : "120px",
-                    template : function(e){
-                        if(e.REPTIT_DRFT_YN == "N"){
-                            if(e.DRAFT_DT != null){
-                                return e.DRAFT_DT;
-                            }else{
-                                return "-";
-                            }
-                        }else if(e.REPTIT_DRFT_YN == "Y"){
-                            return e.REPTIT_DRFT_DT;
-                        }
-                    },
-                }, {
-                    field : "LAST_APPROVE_DT",
-                    title : "완료일",
-                    width : "120px",
-                    template : function(e){
-                        if(e.LAST_APPROVE_DT == null || e.LAST_APPROVE_DT == ""){
-                            return "-"
-                        }else{
-                            return e.LAST_APPROVE_DT
-                        }
-                    }
-                }, {
-                    field : "APPROVE_STAT_CODE_DESC",
-                    title : "결재상태",
+                    field : "REG_DATE",
+                    title : "저장일시",
                     width : "120px"
-                }, {
-                    title : "결재선",
-                    width : 80,
-                    template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
-                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
-                            '</button>'
-                    }
                 }, {
                     title : "",
                     width : 80,
                     template : function(e){
-                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxTempSaveDocList.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
-                                '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
-                                '<span class="k-button-text">회수</span>' +
-                                '</button>';
-                        } else if(e.APPROVE_STAT_CODE == "100" || e.APPROVE_STAT_CODE == "101"){
-                            return "-";
-                        }
+                        return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"tempOrReDraftingPop('+ e.DOC_ID + ',\'' + e.DOC_MENU_CD + '\',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'tempDrafting\')\">' +
+                            '<span class="k-icon k-i-track-changes k-button-icon"></span>' +
+                            '<span class="k-button-text">상신</span>' +
+                            '</button>';
                     }
                 }]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=docId]").prop("checked", true);
+            else $("input[name=docId]").prop("checked", false);
+        });
     },
 
     gridReload : function() {
-        storageBoxTempSaveDocList.global.searchAjaxData = {
+        storageBoxTemp.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : "draft",
+            approveStat : "temp",
         }
 
-        storageBoxTempSaveDocList.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxTempSaveDocList.global.searchAjaxData);
+        storageBoxTemp.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxTemp.global.searchAjaxData);
     },
 
-    setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxTempSaveDocList.gridReload()});
-    }
+    setCheckedDocDel : function(){
+        if(confirm("삭제하시겠습니까?")){
+            storageBoxTemp.global.checkedDocArr = new Array();
+
+            $.each($("input[name=docId]:checked"), function(i, v){
+                var data = {
+                    empSeq : $("#empSeq").val(),
+                    docId : v.value
+                }
+
+                storageBoxTemp.global.checkedDocArr.push(data);
+            });
+
+            storageBoxTemp.global.saveAjaxData = {
+                docArr : JSON.stringify(storageBoxTemp.global.checkedDocArr),
+            }
+
+            console.log(storageBoxTemp.global.checkedDocArr);
+
+            var result = customKendo.fn_customAjax("/approvalUser/setCheckedDocDel", storageBoxTemp.global.saveAjaxData);
+
+            if(result.flag){
+                alert("삭제되었습니다.");
+                $("#checkAll").prop("checked", false);
+                storageBoxTemp.gridReload();
+            }
+        }
+    },
 }

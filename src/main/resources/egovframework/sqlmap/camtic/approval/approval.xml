@@ -1252,5 +1252,56 @@
         WHERE 1=1
     </select>
 
+    <select id="getDocApprovePrevRouteData" parameterType="map" resultType="map">
+        SELECT
+            APPROVE_STAT_CODE_DESC,
+            APPROVE_STAT_CODE,
+            APPROVE_OPIN,
+            APPROVE_DT
+        FROM
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        WHERE
+            DOC_ID = #{docId}
+          AND
+            APPROVE_ORDER = (${approveOrder} - 1)
+    </select>
+
+    <update id="setDocInfoStatCancelUp" parameterType="map">
+        UPDATE
+            DJ_CAMTIC.A_DOC_INFO
+        SET
+            DOC_CONTENT = #{docContent},
+            APPROVE_ORDER = ${approveOrder},
+            APPROVE_STAT_CODE_DESC = #{approvePrevStatCodeDesc}, <!-- 이전전 결재 상태 -->
+            APPROVE_STAT_CODE = #{approvePrevStatCode}, <!-- 이전전 결재 상태 -->
+            APPROVE_OPIN = #{approvePrevOpin}, <!-- 이전전 결재 상태 -->
+            APPROVE_DT = #{approvePrevDate}, <!-- 이전전 결재 상태 -->
+            MOD_EMP_SEQ = #{approveEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            DOC_ID = #{docId}
+    </update>
+
+    <update id="setDocApproveCancelRouteUp" parameterType="map">
+        /* setDocApproveCancelRouteUp */
+        UPDATE
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE
+        SET
+            PROXY_APPROVE_DEPT_SEQ = NULL,
+            PROXY_APPROVE_EMP_SEQ = NULL,
+            DOC_READ_DT = CASE WHEN DOC_READ_DT IS NULL THEN NOW() ELSE DOC_READ_DT END,
+            APPROVE_STAT_CODE_DESC = NULL,
+            APPROVE_STAT_CODE = NULL,
+            APPROVE_OPIN = NULL,
+            APPROVE_DT = NULL,
+            APPROVE_CANCEL_DT = NOW(),
+            MOD_EMP_SEQ = #{approveEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            DOC_ID = #{docId}
+          AND
+            APPROVE_ROUTE_ID = #{approveRouteId}
+    </update>
+
 
 </mapper>

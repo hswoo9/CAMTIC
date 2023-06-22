@@ -308,6 +308,13 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    @Transactional
+    public void setDocApproveCancel(Map<String, Object> params, String base_dir) {
+        // 결재문서 데이터, 파일 수정
+        setApprovalDocDataFileCancelUpd(params, base_dir);
+    }
+
+    @Override
     public List<Map<String, Object>> getDocApproveHistOpinList(Map<String, Object> params) {
         List<Map<String, Object>> approveHistOpinList = approvalRepository.getDocApproveHistOpinList(params);
         for(Map<String, Object> map : approveHistOpinList){
@@ -651,6 +658,21 @@ public class ApprovalServiceImpl implements ApprovalService {
                 approvalRepository.setDocApproveRouteNoApproveUp(map);
             }
         }
+    }
+
+    private void setApprovalDocDataFileCancelUpd(Map<String, Object> params, String base_dir){
+        // 결재문서 HWP 형식 파일 저장
+        setApprovalDocFileDelAndUpd(params, base_dir);
+
+        /** 이전전 결재 상태 불러오기 */
+        Map<String, Object> approvePrevRouteData = approvalRepository.getDocApprovePrevRouteData(params);
+        params.put("approvePrevStatCodeDesc", approvePrevRouteData.get("APPROVE_STAT_CODE_DESC"));
+        params.put("approvePrevStatCode", approvePrevRouteData.get("APPROVE_STAT_CODE"));
+        params.put("approvePrevOpin", approvePrevRouteData.get("APPROVE_OPIN"));
+        params.put("approvePrevDate", approvePrevRouteData.get("APPROVE_DT"));
+
+        approvalRepository.setDocInfoStatCancelUp(params);
+        approvalRepository.setDocApproveCancelRouteUp(params);
     }
 
     private void setApprovalDocFileDelAndUpd(Map<String, Object> params, String base_dir){
