@@ -115,7 +115,7 @@
           <li>
             <div class="btn-group">
               <button type="button" class="btn btn-logged" data-toggle="dropdown">
-                김캠틱님 환영합니다!
+                ${loginVO.name}님 환영합니다!
                 <!--<span class="caret"></span>-->
               </button>
               <!--<ul class="dropdown-menu pull-right">
