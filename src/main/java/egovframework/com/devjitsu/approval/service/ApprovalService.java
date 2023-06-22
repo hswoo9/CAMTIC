@@ -74,6 +74,13 @@ public interface ApprovalService {
     void setDocReaderReadUser(Map<String, Object> params);
 
     /**
+     * 결재문서 결재라인 정보
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getDocApproveAllRoute(Map<String, Object> params);
+
+    /**
      * 결재자별 결재상태 공통코드 조회
      * @param params
      * @return
@@ -94,5 +101,21 @@ public interface ApprovalService {
      * 상신 문서 회수 (최종결재 전 회수 가능)
      */
     void setApproveRetrieve(Map<String, Object> params) throws IOException;
+
+    /**
+     * 문서 결재자 의견 보기
+     */
+    List<Map<String, Object>> getDocApproveHistOpinList(Map<String, Object> params);
+
+    /**
+     * 문서 결재이력 보기
+     */
+    List<Map<String, Object>> getDocApproveStatusHistList(Map<String, Object> params);
+
+    /**
+     * 문서 열람이력 보기
+     */
+    List<Map<String, Object>> getDocReaderHistList(Map<String, Object> params);
+
 
 }

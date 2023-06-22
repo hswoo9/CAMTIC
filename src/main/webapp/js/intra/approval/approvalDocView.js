@@ -460,7 +460,7 @@ var docView = {
         }
 
         $("#opinViewModalGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveHistOpinList.do", docView.global.searchAjaxData, 100),
+            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveHistOpinList", docView.global.searchAjaxData, 100),
             height: 315,
             toolbar : [
                 {
@@ -535,7 +535,7 @@ var docView = {
         }
 
         $("#approveHistModalGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveStatusHistList.do", docView.global.searchAjaxData, 100),
+            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveStatusHistList", docView.global.searchAjaxData, 100),
             height: 315,
             toolbar : [
                 {
@@ -613,7 +613,7 @@ var docView = {
         }
 
         $("#readerHistModalGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/approval/getDocReaderHistList.do", docView.global.searchAjaxData, 100),
+            dataSource: customKendo.fn_gridDataSource2("/approval/getDocReaderHistList", docView.global.searchAjaxData, 100),
             height: 315,
             toolbar : [
                 {

@@ -658,7 +658,7 @@ var draft = {
         draft.docApproveLineDataSetting("temp", draft.global.formData);
 
         $.ajax({
-            url : getContextPath() + "/approval/setApproveDraftInit.do",
+            url : "/approval/setApproveDraftInit.do",
             type : 'post',
             data : draft.global.formData,
             dataType : "json",
@@ -720,7 +720,7 @@ var draft = {
         }
 
         if(!$(e).hasClass("temp")){
-            hwpDocCtrl.putFieldText('approval_st' + draft.global.approversArr.find(element => element.approveEmpSeq === "1").approveOrder, draft.global.dataType.nowCom + "(결재)");
+            hwpDocCtrl.putFieldText('approval_st' + draft.global.approversArr.find(element => element.approveEmpSeq === $("#empSeq").val()).approveOrder, draft.global.dataType.nowCom + "(결재)");
         }
 
 
@@ -800,7 +800,7 @@ var draft = {
         draft.docApproveLineDataSetting("reDrafting", draft.global.formData);
 
         $.ajax({
-            url : getContextPath() + '/approval/setApproveDraftInit.do',
+            url : '/approval/setApproveDraftInit.do',
             type : 'POST',
             data : draft.global.formData,
             dataType : "json",
@@ -827,6 +827,11 @@ var draft = {
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
                     }else{
+                        try {
+                            opener.parent.gridReload();
+                        }catch (e) {
+
+                        }
                         window.close();
                     }
                 }

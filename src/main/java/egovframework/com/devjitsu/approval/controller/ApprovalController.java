@@ -233,6 +233,15 @@ public class ApprovalController {
         return result;
     }
 
+    /** 결재라인 보기 */
+    @RequestMapping("/approval/approvalLineViewPop.do")
+    public String approvalLineViewPop(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("approvalLineList", approvalService.getDocApproveAllRoute(params));
+        model.addAttribute("approvalLineList2", new Gson().toJson(approvalService.getDocApproveAllRoute(params)));
+
+        return "popup/approval/popup/approvalLineViewPop";
+    }
+
     /** 결재자별 결재상태 공통코드 조회 */
     @RequestMapping("/approval/getCmCodeInfo")
     public String getCmCodeInfo(@RequestParam Map<String, Object> params, Model model) {
@@ -306,13 +315,25 @@ public class ApprovalController {
         return result;
     }
 
-    //오늘날짜 구하기 yyyyMMddhhmmss
-    public static String getCurrentDateTime() {
-        Date today = new Date();
-        Locale currentLocale = new Locale("KOREAN", "KOREA");
-        String pattern = "yyyyMMddHHmmss";
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
-        return formatter.format(today);
+    /** 의견 리스트 */
+    @RequestMapping("/approval/getDocApproveHistOpinList.do")
+    public String getDocApproveHistOpinList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", approvalService.getDocApproveHistOpinList(params));
+        return "jsonView";
+    }
+
+    /** 결재이력 리스트 */
+    @RequestMapping("/approval/getDocApproveStatusHistList.do")
+    public String getDocApproveHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", approvalService.getDocApproveStatusHistList(params));
+        return "jsonView";
+    }
+
+    /** 열람자 이력 리스트 */
+    @RequestMapping("/approval/getDocReaderHistList")
+    public String getDocReaderHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", approvalService.getDocReaderHistList(params));
+        return "jsonView";
     }
 
     /** 재상신시 반려된 문서 조회 */
@@ -324,4 +345,12 @@ public class ApprovalController {
         return "jsonView";
     }
 
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
+    }
 }

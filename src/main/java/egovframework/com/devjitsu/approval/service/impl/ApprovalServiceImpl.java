@@ -255,6 +255,21 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public List<Map<String, Object>> getDocApproveAllRoute(Map<String, Object> params) {
+        List<Map<String, Object>> approveLineList = approvalRepository.getDocApproveAllRoute(params);
+        for(Map<String, Object> map : approveLineList){
+            if(!map.get("ORIGIN_APPROVE_EMP_NAME").equals("")){
+                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
+                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
+                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
+                map.put("PROXY_APPROVE_POSITION_NAME", proxyApproveUserInfo.get("POSITION_NAME"));
+                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
+            }
+        }
+        return approveLineList;
+    }
+
+    @Override
     public Map<String, Object> getByApproveCmCodeInfo(Map<String, Object> params) {
         String cmCodeNm = params.get("cmCodeNm") == null ? "" : params.get("cmCodeNm").toString();
 
@@ -290,6 +305,42 @@ public class ApprovalServiceImpl implements ApprovalService {
         // 결재문서 파일 저장
         setDocApproveNReturnDataFileUpd(params, base_dir);
         linkageProcessSend(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDocApproveHistOpinList(Map<String, Object> params) {
+        List<Map<String, Object>> approveHistOpinList = approvalRepository.getDocApproveHistOpinList(params);
+        for(Map<String, Object> map : approveHistOpinList){
+            if(map.get("PROXY_TYPE").equals("Y")){
+                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
+                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
+                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
+                map.put("PROXY_APPROVE_DUTY_NAME", proxyApproveUserInfo.get("DUTY_NAME"));
+                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
+            }
+        }
+
+        return approveHistOpinList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getDocApproveStatusHistList(Map<String, Object> params) {
+        List<Map<String, Object>> approveHistList = approvalRepository.getDocApproveStatusHistList(params);
+        for(Map<String, Object> map : approveHistList){
+            if(map.get("PROXY_TYPE").equals("Y")){
+                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
+                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
+                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
+                map.put("PROXY_APPROVE_DUTY_NAME", proxyApproveUserInfo.get("DUTY_NAME"));
+                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
+            }
+        }
+        return approveHistList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getDocReaderHistList(Map<String, Object> params) {
+        return approvalRepository.getDocReaderHistList(params);
     }
 
     private Map<String, Object> setDocInfo(Map<String, Object> params, String base_dir){
@@ -386,7 +437,7 @@ public class ApprovalServiceImpl implements ApprovalService {
             String approKey = params.get("approKey").toString();
             fileSearchMap.put("step", approKey.split("_")[0]);
             fileSearchMap.put("id", approKey.split("_")[1]);
-            returnMap.addAll(approvalRepository.getDocAttachmentListForSys(fileSearchMap));
+            //returnMap.addAll(approvalRepository.getDocAttachmentListForSys(fileSearchMap));
         }
 
         return returnMap;

@@ -29,6 +29,10 @@ public class ApprovalUserController {
     private ApprovalUserService approvalUserService;
 
     /**
+     * 전자문서 > 전자결재 > 상신/보관함
+     */
+
+    /**
      * 양식목록
      * @param request
      * @param model
@@ -37,13 +41,28 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/draftFormList.do")
     public String draftFormList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        model.addAttribute("toDate", getCurrentDateTime());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
         model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("data", approvalUserService.getDraftFormList(params));
 
-        return "approval/user/draftFormList";
+        return "approval/approvalUser/draftFormList";
+    }
+
+    /**
+     * 임시보관문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/storageBoxTempSaveDocList.do")
+    public String storageBoxTempSaveDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalDocStorageBox/storageBoxTempSaveDocList";
     }
 
     /**
@@ -55,12 +74,132 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/storageBoxDraftDocList.do")
     public String storageBoxDraftDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
-        model.addAttribute("toDate", getCurrentDateTime());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
         model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
 
-        return "approval/user/DocStorageBox/storageBoxDraftDocList";
+        return "approval/approvalUser/approvalDocStorageBox/storageBoxDraftDocList";
+    }
+
+    /**
+     * 반려/회수 문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/storageBoxReturnDocList.do")
+    public String storageBoxReturnDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalDocStorageBox/storageBoxReturnDocList";
+    }
+
+    /**
+     * 열람 문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/storageBoxReaderDocList.do")
+    public String storageBoxReaderDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalDocStorageBox/storageBoxReaderDocList";
+    }
+
+    /**
+     * 전자문서 > 전자결재 > 결재함
+     */
+
+    /**
+     * 결재대기문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/approveWaitDocList.do")
+    public String approveWaitDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalBox/approveWaitDocList";
+    }
+
+    /**
+     * 결재예정문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/approveTobeDocList.do")
+    public String approveTobeDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalBox/approveTobeDocList";
+    }
+
+    /**
+     * 결재완료문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/approveCompletionDocList.do")
+    public String approveCompletionDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalBox/approveCompletionDocList";
+    }
+
+    /**
+     * 결재반려문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/approveReturnDocList.do")
+    public String approveReturnDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalBox/approveReturnDocList";
+    }
+
+    /**
+     * 전자문서 > 전자결재 > 결재설정
+     */
+
+    /**
+     * 결재선관리
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/approvalLineManagement.do")
+    public String openOrganizationChart(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", commonService.ctDept((String) login.getOrgnztId()));
+
+        return "approval/approvalUser/approvalLineManagement";
     }
 
     /**
@@ -78,27 +217,6 @@ public class ApprovalUserController {
     }
 
     /**
-     * 전자문서 > 전자결재 > 결재함
-     */
-
-    /**
-     * 결재대기문서
-     * @param request
-     * @param model
-     * @return
-     */
-    @RequestMapping("/approvalUser/approveWaitDocList.do")
-    public String approveWaitDocList(HttpServletRequest request, Model model){
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
-        model.addAttribute("loginVO", login);
-
-        return "approval/user/Box/approveWaitDocList";
-    }
-
-    /**
      * 결재함 리스트
      * @param params
      * @param request
@@ -109,24 +227,6 @@ public class ApprovalUserController {
     public String getApproveDocBoxList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         model.addAttribute("list", approvalUserService.getApproveDocBoxList(params));
         return "jsonView";
-    }
-
-    /**
-     * 결재선관리
-     * @param request
-     * @param model
-     * @return
-     */
-    @RequestMapping("/approvalUser/approvalLineManagement.do")
-    public String openOrganizationChart(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        model.addAttribute("toDate", getCurrentDateTime());
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-
-        model.addAttribute("loginVO", loginVO);
-        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
-
-        return "approval/user/approvalLineManagement";
     }
 
     //TODO. AJAX RETURN 오류로 JSONVIEW는 나중에 추가

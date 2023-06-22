@@ -36,7 +36,7 @@ public class EgovUserDetailsHelper {
 //            loginVo.setId("admin");
 //            loginVo.setEmpname("관리자");
 //            loginVo.setName("관리자");
-//            loginVo.setOrganNm("농림수산식품교육문화정보원");
+//            loginVo.setOrganNm("캠틱종합기술");
 //            loginVo.setPositionCode("A7"); // 직급
 //            loginVo.setPositionNm("나급");
 //            loginVo.setClassCode("A8"); // 직책
