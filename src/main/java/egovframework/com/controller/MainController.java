@@ -1,8 +1,12 @@
 package egovframework.com.controller;
 
+import egovframework.com.devjitsu.main.dto.LoginVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
@@ -18,7 +22,10 @@ public class MainController {
     }
 
     @RequestMapping("/indexB.do")
-    public String indexB(){
+    public String indexB(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
         return "indexB";
     }
 

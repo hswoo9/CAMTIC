@@ -34,7 +34,6 @@
         approvalParams.approKey = "camticHoliday_${data.subHolidayId}";
 
         linkageProcessOn(approvalParams);
-        window.close();
     }
 </script>
 </body>

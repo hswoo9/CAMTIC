@@ -41,4 +41,9 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     public String getHwpCtrlUrl(String achrGbn) {
         return commonCommonCodeRepository.getHwpCtrlUrl(achrGbn);
     }
+
+    @Override
+    public Map<String, Object> getCmCodeInfo(Map<String, Object> params) {
+        return commonCommonCodeRepository.getCmCodeInfo(params);
+    }
 }

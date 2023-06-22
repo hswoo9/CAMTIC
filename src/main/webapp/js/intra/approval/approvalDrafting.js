@@ -493,7 +493,7 @@ var draft = {
             cmCodeNm : type
         }
 
-        var result = customKendo.fn_customAjax("/approval/getReturnDocDataInfo.do", draft.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getReturnDocDataInfo", draft.global.searchAjaxData);
 
         if(result.flag){
             var docFile =  result.docFileList;
@@ -777,6 +777,11 @@ var draft = {
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
                     }else{
+                        try {
+                            opener.parent.gridReload();
+                        }catch (e) {
+
+                        }
                         window.close();
                     }
                 }

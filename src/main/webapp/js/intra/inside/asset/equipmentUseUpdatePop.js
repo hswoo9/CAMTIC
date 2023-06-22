@@ -1,25 +1,31 @@
 /**
- * 2023.06.06
+ * 2023.06.21
  * 작성자 : 김지혜
- * 내용 : 자산관리 > 장비관리 - 장비사용 등록 팝업창
+ * 내용 : 자산관리 > 장비관리 - 장비사용 등록 수정 팝업창
  */
 var now = new Date();
 var now1 = new Date();
-var equipmentUsePop = {
+var equipmentUseUpdatePop = {
 
     global : {
-        eqipmnGbnName : []
+        eqipmnGbnName : [],
+        eqipmnUseSn : ""
     },
 
     fn_defaultScript: function () {
+
+        $("#eqipmnName").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            index: 0
+        })
 
         //사용기간 - 시작
         $("#usePdStrDe").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()))
+            format : "yyyy-MM-dd"
         });
 
         //사용기간 - 끝
@@ -27,16 +33,8 @@ var equipmentUsePop = {
             depth: "month",
             start: "month",
             culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()+1))
+            format : "yyyy-MM-dd"
         });
-
-        //장비명
-        $("#eqipmnName").kendoDropDownList({
-            dataTextField: "TEXT",
-            dataValueField: "VALUE",
-            index: 0
-        })
 
         $("#userName").kendoTextBox();
         $("#operCn").kendoTextBox();
@@ -49,10 +47,29 @@ var equipmentUsePop = {
             depth: "month",
             start: "month",
             culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now1.setMonth(now1.getMonth()))
+            format : "yyyy-MM-dd"
         });
 
+        //업체구분 드롭박스 리스트
+        $.ajax({
+            url : "/asset/getPrtpcoGbnNameList",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function (result){
+                var ds = result.list;
+                ds.unshift({TEXT: '선택하세요', VALUE: ''});
+
+                $("#prtpcoGbnName").kendoDropDownList({
+                    dataTextField: "TEXT",
+                    dataValueField: "VALUE",
+                    dataSource: ds,
+                    index: 0
+                })
+            }
+        })
+
+        //장비명 드롭박스 리스트
         $.ajax({
             url : "/asset/getEqipmnList",
             type : "post",
@@ -96,29 +113,60 @@ var equipmentUsePop = {
             }
         })
 
+        //조회한 데이터 세팅
         $.ajax({
-            url : "/asset/getPrtpcoGbnNameList",
-            type : "post",
-            async: false,
-            dataType : "json",
-            success : function (result){
-                var ds = result.list;
-                ds.unshift({TEXT: '선택하세요', VALUE: ''});
+            url : '/asset/getEqipmnUseUpdateList',
+            data : {
+                pk : $("#eqipmnUseSn").val()
+            },
+            dataType: "json",
+            type : "get",
+            async : false,
+            success : function(result){
+                console.log(result.rs);
+                const rs = result.rs[0];
 
-                $("#prtpcoGbnName").kendoDropDownList({
-                    dataTextField: "TEXT",
-                    dataValueField: "VALUE",
-                    dataSource: ds,
-                    index: 0
+                $("#eqipmnGbnName").data("kendoDropDownList").value(rs.EQIPMN_GBN_CMMN_CD_SN); //구분공통코드sn
+                var data = {
+                    eqipmnGbnCmmnCdSn : rs.EQIPMN_GBN_CMMN_CD_SN
+                }
+                $.ajax({
+                    url : "/asset/getEqipmnNameList",
+                    type : "post",
+                    async: false,
+                    data : data,
+                    dataType : "json",
+                    success : function (eqipmnResult){
+                        console.log(eqipmnResult);
+                        var ds = eqipmnResult.list;
+                        ds.unshift({TEXT: '선택하세요', VALUE: ''});
+
+                        $("#eqipmnName").kendoDropDownList({
+                            dataTextField: "TEXT",
+                            dataValueField: "VALUE",
+                            dataSource: ds,
+                            index: 0
+                        })
+                    }
                 })
+                $("#eqipmnName").data("kendoDropDownList").value(rs.EQIPMN_MST_SN); //장비명
+                $("#usePdStrDe").val(rs.USE_PD_STR_DE); //사용기간 시작일
+                $("#usePdEndDe").val(rs.USE_PD_END_DE); //사용기간 종료일
+                $("#userName").val(rs.USER_NAME); //사용자명
+                $("#operCn").val(rs.OPER_CN); //작업내용
+                $("#useTime").val(rs.USE_TIME); //사용시간
+                $("#useAmt").val(rs.USE_AMT); //사용대금
+                $("#prtpcoGbnName").data("kendoDropDownList").value(rs.PRTPCO_GBN_SN); //업체구분 공통코드sn
+                $("#regDe").val(rs.REG_DE); //작성일자
+                $("#sortSn").val(rs.SORT_SN); //정렬순번
             }
-        })
+        });
     },
 
-    equipUseSave : function (){
-
-        if(confirm("등록하시겠습니까?")){
+    equipUpdate : function(){
+        if(confirm("수정하시겠습니까?")){
             var data = {
+                pk : $("#eqipmnUseSn").val(), //장비사용 pk
                 eqipmnGbnName : $("#eqipmnGbnName").data("kendoDropDownList").text(), //구분명
                 eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
                 eqipmnName : $("#eqipmnName").data("kendoDropDownList").text(), //장비명
@@ -135,7 +183,8 @@ var equipmentUsePop = {
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
                 sortSn : $("#sortSn").val(), //정렬순번
                 crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
-                clientPprtpcoName : $("#clientPprtpcoName").val() //의뢰업체명
+                clientPprtpcoName : $("#clientPprtpcoName").val(), //의뢰업체명
+                updusrSn : $("#empSeq").val() //수정자sn - 로그인한 계정
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -178,13 +227,13 @@ var equipmentUsePop = {
             console.log(data);
 
             $.ajax({
-                url : '/asset/setEquipmentUseInsert',
+                url : '/asset/setEquipmenUseUpdate',
                 data : data,
                 dataType: "json",
                 type : "get",
-                async : false
+                async : false,
             });
-            alert("저장 되었습니다.");
+            alert("수정 되었습니다.");
             location.reload();
             window.close()
         }

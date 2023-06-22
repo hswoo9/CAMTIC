@@ -107,4 +107,52 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getClassManageList(map);
     }
 
+    //장비사용 목록 조회
+    @Override
+    public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {
+        return assetRepository.getEqipmnUseList(params);
+    }
+
+    //장비사용 목록 삭제
+    @Override
+    public Map<String, Object> setEquipmenUseDelete(List<String> eqmnUsePk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setEquipmenUseDelete(eqmnUsePk);
+
+            result.put("code", "200");
+            result.put("message", "장비사용 목록 삭제가 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "장비사용 목록 삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //장비사용 목록 업데이트
+    @Override
+    public Map<String, Object> setEquipmenUseUpdate(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setEquipmenUseUpdate(params);
+
+            result.put("code", "200");
+            result.put("message", "장비목록 수정이 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "장비목록 수정 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //장비사용 등록 수정 창 조회
+    @Override
+    public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
+        return assetRepository.getEqipmnUseUpdateList(params);
+    }
+
 }

@@ -9,12 +9,12 @@
         INSERT INTO CAM_INSIDE.DJ_EQIPMN_MST
         (
 
-            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, regtr_sn, reg_de, create_dt, actvt_yn, sort_sn
+            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, regtr_sn, reg_de, create_dt, actvt_yn, sort_sn, crtr_sn
         )
         VALUES
         (
 
-            #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regtrSn}, #{regDe}, NOW(), 'Y', #{sortSn}
+            #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regtrSn}, #{regDe}, NOW(), 'Y', #{sortSn}, #{crtrSn}
         )
     </insert>
 
@@ -79,7 +79,7 @@
         SET
             eqipmn_name = #{eqipmnName}, eqipmn_gbn_name = #{eqipmnGbnName},
             eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}, regtr_name = #{regtrName},
-            reg_de = #{regDe}, regtr_sn = #{regtrSn}, updt_dt  = NOW(), sort_sn = #{sortSn}
+            reg_de = #{regDe}, regtr_sn = #{regtrSn}, updt_dt  = NOW(), sort_sn = #{sortSn}, updusr_sn = #{updusrSn}
         WHERE
             eqipmn_mst_sn = #{eqipmnMstSn}
     </update>
@@ -183,5 +183,116 @@
           and
             a.ACTIVE = 'Y';
     </select>
+
+    <!--장비사용 목록 조회-->
+    <select id="getEqipmnUseList" parameterType="map" resultType="map">
+        /*getEqipmnUseList*/
+        SELECT
+            A.eqipmn_use_sn as EQIPMN_USE_SN,
+            A.sort_sn as SORT_SN,
+            B.eqipmn_gbn_name as EQIPMN_GBN_NAME,
+            B.eqipmn_gbn_cmmn_cd_sn as EQIPMN_GBN_CMMN_CD_SN,
+            B.eqipmn_name as EQIPMN_NAME,
+            A.use_pd_str_de as USE_PD_STR_DE,
+            A.use_pd_end_de as USE_PD_END_DE,
+            A.user_name as USER_NAME,
+            A.oper_cn as OPER_CN,
+            A.use_time as USE_TIME,
+            A.use_amt as USE_AMT,
+            A.client_prtpco_name as CLIENT_PRTPCO_NAME,
+            A.prtpco_gbn_name as PRTPCO_GBN_NAME,
+            A.prtpco_gbn_sn as PRTPCO_GBN_SN,
+            A.actvt_yn AS ACTVT_YN
+        FROM
+            CAM_INSIDE.DJ_EQIPMN_USE A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B
+        ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
+        WHERE
+            1=1
+        <if test="usePdStrDe != null and usePdStrDe != '' and usePdEndDe != null and usePdEndDe != ''">
+            <![CDATA[
+            AND
+                (
+                    USE_PD_STR_DE >= #{usePdStrDe}
+                    AND
+                    USE_PD_END_DE <= #{usePdEndDe}
+                )
+            ]]>
+        </if>
+        <if test="eqipmnGbnCmmnCdSn != null and eqipmnGbnCmmnCdSn != ''">
+            AND eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}
+        </if>
+        <if test="prtpcoGbnSn != null and prtpcoGbnSn != ''">
+            AND prtpco_gbn_sn = #{prtpcoGbnSn}
+        </if>
+            AND A.ACTVT_YN = 'Y'
+        <if test="searchText != null and searchText != '' and searchVal != null and searchVal != ''">
+            AND ${searchText} LIKE CONCAT ('%', #{searchVal}, '%')
+        </if>
+        ORDER BY SORT_SN ASC
+    </select>
+
+    <!--장비사용 목록 삭제-->
+    <update id="setEquipmenUseDelete" parameterType="java.util.List">
+        /* setEquipmenUseDelete */
+        UPDATE
+        CAM_INSIDE.DJ_EQIPMN_USE
+        SET
+        actvt_yn = 'N', updt_dt = NOW()
+        WHERE
+        eqipmn_use_sn IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--장비사용 목록 업데이트-->
+    <update id="setEquipmenUseUpdate" parameterType="map">
+        /* setEquipmenUseUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPMN_USE
+        SET
+            eqipmn_mst_sn = #{eqipmnMstSn}, use_pd_str_de = #{usePdStrDe},
+            use_pd_end_de = #{usePdEndDe}, user_name = #{userName}, user_sn = #{userSn},
+            oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
+            prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
+            reg_de = #{regDe}, sort_sn = #{sortSn}, updt_dt = NOW(), updusr_sn = #{updusrSn}
+        WHERE
+            eqipmn_use_sn = #{pk}
+    </update>
+
+    <!--장비사용 등록 수정 창 조회-->
+    <select id="getEqipmnUseUpdateList" parameterType="map" resultType="map">
+        /*getEqipmnUseUpdateList*/
+        SELECT
+            A.eqipmn_use_sn as EQIPMN_USE_SN,
+            A.sort_sn as SORT_SN,
+            B.eqipmn_mst_sn as EQIPMN_MST_SN,
+            B.eqipmn_gbn_name as EQIPMN_GBN_NAME,
+            B.eqipmn_gbn_cmmn_cd_sn as EQIPMN_GBN_CMMN_CD_SN,
+            B.eqipmn_name as EQIPMN_NAME,
+            DATE_FORMAT(A.use_pd_str_de, '%Y-%m-%d') as USE_PD_STR_DE,
+            DATE_FORMAT(A.use_pd_end_de, '%Y-%m-%d') as USE_PD_END_DE,
+            A.user_name as USER_NAME,
+            A.oper_cn as OPER_CN,
+            A.use_time as USE_TIME,
+            A.use_amt as USE_AMT,
+            A.client_prtpco_name as CLIENT_PRTPCO_NAME,
+            A.prtpco_gbn_name as PRTPCO_GBN_NAME,
+            A.prtpco_gbn_sn as PRTPCO_GBN_SN,
+            A.actvt_yn as ACTVT_YN,
+            DATE_FORMAT(A.reg_de, '%Y-%m-%d') as REG_DE
+        FROM
+            cam_inside.dj_eqipmn_use A
+        LEFT JOIN
+            cam_inside.dj_eqipmn_mst B
+            ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
+        WHERE
+            A.eqipmn_use_sn = #{pk}
+    </select>
+
 
 </mapper>

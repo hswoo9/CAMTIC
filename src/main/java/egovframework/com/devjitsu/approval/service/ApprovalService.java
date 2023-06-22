@@ -45,6 +45,13 @@ public interface ApprovalService {
     Map<String, Object> getDocInfoApproveRoute(Map<String, Object> params);
 
     /**
+     * 결재 문서 정보 (doc_info 테이블만 조회)
+     * @param params
+     * @return
+     */
+    Map<String, Object> getDocInfo(Map<String, Object> params);
+
+    /**
      * 문서의 현재 결재 순서
      */
     Map<String, Object> getDocApproveNowRoute(Map<String, Object> params);
@@ -82,5 +89,10 @@ public interface ApprovalService {
      * 결재 문서 첨부파일 정보
      */
     List<Map<String, Object>> getDocAttachmentList(Map<String, Object> params);
+
+    /**
+     * 상신 문서 회수 (최종결재 전 회수 가능)
+     */
+    void setApproveRetrieve(Map<String, Object> params) throws IOException;
 
 }

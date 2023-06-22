@@ -20,10 +20,15 @@ function linkageProcessOn(params){
 	url = makeParams(params, form, url);
 	url = url.replace("&", "?");
 
-	window.open(url, "viewer", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50", "newWindow");
+	if(params.type == "reDrafting") {
+		window.open(url, "_target", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
+	}else {
+		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
+	}
 }
 
 function makeParams(params, form, url){
+	console.log(params);
 	if(params.linkageProcessCode){
 		var linkageProcessCode = $('<input type="hidden" name="linkageProcessCode"/>');
 		linkageProcessCode.val(params.linkageProcessCode);
@@ -122,7 +127,7 @@ function makeParams(params, form, url){
 	}
 	if(params.linkageType){
 		var linkageType = $('<input type="hidden" name="linkageType"/>');
-		linkageType.val(params.linkageType.replace(/&/gi, "shift6"));
+		linkageType.val(params.linkageType);
 		form.append(linkageType);
 		url += "&linkageType="+params.linkageType;
 	}
@@ -216,7 +221,7 @@ function getDocInfo(docId){
 	var result;
 
 	$.ajax({
-		url : getContextPath()+"/approval/getDocInfo.do",
+		url : "/approval/getDocInfo",
 		data : {
 			docId : docId
 		},
@@ -256,6 +261,11 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 			async : false,
 			success : function (){
 				alert("문서가 회수되었습니다.");
+				try {
+					gridReload();
+				}catch(e) {
+
+				}
 				if(callBack != null){
 					return callBack();
 				}

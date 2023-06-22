@@ -39,7 +39,7 @@
         align-items: center;
     }
 </style>
-<script type="text/javascript" src="/js/intra/inside/asset/equipmentUsePop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/asset/equipmentUseUpdatePop.js?v=${today}"/></script>
 
 <!DOCTYPE html>
 <html>
@@ -54,6 +54,7 @@
                 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
                 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+                <input type="hidden" id="eqipmnUseSn" name="eqipmnUseSn" value="${pk}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="20%">
@@ -63,7 +64,7 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th colspan="4">장비사용 등록</th>
+                        <th colspan="4">장비사용 등록 수정</th>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>장비명</th>
@@ -120,7 +121,7 @@
                 </table>
             </div>
             <div class="btn-st" style="text-align:center; margin-top: 5px;">
-                <input type="button" id="save" class="k-button k-rounded k-button-solid k-button-solid-info" value="등록" onclick="equipmentUsePop.equipUseSave()"/>
+                <input type="button" id="save" class="k-button k-rounded k-button-solid k-button-solid-info" value="수정" onclick="equipmentUseUpdatePop.equipUpdate()"/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick="window.close()"/>
             </div>
         </div>
@@ -129,7 +130,7 @@
 
 
 <script>
-    equipmentUsePop.fn_defaultScript();
+    equipmentUseUpdatePop.fn_defaultScript();
 
     function userSearch() {
         window.open("/common/deptListPop.do","조직도","width=750,height=650");

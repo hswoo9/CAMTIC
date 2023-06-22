@@ -34,4 +34,18 @@ public interface AssetService {
     List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
     List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
     List<Map<String,Object>> getClassManageList(Map<String,Object> map);
+
+    //장비사용 목록 조회
+    List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
+
+    //장비사용 목록 삭제
+    Map<String, Object> setEquipmenUseDelete(List<String> eqmnUsePk);
+
+    //장비사용 목록 업데이트
+    Map<String, Object> setEquipmenUseUpdate(Map<String, Object> params);
+
+    //장비사용 등록 수정 창 조회
+    List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params);
+
+
 }

@@ -25,4 +25,11 @@ public interface CommonCodeService {
      * @return
      */
     String getHwpCtrlUrl(String achrGbn);
+
+    /**
+     * 공통 코드 조회 ( cmCode = 코드 or cmCodeId = 코드 기본키 )
+     * @param params
+     * @return
+     */
+    Map<String, Object> getCmCodeInfo(Map<String, Object> params);
 }
