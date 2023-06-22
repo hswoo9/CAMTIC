@@ -1,17 +1,17 @@
-var approveCompletionDocList = {
+var approveCompletion = {
     global : {
         now : new Date(),
         searchAjaxData : "",
     },
 
-    fnDefaultScript : function(params){
+    init : function(params){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveCompletionDocList.global.now.setMonth(approveCompletionDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveCompletion.global.now.setMonth(approveCompletion.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        approveCompletionDocList.gridReload();
+        approveCompletion.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -129,17 +129,13 @@ var approveCompletionDocList = {
     },
 
     gridReload : function() {
-        approveCompletionDocList.global.searchAjaxData = {
+        approveCompletion.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "wait"
+            approveStat : "completion"
         }
 
-        approveCompletionDocList.mainGrid("/approvalUser/getApproveDocBoxList", approveCompletionDocList.global.searchAjaxData);
-    },
-
-    setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){approveCompletionDocList.gridReload()});
+        approveCompletion.mainGrid("/approvalUser/getApproveDocBoxList", approveCompletion.global.searchAjaxData);
     }
 }
 

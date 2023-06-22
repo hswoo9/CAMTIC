@@ -1,17 +1,19 @@
-var approveTobeDocList = {
+var now = new Date();
+
+var approveTobe = {
     global : {
         now : new Date(),
         searchAjaxData : "",
     },
 
-    fnDefaultScript : function(params){
+    init : function(params){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveTobeDocList.global.now.setMonth(approveTobeDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveTobe.global.now.setMonth(approveTobe.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        approveTobeDocList.gridReload();
+        approveTobe.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -19,6 +21,7 @@ var approveTobeDocList = {
             height: 489,
             dataSource: customKendo.fn_gridDataSource2(url, params),
             scrollable: true,
+            resizable: true,
             pageable: {
                 refresh: true,
                 pageSize : 10,
@@ -34,7 +37,7 @@ var approveTobeDocList = {
                 {
                     name : 'excel',
                     text: '엑셀다운로드'
-                }
+                },
             ],
             excel : {
                 fileName : "전체문서 목록.xlsx",
@@ -129,17 +132,13 @@ var approveTobeDocList = {
     },
 
     gridReload : function() {
-        approveTobeDocList.global.searchAjaxData = {
+        approveTobe.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "wait"
+            approveStat : "tobe"
         }
 
-        approveTobeDocList.mainGrid("/approvalUser/getApproveDocBoxList", approveTobeDocList.global.searchAjaxData);
-    },
-
-    setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){approveTobeDocList.gridReload()});
+        approveTobe.mainGrid("/approvalUser/getApproveDocBoxList", approveTobe.global.searchAjaxData);
     }
 }
 

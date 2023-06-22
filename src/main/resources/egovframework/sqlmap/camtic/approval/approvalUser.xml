@@ -364,6 +364,22 @@
         ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
     </select>
 
+    <!-- 결재함 -->
+    <select id="getEmpDeptList" parameterType="map" resultType="map">
+        /* getEmpDeptList */
+        SELECT
+            'camtic_new' AS GROUP_SEQ,
+            DI.COMP_SEQ AS COMP_SEQ,
+            DI.DEPT_SEQ AS DEPT_SEQ,
+            EI.EMP_SEQ AS EMP_SEQ
+        FROM
+            CAM_HR.DJ_EMP_INFO EI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
+        WHERE
+            DI.DEPT_SEQ NOT IN (#{deptSeq})
+    </select>
+
     <insert id="setUserFavApproveRoute" parameterType="map">
         /* setUserFavApproveRoute */
         INSERT INTO DJ_CAMTIC.V_USER_FAV_APPROVE_ROUTE

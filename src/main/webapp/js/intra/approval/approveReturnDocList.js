@@ -1,4 +1,4 @@
-var approveReturnDocList = {
+var approveReturn = {
     global : {
         now : new Date(),
         searchAjaxData : "",
@@ -7,11 +7,11 @@ var approveReturnDocList = {
     fnDefaultScript : function(params){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveReturnDocList.global.now.setMonth(approveReturnDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveReturn.global.now.setMonth(approveReturn.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        approveReturnDocList.gridReload();
+        approveReturn.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -129,17 +129,17 @@ var approveReturnDocList = {
     },
 
     gridReload : function() {
-        approveReturnDocList.global.searchAjaxData = {
+        approveReturn.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "wait"
+            approveStat : "return"
         }
 
-        approveReturnDocList.mainGrid("/approvalUser/getApproveDocBoxList", approveReturnDocList.global.searchAjaxData);
+        approveReturn.mainGrid("/approvalUser/getApproveDocBoxList", approveReturn.global.searchAjaxData);
     },
 
     setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){approveReturnDocList.gridReload()});
+        docApprovalRetrieve(docId, approKey, linkageType, type, function(){approveReturn.gridReload()});
     }
 }
 
