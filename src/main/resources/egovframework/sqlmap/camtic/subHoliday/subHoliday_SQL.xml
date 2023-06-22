@@ -150,6 +150,15 @@
         ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON VUH.DOC_ID = DI.DOC_ID
+        where
+        1=1
+        <if test='status != null and !"".equals(status)'>
+            AND VUH.APPR_STAT = #{status}
+        </if>
+
+        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
+            AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
+        </if>
     </select>
 
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">
@@ -203,10 +212,10 @@
         WHERE
         1 = 1
         <if test='holidayYear != null and !"".equals(holidayYear)'>
-            AND VC.APPLY_YEAR LIKE CONCAT('%',#{holidayYear},'%')
+            AND VC.APPLY_YEAR = #{holidayYear}
         </if>
         <if test='deptName != null and !"".equals(deptName)'>
-            AND VUI.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            AND VUI.DEPT_NAME = #{deptName}
         </if>
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')

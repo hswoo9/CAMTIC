@@ -24,16 +24,13 @@ var subHolidayList = {
         subHolidayList.global.vacGubun = customKendo.fn_customAjax("/subHoliday/getVacCodeList", data);
         var ds = subHolidayList.global.vacGubun;
         console.log(ds);
-        ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "선택", "SUBHOLIDAY_CODE_ID" : ""});
+        ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "전체", "SUBHOLIDAY_CODE_ID" : "" });
+
         $("#edtHolidayKindTop").kendoDropDownList({
             dataSource : ds.list,
             dataTextField: "SUBHOLIDAY_DT_CODE_NM",
             dataValueField: "SUBHOLIDAY_CODE_ID",
-            change : function(){
-
-            }
         });
-
     },
 
     dataSet : function() {
@@ -45,17 +42,15 @@ var subHolidayList = {
             width: "150px"
         });
 
-
-
         $("#status").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
+                { text: "요청진행전", value: "N" },
+                { text: "승인", value: "Y" },
+                { text: "진행중", value: "C" },
+                { text: "반려", value: "E" }
             ],
             index: 0
         });
@@ -78,6 +73,8 @@ var subHolidayList = {
                     data.empSeq = subHolidayList.global.empSeq;
                     data.startDay = $("#startDay").val();
                     data.endDay = $("#endDay").val();
+                    data.status = $("#status").val();
+                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
                     data.applyVacationDivision = $("#applyVacationDivision").val();
                     return data;
                 }
@@ -289,10 +286,8 @@ var subHolidayList = {
             empSeq : subHolidayList.global.empSeq
         }
 
-        params.startDay = $("#startDay").val();
-        params.endDay = $("#endDay").val();
-        params.applyVacationDivision = $("#applyVacationDivision").val();
-        $("#scheduler").data("kendoScheduler").dataSource.read();
+        params.status = $("#status").val();
+        params.edtHolidayKindTop = $("#edtHolidayKindTop").val();
         subHolidayList.mainGrid(params);
     },
 

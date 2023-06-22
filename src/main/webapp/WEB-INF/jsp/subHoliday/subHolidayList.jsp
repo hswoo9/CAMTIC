@@ -124,12 +124,15 @@
                             <div style="display:flex; justify-content: space-between;">
                                 <div style="display:flex;">
                                     <div class="mr20">
-                                        <span>신청구분</span>
+                                        <span>휴가구분</span>
                                         <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:150px;">
                                     </div>
                                     <div>
                                         <span>상태</span>
                                         <input type="text" id="status" style="width: 150px;">
+                                    </div>
+                                    <div style="margin-left:10px;">
+                                        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidayList.gridReload()"/>
                                     </div>
                                 </div>
                             </div>
