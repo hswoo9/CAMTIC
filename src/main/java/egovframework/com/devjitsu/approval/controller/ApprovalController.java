@@ -81,6 +81,13 @@ public class ApprovalController {
         return formManagementService.getTemplateFormFile(params);
     }
 
+    /** 문서 정보 조회 */
+    @RequestMapping("/approval/getDocInfo")
+    public String getDocInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", approvalService.getDocInfo(params));
+        return "jsonView";
+    }
+
     /** 상신 팝업 */
     @RequestMapping("/approval/approvalDraftingPop.do")
     public String approvalDraftingPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -241,6 +248,13 @@ public class ApprovalController {
         return params;
     }
 
+    /** 문서 회수 */
+    @RequestMapping("/approval/setApproveRetrieve")
+    public String setApproveRetrieve(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) throws IOException {
+        approvalService.setApproveRetrieve(params);
+        return "jsonView";
+    }
+
     /** 결재문서 상세보기 */
     @RequestMapping("/approval/approvalDocView.do")
     public String approvalDocView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -299,6 +313,15 @@ public class ApprovalController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    /** 재상신시 반려된 문서 조회 */
+    @RequestMapping("/approval/getReturnDocDataInfo")
+    public String getReturnDocDataInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        model.addAttribute("rs", approvalService.getDocInfoApproveRoute(params));
+        model.addAttribute("docFileList", approvalService.getDocAttachmentList(params));
+        model.addAttribute("comCode", commonCodeService.getCmCodeInfo(params));
+        return "jsonView";
     }
 
 }

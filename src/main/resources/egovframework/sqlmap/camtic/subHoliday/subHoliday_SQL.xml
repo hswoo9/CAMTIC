@@ -319,6 +319,19 @@
             SUBHOLIDAY_USE_ID = #{subholidayUseId}
     </update>
 
+    <update id="updateRetrieveStat" parameterType="map">
+        /* updateRetrieveStat */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            APPR_STAT = #{status},
+            APPROVAL_SEND_DATE = null,
+            APPROVAL_EMP_SEQ = null,
+            DOC_ID = null
+        WHERE
+            SUBHOLIDAY_USE_ID = #{subholidayUseId}
+    </update>
+
     <update id="updateFinalApprStat" parameterType="map">
         /* updateApprFinalStat */
         UPDATE

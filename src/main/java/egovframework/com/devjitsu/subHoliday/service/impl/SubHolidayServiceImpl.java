@@ -101,6 +101,9 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         if("10".equals(docSts)) { // 상신 - 결재
             params.put("status", "C");
             subHolidayRepository.updateApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            params.put("status", "E");
+            subHolidayRepository.updateApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("status", "Y");
             subHolidayRepository.updateFinalApprStat(params);

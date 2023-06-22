@@ -493,7 +493,7 @@ var draft = {
             cmCodeNm : type
         }
 
-        var result = customKendo.fn_customAjax("/approval/getReturnDocDataInfo.do", draft.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/approval/getReturnDocDataInfo", draft.global.searchAjaxData);
 
         if(result.flag){
             var docFile =  result.docFileList;

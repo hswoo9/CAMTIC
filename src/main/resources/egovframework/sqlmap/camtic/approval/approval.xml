@@ -433,75 +433,71 @@
     <select id="getDocInfo" parameterType="map" resultType="map">
         /* getDocInfo */
         SELECT
-        DI.DOC_ID,
-        DI.AIKEYCODE,
-        DI.DOC_MENU_CD,
-        F.FORM_ID,
-        F.FORM_NAME,
-        DI.APPRO_KEY,
-        (
-        SELECT
-        CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
+            DI.DOC_ID,
+            DI.AIKEYCODE,
+            DI.DOC_MENU_CD,
+            F.FORM_ID,
+            F.FORM_NAME,
+            DI.APPRO_KEY,
+            (
+            SELECT
+            CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
+            FROM
+            NEOS.A_ARCHIVEINFO A
+            JOIN
+            DJ_CAMTIC.V_COM_CODE B
+            ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
+            WHERE
+            A.C_AIKEYCODE = DI.AIKEYCODE
+            ) AS AITITLE,
+            DI.DOC_NO,
+            DI.DOC_TITLE,
+            DI.DOC_CONTENT,
+            DI.DRAFT_EMP_SEQ,
+            DI.LAST_APPROVE_EMP_SEQ,
+            DI.LAST_APPROVE_TYPE,
+            DI.DRAFT_DT,
+            DI.APPROVE_STAT_CODE,
+            DO.DOC_OPT_ID,
+            IFNULL(DO.PUBLIC_TYPE, '001') AS PUBLIC_TYPE,
+            (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 27 AND CM_CODE = DO.PUBLIC_TYPE) AS PUBLIC_TYPE_KR,
+            REPLACE(REPLACE(DO.PUBLIC_REASON_TEXT, '\n', ''), '\r', '') AS PUBLIC_REASON_TEXT,
+            DO.PUBLIC_REASON,
+            DO.PRIVATE_REASON,
+            IFNULL(DO.URGENT_TYPE, '000') AS URGENT_TYPE,
+            (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 28 AND CM_CODE = DO.URGENT_TYPE) AS URGENT_TYPE_KR,
+            IFNULL(DO.SECURITY_TYPE, '000') AS SECURITY_TYPE,
+            (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 29 AND CM_CODE = DO.SECURITY_TYPE) AS SECURITY_TYPE_KR,
+            IFNULL(DO.DOC_GBN, '000') AS DOC_GBN,
+            (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 30 AND CM_CODE = DO.DOC_GBN) AS DOC_GBN_KR,
+            DI.ATFILE_SN,
+            (SELECT FILE_NO FROM DJ_CAMTIC.V_FILE_INFO WHERE DOC_ID = DI.DOC_ID AND FILE_EXT = 'html') AS HTMLAT_FILE_SN,
+            FI.FILE_CD,
+            FI.FILE_PATH,
+            FI.FILE_UUID,
+            FI.FILE_ORG_NAME,
+            FI.FILE_EXT,
+            CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS FILE_DOWN_PATH,
+            (SELECT COUNT(*) FROM DJ_CAMTIC.V_FILE_INFO WHERE DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FILE_NO AND FILE_EXT != 'html') as FILE_CONT,
+            (SELECT COUNT(*) FROM DJ_CAMTIC.A_DOC_REFERENCES WHERE DOC_ID = DI.DOC_ID) as REFERENCES_CONT
         FROM
-        NEOS.A_ARCHIVEINFO A
+            DJ_CAMTIC.A_DOC_INFO DI
         JOIN
-        DJ_CAMTIC.V_COM_CODE B
-        ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
-        WHERE
-        A.C_AIKEYCODE = DI.AIKEYCODE
-        ) AS AITITLE,
-        DI.DOC_NO,
-        DI.DOC_TITLE,
-        DI.DOC_CONTENT,
-        DI.DRAFT_EMP_SEQ,
-        DI.LAST_APPROVE_EMP_SEQ,
-        DI.LAST_APPROVE_TYPE,
-        DI.DRAFT_DT,
-        DI.APPROVE_STAT_CODE,
-        DO.DOC_OPT_ID,
-        IFNULL(DO.PUBLIC_TYPE, '001') AS PUBLIC_TYPE,
-        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 27 AND CM_CODE = DO.PUBLIC_TYPE) AS PUBLIC_TYPE_KR,
-        REPLACE(REPLACE(DO.PUBLIC_REASON_TEXT, '\n', ''), '\r', '') AS PUBLIC_REASON_TEXT,
-        DO.PUBLIC_REASON,
-        DO.PRIVATE_REASON,
-        IFNULL(DO.URGENT_TYPE, '000') AS URGENT_TYPE,
-        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 28 AND CM_CODE = DO.URGENT_TYPE) AS URGENT_TYPE_KR,
-        IFNULL(DO.SECURITY_TYPE, '000') AS SECURITY_TYPE,
-        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 29 AND CM_CODE = DO.SECURITY_TYPE) AS SECURITY_TYPE_KR,
-        IFNULL(DO.DOC_GBN, '000') AS DOC_GBN,
-        (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE WHERE CM_GROUP_CODE_ID = 30 AND CM_CODE = DO.DOC_GBN) AS DOC_GBN_KR,
-        DI.ATFILE_SN,
-        (SELECT FILE_NO FROM DJ_CAMTIC.V_FILE_INFO WHERE DOC_ID = DI.DOC_ID AND FILE_EXT = 'html') AS HTMLAT_FILE_SN,
-        FI.FILE_CD,
-        FI.FILE_PATH,
-        FI.FILE_UUID,
-        FI.FILE_ORG_NAME,
-        FI.FILE_EXT,
-        CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS FILE_DOWN_PATH,
-        (SELECT COUNT(*) FROM DJ_CAMTIC.V_FILE_INFO WHERE DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FILE_NO AND FILE_EXT != 'html') as FILE_CONT,
-        (SELECT COUNT(*) FROM DJ_CAMTIC.A_DOC_REFERENCES WHERE DOC_ID = DI.DOC_ID) as REFERENCES_CONT
-        FROM
-        DJ_CAMTIC.A_DOC_INFO DI
-        JOIN
-        DJ_CAMTIC.A_FORM F
-        ON DI.FORM_ID = F.FORM_ID
+            DJ_CAMTIC.A_FORM F ON DI.FORM_ID = F.FORM_ID
         LEFT JOIN
-        DJ_CAMTIC.V_FILE_INFO FI
-        ON DI.ATFILE_SN = FI.FILE_NO
+            DJ_CAMTIC.V_FILE_INFO FI ON DI.ATFILE_SN = FI.FILE_NO
         LEFT JOIN
-        DJ_CAMTIC.A_DOC_OPT DO
-        ON DI.DOC_ID = DO.DOC_ID
+            DJ_CAMTIC.A_DOC_OPT DO ON DI.DOC_ID = DO.DOC_ID
         WHERE
-        DI.ACTIVE = 'Y'
-        <choose>
-            <when test='DOC_ID != null and !DOC_ID.equals("")'>
-                AND DI.DOC_ID = #{DOC_ID}
-            </when>
-            <otherwise>
-                AND DI.DOC_ID = #{docId}
-            </otherwise>
-        </choose>
-
+            DI.ACTIVE = 'Y'
+            <choose>
+                <when test='DOC_ID != null and !DOC_ID.equals("")'>
+                    AND DI.DOC_ID = #{DOC_ID}
+                </when>
+                <otherwise>
+                    AND DI.DOC_ID = #{docId}
+                </otherwise>
+            </choose>
     </select>
 
     <select id="getApproveRouteId" parameterType="map" resultType="int">

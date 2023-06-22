@@ -131,6 +131,11 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public Map<String, Object> getDocInfo(Map<String, Object> params) {
+        return approvalRepository.getDocInfo(params);
+    }
+
+    @Override
     public Map<String, Object> getDocApproveNowRoute(Map<String, Object> params) {
         List<String> absentUserList = new ArrayList<>();
         String absentUserEmpSeq = getAbsentUserQuery(params);
@@ -385,6 +390,20 @@ public class ApprovalServiceImpl implements ApprovalService {
         }
 
         return returnMap;
+    }
+
+    @Override
+    public void setApproveRetrieve(Map<String, Object> params) throws IOException {
+        Map<String, Object> cmCodeInfo = commonCodeRepository.getCmCodeInfo(params);
+
+        params.put("approveStatCode", cmCodeInfo.get("CM_CODE"));
+        params.put("approveStatCodeDesc", cmCodeInfo.get("CM_CODE_NM"));
+        params.put("approveOpin", cmCodeInfo.get("CM_CODE_NM"));
+
+        approvalRepository.setDocInfoStatUp(params);
+        approvalRepository.setDocApproveRouteUp(params);
+
+        linkageProcessSend(params);
     }
 
     private void linkageProcessSend(Map<String, Object> params) throws IOException {
