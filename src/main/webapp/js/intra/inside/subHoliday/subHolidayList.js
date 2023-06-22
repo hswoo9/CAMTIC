@@ -188,42 +188,46 @@ var subHolidayList = {
                 }, {
                     title : "승인요청",
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>승인요청</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재요청</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "Y"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>결재</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT =="C"){
-                            if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                                if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
+                        if(e.SUBHOLIDAY_CODE_ID != "11") {
+                            if(e.APPR_STAT == "N"){
+                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>승인요청</span>" +
+                                    "</button>";
+                            } else if(e.APPR_STAT == "E"){
+                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>재요청</span>" +
+                                    "</button>";
+                            } else if(e.APPR_STAT == "Y"){
+                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>결재</span>" +
+                                    "</button>";
+                            } else if(e.APPR_STAT =="C"){
+                                if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
+                                    if(e.AB_APPR_STAT == "I"){
+                                        return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
+                                            "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
+                                            "<span class='k-button-text'>회수</span>" +
+                                            "</button>";
+                                    }else{
+                                        return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
+                                            "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
+                                            "<span class='k-button-text'>회수</span>" +
+                                            "</button>";
+                                    }
                                 }else{
                                     return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
                                         "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                         "<span class='k-button-text'>회수</span>" +
                                         "</button>";
                                 }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>회수</span>" +
-                                    "</button>";
+                            } else {
+                                return "-";
                             }
-                        } else {
-                            return "-";
+                        }else {
+                            return "";
                         }
                     },
                     width: 120
