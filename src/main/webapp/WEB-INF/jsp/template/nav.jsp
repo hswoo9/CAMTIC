@@ -92,19 +92,19 @@
             <a href="#" class="toggleMain">상신/보관함</a>
             <ul class="innerMain children a_a">
               <li><a href="/approvalUser/draftFormList.do?menu=a_a" class="toggleMain1">양식목록</a></li>
-              <li><a href="#" class="toggleMain1">임시보관문서</a></li> <%--menu=a_a--%>
+              <li><a href="/approvalUser/storageBoxTempSaveDocList.do?menu=a_a" class="toggleMain1">임시보관문서</a></li> <%--menu=a_a--%>
               <li><a href="/approvalUser/storageBoxDraftDocList.do?menu=a_a" class="toggleMain1">상신문서</a></li>
-              <li><a href="#" class="toggleMain1">반려/회수 문서</a></li>
-              <li><a href="#" class="toggleMain1">열람문서</a></li>
+              <li><a href="/approvalUser/storageBoxReturnDocList.do?menu=a_a" class="toggleMain1">반려/회수 문서</a></li>
+              <li><a href="/approvalUser/storageBoxReaderDocList.do?menu=a_a" class="toggleMain1">열람문서</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">결재함</a>
             <ul class="innerMain children a_b">
               <li><a href="/approvalUser/approveWaitDocList.do?menu=a_b" class="toggleMain1">결재대기문서</a></li> <%--menu=a_b--%>
-              <li><a href="#" class="toggleMain1">결재예정문서</a></li>
-              <li><a href="#" class="toggleMain1">결재완료문서</a></li>
-              <li><a href="#" class="toggleMain1">결재반려문서</a></li>
+              <li><a href="/approvalUser/approveTobeDocList.do?menu=a_b" class="toggleMain1">결재예정문서</a></li>
+              <li><a href="/approvalUser/approveCompletionDocList.do?menu=a_b" class="toggleMain1">결재완료문서</a></li>
+              <li><a href="/approvalUser/approveReturnDocList.do?menu=a_b" class="toggleMain1">결재반려문서</a></li>
             </ul>
           </li>
           <li>

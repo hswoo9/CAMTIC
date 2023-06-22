@@ -1,4 +1,4 @@
-var storageBoxDraftDocList = {
+var storageBoxReturnDocList = {
     global : {
         now : new Date(),
         searchAjaxData : "",
@@ -7,11 +7,11 @@ var storageBoxDraftDocList = {
     fnDefaultScript : function(params){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxDraftDocList.global.now.setMonth(storageBoxDraftDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxReturnDocList.global.now.setMonth(storageBoxReturnDocList.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        storageBoxDraftDocList.gridReload();
+        storageBoxReturnDocList.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -119,7 +119,7 @@ var storageBoxDraftDocList = {
                     width : 80,
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxDraftDocList.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
+                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxReturnDocList.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
                                 '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
                                 '<span class="k-button-text">회수</span>' +
                                 '</button>';
@@ -132,7 +132,7 @@ var storageBoxDraftDocList = {
     },
 
     gridReload : function() {
-        storageBoxDraftDocList.global.searchAjaxData = {
+        storageBoxReturnDocList.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
@@ -140,10 +140,10 @@ var storageBoxDraftDocList = {
             approveStat : "draft",
         }
 
-        storageBoxDraftDocList.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxDraftDocList.global.searchAjaxData);
+        storageBoxReturnDocList.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxReturnDocList.global.searchAjaxData);
     },
 
     setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxDraftDocList.gridReload()});
+        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxReturnDocList.gridReload()});
     }
 }

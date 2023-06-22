@@ -1,4 +1,4 @@
-var storageBoxDraftDocList = {
+var approveTobeDocList = {
     global : {
         now : new Date(),
         searchAjaxData : "",
@@ -7,11 +7,11 @@ var storageBoxDraftDocList = {
     fnDefaultScript : function(params){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxDraftDocList.global.now.setMonth(storageBoxDraftDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveTobeDocList.global.now.setMonth(approveTobeDocList.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        storageBoxDraftDocList.gridReload();
+        approveTobeDocList.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -37,7 +37,7 @@ var storageBoxDraftDocList = {
                 }
             ],
             excel : {
-                fileName : "상신문서 목록.xlsx",
+                fileName : "전체문서 목록.xlsx",
                 filterable : true
             },
             noRecords: {
@@ -62,16 +62,25 @@ var storageBoxDraftDocList = {
                 }, {
                     title : "문서제목",
                     template : function (e){
-                        var securityIcon = '';
+                        var subApproval = '<span class="k-icon k-i-user" style="margin:-3px 5px 0 0;"></span>';
+                        var securityIcon = '<img src="/images/ico/ico_security.png" style="vertical-align: text-top;" title="보안문서">';
+                        var html = "";
+
+                        if(e.SUB_APPROVAL == "Y"){
+                            html += subApproval
+                        }
+
                         if(e.SECURITY_TYPE == "009"){
-                            securityIcon = '<img src="/images/ico/ico_security.png" style="vertical-align: text-top;" title="보안문서">';
+                            html += securityIcon
                         }
 
                         if(e.DOC_TITLE == null || e.DOC_TITLE == ""){
-                            return securityIcon + '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\');" style="color: rgb(0, 51, 255);">제목 없음</a>';
+                            html += '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\');" style="color: rgb(0, 51, 255);">제목 없음</a>';
                         }else{
-                            return securityIcon + '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\');" style="color: rgb(0, 51, 255);">'+e.DOC_TITLE+'</a>';
+                            html += '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\');" style="color: rgb(0, 51, 255);">'+e.DOC_TITLE+'</a>';
                         }
+
+                        return html;
                     },
                     attributes : {
                         style : "text-align : left;"
@@ -114,36 +123,26 @@ var storageBoxDraftDocList = {
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
-                }, {
-                    title : "",
-                    width : 80,
-                    template : function(e){
-                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxDraftDocList.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
-                                '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
-                                '<span class="k-button-text">회수</span>' +
-                                '</button>';
-                        } else if(e.APPROVE_STAT_CODE == "100" || e.APPROVE_STAT_CODE == "101"){
-                            return "-";
-                        }
-                    }
-                }]
+                }
+            ]
         }).data("kendoGrid");
     },
 
     gridReload : function() {
-        storageBoxDraftDocList.global.searchAjaxData = {
+        approveTobeDocList.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
-            docTitle : $("#docTitle").val(),
-            startDay : $("#startDay").val(),
-            endDay : $("#endDay").val(),
-            approveStat : "draft",
+            deptSeq : $("#deptSeq").val(),
+            approveStat : "wait"
         }
 
-        storageBoxDraftDocList.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxDraftDocList.global.searchAjaxData);
+        approveTobeDocList.mainGrid("/approvalUser/getApproveDocBoxList", approveTobeDocList.global.searchAjaxData);
     },
 
     setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxDraftDocList.gridReload()});
+        docApprovalRetrieve(docId, approKey, linkageType, type, function(){approveTobeDocList.gridReload()});
     }
+}
+
+function gridReload() {
+    $("#mainGrid").data("kendoGrid").dataSource.read();
 }

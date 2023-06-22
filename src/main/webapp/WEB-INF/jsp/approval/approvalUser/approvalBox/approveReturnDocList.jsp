@@ -16,7 +16,7 @@ To change this template use File | Settings | File Templates.
     table { background-color: white; }
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
-<script type="text/javascript" src="<c:url value='/js/intra/approval/storageBoxDraftDocList.js?${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approveReturnDocList.js?${toDate}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -25,7 +25,7 @@ To change this template use File | Settings | File Templates.
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">상신문서</h4>
+            <h4 class="panel-title">결재반려문서</h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive" style="margin-bottom:10px;">
@@ -46,7 +46,7 @@ To change this template use File | Settings | File Templates.
                         </th>
                         <td>
                             <input type="text" id="docTitle" name="docTitle" style="width: 90%">
-                            <button type="button" class=" k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="storageBoxDraft.gridReload()">
+                            <button type="button" class=" k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approveReturnDocList.gridReload()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </td>
@@ -63,5 +63,5 @@ To change this template use File | Settings | File Templates.
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script type="text/javascript">
-    storageBoxDraft.fnDefaultScript();
+    approveReturnDocList.fnDefaultScript();
 </script>
