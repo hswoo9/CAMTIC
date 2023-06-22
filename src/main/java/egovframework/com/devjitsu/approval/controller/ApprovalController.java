@@ -257,6 +257,13 @@ public class ApprovalController {
         return params;
     }
 
+    /** 결재문서 결재취소 */
+    @RequestMapping("/approval/setDocApproveCancel.do")
+    public String setDocApproveCancel(@RequestParam Map<String, Object> params, Model model) throws IOException {
+        approvalService.setDocApproveCancel(params, BASE_DIR);
+        return "jsonView";
+    }
+
     /** 문서 회수 */
     @RequestMapping("/approval/setApproveRetrieve")
     public String setApproveRetrieve(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) throws IOException {

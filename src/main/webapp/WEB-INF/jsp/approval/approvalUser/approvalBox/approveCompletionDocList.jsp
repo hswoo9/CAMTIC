@@ -46,7 +46,7 @@ To change this template use File | Settings | File Templates.
                         </th>
                         <td>
                             <input type="text" id="docTitle" name="docTitle" style="width: 90%">
-                            <button type="button" class=" k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approveCompletionDocList.gridReload()">
+                            <button type="button" class=" k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approveCompletion.gridReload()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </td>
@@ -63,5 +63,5 @@ To change this template use File | Settings | File Templates.
 <jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script type="text/javascript">
-    approveCompletionDocList.fnDefaultScript();
+    approveCompletion.init();
 </script>

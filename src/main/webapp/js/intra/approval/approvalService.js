@@ -273,7 +273,7 @@ var approvelService = {
                 favRouteId : e
             }
 
-            var result = customKendo.fn_customAjax("/approvalUser/getUserFavApproveRouteDetail.do", approvelService.global.searchAjaxData);
+            var result = customKendo.fn_customAjax("/approvalUser/getUserFavApproveRouteDetail", approvelService.global.searchAjaxData);
             console.log(result);
             if(result.flag){
                 approvelService.global.flag = true;
@@ -346,7 +346,7 @@ var approvelService = {
         }
 
         $("#userList").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/common/empInformation.do", approvelService.global.searchAjaxData),
+            dataSource: customKendo.fn_gridDataSource2("/common/empInformation", approvelService.global.searchAjaxData),
             height: 415,
             sortable: true,
             scrollable: true,

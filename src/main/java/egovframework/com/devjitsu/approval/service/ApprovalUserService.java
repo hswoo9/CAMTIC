@@ -18,6 +18,19 @@ public interface ApprovalUserService {
      */
     List<Map<String, Object>> getUserDocStorageBoxList(Map<String, Object> params);
 
+    /**
+     * 사용자 문서별 리스트(열람문서)
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getUserReadDocStorageBoxList(Map<String, Object> params);
+
+    /**
+     * 문서 삭제  (임시보관문서)
+     * @param params
+     */
+    void setCheckedDocDel (Map<String, Object> params);
+
     /** 결재함 */
 
     /**

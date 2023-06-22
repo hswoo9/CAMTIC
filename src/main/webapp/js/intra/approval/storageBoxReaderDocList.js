@@ -1,23 +1,30 @@
-var storageBoxReaderDocList = {
+/**
+ * 2022.06.28 by. deer
+ * 마이페이지 > 결재 > 상신/보관함 > 임시보관문서
+ *
+ * function / global variable / local variable setting
+ */
+
+var storageBoxReader = {
     global : {
         now : new Date(),
         searchAjaxData : "",
     },
 
-    fnDefaultScript : function(params){
+    init : function(){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxReaderDocList.global.now.setMonth(storageBoxReaderDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxReader.global.now.setMonth(storageBoxReader.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        storageBoxReaderDocList.gridReload();
+        storageBoxReader.gridReload();
     },
 
     mainGrid : function(url, params){
         var mainGrid = $("#mainGrid").kendoGrid({
             height: 489,
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2(url, params, 10),
             scrollable: true,
             pageable: {
                 refresh: true,
@@ -32,12 +39,16 @@ var storageBoxReaderDocList = {
             },
             toolbar : [
                 {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxReader.setBatchReading()">' +
+                            '	<span class="k-button-text">일괄열람</span>' +
+                            '</button>';
+                    }
                 }
             ],
             excel : {
-                fileName : "상신문서 목록.xlsx",
+                fileName : "열람문서 목록.xlsx",
                 filterable : true
             },
             noRecords: {
@@ -45,6 +56,10 @@ var storageBoxReaderDocList = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    width: '3%',
+                    template : "<input type='checkbox' id='docId#=DOC_ID#' name='docId' value='#=DOC_ID#' class='k-checkbox checkbox'/>"
+                }, {
                     field : "FORM_NAME",
                     title : "문서종류",
                     width : 180
@@ -90,7 +105,7 @@ var storageBoxReaderDocList = {
                         }else if(e.REPTIT_DRFT_YN == "Y"){
                             return e.REPTIT_DRFT_DT;
                         }
-                    },
+                    }
                 }, {
                     field : "LAST_APPROVE_DT",
                     title : "완료일",
@@ -107,6 +122,17 @@ var storageBoxReaderDocList = {
                     title : "결재상태",
                     width : "120px"
                 }, {
+                    field : "READER_YN",
+                    title : "열람구분",
+                    template : function(e){
+                        if(e.READER_YN == 'Y'){
+                            return '열람'
+                        }else{
+                            return '미열람'
+                        }
+                    },
+                    width : 80,
+                }, {
                     title : "결재선",
                     width : 80,
                     template : function(e){
@@ -114,36 +140,55 @@ var storageBoxReaderDocList = {
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
-                }, {
-                    title : "",
-                    width : 80,
-                    template : function(e){
-                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxReaderDocList.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
-                                '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
-                                '<span class="k-button-text">회수</span>' +
-                                '</button>';
-                        } else if(e.APPROVE_STAT_CODE == "100" || e.APPROVE_STAT_CODE == "101"){
-                            return "-";
-                        }
-                    }
                 }]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=docId]").prop("checked", true);
+            else $("input[name=docId]").prop("checked", false);
+        });
     },
 
     gridReload : function() {
-        storageBoxReaderDocList.global.searchAjaxData = {
+        storageBoxReader.global.searchAjaxData = {
+            groupSeq : $("#groupSeq").val(),
+            compSeq : $("#compSeq").val(),
             empSeq : $("#empSeq").val(),
+            deptSeq : $("#deptSeq").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : "draft",
+            approveStat : "reader",
         }
 
-        storageBoxReaderDocList.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxReaderDocList.global.searchAjaxData);
+        storageBoxReader.mainGrid("/approvalUser/getUserReadDocStorageBoxList", storageBoxReader.global.searchAjaxData);
     },
 
-    setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxReaderDocList.gridReload()});
+    setBatchReading : function(){
+        storageBoxReader.global.checkedDocArr = new Array();
+
+        $.each($("input[name=docId]:checked"), function(i, v){
+            var data = {
+                empSeq : $("#empSeq").val(),
+                docId : v.value,
+                groupSeq : $("#groupSeq").val(),
+                compSeq : $("#compSeq").val(),
+                deptSeq : $("#deptSeq").val(),
+            }
+
+            storageBoxReader.global.checkedDocArr.push(data);
+        });
+
+        storageBoxReader.global.saveAjaxData = {
+            batchDocReadArr : JSON.stringify(storageBoxReader.global.checkedDocArr),
+        }
+
+        var result = customKendo.fn_customAjax("/approval/setDocReaderReadUser", storageBoxReader.global.saveAjaxData);
+
+        if(result.flag){
+            alert("처리되었습니다.");
+            $("#checkAll").prop("checked", false);
+            storageBoxReader.gridReload();
+        }
     }
 }

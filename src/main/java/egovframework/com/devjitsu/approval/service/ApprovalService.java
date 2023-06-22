@@ -93,6 +93,11 @@ public interface ApprovalService {
     void setDocApproveNReturn(Map<String, Object> params, String base_dir) throws IOException;
 
     /**
+     * 문서 결재 취소
+     */
+    void setDocApproveCancel(Map<String, Object> params, String base_dir) throws IOException;
+
+    /**
      * 결재 문서 첨부파일 정보
      */
     List<Map<String, Object>> getDocAttachmentList(Map<String, Object> params);

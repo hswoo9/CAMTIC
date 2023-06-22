@@ -209,11 +209,33 @@ public class ApprovalUserController {
      * @return
      */
     @RequestMapping("/approvalUser/getUserDocStorageBoxList")
-    @ResponseBody
-    public Map<String, Object> getUserDocStorageBoxList(@RequestParam Map<String, Object> params, Model model){
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", approvalUserService.getUserDocStorageBoxList(params));
-        return result;
+    public String getUserDocStorageBoxList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", approvalUserService.getUserDocStorageBoxList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 사용자 문서별 리스트 (열람문서)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/getUserReadDocStorageBoxList")
+    public String getUserReadDocStorageBoxList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", approvalUserService.getUserReadDocStorageBoxList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 문서 삭제 (임시보관문서, 반려, 회수문서)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/setCheckedDocDel.do")
+    public String setCheckedDocDel(@RequestParam Map<String, Object> params, Model model){
+        approvalUserService.setCheckedDocDel(params);
+        return "jsonView";
     }
 
     /**

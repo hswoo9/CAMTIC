@@ -12,7 +12,9 @@ public class ApprovalUserRepository extends AbstractDAO {
     /** 상신/보관함 */
     public List<Map<String, Object>> getDraftFormList() { return selectList("approvalUser.getDraftFormList");}
     public List<Map<String, Object>> getUserDocStorageBoxList(Map<String, Object> params) { return selectList("approvalUser.getUserDocStorageBoxList", params);}
-    public List<Map<String, Object>> getUserReadDocBoxList(Map<String, Object> params) { return selectList("approvalUser.getUserReadDocBoxList", params);}
+    public List<Map<String, Object>> getUserReadDocStorageBoxList(Map<String, Object> params) { return selectList("approvalUser.getUserReadDocStorageBoxList", params);}
+
+    public void setCheckedDocDel(List<Map<String, Object>> params) { update("approvalUser.setCheckedDocDel", params);}
 
     /** 결재함 */
     public List<Map<String, Object>> getEmpDeptList(Map<String, Object> params) { return selectList("approvalUser.getEmpDeptList", params);}

@@ -1,23 +1,30 @@
-var storageBoxReturnDocList = {
+/**
+ * 2022.06.28 by. deer
+ * 마이페이지 > 결재 > 상신/보관함 > 상신문서
+ *
+ * function / global variable / local variable setting
+ */
+
+var storageBoxReturn = {
     global : {
         now : new Date(),
         searchAjaxData : "",
     },
 
-    fnDefaultScript : function(params){
+    init : function(){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxReturnDocList.global.now.setMonth(storageBoxReturnDocList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxReturn.global.now.setMonth(storageBoxReturn.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
-        storageBoxReturnDocList.gridReload();
+        storageBoxReturn.gridReload();
     },
 
     mainGrid : function(url, params){
         var mainGrid = $("#mainGrid").kendoGrid({
             height: 489,
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2(url, params, 10),
             scrollable: true,
             pageable: {
                 refresh: true,
@@ -34,10 +41,17 @@ var storageBoxReturnDocList = {
                 {
                     name : 'excel',
                     text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="storageBoxReturn.setCheckedDocDel()">' +
+                            '	<span class="k-button-text">문서 삭제</span>' +
+                            '</button>';
+                    }
                 }
             ],
             excel : {
-                fileName : "상신문서 목록.xlsx",
+                fileName : "반려/회수 문서 목록.xlsx",
                 filterable : true
             },
             noRecords: {
@@ -45,6 +59,10 @@ var storageBoxReturnDocList = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    width: '3%',
+                    template : "<input type='checkbox' id='docId#=DOC_ID#' name='docId' value='#=DOC_ID#' class='k-checkbox checkbox'/>"
+                }, {
                     field : "FORM_NAME",
                     title : "문서종류",
                     width : 180
@@ -90,7 +108,7 @@ var storageBoxReturnDocList = {
                         }else if(e.REPTIT_DRFT_YN == "Y"){
                             return e.REPTIT_DRFT_DT;
                         }
-                    },
+                    }
                 }, {
                     field : "LAST_APPROVE_DT",
                     title : "완료일",
@@ -116,34 +134,58 @@ var storageBoxReturnDocList = {
                     }
                 }, {
                     title : "",
-                    width : 80,
+                    width : 100,
                     template : function(e){
-                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxReturnDocList.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
-                                '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
-                                '<span class="k-button-text">회수</span>' +
-                                '</button>';
-                        } else if(e.APPROVE_STAT_CODE == "100" || e.APPROVE_STAT_CODE == "101"){
-                            return "-";
-                        }
+                        return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"tempOrReDraftingPop('+ e.DOC_ID + ',\'' + e.DOC_MENU_CD + '\',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'reDrafting\')\">' +
+                            '<span class="k-icon k-i-track-changes-enable k-button-icon"></span>' +
+                            '<span class="k-button-text">재상신</span>' +
+                            '</button>';
                     }
                 }]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=docId]").prop("checked", true);
+            else $("input[name=docId]").prop("checked", false);
+        });
     },
 
     gridReload : function() {
-        storageBoxReturnDocList.global.searchAjaxData = {
+        storageBoxReturn.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : "draft",
+            approveStat : "returnRetrieve",
         }
 
-        storageBoxReturnDocList.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxReturnDocList.global.searchAjaxData);
+        storageBoxReturn.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxReturn.global.searchAjaxData);
     },
 
-    setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxReturnDocList.gridReload()});
-    }
+    setCheckedDocDel : function(){
+        if(confirm("삭제하시겠습니까?")){
+            storageBoxReturn.global.checkedDocArr = new Array();
+
+            $.each($("input[name=docId]:checked"), function(i, v){
+                var data = {
+                    empSeq : $("#empSeq").val(),
+                    docId : v.value
+                }
+
+                storageBoxReturn.global.checkedDocArr.push(data);
+            });
+
+            storageBoxReturn.global.saveAjaxData = {
+                docArr : JSON.stringify(storageBoxReturn.global.checkedDocArr),
+            }
+
+            var result = customKendo.fn_customAjax("/approvalUser/setCheckedDocDel", storageBoxReturn.global.saveAjaxData);
+
+            if(result.flag){
+                alert("삭제되었습니다.");
+                $("#checkAll").prop("checked", false);
+                storageBoxReturn.gridReload();
+            }
+        }
+    },
 }
