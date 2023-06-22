@@ -50,19 +50,14 @@
                                 </div>
                                 <div class="mr20">
                                     <span>부서</span>
-                                    <input type="text" id="dept" style="width: 200px;">
+                                    <input type="text" id="deptName" style="width: 200px;">
                                 </div>
                                 <div class="mr20">
-                                    <span>팀</span>
-                                    <input type="text" id="team" style="width: 150px;">
+                                    <span>이름</span>
+                                    <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidaySetting.gridReload()}" style="width: 150px;">
                                 </div>
                                 <div class="mr20">
-                                    <input type="text" id="searchType" style="width: 150px;">
-                                    <input type="text" id="searchVal" style="width: 150px;">
-                                </div>
-                                <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="저장" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidaySetting.gridReload()"/>
                                 </div>
                             </div>
                         </td>

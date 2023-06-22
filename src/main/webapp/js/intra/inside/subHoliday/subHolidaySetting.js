@@ -2,26 +2,42 @@ var now = new Date();
 
 var subHolidaySetting = {
     global : {
-        activeList : [
-            {
-                text : "재직", value : "Y"
-            }, {
-                text : "퇴직", value : "N"
-            }
-        ],
-        vacStatus : [
-            { text: "확정", value: "Y" },
-            { text: "사용대기", value: "N" },
-            { text: "미생성", value: "NULL" }
-        ],
         selectEmpData : [],
     },
 
     init : function(){
-        customKendo.fn_dropDownList("active", subHolidaySetting.global.activeList, "text", "value");
-        customKendo.fn_dropDownList("vacStatus", subHolidaySetting.global.vacStatus, "text", "value");
-
         subHolidaySetting.fn_makerGrid();
+
+        $("#holidayYear").kendoDatePicker({
+            format : "yyyy",
+            culture : "ko-KR",
+            depth: "decade",
+            start: "decade",
+            value : new Date()
+        });
+
+        $("#searchVal").kendoTextBox();
+
+        $.ajax({
+            url : "/userManage/getDeptCodeList2",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(result){
+                var ds = result.list;
+                ds.unshift({deptName: ''});
+
+                $("#deptName").kendoDropDownList({
+                    dataTextField: "deptName",
+                    dataValueField: "deptName",
+                    dataSource: ds,
+                    index: 0,
+                    success : function(){
+                        subHolidaySetting.gridReload();
+                    }
+                });
+            }
+        });
 
         $("#userVacSetting").kendoWindow({
             title: "연가 설정",
@@ -121,23 +137,6 @@ var subHolidaySetting = {
 
     },
 
-    vacMinuteToHour : function(grantDay){
-        console.log("--------------------------------------------------------");
-        //1일기준 480분 = 8시간 (기본근무시간)
-        //1시간 60분
-
-        //1. 부여일(분)/480 = 일(몫)
-        //2. (부여일(분)%480)/60 = 일 수 구한 나머지를 시간으로 변환 - 시간(1의 나머지/60))
-        //3. (부여일(분)%480)%60 = 시간 수 구한 나머지는 분으로 표기 - 분(2의 나머지)
-        //표기법 일/시간/분
-        var hour = String(Number(grantDay/60));
-        console.log(hour);
-        var day = Number(hour/8);
-        console.log("--------------------------------------------------------");
-
-        return day;
-    },
-
     fn_makerGrid : function(){
 
         var dataSource = new kendo.data.DataSource({
@@ -149,13 +148,14 @@ var subHolidaySetting = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.active = $("#active").val();
-                    data.userNm = $("#userNm").val();
+                    data.holidayYear = $("#holidayYear").val();
                     data.deptName = $("#deptName").val();
-                    data.positionDutyNm = $("#positionDutyNm").val();
-                    data.vacStatus = $("#vacStatus").val();
+                    data.deptTeamName = $("#deptTeamName").val();
+                    data.searchVal = $("#searchVal").val();
                     return data;
+                    console.log(data);
                 }
+
             },
             schema : {
                 data: function (data) {
@@ -400,105 +400,5 @@ var subHolidaySetting = {
         }
         console.log(saveData);
 
-    },
-
-    keyPressNumberCheck : function(target){
-        var regexp = /^[0-9]*$/;
-        if(!regexp.test(target.value)){
-            alert("숫자만 입력가능합니다.");
-            target.value = "";
-            return;
-        }
-    },
-
-    changeHourToMinute : function(data){
-        if(data != null){
-            return parseInt(data*480);
-        }else{
-            return 0;
-        }
-
-    },
-
-    changeMinuteToHour : function(data){
-        if(data != null){
-            return parseInt(data/480);
-        }else{
-            return 0;
-        }
-
-    },
-
-
-
-    dataSet() {
-        $("#holidayYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
-
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
-            ],
-            index: 0
-        });
-
-        $("#team").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "팀선택", value: "" },
-                { text: "미래전략기획팀", value: "1" },
-                { text: "J-밸리혁신팀", value: "2" },
-                { text: "제조혁신팀", value: "3" },
-                { text: "신기술융합팀", value: "4" },
-                { text: "일자리창업팀", value: "5" },
-                { text: "복합소재뿌리기술센터", value: "6" },
-                { text: "지역산업육성팀", value: "7" },
-                { text: "우주개발팀", value: "8" },
-                { text: "항공개발팀", value: "9" },
-                { text: "경영지원팀", value: "10" },
-                { text: "사업지원팀", value: "11" }
-            ],
-            index: 0
-        });
-
-        $("#status").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
-            ],
-            index: 0
-        });
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "" },
-                { text: "부서명", value: "1" },
-                { text: "팀명", value: "2" },
-                { text: "직급", value: "3" },
-            ],
-            index: 0
-        });
     }
 }
