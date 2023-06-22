@@ -141,6 +141,7 @@ var subHolidaySetting = {
 
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
+            pageSize : 10,
             transport: {
                 read : {
                     url : getContextPath() + "/getUserVacList.do",
@@ -162,7 +163,7 @@ var subHolidaySetting = {
                     return data.result;
                 },
                 total: function (data) {
-                    return data.result.length;
+                    return data.totalCount;
                 },
             }
         });
@@ -350,10 +351,6 @@ var subHolidaySetting = {
         }).data("kendoGrid");
     },
 
-    gridReload : function(){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
-    },
-
     onDataBound : function(){
         var grid = this;
         grid.element.off('dbclick');
@@ -399,6 +396,9 @@ var subHolidaySetting = {
             })
         }
         console.log(saveData);
+    },
 
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     }
 }

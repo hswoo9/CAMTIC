@@ -131,10 +131,11 @@ var subHolidayStat = {
         });
     },
 
-    fn_makerGrid : function(){
+    fn_makerGrid : function(e){
 
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
+            pageSize : 10,
             transport: {
                 read : {
                     url : getContextPath() + "/getUserVacListStat.do",
@@ -155,7 +156,7 @@ var subHolidayStat = {
                     return data.result;
                 },
                 total: function (data) {
-                    return data.result.length;
+                    return data.totalCount;
                 },
             }
         });
@@ -289,10 +290,6 @@ var subHolidayStat = {
         }).data("kendoGrid");
     },
 
-    gridReload : function(){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
-    },
-
     onDataBound : function(){
         var grid = this;
         grid.element.off('dbclick');
@@ -304,4 +301,8 @@ var subHolidayStat = {
             $("#userVacSetting").data("kendoWindow").open();
         });
     },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    }
 }
