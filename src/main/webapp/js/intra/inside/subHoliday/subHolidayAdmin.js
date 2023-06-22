@@ -87,7 +87,7 @@ var subHolidayAdmin = {
             pageSize: 10,
             transport: {
                 read : {
-                    url : getContextPath() + "/getVacUseHistoryList",
+                    url : getContextPath() + "/getVacUseHistoryListAdmin",
                     dataType : "json",
                     type : "post"
                 },
@@ -144,6 +144,10 @@ var subHolidayAdmin = {
                     },
                     width: 40
                 }, {
+                    field: "EMP_NAME_KR",
+                    title: "이름",
+                    width: 150,
+                },{
                     field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "휴가구분",
                     width: 150,

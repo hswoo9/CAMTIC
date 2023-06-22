@@ -156,6 +156,20 @@ public class SubHolidayController {
     }
 
     /**
+     * 마이페이지 > 복무 > 근무상황 > 연차 > admin
+     * 휴가사용내역 조회 MainGrid Load
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/subHoliday/getVacUseHistoryListAdmin")
+    public String getVacUseHistoryListAdmin(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", subHolidayService.getVacUseHistoryListAdmin(params));
+        /* model.addAttribute("totalCount", subHolidayService.getVacUseHistoryListTotal(params));*/
+        return "jsonView";
+    }
+
+    /**
      * 마이페이지 > 복무 > 근무상황 > 연차
      * 휴가사용내역 조회 only one
      * @param params

@@ -54,19 +54,22 @@
                                 </div>
                                 <div class="mr20">
                                     <span>부서</span>
-                                    <input type="text" id="dept" style="width: 200px;">
+                                    <input type="text" id="deptName" style="width: 200px;">
                                 </div>
                                 <div class="mr20">
                                     <span>팀</span>
-                                    <input type="text" id="team" style="width: 150px;">
+                                    <input type="text" id="deptTeamName" style="width: 150px;">
                                 </div>
+                                <%--<div class="mr20">
+                                    <span>휴가구분</span>
+                                    <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:150px;">
+                                </div>--%>
                                 <div class="mr20">
-                                    <span>신청구분</span>
-                                    <input type="text" id="holidayCate" style="width: 150px;">
+                                    <span>이름</span>
+                                    <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayStat.gridReload()}" style="width: 150px;">
                                 </div>
-                                <div class="mr20">
-                                    <input type="text" id="searchType" style="width: 150px;">
-                                    <input type="text" id="searchVal" style="width: 150px;">
+                                <div>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidayStat.gridReload()"/>
                                 </div>
                             </div>
                         </td>

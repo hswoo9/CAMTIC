@@ -70,7 +70,7 @@ var subHolidayList = {
                 parameterMap: function(data, operation) {
                     data.mcCode = subHolidayList.global.mcCode;
                     data.mdCode = subHolidayList.global.mdCode;
-                    data.empSeq = subHolidayList.global.empSeq;
+                    data.empSeq = $("#empSeq").val();
                     data.startDay = $("#startDay").val();
                     data.endDay = $("#endDay").val();
                     data.status = $("#status").val();

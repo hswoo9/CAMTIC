@@ -2,27 +2,50 @@ var now = new Date();
 
 var subHolidayStat = {
     global : {
-        activeList : [
-            {
-                text : "재직", value : "Y"
-            }, {
-                text : "퇴직", value : "N"
-            }
-        ],
-        vacStatus : [
-            { text: "확정", value: "Y" },
-            { text: "사용대기", value: "N" },
-            { text: "미생성", value: "NULL" }
-        ],
+        now : new Date(),
+        empSeq : $("#empSeq").val(),
+        mcCode : "V",
+        mdCode : "",
+        params  : "",
+        data : "",
+        searchAjaxData : "",
+        saveAjaxData : "",
+        hwpCtrl : "",
         selectEmpData : [],
     },
 
-    init : function(){
+    init : function(params){
         subHolidayStat.dataSet();
         subHolidayStat.fn_makerGrid();
+
+        var data = {
+            mcCode : subHolidayStat.global.mcCode,
+            mdCode : subHolidayStat.global.mdCode,
+            empSeq : subHolidayStat.global.empSeq
+        }
+
+        subHolidayStat.global.vacGubun = customKendo.fn_customAjax("/subHoliday/getVacCodeList", data);
+        var ds = subHolidayStat.global.vacGubun;
+        console.log(ds);
+        ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "전체", "SUBHOLIDAY_CODE_ID" : "" });
+
+        $("#edtHolidayKindTop").kendoDropDownList({
+            dataSource : ds.list,
+            dataTextField: "SUBHOLIDAY_DT_CODE_NM",
+            dataValueField: "SUBHOLIDAY_CODE_ID",
+        });
     },
 
-    dataSet() {
+    dataSet : function() {
+
+        $("#holidayYear").kendoDatePicker({
+            start: "decade",
+            depth: "decade",
+            culture : "ko-KR",
+            format : "yyyy",
+            value : new Date()
+        });
+
         $("#detailSearch").kendoDropDownTree({
             placeholder: "직원검색",
             checkboxes: true,
@@ -42,92 +65,46 @@ var subHolidayStat = {
             ]
         });
 
-        $("#holidayYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
+        $.ajax({
+            url : "/userManage/getDeptCodeList2",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(result){
+                var ds = result.list;
+                ds.unshift({deptName: '전체', deptSeq: ''});
 
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
-            ],
-            index: 0
-        });
+                $("#deptName").kendoDropDownList({
+                    dataTextField: "deptName",
+                    dataValueField: "deptSeq",
+                    dataSource: ds,
+                    index: 0,
+                    change : function(){
+                        var data = {
+                            deptSeq : $("#deptName").val()
+                        }
 
-        $("#team").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "팀선택", value: "" },
-                { text: "미래전략기획팀", value: "1" },
-                { text: "J-밸리혁신팀", value: "2" },
-                { text: "제조혁신팀", value: "3" },
-                { text: "신기술융합팀", value: "4" },
-                { text: "일자리창업팀", value: "5" },
-                { text: "복합소재뿌리기술센터", value: "6" },
-                { text: "지역산업육성팀", value: "7" },
-                { text: "우주개발팀", value: "8" },
-                { text: "항공개발팀", value: "9" },
-                { text: "경영지원팀", value: "10" },
-                { text: "사업지원팀", value: "11" }
-            ],
-            index: 0
-        });
+                        $.ajax({
+                            url : "/userManage/getDeptCodeList",
+                            type : "post",
+                            async: false,
+                            data : data,
+                            dataType : "json",
+                            success : function(result){
+                                var ds = result.list;
+                                ds.unshift({text: '전체', value: ''});
 
-        $("#holidayCate").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "연가", value: "1" },
-                { text: "오전반차", value: "2" },
-                { text: "오후반차", value: "3" },
-                { text: "병가", value: "4" },
-                { text: "공가", value: "5" },
-                { text: "경조휴가", value: "6" },
-                { text: "출산휴가", value: "7" },
-                { text: "대체휴가", value: "8" },
-                { text: "근속포상휴가", value: "9" },
-                { text: "휴일근로", value: "0" }
-            ],
-            index: 0
-        });
-
-        $("#status").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
-            ],
-            index: 0
-        });
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "" },
-                { text: "부서명", value: "1" },
-                { text: "팀명", value: "2" },
-                { text: "직급", value: "3" },
-            ],
-            index: 0
+                                $("#deptTeamName").kendoDropDownList({
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    dataSource: ds,
+                                    index: 0,
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
     },
 
@@ -143,11 +120,11 @@ var subHolidayStat = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.active = $("#active").val();
-                    data.userNm = $("#userNm").val();
+                    data.holidayYear = $("#holidayYear").val();
                     data.deptName = $("#deptName").val();
-                    data.positionDutyNm = $("#positionDutyNm").val();
-                    data.vacStatus = $("#vacStatus").val();
+                    data.deptTeamName = $("#deptTeamName").val();
+                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
+                    data.searchVal = $("#searchVal").val();
                     return data;
                 }
             },

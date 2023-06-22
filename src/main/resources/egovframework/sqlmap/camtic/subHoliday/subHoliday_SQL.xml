@@ -152,6 +152,37 @@
             DJ_CAMTIC.A_DOC_INFO DI ON VUH.DOC_ID = DI.DOC_ID
         where
         1=1
+        AND VUH.REG_EMP_SEQ = #{empSeq}
+        <if test='status != null and !"".equals(status)'>
+            AND VUH.APPR_STAT = #{status}
+        </if>
+
+        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
+            AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
+        </if>
+    </select>
+
+    <select id="getVacUseHistoryListAdmin" parameterType="map" resultType="map">
+        /* getVacUseHistoryListAdmin */
+        SELECT
+        VUH.*,
+        DEI.EMP_NAME_KR,
+        VCD.SUBHOLIDAY_DT_CODE_NM,
+        DI.DOC_ID,
+        DI.APPRO_KEY,
+        DI.DOC_MENU_CD
+        FROM
+        CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
+        JOIN
+        CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
+        ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+        LEFT JOIN
+        CAM_HR.DJ_EMP_INFO DEI
+        ON VUH.REG_EMP_SEQ = DEI.EMP_SEQ
+        LEFT JOIN
+        DJ_CAMTIC.A_DOC_INFO DI ON VUH.DOC_ID = DI.DOC_ID
+        where
+        1=1
         <if test='status != null and !"".equals(status)'>
             AND VUH.APPR_STAT = #{status}
         </if>
@@ -296,6 +327,21 @@
             LEFT JOIN cam_inside.dj_subholiday_use_hist VUH
             ON VUI.emp_seq = VUH.reg_emp_seq
         WHERE  VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
+        <if test='holidayYear != null and !"".equals(holidayYear)'>
+            AND VC.APPLY_YEAR = #{holidayYear}
+        </if>
+        <if test='deptName != null and !"".equals(deptName)'>
+            AND VUI.DEPT_NAME = #{deptName}
+        </if>
+        <if test='deptTeamName != null and !"".equals(deptTeamName)'>
+            AND VUI.DEPT_NAME = #{deptTeamName}
+        </if>
+        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
+            AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
+        </if>
+        <if test='searchVal != null and !"".equals(searchVal)'>
+            AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
+        </if>
         GROUP BY VUI.emp_seq,
             VUI.emp_name_kr,
             VUI.dept_name,
@@ -312,7 +358,7 @@
             VC.use_day,
             ( ( VC.grant_day + VC.mdtn_day + VC.extra_day ) - ( VC.use_day ) ),
             VC.active,
-            VC.holiday_id;
+            VC.holiday_id
     </select>
 
     <update id="updateApprStat" parameterType="map">
