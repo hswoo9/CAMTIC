@@ -113,7 +113,7 @@
             eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}
     </select>
 
-    <!--장비사용 등록 - 업체구분 조회-->
+    <!--공통코드 - 장비사용 등록 - 업체구분 조회-->
     <select id="getPrtpcoGbnNameList" parameterType="map" resultType="map">
         /*getPrtpcoGbnNameList*/
         SELECT

@@ -90,6 +90,7 @@ var equipmentList = {
                     data.usePdStrDe = $("#usePdStrDe").val().replaceAll('-','');
                     data.usePdEndDe = $("#usePdEndDe").val().replaceAll('-','');
                     data.eqipmnGbnCmmnCdSn = $("#mainEqipmnGbnName").getKendoDropDownList().value();
+                    data.prtpcoGbnSn = $("#mainPrtpcoGbnName").getKendoDropDownList().value();
                     var searchType = $("#searchType").getKendoDropDownList().value()
                     if(searchType == 1) {
                         data.searchText = "A.USER_NAME"
