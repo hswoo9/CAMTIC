@@ -29,22 +29,24 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회년월</span>
-                                    <input type="text" id="datePicker" style="width: 60%; margin-left: 10px;">
+                                    <input type="text" id="usePdStrDe" style="width: 130px;">
+                                    ~
+                                    <input type="text" id="usePdEndDe" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <span>구분</span>
-                                    <input type="text" id="drop1" style="width: 100px;">
+                                    <input type="text" id="mainEqipmnGbnName" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
                                     <span>업체구분</span>
-                                    <input type="text" id="drop2" style="width: 100px;">
+                                    <input type="text" id="mainPrtpcoGbnName" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentListAdminView.mainGrid();"/>
                                 </div>
                                 <div class="mr10">
                                     <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="장비관리" onclick="equipmentListAdminView.equipmentmangePopup();"/>
