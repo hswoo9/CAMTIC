@@ -35,17 +35,17 @@
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr20">
+                            <div style="display:flex;justify-content: space-between;">
+                                <div style="display:flex;">
+                                <%--<div class="mr20">
                                     <span>조회기간</span>
-                                    <input id="start_date" style="width:150px; margin-right:5px;">
+                                    <input id="startDay" style="width:150px; margin-right:5px;">
                                     ~
-                                    <input id="end_date" style="width:150px; margin-right:5px;">
-                                </div>
-
+                                    <input id="endDay" style="width:150px; margin-right:5px;">
+                                </div>--%>
                                 <div class="mr20">
-                                    <span>신청구분</span>
-                                    <input type="text" id="holidayCate" style="width: 150px;">
+                                    <span>휴가구분</span>
+                                    <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:150px;">
                                 </div>
 
                                 <div class="mr20">
@@ -53,14 +53,18 @@
                                     <input type="text" id="status" style="width: 150px;">
                                 </div>
 
-                                <div class="mr20">
-                                    <input type="text" id="searchType" style="width: 150px;">
-                                    <input type="text" id="searchVal" style="width: 150px;">
-                                </div>
-
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">검색</button>
+                                    <span>이름</span>
+                                    <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">검색</button>
+                                </div>
+                                </div>
+                                <div>
+                                <div>
                                     <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();">연가일괄등록</button>
+                                </div>
                                 </div>
                             </div>
                         </td>

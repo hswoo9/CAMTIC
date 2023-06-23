@@ -75,7 +75,6 @@ var subHolidayList = {
                     data.endDay = $("#endDay").val();
                     data.status = $("#status").val();
                     data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-                    data.applyVacationDivision = $("#applyVacationDivision").val();
                     return data;
                 }
             },

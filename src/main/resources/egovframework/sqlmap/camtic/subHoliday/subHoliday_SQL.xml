@@ -183,13 +183,17 @@
         DJ_CAMTIC.A_DOC_INFO DI ON VUH.DOC_ID = DI.DOC_ID
         where
         1=1
+
         <if test='status != null and !"".equals(status)'>
             AND VUH.APPR_STAT = #{status}
         </if>
-
         <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
             AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
         </if>
+        <if test='searchVal != null and !"".equals(searchVal)'>
+            AND DEI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
+        </if>
+
     </select>
 
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">

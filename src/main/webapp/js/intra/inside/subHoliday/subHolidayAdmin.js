@@ -17,6 +17,9 @@ var subHolidayAdmin = {
         subHolidayAdmin.dataSet();
         subHolidayAdmin.mainGrid();
 
+        customKendo.fn_datePicker("startDay", "", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDay", "", "yyyy-MM-dd", new Date());
+
         var data = {
             mcCode : subHolidayAdmin.global.mcCode,
             mdCode : subHolidayAdmin.global.mdCode,
@@ -31,53 +34,24 @@ var subHolidayAdmin = {
             dataSource : ds.list,
             dataTextField: "SUBHOLIDAY_DT_CODE_NM",
             dataValueField: "SUBHOLIDAY_CODE_ID",
-            change : function(){
-
-            }
         });
     },
 
     dataSet : function() {
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
         $("#status").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
+                { text: "요청진행전", value: "N" },
+                { text: "승인", value: "Y" },
+                { text: "진행중", value: "C" },
+                { text: "반려", value: "E" }
             ],
             index: 0
         });
 
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "" },
-                { text: "부서명", value: "1" },
-                { text: "팀명", value: "2" },
-                { text: "직급", value: "3" },
-            ],
-            index: 0
-        });
+        $("#searchVal").kendoTextBox();
     },
 
     mainGrid : function(e){
@@ -97,7 +71,9 @@ var subHolidayAdmin = {
                     data.empSeq = subHolidayAdmin.global.empSeq;
                     data.startDay = $("#startDay").val();
                     data.endDay = $("#endDay").val();
-                    data.applyVacationDivision = $("#applyVacationDivision").val();
+                    data.status = $("#status").val();
+                    data.searchVal = $("#searchVal").val();
+                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
                     return data;
                 }
             },
@@ -310,8 +286,8 @@ var subHolidayAdmin = {
 
         params.startDay = $("#startDay").val();
         params.endDay = $("#endDay").val();
-        params.applyVacationDivision = $("#applyVacationDivision").val();
-        $("#scheduler").data("kendoScheduler").dataSource.read();
+        params.status = $("#status").val();
+        params.edtHolidayKindTop = $("#edtHolidayKindTop").val();
         subHolidayAdmin.mainGrid(params);
     },
 
