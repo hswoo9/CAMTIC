@@ -38,62 +38,87 @@ var hwpDocCtrl = {
                 dataType : "json",
                 async: false,
                 success : function(result){
-                    //console.log(result.data);
+                    console.log(result.data);
                     const ResultData = result.data;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+
+                    if(ResultData.SUBHOLIDAY_CODE_ID != "11") {
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
+                        hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('holidayDate', true, true, false);
+                        hwpDocCtrl.putFieldText('holidayDate', ResultData.SUBHOLIDAY_ST_DT+" "+ResultData.SUBHOLIDAY_ST_TIME+" "+ResultData.SUBHOLIDAY_EN_DT+" "+ResultData.SUBHOLIDAY_EN_TIME);
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('approvalReason', true, true, false);
+                        hwpDocCtrl.putFieldText('approvalReason', ResultData.RMK);
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('rmkOther', true, true, false);
+                        hwpDocCtrl.putFieldText('rmkOther', ResultData.RMK_OTHER);
+
+                        let startDT;
+                        let endDT;
+                        let explanationDT;
+
+                        try {
+                            startDT = ResultData.SUBHOLIDAY_ST_DT.replace(/-/g, "");
+                            endDT = ResultData.SUBHOLIDAY_EN_DT.replace(/-/g, "");
+
+                            let firstDateObj = new Date(startDT.substring(0, 4), startDT.substring(4, 6) - 1, startDT.substring(6, 8));
+                            let secondDateObj = new Date(endDT.substring(0, 4), endDT.substring(4, 6) - 1, endDT.substring(6, 8));
+                            let betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
+                            explanationDT = Math.floor(betweenTime / (1000 * 60 * 60 * 24)) +1;
+                        }catch (e) {
+                            explanationDT = 0;
+                        }
+
+                        const explantion = "아래와 같은 사유로 ("+explanationDT+")일 휴가코자 합니다.";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('explanation', true, true, false);
+                        hwpDocCtrl.putFieldText('explanation', explantion);
+
+                        let regSign = "위 원 인 : "+ResultData.EMP_NAME_KR+" (서명)"
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
+                        hwpDocCtrl.putFieldText('regSign', regSign);
+
+                        let toDate = year+"년 "+month+"월 "+date+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                        hwpDocCtrl.putFieldText('toDate', toDate);
+                    }else {
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('rmk', true, true, false);
+                        hwpDocCtrl.putFieldText('rmk', ResultData.RMK);
+
+                        let subHolidayWorkDay = ResultData.SUBHOLIDAY_WORK_DAY.split("-");
+                        let subHolidayWorkDayText = subHolidayWorkDay[0]+"년"+subHolidayWorkDay[1]+"월"+subHolidayWorkDay[2]+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayWorkDay', true, true, false);
+                        hwpDocCtrl.putFieldText('subHolidayWorkDay', subHolidayWorkDayText);
+
+                        let startTime = ResultData.SUBHOLIDAY_ST_TIME;
+                        let endTime = ResultData.SUBHOLIDAY_EN_TIME;
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayTime', true, true, false);
+                        hwpDocCtrl.putFieldText('subHolidayTime', startTime+" ~ "+endTime);
+
+                        let subHolidayAlternativeDay = ResultData.SUBHOLIDAY_ALTERNATIVE_DAY.split("-");
+                        let subHolidayAlternativeDayText = subHolidayAlternativeDay[0]+"년"+subHolidayAlternativeDay[1]+"월"+subHolidayAlternativeDay[2]+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayAlternativeDay', true, true, false);
+                        hwpDocCtrl.putFieldText('subHolidayAlternativeDay', subHolidayAlternativeDayText);
+
+                        let toDate = year+"년"+month+"월"+date+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                        hwpDocCtrl.putFieldText('toDate', toDate);
+                    }
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
                     hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
 
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
-                    hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
-
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
                     hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('holidayDate', true, true, false);
-                    hwpDocCtrl.putFieldText('holidayDate', ResultData.SUBHOLIDAY_ST_DT+" "+ResultData.SUBHOLIDAY_ST_TIME+" "+ResultData.SUBHOLIDAY_EN_DT+" "+ResultData.SUBHOLIDAY_EN_TIME);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('approvalReason', true, true, false);
-                    hwpDocCtrl.putFieldText('approvalReason', ResultData.RMK);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('rmkOther', true, true, false);
-                    hwpDocCtrl.putFieldText('rmkOther', ResultData.RMK_OTHER);
-
-                    let startDT;
-                    let endDT;
-                    let explanationDT;
-
-                    try {
-                        startDT = ResultData.SUBHOLIDAY_ST_DT.replace(/-/g, "");
-                        endDT = ResultData.SUBHOLIDAY_EN_DT.replace(/-/g, "");
-
-                        let firstDateObj = new Date(startDT.substring(0, 4), startDT.substring(4, 6) - 1, startDT.substring(6, 8));
-                        let secondDateObj = new Date(endDT.substring(0, 4), endDT.substring(4, 6) - 1, endDT.substring(6, 8));
-                        let betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
-                        explanationDT = Math.floor(betweenTime / (1000 * 60 * 60 * 24)) +1;
-                    }catch (e) {
-                        explanationDT = 0;
-                    }
-
-                    const explantion = "아래와 같은 사유로 ("+explanationDT+")일 휴가코자 합니다.";
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('explanation', true, true, false);
-                    hwpDocCtrl.putFieldText('explanation', explantion);
-
-                    let today = new Date();
-
-                    let year = today.getFullYear(); // 년도
-                    let month = today.getMonth() + 1;  // 월
-                    let date = today.getDate();  // 날짜
-                    let day = today.getDay();  // 요일
-
-                    let toDate = year+"년 "+month+"월 "+date+"일";
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
-                    hwpDocCtrl.putFieldText('toDate', toDate);
-
-                    let regSign = "위 원 인 : "+ResultData.EMP_NAME_KR+" (서명)"
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
-                    hwpDocCtrl.putFieldText('regSign', regSign);
                 },
                 error: function(e) {
                     console.log(e);

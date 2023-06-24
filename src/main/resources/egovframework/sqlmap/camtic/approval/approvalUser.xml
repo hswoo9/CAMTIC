@@ -179,7 +179,7 @@
         )DRD
         ON DI.DOC_ID = DRD.DOC_ID
         JOIN
-        DJ_EPIS.A_FORM FORM
+        DJ_CAMTIC.A_FORM FORM
         ON DI.FORM_ID = FORM.FORM_ID
         WHERE
         1=1

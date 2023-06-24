@@ -20,7 +20,7 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "88";
+        approvalParams.formId = "87";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
@@ -28,7 +28,7 @@
         approvalParams.menuCd = "subHoliday";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "1";
+        approvalParams.linkageProcessId = "2";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticHoliday";
         approvalParams.approKey = "camticHoliday_${data.subHolidayId}";

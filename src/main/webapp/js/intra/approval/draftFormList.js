@@ -121,7 +121,7 @@ var draftFormList = {
                 }
             }
         }else{
-            linkageProcessOn(draftFormList.global.draftParam);
+            linkageProcessOn(draftFormList.global.draftParam, "target");
         }
     },
 }

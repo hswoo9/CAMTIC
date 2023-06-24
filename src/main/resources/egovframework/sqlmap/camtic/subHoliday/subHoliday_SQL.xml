@@ -372,7 +372,7 @@
         SET
             APPR_STAT = #{status},
             APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
-            APPROVAL_EMP_SEQ = #{approveEmpSeq},
+            APPROVAL_EMP_SEQ = #{empSeq},
             DOC_ID = #{docId}
         WHERE
             SUBHOLIDAY_USE_ID = #{subholidayUseId}
