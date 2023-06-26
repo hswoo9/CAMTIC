@@ -407,4 +407,53 @@ public class AssetController {
         return "jsonView";
     }
 
+    @RequestMapping("/asset/getAssetPlaceList")
+    public String getAssetPlaceList(Model model) {
+        model.addAttribute("rs",assetService.getAssetPlaceList());
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/setAssetCode")
+    public String setAssetCode(@RequestParam Map<String,Object> map, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        map.put("REG_EMP_SEQ", login.getUniqId());
+        model.addAttribute("rs",assetService.setAssetCode(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/delAssetCode")
+    public String delAssetCode(@RequestParam Map<String,Object> map, Model model) {
+        Map<String,Object> params = new HashMap<>();
+        if(map.get("INSIDE_CODE_ID").equals("[]")) {
+            model.addAttribute("rs", "NOTCKECK");
+        }else{
+            params.put("INSIDE_CODE_ID", map.get("INSIDE_CODE_ID").toString().replaceAll("\\[","").replaceAll("]","").replaceAll("\"","'"));
+            model.addAttribute("rs",assetService.delAssetCode(params));
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/setAssetPlace")
+    public String setAssetPlace(@RequestParam Map<String,Object> map, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        map.put("REG_EMP_SEQ", login.getUniqId());
+        model.addAttribute("rs",assetService.setAssetPlace(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/delAssetPlace")
+    public String delAssetPlace(@RequestParam Map<String,Object> map, Model model) {
+        Map<String,Object> params = new HashMap<>();
+        if(map.get("AST_PLACE_SN").equals("[]")) {
+            model.addAttribute("rs", "NOTCKECK");
+        }else{
+            params.put("AST_PLACE_SN", map.get("AST_PLACE_SN").toString().replaceAll("\\[","").replaceAll("]","").replaceAll("\"","'"));
+            model.addAttribute("rs",assetService.delAssetPlace(params));
+        }
+        System.out.println(map.get("AST_PLACE_SN"));
+        return "jsonView";
+    }
+
 }

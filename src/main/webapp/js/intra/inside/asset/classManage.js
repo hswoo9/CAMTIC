@@ -68,7 +68,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(1)">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -80,11 +80,14 @@ var classManage = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    //template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox1'/>",
+                    template : function (e){
+                        return "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox1'/><input type='hidden' value='"+e.INSIDE_CODE_ID+"'/>";
+                    },
                     width: 50
                 }, {
-                    field: "",
-                    title: "순번"
+                    title: "순번",
+                    template: "#= ++record #",
                 }, {
                     field: "INSIDE_DT_CODE_NM",
                     title: "소속"
@@ -92,7 +95,10 @@ var classManage = {
                     field: "INSIDE_DT_CODE",
                     title: "소속코드"
                 }
-            ]
+            ],
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            },
         }).data("kendoGrid");
     },
 
@@ -126,7 +132,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(2)">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -138,11 +144,13 @@ var classManage = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    template : function (e){
+                        return "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox2'/><input type='hidden' value='"+e.INSIDE_CODE_ID+"'/>";
+                    },
                     width: 50
                 }, {
-                    field: "",
-                    title: "순번"
+                    title: "순번",
+                    template: "#= ++record #",
                 }, {
                     field: "INSIDE_DT_CODE_NM",
                     title: "소속"
@@ -150,7 +158,10 @@ var classManage = {
                     field: "INSIDE_DT_CODE",
                     title: "소속코드"
                 }
-            ]
+            ],
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            },
         }).data("kendoGrid");
     },
 
@@ -184,7 +195,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(3)">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -196,19 +207,24 @@ var classManage = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    template : function (e){
+                        return "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox3'/><input type='hidden' value='"+e.AST_PLACE_SN+"'/>";
+                    },
                     width: 50
                 }, {
-                    field: "",
-                    title: "순번"
+                    title: "순번",
+                    template: "#= ++record #",
                 }, {
-                    field: "",
+                    field: "AST_PLACE_NAME",
                     title: "위치"
                 }, {
-                    field: "",
+                    field: "AST_MANAGE_DEPT",
                     title: "관리그룹"
                 }
-            ]
+            ],
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            },
         }).data("kendoGrid");
     },
 
@@ -333,14 +349,57 @@ var classManage = {
     },
     gridReload3 : function() {
         var data = {
-            INSIDE_MD_CODE : '',
+            TEST : 'TEST',
         }
-        classManage.mainGrid3('/inside/getClassManageList',data);
+        classManage.mainGrid3('/asset/getAssetPlaceList',data);
     },
     gridReload4 : function() {
         var data = {
             INSIDE_MD_CODE : '',
         }
         classManage.mainGrid4('/inside/getClassManageList',data);
+    },
+    fn_delBtn : function(e) {
+        var checkbox = 'checkbox'+e;
+        var tmp = [];
+        if(e == 3) {
+            console.log('위치관리 삭제');
+            if(confirm("삭제하시겠습니까?")) {
+                $.each($('.'+checkbox+':checked'), function (index, item) {
+                    tmp.push($(item).next().val());
+                });
+                var data = {
+                    AST_PLACE_SN: JSON.stringify(tmp)
+                }
+                var result = customKendo.fn_customAjax('/asset/delAssetPlace', data);
+                if(result.rs == 'SUCCESS') {
+                    alert('삭제 완료');
+                    classManage.gridReload3();
+                }else if (result.rs == 'NOTCKECK'){
+                    alert('삭제할 데이터를 선택하지 않았습니다.');
+                }else{
+                    alert('삭제 실패');
+                }
+            }
+        }else {
+            if(confirm("삭제하시겠습니까?")) {
+                $.each($('.'+checkbox+':checked'), function (index, item) {
+                    tmp.push($(item).next().val());
+                });
+                var data = {
+                    INSIDE_CODE_ID: JSON.stringify(tmp)
+                }
+                var result = customKendo.fn_customAjax('/asset/delAssetCode', data);
+                if(result.rs == 'SUCCESS') {
+                    alert('삭제 완료');
+                    classManage.gridReload();
+                    classManage.gridReload2();
+                }else if (result.rs == 'NOTCKECK'){
+                    alert('삭제할 데이터를 선택하지 않았습니다.');
+                }else{
+                    alert('삭제 실패');
+                }
+            }
+        }
     }
 }

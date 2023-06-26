@@ -293,6 +293,30 @@
         WHERE
             A.eqipmn_use_sn = #{pk}
     </select>
-
+    <select id="getAssetPlaceList" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_inside.dj_asset_place AS a
+        where
+            a.active = 'Y'
+        ORDER BY a.ast_place_sn
+    </select>
+    <insert id="setAssetCode" parameterType="map">
+        INSERT INTO cam_inside.dj_inside_code(
+            INSIDE_MD_CODE, INSIDE_MD_CODE_NM, INSIDE_DT_CODE, INSIDE_DT_CODE_NM, REG_EMP_SEQ, REG_DATE
+        ) VALUES (#{INSIDE_MD_CODE}, #{INSIDE_MD_CODE_NM}, #{INSIDE_DT_CODE}, #{INSIDE_DT_CODE_NM}, #{REG_EMP_SEQ}, NOW())
+    </insert>
+    <delete id="delAssetCode" parameterType="map">
+        DELETE FROM cam_inside.dj_inside_code WHERE INSIDE_CODE_ID in (${INSIDE_CODE_ID})
+    </delete>
+    <insert id="setAssetPlace" parameterType="map">
+        INSERT INTO cam_inside.dj_asset_place(
+            AST_PLACE_NAME, AST_MANAGE_DEPT, REG_DATE, REG_EMP_SEQ
+        )VALUES (#{AST_PLACE_NAME}, #{AST_MANAGE_DEPT}, NOW(), #{REG_EMP_SEQ})
+    </insert>
+    <delete id="delAssetPlace" parameterType="map">
+        DELETE FROM cam_inside.dj_asset_place WHERE AST_PLACE_SN IN (${AST_PLACE_SN})
+    </delete>
 
 </mapper>

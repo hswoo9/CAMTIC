@@ -75,5 +75,20 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
         return selectList("asset.getEqipmnUseUpdateList", params);
     }
+    public List<Map<String,Object>> getAssetPlaceList() {
+        return selectList("asset.getAssetPlaceList");
+    }
+    public void setAssetCode(Map<String,Object> map) {
+        insert("asset.setAssetCode", map);
+    }
+    public void delAssetCode(Map<String,Object> map) {
+        delete("asset.delAssetCode", map);
+    }
+    public void setAssetPlace(Map<String,Object> map) {
+        insert("asset.setAssetPlace", map);
+    }
+    public void delAssetPlace(Map<String,Object> map) {
+        delete("asset.delAssetPlace", map);
+    }
 
 }

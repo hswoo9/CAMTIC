@@ -154,5 +154,45 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
         return assetRepository.getEqipmnUseUpdateList(params);
     }
+    @Override
+    public List<Map<String,Object>> getAssetPlaceList() {
+        return assetRepository.getAssetPlaceList();
+    }
+    @Override
+    public String setAssetCode(Map<String,Object> map) {
+        try {
+            assetRepository.setAssetCode(map);
+            return "SUCCESS";
+        }catch (Exception e) {
+            return "FAILED";
+        }
+    }
+    @Override
+    public String delAssetCode(Map<String,Object> map) {
+        try {
+            assetRepository.delAssetCode(map);
+            return "SUCCESS";
+        }catch (Exception e) {
+            return "FAILED";
+        }
+    }
+    @Override
+    public String setAssetPlace(Map<String,Object> map) {
+        try {
+            assetRepository.setAssetPlace(map);
+            return "SUCCESS";
+        }catch (Exception e) {
+            return "FAILED";
+        }
+    }
+    @Override
+    public String delAssetPlace(Map<String,Object> map) {
+        try {
+            assetRepository.delAssetPlace(map);
+            return "SUCCESS";
+        }catch (Exception e) {
+            return "FAILED";
+        }
+    }
 
 }

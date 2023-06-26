@@ -47,5 +47,11 @@ public interface AssetService {
     //장비사용 등록 수정 창 조회
     List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params);
 
+    List<Map<String,Object>> getAssetPlaceList();
 
+    String setAssetCode(Map<String,Object> map);
+
+    String delAssetCode(Map<String,Object> map);
+    String setAssetPlace(Map<String,Object> map);
+    String delAssetPlace(Map<String,Object> map);
 }
