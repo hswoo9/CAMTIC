@@ -155,7 +155,7 @@ var eduInfo = {
     eduInfoViewPop : function(eduInfoId) {
         var url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
         var name = "popup";
-        var option = "width = 1170, height = 900, top = 100, left = 200, location = no";
+        var option = "width = 965, height = 900, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     }
 }

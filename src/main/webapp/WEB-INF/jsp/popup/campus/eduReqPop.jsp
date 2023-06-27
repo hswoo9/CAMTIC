@@ -38,15 +38,11 @@
             <thead>
             <tr>
               <th>소 속</th>
-              <td id="userDept"></td>
+              <td id="userDept">${loginVO.orgnztNm}</td>
               <th>직 위</th>
-              <td id="userPosition"></td>
+              <td id="userPosition">${loginVO.dutyNm}</td>
               <th>성 명</th>
-              <td id="userName"></td>
-            </tr>
-            <tr>
-              <th>담당 직무</th>
-              <td colspan="5" id="userDuty"></td>
+              <td id="userName">${loginVO.name}</td>
             </tr>
           </table>
           <table class="table table-bordered mt20" id="eduReqTable" style="width: 1000px;">
@@ -69,83 +65,190 @@
                 <input type="text" id="levelId" style="width: 50px"> 레벨
               </td>
             </tr>
-            <tr id="eduNameTr">
-              <th id="eduNameVar">과정명</th>
-              <td colspan="3">
-                <input type="text" id="eduName" style="width: 800px">
-              </td>
-            </tr>
-            <tr id="bookTr" style="display: none">
-              <th id="bookPageVar">페이지 수</th>
-              <td>
-                <input type="text" id="bookPage" style="width: 100px"> Page
-              </td>
-              <th id="bookPulishVar">출판사</th>
-              <td>
-                <input type="text" id="bookPulish" style="width: 300px">
-              </td>
-            </tr>
-            <tr id="objectForumTr" style="display: none">
-              <th>참석형태</th>
-              <td colspan="3">
-                <div style="display: flex; align-items: center">
-                  <span id="objectForumType" class="mr20"></span> (발표제목 : <input type="text" id="objectForumVal" style="width: 450px">)
-                </div>
-              </td>
-            </tr>
-            <tr id="eduObjectTr">
-              <th><span id="eduObjectVar">학습목적</span></th>
-              <td colspan="3">
-                <textarea id="eduObject" style="width: 800px; height: 100px"></textarea>
-              </td>
-            </tr>
             <tr>
-              <th><span id="eduContentVar">학습내용</span><br>(요약)</th>
+              <c:choose>
+                <c:when test="${eduFormType == 5}">
+                  <th>${eduNameVar}</th>
+                  <td>
+                    <input type="text" id="eduName" style="width: 300px">
+                  </td>
+                  <th>작가명</th>
+                  <td>
+                    <input type="text" id="bookWriter" style="width: 300px">
+                  </td>
+                </c:when>
+                <c:otherwise>
+                  <th>${eduNameVar}</th>
+                  <td colspan="3">
+                    <input type="text" id="eduName" style="width: 800px">
+                  </td>
+                </c:otherwise>
+              </c:choose>
+            </tr>
+            <c:choose>
+              <c:when test="${eduFormType == 3}">
+                <tr>
+                  <th>참석형태</th>
+                  <td colspan="3">
+                    <div style="display: flex; align-items: center">
+                      <span id="objectForumType" class="mr20"></span> (발표제목 : <input type="text" id="objectForumVal" style="width: 450px">)
+                    </div>
+                  </td>
+                </tr>
+              </c:when>
+              <c:when test="${eduFormType == 5}">
+                <tr>
+                  <th>페이지 수</th>
+                  <td>
+                    <input type="text" id="bookPage" style="width: 100px"> Page
+                  </td>
+                  <th>출판사</th>
+                  <td>
+                    <input type="text" id="bookPulish" style="width: 300px">
+                  </td>
+                </tr>
+              </c:when>
+              <c:when test="${eduFormType == 6}">
+                <tr>
+                  <th>출처</th>
+                  <td>
+                    <input type="text" id="treaOrigin" style="width: 300px">
+                  </td>
+                  <th>편수</th>
+                  <td>
+                    <input type="text" id="treaUnit" style="width: 100px"> 편
+                  </td>
+                </tr>
+              </c:when>
+              <c:when test="${eduFormType == 7}">
+                <tr>
+                  <th>학술지 유형</th>
+                  <td>
+                    <span id="treaType" class="mr20"></span>
+                  </td>
+                  <th>저자유형</th>
+                  <td>
+                    <span id="treaUser" class="mr20"></span>
+                  </td>
+                </tr>
+              </c:when>
+              <c:when test="${eduFormType == 8}">
+                <tr>
+                  <th>권수</th>
+                  <td colspan="3">
+                    <input type="text" id="bookUnit" style="width: 100px"> 권
+                  </td>
+                </tr>
+              </c:when>
+              <c:when test="${eduFormType == 9}">
+                <tr>
+                  <th>방문지</th>
+                  <td colspan="3">
+                    <input type="text" id="careName" style="width: 300px">
+                  </td>
+                </tr>
+              </c:when>
+              <c:when test="${eduFormType == 10}">
+                <tr>
+                  <th>취득종류</th>
+                  <td colspan="3">
+                    <span id="compType" class="mr20"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>발급기관</th>
+                  <td colspan="3">
+                    <input type="text" id="careName" style="width: 300px">
+                  </td>
+                </tr>
+              </c:when>
+            </c:choose>
+            <c:if test="${eduFormType != 3}">
+              <tr>
+                <th><span>${eduObjectVar}</span></th>
+                <td colspan="3">
+                  <textarea id="eduObject" style="width: 800px; height: 100px"></textarea>
+                </td>
+              </tr>
+            </c:if>
+            <tr>
+              <th><span>${eduContentVar}</span><br>(요약)</th>
               <td colspan="3">
                 <textarea id="eduContent" style="width: 800px;  height: 200px"></textarea>
               </td>
             </tr>
             <tr>
-              <th id="dtTh">학습기간</th>
+              <th>${eduDateVar}</th>
               <td colspan="3">
                 <input type="text" id="startDt" style="width: 150px">~
                 <input type="text" id="endDt" style="width: 150px">
-                (총 <input type="text" id="termDay" style="width: 50px"> 일 <input type="text" id="termTime" style="width: 50px"> 시간)
+                <c:choose>
+                  <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9 || eduFormType == 11}">
+                    (총 <input type="text" id="termDay" style="width: 50px"> 일 <input type="text" id="termTime" style="width: 50px"> 시간)
+                    <c:choose>
+                      <c:when test="${eduFormType == 5 || eduFormType == 6}">
+                        / 50페이지당 1시간
+                      </c:when>
+                      <c:when test="${eduFormType == 9 || eduFormType == 10 || eduFormType == 11}">
+                        / 1일 최대4시간
+                      </c:when>
+                    </c:choose>
+                  </c:when>
+                </c:choose>
               </td>
             </tr>
-            <tr id="careTr">
-              <th id="careTh">교육기관</th>
-              <td colspan="3">
-                <span id="careNameVar">기관명</span> : <input type="text" id="careName" style="width: 400px"><br><div class="mt5"></div>
-                <span id="careLocationVar">소재지</span> : <input type="text" id="careLocation" style="width: 400px"> <span id="careTelNumVar">(전화 : <input type="text" id="firstCareTelNum" style="width: 50px"> - <input type="text" id="secondCareTelNum" style="width: 50px"> - <input type="text" id="thirdCareTelNum" style="width: 50px">)</span>
-              </td>
-            </tr>
-            <tr>
-              <th id="eduMoneyTh">교육비</th>
-              <td>
-                <input type="text" id="eduMoney" style="width: 150px" value="0"> 원
-              </td>
-              <th>결제수단</th>
-              <td>
-                <span id="eduMoneyType"></span>
-              </td>
-            </tr>
-            <tr>
-              <th>여비신청여부</th>
-              <td colspan="3">
-                <span id="travelMoneyType"></span>
-              </td>
-            </tr>
-            <tr>
-              <th>환급 예상액</th>
-              <td>
-                <input type="text" id="returnMoney" style="width: 150px" value="0"> 원
-              </td>
-              <th>환급 필요서류</th>
-              <td>
-                <input type="text" id="returnDoc" style="width: 300px">
-              </td>
-            </tr>
+            <c:choose>
+              <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4}">
+                <tr>
+                  <th>${careVar}</th>
+                  <td colspan="3">
+                    <span>${careNameVar}</span> : <input type="text" id="careName" style="width: 400px"><br><div class="mt5"></div>
+                    <span>${careLocationVar}</span> : <input type="text" id="careLocation" style="width: 400px"> <span id="careTelNumVar">
+                    <c:if test="${eduFormType == 1}">
+                      (전화 : <input type="text" id="firstCareTelNum" style="width: 50px"> - <input type="text" id="secondCareTelNum" style="width: 50px"> - <input type="text" id="thirdCareTelNum" style="width: 50px">)</span>
+                    </c:if>
+                  </td>
+                </tr>
+              </c:when>
+            </c:choose>
+            <c:choose>
+              <c:when test="${eduFormType != 11}">
+                <tr>
+                  <th>${eduMoneyVar}</th>
+                  <td>
+                    <input type="text" id="eduMoney" style="width: 150px" value="0"> 원
+                  </td>
+                  <th>결제수단</th>
+                  <td>
+                    <span id="eduMoneyType"></span>
+                  </td>
+                </tr>
+              </c:when>
+            </c:choose>
+            <c:choose>
+              <c:when test="${eduFormType == 1 || eduFormType == 3 || eduFormType == 4}">
+                <tr>
+                  <th>여비신청여부</th>
+                  <td colspan="3">
+                    <span id="travelMoneyType"></span>
+                  </td>
+                </tr>
+              </c:when>
+            </c:choose>
+            <c:choose>
+              <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4}">
+                <tr>
+                  <th>환급 예상액</th>
+                  <td>
+                    <input type="text" id="returnMoney" style="width: 150px" value="0"> 원
+                  </td>
+                  <th>환급 필요서류</th>
+                  <td>
+                    <input type="text" id="returnDoc" style="width: 300px">
+                  </td>
+                </tr>
+              </c:when>
+            </c:choose>
             <tr>
               <th>관련사업</th>
               <td colspan="3">

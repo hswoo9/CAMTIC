@@ -126,6 +126,187 @@ var hwpDocCtrl = {
                     window.close();
                 }
             });
+        }else if(data.menuCd == "campus") {
+            const eduInfoId = data.approKey.split("_")[1];
+            $("#reqContentId").val(eduInfoId);
+            if(eduInfoId == null || eduInfoId == undefined || eduInfoId == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url : "/campus/getEduResultOne",
+                data : {
+                    eduInfoId : eduInfoId
+                },
+                type : "post",
+                dataType : "json",
+                async: false,
+                success : function(result){
+                    console.log(result.data);
+                    const ResultData = result.data;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+                    const eduFormType = Number(ResultData.EDU_FORM_TYPE)
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
+                    hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
+                    hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('eduCategoryDetailName', true, true, false);
+                    hwpDocCtrl.putFieldText('eduCategoryDetailName', ResultData.EDU_CATEGORY_DETAIL_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('levelId', true, true, false);
+                    hwpDocCtrl.putFieldText('levelId', ResultData.LEVEL_ID+" 레벨");
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('eduName', true, true, false);
+                    hwpDocCtrl.putFieldText('eduName', ResultData.EDU_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('eduObject', true, true, false);
+                    hwpDocCtrl.putFieldText('eduObject', ResultData.EDU_OBJECT);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('eduContent', true, true, false);
+                    hwpDocCtrl.putFieldText('eduContent', ResultData.EDU_CONTENT);
+
+                    let eduDate = ResultData.START_DT.split("-")[0]+"년"+ResultData.START_DT.split("-")[1]+"월"+ResultData.START_DT.split("-")[2]+"일"
+                        +" ~ "
+                        +ResultData.END_DT.split("-")[0]+"년"+ResultData.END_DT.split("-")[1]+"월"+ResultData.END_DT.split("-")[2]+"일";
+
+                    if(eduFormType != 7 && eduFormType != 8 && eduFormType != 10) {
+                        eduDate += "(총"+ResultData.TERM_DAY+"일";
+                        eduDate += ","+ResultData.TERM_TIME+"시간)";
+                    }
+                    if(eduFormType == 6) {
+                        eduDate += "/2편당1시간";
+                    }
+                    if(eduFormType == 8) {
+                        eduDate += "/권당30시간(년최대50시간)";
+                    }
+                    if(eduFormType == 9) {
+                        eduDate += "/1일당최대4시간";
+                    }
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('eduDate', true, true, false);
+                    hwpDocCtrl.putFieldText('eduDate', eduDate);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('eduMoney', true, true, false);
+                    hwpDocCtrl.putFieldText('eduMoney', numberWithCommas(ResultData.EDU_MONEY)+" 원");
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('attachDocName', true, true, false);
+                    hwpDocCtrl.putFieldText('attachDocName', ResultData.ATTACH_DOC_NAME);
+
+                    let regSign = "신 청 자 : "+ResultData.EMP_NAME_KR+" (서명)";
+
+                    let toDate = year+"년 "+month+"월 "+date+"일";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                    hwpDocCtrl.putFieldText('toDate', toDate);
+
+                    let travelText = "";
+
+                    switch(eduFormType) {
+                        case 1:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
+                            hwpDocCtrl.putFieldText('careName', "기관명 : "+ResultData.CARE_NAME);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
+                            hwpDocCtrl.putFieldText('careLocation', "소재지 : "+ResultData.CARE_LOCATION+" (전화 : "+ResultData.CARE_TEL_NUM+")");
+                            travelText = ResultData.TRAVEL_MONEY_TYPE == "Y" ? "신청" : "신청안함";
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('travelMoneyType', true, true, false);
+                            hwpDocCtrl.putFieldText('travelMoneyType', travelText);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
+                            hwpDocCtrl.putFieldText('returnMoney', numberWithCommas(ResultData.RETURN_MONEY)+" 원");
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
+                            hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
+                            break;
+                        case 2:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
+                            hwpDocCtrl.putFieldText('careName', "사이트명 : "+ResultData.CARE_NAME);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
+                            hwpDocCtrl.putFieldText('careLocation', "URL : "+ResultData.CARE_LOCATION);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
+                            hwpDocCtrl.putFieldText('returnMoney', numberWithCommas(ResultData.RETURN_MONEY)+" 원");
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
+                            hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
+                            break;
+                        case 3:
+                            let objectForum = ResultData.OBJECT_FORUM_TYPE == "주제발표" ? ResultData.OBJECT_FORUM_TYPE+" (발표주제 : "+ResultData.OBJECT_FORUM_VAL+")" : ResultData.OBJECT_FORUM_TYPE;
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('objectForum', true, true, false);
+                            hwpDocCtrl.putFieldText('objectForum', objectForum);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
+                            hwpDocCtrl.putFieldText('careName', "행사주관 : "+ResultData.CARE_NAME);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
+                            hwpDocCtrl.putFieldText('careLocation', "행사장소 : "+ResultData.CARE_LOCATION);
+                            travelText = ResultData.TRAVEL_MONEY_TYPE == "Y" ? "신청" : "신청안함";
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('travelMoneyType', true, true, false);
+                            hwpDocCtrl.putFieldText('travelMoneyType', travelText);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
+                            hwpDocCtrl.putFieldText('returnMoney', numberWithCommas(ResultData.RETURN_MONEY)+" 원");
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
+                            hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
+                            break;
+                        case 4:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
+                            hwpDocCtrl.putFieldText('careName', "기관명 : "+ResultData.CARE_NAME);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
+                            hwpDocCtrl.putFieldText('careLocation', "소재지 : "+ResultData.CARE_LOCATION);
+                            travelText = ResultData.TRAVEL_MONEY_TYPE == "Y" ? "신청" : "신청안함";
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('travelMoneyType', true, true, false);
+                            hwpDocCtrl.putFieldText('travelMoneyType', travelText);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
+                            hwpDocCtrl.putFieldText('returnMoney', numberWithCommas(ResultData.RETURN_MONEY)+" 원");
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
+                            hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
+                            break;
+                        case 5:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('bookWriterName', true, true, false);
+                            hwpDocCtrl.putFieldText('bookWriterName', ResultData.BOOK_WRITER_NAME);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('bookPageVal', true, true, false);
+                            hwpDocCtrl.putFieldText('bookPageVal', ResultData.BOOK_PAGE_VAL);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('bookPulishName', true, true, false);
+                            hwpDocCtrl.putFieldText('bookPulishName', ResultData.BOOK_PULISH_NAME);
+                            break;
+                        case 6:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('treaOrigin', true, true, false);
+                            hwpDocCtrl.putFieldText('treaOrigin', ResultData.TREA_ORIGIN);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('treaUnit', true, true, false);
+                            hwpDocCtrl.putFieldText('treaUnit', ResultData.TREA_UNIT+" 편");
+                            break;
+                        case 7:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('treaType', true, true, false);
+                            hwpDocCtrl.putFieldText('treaType', ResultData.TREA_TYPE+" 학술지");
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('treaUser', true, true, false);
+                            hwpDocCtrl.putFieldText('treaUser', ResultData.TREA_USER);
+                            break;
+                        case 8:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('bookUnit', true, true, false);
+                            hwpDocCtrl.putFieldText('bookUnit', ResultData.BOOK_UNIT+" 권");
+                            break;
+                        case 9:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
+                            hwpDocCtrl.putFieldText('careLocation', "방문지 : "+ResultData.CARE_LOCATION);
+                            break;
+                        case 10:
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('compType', true, true, false);
+                            hwpDocCtrl.putFieldText('compType', "자격종류 : "+ResultData.COMP_TYPE);
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
+                            hwpDocCtrl.putFieldText('careName', "발급기관 : "+ResultData.CARE_NAME);
+                            break;
+                    }
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
+                    hwpDocCtrl.putFieldText('regSign', regSign);
+                },
+                error: function(e) {
+                    console.log(e);
+                    alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+                    window.close();
+                }
+            });
         }
     },
 
@@ -868,4 +1049,12 @@ var hwpDocCtrl = {
         vp.SetItem("ZoomRatio", zoomRatio);		// 	화면 확대 비율
         hwpDocCtrl.global.HwpCtrl.ViewProperties = vp;
     }
+}
+
+//숫자에 콤마 찍기
+function numberWithCommas(num) {
+    if (!num || num=="" || num==undefined) {
+        return 0;
+    }
+    return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

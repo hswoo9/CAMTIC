@@ -18,13 +18,12 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="eduInfoId" value="${data.eduInfoId}"/>
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
       <div class="table-responsive">
         <div class="popupTitleSt">교육수강 신청서 조회</div>
-        <form id="eduReqForm">
+        <form id="eduViewForm">
           <table class="table table-bordered" id="userInfoTable" style="width: 1000px;">
             <colgroup>
               <col width="16%">
@@ -37,106 +36,219 @@
             <thead>
             <tr>
               <th>소 속</th>
-              <td id="userDept"></td>
+              <td id="userDept">${loginVO.orgnztNm}</td>
               <th>직 위</th>
-              <td id="userPosition"></td>
+              <td id="userPosition">${loginVO.dutyNm}</td>
               <th>성 명</th>
-              <td id="userName"></td>
-            </tr>
-            <tr>
-              <th>담당 직무</th>
-              <td colspan="5" id="userDuty"></td>
+              <td id="userName">${loginVO.name}</td>
             </tr>
           </table>
 
           <div class="mt20">
-            <b>학습방법 : <span id="">교육기관 참가교육</span></b>
+            <b>학습방법 : <span id="">${data.EDU_FORM_NAME}</span></b>
           </div>
-          <table class="table table-bordered" id="eduReqTable" style="width: 1000px;">
+          <table class="table table-bordered" id="eduReqTable" style="width: 888px;">
             <colgroup>
-              <col width="130px">
-              <col width="370px">
-              <col width="130px">
-              <col width="370px">
+              <col width="134px">
+              <col width="314px">
+              <col width="134px">
+              <col width="314px">
             </colgroup>
             <thead>
             <tr>
               <th>학습목표</th>
-              <td id="eduCategoryDetailNameTd"></td>
+              <td>
+                ${data.EDU_CATEGORY_DETAIL_NAME}
+              </td>
               <th>목표레벨</th>
-              <td id="levelIdTd"></td>
-            </tr>
-            <tr id="eduNameTr">
-              <th id="eduNameVar">과정명</th>
-              <td colspan="3" id="eduNameTd"></td>
-            </tr>
-            <tr id="bookTr" style="display: none">
-              <th id="bookPageVar">페이지 수</th>
               <td>
-                <input type="text" id="bookPage" style="width: 100px"> Page
-              </td>
-              <th id="bookPulishVar">출판사</th>
-              <td>
-                <input type="text" id="bookPulish" style="width: 300px">
+                ${data.LEVEL_ID} 레벨
               </td>
             </tr>
-            <tr id="objectForumTr" style="display: none">
+            <tr>
+              <c:choose>
+                <c:when test="${eduFormType == 5}">
+                  <th>${eduNameVar}</th>
+                  <td>${data.eduName}</td>
+                  <th>작가명</th>
+                  <td>
+                      ${data.BOOK_WRITER}
+                  </td>
+                </c:when>
+                <c:otherwise>
+                  <th>${eduNameVar}</th>
+                  <td colspan="3">
+                      ${data.EDU_NAME}
+                  </td>
+                </c:otherwise>
+              </c:choose>
+            </tr>
+            <c:choose>
+            <c:when test="${eduFormType == 3}">
+            <tr>
               <th>참석형태</th>
               <td colspan="3">
                 <div style="display: flex; align-items: center">
-                  <span id="objectForumType" class="mr20"></span> (발표제목 : <input type="text" id="objectForumVal" style="width: 450px">)
+                  ${data.OBJECT_FORUM_TYPE}
+                  <c:if test="${data.OBJECT_FORUM_TYPE eq '주제발표'}">
+                    (발표제목 : ${data.OBJECT_FORUM_VAL})
+                  </c:if>
                 </div>
               </td>
             </tr>
-            <tr id="eduObjectTr">
-              <th><span id="eduObjectVar">학습목적</span></th>
-              <td colspan="3" id="eduObjectTd"></td>
-            </tr>
+            </c:when>
+            <c:when test="${eduFormType == 5}">
             <tr>
-              <th><span id="eduContentVar">학습내용</span><br>(요약)</th>
-              <td colspan="3" id="eduContentTd"></td>
-            </tr>
-            <tr>
-              <th id="dtTh">학습기간</th>
-              <td colspan="3" id="dtTd">
-                <input type="text" id="startDt" style="width: 150px">~
-                <input type="text" id="endDt" style="width: 150px">
-                (총 <input type="text" id="termDay" style="width: 50px"> 일 <input type="text" id="termTime" style="width: 50px"> 시간)
+              <th>페이지 수</th>
+              <td>
+                  ${data.BOOK_PAGE} Page
+              </td>
+              <th>출판사</th>
+              <td>
+                  ${data.BOOK_PULISH}
               </td>
             </tr>
-            <tr id="careTr">
-              <th id="careTh">교육기관</th>
-              <td colspan="3" id="careTd">
-                <span id="careNameVar">기관명</span> : <input type="text" id="careName" style="width: 400px"><br><div class="mt5"></div>
-                <span id="careLocationVar">소재지</span> : <input type="text" id="careLocation" style="width: 400px"> <span id="careTelNumVar">(전화 : <input type="text" id="firstCareTelNum" style="width: 50px"> - <input type="text" id="secondCareTelNum" style="width: 50px"> - <input type="text" id="thirdCareTelNum" style="width: 50px">)</span>
+            </c:when>
+            <c:when test="${eduFormType == 6}">
+            <tr>
+              <th>출처</th>
+              <td>
+                  ${data.TREA_ORIGIN}
+              </td>
+              <th>편수</th>
+              <td>
+                  ${data.TREA_UNIT} 편
+              </td>
+            </tr>
+            </c:when>
+            <c:when test="${eduFormType == 7}">
+            <tr>
+              <th>학술지 유형</th>
+              <td>
+                  ${data.TREA_TYPE}
+              </td>
+              <th>저자유형</th>
+              <td>
+                  ${data.TREA_USER}
+              </td>
+            </tr>
+            </c:when>
+            <c:when test="${eduFormType == 8}">
+            <tr>
+              <th>권수</th>
+              <td colspan="3">
+                  ${data.BOOK_UNIT} 권
+              </td>
+            </tr>
+            </c:when>
+            <c:when test="${eduFormType == 9}">
+            <tr>
+              <th>방문지</th>
+              <td colspan="3">
+                  ${data.CARE_NAME}
+              </td>
+            </tr>
+            </c:when>
+            <c:when test="${eduFormType == 10}">
+            <tr>
+              <th>취득종류</th>
+              <td colspan="3">
+                  ${data.COMP_TYPE}
               </td>
             </tr>
             <tr>
-              <th id="eduMoneyTh">교육비</th>
-              <td id="eduMoneyTd">
-                <input type="text" id="eduMoney" style="width: 150px" value="0"> 원
+              <th>발급기관</th>
+              <td colspan="3">
+                  ${data.CARE_NAME}
+              </td>
+            </tr>
+            </c:when>
+            </c:choose>
+            <c:if test="${eduFormType != 3}">
+            <tr>
+              <th><span>${eduObjectVar}</span></th>
+              <td colspan="3">
+                  ${data.EDU_OBJECT}
+              </td>
+            </tr>
+            </c:if>
+            <tr>
+              <th>${eduContentVar}</th>
+              <td colspan="3">
+                ${data.EDU_CONTENT}
+              </td>
+            </tr>
+            <tr>
+              <th>${eduDateVar}</th>
+              <td colspan="3">
+                ${data.START_DT} ~ ${data.END_DT}
+                <c:choose>
+                  <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9 || eduFormType == 11}">
+                    (총 ${data.TERM_DAY}  일 ${data.TERM_TIME} 시간)
+                    <c:choose>
+                      <c:when test="${eduFormType == 5 || eduFormType == 6}">
+                        / 50페이지당 1시간
+                      </c:when>
+                      <c:when test="${eduFormType == 9 || eduFormType == 10 || eduFormType == 11}">
+                        / 1일 최대4시간
+                      </c:when>
+                    </c:choose>
+                  </c:when>
+                </c:choose>
+              </td>
+            </tr>
+            <c:choose>
+            <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4}">
+            <tr>
+              <th>${careVar}</th>
+              <td colspan="3">
+                <span>${careNameVar}</span> : ${data.CARE_NAME}<br><div class="mt5"></div>
+                <span>${careLocationVar}</span> : ${data.CARE_LOCATION}
+                    <c:if test="${eduFormType == 1}">
+                      <span>(전화 : ${data.CARE_TEL_NUM})</span>
+                    </c:if>
+              </td>
+            </tr>
+            </c:when>
+            </c:choose>
+            <c:choose>
+            <c:when test="${eduFormType != 11}">
+            <tr>
+              <th>${eduMoneyVar}</th>
+              <td>
+                  ${data.EDU_MONEY} 원
               </td>
               <th>결제수단</th>
-              <td id="eduMoneyTypeTd">
-                <span id="eduMoneyType"></span>
+              <td>
+                  ${data.EDU_MONEY_TYPE}
               </td>
             </tr>
+            </c:when>
+            </c:choose>
+            <c:choose>
+            <c:when test="${eduFormType == 1 || eduFormType == 3 || eduFormType == 4}">
             <tr>
               <th>여비신청여부</th>
-              <td colspan="3" id="travelMoneyTypeTd">
-                <span id="travelMoneyType"></span>
+              <td colspan="3">
+                  ${data.TRAVEL_MONEY_TYPE}
               </td>
             </tr>
+            </c:when>
+            </c:choose>
+            <c:choose>
+            <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4}">
             <tr>
               <th>환급 예상액</th>
-              <td id="returnMoneyTd">
-                <input type="text" id="returnMoney" style="width: 150px" value="0"> 원
+              <td>
+                  ${data.RETURN_MONEY} 원
               </td>
               <th>환급 필요서류</th>
-              <td id="returnDocTd">
-                <input type="text" id="returnDoc" style="width: 300px">
+              <td>
+                  ${data.RETURN_DOC}
               </td>
             </tr>
+            </c:when>
+            </c:choose>
             <tr>
               <th>관련사업</th>
               <td colspan="3">
@@ -145,8 +257,8 @@
             </tr>
             <tr>
               <th>첨부서류</th>
-              <td colspan="3" id="attachDocNameTd">
-                <input type="text" id="attachDocName" style="width: 800px">
+              <td colspan="3">
+                ${data.ATTACH_DOC_NAME}
               </td>
             </tr>
             <tr>
@@ -156,23 +268,43 @@
             </tr>
             <tr>
               <th>신청날짜</th>
-              <td colspan="3" id="regDateTd">
-                <input type="text" id="regDate"style="width: 150px">
+              <td colspan="3">
+                ${data.REG_DT}
               </td>
             </tr>
           </table>
         </form>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info k-rounded" value="결재요청" onclick="eduInfoViewPop.updateApprStat(10);"/>
-        <input type="button" class="k-button k-button-solid-info k-rounded" value="결재승인" onclick="eduInfoViewPop.updateApprStat(20);"/>
-        <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>
-        <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 조회" onclick="eduInfoViewPop.eduResultViewPop();"/>
+        <c:choose>
+          <c:when test="${data.STATUS == 0}">
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
+          </c:when>
+          <c:when test="${data.STATUS == 10}">
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="결재승인" onclick="eduInfoViewPop.updateApprStat(20);"/>
+          </c:when>
+          <c:when test="${data.STATUS == 20}">
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="신청서 결재 조회" onclick="eduInfoViewPop.updateApprStat(20);"/>
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>
+          </c:when>
+          <c:when test="${data.STATUS == 30}">
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 조회" onclick="eduInfoViewPop.eduResultViewPop();"/>
+          </c:when>
+        </c:choose>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="window.close();"/>
       </div>
     </div>
   </div>
 </div>
+
+<form id="campusDraftFrm" method="post">
+  <input type="hidden" id="menuCd" name="menuCd" value="campus">
+  <input type="hidden" id="type" name="type" value="drafting">
+  <input type="hidden" id="nowUrl" name="nowUrl" />
+  <input type="hidden" id="eduInfoId" name="eduInfoId" value="${data.EDU_INFO_ID}"/>
+  <input type="hidden" id="eduFormType" name="eduFormType" value="${data.EDU_FORM_TYPE}"/>
+</form>
+
 <script>
   eduInfoViewPop.init();
 </script>
