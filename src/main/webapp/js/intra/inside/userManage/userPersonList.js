@@ -96,7 +96,7 @@ var userPersonList = {
                 {text: "기타", expanded: true},
                 {text: "임시직원", expanded: true},
                 {text: "퇴사직원", expanded: true}
-            ]
+            ],
         });
 
         $("#kindContent").kendoTextBox();
@@ -150,14 +150,16 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "정규직원", expanded: true},
-                {text: "계약직원", expanded: true},
-                {text: "인턴사원", expanded: true},
-                {text: "경비/환경", expanded: true},
-                {text: "단기직원", expanded: true},
-                {text: "위촉직원", expanded: true},
-                {text: "연수생/학생연구원", expanded: true}
-            ]
+                {name: "정규직원", value: "정규직원"},
+                {name: "계약직원", value: "계약직원"},
+                {name: "인턴사원", value: "인턴사원"},
+                {name: "경비/환경", value: "경비/환경"},
+                {name: "단기직원", value: "단기직원"},
+                {name: "위촉직원", value: "위촉직원"},
+                {name: "연수생/학생연구원", value: "연수생/학생연구원"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch3").kendoDropDownTree({
@@ -166,9 +168,11 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "남", expanded: true},
-                {text: "여", expanded: true}
-            ]
+                {name: "남", value: "남"},
+                {name: "여", value: "여"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch4").kendoDropDownTree({
@@ -177,14 +181,16 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ]
+                {name: "미래전략기획본부", value: "미래전략기획본부"},
+                {name: "R&BD사업본부", value: "R&BD사업본부"},
+                {name: "기업성장지원본부", value: "기업성장지원본부"},
+                {name: "우주항공사업부", value: "우주항공사업부"},
+                {name: "드론사업부", value: "드론사업부"},
+                {name: "스마트제조사업부", value: "스마트제조사업부"},
+                {name: "경영지원실", value: "경영지원실"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch5").kendoDropDownTree({
@@ -193,21 +199,23 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "제조혁신팀", value: "제조혁신팀", expanded: true},
-                {text: "신기술융합팀", value: "신기술융합팀", expanded: true},
-                {text: "우주개발팀", value: "우주개발팀", expanded: true},
-                {text: "항공개발팀", value: "항공개발팀", expanded: true},
-                {text: "사업지원팀", value: "사업지원팀", expanded: true},
-                {text: "인재개발팀", value: "인재개발팀", expanded: true},
-                {text: "일자리창업팀", value: "일자리창업팀", expanded: true},
-                {text: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터", expanded: true},
-                {text: "지역산업육성팀", value: "지역산업육성팀", expanded: true},
-                {text: "경영지원팀", value: "경영지원팀", expanded: true},
-                {text: "미래전략기획팀", value: "미래전략기획팀", expanded: true},
-                {text: "J-밸리혁신팀", value: "J-밸리혁신팀", expanded: true},
-                {text: "전북 조선업 도약센터", value: "전북 조선업 도약센터", expanded: true},
-                {text: "익산고용안정일자리센터", value: "익산고용안정일자리센터", expanded: true}
-            ]
+                {name: "제조혁신팀", value: "제조혁신팀"},
+                {name: "신기술융합팀", value: "신기술융합팀"},
+                {name: "우주개발팀", value: "우주개발팀"},
+                {name: "항공개발팀", value: "항공개발팀"},
+                {name: "사업지원팀", value: "사업지원팀"},
+                {name: "인재개발팀", value: "인재개발팀"},
+                {name: "일자리창업팀", value: "일자리창업팀"},
+                {name: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터"},
+                {name: "지역산업육성팀", value: "지역산업육성팀"},
+                {name: "경영지원팀", value: "경영지원팀"},
+                {name: "미래전략기획팀", value: "미래전략기획팀"},
+                {name: "J-밸리혁신팀", value: "J-밸리혁신팀"},
+                {name: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
+                {name: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch6").kendoDropDownTree({
@@ -216,19 +224,21 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "원장", expanded: true},
-                {text: "본부장", expanded: true},
-                {text: "사업부장", expanded: true},
-                {text: "팀장", expanded: true},
-                {text: "책임매니저", expanded: true},
-                {text: "책임연구원", expanded: true},
-                {text: "책임행정원", expanded: true},
-                {text: "주임매니저", expanded: true},
-                {text: "주임연구원", expanded: true},
-                {text: "주임행정원", expanded: true},
-                {text: "선임매니저", expanded: true},
-                {text: "선임연구원", expanded: true}
-            ]
+                {name: "원장", value: "원장"},
+                {name: "본부장", value: "본부장"},
+                {name: "사업부장", value: "사업부장"},
+                {name: "팀장", value: "팀장"},
+                {name: "책임매니저", value: "책임매니저"},
+                {name: "책임연구원", value: "책임연구원"},
+                {name: "책임행정원", value: "책임행정원"},
+                {name: "주임매니저", value: "주임매니저"},
+                {name: "주임연구원", value: "주임연구원"},
+                {name: "주임행정원", value: "주임행정원"},
+                {name: "선임매니저", value: "선임매니저"},
+                {name: "선임연구원", value: "선임연구원"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch7").kendoDropDownTree({
@@ -237,16 +247,18 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "15세~25세", expanded: true},
-                {text: "26세~30세", expanded: true},
-                {text: "31세~35세", expanded: true},
-                {text: "36세~40세", expanded: true},
-                {text: "41세~45세", expanded: true},
-                {text: "46세~50세", expanded: true},
-                {text: "51세~55세", expanded: true},
-                {text: "56세~60세", expanded: true},
-                {text: "61세~", expanded: true}
-            ]
+                {name: "15세~25세", value: ""},
+                {name: "26세~30세", value: ""},
+                {name: "31세~35세", value: ""},
+                {name: "36세~40세", value: ""},
+                {name: "41세~45세", value: ""},
+                {name: "46세~50세", value: ""},
+                {name: "51세~55세", value: ""},
+                {name: "56세~60세", value: ""},
+                {name: "61세~", value: ""}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch8").kendoDropDownTree({
@@ -255,29 +267,31 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "1년 미만", expanded: true},
-                {text: "1년", expanded: true},
-                {text: "2년", expanded: true},
-                {text: "3년", expanded: true},
-                {text: "4년", expanded: true},
-                {text: "5년", expanded: true},
-                {text: "6년", expanded: true},
-                {text: "7년", expanded: true},
-                {text: "8년", expanded: true},
-                {text: "9년", expanded: true},
-                {text: "10년", expanded: true},
-                {text: "11년", expanded: true},
-                {text: "12년", expanded: true},
-                {text: "13년", expanded: true},
-                {text: "14년", expanded: true},
-                {text: "15년", expanded: true},
-                {text: "16년", expanded: true},
-                {text: "17년", expanded: true},
-                {text: "18년", expanded: true},
-                {text: "19년", expanded: true},
-                {text: "20년", expanded: true},
-                {text: "21년 이상", expanded: true}
-            ]
+                {name: "1년 미만", value: 0},
+                {name: "1년", value: 1},
+                {name: "2년", value: 2},
+                {name: "3년", value: 3},
+                {name: "4년", value: 4},
+                {name: "5년", value: 5},
+                {name: "6년", value: 6},
+                {name: "7년", value: 7},
+                {name: "8년", value: 8},
+                {name: "9년", value: 9},
+                {name: "10년", value: 10},
+                {name: "11년", value: 11},
+                {name: "12년", value: 12},
+                {name: "13년", value: 13},
+                {name: "14년", value: 14},
+                {name: "15년", value: 15},
+                {name: "16년", value: 16},
+                {name: "17년", value: 17},
+                {name: "18년", value: 18},
+                {name: "19년", value: 19},
+                {name: "20년", value: 20},
+                {name: "21년 이상", value: 21}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
 
         $("#detailSearch9").kendoDropDownTree({
@@ -286,14 +300,16 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {text: "고졸", expanded: true},
-                {text: "전문학사", expanded: true},
-                {text: "학사", expanded: true},
-                {text: "석사수료", expanded: true},
-                {text: "석사", expanded: true},
-                {text: "박사수료", expanded: true},
-                {text: "박사", expanded: true}
-            ]
+                {name: "고졸", value: "고졸"},
+                {name: "전문학사", value: "전문학사"},
+                {name: "학사", value: "학사"},
+                {name: "석사수료", value: "석사수료"},
+                {name: "석사", value: "석사"},
+                {name: "박사수료", value: "박사수료"},
+                {name: "박사", value: "박사"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value"
         });
     },
 
@@ -442,25 +458,40 @@ var userPersonList = {
     },
 
     gridReloadDetail : function() {
-        var testDropDownTree1 = $("#detailSearch1").data("kendoDropDownTree");
-        var testDropDownTree2 = $("#detailSearch2").data("kendoDropDownTree");
-        var testDropDownTree3 = $("#detailSearch3").data("kendoDropDownTree");
-        var testDropDownTree4 = $("#detailSearch4").data("kendoDropDownTree");
-        var testDropDownTree5 = $("#detailSearch5").data("kendoDropDownTree");
-        var testDropDownTree6 = $("#detailSearch6").data("kendoDropDownTree");
-        var testDropDownTree7 = $("#detailSearch7").data("kendoDropDownTree");
-        var testDropDownTree8 = $("#detailSearch8").data("kendoDropDownTree");
-            /*<foreach collection="testList" item="item" separator="or">
-                or
-                a.DEPT_NAME = #{item}
-            </foreach>*/
         console.log('gridReloadDetail');
+
+        var testDropDownTree1 = $("#detailSearch2").data("kendoDropDownTree");
+        var testDropDownTree2 = $("#detailSearch3").data("kendoDropDownTree");
+        var testDropDownTree3 = $("#detailSearch4").data("kendoDropDownTree");
+        var testDropDownTree4 = $("#detailSearch5").data("kendoDropDownTree");
+        var testDropDownTree5 = $("#detailSearch6").data("kendoDropDownTree");
+        var testDropDownTree6 = $("#detailSearch7").data("kendoDropDownTree");
+        var testDropDownTree7 = $("#detailSearch8").data("kendoDropDownTree");
+        var testDropDownTree8 = $("#detailSearch9").data("kendoDropDownTree");
+
         userPersonList.global.searchAjaxData = {
             IN_OUT_CHECK : $('#drop1').val(), // 입퇴사 현황
             START_DATE : $("#start_date_detail").val(), // 조회 기간 시작일
             END_DATE : $("#end_date_detail").val(), // 조회 기간 종료일
+            searchDetail1 : JSON.stringify(testDropDownTree1.value()),
+            searchDetail2 : JSON.stringify(testDropDownTree2.value()),
+            searchDetail3 : JSON.stringify(testDropDownTree3.value()),
+            searchDetail4 : JSON.stringify(testDropDownTree4.value()),
+            searchDetail5 : JSON.stringify(testDropDownTree5.value()),
+            searchDetail6 : JSON.stringify(testDropDownTree6.value()),
+            searchDetail7 : JSON.stringify(testDropDownTree7.value()),
+            searchDetail8 : JSON.stringify(testDropDownTree8.value()),
         }
-        console.log(userPersonList.global.searchAjaxData);
+        console.log(JSON.stringify(userPersonList.global.searchAjaxData));
         userPersonList.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList.global.searchAjaxData);
-    }
+    },
+    /*$.ajax({
+        url: "<c:url value='/edu/setEduSurvey'/>",
+        data: data,
+        dataType : "json",
+        type: "POST",
+        success: function () {
+
+        }
+    })*/
 }

@@ -336,7 +336,22 @@ public class UserManageController {
 
     @RequestMapping("/userManage/getEmpInfoDetailList")
     public String getEmpInfoDetailList(@RequestParam Map<String,Object> map, Model model) {
-        System.out.println("map : "+map);
+        map.put("searchDetail1",map.get("searchDetail1").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail2",map.get("searchDetail2").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail3",map.get("searchDetail3").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail4",map.get("searchDetail4").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail5",map.get("searchDetail5").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail6",map.get("searchDetail6").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail7",map.get("searchDetail7").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        map.put("searchDetail8",map.get("searchDetail8").toString().replaceAll("\"","'").replaceAll("\\[","").replaceAll("\\]","").replaceAll("\\[]",""));
+        System.out.println("searchDetail1 : "+map.get("searchDetail1"));
+        System.out.println("searchDetail2 : "+map.get("searchDetail2"));
+        System.out.println("searchDetail3 : "+map.get("searchDetail3"));
+        System.out.println("searchDetail4 : "+map.get("searchDetail4"));
+        System.out.println("searchDetail5 : "+map.get("searchDetail5"));
+        System.out.println("searchDetail6 : "+map.get("searchDetail6"));
+        System.out.println("searchDetail7 : "+map.get("searchDetail7"));
+        System.out.println("searchDetail8 : "+map.get("searchDetail8"));
         model.addAttribute("list", userManageService.getEmpInfoDetailList(map));
         return "jsonView";
     }
