@@ -181,4 +181,12 @@ public interface CampusService {
      * @return
      */
     Map<String, Object> updateApprStat(Map<String, Object> params);
+
+    /**
+     * 캠퍼스 전자결재 상태값 업데이트
+     * @param params
+     * @throws Exception
+     */
+    void updateDocState(Map<String, Object> bodyMap) throws Exception;
+
 }

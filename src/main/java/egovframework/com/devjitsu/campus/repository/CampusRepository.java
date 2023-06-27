@@ -115,6 +115,10 @@ public class CampusRepository extends AbstractDAO  {
         update("campus.updateEduInfoApprStat", params);
     }
 
+    public void updateEduInfoFinalApprStat(Map<String, Object> params) {
+        update("campus.updateEduInfoFinalApprStat", params);
+    }
+
     public void updateApprStat(Map<String, Object> params) {
         update("campus.updateApprStat", params);
     }

@@ -95,7 +95,10 @@
             HEI.EMP_NAME_KR,
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
-            HEI.POSITION_NAME
+            HEI.POSITION_NAME,
+            DI.DOC_ID,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAMPUS.DJ_EDU_INFO EI
         LEFT JOIN
@@ -104,6 +107,8 @@
             CAMPUS.DJ_CAMPUS_CODE CC ON EI.EDU_FORM_TYPE = CC.CAMPUS_DT_CODE AND CC.CAMPUS_MD_CODE = 03
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = EI.REG_EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = EI.DOC_ID
         WHERE
             EI.EDU_INFO_ID = #{eduInfoId}
     </select>
@@ -600,7 +605,23 @@
         UPDATE
             CAMPUS.DJ_EDU_INFO
         SET
-            STATUS = ${status}
+            STATUS = ${status},
+            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq},
+            <if test='docId != null and !"".equals(docId)'>
+                DOC_ID = #{docId}
+            </if>
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
+    </update>
+
+    <update id="updateEduInfoFinalApprStat" parameterType="map">
+        /* updateEduInfoFinalApprStat */
+        UPDATE
+            CAMPUS.DJ_EDU_INFO
+        SET
+            STATUS = ${status},
+            APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             EDU_INFO_ID = #{eduInfoId}
     </update>
