@@ -64,7 +64,7 @@
 
         approvalParams.linkageProcessId = "1";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticEducation_";
+        approvalParams.linkageProcessCode = "camticEducation";
         approvalParams.approKey = "camticEducation_${data.eduInfoId}";
 
         linkageProcessOn(approvalParams);

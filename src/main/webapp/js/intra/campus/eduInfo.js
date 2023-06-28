@@ -159,3 +159,7 @@ var eduInfo = {
         var popup = window.open(url, name, option);
     }
 }
+
+function gridReload() {
+    $("#mainGrid").data("kendoGrid").dataSource.read();
+}

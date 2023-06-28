@@ -141,7 +141,7 @@ var targetEduSetPop = {
                                 if (detailList[l].LEVEL_ID == j && eduCategoryIdArr[k] == detailList[l].EDU_CATEGORY_ID) {
                                     html += "   <div style='display: flex'>";
                                     html += "       ·&nbsp;";
-                                    html += "       <b style='color: " + color + "; cursor: pointer' onclick='targetEduSetPop.setTarget(\""+detailList[l].EDU_CATEGORY_DETAIL_ID+"\", \""+detailList[l].EDU_CATEGORY_DETAIL_NAME+"\", \""+detailList[l].LEVEL_ID+"\");'>" + detailList[l].EDU_CATEGORY_DETAIL_NAME + "</b>";
+                                    html += "       <b style='color: " + color + "; cursor: pointer' onclick='targetEduSetPop.setTarget(\""+detailList[l].EDU_CATEGORY_DETAIL_ID+"\", \""+detailList[l].EDU_CATEGORY_DETAIL_NAME+"\", \""+detailList[l].LEVEL_ID+"\", 1);'>" + detailList[l].EDU_CATEGORY_DETAIL_NAME + "</b>";
                                     html += "   </div>";
                                 }
                             }
@@ -164,7 +164,7 @@ var targetEduSetPop = {
                                 if (subDetailList[l].LEVEL_ID == j && eduCategorySubIdArr[k] == subDetailList[l].EDU_CATEGORY_ID) {
                                     html += "   <div style='display: flex'>";
                                     html += "       ·&nbsp;";
-                                    html += "       <b style='color: " + color + "; cursor: pointer' onclick='targetEduSetPop.setTarget(\""+subDetailList[l].EDU_CATEGORY_DETAIL_ID+"\", \""+subDetailList[l].EDU_CATEGORY_DETAIL_NAME+"\", \""+subDetailList[l].LEVEL_ID+"\");'>" + subDetailList[l].EDU_CATEGORY_DETAIL_NAME + "</b>";
+                                    html += "       <b style='color: " + color + "; cursor: pointer' onclick='targetEduSetPop.setTarget(\""+subDetailList[l].EDU_CATEGORY_DETAIL_ID+"\", \""+subDetailList[l].EDU_CATEGORY_DETAIL_NAME+"\", \""+subDetailList[l].LEVEL_ID+"\", 2);'>" + subDetailList[l].EDU_CATEGORY_DETAIL_NAME + "</b>";
                                     html += "   </div>";
                                 }
                             }
@@ -184,10 +184,11 @@ var targetEduSetPop = {
         $("#tableData").html(html);
     },
 
-    setTarget: function(eduCategoryDetailId, eduCategoryDetailName, LEVEL_ID) {
+    setTarget: function(eduCategoryDetailId, eduCategoryDetailName, levelId, dutyClass) {
         opener.parent.$("#eduCategoryDetailId").val(eduCategoryDetailId);
         opener.parent.$("#eduCategoryDetailName").val(eduCategoryDetailName);
-        opener.parent.$("#levelId").val(LEVEL_ID);
+        opener.parent.$("#levelId").val(levelId);
+        opener.parent.$("#dutyClass").val(dutyClass);
         window.close();
     }
 }

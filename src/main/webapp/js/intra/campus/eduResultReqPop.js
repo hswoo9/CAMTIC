@@ -12,36 +12,7 @@ var eduResultReqPop = {
 
     dataSet : function() {
         eduResultReqPop.global.eduInfoId = $("#eduInfoId").val();
-        let eduInfoId = eduResultReqPop.global.eduInfoId;
-
-        $.ajax({
-            url : "/campus/getEduInfoOne",
-            data : {
-                eduInfoId : eduInfoId
-            },
-            type : "post",
-            dataType : "json",
-            async: false,
-            success : function(result){
-                console.log(result.data);
-                const data = result.data;
-
-                eduResultReqPop.global.eduFormType = data.EDU_FORM_TYPE;
-                $("#eduNameTd").text(data.EDU_NAME);
-                $("#eduDt").text(data.START_DT+"~"+data.END_DT);
-                $("#termDay").val(data.TERM_DAY);
-                $("#termTime").val(data.TERM_TIME);
-                $("#careNameTd").text(data.CARE_NAME);
-                $("#careLocationTd").text(data.CARE_LOCATION);
-                $("#eduObjectTd").text(data.EDU_OBJECT.replace(/\n+/g, "<br>"));
-                $("#eduContent").val(data.EDU_CONTENT);
-            },
-            error: function(e) {
-                console.log(e);
-                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
-                window.close();
-            }
-        });
+        eduResultReqPop.global.eduFormType = $("#eduFormType").val();
 
         $("#termDay, #termTime, #eduTeacherName").kendoTextBox();
         $("#eduContent, #eduPoint, #FBList").kendoTextArea();
@@ -65,19 +36,29 @@ var eduResultReqPop = {
         }
 
         let empSeq = $("#empSeq").val();
-        let termDay = $("#termDay").val();
-        let termTime = $("#termTime").val();
+        let termDay = "";
+        let termTime = "";
         let eduTeacherName = $("#eduTeacherName").val();
         let eduContent = $("#eduContent").val();
-        let eduEval = $("#eduEval").data("kendoRadioGroup").value();
+        let eduEval = "";
         let eduPoint = $("#eduPoint").val();
         let FBList = $("#FBList").val();
+        let attachDocName = $("#attachDocName").val();
         let eduInfoId = eduResultReqPop.global.eduInfoId;
+        let eduFormType = eduResultReqPop.global.eduFormType;
 
-        if(termDay == "" || termTime == "") {
-            alert("학습기간이 작성되지 않았습니다.");
-            return;
+        if(eduFormType == 1) {
+            termDay = $("#termDay").val();
+            termTime = $("#termTime").val();
+            if(termDay == "" || termTime == "") {
+                alert("학습기간이 작성되지 않았습니다.");
+                return;
+            }
+            eduEval = $("label[for='"+$("input:radio[name=eduEval]:checked").attr("id")+"']").text();
+        }else if(eduFormType == 2) {
+            eduEval = $("label[for='"+$("input:radio[name=eduEval]:checked").attr("id")+"']").text();
         }
+
         if(eduTeacherName == "") {
             alert("강사명이 작성되지 않았습니다.");
             return;
@@ -104,7 +85,9 @@ var eduResultReqPop = {
             eduEval : eduEval,
             eduPoint : eduPoint,
             FBList : FBList,
-            eduInfoId : eduInfoId
+            attachDocName : attachDocName,
+            eduInfoId : eduInfoId,
+            eduFormType : eduFormType
         }
 
         eduResultReqPop.setEduResultInsert(data);

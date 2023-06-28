@@ -19,6 +19,7 @@ var eduReqPop = {
         let eduCategoryDetailId = $("#eduCategoryDetailId").val();
         let eduCategoryDetailName = $("#eduCategoryDetailName").val();
         let levelId = $("#levelId").val();
+        let dutyClass = $("#dutyClass").val();
         let eduName = $("#eduName").val();
         let eduObject = $("#eduObject").val();
         let eduContent = $("#eduContent").val();
@@ -141,6 +142,7 @@ var eduReqPop = {
             eduCategoryDetailId : eduCategoryDetailId,
             eduCategoryDetailName : eduCategoryDetailName,
             levelId : levelId,
+            dutyClass : dutyClass,
             eduName : eduName,
             eduObject : eduObject,
             eduContent : eduContent,

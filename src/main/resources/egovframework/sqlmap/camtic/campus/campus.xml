@@ -98,13 +98,20 @@
             HEI.POSITION_NAME,
             DI.DOC_ID,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            EP.EDU_PLAN,
+            ECD.EDU_CATEGORY_NAME,
+            EP.DUTY_CLASS
         FROM
             CAMPUS.DJ_EDU_INFO EI
         LEFT JOIN
             CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID
         LEFT JOIN
             CAMPUS.DJ_CAMPUS_CODE CC ON EI.EDU_FORM_TYPE = CC.CAMPUS_DT_CODE AND CC.CAMPUS_MD_CODE = 03
+        LEFT JOIN
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON EI.EDU_CATEGORY_DETAIL_ID = ECD.EDU_CATEGORY_DETAIL_ID
+        LEFT JOIN
+            CAMPUS.DJ_EDU_PLAN EP ON ECD.EDU_CATEGORY_ID = EP.EDU_CATEGORY_ID AND EI.DUTY_CLASS = EP.DUTY_CLASS AND EI.REG_EMP_SEQ = EP.REG_EMP_SEQ
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = EI.REG_EMP_SEQ
         LEFT JOIN
@@ -330,6 +337,7 @@
                 EDU_CATEGORY_DETAIL_ID,
                 EDU_CATEGORY_DETAIL_NAME,
                 LEVEL_ID,
+                DUTY_CALSS,
                 EDU_NAME,
                 EDU_OBJECT,
                 EDU_CONTENT,
@@ -386,6 +394,7 @@
                 #{eduCategoryDetailId},
                 #{eduCategoryDetailName},
                 #{levelId},
+                #{dutyClass},
                 #{eduName},
                 #{eduObject},
                 #{eduContent},
@@ -441,8 +450,10 @@
         UPDATE
             CAMPUS.DJ_EDU_INFO
         SET
-            TERM_DAY = #{termDay},
-            TERM_TIME = #{termTime},
+            <if test='eduFormType == "1"'>
+                TERM_DAY = #{termDay},
+                TERM_TIME = #{termTime},
+            </if>
             EDU_CONTENT = #{eduContent}
         WHERE
             EDU_INFO_ID = #{eduInfoId}
@@ -454,18 +465,24 @@
             (
                 EDU_INFO_ID,
                 EDU_TEACHER_NAME,
-                EDU_EVAL,
+                <if test='eduFormType == "1" || eduFormType == "2"'>
+                    EDU_EVAL,
+                </if>
                 EDU_POINT,
                 FBLIST,
+                ATTACH_DOC_NAME,
                 REG_EMP_SEQ
             )
         VALUES
             (
                 #{eduInfoId},
                 #{eduTeacherName},
-                #{eduEval},
+                <if test='eduFormType == "1" || eduFormType == "2"'>
+                    #{eduEval},
+                </if>
                 #{eduPoint},
                 #{FBList},
+                #{attachDocName},
                 #{empSeq}
             )
     </insert>
@@ -605,12 +622,12 @@
         UPDATE
             CAMPUS.DJ_EDU_INFO
         SET
+            <if test='docId != null and !"".equals(docId)'>
+                DOC_ID = #{docId},
+            </if>
             STATUS = ${status},
             APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
-            APPROVAL_EMP_SEQ = #{empSeq},
-            <if test='docId != null and !"".equals(docId)'>
-                DOC_ID = #{docId}
-            </if>
+            APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             EDU_INFO_ID = #{eduInfoId}
     </update>

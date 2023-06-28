@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
@@ -18,14 +18,15 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="eduInfoId" value="${data.eduInfoId}"/>
+<input type="hidden" id="eduInfoId" value="${data.EDU_INFO_ID}"/>
+<input type="hidden" id="eduFormType" value="${data.EDU_FORM_TYPE}"/>
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
       <div class="table-responsive">
         <div class="popupTitleSt">교육 결과보고서 작성</div>
         <form id="eduReqForm">
-          <table class="table table-bordered" id="userInfoTable" style="width: 1000px;">
+          <table class="table table-bordered" id="userInfoTable" style="width: 888px;">
             <colgroup>
               <col width="16%">
               <col width="16%">
@@ -37,75 +38,237 @@
             <thead>
             <tr>
               <th>소 속</th>
-              <td id="userDept"></td>
+              <td id="userDept">${loginVO.orgnztNm}</td>
               <th>직 위</th>
-              <td id="userPosition"></td>
+              <td id="userPosition">${loginVO.dutyNm}</td>
               <th>성 명</th>
-              <td id="userName"></td>
+              <td id="userName">${loginVO.name}</td>
             </tr>
           </table>
-          <table class="table table-bordered mt20" id="eduReqTable" style="width: 1000px;">
+
+          <div class="mt20">
+            <b>학습계획</b>
+          </div>
+          <table class="table table-bordered" style="width: 888px;">
             <colgroup>
-              <col width="130px">
-              <col width="370px">
-              <col width="130px">
-              <col width="370px">
+              <col width="222px">
+              <col width="666px">
             </colgroup>
             <thead>
-            <tr id="eduNameTr">
-              <th id="eduNameVar">과정명</th>
-              <td colspan="3" id="eduNameTd"></td>
-            </tr>
-            <tr>
-              <th>학습기간</th>
-              <td id="eduDtTd">
-                <span id="eduDt"></span> 총 <input type="text" id="termDay" style="width: 50px">일 <input type="text" id="termTime" style="width: 50px">시간
-              </td>
-              <th>강사</th>
-              <td id="eduTeacherNameTd">
-                <input type="text" id="eduTeacherName" style="width: 300px">
-              </td>
-            </tr>
-            <tr>
-              <th>교육기관</th>
-              <td id="careNameTd"></td>
-              <th>소재지</th>
-              <td id="careLocationTd"></td>
-            </tr>
-            <tr>
-              <th>학습목적</th>
-              <td colspan="3" id="eduObjectTd"></td>
-            </tr>
-            <tr>
-              <th>학습내용</th>
-              <td colspan="3" id="eduContentTd">
-                <textarea id="eduContent" style="width: 800px; height: 200px"></textarea>
-              </td>
-            </tr>
-            <tr>
-              <th>학습평가</th>
-              <td colspan="3" id="eduEvalTd">
-                <span id="eduEval"></span>
-              </td>
-            </tr>
-            <tr>
-              <th>직무연계 포인트</th>
-              <td colspan="3" id="eduPointTd">
-                <textarea id="eduPoint" style="width: 800px; height: 200px"></textarea>
-              </td>
-            </tr>
-            <tr>
-              <th>FeedBack List </th>
-              <td colspan="3" d="FBListTd">
-                <textarea id="FBList" style="width: 800px; height: 200px"></textarea>
-              </td>
-            </tr>
-            <tr>
-              <th>첨부서류</th>
-              <td colspan="3" id="attachDocNameTd">
-                <input type="text" id="attachDocName" style="width: 800px">
-              </td>
-            </tr>
+              <tr>
+                <th>${data.DUTY_CALSS == 1 ? '주 업무' : '연계 업무'}</th>
+                <td colspan="3">
+                  ${data.EDU_CATEGORY_NAME} > LEVEL ${data.LEVEL_ID} ${data.EDU_CATEGORY_DETAIL_NAME}
+                </td>
+              </tr>
+              <tr>
+                <th>학습 계획</th>
+                <td colspan="3">
+                  ${data.EDU_PLAN}
+                </td>
+              </tr>
+            </thead>
+          </table>
+
+          <div class="mt20">
+            <b>학습방법 : <span>${data.EDU_FORM_NAME}</span></b>
+          </div>
+          <table class="table table-bordered" id="eduReqTable" style="width: 888px;">
+            <colgroup>
+              <col width="134px">
+              <col width="314px">
+              <col width="134px">
+              <col width="314px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>과정명</th>
+                <td colspan="3">
+                  ${data.EDU_NAME}
+                </td>
+              </tr>
+              <c:choose>
+                <c:when test="${eduFormType == 5}">
+                  <tr>
+                    <th>페이지수</th>
+                    <td>
+                        ${data.BOOK_PAGE_VAL} Page
+                    </td>
+                    <th>출판사</th>
+                    <td>
+                        ${data.BOOK_PULISH_NAME}
+                    </td>
+                  </tr>
+                </c:when>
+                <c:when test="${eduFormType == 6}">
+                  <tr>
+                    <th>출처</th>
+                    <td>
+                        ${data.TREA_ORIGIN}
+                    </td>
+                    <th>편수</th>
+                    <td>
+                        ${data.TREA_UNIT} 편
+                    </td>
+                  </tr>
+                </c:when>
+                <c:when test="${eduFormType == 7}">
+                  <tr>
+                    <th>학술지 유형</th>
+                    <td>
+                        ${data.TREA_TYPE} 학술지
+                    </td>
+                    <th>저자 유형</th>
+                    <td>
+                        ${data.TREA_USER}
+                    </td>
+                  </tr>
+                </c:when>
+              </c:choose>
+              <tr>
+                <th>${eduDateVar}</th>
+                  <c:choose>
+                    <c:when test="${eduFormType == 1}">
+                      <td>
+                          ${data.START_DT} ~ ${data.END_DT} (총 <input type="text" id="termDay" style="width: 50px" value="${data.TERM_DAY}">일 <input type="text" id="termTime" style="width: 50px" value="${data.TERM_TIME}">시간)
+                      </td>
+                    </c:when>
+                    <c:when test="${eduFormType == 2 || eduFormType == 3}">
+                      <td>
+                          ${data.START_DT} ~ ${data.END_DT} (총 ${data.TERM_DAY}일 ${data.TERM_TIME}시간)
+                      </td>
+                    </c:when>
+                    <c:when test="${eduFormType == 7 || eduFormType == 8}">
+                      <td colspan="3">
+                          ${data.START_DT} ~ ${data.END_DT}
+                      </td>
+                    </c:when>
+                    <c:when test="${eduFormType == 10}">
+                      <td>
+                          ${data.COMP_TYPE}
+                      </td>
+                    </c:when>
+                    <c:otherwise>
+                      <td colspan="3">
+                          ${data.START_DT} ~ ${data.END_DT} (총 ${data.TERM_DAY}일 ${data.TERM_TIME}시간)
+                      </td>
+                    </c:otherwise>
+                  </c:choose>
+                  <c:choose>
+                    <c:when test="${eduFormType == 1 || eduFormType == 2}">
+                      <th>강사</th>
+                      <td>
+                        <input type="text" id="eduTeacherName" style="width: 200px">
+                      </td>
+                    </c:when>
+                    <c:when test="${eduFormType == 3}">
+                      <th>참석형태</th>
+                      <td>
+                          ${data.OBJECT_FORUM_TYPE}
+                          <c:if test="${data.OBJECT_FORUM_TYPE eq '주제발표'}">
+                              (발표제목 : ${data.OBJECT_FORUM_VAL})
+                          </c:if>
+                      </td>
+                    </c:when>
+                    <c:when test="${eduFormType == 10}">
+                      <th>발급기관</th>
+                      <td>
+                          ${data.CARE_NAME}
+                      </td>
+                    </c:when>
+                  </c:choose>
+              </tr>
+              <c:choose>
+                <c:when test="${eduFormType != 5 && eduFormType != 6 && eduFormType != 7 && eduFormType != 8 && eduFormType != 9 && eduFormType != 10}">
+                  <tr>
+                    <th>${careNameVar}</th>
+                    <td>
+                        ${data.CARE_NAME}
+                    </td>
+                    <th>${careLocationVar}</th>
+                    <td>
+                        ${data.CARE_LOCATION}
+                    </td>
+                  </tr>
+                </c:when>
+              </c:choose>
+              <c:choose>
+                <c:when test="${eduFormType == 8}">
+                  <tr>
+                    <th>권 수</th>
+                    <td colspan="3">
+                        ${data.BOOK_UNIT}
+                    </td>
+                  </tr>
+                </c:when>
+                <c:when test="${eduFormType == 9}">
+                  <tr>
+                    <th>방문지</th>
+                    <td colspan="3">
+                        ${data.CARE_NAME}
+                    </td>
+                  </tr>
+                </c:when>
+              </c:choose>
+              <c:choose>
+                <c:when test="${eduFormType == 1 || eduFormType == 2}">
+                  <tr>
+                    <th>${eduObjectVar}</th>
+                    <td colspan="3">
+                        ${data.EDU_OBJECT}
+                    </td>
+                  </tr>
+                </c:when>
+              </c:choose>
+              <tr>
+                <th>${eduContentVar}</th>
+                <td colspan="3">
+                  <textarea id="eduContent" style="width: 700px; height: 130px">${data.EDU_CONTENT}</textarea>
+                </td>
+              </tr>
+              <c:choose>
+                <c:when test="${eduFormType == 1 || eduFormType == 2}">
+                  <tr>
+                    <th>학습평가</th>
+                    <td colspan="3">
+                      <span id="eduEval"></span>
+                    </td>
+                  </tr>
+                </c:when>
+              </c:choose>
+              <tr>
+                <th>첨부서류</th>
+                <td colspan="3" id="attachDocNameTd">
+                  <input type="text" id="attachDocName" style="width: 700px">
+                </td>
+              </tr>
+              <tr>
+                <th>직무연계 포인트</th>
+                <td colspan="3">
+                  <textarea id="eduPoint" style="width: 700px; height: 100px"></textarea>
+                </td>
+              </tr>
+            </thead>
+          </table>
+
+          <div class="mt20">
+            <b>* Feedback List의 내용은 3개월 후에 본인, 파트장, 부서장의 검토시 기준이 됩니다.</b>
+          </div>
+          <table class="table table-bordered" id="FBTable" style="width: 888px;">
+            <colgroup>
+              <col width="134px">
+              <col width="314px">
+              <col width="134px">
+              <col width="314px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>FeedBack List </th>
+                <td colspan="3">
+                  <textarea id="FBList" style="width: 700px; height: 100px"></textarea>
+                </td>
+              </tr>
+            </thead>
           </table>
         </form>
       </div>

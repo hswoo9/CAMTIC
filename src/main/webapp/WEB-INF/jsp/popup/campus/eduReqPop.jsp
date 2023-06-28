@@ -63,6 +63,7 @@
               <th>목표레벨</th>
               <td>
                 <input type="text" id="levelId" style="width: 50px"> 레벨
+                <input type="hidden" id="dutyClass">
               </td>
             </tr>
             <tr>
