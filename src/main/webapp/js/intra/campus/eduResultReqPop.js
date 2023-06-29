@@ -54,9 +54,9 @@ var eduResultReqPop = {
                 alert("학습기간이 작성되지 않았습니다.");
                 return;
             }
-            eduEval = $("label[for='"+$("input:radio[name=eduEval]:checked").attr("id")+"']").text();
+            eduEval = $("#eduEval").data("kendoRadioGroup").value();
         }else if(eduFormType == 2) {
-            eduEval = $("label[for='"+$("input:radio[name=eduEval]:checked").attr("id")+"']").text();
+            eduEval = $("#eduEval").data("kendoRadioGroup").value();
         }
 
         if(eduTeacherName == "") {
@@ -104,6 +104,7 @@ var eduResultReqPop = {
                 console.log(result);
                 alert("교육 결과보고서 저장이 완료되었습니다.");
                 opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                window.close();
 
             },
             error : function() {

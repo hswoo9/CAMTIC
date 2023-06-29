@@ -91,6 +91,9 @@
             ER.EDU_EVAL,
             ER.EDU_POINT,
             ER.FBLIST,
+            EP.DUTY_CLASS,
+            ER.STATUS AS RES_STATUS,
+            ER.EDU_RESULT_ID,
             CC.CAMPUS_DT_CODE_NM AS EDU_FORM_NAME,
             HEI.EMP_NAME_KR,
             HEI.DEPT_NAME,
@@ -100,8 +103,7 @@
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
             EP.EDU_PLAN,
-            ECD.EDU_CATEGORY_NAME,
-            EP.DUTY_CLASS
+            ECD.EDU_CATEGORY_NAME
         FROM
             CAMPUS.DJ_EDU_INFO EI
         LEFT JOIN
@@ -636,6 +638,32 @@
         /* updateEduInfoFinalApprStat */
         UPDATE
             CAMPUS.DJ_EDU_INFO
+        SET
+            STATUS = ${status},
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
+    </update>
+
+    <update id="updateEduResultApprStat" parameterType="map">
+        /* updateEduResultApprStat */
+        UPDATE
+        CAMPUS.DJ_EDU_RESULT
+        SET
+        <if test='docId != null and !"".equals(docId)'>
+            DOC_ID = #{docId},
+        </if>
+        STATUS = ${status},
+        APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+        APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+        EDU_INFO_ID = #{eduInfoId}
+    </update>
+
+    <update id="updateEduResultFinalApprStat" parameterType="map">
+        /* updateEduResultFinalApprStat */
+        UPDATE
+            CAMPUS.DJ_EDU_RESULT
         SET
             STATUS = ${status},
             APPROVAL_EMP_SEQ = #{empSeq}

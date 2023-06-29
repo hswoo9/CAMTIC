@@ -413,7 +413,113 @@ public class CampusController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        model.addAttribute("data", params);
+        Map<String, Object> data = campusService.getEduResultOne(params);
+        model.addAttribute("data", data);
+        String EDU_FORM_TYPE = data.get("EDU_FORM_TYPE").toString();
+        model.addAttribute("eduFormType", EDU_FORM_TYPE);
+
+        String directory = "";
+        int eduFormType = Integer.parseInt(EDU_FORM_TYPE);
+        switch (eduFormType) {
+            case 1 :
+                directory = "offLine";
+                model.addAttribute("eduNameVar", "과정명");
+                model.addAttribute("eduObjectVar", "학습목적");
+                model.addAttribute("eduContentVar", "학습내용");
+                model.addAttribute("eduDateVar", "학습기간");
+                model.addAttribute("careVar", "교육기관");
+                model.addAttribute("careNameVar", "기관명");
+                model.addAttribute("careLocationVar", "소재지");
+                model.addAttribute("eduMoneyVar", "교육비");
+                break;
+            case 2 :
+                directory = "onLine";
+                model.addAttribute("eduNameVar", "과정명");
+                model.addAttribute("eduObjectVar", "학습목적");
+                model.addAttribute("eduContentVar", "학습내용");
+                model.addAttribute("eduDateVar", "학습기간");
+                model.addAttribute("careVar", "학습사이트");
+                model.addAttribute("careNameVar", "사이트명");
+                model.addAttribute("careLocationVar", "URL");
+                model.addAttribute("eduMoneyVar", "교육비");
+                break;
+            case 3 :
+                directory = "forum";
+                model.addAttribute("eduNameVar", "행사명");
+                model.addAttribute("eduContentVar", "행사내용");
+                model.addAttribute("eduDateVar", "행사기간");
+                model.addAttribute("careVar", "행사주관");
+                model.addAttribute("careNameVar", "주관명");
+                model.addAttribute("careLocationVar", "행사장소");
+                model.addAttribute("eduMoneyVar", "참가비");
+                break;
+            case 4 :
+                directory = "expo";
+                model.addAttribute("eduNameVar", "행사명");
+                model.addAttribute("eduObjectVar", "학습목적");
+                model.addAttribute("eduContentVar", "행사내용");
+                model.addAttribute("eduDateVar", "행사기간");
+                model.addAttribute("careVar", "행사주관");
+                model.addAttribute("careNameVar", "주관명");
+                model.addAttribute("careLocationVar", "행사장소");
+                model.addAttribute("eduMoneyVar", "참가비");
+                break;
+            case 5 :
+                directory = "books";
+                model.addAttribute("eduNameVar", "도서명");
+                model.addAttribute("eduObjectVar", "학습목적");
+                model.addAttribute("eduContentVar", "도서내용");
+                model.addAttribute("eduDateVar", "학습기간");
+                model.addAttribute("eduMoneyVar", "도서비용");
+                break;
+            case 6 :
+                directory = "treatise";
+                model.addAttribute("eduNameVar", "논문/학술지명");
+                model.addAttribute("eduObjectVar", "학습목적");
+                model.addAttribute("eduContentVar", "주요내용");
+                model.addAttribute("eduDateVar", "학습기간");
+                model.addAttribute("eduMoneyVar", "구입비용");
+                break;
+            case 7 :
+                directory = "writeTreatise";
+                model.addAttribute("eduNameVar", "논문명");
+                model.addAttribute("eduObjectVar", "학습목적");
+                model.addAttribute("eduContentVar", "주요내용");
+                model.addAttribute("eduDateVar", "저술기간");
+                model.addAttribute("eduMoneyVar", "관련비용");
+                break;
+            case 8 :
+                directory = "writeWork";
+                model.addAttribute("eduNameVar", "도서명");
+                model.addAttribute("eduObjectVar", "저술목적");
+                model.addAttribute("eduContentVar", "주요내용");
+                model.addAttribute("eduDateVar", "저술기간");
+                model.addAttribute("eduMoneyVar", "관련비용");
+                break;
+            case 9 :
+                directory = "visit";
+                model.addAttribute("eduNameVar", "방문명");
+                model.addAttribute("eduObjectVar", "방문목적");
+                model.addAttribute("eduContentVar", "방문내용");
+                model.addAttribute("eduDateVar", "방문기간");
+                model.addAttribute("eduMoneyVar", "소요비용");
+                break;
+            case 10 :
+                directory = "competence";
+                model.addAttribute("eduNameVar", "자격증명");
+                model.addAttribute("eduObjectVar", "취득목적");
+                model.addAttribute("eduContentVar", "자격증내용");
+                model.addAttribute("eduMoneyVar", "응시료");
+                model.addAttribute("eduDateVar", "취득종류(인정시간)");
+                break;
+            case 11 :
+                directory = "debate";
+                model.addAttribute("eduNameVar", "발표목적");
+                model.addAttribute("eduObjectVar", "발표목적");
+                model.addAttribute("eduContentVar", "발표내용");
+                model.addAttribute("eduDateVar", "발표일");
+                break;
+        }
         return "popup/campus/eduResultViewPop";
     }
 
@@ -600,6 +706,16 @@ public class CampusController {
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/campus/approvalFormPopup/campusApprovalPop";
+    }
+
+    //캠퍼스 - 학습결과보고서 전자결재
+    @RequestMapping("/Campus/pop/campusResApprovalPop.do")
+    public String campusResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/campusResApprovalPop";
     }
 
 
@@ -834,18 +950,41 @@ public class CampusController {
     }
 
     /**
-     * 휴가 결재 상태값에 따른 UPDATE 메서드
+     * 학습신청서 결재 상태값에 따른 UPDATE 메서드
      * @param bodyMap
      * @return
      */
     @RequestMapping(value = "/campus/educationReqApp")
-    public String subHolidayReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+    public String educationReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println("bodyMap");
         System.out.println(bodyMap);
         String resultCode = "SUCCESS";
         String resultMessage = "성공하였습니다.";
         try{
             campusService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 학습결과보고서 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/campus/educationResReqApp")
+    public String educationResReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            campusService.updateResDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

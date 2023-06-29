@@ -12,61 +12,18 @@ var eduResultViewPop = {
 
     dataSet : function() {
         eduResultViewPop.global.eduInfoId = $("#eduInfoId").val();
-        let eduInfoId = eduResultViewPop.global.eduInfoId;
-
-        $.ajax({
-            url : "/campus/getEduResultOne",
-            data : {
-                eduInfoId : eduInfoId
-            },
-            type : "post",
-            dataType : "json",
-            async: false,
-            success : function(result){
-                console.log(result.data);
-                const data = result.data;
-
-                eduResultViewPop.global.eduFormType = data.EDU_FORM_TYPE;
-                $("#eduNameTd").text(data.EDU_NAME);
-                $("#eduDtTd").text(data.START_DT+"~"+data.END_DT);
-                $("#eduTeacherNameTd").text(data.EDU_TEACHER_NAME);
-                $("#careNameTd").text(data.CARE_NAME);
-                $("#careLocationTd").text(data.CARE_LOCATION);
-                $("#eduObjectTd").text(data.EDU_OBJECT.replace(/\n+/g, "<br>"));
-                $("#eduContentTd").text(data.EDU_CONTENT.replace(/\n+/g, "<br>"));
-                $("#eduEvalTd").text(data.EDU_EVAL);
-                $("#eduPointTd").text(data.EDU_POINT.replace(/\n+/g, "<br>"));
-                $("#FBListTd").text(data.FBLIST.replace(/\n+/g, "<br>"));
-
-            },
-            error: function(e) {
-                console.log(e);
-                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
-                window.close();
-            }
-        });
+        eduResultReqPop.global.eduFormType = $("#eduFormType").val();
     },
 
-    updateApprStat: function(status) {
-        $.ajax({
-            url: "/campus/updateEduInfoApprStat",
-            data: {
-                eduInfoId : eduResultViewPop.global.eduInfoId,
-                status : status
-            },
-            type: "post",
-            dataType: "json",
-            async: false,
-            success: function (Result) {
-                if(status == "40") {
-                    alert("승인요청이 완료되었습니다.");
-                    opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
-                }else {
-                    alert("승인이 완료되었습니다.");
-                    opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
-                }
-                targetInfo.global.targetCategoryMainList = Result.list;
-            }
-        });
+    campusResDrafting: function() {
+        $("#campusResDraftFrm").one("submit", function() {
+            var url = "/Campus/pop/campusResApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Campus/pop/campusResApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 }

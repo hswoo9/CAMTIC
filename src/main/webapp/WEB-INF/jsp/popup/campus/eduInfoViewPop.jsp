@@ -284,10 +284,11 @@
             <input type="button" class="k-button k-button-solid-info k-rounded" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
           </c:when>
           <c:when test="${data.STATUS == 20}">
-            <input type="button" class="k-button k-button-solid-info k-rounded" value="결재" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="학습신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
             <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>
           </c:when>
           <c:when test="${data.STATUS == 30}">
+            <input type="button" class="k-button k-button-solid-info k-rounded" value="학습신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
             <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 조회" onclick="eduInfoViewPop.eduResultViewPop();"/>
           </c:when>
         </c:choose>
