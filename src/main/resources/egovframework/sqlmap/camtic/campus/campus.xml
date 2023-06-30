@@ -24,13 +24,20 @@
                     EI.EDU_NAME,
                     EI.START_DT,
                     EI.END_DT,
-                    EI.CARE_LOCATION,
+                    CASE
+                        WHEN EI.CARE_LOCATION IS NULL
+                        THEN CARE_NAME
+                        ELSE EI.CARE_LOCATION
+                    END AS CARE_LOCATION,
                     CONCAT('Level. ', EI.LEVEL_ID) AS LEVEL_ID,
                     EI.EDU_FORM_TYPE,
-                    EI.STATUS
+                    EI.STATUS,
+                    IFNULL(ER.STATUS, 1) AS RES_STATUS
                 FROM
-                    CAMPUS.DJ_EDU_INFO EI,
-                    (SELECT @ROWNUM := 0) TMP
+                    CAMPUS.DJ_EDU_INFO EI
+                LEFT JOIN
+                CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID,
+                (SELECT @ROWNUM := 0) TMP
                 WHERE
                     EI.REG_EMP_SEQ = #{empSeq}
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear} || DATE_FORMAT(END_DT, '%Y') = #{eduYear})
@@ -92,7 +99,7 @@
             ER.EDU_POINT,
             ER.FBLIST,
             EP.DUTY_CLASS,
-            ER.STATUS AS RES_STATUS,
+            IFNULL(ER.STATUS, 1) AS RES_STATUS,
             ER.EDU_RESULT_ID,
             CC.CAMPUS_DT_CODE_NM AS EDU_FORM_NAME,
             HEI.EMP_NAME_KR,

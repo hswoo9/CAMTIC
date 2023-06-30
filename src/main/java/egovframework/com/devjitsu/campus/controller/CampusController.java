@@ -888,8 +888,6 @@ public class CampusController {
     @RequestMapping("/campus/setEduResultInsert")
     public String setEduResultInsert(@RequestParam Map<String, Object> params) {
         campusService.setEduResultInsert(params);
-        params.put("status", "30");
-        campusService.updateEduInfoApprStat(params);
         return "jsonView";
     }
 

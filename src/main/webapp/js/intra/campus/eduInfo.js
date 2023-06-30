@@ -120,19 +120,19 @@ var eduInfo = {
                     }
                 }, {
                     title: "이수상태",
-                    width: 100,
+                    width: 180,
                     template : function(row){
                         if(row.STATUS == "0") {
                             return "계획";
                         }else if(row.STATUS == "10") {
-                            return "학습신청 승인요청중";
-                        }else if(row.STATUS == "20") {
                             return "신청완료";
-                        }else if(row.STATUS == "30") {
+                        }else if(row.STATUS == "100" && row.RES_STATUS == "1") {
                             return "교육완료";
-                        }else if(row.STATUS == "40") {
+                        }else if(row.STATUS == "100" && row.RES_STATUS == "0") {
+                            return "결과보고서 작성완료";
+                        }else if(row.STATUS == "100" && row.RES_STATUS == "10") {
                             return "결과보고서 승인요청중";
-                        }else if(row.STATUS == "50") {
+                        }else if(row.STATUS == "100" && row.RES_STATUS == "100") {
                             return "이수완료";
                         }else {
                             return "교육취소"
