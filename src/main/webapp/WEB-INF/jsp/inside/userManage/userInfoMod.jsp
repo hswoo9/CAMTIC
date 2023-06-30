@@ -12,7 +12,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <script type="text/javascript" src="/js/intra/inside/userManage/userInfoMod.js?v=${today}"/></script>
-
+<script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}

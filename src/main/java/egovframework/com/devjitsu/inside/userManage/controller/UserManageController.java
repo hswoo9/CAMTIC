@@ -380,6 +380,30 @@ public class UserManageController {
         }
         return tmp;
     }
-
+    /*김승환 작성 반려 컬럼추가 RETURNYN RETURNYN_DATE 로 반려 업데이트*/
+    @RequestMapping("/userManage/setUpdateUserInfoReturnY")
+    @ResponseBody
+    public Map<String,Object> setUpdateUserInfoReturnY(@RequestParam Map<String,Object> map, Model model) {
+        Map<String,Object> tmp = new HashMap<>();
+        try{
+            userManageService.setUpdateUserInfoReturnY(map);
+            tmp.put("rs","SUCCESS");
+        }catch (Exception e) {
+            tmp.put("rs","FAILED");
+        }
+        return tmp;
+    }
+    @RequestMapping("/userManage/setUpdateUserInfoReturnN")
+    @ResponseBody
+    public Map<String,Object> setUpdateUserInfoReturnN(@RequestParam Map<String,Object> map, Model model) {
+        Map<String,Object> tmp = new HashMap<>();
+        try{
+            userManageService.setUpdateUserInfoReturnN(map);
+            tmp.put("rs","SUCCESS");
+        }catch (Exception e) {
+            tmp.put("rs","FAILED");
+        }
+        return tmp;
+    }
 
 }
