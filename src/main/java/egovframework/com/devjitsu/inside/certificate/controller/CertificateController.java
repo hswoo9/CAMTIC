@@ -2,18 +2,22 @@ package egovframework.com.devjitsu.inside.certificate.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class CertificateController {
@@ -21,7 +25,7 @@ public class CertificateController {
     private static final Logger logger = LoggerFactory.getLogger(CertificateController.class);
 
     @Autowired
-    private UserService userService;
+    private CertificateService certificateService;
 
     //증명서신청 페이지
     @RequestMapping("/Inside/certificateReq.do")
@@ -52,6 +56,22 @@ public class CertificateController {
         model.addAttribute("loginVO", login);
         return "inside/userManage/certificateAdmin";
     }
+
+    //개인학습관리 - 개인학습리스트 조회
+    @RequestMapping("/inside/getCertificateList")
+    public String getEduInfoList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = certificateService.getCertificateList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //증명서신청 저장
+    @RequestMapping("/inside/setCertificateInsert")
+    public String setEduInfoInsert(@RequestParam Map<String, Object> params) {
+        certificateService.setCertificateInsert(params);
+        return "jsonView";
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

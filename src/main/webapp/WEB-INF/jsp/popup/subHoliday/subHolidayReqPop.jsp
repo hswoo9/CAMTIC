@@ -139,20 +139,20 @@
               <tr>
                 <th id="varianceTH2" scope="row" class="text-center th-color">사유</th>
                 <td id="varianceTD2" colspan="3">
-                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
+                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>
                 </td>
               </tr>
               <tr>
                 <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>
                 <td colspan="3">
-                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
+                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>
                 </td>
               </tr>
               <tr>
                 <th scope="row" class="text-center th-color">업무인수자</th>
                 <td colspan="3">
                   <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">
-                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="userSearch();"/>
                   <br>
                   <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>
                 </td>
@@ -178,5 +178,10 @@
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=${today}"></script>
 <script>
   subHolidayReqPop.fn_defaultScript();
+
+  function userSearch() {
+    window.open("/subHoliday/subHolidayListPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+  }
+
 </script>
 </body>
