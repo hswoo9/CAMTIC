@@ -1,4 +1,4 @@
-package egovframework.com.controller;
+package egovframework.com.devjitsu.gw.main.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.stereotype.Controller;

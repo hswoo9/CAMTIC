@@ -58,7 +58,7 @@ var eduInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=" eduInfo.goEduInfoReq();">' +
                             '	<span class="k-button-text">학습신청</span>' +
                             '</button>';
                     }
@@ -157,6 +157,10 @@ var eduInfo = {
         var name = "popup";
         var option = "width = 965, height = 900, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    goEduInfoReq : function () {
+        location.href = "/Campus/eduReq.do?menu=d_a";
     }
 }
 
