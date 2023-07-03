@@ -10,7 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 
 <style>
     .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
@@ -20,7 +19,8 @@
     .timeBox{padding: 10px;}
 </style>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div id="mainContent">
+    <div class="col-md-10 col-lg-10 dash-left">
     <div class="row panel-quick-page">
         <div style="display:flex; justify-content: space-between;">
             <div class="boxCss">
@@ -284,11 +284,6 @@
             </div><!-- panel -->
         </div>
     </div>
-
-    <div class="mainFooter" style="text-align:center; clear:both;margin-top: 456px;">
-        <p style="margin:0;">(사)캠틱종합기술원 / 전북 전주시 덕진구 유상로 67 (우)54852</p>
-        <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
-    </div>
 </div><!-- col-md-9 -->
+</div>
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>

@@ -10,71 +10,77 @@
 <c:set var="menuParam" value="${param.menu}"/>
 <link rel="stylesheet" href="/css/intra/template/template.css">
 <script type="text/javascript">
-  $(function() {
+    function open_in_frame(url) {
+        $("#approveModal").remove();
+        $("#tilesBody").children().remove();
+        $("#tilesBody").load(url);
+    }
+    $(function() {
 
-    $('.toggleMain').click(function(e) {
-      e.preventDefault();
+        $('.toggleMain').click(function(e) {
+            e.preventDefault();
 
-      var $this = $(this);
+            var $this = $(this);
 
-      if ($this.hasClass('toggled')) {
-        $this.removeClass('toggled');
-      } else {
-        $this.addClass('toggled');
-      }
+            if ($this.hasClass('toggled')) {
+                $this.removeClass('toggled');
+            } else {
+                $this.addClass('toggled');
+            }
 
-      if ($this.next().hasClass('show')) {
-        $this.next().slideToggle();
-        $this.next().removeClass('show');
-      } else {
-        $this.next().slideToggle();
-        $this.next().toggleClass('show');
-      }
-    });
+            if ($this.next().hasClass('show')) {
+                $this.next().slideToggle();
+                $this.next().removeClass('show');
+            } else {
+                $this.next().slideToggle();
+                $this.next().toggleClass('show');
+            }
+        });
 
-    $('.toggleMain1').click(function() {
+        $('.toggleMain1').click(function() {
 
-      var $this = $(this);
+            var $this = $(this);
 
-      if ($this.hasClass('toggled')) {
-        $this.removeClass('toggled');
-      } else {
-        $this.addClass('toggled');
-      }
+            if ($this.hasClass('toggled')) {
+                $this.removeClass('toggled');
+            } else {
+                $this.addClass('toggled');
+            }
 
-      if ($this.next().hasClass('show')) {
-        $this.next().slideToggle();
-        $this.next().removeClass('show');
-      } else {
-        $this.next().slideToggle();
-        $this.next().toggleClass('show');
-      }
+            if ($this.next().hasClass('show')) {
+                $this.next().slideToggle();
+                $this.next().removeClass('show');
+            } else {
+                $this.next().slideToggle();
+                $this.next().toggleClass('show');
+            }
 
-    });
+        });
 
-    var menuParam = "${menuParam}"; // a_a
-    var menuP = String(menuParam).split("_"); // [ 'a', 'a' ]
+        var menuParam = "${menuParam}"; // a_a
+        var menuP = String(menuParam).split("_"); // [ 'a', 'a' ]
 
-    $("." + menuP[0]).addClass("show"); // 'a'    $(".a").addClass("show");
-    $("." + menuParam).addClass("show");// $(".a_a").addClass("show");
-    /*$("." + menuParam + " li a").attr("href").indexOf(menuParam);
-    $("." + menuParam + " li a").each(function(i,e) {
-        if ($(e).attr("href").indexOf(menuParam) > -1) {
-            $(e).addClass("menuHover");
-        }
-    });*/
+        $("." + menuP[0]).addClass("show"); // 'a'    $(".a").addClass("show");
+        $("." + menuParam).addClass("show");// $(".a_a").addClass("show");
+        /*$("." + menuParam + " li a").attr("href").indexOf(menuParam);
+        $("." + menuParam + " li a").each(function(i,e) {
+            if ($(e).attr("href").indexOf(menuParam) > -1) {
+                $(e).addClass("menuHover");
+            }
+        });*/
 
-    //active
-    var url = window.location.pathname,
+        //active
+        var url = window.location.pathname,
             urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
 
-    $("." + menuParam + " li a").each(function () {
-      if (urlRegExp.test(this.href.split("?")[0].replace(/\/$/, ''))) {
-        $(this).addClass('leftChange');
-      }
+        $("." + menuParam + " li a").each(function () {
+            if (urlRegExp.test(this.href.split("?")[0].replace(/\/$/, ''))) {
+                $(this).addClass('leftChange');
+            }
+        });
+
     });
 
-  });
 </script>
 
 <section>
@@ -91,20 +97,20 @@
           <li>
             <a href="#" class="toggleMain">상신/보관함</a>
             <ul class="innerMain children a_a">
-              <li><a href="/approvalUser/draftFormList.do?menu=a_a" class="toggleMain1">양식목록</a></li>
-              <li><a href="/approvalUser/storageBoxTempSaveDocList.do?menu=a_a" class="toggleMain1">임시보관문서</a></li> <%--menu=a_a--%>
-              <li><a href="/approvalUser/storageBoxDraftDocList.do?menu=a_a" class="toggleMain1">상신문서</a></li>
-              <li><a href="/approvalUser/storageBoxReturnDocList.do?menu=a_a" class="toggleMain1">반려/회수 문서</a></li>
-              <li><a href="/approvalUser/storageBoxReaderDocList.do?menu=a_a" class="toggleMain1">열람문서</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do?menu=a_a')" class="toggleMain1">양식목록</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxTempSaveDocList.do?menu=a_a')" class="toggleMain1">임시보관문서</a></li> <%--menu=a_a--%>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do?menu=a_a')" class="toggleMain1">상신문서</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxReturnDocList.do?menu=a_a')" class="toggleMain1">반려/회수 문서</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxReaderDocList.do?menu=a_a')" class="toggleMain1">열람문서</a></li>
             </ul>
           </li>
           <li>
             <a href="#" class="toggleMain">결재함</a>
             <ul class="innerMain children a_b">
-              <li><a href="/approvalUser/approveWaitDocList.do?menu=a_b" class="toggleMain1">결재대기문서</a></li> <%--menu=a_b--%>
-              <li><a href="/approvalUser/approveTobeDocList.do?menu=a_b" class="toggleMain1">결재예정문서</a></li>
-              <li><a href="/approvalUser/approveCompletionDocList.do?menu=a_b" class="toggleMain1">결재완료문서</a></li>
-              <li><a href="/approvalUser/approveReturnDocList.do?menu=a_b" class="toggleMain1">결재반려문서</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/approveWaitDocList.do?menu=a_b')" class="toggleMain1">결재대기문서</a></li> <%--menu=a_b--%>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/approveTobeDocList.do?menu=a_b')" class="toggleMain1">결재예정문서</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/approveCompletionDocList.do?menu=a_b')" class="toggleMain1">결재완료문서</a></li>
+              <li><a href="#" onclick="open_in_frame('/approvalUser/approveReturnDocList.do?menu=a_b')" class="toggleMain1">결재반려문서</a></li>
             </ul>
           </li>
           <li>

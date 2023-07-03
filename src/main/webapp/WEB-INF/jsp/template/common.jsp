@@ -87,8 +87,6 @@
 
 <body>
 <jsp:include page="/WEB-INF/jsp/popup/common/fileAppendModal.jsp"></jsp:include>
-  <jsp:include page="/WEB-INF/jsp/template/header.jsp" flush="false"/>
-  <jsp:include page="/WEB-INF/jsp/template/nav.jsp" flush="false"/>
 
   <div class="mainpanel">
     <div class="contentpanel">
