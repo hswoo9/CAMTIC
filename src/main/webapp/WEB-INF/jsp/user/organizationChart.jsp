@@ -9,7 +9,6 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 
 <link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
@@ -127,7 +126,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script>
 $(document).keydown(function(e) {

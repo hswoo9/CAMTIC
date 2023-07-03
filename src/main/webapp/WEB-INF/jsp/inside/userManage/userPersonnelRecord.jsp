@@ -9,7 +9,6 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <script src="/js/kendoui/kendo.all.min.js"></script>
 <script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
@@ -759,7 +758,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script>
     $(function(){

@@ -10,7 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/campus/eduStat.js?v=${today}"/></script>
 
@@ -61,7 +60,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
     eduStat.init();
 </script>

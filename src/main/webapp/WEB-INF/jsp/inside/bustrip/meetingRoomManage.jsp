@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}
@@ -134,7 +133,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
     meetingRoomManage.fn_defaultScript();
     meetingRoomManage.mainGrid();

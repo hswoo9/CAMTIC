@@ -10,7 +10,6 @@ To change this template use File | Settings | File Templates.
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
     .tit_p{font-weight: bold; margin-bottom: 13px; padding-left: 12px; font-size: 13px;}
     table { background-color: white; }
@@ -60,7 +59,6 @@ To change this template use File | Settings | File Templates.
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script type="text/javascript">
     approveCompletion.init();

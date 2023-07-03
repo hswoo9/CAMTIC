@@ -10,7 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script type = "text/javascript" src = "https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script type="text/javascript" src="/js/intra/inside/userManage/agreementReq.js?v=${toDate}"/></script>
@@ -56,7 +55,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script>
     $('#drawSign').click(function(){
         var url = "/Inside/pop/sign/popDrawSignView.do?code=5";

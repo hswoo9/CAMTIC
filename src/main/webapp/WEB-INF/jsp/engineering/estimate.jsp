@@ -10,7 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 
 <style>
     .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
@@ -286,4 +285,3 @@
     </div><!-- panel -->
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>

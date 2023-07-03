@@ -3,8 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
-<script type="text/javascript" src="/js/intra/inside/asset/assetList.js?v=${today}"/></script>
 
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
@@ -101,7 +99,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 <script type="text/javascript">
     assetList.init();
 </script>

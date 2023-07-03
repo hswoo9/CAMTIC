@@ -10,7 +10,6 @@ To change this template use File | Settings | File Templates.
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<jsp:include page="/WEB-INF/jsp/template/common.jsp" flush="false"/>
 <style>
     .boxCss { width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center; }
     .boxCss:hover { background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%); }
@@ -83,7 +82,6 @@ To change this template use File | Settings | File Templates.
     </div>
 </div><!-- col-md-9 -->
 
-<jsp:include page="/WEB-INF/jsp/template/footer.jsp" flush="false"/>
 
 <script type="text/javascript">
     var datas = JSON.parse('${data}');
