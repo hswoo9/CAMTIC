@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="certificate">
+
+    <select id="getCertificateList" resultType="map" parameterType="map">
+        /* getCertificateList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IUP.USER_PROOF_SN,
+                    DATE_FORMAT(IUP.REG_DE, '%Y-%m-%d') AS REG_DE,
+                    IUP.PROOF_TYPE,
+                    IUP.REG_DEPT_NAME,
+                    IUP.REGTR_NAME,
+                    DATE_FORMAT(IUP.SUBMISSION_DE, '%Y-%m-%d') AS SUBMISSION_DE,
+                    IUP.USAGE_NAME,
+                    IUP.STATUS,
+                    IUP.APPROVAL_RESULT_DATE
+                FROM
+                    CAM_INSIDE.DJ_USER_PROOF IUP,
+                (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    IUP.CRTR_SN = #{empSeq}
+                AND DATE_FORMAT(CREATE_DT, '%Y') = #{docuYearDe}
+                <if test='proofType != null and !"".equals(proofType)'>
+                    AND PROOF_TYPE = #{proofType}
+                </if>
+                <if test='status != null and !"".equals(status)'>
+                    AND STATUS = #{status}
+                </if>
+                ORDER BY IUP.REG_DE
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <insert id="setCertificateInsert" parameterType="map">
+        /* setCertificateInsert */
+        INSERT INTO CAM_INSIDE.DJ_USER_PROOF
+        (
+            PROOF_TYPE,
+            REG_DE,
+            REG_ERP_SN,
+            REGTR_NAME,
+            REG_DEPT_NAME,
+            REG_DUTY_NAME,
+            SUBMISSION_NAME,
+            SUBMISSION_DE,
+            PRINT_SN,
+            FIRST_RRN_NAME,
+            SECOND_RRN_NAME,
+            USAGE_NAME,
+            REMARK_NAME,
+            DOCU_YEAR_DE,
+            CRTR_SN
+        )
+        VALUES
+        (
+            #{proofType},
+            #{regDe},
+            #{regErpSn},
+            #{regtrName},
+            #{regDeptName},
+            #{regDutyName},
+            #{submissionName},
+            #{submissionDe},
+            #{printSn},
+            #{firstRrnName},
+            #{secondRrnName},
+            #{usageName},
+            #{remarkName},
+            LEFT(#{remarkName}, 4),
+            #{empSeq}
+        )
+    </insert>
+</mapper>

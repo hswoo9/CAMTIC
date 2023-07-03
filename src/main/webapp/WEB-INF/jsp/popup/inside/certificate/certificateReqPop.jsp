@@ -41,6 +41,11 @@
   }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="empName" value="${loginVO.name}"/>
+<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="userProofSn" value=""/>
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header" style="padding-top:45px;">
       <div class="col-lg-11" style="margin:0 auto;">
@@ -64,63 +69,63 @@
               <tr>
                 <th>발급 구분</th>
                 <td>
-                  <input type="text" id="certifiType" name="empNumber" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="proofType" style="width: 80%;">
                 </td>
                 <th>신청일자</th>
                 <td>
-                  <input type="text" id="requestDate" name="empName" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="regDe" style="width: 80%;">
                 </td>
               </tr>
               <tr>
                 <th>사번</th>
                 <td>
-                  <input type="text" id="empSeq" name="empNumber" class="defaultVal" value="C1234567" style="width: 80%;">
+                  <input type="text" id="regErpSn" value="C1234567" style="width: 80%;">
                 </td>
                 <th>성명</th>
                 <td>
-                  <input type="text" id="empName" name="empName" class="defaultVal" value="김캠틱" style="width: 80%;">
+                  <input type="text" id="regtrName" value="${LoginVO.name}" style="width: 80%;">
                 </td>
               </tr>
               <tr>
                 <th>부서명</th>
                 <td>
-                  <input type="text" id="deptName" name="deptName" class="defaultVal" value="스마트제조사업부" style="width: 80%;">
+                  <input type="text" id="regDeptName" value="${LoginVO.orgnztNm}" style="width: 80%;">
                 </td>
                 <th>직급</th>
                 <td>
-                  <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="책임연구원" style="width: 80%;">
+                  <input type="text" id="regDutyName" value="${LoginVO.dutyNm}" style="width: 80%;">
                 </td>
               </tr>
               <tr>
                 <th>제출처</th>
                 <td>
-                  <input type="text" id="submission" name="deptName" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="submissionName" style="width: 80%;">
                 </td>
                 <th>제출 예정일</th>
                 <td>
-                  <input type="text" id="subDate" name="dutyName" class="defaultVal"style="width: 80%;">
+                  <input type="text" id="submissionDe" style="width: 80%;">
                 </td>
               </tr>
               <tr>
                 <th>출력매수</th>
                 <td>
-                  <input type="text" id="number" name="deptName" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="printSn" style="width: 80%;">
                 </td>
                 <th>주민등록번호</th>
                 <td>
-                  <input type="text" id="jumin" name="dutyName" class="defaultVal" style="width: 40%;">
+                  <input type="text" id="firstRrnName" style="width: 40%;">
                   -
-                  <input type="text" id="jumin2" name="dutyName" class="defaultVal" style="width: 10%;"> ******
+                  <input type="text" id="secondRrnName" style="width: 10%;"> ******
                 </td>
               </tr>
               <tr>
                 <th>용도</th>
                 <td>
-                  <input type="text" id="usage" name="deptName" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="usageName" style="width: 80%;">
                 </td>
                 <th>비고</th>
                 <td>
-                  <input type="text" id="remark" name="dutyName" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="remarkName" class="defaultVal" style="width: 80%;">
                 </td>
               </tr>
               </thead>
@@ -128,13 +133,14 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="결재신청" onclick=""/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
+          <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
         </div>
       </div>
     </div>
 </div>
 <script>
   certificateReqPop.init();
+  console.log("${LoginVO}");
 </script>
 </body>
