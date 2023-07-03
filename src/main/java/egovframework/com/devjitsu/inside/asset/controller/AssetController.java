@@ -1,8 +1,8 @@
 package egovframework.com.devjitsu.inside.asset.controller;
 
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
-import egovframework.com.devjitsu.main.dto.LoginVO;
-import egovframework.com.devjitsu.user.service.UserService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

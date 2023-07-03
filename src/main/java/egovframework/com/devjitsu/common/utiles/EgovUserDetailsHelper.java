@@ -1,6 +1,6 @@
 package egovframework.com.devjitsu.common.utiles;
 
-import egovframework.com.devjitsu.main.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

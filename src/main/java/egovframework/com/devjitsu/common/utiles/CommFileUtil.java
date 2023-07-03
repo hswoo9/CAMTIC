@@ -2,7 +2,7 @@ package egovframework.com.devjitsu.common.utiles;
 
 import com.jcraft.jsch.*;
 import egovframework.com.devjitsu.common.repository.CommFileDAO;
-import egovframework.com.devjitsu.main.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

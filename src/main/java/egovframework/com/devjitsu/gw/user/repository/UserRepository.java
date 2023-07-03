@@ -1,0 +1,21 @@
+package egovframework.com.devjitsu.gw.user.repository;
+
+import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class UserRepository extends AbstractDAO {
+
+    public List<Map<String, Object>> getOrgDeptList(Map<String, Object> param) {
+        return selectList("user.getOrgDeptList", param);
+    }
+
+    public Map<String, Object> getUserInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("user.getUserInfo", params);
+    }
+
+
+}

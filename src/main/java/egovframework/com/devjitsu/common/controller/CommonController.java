@@ -1,8 +1,8 @@
 package egovframework.com.devjitsu.common.controller;
 
-import egovframework.com.devjitsu.approval.service.ApprovalService;
+import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
 import egovframework.com.devjitsu.common.service.CommonService;
-import egovframework.com.devjitsu.main.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

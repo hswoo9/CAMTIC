@@ -1,6 +1,6 @@
 package egovframework.com.devjitsu.campus.repository;
 
-import egovframework.com.devjitsu.main.repository.AbstractDAO;
+import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

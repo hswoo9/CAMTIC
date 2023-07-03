@@ -1,9 +1,9 @@
 package egovframework.com.devjitsu.inside.userManage.controller;
 
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
-import egovframework.com.devjitsu.main.dto.LoginVO;
-import egovframework.com.devjitsu.system.service.CommonCodeService;
-import egovframework.com.devjitsu.user.service.UserService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -1,7 +1,7 @@
 package egovframework.com.devjitsu.campus.controller;
 
 import egovframework.com.devjitsu.campus.service.CampusService;
-import egovframework.com.devjitsu.main.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
