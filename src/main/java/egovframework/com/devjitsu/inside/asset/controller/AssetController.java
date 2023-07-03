@@ -456,4 +456,14 @@ public class AssetController {
         return "jsonView";
     }
 
+    //장비관리 (관리자) 결재창
+    @RequestMapping("/Inside/Pop/equipApprovalPop.do")
+    public String equipApprovalPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/equipApprovalPop";
+    }
+
 }

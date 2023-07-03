@@ -129,7 +129,12 @@ var equipmentListAdminView = {
             toolbar : [
                 {
                     name: '',
-                    text: '결재'
+                    text: '결재',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.equipApprovalPopup();">' +
+                            '   <span class="k-button-text">결재</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -185,5 +190,13 @@ var equipmentListAdminView = {
         var name = "equipmentmangePop";
         var option = "width = 1300, height = 800, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    equipApprovalPopup : function (){
+        var url = "/Inside/Pop/equipApprovalPop.do";
+        var name = "equipApprovalPop";
+        var option = "width = 400, height = 200, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
+
 }
