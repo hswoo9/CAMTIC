@@ -1,16 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayList.js?v=${toDate}"/></script>
+<style>
+    .k-grid tbody, .k-grid tfoot, .k-grid thead {
+    text-align: center;
+    }
+</style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -38,7 +36,7 @@
                                     <input id="datePicker" style="width:150px;">
                                 </div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayList.subHolidayReqPop();">신청</button>
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayList.subHolidayReqPop();">신청</button>
                                 </div>
                             </div>
                         </td>
@@ -131,7 +129,8 @@
                                         <input type="text" id="status" style="width: 150px;">
                                     </div>
                                     <div style="margin-left:10px;">
-                                        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidayList.gridReload()"/>
+                                        <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayList.gridReload()">검색</button>
+                                        <%--<input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidayList.gridReload()"/>--%>
                                     </div>
                                 </div>
                             </div>
