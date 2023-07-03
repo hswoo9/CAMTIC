@@ -291,10 +291,12 @@
     $(function (){
         var menuNm = '${menuNm}';
 
-        if(menuNm == "main"){
-            menuNm = "/indexBMain.do"
-            open_in_frame(menuNm);
-        } else if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexB.do'){
+        // if(menuNm == "main"){
+        //     menuNm = "/indexBMain.do"
+        //     open_in_frame(menuNm);
+        // }
+
+        if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexB.do'){
             open_in_frame(menuNm);
         }
     });

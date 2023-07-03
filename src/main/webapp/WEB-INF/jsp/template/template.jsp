@@ -18,6 +18,11 @@
         </div>
     </div>
 </div>
+<div class="col-md-3 col-lg-2 dash-right" style="position:relative;">
+    <tiles:insertAttribute name="aside"/>
+</div>
 <tiles:insertAttribute name="footer" />
+
+
 </body>
 </html>
