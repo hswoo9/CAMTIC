@@ -150,7 +150,7 @@
                 <c:when test="${eduFormType == 1 || eduFormType == 2}">
                   <th>강사</th>
                   <td>
-                      ${data.eduTeacherName}
+                      ${data.EDU_TEACHER_NAME}
                   </td>
                 </c:when>
                 <c:when test="${eduFormType == 3}">
@@ -223,7 +223,22 @@
                 <tr>
                   <th>학습평가</th>
                   <td colspan="3">
-                    <span id="eduEval"></span>
+                    <span id="eduEval">
+                      <c:choose>
+                        <c:when test="${data.EDU_EVAL == 1}">
+                          매우도움
+                        </c:when>
+                        <c:when test="${data.EDU_EVAL == 2}">
+                          도움
+                        </c:when>
+                        <c:when test="${data.EDU_EVAL == 3}">
+                          참고정도
+                        </c:when>
+                        <c:when test="${data.EDU_EVAL == 4}">
+                          기대이하
+                        </c:when>
+                      </c:choose>
+                    </span>
                   </td>
                 </tr>
               </c:when>

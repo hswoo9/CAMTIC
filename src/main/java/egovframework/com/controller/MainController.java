@@ -1,6 +1,6 @@
 package egovframework.com.controller;
 
-import egovframework.com.devjitsu.main.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

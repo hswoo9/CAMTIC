@@ -152,5 +152,16 @@ public class UserManageServiceImpl implements UserManageService {
     public void setUpdateUserInfoModN(Map<String,Object> map) {
         userManageRepository.setUpdateUserInfoModN(map);
     }
-
+    @Override
+    public void setUpdateUserInfoReturnY(Map<String,Object> map) {
+        userManageRepository.setUpdateUserInfoReturnY(map);
+    }
+    @Override
+    public void setUpdateUserInfoReturnN(Map<String,Object> map) {
+        userManageRepository.setUpdateUserInfoReturnN(map);
+    }
+    @Override
+    public List<Map<String, Object>> getDeptList(Map<String, Object> params){
+        return userManageRepository.getDeptList(params);
+    }
 }

@@ -558,6 +558,7 @@
 
     <select id="getPersonRecordApplyList" parameterType="map" resultType="map">
         SELECT
+        row_number() over(ORDER BY a.reg_date DESC) num,
         A.*
         from
         (SELECT
@@ -570,6 +571,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_educational' AS 'type',
         '학력사항' AS 'typeName',
         'EDUCATIONAL_ID' AS 'key'
@@ -590,6 +592,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_career' AS 'type',
         '경력사항' AS 'typeName',
         'CAREER_ID' AS 'key'
@@ -610,6 +613,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_military_svc_info' AS 'type',
         '병력사항' AS 'typeName',
         'MSI_INFO_ID' AS 'key'
@@ -630,6 +634,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_family_info' AS 'type',
         '가족사항' AS 'typeName',
         'FAMILY_ID' AS 'key'
@@ -650,6 +655,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_certificate' AS 'type',
         '보유면허' AS 'typeName',
         'CERTIFICATE_ID' AS 'key'
@@ -670,6 +676,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_appoint' AS 'type',
         '발령사항' AS 'typeName',
         'APPOINT_ID' AS 'key'
@@ -690,6 +697,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_reword' AS 'type',
         '포상사항' AS 'typeName',
         'REWORD_ID' AS 'key'
@@ -710,6 +718,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_duty_info' AS 'type',
         '직무사항' AS 'typeName',
         'DUTY_ID' AS 'key'
@@ -730,6 +739,7 @@
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
+        a.returnyn,
         'dj_emp_proposal_info' AS 'type',
         '제안제도' AS 'typeName',
         'PROPOSAL_ID' AS 'key'
@@ -763,6 +773,38 @@
             <when test='"5".equals(drop1)'>
                 A.typeName = '보유면허'
             </when>
+            <when test='"6".equals(drop1)'>
+                A.typeName = '발령사항'
+            </when>
+            <when test='"7".equals(drop1)'>
+                A.typeName = '포상사항'
+            </when>
+            <when test='"8".equals(drop1)'>
+                A.typeName = '직무사항'
+            </when>
+            <when test='"9".equals(drop1)'>
+                A.typeName = '제안제도'
+            </when>
+        </choose>
+        </if>
+        <if test='status != null and !"".equals(status)'>
+            and
+        <choose>
+            <when test='"1".equals(status)'>
+                A.admin_approval ='N'
+                and
+        		A.returnyn ='N'
+            </when>
+            <when test='"2".equals(status)'>
+                A.admin_approval ='N'
+                and
+        		A.returnyn ='Y'
+            </when>
+            <when test='"3".equals(status)'>
+                A.admin_approval ='Y'
+                and
+        		A.returnyn ='N'
+            </when>
         </choose>
         </if>
         <if test='startDate != null and !"".equals(startDate)'>
@@ -773,6 +815,15 @@
 		DATE_FORMAT(#{endDate}, '%Y%m%d') >= DATE_FORMAT(A.REG_DATE, '%Y%m%d')
 		]]>
         </if>
+        <if test='dept != null and !"".equals(dept)'>
+            and
+            A.DEPT_NAME = #{dept}
+        </if>
+        <if test='team != null and !"".equals(team)'>
+            and
+            A.DEPT_TEAM_NAME = #{team}
+        </if>
+
         ORDER BY a.reg_date DESC
     </select>
 
@@ -791,6 +842,26 @@
         SET
             ADMIN_APPROVAL = 'N',
             ADMIN_APPROVAL_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{EMP_SEQ}
+          and
+            ${KEY} = #{ID}
+    </update>
+        <update id="setUpdateUserInfoReturnY" parameterType="map">
+        UPDATE cam_hr.${TYPE}
+        SET
+            RETURNYN = 'Y',
+            RETURNYN_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{EMP_SEQ}
+            and
+            ${KEY} = #{ID}
+    </update>
+    <update id="setUpdateUserInfoReturnN" parameterType="map">
+        UPDATE cam_hr.${TYPE}
+        SET
+            RETURNYN = 'N',
+            RETURNYN_DATE = NOW()
         WHERE
             EMP_SEQ = #{EMP_SEQ}
           and

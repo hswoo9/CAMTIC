@@ -3,7 +3,7 @@
 
 <mapper namespace="login">
 
-    <select id="actionLogin" resultType="egovframework.com.devjitsu.main.dto.LoginVO" parameterType="map">
+    <select id="actionLogin" resultType="egovframework.com.devjitsu.gw.login.dto.LoginVO" parameterType="map">
         /* actionLogin */
         SELECT
             VEI.LOGIN_ID AS id,

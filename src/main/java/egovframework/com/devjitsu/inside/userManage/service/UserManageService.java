@@ -36,4 +36,7 @@ public interface UserManageService{
     List<Map<String,Object>> getPersonRecordApplyList(Map<String,Object> map);
     void setUpdateUserInfoModY(Map<String,Object> map);
     void setUpdateUserInfoModN(Map<String,Object> map);
+	List<Map<String, Object>> getDeptList(Map<String, Object> params);
+	void setUpdateUserInfoReturnY(Map<String, Object> map);
+	void setUpdateUserInfoReturnN(Map<String, Object> map);
 }

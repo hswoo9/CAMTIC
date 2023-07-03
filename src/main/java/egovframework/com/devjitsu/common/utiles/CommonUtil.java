@@ -1,6 +1,6 @@
 package egovframework.com.devjitsu.common.utiles;
 
-import egovframework.com.devjitsu.config.EgovFileScrty;
+import egovframework.com.devjitsu.doc.config.EgovFileScrty;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
