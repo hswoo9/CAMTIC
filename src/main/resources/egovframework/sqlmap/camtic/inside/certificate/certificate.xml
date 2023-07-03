@@ -37,6 +37,25 @@
         ORDER BY RE.ROW_NUM DESC
     </select>
 
+    <select id="getCertificateOne" resultType="map" parameterType="map">
+        /* getCertificateOne */
+        SELECT
+            IUP.USER_PROOF_SN,
+            IUP.PROOF_TYPE,
+            DATE_FORMAT(IUP.REG_DE, '%Y-%m-%d') AS REG_DE,
+            IUP.SUBMISSION_NAME,
+            DATE_FORMAT(IUP.SUBMISSION_DE, '%Y-%m-%d') AS SUBMISSION_DE,
+            IUP.PRINT_SN,
+            IUP.FIRST_RRN_NAME,
+            IUP.SECOND_RRN_NAME,
+            IUP.USAGE_NAME,
+            IUP.REMARK_NAME
+        FROM
+            CAM_INSIDE.DJ_USER_PROOF IUP
+        WHERE
+            IUP.USER_PROOF_SN = #{userProofSn}
+    </select>
+
     <insert id="setCertificateInsert" parameterType="map">
         /* setCertificateInsert */
         INSERT INTO CAM_INSIDE.DJ_USER_PROOF
@@ -72,8 +91,30 @@
             #{secondRrnName},
             #{usageName},
             #{remarkName},
-            LEFT(#{remarkName}, 4),
+            LEFT(#{regDe}, 4),
             #{empSeq}
         )
     </insert>
+
+    <update id="setCertificateUpdate" parameterType="map">
+        /* setCertificateUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            PROOF_TYPE = #{proofType},
+            REG_DE = #{regDe},
+            SUBMISSION_NAME = #{submissionName},
+            SUBMISSION_DE = #{submissionDe},
+            PRINT_SN = #{printSn},
+            FIRST_RRN_NAME = #{firstRrnName},
+            SECOND_RRN_NAME = #{secondRrnName},
+            USAGE_NAME = #{usageName},
+            REMARK_NAME = #{remarkName},
+            DOCU_YEAR_DE = LEFT(#{regDe}, 4),
+            UPDT_DT = now(),
+            UPDUSR_SN = #{empSeq}
+        WHERE
+            USER_PROOF_SN = #{userProofSn}
+    </update>
+
 </mapper>

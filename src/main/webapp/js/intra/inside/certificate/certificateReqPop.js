@@ -8,9 +8,6 @@ var certificateReqPop = {
     },
 
     saveBtn() {
-        if(!confirm("증명서를 신청하시겠습니까?")){
-            return;
-        }
         //로그인 사원seq
         let empSeq = $("#empSeq").val();
         //발급구분
@@ -38,6 +35,8 @@ var certificateReqPop = {
         let usageName = $("#usageName").val();
         //비고
         let remarkName = $("#remarkName").val();
+
+        let userProofSn = $("#userProofSn").val();
 
 
         if(proofType == "") {
@@ -75,12 +74,19 @@ var certificateReqPop = {
             secondRrnName : secondRrnName,
             usageName : usageName,
             remarkName : remarkName,
-            empSeq : empSeq
+            empSeq : empSeq,
+            userProofSn : userProofSn
         }
 
         if($("#userProofSn").val() == "") {
+            if(!confirm("증명서를 신청하시겠습니까?")){
+                return;
+            }
             certificateReqPop.setCertificateInsert(data);
         }else {
+            if(!confirm("증명서 신청을 수정하시겠습니까?")){
+                return;
+            }
             certificateReqPop.setCertificateUpdate(data);
         }
     },
@@ -107,7 +113,24 @@ var certificateReqPop = {
     },
 
     setCertificateUpdate(data) {
+        $.ajax({
+            url : "/inside/setCertificateUpdate",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("증명서 신청 수정이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
 
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
     },
 
     dataSet() {

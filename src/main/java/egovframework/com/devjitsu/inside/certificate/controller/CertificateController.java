@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CertificateController {
@@ -39,11 +36,19 @@ public class CertificateController {
 
     //증명서신청 팝업 페이지
     @RequestMapping("/Inside/certificateReqPop.do")
-    public String certificateReqPop(HttpServletRequest request, Model model) {
+    public String certificateReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        Map<String, Object> data = new HashMap<>();
+        if(params.containsKey("userProofSn")){
+            data = certificateService.getCertificateOne(params);
+            model.addAttribute("data", data);
+        }
+        model.addAttribute("data", data);
+
         return "popup/inside/certificate/certificateReqPop";
     }
 
@@ -57,7 +62,7 @@ public class CertificateController {
         return "inside/userManage/certificateAdmin";
     }
 
-    //개인학습관리 - 개인학습리스트 조회
+    //증명서신청 - 증명서신청 리스트 조회
     @RequestMapping("/inside/getCertificateList")
     public String getEduInfoList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = certificateService.getCertificateList(params);
@@ -65,10 +70,25 @@ public class CertificateController {
         return "jsonView";
     }
 
+    //증명서신청 - 증명서신청팝업 - 단일데이터 조회
+    @RequestMapping("/campus/getCertificateOne")
+    public String getCertificateOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = certificateService.getCertificateOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     //증명서신청 저장
     @RequestMapping("/inside/setCertificateInsert")
     public String setEduInfoInsert(@RequestParam Map<String, Object> params) {
         certificateService.setCertificateInsert(params);
+        return "jsonView";
+    }
+
+    //증명서신청 수정
+    @RequestMapping("/inside/setCertificateUpdate")
+    public String setCertificateUpdate(@RequestParam Map<String, Object> params) {
+        certificateService.setCertificateUpdate(params);
         return "jsonView";
     }
 

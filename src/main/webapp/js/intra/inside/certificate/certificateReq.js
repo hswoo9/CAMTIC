@@ -39,7 +39,6 @@ var certificateReq = {
             ],
             index: 0
         });
-
     },
 
     mainGrid : function() {
@@ -101,6 +100,7 @@ var certificateReq = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : certificateReq.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
@@ -173,8 +173,20 @@ var certificateReq = {
         }).data("kendoGrid");
     },
 
-    certificateReqPop : function() {
+    onDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const userProofSn = dataItem.USER_PROOF_SN;
+            certificateReq.certificateReqPop(userProofSn);
+        });
+    },
+
+    certificateReqPop : function(userProofSn) {
         var url = "/Inside/certificateReqPop.do";
+        if(!isNaN(userProofSn)) {
+            url = "/Inside/certificateReqPop.do?userProofSn="+userProofSn;
+        }
         var name = "certificateReqPop";
         var option = "width=1000, height=510, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

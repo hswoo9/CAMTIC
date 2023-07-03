@@ -20,7 +20,17 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    public Map<String, Object> getCertificateOne(Map<String, Object> params){
+        return certificateRepository.getCertificateOne(params);
+    }
+
+    @Override
     public void setCertificateInsert(Map<String, Object> params) {
         certificateRepository.setCertificateInsert(params);
+    }
+
+    @Override
+    public void setCertificateUpdate(Map<String, Object> params) {
+        certificateRepository.setCertificateUpdate(params);
     }
 }

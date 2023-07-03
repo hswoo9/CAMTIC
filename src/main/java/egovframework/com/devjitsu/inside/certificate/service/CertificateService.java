@@ -6,11 +6,18 @@ import java.util.Map;
 public interface CertificateService {
 
     /**
-     * 증명서신청 증명서신청 리스트 조회
+     * 증명서신청 리스트 조회
      * @param params
      * @return
      */
     List<Map<String, Object>> getCertificateList(Map<String, Object> params);
+
+    /**
+     * 증명서신청 단일데이터 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getCertificateOne(Map<String, Object> params);
 
     /**
      * 증명서신청 증명서신청 저장
@@ -18,4 +25,11 @@ public interface CertificateService {
      * @return
      */
     void setCertificateInsert(Map<String, Object> params);
+
+    /**
+     * 증명서신청 증명서신청 수정
+     * @param params
+     * @return
+     */
+    void setCertificateUpdate(Map<String, Object> params);
 }

@@ -45,7 +45,7 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="userProofSn" value=""/>
+<input type="hidden" id="userProofSn" value="${data.USER_PROOF_SN}"/>
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header" style="padding-top:45px;">
       <div class="col-lg-11" style="margin:0 auto;">
@@ -69,11 +69,11 @@
               <tr>
                 <th>발급 구분</th>
                 <td>
-                  <input type="text" id="proofType" style="width: 80%;">
+                  <input type="text" id="proofType" style="width: 80%;" value="${data.PROOF_TYPE}">
                 </td>
                 <th>신청일자</th>
                 <td>
-                  <input type="text" id="regDe" style="width: 80%;">
+                  <input type="text" id="regDe" style="width: 80%;" value="${data.REG_DE}">
                 </td>
               </tr>
               <tr>
@@ -99,33 +99,33 @@
               <tr>
                 <th>제출처</th>
                 <td>
-                  <input type="text" id="submissionName" style="width: 80%;">
+                  <input type="text" id="submissionName" style="width: 80%;" value="${data.SUBMISSION_NAME}">
                 </td>
                 <th>제출 예정일</th>
                 <td>
-                  <input type="text" id="submissionDe" style="width: 80%;">
+                  <input type="text" id="submissionDe" style="width: 80%;" value="${data.SUBMISSION_DE}">
                 </td>
               </tr>
               <tr>
                 <th>출력매수</th>
                 <td>
-                  <input type="text" id="printSn" style="width: 80%;">
+                  <input type="text" id="printSn" style="width: 80%;" value="${data.PRINT_SN}">
                 </td>
                 <th>주민등록번호</th>
                 <td>
-                  <input type="text" id="firstRrnName" style="width: 40%;">
+                  <input type="text" id="firstRrnName" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
                   -
-                  <input type="text" id="secondRrnName" style="width: 10%;"> ******
+                  <input type="text" id="secondRrnName" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
                 </td>
               </tr>
               <tr>
                 <th>용도</th>
                 <td>
-                  <input type="text" id="usageName" style="width: 80%;">
+                  <input type="text" id="usageName" style="width: 80%;" value="${data.USAGE_NAME}">
                 </td>
                 <th>비고</th>
                 <td>
-                  <input type="text" id="remarkName" class="defaultVal" style="width: 80%;">
+                  <input type="text" id="remarkName" class="defaultVal" style="width: 80%;" value="${data.REMARK_NAME}">
                 </td>
               </tr>
               </thead>
