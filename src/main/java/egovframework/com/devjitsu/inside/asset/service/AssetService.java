@@ -54,4 +54,5 @@ public interface AssetService {
     String delAssetCode(Map<String,Object> map);
     String setAssetPlace(Map<String,Object> map);
     String delAssetPlace(Map<String,Object> map);
+    List<Map<String,Object>> getAstCodeList();
 }

@@ -194,5 +194,9 @@ public class AssetServiceImpl implements AssetService {
             return "FAILED";
         }
     }
+    @Override
+    public List<Map<String,Object>> getAstCodeList() {
+        return assetRepository.getAstCodeList();
+    }
 
 }

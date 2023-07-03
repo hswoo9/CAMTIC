@@ -2,6 +2,10 @@ var now = new Date();
 
 var classManage = {
 
+    global : {
+        code : "",
+    },
+
     init : function(){
         classManage.dataSet();
         classManage.mainGrid();
@@ -273,25 +277,25 @@ var classManage = {
                     template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
-                    field: "",
+                    template: "#= ++record #",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "AST_MC_CODE_NM",
                     title: "카테고리(대)"
                 }, {
-                    field: "",
+                    field: "AST_MC_CODE",
                     title: "소속코드(대)"
                 }, {
-                    field: "",
+                    field: "AST_MD_CODE",
                     title: "카테고리(중)"
                 }, {
-                    field: "",
+                    field: "AST_MD_CODE_NM",
                     title: "소속코드(중)"
                 }, {
-                    field: "",
+                    field: "AST_DT_CODE",
                     title: "카테고리(소)"
                 }, {
-                    field: "",
+                    field: "AST_DT_CODE_NM",
                     title: "소속코드(소)"
                 }, {
                     field: "",
@@ -303,7 +307,10 @@ var classManage = {
                     field: "",
                     title: "내용년한"
                 }
-            ]
+            ],
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            },
         }).data("kendoGrid");
     },
 
@@ -355,9 +362,9 @@ var classManage = {
     },
     gridReload4 : function() {
         var data = {
-            INSIDE_MD_CODE : '',
+            TEST : '',
         }
-        classManage.mainGrid4('/inside/getClassManageList',data);
+        classManage.mainGrid4('/asset/getAstCodeList',data);
     },
     fn_delBtn : function(e) {
         var checkbox = 'checkbox'+e;
@@ -401,5 +408,15 @@ var classManage = {
                 }
             }
         }
+    },
+
+    fn_schBtn : function () {
+        var data = {
+            SEARCH_DATA : $('#searchVal').val(),
+            AST_MC_CODE : "",
+            AST_MD_CODE : "",
+            AST_DT_CODE : "",
+        }
+        classManage.mainGrid4('/asset/getAstCodeList',data);
     }
 }

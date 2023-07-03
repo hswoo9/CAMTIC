@@ -91,4 +91,8 @@ public class AssetRepository extends AbstractDAO {
         delete("asset.delAssetPlace", map);
     }
 
+    public List<Map<String,Object>> getAstCodeList() {
+        return selectList("asset.getAstCodeList");
+    }
+
 }

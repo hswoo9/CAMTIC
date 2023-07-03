@@ -319,4 +319,14 @@
         DELETE FROM cam_inside.dj_asset_place WHERE AST_PLACE_SN IN (${AST_PLACE_SN})
     </delete>
 
+    <select id="getAstCodeList" resultType="map">
+        SELECT
+            a.*
+        FROM
+            cam_inside.dj_asset_code AS a
+        WHERE
+            a.active = 'Y'
+        ORDER BY a.reg_date
+    </select>
+
 </mapper>

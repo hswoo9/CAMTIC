@@ -455,7 +455,11 @@ public class AssetController {
         System.out.println(map.get("AST_PLACE_SN"));
         return "jsonView";
     }
-
+    @RequestMapping("/asset/getAstCodeList")
+    public String getAstCodeList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getAstCodeList());
+        return "jsonView";
+    }
     //장비관리 (관리자) 결재창
     @RequestMapping("/Inside/Pop/equipApprovalPop.do")
     public String equipApprovalPop(HttpServletRequest request, Model model) {
