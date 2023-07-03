@@ -31,126 +31,127 @@
             *
         FROM
             cam_hr.dj_emp_info AS a
-            LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_educational AS b
-            on
+        ON
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
-            and
-            a.admin_approval = 'Y';
+            a.EMP_SEQ = #{empSeq}
+        AND
+            b.admin_approval = 'Y';
     </select>
     <select id="getMilitarySvcInfo" parameterType="map" resultType="map">
+        /* getMilitarySvcInfo */
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-            LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_military_svc_info AS b
-            on
+        ON
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
+            a.EMP_SEQ = #{empSeq}
             and
-            a.admin_approval = 'Y';
+            b.admin_approval = 'Y';
     </select>
     <select id="getCareerInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_career AS b
-            on
+        ON
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
-        and
-            a.admin_approval = 'Y';
+            a.EMP_SEQ = #{empSeq}
+        AND
+            b.admin_approval = 'Y';
     </select>
     <select id="getFamilyInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_family_info AS b
-            on
-                a.EMP_SEQ = b.EMP_SEQ
+        ON
+            a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
+            a.EMP_SEQ = #{empSeq}
         and
-            a.admin_approval = 'Y';
+            b.admin_approval = 'Y';
     </select>
     <select id="getLicenceInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_certificate AS b
-            on
+        ON
                 a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
-        and
-            a.admin_approval = 'Y';
+            a.EMP_SEQ = #{empSeq}
+        AND
+            b.admin_approval = 'Y';
     </select>
     <select id="getAppointInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_appoint AS b
-            on
-                a.EMP_SEQ = b.EMP_SEQ
+        ON
+            a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
+            a.EMP_SEQ = #{empSeq}
         and
-            a.admin_approval = 'Y';
+            b.admin_approval = 'Y';
     </select>
     <select id="getRewardInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_reword AS b
-            on
-                a.EMP_SEQ = b.EMP_SEQ
+        ON
+            a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
-        and
-            a.admin_approval = 'Y';
+            a.EMP_SEQ = #{empSeq}
+        AND
+            b.admin_approval = 'Y';
     </select>
     <select id="getDutyInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT JOIN
             cam_hr.dj_emp_duty_info AS b
-            on
+        ON
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
+            a.EMP_SEQ = #{empSeq}
         and
-            a.admin_approval = 'Y';
+            b.admin_approval = 'Y';
     </select>
     <select id="getProposalInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
-                LEFT join
+        LEFT join
             cam_hr.dj_emp_proposal_info AS b
-            on
+        ON
             a.EMP_SEQ = b.EMP_SEQ
         WHERE
-            a.EMP_SEQ = #{empSeq};
-        and
-            a.admin_approval = 'Y';
+            a.EMP_SEQ = #{empSeq}
+        AND
+            b.admin_approval = 'Y';
     </select>
 
 
@@ -612,7 +613,7 @@
         a.EMP_NAME,
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
-        a.admin_approval,
+        b.admin_approval,
         a.returnyn,
         'dj_emp_military_svc_info' AS 'type',
         '병력사항' AS 'typeName',
