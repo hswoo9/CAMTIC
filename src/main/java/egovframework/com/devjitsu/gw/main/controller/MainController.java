@@ -24,8 +24,19 @@ public class MainController {
     @RequestMapping("/indexB.do")
     public String indexB(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", "main");
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
+        return "indexB";
+    }
+
+    @RequestMapping("/indexBMain.do")
+    public String indexBMain(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", "");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("menuNm", "");
         return "indexB";
     }
 

@@ -9,9 +9,7 @@
 
 <!-- Start main html -->
 <div id="main_content">
-
     <tiles:insertAttribute name="nav" />
-
     <div class="page">
         <tiles:insertAttribute name="header" />
 

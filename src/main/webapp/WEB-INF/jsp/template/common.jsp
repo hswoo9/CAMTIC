@@ -87,7 +87,9 @@
 
 <body>
 <jsp:include page="/WEB-INF/jsp/popup/common/fileAppendModal.jsp"></jsp:include>
+<script>
 
+</script>
   <div class="mainpanel">
     <div class="contentpanel">
       <div class="row">

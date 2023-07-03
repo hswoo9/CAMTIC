@@ -287,3 +287,16 @@
 </div><!-- col-md-9 -->
 </div>
 
+<script>
+    $(function (){
+        var menuNm = '${menuNm}';
+
+        if(menuNm == "main"){
+            menuNm = "/indexBMain.do"
+            open_in_frame(menuNm);
+        } else if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexB.do'){
+            open_in_frame(menuNm);
+        }
+    });
+</script>
+

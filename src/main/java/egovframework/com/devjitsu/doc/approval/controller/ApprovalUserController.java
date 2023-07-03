@@ -74,7 +74,9 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/storageBoxDraftDocList.do")
     public String storageBoxDraftDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
 

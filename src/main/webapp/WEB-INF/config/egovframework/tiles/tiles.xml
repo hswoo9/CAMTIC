@@ -17,14 +17,14 @@
     </definition>
 
     <definition name="indexB" extends="default_main">
-        <put-attribute name="content" value="/WEB-INF/jsp/{1}" />
+        <put-attribute name="content" value="/WEB-INF/jsp/indexB.jsp" />
     </definition>
 
     <definition name="*/*" extends="default_main">
         <put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}.jsp" />
     </definition>
 
-    <definition name="*/*/*" extends="default_main">
+    <definition name="popup/*/*" extends="popup">
         <put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
     </definition>
 
