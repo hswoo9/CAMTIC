@@ -136,7 +136,7 @@ var storageBoxReader = {
                     title : "결재선",
                     width : 80,
                     template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }

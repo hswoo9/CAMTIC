@@ -113,7 +113,7 @@ var userInfoMod = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_approval()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_approval()">' +
                             '	<span class="k-button-text">승인</span>' +
                             '</button>';
                     }
@@ -121,14 +121,14 @@ var userInfoMod = {
                  {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_cancel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_cancel()">' +
                             '	<span class="k-button-text">승인취소</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnYcheck()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnYcheck()">' +
                             '	<span class="k-button-text">반려</span>' +
                             '</button>';
                     }
@@ -136,7 +136,7 @@ var userInfoMod = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnCancel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnCancel()">' +
                             '	<span class="k-button-text">반려취소</span>' +
                             '</button>';
                     }
@@ -216,18 +216,18 @@ var userInfoMod = {
                     template : function (e){
 							console.log(e);
                         if(e.admin_approval == 'N' && e.returnyn == 'N') {
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right :10px;" onclick="userInfoMod.fn_approvalTest(this)">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-right :10px;" onclick="userInfoMod.fn_approvalTest(this)">' +
                                 '	<span class="k-button-text">승인</span>' +
                                 '</button>' +
-                                '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnY(this)">' +
+                                '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnY(this)">' +
                                 '	<span class="k-button-text">반려</span>' +
                                 '</button>';
                         } else if(e.admin_approval == 'Y' && e.returnyn == 'N') {
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_cancelTest(this)">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_cancelTest(this)">' +
                                 '	<span class="k-button-text">승인취소</span>' +
                                 '</button>';
                         }else if(e.admin_approval == 'N' && e.returnyn == 'Y'){
-							return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_returnN(this)">' +
+							return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_returnN(this)">' +
                                 '	<span class="k-button-text">반려취소</span>' +
                                 '</button>';
 						}

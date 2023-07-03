@@ -11,7 +11,7 @@ var lineSettingPop = {
         searchAjaxData : "",
         approversArr : opener.draft.global.approversArr != null ? opener.draft.global.approversArr : new Array(),
         approveAddBtn : function(e) {
-            return '<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="lineSettingPop.addTable(\'' + e.EMP_SEQ + '\',\'userClick\')">' +
+            return '<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="lineSettingPop.addTable(\'' + e.EMP_SEQ + '\',\'userClick\')">' +
                 '<span class="k-button-text">추가</span>	' +
                 '</button>';
         },
@@ -431,7 +431,7 @@ var lineSettingPop = {
                     '<span>- 부재기간 : ' + dl.C_AISDAY + ' ~ ' +  dl.C_AIEDAY + ' </span><br>'+
                     '<span>- 부재사유 : ' + dl.C_CIKEYNM + ' </span><br>'+
                     '<div style="text-align: right">' +
-                    '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="$(absentModal).data(\'kendoWindow\').close();">' +
+                    '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="$(absentModal).data(\'kendoWindow\').close();">' +
                     '<span class="k-icon k-i-check k-button-icon"></span>' +
                     '<span class="k-button-text">확인</span>' +
                     '</button>' +

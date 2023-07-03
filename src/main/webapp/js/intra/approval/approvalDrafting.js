@@ -504,7 +504,7 @@ var draft = {
                 $("#draftBtn").remove();
                 $("#btnDiv").prepend("<input type='hidden' id='approveStatCode' name='approveStatCode' value='" + comCode.CM_CODE + "'>" +
                     "<input type='hidden' id='approveStatCodeDesc' name='approveStatCodeDesc' value='" + comCode.CM_CODE_NM + "'>" +
-                    '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
+                    '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
                     '	<span class="k-button-text">상신</span>' +
                     '</button>');
             }

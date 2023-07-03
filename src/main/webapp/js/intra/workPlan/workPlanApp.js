@@ -113,7 +113,7 @@ var workPlanApp = {
                 {
                     name: 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("E");\'>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("E");\'>' +
                             '	<span class="k-button-text">반려</span>' +
                             '</button>';
                     }
@@ -121,7 +121,7 @@ var workPlanApp = {
                 {
                     name: 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("N");\'>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("N");\'>' +
                             '	<span class="k-button-text">반려취소</span>' +
                             '</button>';
                     }
@@ -129,7 +129,7 @@ var workPlanApp = {
                 {
                     name: 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("Y");\'>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("Y");\'>' +
                             '	<span class="k-button-text">승인</span>' +
                             '</button>';
                     }
@@ -137,7 +137,7 @@ var workPlanApp = {
                 {
                     name: 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("N");\'>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=\'workPlanApp.updateApprStat("N");\'>' +
                             '	<span class="k-button-text">승인취소</span>' +
                             '</button>';
                     }

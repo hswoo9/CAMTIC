@@ -143,7 +143,7 @@ var personAttendStat = {
                 {
                     name : 'button',
                     template : function (e) {
-                        return "<button type=\"button\" class=\"k-grid-save-changes k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick='personAttendStat.personAttendStatPopup()'>" +
+                        return "<button type=\"button\" class=\"k-grid-save-changes k-button k-button-md k-button-solid k-button-solid-base\" onclick='personAttendStat.personAttendStatPopup()'>" +
                             '	<span>근태조정</span>' +
                             '</button>';
                     }

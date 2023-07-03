@@ -131,7 +131,7 @@ var equipmentList = {
                     name: '',
                     text: '수정',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkUp();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkUp();">' +
                             '   <span class="k-button-text">수정</span>' +
                             '</button>';
                     }
@@ -139,7 +139,7 @@ var equipmentList = {
                     name: '',
                     text: '선택 삭제',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkDel()">' +
                             '   <span class="k-button-text">삭제</span>' +
                             '</button>';
                     }

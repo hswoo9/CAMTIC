@@ -94,7 +94,7 @@ $(function(){
             {
                 name : 'button',
                 template : function (e){
-                    return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="/*selectChkDel()*/">' +
+                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="/*selectChkDel()*/">' +
                         '	<span class="k-button-text">선택삭제</span>' +
                         '</button>';
                 }
@@ -104,14 +104,14 @@ $(function(){
             }, {
                 name : 'button',
                 template : function (e){
-                    return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="workPlan.workPlanRegPopup()">' +
+                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="workPlan.workPlanRegPopup()">' +
                         '	<span class="k-button-text">신청</span>' +
                         '</button>';
                 }
             }, {
                 name : 'button',
                 template : function (e){
-                    return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="workPlan.workPlanRegPopup()">' +
+                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="workPlan.workPlanRegPopup()">' +
                         '	<span class="k-button-text">추가</span>' +
                         '</button>';
                 }

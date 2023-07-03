@@ -193,21 +193,21 @@ var assetList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="assetList.goodsManagePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.goodsManagePopup();">' +
                             '	<span class="k-button-text">물품관리관 관리</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="assetList.bulkChangePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.bulkChangePopup();">' +
                             '	<span class="k-button-text">일괄 변경</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="assetList.addAssetPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.addAssetPopup();">' +
                             '	<span class="k-button-text">자산 추가</span>' +
                             '</button>';
                     }

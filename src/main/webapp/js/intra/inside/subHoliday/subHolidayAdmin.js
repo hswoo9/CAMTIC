@@ -188,12 +188,12 @@ var subHolidayAdmin = {
                     title : "승인요청",
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup'  key='"+e.SUBHOLIDAY_USE_ID+"' appType='N' approvalKind='holiday'>" +
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup'  key='"+e.SUBHOLIDAY_USE_ID+"' appType='N' approvalKind='holiday'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>승인요청</span>" +
                                 "</button>";
                         } else if(e.APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base approvalPopup'  key='"+e.SUBHOLIDAY_USE_ID+"' appType='E' approvalKind='holiday'>" +
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup'  key='"+e.SUBHOLIDAY_USE_ID+"' appType='E' approvalKind='holiday'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>재요청</span>" +
                                 "</button>";
@@ -202,24 +202,24 @@ var subHolidayAdmin = {
                         } else if(e.APPR_STAT =="C"){
                             if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
                                 if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
+                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
                                         "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                         "<span class='k-button-text'>회수</span>" +
                                         "</button>";
                                 }else{
-                                    return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
+                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
                                         "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                         "<span class='k-button-text'>취소</span>" +
                                         "</button>";
                                 }
                             }else{
-                                return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_apprVacCancel("+e.SUBHOLIDAY_USE_ID+")\">" +
                                     "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                     "<span class='k-button-text'>취소</span>" +
                                     "</button>";
                             }
                         } else {
-                            return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_vacSave()\">" +
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick=\"subHolidayAdmin.fn_vacSave()\">" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>저장</span>" +
                                 "</button>";

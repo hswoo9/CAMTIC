@@ -125,7 +125,7 @@ var equipmentmangePop = {
                     name: '',
                     text: '삭제',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.selectChkDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.selectChkDel()">' +
                             '   <span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -133,7 +133,7 @@ var equipmentmangePop = {
                     name: 'button',
                     /*text: '신규'*/
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.dataClear()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.dataClear()">' +
                             '	<span class="k-icon k-i-plus k-button-icon"></span>' +
                             '   <span class="k-button-text">신규</span>' +
                             '</button>';

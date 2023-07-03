@@ -117,7 +117,7 @@ var subHolidaySetting = {
                 htmlStr += "</td>";
                 htmlStr += "</tr>";
                 htmlStr += "</table>";
-                htmlStr += "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick=\"subHolidaySetting.saveUserVac()\">" +
+                htmlStr += "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick=\"subHolidaySetting.saveUserVac()\">" +
                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                     "<span class='k-button-text'>저장</span>" +
                     "</button>";

@@ -229,14 +229,14 @@ var overWk = {
                 {
                     name : 'button',
                         template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'overWk.updateApprStat("Y");\'>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=\'overWk.updateApprStat("Y");\'>' +
                             '	<span class="k-button-text">승인</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\'overWk.updateApprStat("E");\'>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=\'overWk.updateApprStat("E");\'>' +
                             '	<span class="k-button-text">반려</span>' +
                             '</button>';
                     }

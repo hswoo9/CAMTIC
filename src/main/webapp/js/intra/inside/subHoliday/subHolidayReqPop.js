@@ -334,7 +334,7 @@ var subHolidayReqPop = {
                 '                        <span style="width: 9%;"> ~ </span>\n' +
                 '                        <input type="text" id="edtHolidayEndHourTop_3" name="edtHolidayEndHourTop_3" className="timeInput" data-bind="value:end" style="width: 20%;">\n' +
                 '                       </td>\n' +
-                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="초기화" onclick=""/></td>\n' +
+                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick=""/></td>\n' +
                 '                      </tr>\n' +
                 '                  </table>\n' +
                 '                </td>\n' +
@@ -447,7 +447,7 @@ var subHolidayReqPop = {
                 '                <td colspan="3">\n' +
                 '                  <input id="edtHolidayWorkDay_3" style="width:20%; margin-right:5px;">\n' +
                 '                  <input type="hidden" id="hisPk" name="hisPk" value="${data.SUBHOLIDAY_USE_ID}">\n' +
-                '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
+                '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -505,9 +505,9 @@ var subHolidayReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
+                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -658,9 +658,9 @@ var subHolidayReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
+                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +

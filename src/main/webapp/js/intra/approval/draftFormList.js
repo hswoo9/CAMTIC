@@ -53,7 +53,7 @@ var draftFormList = {
             htmlStr += "       </tr>" +
                 "   </tbody>" +
                 "</table>" +
-                "<input type=\"button\" class=\"k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" style='float: right;' id=\"formDraftBtn\" value=\"기안하기\" onclick='draftFormList.formDraftPop()' />";
+                "<input type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" style='float: right;' id=\"formDraftBtn\" value=\"기안하기\" onclick='draftFormList.formDraftPop()' />";
             $("#formDetailDiv").append(htmlStr);
 
             draftFormList.global.draftParam = {

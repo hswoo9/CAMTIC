@@ -47,7 +47,7 @@ var storageBoxTemp = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="storageBoxTemp.setCheckedDocDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxTemp.setCheckedDocDel()">' +
                             '	<span class="k-button-text">문서 삭제</span>' +
                             '</button>';
                     }
@@ -105,7 +105,7 @@ var storageBoxTemp = {
                     title : "",
                     width : 80,
                     template : function(e){
-                        return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"tempOrReDraftingPop('+ e.DOC_ID + ',\'' + e.DOC_MENU_CD + '\',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'tempDrafting\')\">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"tempOrReDraftingPop('+ e.DOC_ID + ',\'' + e.DOC_MENU_CD + '\',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'tempDrafting\')\">' +
                             '<span class="k-icon k-i-track-changes k-button-icon"></span>' +
                             '<span class="k-button-text">상신</span>' +
                             '</button>';

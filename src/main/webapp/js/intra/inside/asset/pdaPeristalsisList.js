@@ -173,7 +173,7 @@ var pdaPeristalsisList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
                             '	<span class="k-button-text">위치이동</span>' +
                             '</button>';
                     }

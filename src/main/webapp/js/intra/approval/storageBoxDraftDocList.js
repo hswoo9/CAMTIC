@@ -110,7 +110,7 @@ var storageBoxDraft = {
                     title : "결재선",
                     width : 80,
                     template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
@@ -119,7 +119,7 @@ var storageBoxDraft = {
                     width : 80,
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"storageBoxDraft.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"storageBoxDraft.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
                                 '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
                                 '<span class="k-button-text">회수</span>' +
                                 '</button>';

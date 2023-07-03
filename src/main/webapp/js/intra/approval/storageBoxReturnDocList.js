@@ -44,7 +44,7 @@ var storageBoxReturn = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="storageBoxReturn.setCheckedDocDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxReturn.setCheckedDocDel()">' +
                             '	<span class="k-button-text">문서 삭제</span>' +
                             '</button>';
                     }
@@ -128,7 +128,7 @@ var storageBoxReturn = {
                     title : "결재선",
                     width : 80,
                     template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
@@ -136,7 +136,7 @@ var storageBoxReturn = {
                     title : "",
                     width : 100,
                     template : function(e){
-                        return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick=\"tempOrReDraftingPop('+ e.DOC_ID + ',\'' + e.DOC_MENU_CD + '\',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'reDrafting\')\">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"tempOrReDraftingPop('+ e.DOC_ID + ',\'' + e.DOC_MENU_CD + '\',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'reDrafting\')\">' +
                             '<span class="k-icon k-i-track-changes-enable k-button-icon"></span>' +
                             '<span class="k-button-text">재상신</span>' +
                             '</button>';

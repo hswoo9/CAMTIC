@@ -99,7 +99,7 @@ var appUser = {
                 }, {
                     title : "선택",
                     template : function (row){
-                        return "<button type=\"button\" class=\"k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick=\"appUser.addTable("+row.EMP_SEQ+",'userClick')\">" +
+                        return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"appUser.addTable("+row.EMP_SEQ+",'userClick')\">" +
                             '	<span class="k-icon k-i-check k-button-icon"></span>' +
                             '	<span class="k-button-text">선택</span>' +
                             '</button>';
@@ -141,7 +141,7 @@ var appUser = {
                     name : 'button',
                     template : function (e){
                         return "<div>" +
-                            "<button type=\"button\" class=\"k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick=\"appUser.setFavApprRoutedel()\">" +
+                            "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"appUser.setFavApprRoutedel()\">" +
                             '	<span class="k-icon k-i-trash k-button-icon"></span>' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
@@ -162,7 +162,7 @@ var appUser = {
                 }, {
                     title : "조회",
                     template : function (e){
-                        return "<button type=\"button\" class=\"k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick=\"appUser.addTable("+e.FAV_ROUTE_ID+",'favClick')\">" +
+                        return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"appUser.addTable("+e.FAV_ROUTE_ID+",'favClick')\">" +
                             '	<span class="k-icon k-i-search k-button-icon"></span>' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -177,14 +177,14 @@ var appUser = {
                 {
                     name : 'button',
                     template : function (e){
-                        return "<button type=\"button\" class=\"k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick=\"appUser.apprLineUpdate('up')\">" +
+                        return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"appUser.apprLineUpdate('up')\">" +
                             '	<span class="k-icon k-i-caret-double-alt-up k-button-icon"></span>' +
                             '	<span class="k-button-text">위로</span>' +
                             '</button>';
                     }
                 }, {
                     template : function (e){
-                        return "<button type=\"button\" class=\"k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick=\"appUser.apprLineUpdate('down')\">" +
+                        return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"appUser.apprLineUpdate('down')\">" +
                             '	<span class="k-icon k-i-caret-double-alt-down k-button-icon"></span>' +
                             '	<span class="k-button-text">아래로</span>' +
                             '</button>';
@@ -193,14 +193,14 @@ var appUser = {
                     name : 'button',
                     template : function (e){
                         return "<input type='text' id='favApproveRouteName' name='favApproveRouteName' placeholder='결재선 이름'>" +
-                            "<button type=\"button\" class=\"k-grid-save-changes k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick='appUser.setFavApproveSave()'>" +
+                            "<button type=\"button\" class=\"k-grid-save-changes k-button k-button-md k-button-solid k-button-solid-base\" onclick='appUser.setFavApproveSave()'>" +
                             '	<span class="k-icon k-i-check k-button-icon"></span>' +
                             '	<span class="k-button-text">저장</span>' +
                             '</button>';
                     }
                 }, {
                     template : function (e){
-                        return "	<button type=\"button\" class=\"k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick='appUser.newFavApprove()'>" +
+                        return "	<button type=\"button\" class=\"k-grid-add k-button k-button-md k-button-solid k-button-solid-base\" onclick='appUser.newFavApprove()'>" +
                             '		<span class="k-icon k-i-plus k-button-icon"></span>' +
                             '		<span class="k-button-text">신규</span>' +
                             '	</button>';

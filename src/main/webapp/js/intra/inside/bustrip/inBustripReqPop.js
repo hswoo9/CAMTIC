@@ -131,7 +131,7 @@ var inBustripReqPop = {
                 '                      <tr style="background-color:#fff;">\n' +
                 '                        <td style="text-align: center"><input id="end_date" style="width:150px; margin-right:5px;"></td>\n' +
                 '                        <td style="text-align: center"><input id="start_time" style="width:110px;"> ~ <input id="end_time" style="width:110px;"></td>\n' +
-                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="초기화" onclick=""/></td>\n' +
+                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick=""/></td>\n' +
                 '                      </tr>\n' +
                 '                  </table>\n' +
                 '                </td>\n' +
@@ -165,7 +165,7 @@ var inBustripReqPop = {
                 '                <th>휴일 근로 일자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input id="holiday_date" style="width:20%; margin-right:5px;">' +
-                '                   <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="inBustripReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
+                '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="inBustripReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -221,9 +221,9 @@ var inBustripReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
+                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -298,9 +298,9 @@ var inBustripReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
+                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
