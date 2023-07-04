@@ -13,6 +13,7 @@ To change this template use File | Settings | File Templates.
 
 
 <style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .tit_p{font-weight: bold; margin-bottom: 13px; padding-left: 12px; font-size: 13px;}
     table { background-color: white; }
 </style>
@@ -27,7 +28,11 @@ To change this template use File | Settings | File Templates.
     <div class="col-md-10 col-lg-10 dash-left">
         <div class="panel">
             <div class="panel-heading">
+            </div>
+            <div style="padding-left : 20px; padding-right: 20px;">
                 <h4 class="panel-title">상신문서</h4>
+                <div class="title-road" style="text-align: right; margin-bottom: 5px;">상신/보관함 &gt; 상신문서</div>
+                <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
             </div>
             <div class="panel-body">
                 <div class="table-responsive" style="margin-bottom:10px;">

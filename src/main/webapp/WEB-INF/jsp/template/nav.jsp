@@ -92,7 +92,7 @@
                     <h5 class="sidebar-title">업무</h5>
                     <ul class="accordion nav nav-pills nav-stacked nav-quirk">
                         <li>
-                            <a class="toggleMain" href="#">전자결재</a>
+                            <a class="toggleMain" href="#">캠도큐먼트</a>
                             <ul class="innerMain children a">
                                 <li>
                                     <a href="#" class="toggleMain">상신/보관함</a>
@@ -536,13 +536,13 @@
                                 <li><a href="#" class="toggleMain1">법인추진실적집계</a></li> <%--menu=i_a--%>
                             </ul>
                         </li>
-                        <li>
+                        <%--<li>
                             <a class="toggleMain" href="#">캠도큐먼트</a>
                             <ul class="innerMain children j">
                                 <li>
                                     <a href="#" class="toggleMain">상신/보관함</a>
                                     <ul class="innerMain children j_a">
-                                        <li><a href="#" class="toggleMain1">양식목록</a></li> <%--menu=j_a--%>
+                                        <li><a href="#" class="toggleMain1">양식목록</a></li> &lt;%&ndash;menu=j_a&ndash;%&gt;
                                         <li><a href="#" class="toggleMain1">구매요청등</a></li>
                                         <li><a href="#" class="toggleMain1">임시보관문서</a></li>
                                         <li><a href="#" class="toggleMain1">상신문서</a></li>
@@ -550,18 +550,18 @@
                                         <li><a href="#" class="toggleMain1">열람문서</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#" class="toggleMain1">결재함</a></li> <%--menu=j_b--%>
+                                <li><a href="#" class="toggleMain1">결재함</a></li> &lt;%&ndash;menu=j_b&ndash;%&gt;
                                 <li>
                                     <a href="#" class="toggleMain">문서함</a>
                                     <ul class="innerMain children j_c">
-                                        <li><a href="#" class="toggleMain1">기록물철</a></li> <%--menu=j_c--%>
+                                        <li><a href="#" class="toggleMain1">기록물철</a></li> &lt;%&ndash;menu=j_c&ndash;%&gt;
                                         <li><a href="#" class="toggleMain1">외부문서접수함</a></li>
                                         <li><a href="#" class="toggleMain1">협약(MOU)보관함</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#" class="toggleMain1">결재설정관리</a></li> <%--menu=j_d--%>
+                                <li><a href="#" class="toggleMain1">결재설정관리</a></li> &lt;%&ndash;menu=j_d&ndash;%&gt;
                             </ul>
-                        </li>
+                        </li>--%>
                         <li>
                             <a class="toggleMain" href="#">시스템관리</a>
                             <ul class="innerMain children j">

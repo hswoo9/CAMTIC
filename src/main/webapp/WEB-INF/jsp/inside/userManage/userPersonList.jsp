@@ -19,10 +19,9 @@
     <div class="panel">
         <div class="panel-heading">
         </div>
-
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">직원조회목록</h4>
-            <div class="title-road" style="text-align: right;">인사관리 &gt; 직원조회목록</div>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">인사관리 &gt; 직원조회목록</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
