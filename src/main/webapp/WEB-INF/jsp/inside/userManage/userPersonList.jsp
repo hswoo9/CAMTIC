@@ -7,6 +7,7 @@
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}
     table { background-color: white; }
+    .table-bordered > tbody > tr > th{ background-color: #8fa1c0; color: white;}
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/inside/userManage/userPersonList.js?v=${today}"/></script>
@@ -20,17 +21,54 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">직원조회목록</h4>
+            <h4 class="panel-title" style="margin-bottom: 5px;">인사관리</h4>
+            <div>직원조회목록</div>
             <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 &gt; 인사관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
+                <table class="table table-bordered" style="border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="deptComp" style="width: 200px; margin-right:10px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="deptTeam" style="width: 200px; margin-right:10px;">
+                        </td>
+                        <th class="text-center th-color">성별</th>
+                        <td>
+                            <input type="text" id="userGender" style="width:200px; margin-right:10px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">적용기간</th>
+                        <td>
+                            <input type="text" id="start_date" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">기타</th>
+                        <td colspan="3">
+                            <input type="text" id="userKind" style="width: 100px;">
+                            <input type="text" id="kindContent" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
+                        </td>
+                    </tr>
+                </table>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;">
-                                <div class="mr10">
+<%--                                <div class="mr10">
                                     <span>부서</span>
                                     <input type="text" id="deptComp" style="width: 150px; margin-right:10px;">
                                 </div>
@@ -48,13 +86,13 @@
                                 </div>
                                 <div class="mr10">
                                     <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
-<%--                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">상세검색</button>--%>
+&lt;%&ndash;                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">상세검색</button>&ndash;%&gt;
                                 </div>
                             </div>
                             <div class="mt10">
                                 <span>적용기간</span>
                                 <input type="text" id="start_date" style="width: 140px;">
-                            </div>
+                            </div>--%>
                             <style>
                                 label {
                                     position: relative;
