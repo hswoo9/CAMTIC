@@ -13,46 +13,20 @@ var userPersonList = {
     init : function () {
         userPersonList.dataSet();
         userPersonList.gridReload();
-        //userPersonList.mainGrid();
     },
 
     dataSet() {
-        $("#deptComp").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
-        });
+        var data = {
 
-        $("#deptTeam").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "제조혁신팀", value: "제조혁신팀"},
-                {text: "신기술융합팀", value: "신기술융합팀"},
-                {text: "우주개발팀", value: "우주개발팀"},
-                {text: "항공개발팀", value: "항공개발팀"},
-                {text: "사업지원팀", value: "사업지원팀"},
-                {text: "인재개발팀", value: "인재개발팀"},
-                {text: "일자리창업팀", value: "일자리창업팀"},
-                {text: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터"},
-                {text: "지역산업육성팀", value: "지역산업육성팀"},
-                {text: "경영지원팀", value: "경영지원팀"},
-                {text: "미래전략기획팀", value: "미래전략기획팀"},
-                {text: "J-밸리혁신팀", value: "J-밸리혁신팀"},
-                {text: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
-                {text: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
-            ],
-            index: 0
-        });
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq");
+
+        $("#deptComp").data("kendoDropDownList").bind("change", userPersonList.fn_chngDeptComp)
+        $("#deptComp").data("kendoDropDownList").select(0);
+        $("#deptComp").data("kendoDropDownList").trigger("change");
 
         $("#userGender").kendoDropDownList({
             dataTextField: "text",
@@ -69,8 +43,8 @@ var userPersonList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "성명", value: "성명"},
-                {text: "직급", value: "직급"},
+                {text: "성명", value: "EMP_NAME_KR"},
+                {text: "직급", value: "POSITION_NAME"},
                 {text: "등급", value: "등급"},
                 {text: "직책", value: "직책"},
                 {text: "메일주소", value: "메일주소"},
@@ -311,6 +285,15 @@ var userPersonList = {
             dataTextField: "name",
             dataValueField: "value"
         });
+    },
+
+    fn_chngDeptComp : function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq")
     },
 
     mainGrid : function(url,params) {

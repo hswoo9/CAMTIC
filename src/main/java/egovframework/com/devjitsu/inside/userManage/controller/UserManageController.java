@@ -36,6 +36,8 @@ public class UserManageController {
     @RequestMapping("/Inside/userPersonList.do")
     public String userPersonList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
