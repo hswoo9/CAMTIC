@@ -21,12 +21,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">개인연차현황</h4>
-            <div class="title-road">근태관리 &gt; 개인연차현황</div>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">개인연차현황</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 근태관리 &gt; 개인연차현황</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+        </div>
+        <div class="panel-body">
             <div>
                 <h4 class="panel-title">* 연차 현황</h4>
                 <div style="margin:20px 0;">

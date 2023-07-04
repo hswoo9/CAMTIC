@@ -11,6 +11,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     table { background-color: white; }
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
@@ -24,15 +25,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">시간 외 근무 현황(관리자)</h4>
-            <div class="title-road">시간외근무 &gt; 시간 외 근무 현황</div>
         </div>
-
-        <div class="panel-body">
-
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">시간 외 근무 현황(관리자)</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 시간외근무 &gt; 시간 외 근무 현황</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
-
+        </div>
+        <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">--%>
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">

@@ -14,13 +14,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">장비관리 (관리자)</h4>
-            <div class="title-road">장비관리 &gt; 장비관리 (관리자)</div>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">장비관리 (관리자)</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 장비관리 &gt; 장비관리 (관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
+        </div>
+        <div class="panel-body">
             <div>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>

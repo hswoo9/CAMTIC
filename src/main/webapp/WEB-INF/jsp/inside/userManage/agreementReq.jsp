@@ -13,6 +13,9 @@
 <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script type = "text/javascript" src = "https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script type="text/javascript" src="/js/intra/inside/userManage/agreementReq.js?v=${toDate}"/></script>
+<style>
+    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
+</style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -21,13 +24,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">연봉계약서 작성</h4>
-            <div class="title-road">인사관리 > 임용문서관리 > 연봉계약서 작성</div>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">연봉계약서</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 임용문서관리 > 연봉계약서</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
+        </div>
+        <div class="panel-body">
             <div>
                 <textarea id="editor" style="height: 920px;">
                 </textarea>

@@ -15,6 +15,7 @@
 
 
 <style>
+.title-road{font-size: 11px; color: #999999; margin-top:10px;}
 .likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
 .likeTab li{padding: 5px 18px; border-radius: 5px 5px 0 0; background-color: #f0f7ff; border: 1px solid #eee; font-weight: 600; cursor: pointer; font-size:13px;}
 .k-input-md{font-size:12px;}
@@ -25,11 +26,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
+        </div>
+        <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">인사기록카드</h4>
-            <div class="title-road">인사관리 &gt; 인사기록카드</div>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사기록카드</div>
+            <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
             <div>
                 <div id="tabstrip">
                     <ul class="likeTab">

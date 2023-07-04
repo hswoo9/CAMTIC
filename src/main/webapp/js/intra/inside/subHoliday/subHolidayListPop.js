@@ -43,12 +43,13 @@ var subHolidayListPop = {
 
         subHolidayListPop.treeViewReload(deptSeq);
 
-        $("#addApprLineGrid, #addCooperationLineGrid, #addReaderListGrid").kendoGrid({
+        $("#addSubHLineGrid, #addCooperationLineGrid, #addReaderListGrid").kendoGrid({
             resizable: true,
             columns: [
                 {
-                    width : 18
-                }, {
+                    /*headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    width : 15
+                }, {*/
                     title : "순번",
                     width : 24
                 }, {
@@ -66,8 +67,6 @@ var subHolidayListPop = {
                 }
             ]
         });
-
-        subHolidayListPop.getFavApproveList();
     },
 
     treeViewReload : function(dept){
@@ -143,9 +142,53 @@ var subHolidayListPop = {
         subHolidayListPop.treeViewReload(deptSeq);
         $("#userList").data("kendoGrid").dataSource.read();
     },
+
     gridReload : function() {
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
+
+    newFavApprove : function(e){
+        if(confirm("선택된 업무인수자는 초기화됩니다. 계속하시겠습니까?")){
+            $("#approvalLineDataTb tbody tr").remove();
+            subHolidayListPop.global.approversArr = [];
+            opener.draft.global.approversArr = [];
+            opener.parent.draft.drafterArrAdd();
+            subHolidayListPop.global.approversArr = opener.draft.global.approversArr;
+        }
+    },
+    
+    rowDelClick : function(){
+        var chkCnt = $("input[name='approveChk']:checked").length;
+
+        if(chkCnt == 0){
+            alert("삭제할 업무인수자를 선택해주세요.");
+            return
+        }
+
+        subHolidayListPop.global.flag = true;
+
+        $.each($("#approvalLineDataTb tbody tr input[name='approveChk']"), function(i, e){
+            if($(e).is(":checked")){
+                if($(e).closest("tr").find("#approveOrder").text() == "0"){
+                    alert("기안자는 삭제하실 수 없습니다.");
+                    subHolidayListPop.global.flag = false;
+                    return false;
+                }else{
+                    $(e).closest("tr").remove();
+                }
+            }
+        })
+
+        if(subHolidayListPop.global.flag){
+            $.each($("#approvalLineDataTb tbody tr"), function(i, e){
+                $(e).find("#approveOrder").text(i);
+            })
+            subHolidayListPop.approveTypeChange("trMove");
+        }
+    },
+
+
+
 
     gridChoose : function (e) {
         var tr = $(e).closest("tr");

@@ -46,36 +46,25 @@
 				</div>
 			</td>
 			<td>
-				<div id="apprLineTypeTabStrip" style="width: 600px;">
+				<div id="apprLineTypeTabStrip" style="width: 600px; height: 490px;">
 					<ul>
 						<li class="k-state-active">
 							업무인수자 지정
 						</li>
 					</ul>
 					<div>
-						<div>
-							<input type='text' id='favApproveList' name='favApproveList' style='margin-right: auto;width: 30%;'>
-						</div>
 						<div style="margin-top: 10px;margin-bottom: 48px;">
 							<div style="float:right;">
 								<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.newFavApprove()">
 									<span class="k-icon k-i-plus k-button-icon"></span>
 									<span class="k-button-text">초기화</span>
 								</button>
-
-								<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.rowDelClick()">
+								<%--<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.rowDelClick()">
 									<span class="k-button-text">삭제</span>
-								</button>
-
-								<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineUpdate('up')" style='margin-left: 5px'>
-									<span class="k-icon k-i-caret-double-alt-up k-button-icon"></span>
-								</button>
-								<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineUpdate('down')" style="margin-left: 5px">
-									<span class="k-icon k-i-caret-double-alt-down k-button-icon"></span>
-								</button>
+								</button>--%>
 							</div>
 						</div>
-						<div id="addApprLineGrid" style="margin-top:10px">
+						<div id="addSubHLineGrid" style="margin-top:10px">
 
 						</div>
 						<div id="approvalLineDataDiv" style="max-height: 306px; height:306px; overflow-y: scroll;border: 1px solid #dedfdf;" >

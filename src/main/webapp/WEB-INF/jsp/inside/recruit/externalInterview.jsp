@@ -21,13 +21,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">캠틱종합기술원 면접심사 채용공고</h4>
-            <div class="title-road">채용관리 &gt; 외부의원 면접심사</div>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">캠틱종합기술원 면접심사 채용공고</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 채용관리 &gt; 외부의원 면접심사</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
+        </div>
+        <div class="panel-body">
             <div>
                 <div class="table-responsive">
                     <div>

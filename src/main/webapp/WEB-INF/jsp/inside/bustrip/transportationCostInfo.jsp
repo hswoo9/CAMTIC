@@ -21,13 +21,13 @@
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">교통비 기준정보</h4>
-            <div class="title-road">출장관리 &gt; 교통비 기준정보</div>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">교통비기준정보</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 출장관리 &gt; 교통비기준정보</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
+        </div>
+        <div class="panel-body">
             <div>
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
