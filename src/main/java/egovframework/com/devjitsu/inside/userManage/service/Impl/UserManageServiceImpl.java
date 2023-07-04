@@ -65,6 +65,17 @@ public class UserManageServiceImpl implements UserManageService {
     }
     @Override
     public List<Map<String, Object>> getEmpInfoList(Map<String, Object> map) {
+
+        if(map.containsKey("dtArr")){
+            String arrText = map.get("dtArr").toString();
+
+            String[] arr = arrText.split(",");
+
+            map.put("arr", arr);
+        } else {
+            map.put("arr", "");
+        }
+
         return userManageRepository.getEmpInfoList(map);
     }
     @Override
