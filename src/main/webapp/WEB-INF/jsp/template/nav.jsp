@@ -116,7 +116,7 @@
                                 <li>
                                     <a href="#" class="toggleMain">결재설정</a>
                                     <ul class="innerMain children a_c">
-                                        <li><a href="/approvalUser/approvalLineManagement.do?menu=a_c" class="toggleMain1">결재선 관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/approvalUser/approvalLineManagement.do?menu=a_c')" class="toggleMain1">결재선 관리</a></li>
                                         <li><a href="#" class="toggleMain1">부재설정</a></li>
                                     </ul>
                                 </li>
@@ -321,16 +321,16 @@
                                 <li>
                                     <a href="#" class="toggleMain">인사관리</a>
                                     <ul class="innerMain children c_a">
-                                        <li><a href="/Inside/userPersonList.do?menu=c_a" class="toggleMain1">인사관리</a></li>
-                                        <li><a href="/Inside/userPersonnelRecord.do?menu=c_a" class="toggleMain1">인사기록카드</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/userPersonList.do?menu=c_a')" class="toggleMain1">인사관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/userPersonnelRecord.do?menu=c_a')" class="toggleMain1">인사기록카드</a></li>
                                         <%--<li><a href="/Inside/performanceResultList.do?menu=c_a" class="toggleMain1">성과결과조회</a></li>--%>
-                                        <li><a href="/Inside/userInfoMod.do?menu=c_a" class="toggleMain1">인사정보변경신청</a></li>
-                                        <li><a href="/user/organizationChart.do?menu=c_a" class="toggleMain1">조직도관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/userInfoMod.do?menu=c_a')" class="toggleMain1">인사정보변경신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/user/organizationChart.do?menu=c_a')" class="toggleMain1">조직도관리</a></li>
                                         <li>
                                             <a href="#" class="toggleMain1">임용문서관리</a>
                                             <ul class="innerMain children c_a_1">
-                                                <li><a href="/Inside/employmentReq.do?menu=c_a_1" class="toggleMain2">근로계약서</a></li>
-                                                <li><a href="/Inside/agreementReq.do?menu=c_a_1" class="toggleMain2">연봉계약서</a></li>
+                                                <li><a href="#" onclick="open_in_frame('/Inside/employmentReq.do?menu=c_a_1')" class="toggleMain2">근로계약서</a></li>
+                                                <li><a href="#" onclick="open_in_frame('/Inside/agreementReq.do?menu=c_a_1')" class="toggleMain2">연봉계약서</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -344,162 +344,162 @@
                                 <li>
                                     <a href="#" class="toggleMain">휴가관리</a>
                                     <ul class="innerMain children c_c">
-                                        <li><a href="/subHoliday/subHolidayList.do?menu=c_c" class="toggleMain1">휴가관리</a></li>
-                                        <li><a href="/subHoliday/subHolidayAdmin.do?menu=c_c" class="toggleMain1">휴가신청관리</a></li>
-                                        <li><a href="/subHoliday/subHolidayStat.do?menu=c_c" class="toggleMain1">휴가사용현황</a></li>
-                                        <li><a href="/subHoliday/subHolidaySetting.do?menu=c_c" class="toggleMain1">휴가설정</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/subHoliday/subHolidayList.do?menu=c_c')" class="toggleMain1">휴가관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/subHoliday/subHolidayAdmin.do?menu=c_c')" class="toggleMain1">휴가신청관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/subHoliday/subHolidayStat.do?menu=c_c')" class="toggleMain1">휴가사용현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/subHoliday/subHolidaySetting.do?menu=c_c')" class="toggleMain1">휴가설정</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">증명서관리</a>
                                     <ul class="innerMain children c_d">
-                                        <li><a href="/Inside/certificateReq.do?menu=c_d" class="toggleMain1">증명서신청</a></li>
-                                        <li><a href="/Inside/certificateAdmin.do?menu=c_d" class="toggleMain1">증명서관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/certificateReq.do?menu=c_d')" class="toggleMain1">증명서신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/certificateAdmin.do?menu=c_d')" class="toggleMain1">증명서관리</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">발령/포상관리</a>
                                     <ul class="innerMain children c_e">
-                                        <li><a href="/Inside/historyReq.do?menu=c_e" class="toggleMain1">발령관리</a></li>
-                                        <li><a href="/Inside/rewardReq.do?menu=c_e" class="toggleMain1">포상관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/historyReq.do?menu=c_e')" class="toggleMain1">발령관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/rewardReq.do?menu=c_e')" class="toggleMain1">포상관리</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">채용관리</a>
                                     <ul class="innerMain children c_f">
-                                        <li><a href="/Inside/recruitList.do?menu=c_f" class="toggleMain1">채용관리</a></li>
-                                        <li><a href="/Inside/commissionerManage.do?menu=c_f" class="toggleMain1">평가위원관리</a></li>
-                                        <li><a href="/Inside/externalInterview.do?menu=c_f" class="toggleMain1">외부의원 면접심사</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/recruitList.do?menu=c_f')" class="toggleMain1">채용관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/commissionerManage.do?menu=c_f')" class="toggleMain1">평가위원관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/externalInterview.do?menu=c_f')" class="toggleMain1">외부의원 면접심사</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">인사평가</a>
                                     <ul class="innerMain children c_g">
-                                        <li><a href="/Inside/evaluationReq.do?menu=c_g" class="toggleMain1">평가등록</a></li>
-                                        <li><a href="/Inside/evaluationList.do?menu=c_g" class="toggleMain1">평가관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/evaluationReq.do?menu=c_g')" class="toggleMain1">평가등록</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/evaluationList.do?menu=c_g')" class="toggleMain1">평가관리</a></li>
                                         <li>
                                             <a href="#" class="toggleMain1">평가결과조회</a>
                                             <ul class="innerMain children c_g_1">
-                                                <li><a href="/Inside/evaluationResultList.do?menu=c_g" class="toggleMain2">6월팀원평가결과</a></li>
+                                                <li><a href="#" onclick="open_in_frame('/Inside/evaluationResultList.do?menu=c_g')" class="toggleMain2">6월팀원평가결과</a></li>
                                             </ul>
                                         </li>
                                         <li>
                                             <a href="#" class="toggleMain1">평가통계조회</a>
                                             <ul class="innerMain children c_g_1">
-                                                <li><a href="/Inside/evaluationStatA.do?menu=c_g" class="toggleMain2">단장평균</a></li>
-                                                <li><a href="/Inside/evaluationStatB.do?menu=c_g" class="toggleMain2">팀장평균</a></li>
-                                                <li><a href="/Inside/evaluationStatC.do?menu=c_g" class="toggleMain2">팀원평균</a></li>
+                                                <li><a href="#" onclick="open_in_frame('/Inside/evaluationStatA.do?menu=c_g')" class="toggleMain2">단장평균</a></li>
+                                                <li><a href="#" onclick="open_in_frame('/Inside/evaluationStatB.do?menu=c_g')" class="toggleMain2">팀장평균</a></li>
+                                                <li><a href="#" onclick="open_in_frame('/Inside/evaluationStatC.do?menu=c_g')" class="toggleMain2">팀원평균</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="/Inside/employeeInterviewCard.do?menu=c_g" class="toggleMain1">직원면담카드</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/employeeInterviewCard.do?menu=c_g')" class="toggleMain1">직원면담카드</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">참여율관리</a>
                                     <ul class="innerMain children c_h">
-                                        <li><a href="/Inside/employeeSalaryManage.do?menu=c_h" class="toggleMain1">직원급여관리</a></li>
-                                        <li><a href="/Inside/socialRateManage.do?menu=c_h" class="toggleMain1">사대보험요율관리</a></li>
-                                        <li><a href="/Inside/participationRateList.do?menu=c_h" class="toggleMain1">참여율신청목록</a></li>
-                                        <li><a href="/Inside/employeeParticipationList.do?menu=c_h" class="toggleMain1">직원별참여현황</a></li>
-                                        <li><a href="/Inside/businessParticipationList.do?menu=c_h" class="toggleMain1">사업별참여현황</a></li>
-                                        <li><a href="/Inside/monthlyPayList.do?menu=c_h" class="toggleMain1">월별급여지급현황</a></li>
-                                        <li><a href="/Inside/laborList.do?menu=c_h" class="toggleMain1">인건비현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/employeeSalaryManage.do?menu=c_h')" class="toggleMain1">직원급여관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/socialRateManage.do?menu=c_h')" class="toggleMain1">사대보험요율관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/participationRateList.do?menu=c_h')" class="toggleMain1">참여율신청목록</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/employeeParticipationList.do?menu=c_h')" class="toggleMain1">직원별참여현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/businessParticipationList.do?menu=c_h')" class="toggleMain1">사업별참여현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/monthlyPayList.do?menu=c_h')" class="toggleMain1">월별급여지급현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/laborList.do?menu=c_h')" class="toggleMain1">인건비현황</a></li>
                                     </ul>
                                 </li>
                                 <h5 class="sidebar-title">자산관리</h5>
                                 <li>
                                     <a href="#" class="toggleMain">자산관리</a>
                                     <ul class="innerMain children c_i">
-                                        <li><a href="/Inside/assetList.do?menu=c_i" class="toggleMain1">자산리스트</a></li>
-                                        <li><a href="/Inside/proposalList.do?menu=c_i" class="toggleMain1">구매내역</a></li>
-                                        <li><a href="/Inside/classManage.do?menu=c_i" class="toggleMain1">분류관리</a></li>
-                                        <li><a href="/Inside/pdaPeristalsisList.do?menu=c_i" class="toggleMain1">PDA연동목록</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/assetList.do?menu=c_i')" class="toggleMain1">자산리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/proposalList.do?menu=c_i')" class="toggleMain1">구매내역</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/classManage.do?menu=c_i')" class="toggleMain1">분류관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/pdaPeristalsisList.do?menu=c_i')" class="toggleMain1">PDA연동목록</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">지식재산권관리</a>
                                     <ul class="innerMain children c_j">
-                                        <li><a href="/Inside/rprList.do?menu=c_j" class="toggleMain1">지식재산권리스트</a></li>
-                                        <li><a href="/Inside/rprReceiptList.do?menu=c_j" class="toggleMain1">접수내역</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/rprList.do?menu=c_j')" class="toggleMain1">지식재산권리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/rprReceiptList.do?menu=c_j')" class="toggleMain1">접수내역</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">장비관리</a>
                                     <ul class="innerMain children c_k">
-                                        <li><a href="/Inside/equipmentList.do?menu=c_k" class="toggleMain1">장비관리</a></li>
-                                        <li><a href="/Inside/equipmentListAdminView.do?menu=c_k" class="toggleMain1">장비관리 (관리자)</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/equipmentList.do?menu=c_k')" class="toggleMain1">장비관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/equipmentListAdminView.do?menu=c_k')" class="toggleMain1">장비관리 (관리자)</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">도서관리</a>
                                     <ul class="innerMain children c_l">
-                                        <li><a href="/Inside/bookList.do?menu=c_l" class="toggleMain1">도서리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/bookList.do?menu=c_l')" class="toggleMain1">도서리스트</a></li>
                                     </ul>
                                 </li>
                                 <h5 class="sidebar-title">출장관리</h5>
                                 <li>
                                     <a href="#" class="toggleMain">출장관리</a>
                                     <ul class="innerMain children c_l">
-                                        <li><a href="/Inside/inBustripList.do?menu=c_l" class="toggleMain1">관내출장리스트</a></li>
-                                        <li><a href="/Inside/outBustripList.do?menu=c_l" class="toggleMain1">관외출장리스트</a></li>
-                                        <li><a href="/Inside/transportationCostInfo.do?menu=c_l" class="toggleMain1">교통비기준정보</a></li>
-                                        <li><a href="/Inside/dutyBustripExpenses.do?menu=c_l" class="toggleMain1">직급별출장여비</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/inBustripList.do?menu=c_l')" class="toggleMain1">관내출장리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/outBustripList.do?menu=c_l')" class="toggleMain1">관외출장리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/transportationCostInfo.do?menu=c_l')" class="toggleMain1">교통비기준정보</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/dutyBustripExpenses.do?menu=c_l')" class="toggleMain1">직급별출장여비</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">차량/회의실관리</a>
                                     <ul class="innerMain children c_m">
-                                        <li><a href="/Inside/carReq.do?menu=c_m" class="toggleMain1">차량사용신청</a></li>
-                                        <li><a href="/Inside/meetingRoomReq.do?menu=c_m" class="toggleMain1">회의실사용신청</a></li>
-                                        <li><a href="/Inside/carManage.do?menu=c_m" class="toggleMain1">차량관리</a></li>
-                                        <li><a href="/Inside/meetingRoomManage.do?menu=c_m" class="toggleMain1">회의실관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/carReq.do?menu=c_m')" class="toggleMain1">차량사용신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do?menu=c_m')" class="toggleMain1">회의실사용신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/carManage.do?menu=c_m')" class="toggleMain1">차량관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/meetingRoomManage.do?menu=c_m')" class="toggleMain1">회의실관리</a></li>
                                     </ul>
                                 </li>
                                 <h5 class="sidebar-title">문서관리</h5>
                                 <li>
                                     <a href="#" class="toggleMain">문서관리</a>
                                     <ul class="innerMain children c_n">
-                                        <li><a href="/Inside/documentList.do?menu=c_n" class="toggleMain1">등록대장</a></li>
-                                        <li><a href="/Inside/inComeList.do?menu=c_n" class="toggleMain1">접수대장</a></li>
-                                        <li><a href="/Inside/docOrderList.do?menu=c_n" class="toggleMain1">개발사업수주대장</a></li>
-                                        <li><a href="/Inside/docuList.do?menu=c_n" class="toggleMain1">계약대장</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/documentList.do?menu=c_n')" class="toggleMain1">등록대장</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/inComeList.do?menu=c_n')" class="toggleMain1">접수대장</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/docOrderList.do?menu=c_n')" class="toggleMain1">개발사업수주대장</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/docuList.do?menu=c_n')" class="toggleMain1">계약대장</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="/Inside/doclist.do?menu=c_n" class="toggleMain">문서고</a>
+                                    <a href="#" onclick="open_in_frame('/Inside/doclist.do?menu=c_n')" class="toggleMain">문서고</a>
                                 </li>
                                 <li>
-                                    <a href="/Inside/snackList.do?menu=c_n" class="toggleMain1">야근/휴일식대대장</a>
+                                    <a href="#" onclick="open_in_frame('/Inside/snackList.do?menu=c_n')" class="toggleMain1">야근/휴일식대대장</a>
                                 </li>
                                 <h5 class="sidebar-title">근태관리</h5>
                                 <li>
                                     <a href="#" class="toggleMain">근태관리</a>
                                     <ul class="innerMain children c_o">
-                                        <li><a href="/Inside/personAttendList.do?menu=c_o" class="toggleMain1">개인근태현황</a></li>
-                                        <li><a href="/Inside/personAnnvMain.do?menu=c_o" class="toggleMain1">개인연차현황</a></li>
-                                        <li><a href="/Inside/personReqManage.do?menu=c_o" class="toggleMain1">근태신청현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/personAttendList.do?menu=c_o')" class="toggleMain1">개인근태현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/personAnnvMain.do?menu=c_o')" class="toggleMain1">개인연차현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/personReqManage.do?menu=c_o')" class="toggleMain1">근태신청현황</a></li>
                                         <%--<li><a href="/Inside/attendStat.do?menu=c_o" class="toggleMain1">근태집계</a></li>--%>
-                                        <li><a href="/Inside/personAttendStat.do?menu=c_o" class="toggleMain1">직원근태내역</a></li>
-                                        <li><a href="/Inside/monthAttendStat.do?menu=c_o" class="toggleMain1">월별근태보고</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/personAttendStat.do?menu=c_o')" class="toggleMain1">직원근태내역</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/monthAttendStat.do?menu=c_o')" class="toggleMain1">월별근태보고</a></li>
                                         <%--<li><a href="/Inside/workChoiceReq.do?menu=c_o" class="toggleMain1">선택근로</a></li>
                                         <li><a href="/Inside/overWorkReq.do?menu=c_o" class="toggleMain1">연장근로</a></li>--%>
-                                        <li><a href="/Inside/holidayWorkReq.do?menu=c_o" class="toggleMain1">휴일근로현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/holidayWorkReq.do?menu=c_o')" class="toggleMain1">휴일근로현황</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">유연근무</a>
                                     <ul class="innerMain children c_p">
-                                        <li><a href="/workPlan/workPlanReq.do?menu=c_p" class="toggleMain1">유연근무신청</a></li>
-                                        <li><a href="/workPlan/workPlanApp.do?menu=c_p" class="toggleMain1">유연근무승인</a></li>
-                                        <li><a href="/workPlan/workPlanAdminView.do?menu=c_p" class="toggleMain1">유연근무현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/workPlan/workPlanReq.do?menu=c_p')" class="toggleMain1">유연근무신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/workPlan/workPlanApp.do?menu=c_p')" class="toggleMain1">유연근무승인</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/workPlan/workPlanAdminView.do?menu=c_p')" class="toggleMain1">유연근무현황</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">시간외근무</a>
                                     <ul class="innerMain children c_q">
-                                        <li><a href="/overWk/overWkReq.do?menu=c_q" class="toggleMain1">시간외근무신청</a></li>
-                                        <li><a href="/overWk/overWkApp.do?menu=c_q" class="toggleMain1">시간외근무승인</a></li>
-                                        <li><a href="/overWk/overWkAdminView.do?menu=c_q" class="toggleMain1">시간외근무현황</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/overWk/overWkReq.do?menu=c_q')" class="toggleMain1">시간외근무신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/overWk/overWkApp.do?menu=c_q')" class="toggleMain1">시간외근무승인</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/overWk/overWkAdminView.do?menu=c_q')" class="toggleMain1">시간외근무현황</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -510,24 +510,24 @@
                                 <li>
                                     <a href="#" class="toggleMain">학습관리</a>
                                     <ul class="innerMain children d_a">
-                                        <li><a href="/Campus/eduReq.do?menu=d_a" class="toggleMain1">개인학습신청</a></li> <%--menu=d_a--%>
-                                        <li><a href="/Campus/eduInfo.do?menu=d_a" class="toggleMain1">개인학습관리</a></li>
-                                        <li><a href="/Campus/studyInfo.do?menu=d_a" class="toggleMain1">학습조관리</a></li>
-                                        <li><a href="/Campus/propagInfo.do?menu=d_a" class="toggleMain1">전파학습관리</a></li>
-                                        <li><a href="/Campus/ojtInfo.do?menu=d_a" class="toggleMain1">OJT관리</a></li>
-                                        <li><a href="/Campus/openStudyInfo.do?menu=d_a" class="toggleMain1">오픈스터디관리</a></li>
-                                        <li><a href="/Campus/eduManagement.do?menu=d_a" class="toggleMain1">공통학습관리(캠화지등)</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/eduReq.do?menu=d_a')" class="toggleMain1">개인학습신청</a></li> <%--menu=d_a--%>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/eduInfo.do?menu=d_a')" class="toggleMain1">개인학습관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/studyInfo.do?menu=d_a')" class="toggleMain1">학습조관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/propagInfo.do?menu=d_a')" class="toggleMain1">전파학습관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/ojtInfo.do?menu=d_a')" class="toggleMain1">OJT관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/openStudyInfo.do?menu=d_a')" class="toggleMain1">오픈스터디관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/eduManagement.do?menu=d_a')" class="toggleMain1">공통학습관리(캠화지등)</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/Campus/eduStat.do?menu=d_b" class="toggleMain1">학습통계</a></li> <%--menu=d_b--%>
+                                <li><a href="#" onclick="open_in_frame('/Campus/eduStat.do?menu=d_b')" class="toggleMain1">학습통계</a></li> <%--menu=d_b--%>
                                 <li>
                                     <a href="#" class="toggleMain1">목표기술서관리</a>
                                     <ul class="innerMain children d_c">
-                                        <li><a href="/Campus/targetInfo.do?menu=d_c" class="toggleMain1">목표기술서작성</a></li>
-                                        <li><a href="/Campus/systemManagement.do?menu=d_c" class="toggleMain1">학습체계도관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/targetInfo.do?menu=d_c')" class="toggleMain1">목표기술서작성</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Campus/systemManagement.do?menu=d_c')" class="toggleMain1">학습체계도관리</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/Campus/dutyInfo.do?menu=d_d" class="toggleMain1">직무기술서작성</a></li>
+                                <li><a href="#" onclick="open_in_frame('/Campus/dutyInfo.do?menu=d_d')" class="toggleMain1">직무기술서작성</a></li>
                             </ul>
                         </li>
                         <li>
