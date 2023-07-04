@@ -35,7 +35,7 @@ public class CertificateController {
     }
 
     //증명서신청 팝업 페이지
-    @RequestMapping("/Inside/certificateReqPop.do")
+    @RequestMapping("/Inside/pop/certificateReqPop.do")
     public String certificateReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");

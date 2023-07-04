@@ -183,9 +183,9 @@ var certificateReq = {
     },
 
     certificateReqPop : function(userProofSn) {
-        var url = "/Inside/certificateReqPop.do";
+        var url = "/Inside/pop/certificateReqPop.do";
         if(!isNaN(userProofSn)) {
-            url = "/Inside/certificateReqPop.do?userProofSn="+userProofSn;
+            url = "/Inside/pop/certificateReqPop.do?userProofSn="+userProofSn;
         }
         var name = "certificateReqPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
