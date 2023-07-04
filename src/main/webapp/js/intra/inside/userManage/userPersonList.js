@@ -54,26 +54,6 @@ var userPersonList = {
             index: 0
         });
 
-        // $("#detailSearch").kendoDropDownTree({
-        //     placeholder: "세부검색",
-        //     checkboxes: true,
-        //     checkAll: true,
-        //     autoClose: false,
-        //     dataSource: [
-        //         {text: "정규직원", expanded: true},
-        //         {text: "계약직원", expanded: true},
-        //         {text: "인턴사원", expanded: true},
-        //         {text: "경비/환경", expanded: true},
-        //         {text: "단기직원", expanded: true},
-        //         {text: "위촉직원", expanded: true},
-        //         {text: "연수생/학생연구원", expanded: true},
-        //         {text: "기타", expanded: true},
-        //         {text: "임시직원", expanded: true},
-        //         {text: "퇴사직원", expanded: true}
-        //     ],
-        // });
-
-
 
         $("#kindContent").kendoTextBox();
 
@@ -285,6 +265,50 @@ var userPersonList = {
                 userPersonList.gridReload();
             }
         });
+
+        $("#dsB").click(function (){
+            if(this.checked){
+                $("#subDiv").css("display", "");
+                $("#subDiv > input").prop("checked", true);
+            }else{
+                $("#subDiv").css("display", "none");
+                $("#subDiv > input").prop("checked", false);
+            }
+        });
+
+        $("input[name='subCk']").click(function (){
+            var flag = true;
+            $("input[name='subCk']").each(function(){
+                if (!this.checked) flag = false;
+            });
+            if(!flag){
+                $("#dsB").prop("checked", false);
+            } else {
+                $("#dsB").prop("checked", true);
+            }
+        })
+
+        $("#dsF").click(function () {
+            if(this.checked){
+                $("#subDiv2").css("display", "");
+                $("#subDiv2 > input").prop("checked", true);
+            }else{
+                $("#subDiv2").css("display", "none");
+                $("#subDiv2 > input").prop("checked", false);
+            }
+        });
+
+        $("input[name='subCk2']").click(function (){
+            var flag = true;
+            $("input[name='subCk2']").each(function(){
+                if (!this.checked) flag = false;
+            });
+            if(!flag){
+                $("#dsF").prop("checked", false);
+            } else {
+                $("#dsF").prop("checked", true);
+            }
+        })
     },
 
     fn_chngDeptComp : function (){
@@ -446,12 +470,16 @@ var userPersonList = {
             deptTeam : $("#deptTeam").val()
         }
         var dtArr = "";
-
+        var dtSubArr = "";
         $(".detailSearch:checked").each(function(){
             dtArr += this.value + ",";
         })
+        $(".detailSubSearch:checked").each(function(){
+            dtSubArr += this.value + ",";
+        })
 
         userPersonList.global.searchAjaxData.dtArr = dtArr;
+        userPersonList.global.searchAjaxData.dtSubArr = dtSubArr;
 
         console.log(userPersonList.global.searchAjaxData);
         userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);

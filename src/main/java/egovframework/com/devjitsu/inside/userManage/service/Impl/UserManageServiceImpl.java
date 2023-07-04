@@ -78,6 +78,17 @@ public class UserManageServiceImpl implements UserManageService {
             }
         }
 
+        if(map.containsKey("dtSubArr")){
+            String arrText = map.get("dtSubArr").toString();
+
+            String[] subArr = arrText.split(",");
+            if(arrText != ""){
+                map.put("subArr", subArr);
+            } else {
+                map.put("subArr", "");
+            }
+        }
+
         return userManageRepository.getEmpInfoList(map);
     }
     @Override

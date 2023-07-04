@@ -83,6 +83,20 @@
 <%--                                <input type="checkbox" class="detailSearch" value="9" style="margin-left: 10px;" id="dsJ">--%>
 <%--                                <label for="dsJ">퇴사직원</label>--%>
                             </div>
+                            <div class="mt10" id="subDiv" style="display: none;">
+                                <input type="checkbox" class="detailSubSearch" name="subCk" value="1" id="dsSubA">
+                                <label for="dsSubA">계약직원</label>
+                                <input type="checkbox" class="detailSubSearch" name="subCk" value="2" style="margin-left: 10px;" id="dsSubB">
+                                <label for="dsSubB">인턴사원</label>
+                                <input type="checkbox" class="detailSubSearch" name="subCk" value="3" style="margin-left: 10px;" id="dsSubC">
+                                <label for="dsSubC">경비/환경</label>
+                            </div>
+                            <div class="mt10" id="subDiv2" style="display: none;">
+                                <input type="checkbox" class="detailSubSearch" name="subCk2" value="6" id="dsSubD">
+                                <label for="dsSubD">위촉직원</label>
+                                <input type="checkbox" class="detailSubSearch" name="subCk2" value="4" style="margin-left: 10px;" id="dsSubE">
+                                <label for="dsSubE">위촉연구원</label>
+                            </div>
                         </td>
                     </tr>
                 </table>
