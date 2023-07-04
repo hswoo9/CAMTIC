@@ -60,8 +60,8 @@
                 '        <span class="red-star" style="margin-left:30px;">10MB이하</span>의 파일만 등록할 수 있습니다.' +
                 '    </div>' +
                 '    <div class="btn-st" style="margin:30px 24px 0 0;">' +
-                '        <input type="reset" style="margin-right:5px;" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" id="uploadCancle" value="취소" onclick="$(\'#fileAppendM\').data(\'kendoWindow\').close();" />' +
-                '        <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" id="uploadSave" value="확인" onclick="" />' +
+                '        <input type="reset" style="margin-right:5px;" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="uploadCancle" value="취소" onclick="$(\'#fileAppendM\').data(\'kendoWindow\').close();" />' +
+                '        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="uploadSave" value="확인" onclick="" />' +
                 '    </div>' +
                 '</div>';
 

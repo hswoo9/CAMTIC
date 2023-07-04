@@ -40,13 +40,13 @@
                             <input type="text" id="team" style="width: 150px; margin-right:10px;">
                             <span>성명</span>
                             <input type="text" id="name" style="width: 100px; margin-right:10px;">
-                            <button type="button" id="approButton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0; margin-right:10px;" onclick="">
+                            <button type="button" id="approButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0; margin-right:10px;" onclick="">
                                 선택
                             </button>
                             <span>진행 상태</span>
                             <input type="text" id="status" style="width: 100px; margin-right:10px;">
 
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </td>

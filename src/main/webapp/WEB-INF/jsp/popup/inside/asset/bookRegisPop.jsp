@@ -128,8 +128,8 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기"  onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
             </div>
         </div>
     </div>

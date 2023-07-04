@@ -57,12 +57,12 @@
                                     <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
                                 </div>
                                 <div style="margin-left:10px;">
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">검색</button>
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">검색</button>
                                 </div>
                                 </div>
                                 <div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();">연가일괄등록</button>
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();">연가일괄등록</button>
                                 </div>
                                 </div>
                             </div>

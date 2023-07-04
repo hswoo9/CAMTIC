@@ -281,16 +281,16 @@
       <div class="btn-st" style="margin-top:10px; text-align:center;">
         <c:choose>
           <c:when test="${data.RES_STATUS == 0}">
-            <input type="button" class="k-button k-button-solid-info k-rounded" value="결재요청" onclick="eduResultViewPop.campusResDrafting();"/>
+            <input type="button" class="k-button k-button-solid-info" value="결재요청" onclick="eduResultViewPop.campusResDrafting();"/>
           </c:when>
           <c:when test="${data.RES_STATUS == 10}">
-            <input type="button" class="k-button k-button-solid-info k-rounded" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
+            <input type="button" class="k-button k-button-solid-info" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
           </c:when>
           <c:when test="${data.RES_STATUS == 100}">
-            <input type="button" class="k-button k-button-solid-info k-rounded" value="결과보고서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
+            <input type="button" class="k-button k-button-solid-info" value="결과보고서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
           </c:when>
         </c:choose>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="window.close();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
       </div>
     </div>
   </div>

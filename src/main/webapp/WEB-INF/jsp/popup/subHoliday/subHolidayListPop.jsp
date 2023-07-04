@@ -58,19 +58,19 @@
 						</div>
 						<div style="margin-top: 10px;margin-bottom: 48px;">
 							<div style="float:right;">
-								<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.newFavApprove()">
+								<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.newFavApprove()">
 									<span class="k-icon k-i-plus k-button-icon"></span>
 									<span class="k-button-text">초기화</span>
 								</button>
 
-								<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.rowDelClick()">
+								<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.rowDelClick()">
 									<span class="k-button-text">삭제</span>
 								</button>
 
-								<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineUpdate('up')" style='margin-left: 5px'>
+								<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineUpdate('up')" style='margin-left: 5px'>
 									<span class="k-icon k-i-caret-double-alt-up k-button-icon"></span>
 								</button>
-								<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineUpdate('down')" style="margin-left: 5px">
+								<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineUpdate('down')" style="margin-left: 5px">
 									<span class="k-icon k-i-caret-double-alt-down k-button-icon"></span>
 								</button>
 							</div>
@@ -100,10 +100,10 @@
 		</tr>
 	</table>
 	<div class="mt-10" style="text-align: right">
-		<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineSave()" style="vertical-align: middle;">
+		<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineSave()" style="vertical-align: middle;">
 			<span class="k-button-text">확인</span>
 		</button>
-		<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
+		<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
 			<span class="k-button-text">닫기</span>
 		</button>
 	</div>

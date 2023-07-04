@@ -56,7 +56,7 @@
                             <input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 15%;">
                             <span class="pdr5 pdl3per">승인상태</span>
                             <input type="text" id="status" style="width: 15%;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </td>

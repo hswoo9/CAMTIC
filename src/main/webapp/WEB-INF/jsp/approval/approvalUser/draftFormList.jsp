@@ -32,7 +32,7 @@ To change this template use File | Settings | File Templates.
                     <td style="padding: 15px 0px 15px 0px; width: 320px;">
                         <div>
                             <input id="formSearch" name="formSearch" placeholder="양식명" style="width: 281px" onkeypress="if(window.event.keyCode==13){draftFormList.getDraftFromSearch()}"/>
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draftFormList.getDraftFromSearch()">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="draftFormList.getDraftFromSearch()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </div>

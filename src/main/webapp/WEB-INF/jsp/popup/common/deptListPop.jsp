@@ -49,7 +49,7 @@
 		</tr>
 	</table>
 	<div class="mt-10" style="text-align: right">
-		<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
+		<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
 			<span class="k-button-text">닫기</span>
 		</button>
 	</div>

@@ -81,7 +81,7 @@
                         <td><input type="text" id="sentAgency" style="width: 96%;" value=""></td>
                         <th scope="row" class="text-center th-color">담당자</th>
                         <td><input type="text" id="manager" style="width: 50%;" value="홍길동">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
                                 직원 선택
                             </button>
                         </td>
@@ -107,8 +107,8 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기"  onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
             </div>
         </div>
     </div>

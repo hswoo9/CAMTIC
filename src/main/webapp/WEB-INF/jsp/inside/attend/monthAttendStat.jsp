@@ -33,7 +33,7 @@
                                     <input type="text" id="datePicker" style="width: 50%; margin-left: 10px;">
                                 </div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                         <span>검색</span>
                                     </button>
                                 </div>

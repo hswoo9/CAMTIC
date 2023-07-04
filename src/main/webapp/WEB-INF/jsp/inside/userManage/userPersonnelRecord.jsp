@@ -51,8 +51,8 @@
                         <div style="display:flex; justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;직원기본정보</div>
                             <div id="empInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -111,10 +111,10 @@
                                     <tr>
                                         <th>현주소</th>
                                         <td colspan="3">
-                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
-                                            <input type="button" class="k-button-solid-info k-rounded k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
-                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
-                                            <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
+                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
+                                            <input type="button" class="k-button-solid-info k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
+                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
+                                            <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
                                             <span id="guide" style="color:#999;display:none"></span>
                                             <input type="text" id="addrDetail" name="addrDetail" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
                                             <input type="text" id="addrReferences" name="addrReferences" style="width: 10%;margin-top: 3px;" value="${uprList.addrReferences}" placeholder="참고항목">
@@ -167,9 +167,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;학력사항</div>
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addDegreeBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addDegreeBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -227,9 +227,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;경력사항</div>
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addCareerBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addCareerBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -284,9 +284,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;병력사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addMilitaryBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addMilitaryBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -345,9 +345,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;가족사항</div>
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addFamilyBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addFamilyBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -396,9 +396,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;자격증 및 면허, 어학능력 사항</div>
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addLicenseBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -449,9 +449,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;직무사항</div>
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addJobBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addJobBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -494,9 +494,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;발령사항</div>
                             <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -542,9 +542,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;상벌사항</div>
                             <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addRewardBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addRewardBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -595,9 +595,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;평생학습</div>
                             <div id="lifelonglearningInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addEduBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addEduBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -666,9 +666,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;근무평가</div>
                             <div id="workevaluationInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addWorkEvalBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addWorkEvalBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -708,9 +708,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;제안제도</div>
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="addProposalBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info k-rounded" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addProposalBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">

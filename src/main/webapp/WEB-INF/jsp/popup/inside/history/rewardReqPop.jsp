@@ -113,7 +113,7 @@
               <input type="text" id="text6" style="width: 100%">
             </td>
             <td style="text-align: center">
-              <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
+              <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
             </td>
           </tr>
           </thead>
@@ -122,7 +122,7 @@
         </table>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기"  onclick=""/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
       </div>
     </div>
   </div>

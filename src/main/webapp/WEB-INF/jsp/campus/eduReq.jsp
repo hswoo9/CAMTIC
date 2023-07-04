@@ -42,7 +42,7 @@
                         </td>
                     </tr>
                 </table>
-                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="학습신청" onclick="eduReq.eduReqPop();"/>
+                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습신청" onclick="eduReq.eduReqPop();"/>
             </div>
         </div>
     </div>

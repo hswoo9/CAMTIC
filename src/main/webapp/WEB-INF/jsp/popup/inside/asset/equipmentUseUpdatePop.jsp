@@ -83,7 +83,7 @@
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>사용자</th>
                         <td colspan="3">
                             <input type="text" id="userName" style="width: 30%;" disabled="disabled">
-                            <button type="button" id="search" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="userSearch();">
+                            <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="userSearch();">
                                 검색
                             </button>
                         </td>
@@ -102,7 +102,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>의뢰업체</th>
                         <td colspan="3"><input type="text" id="clientPrtpcoName" style="width: 30%;">
-                            <button type="button" id="search1" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="search1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="">
                                 검색
                             </button>
                         </td>
@@ -121,8 +121,8 @@
                 </table>
             </div>
             <div class="btn-st" style="text-align:center; margin-top: 5px;">
-                <input type="button" id="save" class="k-button k-rounded k-button-solid k-button-solid-info" value="수정" onclick="equipmentUseUpdatePop.equipUpdate()"/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick="window.close()"/>
+                <input type="button" id="save" class="k-button k-button-solid k-button-solid-info" value="수정" onclick="equipmentUseUpdatePop.equipUpdate()"/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close()"/>
             </div>
         </div>
     </div>

@@ -179,7 +179,7 @@
                 <td colspan="3">
                   <div style="display: flex">
                     <input type="text" id="addr" style="width: 15%;">
-                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick=""/>
+                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick=""/>
                   </div>
                   <div style="display: flex" class="mt5">
                     <input type="text" id="addrDetail" style="width: 80%;">
@@ -326,8 +326,8 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick="userReqPop.userReqSave();"/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기" onclick="window.close();"/>
+          <input type="button" class="k-button k-button-solid-info" value="저장" onclick="userReqPop.userReqSave();"/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
       </div>
     </div>

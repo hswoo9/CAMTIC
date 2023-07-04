@@ -73,7 +73,7 @@
                                     <input type="text" id="mainEqipmnName" style="width: 150px;">
                                 </div>
                                 <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentmangePop.mainGrid();"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentmangePop.mainGrid();"/>
                                 </div>
                             </div>
                         </td>
@@ -88,7 +88,7 @@
                 <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 543px;">
                     <div class="mt10"></div>
                     <span style="font-weight: bold;">· 장비등록</span>
-                    <button type="button" id="save" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0; margin-left: 468px;" onclick="equipmentmangePop.equipSave()">
+                    <button type="button" id="save" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0; margin-left: 468px;" onclick="equipmentmangePop.equipSave()">
                         저장
                     </button>
                     <table class="table table-bordered mb-0 mt10" id="">
@@ -114,7 +114,7 @@
                                 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
                                 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
                                 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-                                <button type="button" id="search1" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="regSearch();">
+                                <button type="button" id="search1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="regSearch();">
                                 검색
                                 </button>
                             </td>

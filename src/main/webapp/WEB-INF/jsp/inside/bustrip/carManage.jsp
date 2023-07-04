@@ -49,12 +49,12 @@
                                     <input type="text" id="titleContent" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                         <span>조회</span>
                                     </button>
                                 </div>
 <%--                                <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="carManage.carManagePopup();">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="carManage.carManagePopup();">
                                         등록
                                     </button>
                                 </div>--%>
@@ -82,10 +82,10 @@
                     <tbody>
                     <tr>
                         <th colspan="2">
-                            <button type="button" id="downLoad" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-left: 450px;" onclick="">
+                            <button type="button" id="downLoad" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-left: 450px;" onclick="">
                                 엑셀 다운로드
                             </button>
-                            <button type="button" id="saveButton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="saveButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="">
                                 저장
                             </button>
                         </th>
@@ -109,7 +109,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>등록자</th>
                         <td><input type="text" id="registrant" style="width: 30%;">
-                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="">
+                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="">
                             검색
                         </button>
                         </td>

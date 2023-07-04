@@ -65,7 +65,7 @@
                         <th>
                             사업명:
                             <input type="text" id="businessName" style="width: 60%;">
-                            <button type="button" id="search" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
                                 검색
                             </button>
                         </th>
@@ -78,8 +78,8 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
             </div>
         </div>
     </div>

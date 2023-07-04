@@ -42,7 +42,7 @@
                                 <input type="text" id="titleContent" style="width: 200px; margin-right: 10px;" value="">
                                 <span class="pdr5 pdl3per">진행 상태</span>
                                 <input type="text" id="status" style="width: 15%; margin-right:10px;">
-                                <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="workPlan.gridReload();">
+                                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="workPlan.gridReload();">
                                     <span class="k-icon k-i-search k-button-icon"></span>
                                 </button>
                             </div>

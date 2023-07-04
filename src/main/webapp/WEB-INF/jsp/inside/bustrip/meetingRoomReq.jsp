@@ -54,12 +54,12 @@
                                     <input type="text" id="rentalFee" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                    <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
                                         달력 보기 (BAR)
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="meetingRoomReq.meetingRoomPopup();">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="meetingRoomReq.meetingRoomPopup();">
                                         회의실 사용 신청
                                     </button>
                                 </div>
@@ -72,12 +72,12 @@
                                     <input type="text" id="name" style="width: 100px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                         검색
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-right:10px;" onclick="">
+                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-right:10px;" onclick="">
                                         검색 초기화
                                     </button>
                                 </div>

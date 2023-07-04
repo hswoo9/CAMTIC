@@ -282,7 +282,7 @@
             {
                 name : 'button',
                 template : function (e){
-                    return '<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="$(\'#fileAppendM\').data(\'kendoWindow\').open();">' +
+                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="$(\'#fileAppendM\').data(\'kendoWindow\').open();">' +
                         '	<span class="k-button-text">파일첨부</span>' +
                         '</button>';
                 }
@@ -309,10 +309,10 @@
             {
                 title: "기타",
                 template : function (e){
-                    return '<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right: 5px;" onclick="employmentFileDownload()">' +
+                    return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" style="margin-right: 5px;" onclick="employmentFileDownload()">' +
                         '	<span class="k-button-text">다운로드</span>' +
                         '</button>'; /*+
-						'<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base">' +
+						'<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base">' +
 						'	<span class="k-button-text">삭제</span>' +
 						'</button>';*/
                 },

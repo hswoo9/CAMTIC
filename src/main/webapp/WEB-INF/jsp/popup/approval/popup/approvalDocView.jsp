@@ -191,7 +191,7 @@
                         <th class="th-color">참조문서</th>
                         <td style="border-right: none">
                             <input type="hidden" id="referencesId" name="referencesId">
-                            <div id="exSelectiveInput" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="height: auto">
+                            <div id="exSelectiveInput" class="k-input k-textbox k-input-solid k-input-md" style="height: auto">
                                 <div id="referencesListView" style="width: 100%;height: auto;min-height: 27.14px;">
 
                                 </div>

@@ -76,23 +76,23 @@
             <input type="hidden" id="reqContentId" name="reqContentId">
         </div>
         <div class="mb-10" id="btnDiv" style="text-align: right;">
-            <button type="button" name="temp" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">
+            <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">
                 <span class="k-button-text">임시저장</span>
             </button>
 
-            <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
+            <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
                 <span class="k-button-text">상신</span>
             </button>
 
-            <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draft.approvalLinePop()">
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.approvalLinePop()">
                 <span class="k-button-text">결재선 지정</span>
             </button>
 
-            <button type="button" id="backBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draft.redirectPurcForm()" style="display: none">
+            <button type="button" id="backBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.redirectPurcForm()" style="display: none">
                 <span class="k-button-text">뒤로가기</span>
             </button>
 
-            <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="window.close()">
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="window.close()">
                 <span class="k-button-text">닫기</span>
             </button>
         </div>
@@ -137,10 +137,10 @@
                 <th class="th-color"><span class="red-star">*</span>기록물철</th>
                 <td style="border-right: none">
                     <input type="hidden" id="aiKeyCode" name="aiKeyCode">
-                    <input type="text" id="aiTitle" name="aiTitle" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="draft.archiveSelectPop()" readonly>
+                    <input type="text" id="aiTitle" name="aiTitle" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.archiveSelectPop()" readonly>
                 </td>
                 <td style="border-left: none">
-                    <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draft.archiveSelectPop()" style="vertical-align: middle;">
+                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.archiveSelectPop()" style="vertical-align: middle;">
                         <span class="k-button-text">선택</span>
                     </button>
                 </td>
@@ -149,14 +149,14 @@
                 <th class="th-color">참조문서</th>
                 <td style="border-right: none">
                     <input type="hidden" id="referencesId" name="referencesId">
-                    <div id="exSelectiveInput" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="height: auto">
+                    <div id="exSelectiveInput" class="k-input k-textbox k-input-solid k-input-md" style="height: auto">
                         <div id="referencesListView" style="width: 100%;height: auto;min-height: 25.14px;">
 
                         </div>
                     </div>
                 </td>
                 <td style="border-left: none">
-                    <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draft.referencesSelectPop()" style="vertical-align: middle;">
+                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.referencesSelectPop()" style="vertical-align: middle;">
                         <span class="k-button-text">선택</span>
                     </button>
                 </td>
@@ -165,10 +165,10 @@
                 <th class="text-right th-color">수신자
                 </th>
                 <td style="border-right: none">
-                    <input type="text" id="receiverName" name="receiverName" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="draft.receiverSelectPopup()" readonly>
+                    <input type="text" id="receiverName" name="receiverName" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.receiverSelectPopup()" readonly>
                 </td>
                 <td style="border-left: none">
-                    <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draft.receiverSelectPopup()" style="vertical-align: middle;">
+                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.receiverSelectPopup()" style="vertical-align: middle;">
                         <span class="k-button-text">선택</span>
                     </button>
                 </td>
@@ -176,10 +176,10 @@
             <tr class="text-right">
                 <th class="th-color">열람자</th>
                 <td style="border-right: none">
-                    <input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="draft.readerSelectPopup()" readonly>
+                    <input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.readerSelectPopup()" readonly>
                 </td>
                 <td style="border-left: none">
-                    <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="draft.readerSelectPopup()" style="vertical-align: middle;">
+                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.readerSelectPopup()" style="vertical-align: middle;">
                         <span class="k-button-text">선택</span>
                     </button>
                 </td>
@@ -225,11 +225,11 @@
             </tbody>
         </table>
         <div class="mt-15" style="text-align: right">
-            <button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick="draft.docApprove()">
+            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="draft.docApprove()">
                 <span class='k-icon k-i-check k-button-icon'></span>
                 <span class='k-button-text'>확인</span>
             </button>
-            <button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick="$('#approveModal').data('kendoWindow').close();">
+            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="$('#approveModal').data('kendoWindow').close();">
                 <span class='k-icon k-i-cancel k-button-icon'></span>
                 <span class='k-button-text'>취소</span>
             </button>

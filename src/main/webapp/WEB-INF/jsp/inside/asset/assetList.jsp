@@ -74,20 +74,20 @@
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
                                 </div>
                             </div>
                             <div style="display:flex;" class="mt10">
                                 <div class="mr10">
                                     <span>목록</span>
                                     <input type="text" id="drop10" style="width: 120px; margin-left:24px; margin-right: 6px;">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="바코드 출력(대)" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(대)" onclick=""/>
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="바코드 출력(소)" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(소)" onclick=""/>
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="자산관리카드 인쇄" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="자산관리카드 인쇄" onclick=""/>
                                 </div>
                             </div>
                         </td>

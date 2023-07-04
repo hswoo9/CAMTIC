@@ -70,10 +70,10 @@
                   <input type="text" id="searchVal" style="width: 140px;">
                 </div>
                 <div class="mr10">
-                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
                 </div>
                 <div>
-                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="채용통계 조회" onclick=""/>
+                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="채용통계 조회" onclick=""/>
                 </div>
               </div>
             </td>

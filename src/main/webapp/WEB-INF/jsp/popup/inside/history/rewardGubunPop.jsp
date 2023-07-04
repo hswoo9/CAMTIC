@@ -84,7 +84,7 @@
                 <input type="text" id="text1" style="width: 100%">
               </td>
               <td>
-                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="저장" onclick=""/>
+                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="저장" onclick=""/>
               </td>
             </tr>
             <tr>
@@ -95,14 +95,14 @@
                 <input type="text" id="text2" style="width: 100%">
               </td>
               <td>
-                <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="추가" onclick=""/>
+                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="추가" onclick=""/>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기"  onclick=""/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
       </div>
     </div>
   </div>

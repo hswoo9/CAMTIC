@@ -120,7 +120,7 @@
                 <th>차량</th>
                 <td>
                   <input type="text" id="drop4" style="width: 40%;">
-                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="운행확인" onclick=""/><br>
+                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick=""/><br>
                   <div class="mt5"></div>
                   이동거리
                   <input type="text" id="text3" style="width: 30%;"> Km
@@ -137,9 +137,9 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick=""/>
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="결재" onclick=""/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick=""/>
         </div>
       </div>
     </div>

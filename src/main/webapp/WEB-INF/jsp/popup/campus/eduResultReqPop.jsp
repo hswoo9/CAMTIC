@@ -273,8 +273,8 @@
         </form>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick="eduResultReqPop.saveEduResult();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="window.close();"/>
+        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="eduResultReqPop.saveEduResult();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
       </div>
     </div>
   </div>

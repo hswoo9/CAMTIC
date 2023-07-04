@@ -56,17 +56,17 @@
                                     <input type="text" id="name" style="width: 100px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                         <span>검색</span>
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
                                         검색 초기화
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carReq.carPopup();">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carReq.carPopup();">
                                         차량 사용 신청
                                     </button>
                                 </div>

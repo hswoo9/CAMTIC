@@ -71,7 +71,7 @@
                 </table>
             </div>
             <div class="btn-st" style="text-align:center; margin-top: 5px;">
-                <input type="button" style="" class="k-button k-rounded k-button-solid k-button-solid-info" value="결재" onclick=""/>
+                <input type="button" style="" class="k-button k-button-solid k-button-solid-info" value="결재" onclick=""/>
             </div>
         </div>
     </div>

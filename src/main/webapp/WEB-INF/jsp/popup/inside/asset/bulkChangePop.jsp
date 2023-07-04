@@ -73,7 +73,7 @@
                         <td><input type="checkbox" style="width: 100%; margin-right:10px;"></td>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>사용자</th>
                         <td><input type="text" id="user" style="width: 50%;">
-                        <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:50%; height:27px; line-height:0;" onclick="">
+                        <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50%; height:27px; line-height:0;" onclick="">
                             직원 선택
                         </button>
                         </td>
@@ -97,8 +97,8 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
             </div>
         </div>
     </div>

@@ -69,7 +69,7 @@
                 <td style="text-align: center">공고번호</td>
                 <td colspan="3">
                   공고 <input type="text" id="text1" style="width: 30%" value="제2023-01호">
-                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="중복확인" onclick=""/>
+                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="중복확인" onclick=""/>
                 </td>
               </tr>
               <tr>
@@ -100,7 +100,7 @@
                 </td>
               </tr>
               <tr>
-                <td rowspan="3" style="text-align: center">모집분야<br><input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base mt10" value="추가" onclick=""/></td>
+                <td rowspan="3" style="text-align: center">모집분야<br><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mt10" value="추가" onclick=""/></td>
                 <td>
                   <div style="display:flex; justify-content: space-between; align-items: center">
                     부서<input type="text" id="drop1" style="width: 70%">
@@ -219,9 +219,9 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="임시저장" onclick=""/>
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="등록" onclick=""/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info" value="임시저장" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info" value="등록" onclick=""/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick=""/>
         </div>
       </div>
     </div>

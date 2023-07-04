@@ -105,8 +105,8 @@
         </table>
       </div>
       <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick="eduPlanReqPop.savePlan();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick="window.close();"/>
+        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="eduPlanReqPop.savePlan();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
       </div>
     </div>
   </div>

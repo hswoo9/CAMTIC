@@ -72,7 +72,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>추가</th>
                         <td><input id="use_date" type="date" style="width: 100%;"></td>
-                        <td><button type="button" id="saveButton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100%; height:27px; line-height:0;" onclick="">
+                        <td><button type="button" id="saveButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100%; height:27px; line-height:0;" onclick="">
                                 저장
                             </button>
                         </td>

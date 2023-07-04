@@ -38,7 +38,7 @@
                     <tr>
                         <td style="border-top:0;">
                             <input type="text" id="detailSearch" style="width: 90%;">
-                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="gridReload()">
+                            <button type="button" class="k-button k-button-md  k-button-solid k-button-solid-base" onclick="gridReload()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </td>
@@ -67,7 +67,7 @@
                                     <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayStat.gridReload()}" style="width: 150px;">
                                 </div>
                                 <div>
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidayStat.gridReload()"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md  k-button-solid k-button-solid-base" value="검색" onclick="subHolidayStat.gridReload()"/>
                                 </div>
                             </div>
                         </td>

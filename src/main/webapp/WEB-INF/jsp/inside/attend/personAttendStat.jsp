@@ -42,12 +42,12 @@
                                     <input type="text" id="team" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                         <span>검색</span>
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="onDisplay();">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="onDisplay();">
                                         상세검색
                                     </button>
                                 </div>
@@ -73,7 +73,7 @@
                                         <input type="text" id="staffDivision" style="width: 200px;">
                                     </div>
                                     <div class="mr10">
-                                        <button class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">
+                                        <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                             검색 초기화
                                         </button>
                                     </div>

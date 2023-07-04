@@ -96,8 +96,8 @@
           </table>
         </form>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="추가" onclick="fu_addInfo()"/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기" onclick="fn_windowClose()"/>
+          <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_addInfo()"/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="fn_windowClose()"/>
         </div>
       </div>
     </div>

@@ -45,10 +45,10 @@
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentListAdminView.mainGrid();"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentListAdminView.mainGrid();"/>
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="장비관리" onclick="equipmentListAdminView.equipmentmangePopup();"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="장비관리" onclick="equipmentListAdminView.equipmentmangePopup();"/>
                                 </div>
                             </div>
                         </td>

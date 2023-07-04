@@ -152,9 +152,9 @@
                 <th scope="row" class="text-center th-color">업무인수자</th>
                 <td colspan="3">
                   <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">
-                  <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="userSearch();"/>
+                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="userSearch();"/>
                   <br>
-                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>
+                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>
                 </td>
               </tr>
               <tr>
@@ -168,9 +168,9 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="저장" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()"/>
-          <%--<input type="button" class="k-button k-button-solid-info k-rounded" value="결재" onclick=""/>--%>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="subHolidayReqPop.fn_topTableClose()"/>
+          <input type="button" class="k-button k-button-solid-info" value="저장" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()"/>
+          <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="subHolidayReqPop.fn_topTableClose()"/>
         </div>
       </div>
     </div>

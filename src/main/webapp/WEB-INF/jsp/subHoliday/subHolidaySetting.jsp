@@ -56,7 +56,7 @@
                                     <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidaySetting.gridReload()}" style="width: 150px;">
                                 </div>
                                 <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidaySetting.gridReload()"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidaySetting.gridReload()"/>
                                 </div>
                             </div>
                         </td>

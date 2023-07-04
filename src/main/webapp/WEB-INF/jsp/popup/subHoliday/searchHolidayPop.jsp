@@ -74,8 +74,8 @@
         </div>
         <div id="mainGrid" style="margin:20px 0;"></div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info k-rounded" value="확인" onclick="searchHolidayReqPop.fn_selectChkUse()"/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소" onclick="searchHolidayReqPop.fn_topTableClose()"/>
+          <input type="button" class="k-button k-button-solid-info" value="확인" onclick="searchHolidayReqPop.fn_selectChkUse()"/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="searchHolidayReqPop.fn_topTableClose()"/>
         </div>
       </div>
     </div>

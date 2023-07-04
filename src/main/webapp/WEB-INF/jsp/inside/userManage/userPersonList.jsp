@@ -47,8 +47,8 @@
                                     <input type="text" id="kindContent" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
-<%--                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">상세검색</button>--%>
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
+<%--                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">상세검색</button>--%>
                                 </div>
                             </div>
                             <div class="mt10">
@@ -66,9 +66,9 @@
                 <div id="mainGrid" style="margin:20px 0;"></div>
                 <div style="display: flex; justify-content: end">
                     <div class="mr10">
-                        <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">직급/등급 관리</button>
-                        <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">직책관리</button>
-                        <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">서열관리</button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">직급/등급 관리</button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">직책관리</button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">서열관리</button>
                     </div>
                 </div>
             </div>
@@ -105,12 +105,12 @@
                                     <input type="text" id="end_date_detail" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
-<%--                                    <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">일반검색</button>--%>
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
+<%--                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">일반검색</button>--%>
                                 </div>
                             </div>
                             <div>
-                                <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
+                                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
                             </div>
                         </div>
                         </td>

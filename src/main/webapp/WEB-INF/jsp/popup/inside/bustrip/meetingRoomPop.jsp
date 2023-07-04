@@ -72,7 +72,7 @@
                         <td><input type="text" id="timeReq" style="width: 20%; margin-right:10px;">
                             <input id="start_date" type="date" style="width: 20%;"><input id="start_time" type="time" style="width: 15%;">~
                             <input id="end_date" type="date" style="width: 20%;"><input id="end_time" type="time" style="width: 15%;">
-                            <button type="button" id="exSpecificDayButton" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="meetingRoomPop.exSpecificDayPopup();">
+                            <button type="button" id="exSpecificDayButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="meetingRoomPop.exSpecificDayPopup();">
                                 특정일 제외
                             </button>
                             토, 일 제외
@@ -99,7 +99,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>등록자</th>
                         <td colspan><input type="text" id="registrant" style="width: 20%;" value="홍길동">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
                                 직원 선택
                             </button>
                         </td>
@@ -107,7 +107,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 담당자</th>
                         <td colspan><input type="text" id="useManager" style="width: 20%;" value="홍길동">
-                            <button type="button" id="staffSlect2" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="staffSlect2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
                                 직원 선택
                             </button>
                         </td>
@@ -120,8 +120,8 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-rounded k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="취소"  onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
             </div>
         </div>
     </div>

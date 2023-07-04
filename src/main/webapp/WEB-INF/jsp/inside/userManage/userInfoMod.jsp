@@ -60,7 +60,7 @@
                                     <input type="text" id="name" style="width: 120px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="검색" onclick="userInfoMod.gridReload()"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="userInfoMod.gridReload()"/>
                                 </div>
                             </div>
                         </td>

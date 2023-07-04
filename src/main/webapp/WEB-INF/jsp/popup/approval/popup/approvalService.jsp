@@ -154,34 +154,34 @@
                                 <div>
                                     <div style="margin-top: 10px;margin-bottom: 48px;">
                                         <div style="float: left">
-                                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" id='approve' onclick="approvelService.approveTypeChange('approve')">
+                                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id='approve' onclick="approvelService.approveTypeChange('approve')">
                                                 <span class="k-button-text">승인</span>
                                             </button>
-                                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" id='cooperation' onclick="approvelService.approveTypeChange('cooperation')">
+                                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id='cooperation' onclick="approvelService.approveTypeChange('cooperation')">
                                                 <span class="k-button-text">협조</span>
                                             </button>
-                                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" id='examine' onclick="approvelService.approveTypeChange('examine')">
+                                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id='examine' onclick="approvelService.approveTypeChange('examine')">
                                                 <span class="k-button-text">검토</span>
                                             </button>
-                                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approvelService.fn_approvalSend()" style="margin-left: 5px">
+                                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="approvelService.fn_approvalSend()" style="margin-left: 5px">
                                                 <span class="k-button-text">승인요청</span>
                                             </button>
                                         </div>
 
                                         <div style="float:right;">
-                                            <button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approvelService.newFavApprove()">
+                                            <button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="approvelService.newFavApprove()">
                                                 <span class="k-icon k-i-plus k-button-icon"></span>
                                                 <span class="k-button-text">초기화</span>
                                             </button>
 
-                                            <button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approvelService.rowDelClick()">
+                                            <button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="approvelService.rowDelClick()">
                                                 <span class="k-button-text">삭제</span>
                                             </button>
 
-                                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approvelService.apprLineUpdate('up')" style='margin-left: 5px'>
+                                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="approvelService.apprLineUpdate('up')" style='margin-left: 5px'>
                                                 <span class="k-icon k-i-caret-double-alt-up k-button-icon"></span>
                                             </button>
-                                            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="approvelService.apprLineUpdate('down')" style="margin-left: 5px">
+                                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="approvelService.apprLineUpdate('down')" style="margin-left: 5px">
                                                 <span class="k-icon k-i-caret-double-alt-down k-button-icon"></span>
                                             </button>
                                         </div>

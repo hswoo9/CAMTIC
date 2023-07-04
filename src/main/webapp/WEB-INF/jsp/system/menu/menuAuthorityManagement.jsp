@@ -133,11 +133,11 @@
 														<tbody>
 														<tr>
 															<td colspan="4" style="text-align: right;border: none">
-																<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="inputReset()">
+																<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="inputReset()">
 																	<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
 																	<span class="k-button-text">신규 등록</span>
 																</button>
-																<button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="setMenuAuthorityGroup()">
+																<button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="setMenuAuthorityGroup()">
 																	<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
 																	<span class="k-button-text">저장</span>
 																</button>
@@ -253,14 +253,14 @@
 					name: 'button',
 					template: function (e) {
 						return "그룹명 <input type='text' id='searchContent' name='searchContent' onkeypress='if(window.event.keyCode==13){gridReload()}'>" +
-								"<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='gridReload()'>" +
+								"<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='gridReload()'>" +
 									"<span class='k-icon k-i-search k-button-icon''></span>" +
 								"</button>"
 					}
 				}, {
 					name: 'button',
 					template: function (e) {
-						return "<button type='button' class='k-button k-button-md k-rounded-md k-button-solid k-button-solid-base' onclick='setMenuAuthorityGroupDel()'>" +
+						return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='setMenuAuthorityGroupDel()'>" +
 								"<span class='k-button-text'>삭제</span>" +
 								"</button>"
 					}
@@ -355,7 +355,7 @@
 				var rs = rs.rs;
 				$("#menuTreeView").kendoTreeView({
 					checkboxes: {
-						template: "<input type='checkbox' name='menuPkCheckBox' class='k-checkbox k-checkbox-md k-rounded-md' value='#= item.MENU_ID #' depth='#= item.MENU_DEPTH #' idPath='#= item.MENU_ID_PATH #' onclick='treeClickCheckBox(this)'/>"
+						template: "<input type='checkbox' name='menuPkCheckBox' class='k-checkbox k-checkbox-md' value='#= item.MENU_ID #' depth='#= item.MENU_DEPTH #' idPath='#= item.MENU_ID_PATH #' onclick='treeClickCheckBox(this)'/>"
 					},
 					dataSource: JSON.parse(rs),
 					dataTextField:['MENU_NAME'],

@@ -5,7 +5,7 @@ var subHolidayListPop = {
         pathName : "",
         searchAjaxData : "",
         approveAddBtn : function(e) {
-            return '<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.addTable(\'' + e.EMP_SEQ + '\',\'userClick\')">' +
+            return '<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.addTable(\'' + e.EMP_SEQ + '\',\'userClick\')">' +
                 '<span class="k-button-text">선택</span>	' +
                 '</button>';
         },

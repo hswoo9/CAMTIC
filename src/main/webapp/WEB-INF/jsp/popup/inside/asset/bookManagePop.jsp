@@ -86,7 +86,7 @@
                             <input type="text" id="addDivisionVal" style="width: 100%;">
                         </td>
                         <td>
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="width:100%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100%; height:27px; line-height:0;" onclick="">
                                 분류 추가
                             </button>
                         </td>
@@ -95,7 +95,7 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error k-rounded" value="닫기"  onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
             </div>
         </div>
     </div>

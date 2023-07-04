@@ -25,7 +25,7 @@
 </div>
 <div>
     <!-- 저장 버튼 -->
-    <button id="saveX" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base"  style="margin-top: 15px;">저장</button>
+    <button id="saveX" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"  style="margin-top: 15px;">저장</button>
     <input type="hidden" id="code" value="${params.code}" />
 </div>
 <script>
