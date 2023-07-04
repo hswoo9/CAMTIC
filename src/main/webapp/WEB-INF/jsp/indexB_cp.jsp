@@ -291,7 +291,7 @@
     $(function (){
         var menuNm = '${menuNm}';
 
-        if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexB.do'){
+        if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexBMain.do'){
             open_in_frame(menuNm);
         }
     });
