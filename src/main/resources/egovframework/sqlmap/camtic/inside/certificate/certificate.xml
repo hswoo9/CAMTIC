@@ -153,4 +153,14 @@
             USER_PROOF_SN = #{userProofSn}
     </update>
 
+    <update id="setReqCert" parameterType="map">
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            STATUS = ${status},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            APPROVAL_RESULT_DATE = now()
+        WHERE
+            USER_PROOF_SN = #{userProofSn}
+    </update>
 </mapper>

@@ -32,4 +32,8 @@ public class CertificateRepository extends AbstractDAO {
     public void updateCertifiFinalApprStat(Map<String, Object> params) {
         update("certificate.updateCertifiFinalApprStat", params);
     }
+
+    public void setReqCert(Map<String, Object> params) {
+        update("certificate.setReqCert", params);
+    }
 }

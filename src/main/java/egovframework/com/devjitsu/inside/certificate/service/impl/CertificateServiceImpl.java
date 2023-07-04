@@ -70,4 +70,9 @@ public class CertificateServiceImpl implements CertificateService {
             certificateRepository.updateCertifiFinalApprStat(params);
         }
     }
+
+    @Override
+    public void setReqCert(Map<String, Object> params) {
+        certificateRepository.setReqCert(params);
+    }
 }

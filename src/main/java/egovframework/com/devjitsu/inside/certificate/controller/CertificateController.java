@@ -125,6 +125,21 @@ public class CertificateController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/setReqCert")
+    public String setReqCert(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        try{
+            certificateService.setReqCert(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

@@ -134,13 +134,7 @@
         <div class="btn-st" style="margin-top:10px; text-align:center;">
           <c:choose>
             <c:when test="${data.STATUS == 0}">
-              <input type="button" class="k-button k-button-solid-info" value="전자결재" onclick="certificateReqPop.certifiDrafting();"/>
-            </c:when>
-            <c:when test="${data.STATUS == 10}">
-              <input type="button" class="k-button k-button-solid-info" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
-            </c:when>
-            <c:when test="${data.STATUS == 100}">
-              <input type="button" class="k-button k-button-solid-info" value="증명서신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
+              <input type="button" class="k-button k-button-solid-info" value="신청" onclick="certificateReqPop.fn_certReq();"/>
             </c:when>
           </c:choose>
           <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>

@@ -39,4 +39,6 @@ public interface CertificateService {
      * @throws Exception
      */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
+
+    void setReqCert(Map<String, Object> params);
 }

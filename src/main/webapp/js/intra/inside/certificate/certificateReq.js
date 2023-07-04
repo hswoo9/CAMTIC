@@ -39,6 +39,7 @@ var certificateReq = {
             ],
             index: 0
         });
+
     },
 
     mainGrid : function() {
@@ -103,15 +104,23 @@ var certificateReq = {
             dataBound : certificateReq.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
-                    width: 50
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="certificateReq.fn_checkAll();" style="position : relative; top : 2px;" />',
+                    template : function (e){
+                        if(e.STATUS == "100" || e.STATUS == "10"){
+                            return "";
+                        } else {
+                            return "<input type='checkbox' id='certPk"+ e.USER_PROOF_SN +"' name='checkCert' value='"+e.USER_PROOF_SN+"' style='position : relative; top : 2px;' />";
+                        }
+                    },
+                    width: 50,
                 }, {
                     field: "ROW_NUM",
-                    title: "발급 번호"
+                    title: "발급 번호",
+                    width: 80
                 }, {
                     field: "REG_DE",
-                    title: "요청일"
+                    title: "요청일",
+                    width: 85
                 }, {
                     title: "발급 구분",
                     template : function(row){
@@ -122,19 +131,24 @@ var certificateReq = {
                         }else {
                             return "데이터 오류"
                         }
-                    }
+                    },
+                    width: 130
                 }, {
                     field: "REG_DEPT_NAME",
-                    title: "부서"
+                    title: "부서",
+                    width: 120
                 }, {
                     field: "REGTR_NAME",
-                    title: "성명"
+                    title: "성명",
+                    width: 120
                 }, {
                     field: "SUBMISSION_DE",
-                    title: "제출예정일"
+                    title: "제출예정일",
+                    width: 130
                 }, {
                     field: "USAGE_NAME",
-                    title: "용도"
+                    title: "용도",
+                    width: 400
                 }, {
                     title: "처리 상태",
                     template : function(row){
@@ -149,26 +163,38 @@ var certificateReq = {
                         }else {
                             return "데이터 오류"
                         }
-                    }
+                    },
+                    width: 120
                 }, {
-                    title: "처리일",
-                    template : function(row){
-                        if(row.APPROVAL_RESULT_DATE == undefined) {
-                            return "-";
-                        }else {
-                            return row.APPROVAL_RESULT_DATE
-                        }
-                    }
-                }, {
-                    title: "처리자",
-                    template : function(row){
-                        if(row.APPROVAL_RESULT_DATE == undefined) {
-                            return "-";
-                        }else {
-                            return row.APPROVAL_EMP_NAME
-                        }
+                    title: "발급",
+                    template: function(e){
+                        if(e.STATUS == "100")
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info">' +
+                                    '	<span class="k-button-text">발급</span>' +
+                                    '</button>';
+                        else
+                            return '';
                     }
                 }
+                // , {
+                //     title: "처리일",
+                //     template : function(row){
+                //         if(row.APPROVAL_RESULT_DATE == undefined) {
+                //             return "-";
+                //         }else {
+                //             return row.APPROVAL_RESULT_DATE
+                //         }
+                //     }
+                // }, {
+                //     title: "처리자",
+                //     template : function(row){
+                //         if(row.APPROVAL_RESULT_DATE == undefined) {
+                //             return "-";
+                //         }else {
+                //             return row.APPROVAL_EMP_NAME
+                //         }
+                //     }
+                // }
             ]
         }).data("kendoGrid");
     },
@@ -190,6 +216,14 @@ var certificateReq = {
         var name = "certificateReqPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='checkCert']").prop("checked", true);
+        }else{
+            $("input[name='checkCert']").prop("checked", false);
+        }
     }
 }
 
