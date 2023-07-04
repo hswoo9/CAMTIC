@@ -67,7 +67,6 @@
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
 <%--                                <div class="mr10">
                                     <span>부서</span>
                                     <input type="text" id="deptComp" style="width: 150px; margin-right:10px;">
