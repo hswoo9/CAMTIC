@@ -97,7 +97,7 @@
                                 <li>
                                     <a href="#" class="toggleMain">상신/보관함</a>
                                     <ul class="innerMain children a_a">
-                                        <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do?menu=a_a')" class="toggleMain1">양식목록</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/approvalUser/draftFormList.do?menu=a_a')" class="toggleMain1">양식목록</a></li>
                                         <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxTempSaveDocList.do?menu=a_a')" class="toggleMain1">임시보관문서</a></li> <%--menu=a_a--%>
                                         <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do?menu=a_a')" class="toggleMain1">상신문서</a></li>
                                         <li><a href="#" onclick="open_in_frame('/approvalUser/storageBoxReturnDocList.do?menu=a_a')" class="toggleMain1">반려/회수 문서</a></li>
@@ -568,9 +568,9 @@
                                 <li>
                                     <a href="#" class="toggleMain">메뉴관리</a>
                                     <ul class="innerMain children j_a">
-                                        <li><a href="#" class="toggleMain1">메뉴정보관리</a></li> <%--menu=j_a--%>
-                                        <li><a href="#" class="toggleMain1">메뉴권한관리</a></li>
-                                        <li><a href="#" class="toggleMain1">메뉴권한부여</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/system/menuManagement.do')" class="toggleMain1">메뉴정보관리</a></li> <%--menu=j_a--%>
+                                        <li><a href="#" onclick="open_in_frame('/system/menuAuthorityManagement.do')" class="toggleMain1">메뉴권한관리</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/system/menuGroupAuthorityGrant.do')" class="toggleMain1">메뉴권한부여</a></li>
                                     </ul>
                                 </li>
                             </ul>
