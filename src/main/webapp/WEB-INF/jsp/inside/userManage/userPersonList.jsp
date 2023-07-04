@@ -52,13 +52,36 @@
                                 </div>
                             </div>
                             <div class="mt10">
-                                <span>조회기간</span>
+                                <span>적용기간</span>
                                 <input type="text" id="start_date" style="width: 140px;">
-                                ~
-                                <input type="text" id="end_date" style="width: 140px;">
                             </div>
+                            <style>
+                                label {
+                                    position: relative;
+                                    top: -1px;
+                                }
+                            </style>
                             <div class="mt10">
-                                <input type="text" id="detailSearch" style="width: 90%;">
+                                <input type="checkbox" class="detailSearch" value="A" id="dsA">
+                                <label for="dsA">정규직원</label>
+                                <input type="checkbox" class="detailSearch" value="B" style="margin-left: 10px;" id="dsB">
+                                <label for="dsB">계약직원</label>
+                                <input type="checkbox" class="detailSearch" value="C" style="margin-left: 10px;" id="dsC">
+                                <label for="dsC">인턴사원</label>
+                                <input type="checkbox" class="detailSearch" value="D" style="margin-left: 10px;" id="dsD">
+                                <label for="dsD">경비/환경</label>
+                                <input type="checkbox" class="detailSearch" value="E" style="margin-left: 10px;" id="dsE">
+                                <label for="dsE">단기직원</label>
+                                <input type="checkbox" class="detailSearch" value="F" style="margin-left: 10px;" id="dsF">
+                                <label for="dsF">위촉직원</label>
+                                <input type="checkbox" class="detailSearch" value="G" style="margin-left: 10px;" id="dsG">
+                                <label for="dsG">연수생/학생연구원</label>
+                                <input type="checkbox" class="detailSearch" value="H" style="margin-left: 10px;" id="dsH">
+                                <label for="dsH">기타</label>
+                                <input type="checkbox" class="detailSearch" value="I" style="margin-left: 10px;" id="dsI">
+                                <label for="dsI">임시직원</label>
+                                <input type="checkbox" class="detailSearch" value="J" style="margin-left: 10px;" id="dsJ">
+                                <label for="dsJ">퇴사직원</label>
                             </div>
                         </td>
                     </tr>

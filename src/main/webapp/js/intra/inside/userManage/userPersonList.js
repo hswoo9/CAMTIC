@@ -47,31 +47,33 @@ var userPersonList = {
                 {text: "직급", value: "POSITION_NAME"},
                 {text: "등급", value: "등급"},
                 {text: "직책", value: "직책"},
-                {text: "메일주소", value: "메일주소"},
-                {text: "전화번호", value: "전화번호"},
-                {text: "핸드폰", value: "핸드폰"}
+                {text: "메일주소", value: "EMAIL_ADDR"},
+                {text: "전화번호", value: "OFFICE_TEL_NUM"},
+                {text: "핸드폰", value: "MOBILE_TEL_NUM"}
             ],
             index: 0
         });
 
-        $("#detailSearch").kendoDropDownTree({
-            placeholder: "세부검색",
-            checkboxes: true,
-            checkAll: true,
-            autoClose: false,
-            dataSource: [
-                {text: "정규직원", expanded: true},
-                {text: "계약직원", expanded: true},
-                {text: "인턴사원", expanded: true},
-                {text: "경비/환경", expanded: true},
-                {text: "단기직원", expanded: true},
-                {text: "위촉직원", expanded: true},
-                {text: "연수생/학생연구원", expanded: true},
-                {text: "기타", expanded: true},
-                {text: "임시직원", expanded: true},
-                {text: "퇴사직원", expanded: true}
-            ],
-        });
+        // $("#detailSearch").kendoDropDownTree({
+        //     placeholder: "세부검색",
+        //     checkboxes: true,
+        //     checkAll: true,
+        //     autoClose: false,
+        //     dataSource: [
+        //         {text: "정규직원", expanded: true},
+        //         {text: "계약직원", expanded: true},
+        //         {text: "인턴사원", expanded: true},
+        //         {text: "경비/환경", expanded: true},
+        //         {text: "단기직원", expanded: true},
+        //         {text: "위촉직원", expanded: true},
+        //         {text: "연수생/학생연구원", expanded: true},
+        //         {text: "기타", expanded: true},
+        //         {text: "임시직원", expanded: true},
+        //         {text: "퇴사직원", expanded: true}
+        //     ],
+        // });
+
+
 
         $("#kindContent").kendoTextBox();
 
@@ -80,15 +82,7 @@ var userPersonList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : ""
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : ""
+            value : new Date()
         });
 
         $("#drop1").kendoDropDownList({
@@ -285,6 +279,12 @@ var userPersonList = {
             dataTextField: "name",
             dataValueField: "value"
         });
+
+        $("#kindContent").on("keyup", function(key){
+            if(key.keyCode == 13){
+                userPersonList.gridReload();
+            }
+        });
     },
 
     fn_chngDeptComp : function (){
@@ -302,7 +302,7 @@ var userPersonList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 393,
             pageable: {
                 refresh: true,
                 pageSizes: [10, 20, 30, 50, 100],
@@ -350,9 +350,16 @@ var userPersonList = {
                     title: "부서(팀)"
                 }, {
                     field: "DUTY_NAME",
-                    title: "직위"
+                    title: "직위",
+                    template : function (e){
+                        if(e.DUTY_NAME != null && e.DUTY_NAME != ""){
+                            return e.DUTY_NAME
+                        } else {
+                            return e.POSITION_NAME
+                        }
+                    }
                 }, {
-                    field: "HOME_TEL_NUM",
+                    field: "OFFICE_TEL_NUM",
                     title: "전화번호"
                 }, {
                     field: "MOBILE_TEL_NUM",
@@ -429,13 +436,23 @@ var userPersonList = {
     },
 
     gridReload : function() {
-        console.log('gridReload');
         userPersonList.global.searchAjaxData = {
-            USER_KIND : $('#userKind').val(),
-            EMP_NAME_KR : $("#kindContent").val(),
-            START_DATE : $("#start_date").val(),
-            END_DATE : $("#end_date").val(),
+            userKind : $('#userKind').val(),
+            empNameKr : $("#kindContent").val(),
+            startDate : $("#start_date").val(),
+            kindContent : $("#kindContent").val(),
+            userGender : $("#userGender").val(),
+            deptComp : $("#deptComp").val(),
+            deptTeam : $("#deptTeam").val()
         }
+        var dtArr = "";
+
+        $(".detailSearch:checked").each(function(){
+            dtArr += this.value + ",";
+        })
+
+        userPersonList.global.searchAjaxData.dtArr = dtArr;
+
         console.log(userPersonList.global.searchAjaxData);
         userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
     },
