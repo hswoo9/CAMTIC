@@ -10,7 +10,7 @@
 
 <header>
   <div class="headerpanel">
-    <a href="/indexB.do"><div class="logopanel"></div></a>
+     <a href="#" onclick="fn_mvMainPage();"><div class="logopanel"></div></a>
     <div class="headerbar" style="width:1460px;">
       <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
       <div class="searchpanel">
@@ -130,3 +130,9 @@
     </div><!-- headerbar -->
   </div><!-- header-->
 </header>
+
+<script>
+    function fn_mvMainPage(){
+        open_in_frame("/indexBMain.do");
+    }
+</script>

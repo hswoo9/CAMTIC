@@ -4,9 +4,11 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -22,7 +24,7 @@ public class MainController {
     }
 
     @RequestMapping("/indexB.do")
-    public String indexB(HttpServletRequest request, Model model){
+    public String indexB(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
@@ -32,11 +34,10 @@ public class MainController {
     @RequestMapping("/indexBMain.do")
     public String indexBMain(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", "");
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
-        model.addAttribute("menuNm", "");
-        return "indexB";
+        return "indexB_cp";
     }
 
     @RequestMapping("/intro.do")
