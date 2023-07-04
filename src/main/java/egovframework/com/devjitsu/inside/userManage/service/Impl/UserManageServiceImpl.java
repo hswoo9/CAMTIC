@@ -71,9 +71,11 @@ public class UserManageServiceImpl implements UserManageService {
 
             String[] arr = arrText.split(",");
 
-            map.put("arr", arr);
-        } else {
-            map.put("arr", "");
+            if(arrText != ""){
+                map.put("arr", arr);
+            } else {
+                map.put("arr", "");
+            }
         }
 
         return userManageRepository.getEmpInfoList(map);

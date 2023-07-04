@@ -85,13 +85,13 @@ var userPersonList = {
             value : new Date()
         });
 
-        $("#drop1").kendoDropDownList({
+        $("#workStatusCode").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "입사현황", value: "" },
-                { text: "퇴사현황", value: "1" },
-                { text: "입/퇴사현황", value: "2" }
+                { text: "입/퇴사현황", value: "" },
+                { text: "입사현황", value: "Y" },
+                { text: "퇴사현황", value: "N" }
             ],
             index: 0
         });
@@ -470,7 +470,7 @@ var userPersonList = {
         var testDropDownTree8 = $("#detailSearch9").data("kendoDropDownTree");
 
         userPersonList.global.searchAjaxData = {
-            IN_OUT_CHECK : $('#drop1').val(), // 입퇴사 현황
+            IN_OUT_CHECK : $('#workStatusCode').val(), // 입퇴사 현황
             START_DATE : $("#start_date_detail").val(), // 조회 기간 시작일
             END_DATE : $("#end_date_detail").val(), // 조회 기간 종료일
             searchDetail1 : JSON.stringify(testDropDownTree1.value()),

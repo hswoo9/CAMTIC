@@ -296,7 +296,13 @@
             AND
                 a.DEPT_SEQ = #{deptTeam}
         </if>
-
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+                DIVISION IN
+                <foreach collection="arr" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+        </if>
     </select>
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
         select

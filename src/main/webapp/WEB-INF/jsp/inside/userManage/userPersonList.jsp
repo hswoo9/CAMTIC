@@ -62,26 +62,26 @@
                                 }
                             </style>
                             <div class="mt10">
-                                <input type="checkbox" class="detailSearch" value="A" id="dsA">
+                                <input type="checkbox" class="detailSearch" value="0" id="dsA">
                                 <label for="dsA">정규직원</label>
-                                <input type="checkbox" class="detailSearch" value="B" style="margin-left: 10px;" id="dsB">
+                                <input type="checkbox" class="detailSearch" value="4" style="margin-left: 10px;" id="dsB">
                                 <label for="dsB">계약직원</label>
-                                <input type="checkbox" class="detailSearch" value="C" style="margin-left: 10px;" id="dsC">
-                                <label for="dsC">인턴사원</label>
-                                <input type="checkbox" class="detailSearch" value="D" style="margin-left: 10px;" id="dsD">
-                                <label for="dsD">경비/환경</label>
-                                <input type="checkbox" class="detailSearch" value="E" style="margin-left: 10px;" id="dsE">
+<%--                                <input type="checkbox" class="detailSearch" value="2" style="margin-left: 10px;" id="dsC">--%>
+<%--                                <label for="dsC">인턴사원</label>--%>
+<%--                                <input type="checkbox" class="detailSearch" value="3" style="margin-left: 10px;" id="dsD">--%>
+<%--                                <label for="dsD">경비/환경</label>--%>
+                                <input type="checkbox" class="detailSearch" value="3" style="margin-left: 10px;" id="dsE">
                                 <label for="dsE">단기직원</label>
-                                <input type="checkbox" class="detailSearch" value="F" style="margin-left: 10px;" id="dsF">
+                                <input type="checkbox" class="detailSearch" value="1" style="margin-left: 10px;" id="dsF">
                                 <label for="dsF">위촉직원</label>
-                                <input type="checkbox" class="detailSearch" value="G" style="margin-left: 10px;" id="dsG">
+                                <input type="checkbox" class="detailSearch" value="2" style="margin-left: 10px;" id="dsG">
                                 <label for="dsG">연수생/학생연구원</label>
-                                <input type="checkbox" class="detailSearch" value="H" style="margin-left: 10px;" id="dsH">
+                                <input type="checkbox" class="detailSearch" value="10" style="margin-left: 10px;" id="dsH">
                                 <label for="dsH">기타</label>
-                                <input type="checkbox" class="detailSearch" value="I" style="margin-left: 10px;" id="dsI">
-                                <label for="dsI">임시직원</label>
-                                <input type="checkbox" class="detailSearch" value="J" style="margin-left: 10px;" id="dsJ">
-                                <label for="dsJ">퇴사직원</label>
+<%--                                <input type="checkbox" class="detailSearch" value="8" style="margin-left: 10px;" id="dsI">--%>
+<%--                                <label for="dsI">임시직원</label>--%>
+<%--                                <input type="checkbox" class="detailSearch" value="9" style="margin-left: 10px;" id="dsJ">--%>
+<%--                                <label for="dsJ">퇴사직원</label>--%>
                             </div>
                         </td>
                     </tr>
@@ -119,7 +119,7 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>현황</span>
-                                    <input type="text" id="drop1" style="width: 150px; margin-right:10px;">
+                                    <input type="text" id="workStatusCode" style="width: 150px; margin-right:10px;">
                                 </div>
                                 <div class="mr10">
                                     <span>조회 기간</span>
