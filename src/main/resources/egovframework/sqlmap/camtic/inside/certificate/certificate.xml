@@ -19,9 +19,12 @@
                     DATE_FORMAT(IUP.SUBMISSION_DE, '%Y-%m-%d') AS SUBMISSION_DE,
                     IUP.USAGE_NAME,
                     IUP.STATUS,
-                    IUP.APPROVAL_RESULT_DATE
+                    DATE_FORMAT(IUP.APPROVAL_RESULT_DATE, '%Y-%m-%d') AS APPROVAL_RESULT_DATE,
+                    HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME
                 FROM
-                    CAM_INSIDE.DJ_USER_PROOF IUP,
+                    CAM_INSIDE.DJ_USER_PROOF IUP
+                LEFT JOIN
+                    CAM_HR.DJ_EMP_INFO HEI ON IUP.APPROVAL_EMP_SEQ = HEI.EMP_SEQ,
                 (SELECT @ROWNUM := 0) TMP
                 WHERE
                     IUP.CRTR_SN = #{empSeq}

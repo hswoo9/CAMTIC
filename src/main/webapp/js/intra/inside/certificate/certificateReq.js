@@ -165,7 +165,7 @@ var certificateReq = {
                         if(row.APPROVAL_RESULT_DATE == undefined) {
                             return "-";
                         }else {
-                            return row.APPROVAL_RESULT_DATE
+                            return row.APPROVAL_EMP_NAME
                         }
                     }
                 }
