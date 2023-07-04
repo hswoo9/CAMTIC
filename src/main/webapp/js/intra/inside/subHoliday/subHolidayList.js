@@ -121,52 +121,33 @@ var subHolidayList = {
                     },
                     width: 40
                 }, {
+                    field: "",
+                    title: "순번",
+                    width: 80,
+                }, {
                     field: "SUBHOLIDAY_DT_CODE_NM",
-                    title: "휴가구분",
+                    title: "구분",
                     width: 150,
                 }, {
-                    title: "기간 또는 일시",
-                    columns : [
-                        {
-                            field: "SUBHOLIDAY_ST_DT",
-                            title: "부터",
-                            width: 190,
-                            template: function(dataItem) {
-                                if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
-                                    return dataItem.SUBHOLIDAY_WORK_DAY;
-                                }
-                                else {
-                                    return dataItem.SUBHOLIDAY_ST_DT;
-                                }
-                            }
-                        }, {
-                            field: "SUBHOLIDAY_EN_DT",
-                            title: "까지",
-                            width: 190,
-                            template: function(dataItem) {
-                                if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
-                                    return dataItem.SUBHOLIDAY_WORK_DAY;
-                                }
-                                else {
-                                    return dataItem.SUBHOLIDAY_EN_DT;
-                                }
-                            }
-                        }, {
-                            field: "SUBHOLIDAY_USE_DAY",
-                            title: "일수(시간)",
-                            width: 100,
+                    title: "기간",
+                    width: 190,
+                    template: function(dataItem) {
+                        if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
+                            return dataItem.SUBHOLIDAY_WORK_DAY;
                         }
-                    ]
+                        else {
+                            return dataItem.SUBHOLIDAY_ST_DT + " ~ " + dataItem.SUBHOLIDAY_EN_DT;
+                        }
+                    }
                 }, {
+                    field: "SUBHOLIDAY_USE_DAY",
+                    title: "사용 일수",
+                    width: 100,
+                },/* {
                     field: "RMK",
                     title: "내용",
                     align:"center"
-                }, {
-                    field: "APPROVAL_SEND_DATE",
-                    title: "요청일자",
-                    align:"center",
-                    width: 100,
-                }, {
+                }, */{
                     field : "APPR_STAT",
                     title : "승인상태",
                     template : function(e){

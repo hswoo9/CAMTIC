@@ -38,7 +38,9 @@ var subHolidayReqPop = {
             enable: false
         });
 
-
+        $("#holiday_reason").kendoTextBox();
+        $("#other_reason").kendoTextBox();
+        $("#other_emp").kendoTextBox();
 
     },
 
