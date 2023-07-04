@@ -27,13 +27,21 @@
                     CAM_HR.DJ_EMP_INFO HEI ON IUP.APPROVAL_EMP_SEQ = HEI.EMP_SEQ,
                 (SELECT @ROWNUM := 0) TMP
                 WHERE
-                    IUP.CRTR_SN = #{empSeq}
+                    1=1
+                <if test='manageCheck == null or "".equals(manageCheck)'>
+                    AND
+                        IUP.CRTR_SN = #{empSeq}
+                </if>
                 AND DATE_FORMAT(CREATE_DT, '%Y') = #{docuYearDe}
                 <if test='proofType != null and !"".equals(proofType)'>
                     AND PROOF_TYPE = #{proofType}
                 </if>
                 <if test='status != null and !"".equals(status)'>
                     AND STATUS = #{status}
+                </if>
+                <if test='manageCheck != null and !"".equals(manageCheck)'>
+                    AND
+                        STATUS IN (10, 30, 100)
                 </if>
                 ORDER BY IUP.REG_DE
             ) RE

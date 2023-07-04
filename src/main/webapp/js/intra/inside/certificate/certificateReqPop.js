@@ -134,6 +134,8 @@ var certificateReqPop = {
     },
 
     dataSet() {
+
+
         $("#regErpSn, #regtrName, #regDeptName, #regDutyName").kendoTextBox({
             enable: false
         });

@@ -17,7 +17,10 @@
     .k-grid .k-cell-inner {justify-content: center;}
 </style>
 
-
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="empName" value="${loginVO.name}"/>
+<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -35,18 +38,18 @@
                             <div style="display:flex;">
                                 <div class="mr20">
                                     <span>조회연도</span>
-                                    <input type="text" id="certifiYear" style="width: 150px;">
+                                    <input type="text" id="docuYearDe" style="width: 150px;">
                                 </div>
                                 <div class="mr20">
                                     <span>발급구분</span>
-                                    <input type="text" id="issueType" style="width: 200px;">
+                                    <input type="text" id="proofType" style="width: 200px;">
                                 </div>
-                                <div class="mr20">
+                                <div class="mr20" style="display: none">
                                     <span>처리상태</span>
                                     <input type="text" id="status" style="width: 150px;">
                                 </div>
                                 <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="certificateAdmin.gridReload();"/>
                                 </div>
                             </div>
                         </td>

@@ -4,11 +4,18 @@ var certificateAdmin = {
 
     init : function(){
         certificateAdmin.dataSet();
-        certificateAdmin.mainGrid();
+
+        var data = {
+            manageCheck : "admin",
+            docuYearDe : $("#docuYearDe").val(),
+            proofType : $("#proofType").val(),
+            status : $("#status").val()
+        }
+        certificateAdmin.mainGrid("/inside/getCertificateList", data);
     },
 
     dataSet() {
-        $("#certifiYear").kendoDatePicker({
+        $("#docuYearDe").kendoDatePicker({
             start: "decade",
             depth: "decade",
             culture : "ko-KR",
@@ -16,7 +23,7 @@ var certificateAdmin = {
             value : new Date()
         });
 
-        $("#issueType").kendoDropDownList({
+        $("#proofType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -32,7 +39,6 @@ var certificateAdmin = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "작성중", value: "1" },
                 { text: "제출", value: "2" },
                 { text: "승인", value: "3" },
                 { text: "반려", value: "4" }
@@ -41,32 +47,10 @@ var certificateAdmin = {
         });
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
+    mainGrid : function(url, params) {
 
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -79,44 +63,84 @@ var certificateAdmin = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : certificateAdmin.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
-                    width: 50
+                    field: "ROW_NUM",
+                    title: "발급 번호",
+                    width: 80
+                }, {
+                    field: "REG_DE",
+                    title: "요청일",
+                    width: 85
+                }, {
+                    title: "발급 구분",
+                    template : function(row){
+                        if(row.PROOF_TYPE == "1") {
+                            return "재직증명서";
+                        }else if(row.PROOF_TYPE == "2") {
+                            return "경력증명서";
+                        }else {
+                            return "데이터 오류"
+                        }
+                    },
+                    width: 130
+                }, {
+                    field: "REG_DEPT_NAME",
+                    title: "부서",
+                    width: 120
+                }, {
+                    field: "REGTR_NAME",
+                    title: "성명",
+                    width: 120
+                }, {
+                    field: "SUBMISSION_DE",
+                    title: "제출예정일",
+                    width: 130
+                }, {
+                    title: "처리 상태",
+                    template : function(row){
+                        if(row.STATUS == "10") {
+                            return "대기";
+                        }else if(row.STATUS == "100") {
+                            return "승인";
+                        }else if(row.STATUS == "30") {
+                            return "반려";
+                        }else {
+                            return "데이터 오류"
+                        }
+                    },
+                    width: 100
+                }, {
+                    field: "USAGE_NAME",
+                    title: "용도",
+                    width: 300
                 }, {
                     field: "",
-                    title: "발급 번호"
-                }, {
-                    field: "",
-                    title: "요청일"
-                }, {
-                    field: "",
-                    title: "발급 구분"
-                }, {
-                    field: "",
-                    title: "부서"
-                }, {
-                    field: "",
-                    title: "성명"
-                }, {
-                    field: "",
-                    title: "제출예정일"
-                }, {
-                    field: "",
-                    title: "용도"
-                }, {
-                    field: "",
-                    title: "처리 상태"
-                }, {
-                    field: "",
-                    title: "처리일"
-                }, {
-                    field: "",
-                    title: "처리자"
-                }
+                    title: "비고",
+                    template : function(e){
+                        if(e.STATUS == "10"){
+                            return '<span>' +
+                                '       <button type="button" class="k-button k-button-md k-button-solid-info" onclick="certificateAdmin.fn_setCertRep(100, \''+e.USER_PROOF_SN+'\')">승인</button>' +
+                                '       <button type="button" class="k-button k-button-md k-button-solid-error" onclick="certificateAdmin.fn_setCertRep(30, \''+e.USER_PROOF_SN+'\')">반려</button>' +
+                                '   </span>';
+                        } else {
+                            return "";
+                        }
+                    },
+                    width: 150
+                },
             ]
         }).data("kendoGrid");
+    },
+
+    onDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const userProofSn = dataItem.USER_PROOF_SN;
+            certificateReq.certificateReqPop(userProofSn, "mng");
+        });
     },
 
     certificateAdminPop : function() {
@@ -124,5 +148,37 @@ var certificateAdmin = {
         var name = "certificateAdminPop";
         var option = "width=800, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_setCertRep : function (p, key){
+        var message = "승인하시겠습니까?"
+        if(p == 30){
+            message = "반려하시겠습니까?"
+        }
+        if(!confirm(message)){
+            return;
+        }
+        var data = {
+            userProofSn : key,
+            empSeq : $("#empSeq").val(),
+            status : p
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setReqCert", data);
+
+        if(result.flag){
+            $("#mainGrid").data("kendoGrid").dataSource.read();
+        }
+
+    },
+
+    gridReload : function (){
+        var data = {
+            manageCheck : "admin",
+            docuYearDe : $("#docuYearDe").val(),
+            proofType : $("#proofType").val(),
+            status : $("#status").val()
+        }
+        certificateAdmin.mainGrid("/inside/getCertificateList", data);
     }
 }

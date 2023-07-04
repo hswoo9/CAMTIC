@@ -17,6 +17,9 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public List<Map<String, Object>> getCertificateList(Map<String, Object> params){
+        if(!params.containsKey("manageCheck")){
+            params.put("manageCheck", "");
+        }
         return certificateRepository.getCertificateList(params);
     }
 

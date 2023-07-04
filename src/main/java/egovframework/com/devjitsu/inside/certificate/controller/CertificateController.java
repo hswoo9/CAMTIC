@@ -47,6 +47,7 @@ public class CertificateController {
             data = certificateService.getCertificateOne(params);
             model.addAttribute("data", data);
         }
+        model.addAttribute("params", params);
         model.addAttribute("data", data);
 
         return "popup/inside/certificate/certificateReqPop";

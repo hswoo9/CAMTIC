@@ -164,7 +164,7 @@ var certificateReq = {
                             return "데이터 오류"
                         }
                     },
-                    width: 120
+                    width: 100
                 }, {
                     title: "발급",
                     template: function(e){
@@ -208,10 +208,14 @@ var certificateReq = {
         });
     },
 
-    certificateReqPop : function(userProofSn) {
+    certificateReqPop : function(userProofSn, mode) {
+        var urlParams = "";
+        if(mode != null && mode != "" && mode != undefined){
+            urlParams = "&mode=" + mode;
+        }
         var url = "/Inside/pop/certificateReqPop.do";
         if(!isNaN(userProofSn)) {
-            url = "/Inside/pop/certificateReqPop.do?userProofSn="+userProofSn;
+            url = "/Inside/pop/certificateReqPop.do?userProofSn="+userProofSn + urlParams;
         }
         var name = "certificateReqPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
