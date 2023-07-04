@@ -66,7 +66,7 @@
             <div class="form-group mb10">
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    <input type="text" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요.">
+                    <input type="text" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="******">
                 </div>
             </div>
             <div>
