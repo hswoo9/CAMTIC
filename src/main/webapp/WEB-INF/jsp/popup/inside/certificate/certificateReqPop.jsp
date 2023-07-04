@@ -45,7 +45,6 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="userProofSn" value="${data.USER_PROOF_SN}"/>
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header" style="padding-top:45px;">
       <div class="col-lg-11" style="margin:0 auto;">
@@ -133,12 +132,30 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
+          <c:choose>
+            <c:when test="${data.STATUS == 0}">
+              <input type="button" class="k-button k-button-solid-info" value="전자결재" onclick="certificateReqPop.certifiDrafting();"/>
+            </c:when>
+            <c:when test="${data.STATUS == 10}">
+              <input type="button" class="k-button k-button-solid-info" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
+            </c:when>
+            <c:when test="${data.STATUS == 100}">
+              <input type="button" class="k-button k-button-solid-info" value="증명서신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
+            </c:when>
+          </c:choose>
           <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
           <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
         </div>
       </div>
     </div>
 </div>
+
+<form id="certifiDraftFrm" method="post">
+  <input type="hidden" id="menuCd" name="menuCd" value="certifi">
+  <input type="hidden" id="type" name="type" value="drafting">
+  <input type="hidden" id="nowUrl" name="nowUrl" />
+  <input type="hidden" id="userProofSn" name="userProofSn" value="${data.USER_PROOF_SN}"/>
+</form>
 <script>
   certificateReqPop.init();
   console.log("${LoginVO}");

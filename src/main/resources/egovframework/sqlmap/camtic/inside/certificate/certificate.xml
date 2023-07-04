@@ -49,9 +49,15 @@
             IUP.FIRST_RRN_NAME,
             IUP.SECOND_RRN_NAME,
             IUP.USAGE_NAME,
-            IUP.REMARK_NAME
+            IUP.REMARK_NAME,
+            IUP.STATUS,
+            DI.DOC_ID,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_USER_PROOF IUP
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = IUP.DOC_ID
         WHERE
             IUP.USER_PROOF_SN = #{userProofSn}
     </select>
@@ -113,6 +119,33 @@
             DOCU_YEAR_DE = LEFT(#{regDe}, 4),
             UPDT_DT = now(),
             UPDUSR_SN = #{empSeq}
+        WHERE
+            USER_PROOF_SN = #{userProofSn}
+    </update>
+
+    <update id="updateCertifiApprStat" parameterType="map">
+        /* updateCertifiApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            <if test='docId != null and !"".equals(docId)'>
+                DOC_ID = #{docId},
+            </if>
+            STATUS = ${status},
+            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            USER_PROOF_SN = #{userProofSn}
+    </update>
+
+    <update id="updateCertifiFinalApprStat" parameterType="map">
+        /* updateCertifiFinalApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            STATUS = ${status},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            APPROVAL_RESULT_DATE = now()
         WHERE
             USER_PROOF_SN = #{userProofSn}
     </update>

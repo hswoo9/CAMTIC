@@ -32,4 +32,11 @@ public interface CertificateService {
      * @return
      */
     void setCertificateUpdate(Map<String, Object> params);
+
+    /**
+     * 증명서신청 전자결재 상태값 업데이트
+     * @param bodyMap
+     * @throws Exception
+     */
+    void updateDocState(Map<String, Object> bodyMap) throws Exception;
 }

@@ -287,10 +287,15 @@ var certificateReqPop = {
         }).data("kendoGrid");
     },
 
-    certificateReqPopPop : function() {
-        var url = "/inside/certificateReqPopPop.do";
-        var name = "certificateReqPopPop";
-        var option = "width=800, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
+    certifiDrafting : function() {
+        $("#certifiDraftFrm").one("submit", function() {
+            var url = "/Inside/pop/certifiApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Inside/pop/certifiApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 }

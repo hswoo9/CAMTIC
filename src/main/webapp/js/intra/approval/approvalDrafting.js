@@ -612,7 +612,7 @@ var draft = {
 
     draftInitValidation : function(e) {
         draft.global.flag = true;
-        if (draft.global.approversArr.length < 1) {
+        if (draft.global.approversArr.length <= 1) {
             alert("결재선을 지정해주세요.");
             draft.global.flag = false;
             return;
