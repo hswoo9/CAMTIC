@@ -38,4 +38,14 @@
         </choose>
         AND VEI.EMP_SEQ = #{empSeq}
     </select>
+
+    <select id="getIdCheck" parameterType="map" resultType="map">
+        /* getIdCheck */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            LOGIN_ID = #{loginId}
+    </select>
 </mapper>

@@ -24,4 +24,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserInfo(params);
     }
 
+    @Override
+    public Map<String, Object> getIdCheck(Map<String, Object> params) {
+        return userRepository.getIdCheck(params);
+    }
 }

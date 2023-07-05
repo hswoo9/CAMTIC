@@ -50,6 +50,16 @@ public class UserController {
         return userService.getUserInfo(params);
     }
 
+    @RequestMapping("/user/getIdCheck")
+    public String getIdCheck(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = userService.getIdCheck(params);
+
+        model.addAttribute("rs", map);
+
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

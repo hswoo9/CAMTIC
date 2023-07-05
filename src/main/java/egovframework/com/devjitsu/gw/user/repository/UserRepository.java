@@ -18,4 +18,7 @@ public class UserRepository extends AbstractDAO {
     }
 
 
+    public Map<String, Object> getIdCheck(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("user.getIdCheck", params);
+    }
 }

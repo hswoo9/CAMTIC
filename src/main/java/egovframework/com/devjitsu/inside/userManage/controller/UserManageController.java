@@ -292,9 +292,14 @@ public class UserManageController {
     //직원추가
     @RequestMapping("/userManage/setUserReqDetailInsert")
     @ResponseBody
-    public Map<String, Object> setUserInfoReqSave(@RequestParam Map<String, Object> params) {
+    public Map<String, Object> setUserInfoReqSave(@RequestParam Map<String, Object> params, HttpServletRequest request) {
         Map<String,Object> result = new HashMap<>();
         System.out.println("test : : : : : : : : "+params);
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("regEmpSeq", loginVO.getUniqId());
         String code = "";
         String message = "";
         try{
