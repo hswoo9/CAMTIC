@@ -379,11 +379,11 @@ var userPersonList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template: "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
                     width: 50
                 }, {
-                    field: "EMP_SEQ",
+                    field: "ERP_EMP_SEQ",
                     title: "사번"
                 }, {
                     field: "EMP_NAME_KR",
@@ -544,4 +544,12 @@ var userPersonList = {
 
         }
     })*/
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='checkUser']").prop("checked", true);
+        }else{
+            $("input[name='checkUser']").prop("checked", false);
+        }
+    }
 }
