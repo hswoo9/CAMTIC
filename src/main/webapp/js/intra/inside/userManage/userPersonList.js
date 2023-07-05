@@ -81,14 +81,6 @@ var userPersonList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date_detail").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
             value : new Date()
         });
 
@@ -98,13 +90,13 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {name: "정규직원", value: "정규직원"},
-                {name: "계약직원", value: "계약직원"},
-                {name: "인턴사원", value: "인턴사원"},
-                {name: "경비/환경", value: "경비/환경"},
-                {name: "단기직원", value: "단기직원"},
-                {name: "위촉직원", value: "위촉직원"},
-                {name: "연수생/학생연구원", value: "연수생/학생연구원"}
+                {name: "정규직원", value: "0"},
+                {name: "계약직원", value: "4"},
+                {name: "단기직원", value: "3"},
+                {name: "위촉직원", value: "1"},
+                {name: "연수생/학생연구원", value: "2"},
+                {name: "기타", value: "10"},
+                {name: "퇴사직원", value: "9"}
             ],
             dataTextField: "name",
             dataValueField: "value"
@@ -116,54 +108,44 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {name: "남", value: "남"},
-                {name: "여", value: "여"}
+                {name: "남", value: "M"},
+                {name: "여", value: "F"}
             ],
             dataTextField: "name",
             dataValueField: "value"
         });
 
+        var ds4Data = {
+            deptLevel : 1
+        }
+        var ds4 = customKendo.fn_customAjax("/dept/getDeptAList", ds4Data);
+
+        console.log(ds4);
         $("#detailSearch4").kendoDropDownTree({
             placeholder: "선택하세요",
             checkboxes: true,
             checkAll: true,
             autoClose: false,
-            dataSource: [
-                {name: "미래전략기획본부", value: "미래전략기획본부"},
-                {name: "R&BD사업본부", value: "R&BD사업본부"},
-                {name: "기업성장지원본부", value: "기업성장지원본부"},
-                {name: "우주항공사업부", value: "우주항공사업부"},
-                {name: "드론사업부", value: "드론사업부"},
-                {name: "스마트제조사업부", value: "스마트제조사업부"},
-                {name: "경영지원실", value: "경영지원실"}
-            ],
-            dataTextField: "name",
-            dataValueField: "value"
+            dataSource: ds4.rs,
+            dataTextField: "dept_name",
+            dataValueField: "dept_seq"
         });
+
+        var ds5Data = {
+            deptLevel : 2
+        }
+        var ds5 = customKendo.fn_customAjax("/dept/getDeptAList", ds5Data);
+
+        console.log(ds5);
 
         $("#detailSearch5").kendoDropDownTree({
             placeholder: "선택하세요",
             checkboxes: true,
             checkAll: true,
             autoClose: false,
-            dataSource: [
-                {name: "제조혁신팀", value: "제조혁신팀"},
-                {name: "신기술융합팀", value: "신기술융합팀"},
-                {name: "우주개발팀", value: "우주개발팀"},
-                {name: "항공개발팀", value: "항공개발팀"},
-                {name: "사업지원팀", value: "사업지원팀"},
-                {name: "인재개발팀", value: "인재개발팀"},
-                {name: "일자리창업팀", value: "일자리창업팀"},
-                {name: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터"},
-                {name: "지역산업육성팀", value: "지역산업육성팀"},
-                {name: "경영지원팀", value: "경영지원팀"},
-                {name: "미래전략기획팀", value: "미래전략기획팀"},
-                {name: "J-밸리혁신팀", value: "J-밸리혁신팀"},
-                {name: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
-                {name: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
-            ],
-            dataTextField: "name",
-            dataValueField: "value"
+            dataSource: ds5.rs,
+            dataTextField: "dept_name",
+            dataValueField: "dept_seq"
         });
 
         $("#detailSearch6").kendoDropDownTree({
@@ -423,7 +405,6 @@ var userPersonList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -434,35 +415,92 @@ var userPersonList = {
             },
             columns: [
                 {
-                    field: "",
-                    title: "번호"
-                }, {
                     field: "EMP_NAME_KR",
-                    title: "성명"
+                    title: "성명",
+                    width: 100
                 }, {
                     field: "DEPT_NAME",
-                    title: "부서(실)"
+                    title: "부서(실)",
+                    width: 130
                 }, {
                     field: "DEPT_TEAM_NAME",
-                    title: "부서(팀)"
+                    title: "부서(팀)",
+                    width: 160
                 }, {
                     field: "DUTY_NAME",
-                    title: "직위"
+                    title: "직위",
+                    template : function(e){
+                        if(e.DUTY_NAME != "" || e.DUTY_NAME != null){
+                            return e.POSITION_NAME;
+                        } else {
+                            return e.DUTY_NAME;
+                        }
+                    }
+                }, {
+                    title: "성별",
+                    template: function(e){
+                        if(e.GENDER_CODE == "M"){
+                            return "남";
+                        } else if(e.GENDER_CODE == "F"){
+                            return "여";
+                        } else {
+                            return "-";
+                        }
+                    }
+                }, {
+                    title: "유형",
+                    template : function(e){
+                        if(e.DIVISION == 0){
+                            return "정규직원";
+                        } else if (e.DIVISION == 4){
+                            return "계약직원";
+                        } else if (e.DIVISION == 3){
+                            return "단기직원";
+                        } else if (e.DIVISION == 1){
+                            return "위촉직원";
+                        } else if (e.DIVISION == 2){
+                            return "연수생/학생연구원";
+                        } else if (e.DIVISION == 10){
+                            return "기타";
+                        } else if (e.DIVISION == 9){
+                            return "퇴사직원";
+                        } else {
+                            return "-";
+                        }
+                    },
+                    width: 150
                 }, {
                     field: "",
-                    title: "성별"
+                    title: "나이",
+                    template : function(e){
+                        if(e.RES_REGIS_NUM != null && e.RES_REGIS_NUM != "") {
+                            var age = userPersonList.fn_setCalcAge(e.RES_REGIS_NUM);
+                            return age;
+                        } else {
+                            return "-";
+                        }
+                    }
                 }, {
                     field: "",
-                    title: "유형"
+                    title: "근속년수",
+                    template :function(e){
+                        if(e.hire != null && e.hire != ""){
+                            return e.hire + "년 " + e.hire_mon + "개월";
+                        } else {
+                            return "-";
+                        }
+
+                    }
                 }, {
                     field: "",
-                    title: "나이"
-                }, {
-                    field: "",
-                    title: "근속년수"
-                }, {
-                    field: "",
-                    title: "재직여부"
+                    title: "재직여부",
+                    template : function(e){
+                        if(e.WORK_STATUS_CODE == "Y"){
+                            return "재직";
+                        } else {
+                            return "퇴직";
+                        }
+                    }
                 }, {
                     field: "JOIN_DAY2",
                     title: "입사일"
@@ -477,7 +515,7 @@ var userPersonList = {
     userReqPop : function() {
         var url = "/Inside/pop/userReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=1200, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1100, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
@@ -518,9 +556,8 @@ var userPersonList = {
         var testDropDownTree8 = $("#detailSearch9").data("kendoDropDownTree");
 
         userPersonList.global.searchAjaxData = {
-            IN_OUT_CHECK : $('#workStatusCode').val(), // 입퇴사 현황
-            START_DATE : $("#start_date_detail").val(), // 조회 기간 시작일
-            END_DATE : $("#end_date_detail").val(), // 조회 기간 종료일
+            workStatusCode : $('#workStatusCode').val(), // 입퇴사 현황
+            startDate : $("#start_date_detail").val(), // 조회 기간 시작일
             searchDetail1 : JSON.stringify(testDropDownTree1.value()),
             searchDetail2 : JSON.stringify(testDropDownTree2.value()),
             searchDetail3 : JSON.stringify(testDropDownTree3.value()),
@@ -535,15 +572,61 @@ var userPersonList = {
         console.log(JSON.stringify(userPersonList.global.searchAjaxData));
         userPersonList.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList.global.searchAjaxData);
     },
-    /*$.ajax({
-        url: "<c:url value='/edu/setEduSurvey'/>",
-        data: data,
-        dataType : "json",
-        type: "POST",
-        success: function () {
 
+    //주민번호 앞자리 입력시 나이 출력하는 함수
+    fn_setCalcAge: function(jumin){
+        // 전달받은 주민번호 데이터에 '-' 확인 후 있으면 제거
+        if(jumin.includes('-')){
+            jumin = jumin.replace('-','');
         }
-    })*/
+
+        let today = new Date();	// 현재 날짜 및 시간
+
+        let juminFront = jumin.substr(0,6); // 주민번호앞자리
+        let juminBackFirstVal = jumin.substr(6,1); //주민번호뒷자리 첫 문자열(2000년도 이전생인지 확인)
+
+        let age = 0;
+        let birthDate = null;
+        let juminYear = null;
+        let juminMonth = jumin.substr(2,2);//10
+        let juminDate = jumin.substr(4,2);//03
+
+        let monthCheck = 0;
+
+        if(juminBackFirstVal == 1 || juminBackFirstVal == 2){
+            // 2000년생 이전일 경우
+            juminYear = "19" + jumin.substr(0,2);//93~~
+
+            // 문법상 Month(월)은 0부터 시작하기 때문에 -1 처리해야 됨.
+            birthDate = new Date(juminYear*1, juminMonth-1, juminDate*1);
+
+            // 현재 연도에서 - 태어난 연도
+            age = today.getFullYear() - birthDate.getFullYear();
+
+            // 현재 월에서 - 태어난 월
+            monthCheck = today.getMonth() - birthDate.getMonth();
+
+            // 생일 월이 현재 월을 지나지 않았을 경우 만 나이기 때문에 -1
+            if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
+                age--;
+            }
+        }else{
+            // 2000년생 이후
+            juminYear = "20" + jumin.substr(0,2);//01~~
+
+            birthDate = new Date(juminYear*1, juminMonth-1, juminDate*1);
+
+            age = today.getFullYear() - birthDate.getFullYear();
+
+            monthCheck = today.getMonth() - birthDate.getMonth();
+
+            if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
+                age--;
+            }
+        }
+
+        return age;
+    },
 
     fn_checkAll: function(){
         if($("#checkAll").is(":checked")) {
