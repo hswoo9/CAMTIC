@@ -72,7 +72,7 @@
                             </td>
                             <th><span class="red-star">*</span>신청일자</th>
                             <td>
-                                <input type="text" id="regDe" style="width: 80%;" value="${data.REG_DE}">
+                                <input type="text" id="regDe" style="width: 80%;">
                             </td>
                         </tr>
                         <tr>
@@ -102,7 +102,7 @@
                             </td>
                             <th><span class="red-star">*</span>제출 예정일</th>
                             <td>
-                                <input type="text" id="submissionDe" style="width: 80%;" value="${data.SUBMISSION_DE}">
+                                <input type="text" id="submissionDe" style="width: 80%;">
                             </td>
                         </tr>
                         <tr>
@@ -134,7 +134,10 @@
             <div class="btn-st" style="margin-top:10px; text-align:center;">
                 <c:choose>
                     <c:when test="${data.STATUS == 0}">
-                        <input type="button" class="k-button k-button-solid-info" value="신청" onclick="certificateReqPop.fn_certReq();"/>
+                        <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="certificateReqPop.fn_certReq();"/>
+                        <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="certificateReqPop.uptBtn();"/>
+                        <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="certificateReqPop.saveBtn();"/>
+                        <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
                     </c:when>
                     <c:when test="${data.STATUS == null}">
                         <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
@@ -156,19 +159,26 @@
 <script>
     var mode = '${params.mode}';
     var dtStatus = '${data.STATUS}';
-    if(mode == "mng" || (dtStatus != null && dtStatus != '')){
-        $("#proofType").attr("disabled", "disabled");
-        $("#regDe").attr("disabled", "disabled");
-        $("#submissionName").attr("disabled", "disabled");
-        $("#submissionDe").attr("disabled", "disabled");
-        $("#printSn").attr("disabled", "disabled");
-        $("#firstRrnName").attr("disabled", "disabled");
-        $("#secondRrnName").attr("disabled", "disabled");
-        $("#usageName").attr("disabled", "disabled");
-        $("#remarkName").attr("disabled", "disabled");
-    }
 
     certificateReqPop.init();
+
+    if(mode == "mng" || (dtStatus != null && dtStatus != '')){
+
+        $("#submissionName").data("kendoTextBox").enable(false);
+        $("#firstRrnName").data("kendoTextBox").enable(false);
+        $("#secondRrnName").data("kendoTextBox").enable(false);
+        $("#remarkName").data("kendoTextBox").enable(false);
+        $("#regDe").data("kendoDatePicker").enable(false);
+        $("#submissionDe").data("kendoDatePicker").enable(false);
+        $("#proofType").data("kendoDropDownList").enable(false);
+        $("#printSn").data("kendoDropDownList").enable(false);
+        $("#usageName").data("kendoDropDownList").enable(false);
+
+        $("#regDe").val("${data.REG_DE}");
+        $("#submissionDe").val("${data.SUBMISSION_DE}");
+    }
+
+
 
 
 

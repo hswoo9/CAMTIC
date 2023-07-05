@@ -2,12 +2,12 @@ var now = new Date();
 
 var certificateReqPop = {
 
-    init : function(){
+    init: function(){
         certificateReqPop.dataSet();
         certificateReqPop.mainGrid();
     },
 
-    saveBtn() {
+    saveBtn: function(){
         //로그인 사원seq
         let empSeq = $("#empSeq").val();
         //발급구분
@@ -91,7 +91,7 @@ var certificateReqPop = {
         }
     },
 
-    setCertificateInsert(data) {
+    setCertificateInsert: function(data){
         $.ajax({
             url : "/inside/setCertificateInsert",
             data : data,
@@ -112,7 +112,7 @@ var certificateReqPop = {
         });
     },
 
-    setCertificateUpdate(data) {
+    setCertificateUpdate: function(data){
         $.ajax({
             url : "/inside/setCertificateUpdate",
             data : data,
@@ -133,7 +133,22 @@ var certificateReqPop = {
         });
     },
 
-    dataSet() {
+    uptBtn: function(){
+        $("#submissionName").data("kendoTextBox").enable(true);
+        $("#firstRrnName").data("kendoTextBox").enable(true);
+        $("#secondRrnName").data("kendoTextBox").enable(true);
+        $("#remarkName").data("kendoTextBox").enable(true);
+        $("#regDe").data("kendoDatePicker").enable(true);
+        $("#submissionDe").data("kendoDatePicker").enable(true);
+        $("#proofType").data("kendoDropDownList").enable(true);
+        $("#printSn").data("kendoDropDownList").enable(true);
+        $("#usageName").data("kendoDropDownList").enable(true);
+
+        $(".btn-A").hide();
+        $(".btn-B").show();
+    },
+
+    dataSet: function(){
 
 
         $("#regErpSn, #regtrName, #regDeptName, #regDutyName").kendoTextBox({
@@ -188,7 +203,7 @@ var certificateReqPop = {
         $("#regDe, #submissionDe").attr("readonly", true);
     },
 
-    mainGrid : function() {
+    mainGrid: function(){
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -283,7 +298,7 @@ var certificateReqPop = {
         }).data("kendoGrid");
     },
 
-    fn_certReq : function (){
+    fn_certReq: function(){
         var data = {
             userProofSn : $("#userProofSn").val(),
             empSeq : $("#empSeq").val(),
