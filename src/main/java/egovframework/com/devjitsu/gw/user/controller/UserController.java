@@ -60,6 +60,14 @@ public class UserController {
         return "jsonView";
     }
 
+    @RequestMapping("/user/getEmpList")
+    public String getEmpList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", userService.getEmpList(params));
+
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

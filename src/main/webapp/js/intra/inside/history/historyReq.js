@@ -8,44 +8,52 @@ var historyReq = {
     },
 
     dataSet() {
+        customKendo.fn_textBox(["searchText"])
         $("#historyType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
                 { text: "임용 (정규직)", value: "1" },
-                { text: "임용 (계약직)", value: "2" },
-                { text: "임용 (인턴 사원)", value: "3" },
-                { text: "임용 (단기 직원)", value: "4" },
-                { text: "임용 (위촉 직원)", value: "5" },
-                { text: "임용 (경비 / 환경)", value: "6" },
-                { text: "승진 (직급)", value: "7" },
-                { text: "승진 (직위)", value: "8" },
-                { text: "전보", value: "9" },
-                { text: "겸직", value: "10" },
-                { text: "직무 대리", value: "11" },
-                { text: "파견", value: "12" },
-                { text: "면직", value: "13" },
-                { text: "강등", value: "14" },
-                { text: "조직 개편", value: "15" },
-                { text: "호칭 변경", value: "16" },
-                { text: "기타", value: "17" }
+                { text: "임용 (계약직)", value: "12" },
+                { text: "임용 (인턴 사원)", value: "13" },
+                { text: "임용 (단기 직원)", value: "14" },
+                { text: "임용 (위촉 직원)", value: "15" },
+                { text: "임용 (경비 / 환경)", value: "16" },
+                { text: "승진 (직급)", value: "2" },
+                { text: "승진 (직위)", value: "17" },
+                { text: "전보", value: "3" },
+                { text: "겸직", value: "4" },
+                { text: "직무대리", value: "5" },
+                { text: "파견", value: "6" },
+                { text: "면직", value: "7" },
+                { text: "강등", value: "8" },
+                { text: "조직개편", value: "9" },
+                { text: "호칭변경", value: "10" },
+                { text: "기타", value: "11" }
             ],
             index: 0
         });
 
-        $("#dept").kendoDropDownList({
+        var data = {
+
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+
+        $("#dept").data("kendoDropDownList").bind("change", historyReq.fn_chngDeptComp)
+        $("#dept").data("kendoDropDownList").select(0);
+        $("#dept").data("kendoDropDownList").trigger("change");
+
+        $("#gender").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
+                { text: "전체", value : ""},
+                { text: "남자", value: "Y" },
+                { text: "여자", value: "N" },
             ],
             index: 0
         });
@@ -91,6 +99,15 @@ var historyReq = {
             ],
             index: 0
         });
+    },
+
+    fn_chngDeptComp: function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
     },
 
     mainGrid : function() {

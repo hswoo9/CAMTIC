@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> getIdCheck(Map<String, Object> params) {
         return userRepository.getIdCheck(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEmpList(Map<String, Object> params) {
+        return userRepository.getEmpList(params);
+    }
 }

@@ -9,4 +9,6 @@ public interface UserService {
     Map<String, Object> getUserInfo(Map<String, Object> params);
 
     Map<String, Object> getIdCheck(Map<String, Object> params);
+
+    List<Map<String, Object>> getEmpList(Map<String, Object> params);
 }

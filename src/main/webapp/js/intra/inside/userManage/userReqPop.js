@@ -617,10 +617,10 @@ var userReqPop = {
 
             division : $("#divis").val(), //직원구분
             divisionSub : $("#divisDet").val(), //직원구분
-            PRNT_DEPT_SEQ : $("#deptName").val(), //부서
-
-            DEPT_SEQ : $("#deptTeamName").val(), //팀
-            DEPT_NAME : $("#deptTeamName").data("kendoDropDownList").text(),
+            DEPT_SEQ : $("#deptName").val(), //부서
+            DEPT_NAME : $("#deptName").data("kendoDropDownList").text(),
+            DEPT_TEAM_SEQ : $("#deptTeamName").val(), //팀
+            DEPT_TEAM_NAME : $("#deptTeamName").data("kendoDropDownList").text(),
             JOB_DETAIL : $("#jobDetail").val(), //직무사항
             BEFOR_CAREER : $("#beforCareer").val(), //전직경력
             BS_ELAPSED_YEAR : $("#elapsedYear1").val(),
@@ -665,11 +665,6 @@ var userReqPop = {
             data.ACTIVE = "N"
         } else {
             data.ACTIVE = "Y"
-        }
-
-        if(data.DEPT_SEQ == "" || data.DEPT_SEQ == null){
-            data.DEPT_SEQ = $("#deptName").val();
-            data.DEPT_NAME = $("#deptName").data("kendoDropDownList").text();
         }
 
         if(data.EMP_NAME_KR == "" || data.EMP_NAME_KR == null){

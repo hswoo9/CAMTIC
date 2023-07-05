@@ -8,21 +8,19 @@ var historyReqPop = {
     },
 
     dataSet() {
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
-            ],
-            index: 0
-        });
+
+
+        var data = {
+
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+
+        $("#dept").data("kendoDropDownList").bind("change", historyReqPop.fn_chngDeptComp)
+        $("#dept").data("kendoDropDownList").select(0);
+        $("#dept").data("kendoDropDownList").trigger("change");
 
         $("#team").kendoDropDownList({
             dataTextField: "text",
@@ -42,7 +40,9 @@ var historyReqPop = {
                 { text: "사업지원팀", value: "11" }
             ],
             index: 0
-        });$("#historyType").kendoDropDownList({
+        });
+
+        $("#historyType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -77,36 +77,32 @@ var historyReqPop = {
         });
     },
 
+    fn_chngDeptComp: function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
+    },
+
     mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
+
+        var data = {
+            deptSeq : $("#dept").val(),
+            deptTeamSeq : $("#team").val(),
+            empName : $("#searchVal").val()
+        }
+
+
+        var rs = customKendo.fn_customAjax("/user/getEmpList", data);
 
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2("/user/getEmpList", data),
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 481,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -127,20 +123,32 @@ var historyReqPop = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>"
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="historyReqPop.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    template : function (e){
+                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                    },
+                    width: 50,
+                    attribute : {
+                        style : "text-align:center",
+                    }
                 }, {
-                    field: "",
+                    field: "DEPT_NAME",
                     title: "부서"
                 }, {
-                    field: "",
-                    title: "팀"
+                    field: "DEPT_SEQ",
+                    title: "팀",
+                    width: 70,
                 }, {
-                    field: "",
-                    title: "성명"
+                    field: "EMP_NAME_KR",
+                    title: "성명",
+                    width: 70,
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    gridReload: function (){
+        historyReqPop.mainGrid();
     },
 
     historyReqPopPop : function() {
@@ -148,5 +156,13 @@ var historyReqPop = {
         var name = "historyReqPopPop";
         var option = "width=800, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='checkUser']").prop("checked", true);
+        }else{
+            $("input[name='checkUser']").prop("checked", false);
+        }
     }
 }

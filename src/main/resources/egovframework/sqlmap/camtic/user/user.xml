@@ -48,4 +48,19 @@
         WHERE
             LOGIN_ID = #{loginId}
     </select>
+
+    <select id="getEmpList" parameterType="map" resultType="map">
+        /* getEmpList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE ACTIVE = 'Y'
+            <if test='deptSeq != null and deptSeq != ""'>
+                AND DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test='deptTeamSeq != null and deptTeamSeq !=""'>
+                AND DEPT_TEAM_SEQ = #{deptTeamSeq}
+            </if>
+    </select>
 </mapper>
