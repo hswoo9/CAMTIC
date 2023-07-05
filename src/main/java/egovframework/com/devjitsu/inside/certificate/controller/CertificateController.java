@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.certificate.controller;
 
+import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
@@ -24,6 +26,9 @@ public class CertificateController {
     @Autowired
     private CertificateService certificateService;
 
+    @Autowired
+    private CommonCodeService commonCodeService;
+
     //증명서신청 페이지
     @RequestMapping("/Inside/certificateReq.do")
     public String certificateReq(HttpServletRequest request, Model model) {
@@ -33,6 +38,17 @@ public class CertificateController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/userManage/certificateReq";
+    }
+
+    //증명서관리 페이지
+    @RequestMapping("/Inside/certificateAdmin.do")
+    public String certificateAdmin(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/certificateAdmin";
     }
 
     //증명서신청 팝업 페이지
@@ -54,15 +70,34 @@ public class CertificateController {
         return "popup/inside/certificate/certificateReqPop";
     }
 
-    //증명서관리 페이지
-    @RequestMapping("/Inside/certificateAdmin.do")
-    public String certificateAdmin(HttpServletRequest request, Model model) {
+    //증명서인쇄 팝업 페이지
+    @RequestMapping("/Inside/pop/certifiPrintPop.do")
+    public String certifiPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/certificateAdmin";
+
+        Map<String, Object> data = new HashMap<>();
+        if(params.containsKey("userProofSn")){
+            data = certificateService.getCertificateOne(params);
+            model.addAttribute("data", data);
+        }
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+        params.put("menuCd", "certifi");
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", data);;
+
+        return "popup/inside/certificate/certifiPrintPop";
     }
 
     //증명서관리 - 증명서신청 전자결재 페이지
@@ -72,7 +107,7 @@ public class CertificateController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
-        return "/popup/inside/certificate/approvalFormPopup/certifiApprovalPop";
+        return "/popup/inside/certificate/certifiApprovalPop";
     }
 
     //증명서신청 - 증명서신청 리스트 조회
@@ -84,7 +119,7 @@ public class CertificateController {
     }
 
     //증명서신청 - 증명서신청팝업 - 단일데이터 조회
-    @RequestMapping("/campus/getCertificateOne")
+    @RequestMapping("/inside/getCertificateOne")
     public String getCertificateOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = certificateService.getCertificateOne(params);
         model.addAttribute("data", data);

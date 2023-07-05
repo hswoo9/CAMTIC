@@ -50,13 +50,22 @@ var certificateReq = {
         });
     },
 
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='checkCert']").prop("checked", true);
+        }else{
+            $("input[name='checkCert']").prop("checked", false);
+        }
+    },
+
     dataSet() {
         $("#docuYearDe").kendoDatePicker({
             start: "decade",
             depth: "decade",
             culture : "ko-KR",
             format : "yyyy",
-            value : new Date()
+            value : new Date(),
+            change : gridReload
         });
 
         $("#proofType").kendoDropDownList({
@@ -67,7 +76,8 @@ var certificateReq = {
                 { text: "재직증명서", value: "1" },
                 { text: "경력증명서", value: "2" }
             ],
-            index: 0
+            index: 0,
+            change : gridReload
         });
 
         $("#status").kendoDropDownList({
@@ -80,8 +90,10 @@ var certificateReq = {
                 { text: "승인", value: "100" },
                 { text: "반려", value: "30" }
             ],
-            index: 0
+            index: 0,
+            change : gridReload
         });
+        $("#docuYearDe").attr("readonly", true);
 
     },
 
@@ -212,7 +224,7 @@ var certificateReq = {
                     title: "발급",
                     template: function(e){
                         if(e.STATUS == "100")
-                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info">' +
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateReq.certifiPrintPop('+e.USER_PROOF_SN+');">' +
                                     '	<span class="k-button-text">발급</span>' +
                                     '</button>';
                         else
@@ -246,15 +258,10 @@ var certificateReq = {
         var popup = window.open(url, name, option);
     },
 
-    fn_checkAll: function(){
-        if($("#checkAll").is(":checked")) {
-            $("input[name='checkCert']").prop("checked", true);
-        }else{
-            $("input[name='checkCert']").prop("checked", false);
-        }
+    certifiPrintPop : function(userProofSn) {
+        var url = "/Inside/pop/certifiPrintPop.do?userProofSn="+userProofSn;
+        var name = "certifiPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
-}
-
-function gridReload() {
-    $("#mainGrid").data("kendoGrid").dataSource.read();
 }

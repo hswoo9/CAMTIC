@@ -14,13 +14,36 @@ var certificateAdmin = {
         certificateAdmin.mainGrid("/inside/getCertificateList", data);
     },
 
+    fn_setCertRep : function (p, key){
+        var message = "승인하시겠습니까?"
+        if(p == 30){
+            message = "반려하시겠습니까?"
+        }
+        if(!confirm(message)){
+            return;
+        }
+        var data = {
+            userProofSn : key,
+            empSeq : $("#empSeq").val(),
+            status : p
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setReqCert", data);
+
+        if(result.flag){
+            certificateAdmin.gridReload();
+        }
+
+    },
+
     dataSet() {
         $("#docuYearDe").kendoDatePicker({
             start: "decade",
             depth: "decade",
             culture : "ko-KR",
             format : "yyyy",
-            value : new Date()
+            value : new Date(),
+            change : certificateAdmin.gridReload
         });
 
         $("#proofType").kendoDropDownList({
@@ -31,20 +54,10 @@ var certificateAdmin = {
                 { text: "재직증명서", value: "1" },
                 { text: "경력증명서", value: "2" }
             ],
-            index: 0
+            index: 0,
+            change : certificateAdmin.gridReload
         });
-
-        $("#status").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "제출", value: "2" },
-                { text: "승인", value: "3" },
-                { text: "반려", value: "4" }
-            ],
-            index: 0
-        });
+        $("#docuYearDe").attr("readonly", true);
     },
 
     mainGrid : function(url, params) {
@@ -141,35 +154,6 @@ var certificateAdmin = {
             const userProofSn = dataItem.USER_PROOF_SN;
             certificateReq.certificateReqPop(userProofSn, "mng");
         });
-    },
-
-    certificateAdminPop : function() {
-        var url = "/Inside/certificateAdminPop.do";
-        var name = "certificateAdminPop";
-        var option = "width=800, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
-    fn_setCertRep : function (p, key){
-        var message = "승인하시겠습니까?"
-        if(p == 30){
-            message = "반려하시겠습니까?"
-        }
-        if(!confirm(message)){
-            return;
-        }
-        var data = {
-            userProofSn : key,
-            empSeq : $("#empSeq").val(),
-            status : p
-        }
-
-        var result = customKendo.fn_customAjax("/inside/setReqCert", data);
-
-        if(result.flag){
-            $("#mainGrid").data("kendoGrid").dataSource.read();
-        }
-
     },
 
     gridReload : function (){

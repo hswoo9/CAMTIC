@@ -53,7 +53,7 @@
                         <th class="text-center th-color">처리상태</th>
                         <td>
                             <input type="text" id="status" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">검색</button>
                         </td>
                     </tr>
                 </table>

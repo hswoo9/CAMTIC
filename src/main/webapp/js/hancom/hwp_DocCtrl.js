@@ -254,6 +254,88 @@ var hwpDocCtrl = {
                     window.close();
                 }
             });
+        }else if(data.menuCd == "certifi") {
+            const userProofSn = certifiPrintPop.global.params.userProofSn;
+
+            if(userProofSn == null || userProofSn == undefined || userProofSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url : "/inside/getCertificateOne",
+                data : {
+                    userProofSn : userProofSn
+                },
+                type : "post",
+                dataType : "json",
+                async: false,
+                success : function(result){
+                    console.log(result.data);
+                    const ResultData = result.data;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+
+                    //문서제목
+                    const proofName = ResultData.PROOF_TYPE == 1 ? "재직증명서" : "경력증명서";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('proofName', true, true, false);
+                    hwpDocCtrl.putFieldText('proofName', proofName);
+
+                    //호수
+                    const number = "제"+ResultData.DOCU_YEAR_DE+"-"+ResultData.NUMBER+"호"
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('number', true, true, false);
+                    hwpDocCtrl.putFieldText('number', number);
+
+                    //성명
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
+                    hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
+
+                    //생년월일
+                    let birthDay = ResultData.BDAY.split("-");
+                    let birthDayText = birthDay[0]+"년 "+birthDay[1]+"월 "+birthDay[2]+"일";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('birth', true, true, false);
+                    hwpDocCtrl.putFieldText('birth', birthDayText);
+
+                    //주소
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('address', true, true, false);
+                    hwpDocCtrl.putFieldText('address', ResultData.ADDR);
+
+                    //소속
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
+
+                    //직위
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
+                    hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
+
+                    //근무기간
+                    let joinDay = ResultData.JOIN_DAY.split("-");
+                    let joinDayText = joinDay[0]+"년"+joinDay[1]+"월"+joinDay[2]+"일";
+                    let regDe = ResultData.REG_DE.split("-");
+                    let regDeText = regDe[0]+"년"+regDe[1]+"월"+regDe[2]+"일";
+                    let betDay = betweenDay(joinDayText, regDeText);
+                    let tenureText = joinDayText+"부터"+regDeText+"까지(";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('tenure', true, true, false);
+                    hwpDocCtrl.putFieldText('tenure', joinDayText);
+
+                    //용도
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('usageName', true, true, false);
+                    hwpDocCtrl.putFieldText('usageName', ResultData.USAGE_NAME);
+
+                    //요청일
+                    let toDate = year+"년 "+month+"월 "+date+"일";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                    hwpDocCtrl.putFieldText('toDate', toDate);
+
+                    let regSign = ResultData.APPROVAL_EMP_NAME+" (인)";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
+                    hwpDocCtrl.putFieldText('regSign', regSign);
+
+
+                }
+            });
         }
     },
 
