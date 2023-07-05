@@ -161,36 +161,29 @@
         </div>
         <div class="panel-body">
             <div style="width: 100%">
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="table table-bordered" style="border: 1px solid #dedfdf;">
                     <colgroup>
-                        <col width="50%">
-                        <col width="50%">
+                        <col width="10%">
+                        <col width="40%">
+                        <col width="10%">
+                        <col width="40%">
                     </colgroup>
                     <tr>
-                        <td colspan="2" style="border-bottom:0; background-color: white">
-                        <div style="display:flex; justify-content: space-between;">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>현황</span>
-                                    <input type="text" id="workStatusCode" style="width: 150px; margin-right:10px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>조회 기간</span>
-                                    <input type="text" id="start_date_detail" style="width: 140px;">
-                                    ~
-                                    <input type="text" id="end_date_detail" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
-<%--                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">일반검색</button>--%>
-                                </div>
-                            </div>
-                            <div>
-                                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
-                            </div>
-                        </div>
+                        <th class="text-center th-color">현황</th>
+                        <td>
+                            <input type="text" id="workStatusCode" style="width: 150px; margin-right:10px;">
+                        </td>
+                        <th class="text-center th-color">조회 기간</th>
+                        <td>
+                            <input type="text" id="start_date_detail" style="width: 140px;">
+                            ~
+                            <input type="text" id="end_date_detail" style="width: 140px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
                         </td>
                     </tr>
+                </table>
+                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td>
                             <div style="display: flex; justify-content: space-between; align-items: center;">유형</span>

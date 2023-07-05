@@ -15,6 +15,8 @@
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}
+    table { background-color: white; }
+    .table-bordered > tbody > tr > th{ background-color: #8fa1c0; color: white;}
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -33,25 +35,25 @@
         <div class="panel-body">
             <div>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="40%">
+                        <col width="10%">
+                        <col width="40%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr20">
-                                    <span>조회연도</span>
-                                    <input type="text" id="docuYearDe" style="width: 150px;">
-                                </div>
-                                <div class="mr20">
-                                    <span>발급구분</span>
-                                    <input type="text" id="proofType" style="width: 200px;">
-                                </div>
-                                <div class="mr20" style="display: none">
-                                    <span>처리상태</span>
-                                    <input type="text" id="status" style="width: 150px;">
-                                </div>
-                                <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="certificateAdmin.gridReload();"/>
-                                </div>
+                        <th class="text-center th-color">조회연도</th>
+                        <td>
+                            <input type="text" id="docuYearDe" style="width: 200px; margin-right:10px;">
+                        </td>
+                        <th class="text-center th-color">발급구분</th>
+                        <td>
+                            <input type="text" id="proofType" style="width: 200px;">
+                            <div class="mr20" style="display: none">
+                                <span>처리상태</span>
+                                <input type="text" id="status" style="width: 150px;">
                             </div>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="certificateAdmin.gridReload();">검색</button>
                         </td>
                     </tr>
                 </table>
