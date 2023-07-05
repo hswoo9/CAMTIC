@@ -34,6 +34,13 @@ public interface CertificateService {
     void setCertificateUpdate(Map<String, Object> params);
 
     /**
+     * 증명서신청 증명서신청 삭제
+     * @param params
+     * @return
+     */
+    void setCertificateDelete(Map<String, Object> params);
+
+    /**
      * 증명서신청 전자결재 상태값 업데이트
      * @param bodyMap
      * @throws Exception

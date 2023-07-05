@@ -14,7 +14,7 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #addr, #addrDetail, #officeTelNum1, #officeTelNum2, #officeTelNum3, #mobileTelNum1, #mobileTelNum2, #mobileTelNum3, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #addr, #addrDetail, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
 
         $("#dutyCode").kendoDropDownList({
             dataTextField: "text",
@@ -163,72 +163,36 @@ var userReqPop = {
             index: 0
         });
 
-        $("#regDate1").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "2023", value: "2023"}
-            ],
-            index: 0
+        $("#regDate").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
         });
 
-        $("#regDate2").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "01", value: "01"},
-                {text: "02", value: "02"},
-                {text: "03", value: "03"},
-                {text: "04", value: "04"},
-                {text: "05", value: "05"},
-                {text: "06", value: "06"},
-                {text: "07", value: "07"},
-                {text: "08", value: "08"},
-                {text: "09", value: "09"},
-                {text: "10", value: "10"},
-                {text: "11", value: "11"},
-                {text: "12", value: "12"}
-            ],
-            index: 0
+        $("#bday").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
         });
 
-        $("#regDate3").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "01", value: "01"},
-                {text: "02", value: "02"},
-                {text: "03", value: "03"},
-                {text: "04", value: "04"},
-                {text: "05", value: "05"},
-                {text: "06", value: "06"},
-                {text: "07", value: "07"},
-                {text: "08", value: "08"},
-                {text: "09", value: "09"},
-                {text: "10", value: "10"},
-                {text: "11", value: "11"},
-                {text: "12", value: "12"},
-                {text: "13", value: "13"},
-                {text: "14", value: "14"},
-                {text: "15", value: "15"},
-                {text: "16", value: "16"},
-                {text: "17", value: "17"},
-                {text: "18", value: "18"},
-                {text: "19", value: "19"},
-                {text: "20", value: "20"},
-                {text: "21", value: "21"},
-                {text: "22", value: "22"},
-                {text: "23", value: "23"},
-                {text: "24", value: "24"},
-                {text: "25", value: "25"},
-                {text: "26", value: "26"},
-                {text: "27", value: "27"},
-                {text: "28", value: "28"},
-                {text: "29", value: "29"},
-                {text: "30", value: "30"},
-                {text: "31", value: "31"}
-            ],
-            index: 0
+        $("#weddingDay").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+
+        $("#resignDay").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
         });
 
         $("#drop11").kendoDropDownList({

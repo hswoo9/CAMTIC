@@ -43,6 +43,8 @@
                     AND
                         STATUS IN (10, 30, 100)
                 </if>
+                AND
+                    IUP.ACTIVE = 'Y'
                 ORDER BY IUP.REG_DE
             ) RE
         ORDER BY RE.ROW_NUM DESC
@@ -132,6 +134,16 @@
             UPDUSR_SN = #{empSeq}
         WHERE
             USER_PROOF_SN = #{userProofSn}
+    </update>
+
+    <update id="setCertificateDelete" parameterType="map">
+        /* setCertificateDelete */
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            ACTIVE = 'N'
+        WHERE
+            USER_PROOF_SN in (${userProofSn})
     </update>
 
     <update id="updateCertifiApprStat" parameterType="map">
