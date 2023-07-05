@@ -41,7 +41,7 @@
   }
   .card-header {padding: 0px 0px 40px 0px;}
   table { background-color: white; }
-  .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c0; color: white;}
+  .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
@@ -58,7 +58,7 @@
           </div>
         </div>
         <%--<div class="popupTitleSt">직원추가</div>--%>
-        <form id="subHolidayReqPop" style="padding: 0px 10px 0px 10px;">
+        <form id="subHolidayReqPop" style="padding: 10px 30px;">
           <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
           <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
           <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -74,7 +74,7 @@
             </colgroup>
             <thead>
             <tr>
-              <th colspan="4" style="font-size: 14px; border: 1px solid #fff;">기본정보</th>
+              <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">기본정보</th>
             </tr>
             <tr>
               <th><span class="red-star">*</span>이름</th>
@@ -171,7 +171,7 @@
             <tr>
               <th>계좌정보</th>
               <td colspan="3">
-                예금주 <input type="text" id="accountHolder" style="width: 20%;"> 은행명 <input type="text" id="bankName" style="width: 20%;"> 계좌번호  <input type="text" id="accountNum" style="width: 40%;">
+                예금주 <input type="text" id="accountHolder" style="width: 20%; margin-right:10px;"> 은행명 <input type="text" id="bankName" style="width: 20%; margin-right:10px;"> 계좌번호  <input type="text" id="accountNum" style="width: 30%;">
               </td>
             </tr>
             <tr>
@@ -184,7 +184,7 @@
               <th>거주지</th>
               <td colspan="3">
                 <div style="display: flex">
-                  <input type="text" id="addr" style="width: 15%;">
+                  <input type="text" id="addr" style="width: 15%; margin-right:10px;">
                   <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick=""/>
                 </div>
                 <div style="display: flex" class="mt5">
@@ -204,26 +204,24 @@
             </tr>
             <tr>
               <th>이메일</th>
-              <td>
-                <input type="text" id="emailAddr" style="width: 50%;">
+              <td colspan="3">
+                <input type="text" id="emailAddr" style="width: 30%;">
               </td>
+            </tr>
+            <tr <%--style="display: none;" id="noneTr"--%>>
               <th>차량소유</th>
               <td>
                 <input type="checkbox" id="carActive" onclick="onDisplay();"> 차량을 소유하고 있음
               </td>
-            </tr>
-            <tr <%--style="display: none;" id="noneTr"--%>>
-              <td></td>
-              <td></td>
               <th>차량번호</th>
               <td>
-                <input type="text" id="carNum1" style="width: 15%;"><input type="text" id="carNum2" style="width: 15%;"><input type="text" id="carNum3" style="width: 15%;">
+                <input type="text" id="carNum1" style="width: 15%; margin-right:5px;"><input type="text" id="carNum2" style="width: 15%; margin-right:5px;"><input type="text" id="carNum3" style="width: 15%; margin-right:5px;">
                 ex) 22 가 1111
               </td>
             </tr>
             </thead>
           </table>
-          <table class="table table-bordered mb-0" id="userReqPopDetail">
+          <table class="table table-bordered mb-0" id="userReqPopDetail" style="border-left:none;">
             <colgroup>
               <col width="13%">
               <col width="37%">
@@ -232,7 +230,10 @@
             </colgroup>
             <thead>
             <tr>
-              <th colspan="4" style="font-size: 14px; border: 1px solid #fff;">직원 부가정보</th>
+              <td colspan="4" style="height:20px; border-right:none; border-left:none;"></td>
+            </tr>
+            <tr>
+              <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">직원 부가정보</th>
             </tr>
             <tr>
               <th>한자 이름</th>
@@ -266,24 +267,22 @@
                 <span type="text" id="weddingActive" name="weddingActive" style="width: 100%;"></span>
               </td>
               </td>
-              <th>혈액형</th>
-              <td>
-                <span type="text" id="bloodType" name="bloodType" style="width: 100%;"></span>
-              </td>
-            </tr>
-            <tr>
               <th>결혼기념일</th>
               <td>
                 <input type="text" id="weddingDay" style="width: 50%;">
               </td>
+            </tr>
+            <tr>
+              <th>혈액형</th>
+              <td colspan="3">
+                <span type="text" id="bloodType" name="bloodType" style="width: 100%;"></span>
+              </td>
+            </tr>
+            <tr <%--style="display: none;" id="noneTr1"--%>>
               <th>재직여부</th>
               <td>
                 <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
               </td>
-            </tr>
-            <tr <%--style="display: none;" id="noneTr1"--%>>
-              <td></td>
-              <td></td>
               <th>퇴사일자</th>
               <td>
                 <input type="text" id="resignDay" style="width: 50%;">
