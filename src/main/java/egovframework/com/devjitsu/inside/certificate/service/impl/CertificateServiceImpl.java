@@ -39,6 +39,11 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    public void setCertificateDelete(Map<String, Object> params) {
+        certificateRepository.setCertificateDelete(params);
+    }
+
+    @Override
     public void updateDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));

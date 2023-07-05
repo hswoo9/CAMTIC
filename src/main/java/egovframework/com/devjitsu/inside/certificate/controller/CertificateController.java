@@ -28,6 +28,7 @@ public class CertificateController {
     @RequestMapping("/Inside/certificateReq.do")
     public String certificateReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -57,6 +58,7 @@ public class CertificateController {
     @RequestMapping("/Inside/certificateAdmin.do")
     public String certificateAdmin(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -100,6 +102,13 @@ public class CertificateController {
     @RequestMapping("/inside/setCertificateUpdate")
     public String setCertificateUpdate(@RequestParam Map<String, Object> params) {
         certificateService.setCertificateUpdate(params);
+        return "jsonView";
+    }
+
+    //증명서신청 수정
+    @RequestMapping("/inside/setCertificateDelete")
+    public String setCertificateDelete(@RequestParam Map<String, Object> params) {
+        certificateService.setCertificateDelete(params);
         return "jsonView";
     }
 

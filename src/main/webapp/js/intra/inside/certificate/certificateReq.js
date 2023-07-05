@@ -7,6 +7,49 @@ var certificateReq = {
         certificateReq.mainGrid();
     },
 
+    delBtn: function(){
+        const ch = $('#mainGrid tbody .checkCert:checked');
+        let checkedList = new Array();
+        $.each(ch, function(i,v){
+            checkedList.push( $("#mainGrid").data("kendoGrid").dataItem($(v).closest("tr")).USER_PROOF_SN);
+        });
+
+        if(checkedList.length == 0){
+            alert('삭제 할 항목을 선택해 주세요.');
+            return;
+        }
+
+        let data = {
+            userProofSn : checkedList.join()
+        }
+
+        if(!confirm("삭제 하시겠습니까?")){
+            return;
+        }
+        certificateReq.setCertificateDelete(data);
+    },
+
+    setCertificateDelete: function(data){
+        $.ajax({
+            url : "/inside/setCertificateDelete",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("데이터 삭제가 완료되었습니다.");
+                gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
+    },
+
     dataSet() {
         $("#docuYearDe").kendoDatePicker({
             start: "decade",
@@ -92,8 +135,8 @@ var certificateReq = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
-                            '	<span class="k-button-text">취소</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateReq.delBtn();">' +
+                            '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
                 }
@@ -109,7 +152,7 @@ var certificateReq = {
                         if(e.STATUS == "100" || e.STATUS == "10"){
                             return "";
                         } else {
-                            return "<input type='checkbox' id='certPk"+ e.USER_PROOF_SN +"' name='checkCert' value='"+e.USER_PROOF_SN+"' style='position : relative; top : 2px;' />";
+                            return "<input type='checkbox' id='certPk"+ e.USER_PROOF_SN +"' name='checkCert' value='"+e.USER_PROOF_SN+"' class='checkCert' style='position : relative; top : 2px;' />";
                         }
                     },
                     width: 50,
@@ -176,25 +219,6 @@ var certificateReq = {
                             return '';
                     }
                 }
-                // , {
-                //     title: "처리일",
-                //     template : function(row){
-                //         if(row.APPROVAL_RESULT_DATE == undefined) {
-                //             return "-";
-                //         }else {
-                //             return row.APPROVAL_RESULT_DATE
-                //         }
-                //     }
-                // }, {
-                //     title: "처리자",
-                //     template : function(row){
-                //         if(row.APPROVAL_RESULT_DATE == undefined) {
-                //             return "-";
-                //         }else {
-                //             return row.APPROVAL_EMP_NAME
-                //         }
-                //     }
-                // }
             ]
         }).data("kendoGrid");
     },

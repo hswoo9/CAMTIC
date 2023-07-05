@@ -25,6 +25,10 @@ public class CertificateRepository extends AbstractDAO {
         insert("certificate.setCertificateUpdate", params);
     }
 
+    public void setCertificateDelete(Map<String, Object> params) {
+        insert("certificate.setCertificateDelete", params);
+    }
+
     public void updateCertifiApprStat(Map<String, Object> params) {
         update("certificate.updateCertifiApprStat", params);
     }
