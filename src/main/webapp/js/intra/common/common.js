@@ -23,3 +23,7 @@ function dirname(path) {
         return "./";
     return path.replace(/\\/g, '/').replace(/\/[^\/]*\/?$/, '') + "/";
 }
+
+function onlyNumber(e) {
+    e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+}

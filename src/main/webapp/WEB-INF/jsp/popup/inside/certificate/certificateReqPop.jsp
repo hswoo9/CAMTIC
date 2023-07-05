@@ -66,11 +66,11 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>발급 구분</th>
+                            <th><span class="red-star">*</span>발급 구분</th>
                             <td>
                                 <input type="text" id="proofType" style="width: 80%;" value="${data.PROOF_TYPE}">
                             </td>
-                            <th>신청일자</th>
+                            <th><span class="red-star">*</span>신청일자</th>
                             <td>
                                 <input type="text" id="regDe" style="width: 80%;" value="${data.REG_DE}">
                             </td>
@@ -100,7 +100,7 @@
                             <td>
                                 <input type="text" id="submissionName" style="width: 80%;" value="${data.SUBMISSION_NAME}">
                             </td>
-                            <th>제출 예정일</th>
+                            <th><span class="red-star">*</span>제출 예정일</th>
                             <td>
                                 <input type="text" id="submissionDe" style="width: 80%;" value="${data.SUBMISSION_DE}">
                             </td>
@@ -110,15 +110,15 @@
                             <td>
                                 <input type="text" id="printSn" style="width: 80%;" value="${data.PRINT_SN}">
                             </td>
-                            <th>주민등록번호</th>
+                            <th><span class="red-star">*</span>주민등록번호</th>
                             <td>
-                                <input type="text" id="firstRrnName" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
+                                <input type="text" maxlength="6" id="firstRrnName" oninput="onlyNumber(this);" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
                                 -
-                                <input type="text" id="secondRrnName" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
+                                <input type="text" maxlength="1" id="secondRrnName" oninput="onlyNumber(this);" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
                             </td>
                         </tr>
                         <tr>
-                            <th>용도</th>
+                            <th><span class="red-star">*</span>용도</th>
                             <td>
                                 <input type="text" id="usageName" style="width: 80%;" value="${data.USAGE_NAME}">
                             </td>
