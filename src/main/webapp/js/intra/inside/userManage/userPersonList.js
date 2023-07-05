@@ -266,11 +266,33 @@ var userPersonList = {
             }
         });
 
+        $("#dsA").click(function (){
+            if(this.checked){
+                if(!$("#dsB").is(":checked")){
+                    $("#dsB").click();
+                }
+                $("#dsB").prop("checked", true);
+            } else {
+                if($("#dsB").is(":checked")){
+                    $("#dsB").click();
+                }
+                $("#dsB").prop("checked", false);
+            }
+        });
+
         $("#dsB").click(function (){
             if(this.checked){
+                if(!$("#dsA").is(":checked")){
+                    $("#dsA").click();
+                }
+                $("#dsA").prop("checked", true);
                 $("#subDiv").css("display", "");
                 $("#subDiv > input").prop("checked", true);
             }else{
+                if($("#dsA").is(":checked")){
+                    $("#dsA").click();
+                }
+                $("#dsA").prop("checked", false);
                 $("#subDiv").css("display", "none");
                 $("#subDiv > input").prop("checked", false);
             }
@@ -486,8 +508,6 @@ var userPersonList = {
     },
 
     gridReloadDetail : function() {
-        console.log('gridReloadDetail');
-
         var testDropDownTree1 = $("#detailSearch2").data("kendoDropDownTree");
         var testDropDownTree2 = $("#detailSearch3").data("kendoDropDownTree");
         var testDropDownTree3 = $("#detailSearch4").data("kendoDropDownTree");
@@ -510,6 +530,8 @@ var userPersonList = {
             searchDetail7 : JSON.stringify(testDropDownTree7.value()),
             searchDetail8 : JSON.stringify(testDropDownTree8.value()),
         }
+
+
         console.log(JSON.stringify(userPersonList.global.searchAjaxData));
         userPersonList.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList.global.searchAjaxData);
     },

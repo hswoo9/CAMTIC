@@ -119,6 +119,8 @@
 <%--                                <label for="dsI">임시직원</label>--%>
 <%--                                <input type="checkbox" class="detailSearch" value="9" style="margin-left: 10px;" id="dsJ">--%>
 <%--                                <label for="dsJ">퇴사직원</label>--%>
+                                <input type="checkbox" class="detailSearch" value="9" style="margin-left: 10px;" id="dsI">
+                                <label for="dsI">퇴사직원</label>
                             </div>
                             <div class="mt10" id="subDiv" style="display: none;">
                                 <input type="checkbox" class="detailSubSearch" name="subCk" value="1" id="dsSubA">
