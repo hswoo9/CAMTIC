@@ -52,11 +52,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-center th-color">적용기간</th>
+                        <th class="text-center th-color">조회 기간</th>
                         <td>
                             <input type="text" id="start_date" style="width: 200px;">
                         </td>
-                        <th class="text-center th-color">기타</th>
+                        <th class="text-center th-color">검색어</th>
                         <td colspan="3">
                             <input type="text" id="userKind" style="width: 100px;">
                             <input type="text" id="kindContent" style="width: 200px;">
@@ -176,20 +176,18 @@
                         <th class="text-center th-color">조회 기간</th>
                         <td>
                             <input type="text" id="start_date_detail" style="width: 140px;">
-                            ~
-                            <input type="text" id="end_date_detail" style="width: 140px;">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
                         </td>
                     </tr>
                 </table>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <tr>
-                        <td>
+                    <tr style="width: 100%;">
+                        <td style="width: 50%">
                             <div style="display: flex; justify-content: space-between; align-items: center;">유형</span>
                             <input type="text" id="detailSearch2" style="width: 90%;"></div>
                         </td>
-                        <td>
+                        <td style="width: 50%">
                             <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">성별</span>
                             <input type="text" id="detailSearch3" style="width: 90%;"></div>
                         </td>

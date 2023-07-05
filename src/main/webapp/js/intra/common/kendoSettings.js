@@ -168,7 +168,7 @@ var customKendo = {
      * @param valueField
      */
     fn_dropDownList : function (id, dataSource, textField, valueField){
-        dataSource.unshift({[textField] : "선택", [valueField] : ""});
+        dataSource.unshift({[textField] : "전체", [valueField] : ""});
 
         $("#" + id).kendoDropDownList({
             dataSource : dataSource,
