@@ -25,5 +25,5 @@ function dirname(path) {
 }
 
 function onlyNumber(e) {
-    e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+    e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '').replace(/./g, '');
 }
