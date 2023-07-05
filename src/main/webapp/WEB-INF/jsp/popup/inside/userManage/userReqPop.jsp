@@ -58,7 +58,7 @@
           </div>
         </div>
         <%--<div class="popupTitleSt">직원추가</div>--%>
-        <form id="subHolidayReqPop" style="padding: 10px 30px;">
+        <form id="subHolidayReqPop" style="padding: 20px 30px;">
           <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
           <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
           <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -140,7 +140,7 @@
             <tr>
               <th>직무사항</th>
               <td>
-                <input type="text" id="jobDetail" style="width: 50%;">
+                <input type="text" id="jobDetail" style="width: 95%;">
               </td>
               <th>학위</th>
               <td>
@@ -188,7 +188,7 @@
                   <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick=""/>
                 </div>
                 <div style="display: flex" class="mt5">
-                  <input type="text" id="addrDetail" style="width: 80%;">
+                  <input type="text" id="addrDetail" style="width: 95%;">
                 </div>
               </td>
             </tr>
@@ -258,7 +258,7 @@
             <tr>
               <th>본적</th>
               <td colspan="3">
-                <input type="text" id="legalDomicile" style="width: 80%;">
+                <input type="text" id="legalDomicile" style="width: 95%;">
               </td>
             </tr>
             <tr>
@@ -291,12 +291,12 @@
             <tr>
               <th>취미</th>
               <td>
-                <input type="text" id="hobby" style="width: 50%;">
+                <input type="text" id="hobby" style="width: 95%;">
               </td>
               <div style="display: none;" id="noneDiv">
                 <th>특기</th>
                 <td>
-                  <input type="text" id="specialty" style="width: 50%;">
+                  <input type="text" id="specialty" style="width: 95%;">
                 </td>
               </div>
             </tr>
@@ -307,13 +307,13 @@
               </td>
               <th>신장</th>
               <td>
-                <input type="text" id="height" style="width: 50%;"> cm
+                <input type="text" id="height" style="width: 20%;"> cm
               </td>
             </tr>
             <tr>
               <th>체중</th>
               <td>
-                <input type="text" id="weight" style="width: 50%;"> kg
+                <input type="text" id="weight" style="width: 20%;"> kg
               </td>
               <th>시력</th>
               <td>
