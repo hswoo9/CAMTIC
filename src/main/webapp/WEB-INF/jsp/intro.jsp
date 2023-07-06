@@ -54,13 +54,14 @@
         position: relative;
         border: none;
         display: inline-block;
-        padding: 15px 30px;
+        padding: 15px 15px;
         border-radius: 15px;
         font-family: "paybooc-Light", sans-serif;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         text-decoration: none;
         font-weight: 600;
         transition: 0.25s;
+        width: 150px;
     }
 
     .w-btn-outline {
@@ -104,14 +105,11 @@
 </div><!-- panel -->
 <div class="panel signin">
     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
-        <button class="w-btn w-btn-indigo" id="mvBtn1" style="font-size: 20px;">
-            <a href="/indexA.do">준비중</a>
-        </button>
         <button class="w-btn w-btn-indigo" id="mvBtn2" style="font-size: 20px;" onclick="goIntra();">
-            사용자
+            <a href="/indexB.do">캠스팟2.0</a>
         </button>
         <button class="w-btn w-btn-indigo" id="mvBtn3" style="font-size: 20px;" onclick="goHome();">
-            <a href="">캠틱홈페이지</a>
+            <a href="/camtic">캠틱홈페이지</a>
         </button>
         <hr class="invisible">
     </div>
