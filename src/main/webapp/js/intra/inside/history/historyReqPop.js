@@ -8,7 +8,7 @@ var historyReqPop = {
     },
 
     dataSet() {
-        customKendo.fn_textBox(["searchVal", "number", "relevant"]);
+        customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);

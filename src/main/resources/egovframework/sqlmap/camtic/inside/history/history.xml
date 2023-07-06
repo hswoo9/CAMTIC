@@ -3,6 +3,44 @@
 
 <mapper namespace="history">
 
+    <select id="getHistoryList" resultType="map" parameterType="map">
+        /* getHistoryList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    HAI.EMP_NAME,
+                    HAI.APNT_NAME,
+                    DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
+                    HAI.NUMBER_NAME,
+                    IFNULL(HAI.AF_DEPT_NAME, '') AS AF_DEPT_NAME,
+                    IFNULL(HAI.AF_TEAM_NAME, '') AS AF_TEAM_NAME,
+                    IFNULL(HAI.AF_POSITION_NAME, '') AS AF_POSITION_NAME,
+                    IFNULL(HAI.AF_DUTY_NAME, '') AS AF_DUTY_NAME,
+                    HAI.ETC,
+                    AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME
+                FROM
+                    CAM_HR.DJ_APNT_INFO HAI
+                LEFT JOIN
+                    CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ,
+                LEFT JOIN
+                    CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                <if test='historyType != null and !"".equals(historyType)'>
+                    AND IUP.APNT_CD = #{historyType}
+                </if>
+                <if test='deptSeq != null and !"".equals(deptSeq)'>
+                    AND HEI.DEPT_SEQ = #{deptSeq}
+                </if>
+                ORDER BY HAI.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <insert id="setHistoryInsert" parameterType="map">
         /* setHistoryInsert */
         INSERT INTO CAM_HR.DJ_APNT_INFO

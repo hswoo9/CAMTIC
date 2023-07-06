@@ -17,6 +17,11 @@ public class HistoryServiceImpl implements HistoryService {
     private HistoryRepository historyRepository;
 
     @Override
+    public List<Map<String, Object>> getHistoryList(Map<String, Object> params) {
+        return historyRepository.getHistoryList(params);
+    }
+
+    @Override
     public void setHistoryInsert(Map<String, Object> params) {
 
         Gson gson = new Gson();
