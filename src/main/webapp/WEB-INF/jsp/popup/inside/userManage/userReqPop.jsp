@@ -182,12 +182,14 @@
                     </tr>
                     <tr>
                         <th>차량소유</th>
-                        <td>
+                        <td colspan="3">
                             <input type="checkbox" id="carActive" onclick="onDisplay();"> 차량을 소유하고 있음
                         </td>
+                    </tr>
+                    <tr style="display: none;" id="noneTr">
                         <th>차량번호</th>
-                        <td>
-                            <input type="text" id="carNum1" style="width: 15%;"><input type="text" id="carNum2" style="margin-left:5px;width: 15%;"><input type="text" id="carNum3" style="margin-left:5px;width: 15%;">
+                        <td colspan="3">
+                            <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
                             ex) 22 가 1111
                         </td>
                     </tr>
@@ -252,12 +254,14 @@
                     </tr>
                     <tr>
                         <th>재직여부</th>
-                        <td>
+                        <td colspan="3">
                             <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
                         </td>
+                    </tr>
+                    <tr style="display: none;" id="noneTr1">
                         <th>퇴사일자</th>
-                        <td>
-                            <input type="text" id="resignDay" style="width: 50%;">
+                        <td colspan="3">
+                            <input type="text" id="resignDay" style="width: 20%;">
                         </td>
                     </tr>
                     <tr>
