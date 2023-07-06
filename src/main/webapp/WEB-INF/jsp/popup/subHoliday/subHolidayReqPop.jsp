@@ -39,21 +39,32 @@
     justify-content: center;
     align-items: center;
   }
+  .card-header {padding: 0px 0px 40px 0px;}
+  table { background-color: white; }
+  .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
-    <div class="card-header" style="padding-top:45px;">
-      <div class="col-lg-11" style="margin:0 auto;">
+    <div class="card-header">
         <div class="table-responsive">
-          <div class="popupTitleSt">휴가신청</div>
-          <form id="subHolidayReqPop">
+          <div style="background-color: #00397f;">
+            <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
+              <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">휴가신청</h3>
+              <div class="btn-st" style="margin-top:10px; text-align:center;">
+                <button type="button" class="k-button k-button-solid-info" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()">저장</button>
+                <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop.fn_topTableClose()">취소</button>
+              </div>
+            </div>
+          </div>
+          <form id="subHolidayReqPop" style="padding: 20px 30px;">
             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
             <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
             <input type="hidden" id="apprStat" value="N">
             <input type="hidden" id="vacUseHistId" value="">
-            <table class="table table-bordered mb-0" id="holidayPlanReqPopTb">
+            <table class="table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
               <colgroup>
                 <col width="15%">
                 <col width="35%">
@@ -167,12 +178,6 @@
             </table>
           </form>
         </div>
-        <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info" value="저장" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()"/>
-          <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="subHolidayReqPop.fn_topTableClose()"/>
-        </div>
-      </div>
     </div>
 </div>
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=${today}"></script>

@@ -39,6 +39,9 @@
         justify-content: center;
         align-items: center;
     }
+    .card-header {padding: 0px 0px 40px 0px;}
+    table { background-color: white; }
+    .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -46,106 +49,108 @@
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <div class="col-lg-12" style="padding:0;">
-    <div class="card-header" style="padding-top:45px;">
-        <div class="col-lg-11" style="margin:0 auto;">
-            <div class="table-responsive">
-                <div class="popupTitleSt">증명서신청</div>
-                <form id="subHolidayReqPop">
-                    <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-                    <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                    <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                    <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                    <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                    <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-                    <table class="table table-bordered mb-0" id="holidayPlanReqPopTb">
-                        <colgroup>
-                            <col width="20%">
-                            <col width="30%">
-                            <col width="20%">
-                            <col width="30%">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th><span class="red-star">*</span>발급 구분</th>
-                            <td>
-                                <input type="text" id="proofType" style="width: 80%;" value="${data.PROOF_TYPE}">
-                            </td>
-                            <th><span class="red-star">*</span>신청일자</th>
-                            <td>
-                                <input type="text" id="regDe" style="width: 80%;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>사번</th>
-                            <td>
-                                <input type="text" id="regErpSn" value="C1234567" style="width: 80%;">
-                            </td>
-                            <th>성명</th>
-                            <td>
-                                <input type="text" id="regtrName" value="${LoginVO.name}" style="width: 80%;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>부서명</th>
-                            <td>
-                                <input type="text" id="regDeptName" value="${LoginVO.orgnztNm}" style="width: 80%;">
-                            </td>
-                            <th>직급</th>
-                            <td>
-                                <input type="text" id="regDutyName" value="${LoginVO.dutyNm}" style="width: 80%;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>제출처</th>
-                            <td>
-                                <input type="text" id="submissionName" style="width: 80%;" value="${data.SUBMISSION_NAME}">
-                            </td>
-                            <th><span class="red-star">*</span>제출 예정일</th>
-                            <td>
-                                <input type="text" id="submissionDe" style="width: 80%;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>출력매수</th>
-                            <td>
-                                <input type="text" id="printSn" style="width: 80%;" value="${data.PRINT_SN}">
-                            </td>
-                            <th><span class="red-star">*</span>주민등록번호</th>
-                            <td>
-                                <input type="text" maxlength="6" id="firstRrnName" oninput="onlyNumber(this);" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
-                                -
-                                <input type="text" maxlength="1" id="secondRrnName" oninput="onlyNumber(this);" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><span class="red-star">*</span>용도</th>
-                            <td>
-                                <input type="text" id="usageName" style="width: 80%;" value="${data.USAGE_NAME}">
-                            </td>
-                            <th>비고</th>
-                            <td>
-                                <input type="text" id="remarkName" class="defaultVal" style="width: 80%;" value="${data.REMARK_NAME}">
-                            </td>
-                        </tr>
-                        </thead>
-                    </table>
-                </form>
-            </div>
-            <div class="btn-st" style="margin-top:10px; text-align:center;">
-                <c:choose>
-                    <c:when test="${data.STATUS == 0}">
-                        <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="certificateReqPop.fn_certReq();"/>
-                        <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="certificateReqPop.uptBtn();"/>
-                        <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="certificateReqPop.saveBtn();"/>
-                        <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
-                    </c:when>
-                    <c:when test="${data.STATUS == null}">
-                        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
-                        <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
-                    </c:when>
-                </c:choose>
+    <div class="card-header">
+        <div class="table-responsive">
+            <div style="background-color: #00397f;">
+                <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
+                    <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">증명서신청</h3>
+                    <div class="btn-st" style="margin-top:10px; text-align:center;">
+                        <c:choose>
+                            <c:when test="${data.STATUS == 0}">
+                                <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="certificateReqPop.fn_certReq();"/>
+                                <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="certificateReqPop.uptBtn();"/>
+                                <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="certificateReqPop.saveBtn();"/>
+                                <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
+                            </c:when>
+                            <c:when test="${data.STATUS == null}">
+                                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
+                                <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+                            </c:when>
+                        </c:choose>
 
+                    </div>
+                </div>
             </div>
+            <form id="subHolidayReqPop" style="padding: 20px 30px;">
+                <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
+                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+                <table class="table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="30%">
+                        <col width="20%">
+                        <col width="30%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th><span class="red-star">*</span>발급 구분</th>
+                        <td>
+                            <input type="text" id="proofType" style="width: 80%;" value="${data.PROOF_TYPE}">
+                        </td>
+                        <th><span class="red-star">*</span>신청일자</th>
+                        <td>
+                            <input type="text" id="regDe" style="width: 80%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>사번</th>
+                        <td>
+                            <input type="text" id="regErpSn" value="C1234567" style="width: 80%;">
+                        </td>
+                        <th>성명</th>
+                        <td>
+                            <input type="text" id="regtrName" value="${LoginVO.name}" style="width: 80%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>부서명</th>
+                        <td>
+                            <input type="text" id="regDeptName" value="${LoginVO.orgnztNm}" style="width: 80%;">
+                        </td>
+                        <th>직급</th>
+                        <td>
+                            <input type="text" id="regDutyName" value="${LoginVO.dutyNm}" style="width: 80%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>제출처</th>
+                        <td>
+                            <input type="text" id="submissionName" style="width: 80%;" value="${data.SUBMISSION_NAME}">
+                        </td>
+                        <th><span class="red-star">*</span>제출 예정일</th>
+                        <td>
+                            <input type="text" id="submissionDe" style="width: 80%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>출력매수</th>
+                        <td>
+                            <input type="text" id="printSn" style="width: 80%;" value="${data.PRINT_SN}">
+                        </td>
+                        <th><span class="red-star">*</span>주민등록번호</th>
+                        <td>
+                            <input type="text" maxlength="6" id="firstRrnName" oninput="onlyNumber(this);" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
+                            -
+                            <input type="text" maxlength="1" id="secondRrnName" oninput="onlyNumber(this);" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="red-star">*</span>용도</th>
+                        <td>
+                            <input type="text" id="usageName" style="width: 80%;" value="${data.USAGE_NAME}">
+                        </td>
+                        <th>비고</th>
+                        <td>
+                            <input type="text" id="remarkName" class="defaultVal" style="width: 80%;" value="${data.REMARK_NAME}">
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+            </form>
         </div>
     </div>
 </div>
