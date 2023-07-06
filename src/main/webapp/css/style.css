@@ -52,6 +52,16 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 /*드롭박스 스타일 색상 변경*/
 .k-picker, .k-widget.k-picker{background-color: #fff!important;}
 
+.k-scheduler-header-wrap .k-scheduler-table tbody tr th:last-child {color: blue;}
+.k-scheduler-header-wrap .k-scheduler-table tbody tr th:first-child {color: red;}
+.k-scheduler-content .k-scheduler-table tbody tr td:last-child {color: blue;}
+.k-scheduler-content .k-scheduler-table tbody tr td:first-child {color: red;}
+.k-scheduler-table td {vertical-align: top !important;}
+.k-grid-toolbar {justify-content: flex-end !important;}
+.k-editor-toolbar {display: flex; flex-direction: row; justify-content: flex-end;}
+/* 켄도그리드 헤더 가운데 정렬 */
+.k-grid .k-cell-inner>.k-link {justify-content: center;}
+
 /*table 스타일 색상 변경*/
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
     border:1px solid rgba(0,0,0,.08);
@@ -84,7 +94,6 @@ body{font-family: 'Noto Sans KR', sans-serif;}
     padding: 6px 8px!important; font-weight: 400; white-space: nowrap; text-overflow: ellipsis;}
 .tableTdSt{text-align: center; background-color: #fff; color:#313131;padding: 6px 8px!important;}
 .panel-title{font-size:16px;}
-.title-road{text-align: right;}
 .popupTitleSt{font-weight: 600; line-height: 35px; font-size: 20px; margin-bottom: 5px;}
 
 input[type=file]::file-selector-button {
@@ -96,5 +105,10 @@ input[type=file]::file-selector-button {
     line-height: 16px;
 }
 
+/* 네비게이션 */
+.title-road{text-align: right; font-size: 11px; color: #999999; margin-top:10px;}
 
+/* 조회 조건 테이블 */
+.searchTable { background-color: white; }
+.searchTable > tbody > tr > th{ background-color: #00397f96; color: white;}
 

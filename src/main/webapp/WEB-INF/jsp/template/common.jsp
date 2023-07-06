@@ -58,14 +58,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
   <style>
-    .k-scheduler-header-wrap .k-scheduler-table tbody tr th:last-child {color: blue;}
-    .k-scheduler-header-wrap .k-scheduler-table tbody tr th:first-child {color: red;}
-    .k-scheduler-content .k-scheduler-table tbody tr td:last-child {color: blue;}
-    .k-scheduler-content .k-scheduler-table tbody tr td:first-child {color: red;}
-    .k-scheduler-table td {vertical-align: top !important;}
-    .k-grid-toolbar {justify-content: flex-end !important;}
-    .k-editor-toolbar {display: flex; flex-direction: row; justify-content: flex-end;}
-    .k-grid .k-cell-inner>.k-link {justify-content: center;}
   </style>
 
   <!-- Theme -->

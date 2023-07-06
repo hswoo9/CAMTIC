@@ -119,6 +119,8 @@ var certificateAdmin = {
                             return "승인";
                         }else if(row.STATUS == "30") {
                             return "반려";
+                        }else if(row.STATUS == "110") {
+                            return "발급완료";
                         }else {
                             return "데이터 오류"
                         }
