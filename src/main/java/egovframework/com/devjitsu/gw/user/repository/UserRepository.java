@@ -25,4 +25,8 @@ public class UserRepository extends AbstractDAO {
     public List<Map<String, Object>> getEmpList(Map<String, Object> params) {
         return selectList("user.getEmpList", params);
     }
+
+    public List<Map<String, Object>> getEmpSelList(Map<String, Object> params) {
+        return selectList("user.getEmpSelList", params);
+    }
 }

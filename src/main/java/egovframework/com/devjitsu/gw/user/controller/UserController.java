@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,6 +65,16 @@ public class UserController {
     public String getEmpList(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("list", userService.getEmpList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getEmpSelList")
+    public String getEmpSelList(@RequestBody Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = userService.getEmpSelList(params);
+
+        model.addAttribute("list", list);
 
         return "jsonView";
     }
