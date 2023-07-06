@@ -87,6 +87,17 @@ var certifiPrintPop = {
     },
 
     print: function() {
-        certifiPrintPop.global.hwpCtrl.PrintDocument();
+        var data = {
+            userProofSn : $("#userProofSn").val(),
+            empSeq : $("#empSeq").val(),
+            status : 110
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setReqCert", data);
+
+        if(result.flag){
+            certifiPrintPop.global.hwpCtrl.PrintDocument();
+            opener.gridReload();
+        }
     }
 }

@@ -41,7 +41,7 @@
                 </if>
                 <if test='manageCheck != null and !"".equals(manageCheck)'>
                     AND
-                        STATUS IN (10, 30, 100)
+                        STATUS IN (10, 30, 100, 110)
                 </if>
                 AND
                     IUP.ACTIVE = 'Y'
@@ -108,7 +108,8 @@
             USAGE_NAME,
             REMARK_NAME,
             DOCU_YEAR_DE,
-            CRTR_SN
+            CRTR_SN,
+            NUMBER
         )
         VALUES
         (
@@ -126,7 +127,8 @@
             #{usageName},
             #{remarkName},
             LEFT(#{regDe}, 4),
-            #{empSeq}
+            #{empSeq},
+            (SELECT MAX(NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF WHERE DOCU_YEAR_DE = LEFT(#{regDe}, 4))
         )
     </insert>
 

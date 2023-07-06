@@ -73,9 +73,6 @@ public class CertificateController {
     //증명서인쇄 팝업 페이지
     @RequestMapping("/Inside/pop/certifiPrintPop.do")
     public String certifiPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        params.put("status", "110");
-        certificateService.setReqCert(params);
-
         String hwpUrl = "";
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -96,6 +93,7 @@ public class CertificateController {
         params.put("hwpUrl", hwpUrl);
         params.put("menuCd", "certifi");
 
+        model.addAttribute("userProofSn", params.get("userProofSn"));
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
         model.addAttribute("data", data);;

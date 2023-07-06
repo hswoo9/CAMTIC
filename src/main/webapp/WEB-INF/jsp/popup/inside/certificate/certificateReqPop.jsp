@@ -163,7 +163,6 @@
     certificateReqPop.init();
 
     if(mode == "mng" || (dtStatus != null && dtStatus != '')){
-
         $("#submissionName").data("kendoTextBox").enable(false);
         $("#firstRrnName").data("kendoTextBox").enable(false);
         $("#secondRrnName").data("kendoTextBox").enable(false);

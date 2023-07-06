@@ -4,7 +4,6 @@ var certificateReqPop = {
 
     init: function(){
         certificateReqPop.dataSet();
-        certificateReqPop.mainGrid();
     },
 
     saveBtn: function(){
@@ -158,6 +157,8 @@ var certificateReqPop = {
         var result = customKendo.fn_customAjax("/inside/setReqCert", data);
 
         if(result.flag){
+            alert("승인 요청이 완료되었습니다.");
+            opener.gridReload();
             window.close();
         }
 
