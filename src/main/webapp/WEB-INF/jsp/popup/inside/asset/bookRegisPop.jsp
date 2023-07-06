@@ -66,57 +66,63 @@
                         <th colspan="4">도서등록</th>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">도서분류</th>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star">*</span>도서분류
+                        </th>
                         <td colspan="3">
-                            <input type="text" id="division1" style="width: 30%;">
-                            <input type="text" id="division2" style="width: 30%;">
-                            <input type="text" id="division3" style="width: 30%;">
+                            <input type="text" id="bkLgCd" style="width: 30%;">
+                            <input type="text" id="bkMdCd" style="width: 30%;">
+                            <input type="text" id="bkCd" style="width: 30%;">
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">도서명</th>
-                        <td colspan="3"><input type="text" id="name" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star">*</span>도서명
+                        </th>
+                        <td colspan="3"><input type="text" id="bkName" style="width: 100%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>저자</th>
-                        <td colspan><input type="text" id="author" style="width: 65%;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>출판사</th>
-                        <td><input type="text" id="publisher" style="width: 100%; text-align: right;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>저자</th>
+                        <td colspan><input type="text" id="bkWriter" style="width: 65%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>출판사</th>
+                        <td><input type="text" id="bkPubl" style="width: 100%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구매가</th>
-                        <td><input type="text" id="pay" style="width: 100%; text-align: right;" value="원"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구매수량</th>
-                        <td colspan><input type="text" id="num" style="width: 100%; text-align: right;" value="권"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매가</th>
+                        <td><input type="text" id="bkCost" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 100%; text-align: right;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매수량</th>
+                        <td colspan><input type="text" id="bkCnt" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 100%; text-align: right;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구매일자</th>
-                        <td><input id="use_date" type="date" style="width: 100%;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구매자/사용자</th>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매일자</th>
+                        <td><input id="bkBuyDt" type="text" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매자/사용자</th>
                         <td colspan>
-                            <input type="text" id="user1" style="width: 40%; margin-right:5px;">
-                            <input type="text" id="user2" style="width: 40%;">
+                            <input type="text" id="bkBuyer" style="width: 40%; margin-right:5px;">
+                            <input type="text" id="bkUser" style="width: 40%;">
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구매부서</th>
-                        <td colspan><input type="text" id="dept" style="width: 100%;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>비치장소</th>
-                        <td><input type="text" id="space" style="width: 100%; text-align: right;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매부서</th>
+                        <td colspan><input type="text" id="bkDept" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>비치장소</th>
+                        <td><input type="text" id="bkRepl" style="width: 100%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>관리자(정)</th>
-                        <td colspan><input type="text" id="manager1" style="width: 100%;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>관리자(부)</th>
-                        <td><input type="text" id="manager2" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>관리자(정)</th>
+                        <td colspan><input type="text" id="bkMng" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color"><span class="red-star">*</span>관리자(부)</th>
+                        <td>
+                            <input type="text" id="bkMngSub" style="width: 100%;">
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">이미지</th>
-                        <td colspan="3" style="padding:5px;"><input type="file"></td>
+                        <td colspan="3" style="padding:5px;"><input type="file" id="file" name="file"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">요약</th>
-                        <td colspan="3"><textarea type="text" id="UseReason" style="width: 100%;"></textarea></td>
+                        <td colspan="3"><textarea type="text" id="bkSmry" style="width: 100%;"></textarea></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>주의사항</th>
@@ -127,9 +133,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
+            <div class="btn-st mt-2 text-right">
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="bookRegisPop.fn_bkSave()"/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick="bookRegisPop.fn_close();"/>
             </div>
         </div>
     </div>
