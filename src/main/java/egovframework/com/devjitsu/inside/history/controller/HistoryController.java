@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -93,12 +94,24 @@ public class HistoryController {
     }
 
     /**
+     * 발령조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getHistoryList")
+    public String getHistoryList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = historyService.getHistoryList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
      * 발령등록
      * @param params
      * @return
      */
     @RequestMapping("/inside/setHistoryInsert")
-    public String setCertificateInsert(@RequestParam Map<String, Object> params) {
+    public String setHistoryInsert(@RequestParam Map<String, Object> params) {
         historyService.setHistoryInsert(params);
         return "jsonView";
     }

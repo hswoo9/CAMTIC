@@ -71,7 +71,7 @@
                         <td>
                             <input type="text" id="searchType" style="width: 100px;">
                             <input type="text" id="searchText" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">검색</button>
                         </td>
                     </tr>
                 </table>

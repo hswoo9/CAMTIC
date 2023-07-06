@@ -8,7 +8,7 @@ var historyReqPop = {
     },
 
     dataSet() {
-        customKendo.fn_textBox(["searchVal", "number", "relevant"]);
+        customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
@@ -327,9 +327,7 @@ var historyReqPop = {
     fn_popGridSetting : function() {
         $(".afJobDetail, .afEtc").kendoTextBox();
 
-        var data = {
-
-        }
+        var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
         deptDsA.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
@@ -382,7 +380,7 @@ var historyReqPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택하세요", value: ""},
+                {text: "선택", value: ""},
                 {text: "수석행정원 / 1급", value: "1"},
                 {text: "수석매니저 / 1급", value: "2"},
                 {text: "수석연구원 / 1급", value: "3"},
@@ -406,7 +404,7 @@ var historyReqPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택하세요", value: ""},
+                {text: "선택", value: ""},
                 {text: "원장", value: "원장"},
                 {text: "본부장", value: "본부장"},
                 {text: "사업부장", value: "사업부장"},
@@ -424,6 +422,10 @@ var historyReqPop = {
         $.each($('#popMainGrid .k-master-row'), function(i, v){
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
+            if($(v).find('#apntCd'+empSeq).data("kendoDropDownList").value() == "") {
+                alert("발령기준을 선택해주세요.");
+                return;
+            }
             let data = {
                 empSeq            : empSeq,
                 empName           : dataItem.EMP_NAME_KR,
@@ -441,13 +443,13 @@ var historyReqPop = {
                 bfJobDetail       : dataItem.JOB_DETAIL,
 
                 afDeptSeq         : $(v).find('#afDept'+empSeq).data("kendoDropDownList").value(),
-                afDeptName        : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text(),
+                afDeptName        : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text(),
                 afTeamSeq         : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-                afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
+                afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
                 afPositionCode    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value(),
-                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
+                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split(' /')[0],
                 afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
-                afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
+                afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
                 afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),
 
                 afEtc             : $(v).find('#afEtc'+empSeq).val()
@@ -459,6 +461,13 @@ var historyReqPop = {
         let numberName = $("#numberName").val();
         let relevantName = $("#relevantName").val();
         let historyDate = $("#historyDate").val().replace(/-/g, "");
+
+
+        if(numberName == "") {
+            alert("호수가 작성되지 않았습니다.");
+        }else if(relevantName == "") {
+            alert("관련근거가 작성되지 않았습니다.");
+        }
 
         let data = {
             historyArr: JSON.stringify(arr),
