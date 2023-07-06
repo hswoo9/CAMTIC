@@ -7,7 +7,7 @@
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}
     table { background-color: white; }
-    .table-bordered > tbody > tr > th{ background-color: #8fa1c0; color: white;}
+    .table-bordered > tbody > tr > th{ background-color: #00397f96; color: white;}
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/inside/userManage/userPersonList.js?v=${today}"/></script>
