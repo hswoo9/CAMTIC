@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.gw.user.controller;
 
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
@@ -28,12 +29,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommonService commonService;
+
     @RequestMapping("/user/organizationChart.do")
     public String openOrganizationChart(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+
         return "user/organizationChart";
     }
 
