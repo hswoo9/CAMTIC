@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
+<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userPersonList.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -155,7 +156,7 @@
         </div>
         <div class="panel-body">
             <div style="width: 100%">
-                <table class="table table-bordered" style="border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="10%">
                         <col width="40%">
@@ -175,7 +176,7 @@
                         </td>
                     </tr>
                 </table>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr style="width: 100%;">
                         <td style="width: 50%">
                             <div style="display: flex; justify-content: space-between; align-items: center;">유형</span>
