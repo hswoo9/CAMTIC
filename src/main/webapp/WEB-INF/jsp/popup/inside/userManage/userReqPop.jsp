@@ -253,18 +253,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>재직여부</th>
-                        <td colspan="3">
-                            <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
-                        </td>
-                    </tr>
-                    <tr style="display: none;" id="noneTr1">
-                        <th>퇴사일자</th>
-                        <td colspan="3">
-                            <input type="text" id="resignDay" style="width: 20%;">
-                        </td>
-                    </tr>
-                    <tr>
                         <th>취미</th>
                         <td>
                             <input type="text" id="hobby" style="width: 95%;">
@@ -295,6 +283,18 @@
                         <td>
                             좌 <input type="text" id="vision1" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right">
                             우 <input type="text" id="vision2" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right"> (안경 착용 시력)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>재직여부</th>
+                        <td colspan="3">
+                            <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
+                        </td>
+                    </tr>
+                    <tr style="display: none;" id="noneTr1">
+                        <th>퇴사일자</th>
+                        <td colspan="3">
+                            <input type="text" id="resignDay" style="width: 20%;">
                         </td>
                     </tr>
                 </table>
