@@ -52,28 +52,52 @@
     <select id="getEmpList" parameterType="map" resultType="map">
         /* getEmpList */
         SELECT
-            *
+            HEI.EMP_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            HEI.EMP_NAME_KR
         FROM
-            CAM_HR.DJ_EMP_INFO
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE ACTIVE = 'Y'
             <if test='deptSeq != null and deptSeq != ""'>
-                AND DEPT_SEQ = #{deptSeq}
+                AND HEI.DEPT_SEQ IN (
+                    SELECT
+                        HDI.DEPT_SEQ
+                    FROM
+                        CAM_HR.DJ_DEPT_INFO HDI
+                    WHERE
+                        HDI.DEPT_SEQ = #{deptSeq}
+                    OR
+                        HDI.PARENT_DEPT_SEQ = #{deptSeq}
+                )
             </if>
-            <if test='deptTeamSeq != null and deptTeamSeq !=""'>
-                AND DEPT_TEAM_NAME LIKE CONCAT('%', #{deptTeamName}, '%')
+            <if test='empName != null and !"".equals(empName)'>
+                AND HEI.EMP_NAME_KR LiKE CONCAT ('%', #{empName}, '%')
             </if>
     </select>
 
     <select id="getEmpSelList" parameterType="map" resultType="map">
         /* getEmpSelList */
         SELECT
-            *
+            HEI.EMP_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            HEI.EMP_NAME_KR,
+            HEI.POSITION_NAME,
+            HEI.DUTY_NAME,
+            HEI.JOB_DETAIL
         FROM
-            CAM_HR.DJ_EMP_INFO
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             1 = 1
         AND
-            EMP_SEQ IN
+            HEI.EMP_SEQ IN
             <foreach collection="empArr" item="item" separator="," open="(" close=")">
                 #{item}
             </foreach>

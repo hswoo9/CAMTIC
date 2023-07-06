@@ -8,16 +8,11 @@ var historyReqPop = {
     },
 
     dataSet() {
-
-
-        var data = {
-
-        }
+        customKendo.fn_textBox(["searchVal", "number", "relevant"]);
+        var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-
         customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
-
         $("#dept").data("kendoDropDownList").bind("change", historyReqPop.fn_chngDeptComp)
         $("#dept").data("kendoDropDownList").select(0);
         $("#dept").data("kendoDropDownList").trigger("change");
@@ -62,7 +57,6 @@ var historyReqPop = {
         var data = {}
         data.deptLevel = 2;
         data.parentDeptSeq = this.value();
-
         var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
         customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
     },
@@ -70,19 +64,16 @@ var historyReqPop = {
     mainGrid : function() {
 
         var data = {
-            deptSeq : $("#dept").val(),
-            deptTeamSeq : $("#team").val(),
-            deptTeamName : $("#team").data("kendoDropDownList").text(),
+            deptSeq : $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
             empName : $("#searchVal").val()
         }
 
-
-        var rs = customKendo.fn_customAjax("/user/getEmpList", data);
-
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2("/user/getEmpList", data),
+            sortable: true,
             scrollable: true,
-            height: 481,
+            selectable: "row",
+            height: 507,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -101,13 +92,14 @@ var historyReqPop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : historyReqPop.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="historyReqPop.fn_checkAll()" style="position : relative; top : 2px;" />',
                     template : function (e){
                         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
-                    width: 50,
+                    width: 30,
                     attribute : {
                         style : "text-align:center",
                     }
@@ -115,16 +107,23 @@ var historyReqPop = {
                     field: "DEPT_NAME",
                     title: "부서"
                 }, {
-                    field: "DEPT_SEQ",
+                    field: "TEAM_NAME",
                     title: "팀",
-                    width: 70,
+                    width: 100,
                 }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
-                    width: 70,
+                    width: 60,
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    onDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            console.log(e);
+        });
     },
 
     gridReload: function (){
@@ -223,19 +222,19 @@ var historyReqPop = {
                     template : function (e){
                         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
-                    width: 50,
+                    width: 40,
                     attribute : {
                         style : "text-align:center",
                     }
                 }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
-                    width: 70
+                    width: 55
                 }, {
                     title: "발령기준",
                     width: 120,
                     template : function (e){
-                        return "<input type='text' id='apntCd' class='apntCd' />";
+                        return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='apntCd' />";
                     }
                 }, {
                     title: "발령전",
@@ -243,23 +242,23 @@ var historyReqPop = {
                         {
                             field: "DEPT_NAME",
                             title: "부서",
-                            width: 120
+                            width: 105
                         }, {
-                            field: "DEPT_TEAM_NAME",
+                            field: "TEAM_NAME",
                             title: "팀",
-                            width: 120
+                            width: 100
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
-                            width: 120
+                            width: 100
                         }, {
                             field: "DUTY_NAME",
                             title: "직책",
-                            width: 120
+                            width: 100
                         }, {
                             field: "JOB_DETAIL",
                             title: "직무",
-                            width: 120
+                            width: 100
                         },
                     ]
                 }, {
@@ -271,51 +270,51 @@ var historyReqPop = {
                             template : function (e){
                                 return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
                                     '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
-                                    '<input type="text" id="afDept" name="afDept" class="afDept">';
+                                    '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="afDept">';
                             },
-                            width: 120
+                            width: 105
                         }, {
                             field: "DEPT_TEAM_NAME",
                             title: "팀",
                             template : function (e){
                                 return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
                                     '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
-                                    '<input type="text" id="afTeam" name="afTeamSeq" class="afTeam">';
+                                    '<input type="text" id="afTeam'+e.EMP_SEQ+'" name="afTeamSeq" class="afTeam">';
                             },
-                            width: 120
+                            width: 100
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
                             template : function (e){
                                 return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_SEQ + '">' +
                                     '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                    '<input type="text" id="afPosition" name="afPosition" class="afPosition">';
+                                    '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="afPosition">';
                             },
-                            width: 120
+                            width: 100
                         }, {
                             field: "DUTY_NAME",
                             title: "직책",
                             template : function (e){
                                 return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_SEQ + '">' +
                                     '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                    '<input type="text" id="afDuty" name="afDuty" class="afDuty">';
+                                    '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="afDuty">';
                             },
-                            width: 120
+                            width: 100
                         }, {
                             field: "JOB_DETAIL",
                             title: "직무",
                             template : function (e){
                                 return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
-                                    '<input type="text" id="afJobDetail" name="afJobDetail" class="afJobDetail">';
+                                    '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="afJobDetail">';
                             },
-                            width: 120
+                            width: 100
                         },
                     ]
                 }, {
                     field: "ETC",
                     title: "비고",
-                    template : function(){
-                        return "<input type='text' id='afEtc' name='afEtc' class='afEtc'>";
+                    template : function(e){
+                        return "<input type='text' id='afEtc"+e.EMP_SEQ+"' name='afEtc' class='afEtc'>";
                     },
                     width: 120
                 }
@@ -420,7 +419,76 @@ var historyReqPop = {
     },
 
     fn_saveApnt : function(){
-        alert("저장");
+        let arr = new Array();
+        const grid = $("#popMainGrid").data("kendoGrid");
+        $.each($('#popMainGrid .k-master-row'), function(i, v){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            let empSeq = dataItem.EMP_SEQ;
+            let data = {
+                empSeq            : empSeq,
+                empName           : dataItem.EMP_NAME_KR,
+                apntCd			  : $(v).find('#apntCd'+empSeq).data("kendoDropDownList").value(),
+                apntName		  : $(v).find('#apntCd'+empSeq).data("kendoDropDownList").text(),
+
+                bfDeptSeq         : dataItem.DEPT_SEQ,
+                bfDeptName        : dataItem.DEPT_NAME,
+                bfTeamSeq         : dataItem.TEAM_SEQ,
+                bfTeamName        : dataItem.TEAM_NAME,
+                bfPositionCode    : "",
+                bfPositionName    : dataItem.POSITION_NAME,
+                bfDutyCode        : "",
+                bfDutyName        : dataItem.DUTY_NAME,
+                bfJobDetail       : dataItem.JOB_DETAIL,
+
+                afDeptSeq         : $(v).find('#afDept'+empSeq).data("kendoDropDownList").value(),
+                afDeptName        : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text(),
+                afTeamSeq         : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
+                afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
+                afPositionCode    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value(),
+                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
+                afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
+                afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
+                afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),
+
+                afEtc             : $(v).find('#afEtc'+empSeq).val()
+            }
+            arr.push(data);
+        });
+
+        let empSeq = $("#empSeq").val();
+        let numberName = $("#numberName").val();
+        let relevantName = $("#relevantName").val();
+        let historyDate = $("#historyDate").val().replace(/-/g, "");
+
+        let data = {
+            historyArr: JSON.stringify(arr),
+            empSeq: empSeq,
+            numberName: numberName,
+            relevantName: relevantName,
+            historyDate: historyDate
+        };
+        console.log("set history DATA");
+        console.log(arr);
+
+
+        $.ajax({
+            url : "/inside/setHistoryInsert",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("인사발령 저장이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                //window.close();
+            }
+        });
     },
 
     fn_delApnt : function(){

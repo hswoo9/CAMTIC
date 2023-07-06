@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="history">
+
+    <insert id="setHistoryInsert" parameterType="map">
+        /* setHistoryInsert */
+        INSERT INTO CAM_HR.DJ_APNT_INFO
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                APNT_CD,
+                APNT_NAME,
+                BF_DEPT_NAME,
+                BF_DEPT_SEQ,
+                BF_TEAM_NAME,
+                BF_TEAM_SEQ,
+                BF_POSITION_CODE,
+                BF_POSITION_NAME,
+                BF_DUTY_CODE,
+                BF_DUTY_NAME,
+                BF_JOB_DETAIL,
+                AF_DEPT_NAME,
+                AF_DEPT_SEQ,
+                AF_TEAM_NAME,
+                AF_TEAM_SEQ,
+                AF_POSITION_CODE,
+                AF_POSITION_NAME,
+                AF_DUTY_CODE,
+                AF_DUTY_NAME,
+                AF_JOB_DETAIL,
+                ETC,
+                REG_EMP_SEQ,
+                NUMBER_NAME,
+                RELEVANT_NAME,
+                HISTORY_DT
+            )
+        VALUES
+        <foreach collection="historyList" item="item" separator=" , ">
+            (
+                #{item.empSeq},
+                #{item.empName},
+                #{item.apntCd},
+                #{item.apntName},
+                #{item.bfDeptName},
+                #{item.bfDeptSeq},
+                #{item.bfTeamName},
+                #{item.bfTeamSeq},
+                #{item.bfPositionCode},
+                #{item.bfPositionName},
+                #{item.bfDutyCode},
+                #{item.bfDutyName},
+                #{item.bfJobDetail},
+                #{item.afDeptName},
+                #{item.afDeptSeq},
+                #{item.afTeamName},
+                #{item.afTeamSeq},
+                #{item.afPositionCode},
+                #{item.afPositionName},
+                #{item.afDutyCode},
+                #{item.afDutyName},
+                #{item.afJobDetail},
+                #{item.afEtc},
+                #{empSeq},
+                #{numberName},
+                #{relevantName},
+                #{historyDate}
+            )
+        </foreach>
+    </insert>
+</mapper>

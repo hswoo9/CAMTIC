@@ -2,18 +2,21 @@ package egovframework.com.devjitsu.inside.history.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.history.service.HistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class HistoryController {
@@ -22,6 +25,9 @@ public class HistoryController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HistoryService historyService;
 
     //발령관리 페이지
     @RequestMapping("/Inside/historyReq.do")
@@ -85,6 +91,19 @@ public class HistoryController {
         model.addAttribute("loginVO", login);
         return "popup/inside/history/rewardGubunPop";
     }
+
+    /**
+     * 발령등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setHistoryInsert")
+    public String setCertificateInsert(@RequestParam Map<String, Object> params) {
+        historyService.setHistoryInsert(params);
+        return "jsonView";
+    }
+
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
