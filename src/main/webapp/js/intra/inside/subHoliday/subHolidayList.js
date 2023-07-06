@@ -1,5 +1,5 @@
 var subHolidayList = {
-    global : {
+    global: {
         now : new Date(),
         empSeq : $("#empSeq").val(),
         mcCode : "V",
@@ -11,59 +11,18 @@ var subHolidayList = {
         hwpCtrl : "",
     },
 
-    init : function(params){
+    init: function(params){
         subHolidayList.dataSet();
         subHolidayList.mainGrid();
-
-        var data = {
-            mcCode : subHolidayList.global.mcCode,
-            mdCode : subHolidayList.global.mdCode,
-            empSeq : subHolidayList.global.empSeq
-        }
-
-        subHolidayList.global.vacGubun = customKendo.fn_customAjax("/subHoliday/getVacCodeList", data);
-        var ds = subHolidayList.global.vacGubun;
-        console.log(ds);
-        ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "전체", "SUBHOLIDAY_CODE_ID" : "" });
-
-        $("#edtHolidayKindTop").kendoDropDownList({
-            dataSource : ds.list,
-            dataTextField: "SUBHOLIDAY_DT_CODE_NM",
-            dataValueField: "SUBHOLIDAY_CODE_ID",
-        });
     },
 
-    dataSet : function() {
-        $("#datePicker").kendoDatePicker({
-            value: new Date(),
-            start: "decade",
-            depth: "decade",
-            format: "yyyy",
-            width: "150px"
-        });
-
-        $("#status").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "요청진행전", value: "N" },
-                { text: "승인", value: "Y" },
-                { text: "진행중", value: "C" },
-                { text: "반려", value: "E" }
-            ],
-            index: 0
-        });
-    },
-
-    mainGrid : function(e){
-
-        var dataSource = new kendo.data.DataSource({
+    mainGrid: function(e){
+        let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             pageSize: 10,
             transport: {
                 read : {
-                    url : getContextPath() + "/getVacUseHistoryList",
+                    url : "/inside/getVacUseHistoryList",
                     dataType : "json",
                     type : "post"
                 },
@@ -83,54 +42,57 @@ var subHolidayList = {
                     return data.list;
                 },
                 total: function (data) {
-                    return data.totalCount;
+                    return data.list.totalCount;
                 },
             }
         });
 
-
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 490,
             sortable: true,
             scrollable: true,
-            noRecords: {
-                template: "<div style='margin: auto;'>데이터가 존재하지 않습니다.</div>"
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
             },
-            pageable: {
-                refresh: true,
-                pageSize : 10,
-                pageSizes: [10, 20, 50, "ALL"],
-                buttonCount: 5,
-                messages: {
-                    display: "{0} - {1} of {2}",
-                    itemsPerPage: "",
-                    empty: "데이터가 없습니다.",
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateReq.delBtn();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
                 }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
             },
             dataBound : subHolidayList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class=""/>',
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='k-checkbox checkbox'/>";
+                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class=''/>";
                         } else {
                             return "";
                         }
                     },
-                    width: 40
+                    width: 80
                 }, {
                     field: "",
                     title: "순번",
-                    width: 80,
+                    width: 160,
                 }, {
                     field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "구분",
-                    width: 150,
+                    width: 320,
                 }, {
                     title: "기간",
-                    width: 190,
                     template: function(dataItem) {
                         if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
                             return dataItem.SUBHOLIDAY_WORK_DAY;
@@ -142,27 +104,24 @@ var subHolidayList = {
                 }, {
                     field: "SUBHOLIDAY_USE_DAY",
                     title: "사용 일수",
-                    width: 100,
-                },/* {
-                    field: "RMK",
-                    title: "내용",
-                    align:"center"
-                }, */{
+                    width: 200,
+                }, {
                     field : "APPR_STAT",
                     title : "승인상태",
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            return "요청진행전";
+                            return "작성 중";
                         } else if(e.APPR_STAT == "Y"){
                             return "승인";
                         } else if(e.APPR_STAT =="C"){
-                            return "진행중";
+                            return "제출";
                         } else if(e.APPR_STAT =="E"){
                             return "반려";
                         }
                     },
-                    width: 100,
+                    width: 200,
                 }, {
+                    /* {
                     title : "승인요청",
                     template : function(e){
                         //휴가 전자결재
@@ -244,12 +203,12 @@ var subHolidayList = {
                                 return "-";
                             }
                         }
-                    },
-                    width: 120
-                }],
+                    }*/
+                }
+            ],
         }).data("kendoGrid");
-
     },
+
     onDataBound : function(){
         var grid = this;
 
@@ -297,16 +256,42 @@ var subHolidayList = {
 
     },
 
-    gridReload : function(){
-        var params = {
+    dataSet : function() {
+        $("#datePicker").kendoDatePicker({
+            value: new Date(),
+            start: "decade",
+            depth: "decade",
+            format: "yyyy",
+            width: "150px"
+        });
+
+        let data = {
             mcCode : subHolidayList.global.mcCode,
             mdCode : subHolidayList.global.mdCode,
             empSeq : subHolidayList.global.empSeq
         }
+        subHolidayList.global.vacGubun = customKendo.fn_customAjax("/inside/getVacCodeList", data);
+        const ds = subHolidayList.global.vacGubun;
+        ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "전체", "SUBHOLIDAY_CODE_ID" : "" });
+        $("#edtHolidayKindTop").kendoDropDownList({
+            dataSource : ds.list,
+            dataTextField: "SUBHOLIDAY_DT_CODE_NM",
+            dataValueField: "SUBHOLIDAY_CODE_ID",
+        });
 
-        params.status = $("#status").val();
-        params.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-        subHolidayList.mainGrid(params);
+        $("#status").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "요청진행전", value: "N" },
+                { text: "승인", value: "Y" },
+                { text: "진행중", value: "C" },
+                { text: "반려", value: "E" }
+            ],
+            index: 0
+        });
+
     },
 
     subHolidayReqPop : function() {
@@ -341,8 +326,4 @@ var subHolidayList = {
             this.target = 'workHolidayApprovalPop';
         }).trigger("submit");
     }
-}
-
-function gridReload() {
-    $("#mainGrid").data("kendoGrid").dataSource.read();
 }

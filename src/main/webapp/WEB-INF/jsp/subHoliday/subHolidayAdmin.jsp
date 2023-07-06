@@ -30,8 +30,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">휴가신청관리</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가신청관리</div>
+            <h4 class="panel-title">휴가신청내역</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가신청내역</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

@@ -9,6 +9,8 @@ import java.util.Map;
 @Repository
 public class SubHolidayRepository extends AbstractDAO  {
 
+    public List<Map<String, Object>> getVacCodeList(Map<String, Object> params) { return selectList("subHoliday.getVacCodeList", params); }
+
     public void setVacUseHist(Map<String, Object> params){ insert("subHoliday.setVacUseHist", params);}
 
     public void updateVacUseHist(Map<String, Object> params){
@@ -21,10 +23,6 @@ public class SubHolidayRepository extends AbstractDAO  {
 
     public void setOverWorkVacUse(Map<String, Object> params){
         update("subHoliday.setOverWorkVacUse", params);
-    }
-
-    public List<Map<String, Object>> getVacCodeList(Map<String, Object> params) {
-        return selectList("subHoliday.getVacCodeList", params);
     }
 
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryList", params);}

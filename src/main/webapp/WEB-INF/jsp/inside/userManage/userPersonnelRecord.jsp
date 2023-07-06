@@ -12,14 +12,15 @@
 <script src="/js/kendoui/kendo.all.min.js"></script>
 <script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
-
+<link rel="stylesheet" href="/css/style.css">
 
 <style>
-.title-road{font-size: 11px; color: #999999; margin-top:10px;}
-.likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
-.likeTab li{padding: 5px 18px; border-radius: 5px 5px 0 0; background-color: #f0f7ff; border: 1px solid #eee; font-weight: 600; cursor: pointer; font-size:13px;}
-.k-input-md{font-size:12px;}
-.subTitSt{font-weight: 600; text-align: left; font-size: 15px; padding: 10px;}
+    .likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
+    .likeTab li{padding: 5px 18px; border-radius: 5px 5px 0 0; background-color: #6787b0; border: 1px solid #eee; font-weight: 600; cursor: pointer; font-size:13px; color: white; width: 104px; text-align: center;}
+    .k-input-md{font-size:12px;}
+    .subTitSt{font-weight: 600; text-align: left; font-size: 13px; padding: 10px;}
+    .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #00397f96; color: white;}
+    .table > thead > tr > td, .table > thead > tr > th{border: 1px solid #dee2e6;}
 </style>
 
 
@@ -36,23 +37,23 @@
             <div>
                 <div id="tabstrip">
                     <ul class="likeTab">
-                        <li id="TabA">인적사항</li>
-                        <li id="TabM">기본정보</li>
-                        <li id="TabB">학력사항</li>
-                        <li id="TabC">경력사항</li>
-                        <li id="TabD">병력사항</li>
-                        <li id="TabE">가족사항</li>
-                        <li id="TabF">보유면허</li>
-                        <li id="TabG">직무사항</li>
-                        <li id="TabH">발령사항</li>
-                        <li id="TabI">상벌사항</li>
-                        <li id="TabJ">교육사항</li>
-                        <li id="TabK">근무평가</li>
-                        <li id="TabL">제안제도</li>
+                        <li id="TabA">인적 사항</li>
+                        <li id="TabM">기본 정보</li>
+                        <li id="TabB">학력 사항</li>
+                        <li id="TabC">경력 사항</li>
+                        <li id="TabD">병력 사항</li>
+                        <li id="TabE">가족 사항</li>
+                        <li id="TabF">보유 면허</li>
+                        <li id="TabG">직무 사항</li>
+                        <li id="TabH">발령 사항</li>
+                        <li id="TabI">상벌 사항</li>
+                        <li id="TabK">근무 평가</li>
+                        <li id="TabJ">교육 사항</li>
+                        <li id="TabL">제안 제도</li>
                     </ul>
                     <div class="empInfo">
                         <div style="display:flex; justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;직원기본정보</div>
+                            <div class="subTitSt">· 직원 기본 정보</div>
                             <div id="empInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
@@ -62,7 +63,7 @@
                             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
                             <input type="hidden" id="msiInfoId" name="msiInfoId" value="${data.MSI_INFO_ID}">
                             <div>
-                                <table class="table">
+                                <table class="searchTable table table-bordered">
                                     <colgroup>
                                         <col width="15%">
                                         <col width="35%">
@@ -71,7 +72,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>사원번호</th>
+                                        <th>사번</th>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${uprList.empSeq eq null or uprList.empSeq eq ''}">
@@ -88,7 +89,7 @@
                                         </td>
                                         <th>아이디</th>
                                         <td>
-                                            <input type="text" id="loginId" name="loginId" class="userInfoTextBox" placeholder="아이디 입력" value="${uprList.loginId}" style="width: 40%;">
+                                            <input type="text" id="loginId" name="loginId" class="userInfoTextBox" placeholder="아이디 입력" value="${uprList.loginId}" style="width: 40%;" >
                                         </td>
                                     </tr>
                                     <tr>
@@ -112,25 +113,35 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>현주소</th>
+                                        <th>[우편번호] 현주소</th>
                                         <td colspan="3">
                                             <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
                                             <input type="button" class="k-button-solid-info k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
                                             <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
                                             <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
                                             <span id="guide" style="color:#999;display:none"></span>
-                                            <input type="text" id="addrDetail" name="addrDetail" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
-                                            <input type="text" id="addrReferences" name="addrReferences" style="width: 10%;margin-top: 3px;" value="${uprList.addrReferences}" placeholder="참고항목">
+                                            <%--<input type="text" id="addrDetail" name="addrDetail" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
+                                            <input type="text" id="addrReferences" name="addrReferences" style="width: 10%;margin-top: 3px;" value="${uprList.addrReferences}" placeholder="참고항목">--%>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>사무실 전화</th>
+                                        <th>전화번호</th>
                                         <td>
                                             <input type="text" id="officeTelNum" name="officeTelNum" placeholder="숫자만 입력" value="${uprList.officeTelNum}" style="width: 50%;">
                                         </td>
-                                        <th>휴대폰</th>
+                                        <th>긴급 연락처</th>
                                         <td>
                                             <input type="text" id="mobileTelNum" name="mobileTelNum" placeholder="숫자만 입력" value="${uprList.mobileTelNum}" style="width: 50%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>차량 소유</th>
+                                        <td>
+                                            <input type="text" id="" name="" value="" style="width: 50%;">
+                                        </td>
+                                        <th>차량 번호</th>
+                                        <td>
+                                            <input type="text" id="" name="" value="" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -140,11 +151,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>입사일</th>
+                                        <th>입사 일자</th>
                                         <td>
                                             <input type="text" id="joinDay" name="joinDay" class="userInfoDatePicker" style="width: 40%;" value="${uprList.joinDay}">
                                         </td>
-                                        <th>퇴사일</th>
+                                        <th>퇴사 일자</th>
                                         <td>
                                             <input type="text" id="resignDay" name="resignDay" class="userInfoDatePicker" style="width: 50%;">
                                         </td>
@@ -155,12 +166,6 @@
                                             <input type="text" id="" name="" placeholder="" value="" style="width: 100%;">
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <th>비고</th>
-                                        <td colspan="3">
-                                            <textarea name="" id="" rows="5" cols="" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
-                                        </td>
-                                    </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -168,7 +173,7 @@
                     </div>
                     <div class="eduInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;학력사항</div>
+                            <div class="subTitSt">· 학력 사항</div>
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addDegreeBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -177,29 +182,31 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
+                                        <col width="1%">
                                         <col width="5%">
                                         <col width="10%">
                                         <col width="15%">
                                         <col width="15%">
                                         <col width="10%">
                                         <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
                                         <col width="5%">
+                                        <col width="5%">
+                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='eduInfoChk"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>구분</th>
                                         <th>기간</th>
                                         <th>학교 및 학과</th>
                                         <th>학위</th>
+                                        <th>증명서</th>
                                         <th>졸업</th>
-                                        <th>비고</th>
-                                        <th>학위</th>
                                         <th>성적</th>
+                                        <th>비고</th>
                                     </tr>
                                     <c:forEach var="l" items="${eList}" varStatus="status">
                                         <c:choose>
@@ -209,14 +216,15 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox eduCheckBox' onclick=''></td>
+                                                    <td></td>
                                                     <td>${l.SCHOOL_NAME}</td>
                                                     <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
                                                     <td>${l.SCHOOL_NAME}</td>
                                                     <td>${l.DEGREE_CODE}</td>
-                                                    <td>졸업</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>${l.RMK}</td>
-                                                    <td>학위</td>
-                                                    <td>성적</td>
                                                 </tr>
                                             </c:otherwise>
                                         </c:choose>
@@ -228,7 +236,7 @@
                     </div>
                     <div class="careerInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;경력사항</div>
+                            <div class="subTitSt">· 경력 사항</div>
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addCareerBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -237,27 +245,29 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="5%">
+                                        <col width="1%">
+                                        <col width="6%">
                                         <col width="20%">
                                         <col width="15%">
                                         <col width="10%">
-                                        <col width="20%">
+                                        <col width="15%">
                                         <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="8%">
+                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='careerInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>기간</th>
                                         <th>근무처</th>
-                                        <th>직위(급)</th>
+                                        <th>직위 (급)</th>
                                         <th>담당업무</th>
                                         <th>근무년수</th>
+                                        <th>증명서</th>
                                         <th>비고</th>
-                                        <th>파일</th>
                                     </tr>
                                     <c:forEach var="l" items="${cList}" varStatus="status">
                                         <c:choose>
@@ -267,13 +277,14 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td></td>
                                                     <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
                                                     <td>${l.EMPLOY_DEPT_NAME}</td>
                                                     <td>${l.POSITION_OR_DUTY}</td>
                                                     <td>${l.MAIN_TASK}</td>
                                                     <td>${l.CAREER_PERIOD}</td>
+                                                    <td></td>
                                                     <td>${l.RMK}</td>
-                                                    <td><span class="k-icon k-i-file-txt" style="cursor:pointer;"></span></td>
                                                 </tr>
                                             </c:otherwise>
                                         </c:choose>
@@ -285,7 +296,7 @@
                     </div>
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;병력사항</div>
+                            <div class="subTitSt">· 병력 사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addMilitaryBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -294,7 +305,7 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table">
+                                <table class="searchTable table">
                                     <colgroup>
                                         <col width="15%">
                                         <col width="35%">
@@ -303,41 +314,30 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>종류</th>
-                                        <td>
-                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" style="width: 50%" value="${mList.MILITARY_SVC_TYPE}">
-                                        </td>
+                                        <th>전역 여부</th>
+                                        <td>${mList.MILITARY_SVC_TYPE}</td>
                                         <th>사유</th>
-                                        <td>
-                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" style="width: 50%" value="${mList.M_UNFUL_REASON}">
-                                        </td>
+                                        <td>${mList.M_UNFUL_REASON}</td>
                                     </tr>
                                     <tr>
                                         <th>복무기간</th>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null or l.ADMIN_APPROVAL eq 'N'}">
-                                                    <input type="text" id="" name="" class="userInfoDatePicker" style="width: 40%;" value="">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="text" id="" name="" class="userInfoDatePicker" style="width: 40%;" value="${mList.M_ENLIST_DAY}~${mList.M_DISCHARGE_DAY}">
+                                                    <td>${mList.M_ENLIST_DAY}~${mList.M_DISCHARGE_DAY}</td>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <th>최종계급</th>
-                                        <td>
-                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="" value="" style="width: 50%;">
-                                        </td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th>군별</th>
-                                        <td>
-                                            <input type="text" id="officeTelNum" name="officeTelNum" placeholder="" value="${data.OFFICE_TEL_NUM}" style="width: 50%;">
-                                        </td>
+                                        <td></td>
                                         <th>병과</th>
-                                        <td>
-                                            <input type="text" id="mobileTelNum" name="mobileTelNum" placeholder="숫자만 입력" value="${data.MOBILE_TEL_NUM}" style="width: 50%;">
-                                        </td>
+                                        <td></td>
                                     </tr>
                                     </thead>
                                 </table>
@@ -346,7 +346,7 @@
                     </div>
                     <div class="familyInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;가족사항</div>
+                            <div class="subTitSt">· 가족 사항</div>
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addFamilyBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -355,18 +355,20 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="10%">
+                                        <col width="1%">
+                                        <col width="6%">
                                         <col width="20%">
                                         <col width="20%">
                                         <col width="20%">
                                         <col width="20%">
-                                        <col width="10%">
+                                        <col width="13%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='familyInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>관계</th>
                                         <th>성명</th>
                                         <th>생년월일</th>
@@ -381,6 +383,7 @@
                                             <c:otherwise>
                                                     <tr>
                                                         <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                        <td></td>
                                                         <td>${l.FAMILY_CODE_NAME}</td>
                                                         <td>${l.FAMILY_NAME}</td>
                                                         <td>${l.FAMILY_BIRTH}</td>
@@ -397,7 +400,7 @@
                     </div>
                     <div class="certificateInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;자격증 및 면허, 어학능력 사항</div>
+                            <div class="subTitSt">· 보유 면허</div>
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -406,25 +409,27 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="10%">
+                                        <col width="1%">
+                                        <col width="6%">
                                         <col width="20%">
                                         <col width="20%">
                                         <col width="15%">
-                                        <col width="15%">
+                                        <col width="18%">
                                         <col width="10%">
                                         <col width="10%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='certificateInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>종류</th>
                                         <th>취득일</th>
                                         <th>자격번호</th>
                                         <th>발급기관</th>
+                                        <th>증명서</th>
                                         <th>비고</th>
-                                        <th>파일</th>
                                     </tr>
                                     <c:forEach var="l" items="${lList}">
                                         <c:choose>
@@ -434,10 +439,12 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td></td>
                                                     <td>${l.CERTIFICATE_NAME}</td>
                                                     <td>${l.ACQUISITION_DAY}</td>
                                                     <td>${l.CERTIFICATE_NUM}</td>
                                                     <td>${l.ISSUER}</td>
+                                                    <td></td>
                                                     <td>${l.RMK}</td>
                                                 </tr>
                                             </c:otherwise>
@@ -450,7 +457,7 @@
                     </div>
                     <div class="dutiesInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;직무사항</div>
+                            <div class="subTitSt">· 직무 사항</div>
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addJobBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -459,18 +466,20 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="15%">
-                                        <col width="40%">
-                                        <col width="15%">
+                                        <col width="1%">
+                                        <col width="6%">
+                                        <col width="35%">
+                                        <col width="35%">
+                                        <col width="23%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='dutiesInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
-                                        <th>근무기간</th>
-                                        <th>주요직무</th>
+                                        <th>번호</th>
+                                        <th>근무 기간</th>
+                                        <th>주요 직무</th>
                                         <th>직급</th>
                                     </tr>
                                     <c:forEach var="l" items="${dList}">
@@ -481,6 +490,7 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td></td>
                                                     <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
                                                     <td>${l.DUTY_DETAIL}</td>
                                                     <td>${l.POSITON_NAME}</td>
@@ -495,7 +505,7 @@
                     </div>
                     <div class="orderInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;발령사항</div>
+                            <div class="subTitSt">· 발령 사항</div>
                             <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -504,9 +514,10 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="5%">
+                                        <col width="1%">
+                                        <col width="6%">
                                         <col width="15%">
                                         <col width="15%">
                                         <col width="45%">
@@ -515,9 +526,10 @@
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='orderInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
-                                        <th>발령구분</th>
-                                        <th>발령일자</th>
-                                        <th>발령일자</th>
+                                        <th>번호</th>
+                                        <th>발령 구분</th>
+                                        <th>발령 일자</th>
+                                        <th>발령 사항</th>
                                         <th>비고</th>
                                     </tr>
                                     <c:forEach var="l" items="${aList}">
@@ -528,6 +540,7 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td></td>
                                                     <td>${l.APPOINT_TITLE}</td>
                                                     <td>${l.APPOINT_DAY}</td>
                                                     <td>${l.APPOINT_TITLE}</td>
@@ -543,7 +556,7 @@
                     </div>
                     <div class="rewardpunishmentInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;상벌사항</div>
+                            <div class="subTitSt">· 상벌 사항</div>
                             <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addRewardBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -552,25 +565,27 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="5%">
+                                        <col width="1%">
+                                        <col width="6%">
                                         <col width="10%">
-                                        <col width="10%">
-                                        <col width="20%">
+                                        <col width="15%">
+                                        <col width="18%">
                                         <col width="25%">
-                                        <col width="20%">
+                                        <col width="15%">
                                         <col width="10%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='rewardpunishmentInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>내/외부</th>
-                                        <th>포상구분</th>
-                                        <th>포상일자</th>
-                                        <th>공적(징계)사항</th>
+                                        <th>포상 구분</th>
+                                        <th>포상/징계 일자</th>
+                                        <th>공적 (징계) 사항</th>
                                         <th>시행처</th>
-                                        <th>파일</th>
+                                        <th>증명서</th>
                                     </tr>
                                     <c:forEach var="l" items="${rList}">
                                         <c:choose>
@@ -580,11 +595,13 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td>-</td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>${l.REWORD_NAME}</td>
                                                     <td>${l.REWORD_DAY}</td>
                                                     <td>${l.REWORD_REASON}</td>
                                                     <td>${l.REWORD_AGENCY_NAME}</td>
+                                                    <td></td>
                                                 </tr>
                                             </c:otherwise>
                                         </c:choose>
@@ -596,22 +613,17 @@
                     </div>
                     <div class="lifelonglearningInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;평생학습</div>
-                            <div id="lifelonglearningInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addEduBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
-                            </div>
+                            <div class="subTitSt">· 평생 학습</div>
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="25%">
-                                        <col width="25%">
-                                        <col width="25%">
-                                        <col width="25%">
-                                        <col width="25%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                     <tr>
@@ -632,29 +644,29 @@
                                 </table>
                             </div>
                         </div>
-                        <div>
-                            <div>- 올해의 학습이력</div>
+                        <div style="display:flex;justify-content: space-between;">
+                            <div class="subTitSt">· 올해의 학습이력</div>
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="5%">
+                                        <col width="6%">
                                         <col width="15%">
-                                        <col width="15%">
-                                        <col width="50%">
-                                        <col width="15%">
+                                        <col width="24%">
+                                        <col width="35%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='lifelonglearningInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>구분</th>
                                         <th>학습기간</th>
                                         <th>학습명</th>
                                         <th>학습장소</th>
                                     </tr>
                                     <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                        <td></td>
                                         <td>공통교육</td>
                                         <td>23/03/28~23/03/28</td>
                                         <td>2023년 3월 캠-퍼스 공통학습(캠.화.지)</td>
@@ -667,27 +679,54 @@
                     </div>
                     <div class="workevaluationInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;근무평가</div>
-                            <div id="workevaluationInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addWorkEvalBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                            <div class="subTitSt">· 근무 평가</div>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <table class="searchTable table" style="text-align:center;">
+                                    <colgroup>
+                                        <col width="6%">
+                                        <col width="10%">
+                                        <col width="25%">
+                                        <col width="29%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>구분</th>
+                                        <th>평가 기간</th>
+                                        <th>평점 / 등급</th>
+                                        <th>구분</th>
+                                        <th>평가기간</th>
+                                        <th>평점 / 등급</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="5%">
+                                        <col width="6%">
                                         <col width="10%">
                                         <col width="25%">
-                                        <col width="40%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="29%">
+                                        <col width="15%">
+                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='workevaluationInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>순번</th>
                                         <th>년도</th>
                                         <th>구분</th>
                                         <th>평가기간</th>
@@ -695,7 +734,7 @@
                                         <th>등급</th>
                                     </tr>
                                     <tr>
-                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                        <td></td>
                                         <td>2022</td>
                                         <td>역량평가 (1차)</td>
                                         <td>2022-01-01 ~ 2022-06-30</td>
@@ -709,7 +748,7 @@
                     </div>
                     <div class="proposalInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt"><span class="k-icon k-i-user"></span>&nbsp;제안제도</div>
+                            <div class="subTitSt">· 제안 제도</div>
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addProposalBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
@@ -718,21 +757,23 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="table" style="text-align:center;">
+                                <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="5%">
-                                        <col width="15%">
+                                        <col width="1%">
+                                        <col width="6%">
+                                        <col width="28%">
                                         <col width="20%">
-                                        <col width="50%">
-                                        <col width="10%">
+                                        <col width="25%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th><input type='checkbox' name='' id='proposalInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>번호</th>
                                         <th>구분</th>
                                         <th>년월일</th>
-                                        <th>주요제안내용</th>
-                                        <th>현재상태</th>
+                                        <th>주요 제안 내용</th>
+                                        <th>현재 상태</th>
                                     </tr>
                                     <c:forEach var="l" items="${pList}">
                                         <c:choose>
@@ -742,6 +783,7 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td></td>
                                                     <td>${l.PROPOSAL_GUBUN}</td>
                                                     <td>${l.PROPOSAL_DATE}</td>
                                                     <td>${l.PROPOSAL_DETAIL}</td>
