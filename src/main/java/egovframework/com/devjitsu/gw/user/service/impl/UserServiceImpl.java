@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
     public List<Map<String, Object>> getEmpList(Map<String, Object> params) {
         return userRepository.getEmpList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEmpSelList(Map<String, Object> params) {
+        return userRepository.getEmpSelList(params);
+    }
 }

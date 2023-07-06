@@ -377,6 +377,8 @@ var userReqPop = {
 
     },
 
+
+
     dataSetChange : function() {
         if($("#holidayCate").val() != '' && $("#holidayCate").val() == 0) {
             $("#varianceTH").text("대체휴가일자");
@@ -599,6 +601,13 @@ var userReqPop = {
             $("#holidayPlanReqPopTbVal").html(html3);
             userReqPop.dataSet();
         }
+    },
+
+    userReqPopImage : function() {
+        var url = "/Inside/pop/userReqPopImage.do";
+        var name = "recruitReqPopImage";
+        var option = "width=850, height=624, scrollbars=no, top=200, left=300, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     userReqSave : function (){

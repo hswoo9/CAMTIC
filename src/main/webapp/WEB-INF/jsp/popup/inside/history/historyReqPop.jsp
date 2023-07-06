@@ -124,48 +124,52 @@
                         </thead>
                     </table>
                     <div class="table-responsive mt20">
-                        <table class="table table-bordered">
-                            <colgroup>
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                                <col width="6%" >
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th rowspan="2"><input type="checkbox"></th>
-                                <th rowspan="2">성명</th>
-                                <th rowspan="2">발령기준</th>
-                                <th colspan="5">발령전</th>
-                                <th colspan="5">발령후</th>
-                                <th rowspan="2">비고</th>
-                            </tr>
-                            <tr>
-                                <th>부서</th>
-                                <th>팀</th>
-                                <th>직급/등급</th>
-                                <th>직책</th>
-                                <th>직무</th>
-                                <th>부서</th>
-                                <th>팀</th>
-                                <th>직급/등급</th>
-                                <th>직책</th>
-                                <th>직무</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div id="popMainGrid">
+
+                        </div>
+<%--                        <table class="table table-bordered">--%>
+<%--                            <colgroup>--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                                <col width="6%" >--%>
+<%--                            </colgroup>--%>
+<%--                            <thead>--%>
+<%--                            <tr>--%>
+<%--                                <th rowspan="2"><input type="checkbox" class="apntCheckAll" id="apntCheckAll"></th>--%>
+<%--                                <th rowspan="2">성명</th>--%>
+<%--                                <th rowspan="2">발령기준</th>--%>
+<%--                                <th colspan="5">발령전</th>--%>
+<%--                                <th colspan="5">발령후</th>--%>
+<%--                                <th rowspan="2">비고</th>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <th>부서</th>--%>
+<%--                                <th>팀</th>--%>
+<%--                                <th>직급/등급</th>--%>
+<%--                                <th>직책</th>--%>
+<%--                                <th>직무</th>--%>
+<%--                                <th>부서</th>--%>
+<%--                                <th>팀</th>--%>
+<%--                                <th>직급/등급</th>--%>
+<%--                                <th>직책</th>--%>
+<%--                                <th>직무</th>--%>
+<%--                            </tr>--%>
+<%--                            </thead>--%>
+<%--                            <tbody id="apntBody">--%>
+
+<%--                            </tbody>--%>
+<%--                        </table>--%>
                     </div><!-- table-responsive -->
                 </div>
             </div>

@@ -369,7 +369,7 @@
                                     <ul class="innerMain children c_f">
                                         <li><a href="#" onclick="open_in_frame('/Inside/recruitList.do?menu=c_f')" class="toggleMain1">채용관리</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/commissionerManage.do?menu=c_f')" class="toggleMain1">평가위원관리</a></li>
-                                        <li><a href="#" onclick="open_in_frame('/Inside/externalInterview.do?menu=c_f')" class="toggleMain1">외부의원 면접심사</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/externalInterview.do?menu=c_f')" class="toggleMain1">외부위원 면접심사</a></li>
                                     </ul>
                                 </li>
                                 <li>

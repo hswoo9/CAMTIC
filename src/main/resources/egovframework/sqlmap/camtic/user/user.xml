@@ -60,7 +60,22 @@
                 AND DEPT_SEQ = #{deptSeq}
             </if>
             <if test='deptTeamSeq != null and deptTeamSeq !=""'>
-                AND DEPT_TEAM_SEQ = #{deptTeamSeq}
+                AND DEPT_TEAM_NAME LIKE CONCAT('%', #{deptTeamName}, '%')
             </if>
+    </select>
+
+    <select id="getEmpSelList" parameterType="map" resultType="map">
+        /* getEmpSelList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            1 = 1
+        AND
+            EMP_SEQ IN
+            <foreach collection="empArr" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
     </select>
 </mapper>

@@ -8,39 +8,8 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
 <style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     .card-header {padding: 0px 0px 40px 0px;}
-    table { background-color: white; }
+    table { background-color: #00000008; }
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
@@ -51,7 +20,7 @@
                 <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
                     <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">직원추가</h3>
                     <div style="margin-top:10px;">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">이미지 관리</button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </div>
@@ -213,12 +182,14 @@
                     </tr>
                     <tr>
                         <th>차량소유</th>
-                        <td>
+                        <td colspan="3">
                             <input type="checkbox" id="carActive" onclick="onDisplay();"> 차량을 소유하고 있음
                         </td>
+                    </tr>
+                    <tr style="display: none;" id="noneTr">
                         <th>차량번호</th>
-                        <td>
-                            <input type="text" id="carNum1" style="width: 15%;"><input type="text" id="carNum2" style="margin-left:5px;width: 15%;"><input type="text" id="carNum3" style="margin-left:5px;width: 15%;">
+                        <td colspan="3">
+                            <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
                             ex) 22 가 1111
                         </td>
                     </tr>
@@ -233,7 +204,7 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <td colspan="4" style="height:20px; border-right:none; border-left:none;"></td>
+                        <td colspan="4" style="height:20px; border-right:none; border-left:none;background-color: #f7f7f7;"></td>
                     </tr>
                     <tr>
                         <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">직원 부가정보</th>
@@ -282,16 +253,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>재직여부</th>
-                        <td>
-                            <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
-                        </td>
-                        <th>퇴사일자</th>
-                        <td>
-                            <input type="text" id="resignDay" style="width: 50%;">
-                        </td>
-                    </tr>
-                    <tr>
                         <th>취미</th>
                         <td>
                             <input type="text" id="hobby" style="width: 95%;">
@@ -322,6 +283,18 @@
                         <td>
                             좌 <input type="text" id="vision1" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right">
                             우 <input type="text" id="vision2" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right"> (안경 착용 시력)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>재직여부</th>
+                        <td colspan="3">
+                            <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
+                        </td>
+                    </tr>
+                    <tr style="display: none;" id="noneTr1">
+                        <th>퇴사일자</th>
+                        <td colspan="3">
+                            <input type="text" id="resignDay" style="width: 20%;">
                         </td>
                     </tr>
                 </table>

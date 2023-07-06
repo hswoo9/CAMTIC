@@ -79,6 +79,16 @@ public class UserManageController {
         return "popup/inside/userManage/userReqPop";
     }
 
+    //직원조회목록 페이지
+    @RequestMapping("/Inside/pop/userReqPopImage.do")
+    public String userReqPopImage(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/userReqPopImage";
+    }
+
     //성과결과조회 페이지
     @RequestMapping("/Inside/performanceResultList.do")
     public String performanceResultList(HttpServletRequest request, Model model) {
