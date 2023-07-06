@@ -256,7 +256,7 @@ var certificateReq = {
             url = "/Inside/pop/certificateReqPop.do?userProofSn="+userProofSn + urlParams;
         }
         var name = "certificateReqPop";
-        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=965, height=380, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
