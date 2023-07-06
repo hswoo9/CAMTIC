@@ -97,20 +97,18 @@
         AND
             b.admin_approval = 'Y';
     </select>
+
     <select id="getAppointInfoList" parameterType="map" resultType="map">
+        /* getAppointInfoList */
         SELECT
-            *
+            A.*,
+            DATE_FORMAT(HISTORY_DT, '%Y-%m-%d') AS historyDt
         FROM
-            cam_hr.dj_emp_info AS a
-        LEFT JOIN
-            cam_hr.dj_emp_appoint AS b
-        ON
-            a.EMP_SEQ = b.EMP_SEQ
+            CAM_HR.DJ_APNT_INFO A
         WHERE
-            a.EMP_SEQ = #{empSeq}
-        and
-            b.admin_approval = 'Y';
+            A.EMP_SEQ = #{empSeq}
     </select>
+
     <select id="getRewardInfoList" parameterType="map" resultType="map">
         SELECT
             *

@@ -323,12 +323,12 @@
                                         <th>복무기간</th>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null or l.ADMIN_APPROVAL eq 'N'}">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <td>${mList.M_ENLIST_DAY}~${mList.M_DISCHARGE_DAY}</td>
-                                                </c:otherwise>
-                                            </c:choose>
+                                            <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null or l.ADMIN_APPROVAL eq 'N'}">
+                                            </c:when>
+                                            <c:otherwise>
+                                        <td>${mList.M_ENLIST_DAY}~${mList.M_DISCHARGE_DAY}</td>
+                                        </c:otherwise>
+                                        </c:choose>
                                         </td>
                                         <th>최종계급</th>
                                         <td></td>
@@ -381,15 +381,15 @@
 
                                             </c:when>
                                             <c:otherwise>
-                                                    <tr>
-                                                        <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                        <td></td>
-                                                        <td>${l.FAMILY_CODE_NAME}</td>
-                                                        <td>${l.FAMILY_NAME}</td>
-                                                        <td>${l.FAMILY_BIRTH}</td>
-                                                        <td>${l.FAMILY_JOB}</td>
-                                                        <td>${l.INCLUDE_YN}</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
+                                                    <td></td>
+                                                    <td>${l.FAMILY_CODE_NAME}</td>
+                                                    <td>${l.FAMILY_NAME}</td>
+                                                    <td>${l.FAMILY_BIRTH}</td>
+                                                    <td>${l.FAMILY_JOB}</td>
+                                                    <td>${l.INCLUDE_YN}</td>
+                                                </tr>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
@@ -525,29 +525,22 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='orderInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th><input type='checkbox' name='lCheckAll' id='orderInfo"+ result.EMP_SEQ +"' class='checkbox' onclick=''></th>
                                         <th>번호</th>
                                         <th>발령 구분</th>
                                         <th>발령 일자</th>
                                         <th>발령 사항</th>
                                         <th>비고</th>
                                     </tr>
-                                    <c:forEach var="l" items="${aList}">
-                                        <c:choose>
-                                            <c:when test="${l.APPOINT_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
-                                                    <td>${l.APPOINT_TITLE}</td>
-                                                    <td>${l.APPOINT_DAY}</td>
-                                                    <td>${l.APPOINT_TITLE}</td>
-                                                    <td>${l.RMK}</td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <c:forEach var="l" items="${aList}" varStatus="status">
+                                        <tr>
+                                            <td><input type='checkbox' name='lCheck' id='' class='checkbox' onclick=''></td>
+                                            <td>${status.count}</td>
+                                            <td>${l.APNT_NAME}</td>
+                                            <td>${l.historyDt}</td>
+                                            <td>${l.AF_DEPT_NAME} ${l.AF_DEPT_TEAM} ${l.AF_POSITION_NAME} ${l.AF_DUTY_NAME}</td>
+                                            <td>${l.ETC}</td>
+                                        </tr>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -867,6 +860,11 @@
         })
 
         userInfoDatePickerSetting();
+
+        $("input[name='lCheckAll']").click(function(){
+            if($(this).is(":checked")) $("input[name=lCheck]").prop("checked", true);
+            else $("input[name=lCheck]").prop("checked", false);
+        });
     })
 
     function userInfoDatePickerSetting(){
