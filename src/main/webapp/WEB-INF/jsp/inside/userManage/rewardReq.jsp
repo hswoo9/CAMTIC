@@ -48,6 +48,11 @@
                                     <input type="text" id="dept" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
+                                    <span>팀</span>
+                                    <input type="text" id="team" style="width: 140px;">
+                                </div>
+                                <div class="mr10">
+                                    <span>검색어</span>
                                     <input type="text" id="searchType" style="width: 140px;">
                                     <input type="text" id="searchVal" style="width: 140px;">
                                 </div>

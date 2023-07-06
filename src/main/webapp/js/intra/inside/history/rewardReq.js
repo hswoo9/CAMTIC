@@ -36,21 +36,17 @@ var rewardReq = {
             index: 0
         });
 
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
-            ],
-            index: 0
-        });
+        var data = {
+
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+
+        $("#dept").data("kendoDropDownList").bind("change", rewardReq.fn_chngDeptComp)
+        $("#dept").data("kendoDropDownList").select(0);
+        $("#dept").data("kendoDropDownList").trigger("change");
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
@@ -107,15 +103,8 @@ var rewardReq = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardReqPop();">' +
-                            '	<span class="k-button-text">포상 등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardReqBatchPop();">' +
-                            '	<span class="k-button-text">포상 일괄등록</span>' +
+                            '	<span class="k-button-text">포상 등록</span>' +
                             '</button>';
                     }
                 }, {
@@ -170,13 +159,6 @@ var rewardReq = {
         }).data("kendoGrid");
     },
 
-    rewardReqPop : function() {
-        var url = "/Inside/pop/rewardReqPop.do";
-        var name = "rewardReqPop";
-        var option = "width=1300, height=505, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
     rewardReqBatchPop : function() {
         var url = "/Inside/pop/rewardReqBatchPop.do";
         var name = "rewardReqBatchPop";
@@ -189,5 +171,14 @@ var rewardReq = {
         var name = "rewardGubunPop";
         var option = "width=550, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_chngDeptComp: function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
+    },
 }

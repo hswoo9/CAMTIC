@@ -8,41 +8,20 @@ var rewardReqBatchPop = {
     },
 
     dataSet() {
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
-            ],
-            index: 0
-        });
 
-        $("#team").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "팀선택", value: "" },
-                { text: "미래전략기획팀", value: "1" },
-                { text: "J-밸리혁신팀", value: "2" },
-                { text: "제조혁신팀", value: "3" },
-                { text: "신기술융합팀", value: "4" },
-                { text: "일자리창업팀", value: "5" },
-                { text: "복합소재뿌리기술센터", value: "6" },
-                { text: "지역산업육성팀", value: "7" },
-                { text: "우주개발팀", value: "8" },
-                { text: "항공개발팀", value: "9" },
-                { text: "경영지원팀", value: "10" },
-                { text: "사업지원팀", value: "11" }
-            ],
-            index: 0
-        });$("#historyType").kendoDropDownList({
+        var data = {
+
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+
+        $("#dept").data("kendoDropDownList").bind("change", rewardReqBatchPop.fn_chngDeptComp)
+        $("#dept").data("kendoDropDownList").select(0);
+        $("#dept").data("kendoDropDownList").trigger("change");
+
+        $("#historyType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -77,36 +56,31 @@ var rewardReqBatchPop = {
         });
     },
 
+    fn_chngDeptComp: function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
+    },
+
     mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
+
+        var data = {
+            deptSeq : $("#dept").val(),
+            deptTeamSeq : $("#team").val(),
+            deptTeamName : $("#team").data("kendoDropDownList").text(),
+            empName : $("#searchVal").val()
+        }
+
+
+        var rs = customKendo.fn_customAjax("/user/getEmpList", data);
 
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
-            sortable: true,
+            dataSource: customKendo.fn_gridDataSource2("/user/getEmpList", data),
             scrollable: true,
-            selectable: "row",
-            height: 489,
+            height: 481,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -116,7 +90,7 @@ var rewardReqBatchPop = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReqBatchPop.fn_selEmp()">' +
                             '	<span class="k-button-text">선택완료</span>' +
                             '</button>';
                     }
@@ -127,19 +101,218 @@ var rewardReqBatchPop = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>"
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="rewardReqBatchPop.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    template : function (e){
+                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                    },
+                    width: 50,
+                    attribute : {
+                        style : "text-align:center",
+                    }
                 }, {
-                    field: "",
+                    field: "DEPT_NAME",
                     title: "부서"
                 }, {
-                    field: "",
-                    title: "팀"
+                    field: "DEPT_SEQ",
+                    title: "팀",
+                    width: 70,
                 }, {
-                    field: "",
-                    title: "성명"
+                    field: "EMP_NAME_KR",
+                    title: "성명",
+                    width: 70,
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='checkUser']").prop("checked", true);
+        }else{
+            $("input[name='checkUser']").prop("checked", false);
+        }
+    },
+
+    fn_selEmp: function(){
+        var empArr = [];
+        $("input[name='checkUser']").each(function(){
+            if(this.checked){
+                empArr.push(this.value);
+            }
+        });
+
+        var data = {
+            empArr : empArr
+        }
+
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 100,
+            transport: {
+                read : {
+                    url : "/user/getEmpSelList",
+                    dataType : "json",
+                    contentType:'application/json; charset=utf-8',
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data, operation) {
+                    return JSON.stringify({"empArr" : empArr});
+                }
+            },
+            schema : {
+                data: function (data) {
+                    console.log(data);
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+                error: function (data){
+                    console.log(data);
+                }
+            },
+        });
+
+
+        $("#popMainGrid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            height: 600,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rewardReqBatchPop.fn_saveApnt()">' +
+                            '	<span class="k-button-text">저장</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="rewardReqBatchPop.fn_delApnt()">' +
+                            '	<span class="k-button-text">취소<span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="rewardReqBatchPop.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    template : function (e){
+                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                    },
+                    width: 50,
+                    attribute : {
+                        style : "text-align:center",
+                    }
+                }, {
+                    field: "ERP_EMP_SEQ",
+                    title: "사번",
+                    width: 70
+                }, {
+                    field: "EMP_NAME_KR",
+                    title: "이름",
+                    width: 70
+                }, {
+                    title: "포상구분",
+                    width: 120,
+                    template : function (e){
+                        return "<input type='text' id='rewardTp' class='rewardTp' />";
+                    }
+                }, {
+                    title: "포상일자",
+                    template : function(){
+                        return "<input type='text' id='rewardDay' name='rewardDay' class='rewardDay'>";
+                    },
+                    width: 120
+                }, {
+                    title: "공적사항",
+                    template : function(){
+                        return "<input type='text' id='rwdOfm' name='rwdOfm' class='rwdOfm'>";
+                    },
+                    width: 120
+                }, {
+                    title: "시행처",
+                    template : function(){
+                        return "<input type='text' id='rwdStComp' name='rwdStComp' class='rwdStComp'>";
+                    },
+                    width: 120
+                }, {
+                    title: "포상번호",
+                    template : function(){
+                        return "<input type='text' id='rwdSn' name='rwdSn' class='rwdSn'>";
+                    },
+                    width: 120
+                }, {
+                    title: "스캔파일",
+                    template : function(){
+                        return "<input type='file' id='rwdFile' name='rwdFile' class='rwdFile'>";
+                    },
+                    width: 120
+                }, {
+                    title: "비고",
+                    template : function(){
+                        return "<input type='text' id='rwdEtc' name='rwdEtc' class='rwdEtc'>";
+                    },
+                    width: 120
+                }
+            ]
+        }).data("kendoGrid");
+
+        rewardReqBatchPop.fn_popGridSetting();
+    },
+
+    fn_popGridSetting : function() {
+        $(".rwdEtc, .rwdSn, .rwdStComp, .rwdOfm").kendoTextBox();
+
+        $(".rewardTp").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "포상구분", value: ""},
+                {text: "[내부표창] 공로상", value: "9"},
+                {text: "[내부표창] 기타", value: "10"},
+                {text: "[내부표창] 우수사원(개인)", value: "4"},
+                {text: "[내부표창] 우수사원(단체)", value: "3"},
+                {text: "[내부표창] 캠틱인(개인)", value: "2"},
+                {text: "[내부표창] 캠틱인(단체)", value: "1"},
+                {text: "[외부표창] 기타", value: "8"},
+                {text: "[외부표창] 유관기관", value: "7"},
+                {text: "[외부표창] 중앙정부", value: "5"},
+                {text: "[외부표창] 지자체", value: "6"},
+                {text: "[외부표창] 학교", value: "11"},
+            ],
+            index:0
+        });
+
+        $(".rewardDay").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+    },
+
+    fn_saveApnt : function(){
+        alert("저장");
+    },
+
+    fn_delApnt : function(){
+        var grid = $("#popMainGrid").data("kendoGrid");
+        $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+            grid.removeRow($(this).closest('tr'));
+        });
+
+        rewardReqBatchPop.fn_popGridSetting();
     }
 }
