@@ -24,17 +24,24 @@
                 FROM
                     CAM_HR.DJ_APNT_INFO HAI
                 LEFT JOIN
-                    CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ,
+                    CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
                 LEFT JOIN
                     CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ,
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
                 <if test='historyType != null and !"".equals(historyType)'>
-                    AND IUP.APNT_CD = #{historyType}
+                    AND HAI.APNT_CD = #{historyType}
                 </if>
                 <if test='deptSeq != null and !"".equals(deptSeq)'>
                     AND HEI.DEPT_SEQ = #{deptSeq}
+                </if>
+                AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+                <if test='gender != null and !"".equals(gender)'>
+                    AND HEI.GENDER_CODE = #{gender}
+                </if>
+                <if test='searchText != null and !"".equals(searchText)'>
+                    AND 1 = 1
                 </if>
                 ORDER BY HAI.REG_DT
             ) RE

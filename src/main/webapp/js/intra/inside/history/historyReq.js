@@ -29,7 +29,7 @@ var historyReq = {
                     data.historyType = $("#historyType").val();
                     data.deptSeq = $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
                     data.start_date = $("#start_date").val().replace(/-/g, "");
-                    data.end_date = $("#start_date").val().replace(/-/g, "");
+                    data.end_date = $("#end_date").val().replace(/-/g, "");
                     data.gender = $("#gender").val();
                     data.searchType = $("#searchType").val();
                     data.searchText = $("#searchText").val();
