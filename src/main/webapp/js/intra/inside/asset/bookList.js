@@ -126,5 +126,6 @@ var bookList = {
         var name = "bookRegisPop";
         var option = "width = 1000, height = 500, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
-    }
+    },
+
 }
