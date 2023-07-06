@@ -3,12 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-    table { background-color: white; }
-    .table-bordered > tbody > tr > th{ background-color: #00397f96; color: white;}
-</style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/inside/userManage/userPersonList.js?v=${today}"/></script>
 
@@ -28,7 +22,7 @@
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
-                <table class="table table-bordered" style="border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="10%">
                         <col width="10%">
