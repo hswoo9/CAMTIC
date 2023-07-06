@@ -17,6 +17,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(SubHolidayServiceImpl.class);
 
+    @Override
+    public List<Map<String, Object>> getVacCodeList(Map<String, Object> params) {
+        return subHolidayRepository.getVacCodeList(params);
+    }
+
     @Autowired
     private SubHolidayRepository subHolidayRepository;
 
@@ -33,11 +38,6 @@ public class SubHolidayServiceImpl implements SubHolidayService {
                 subHolidayRepository.setVacUseHist(params);
             }
         }
-    }
-
-    @Override
-    public List<Map<String, Object>> getVacCodeList(Map<String, Object> params) {
-        return subHolidayRepository.getVacCodeList(params);
     }
 
     @Override

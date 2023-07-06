@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
 public class SubHolidayController {
 
     private static final Logger logger = LoggerFactory.getLogger(SubHolidayController.class);
+
     @Autowired
     private CommonService commonService;
 
@@ -29,59 +33,48 @@ public class SubHolidayController {
     @Autowired
     private SubHolidayService subHolidayService;
 
-
-
-
-
     //휴가관리 페이지
     @RequestMapping("/subHoliday/subHolidayList.do")
     public String subHolidayList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "/subHoliday/subHolidayList";
 
     }
 
-    /**
-     * 휴가 결재 상태값에 따른 UPDATE 메서드
-     * @param bodyMap
-     * @return
-     */
-    @RequestMapping(value = "/subHoliday/subHolidayReqApp")
-    public String subHolidayReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
-        System.out.println("bodyMap");
-        System.out.println(bodyMap);
-        String resultCode = "SUCCESS";
-        String resultMessage = "성공하였습니다.";
-        try{
-            subHolidayService.updateDocState(bodyMap);
-        }catch(Exception e){
-            logger.error(e.getMessage());
-            resultCode = "FAIL";
-            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
-        }
-        model.addAttribute("resultCode", resultCode);
-        model.addAttribute("resultMessage", resultMessage);
-        return "jsonView";
-    }
-
-
     //전체휴가현황 페이지
     @RequestMapping("/subHoliday/subHolidayAdmin.do")
-    public String subHolidayAdmin(){
+    public String subHolidayAdmin(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
         return "/subHoliday/subHolidayAdmin";
     }
 
     //휴가사용현황 페이지
     @RequestMapping("/subHoliday/subHolidayStat.do")
-    public String subHolidayStatus(){
+    public String subHolidayStatus(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
         return "/subHoliday/subHolidayStat";
     }
 
     //휴가설정 페이지
     @RequestMapping("/subHoliday/subHolidaySetting.do")
-    public String subHolidaySetting(){
+    public String subHolidaySetting(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
         return "/subHoliday/subHolidaySetting";
     }
 
@@ -126,6 +119,70 @@ public class SubHolidayController {
         return "/popup/subHoliday/subHolidayReqBatchPop";
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 캠인사이드 > 휴가관리
+     * 휴가 신청구분 코드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getVacCodeList")
+    public String getVacCodeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", subHolidayService.getVacCodeList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 캠인사이드 > 휴가관리 > 휴가신청 > 휴가사용내역
+     * 휴가사용내역 조회 MainGrid Load
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getVacUseHistoryList")
+    public String getVacUseHistoryList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", subHolidayService.getVacUseHistoryList(params));
+        return "jsonView";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //휴가신청 기안전 신청내역 저장
     @RequestMapping("/subHoliday/setVacUseHist.do")
     public String setVacUseHist(@RequestParam Map<String, Object> params, Model model){
@@ -136,34 +193,7 @@ public class SubHolidayController {
         return "jsonView";
     }
 
-    /**
-     * 마이페이지 > 복무 > 근무상황 > 연차
-     * 휴가 신청 및 휴가 페이지 Grid Load
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("/subHoliday/getVacCodeList")
-    public String getVacCodeList(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("list", subHolidayService.getVacCodeList(params));
-
-        return "jsonView";
-    }
-
-    /**
-     * 마이페이지 > 복무 > 근무상황 > 연차
-     * 휴가사용내역 조회 MainGrid Load
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("/subHoliday/getVacUseHistoryList")
-    public String getVacUseHistoryList(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("list", subHolidayService.getVacUseHistoryList(params));
-       /* model.addAttribute("totalCount", subHolidayService.getVacUseHistoryListTotal(params));*/
-        return "jsonView";
-    }
 
     /**
      * 마이페이지 > 복무 > 근무상황 > 연차 > admin
@@ -218,6 +248,29 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    /**
+     * 휴가 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/subHoliday/subHolidayReqApp")
+    public String subHolidayReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            subHolidayService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
     @RequestMapping("/subHoliday/subHolidayListPop.do")
     public String subHolidayListLine(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -227,6 +280,16 @@ public class SubHolidayController {
         model.addAttribute("loginVO", loginVO);
 
         return "popup/subHoliday/subHolidayListPop";
+    }
+
+
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 
 }

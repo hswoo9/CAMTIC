@@ -5,11 +5,6 @@ import java.util.Map;
 
 public interface SubHolidayService {
 
-    /**
-     * 사용자 휴가사용이력 저장
-     * @param params
-     */
-    void setVacUseHist(Map<String, Object> params);
 
     List<Map<String, Object>> getVacCodeList(Map<String, Object> params);
 
@@ -19,6 +14,12 @@ public interface SubHolidayService {
      * @return
      */
     List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params);
+
+    /**
+     * 사용자 휴가사용이력 저장
+     * @param params
+     */
+    void setVacUseHist(Map<String, Object> params);
 
     /**
      * 사용자 휴가저장 리스트 admin
