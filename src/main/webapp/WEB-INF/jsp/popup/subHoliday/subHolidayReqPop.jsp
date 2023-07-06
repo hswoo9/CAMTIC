@@ -64,7 +64,7 @@
             <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
             <input type="hidden" id="apprStat" value="N">
             <input type="hidden" id="vacUseHistId" value="">
-            <table class="table table-bordered mb-0" id="holidayPlanReqPopTb">
+            <table class="table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
               <colgroup>
                 <col width="15%">
                 <col width="35%">
