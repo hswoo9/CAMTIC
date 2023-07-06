@@ -8,39 +8,8 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
 <style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     .card-header {padding: 0px 0px 40px 0px;}
-    table { background-color: white; }
+    table { background-color: #00000008; }
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
@@ -51,7 +20,7 @@
                 <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
                     <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">직원추가</h3>
                     <div style="margin-top:10px;">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">이미지 관리</button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </div>
@@ -233,7 +202,7 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <td colspan="4" style="height:20px; border-right:none; border-left:none;"></td>
+                        <td colspan="4" style="height:20px; border-right:none; border-left:none;background-color: #f7f7f7;"></td>
                     </tr>
                     <tr>
                         <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">직원 부가정보</th>
