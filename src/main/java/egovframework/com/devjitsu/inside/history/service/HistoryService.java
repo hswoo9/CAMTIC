@@ -13,6 +13,13 @@ public interface HistoryService {
     List<Map<String, Object>> getHistoryList(Map<String, Object> params);
 
     /**
+     * 발령 단일조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getHistoryOne(Map<String, Object> params);
+
+    /**
      * 발령등록
      * @param params
      */

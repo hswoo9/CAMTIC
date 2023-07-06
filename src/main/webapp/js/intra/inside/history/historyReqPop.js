@@ -447,7 +447,7 @@ var historyReqPop = {
                 afTeamSeq         : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
                 afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
                 afPositionCode    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value(),
-                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split(' /')[0],
+                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
                 afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
                 afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
                 afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),

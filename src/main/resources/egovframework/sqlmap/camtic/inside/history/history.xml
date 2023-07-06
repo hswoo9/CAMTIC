@@ -11,6 +11,7 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    HAI.APNT_SN,
                     HAI.EMP_NAME,
                     HAI.APNT_NAME,
                     DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
@@ -46,6 +47,35 @@
                 ORDER BY HAI.REG_DT
             ) RE
         ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getHistoryOne" resultType="map" parameterType="map">
+        /* getHistoryOne */
+        SELECT
+            HAI.NUMBER_NAME,
+            DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
+            HEI.ERP_EMP_SEQ,
+            HAI.EMP_NAME,
+
+            IFNULL(HAI.BF_DEPT_NAME, '-') AS BF_DEPT_NAME,
+            IFNULL(HAI.BF_TEAM_NAME, '-') AS BF_TEAM_NAME,
+            IFNULL(HAI.BF_POSITION_NAME, '-') AS BF_POSITION_NAME,
+            IFNULL(HAI.BF_DUTY_NAME, '-') AS BF_DUTY_NAME,
+            IFNULL(HAI.BF_JOB_DETAIL, '-') AS BF_JOB_DETAIL,
+
+            IFNULL(HAI.AF_DEPT_NAME, '-') AS AF_DEPT_NAME,
+            IFNULL(HAI.AF_TEAM_NAME, '-') AS AF_TEAM_NAME,
+            IFNULL(HAI.AF_POSITION_NAME, '-') AS AF_POSITION_NAME,
+            IFNULL(HAI.AF_DUTY_NAME, '-') AS AF_DUTY_NAME,
+            IFNULL(HAI.AF_JOB_DETAIL, '-') AS AF_JOB_DETAIL,
+
+            HAI.ETC
+        FROM
+            CAM_HR.DJ_APNT_INFO HAI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            HAI.APNT_SN = #{apntSn}
     </select>
 
     <insert id="setHistoryInsert" parameterType="map">

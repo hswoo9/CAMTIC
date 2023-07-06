@@ -42,13 +42,25 @@ public class HistoryController {
     }
 
     //발령신청 페이지
-    @RequestMapping("/Inside/historyReqPop.do")
+    @RequestMapping("/Inside/pop/historyReqPop.do")
     public String historyReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/history/historyReqPop";
+    }
+
+    //세부 발령 사항 페이지
+    @RequestMapping("/Inside/pop/historyViewPop.do")
+    public String historyViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        Map<String, Object> data = historyService.getHistoryOne(params);
+        model.addAttribute("data", data);
+        return "popup/inside/history/historyViewPop";
     }
 
     //포상관리 페이지
@@ -102,6 +114,18 @@ public class HistoryController {
     public String getHistoryList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = historyService.getHistoryList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
+     * 발령조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getHistoryOne")
+    public String getHistoryOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = historyService.getHistoryOne(params);
+        model.addAttribute("data", data);
         return "jsonView";
     }
 
