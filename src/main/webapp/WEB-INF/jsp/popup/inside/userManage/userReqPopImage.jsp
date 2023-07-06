@@ -5,7 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
-<ink rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
 <style>
     .card-header {padding: 0px 0px 40px 0px;}
@@ -37,7 +37,7 @@
                         <col width="15%">
                     </colgroup>
                     <thead>
-                    <tr style="height:250px;">
+                    <tr style="height:250px;border-top: 1px solid #00000014;">
                         <th>결재사인</th>
                         <td>
                             <span>등록된 결재사진이 없습니다.</span>
