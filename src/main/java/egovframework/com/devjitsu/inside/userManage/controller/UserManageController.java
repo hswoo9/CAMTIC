@@ -36,7 +36,7 @@ public class UserManageController {
     @RequestMapping("/Inside/userPersonList.do")
     public String userPersonList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
+        menuSession(request, session);
 
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
@@ -44,11 +44,17 @@ public class UserManageController {
         return "inside/userManage/userPersonList";
     }
 
+    private static void menuSession(HttpServletRequest request, HttpSession session) {
+        session.setAttribute("menuNm", request.getRequestURI());
+    }
+
     //직원조회목록 페이지
     @RequestMapping("/Inside/userPersonnelRecord.do")
     public String userPersonnelRecord(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        menuSession(request, session);
+
         Map<String,Object> map = new HashMap<>();
         map.put("empSeq", login.getUniqId());
         Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map);
@@ -59,6 +65,8 @@ public class UserManageController {
         model.addAttribute("uprList", userPersonnelRecordList);
         model.addAttribute("eList", educationalList);
         model.addAttribute("mInfo", militarySvcInfo);
+
+
         model.addAttribute("cList", userManageService.getCareerInfoList(map));
         model.addAttribute("fList", userManageService.getFamilyInfoList(map));
         model.addAttribute("lList", userManageService.getLicenceInfoList(map));
@@ -66,6 +74,7 @@ public class UserManageController {
         model.addAttribute("rList", userManageService.getRewardInfoList(map));
         model.addAttribute("dList", userManageService.getDutyInfoList(map));
         model.addAttribute("pList", userManageService.getProposalInfoList(map));
+
         return "inside/userManage/userPersonnelRecord";
     }
 
