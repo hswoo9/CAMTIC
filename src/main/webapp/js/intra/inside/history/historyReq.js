@@ -72,6 +72,7 @@ var historyReq = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : historyReq.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -218,10 +219,26 @@ var historyReq = {
         });
     },
 
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const apntSn = dataItem.APNT_SN;
+            historyReq.historyViewPop(apntSn);
+        });
+    },
+
     historyReqPop: function(){
-        var url = "/Inside/historyReqPop.do";
+        var url = "/Inside/pop/historyReqPop.do";
         var name = "historyReqPop";
         var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    historyViewPop: function(apntSn){
+        var url = "/Inside/pop/historyViewPop.do?apntSn="+apntSn;
+        var name = "historyViewPop";
+        var option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }
