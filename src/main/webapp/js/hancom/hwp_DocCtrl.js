@@ -315,10 +315,12 @@ var hwpDocCtrl = {
                     let joinDayText = joinDay[0]+"년"+joinDay[1]+"월"+joinDay[2]+"일";
                     let regDe = ResultData.REG_DE.split("-");
                     let regDeText = regDe[0]+"년"+regDe[1]+"월"+regDe[2]+"일";
-                    let betDay = betweenDay(joinDayText, regDeText);
-                    let tenureText = joinDayText+"부터"+regDeText+"까지(";
+                    let betDay = betweenDay(ResultData.JOIN_DAY.replace("-",""), ResultData.REG_DE.replace("-",""));
+                    let betYear = Math.floor(betDay / 12);
+                    let betMonth = betDay % 12;
+                    let tenureText = joinDayText+"부터"+regDeText+"까지("+betYear+"년"+betMonth+"개월)";
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tenure', true, true, false);
-                    hwpDocCtrl.putFieldText('tenure', joinDayText);
+                    hwpDocCtrl.putFieldText('tenure', tenureText);
 
                     //용도
                     hwpDocCtrl.global.HwpCtrl.MoveToField('usageName', true, true, false);

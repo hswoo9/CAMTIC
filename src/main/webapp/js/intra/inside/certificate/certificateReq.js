@@ -161,7 +161,7 @@ var certificateReq = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="certificateReq.fn_checkAll();" style="position : relative; top : 2px;" />',
                     template : function (e){
-                        if(e.STATUS == "100" || e.STATUS == "10"){
+                        if(e.STATUS == "100" || e.STATUS == "10" || e.STATUS == "110"){
                             return "";
                         } else {
                             return "<input type='checkbox' id='certPk"+ e.USER_PROOF_SN +"' name='checkCert' value='"+e.USER_PROOF_SN+"' class='checkCert' style='position : relative; top : 2px;' />";
@@ -215,6 +215,8 @@ var certificateReq = {
                             return "승인";
                         }else if(row.STATUS == "30") {
                             return "반려";
+                        }else if(row.STATUS == "110") {
+                            return "발급완료";
                         }else {
                             return "데이터 오류"
                         }
@@ -259,6 +261,10 @@ var certificateReq = {
     },
 
     certifiPrintPop : function(userProofSn) {
+        if(!confirm("증명서 발급은 1회만 가능합니다. 진행하시겠습니까?")){
+            return;
+        }
+
         var url = "/Inside/pop/certifiPrintPop.do?userProofSn="+userProofSn;
         var name = "certifiPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

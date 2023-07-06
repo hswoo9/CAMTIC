@@ -38,11 +38,20 @@
     .d-flex{flex-direction: column; align-items: center;}
     .table-bordered {border: 1px solid #dee2e6 !important;}
     .red-star {color: red; margin-right: 5px;}
+    #docControlBtnDiv{float: right; margin: 3px 5px 0 0;}
 </style>
 <body>
     <div class="pop_head">
-        <h1>증명서 조회</h1>
-        <a href="#n" class="clo"><img src="<c:url value='/images/btn/btn_pop_clo01.png'/>" alt=""></a>
+        <div style="position: absolute;">
+            <h1>증명서 조회</h1>
+        </div>
+
+        <div id="docControlBtnDiv">
+            <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="certifiPrintPop.print()">
+                <span class='k-icon k-i-file-pdf k-button-icon'></span>
+                <span class='k-button-text'>인쇄</span>
+            </button>
+        </div>
     </div>
 
     <div id="loadingDiv">
@@ -77,6 +86,7 @@
     </div>
     <script type="text/javascript">
         certifiPrintPop.init(JSON.parse('${params}'));
+        opener.gridReload();
     </script>
 </body>
 </html>

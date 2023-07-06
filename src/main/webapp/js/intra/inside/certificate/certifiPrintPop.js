@@ -84,5 +84,9 @@ var certifiPrintPop = {
             document.getElementById("hwpctrl_frame").style.width = "100%";
             document.getElementById("hwpctrl_frame").style.height = pHeight;
         }
+    },
+
+    print: function() {
+        certifiPrintPop.global.hwpCtrl.PrintDocument();
     }
 }

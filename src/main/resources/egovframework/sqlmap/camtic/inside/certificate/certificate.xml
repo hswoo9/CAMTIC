@@ -182,8 +182,8 @@
             CAM_INSIDE.DJ_USER_PROOF
         SET
             STATUS = ${status},
-            APPROVAL_EMP_SEQ = #{empSeq},
-            APPROVAL_RESULT_DATE = now()
+                APPROVAL_EMP_SEQ = #{empSeq},
+                APPROVAL_RESULT_DATE = now()
         WHERE
             USER_PROOF_SN = #{userProofSn}
     </update>
@@ -192,9 +192,11 @@
         UPDATE
             CAM_INSIDE.DJ_USER_PROOF
         SET
-            STATUS = ${status},
-            APPROVAL_EMP_SEQ = #{empSeq},
-            APPROVAL_RESULT_DATE = now()
+            <if test='status != null and !"".equals(status) and !"110".equals(status)'>
+                APPROVAL_EMP_SEQ = #{empSeq},
+                APPROVAL_RESULT_DATE = now(),
+            </if>
+            STATUS = ${status}
         WHERE
             USER_PROOF_SN = #{userProofSn}
     </update>
