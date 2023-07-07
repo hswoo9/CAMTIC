@@ -123,13 +123,27 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         params.put("bef2Year", (Integer.parseInt(params.get("year").toString()) - 2));
         Map<String, Object> befYearData = subHolidayRepository.getUserBefHolyData(params);
 
+        if(nowYearData == null){
+            data.put("remainDay", 0);
+            data.put("occDay", 0);
+            data.put("useDay", 0);
+        } else {
+            data.put("remainDay", nowYearData.get("REMAIN_DAY"));
+            data.put("occDay", nowYearData.get("GRANT_DAY"));
+            data.put("useDay", nowYearData.get("USE_DAY"));
+        }
 
-        data.put("occDay", nowYearData.get("GRANT_DAY"));
-        data.put("useDay", nowYearData.get("USE_DAY"));
-        data.put("remainDay", nowYearData.get("REMAIN_DAY"));
         data.put("befYear", befYearData.get("befYear"));
         data.put("bef2Year", befYearData.get("bef2Year"));
-
+        data.put("ann", befYearData.get("ann"));
+        data.put("halfAnn", befYearData.get("halfAnn"));
+        data.put("sickLv", befYearData.get("sickLv"));
+        data.put("pubHoly", befYearData.get("pubHoly"));
+        data.put("congHoly", befYearData.get("congHoly"));
+        data.put("matHoly", befYearData.get("matHoly"));
+        data.put("altHoly", befYearData.get("altHoly"));
+        data.put("compHoly", befYearData.get("compHoly"));
+        data.put("workHoly", befYearData.get("workHoly"));
 
         return data;
     }

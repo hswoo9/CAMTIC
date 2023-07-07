@@ -61,6 +61,6 @@ public class SubHolidayRepository extends AbstractDAO  {
     }
 
     public Map<String, Object> getUserBefHolyData(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("subHolyData.getUserBefHolyData", params);
+        return (Map<String, Object>) selectOne("subHoliday.getUserBefHolyData", params);
     }
 }

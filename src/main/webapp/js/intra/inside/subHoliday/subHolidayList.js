@@ -261,7 +261,10 @@ var subHolidayList = {
             start: "decade",
             depth: "decade",
             format: "yyyy",
-            width: "150px"
+            width: "150px",
+            change : function(){
+                subHolidayList.fn_makeContent();
+            }
         });
 
         let data = {
@@ -291,10 +294,8 @@ var subHolidayList = {
             index: 0
         });
 
-        // var rqHolyData = {year : $("#datePicker").val()}
-        // var rsHolyData = customKendo.fn_customAjax("/subHoliday/getUserHolyData", rqHolyData);
 
-
+        subHolidayList.fn_makeContent();
 
     },
 
@@ -329,5 +330,38 @@ var subHolidayList = {
             this.method = 'POST';
             this.target = 'workHolidayApprovalPop';
         }).trigger("submit");
+    },
+
+    fn_makeContent : function (){
+        var rqHolyData = {year : $("#datePicker").val()}
+        var e = customKendo.fn_customAjax("/subHoliday/getUserHolyData", rqHolyData);
+
+        console.log(e);
+        var html = "";
+        e = e.rs;
+        var halfAnn = 0;
+        if(e.halfAnn != 0){
+            halfAnn = (halfAnn / 2);
+        }
+        html += '<tr style="text-align: center;">';
+        html += '   <td>' + e.occDay + '일</td>';
+        html += '   <td>' + e.bef2Year + '일</td>';
+        html += '   <td>' + e.befYear + '일</td>';
+        html += '   <td>' + e.ann + '일</td>';
+        html += '   <td>' + halfAnn + '일</td>';
+        html += '   <td>' + e.remainDay + '일</td>';
+        html += '   <td>' + e.sickLv + '일</td>';
+        html += '   <td>' + e.pubHoly + '일</td>';
+        html += '   <td>' + e.congHoly + '일</td>';
+        html += '   <td>' + e.matHoly + '일</td>';
+        html += '   <td>0일</td>';
+        html += '   <td>' + e.altHoly + '일</td>';
+        html += '   <td>0일</td>';
+        html += '   <td>' + e.compHoly + '일</td>';
+        html += '   <td>' + e.workHoly + '일</td>';
+        html += '</tr>';
+
+        $("#holyBody").html("");
+        $("#holyBody").append(html);
     }
 }

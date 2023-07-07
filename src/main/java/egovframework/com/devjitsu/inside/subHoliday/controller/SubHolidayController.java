@@ -276,6 +276,7 @@ public class SubHolidayController {
         params.put("loginEmpSeq", loginVO.getUniqId());
         Map<String, Object> holyData = subHolidayService.getuserHolyData(params);
 
+        model.addAttribute("rs", holyData);
 
 
         return "jsonView";
