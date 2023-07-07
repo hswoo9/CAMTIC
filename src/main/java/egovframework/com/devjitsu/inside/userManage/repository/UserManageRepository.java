@@ -111,4 +111,7 @@ public class UserManageRepository extends AbstractDAO {
 		update("userManage.setUpdateUserInfoReturnN", map);
 		
 	}
+    public Map<String,Object> getUserPersonnelinformList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getUserPersonnelinformList", params);
+    }
 }

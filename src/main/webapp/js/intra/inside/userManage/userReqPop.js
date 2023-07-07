@@ -372,7 +372,7 @@ var userReqPop = {
             ],
             layout : "horizontal",
             labelPosition : "after",
-            value : "A형",
+            value : "A",
         });
 
     },

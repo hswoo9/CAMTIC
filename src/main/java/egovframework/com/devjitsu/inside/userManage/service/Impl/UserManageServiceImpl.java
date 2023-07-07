@@ -188,4 +188,8 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String, Object>> getDeptList(Map<String, Object> params){
         return userManageRepository.getDeptList(params);
     }
+    @Override
+    public Map<String, Object> getUserPersonnelinformList(Map<String, Object> params) {
+        return userManageRepository.getUserPersonnelinformList(params);
+    }
 }

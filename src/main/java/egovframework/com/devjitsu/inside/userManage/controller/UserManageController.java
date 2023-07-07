@@ -80,11 +80,19 @@ public class UserManageController {
 
     //직원조회목록 페이지
     @RequestMapping("/Inside/pop/userReqPop.do")
-    public String userReqPop(HttpServletRequest request, Model model){
+    public String userReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
         return "popup/inside/userManage/userReqPop";
     }
 
