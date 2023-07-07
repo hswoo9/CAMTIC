@@ -46,25 +46,6 @@ var subHolidayStat = {
             value : new Date()
         });
 
-        $("#detailSearch").kendoDropDownTree({
-            placeholder: "직원검색",
-            checkboxes: true,
-            checkAll: true,
-            autoClose: false,
-            dataSource: [
-                {text: "정규직원", expanded: true},
-                {text: "계약직원", expanded: true},
-                {text: "인턴사원", expanded: true},
-                {text: "경비/환경", expanded: true},
-                {text: "단기직원", expanded: true},
-                {text: "위촉직원", expanded: true},
-                {text: "연수생/학생연구원", expanded: true},
-                {text: "기타", expanded: true},
-                {text: "임시직원", expanded: true},
-                {text: "퇴사직원", expanded: true}
-            ]
-        });
-
         $.ajax({
             url : "/userManage/getDeptCodeList2",
             type : "post",
@@ -115,7 +96,7 @@ var subHolidayStat = {
             pageSize : 10,
             transport: {
                 read : {
-                    url : getContextPath() + "/getUserVacListStat.do",
+                    url : "/subHoliday/getUserVacListStat.do",
                     dataType : "json",
                     type : "post"
                 },

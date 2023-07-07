@@ -1,9 +1,13 @@
 package egovframework.com.devjitsu.inside.subHoliday.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.inside.subHoliday.service.SubHolidayService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,18 +122,6 @@ public class SubHolidayController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * 캠인사이드 > 휴가관리
      * 휴가 신청구분 코드
@@ -137,7 +129,7 @@ public class SubHolidayController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/getVacCodeList")
+    @RequestMapping("/subHoliday/getVacCodeList")
     public String getVacCodeList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", subHolidayService.getVacCodeList(params));
         return "jsonView";
@@ -150,7 +142,7 @@ public class SubHolidayController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/getVacUseHistoryList")
+    @RequestMapping("/subHoliday/getVacUseHistoryList")
     public String getVacUseHistoryList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", subHolidayService.getVacUseHistoryList(params));
         return "jsonView";
@@ -277,6 +269,21 @@ public class SubHolidayController {
         Map<String, Object> holyData = subHolidayService.getuserHolyData(params);
 
         model.addAttribute("rs", holyData);
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/subHoliday/setUserVacList")
+    public String setUserVacList(@RequestParam("param") String params, Model model, HttpServletRequest request){
+        LoginVO loginVO = getLoginVO(request);
+        JsonParser p = new JsonParser();
+
+        JsonElement element = p.parse(params);
+        JsonObject jsonObject = element.getAsJsonObject();
+
+        System.out.println(jsonObject);
+//        Map<String, Object> map = mapper.readValue(params);
 
 
         return "jsonView";

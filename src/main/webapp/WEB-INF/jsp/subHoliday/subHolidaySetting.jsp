@@ -58,6 +58,7 @@
                                 <div class="mr20">
                                     <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidaySetting.gridReload()"/>
                                 </div>
+
                             </div>
                         </td>
                     </tr>
@@ -67,10 +68,12 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-<div id="userVacSetting">
 
-</div>
-
+<script type="text/x-kendo-template" id="toolbarTemplate">
+    <div>
+        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" value="저장" onclick="subHolidaySetting.fn_saveAll()"/>
+    </div>
+</script>
 <script type="text/javascript">
     subHolidaySetting.init();
 </script>

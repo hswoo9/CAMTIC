@@ -9,6 +9,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<jsp:useBean id="today" class="java.util.Date" />
 
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
@@ -23,6 +24,9 @@
 <input type="hidden" id="apprStat" value="N">
 <input type="hidden" id="vacUseHistId" value="">
 
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayStat.js?v=${today}"/></script>
+
+
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -35,14 +39,6 @@
         <div class="panel-body">
             <div>
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <tr>
-                        <td style="border-top:0;">
-                            <input type="text" id="detailSearch" style="width: 90%;">
-                            <button type="button" class="k-button k-button-md  k-button-solid k-button-solid-base" onclick="gridReload()">
-                                <span class="k-icon k-i-search k-button-icon"></span>
-                            </button>
-                        </td>
-                    </tr>
                     <tr>
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;">

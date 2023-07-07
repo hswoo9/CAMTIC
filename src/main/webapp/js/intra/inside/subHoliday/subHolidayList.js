@@ -22,7 +22,7 @@ var subHolidayList = {
             pageSize: 10,
             transport: {
                 read : {
-                    url : "/inside/getVacUseHistoryList",
+                    url : "/subHoliday/getVacUseHistoryList",
                     dataType : "json",
                     type : "post"
                 },
@@ -272,7 +272,7 @@ var subHolidayList = {
             mdCode : subHolidayList.global.mdCode,
             empSeq : subHolidayList.global.empSeq
         }
-        subHolidayList.global.vacGubun = customKendo.fn_customAjax("/inside/getVacCodeList", data);
+        subHolidayList.global.vacGubun = customKendo.fn_customAjax("/subHoliday/getVacCodeList", data);
         const ds = subHolidayList.global.vacGubun;
         ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "전체", "SUBHOLIDAY_CODE_ID" : "" });
         $("#edtHolidayKindTop").kendoDropDownList({

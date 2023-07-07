@@ -15,7 +15,7 @@
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
 </style>
 
-<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayAdmin.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayAdmin.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -67,7 +67,7 @@
                                 </div>
                                 <div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();">연가일괄등록</button>
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();" disabled>연가일괄등록</button>
                                 </div>
                                 </div>
                             </div>

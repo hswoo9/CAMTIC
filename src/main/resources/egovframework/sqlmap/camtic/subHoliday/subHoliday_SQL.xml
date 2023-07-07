@@ -214,7 +214,6 @@
 
     <select id="getUserVacList" resultType="map" parameterType="map">
         /* getUserVacList */
-
         SELECT
         VUI.EMP_SEQ,
         VUI.EMP_NAME_KR,
@@ -235,19 +234,19 @@
         VC.ADJUSTMENT_USE_DAY,
         ((VC.GRANT_DAY + VC.MDTN_DAY + VC.EXTRA_DAY) - (VC.USE_DAY)) AS REMAIN_VAC,
         VC.ACTIVE,
-        VC.HOLIDAY_ID
+        VC.HOLIDAY_ID,
+        IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS befUseDay,
+        IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{bef2Year} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS bef2UseDay
         FROM
-        CAM_INSIDE.DJ_HOLIDAY VC
-        LEFT JOIN
             CAM_HR.DJ_EMP_INFO VUI
-        ON VC.EMP_SEQ = VUI.EMP_SEQ
+        LEFT JOIN
+            CAM_INSIDE.DJ_HOLIDAY VC
+        ON
+            VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
         WHERE
-        1 = 1
-        <if test='holidayYear != null and !"".equals(holidayYear)'>
-            AND VC.APPLY_YEAR = #{holidayYear}
-        </if>
+        VUI.ACTIVE = "Y"
         <if test='deptName != null and !"".equals(deptName)'>
-            AND VUI.DEPT_NAME = #{deptName}
+            AND VUI.DEPT_SEQ = #{deptSeq}
         </if>
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
