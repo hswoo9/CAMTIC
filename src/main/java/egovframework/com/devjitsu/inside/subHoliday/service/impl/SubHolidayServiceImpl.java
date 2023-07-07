@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.subHoliday.service.impl;
 
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.inside.subHoliday.repository.SubHolidayRepository;
 import egovframework.com.devjitsu.inside.subHoliday.service.SubHolidayService;
 import org.slf4j.Logger;
@@ -78,8 +79,6 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     @Override
     public void setUserVac(Map<String, Object> params) {
             subHolidayRepository.setUserVacUpdate(params);
-
-
     }
 
     @Override
@@ -115,4 +114,23 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         }
     }
 
+
+    @Override
+    public Map<String, Object> getuserHolyData(Map<String, Object> params) {
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> nowYearData = subHolidayRepository.getUserHolyData(params);
+        params.put("befYear", (Integer.parseInt(params.get("year").toString()) - 1));
+        params.put("bef2Year", (Integer.parseInt(params.get("year").toString()) - 2));
+        Map<String, Object> befYearData = subHolidayRepository.getUserBefHolyData(params);
+
+
+        data.put("occDay", nowYearData.get("GRANT_DAY"));
+        data.put("useDay", nowYearData.get("USE_DAY"));
+        data.put("remainDay", nowYearData.get("REMAIN_DAY"));
+        data.put("befYear", befYearData.get("befYear"));
+        data.put("bef2Year", befYearData.get("bef2Year"));
+
+
+        return data;
+    }
 }

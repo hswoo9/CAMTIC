@@ -84,7 +84,7 @@
                                     <th>반가</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="holyBody">
                                 <tr>
                                     <td style="text-align: center;">0일</td>
                                     <td style="text-align: center;">0일</td>
