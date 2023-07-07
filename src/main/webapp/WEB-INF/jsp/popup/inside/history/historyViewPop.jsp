@@ -7,37 +7,6 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     .card-header {padding: 0px 0px 40px 0px;}
     table { background-color: white; }
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}

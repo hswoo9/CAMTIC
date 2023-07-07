@@ -104,10 +104,7 @@ var bookRegisPop = {
     },
 
     fn_bkSave: function (){
-
-        
-
-        var data = {
+        let data = {
             bkLgCd : $("#bkLgCd").val(),
             bkLgCdName : $("#bkLgCd").data("kendoDropDownList").text(),
             bkMdCd : $("#bkMdCd").val(),
@@ -134,6 +131,25 @@ var bookRegisPop = {
             bkSmry : $("#bkSmry").val()
         }
 
+        $.ajax({
+            url : "/inside/setBookInsert",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("저장이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                //window.close();
+            }
+        });
+        console.log(data);
     },
 
     fn_close : function (){

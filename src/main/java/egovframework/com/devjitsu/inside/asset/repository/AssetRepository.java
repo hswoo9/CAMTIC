@@ -95,4 +95,12 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.getAstCodeList");
     }
 
+    public List<Map<String,Object>> getBookList(Map<String, Object> params) {
+        return selectList("asset.getBookList", params);
+    }
+
+    public void setBookInsert(Map<String, Object> params) {
+        insert("asset.setBookInsert", params);
+    }
+
 }

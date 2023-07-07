@@ -55,4 +55,10 @@ public interface AssetService {
     String setAssetPlace(Map<String,Object> map);
     String delAssetPlace(Map<String,Object> map);
     List<Map<String,Object>> getAstCodeList();
+
+    //
+    List<Map<String,Object>> getBookList(Map<String, Object> params);
+
+    //도서등록
+    void setBookInsert(Map<String, Object> params);
 }

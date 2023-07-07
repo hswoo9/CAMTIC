@@ -198,5 +198,14 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String,Object>> getAstCodeList() {
         return assetRepository.getAstCodeList();
     }
+    @Override
+    public List<Map<String,Object>> getBookList(Map<String, Object> params) {
+        return assetRepository.getBookList(params);
+    }
+
+    @Override
+    public void setBookInsert(Map<String, Object> params) {
+        assetRepository.setBookInsert(params);
+    }
 
 }

@@ -471,4 +471,18 @@ public class AssetController {
         return "popup/inside/asset/equipApprovalPop";
     }
 
+    //도서 리스트 조회
+    @RequestMapping("/inside/getBookList")
+    public String getBookList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getBookList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //도서저장
+    @RequestMapping("/inside/setBookInsert")
+    public String setBookInsert(@RequestParam Map<String, Object> params) {
+        assetService.setBookInsert(params);
+        return "jsonView";
+    }
 }
