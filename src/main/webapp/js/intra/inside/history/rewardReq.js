@@ -2,87 +2,37 @@ var now = new Date();
 
 var rewardReq = {
 
-    init : function(){
+    init: function(){
         rewardReq.dataSet();
         rewardReq.mainGrid();
     },
 
-    dataSet() {
-
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-        $("#rewardType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "내부표창", value: "1" },
-                { text: "외부표창", value: "2" }
-            ],
-            index: 0
-        });
-
-        var data = {
-
-        }
-        data.deptLevel = 1;
-        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-
-        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
-
-        $("#dept").data("kendoDropDownList").bind("change", rewardReq.fn_chngDeptComp)
-        $("#dept").data("kendoDropDownList").select(0);
-        $("#dept").data("kendoDropDownList").trigger("change");
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "" },
-                { text: "직급", value: "1" },
-                { text: "등급", value: "2" },
-                { text: "직책", value: "3" },
-                { text: "직무", value: "4" },
-                { text: "호수", value: "5" },
-                { text: "비고", value: "6" }
-            ],
-            index: 0
-        });
-    },
-
-    mainGrid : function() {
+    mainGrid: function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/inside/getRewardList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.rewardType = $("#rewardType").val();
+                    data.deptSeq = $("#dept").val();
+                    data.teamSeq = $("#team").val();
+                    data.start_date = $("#start_date").val().replace(/-/g, "");
+                    data.end_date = $("#end_date").val().replace(/-/g, "");
+                    data.searchType = $("#searchType").val();
+                    data.searchText = $("#searchText").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -121,42 +71,90 @@ var rewardReq = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    field: "ROW_NUM",
+                    title: "순번",
                     width: 50
                 }, {
-                    field: "",
-                    title: "순번"
+                    field: "EMP_NAME",
+                    title: "성명",
+                    width: 100
                 }, {
-                    field: "",
-                    title: "성명"
+                    field: "SIDE_NAME",
+                    title: "내/외부",
+                    width: 100
                 }, {
-                    field: "",
-                    title: "내/외부"
+                    field: "REWORD_TYPE_NAME",
+                    title: "포상구분",
+                    width: 150
                 }, {
-                    field: "",
-                    title: "포상구분"
+                    field: "REWORD_DAY",
+                    title: "포상일자",
+                    width: 100
                 }, {
-                    field: "",
-                    title: "포상일자"
-                }, {
-                    field: "",
+                    field: "RWD_OFM",
                     title: "공적사항"
                 }, {
-                    field: "",
-                    title: "시행처"
+                    field: "RWD_ST_COMP",
+                    title: "시행처",
+                    width: 200
                 }, {
                     field: "",
-                    title: "관련파일"
+                    title: "관련파일",
+                    width: 150
                 }, {
-                    field: "",
-                    title: "비고"
+                    field: "RWD_ETC",
+                    title: "비고",
+                    width: 150
                 }, {
-                    field: "",
-                    title: "기록인"
+                    field: "APPROVE_EMP_NAME",
+                    title: "기록인",
+                    width: 100
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    dataSet: function() {
+        customKendo.fn_textBox(["searchText"])
+        $("#start_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 1))
+        });
+
+        $("#end_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+
+        $("#rewardType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "내부표창", value: "내부" },
+                { text: "외부표창", value: "외부" }
+            ],
+            index: 0
+        });
+
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "성명", value: "1" },
+                { text: "공적 사항", value: "2" },
+                { text: "시행처", value: "3" },
+                { text: "포상번호", value: "4" }
+            ],
+            index: 0
+        });
+        fn_deptSetting();
     },
 
     rewardReqBatchPop : function() {
@@ -171,14 +169,5 @@ var rewardReq = {
         var name = "rewardGubunPop";
         var option = "width=550, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
-    },
-
-    fn_chngDeptComp: function (){
-        var data = {}
-        data.deptLevel = 2;
-        data.parentDeptSeq = this.value();
-
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
-    },
+    }
 }

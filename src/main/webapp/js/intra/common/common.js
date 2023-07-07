@@ -40,3 +40,32 @@ function betweenDay(firstDate, secondDate) {
 function gridReload() {
     $("#mainGrid").data("kendoGrid").dataSource.read();
 }
+
+function fn_deptSetting(){
+    let data = {}
+    data.deptLevel = 1;
+    const deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+    customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+
+    $("#dept").data("kendoDropDownList").bind("change", fn_chngDeptComp)
+    $("#dept").data("kendoDropDownList").select(0);
+    $("#dept").data("kendoDropDownList").trigger("change");
+}
+
+function fn_chngDeptComp(){
+    let data = {}
+    data.deptLevel = 2;
+    data.parentDeptSeq = this.value();
+
+    const ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+    customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
+}
+
+function fn_checkAll(headerCheckBoxId, checkBoxName){
+    if($("#"+headerCheckBoxId).is(":checked")) {
+        $("input[name="+checkBoxName+"]").prop("checked", true);
+    }else{
+        $("input[name="+checkBoxName+"]").prop("checked", false);
+    }
+}

@@ -20,8 +20,21 @@ public interface HistoryService {
     Map<String, Object> getHistoryOne(Map<String, Object> params);
 
     /**
+     * 포상조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getRewardList(Map<String, Object> params);
+
+    /**
      * 발령등록
      * @param params
      */
     void setHistoryInsert(Map<String, Object> params);
+
+    /**
+     * 포상등록
+     * @param params
+     */
+    void setRewardInsert(Map<String, Object> params);
 }

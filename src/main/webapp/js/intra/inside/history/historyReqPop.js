@@ -7,17 +7,8 @@ var historyReqPop = {
         historyReqPop.mainGrid();
     },
 
-    dataSet() {
-        customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
-        var data = {}
-        data.deptLevel = 1;
-        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
-        $("#dept").data("kendoDropDownList").bind("change", historyReqPop.fn_chngDeptComp)
-        $("#dept").data("kendoDropDownList").select(0);
-        $("#dept").data("kendoDropDownList").trigger("change");
-
-
+    dataSet: function() {
+        customKendo.fn_textBox(["searchVal", "numberName", "relevantName"])
         $("#historyType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -51,18 +42,10 @@ var historyReqPop = {
             format : "yyyy-MM-dd",
             value : new Date()
         });
-    },
-
-    fn_chngDeptComp: function (){
-        var data = {}
-        data.deptLevel = 2;
-        data.parentDeptSeq = this.value();
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
+        fn_deptSetting();
     },
 
     mainGrid : function() {
-
         var data = {
             deptSeq : $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
             empName : $("#searchVal").val()
@@ -95,7 +78,7 @@ var historyReqPop = {
             dataBound : historyReqPop.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="historyReqPop.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
                     template : function (e){
                         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
@@ -128,21 +111,6 @@ var historyReqPop = {
 
     gridReload: function (){
         historyReqPop.mainGrid();
-    },
-
-    historyReqPopPop : function() {
-        var url = "/inside/historyReqPopPop.do";
-        var name = "historyReqPopPop";
-        var option = "width=800, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
-    fn_checkAll: function(){
-        if($("#checkAll").is(":checked")) {
-            $("input[name='checkUser']").prop("checked", true);
-        }else{
-            $("input[name='checkUser']").prop("checked", false);
-        }
     },
 
     fn_selEmp: function(){
@@ -465,8 +433,10 @@ var historyReqPop = {
 
         if(numberName == "") {
             alert("호수가 작성되지 않았습니다.");
+            return;
         }else if(relevantName == "") {
             alert("관련근거가 작성되지 않았습니다.");
+            return;
         }
 
         let data = {

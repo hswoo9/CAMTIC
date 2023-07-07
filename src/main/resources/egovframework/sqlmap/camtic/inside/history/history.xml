@@ -78,6 +78,57 @@
             HAI.APNT_SN = #{apntSn}
     </select>
 
+    <select id="getRewardList" resultType="map" parameterType="map">
+        /* getRewardList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    HER.EMP_NAME,
+                    SUBSTRING(HER.REWORD_TYPE_NAME, 2, 4) AS SIDE_NAME,
+                    SUBSTRING(HER.REWORD_TYPE_NAME, 8) AS REWORD_TYPE_NAME,
+                    HER.REWORD_DAY,
+                    HER.RWD_OFM,
+                    HER.RWD_ST_COMP,
+                    HER.RWD_ETC,
+                    AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME
+                FROM
+                    CAM_HR.DJ_EMP_REWORD HER
+                LEFT JOIN
+                    CAM_HR.DJ_EMP_INFO AHEI ON HER.EMP_SEQ = AHEI.EMP_SEQ,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    DATE_FORMAT(HER.REWORD_DAY, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+                <if test='rewardType != null and !"".equals(rewardType)'>
+                    AND HER.REWORD_TYPE_NAME like CONCAT('%', #{rewardType}, '%')
+                </if>
+                <if test='deptSeq != null and !"".equals(deptSeq)'>
+                    AND HER.DEPT_SEQ = #{deptSeq}
+                </if>
+                <if test='teamSeq != null and !"".equals(teamSeq)'>
+                    AND HER.TEAM_SEQ = #{teamSeq}
+                </if>
+                <choose>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND HER.EMP_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND HER.RWD_OFM like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                        AND HER.RWD_ST_COMP like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                        AND HER.RWD_SN like CONCAT('%', #{searchText}, '%')
+                    </when>
+                </choose>
+                ORDER BY HER.REG_DATE
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <insert id="setHistoryInsert" parameterType="map">
         /* setHistoryInsert */
         INSERT INTO CAM_HR.DJ_APNT_INFO
@@ -140,6 +191,50 @@
                 #{numberName},
                 #{relevantName},
                 #{historyDate}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="setRewardInsert" parameterType="map">
+        /* setRewardInsert */
+        INSERT INTO CAM_HR.DJ_EMP_REWORD
+            (
+                EMP_SEQ,
+                ERP_EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                TEAM_SEQ,
+                TEAM_NAME,
+                REWORD_TYPE,
+                REWORD_TYPE_NAME,
+                REWORD_DAY,
+                RWD_OFM,
+                RWD_ST_COMP,
+                RWD_ETC,
+                ADMIN_APPROVAL,
+                RWD_SN,
+                REG_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="rewardList" item="item" separator=" , ">
+            (
+                #{item.empSeq},
+                #{item.erpEmpSeq},
+                #{item.empName},
+                #{item.deptSeq},
+                #{item.deptName},
+                #{item.teamSeq},
+                #{item.teamName},
+                #{item.rewordType},
+                #{item.rewordName},
+                #{item.rewordDay},
+                #{item.rwdOfm},
+                #{item.rwdStComp},
+                #{item.rwdEtc},
+                'Y',
+                #{numberName},
+                #{empSeq}
             )
         </foreach>
     </insert>

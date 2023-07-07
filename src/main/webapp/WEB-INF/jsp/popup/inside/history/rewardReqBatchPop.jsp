@@ -7,49 +7,11 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/history/rewardReqBatchPop.js?v=${today}"></script>
-<style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .k-grid-header th.k-header .k-checkbox {
-        margin: 0;
-    }
-
-    .dash-left .table > thead > tr > th, .dash-right .table > thead > tr > th, .dash-left .table > tbody > tr > th, .dash-right .table > tbody > tr > th, .dash-left .table > tfoot > tr > th, .dash-right .table > tfoot > tr > th, .dash-left .table > thead > tr > td, .dash-right .table > thead > tr > td, .dash-left .table > tbody > tr > td, .dash-right .table > tbody > tr > td, .dash-left .table > tfoot > tr > td, .dash-right .table > tfoot > tr > td {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="empName" value="${loginVO.name}"/>
+<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -58,26 +20,28 @@
 
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf; width: 1400px">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="23%">
+                        <col width="10%">
+                        <col width="23%">
+                        <col width="10%">
+                        <col width="23%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>부서</span>
-                                    <input type="text" id="dept" style="width: 140px;">
-                                </div>
-                                <div class="mr20">
-                                    <span>팀</span>
-                                    <input type="text" id="team" style="width: 150px;">
-                                </div>
-                                <div class="mr20">
-                                    <span>성명</span>
-                                    <input type="text" id="searchVal" style="width: 140px;">
-                                </div>
-                                <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="dept" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="team" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">성명</th>
+                        <td>
+                            <input type="text" id="searchVal" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReqBatchPop.gridReload()">검색</button>
                         </td>
                     </tr>
                 </table>
@@ -91,7 +55,30 @@
                     </div>
                 </div>
                 <div class="col-md-9 col-lg-9 dash-left mt-10">
-                    <div id="popMainGrid"></div>
+                    <table class="table table-bordered mb-0" id="">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="15%">
+                            <col width="10%">
+                            <col width="15%">
+                            <col width="10%">
+                            <col width="15%">
+                            <col width="10%">
+                            <col width="15%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>포상번호</th>
+                            <td>
+                                <input type="text" id="numberName" class="defaultVal" style="width: 95%;">
+                            </td>
+                            <td colspan="6">
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="table-responsive mt20">
+                        <div id="popMainGrid"></div>
                     <%--          <div class="table-responsive mt20">--%>
                     <%--            <table class="table table-bordered">--%>
                     <%--              <colgroup>--%>
@@ -124,6 +111,7 @@
                     <%--              </tbody>--%>
                     <%--            </table>--%>
                     <%--          </div><!-- table-responsive -->--%>
+                    </div>
                 </div>
             </div>
         </div>

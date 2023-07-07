@@ -7,15 +7,6 @@ var historyReq = {
         historyReq.mainGrid();
     },
 
-    fn_chngDeptComp: function (){
-        var data = {}
-        data.deptLevel = 2;
-        data.parentDeptSeq = this.value();
-
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
-    },
-
     mainGrid: function(){
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -153,18 +144,6 @@ var historyReq = {
             index: 0
         });
 
-        var data = {
-
-        }
-        data.deptLevel = 1;
-        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-
-        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
-
-        $("#dept").data("kendoDropDownList").bind("change", historyReq.fn_chngDeptComp)
-        $("#dept").data("kendoDropDownList").select(0);
-        $("#dept").data("kendoDropDownList").trigger("change");
-
         $("#gender").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -217,6 +196,7 @@ var historyReq = {
             ],
             index: 0
         });
+        fn_deptSetting();
     },
 
     onDataBound: function(){

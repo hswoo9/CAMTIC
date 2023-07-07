@@ -8,74 +8,15 @@ var rewardReqBatchPop = {
     },
 
     dataSet() {
-
-        var data = {
-
-        }
-        data.deptLevel = 1;
-        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-
-        customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
-
-        $("#dept").data("kendoDropDownList").bind("change", rewardReqBatchPop.fn_chngDeptComp)
-        $("#dept").data("kendoDropDownList").select(0);
-        $("#dept").data("kendoDropDownList").trigger("change");
-
-        $("#historyType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "임용 (정규직)", value: "1" },
-                { text: "임용 (계약직)", value: "2" },
-                { text: "임용 (인턴 사원)", value: "3" },
-                { text: "임용 (단기 직원)", value: "4" },
-                { text: "임용 (위촉 직원)", value: "5" },
-                { text: "임용 (경비 / 환경)", value: "6" },
-                { text: "승진 (직급)", value: "7" },
-                { text: "승진 (직위)", value: "8" },
-                { text: "전보", value: "9" },
-                { text: "겸직", value: "10" },
-                { text: "직무 대리", value: "11" },
-                { text: "파견", value: "12" },
-                { text: "면직", value: "13" },
-                { text: "강등", value: "14" },
-                { text: "조직 개편", value: "15" },
-                { text: "호칭 변경", value: "16" },
-                { text: "기타", value: "17" }
-            ],
-            index: 0
-        });
-
-        $("#historyDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-    },
-
-    fn_chngDeptComp: function (){
-        var data = {}
-        data.deptLevel = 2;
-        data.parentDeptSeq = this.value();
-
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
+        customKendo.fn_textBox(["searchVal", "numberName"]);
+        fn_deptSetting();
     },
 
     mainGrid : function() {
-
         var data = {
-            deptSeq : $("#dept").val(),
-            deptTeamSeq : $("#team").val(),
-            deptTeamName : $("#team").data("kendoDropDownList").text(),
+            deptSeq : $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
             empName : $("#searchVal").val()
         }
-
-
-        var rs = customKendo.fn_customAjax("/user/getEmpList", data);
 
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2("/user/getEmpList", data),
@@ -101,11 +42,11 @@ var rewardReqBatchPop = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="rewardReqBatchPop.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
                     template : function (e){
                         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
-                    width: 50,
+                    width: 30,
                     attribute : {
                         style : "text-align:center",
                     }
@@ -113,24 +54,27 @@ var rewardReqBatchPop = {
                     field: "DEPT_NAME",
                     title: "부서"
                 }, {
-                    field: "DEPT_SEQ",
+                    field: "TEAM_NAME",
                     title: "팀",
-                    width: 70,
+                    width: 100,
                 }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
-                    width: 70,
+                    width: 60,
                 }
             ]
         }).data("kendoGrid");
     },
 
-    fn_checkAll: function(){
-        if($("#checkAll").is(":checked")) {
-            $("input[name='checkUser']").prop("checked", true);
-        }else{
-            $("input[name='checkUser']").prop("checked", false);
-        }
+    onDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            console.log(e);
+        });
+    },
+
+    gridReload: function (){
+        rewardReqBatchPop.mainGrid();
     },
 
     fn_selEmp: function(){
@@ -140,10 +84,6 @@ var rewardReqBatchPop = {
                 empArr.push(this.value);
             }
         });
-
-        var data = {
-            empArr : empArr
-        }
 
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -217,53 +157,46 @@ var rewardReqBatchPop = {
                 }, {
                     field: "ERP_EMP_SEQ",
                     title: "사번",
-                    width: 70
+                    width: 100
                 }, {
                     field: "EMP_NAME_KR",
                     title: "이름",
-                    width: 70
+                    width: 100
                 }, {
                     title: "포상구분",
-                    width: 120,
-                    template : function (e){
-                        return "<input type='text' id='rewardTp' class='rewardTp' />";
+                    template : function (row){
+                        return "<input type='text' id='rewardTp"+row.EMP_SEQ+"' class='rewardTp' />";
                     }
                 }, {
                     title: "포상일자",
-                    template : function(){
-                        return "<input type='text' id='rewardDay' name='rewardDay' class='rewardDay'>";
+                    template : function(row){
+                        return "<input type='text' id='rewardDay"+row.EMP_SEQ+"' name='rewardDay' class='rewardDay'>";
                     },
-                    width: 120
+                    width: 180
                 }, {
                     title: "공적사항",
-                    template : function(){
-                        return "<input type='text' id='rwdOfm' name='rwdOfm' class='rwdOfm'>";
+                    template : function(row){
+                        return "<input type='text' id='rwdOfm"+row.EMP_SEQ+"' name='rwdOfm' class='rwdOfm'>";
                     },
-                    width: 120
+                    width: 150
                 }, {
                     title: "시행처",
-                    template : function(){
-                        return "<input type='text' id='rwdStComp' name='rwdStComp' class='rwdStComp'>";
+                    template : function(row){
+                        return "<input type='text' id='rwdStComp"+row.EMP_SEQ+"' name='rwdStComp' class='rwdStComp'>";
                     },
-                    width: 120
-                }, {
-                    title: "포상번호",
-                    template : function(){
-                        return "<input type='text' id='rwdSn' name='rwdSn' class='rwdSn'>";
-                    },
-                    width: 120
+                    width: 150
                 }, {
                     title: "스캔파일",
-                    template : function(){
-                        return "<input type='file' id='rwdFile' name='rwdFile' class='rwdFile'>";
+                    template : function(row){
+                        return "<input type='file' id='rwdFile"+row.EMP_SEQ+"' name='rwdFile' class='rwdFile'>";
                     },
-                    width: 120
+                    width: 180
                 }, {
                     title: "비고",
-                    template : function(){
-                        return "<input type='text' id='rwdEtc' name='rwdEtc' class='rwdEtc'>";
+                    template : function(row){
+                        return "<input type='text' id='rwdEtc"+row.EMP_SEQ+"' name='rwdEtc' class='rwdEtc'>";
                     },
-                    width: 120
+                    width: 150
                 }
             ]
         }).data("kendoGrid");
@@ -304,7 +237,67 @@ var rewardReqBatchPop = {
     },
 
     fn_saveApnt : function(){
-        alert("저장");
+        let arr = new Array();
+        const grid = $("#popMainGrid").data("kendoGrid");
+        $.each($('#popMainGrid .k-master-row'), function(i, v){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            let empSeq = dataItem.EMP_SEQ;
+            if($(v).find('#rewardTp'+empSeq).data("kendoDropDownList").value() == "") {
+                alert("포상구분 선택해주세요.");
+                return;
+            }
+            let data = {
+                empSeq            : empSeq,
+                erpEmpSeq         : dataItem.ERP_EMP_SEQ,
+                empName           : dataItem.EMP_NAME_KR,
+                deptSeq           : dataItem.DEPT_SEQ,
+                deptName          : dataItem.DEPT_NAME,
+                teamSeq           : dataItem.TEAM_SEQ,
+                teamName          : dataItem.TEAM_NAME,
+                rewordType		  : $(v).find('#rewardTp'+empSeq).data("kendoDropDownList").value(),
+                rewordName		  : $(v).find('#rewardTp'+empSeq).data("kendoDropDownList").text(),
+                rewordDay         : $(v).find('#rewardDay'+empSeq).val(),
+                rwdOfm            : $(v).find('#rwdOfm'+empSeq).val(),
+                rwdStComp         : $(v).find('#rwdStComp'+empSeq).val(),
+                rwdEtc            : $(v).find('#rwdEtc'+empSeq).val()
+            }
+            arr.push(data);
+        });
+
+        let empSeq = $("#empSeq").val();
+        let numberName = $("#numberName").val();
+
+        if(numberName == "") {
+            alert("포상번호가 작성되지 않았습니다.");
+            return;
+        }
+
+        let data = {
+            rewardArr: JSON.stringify(arr),
+            empSeq: empSeq,
+            numberName: numberName
+        };
+        console.log("set reward DATA");
+        console.log(arr);
+
+        $.ajax({
+            url : "/inside/setRewardInsert",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("포상 등록이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                //window.close();
+            }
+        });
     },
 
     fn_delApnt : function(){

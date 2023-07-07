@@ -27,11 +27,25 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public List<Map<String, Object>> getRewardList(Map<String, Object> params) {
+        return historyRepository.getRewardList(params);
+    }
+
+    @Override
     public void setHistoryInsert(Map<String, Object> params) {
 
         Gson gson = new Gson();
         List<Map<String, Object>> historyList = gson.fromJson((String) params.get("historyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         params.put("historyList", historyList);
         historyRepository.setHistoryInsert(params);
+    }
+
+    @Override
+    public void setRewardInsert(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> rewardList = gson.fromJson((String) params.get("rewardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        params.put("rewardList", rewardList);
+        historyRepository.setRewardInsert(params);
     }
 }

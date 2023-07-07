@@ -29,37 +29,44 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="30%">
+                    </colgroup>
                     <tr>
+                        <th class="text-center th-color">조회연도</th>
                         <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>조회연도</span>
-                                    <input type="text" id="start_date" style="width: 140px;">
-                                    ~
-                                    <input type="text" id="end_date" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>포상구분</span>
-                                    <input type="text" id="rewardType" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>부서</span>
-                                    <input type="text" id="dept" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>팀</span>
-                                    <input type="text" id="team" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>검색어</span>
-                                    <input type="text" id="searchType" style="width: 140px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
-                                </div>
-                            </div>
+                            <input type="text" id="start_date" style="width: 45%;">
+                            ~
+                            <input type="text" id="end_date" style="width: 45%;">
+                        </td>
+                        <th class="text-center th-color">포상구분</th>
+                        <td>
+                            <input type="text" id="rewardType" style="width: 140px;">
+                        </td>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="dept" style="width: 45%; margin-right:10px;">
+                            <input type="text" id="team" style="width: 50%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color"></th>
+                        <td></td>
+                        <th class="text-center th-color"></th>
+                        <td></td>
+                        <th class="text-center th-color">
+                            검색어
+                        </th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 100px;">
+                            <input type="text" id="searchText" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">검색</button>
                         </td>
                     </tr>
                 </table>

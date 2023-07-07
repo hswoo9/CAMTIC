@@ -118,7 +118,7 @@ public class HistoryController {
     }
 
     /**
-     * 발령조회
+     * 발령 단일조회
      * @param params
      * @return
      */
@@ -130,6 +130,18 @@ public class HistoryController {
     }
 
     /**
+     * 포상조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getRewardList")
+    public String getRewardList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = historyService.getRewardList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
      * 발령등록
      * @param params
      * @return
@@ -137,6 +149,17 @@ public class HistoryController {
     @RequestMapping("/inside/setHistoryInsert")
     public String setHistoryInsert(@RequestParam Map<String, Object> params) {
         historyService.setHistoryInsert(params);
+        return "jsonView";
+    }
+
+    /**
+     * 포상등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setRewardInsert")
+    public String setRewardInsert(@RequestParam Map<String, Object> params) {
+        historyService.setRewardInsert(params);
         return "jsonView";
     }
 
