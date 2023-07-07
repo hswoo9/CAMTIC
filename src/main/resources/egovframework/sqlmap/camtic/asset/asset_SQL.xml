@@ -329,4 +329,64 @@
         ORDER BY a.reg_date
     </select>
 
+    <select id="getBookList" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_INFO
+        ORDER BY REG_DT
+    </select>
+
+    <insert id="setBookInsert" parameterType="map">
+        /* setBookInsert */
+        INSERT INTO CAM_INSIDE.DJ_BOOK_INFO
+            (
+                BK_LG_CD,
+                BK_LG_CD_NAME,
+                BK_MD_CD,
+                BK_MD_CD_NAME,
+                BK_CD,
+                BK_CD_NAME,
+                BK_NAME,
+                BK_WRITER,
+                BK_PUBL,
+                BK_BUY_COST,
+                BK_BUY_CNT,
+                BK_BUY_DT,
+                BK_BUYER,
+                BK_BUYER_NAME,
+                BK_USER,
+                BK_USER_NAME,
+                BK_MNG_SEQ,
+                BK_MNG_NAME,
+                BK_MNG_SUB_SEQ,
+                BK_MNG_SUB_NAME,
+                BK_SMRY
+            )
+        VALUES
+            (
+                #{bklgcd},
+                #{bklgcdname},
+                #{bkmdcd},
+                #{bkmdcdname},
+                #{bkcd},
+                #{bkcdname},
+                #{bkname},
+                #{bkwriter},
+                #{bkpubl},
+                #{bkcost},
+                #{bkcnt},
+                #{bkbuydt},
+                #{bkbuyer},
+                #{bkbuyername},
+                #{bkuser},
+                #{bkusername},
+                #{bkmngseq},
+                #{bkmngname},
+                #{bkmngsubseq},
+                #{bkmngsubname},
+                #{bksmry}
+            )
+    </insert>
+
 </mapper>
