@@ -12,13 +12,6 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/history/historyReq.js?v=${today}"/></script>
 
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-    table { background-color: white; }
-    .table-bordered > tbody > tr > th{ background-color: #8fa1c0; color: white;}
-</style>
-
 
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
@@ -31,7 +24,7 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered" style="border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="10%">
                         <col width="25%">
@@ -75,6 +68,8 @@
                         </td>
                     </tr>
                 </table>
+
+
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
