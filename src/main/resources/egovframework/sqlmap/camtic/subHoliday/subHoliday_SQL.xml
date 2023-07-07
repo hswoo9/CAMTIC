@@ -417,5 +417,24 @@
             EMP_SEQ = #{targetEmpSeq}
     </update>
 
+    <select id="getUserHolyData" parameterType="map" resultType="map">
+        /* getUserHolyData*/
+        SELECT
+            *
+        FROM
+            DJ_HOLIDAY DH
+        WHERE
+            DH.ACTIVE = "Y" AND DH.APPLY_YEAR = #{year}
+    </select>
 
+    <select id="getUserBefHolyData" parameterType="map" resultType="map">
+        /* getUserBefHolyData */
+        SELECT
+            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear}), 0) AS befYear,
+            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear2}), 0) AS bef2Year
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY DH
+        WHERE
+            DH.ACTIVE = "Y"
+    </select>
 </mapper>

@@ -369,7 +369,14 @@ var userPersonList = {
                     title: "사번"
                 }, {
                     field: "EMP_NAME_KR",
-                    title: "성명"
+                    title: "성명",
+                    template : function (e){
+                        if(e.EMP_NAME_KR == null || +e.EMP_NAME_KR == ""){
+                            return "";
+                        }else {
+                            return "<a href='#' onclick='userPersonList.userReqPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                        }
+                    }
                 }, {
                     field: "DEPT_NAME",
                     title: "부서(실)"
@@ -512,10 +519,17 @@ var userPersonList = {
         }).data("kendoGrid");
     },
 
-    userReqPop : function() {
+    userReqPop : function(e) {
+
+        console.log(e);
         var url = "/Inside/pop/userReqPop.do";
+
+        if(e != null && e != ""){
+            url += "?empSeq=" + e;
+        }
+
         var name = "recruitReqPop";
-        var option = "width=1100, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 

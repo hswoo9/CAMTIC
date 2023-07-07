@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.subHoliday.repository;
 
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
@@ -55,4 +56,11 @@ public class SubHolidayRepository extends AbstractDAO  {
     }
 
 
+    public Map<String, Object> getUserHolyData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("subHoliday.getUserHolyData", params);
+    }
+
+    public Map<String, Object> getUserBefHolyData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("subHolyData.getUserBefHolyData", params);
+    }
 }

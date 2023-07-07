@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.subHoliday.service;
 
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+
 import java.util.List;
 import java.util.Map;
 
@@ -57,4 +59,5 @@ public interface SubHolidayService {
      */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
+    Map<String, Object> getuserHolyData(Map<String, Object> params);
 }

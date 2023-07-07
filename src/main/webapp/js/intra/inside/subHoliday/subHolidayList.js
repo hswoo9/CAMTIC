@@ -121,7 +121,6 @@ var subHolidayList = {
                     },
                     width: 200,
                 }, {
-                    /* {
                     title : "승인요청",
                     template : function(e){
                         //휴가 전자결재
@@ -203,7 +202,7 @@ var subHolidayList = {
                                 return "-";
                             }
                         }
-                    }*/
+                    }
                 }
             ],
         }).data("kendoGrid");
@@ -291,6 +290,11 @@ var subHolidayList = {
             ],
             index: 0
         });
+
+        // var rqHolyData = {year : $("#datePicker").val()}
+        // var rsHolyData = customKendo.fn_customAjax("/subHoliday/getUserHolyData", rqHolyData);
+
+
 
     },
 

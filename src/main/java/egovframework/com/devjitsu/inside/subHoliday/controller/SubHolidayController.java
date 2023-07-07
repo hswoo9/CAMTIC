@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -81,8 +82,7 @@ public class SubHolidayController {
     //휴가신청
     @RequestMapping("/subHoliday/subHolidayReqPop.do")
     public String subHolidayReqPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO login = getLoginVO(request);
         model.addAttribute("loginVO", login);
         return "/popup/subHoliday/subHolidayReqPop";
     }
@@ -90,8 +90,7 @@ public class SubHolidayController {
     //휴가신청 전자결재
     @RequestMapping("/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do")
     public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO login = getLoginVO(request);
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop";
@@ -100,8 +99,7 @@ public class SubHolidayController {
     //휴일근로신청서 전자결재
     @RequestMapping("/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do")
     public String workHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO login = getLoginVO(request);
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop";
@@ -157,31 +155,6 @@ public class SubHolidayController {
         model.addAttribute("list", subHolidayService.getVacUseHistoryList(params));
         return "jsonView";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //휴가신청 기안전 신청내역 저장
     @RequestMapping("/subHoliday/setVacUseHist.do")
@@ -273,13 +246,18 @@ public class SubHolidayController {
 
     @RequestMapping("/subHoliday/subHolidayListPop.do")
     public String subHolidayListLine(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO loginVO = getLoginVO(request);
 
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
         model.addAttribute("loginVO", loginVO);
 
         return "popup/subHoliday/subHolidayListPop";
+    }
+
+    private static LoginVO getLoginVO(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        return loginVO;
     }
 
 
@@ -290,6 +268,17 @@ public class SubHolidayController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    @RequestMapping("/subHoliday/getUserHolyData")
+    public String getUserHolyData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        LoginVO loginVO = getLoginVO(request);
+        params.put("loginEmpSeq", loginVO.getUniqId());
+        Map<String, Object> holyData = subHolidayService.getuserHolyData(params);
+
+
+
+        return "jsonView";
     }
 
 }
