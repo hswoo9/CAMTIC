@@ -6,54 +6,19 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
 <script type="text/javascript" src="/js/intra/inside/document/snackPop.js?v=${today}"/></script>
 
-<!DOCTYPE html>
-<html>
-<body>
+<body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="empName" value="${loginVO.name}"/>
+<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="snackInfoSn" value="${data.SNACK_INFO_SN}"/>
+
 <div class="card">
     <div class="card-header" style="padding:20px 0;">
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="20%">
@@ -67,10 +32,10 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>이용 일시</th>
-                        <td><input id="use_date" type="date" style="width: 50%;"><input id="use_time" type="time" style="width: 50%;"></td>
+                        <td><input id="useDt" type="date" style="width: 50%;"> <input id="useHour" type="text" style="width: 30px;">시 <input id="useMin" type="text" style="width: 30px;">분</td>
                         <%--<td><input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 100%;"></td>--%>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>식대 구분</th>
-                        <td colspan><input type="text" id="mealsDivision" style="width: 100%; margin-right:10px;"></td>
+                        <td colspan><input type="text" id="snackType" style="width: 100%; margin-right:10px;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>이용자</th>
@@ -94,7 +59,7 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>주문처</th>
-                        <td colspan><input type="text" id="restaurant" style="width: 65%;">
+                        <td colspan><input type="text" id="areaName" style="width: 65%;">
                             <button type="button" id="restaurantSearch" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
                                 음식점 선택
                             </button>
@@ -104,7 +69,7 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">이용 사유</th>
-                        <td colspan="3"><textarea type="text" id="UseReason" style="width: 100%;"></textarea></td>
+                        <td colspan="3"><textarea type="text" id="useReason" style="width: 100%;"></textarea></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">영수증</th>
@@ -114,7 +79,7 @@
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="snackReq.saveBtn();"/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
             </div>
         </div>
@@ -123,7 +88,7 @@
 
 
 <script>
-    snackPop.fn_defaultScript();
+    snackReq.init();
 </script>
 </body>
 </html>

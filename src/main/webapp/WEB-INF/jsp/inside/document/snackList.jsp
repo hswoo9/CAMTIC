@@ -46,6 +46,7 @@
                                 <div class="mr10">
                                     <span>부서</span>
                                     <input type="text" id="dept" style="width: 150px;">
+                                    <input type="text" id="team" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
                                     <span>식대 구분</span>
@@ -94,6 +95,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    snackList.fn_defaultScript();
-    snackList.mainGrid();
+    snackList.init();
 </script>

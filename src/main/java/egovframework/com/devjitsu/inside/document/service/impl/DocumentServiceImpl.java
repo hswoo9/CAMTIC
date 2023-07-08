@@ -1,0 +1,32 @@
+package egovframework.com.devjitsu.inside.document.service.impl;
+
+import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
+import egovframework.com.devjitsu.inside.document.service.DocumentService;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class DocumentServiceImpl implements DocumentService {
+
+    @Autowired
+    private DocumentRepository documentRepository;
+
+    @Override
+    public List<Map<String, Object>> getSnackList(Map<String, Object> params){
+        return documentRepository.getSnackList(params);
+    }
+
+    @Override
+    public Map<String, Object> getSnackOne(Map<String, Object> params){
+        return documentRepository.getSnackOne(params);
+    }
+
+    @Override
+    public void setSnackInsert(Map<String, Object> params) {
+        documentRepository.setSnackInsert(params);
+    }
+}
