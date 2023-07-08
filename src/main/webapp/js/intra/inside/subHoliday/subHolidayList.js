@@ -84,13 +84,13 @@ var subHolidayList = {
                     },
                     width: 80
                 }, {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "순번",
-                    width: 160,
+                    width: 80
                 }, {
                     field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "구분",
-                    width: 320,
+                    width: 250,
                 }, {
                     title: "기간",
                     template: function(dataItem) {
@@ -333,7 +333,7 @@ var subHolidayList = {
     },
 
     fn_makeContent : function (){
-        var rqHolyData = {year : $("#datePicker").val()}
+        var rqHolyData = {year : $("#datePicker").val(), empSeq : $("#empSeq").val()}
         var e = customKendo.fn_customAjax("/subHoliday/getUserHolyData", rqHolyData);
 
         console.log(e);

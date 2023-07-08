@@ -126,6 +126,28 @@ var subHolidayReqPop = {
                     data.vacUseEndt = $("#edtHolidayEndDateTop_1").val();
                     data.vacUseEnTime = $("#edtHolidayEndHourTop_1").val();
                 }
+
+                if($("#edtHolidayKindTop").val() == 2 || $("#edtHolidayKindTop").val() == 3) {
+                    data.useDay = 0.5;
+                }else if($("#edtHolidayKindTop").val() != 11) {
+                    var firstDate;
+                    var secondDate;
+                    if($("#edtHolidayKindTop").val() == 9){
+                        //사용일수 계산
+                        firstDate = $("#edtHolidayStartDateTop_2").val().replace(/-/g, '');
+                        secondDate = $("#edtHolidayEndDateTop_2").val().replace(/-/g, '');
+                    }else{
+                        //사용일수 계산
+                        firstDate = $("#edtHolidayStartDateTop_1").val().replace(/-/g, '');
+                        secondDate = $("#edtHolidayEndDateTop_1").val().replace(/-/g, '');
+                    }
+                    var firstDateObj = new Date(firstDate.substring(0, 4), firstDate.substring(4, 6) - 1, firstDate.substring(6, 8));
+                    var secondDateObj = new Date(secondDate.substring(0, 4), secondDate.substring(4, 6) - 1, secondDate.substring(6, 8));
+                    var betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
+                    data.useDay = Math.floor(betweenTime / (1000 * 60 * 60 * 24)+1);
+                }else {
+                    data.useDay = 0;
+                }
             }
 
             $.ajax({
@@ -135,9 +157,10 @@ var subHolidayReqPop = {
                 type : "post",
                 success: function (rs) {
                     alert("신청 데이터 저장이 완료되었습니다.");
-                    subHolidayReqPop.fn_topTableClear();
+                    //subHolidayReqPop.fn_topTableClear();
                    /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
-                    subHolidayReqPop.gridReload();
+                    opener.gridReload();
+                    window.close();
                 },
                 error: function () {
                     alert("신청 데이터 저장 중 에러가 발생했습니다.");
