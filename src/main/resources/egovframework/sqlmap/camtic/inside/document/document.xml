@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="document">
+
+    <select id="getSnackList" resultType="map" parameterType="map">
+        /* getSnackList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    ISI.*
+                FROM
+                    CAM_INSIDE.DJ_SNACK_INFO ISI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                ORDER BY ISI.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getSnackOne" resultType="map" parameterType="map">
+        /* getSnackOne */
+        SELECT
+            ISI.*
+        FROM
+            CAM_INSIDE.DJ_SNACK_INFO ISI
+        WHERE
+            SNACK_INFO_SN = #{snackInfoSn}
+    </select>
+
+    <insert id="setSnackInsert" parameterType="map">
+        /* setCertificateInsert */
+        INSERT INTO CAM_INSIDE.DJ_SNACK_INFO
+            (
+                USE_DT,
+                USE_TIME,
+                SNACK_TYPE,
+                SNACK_TYPE_TEXT,
+                AREA_SEQ,
+                AREA_NAME,
+                AMOUNT_SN,
+                USE_REASON,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{useDt},
+                CONCAT(#{useHour}, ':', #{useMin}),
+                #{snackType},
+                #{snackTypeText},
+                #{areaSn},
+                #{areaName},
+                #{usAmount},
+                #{useReason},
+                #{empSeq},
+                #{empName}
+            )
+    </insert>
+</mapper>
