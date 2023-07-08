@@ -347,14 +347,21 @@ var userPersonList = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'excel',
-                    text: '엑셀다운로드'
+                    template: function (e) {
+
+                        return '<button type="button" class="k-grid-excel k-button k-button-md k-button-solid k-button-solid-base" disabled>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                        /*name: 'excel',
+                        text: '엑셀다운로드'*/
                 }
+            },
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."

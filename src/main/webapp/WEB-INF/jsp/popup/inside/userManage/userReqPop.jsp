@@ -21,7 +21,7 @@
                     <c:if test="${params.empSeq == null || params.empSeq == ''}">
                         <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">직원추가</h3>
                         <div style="margin-top:10px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>
+                            <%--<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>--%>
                             <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
                             <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                         </div>
@@ -85,7 +85,7 @@
                                 <input type="text" id="resRegisNum1" style="width: 30%;" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6"> - <input type="text" id="resRegisNum2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;">
                             </c:if>
                             <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                                <input type="text" id="resRegisNum1" style="width: 30%;" value="${uprinfList.RES_REGIS_NUM}" disabled="disabled" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6"> - <input type="text" id="resRegisNum2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;">
+                                <input type="text" id="resRegisNum1" style="width: 30%;" value="${uprinfList.RES_REGIS_NUM}" disabled="disabled">
                             </c:if>
                         </td>
                     </tr>
@@ -98,6 +98,18 @@
                             <th><span class="red-star">*</span>비밀번호 확인</th>
                             <td>
                                 <input type="password" id="checkPasswd" style="width: 50%;">
+                            </td>
+                        </tr>
+                    </c:if>
+                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                        <tr>
+                            <th><span class="red-star">*</span>비밀번호</th>
+                            <td>
+                                <input type="text" id="loginPasswd" style="width: 50%;" value="${uprinfList.LOGIN_PASSWD}" disabled="disabled">
+                            </td>
+                            <th><span class="red-star">*</span>비밀번호 확인</th>
+                            <td>
+                                <input type="password" id="checkPasswd" style="width: 50%;" disabled>
                             </td>
                         </tr>
                     </c:if>
@@ -197,7 +209,12 @@
                     <tr>
                         <th>증명사진</th>
                         <td colspan="3">
-                            <input type="file">
+                            <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                                <input type="file">
+                            </c:if>
+                            <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                                <input type="file" value="${uprinfList.PHOTO_FILE_ID}" <%--disabled="disabled"--%>>
+                            </c:if>
                         </td>
                     </tr>
                     <tr>
@@ -254,6 +271,7 @@
                         </td>
                     </tr>
                     <tr>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
                         <th>차량소유</th>
                         <td colspan="3">
                             <input type="checkbox" id="carActive" onclick="onDisplay();"> 차량을 소유하고 있음
@@ -262,14 +280,21 @@
                     <tr style="display: none;" id="noneTr">
                         <th>차량번호</th>
                         <td colspan="3">
-                            <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                                <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
+                            <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
+                            ex) 22 가 1111
+                        </c:if>
+                        <c:if test="${uprinfList.CAR_ACTIVE == 1}">
+                        <th>차량소유</th>
+                        <td colspan="3">
+                            <input type="checkbox" checked id="carActive2"> 차량을 소유하고 있음
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>차량번호</th>
+                        <td colspan="3">
+                                <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}" disabled="disabled">
                                 ex) 22 가 1111
-                            </c:if>
-                            <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                                <input type="text" id="carNum1" style="width: 10%;" value="${uprinfList.CAR_NUM}" disabled="disabled">
-                                ex) 22 가 1111
-                            </c:if>
+                        </c:if>
                         </td>
                     </tr>
                     </thead>
@@ -416,17 +441,32 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>재직여부</th>
-                        <td colspan="3">
-                            <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
-                        </td>
-                    </tr>
-                    <tr style="display: none;" id="noneTr1">
-                        <th>퇴사일자</th>
-                        <td colspan="3">
-                            <input type="text" id="resignDay" style="width: 20%;">
-                        </td>
-                    </tr>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <th>재직여부</th>
+                            <td colspan="3">
+                                <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
+                            </td>
+                            </tr>
+                            <tr style="display: none;" id="noneTr1">
+                                <th>퇴사일자</th>
+                                <td colspan="3">
+                                    <input type="text" id="resignDay" style="width: 20%;">
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${uprinfList.WORK_STATUS_CODE == 'N'}">
+                            <th>재직여부</th>
+                            <td colspan="3">
+                                <input type="checkbox" checked id="check4"> 퇴사직원임
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>퇴사일자</th>
+                            <td colspan="3">
+                                <input type="text" id="resignDay" style="width: 20%;" value="${uprinfList.RESIGN_DAY}">
+                            </td>
+                        </tr>
+                        </c:if>
                 </table>
             </form>
         </div>
@@ -455,9 +495,10 @@
 
     var empSeq = '${params.empSeq}';
 
-/*    if(empSeq != null && empSeq != ''){
-        $("#divis").data("kendoDropDownList").enable(false);
-        $("#deptName").data("kendoDropDownList").enable(false);
+    if(empSeq != null && empSeq != ''){
+        $("#positionOrNum").data("kendoDropDownList").enable(false);
+        /*$("#divis").data("kendoDropDownList").enable(false);*/
+/*        $("#deptName").data("kendoDropDownList").enable(false);
         $("#deptTeamName").data("kendoDropDownList").enable(false);
         $("#positionOrNum").data("kendoDropDownList").enable(false);
         $("#jobCode").data("kendoDropDownList").enable(false);
@@ -469,8 +510,40 @@
         $("#weddingActive").data("kendoRadioGroup").enable(false);
         $("#weddingDay").data("kendoDatePicker").enable(false);
         $("#bloodType").data("kendoRadioGroup").enable(false);
-        $("#resignDay").data("kendoDatePicker").enable(false);
-    }*/
+        $("#resignDay").data("kendoDatePicker").enable(false);*/
+
+        //직원구분
+        $("#divis").data("kendoDropDownList").value("${uprinfList.DIVISION}");
+        $("#divisDet").data("kendoDropDownList").wrapper.show();
+
+        $("#divisDet").data("kendoDropDownList").value("${uprinfList.DIVISION_SUB}");
+        //부서
+        $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
+        //팀 --- DEPT_TEAM_SEQ 없음
+        $("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
+        //직급/등급 ---insert
+        $("#positionOrNum").data("kendoDropDownList").value();
+        //직군 ---insert
+        $("#jobCode").data("kendoDropDownList").value("${uprinfList.JOB_NAME}");
+        //직책
+        $("#positionName").data("kendoDropDownList").value("${uprinfList.DUTY_NAME}");
+        //학위 ---insert
+        $("#degreeCode").data("kendoDropDownList").value("${uprinfList.DEGREE_CODE}");
+
+
+        //홈페이지 게시
+        $("#homePageActive").data("kendoRadioGroup").value("${uprinfList.HOME_PAGE_ACTIVE}");
+        //입사 일자
+        $("#regDate").val("${uprinfList.JOIN_DAY}");
+        //생년월일
+        $("#bday").val("${uprinfList.BDAY}");
+        //결혼 관계
+        $("#weddingActive").data("kendoRadioGroup").value("${uprinfList.WEDDING_ACTIVE}");
+        //결혼기념일
+        $("#weddingDay").val("${uprinfList.WEDDING_DAY}");
+        //혈액형
+        $("#bloodType").data("kendoRadioGroup").value("${uprinfList.BLOOD_TYPE}");
+    }
 
 </script>
 </body>
