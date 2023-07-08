@@ -213,7 +213,7 @@ var userReqPop = {
             dataSource: [
                 {text: "선택하세요", value: ""},
                 {text: "R&D", value: "R&D"},
-                {text: "A&D", value: "A&D"},
+                {text: "A&C", value: "A&C"},
                 {text: "P&M", value: "P&M"}
             ],
             index: 0
@@ -238,7 +238,14 @@ var userReqPop = {
             dataValueField: "value",
             dataSource: [
                 {text: "선택하세요", value: ""},
-                {text: "고졸", value: "고졸"}
+                {text: "고졸", value: "고졸"},
+                {text: "전문학사", value: "전문학사"},
+                {text: "학사", value: "학사"},
+                {text: "석사수료", value: "석사수료"},
+                {text: "석사", value: "석사"},
+                {text: "박사수료", value: "박사수료"},
+                {text: "박사", value: "박사"},
+                {text: "기타", value: "기타"},
             ],
             index: 0
         });
@@ -350,7 +357,6 @@ var userReqPop = {
             ],
             layout : "horizontal",
             labelPosition : "after",
-            value : "Y",
         });
 
         $("#weddingActive").kendoRadioGroup({
@@ -360,7 +366,6 @@ var userReqPop = {
             ],
             layout : "horizontal",
             labelPosition : "after",
-            value : "Y",
         });
 
         $("#bloodType").kendoRadioGroup({
@@ -372,7 +377,6 @@ var userReqPop = {
             ],
             layout : "horizontal",
             labelPosition : "after",
-            value : "A",
         });
 
     },
