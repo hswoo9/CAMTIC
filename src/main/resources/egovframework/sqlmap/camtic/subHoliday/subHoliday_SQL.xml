@@ -242,6 +242,7 @@
         VC.USE_DAY,
         VC.CARRYOVER_DAY,
         VC.ADJUSTMENT_USE_DAY,
+        VC.COMP_VAC,
         ((VC.GRANT_DAY + VC.MDTN_DAY + VC.EXTRA_DAY) - (VC.USE_DAY)) AS REMAIN_VAC,
         VC.ACTIVE,
         VC.HOLIDAY_ID,
@@ -457,4 +458,15 @@
         WHERE
             DH.ACTIVE = "Y" AND DH.EMP_SEQ = #{loginEmpSeq}
     </select>
+
+    <update id="setUserVacList" parameterType="java.util.List" flushCache="true">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE CAM_INSIDE.DJ_HOLIDAY
+            SET
+                GRANT_DAY = #{item.GRANT_DAY},
+                COMP_VAC = #{item.COMP_VAC}
+            WHERE
+                HOLIDAY_ID = #{item.HOLIDAY_ID}
+        </foreach>
+    </update>
 </mapper>

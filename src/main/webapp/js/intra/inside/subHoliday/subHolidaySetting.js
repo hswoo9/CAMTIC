@@ -135,28 +135,47 @@ var subHolidaySetting = {
                         }, {
                             field : "befUseDay",
                             title : "전년사용",
-                            width : 70
+                            width : 70,
+                            editable: function(){
+                                return false;
+                            },
                         }, {
                             field : "bef2UseDay",
                             title : "전전년사용",
-                            width : 70
+                            width : 70,
+                            editable: function(){
+                                return false;
+                            },
                         }
                     ]
                 }, {
                     title : "보상",
                     columns : [
                         {
-                            field : "COMP_VAC",
                             title : "발생연차",
-                            width : 70
+                            width : 70,
+                            template : function(e){
+                                console.log(e)
+                                return e.COMP_VAC;
+                            }
                         }, {
-                            field : "",
                             title : "전년사용",
-                            width : 70
+                            width : 70,
+                            editable: function(){
+                                return false;
+                            },
+                            template : function(e){
+                                return 0;
+                            }
                         }, {
-                            field : "",
                             title : "전전년사용",
-                            width : 70
+                            width : 70,
+                            editable: function(){
+                                return false;
+                            },
+                            template : function(e){
+                                return 0;
+                            }
                         }
                     ]
                 }

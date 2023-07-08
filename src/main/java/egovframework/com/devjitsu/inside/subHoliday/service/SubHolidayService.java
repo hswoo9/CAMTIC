@@ -60,4 +60,6 @@ public interface SubHolidayService {
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
     Map<String, Object> getuserHolyData(Map<String, Object> params);
+
+    void setUserVacList(List<Map<String, Object>> list);
 }

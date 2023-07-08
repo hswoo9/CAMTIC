@@ -147,4 +147,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
         return data;
     }
+
+    @Override
+    public void setUserVacList(List<Map<String, Object>> list) {
+
+        subHolidayRepository.setUserVacList(list);
+
+    }
 }

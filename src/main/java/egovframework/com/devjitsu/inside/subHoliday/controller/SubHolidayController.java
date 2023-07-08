@@ -1,8 +1,7 @@
 package egovframework.com.devjitsu.inside.subHoliday.controller;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.inside.subHoliday.service.SubHolidayService;
@@ -19,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class SubHolidayController {
@@ -280,12 +276,18 @@ public class SubHolidayController {
         JsonParser p = new JsonParser();
 
         JsonElement element = p.parse(params);
-        JsonObject jsonObject = element.getAsJsonObject();
+        JsonArray jsonArray = element.getAsJsonObject().getAsJsonObject("dataSource").getAsJsonArray("data");
 
-        System.out.println(jsonObject);
+        System.out.println();
+        Gson gson = new Gson();
+        List<Map<String, Object>> list = new ArrayList<>();
+        for(JsonElement jsonElement : jsonArray){
+            Map<String, Object> jsonObject = gson.fromJson(jsonElement, new TypeToken<Map<String, Object>>(){}.getType());
+            list.add(jsonObject);
+        }
 //        Map<String, Object> map = mapper.readValue(params);
 
-
+        subHolidayService.setUserVacList(list);
         return "jsonView";
     }
 
