@@ -12,7 +12,6 @@
             M.SORT,
             M.MENU_DEPTH,
             M.MENU_PATH,
-            M.MENU_ICON,
             M.ACTIVE,
             M.LANG,
             M.MENU_NAME TEXT,
@@ -52,7 +51,6 @@
             SORT,
             MENU_DEPTH,
             MENU_PATH,
-            MENU_ICON,
             ACTIVE,
             LANG,
             MENU_NAME TEXT,
@@ -131,7 +129,6 @@
                 MENU_DEPTH,
                 MENU_PATH,
                 MENU_FULL_PATH,
-                MENU_ICON,
                 ACTIVE,
                 REG_EMP_SEQ
             )
@@ -151,7 +148,6 @@
                     WHERE
                         MENU_ID = #{upperMenuId}
                 ),
-                #{menuIcon},
                 #{active},
                 #{loginEmpSeq}
             )
@@ -167,7 +163,6 @@
             SORT,
             MENU_DEPTH,
             MENU_PATH,
-            MENU_ICON,
             ACTIVE,
             LANG,
             MENU_NAME TEXT,
@@ -225,7 +220,6 @@
             SORT = #{sort},
             MENU_DEPTH = #{menuDepth},
             MENU_PATH = #{menuPath},
-            MENU_ICON = #{menuIcon},
             ACTIVE = #{active},
             MOD_EMP_SEQ = #{loginEmpSeq}
         WHERE
@@ -302,7 +296,7 @@
             )
 
         <selectKey keyProperty="authorityGroupId" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DJ_EPIS' AND TABLE_NAME = 'V_MENU_AUTHORITY_GROUP'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_MENU_AUTHORITY_GROUP'
         </selectKey>
     </insert>
 
