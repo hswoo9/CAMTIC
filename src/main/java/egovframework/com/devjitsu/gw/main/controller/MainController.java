@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.gw.main.controller;
 
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,9 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+
+    @Autowired
+    private CommonService commonService;
 
     @RequestMapping("/")
     public String index(){
@@ -27,6 +32,8 @@ public class MainController {
     public String indexB(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
         model.addAttribute("loginVO", loginVO);
         return "indexB";
     }

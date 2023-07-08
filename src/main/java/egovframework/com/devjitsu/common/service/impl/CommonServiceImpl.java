@@ -3,6 +3,8 @@ package egovframework.com.devjitsu.common.service.impl;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.system.repository.MenuManagementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private MenuManagementRepository menuManagementRepository;
 
     @Override
     public String ctDept(String deptSeq) {
@@ -89,5 +94,37 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public int getUserListTotal(Map<String, Object> map) {
         return commonRepository.getUserListTotal(map);
+    }
+
+    @Override
+    public String getMenuFullJsonString(LoginVO loginVO) {
+        List<Map<String, Object>> treeList = new ArrayList<>();
+
+        List<Map<String, Object>> getMenuList = menuManagementRepository.getMainMenuList(loginVO);
+        for(Map<String, Object> parent : getMenuList){
+            if(parent.get("MENU_DEPTH").equals("0")){
+                parent.put("MENU_FULL_PATH", "epis|" + parent.get("MENU_FULL_PATH"));
+            }
+
+            for(Map<String, Object> children : getMenuList){
+                if(parent.get("MENU_ID").equals(children.get("UPPER_MENU_ID"))){
+                    children.put("MENU_FULL_PATH", "epis_new|"+children.get("MENU_FULL_PATH"));
+                    List<Map<String, Object>> childrenMenu = new ArrayList<Map<String, Object>>();
+                    if(parent.containsKey("childrenMenu")){
+                        childrenMenu = (List<Map<String, Object>>) parent.get("childrenMenu");
+                        childrenMenu.add(children);
+                        parent.put("childrenMenu", childrenMenu);
+                    }else{
+                        childrenMenu.add(children);
+                        parent.put("childrenMenu", childrenMenu);
+                    }
+                }
+            }
+
+            if(parent.get("MENU_DEPTH").equals("0")){
+                treeList.add(parent);
+            }
+        }
+        return new Gson().toJson(treeList);
     }
 }

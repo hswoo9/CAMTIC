@@ -84,7 +84,7 @@
                         MENU_NAME,
                         MENU_NAME AS MENU_NAME_PATH,
                         CAST(CONCAT(MENU_ID, '|') AS CHAR(100) CHARACTER SET UTF8) AS MENU_ID_PATH,
-                        CAST(CONCAT('000', SORT, '|') AS CHAR(100) CHARACTER SET UTF8) AS MENU_FULL_PATH
+                        CAST(RIGHT(CONCAT('000', SORT, '|'), 5) AS CHAR(100) CHARACTER SET UTF8) AS MENU_FULL_PATH
                     FROM
                         CAM_COMMON.DJ_MENU_INFO
                     WHERE
