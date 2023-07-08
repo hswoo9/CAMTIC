@@ -514,13 +514,63 @@
 
         //직원구분
         $("#divis").data("kendoDropDownList").value("${uprinfList.DIVISION}");
-        $("#divisDet").data("kendoDropDownList").wrapper.show();
+        var divis = $("#divis").val();
+        var detDs = "";
+        if(divis == "4"){
+            $("#divisDet").data("kendoDropDownList").wrapper.show()
+
+            detDs = [
+                {text: "계약직원", value: "1"},
+                {text: "인턴사원", value : "2"},
+                {text: "경비/환경", value : "3"},
+            ];
+            $("#divisDet").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: detDs
+            });
+        } else if(divis == "1") {
+            $("#divisDet").data("kendoDropDownList").wrapper.show()
+
+            detDs = [
+                {text: "위촉직원", value: "6"},
+                {text: "위촉연구원", value : "4"},
+            ];
+            $("#divisDet").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: detDs
+            });
+        } else {
+            $("#divisDet").val("");
+            $("#divisDet").data("kendoDropDownList").wrapper.hide()
+        }
 
         $("#divisDet").data("kendoDropDownList").value("${uprinfList.DIVISION_SUB}");
         //부서
         $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
+        var data = {
+            deptSeq : $("#deptName").val()
+        }
+
+        $.ajax({
+            url : "/userManage/getDeptCodeList",
+            type : "post",
+            async: false,
+            data : data,
+            dataType : "json",
+            success : function(result){
+                var ds = result.list;
+                /*ds.unshift({text: '선택하세요', value: ''});*/
+
+                $("#deptTeamName").kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: ds
+                });
+            }
+        });
         //팀 --- DEPT_TEAM_SEQ 없음
-        $("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
         //직급/등급 ---insert
         $("#positionOrNum").data("kendoDropDownList").value();
         //직군 ---insert
