@@ -134,7 +134,7 @@ var menuM = {
             var text = item.MENU_NAME;
             var itemVisible = query === true || query === "" || text.indexOf(query) >= 0;
 
-            var anyVisibleChildren = filter(item.children, itemVisible || query);
+            var anyVisibleChildren = menuM.filter(item.children, itemVisible || query);
 
             hasVisibleChildren = hasVisibleChildren || anyVisibleChildren || itemVisible;
 

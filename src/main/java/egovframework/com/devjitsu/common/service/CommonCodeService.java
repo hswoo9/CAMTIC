@@ -32,4 +32,30 @@ public interface CommonCodeService {
      * @return
      */
     Map<String, Object> getCmCodeInfo(Map<String, Object> params);
+
+    /**
+     * 공통 그룹코드 리스트
+     * @param
+     * @return
+     */
+    List<Map<String, Object>> getCmGroupCodeList(Map<String, Object> params);
+
+    /**
+     * 공통 그룹코드 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getCmGroupCodeInfo(Map<String, Object> params);
+
+    /**
+     * 공통 그룹코드 등록, 수정
+     * @param params
+     */
+    Map<String, Object> setCmGroupCodeSave(Map<String, Object> params);
+
+    /**
+     * 공통 코드 등록, 수정 수정가능
+     * @param params
+     */
+    Map<String, Object> setCmCodeSave(Map<String, Object> params);
 }

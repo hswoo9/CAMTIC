@@ -1,11 +1,10 @@
-
 <%--
-  Created by IntelliJ IDEA.
-  User: jsy
-  Date: 2023-02-28
-  Time: 오전 10:27
-  To change this template use File | Settings | File Templates.
---%>
+          Created by IntelliJ IDEA.
+          User: jsy
+          Date: 2023-02-28
+          Time: 오전 10:27
+          To change this template use File | Settings | File Templates.
+        --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="menuParam" value="${param.menu}"/>
@@ -117,45 +116,52 @@
                         menu = "<li>" +
                             "<a class='toggleMain' href='#'>" + x.MENU_NAME + "</a>";
                         if(x.MENU_CHILDREN_YN == "Y"){
-                            menu += "<ul menu ='"+ x.MENU_ID +"'  class='innerMain children a'>";
+                            menu += "<ul menu ='"+ x.MENU_ID +"'  class='innerMain children'>";
                             menu += "</ul>";
                         }
                         menu += "</li>";
 
                         $("#mainMenuUl").append(menu);
                     }else if(x.MENU_DEPTH == "1"){
-                        menu += "<li>";
-                        menu += "   <a href='#' class='toggleMain'>" + x.MENU_NAME + "</a>";
+                        menu += "<h5 class='sidebar-title'>" + x.MENU_NAME + "</h5>";
+
                         if(x.MENU_CHILDREN_YN == "Y"){
-                            menu += "<ul menu ='"+ x.MENU_ID +"' class='innerMain children a_a'>";
-                            menu += "</ul>";
+                            menu += "<li menu ='"+ x.MENU_ID +"'>";
+                            menu += "</li>";
                         }
-                        menu += "</li>";
 
                         $("ul[menu='" + x.UPPER_MENU_ID + "']").append(menu);
                     }else if(x.MENU_DEPTH == "2"){
-                        var menuName = x.MENU_NAME;
-
-                        menu += " <li>";
-                        if(x.MENU_PATH != "-"){
-                            menu += "   <a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1'>";
+                        if(x.MENU_CHILDREN_YN == "Y"){
+                            menu += "<a href='#' class='toggleMain'>" + x.MENU_NAME + "</a>";
+                            menu += "<ul class='innerMain children' menu ='"+ x.MENU_ID +"'>";
+                            menu += "</ul";
                         }else{
-                            menu += "   <a href='#'>\n";
+                            menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain'>" + x.MENU_NAME + "</a>";
                         }
 
-                        menu += menuName + "</a>";
+                        $("li[menu='" + x.UPPER_MENU_ID + "']").append(menu);
+                    }else if(x.MENU_DEPTH == "3"){
+                        menu += "   <li>";
 
-                        // if(x.MENU_CHILDREN_YN == "Y"){
-                        //     menu += "<ul class='sub_menu' menu ='"+ x.MENU_ID +"'>";
-                        //     menu += "</ul";
-                        // }
-                        menu += "</li>";
+                        if(x.MENU_CHILDREN_YN == "Y") {
+                            menu += "<a href='#' class='toggleMain1'>" + x.MENU_NAME + "</a>";
+                            menu += "<ul class='innerMain children' menu ='" + x.MENU_ID + "'>";
+                            menu += "</ul";
+                        }else{
+                            menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1'>" + x.MENU_NAME + "</a>";
+                        }
 
+                        menu += "   </li>";
                         $("ul[menu='" + x.UPPER_MENU_ID + "']").append(menu);
                     }else{
-                        // var menuName = x.MENU_NAME;
-                        // menu += "   <li><a href='javascript:void(0)' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='홈 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "'>" + menuName + "</a></li>";
-                        // $("ul[menu='" + x.UPPER_MENU_ID + "']").append(menu);
+                        menu += "   <li>";
+
+                        menu += "       <a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+
+                        menu += "   </li>";
+
+                        $("ul[menu='" + x.UPPER_MENU_ID + "']").append(menu);
                     }
 
                     if (Object.keys(x).findIndex(y => y === 'childrenMenu') > -1) {
@@ -166,3 +172,4 @@
             }
         }
     </script>
+

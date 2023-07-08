@@ -27,6 +27,10 @@
         AND
             CCG.CM_GROUP_CODE LIKE CONCAT('%',#{cmGroupCode},'%')
         </if>
+        <if test='cmGroupCodeNm != null and !"".equals(cmGroupCodeNm)'>
+        AND
+            CCG.CM_GROUP_CODE_NM LIKE CONCAT('%',#{cmGroupCodeNm},'%')
+        </if>
         <if test='dropDown != null and !"".equals(dropDown) and "Y".equals(dropDown)'>
         GROUP BY
             CCG.CM_GROUP_CODE

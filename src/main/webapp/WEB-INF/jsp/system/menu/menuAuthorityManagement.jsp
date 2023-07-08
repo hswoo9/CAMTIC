@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link rel="stylesheet" href="/css/intra/kTreeView.css">
-<script type="text/javascript" src="/js/intra/system/menuAuthManage.js?v=1"/></script>
+<script type="text/javascript" src="/js/intra/system/menu/menuAuthManage.js?v=1"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -16,7 +16,7 @@
 		</div>
 		<div style="padding-left : 20px; padding-right: 20px;">
 			<h4 class="panel-title">메뉴권한관리</h4>
-			<div class="title-road">시스템관리 &gt; 메뉴관리 &gt; 메뉴권한관리</div>
+			<div class="title-road" style="text-align: right; margin-bottom: 5px;">시스템관리 &gt; 메뉴관리 &gt; 메뉴권한관리</div>
 			<div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 		</div>
 
