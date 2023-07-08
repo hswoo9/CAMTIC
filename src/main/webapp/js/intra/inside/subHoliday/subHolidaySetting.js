@@ -152,12 +152,9 @@ var subHolidaySetting = {
                     title : "보상",
                     columns : [
                         {
+                            field: "COMP_VAC",
                             title : "발생연차",
-                            width : 70,
-                            template : function(e){
-                                console.log(e)
-                                return e.COMP_VAC;
-                            }
+                            width : 70
                         }, {
                             title : "전년사용",
                             width : 70,

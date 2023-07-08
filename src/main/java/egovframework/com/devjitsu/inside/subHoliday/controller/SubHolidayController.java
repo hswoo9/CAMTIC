@@ -278,7 +278,6 @@ public class SubHolidayController {
         JsonElement element = p.parse(params);
         JsonArray jsonArray = element.getAsJsonObject().getAsJsonObject("dataSource").getAsJsonArray("data");
 
-        System.out.println();
         Gson gson = new Gson();
         List<Map<String, Object>> list = new ArrayList<>();
         for(JsonElement jsonElement : jsonArray){
