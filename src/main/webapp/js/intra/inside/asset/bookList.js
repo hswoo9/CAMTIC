@@ -30,20 +30,22 @@ var bookList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/inside/getBookList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.searchType = $("#searchType").val();
+                    data.searchText = $("#searchText").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -64,7 +66,7 @@ var bookList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookManagePopUp();">' +
+                        return '<button type="button" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookManagePopUp();">' +
                             '	<span class="k-button-text">분류관리</span>' +
                             '</button>';
                     }
@@ -78,7 +80,7 @@ var bookList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
@@ -89,26 +91,34 @@ var bookList = {
             },
             columns: [
                 {
-                    field: "",
-                    title: "순번"
+                    field: "ROW_NUM",
+                    title: "순번",
+                    width: 40
                 }, {
-                    field: "",
-                    title: "코드"
+                    title: "코드",
+                    template : function(row){
+                        return row.BK_LG_CD_NAME+"-"+row.BK_MD_CD + row.BK_CD
+                    }
                 }, {
-                    field: "",
-                    title: "도서명"
+                    field: "BK_NAME",
+                    title: "도서명",
+                    width: 250
                 }, {
-                    field: "",
-                    title: "저자"
+                    field: "BK_WRITER",
+                    title: "저자",
+                    width: 200
                 }, {
-                    field: "",
-                    title: "구매요청자"
+                    field: "BK_BUYER_NAME",
+                    title: "구매요청자",
+                    width: 150
                 }, {
-                    field: "",
-                    title: "구매일자"
+                    field: "BK_BUY_DT",
+                    title: "구매일자",
+                    width: 150
                 }, {
-                    field: "",
-                    title: "비치장소"
+                    field: "BK_REPL",
+                    title: "비치장소",
+                    width: 200
                 }
             ]
         }).data("kendoGrid");

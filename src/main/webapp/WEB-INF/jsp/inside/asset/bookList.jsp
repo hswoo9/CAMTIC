@@ -29,10 +29,10 @@
                                 <div class="mr10">
                                     <span>구분</span>
                                     <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
+                                    <input type="text" id="searchText" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="gridReload()"/>
                                 </div>
                             </div>
                         </td>

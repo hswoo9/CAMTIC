@@ -330,11 +330,41 @@
     </select>
 
     <select id="getBookList" resultType="map">
+        /* getBookList */
         SELECT
-            *
+            RE.*
         FROM
-            CAM_INSIDE.DJ_BOOK_INFO
-        ORDER BY REG_DT
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IBI.*
+                FROM
+                    CAM_INSIDE.DJ_BOOK_INFO IBI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                <choose>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND (IBI.BK_LG_CD_NAME like CONCAT('%', #{searchText}, '%')
+                        OR IBI.BK_MD_CD_NAME like CONCAT('%', #{searchText}, '%')
+                        OR IBI.BK_CD_NAME like CONCAT('%', #{searchText}, '%'))
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND IBI.BK_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                        AND IBI.BK_WRITER like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                        AND IBI.BK_BUYER_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
+                        AND IBI.BK_REPL like CONCAT('%', #{searchText}, '%')
+                    </when>
+                </choose>
+                ORDER BY IBI.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
     </select>
 
     <insert id="setBookInsert" parameterType="map">
@@ -361,7 +391,8 @@
                 BK_MNG_NAME,
                 BK_MNG_SUB_SEQ,
                 BK_MNG_SUB_NAME,
-                BK_SMRY
+                BK_SMRY,
+                BK_REPL
             )
         VALUES
             (
@@ -385,7 +416,8 @@
                 #{bkmngname},
                 #{bkmngsubseq},
                 #{bkmngsubname},
-                #{bksmry}
+                #{bksmry},
+                #{bkRepl}
             )
     </insert>
 
