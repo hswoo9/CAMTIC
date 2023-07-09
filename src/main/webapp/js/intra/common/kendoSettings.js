@@ -166,9 +166,14 @@ var customKendo = {
      * @param dataSource
      * @param textField
      * @param valueField
+     * @param type
      */
-    fn_dropDownList : function (id, dataSource, textField, valueField){
-        dataSource.unshift({[textField] : "전체", [valueField] : ""});
+    fn_dropDownList : function (id, dataSource, textField, valueField, type){
+        if(type == "2") {
+            dataSource.unshift({[textField] : "선택하세요", [valueField] : ""});
+        }else {
+            dataSource.unshift({[textField] : "전체", [valueField] : ""});
+        }
 
         $("#" + id).kendoDropDownList({
             dataSource : dataSource,

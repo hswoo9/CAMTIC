@@ -15,6 +15,10 @@ var snackReq = {
         let useMin = $("#useMin").val();
         let snackType = $("#snackType").val();
         let snackTypeText = $("#snackType").data("kendoDropDownList").text();
+        let payType = $("#payType").val();
+        let payTypeText = $("#payType").data("kendoDropDownList").text();
+        let chargeUser = $("#chargeUser").val();
+        let chargeUserText = $("#chargeUser").data("kendoDropDownList").text();
         let areaSn = $("#areaSn").val();
         let areaName = $("#areaName").val();
         let usAmount = $("#usAmount").val();
@@ -24,8 +28,20 @@ var snackReq = {
             alert("이용일시가 작성되지 않았습니다.");
             return;
         }
+        if(useHour >= 24) {
+            alert("이용시간이 잘못 기입되었습니다.");
+            return;
+        }
+        if(useMin >= 60) {
+            alert("이용시간이 잘못 기입되었습니다.");
+            return;
+        }
         if(snackTypeText == "") {
             alert("식대구분이 선택되지 않았습니다.");
+            return;
+        }
+        if(chargeUser == "") {
+            alert("거래확인서류 수령자를 선택하지 않았습니다.");
             return;
         }
         if(areaName == "") {
@@ -49,6 +65,8 @@ var snackReq = {
             useMin : useMin,
             snackType : snackType,
             snackTypeText : snackTypeText,
+            payType : payType,
+            payTypeText : payTypeText,
             areaSn : areaSn,
             areaName : areaName,
             usAmount : usAmount,
@@ -89,43 +107,45 @@ var snackReq = {
     },
 
     dataSet: function() {
-        customKendo.fn_textBox(["useHour", "useMin", "user", "recipient", "corporCard", "areaName", "usAmount", "useReason"]);
+        customKendo.fn_textBox(["useHour", "useMin", "userText", "corporCard", "areaName", "usAmount", "useReason"]);
+        customKendo.fn_datePicker("useDt", 'month', "yyyy-MM-dd", new Date());
+        let snackTypeDataSource = [
+            {text: "야간 간식", value: "1"},
+            {text: "휴일 식대", value: "2"},
+            {text: "평일 식대", value: "3"}
+        ]
+        customKendo.fn_dropDownList("snackType", snackTypeDataSource, "text", "value", 2);
+        let payTypeDataSource = [
+            {text: "개인", value: "1"},
+            {text: "법인", value: "2"},
+            {text: "외상", value: "3"}
+        ]
+        customKendo.fn_dropDownList("payType", payTypeDataSource, "text", "value", 2);
+        let chargeUserDataSource = []
+        customKendo.fn_dropDownList("chargeUser", chargeUserDataSource, "text", "value", 2);
+        $("#chargeUser").data("kendoDropDownList").enable(false);
 
-        $("#useDt").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-        $("#snackType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "야간 간식", value: "1"},
-                {text: "휴일 식대", value: "2"},
-                {text: "평일 식대", value: "3"}
-            ],
-            index: 0
-        });
-
-        $("#UseReason").kendoTextBox();
-
-        $("#payDivision").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "개인", value: "개인"},
-                {text: "법인", value: "법인"},
-                {text: "외상", value: "외상"}
-            ],
-            index: 0
-        });
-
-        $("#useDt").data("kendoDatePicker").readOnly();
+        $("#useDt, #userText").data("kendoDatePicker").readOnly();
     }
 }
 
+function userDataSet(userArr) {
+    console.log(userArr);
+
+    let userText = "";
+    let userSn = "";
+    for(let i=0; i<userArr.length; i++) {
+        if(userText != "") {
+            userText += ", ";
+            userSn += ",";
+        }
+        userText += userArr[i].approveEmpName;
+        userSn += userArr[i].approveEmpSeq;
+    }
+    $("#userText").val(userText);
+    $("#userSn").val(userSn);
+
+    customKendo.fn_dropDownList("chargeUser", userArr, "approveEmpName", "approveEmpSeq", 2);
+    $("#chargeUser").data("kendoDropDownList").enable(false);
+    $("#chargeUser").data("kendoDropDownList").enable(true);
+}

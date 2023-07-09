@@ -43,6 +43,18 @@ public class UserController {
         return "user/organizationChart";
     }
 
+    //유저 다수 선택 팝업
+    @RequestMapping("/user/pop/userMultiSelectPop.do")
+    public String userMultiSelectPop(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+
+        return "popup/user/userMultiSelectPop";
+    }
+
     //TODO. AJAX RETURN 오류로 JSONVIEW는 나중에 추가
     @RequestMapping(value = "/user/getOrgDeptList")
     @ResponseBody

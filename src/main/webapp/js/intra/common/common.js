@@ -69,3 +69,7 @@ function fn_checkAll(headerCheckBoxId, checkBoxName){
         $("input[name="+checkBoxName+"]").prop("checked", false);
     }
 }
+
+function fn_userMultiSelectPop() {
+    window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+}

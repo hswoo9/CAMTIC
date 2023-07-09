@@ -2,12 +2,12 @@ var now = new Date();
 
 var snackList = {
 
-    init: function () {
+    init: function() {
         snackList.dataSet();
         snackList.mainGrid();
     },
 
-    mainGrid: function () {
+    mainGrid: function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -54,10 +54,11 @@ var snackList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : snackList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='ehiPk#=SNACK_INFO_SN#' name='ehiPk' value='#=SNACK_INFO_SN#'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" onclick="fn_checkAll(\'checkAll\', \'sanckPk\');" name="checkAll"/>',
+                    template : "<input type='checkbox' id='sanckPk#=SNACK_INFO_SN#' name='sanckPk' value='#=SNACK_INFO_SN#'/>",
                     width: 50
                 }, {
                     field: "ROW_NUM",
@@ -98,7 +99,16 @@ var snackList = {
         }).data("kendoGrid");
     },
 
-    dataSet: function() {
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const snackInfoSn = dataItem.SNACK_INFO_SN;
+            snackList.snackPopup(snackInfoSn);
+        });
+    },
+
+    dataSet: function(){
         customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
@@ -156,11 +166,28 @@ var snackList = {
         fn_deptSetting();
     },
 
-    snackPopup : function(){
-        var url = "/Inside/pop/snackPop.do";
-        var name = "popup test";
-        var option = "width = 1000, height = 360, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
+    snackPopup: function(snackInfoSn, mode){
+        let urlParams = "";
+        if(!isNaN(snackInfoSn)){
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "snackInfoSn=" + snackInfoSn;
+        }
+        if(!isNaN(mode)){
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "&mode=" + mode;
+        }
+        const url = "/Inside/pop/snackPop.do"+urlParams;
+        const name = "popup test";
+        const option = "width = 1000, height = 360, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }
 
