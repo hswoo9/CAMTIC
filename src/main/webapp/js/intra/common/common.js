@@ -73,3 +73,11 @@ function fn_checkAll(headerCheckBoxId, checkBoxName){
 function fn_userMultiSelectPop() {
     window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
+
+//숫자에 콤마 찍기
+function fn_numberWithCommas(num) {
+    if (!num || num=="" || num==undefined) {
+        return 0;
+    }
+    return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

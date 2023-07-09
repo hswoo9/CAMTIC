@@ -245,17 +245,13 @@ var userMultiSel = {
 
         /** 결재선 */
         $.each($("#approvalLineDataTb tbody tr"), function(){
-            var empNameTdSpan = $(this).find("td:last span").attr("approveType");
-
-            var data = {
-                approveEmpSeq : $(this).find("#approveEmpSeq").val(),
-                approveEmpName : $(this).find("#approveEmpName").val(),
-                approvePositionName : $(this).find("#approvePositionName").val(),
-                approveDutyName : $(this).find("#approveDutyName").val(),
-                approveDeptSeq : $(this).find("#approveDeptSeq").val(),
-                approveDeptName : $(this).find("#approveDeptName").val(),
-                approveOrder : $(this).find("#approveOrder").text(),
-                approveType : empNameTdSpan
+            let data = {
+                empSeq : $(this).find("#approveEmpSeq").val(),
+                empName : $(this).find("#approveEmpName").val(),
+                positionName : $(this).find("#approvePositionName").val(),
+                dutyName : $(this).find("#approveDutyName").val(),
+                deptSeq : $(this).find("#approveDeptSeq").val(),
+                deptName : $(this).find("#approveDeptName").val()
             }
             userArr.push(data);
         });

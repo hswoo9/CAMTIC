@@ -29,4 +29,9 @@ public class DocumentServiceImpl implements DocumentService {
     public void setSnackInsert(Map<String, Object> params) {
         documentRepository.setSnackInsert(params);
     }
+
+    @Override
+    public void setSnackReqCert(Map<String, Object> params) {
+        documentRepository.setSnackReqCert(params);
+    }
 }

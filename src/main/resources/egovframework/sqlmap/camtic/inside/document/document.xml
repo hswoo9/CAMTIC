@@ -25,9 +25,33 @@
     <select id="getSnackOne" resultType="map" parameterType="map">
         /* getSnackOne */
         SELECT
-            ISI.*
+            ISI.SNACK_INFO_SN,
+            ISI.USE_DT,
+            ISI.USE_TIME,
+            ISI.SNACK_TYPE,
+            ISI.SNACK_TYPE_TEXT,
+            ISI.USER_SN,
+            ISI.USER_TEXT,
+            ISI.PAY_TYPE,
+            ISI.PAY_TYPE_TEXT,
+            ISI.RECIPIENT_EMP_SEQ,
+            ISI.RECIPIENT_EMP_NAME,
+            ISI.CARD_TEXT,
+            ISI.AREA_SEQ,
+            ISI.AREA_NAME,
+            ISI.AMOUNT_SN,
+            ISI.USE_REASON,
+            ISI.REG_EMP_SEQ,
+            ISI.REG_EMP_NAME,
+            ISI.STATUS,
+            HEI.EMP_NAME_KR,
+            HEI.DEPT_NAME,
+            HEI.DEPT_TEAM_NAME,
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME
         FROM
             CAM_INSIDE.DJ_SNACK_INFO ISI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON ISI.REG_EMP_SEQ = HEI.EMP_SEQ
         WHERE
             SNACK_INFO_SN = #{snackInfoSn}
     </select>
@@ -40,8 +64,12 @@
                 USE_TIME,
                 SNACK_TYPE,
                 SNACK_TYPE_TEXT,
+                USER_SN,
+                USER_TEXT,
                 PAY_TYPE,
                 PAY_TYPE_TEXT,
+                RECIPIENT_EMP_SEQ,
+                RECIPIENT_EMP_NAME,
                 AREA_SEQ,
                 AREA_NAME,
                 AMOUNT_SN,
@@ -55,8 +83,12 @@
                 CONCAT(#{useHour}, ':', #{useMin}),
                 #{snackType},
                 #{snackTypeText},
+                #{userSn},
+                #{userText},
                 #{payType},
                 #{payTypeText},
+                #{chargeUser},
+                #{chargeUserText},
                 #{areaSn},
                 #{areaName},
                 #{usAmount},
@@ -65,4 +97,24 @@
                 #{empName}
             )
     </insert>
+
+    <update id="setSnackReqCert" parameterType="map">
+        /* setSnackReqCert */
+        UPDATE
+            CAM_INSIDE.DJ_SNACK_INFO
+        SET
+        <if test='status != null and !"".equals(status) and !"110".equals(status)'>
+            APPROVAL_EMP_SEQ = #{empSeq},
+            APPROVAL_RESULT_DATE = now(),
+        </if>
+            STATUS = ${status}
+        WHERE
+            <if test='snackInfoSn != null and !"".equals(snackInfoSn)'>
+                SNACK_INFO_SN = #{snackInfoSn}
+            </if>
+            <if test='snackInfoSnArr != null and !"".equals(snackInfoSnArr)'>
+                SNACK_INFO_SN IN (${snackInfoSnArr})
+            </if>
+    </update>
+
 </mapper>

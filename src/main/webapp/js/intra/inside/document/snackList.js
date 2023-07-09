@@ -7,6 +7,32 @@ var snackList = {
         snackList.mainGrid();
     },
 
+    fn_snackCertAllReq: function(status){
+        const ch = $('input[name=\'sanckPk\']:checked');
+        let snackInfoSnArr = [];
+        $.each(ch, function(){
+            snackInfoSnArr.push(this.value);
+        });
+
+        if(snackInfoSnArr.length == 0){
+            alert('결재 할 항목을 선택해 주세요.');
+            return;
+        }
+
+        let data = {
+            snackInfoSnArr : snackInfoSnArr.join(),
+            empSeq : $("#empSeq").val(),
+            status : status
+        }
+
+        const result = customKendo.fn_customAjax("/inside/setSnackReqCert", data);
+
+        if(result.flag){
+            alert("결재가 완료되었습니다.");
+            gridReload();
+        }
+    },
+
     mainGrid: function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -76,8 +102,17 @@ var snackList = {
                     field: "USE_DT",
                     title: "일시"
                 }, {
-                    field: "",
                     title: "이용자",
+                    template : function(row){
+                        let userText = row.USER_TEXT;
+                        let userTextArr = userText.split(',');
+                        if(userTextArr.length > 1) {
+                            return userTextArr[0]+" 외 "+(userTextArr.length-1)+"명";
+                        }else{
+                            return userTextArr[0];
+                        }
+
+                    },
                     width: "15%"
                 }, {
                     field: "AREA_NAME",
@@ -88,7 +123,7 @@ var snackList = {
                     title: "이용금액(원)",
                     width: "10%"
                 }, {
-                    field: "STATUS",
+                    field: "CARD_TEXT",
                     title: "결재 구분",
                     width: "10%"
                 }, {

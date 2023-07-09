@@ -67,7 +67,7 @@
                                     <input type="text" id="approval" style="width: 100px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="approButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="">
+                                    <button type="button" id="approButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;"  onclick="snackList.fn_snackCertAllReq(100)">
                                         결재
                                     </button>
                                 </div>

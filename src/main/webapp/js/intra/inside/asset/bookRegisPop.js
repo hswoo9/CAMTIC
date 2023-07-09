@@ -104,6 +104,51 @@ var bookRegisPop = {
     },
 
     fn_bkSave: function (){
+        if($("#bkCdName").val() == "") {
+            alert("도서분류를 선택하지 않았습니다");
+            return;
+        }
+        if($("#bkName").val() == "") {
+            alert("도서명이 작성되지 않았습니다");
+            return;
+        }
+        if($("#bkWriter").val() == "") {
+            alert("저자가 작성되지 않았습니다");
+            return;
+        }
+        if($("#bkPubl").val() == "") {
+            alert("출판사가 작성되지 않았습니다");
+            return;
+        }
+        if($("#bkCost").val() == "") {
+            alert("구매가가 작성되지 않았습니다");
+            return;
+        }
+        if($("#bkCnt").val() == "") {
+            alert("구매수량이 작성되지 않았습니다");
+            return;
+        }
+        if($("#bkBuyer").val() == "" || $("#bkUser").val() == "") {
+            alert("구매자/사용자가 선택되지 않았습니다");
+            return;
+        }
+        if($("#bkDeptSeq").val() == "") {
+            alert("구매부서가 선택되지 않았습니다");
+            return;
+        }
+        if($("#bkRepl").val() == "") {
+            alert("비치장소가 작성되지 않았습니다");
+            return;
+        }
+        if($("#bkMngSeq").val() == "") {
+            alert("관리자(정)이 선택되지 않았습니다");
+            return;
+        }
+        if($("#bkMngSubSeq").val() == "") {
+            alert("관리자(부)가 선택되지 않았습니다");
+            return;
+        }
+
         let data = {
             bkLgCd : $("#bkLgCd").val(),
             bkLgCdName : $("#bkLgCd").data("kendoDropDownList").text(),

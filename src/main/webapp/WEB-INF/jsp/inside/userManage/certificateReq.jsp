@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/certificate/certificateReq.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/certificate/certificateReq.js?v=${todate}"/></script>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>

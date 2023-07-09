@@ -13,7 +13,7 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="snackInfoSn" value="${data.SNACK_INFO_SN}"/>
+<input type="hidden" id="snackInfoSn" value="${snackInfoSn}"/>
 
 <div class="card">
     <div class="card-header" style="padding:20px 0;">
@@ -40,7 +40,7 @@
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>이용자</th>
                         <td><input type="text" id="userText" style="width: 65%;">
                             <input type="hidden" id="userSn" style="width: 65%;">
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="fn_userMultiSelectPop();">
+                            <button type="button" id="userMultiSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="fn_userMultiSelectPop();">
                                 직원선택
                             </button>
                         </td>
@@ -52,7 +52,7 @@
                         <td><input type="text" id="chargeUser" style="width: 100%;"></td>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>법인카드</th>
                         <td><input type="text" id="corporCard" style="width: 75%; text-align: right;">
-                        <button type="button" id="CardSearch" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="">
+                        <button type="button" id="cardSearch" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="">
                             검색
                         </button>
                         </td>
@@ -73,14 +73,31 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">영수증</th>
-                        <td colspan="3" style="padding:5px;"><input type="file"></td>
+                        <td colspan="3" style="padding:5px;"><input type="file" id="file"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="snackReq.saveBtn();"/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
+                <c:choose>
+                    <c:when test="${status == 0}">
+                        <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="snackReq.fn_snackCertReq(10);"/>
+                        <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="snackReq.uptBtn();"/>
+                        <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="snackReq.saveBtn();"/>
+                        <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
+                    </c:when>
+                    <c:when test="${status == 10}">
+                        <button type="button" class="k-button k-button-md k-button-solid-info" onclick="snackReq.fn_snackCertReq(100)">승인</button>
+                        <button type="button" class="k-button k-button-md k-button-solid-error" onclick="snackReq.fn_snackCertReq(30)">반려</button>
+                    </c:when>
+                    <c:when test="${status == 100}">
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>
+                    </c:when>
+                    <c:when test="${status == null}">
+                        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="snackReq.saveBtn();"/>
+                        <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
     </div>
@@ -88,7 +105,11 @@
 
 
 <script>
-    snackReq.init();
+    let snackData = {};
+    <c:if test="${flag eq 'true'}">
+        snackData = JSON.parse('${data}');
+    </c:if>
+    snackReq.init(snackData);
 </script>
 </body>
 </html>

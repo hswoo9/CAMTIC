@@ -20,4 +20,8 @@ public class DocumentRepository extends AbstractDAO {
     public void setSnackInsert(Map<String, Object> params) {
         insert("document.setSnackInsert", params);
     }
+
+    public void setSnackReqCert(Map<String, Object> params) {
+        update("document.setSnackReqCert", params);
+    }
 }

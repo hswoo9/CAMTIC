@@ -1,7 +1,7 @@
 var snackReq = {
 
     init: function() {
-        snackReq.dataSet();
+        snackReq.dataSet(snackData);
     },
 
     saveBtn: function() {
@@ -15,6 +15,8 @@ var snackReq = {
         let useMin = $("#useMin").val();
         let snackType = $("#snackType").val();
         let snackTypeText = $("#snackType").data("kendoDropDownList").text();
+        let userSn = $("#userSn").val();
+        let userText = $("#userText").val();
         let payType = $("#payType").val();
         let payTypeText = $("#payType").data("kendoDropDownList").text();
         let chargeUser = $("#chargeUser").val();
@@ -65,12 +67,16 @@ var snackReq = {
             useMin : useMin,
             snackType : snackType,
             snackTypeText : snackTypeText,
+            chargeUser : chargeUser,
+            chargeUserText : chargeUserText,
             payType : payType,
             payTypeText : payTypeText,
             areaSn : areaSn,
             areaName : areaName,
             usAmount : usAmount,
-            useReason : useReason
+            useReason : useReason,
+            userSn : userSn,
+            userText : userText
         }
 
         if($("#snackInfoSn").val() == "") {
@@ -83,6 +89,13 @@ var snackReq = {
                 return;
             }
         }
+    },
+
+    uptBtn: function(){
+        snackReq.enableSetting(true);
+
+        $(".btn-A").hide();
+        $(".btn-B").show();
     },
 
     setSnackInsert: function(data){
@@ -106,7 +119,24 @@ var snackReq = {
         });
     },
 
-    dataSet: function() {
+    fn_snackCertReq: function(status){
+        var data = {
+            snackInfoSn : $("#snackInfoSn").val(),
+            empSeq : $("#empSeq").val(),
+            status : status
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setSnackReqCert", data);
+
+        if(result.flag){
+            alert("승인 요청이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }
+
+    },
+
+    dataSet: function(snackData) {
         customKendo.fn_textBox(["useHour", "useMin", "userText", "corporCard", "areaName", "usAmount", "useReason"]);
         customKendo.fn_datePicker("useDt", 'month', "yyyy-MM-dd", new Date());
         let snackTypeDataSource = [
@@ -125,7 +155,70 @@ var snackReq = {
         customKendo.fn_dropDownList("chargeUser", chargeUserDataSource, "text", "value", 2);
         $("#chargeUser").data("kendoDropDownList").enable(false);
 
-        $("#useDt, #userText").data("kendoDatePicker").readOnly();
+        //$("#useDt").data("kendoDatePicker").readonly(true);
+        $("#useDt").attr("readonly", true);
+        $("#userText").data("kendoTextBox").readonly(true);
+
+        if(!isNaN(snackData.STATUS)) {
+            let data = snackData;
+            $("#useDt").val(data.USE_DT);
+            $("#useHour").val(data.USE_TIME.split(':')[0]);
+            $("#useMin").val(data.USE_TIME.split(':')[1]);
+            $("#snackType").data("kendoDropDownList").value(data.SNACK_TYPE);
+            $("#userSn").val(data.USER_SN);
+            $("#userText").val(data.USER_TEXT);
+            $("#payType").data("kendoDropDownList").value(data.PAY_TYPE);
+            $("#areaName").val(data.AREA_NAME);
+            $("#usAmount").val(data.AMOUNT_SN);
+            $("#useReason").val(data.USE_REASON);
+
+            let userSn = snackData.USER_SN;
+            let userSnArr = userSn.split(',');
+
+            let userText = snackData.USER_TEXT;
+            let userTextArr = userText.split(',');
+
+            let userArr = [];
+            /** 결재선 */
+            for(let i=0; i<userSnArr.length; i++) {
+                let data = {
+                    empSeq: userSnArr[i],
+                    empName: userTextArr[i]
+                }
+                userArr.push(data);
+            }
+            customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 2);;
+            $("#chargeUser").data("kendoDropDownList").value(data.RECIPIENT_EMP_SEQ);
+            snackReq.enableSetting(false);
+        }
+    },
+
+    enableSetting: function(boolean){
+        $("#useHour").data("kendoTextBox").enable(boolean);
+        $("#useMin").data("kendoTextBox").enable(boolean);
+        $("#userText").data("kendoTextBox").enable(boolean);
+        $("#corporCard").data("kendoTextBox").enable(boolean);
+        $("#areaName").data("kendoTextBox").enable(boolean);
+        $("#usAmount").data("kendoTextBox").enable(boolean);
+        $("#useReason").data("kendoTextBox").enable(boolean);
+
+        $("#useDt").data("kendoDatePicker").enable(boolean);
+
+        $("#snackType").data("kendoDropDownList").enable(boolean);
+        $("#payType").data("kendoDropDownList").enable(boolean);
+        $("#chargeUser").data("kendoDropDownList").enable(boolean);
+
+        $("#userMultiSelect").attr("disabled", !boolean);
+        $("#cardSearch").attr("disabled", !boolean);
+        $("#restaurantSearch").attr("disabled", !boolean);
+        $("#file").attr("disabled", !boolean);
+    },
+
+    snackPrintPop : function() {
+        var url = "/Inside/pop/snackPrintPop.do?snackInfoSn="+$("#snackInfoSn").val();
+        var name = "snackPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }
 
@@ -139,13 +232,12 @@ function userDataSet(userArr) {
             userText += ", ";
             userSn += ",";
         }
-        userText += userArr[i].approveEmpName;
-        userSn += userArr[i].approveEmpSeq;
+        userText += userArr[i].empName;
+        userSn += userArr[i].empSeq;
     }
     $("#userText").val(userText);
     $("#userSn").val(userSn);
 
-    customKendo.fn_dropDownList("chargeUser", userArr, "approveEmpName", "approveEmpSeq", 2);
-    $("#chargeUser").data("kendoDropDownList").enable(false);
+    customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 2);;
     $("#chargeUser").data("kendoDropDownList").enable(true);
 }

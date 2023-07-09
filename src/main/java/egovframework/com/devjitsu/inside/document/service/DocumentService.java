@@ -24,4 +24,10 @@ public interface DocumentService {
      * @param params
      */
     void setSnackInsert(Map<String, Object> params);
+
+    /**
+     * 식대대장 승인요청
+     * @param params
+     */
+    void setSnackReqCert(Map<String, Object> params);
 }

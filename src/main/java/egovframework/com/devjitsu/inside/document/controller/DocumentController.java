@@ -1,8 +1,11 @@
 package egovframework.com.devjitsu.inside.document.controller;
 
+import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.document.service.DocumentService;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DocumentController {
@@ -29,6 +29,9 @@ public class DocumentController {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     //등록대장
     @RequestMapping("/Inside/documentList.do")
@@ -139,12 +142,52 @@ public class DocumentController {
 
     //야근/휴일식대대장 팝업창
     @RequestMapping("/Inside/pop/snackPop.do")
-    public String snackPop(HttpServletRequest request, Model model) {
+    public String snackPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("flag", "false");
+        if(params.containsKey("snackInfoSn")){
+            Map<String, Object> data = documentService.getSnackOne(params);
+            model.addAttribute("snackInfoSn", data.get("SNACK_INFO_SN"));
+            model.addAttribute("status", data.get("STATUS"));
+            JSONObject jsonData =  new JSONObject(data);
+            model.addAttribute("data", jsonData);
+            model.addAttribute("flag", "true");
+        }
         return "popup/inside/document/snackPop";
+    }
+
+    //증명서인쇄 팝업 페이지
+    @RequestMapping("/Inside/pop/snackPrintPop.do")
+    public String snackPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        Map<String, Object> data = new HashMap<>();
+        if(params.containsKey("snackInfoSn")){
+            data = documentService.getSnackOne(params);
+            model.addAttribute("data", data);
+        }
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+        params.put("menuCd", "snack");
+
+        model.addAttribute("snackInfoSn", params.get("snackInfoSn"));
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", data);;
+
+        return "popup/inside/document/snackPrintPop";
     }
 
     //식대대장 리스트 조회
@@ -168,6 +211,22 @@ public class DocumentController {
     public String setSnackInsert(@RequestParam Map<String, Object> params) {
         documentService.setSnackInsert(params);
         return "jsonView";
+    }
+
+    //식대대장 승인요청
+    @RequestMapping("/inside/setSnackReqCert")
+    public String setSnackReqCert(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        try{
+            documentService.setSnackReqCert(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

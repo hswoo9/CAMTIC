@@ -338,6 +338,65 @@ var hwpDocCtrl = {
 
                 }
             });
+        }else if(data.menuCd == "snack") {
+
+            const snackInfoSn = snackPrint.global.params.snackInfoSn;
+
+            if(snackInfoSn == null || snackInfoSn == undefined || snackInfoSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                    url : "/inside/getSnackOne",
+                    data : {
+                        snackInfoSn : snackInfoSn
+                    },
+                    type : "post",
+                    dataType : "json",
+                    async: false,
+                    success : function(result){
+                        console.log(result.data);
+                        const ResultData = result.data;
+
+                        let today = new Date();
+                        let year = today.getFullYear(); // 년도
+                        let month = today.getMonth() + 1;  // 월
+                        let date = today.getDate();  // 날짜
+
+                        let useDate = ResultData.USE_DT+" "+ResultData.USE_TIME;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('useDate', true, true, false);
+                        hwpDocCtrl.putFieldText('useDate', useDate);
+
+                        let typeText = "";
+                        if(Number(ResultData.PAY_TYPE) == 2) {
+                            typeText = ResultData.PAY_TYPE_TEXT+ "( "+ResultData.CARD_TEXT+" )";
+                        }else {
+                            typeText = ResultData.PAY_TYPE_TEXT;
+                        }
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('useType', true, true, false);
+                        hwpDocCtrl.putFieldText('useType', typeText);
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('useName', true, true, false);
+                        hwpDocCtrl.putFieldText('useName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME+" "+ResultData.EMP_NAME_KR);
+
+                        let useMoney = fn_numberWithCommas(ResultData.AMOUNT_SN)+" 원";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('useMoney', true, true, false);
+                        hwpDocCtrl.putFieldText('useMoney', useMoney);
+
+                        let userText = ResultData.USER_TEXT;
+                        let userTextArr = userText.split(',');
+                        let useTarget = "";
+                        if(userTextArr.length > 1) {
+                            useTarget += userTextArr[0]+" 외 "+(userTextArr.length-1)+"명";
+                        }else {
+                            useTarget += userTextArr[0];
+                        }
+                        useTarget += "의 "+ResultData.SNACK_TYPE_TEXT+"이용";
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('useTarget', true, true, false);
+                        hwpDocCtrl.putFieldText('useTarget', useTarget);
+                    }
+            });
         }
     },
 
