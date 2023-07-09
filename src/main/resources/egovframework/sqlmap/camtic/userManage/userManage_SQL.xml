@@ -696,7 +696,7 @@
         a.EMP_NAME,
         date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
         a.REG_DATE as 'REG_DATE2',
-        b.admin_approval,
+        a.admin_approval,
         a.returnyn,
         'dj_emp_military_svc_info' AS 'type',
         '병력사항' AS 'typeName',
