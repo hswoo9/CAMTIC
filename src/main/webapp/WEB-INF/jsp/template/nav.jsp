@@ -440,17 +440,17 @@
                                 <li>
                                     <a href="#" class="toggleMain">출장관리</a>
                                     <ul class="innerMain children c_l">
-                                        <li><a href="#" onclick="open_in_frame('/Inside/inBustripList.do?menu=c_l')" class="toggleMain1">관내출장리스트</a></li>
-                                        <li><a href="#" onclick="open_in_frame('/Inside/outBustripList.do?menu=c_l')" class="toggleMain1">관외출장리스트</a></li>
-                                        <li><a href="#" onclick="open_in_frame('/Inside/transportationCostInfo.do?menu=c_l')" class="toggleMain1">교통비기준정보</a></li>
-                                        <li><a href="#" onclick="open_in_frame('/Inside/dutyBustripExpenses.do?menu=c_l')" class="toggleMain1">직급별출장여비</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/bustrip/inBustripList.do?menu=c_l')" class="toggleMain1">관내출장리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/bustrip/outBustripList.do?menu=c_l')" class="toggleMain1">관외출장리스트</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/bustrip/transportationCostInfo.do?menu=c_l')" class="toggleMain1">교통비기준정보</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/bustrip/dutyBustripExpenses.do?menu=c_l')" class="toggleMain1">직급별출장여비</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="toggleMain">차량/회의실관리</a>
                                     <ul class="innerMain children c_m">
                                         <li><a href="#" onclick="open_in_frame('/Inside/carReq.do?menu=c_m')" class="toggleMain1">차량사용신청</a></li>
-                                        <li><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do?menu=c_m')" class="toggleMain1">회의실사용신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/bustrip/meetingRoomReq.do?menu=c_m')" class="toggleMain1">회의실사용신청</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/carManage.do?menu=c_m')" class="toggleMain1">차량관리</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/meetingRoomManage.do?menu=c_m')" class="toggleMain1">회의실관리</a></li>
                                     </ul>

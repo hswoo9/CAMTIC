@@ -137,7 +137,7 @@ var inBustripList = {
     },
 
     inBustripReqPop : function() {
-        var url = "/Inside/pop/inBustripReqPop.do";
+        var url = "/bustrip/pop/inBustripReqPop.do";
         var name = "inBustripReqPop";
         var option = "width=1200, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

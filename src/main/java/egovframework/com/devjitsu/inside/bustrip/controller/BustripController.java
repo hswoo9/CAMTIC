@@ -2,18 +2,22 @@ package egovframework.com.devjitsu.inside.bustrip.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class BustripController {
@@ -23,8 +27,12 @@ public class BustripController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BustripService bustripService;
+
+
     //출장신청
-    @RequestMapping("/Inside/bustripReq.do")
+    @RequestMapping("/bustrip/bustripReq.do")
     public String bustripReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -34,7 +42,7 @@ public class BustripController {
     }
 
     //출장결과보고
-    @RequestMapping("/Inside/bustripResult.do")
+    @RequestMapping("/bustrip/bustripResult.do")
     public String bustripResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -44,7 +52,7 @@ public class BustripController {
     }
 
     //관내출장리스트
-    @RequestMapping("/Inside/inBustripList.do")
+    @RequestMapping("/bustrip/inBustripList.do")
     public String inBustripList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -54,7 +62,7 @@ public class BustripController {
     }
 
     //관내출장 신청 페이지
-    @RequestMapping("/Inside/pop/inBustripReqPop.do")
+    @RequestMapping("/bustrip/pop/inBustripReqPop.do")
     public String inBustripReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -63,8 +71,22 @@ public class BustripController {
         return "popup/inside/bustrip/inBustripReqPop";
     }
 
+    /**
+     * 동반자 유저 리스트
+     * JSY
+     * 2022.08.01
+     */
+    @RequestMapping("/bustrip/getUserList")
+    public String getUserList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        logger.info("controller getUserList");
+        List<Map<String, Object>> list = bustripService.getUserList(params);
+        model.addAttribute("data", list);
+
+        return "jsonView";
+    }
+
     //관외출장리스트
-    @RequestMapping("/Inside/outBustripList.do")
+    @RequestMapping("/bustrip/outBustripList.do")
     public String outBustripList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -74,7 +96,7 @@ public class BustripController {
     }
 
     //관외출장 신청 페이지
-    @RequestMapping("/Inside/pop/outBustripReqPop.do")
+    @RequestMapping("/bustrip/pop/outBustripReqPop.do")
     public String outBustripReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -84,7 +106,7 @@ public class BustripController {
     }
 
     //교통비기준정보
-    @RequestMapping("/Inside/transportationCostInfo.do")
+    @RequestMapping("/bustrip/transportationCostInfo.do")
     public String transportationCostInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -94,7 +116,7 @@ public class BustripController {
     }
 
     //직급별출장여비
-    @RequestMapping("/Inside/dutyBustripExpenses.do")
+    @RequestMapping("/bustrip/dutyBustripExpenses.do")
     public String dutyBustripExpenses(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -104,7 +126,7 @@ public class BustripController {
     }
 
     //차량사용신청
-    @RequestMapping("/Inside/carReq.do")
+    @RequestMapping("/bustrip/carReq.do")
     public String carReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -114,7 +136,7 @@ public class BustripController {
     }
 
     //차량사용신청 팝업창
-    @RequestMapping("/Inside/Pop/carPop.do")
+    @RequestMapping("/bustrip/Pop/carPop.do")
     public String carPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -124,7 +146,7 @@ public class BustripController {
     }
 
     //회의실사용신청
-    @RequestMapping("/Inside/meetingRoomReq.do")
+    @RequestMapping("/bustrip/meetingRoomReq.do")
     public String meetingRoomReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -134,7 +156,7 @@ public class BustripController {
     }
 
     //회의실사용신청 팝업창
-    @RequestMapping("/Inside/Pop/meetingRoomPop.do")
+    @RequestMapping("/bustrip/Pop/meetingRoomPop.do")
     public String meetingRoomPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");

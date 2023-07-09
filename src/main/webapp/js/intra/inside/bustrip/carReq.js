@@ -100,7 +100,7 @@ var carReq = {
     },
 
     carPopup : function(){
-        var url = "/Inside/Pop/carPop.do";
+        var url = "/bustrip/Pop/carPop.do";
         var name = "popup test";
         var option = "width = 900, height = 500, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);

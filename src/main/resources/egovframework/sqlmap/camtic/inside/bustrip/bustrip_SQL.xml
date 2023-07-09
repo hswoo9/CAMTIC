@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bustrip">
+
+    <select id="getUserList" parameterType="map" resultType="map">
+        /* getUserList Ma */
+        SELECT
+            emp_seq,
+            login_id,
+            erp_emp_seq,
+            emp_name_kr,
+            dept_seq,
+            dept_name,
+            position_code,
+            position_name,
+            duty_code,
+            duty_name
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            ACTIVE = "Y"
+    </select>
+
+</mapper>

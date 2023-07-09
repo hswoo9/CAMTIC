@@ -198,7 +198,7 @@ var meetingRoomReq = {
         },
 
     meetingRoomPopup : function(){
-        var url = "/Inside/Pop/meetingRoomPop.do";
+        var url = "/bustrip/Pop/meetingRoomPop.do";
         var name = "popup test";
         var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
