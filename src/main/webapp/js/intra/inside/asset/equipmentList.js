@@ -127,19 +127,19 @@ var equipmentList = {
                 buttonCount : 5
             },
             toolbar : [
-                /*{
+                {
                     name: '',
-                    text: '수정',
+                    text: '장비사용 등록',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkUp();">' +
-                            '   <span class="k-button-text">수정</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.equipmentUsePopup();">' +
+                            '   <span class="k-button-text">장비사용 등록</span>' +
                             '</button>';
                     }
-                }, */{
+                }, {
                     name: '',
                     text: '선택 삭제',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.selectChkDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="equipmentList.selectChkDel()">' +
                             '   <span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -151,9 +151,9 @@ var equipmentList = {
             dataBound : equipmentList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#' class='k-checkbox checkbox'/>",
-                    width: "2.6%"
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="equipmentList.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#'/>",
+                    width: 50
                 }, {
                     field: "SORT_SN",
                     title: "순번"
@@ -245,11 +245,19 @@ var equipmentList = {
         location.reload();
     },
 
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='eqmnUsePk']").prop("checked", true);
+        }else{
+            $("input[name='eqmnUsePk']").prop("checked", false);
+        }
+    },
+
     equipmentUsePopup : function(data){
         console.log(data);
         var url = "/Inside/Pop/equipmentUsePop.do"
         var name = "equipmentUsePop";
-        var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
+        var option = "width = 1000, height = 480, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
 

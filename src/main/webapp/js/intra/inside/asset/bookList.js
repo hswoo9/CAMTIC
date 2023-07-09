@@ -23,6 +23,7 @@ var bookList = {
         });
 
         $("#searchVal").kendoTextBox();
+        $("#searchText").kendoTextBox();
     },
 
     mainGrid : function() {

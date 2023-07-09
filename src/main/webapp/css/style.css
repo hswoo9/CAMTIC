@@ -112,3 +112,6 @@ input[type=file]::file-selector-button {
 .searchTable { background-color: white; }
 .searchTable > tbody > tr > th{ background-color: #00397f96; color: white;}
 
+/* 팝업창 테이블 */
+.popTable { background-color: white; }
+.popTable > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
