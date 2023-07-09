@@ -8,8 +8,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <style>
     .card-header {padding: 0px 0px 40px 0px;}
-    table { background-color: white; }
-    .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <script type="text/javascript" src="/js/intra/inside/asset/bookRegisPop.js?v=${today}"/></script>
 <body class="font-opensans" style="background-color:#fff;">
@@ -24,13 +22,13 @@
                 <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
                     <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">도서 등록</h3>
                     <div class="btn-st" style="margin-top:10px; text-align:center;">
-                        <input type="button" class="k-button k-button-solid-info" valus="저장" onclick="bookRegisPop.fn_bkSave();"/>
-                        <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+                        <button type="button" class="k-button k-button-solid-info" onclick="bookRegisPop.fn_bkSave();">저장</button>
+                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
                     </div>
                 </div>
             </div>
             <div style="padding: 20px 30px;">
-                <table class="table table-bordered mb-0">
+                <table class="popTable table table-bordered mb-0">
                     <colgroup>
                         <col width="20%">
                         <col width="30%">
@@ -39,7 +37,7 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th colspan="4">도서등록</th>
+                            <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">도서 등록</th>
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color">
