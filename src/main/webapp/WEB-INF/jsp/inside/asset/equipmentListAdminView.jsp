@@ -5,52 +5,54 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentListAdminView.js?v=${today}"/></script>
 
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-</style>
-
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">장비관리 (관리자)</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 장비관리 &gt; 장비관리 (관리자)</div>
+            <h4 class="panel-title">장비 관리 (관리자)</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 장비 관리 &gt; 장비 관리 (관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="35%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>조회년월</span>
-                                    <input type="text" id="usePdStrDe" style="width: 130px;">
-                                    ~
-                                    <input type="text" id="usePdEndDe" style="width: 130px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>구분</span>
-                                    <input type="text" id="mainEqipmnGbnName" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>업체구분</span>
-                                    <input type="text" id="mainPrtpcoGbnName" style="width: 130px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="조회" onclick="equipmentListAdminView.mainGrid();"/>
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="장비관리" onclick="equipmentListAdminView.equipmentmangePopup();"/>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">조회 기간</th>
+                        <td>
+                            <input type="text" id="usePdStrDe" style="width: 45%;">
+                            ~
+                            <input type="text" id="usePdEndDe" style="width: 45%;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="mainEqipmnGbnName" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">업체구분</th>
+                        <td>
+                            <input type="text" id="mainPrtpcoGbnName" style="width:140px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color"></th>
+                        <td></td>
+                        <th class="text-center th-color"></th>
+                        <td></td>
+                        <th class="text-center th-color">
+                            검색어
+                        </th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 100px;">
+                            <input type="text" id="searchVal" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.mainGrid();">조회</button>
                         </td>
                     </tr>
                 </table>
