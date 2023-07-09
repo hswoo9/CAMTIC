@@ -146,10 +146,9 @@ var equipmentmangePop = {
             dataBound : equipmentmangePop.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    /*template : "<input type='checkbox' id='' name='eqmnPk' value='' class='k-checkbox checkbox'/>",*/
-                    template : "<input type='checkbox' id='eqmnPk#=EQIPMN_MST_SN#' name='eqmnPk' value='#=EQIPMN_MST_SN#' class='k-checkbox checkbox'/>",
-                    width: "5.5%"
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="equipmentmangePop.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template : "<input type='checkbox' id='eqmnPk#=EQIPMN_MST_SN#' name='eqmnPk' value='#=EQIPMN_MST_SN#'/>",
+                    width: 50
                 }, {
                     field: "SORT_SN",
                     title: "순번",
@@ -274,6 +273,14 @@ var equipmentmangePop = {
             });
             alert("수정 되었습니다.");
             location.reload();
+        }
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='eqmnPk']").prop("checked", true);
+        }else{
+            $("input[name='eqmnPk']").prop("checked", false);
         }
     },
 

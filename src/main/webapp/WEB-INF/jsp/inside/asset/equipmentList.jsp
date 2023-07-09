@@ -10,8 +10,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">장비관리</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 장비관리 &gt; 장비관리</div>
+            <h4 class="panel-title">장비 관리</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 장비 관리 &gt; 장비 관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -26,7 +26,7 @@
                         <col width="35%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회기간</th>
+                        <th class="text-center th-color">조회 기간</th>
                         <td>
                             <input type="text" id="usePdStrDe" style="width: 45%;">
                             ~
