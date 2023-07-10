@@ -57,10 +57,13 @@ public interface AssetService {
     List<Map<String,Object>> getAssetPlaceList();
 
     void setAssetCodePosition(Map<String,Object> map);
-
-    String delAssetCode(Map<String,Object> map);
-    String setAssetPlace(Map<String,Object> map);
-    String delAssetPlace(Map<String,Object> map);
+    void setAssetCodePositionDel(Map<String, Object> params);
+    Map<String, Object> getClassDivision(Map<String, Object> params);
+    void  setClassDivision(Map<String,Object> params);
+    void  setClassDivisionDel(Map<String,Object> params);
+    Map<String, Object> getAssetPlace(Map<String, Object> params);
+    void setAssetPlace(Map<String,Object> map);
+    void setAssetPlaceDel(Map<String,Object> map);
 
 
     //

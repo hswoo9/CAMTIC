@@ -179,31 +179,45 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public String delAssetCode(Map<String,Object> map) {
-        try {
-            assetRepository.delAssetCode(map);
-            return "SUCCESS";
-        }catch (Exception e) {
-            return "FAILED";
+    public void setAssetCodePositionDel(Map<String, Object> params) {
+        assetRepository.setAssetCodePositionDel(params);
+    }
+
+    @Override
+    public Map<String, Object> getClassDivision(Map<String, Object> params) {
+        return assetRepository.getClassDivision(params);
+    }
+
+    @Override
+    public void setClassDivision(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("astCodeTypeId"))){
+            assetRepository.setClassDivision(params);
+        }else{
+            assetRepository.setClassDivisionUpd(params);
+        }
+    }
+
+    @Override
+    public void setClassDivisionDel(Map<String, Object> params) {
+        assetRepository.setClassDivisionDel(params);
+    }
+
+    @Override
+    public Map<String, Object> getAssetPlace(Map<String, Object> params) {
+        return assetRepository.getAssetPlace(params);
+    }
+
+    @Override
+    public void setAssetPlace(Map<String,Object> params) {
+        if(StringUtils.isEmpty(params.get("astPlaceSn"))){
+            assetRepository.setAssetPlace(params);
+        }else{
+            assetRepository.setAssetPlaceUpd(params);
         }
     }
     @Override
-    public String setAssetPlace(Map<String,Object> map) {
-        try {
-            assetRepository.setAssetPlace(map);
-            return "SUCCESS";
-        }catch (Exception e) {
-            return "FAILED";
-        }
-    }
-    @Override
-    public String delAssetPlace(Map<String,Object> map) {
-        try {
-            assetRepository.delAssetPlace(map);
-            return "SUCCESS";
-        }catch (Exception e) {
-            return "FAILED";
-        }
+    public void setAssetPlaceDel(Map<String,Object> map) {
+        assetRepository.setAssetPlaceDel(map);
     }
     @Override
     public List<Map<String,Object>> getAstCategoryList(Map<String, Object> params) {

@@ -39,7 +39,7 @@
         align-items: center;
     }
 </style>
-<script type="text/javascript" src="/js/intra/inside/asset/locationManagePop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/asset/placeManagePop.js?v=${today}"/></script>
 
 <!DOCTYPE html>
 <html>
@@ -48,12 +48,9 @@
     <div class="card-header" style="padding:20px 0;">
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+                <input type="hidden" id="astPlaceSn" name="astPlaceSn" value="${params.astPlaceSn}">
+                <input type="hidden" id="mod" name="mod" value="${params.modify}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="">
@@ -67,15 +64,15 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>위치</th>
-                        <td colspan><input type="text" id="location" style="width: 100%; margin-right:10px;"></td>
+                        <td colspan><input type="text" id="astPlaceName" style="width: 100%; margin-right:10px;"></td>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>관리그룹</th>
-                        <td colspan><input type="text" id="managementGroup" style="width: 100%; margin-right:10px;"></td>
+                        <td colspan><input type="text" id="astManageDept" style="width: 100%; margin-right:10px;"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="locationManagePop.fn_saveBtn()"/>
+            <div class="btn-st" style="text-align: right">
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="placeManagePop.fn_saveBtn()"/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close()"/>
             </div>
         </div>
@@ -84,7 +81,7 @@
 
 
 <script>
-    locationManagePop.fn_defaultScript();
+    placeManagePop.fn_defaultScript();
 </script>
 </body>
 </html>
