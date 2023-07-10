@@ -48,7 +48,7 @@ function selectChkDel(){
     }
 
     $.ajax({
-        url : getContextPath()+'//setOverWorkPlanDel.do',
+        url : '/overWk/setOverWorkPlanDel.do',
         data : {
             owpAr : owpAr
         },
@@ -191,7 +191,7 @@ var overWk = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : getContextPath() + '/getOverWorkPlanReqList',
+                    url : '/overWk/getOverWorkPlanReqList',
                     dataType : "json",
                     type : "post"
                 },
@@ -362,7 +362,7 @@ var overWk = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : getContextPath() + '/getOverWorkPlanReqList',
+                    url : '/overWk/getOverWorkPlanReqList',
                     dataType: "json",
                     async : false,
                 },

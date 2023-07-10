@@ -98,7 +98,7 @@ var overWkPop = {
         };
         console.log(data);
         $.ajax({
-            url : getContextPath()+'/overWorkPlan/getApplyDateWorkTime.do',
+            url : '/overWk/getApplyDateWorkTime.do',
             data : data,
             dataType : "json",
             type : "POST",
@@ -211,7 +211,7 @@ var overWkPop = {
         var result;
 
         $.ajax({
-            url : getContextPath()+'/getApplyDateOwpCheck.do',
+            url : '/overWk/getApplyDateOwpCheck.do',
             data : {
                 empSeq : $("#empSeq").val(),
                 applyDate : $("#applyDate").val(),
@@ -272,7 +272,7 @@ var overWkPop = {
         if(confirm("신청내용을 저장하시겠습니까?")){
             if(flag){
                 $.ajax({
-                    url : getContextPath()+'/setOverWorkPlan.do',
+                    url : '/overWk/setOverWorkPlan.do',
                     data : {
                         request_emp_seq : $("#empSeq").val(),
                         request_position : $("#positionCode").val(),

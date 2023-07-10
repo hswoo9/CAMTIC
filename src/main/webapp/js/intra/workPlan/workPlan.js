@@ -59,7 +59,7 @@ $(function(){
         serverPaging: false,
         transport: {
             read : {
-                url : getContextPath() + "/getWorkPlanReqSubList.do",
+                url : "/workPlan/getWorkPlanReqSubList.do",
                 dataType : "json",
                 type : "post",
                 async : false
@@ -224,7 +224,7 @@ function selectChkDel(){
     }
 
     $.ajax({
-        url : getContextPath()+"/setWorkPlanReqChangeDel.do",
+        url : "/workPlan/setWorkPlanReqChangeDel.do",
         data : {
             changeAr : changeAr
         },
@@ -357,7 +357,7 @@ function timeDiff(type){
 function allApplyRadioGroupMake(type){
     var radioList = new Array();
     $.ajax({
-        url : getContextPath()+"/getWkCommonCodeWpT.do",
+        url : "/workPlan/getWkCommonCodeWpT.do",
         data : {
             wkGroupCodeId : type
         },
@@ -659,7 +659,7 @@ function workPlanChangeSubSave(){
             }
 
             $.ajax({
-                url : getContextPath()+"/setWorkPlanChangeOrDetail.do",
+                url : "/workPlan/setWorkPlanChangeOrDetail.do",
                 data : {
                     workPlanChange : JSON.stringify(workPlanChangeArr)
                 },
@@ -731,7 +731,7 @@ var workPlan = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : getContextPath() + "/getWorkPlanDefaultList.do",
+                    url : "/workPlan/getWorkPlanDefaultList.do",
                     dataType: "json",
                     async : false,
                 },

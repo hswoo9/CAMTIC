@@ -56,7 +56,7 @@ function selectChkApp(){
         empSeq : $("#empSeq").val()
     }
     $.ajax({
-        url : getContextPath()+'/setOverWorkPlan.do',
+        url : '/overWk/setOverWorkPlan.do',
         data : saveParams,
         dataType : "json",
         type : "POST",
@@ -199,7 +199,7 @@ var overWk = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : getContextPath() + '/getOverWorkPlanReqList',
+                    url : '/overWk/getOverWorkPlanReqList',
                     dataType : "json",
                     type : "post"
                 },
@@ -363,7 +363,7 @@ var overWk = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : getContextPath() + '/getOverWorkPlanReqList',
+                    url : '/overWk/getOverWorkPlanReqList',
                     dataType: "json"
                 },
                 parameterMap: function(data) {

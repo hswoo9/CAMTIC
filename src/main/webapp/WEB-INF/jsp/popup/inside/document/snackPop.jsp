@@ -52,7 +52,7 @@
                         <td><input type="text" id="chargeUser" style="width: 100%;"></td>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>법인카드</th>
                         <td><input type="text" id="corporCard" style="width: 75%; text-align: right;">
-                        <button type="button" id="cardSearch" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="">
+                        <button type="button" id="cardSearch" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="">
                             검색
                         </button>
                         </td>
@@ -60,7 +60,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>주문처</th>
                         <td colspan><input type="text" id="areaName" style="width: 65%;">
-                            <button type="button" id="restaurantSearch" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="restaurantSearch" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
                                 음식점 선택
                             </button>
                         </td>

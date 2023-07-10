@@ -145,7 +145,7 @@ var workPlanRegPop = {
 
         var radioList = new Array();
         $.ajax({
-            url : getContextPath()+"/getWkCommonCodeWpT.do",
+            url : "/workPlan/getWkCommonCodeWpT.do",
             data : {
                 wkGroupCodeId : type
             },
@@ -393,7 +393,7 @@ var workPlanRegPop = {
                 console.log(saveParams);
 
                 $.ajax({
-                    url : getContextPath()+"/setWorkPlanChangeOrDetail.do",
+                    url : "/workPlan/setWorkPlanChangeOrDetail.do",
                     data : saveParams,
                     dataType : "json",
                     type : "POST",

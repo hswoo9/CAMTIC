@@ -72,7 +72,7 @@ var workPlanApp = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : getContextPath() + "/getWorkPlanReqSubList.do",
+                    url : "/workPlan/getWorkPlanReqSubList.do",
                     dataType : "json",
                     type : "post",
                     async : false
