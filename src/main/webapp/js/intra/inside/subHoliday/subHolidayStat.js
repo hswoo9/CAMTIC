@@ -87,6 +87,17 @@ var subHolidayStat = {
                 });
             }
         });
+
+        $("#deptTeamName").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: ''}
+            ],
+            index: 0,
+        });
+
+        $("#searchVal").kendoTextBox();
     },
 
     fn_makerGrid : function(e){

@@ -19,11 +19,11 @@
                 <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="10%">
+                        <col width="35%">
+                        <col width="10%">
                         <col width="25%">
                         <col width="10%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="35%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
@@ -42,14 +42,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-center th-color"></th>
-                        <td></td>
-                        <th class="text-center th-color"></th>
-                        <td></td>
                         <th class="text-center th-color">
                             검색어
                         </th>
-                        <td>
+                        <td colspan="5">
                             <input type="text" id="searchType" style="width: 100px;">
                             <input type="text" id="searchVal" style="width: 200px;">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.mainGrid();">조회</button>

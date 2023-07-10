@@ -13,8 +13,6 @@
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidaySetting.js?v=${today}"/></script>
 
 <style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
     tr:hover {
         cursor: pointer;
     }
@@ -33,33 +31,34 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">휴가설정</h4>
-            <div class="title-road"style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가설정</div>
+            <h4 class="panel-title">휴가 설정</h4>
+            <div class="title-road"style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가 설정</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr20">
-                                    <span>조회연도</span>
-                                    <input type="text" id="holidayYear" style="width: 150px;">
-                                </div>
-                                <div class="mr20">
-                                    <span>부서</span>
-                                    <input type="text" id="deptName" style="width: 200px;">
-                                </div>
-                                <div class="mr20">
-                                    <span>이름</span>
-                                    <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidaySetting.gridReload()}" style="width: 150px;">
-                                </div>
-                                <div class="mr20">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="subHolidaySetting.gridReload()"/>
-                                </div>
-
-                            </div>
+                        <th class="text-center th-color">조회 연도</th>
+                        <td>
+                            <input type="text" id="holidayYear" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="deptName" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">이름</th>
+                        <td>
+                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidaySetting.gridReload()}" style="width: 150px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySetting.gridReload();">검색</button>
                         </td>
                     </tr>
                 </table>
@@ -71,7 +70,7 @@
 
 <script type="text/x-kendo-template" id="toolbarTemplate">
     <div>
-        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" value="저장" onclick="subHolidaySetting.fn_saveAll()"/>
+        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidaySetting.fn_saveAll();">저장</button>
     </div>
 </script>
 <script type="text/javascript">

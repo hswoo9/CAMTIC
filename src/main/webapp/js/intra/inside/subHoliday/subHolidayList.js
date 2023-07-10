@@ -74,7 +74,7 @@ var subHolidayList = {
             dataBound : subHolidayList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class=""/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="subHolidayList.fn_checkAll();" class=""/>',
                     template : function(e){
                         if(e.APPR_STAT == "N"){
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class=''/>";
@@ -363,5 +363,13 @@ var subHolidayList = {
 
         $("#holyBody").html("");
         $("#holyBody").append(html);
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='hisPk']").prop("checked", true);
+        }else{
+            $("input[name='hisPk']").prop("checked", false);
+        }
     }
 }

@@ -11,10 +11,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-</style>
-
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayAdmin.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -30,23 +26,46 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">휴가신청내역</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가신청내역</div>
+            <h4 class="panel-title">휴가 신청 내역</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가 신청 내역</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                    </colgroup>
                     <tr>
+                        <th class="text-center th-color">휴가 구분</th>
+                        <td>
+                            <input type="text" id="edtHolidayKindTop" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="status" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">이름</th>
+                        <td>
+                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">검색</button>
+                        </td>
+                    </tr>
+                    <%--<tr>
                         <td style="border-bottom:0; background-color: white">
                             <div style="display:flex;justify-content: space-between;">
                                 <div style="display:flex;">
-                                <%--<div class="mr20">
+                                &lt;%&ndash;<div class="mr20">
                                     <span>조회기간</span>
                                     <input id="startDay" style="width:150px; margin-right:5px;">
                                     ~
                                     <input id="endDay" style="width:150px; margin-right:5px;">
-                                </div>--%>
+                                </div>&ndash;%&gt;
                                 <div class="mr20">
                                     <span>휴가구분</span>
                                     <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:150px;">
@@ -72,7 +91,7 @@
                                 </div>
                             </div>
                         </td>
-                    </tr>
+                    </tr>--%>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>

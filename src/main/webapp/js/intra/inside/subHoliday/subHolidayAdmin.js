@@ -107,13 +107,23 @@ var subHolidayAdmin = {
                     empty: "데이터가 없습니다.",
                 }
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="subHolidayAdmin.subHolidayReqBatchPop();">' +
+                            '	<span class="k-button-text">연가일괄등록</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             dataBound : subHolidayAdmin.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="subHolidayAdmin.fn_checkAll();"/>',
                     template : function(e){
                         if(e.APPR_STAT == "N"){
-                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='k-checkbox checkbox'/>";
+                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\"/>";
                         } else {
                             return "";
                         }
@@ -254,5 +264,13 @@ var subHolidayAdmin = {
         var name = "subHolidayReqBatchPop";
         var option = "width=1030, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='hisPk']").prop("checked", true);
+        }else{
+            $("input[name='hisPk']").prop("checked", false);
+        }
     }
 }
