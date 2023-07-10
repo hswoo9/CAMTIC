@@ -101,7 +101,7 @@
                             </td>
                         </tr>
                     </c:if>
-                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
+<%--                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
                         <tr>
                             <th><span class="red-star">*</span>비밀번호</th>
                             <td>
@@ -112,7 +112,7 @@
                                 <input type="password" id="checkPasswd" style="width: 50%;" disabled>
                             </td>
                         </tr>
-                    </c:if>
+                    </c:if>--%>
                     <tr>
                         <th>부서</th>
                         <td>
@@ -494,8 +494,21 @@
     }
 
     var empSeq = '${params.empSeq}';
+    console.log(empSeq);
 
-    if(empSeq != null && empSeq != ''){
+    if(empSeq != '' && empSeq != undefined){
+        //console.log(${uprinfList.DEPT_PARENT_SEQ});
+        var deptParentSeq = '${uprinfList.DEPT_PARENT_SEQ}'
+        //부서만 있는 경우 1000, 그외는 부서, 팀 있는 경우
+        if(deptParentSeq == "1000"){
+
+            $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
+            $("#deptTeamName").data("kendoDropDownList").text("${uprinfList.DEPT_TEAM_NAME}");
+        }else{
+            $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_PARENT_SEQ}");
+            $("#deptTeamName").data("kendoDropDownList").text("${uprinfList.DEPT_NAME}");
+        }
+
         $("#positionOrNum").data("kendoDropDownList").enable(false);
         /*$("#divis").data("kendoDropDownList").enable(false);*/
 /*        $("#deptName").data("kendoDropDownList").enable(false);
@@ -504,8 +517,8 @@
         $("#jobCode").data("kendoDropDownList").enable(false);
         $("#positionName").data("kendoDropDownList").enable(false);
         $("#degreeCode").data("kendoDropDownList").enable(false);
-        $("#regDate").data("kendoDatePicker").enable(false);
-        $("#homePageActive").data("kendoRadioGroup").enable(false);
+        $("#regDate").data("kendoDatePicker").enable(false);*/
+/*        $("#homePageActive").data("kendoRadioGroup").enable(false);
         $("#bday").data("kendoDatePicker").enable(false);
         $("#weddingActive").data("kendoRadioGroup").enable(false);
         $("#weddingDay").data("kendoDatePicker").enable(false);
@@ -547,30 +560,7 @@
         }
 
         $("#divisDet").data("kendoDropDownList").value("${uprinfList.DIVISION_SUB}");
-        //부서
-        $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
-        var data = {
-            deptSeq : $("#deptName").val()
-        }
 
-        $.ajax({
-            url : "/userManage/getDeptCodeList",
-            type : "post",
-            async: false,
-            data : data,
-            dataType : "json",
-            success : function(result){
-                var ds = result.list;
-                /*ds.unshift({text: '선택하세요', value: ''});*/
-
-                $("#deptTeamName").kendoDropDownList({
-                    dataTextField: "text",
-                    dataValueField: "value",
-                    dataSource: ds
-                });
-            }
-        });
-        //팀 --- DEPT_TEAM_SEQ 없음
         //직급/등급 ---insert
         $("#positionOrNum").data("kendoDropDownList").value();
         //직군 ---insert

@@ -385,10 +385,10 @@ var userPersonList = {
                         }
                     }
                 }, {
-                    field: "DEPT_NAME",
+                    field: "DEPT_NAME1",
                     title: "부서(실)"
                 }, {
-                    field: "DEPT_TEAM_NAME",
+                    field: "TEAM_NAME",
                     title: "부서(팀)"
                 }, {
                     field: "DUTY_NAME",

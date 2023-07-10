@@ -772,6 +772,10 @@ var subHolidayReqPop = {
     sendMeData : function(request) {
         console.log(request);
         $("#edtHolidayWorkDay_3").val(request.SUBHOLIDAY_WORK_DAY);
+    },
+
+    dataClear : function () {
+        $("#other_emp").val("");
     }
 
 }

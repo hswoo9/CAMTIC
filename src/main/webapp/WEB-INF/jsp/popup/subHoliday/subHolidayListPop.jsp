@@ -70,13 +70,11 @@
 						<div id="approvalLineDataDiv" style="max-height: 306px; height:306px; overflow-y: scroll;border: 1px solid #dedfdf;" >
 							<table class="table table-bordered mb-0" id="approvalLineDataTb" style="border:none;text-align: center;">
 								<colgroup>
-									<col width="6.6%">
-									<col width="8.6%">
-									<col width="12.8%">
-									<col width="auto">
-									<col width="20.3%">
-									<col width="16.1%">
-									<col width="12.5%">
+									<col width="10%">
+									<col width="15%">
+									<col width="35%">
+									<col width="15%">
+									<col width="20%">
 								</colgroup>
 								<tbody>
 
@@ -89,7 +87,7 @@
 		</tr>
 	</table>
 	<div class="mt-10" style="text-align: right">
-		<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.apprLineSave()" style="vertical-align: middle;">
+		<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayListPop.gridChoose()" style="vertical-align: middle;">
 			<span class="k-button-text">확인</span>
 		</button>
 		<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
