@@ -162,10 +162,9 @@
               <tr>
                 <th scope="row" class="text-center th-color">업무인수자</th>
                 <td colspan="3">
-                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">
-                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="userSearch();"/>
-                  <br>
-                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>
+                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">
+                  <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_userMultiSelectPop()">검색</button>
+                  <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.dataClear();">선택 초기화</button>
                 </td>
               </tr>
               <tr>
@@ -187,6 +186,21 @@
   function userSearch() {
     window.open("/subHoliday/subHolidayListPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
   }
+
+  function userDataSet(userArr) {
+    console.log(userArr);
+
+    let other_emp = "";
+    for(let i=0; i < userArr.length; i++) {
+      /*console.log(userArr[0].empName);*/
+      if(other_emp != ""){
+        other_emp += ", ";
+      }
+      other_emp += userArr[i].empName;
+    }
+    $("#other_emp").val(other_emp);
+  }
+
 
 </script>
 </body>

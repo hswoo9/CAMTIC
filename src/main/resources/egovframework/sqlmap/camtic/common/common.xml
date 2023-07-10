@@ -106,4 +106,48 @@
             FILE_NO = #{fileNo}
     </select>
 
+    <insert id="insFileInfo" parameterType="list">
+        /* insFileInfo */
+
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+        FILE_CD,
+        FILE_UUID,
+        FILE_ORG_NAME,
+        FILE_PATH,
+        FILE_SIZE,
+        FILE_EXT,
+        EMP_SEQ,
+        DOC_ID,
+        CONTENT_ID,
+        REG_EMP_SEQ,
+        FR_KEY
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.fileCd},
+            #{item.fileUUID},
+            #{item.fileOrgName},
+            #{item.filePath},
+            #{item.fileSize},
+            #{item.fileExt},
+            #{item.empSeq},
+            <choose>
+                <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
+                <when test='item.docId == null or "".equals(item.docId)'>null,</when>
+            </choose>
+            <choose>
+                <when test='item.contentId != null and !"".equals(item.contentId)'>#{item.contentId},</when>
+                <when test='item.contentId == null or "".equals(item.contentId)'>null,</when>
+            </choose>
+            #{item.empSeq},
+            <choose>
+                <when test='item.frKey != null and !"".equals(item.frKey)'>#{item.frKey}</when>
+                <when test='item.frKey == null or "".equals(item.frKey)'>0</when>
+            </choose>
+            )
+        </foreach>
+    </insert>
+
 </mapper>

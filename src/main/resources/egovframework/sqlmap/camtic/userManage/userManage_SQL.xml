@@ -273,26 +273,32 @@
     </select>
     <select id="getEmpInfoList" parameterType="map" resultType="map">
         SELECT
-        a.*,
-        date_format(a.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        HEI.*,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        date_format(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
         FROM
-        CAM_HR.DJ_EMP_INFO	AS a
+        CAM_HR.DJ_EMP_INFO	AS HEI
+        LEFT JOIN
+        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-        a.active = 'Y'
+        HEI.active = 'Y'
         <if test='startDate != null and !"".equals(startDate)'>
             <![CDATA[
 	    AND
-	        DATE_FORMAT(#{startDate}, '%Y%m%d') >= DATE_FORMAT(a.JOIN_DAY, '%Y%m%d')
+	        DATE_FORMAT(#{startDate}, '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
 	    ]]>
         </if>
         AND
             ${userKind} like concat('%', #{kindContent} ,'%')
         <if test='deptComp != null and !"".equals(deptComp)'>
             AND
-                a.DEPT_SEQ = #{deptComp}
+            HEI.DEPT_SEQ = #{deptComp}
             <if test='deptTeam == deptTeam or "".equals(deptTeam)'>
                 OR
-                    a.DEPT_SEQ IN (
+                HEI.DEPT_SEQ IN (
                                     SELECT
                                         DEPT_SEQ
                                     FROM
@@ -306,7 +312,7 @@
         </if>
         <if test='deptTeam != null and !"".equals(deptTeam)'>
             AND
-                a.DEPT_SEQ = #{deptTeam}
+            HEI.DEPT_SEQ = #{deptTeam}
         </if>
         <if test='arr != null and !"".equals(arr)'>
             <if test='subArr != null and !"".equals(subArr)'>
@@ -965,6 +971,8 @@
             a.DEPT_SEQ,
             a.DEPT_NAME,
             a.DEPT_TEAM_NAME,
+            (select dept_name from cam_hr.dj_dept_info where dept_seq = (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ)) PARENT_DEPT_NAME,
+            (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ) AS DEPT_PARENT_SEQ,
             a.JOB_CODE,
             a.JOB_NAME,
             a.POSITION_CODE,

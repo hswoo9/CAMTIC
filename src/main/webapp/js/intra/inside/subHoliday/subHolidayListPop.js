@@ -51,19 +51,19 @@ var subHolidayListPop = {
                     width : 15
                 }, {*/
                     title : "순번",
-                    width : 24
+                    width : "10%"
                 }, {
                     title : "이름",
-                    width : 36
+                    width : "15%"
                 }, {
                     title : "부서",
-                    width : 65
+                    width : "35%"
                 }, {
                     title : "직급",
-                    width : 57
+                    width : "15%"
                 }, {
                     title : "직책",
-                    width : 45
+                    width : "20%"
                 }
             ]
         });
@@ -156,7 +156,7 @@ var subHolidayListPop = {
             subHolidayListPop.global.approversArr = opener.draft.global.approversArr;
         }
     },
-    
+
     rowDelClick : function(){
         var chkCnt = $("input[name='approveChk']:checked").length;
 
@@ -167,18 +167,6 @@ var subHolidayListPop = {
 
         subHolidayListPop.global.flag = true;
 
-        $.each($("#approvalLineDataTb tbody tr input[name='approveChk']"), function(i, e){
-            if($(e).is(":checked")){
-                if($(e).closest("tr").find("#approveOrder").text() == "0"){
-                    alert("기안자는 삭제하실 수 없습니다.");
-                    subHolidayListPop.global.flag = false;
-                    return false;
-                }else{
-                    $(e).closest("tr").remove();
-                }
-            }
-        })
-
         if(subHolidayListPop.global.flag){
             $.each($("#approvalLineDataTb tbody tr"), function(i, e){
                 $(e).find("#approveOrder").text(i);
@@ -187,16 +175,30 @@ var subHolidayListPop = {
         }
     },
 
+    gridChoose : function () {
 
+        $.each($("#approvalLineDataTb tbody tr"), function(){
 
+            var data = {
+                approveEmpSeq : $(this).find("#approveEmpSeq").val(),
+                approveEmpName : $(this).find("#approveEmpName").val(),
+                approvePositionName : $(this).find("#approvePositionName").val(),
+                approveDutyName : $(this).find("#approveDutyName").val(),
+                approveDeptSeq : $(this).find("#approveDeptSeq").val(),
+                approveDeptName : $(this).find("#approveDeptName").val(),
+                approveOrder : $(this).find("#approveOrder").text(),
+                approveType : empNameTdSpan
+            }
+            lineSettingPop.global.approversArr.push(data);
 
-    gridChoose : function (e) {
+        });
+
         var tr = $(e).closest("tr");
         var row = $('#userList').data("kendoGrid").dataItem(tr);
         console.log(row);
         console.log(row.EMP_NAME_KR);
         console.log(row.EMP_SEQ);
-        opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
+        opener.parent.$("#other_emp").val(row.EMP_NAME_KR);
         opener.parent.$("#userName").val(row.EMP_NAME_KR);
         //emp_seq, dept_seq, dept_name
         opener.parent.$("#empSeq").val(row.EMP_SEQ);

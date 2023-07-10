@@ -16,8 +16,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">휴가신청</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가신청</div>
+            <h4 class="panel-title">휴가 신청</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 휴가관리 &gt; 휴가 신청</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -29,7 +29,7 @@
                         <col width="10%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회년도</th>
+                        <th class="text-center th-color">조회 연도</th>
                         <td style="border-right: none">
                             <input id="datePicker" style="width:200px;">
                         </td>
@@ -112,7 +112,7 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">휴가사용내역</h4>
+            <h4 class="panel-title">휴가 사용 내역</h4>
         </div>
 
         <div class="panel-body">
@@ -126,7 +126,7 @@
                         <col width="40%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">신청구분</th>
+                        <th class="text-center th-color">신청 구분</th>
                         <td>
                             <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:200px;">
                         </td>
