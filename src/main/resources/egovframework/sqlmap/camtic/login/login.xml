@@ -18,15 +18,15 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
 
             /* 직급 ex 수석연구원 */
-            HEI.POSITION_CODE AS positionId,
+            HEI.POSITION_CODE AS positionCode,
             HEI.POSITION_NAME AS positionNm,
 
             /* 직책 ex 본부장 */
-            HEI.DUTY_CODE AS dutyId,
+            HEI.DUTY_CODE AS dutyCode,
             HEI.DUTY_NAME AS dutyNm,
 
             /* 등급 ex 1급 */
-            HEI.GRADE_CODE AS gradeId,
+            HEI.GRADE_CODE AS gradeCode,
             HEI.GRADE_NAME AS gradeNm
         FROM
             CAM_HR.DJ_EMP_INFO HEI

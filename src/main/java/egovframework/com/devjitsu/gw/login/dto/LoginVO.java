@@ -114,7 +114,7 @@ public class LoginVO {
     private String teamId;
     private String deptNm;
     private String teamNm;
-    private String gradeId;
+    private String gradeCode;
     private String gradeNm;
 
     public LoginVO() {
@@ -400,7 +400,7 @@ public class LoginVO {
     }
 
     public String toString() {
-        return "id          : " + this.id + " / " + "name        : " + this.name + " / " + "ihidNum     : " + this.ihidNum + " / " + "email       : " + this.email + " / " + "password    : " + this.password + " / " + "passwordHint: " + this.passwordHint + " / " + "passwordCnsr: " + this.passwordCnsr + " / " + "userSe      : " + this.userSe + " / " + "orgnztId    : " + this.orgnztId + " / " + "orgnztNm    : " + this.orgnztNm + " / " + "uniqId      : " + this.uniqId + " / " + "url         : " + this.url + " / " + "ip          : " + this.ip + " / " + "dn          : " + this.dn + " / " + "organId     : " + this.organId + " / " + "organNm     : " + this.organNm + " / " + "classCode   : " + this.classCode + " / " + "classNm     : " + this.classNm + " / " + "positionCode: " + this.positionCode + " / " + "positionNm  : " + this.positionNm + " / " + "dutyCode: " + this.dutyCode + " / " + "dutyNm  : " + this.dutyNm + " / " + "authorCode  : " + this.authorCode + " / " + "erpEmpCd    : " + this.erpEmpCd + " / " + "erpEmpNm    : " + this.erpEmpNm + " / " + "erpCoCd     : " + this.erpCoCd + " / " + "empl_no     : " + this.empl_no + " / " + "session_id  : " + this.session_id + " / " + "langCode    : " + this.langCode + " / " + "groupSeq    : " + this.groupSeq + " / " + "bizSeq      : " + this.bizSeq + " / " + "compSeq     : " + this.compSeq + " / " + "picFileId   : " + this.picFileId + " / " + "eaType      : " + this.eaType + " / " + "emailDomain : " + this.emailDomain + " / " + "deptId : " + this.deptId + " / " + "deptNm : " + this.deptNm + " / " + "teamId : " + this.teamId + " / " + "teamNm : " + this.teamNm + " / " + "gradeId : " + this.gradeId + " / " + "gradeNm : " + this.gradeNm + " / ";
+        return "id          : " + this.id + " / " + "name        : " + this.name + " / " + "ihidNum     : " + this.ihidNum + " / " + "email       : " + this.email + " / " + "password    : " + this.password + " / " + "passwordHint: " + this.passwordHint + " / " + "passwordCnsr: " + this.passwordCnsr + " / " + "userSe      : " + this.userSe + " / " + "orgnztId    : " + this.orgnztId + " / " + "orgnztNm    : " + this.orgnztNm + " / " + "uniqId      : " + this.uniqId + " / " + "url         : " + this.url + " / " + "ip          : " + this.ip + " / " + "dn          : " + this.dn + " / " + "organId     : " + this.organId + " / " + "organNm     : " + this.organNm + " / " + "classCode   : " + this.classCode + " / " + "classNm     : " + this.classNm + " / " + "positionCode: " + this.positionCode + " / " + "positionNm  : " + this.positionNm + " / " + "dutyCode: " + this.dutyCode + " / " + "dutyNm  : " + this.dutyNm + " / " + "authorCode  : " + this.authorCode + " / " + "erpEmpCd    : " + this.erpEmpCd + " / " + "erpEmpNm    : " + this.erpEmpNm + " / " + "erpCoCd     : " + this.erpCoCd + " / " + "empl_no     : " + this.empl_no + " / " + "session_id  : " + this.session_id + " / " + "langCode    : " + this.langCode + " / " + "groupSeq    : " + this.groupSeq + " / " + "bizSeq      : " + this.bizSeq + " / " + "compSeq     : " + this.compSeq + " / " + "picFileId   : " + this.picFileId + " / " + "eaType      : " + this.eaType + " / " + "emailDomain : " + this.emailDomain + " / " + "deptId : " + this.deptId + " / " + "deptNm : " + this.deptNm + " / " + "teamId : " + this.teamId + " / " + "teamNm : " + this.teamNm + " / " + "gradeCode : " + this.gradeCode + " / " + "gradeNm : " + this.gradeNm + " / ";
     }
 
     public String getEmpid() {
@@ -1004,12 +1004,12 @@ public class LoginVO {
         this.teamNm = teamNm;
     }
 
-    public String getGradeId() {
-        return this.gradeId;
+    public String getGradeCode() {
+        return this.gradeCode;
     }
 
-    public void setGradeId(String gradeId) {
-        this.gradeId = gradeId;
+    public void setGradeCode(String gradeCode) {
+        this.gradeCode = gradeCode;
     }
 
     public String getGradeNm() {
