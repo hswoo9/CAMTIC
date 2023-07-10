@@ -89,15 +89,6 @@ public class AssetController {
         return "inside/asset/proposalList";
     }
 
-    //분류관리 - 소속관리 팝업창
-    @RequestMapping("/Inside/Pop/belongManagePop.do")
-    public String belongManagePop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/asset/belongManagePop";
-    }
 
     //분류관리 - 구분관리 팝업창
     @RequestMapping("/Inside/Pop/divisionManagePop.do")
@@ -368,6 +359,46 @@ public class AssetController {
     }
 
     /**
+     * 자산 소속 코드 수정 조회
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getClassPosition.do")
+    public String getClassPosition(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getClassPosition(map));
+        return "jsonView";
+    }
+
+    /**
+     * 분류관리 > 소속 등록/수정 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/assetCodePositionManagePop.do")
+    public String assetCodePositionManagePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/asset/assetCodePositionManagePop";
+    }
+
+    /**
+     * 분류관리 > 소속 등록/수정
+     * @param map
+     * @return
+     */
+    @RequestMapping("/asset/setAssetCodePosition.do")
+    public String setAssetCodePosition(@RequestParam Map<String,Object> map) {
+        assetService.setAssetCodePosition(map);
+        return "jsonView";
+    }
+
+    /**
      * 자산 구분 코드 리스트
      * @param map
      * @param model
@@ -381,7 +412,7 @@ public class AssetController {
 
     /**
      * 자산 카테고리 리스트
-     * @param map
+     * @param params
      * @param model
      * @return
      */
@@ -428,6 +459,17 @@ public class AssetController {
     @RequestMapping("/asset/setCategoryCode.do")
     public String setCategoryCode(@RequestParam Map<String,Object> params) {
         assetService.setCategoryCode(params);
+        return "jsonView";
+    }
+
+    /**
+     * 카테고리 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/asset/getAstCategoryDel.do")
+    public String getAstCategoryDel(@RequestParam Map<String,Object> params) {
+        assetService.getAstCategoryDel(params);
         return "jsonView";
     }
 
@@ -478,15 +520,6 @@ public class AssetController {
     @RequestMapping("/asset/getAssetPlaceList")
     public String getAssetPlaceList(Model model) {
         model.addAttribute("rs",assetService.getAssetPlaceList());
-        return "jsonView";
-    }
-
-    @RequestMapping("/asset/setAssetCode")
-    public String setAssetCode(@RequestParam Map<String,Object> map, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        map.put("REG_EMP_SEQ", login.getUniqId());
-        model.addAttribute("rs",assetService.setAssetCode(map));
         return "jsonView";
     }
 

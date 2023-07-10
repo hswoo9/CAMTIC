@@ -109,6 +109,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public Map<String, Object> getClassPosition(Map<String, Object> params) {
+        return assetRepository.getClassPosition(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getClassDivisionList(Map<String, Object> params) {
         return assetRepository.getClassDivisionList(params);
     }
@@ -165,14 +170,14 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getAssetPlaceList();
     }
     @Override
-    public String setAssetCode(Map<String,Object> map) {
-        try {
-            assetRepository.setAssetCode(map);
-            return "SUCCESS";
-        }catch (Exception e) {
-            return "FAILED";
+    public void setAssetCodePosition(Map<String,Object> params) {
+        if(StringUtils.isEmpty(params.get("astCodeCompanyId"))){
+            assetRepository.setAssetCodePosition(params);
+        }else{
+            assetRepository.setAssetCodePositionUpd(params);
         }
     }
+
     @Override
     public String delAssetCode(Map<String,Object> map) {
         try {
@@ -222,6 +227,11 @@ public class AssetServiceImpl implements AssetService {
         }else{
             assetRepository.setCategoryCodeUpd(params);
         }
+    }
+
+    @Override
+    public void getAstCategoryDel(Map<String, Object> params) {
+        assetRepository.setCategoryCodeDel(params);
     }
 
     @Override

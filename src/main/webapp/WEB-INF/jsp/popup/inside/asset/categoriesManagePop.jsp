@@ -48,7 +48,7 @@
                 <input type="hidden" id="categoryType" name="categoryType" value="${params.categoryType}">
                 <input type="hidden" id="astUpperCode" name="astUpperCode" value="${params.astUpperCode}">
                 <input type="hidden" id="astCodeId" name="astCodeId" value="${params.astCodeId}">
-                <input type="hidden" id="mod" name="mod" value="${params.modity}">
+                <input type="hidden" id="mod" name="mod" value="${params.modify}">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
                 <table class="table table-bordered mb-0">
                     <colgroup>

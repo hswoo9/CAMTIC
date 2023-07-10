@@ -63,14 +63,14 @@ var classManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.belongManagePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionManagePop();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionModChk()">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
@@ -88,11 +88,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    //template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox1'/>",
-                    template : function (e){
-                        return "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox1'/><input type='hidden' value='"+e.INSIDE_CODE_ID+"'/>";
-                    },
+                    headerTemplate: '<input type="checkbox" id="checkAllCp" name="checkAllCp" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='cPGridChk#=AST_CODE_COMPANY_ID#' name='cPGridChk' value='#=AST_CODE_COMPANY_ID#' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -111,11 +108,31 @@ var classManage = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+
+        $("#checkAllCp").click(function(){
+            if($(this).is(":checked")) $("input[name=cPGridChk]").prop("checked", true);
+            else $("input[name=cPGridChk]").prop("checked", false);
+        });
     },
 
-    belongManagePopup : function() {
-        var url = "/Inside/Pop/belongManagePop.do";
-        var name = "belongManagePop";
+    assetCodePositionModChk : function(){
+        if($("input[name=cPGridChk]:checked").length == 0){
+            alert("수정할 코드를 선택해주세요.");
+            return;
+        }else if($("input[name=cPGridChk]:checked").length > 1){
+            alert("수정은 단건만 가능합니다.");
+            return;
+        }
+
+        var url = "/inside/assetCodePositionManagePop.do?astCodeCompanyId=" + $("input[name=cPGridChk]:checked").val() + "&modify=Y";
+        var name = "assetCodePositionManagePop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    },
+
+    assetCodePositionManagePop : function() {
+        var url = "/inside/assetCodePositionManagePop.do";
+        var name = "assetCodePositionManagePop";
         var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
@@ -309,7 +326,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.categoryDel(\'categoryA\')">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -375,7 +392,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base categoryB" style="display: none" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base categoryB" style="display: none" onclick="classManage.categoryDel(\'categoryB\')">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -441,7 +458,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base categoryC" style="display: none" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base categoryC" style="display: none" onclick="classManage.categoryDel(\'categoryC\')">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -594,7 +611,7 @@ var classManage = {
             return;
         }
 
-        var url = "/inside/Pop/categoriesManagePop.do?categoryType=" + category + "&astCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modity=Y";
+        var url = "/inside/Pop/categoriesManagePop.do?categoryType=" + category + "&astCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modify=Y";
         var name = "categoriesManagePop";
         var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
@@ -607,11 +624,45 @@ var classManage = {
         var popup = window.open(url, name, option);
     },
 
+    categoryDel : function(category){
+        var gridChkboxId = "";
+        if(category == "categoryA"){
+            gridChkboxId = "categoryGridAChk"
+        }else if(category == "categoryB"){
+            gridChkboxId = "categoryGridBChk"
+        }else{
+            gridChkboxId = "categoryGridCChk"
+        }
+
+        if($("input[name=" + gridChkboxId +"]:checked").length == 0){
+            alert("삭제할 코드를 선택해주세요.");
+            return;
+        }
+
+        var tmp = "";
+        $.each($('input[name=' + gridChkboxId +']:checked'), function () {
+            tmp += "," + $(this).val();
+        });
+
+        var result = customKendo.fn_customAjax('/asset/getAstCategoryDel.do', {astCodeId : tmp.substring(1)});
+        if(result.flag){
+            alert("삭제가 완료되었습니다.");
+
+            if(category == "categoryA"){
+                classManage.categoryGridReload();
+            }else if(category == "categoryB") {
+                classManage.categoryAddRow("categoryGridA", $("#astUpperCode").val());
+            }else{
+                classManage.categoryAddRow("categoryGridB", $("#astUpperCode").val());
+            }
+        }
+    },
+
+
     fn_delBtn : function(e) {
         var checkbox = 'checkbox'+e;
         var tmp = [];
         if(e == 3) {
-            console.log('위치관리 삭제');
             if(confirm("삭제하시겠습니까?")) {
                 $.each($('.'+checkbox+':checked'), function (index, item) {
                     tmp.push($(item).next().val());

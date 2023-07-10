@@ -34,10 +34,13 @@ public interface AssetService {
     List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
     List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
     List<Map<String,Object>> getClassPositionList(Map<String,Object> map);
+    Map<String, Object> getClassPosition(Map<String, Object> params);
     List<Map<String,Object>> getClassDivisionList(Map<String,Object> map);
     List<Map<String,Object>> getAstCategoryList(Map<String, Object> params);
     Map<String, Object> getAstCategory(Map<String, Object> params);
     void setCategoryCode(Map<String, Object> params);
+    void getAstCategoryDel(Map<String, Object> params);
+
 
     //장비사용 목록 조회
     List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
@@ -53,7 +56,7 @@ public interface AssetService {
 
     List<Map<String,Object>> getAssetPlaceList();
 
-    String setAssetCode(Map<String,Object> map);
+    void setAssetCodePosition(Map<String,Object> map);
 
     String delAssetCode(Map<String,Object> map);
     String setAssetPlace(Map<String,Object> map);

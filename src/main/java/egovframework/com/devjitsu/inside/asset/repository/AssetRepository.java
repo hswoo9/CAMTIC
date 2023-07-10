@@ -57,12 +57,16 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return selectList("asset.getAssetDtCodeList", map);
     }
+    public void setAssetCodePosition(Map<String, Object> params) { insert("asset.setAssetCodePosition", params);}
+    public void setAssetCodePositionUpd(Map<String, Object> params) { insert("asset.setAssetCodePositionUpd", params);}
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) { return selectList("asset.getClassPositionList", params);}
+    public Map<String, Object> getClassPosition(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getClassPosition", params);}
     public List<Map<String,Object>> getClassDivisionList(Map<String,Object> params) { return selectList("asset.getClassDivisionList", params);}
     public List<Map<String,Object>> getAstCategoryList(Map<String,Object> params) { return selectList("asset.getAstCategoryList", params);}
     public Map<String, Object> getAstCategory(Map<String, Object> params) { return (Map<String, Object>) selectOne("asset.getAstCategory", params);}
     public void setCategoryCode(Map<String,Object> params) { update("asset.setCategoryCode", params);}
     public void setCategoryCodeUpd(Map<String,Object> params) { update("asset.setCategoryCodeUpd", params);}
+    public void setCategoryCodeDel(Map<String,Object> params) { update("asset.setCategoryCodeDel", params);}
     public String getMaxCategoryCode(Map<String,Object> params) { return (String) selectOne("asset.getMaxCategoryCode", params);}
 
     //장비사용 목록 조회
