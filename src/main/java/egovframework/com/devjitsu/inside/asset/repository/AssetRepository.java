@@ -57,13 +57,16 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return selectList("asset.getAssetDtCodeList", map);
     }
-    public List<Map<String,Object>> getClassManageList(Map<String,Object> map) {
-        return selectList("asset.getClassManageList", map);
-    }
+    public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) { return selectList("asset.getClassPositionList", params);}
+    public List<Map<String,Object>> getClassDivisionList(Map<String,Object> params) { return selectList("asset.getClassDivisionList", params);}
+    public List<Map<String,Object>> getAstCategoryList(Map<String,Object> params) { return selectList("asset.getAstCategoryList", params);}
+    public Map<String, Object> getAstCategory(Map<String, Object> params) { return (Map<String, Object>) selectOne("asset.getAstCategory", params);}
+    public void setCategoryCode(Map<String,Object> params) { update("asset.setCategoryCode", params);}
+    public void setCategoryCodeUpd(Map<String,Object> params) { update("asset.setCategoryCodeUpd", params);}
+    public String getMaxCategoryCode(Map<String,Object> params) { return (String) selectOne("asset.getMaxCategoryCode", params);}
+
     //장비사용 목록 조회
-    public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {
-        return selectList("asset.getEqipmnUseList", params);
-    }
+    public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) { return selectList("asset.getEqipmnUseList", params);}
 
     //장비사용 목록 삭제
     public void setEquipmenUseDelete(List<String> eqmnUsePk) { update("asset.setEquipmenUseDelete", eqmnUsePk);}
@@ -89,10 +92,6 @@ public class AssetRepository extends AbstractDAO {
     }
     public void delAssetPlace(Map<String,Object> map) {
         delete("asset.delAssetPlace", map);
-    }
-
-    public List<Map<String,Object>> getAstCodeList() {
-        return selectList("asset.getAstCodeList");
     }
 
     public List<Map<String,Object>> getBookList(Map<String, Object> params) {

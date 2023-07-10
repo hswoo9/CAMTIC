@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -88,16 +89,6 @@ public class AssetController {
         return "inside/asset/proposalList";
     }
 
-    //분류관리
-    @RequestMapping("/Inside/classManage.do")
-    public String classManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/asset/classManage";
-    }
-
     //분류관리 - 소속관리 팝업창
     @RequestMapping("/Inside/Pop/belongManagePop.do")
     public String belongManagePop(HttpServletRequest request, Model model) {
@@ -118,26 +109,23 @@ public class AssetController {
         return "popup/inside/asset/divisionManagePop";
     }
 
-    //분류관리 - 위치관리 팝업창
-    @RequestMapping("/Inside/Pop/locationManagePop.do")
-    public String locationManagePop(HttpServletRequest request, Model model) {
+    /**
+     * 분류관리 > 위치관리 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/Pop/placeManagePopup.do")
+    public String placeManagePopup(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/asset/locationManagePop";
+        return "popup/inside/asset/placeManagePopup";
     }
 
     //분류관리 > 카테고리관리 - 카테고리 관리 추가 팝업창
-    @RequestMapping("/Inside/Pop/categoriesManagePop.do")
-    public String categoriesManagePop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/asset/categoriesManagePop";
-    }
-    
     //PDA연동목록
     @RequestMapping("/Inside/pdaPeristalsisList.do")
     public String pdaPeristalsisList(HttpServletRequest request, Model model) {
@@ -265,15 +253,6 @@ public class AssetController {
         return "popup/inside/asset/bookRegisPop";
     }
 
-    //오늘날짜 구하기 yyyyMMddhhmmss
-    public static String getCurrentDateTime() {
-        Date today = new Date();
-        Locale currentLocale = new Locale("KOREAN", "KOREA");
-        String pattern = "yyyyMMddHHmmss";
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
-        return formatter.format(today);
-    }
-
     //공통코드 - 장비관리구분 조회
     @RequestMapping("/asset/getEqipmnList")
     @ResponseBody
@@ -359,11 +338,99 @@ public class AssetController {
         return "jsonView";
     }
 
-    @RequestMapping("/inside/getClassManageList")
-    public String getClassManageList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("rs", assetService.getClassManageList(map));
+    /**
+     * 자산관리 > 분류관리 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/classManage.do")
+    public String classManage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/asset/classManage";
+    }
+
+    /**
+     * 자산 소속 코드 리스트
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getClassPositionList")
+    public String getClassPositionList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getClassPositionList(map));
         return "jsonView";
     }
+
+    /**
+     * 자산 구분 코드 리스트
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getClassDivisionList")
+    public String getClassDivisionList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getClassDivisionList(map));
+        return "jsonView";
+    }
+
+    /**
+     * 자산 카테고리 리스트
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/getAstCategoryList")
+    public String getAstCodeList(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("rs", assetService.getAstCategoryList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 카테고리 등록 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/Pop/categoriesManagePop.do")
+    public String categoriesManagePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/asset/categoriesManagePop";
+    }
+
+    /**
+     * 카테고리 수정 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/getAstCategory.do")
+    public String getAstCategory(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("data", assetService.getAstCategory(params));
+        return "jsonView";
+    }
+
+    /**
+     * 카테고리 등록/수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/asset/setCategoryCode.do")
+    public String setCategoryCode(@RequestParam Map<String,Object> params) {
+        assetService.setCategoryCode(params);
+        return "jsonView";
+    }
+
 
 
     //장비사용 목록 조회
@@ -456,11 +523,7 @@ public class AssetController {
         System.out.println(map.get("AST_PLACE_SN"));
         return "jsonView";
     }
-    @RequestMapping("/asset/getAstCodeList")
-    public String getAstCodeList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("rs", assetService.getAstCodeList());
-        return "jsonView";
-    }
+
     //장비관리 (관리자) 결재창
     @RequestMapping("/Inside/Pop/equipApprovalPop.do")
     public String equipApprovalPop(HttpServletRequest request, Model model) {
@@ -484,5 +547,14 @@ public class AssetController {
     public String setBookInsert(@RequestParam Map<String, Object> params) {
         assetService.setBookInsert(params);
         return "jsonView";
+    }
+
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 }

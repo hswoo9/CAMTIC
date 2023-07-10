@@ -173,17 +173,89 @@
             a.AST_MD_CODE = #{AST_MD_CODE}
     </select>
 
-    <select id="getClassManageList" parameterType="map" resultType="map">
-        SELECT
-            a.*
-        FROM
-            cam_inside.dj_inside_code AS a
-        WHERE
-            a.INSIDE_MD_CODE = #{INSIDE_MD_CODE}
-          and
-            a.ACTIVE = 'Y';
+    <select id="getClassPositionList" parameterType="map" resultType="map">
+        /* getClassPositionList */
+        SELECT * FROM CAM_INSIDE.DJ_ASSET_CODE_POSITION
+        WHERE ACTIVE = 'Y'
     </select>
 
+    <select id="getClassDivisionList" parameterType="map" resultType="map">
+        /* getClassDivisionList */
+        SELECT * FROM CAM_INSIDE.DJ_ASSET_CODE_CLASS
+        WHERE ACTIVE = 'Y'
+    </select>
+
+    <select id="getAssetPlaceList" resultType="map">
+        /* getAssetPlaceList */
+        SELECT * FROM CAM_INSIDE.DJ_ASSET_PLACE
+        WHERE ACTIVE = 'Y'
+    </select>
+
+    <select id="getAstCategoryList" parameterType="map" resultType="map">
+        /* getAstCategoryList */
+        SELECT * FROM CAM_INSIDE.DJ_ASSET_CODE
+        WHERE ACTIVE = 'Y' AND AST_UPPER_CODE = #{astUpperCode}
+    </select>
+
+    <select id="getAstCategory" parameterType="map" resultType="map">
+        /* getAstCategory */
+        SELECT * FROM CAM_INSIDE.DJ_ASSET_CODE
+        WHERE ACTIVE = 'Y'
+        AND AST_CODE_ID = #{astCodeId}
+    </select>
+
+
+    <insert id="setCategoryCode" parameterType="map">
+        /* setCategoryCode */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_CODE
+            (
+                AST_UPPER_CODE,
+                AST_CODE,
+                AST_CODE_NM,
+                AST_DEPRE_TYPE,
+                AST_DEPRE_PERCENT,
+                AST_USE_YEAR,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{astUpperCode},
+                #{astCode},
+                #{astCodeNm},
+                #{astDepreType},
+                #{astDeprePercent},
+                #{astUseYear},
+                #{empSeq}
+            )
+    </insert>
+
+    <select id="getMaxCategoryCode" parameterType="map" resultType="String">
+        /* getMaxCategoryCode */
+        SELECT
+            RIGHT(CONCAT('00', IFNULL(max(AST_CODE), 0) + 1), 2)
+        FROM
+            CAM_INSIDE.DJ_ASSET_CODE A
+        WHERE
+            AST_UPPER_CODE = #{astUpperCode}
+    </select>
+
+    <update id="setCategoryCodeUpd" parameterType="map">
+        /* setCategoryCodeUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_CODE
+        SET
+            <if test='astCode != null and !"".equals(astCode)'>
+                AST_CODE = #{astCode},
+            </if>
+            AST_CODE_NM = #{astCodeNm},
+            AST_DEPRE_TYPE = #{astCodeNm},
+            AST_DEPRE_PERCENT = #{astDeprePercent},
+            AST_USE_YEAR = #{astUseYear},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_CODE_ID = #{astCodeId}
+    </update>
     <!--장비사용 목록 조회-->
     <select id="getEqipmnUseList" parameterType="map" resultType="map">
         /*getEqipmnUseList*/
@@ -293,15 +365,7 @@
         WHERE
             A.eqipmn_use_sn = #{pk}
     </select>
-    <select id="getAssetPlaceList" resultType="map">
-        SELECT
-            a.*
-        FROM
-            cam_inside.dj_asset_place AS a
-        where
-            a.active = 'Y'
-        ORDER BY a.ast_place_sn
-    </select>
+
     <insert id="setAssetCode" parameterType="map">
         INSERT INTO cam_inside.dj_inside_code(
             INSIDE_MD_CODE, INSIDE_MD_CODE_NM, INSIDE_DT_CODE, INSIDE_DT_CODE_NM, REG_EMP_SEQ, REG_DATE
@@ -318,16 +382,6 @@
     <delete id="delAssetPlace" parameterType="map">
         DELETE FROM cam_inside.dj_asset_place WHERE AST_PLACE_SN IN (${AST_PLACE_SN})
     </delete>
-
-    <select id="getAstCodeList" resultType="map">
-        SELECT
-            a.*
-        FROM
-            cam_inside.dj_asset_code AS a
-        WHERE
-            a.active = 'Y'
-        ORDER BY a.reg_date
-    </select>
 
     <select id="getBookList" resultType="map">
         /* getBookList */

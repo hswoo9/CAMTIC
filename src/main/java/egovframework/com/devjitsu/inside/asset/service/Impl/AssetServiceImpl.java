@@ -4,6 +4,7 @@ import egovframework.com.devjitsu.inside.asset.repository.AssetRepository;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -103,8 +104,13 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getAssetDtCodeList(map);
     }
     @Override
-    public List<Map<String,Object>> getClassManageList(Map<String,Object> map) {
-        return assetRepository.getClassManageList(map);
+    public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) {
+        return assetRepository.getClassPositionList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getClassDivisionList(Map<String, Object> params) {
+        return assetRepository.getClassDivisionList(params);
     }
 
     //장비사용 목록 조회
@@ -195,9 +201,29 @@ public class AssetServiceImpl implements AssetService {
         }
     }
     @Override
-    public List<Map<String,Object>> getAstCodeList() {
-        return assetRepository.getAstCodeList();
+    public List<Map<String,Object>> getAstCategoryList(Map<String, Object> params) {
+        return assetRepository.getAstCategoryList(params);
     }
+
+    @Override
+    public Map<String, Object> getAstCategory(Map<String, Object> params) {
+        return assetRepository.getAstCategory(params);
+    }
+
+
+    @Override
+    public void setCategoryCode(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("astCodeId"))){
+            if(params.get("categoryType").equals("categoryB") || params.get("categoryType").equals("categoryC")){
+                params.put("astCode", assetRepository.getMaxCategoryCode(params));
+            }
+
+            assetRepository.setCategoryCode(params);
+        }else{
+            assetRepository.setCategoryCodeUpd(params);
+        }
+    }
+
     @Override
     public List<Map<String,Object>> getBookList(Map<String, Object> params) {
         return assetRepository.getBookList(params);

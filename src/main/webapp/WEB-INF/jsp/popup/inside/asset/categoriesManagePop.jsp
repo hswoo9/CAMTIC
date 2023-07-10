@@ -40,75 +40,39 @@
     }
 </style>
 <script type="text/javascript" src="/js/intra/inside/asset/categoriesManagePop.js?v=${today}"/></script>
-
-<!DOCTYPE html>
-<html>
-<body>
-<div class="card">
+<body style="height: 100%;">
+<div class="card" style="height: 100%;">
     <div class="card-header" style="padding:20px 0;">
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+                <input type="hidden" id="categoryType" name="categoryType" value="${params.categoryType}">
+                <input type="hidden" id="astUpperCode" name="astUpperCode" value="${params.astUpperCode}">
+                <input type="hidden" id="astCodeId" name="astCodeId" value="${params.astCodeId}">
+                <input type="hidden" id="mod" name="mod" value="${params.modity}">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
-                        <col width="">
+                        <col width="10%">
                         <col width="">
                         <col width="">
                         <col width="">
                     </colgroup>
-                    <tbody>
+                    <tbody id="addCodeTbody">
                     <tr>
-                        <th colspan="4">카테고리 관리 추가</th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>카테고리(대)</th>
-                        <td colspan><input type="text" id="ctg1" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>소속코드(대)</th>
-                        <td colspan><input type="text" id="belongCode1" style="width: 100%; margin-right:10px;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>카테고리(중)</th>
-                        <td colspan><input type="text" id="ctg2" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>소속코드(중)</th>
-                        <td colspan><input type="text" id="belongCode2" style="width: 100%; margin-right:10px;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>카테고리(소)</th>
-                        <td colspan><input type="text" id="ctg3" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>소속코드(소)</th>
-                        <td colspan><input type="text" id="belongCode3" style="width: 100%; margin-right:10px;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>상각법</th>
-                        <td colspan="3"><input type="text" id="amortization" style="width: 30%; margin-right:10px;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>상각률</th>
-                        <td colspan="3"><input type="text" id="rate" style="width: 30%; margin-right:10px; text-align: right;" value="%"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>내용년한</th>
-                        <td colspan="3"><input type="text" id="year" style="width: 30%; margin-right:10px; text-align: right;" value="년"></td>
+                        <th colspan="4" id="titleName">카테고리 추가</th>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
+            <div class="btn-st" style="text-align: right">
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="categoriesManagePop.setCategoryCode()"/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
             </div>
         </div>
     </div>
 </div>
 
-
 <script>
     categoriesManagePop.fn_defaultScript();
 </script>
 </body>
-</html>
