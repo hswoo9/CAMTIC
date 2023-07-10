@@ -24,6 +24,23 @@ var inBustripList = {
             value : new Date()
         });
 
+        $("#pjt_cd").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택하세요", value: "" },
+                { text: "해당없음", value: "0" },
+                { text: "연구개발", value: "1" },
+                { text: "개발사업", value: "2" },
+                { text: "교육사업", value: "3" },
+                { text: "일자리사업", value: "4" },
+                { text: "지원사업", value: "5" },
+                { text: "평생학습", value: "6" },
+                { text: "캠스타트업", value: "7" }
+            ],
+            index : 0,
+        });
+
     },
 
     mainGrid : function() {
@@ -70,21 +87,14 @@ var inBustripList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="inBustripList.inBustripReqPop()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="inBustripList.inBustripReqPop()">' +
                             '	<span class="k-button-text">신청</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="inBustripList.fn_delBustripReq()">' +
                             '	<span class="k-button-text">신청취소</span>' +
                             '</button>';
                     }
@@ -97,7 +107,11 @@ var inBustripList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="inBustripList.fn_checkAll()" class=""/>',
                     template : function (d) {
-                        return "<input type='checkbox' id='bst"+d.hr_biz_req_id+"' name='bstCheck' value='"+d.hr_biz_req_id+"' style='position: relative; top:3px' class='bstCheck'/>"
+                        if(d.status == 0){
+                            return "<input type='checkbox' id='bst"+d.hr_biz_req_id+"' name='bstCheck' value='"+d.hr_biz_req_id+"' style='position: relative; top:3px' class='bstCheck'/>"
+                        } else {
+                            return "";
+                        }
                     },
                     width: 50
                 }, {
@@ -212,5 +226,38 @@ var inBustripList = {
         }else{
             $("input[name='bstCheck']").prop("checked", false);
         }
+    },
+
+    fn_delBustripReq: function (){
+        var keyAr = [];
+
+        if($("input[name='bstCheck']:checked").length == 0){
+            alert("취소할 출장을 선택해주세요.")
+        }
+
+        if(!confirm("선택한 출장 신청을 취소하시겠습니까?")){
+            return;
+        }
+
+        $("input[name='bstCheck']:checked").each(function(){
+            keyAr.push(this.value);
+        });
+
+        var data = {
+            keyAr : keyAr
+        }
+
+        $.ajax({
+            url : "/bustrip/delBustripReq",
+            data: {
+                keyAr : keyAr
+            },
+            type : "post",
+            traditional: true,
+            dataType: "json",
+            success : function(rs){
+                inBustripList.mainGrid();
+            }
+        });
     }
 }

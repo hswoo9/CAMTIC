@@ -17,10 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BustripController {
@@ -249,6 +246,20 @@ public class BustripController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/bustrip/delBustripReq")
+    public String delBustripReq(@RequestParam String[] keyAr, Model model){
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("keyAr", keyAr);
+            bustripService.delBustripReq(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

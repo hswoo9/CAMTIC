@@ -13,4 +13,6 @@ public interface BustripService {
     void setBustripReq(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     List<Map<String, Object>> getBustripReq(Map<String, Object> params);
+
+    void delBustripReq(Map<String, Object> params);
 }

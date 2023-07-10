@@ -87,4 +87,9 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getBustripReq(Map<String, Object> params) {
         return bustripRepository.getBustripReq(params);
     }
+
+    @Override
+    public void delBustripReq(Map<String, Object> params) {
+        bustripRepository.delBustripReq(params);
+    }
 }

@@ -102,4 +102,24 @@
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ
     </select>
+
+    <delete id="delBustripReq" parameterType="map">
+        DELETE FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+            HR_BIZ_REQ_ID IN
+        <foreach collection="keyAr" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delBustripCompn" parameterType="map">
+        DELETE FROM
+        CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+        HR_BIZ_REQ_ID IN
+        <foreach collection="keyAr" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>
