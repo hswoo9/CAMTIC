@@ -69,14 +69,40 @@ public class BustripController {
         return "inside/bustrip/inBustripList";
     }
 
-    //관내출장 신청 페이지
+    /**
+     * 출장 신청 / 출장 조회
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/bustrip/pop/inBustripReqPop.do")
-    public String inBustripReqPop(HttpServletRequest request, Model model) {
+    public String inBustripReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/inBustripReqPop";
+    }
+
+    /**
+     * 출장조회 데이터 불러오기
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/bustrip/getBustripReqInfo")
+    public String getBustripReqInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("params", params);
+
+        return "jsonView";
     }
 
     /**

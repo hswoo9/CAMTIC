@@ -150,4 +150,18 @@
         </foreach>
     </insert>
 
+    <select id="getContentFileOne" parameterType="map" resultType="map">
+        /* getContentFileOne */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{fileNo}
+    </select>
+
+    <delete id="getContentFileDelOne" parameterType="map">
+        /* getContentFileDelOne */
+        DELETE FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_NO = #{fileNo}
+    </delete>
 </mapper>

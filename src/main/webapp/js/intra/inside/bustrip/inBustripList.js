@@ -103,6 +103,7 @@ var inBustripList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : inBustripList.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="inBustripList.fn_checkAll()" class=""/>',
@@ -154,7 +155,6 @@ var inBustripList = {
                 }, {
                     title: "업무차량",
                     template : function(d){
-                        console.log(d);
                         if(d.use_car == "Y"){
                             if(d.use_trspt == 1){
                                 return "사용 (카니발)";
@@ -197,24 +197,18 @@ var inBustripList = {
                         }
                     },
                     width: 80
-                }, {
-                    field: "",
-                    title: "결과보고",
-                    template: function(d){
-                        if(d.status == 100){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="inBustripList.fn_viewBustResPop('+d.hr_biz_req_id+')">결과보고</button>';
-                        } else {
-                            return "-";
-                        }
-                    },
-                    width: 80
                 }
             ]
         }).data("kendoGrid");
     },
 
-    inBustripReqPop : function() {
-        var url = "/bustrip/pop/inBustripReqPop.do";
+    inBustripReqPop : function(e) {
+        var url = "";
+        if(e == null || e == "" || e== undefined){
+            url = "/bustrip/pop/inBustripReqPop.do";
+        } else {
+            url = "/bustrip/pop/inBustripReqPop.do?hrBizReqId="+e;
+        }
         var name = "inBustripReqPop";
         var option = "width=1200, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
@@ -258,6 +252,18 @@ var inBustripList = {
             success : function(rs){
                 inBustripList.mainGrid();
             }
+        });
+    },
+
+    onDataBound: function () {
+        var grid = this;
+        grid.element.off('dblclick');
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this).closest("tr"));
+            console.log(dataItem)
+
+            inBustripList.inBustripReqPop(dataItem.hr_biz_req_id)
         });
     }
 }

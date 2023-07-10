@@ -30,4 +30,16 @@ public class BustripRepository extends AbstractDAO {
         delete("bustrip.delBustripReq", params);
         delete("bustrip.delBustripCompn", params);
     }
+
+    public Map<String, Object> getBustripReqInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripReqInfo", params);
+    }
+
+    public List<Map<String, Object>> getBustripCompanionInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBustripCompanionInfo", params);
+    }
+
+    public List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBustripReqFileInfo", params);
+    }
 }

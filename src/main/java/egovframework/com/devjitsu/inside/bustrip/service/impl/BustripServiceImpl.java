@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,40 +37,44 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void setBustripReq(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
-        bustripRepository.insBustripReq(params);
-        String compEmpSeq = "";
-        String[] compEmpSeqArr;
-        if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
-            compEmpSeq = params.get("compEmpSeq").toString();
+        if(params.containsKey("hrBizReqId")){
 
-            compEmpSeqArr = compEmpSeq.split(",");
+        } else {
+            bustripRepository.insBustripReq(params);
+            String compEmpSeq = "";
+            String[] compEmpSeqArr;
+            if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
+                compEmpSeq = params.get("compEmpSeq").toString();
 
-            for(String str : compEmpSeqArr){
-                params.put("compEmpSeq", str);
-                params.put("empSeq", params.get("compEmpSeq"));
-                Map<String, Object> map = userRepository.getUserInfo(params);
-                params.put("compEmpName", map.get("EMP_NAME_KR"));
-                params.put("compDeptName", map.get("DEPT_NAME"));
-                params.put("compDeptSeq", map.get("DEPT_SEQ"));
-                params.put("compDutyName", map.get("DUTY_NAME"));
-                params.put("compPositionName", map.get("POSITION_NAME"));
+                compEmpSeqArr = compEmpSeq.split(",");
 
-                bustripRepository.insBustripCompanion(params);
+                for(String str : compEmpSeqArr){
+                    params.put("compEmpSeq", str);
+                    params.put("empSeq", params.get("compEmpSeq"));
+                    Map<String, Object> map = userRepository.getUserInfo(params);
+                    params.put("compEmpName", map.get("EMP_NAME_KR"));
+                    params.put("compDeptName", map.get("DEPT_NAME"));
+                    params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                    params.put("compDutyName", map.get("DUTY_NAME"));
+                    params.put("compPositionName", map.get("POSITION_NAME"));
+
+                    bustripRepository.insBustripCompanion(params);
+                }
             }
-        }
 
-        if(file.length > 0){
-            MainLib mainLib = new MainLib();
-            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
-            for(int i = 0 ; i < list.size() ; i++){
-                list.get(i).put("contentId", params.get("purcReqId"));
-                list.get(i).put("empSeq", params.get("empSeq"));
-                list.get(i).put("fileCd", params.get("menuCd"));
-                list.get(i).put("filePath", filePath(params, base_dir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            if(file.length > 0){
+                MainLib mainLib = new MainLib();
+                List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+                for(int i = 0 ; i < list.size() ; i++){
+                    list.get(i).put("contentId", params.get("hrBizReqId"));
+                    list.get(i).put("empSeq", params.get("empSeq"));
+                    list.get(i).put("fileCd", params.get("menuCd"));
+                    list.get(i).put("filePath", filePath(params, base_dir));
+                    list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                    list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                }
+                commonRepository.insFileInfo(list);
             }
-            commonRepository.insFileInfo(list);
         }
     }
 
@@ -86,6 +91,16 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripReq(Map<String, Object> params) {
         return bustripRepository.getBustripReq(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustripReqInfo(Map<String, Object> params) {
+        params.put("fileCd", "bustripReq");
+        Map<String, Object> result = new HashMap<>();
+        result.put("rs", bustripRepository.getBustripReqInfo(params));
+        result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
+        return result;
     }
 
     @Override

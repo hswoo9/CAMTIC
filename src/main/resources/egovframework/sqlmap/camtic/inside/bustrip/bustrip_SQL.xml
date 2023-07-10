@@ -101,6 +101,37 @@
             *
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+        <![CDATA[
+            TRIP_DAY_FR >= #{startDate} AND TRIP_DAY_TO <= #{endDate}
+        ]]>
+        <if test="projectCd != null and projectCd != ''">
+            AND
+            PROJECT_CD = #{projectCd}
+        </if>
+        <if test="busnName != null and busnName != ''">
+            AND
+            BUSN_NAME like concat('%', #{busnName}, '%')
+        </if>
+
+    </select>
+
+    <select id="getBustripReqInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        WHERE
+            A.HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getBustripCompanionInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION A
+        WHERE
+            A.HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
 
     <delete id="delBustripReq" parameterType="map">
@@ -122,4 +153,15 @@
             #{item}
         </foreach>
     </delete>
+
+    <select id="getBustripReqFileInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{hrBizReqId}
+        AND
+            FILE_CD = #{fileCd}
+    </select>
 </mapper>

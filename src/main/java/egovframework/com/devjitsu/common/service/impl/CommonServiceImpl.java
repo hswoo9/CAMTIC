@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.common.service.impl;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.system.repository.MenuManagementRepository;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -126,5 +128,32 @@ public class CommonServiceImpl implements CommonService {
             }
         }
         return new Gson().toJson(treeList);
+    }
+
+    @Override
+    public Map<String, Object> getContentFileOne(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Map<String, Object> fileMap = new HashMap<>();
+            fileMap = commonRepository.getContentFileOne(params);
+
+            CommonUtil commonUtil = new CommonUtil();
+            boolean isDelete = commonUtil.deleteFile(new String[]{fileMap.get("file_uuid").toString()}, fileMap.get("file_path").toString());
+
+            if(isDelete){
+                commonRepository.getContentFileDelOne(params);
+            }else{
+                throw new Exception();
+            }
+
+            result.put("code", "200");
+            result.put("message", "파일이 삭제되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "파일 삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
     }
 }

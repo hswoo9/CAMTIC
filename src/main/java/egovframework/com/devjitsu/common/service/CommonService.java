@@ -23,4 +23,6 @@ public interface CommonService {
      * @return
      */
     String getMenuFullJsonString(LoginVO loginVO);
+
+    Map<String, Object> getContentFileOne(Map<String, Object> params);
 }

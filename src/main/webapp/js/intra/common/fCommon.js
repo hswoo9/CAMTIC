@@ -70,5 +70,30 @@ var fCommon = {
             fCommon.global.attFiles = new Array();
         }
 
+    },
+
+    commonFileDel: function(e, v){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("tr").remove();
+                        if($("#fileGrid").find("tr").length == 0){
+                            $("#fileGrid").html('<tr>' +
+                                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                                '</tr>');
+                        }
+                    }
+                }
+            });
+        }
     }
 }

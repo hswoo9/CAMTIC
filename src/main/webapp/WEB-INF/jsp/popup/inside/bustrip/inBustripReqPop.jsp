@@ -45,7 +45,14 @@
     <div class="card-header" style="padding-top:45px;">
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
-                <div class="popupTitleSt">관내출장 신청</div>
+                <div class="popupTitleSt">
+                    <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
+                        출장신청
+                    </c:if>
+                    <c:if test="${params.hrBizReqId != '' && params.hrBizReqId != null}">
+                        출장정보
+                    </c:if>
+                </div>
                 <form id="inBustripReqPop">
                     <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
                     <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -99,7 +106,7 @@
                             <th>동반자</th>
                             <td colspan="3">
                                 <input type="text" id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
-                                <button type="button" class="k-button k-button-solid-info" onclick="userMultiSearch();">출장자 추가</button>
+                                <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="userMultiSearch();">출장자 추가</button>
                                 <div id="companionList">
                                     <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
                                     <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
@@ -196,14 +203,25 @@
 
 
             <div class="btn-st" style="margin-top:10px; text-align:right;">
-                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="inBustripReqPop.fn_saveBtn();"/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick=""/>
+                <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
+                    <input type="button" class="k-button k-button-solid-info" id="saveBtn" value="저장" onclick="inBustripReqPop.fn_saveBtn();"/>
+                </c:if>
+                <c:if test="${params.hrBizReqId != '' && params.hrBizReqId != null}">
+                    <input type="button" class="k-button k-button-solid-info" id="modBtn" value="수정" onclick="inBustripReqPop.fn_updBtn('${params.hrBizReqId}');"/>
+                </c:if>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()"/>
             </div>
         </div>
     </div>
 </div>
 <script>
     inBustripReqPop.init();
+
+    var dataConf = '${params.hrBizReqId}';
+
+    if(dataConf != ''){
+        inBustripReqPop.setData(dataConf);
+    }
 
     function userMultiSearch() {
         window.open("/common/deptMultiPop.do","조직도","width=750,height=650");
