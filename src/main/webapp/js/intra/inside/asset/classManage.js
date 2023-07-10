@@ -5,6 +5,7 @@ var classManage = {
     global : {
         code : "",
         searchAjaxData : "",
+        saveAjaData : "",
     },
 
     init : function(){
@@ -164,7 +165,7 @@ var classManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.divisionModChk()">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
@@ -182,10 +183,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : function (e){
-                        return "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox2'/><input type='hidden' value='"+e.INSIDE_CODE_ID+"'/>";
-                    },
+                    headerTemplate: '<input type="checkbox" id="checkAllCd" name="checkAllCd" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='cDGridChk#=AST_CODE_TYPE_ID#' name='cDGridChk' value='#=AST_CODE_TYPE_ID#' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -204,10 +203,30 @@ var classManage = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+
+        $("#checkAllCd").click(function(){
+            if($(this).is(":checked")) $("input[name=cDGridChk]").prop("checked", true);
+            else $("input[name=cDGridChk]").prop("checked", false);
+        });
+    },
+
+    divisionModChk : function(){
+        if($("input[name=cDGridChk]:checked").length == 0){
+            alert("수정할 코드를 선택해주세요.");
+            return;
+        }else if($("input[name=cDGridChk]:checked").length > 1){
+            alert("수정은 단건만 가능합니다.");
+            return;
+        }
+
+        var url = "/inside/divisionManagePop.do?astCodeTypeId=" + $("input[name=cDGridChk]:checked").val() + "&modify=Y";
+        var name = "divisionManagePop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
     },
 
     divisionManagePopup : function() {
-        var url = "/Inside/Pop/divisionManagePop.do";
+        var url = "/inside/divisionManagePop.do";
         var name = "divisionManagePop";
         var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
@@ -233,14 +252,14 @@ var classManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.placeManagePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.placeManagePop();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.placeModChk()">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
@@ -258,10 +277,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : function (e){
-                        return "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox checkbox3'/><input type='hidden' value='"+e.AST_PLACE_SN+"'/>";
-                    },
+                    headerTemplate: '<input type="checkbox" id="checkAllP" name="checkAllP" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='pGridChk#=AST_PLACE_SN#' name='pGridChk' value='#=AST_PLACE_SN#' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -279,11 +296,31 @@ var classManage = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+
+        $("#checkAllP").click(function(){
+            if($(this).is(":checked")) $("input[name=pGridChk]").prop("checked", true);
+            else $("input[name=pGridChk]").prop("checked", false);
+        });
     },
 
-    placeManagePopup : function() {
-        var url = "/inside/Pop/placeManagePopup.do";
-        var name = "locationManagePop";
+    placeModChk : function(){
+        if($("input[name=pGridChk]:checked").length == 0){
+            alert("수정할 코드를 선택해주세요.");
+            return;
+        }else if($("input[name=pGridChk]:checked").length > 1){
+            alert("수정은 단건만 가능합니다.");
+            return;
+        }
+
+        var url = "/inside/placeManagePop.do?astPlaceSn=" + $("input[name=pGridChk]:checked").val() + "&modify=Y";
+        var name = "placeManagePop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    },
+
+    placeManagePop : function() {
+        var url = "/inside/placeManagePop.do";
+        var name = "placeManagePop";
         var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
@@ -639,64 +676,72 @@ var classManage = {
             return;
         }
 
-        var tmp = "";
-        $.each($('input[name=' + gridChkboxId +']:checked'), function () {
-            tmp += "," + $(this).val();
-        });
+        if(confirm("선택한 코드를 삭제하시겠습니까?")) {
+            var tmp = "";
+            $.each($('input[name=' + gridChkboxId +']:checked'), function () {
+                tmp += "," + $(this).val();
+            });
 
-        var result = customKendo.fn_customAjax('/asset/getAstCategoryDel.do', {astCodeId : tmp.substring(1)});
-        if(result.flag){
-            alert("삭제가 완료되었습니다.");
+            var result = customKendo.fn_customAjax('/asset/getAstCategoryDel.do', {astCodeId : tmp.substring(1)});
+            if(result.flag){
+                alert("삭제가 완료되었습니다.");
 
-            if(category == "categoryA"){
-                classManage.categoryGridReload();
-            }else if(category == "categoryB") {
-                classManage.categoryAddRow("categoryGridA", $("#astUpperCode").val());
-            }else{
-                classManage.categoryAddRow("categoryGridB", $("#astUpperCode").val());
+                if(category == "categoryA"){
+                    classManage.categoryGridReload();
+                }else if(category == "categoryB") {
+                    classManage.categoryAddRow("categoryGridA", $("#astUpperCode").val());
+                }else{
+                    classManage.categoryAddRow("categoryGridB", $("#astUpperCode").val());
+                }
             }
         }
     },
 
-
     fn_delBtn : function(e) {
-        var checkbox = 'checkbox'+e;
-        var tmp = [];
-        if(e == 3) {
-            if(confirm("삭제하시겠습니까?")) {
-                $.each($('.'+checkbox+':checked'), function (index, item) {
-                    tmp.push($(item).next().val());
-                });
-                var data = {
-                    AST_PLACE_SN: JSON.stringify(tmp)
-                }
-                var result = customKendo.fn_customAjax('/asset/delAssetPlace', data);
-                if(result.rs == 'SUCCESS') {
-                    alert('삭제 완료');
-                    classManage.gridReload3();
-                }else if (result.rs == 'NOTCKECK'){
-                    alert('삭제할 데이터를 선택하지 않았습니다.');
-                }else{
-                    alert('삭제 실패');
-                }
+        var gridChkboxId = "";
+        var url = "";
+
+        if(e == 1){
+            gridChkboxId = "cPGridChk"
+            url = "/asset/setAssetCodePositionDel.do";
+        }else if(e == 2){
+
+            gridChkboxId = "cDGridChk";
+            url = "/asset/setClassDivisionDel.do";
+        }else{
+            gridChkboxId = "pGridChk"
+            url = "/asset/setAssetPlaceDel.do"
+        }
+
+        if($("input[name=" + gridChkboxId +"]:checked").length == 0){
+            alert("삭제할 코드를 선택해주세요.");
+            return;
+        }
+
+        if(confirm("선택한 코드를 삭제하시겠습니까?")) {
+            var tmp = "";
+            $.each($('input[name=' + gridChkboxId +']:checked'), function () {
+                tmp += "," + $(this).val();
+            });
+
+            if(e == 1){
+                classManage.global.saveAjaData = {astCodeCompanyId : tmp.substring(1)}
+            }else if(e == 2){
+                classManage.global.saveAjaData = {astCodeTypeId : tmp.substring(1)}
+            }else{
+                classManage.global.saveAjaData = {astPlaceSn : tmp.substring(1)}
             }
-        }else {
-            if(confirm("삭제하시겠습니까?")) {
-                $.each($('.'+checkbox+':checked'), function (index, item) {
-                    tmp.push($(item).next().val());
-                });
-                var data = {
-                    INSIDE_CODE_ID: JSON.stringify(tmp)
-                }
-                var result = customKendo.fn_customAjax('/asset/delAssetCode', data);
-                if(result.rs == 'SUCCESS') {
-                    alert('삭제 완료');
-                    classManage.gridReload();
-                    classManage.gridReload2();
-                }else if (result.rs == 'NOTCKECK'){
-                    alert('삭제할 데이터를 선택하지 않았습니다.');
+
+            var result = customKendo.fn_customAjax(url, classManage.global.saveAjaData);
+            if(result.flag){
+                alert("삭제가 완료되었습니다.");
+
+                if(e == 1){
+                    classManage.positionGridReload();
+                }else if(e == 2){
+                    classManage.divisionGridReload();
                 }else{
-                    alert('삭제 실패');
+                    classManage.placeGridReload();
                 }
             }
         }

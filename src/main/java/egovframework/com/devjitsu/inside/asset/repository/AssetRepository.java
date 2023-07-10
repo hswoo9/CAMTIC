@@ -57,17 +57,35 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return selectList("asset.getAssetDtCodeList", map);
     }
-    public void setAssetCodePosition(Map<String, Object> params) { insert("asset.setAssetCodePosition", params);}
-    public void setAssetCodePositionUpd(Map<String, Object> params) { insert("asset.setAssetCodePositionUpd", params);}
+
+    /** 분류관리 */
+    /** 소속관리*/
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) { return selectList("asset.getClassPositionList", params);}
     public Map<String, Object> getClassPosition(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getClassPosition", params);}
+    public void setAssetCodePosition(Map<String, Object> params) { insert("asset.setAssetCodePosition", params);}
+    public void setAssetCodePositionUpd(Map<String, Object> params) { insert("asset.setAssetCodePositionUpd", params);}
+    public void setAssetCodePositionDel(Map<String, Object> params) { update("asset.setAssetCodePositionDel", params);}
+
+    /** 구분관리 */
     public List<Map<String,Object>> getClassDivisionList(Map<String,Object> params) { return selectList("asset.getClassDivisionList", params);}
+    public Map<String, Object> getClassDivision(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getClassDivision", params);}
+    public void setClassDivision(Map<String, Object> params) { insert("asset.setClassDivision", params);}
+    public void setClassDivisionUpd(Map<String, Object> params) { insert("asset.setClassDivisionUpd", params);}
+    public void setClassDivisionDel(Map<String, Object> params) { update("asset.setClassDivisionDel", params);}
+    /** 위치관리 */
+    public List<Map<String,Object>> getAssetPlaceList() { return selectList("asset.getAssetPlaceList");}
+    public Map<String, Object> getAssetPlace(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getAssetPlace", params);}
+    public void setAssetPlace(Map<String, Object> params) { insert("asset.setAssetPlace", params);}
+    public void setAssetPlaceUpd(Map<String, Object> params) { insert("asset.setAssetPlaceUpd", params);}
+    public void setAssetPlaceDel(Map<String, Object> params) { update("asset.setAssetPlaceDel", params);}
+    /** 카테고리 관리 */
     public List<Map<String,Object>> getAstCategoryList(Map<String,Object> params) { return selectList("asset.getAstCategoryList", params);}
     public Map<String, Object> getAstCategory(Map<String, Object> params) { return (Map<String, Object>) selectOne("asset.getAstCategory", params);}
+    public String getMaxCategoryCode(Map<String,Object> params) { return (String) selectOne("asset.getMaxCategoryCode", params);}
     public void setCategoryCode(Map<String,Object> params) { update("asset.setCategoryCode", params);}
     public void setCategoryCodeUpd(Map<String,Object> params) { update("asset.setCategoryCodeUpd", params);}
     public void setCategoryCodeDel(Map<String,Object> params) { update("asset.setCategoryCodeDel", params);}
-    public String getMaxCategoryCode(Map<String,Object> params) { return (String) selectOne("asset.getMaxCategoryCode", params);}
+    /** 분류관리 끝 */
 
     //장비사용 목록 조회
     public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) { return selectList("asset.getEqipmnUseList", params);}
@@ -82,21 +100,7 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
         return selectList("asset.getEqipmnUseUpdateList", params);
     }
-    public List<Map<String,Object>> getAssetPlaceList() {
-        return selectList("asset.getAssetPlaceList");
-    }
-    public void setAssetCode(Map<String,Object> map) {
-        insert("asset.setAssetCode", map);
-    }
-    public void delAssetCode(Map<String,Object> map) {
-        delete("asset.delAssetCode", map);
-    }
-    public void setAssetPlace(Map<String,Object> map) {
-        insert("asset.setAssetPlace", map);
-    }
-    public void delAssetPlace(Map<String,Object> map) {
-        delete("asset.delAssetPlace", map);
-    }
+
 
     public List<Map<String,Object>> getBookList(Map<String, Object> params) {
         return selectList("asset.getBookList", params);
