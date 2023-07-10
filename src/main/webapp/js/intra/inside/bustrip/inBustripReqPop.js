@@ -14,7 +14,23 @@ var inBustripReqPop = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            value : new Date()
+        });
+
+        $("#date2").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+
+        $("#reqDate").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
         });
 
         $("#time1").kendoTimePicker({
@@ -46,7 +62,15 @@ var inBustripReqPop = {
                 { text: "해외", value: "4" }
             ],
             index : 0,
-            enable : true
+            change : function (){
+                if($("#tripCode").val() == 4){
+                    $("#carLine").css("display", "none");
+                    $("#carList").data("kendoDropDownList").select(0);
+                    $("#car1").prop("checked", true);
+                } else {
+                    $("#carLine").css("display", "");
+                }
+            }
         });
 
         $("#project").kendoDropDownList({
@@ -64,38 +88,109 @@ var inBustripReqPop = {
                 { text: "캠스타트업", value: "7" }
             ],
             index : 0,
-            enable : true
-        });
-
-        $("#drop3").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index : 0,
-            enable : true
+            change: function (){
+                if($("#project").val() == 0 || $("#project").val() == ""){
+                    $("#busnLine").css("display", "none");
+                } else {
+                    $("#busnLine").css("display", "");
+                }
+            }
         });
 
         $("#carList").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택하세요", value: ""}
+                {text: "선택하세요", value: ""},
+                {text: "카니발", value: "1"},
+                {text: "아반떼", value: "5"},
+                {text: "트럭", value: "3"}
             ],
             index : 0,
             enable : true
         });
 
-        $("#project, #bustripAdd, #visitLoc, #visitLocSub, #moveDst, #bustObj").kendoTextBox();
+        $("#project, #busnName, #popEmpName, #visitLoc, #visitLocSub, #userName, #moveDst, #bustObj").kendoTextBox();
     },
+
+    fn_saveBtn: function(){
+
+
+        if($("#tripCode").val() == ""){
+            alert("출장 구분을 선택해주세요.");
+            return;
+        } else if($("#project").val() == ""){
+            alert("관련사업을 선택해주세요.");
+            return;
+        } else if($("#project").val() != 0 && $("#busnName").val() == ""){
+            alert("사업명을 입력해주세요.");
+            return;
+        } else if($("#visitLoc").val() == ""){
+            alert("방문지를 입력해주세요.");
+            return;
+        } else if($("#bustObj").val() == ""){
+            alert("출장목적을 입력해주세요.");
+            return;
+        }
+
+
+        var formData = new FormData();
+
+        formData.append("menuCd", "bustripReq");
+        formData.append("empSeq", $("#empSeq").val());
+        formData.append("empName", $("#empName").val());
+        formData.append("deptSeq", $("#deptSeq").val());
+        formData.append("deptName", $("#deptName").val());
+        formData.append("tripCode", $("#tripCode").val());
+        formData.append("projectCd", $("#project").val());
+        formData.append("project", $("#project").data("kendoDropDownList").text());
+        formData.append("compEmpSeq", $("#popEmpSeq").val());
+        formData.append("compEmpName", $("#popEmpName").val());
+        formData.append("compDeptSeq", $("#popDeptSeq").val());
+        formData.append("compDeptName", $("#popDeptName").val());
+        formData.append("visitLoc", $("#visitLoc").val());
+        formData.append("visitLocSub", $("#visitLocSub").val());
+        formData.append("tripDayFr", $("#date1").val());
+        formData.append("tripDayTo", $("#date2").val());
+        formData.append("tripTimeFr", $("#time1").val());
+        formData.append("tripTimeTo", $("#time2").val());
+        formData.append("useCar", $("input[name='useCar']:checked").val());
+        formData.append("useTrspt", $("#carList").val());
+        formData.append("busnName", $("#busnName").val());
+        formData.append("title", $("#bustObj").val());
+        formData.append("tripTimeTo", $("#time2").val());
+        formData.append("positionCode", $("#positionCode").val());
+        formData.append("dutyCode", $("#dutyCode").val());
+        formData.append("applyDate", $("#reqDate").val());
+
+
+        //증빙파일 첨부파일
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("purcFile", fCommon.global.attFiles[i]);
+            }
+        }
+
+        $.ajax({
+            url : "/bustrip/setBustripReq",
+            type : 'POST',
+            data : formData,
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function(result){
+
+                opener.parent.inBustripList.mainGrid();
+                window.close();
+            }
+        });
+
+
+
+    }
+
 
 
 }

@@ -44,8 +44,8 @@
                                     <input type="text" id="pjt_cd" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
+                                    <span>사업명</span>
+                                    <input type="text" id="busnName" style="width: 140px;">
                                 </div>
                                 <div class="mr10">
                                     <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>

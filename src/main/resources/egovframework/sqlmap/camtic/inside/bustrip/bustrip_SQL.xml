@@ -22,4 +22,84 @@
             ACTIVE = "Y"
     </select>
 
+
+    <insert id="insBustripReq" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ
+        (
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            POSITION_CODE,
+            DUTY_CODE,
+            APPLY_DATE,
+            TRIP_CODE,
+            VISIT_LOC,
+            VISIT_LOC_SUB,
+            TRIP_DAY_FR,
+            TRIP_DAY_TO,
+            TRIP_TIME_FR,
+            TRIP_TIME_TO,
+            BUSN_NAME,
+            TITLE,
+            USE_CAR,
+            USE_TRSPT,
+            PROJECT,
+            PROJECT_CD,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+             #{empSeq},
+             #{empName},
+             #{deptSeq},
+             #{positionCode},
+             #{dutyCode},
+             #{applyDate},
+             #{tripCode},
+             #{visitLoc},
+             #{visitLocSub},
+             #{tripDayFr},
+             #{tripDayTo},
+             #{tripTimeFr},
+             #{tripTimeTo},
+             #{busnName},
+             #{title},
+             #{useCar},
+             #{useTrspt},
+             #{project},
+             #{projectCd},
+             #{empSeq}
+        )
+
+        <selectKey keyProperty="hrBizReqId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ'
+        </selectKey>
+    </insert>
+
+    <insert id="insBustripCompanion" parameterType="map">
+        /* insBustripCompanion */
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        (
+            HR_BIZ_REQ_ID,
+            EMP_SEQ,
+            DEPT_NAME,
+            POSITION_NAME,
+            DUTY_NAME,
+            EMP_NAME
+        ) VALUES
+        (
+            #{hrBizReqId},
+            #{compEmpSeq},
+            #{compDeptName},
+            #{compPositionName},
+            #{compDutyName},
+            #{compEmpName}
+        )
+    </insert>
+
+    <select id="getBustripReq" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ
+    </select>
 </mapper>

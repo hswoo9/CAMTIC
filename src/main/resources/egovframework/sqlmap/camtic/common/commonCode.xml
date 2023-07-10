@@ -20,7 +20,7 @@
             CCG.*,
             CCG.CM_GROUP_CODE AS CM_GROUP_CODE_TEXT
         FROM
-            DJ_CAMTIC.V_COM_GROUP_CODE CCG
+            CAM_COMMON.DJ_COM_GROUP_CODE CCG
         WHERE
             1=1
         <if test='cmGroupCode != null and !"".equals(cmGroupCode)'>
@@ -45,18 +45,17 @@
             CCG.*,
             CCG.CM_GROUP_CODE AS CM_GROUP_CODE_TEXT
         FROM
-            DJ_CAMTIC.V_COM_GROUP_CODE CCG
+            CAM_COMMON.DJ_COM_GROUP_CODE CCG
         WHERE
             CCG.CM_GROUP_CODE_ID = #{cmGroupCodeId}
     </select>
 
     <select id="getCmCodeList" resultType="map" parameterType="map">
         /* getCmCodeList */
-
         SELECT
             *
         FROM
-            DJ_CAMTIC.V_COM_CODE CC
+            CAM_COMMON.DJ_COM_CODE CC
         WHERE
             1=1
         <if test='cmGroupCodeId != null and !"".equals(cmGroupCodeId)'>
@@ -83,7 +82,7 @@
         SELECT
             CC.*
         FROM
-            DJ_CAMTIC.V_COM_CODE CC
+            CAM_COMMON.DJ_COM_CODE CC
         WHERE
             1=1
         <if test='cmCodeId != null and !"".equals(cmCodeId)'>
@@ -112,7 +111,7 @@
     <insert id="setCmGroupCodeSave" parameterType="map">
         /* setCmCodeSave */
 
-        INSERT INTO DJ_CAMTIC.V_COM_GROUP_CODE
+        INSERT INTO CAM_COMMON.DJ_COM_GROUP_CODE
         (
             CM_GROUP_CODE, CM_GROUP_CODE_NM, CM_GROUP_CODE_DESC, REG_EMP_SEQ
         )
@@ -125,7 +124,7 @@
     <insert id="setCmCodeSave" parameterType="map">
         /* setCmCodeSave */
 
-        INSERT INTO DJ_CAMTIC.V_COM_CODE
+        INSERT INTO CAM_COMMON.DJ_COM_CODE
         (
             CM_CODE, CM_GROUP_CODE_ID, CM_CODE_NM, CM_CODE_DESC, REG_EMP_SEQ
         )
@@ -139,7 +138,7 @@
         /* setCmCodeUpdate */
 
         UPDATE
-            DJ_CAMTIC.V_COM_GROUP_CODE
+            CAM_COMMON.DJ_COM_GROUP_CODE
         SET
             CM_GROUP_CODE = #{cmGroupCode},
             CM_GROUP_CODE_NM = #{cmGroupCodeNm},
@@ -154,7 +153,7 @@
         /* setCmCodeUpdate */
 
         UPDATE
-            DJ_CAMTIC.V_COM_CODE
+            CAM_COMMON.DJ_COM_CODE
         SET
             CM_CODE = #{cmCode},
             CM_CODE_NM = #{cmCodeNm},
@@ -165,21 +164,4 @@
             CM_CODE_ID = #{cmCodeId}
     </update>
 
-    <!-- CUST_EPIS -->
-    <select id="getCommCodeList" parameterType="Map" resultType="Map">
-        /* getCommCodeList */
-        SELECT
-            *
-        FROM
-            CUST_EPIS.COMMON_CODE
-        WHERE
-            ACTIVE = 'Y'
-        AND
-            CODE IS NOT NULL
-        AND
-            CODE != ''
-		AND
-		    GROUP_CODE = #{group_code}
-        ORDER BY ORDER_NO, CODE
-    </select>
 </mapper>

@@ -74,63 +74,77 @@
                             <td>
                                 <input type="text" id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;">
                             </td>
-                            <th>직급</th>
+                            <th>신청일</th>
                             <td>
-                                <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.positionNm}" style="width: 80%;">
+                                <input type="text" id="reqDate" name="reqDate" class="defaultVal" disabled style="width: 80%;">
                             </td>
                         </tr>
                         <tr>
-                            <th>구분</th>
+                            <th><span class="red-star">*</span>구분</th>
                             <td>
                                 <input type="text" id="tripCode" style="width: 80%;">
                             </td>
-                            <th>관련사업</th>
+                            <th><span class="red-star">*</span>관련사업</th>
                             <td>
                                 <input type="text" id="project" style="width: 80%;">
                             </td>
                         </tr>
-                        <tr>
-                            <th>출장자</th>
+                        <tr id="busnLine" style="display: none;">
+                            <th><span class="red-star">*</span>사업명</th>
                             <td colspan="3">
-                                <input type="text" id="bustripAdd" readonly style="width: 80%;">
-                                <button type="button" class="k-button k-button-solid-info" onclick="">출장자 추가</button>
+                                <input type="text" id="busnName" name="busnName" style="width: 80%;">
                             </td>
                         </tr>
                         <tr>
-                            <th>방문지</th>
+                            <th>동반자</th>
+                            <td colspan="3">
+                                <input type="text" id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
+                                <button type="button" class="k-button k-button-solid-info" onclick="userMultiSearch();">출장자 추가</button>
+                                <div id="companionList">
+                                    <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
+                                    <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
+                                    <input type="hidden" id="popDeptName" name="companionDeptSeq" value="">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="red-star">*</span>방문지</th>
                             <td>
                                 <input type="text" id="visitLoc" style="width: 60%;">
+                                <button type="button" class="k-button-solid-base k-button" disabled>업체선택</button>
                             </td>
                             <th>경유지</th>
                             <td>
-                                <input type="text" id="visitLocSub" style="width: 60%;">
+                                <input type="text" id="visitLocSub" style="width: 60%;"> ex) 전라북도 전주시
                             </td>
                         </tr>
                         <tr>
-                            <th>출장일</th>
+                            <th><span class="red-star">*</span>출장일</th>
                             <td colspan="3">
-                                <input type="text" id="date1" style="width: 40%"> <input type="text" id="time1" style="width: 25%"> ~ <input type="text" id="time2" style="width: 25%">
+                                <input type="text" id="date1" style="width: 20%">
+                                <input type="text" id="time1" style="width: 13%"> ~
+                                <input type="text" id="date2" style="width: 20%">
+                                <input type="text" id="time2" style="width: 13%">
                             </td>
                         </tr>
-                        <tr>
-                            <th>업무차량</th>
+                        <tr id="carLine">
+                            <th><span class="red-star">*</span>업무차량</th>
                             <td>
-                                <input type="radio" name="useCar" id="car1" value="N">
-                                <label for="car1">미사용</label>
-                                <input type="radio" name="useCar" id="car2" value="Y">
-                                <label for="car2">사용</label>
+                                <div style="position: relative; top: 4px;">
+                                    <input type="radio" name="useCar" id="car1" value="N" checked>
+                                    <label for="car1">미사용</label>
+                                    <input type="radio" name="useCar" id="car2" value="Y">
+                                    <label for="car2">사용</label>
+                                </div>
                             </td>
                             <th>차량</th>
                             <td>
                                 <input type="text" id="carList" style="width: 40%;">
-                                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick=""/><br>
-                                <div class="mt5"></div>
-                                이동거리
-                                <input type="text" id="moveDst" style="width: 30%;"> Km
+                                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" disabled onclick=""/><br>
                             </td>
                         </tr>
                         <tr>
-                            <th>출장목적</th>
+                            <th><span class="red-star">*</span>출장목적</th>
                             <td colspan="3">
                                 <input type="text" id="bustObj" style="width: 100%;">
                             </td>
@@ -138,10 +152,51 @@
                         </thead>
                     </table>
                 </form>
+                <div>
+                    <div class="card-header">
+                        <h3 class="card-title">첨부파일</h3>
+                        <div class="card-options">
+                            <div class="filebox">
+                                <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                    <span class="k-button-text">파일첨부</span>
+                                </button>
+                                <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <colgroup>
+                                    <col width="50%">
+                                    <col width="10%">
+                                    <col width="30%">
+                                    <col width="10%">
+                                </colgroup>
+                                <thead>
+                                <tr class="text-center th-color">
+                                    <th>파일명</th>
+                                    <th>확장자</th>
+                                    <th>용량</th>
+                                    <th>기타</th>
+                                </tr>
+                                </thead>
+                                <tbody id="fileGrid">
+                                <tr class="defultTr">
+                                    <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="btn-st" style="margin-top:10px; text-align:center;">
-                <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
-                <input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>
+
+
+            <div class="btn-st" style="margin-top:10px; text-align:right;">
+                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="inBustripReqPop.fn_saveBtn();"/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick=""/>
             </div>
         </div>
@@ -149,5 +204,12 @@
 </div>
 <script>
     inBustripReqPop.init();
+
+    function userMultiSearch() {
+        window.open("/common/deptMultiPop.do","조직도","width=750,height=650");
+    }
 </script>
 </body>
+
+
+

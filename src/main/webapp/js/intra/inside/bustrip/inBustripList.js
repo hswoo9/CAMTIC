@@ -24,15 +24,6 @@ var inBustripList = {
             value : new Date()
         });
 
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "출장자", value: "" },
-                { text: "기안자", value: "1" }
-            ],
-            index: 0
-        });
     },
 
     mainGrid : function() {
@@ -40,20 +31,25 @@ var inBustripList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/bustrip/getBustripReq',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+                    data.startDate = $("#start_date").val();
+                    data.endDate = $("#end_date").val();
+                    data.projectCd = $("#pjt_cd").val();
+                    data.busnName = $("#busnName").val();
+
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -99,38 +95,105 @@ var inBustripList = {
             },
             columns: [
                 {
-                    field: "",
-                    title: "단계"
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="inBustripList.fn_checkAll()" class=""/>',
+                    template : function (d) {
+                        return "<input type='checkbox' id='bst"+d.hr_biz_req_id+"' name='bstCheck' value='"+d.hr_biz_req_id+"' style='position: relative; top:3px' class='bstCheck'/>"
+                    },
+                    width: 50
+                }, {
+                    title: "사업명",
+                    width: 250,
+                    template : function(d){
+                        var busnName = "";
+                        var project = "";
+                        if(d.busn_name != "" && d.busn_name != null && d.busn_name != undefined){
+                            busnName = d.busn_name;
+                        }
+
+                        if(d.project_cd != "" && d.project_cd != null){
+                            project = "(" + d.project + ") ";
+                        }
+                        return  project + busnName;
+                    }
+                }, {
+                    field: "emp_name",
+                    title: "출장자",
+                    width: 80
+                }, {
+                    title: "출장지<br>(경유지)",
+                    template: function(d){
+                        return d.visit_loc + " → " + d.visit_loc_sub;
+                    },
+                    width: 120
+                }, {
+                    title: "출발일시",
+                    template: function(d){
+                        return d.trip_day_fr + " " + d.trip_time_fr;
+                    },
+                    width: 100
+                }, {
+                    title: "복귀일시",
+                    template: function(d){
+                        return d.trip_day_to + " " + d.trip_time_to;
+                    },
+                    width: 100
+                }, {
+                    title: "업무차량",
+                    template : function(d){
+                        console.log(d);
+                        if(d.use_car == "Y"){
+                            if(d.use_trspt == 1){
+                                return "사용 (카니발)";
+                            } else if(d.use_trspt == 5){
+                                return "사용 (아반떼)";
+                            } else if(d.use_trspt == 3){
+                                return "사용 (트럭)";
+                            }
+                            return "사용";
+                        } else {
+                            return "사용안함";
+                        }
+                    },
+                    width: 100
                 }, {
                     field: "",
-                    title: "이름"
+                    title: "결재",
+                    template: function(d){
+                        if(d.status == 0 || d.status == 30){
+                            return "<button type='button' class='k-button k-button-solid-base'>결재</button>";
+                        } else {
+                            return "-";
+                        }
+                    },
+                    width: 80
                 }, {
                     field: "",
-                    title: "입금계좌"
+                    title: "결재상태",
+                    template: function(d){
+                        if(d.status == 0){
+                            return "미결재";
+                        } else if(d.status == 10){
+                            return "상신";
+                        } else if(d.status == 30){
+                            return "반려";
+                        } else if(d.status == 100){
+                            return "결재완료";
+                        } else {
+                            return "-";
+                        }
+                    },
+                    width: 80
                 }, {
                     field: "",
-                    title: "일자"
-                }, {
-                    field: "",
-                    title: "시간"
-                }, {
-                    field: "",
-                    title: "출장용무"
-                }, {
-                    field: "",
-                    title: "출장지"
-                }, {
-                    field: "",
-                    title: "업무차량<br>사용여부"
-                }, {
-                    field: "",
-                    title: "지급액"
-                }, {
-                    field: "",
-                    title: "출장신청"
-                }, {
-                    field: "",
-                    title: "출장결과"
+                    title: "결과보고",
+                    template: function(d){
+                        if(d.status == 100){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="inBustripList.fn_viewBustResPop('+d.hr_biz_req_id+')">결과보고</button>';
+                        } else {
+                            return "-";
+                        }
+                    },
+                    width: 80
                 }
             ]
         }).data("kendoGrid");
@@ -139,7 +202,15 @@ var inBustripList = {
     inBustripReqPop : function() {
         var url = "/bustrip/pop/inBustripReqPop.do";
         var name = "inBustripReqPop";
-        var option = "width=1200, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1200, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='bstCheck']").prop("checked", true);
+        }else{
+            $("input[name='bstCheck']").prop("checked", false);
+        }
     }
 }

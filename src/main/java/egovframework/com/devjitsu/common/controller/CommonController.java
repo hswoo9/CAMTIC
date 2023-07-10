@@ -63,4 +63,17 @@ public class CommonController {
         return "popup/common/deptListPop";
     }
 
+    @RequestMapping("/common/deptMultiPop.do")
+    public String deptMultiLine(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/common/deptMultiPop";
+    }
+
+
+
 }
