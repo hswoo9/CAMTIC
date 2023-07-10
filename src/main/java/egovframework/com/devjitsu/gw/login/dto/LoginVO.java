@@ -52,8 +52,6 @@ public class LoginVO {
     private String teamYn;
     private String empid;
     private String empname;
-    private String deptid;
-    private String deptname;
     private String retire_yn;
     private String pos_cd;
     private String pos_nm;
@@ -112,6 +110,12 @@ public class LoginVO {
     private String opr_tel_no;
     private Date opr_reg_date;
     private String opr_rights;
+    private String deptId;
+    private String teamId;
+    private String deptNm;
+    private String teamNm;
+    private String gradeCode;
+    private String gradeNm;
 
     public LoginVO() {
     }
@@ -396,7 +400,7 @@ public class LoginVO {
     }
 
     public String toString() {
-        return "id          : " + this.id + " / " + "name        : " + this.name + " / " + "ihidNum     : " + this.ihidNum + " / " + "email       : " + this.email + " / " + "password    : " + this.password + " / " + "passwordHint: " + this.passwordHint + " / " + "passwordCnsr: " + this.passwordCnsr + " / " + "userSe      : " + this.userSe + " / " + "orgnztId    : " + this.orgnztId + " / " + "orgnztNm    : " + this.orgnztNm + " / " + "uniqId      : " + this.uniqId + " / " + "url         : " + this.url + " / " + "ip          : " + this.ip + " / " + "dn          : " + this.dn + " / " + "organId     : " + this.organId + " / " + "organNm     : " + this.organNm + " / " + "classCode   : " + this.classCode + " / " + "classNm     : " + this.classNm + " / " + "positionCode: " + this.positionCode + " / " + "positionNm  : " + this.positionNm + " / " + "dutyCode: " + this.dutyCode + " / " + "dutyNm  : " + this.dutyNm + " / " + "authorCode  : " + this.authorCode + " / " + "erpEmpCd    : " + this.erpEmpCd + " / " + "erpEmpNm    : " + this.erpEmpNm + " / " + "erpCoCd     : " + this.erpCoCd + " / " + "empl_no     : " + this.empl_no + " / " + "session_id  : " + this.session_id + " / " + "langCode    : " + this.langCode + " / " + "groupSeq    : " + this.groupSeq + " / " + "bizSeq      : " + this.bizSeq + " / " + "compSeq     : " + this.compSeq + " / " + "picFileId   : " + this.picFileId + " / " + "eaType      : " + this.eaType + " / " + "emailDomain : " + this.emailDomain + " / ";
+        return "id          : " + this.id + " / " + "name        : " + this.name + " / " + "ihidNum     : " + this.ihidNum + " / " + "email       : " + this.email + " / " + "password    : " + this.password + " / " + "passwordHint: " + this.passwordHint + " / " + "passwordCnsr: " + this.passwordCnsr + " / " + "userSe      : " + this.userSe + " / " + "orgnztId    : " + this.orgnztId + " / " + "orgnztNm    : " + this.orgnztNm + " / " + "uniqId      : " + this.uniqId + " / " + "url         : " + this.url + " / " + "ip          : " + this.ip + " / " + "dn          : " + this.dn + " / " + "organId     : " + this.organId + " / " + "organNm     : " + this.organNm + " / " + "classCode   : " + this.classCode + " / " + "classNm     : " + this.classNm + " / " + "positionCode: " + this.positionCode + " / " + "positionNm  : " + this.positionNm + " / " + "dutyCode: " + this.dutyCode + " / " + "dutyNm  : " + this.dutyNm + " / " + "authorCode  : " + this.authorCode + " / " + "erpEmpCd    : " + this.erpEmpCd + " / " + "erpEmpNm    : " + this.erpEmpNm + " / " + "erpCoCd     : " + this.erpCoCd + " / " + "empl_no     : " + this.empl_no + " / " + "session_id  : " + this.session_id + " / " + "langCode    : " + this.langCode + " / " + "groupSeq    : " + this.groupSeq + " / " + "bizSeq      : " + this.bizSeq + " / " + "compSeq     : " + this.compSeq + " / " + "picFileId   : " + this.picFileId + " / " + "eaType      : " + this.eaType + " / " + "emailDomain : " + this.emailDomain + " / " + "deptId : " + this.deptId + " / " + "deptNm : " + this.deptNm + " / " + "teamId : " + this.teamId + " / " + "teamNm : " + this.teamNm + " / " + "gradeCode : " + this.gradeCode + " / " + "gradeNm : " + this.gradeNm + " / ";
     }
 
     public String getEmpid() {
@@ -413,22 +417,6 @@ public class LoginVO {
 
     public void setEmpname(String empname) {
         this.empname = empname;
-    }
-
-    public String getDeptid() {
-        return this.deptid;
-    }
-
-    public void setDeptid(String deptid) {
-        this.deptid = deptid;
-    }
-
-    public String getDeptname() {
-        return this.deptname;
-    }
-
-    public void setDeptname(String deptname) {
-        this.deptname = deptname;
     }
 
     public String getRetire_yn() {
@@ -981,5 +969,54 @@ public class LoginVO {
 
     public void setPasswdStatusCode(String passwdStatusCode) {
         this.passwdStatusCode = passwdStatusCode;
+    }
+
+
+
+    public String getDeptId() {
+        return this.deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+
+    public String getDeptNm() {return this.deptNm;}
+
+    public void setDeptNm(String deptNm) {
+        this.deptNm = deptNm;
+    }
+
+    public String getTeamId() {
+        return this.teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getTeamNm() {
+        return this.teamNm;
+    }
+
+    public void setTeamNm(String teamNm) {
+        this.teamNm = teamNm;
+    }
+
+    public String getGradeCode() {
+        return this.gradeCode;
+    }
+
+    public void setGradeCode(String gradeCode) {
+        this.gradeCode = gradeCode;
+    }
+
+    public String getGradeNm() {
+        return this.gradeNm;
+    }
+
+    public void setGradeNm(String gradeNm) {
+        this.gradeNm = gradeNm;
     }
 }

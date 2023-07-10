@@ -6,16 +6,32 @@
     <select id="actionLogin" resultType="egovframework.com.devjitsu.gw.login.dto.LoginVO" parameterType="map">
         /* actionLogin */
         SELECT
-            VEI.LOGIN_ID AS id,
-            VEI.EMP_NAME_KR AS name,
-            VEI.DEPT_NAME AS orgnztNm,
-            VEI.EMP_SEQ AS uniqId,
-            VEI.POSITION_CODE AS positionCode,
-            VEI.DUTY_NAME AS dutyNm,
-            VEI.DEPT_SEQ AS orgnztId
+            HEI.LOGIN_ID AS id,
+            HEI.EMP_NAME_KR AS name,
+            HEI.EMP_SEQ AS uniqId,
 
+            HEI.DEPT_SEQ AS orgnztId,
+            HEI.DEPT_NAME AS orgnztNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS deptId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS teamId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+
+            /* 직급 ex 수석연구원 */
+            HEI.POSITION_CODE AS positionCode,
+            HEI.POSITION_NAME AS positionNm,
+
+            /* 직책 ex 본부장 */
+            HEI.DUTY_CODE AS dutyCode,
+            HEI.DUTY_NAME AS dutyNm,
+
+            /* 등급 ex 1급 */
+            HEI.GRADE_CODE AS gradeCode,
+            HEI.GRADE_NAME AS gradeNm
         FROM
-            DJ_CAMTIC.V_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             LOGIN_ID = #{id}
     </select>

@@ -1,3 +1,5 @@
+var now = new Date();
+
 function getContextPath(){
     var offset=location.href.indexOf(location.host)+location.host.length;
     var ctxPath=location.href.substring(offset, location.href.indexOf('/',offset+1));
@@ -51,6 +53,16 @@ function fn_deptSetting(){
     $("#dept").data("kendoDropDownList").bind("change", fn_chngDeptComp)
     $("#dept").data("kendoDropDownList").select(0);
     $("#dept").data("kendoDropDownList").trigger("change");
+}
+
+function fn_onlyDeptSetting(){
+    let data = {}
+    data.deptLevel = 1;
+    const deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+    customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+
+    $("#dept").data("kendoDropDownList").select(0);
 }
 
 function fn_chngDeptComp(){
