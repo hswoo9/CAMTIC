@@ -6,21 +6,25 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<style>
+    .card-header {padding: 0px 0px 40px 0px;}
+</style>
 <script type="text/javascript" src="/js/intra/inside/history/rewardReqBatchPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<div style="background-color: #00397f;">
+    <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
+        <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">포상 일괄등록</h3>
+    </div>
+</div>
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
-        <div class="panel-heading">
-            <h4 class="panel-title">포상 일괄등록</h4>
-        </div>
-
-        <div class="panel-body">
+        <div class="panel-body" style="padding: 20px 0px;">
             <div>
-                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf; width: 1400px">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-left: 20px; margin-top : 5px; border: 1px solid #dedfdf; width: 1400px">
                     <colgroup>
                         <col width="10%">
                         <col width="23%">
@@ -47,15 +51,15 @@
                 </table>
                 <div class="col-md-3 col-lg-3 dash-left">
                     <div class="col-md-10 col-lg-10 dash-left mt10">
-                        직원목록
-                        <div id="mainGrid" style="margin:10px 0;"></div>
+                        <h4>· 직원목록</h4>
+                        <div id="mainGrid" style="margin:34px 0;"></div>
                     </div>
                     <div class="col-md-2 col-lg-2 dash-left" style="position: absolute; right: -16px; top: 50%;">
                         →
                     </div>
                 </div>
                 <div class="col-md-9 col-lg-9 dash-left mt-10">
-                    <table class="table table-bordered mb-0" id="">
+                    <table class="searchTable table table-bordered mb-0" id="">
                         <colgroup>
                             <col width="10%">
                             <col width="15%">
@@ -66,7 +70,7 @@
                             <col width="10%">
                             <col width="15%">
                         </colgroup>
-                        <thead>
+                        <tbody>
                         <tr>
                             <th>포상번호</th>
                             <td>
@@ -75,7 +79,7 @@
                             <td colspan="6">
                             </td>
                         </tr>
-                        </thead>
+                        </tbody>
                     </table>
                     <div class="table-responsive mt20">
                         <div id="popMainGrid"></div>
