@@ -34,7 +34,7 @@ body{font-family: 'Noto Sans KR', sans-serif;}
 .k-picker:focus-within, .k-widget.k-picker:focus-within{border-color: #1A5089!important; box-shadow:0 0 4px 0 rgb(26 80 137 /75%)!important;}
 .k-drag-clue, .k-grid-header, .k-grouping-header, .k-header, .k-menu, .k-panelbar>.k-panelbar-header>.k-link, .k-progressbar, .k-state-highlight, .k-tabstrip, .k-tabstrip-items .k-item, .k-toolbar{background-color: #edf5ff!important;}
 .k-button-solid-base.k-focus, .k-button-solid-base:focus{border-color: #1A5089!important; box-shadow:0 0 4px 0 rgb(26 80 137 /75%)!important;}
-.k-filter-row th, .k-grid-header th.k-header{font-size:13px; text-align:center;}
+.k-filter-row th, .k-grid-header th.k-header{font-size:13px; text-align:center; vertical-align: middle;}
 .k-grid{font-size: 12px;}
 .k-grid-header th.k-header{font-size: 12px;}
 /*kendo 가운데 정렬*/
@@ -110,8 +110,9 @@ input[type=file]::file-selector-button {
 
 /* 조회 조건 테이블 */
 .searchTable { background-color: white; }
-.searchTable > tbody > tr > th{ background-color: #00397f96; color: white;}
+.searchTable > tbody > tr > th{ background-color: #00397f96; color: white; text-align: center;}
 
 /* 팝업창 테이블 */
 .popTable { background-color: white; }
-.popTable > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
+.popTable > thead > tr > th, .popTable > tfoot > tr > th, .popTable > tfoot > tr > th{ background-color: #8fa1c04a; text-align: center;}
+
