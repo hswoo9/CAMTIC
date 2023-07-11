@@ -2,6 +2,152 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="asset">
+    <!-- 자산리스트 시작 -->
+
+    <select id="getAssetList" resultType="map">
+        /* getAssetList */
+        SELECT
+            '-' AS AST_NO,
+            AI.*,
+            AP.AST_PLACE_NAME,
+            IC.INSIDE_DT_CODE_NM
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO AI
+        JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP
+        ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
+        JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC
+        ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        WHERE
+            AI.ACTIVE = 'Y'
+
+        <if test='startDate != null and !"".equals(startDate)'>
+        <![CDATA[
+		AND
+		    DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(AI.PURC_DATE, '%Y%m%d')
+		AND
+		    DATE_FORMAT(#{endDate}, '%Y%m%d') >= DATE_FORMAT(AI.PURC_DATE, '%Y%m%d')
+		]]>
+        </if>
+
+        <if test='assetPosition != null and !"".equals(assetPosition)'>
+            AND AST_CODE_COMPANY_ID = #{assetPosition}
+        </if>
+        <if test='assetType != null and !"".equals(assetType)'>
+            AND AST_CODE_TYPE_ID = #{assetType}
+        </if>
+        <if test='categoryA != null and !"".equals(categoryA)'>
+            AND AST_CODE_ID_1 = #{categoryA}
+        </if>
+        <if test='categoryB != null and !"".equals(categoryB)'>
+            AND AST_CODE_ID_2 = #{categoryB}
+        </if>
+        <if test='categoryC != null and !"".equals(categoryC)'>
+            AND AST_CODE_ID_3 = #{categoryC}
+        </if>
+        <if test='assetStatus != null and !"".equals(assetStatus)'>
+            AND AST_STS_CODE = #{assetStatus}
+        </if>
+        <if test='assetPlace != null and !"".equals(assetPlace)'>
+            AND AST_PLACE_SN = #{assetPlace}
+        </if>
+        <if test='assetPlace != null and !"".equals(assetPlace)'>
+            AND AST_PLACE_SN = #{assetPlace}
+        </if>
+        <if test='regStatus != null and !"".equals(regStatus)'>
+            AND REG_STATUS = #{regStatus}
+        </if>
+        <if test='barcodeType != null and !"".equals(barcodeType)'>
+            AND BARCODE_TYPE = #{barcodeType}
+        </if>
+
+        <if test='searchType != null and !"".equals(searchType)'>
+            <choose>
+                <when test='"assetName".equals(searchType)'>AND AST_NAME LIKE CONCAT ('%', #{searchContent},'%')  </when>
+                <when test='"assetCode".equals(searchType)'>AND AST_CODE LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"modelSize".equals(searchType)'>AND MODEL_SIZE LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"modelName".equals(searchType)'>AND MODEL_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"empName".equals(searchType)'>AND EMP_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
+            </choose>
+        </if>
+    </select>
+
+    <select id="getInsideCodeList" resultType="map">
+        /* getInsideCodeList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_INSIDE_CODE
+        WHERE
+            ACTIVE = 'Y'
+        <if test='insideMdCode != null and !"".equals(insideMdCode)'>
+        AND
+            INSIDE_MD_CODE = #{insideMdCode}
+        </if>
+    </select>
+
+    <insert id="setAssetInfo" parameterType="map">
+        /* setAssetInfo */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_INFO
+            (
+                AST_CODE_COMPANY_ID,
+                AST_CODE_TYPE_ID,
+                AST_CODE_ID_1,
+                AST_CODE_ID_2,
+                AST_CODE_ID_3,
+                AST_STS_CODE,
+                AST_PLACE_SN,
+                AST_NAME,
+                PURC_DATE,
+                PURC_PRICE,
+                PURC_COMPANY_ID,
+                MODEL_SIZE,
+                MODEL_NAME,
+                MF_COMPANY,
+                ORG_COUNTRY,
+                QTY,
+                UNIT,
+                REG_TYPE,
+                BARCODE_TYPE,
+                FUNDING_SOURCE,
+                EXP_ACCOUNT,
+                EMP_NAME,
+                PURPOSE,
+                REMARK,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{astCodeCompanyId},
+                #{astCodeTypeId},
+                #{astCodeId1},
+                #{astCodeId2},
+                #{astCodeId3},
+                #{astStsCode},
+                #{astPlaceSn},
+                #{astName},
+                #{purcDate},
+                #{purcPrice},
+                #{purcCompanyId},
+                #{modelSize},
+                #{modelName},
+                #{mfCompany},
+                #{orgCountry},
+                #{qty},
+                #{unit},
+                #{regType},
+                #{barcodeType},
+                #{fundingSource},
+                #{expAccount},
+                #{empName},
+                #{purpose},
+                #{remark},
+                #{empSeq}
+            )
+    </insert>
+
+    <!-- 자산리스트 종료 -->
 
     <!-- 분류관리 시작-->
     <!-- 분류관리 소속코드 시작-->
@@ -368,12 +514,7 @@
         WHERE
             ACTIVE = 'Y'
     </select>
-    <select id="getInsideCodeList" resultType="map">
-        SELECT
-            a.*
-        FROM
-            cam_inside.dj_inside_code AS a
-    </select>
+
     <select id="getAssetMcCodeList" resultType="map">
         SELECT distinct
             a.AST_GROUP_CODE_ID,

@@ -12,45 +12,41 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/bustrip/inBustripList.js?v=${today}"/></script>
 
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-</style>
-
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">관내출장리스트</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 출장관리 &gt; 관내출장리스트</div>
+            <h4 class="panel-title">출장신청</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 출장관리 &gt; 출장신청</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>출장기간</span>
-                                    <input type="text" id="start_date" style="width: 140px;">
-                                    ~
-                                    <input type="text" id="end_date" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>프로젝트</span>
-                                    <input type="text" id="pjt_cd" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>사업명</span>
-                                    <input type="text" id="busnName" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="inBustripList.mainGrid()"/>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">출장 기간</th>
+                        <td>
+                            <input type="text" id="start_date" style="width: 45%;">
+                            ~
+                            <input type="text" id="end_date" style="width: 45%;">
+                        </td>
+                        <th class="text-center th-color">프로젝트</th>
+                        <td>
+                            <input type="text" id="pjt_cd" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">사업명</th>
+                        <td>
+                            <input type="text" id="busnName" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="inBustripList.mainGrid()">검색</button>
                         </td>
                     </tr>
                 </table>

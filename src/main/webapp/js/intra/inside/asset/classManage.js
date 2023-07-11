@@ -51,14 +51,18 @@ var classManage = {
     positionGrid : function(url, params) {
         $("#positionGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource3(url,params),
-            sortable: true,
             scrollable: true,
-            selectable: "row",
             height: 300,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
+            pageable: {
+                refresh: true,
+                pageSize : 10,
+                pageSizes: [10, 20, 50, "ALL"],
+                buttonCount: 5,
+                messages: {
+                    display: "{0} - {1} of {2}",
+                    itemsPerPage: "",
+                    empty: "데이터가 없습니다.",
+                }
             },
             toolbar : [
                 {
@@ -145,14 +149,18 @@ var classManage = {
     divisionGrid : function(url, params) {
         $("#divisionGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource3(url,params),
-            sortable: true,
             scrollable: true,
-            selectable: "row",
             height: 300,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
+            pageable: {
+                refresh: true,
+                pageSize : 10,
+                pageSizes: [10, 20, 50, "ALL"],
+                buttonCount: 5,
+                messages: {
+                    display: "{0} - {1} of {2}",
+                    itemsPerPage: "",
+                    empty: "데이터가 없습니다.",
+                }
             },
             toolbar : [
                 {
@@ -648,14 +656,14 @@ var classManage = {
             return;
         }
 
-        var url = "/inside/Pop/categoriesManagePop.do?categoryType=" + category + "&astCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modify=Y";
+        var url = "/inside/categoriesManagePop.do?categoryType=" + category + "&astCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modify=Y";
         var name = "categoriesManagePop";
         var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     categoriesManagePopup : function(category, e) {
-        var url = "/inside/Pop/categoriesManagePop.do?categoryType=" + category + "&astUpperCode=" + $(e).attr("astUpperCode");
+        var url = "/inside/categoriesManagePop.do?categoryType=" + category + "&astUpperCode=" + $(e).attr("astUpperCode");
         var name = "categoriesManagePop";
         var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);

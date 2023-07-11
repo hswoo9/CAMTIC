@@ -41,6 +41,8 @@ var inBustripList = {
             index : 0,
         });
 
+        $("#busnName").kendoTextBox();
+
     },
 
     mainGrid : function() {

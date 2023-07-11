@@ -8,38 +8,7 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/history/rewardGubunPop.js?v=${today}"></script>
 <style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
+  .card-header {padding: 0px 0px 40px 0px;}
   .k-grid-header th.k-header .k-checkbox {
     margin: 0;
   }
@@ -48,64 +17,60 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-
   td {
     text-align: center;
   }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-md-12 col-lg-12 dash-left">
-  <div class="panel">
-    <div class="panel-heading">
-      <h4 class="panel-title">포상 구분 관리</h4>
-    </div>
-
-    <div class="panel-body">
-      <div class="table-responsive mt20">
-        <table class="table table-bordered">
-          <colgroup>
-            <col width="20%">
-            <col width="45%">
-            <col width="33%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>순번</th>
-              <th>포상구분</th>
-              <th>수정/삭제</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                1
-              </td>
-              <td>
-                <input type="text" id="text1" style="width: 100%">
-              </td>
-              <td>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="저장" onclick=""/>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                추가
-              </td>
-              <td>
-                <input type="text" id="text2" style="width: 100%">
-              </td>
-              <td>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="추가" onclick=""/>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="col-lg-12" style="padding:0;">
+  <div style="background-color: #00397f;">
+    <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
+      <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">포상 구분 관리</h3>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
       </div>
     </div>
   </div>
+  <form id="rewardGubunPop" style="padding: 20px 30px;">
+    <table class="popTable table table-bordered" style="margin-top: 10px;">
+        <colgroup>
+          <col width="20%">
+          <col width="45%">
+          <col width="33%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>순번</th>
+            <th>포상구분</th>
+            <th>수정/삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              1
+            </td>
+            <td>
+              <input type="text" id="text1" style="width: 100%">
+            </td>
+            <td>
+              <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="">저장</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              추가
+            </td>
+            <td>
+              <input type="text" id="text2" style="width: 100%">
+            </td>
+            <td>
+              <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">추가</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </form>
 </div><!-- col-md-9 -->
 <script>
   rewardGubunPop.init();
