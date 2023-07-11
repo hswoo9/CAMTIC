@@ -266,10 +266,10 @@ var inBustripReqPop = {
         } else if($("#project").val() == ""){
             alert("관련사업을 선택해주세요.");
             return;
-        } else if($("#project").val() != 0 && $("#busnName").val() == ""){
+        } /*else if($("#project").val() != 0 && $("#busnName").val() == ""){
             alert("사업명을 입력해주세요.");
             return;
-        } else if($("#visitLoc").val() == ""){
+        }*/ else if($("#visitLoc").val() == ""){
             alert("방문지를 입력해주세요.");
             return;
         } else if($("#bustObj").val() == ""){

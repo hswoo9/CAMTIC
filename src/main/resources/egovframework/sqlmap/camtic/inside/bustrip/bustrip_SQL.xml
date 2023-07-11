@@ -175,7 +175,6 @@
     <update id="updBustripReq" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
-        (
             POSITION_CODE = #{positionCode},
             DUTY_CODE = #{dutyCode},
             TRIP_CODE = #{tripCode},
@@ -192,7 +191,6 @@
             PROJECT = #{project},
             PROJECT_CD = #{projectCd},
             MOD_EMP_SEQ = #{empSeq}
-        )
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
