@@ -34,7 +34,7 @@
                     <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
                     <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
                     <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-                    <table class="popTable table table-bordered mb-0">
+                    <table class="popTable table table-bordered mb-0" style="margin-top: 10px;">
                         <colgroup>
                             <col width="20%">
                             <col width="30%">
@@ -42,9 +42,9 @@
                             <col width="30%">
                         </colgroup>
                         <thead>
-                        <tr>
+                        <%--<tr>
                             <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">장비사용 등록</th>
-                        </tr>
+                        </tr>--%>
                         <tr>
                             <th scope="row" class="text-center th-color">
                                 <span class="red-star">*</span>장비명
