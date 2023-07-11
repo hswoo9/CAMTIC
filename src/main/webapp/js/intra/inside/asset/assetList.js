@@ -73,8 +73,8 @@ var assetList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#' class=\"k-checkbox checkbox\"/>",
                     width: 50
                 }, {
                     field: "",
@@ -124,9 +124,14 @@ var assetList = {
     },
 
     bulkChangePopup : function() {
-        var url = "/inside/bulkChangePop.do";
+        var id = "";
+        $.each($("input[name='aiChk']:checked"), function(e, i){
+            id += ',' + $(this).val()
+        })
+
+        var url = "/inside/bulkChangePop.do?astInfoSn=" + id.substring(1);
         var name = "bulkChangePop";
-        var option = "width = 460, height = 410, top = 100, left = 200, location = no, _blank"
+        var option = "width = 650, height = 425, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

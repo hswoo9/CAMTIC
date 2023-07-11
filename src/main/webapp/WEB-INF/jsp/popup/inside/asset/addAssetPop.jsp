@@ -89,7 +89,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>자산 상태</th>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>자산 상태
+                        </th>
                         <td><input type="text" id="astStsCode" style="width: 100%;">
                         <th scope="row" class="text-center th-color">생산 국가</th>
                         <td><input type="text" id="orgCountry" style="width: 100%;">
@@ -109,7 +111,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>자금출처 및 지출계좌</th>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>자금출처 및 지출계좌
+                        </th>
                         <td colspan="3">
                             <span id="fundingSource" style="gap: 0px;"></span>
                             <input type="text" id="expAccount" style="width: 50%;">
@@ -119,7 +123,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>설치 장소</th>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>설치 장소
+                        </th>
                         <td>
                             <input type="text" id="astPlaceSn" style="width: 100%;">
                         </td>
@@ -132,11 +138,15 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">용도</th>
-                        <td colspan="3"><textarea type="text" id="purpose" style="width: 100%;"></textarea></td>
+                        <td colspan="3">
+                            <textarea type="text" id="purpose" style="width: 100%;"></textarea>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">비고</th>
-                        <td colspan="3"><textarea type="text" id="remark" style="width: 100%;"></textarea></td>
+                        <td colspan="3">
+                            <textarea type="text" id="remark" style="width: 100%;"></textarea>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">관련 파일</th>

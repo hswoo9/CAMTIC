@@ -7,98 +7,103 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    .card-header {padding: 0px 0px 40px 0px;}
+    table { background-color: #00000008; }
+    .table > tbody > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <script type="text/javascript" src="/js/intra/inside/asset/bulkChangePop.js?v=${today}"/></script>
 
-<!DOCTYPE html>
-<html>
-<body>
-<div class="card">
-    <div class="card-header" style="padding:20px 0;">
-        <div class="col-lg-11" style="margin:0 auto;">
-            <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+<body class="font-opensans" style="background-color:#fff;">
+<div class="col-lg-12" style="padding:0;">
+    <div class="card-header">
+        <div class="table-responsive">
+            <div style="background-color: #00397f;">
+                <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
+                    <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">일괄변경</h3>
+                    <div style="margin-top:10px;">
+                        <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px 30px;">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+                <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
                         <col width="30%">
                         <col width="60%">
                     </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="3" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            자산목록 일괄변경
+                        </th>
+                    </tr>
+                    </thead>
                     <tbody>
                     <tr>
-                        <th colspan="3">자산목록 일괄변경</th>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>자산명</th>
-                        <td><input type="text" id="assetName" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사용자</th>
-                        <td><input type="text" id="user" style="width: 50%;">
-                        <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50%; height:27px; line-height:0;" onclick="">
-                            직원 선택
-                        </button>
+                        <td>
+                            <input type="checkbox" class="k-checkbox checkbox">
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>자산명
+                        </th>
+                        <td>
+                            <input type="text" id="astName" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>구입 가격</th>
-                        <td><input type="text" id="purchasePrice" style="width: 100%;"></td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox checkbox">
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>사용자
+                        </th>
+                        <td>
+                            <input type="text" id="empName" style="width: 66%;">
+                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                직원 선택
+                            </button>
+                        </td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>상태</th>
-                        <td><input type="text" id="status" style="width: 100%;"></td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox checkbox">
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>구입 가격
+                        </th>
+                        <td>
+                            <input type="text" id="purcPrice" style="width: 100%;">
+                        </td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" style="width: 100%; margin-right:10px;"></td>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사유</th>
-                        <td><input type="text" id="reason" style="width: 100%;"></td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox checkbox">
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>상태
+                        </th>
+                        <td>
+                            <input type="text" id="astStsCode" style="width: 100%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="k-checkbox checkbox">
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            <span class="red-star"></span>사유
+                        </th>
+                        <td>
+                            <input type="text" id="reason" style="width: 100%;">
+                        </td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
             </div>
         </div>
     </div>

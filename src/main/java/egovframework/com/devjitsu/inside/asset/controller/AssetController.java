@@ -167,13 +167,21 @@ public class AssetController {
         return "jsonView";
     }
 
-    //자산리스트 - 자산목록 일괄변경 팝업
+    /**
+     * 자산관리 > 자산리스트 - 일괄변경 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/inside/bulkChangePop.do")
-    public String bulkChangePop(HttpServletRequest request, Model model) {
+    public String bulkChangePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
+
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
         return "popup/inside/asset/bulkChangePop";
     }
 
