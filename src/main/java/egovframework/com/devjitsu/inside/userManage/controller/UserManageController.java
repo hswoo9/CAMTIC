@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.userManage.controller;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
@@ -7,16 +8,25 @@ import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserManageController {
@@ -31,6 +41,12 @@ public class UserManageController {
 
     @Autowired
     private UserManageService userManageService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     //인사기록카드 페이지
     @RequestMapping("/Inside/userPersonList.do")
@@ -437,6 +453,32 @@ public class UserManageController {
             tmp.put("rs","FAILED");
         }
         return tmp;
+    }
+
+    //이미지관리 파일 추가
+    @RequestMapping("/userManage/setempInfoFileSave.do")
+    public String setempInfoFileSave(@RequestParam Map<String, Object> params, @RequestParam("idPhotoFile") MultipartFile[] idPhotoFile, MultipartHttpServletRequest request, Model model) throws Exception {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String server_path = SERVER_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
+        String base_path = BASE_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        MainLib mainLib = new MainLib();
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = mainLib.multiFileUpload(idPhotoFile, server_path);
+
+        int photoFileId = userManageService.setThumbnailUpload(list, params, base_path);
+
+        params.put("loginEmpSeq", loginVO.getUniqId());
+        params.put("photoFileId", photoFileId);
+        userManageService.setUserInfoReqUpd(params);
+
+        return "jsonView";
     }
 
 }

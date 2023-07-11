@@ -1,10 +1,12 @@
 package egovframework.com.devjitsu.inside.userManage.service.Impl;
 
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,10 @@ import java.util.Map;
 public class UserManageServiceImpl implements UserManageService {
     @Autowired
     private UserManageRepository userManageRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
+
     @Override
     public Map<String, Object> getUserPersonnelRecordList(Map<String, Object> map) {
         return userManageRepository.getUserPersonnelRecordList(map);
@@ -191,5 +197,41 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public Map<String, Object> getUserPersonnelinformList(Map<String, Object> params) {
         return userManageRepository.getUserPersonnelinformList(params);
+    }
+
+    @Override
+    public int setThumbnailUpload(List<Map<String, Object>> list, Map<String, Object> params, String path) throws Exception {
+        Map<String, Object> fileParam = new HashMap<>();
+        int result = 0;
+
+        for(Map<String, Object> map : list){
+            int fileLen = map.get("orgFilename").toString().split("\\.").length;
+
+            String orgFilename = "";
+            for(int i = 0 ; i < fileLen - 1 ; i++ ){
+                orgFilename = orgFilename + map.get("orgFilename").toString().split("\\.")[i];
+            }
+
+            String fileExt = map.get("orgFilename").toString().split("\\.")[fileLen - 1];
+
+            fileParam.put("fileExt", fileExt);
+            fileParam.put("fileSize", map.get("fileSize"));
+            fileParam.put("fileUUID", map.get("fileUUID"));
+            fileParam.put("fileOrgName", orgFilename);
+
+            fileParam.put("fileCd", params.get("menuCd"));
+            fileParam.put("filePath", path);
+            fileParam.put("empSeq", params.get("empSeq"));
+
+            commonRepository.insOneFileInfo(fileParam);
+            result = Integer.parseInt(fileParam.get("file_no").toString());
+        }
+
+        return result;
+    }
+
+    @Override
+    public void setUserInfoReqUpd(Map<String, Object> params) {
+        userManageRepository.setUserInfoReqUpd(params);
     }
 }
