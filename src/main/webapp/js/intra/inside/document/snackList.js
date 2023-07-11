@@ -69,13 +69,28 @@ var snackList = {
             },
             toolbar: [
                 {
-                    name: 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-info" onclick="snackList.fn_snackCertAllReq(100)">' +
+                            '	<span class="k-button-text">결재</span>' +
+                            '</button>';
+                    },
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackList.snackPopup();">' +
+                            '	<span class="k-button-text">식대 등록하기</span>' +
+                            '</button>';
+                    }
                 },
                 {
                     name: '',
                     text: '통계조회'
-                }
+                },
+                {
+                    name: 'excel',
+                    text: '엑셀다운로드'
+                },
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
