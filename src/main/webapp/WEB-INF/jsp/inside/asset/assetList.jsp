@@ -75,9 +75,9 @@
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td colspan="5">
-                            <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
-                            <input type="text" id="searchContent" style="width: 66.1%">
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                            <input type="text" id="searchType" style="width: 140px; margin-right: 6px;" on>
+                            <input type="text" id="searchContent" style="width: 66.1%" onkeypress="if(window.event.keyCode==13){assetList.gridReload()}">
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="assetList.gridReload()"/>
                         </td>
                     </tr>
                     <tr>

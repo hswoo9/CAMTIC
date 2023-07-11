@@ -35,9 +35,9 @@ var addAssetPop = {
             alert("구입금액을 입력해주세요.");
             $("#purcPrice").focus();
             return;
-        }else if(!$("#standard").val()){
+        }else if(!$("#modelSize").val()){
             alert("규격을 입력해주세요.");
-            $("#standard").focus();
+            $("#modelSize").focus();
             return;
         }else if(!$("#modelName").val()){
             alert("모델명을 입력해주세요.");
@@ -97,7 +97,7 @@ var addAssetPop = {
                 purcDate : $("#purcDate").val(),
                 purcPrice : $("#purcPrice").val(),
                 purcCompanyId : $("#purcCompanyId").val(),
-                standard : $("#standard").val(),
+                modelSize : $("#modelSize").val(),
                 modelName : $("#modelName").val(),
                 mfCompany : $("#mfCompany").val(),
                 orgCountry : $("#orgCountry").val(),
@@ -203,8 +203,8 @@ var addAssetPop = {
             dataValueField: "value",
             dataSource: [
                 { text: "선택", value: "" },
-                { text: "대", value: "L" },
-                { text: "소", value: "S" }
+                { text: "대", value: "1" },
+                { text: "소", value: "2" }
             ],
             index: 0
         });
@@ -255,7 +255,7 @@ var addAssetPop = {
             }
         }).data("kendoRadioGroup");
 
-        customKendo.fn_textBox(["astName", "purcPrice", "standard", "modelName", "purcCompanyName",
+        customKendo.fn_textBox(["astName", "purcPrice", "modelSize", "modelName", "purcCompanyName",
             "mfCompany", "orgCountry", "qty", "unitText", "expAccount", "empName"])
 
         $("#purpose, #remark").kendoTextArea({

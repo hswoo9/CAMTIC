@@ -12,7 +12,7 @@ var assetList = {
 
     gridReload : function(){
         assetList.global.searchAjaxData = {
-            startDate : $("#endDate").val(),
+            startDate : $("#startDate").val(),
             endDate : $("#endDate").val(),
             assetPosition : $("#assetPosition").val(),
             assetType : $("#assetType").val(),
@@ -32,7 +32,7 @@ var assetList = {
 
     mainGrid : function(url, params) {
         $("#mainGrid").kendoGrid({
-            //dataSource: customKendo.fn_gridDataSource2(url,params),
+            dataSource: customKendo.fn_gridDataSource2(url,params),
             scrollable: true,
             selectable: "row",
             height: 489,
@@ -74,41 +74,46 @@ var assetList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
                     field: "",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "AST_NO",
                     title: "자산 번호"
                 }, {
-                    field: "",
-                    title: "등록 일자"
+                    field: "PURC_DATE",
+                    title: "구입일자"
                 }, {
-                    field: "",
+                    field: "AST_NAME",
                     title: "자산명"
                 }, {
-                    field: "",
+                    field: "MODEL_NAME",
                     title: "모델명"
                 }, {
-                    field: "",
+                    field: "MODEL_SIZE",
                     title: "규격"
                 }, {
-                    field: "",
+                    field: "AST_PLACE_NAME",
                     title: "설치 장소"
                 }, {
-                    field: "",
+                    field: "EMP_NAME",
                     title: "사용자"
                 }, {
-                    field: "",
+                    field: "PURC_PRICE",
                     title: "구입가격(원)"
                 }, {
-                    field: "",
+                    field: "INSIDE_DT_CODE_NM",
                     title: "상태"
                 }
             ]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=aiChk]").prop("checked", true);
+            else $("input[name=aiChk]").prop("checked", false);
+        });
     },
 
     goodsManagePopup : function() {
@@ -233,8 +238,8 @@ var assetList = {
             dataValueField: "value",
             dataSource: [
                 { text: "등록상태", value: "" },
-                { text: "승인", value: "Y" },
-                { text: "미승인", value: "N" }
+                { text: "승인", value: "1" },
+                { text: "미승인", value: "0" }
             ],
             index: 0
         });
@@ -244,8 +249,8 @@ var assetList = {
             dataValueField: "value",
             dataSource: [
                 { text: "바코드", value: "" },
-                { text: "대", value: "L" },
-                { text: "소", value: "S" }
+                { text: "대", value: "1" },
+                { text: "소", value: "2" }
             ],
             index: 0
         });
@@ -254,12 +259,11 @@ var assetList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
-                { text: "자산명", value: "1" },
-                { text: "공고명", value: "2" },
-                { text: "규격", value: "3" },
-                { text: "모델", value: "4" },
-                { text: "사용자", value: "5" }
+                { text: "자산명", value: "assetName" },
+                { text: "자산번호", value: "assetCode" },
+                { text: "규격", value: "modelSize" },
+                { text: "모델", value: "modelName" },
+                { text: "사용자", value: "empName" }
             ],
             index: 0
         });

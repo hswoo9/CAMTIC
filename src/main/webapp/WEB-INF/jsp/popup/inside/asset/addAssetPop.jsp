@@ -86,7 +86,7 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>규격</th>
-                        <td><input type="text" id="standard" style="width: 100%;">
+                        <td><input type="text" id="modelSize" style="width: 100%;">
                         <th scope="row" class="text-center th-color">모델명</th>
                         <td><input type="text" id="modelName" style="width: 100%;">
                         </td>
