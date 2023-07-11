@@ -185,7 +185,7 @@ var equipmentUsePop = {
                 async : false
             });
             alert("저장 되었습니다.");
-            location.reload();
+            opener.gridReload();
             window.close()
         }
     }
