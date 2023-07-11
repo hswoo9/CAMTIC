@@ -9,7 +9,7 @@ var docuReq = {
         customKendo.fn_datePicker("shipmentDt", 'month', "yyyy-MM-dd", new Date());
         let partArr = [
             { text: "미래전략기획본부", value: "56" },
-            { text: "R&DB사업본부", value: "51" },
+            { text: "R&BD사업본부", value: "51" },
             { text: "기업성장지원본부", value: "52" },
             { text: "일자리혁신지원센터", value: "58" },
             { text: "우주항공사업부", value: "54" },
@@ -17,11 +17,12 @@ var docuReq = {
             { text: "스마트제조사업부", value: "53" },
             { text: "경영지원실", value: "57" }
         ]
-        customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 2);;
+        customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 2);
         $("#empName, #effectiveDt, #shipmentDt").attr("readonly", true);
     },
 
     saveBtn: function(){
+        let docuType = 1;
         let documentPartType = $("#documentPart").val();
         let documentPartName = $("#documentPart").data("kendoDropDownList").text();
         let effectiveDt = $("#effectiveDt").val().replace(/-/g, "");
@@ -35,6 +36,7 @@ var docuReq = {
         let regEmpName = $("#regEmpName").val();
 
         let data = {
+            docuType : docuType,
             documentPartType : documentPartType,
             documentPartName : documentPartName,
             effectiveDt : effectiveDt,

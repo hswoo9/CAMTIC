@@ -8,7 +8,7 @@ var docuList = {
         customKendo.fn_textBox(["searchText"]);
         let partArr = [
             { text: "미래전략기획본부", value: "56" },
-            { text: "R&DB사업본부", value: "51" },
+            { text: "R&BD사업본부", value: "51" },
             { text: "기업성장지원본부", value: "52" },
             { text: "일자리혁신지원센터", value: "58" },
             { text: "우주항공사업부", value: "54" },
@@ -16,19 +16,19 @@ var docuList = {
             { text: "스마트제조사업부", value: "53" },
             { text: "경영지원실", value: "57" }
         ]
-        customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 2);;
+        customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 1);
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "제목", value: ""},
-                {text: "문서번호", value: "문서번호"},
-                {text: "시행일자", value: "시행일자"},
-                {text: "수신처", value: "수신처"},
-                {text: "발송일자", value: "발송일자"},
-                {text: "담당자", value: "담당자"},
-                {text: "비고", value: "비고"}
+                {text: "제목", value: "1"},
+                {text: "문서번호", value: "2"},
+                {text: "시행일자", value: "3"},
+                {text: "수신처", value: "4"},
+                {text: "발송일자", value: "5"},
+                {text: "담당자", value: "6"},
+                {text: "비고", value: "7"}
             ],
             index: 0
         });
@@ -43,7 +43,11 @@ var docuList = {
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.docuType = 1;
+                    data.documentPart = $("#documentPart").val();
+                    data.searchType = $("#searchType").val();
+                    data.searchText = $("#searchText").val();
                     return data;
                 }
             },
@@ -122,6 +126,9 @@ var docuList = {
 
     showEtcDiv: function(documentSn){
         console.log(documentSn);
+
+        let html = "<div class=\"edcDiv\" style=\"width: 800px; height: 40px; border: 1px solid gray; background-color: aliceblue\"></div>";
+        $(this).closest("tr").append(html);
     },
 
     hideEtcDiv: function(documentSn){
