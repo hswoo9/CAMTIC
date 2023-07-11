@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,12 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void setBustripReq(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
-        bustripRepository.insBustripReq(params);
+        if(params.containsKey("hrBizReqId")){
+            bustripRepository.updBustripReq(params);
+        } else {
+            bustripRepository.insBustripReq(params);
+        }
+
         String compEmpSeq = "";
         String[] compEmpSeqArr;
         if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
@@ -62,7 +68,7 @@ public class BustripServiceImpl implements BustripService {
             MainLib mainLib = new MainLib();
             List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
             for(int i = 0 ; i < list.size() ; i++){
-                list.get(i).put("contentId", params.get("purcReqId"));
+                list.get(i).put("contentId", params.get("hrBizReqId"));
                 list.get(i).put("empSeq", params.get("empSeq"));
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(params, base_dir));
@@ -86,5 +92,20 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripReq(Map<String, Object> params) {
         return bustripRepository.getBustripReq(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustripReqInfo(Map<String, Object> params) {
+        params.put("fileCd", "bustripReq");
+        Map<String, Object> result = new HashMap<>();
+        result.put("rs", bustripRepository.getBustripReqInfo(params));
+        result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
+        return result;
+    }
+
+    @Override
+    public void delBustripReq(Map<String, Object> params) {
+        bustripRepository.delBustripReq(params);
     }
 }

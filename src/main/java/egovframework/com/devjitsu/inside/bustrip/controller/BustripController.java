@@ -17,10 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BustripController {
@@ -72,14 +69,40 @@ public class BustripController {
         return "inside/bustrip/inBustripList";
     }
 
-    //관내출장 신청 페이지
+    /**
+     * 출장 신청 / 출장 조회
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/bustrip/pop/inBustripReqPop.do")
-    public String inBustripReqPop(HttpServletRequest request, Model model) {
+    public String inBustripReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/inBustripReqPop";
+    }
+
+    /**
+     * 출장조회 데이터 불러오기
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/bustrip/getBustripReqInfo")
+    public String getBustripReqInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("params", params);
+
+        return "jsonView";
     }
 
     /**
@@ -235,7 +258,7 @@ public class BustripController {
      */
     @RequestMapping("/bustrip/setBustripReq")
     public String setBustripReq(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
-        MultipartFile[] file = request.getFiles("purcFile").toArray(new MultipartFile[0]);
+        MultipartFile[] file = request.getFiles("bustripFile").toArray(new MultipartFile[0]);
         bustripService.setBustripReq(params, file, SERVER_DIR, BASE_DIR);
 
         return "jsonView";
@@ -249,6 +272,20 @@ public class BustripController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/bustrip/delBustripReq")
+    public String delBustripReq(@RequestParam String[] keyAr, Model model){
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("keyAr", keyAr);
+            bustripService.delBustripReq(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

@@ -101,5 +101,97 @@
             *
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+        <![CDATA[
+            TRIP_DAY_FR >= #{startDate} AND TRIP_DAY_TO <= #{endDate}
+        ]]>
+        <if test="projectCd != null and projectCd != ''">
+            AND
+            PROJECT_CD = #{projectCd}
+        </if>
+        <if test="busnName != null and busnName != ''">
+            AND
+            BUSN_NAME like concat('%', #{busnName}, '%')
+        </if>
+
     </select>
+
+    <select id="getBustripReqInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        WHERE
+            A.HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getBustripCompanionInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION A
+        WHERE
+            A.HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <delete id="delBustripReq" parameterType="map">
+        DELETE FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+            HR_BIZ_REQ_ID IN
+        <foreach collection="keyAr" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delBustripCompn" parameterType="map">
+        DELETE FROM
+        CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+        HR_BIZ_REQ_ID IN
+        <foreach collection="keyAr" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delBustripCompnTarget" parameterType="map">
+        DELETE FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </delete>
+
+    <select id="getBustripReqFileInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{hrBizReqId}
+        AND
+            FILE_CD = #{fileCd}
+    </select>
+
+    <update id="updBustripReq" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            POSITION_CODE = #{positionCode},
+            DUTY_CODE = #{dutyCode},
+            TRIP_CODE = #{tripCode},
+            VISIT_LOC = #{visitLoc},
+            VISIT_LOC_SUB = #{visitLocSub},
+            TRIP_DAY_FR = #{tripDayFr},
+            TRIP_DAY_TO = #{tripDayTo},
+            TRIP_TIME_FR = #{tripTimeFr},
+            TRIP_TIME_TO = #{tripTimeTo},
+            BUSN_NAME = #{busnName},
+            TITLE = #{title},
+            USE_CAR = #{useCar},
+            USE_TRSPT = #{useTrspt},
+            PROJECT = #{project},
+            PROJECT_CD = #{projectCd},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
 </mapper>
