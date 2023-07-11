@@ -202,6 +202,9 @@ var inBustripReqPop = {
         var fileInfo = result.rs.fileInfo;
         $("#tripCode").data("kendoDropDownList").value(rs.trip_code);
         $("#project").data("kendoDropDownList").value(rs.project_cd);
+        if(rs.project_cd != "" && rs.project_cd != 0){
+            $("#busnLine").css("display", "");
+        }
         $("#visitLoc").val(rs.visit_loc);
         $("#visitLocSub").val(rs.visit_loc_sub);
         $("#date1").val(rs.trip_day_fr);
@@ -252,6 +255,7 @@ var inBustripReqPop = {
             $("#modBtn").css("display", "none");
             $("#fileUpload").css("display", "none");
             $("#addMemberBtn").attr("disabled", true);
+            $("#projectAddBtn").attr("disabled", true);
         }
     },
 
@@ -308,7 +312,7 @@ var inBustripReqPop = {
         //증빙파일 첨부파일
         if(fCommon.global.attFiles != null){
             for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("purcFile", fCommon.global.attFiles[i]);
+                formData.append("bustripFile", fCommon.global.attFiles[i]);
             }
         }
 
@@ -344,13 +348,14 @@ var inBustripReqPop = {
                 html += '   </td>';
                 html += '</tr>';
             }
+            $("#fileGrid").html(html);
         }else{
             $("#fileGrid").html('<tr>' +
                 '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
                 '</tr>');
         }
 
-        $("#fileGrid").html(html);
+
     }
 
 }
