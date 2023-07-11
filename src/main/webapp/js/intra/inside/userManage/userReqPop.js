@@ -770,5 +770,47 @@ var userReqPop = {
                 return value;
         }
     }
+
+}
+
+function empInfoFileSave(){
+
+    var formData = new FormData();
+    if($("#idPhotoFile")[0].files.length == 1){
+        formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
+    }
+
+    $.ajax({
+        url: "<c:url value='/userManage/setempInfoFileSave.do'/>",
+        data: formData,
+        type: "post",
+        async : false,
+        datatype: "json",
+        contentType: false,
+        processData: false,
+        success: function () {
+            alert("정보 등록이 완료되었습니다.");
+            open_in_frame("/appointment/userInfoReq.do");
+        },
+        error : function(){
+            alert("정보 등록 중 에러가 발생했습니다.");
+        }
+    });
+}
+
+//첨부 이미지 미리보기
+function viewPhoto(input){
+    if(input.files[0].size > 10000000){
+        alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+        return;
+    }
+
+    if(input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#photoView').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 

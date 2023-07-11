@@ -21,7 +21,7 @@
                     <c:if test="${params.empSeq == null || params.empSeq == ''}">
                         <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">직원추가</h3>
                         <div style="margin-top:10px;">
-                            <%--<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>--%>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
                             <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                         </div>

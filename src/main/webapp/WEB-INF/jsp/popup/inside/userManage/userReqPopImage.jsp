@@ -20,13 +20,13 @@
                 <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
                     <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">이미지관리</h3>
                     <div style="margin-top:10px;">
-                        <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="empInfoFileSave();">저장</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </div>
                 </div>
             </div>
             <form id="userReqPopImage" style="padding: 20px 30px;">
-                <div style="text-align:right; font-weight:600;">[직원정보] 홍길동</div>
+                <div style="text-align:right; font-weight:600;">[직원정보] ${params.EMP_NAME_KR}</div>
                 <table class="table table-bordered mb-0" id="userReqPopImageTable" style="margin-top: 10px;">
                     <colgroup>
                         <col width="9%">
@@ -44,7 +44,22 @@
                         </td>
                         <th>증명사진</th>
                         <td>
-                            <span>등록된 증명사진이 없습니다.</span>
+                            <div class="filebox">
+                                <input type="hidden" id="fileNo" name="fileNo" value="${data.FILE_NO}">
+                                <div class="card-picture" style="padding-top: 0 !important; margin:0px; overflow: hidden; position: relative;">
+                                    <c:choose>
+                                        <c:when test="${data.FILE_PATH ne null}">
+                                            <input type="hidden" id="filePath" name="filePath" value="${data.FILE_PATH}">
+                                            <input type="hidden" id="fileName" name="fileName" value="${data.FILE_UUID}">
+                                            <img id="photoView" src="${data.FILE_PATH}${data.FILE_UUID}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span>등록된 증명사진이 없습니다.</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+
                         </td>
                         <th>개인사진</th>
                         <td>
@@ -61,8 +76,9 @@
                     <tr>
                         <th colspan="2">증명사진</th>
                         <td colspan="4">
-                            <input type="file">
+                            <label for="idPhotoFile" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0; margin-top:13px;">파일첨부</label>
                             <span>증명사진 이미지는 150*150 크기입니다.</span>
+                            <input type="file" id="idPhotoFile" name="idPhotoFile" onchange="viewPhoto(this)">
                         </td>
                     </tr>
                     <tr>

@@ -8,6 +8,10 @@ var addAssetPop = {
 
     fn_defaultScript: function () {
         addAssetPop.kendoSetting();
+
+        if($("#mod").val() == "Y"){
+            addAssetPop.modDataInit()
+        }
     },
 
     rdTaskPopup : function() {
@@ -86,6 +90,7 @@ var addAssetPop = {
 
         if(confirm("자산을 등록하시겠습니까?")){
             addAssetPop.global.saveAjaxData = {
+                astInfoSn : $("#astInfoSn").val(),
                 astCodeCompanyId : $("#astCodeCompanyId").val(),
                 astCodeTypeId : $("#astCodeTypeId").val(),
                 astCodeId1 : $("#astCodeId1").val(),
@@ -93,6 +98,7 @@ var addAssetPop = {
                 astCodeId3 : $("#astCodeId3").val(),
                 astStsCode : $("#astStsCode").val(),
                 astPlaceSn : $("#astPlaceSn").val(),
+                astNo : $("#astCodeCompanyId").val() + $("#astCodeTypeId").val() + $("#astCodeId1").val() + $("#astCodeId2").val() + $("#astCodeId3").val(),
                 astName : $("#astName").val(),
                 purcDate : $("#purcDate").val(),
                 purcPrice : $("#purcPrice").val(),
@@ -301,6 +307,49 @@ var addAssetPop = {
                     $("#" + changeId).data("kendoDropDownList").bind("change", function(){addAssetPop.categoryAddRow("astCodeId2", this.dataItem().AST_CODE_ID)});
                 }
             }
+        }
+    },
+
+    modDataInit : function(){
+        window.resizeTo(1100, 785);
+
+        var result = customKendo.fn_customAjax("/inside/getAssetInfo.do", {astInfoSn : $("#astInfoSn").val()})
+        if(result.flag){
+            console.log(result.data);
+            $("#astCodeCompanyId").data("kendoDropDownList").value(result.data.AST_CODE_COMPANY_ID);
+            $("#astCodeTypeId").data("kendoDropDownList").value(result.data.AST_CODE_TYPE_ID);
+            $("#astCodeId1").data("kendoDropDownList").value(result.data.AST_CODE_ID_1);
+            $("#astCodeId1").data("kendoDropDownList").trigger("change");
+            $("#astCodeId2").data("kendoDropDownList").value(result.data.AST_CODE_ID_2);
+            $("#astCodeId2").data("kendoDropDownList").trigger("change");
+            $("#astCodeId3").data("kendoDropDownList").value(result.data.AST_CODE_ID_3);
+            $("#astName").val(result.data.AST_NAME);
+            $("#purcDate").val(result.data.PURC_DATE);
+            $("#purcPrice").val(result.data.PURC_PRICE);
+            $("#modelSize").val(result.data.MODEL_SIZE);
+            $("#modelName").val(result.data.MODEL_NAME);
+            $("#purcCompanyId").val(result.data.PURC_COMPANY_ID);
+            $("#purcCompanyName").val();
+            $("#mfCompany").val(result.data.MF_COMPANY);
+            $("#astStsCode").data("kendoDropDownList").value(result.data.AST_STS_CODE);
+            $("#orgCountry").val(result.data.ORG_COUNTRY);
+
+            $("#qty").val(result.data.ORG_COUNTRY);
+            if(result.data.UNIT == "SET" || result.data.UNIT == "EA" || result.data.UNIT == "COPY"){
+                $("#unit").data("kendoDropDownList").value(result.data.UNIT);
+                $("#unit").data("kendoDropDownList").trigger("change");
+            }else{
+                $("#unit").data("kendoDropDownList").value("");
+                $("#unitText").val(result.data.UNIT);
+            }
+            $("#regType").data("kendoDropDownList").value(result.data.REG_TYPE);
+            $("#barcodeType").data("kendoDropDownList").value(result.data.BARCODE_TYPE);
+            $("#fundingSource").data("kendoRadioGroup").value(result.data.FUNDING_SOURCE);
+            $("#expAccount").val(result.data.EXP_ACCOUNT);
+            $("#astPlaceSn").data("kendoDropDownList").value(result.data.AST_PLACE_SN);
+            $("#empName").val(result.data.EMP_NAME);
+            $("#purpose").val(result.data.PURPOSE);
+            $("#remark").val(result.data.REMARK);
         }
     },
 }

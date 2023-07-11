@@ -12,7 +12,14 @@ public class AssetRepository extends AbstractDAO {
     /** 자산리스트 */
     public List<Map<String,Object>> getAssetList(Map<String,Object> params) { return selectList("asset.getAssetList", params);}
     public List<Map<String,Object>> getInsideCodeList(Map<String,Object> params) { return selectList("asset.getInsideCodeList", params);}
+    public String getAssetInfoBarcordMax(Map<String, Object> params) { return (String)selectOne("asset.getAssetInfoBarcordMax", params);}
     public void setAssetInfo(Map<String, Object> params) { insert("asset.setAssetInfo", params);}
+    public void setAssetInfoUpd(Map<String, Object> params) { insert("asset.setAssetInfoUpd", params);}
+    public Map<String, Object> getAssetInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getAssetInfo", params);}
+    public Map<String, Object> getAssetInfoAll(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getAssetInfoAll", params);}
+    public Map<String, Object> getAstManage() { return (Map<String, Object>) selectOne("asset.getAstManage");}
+    public void setAstManage(Map<String, Object> params) { insert("asset.setAstManage", params);}
+    public void setAstManageUpd(Map<String, Object> params) { insert("asset.setAstManageUpd", params);}
 
     /** 분류관리 */
     /** 소속관리*/

@@ -34,7 +34,6 @@ var assetList = {
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url,params),
             scrollable: true,
-            selectable: "row",
             height: 489,
             pageable : {
                 refresh : true,
@@ -45,7 +44,7 @@ var assetList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.goodsManagePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.assetManagePop();">' +
                             '	<span class="k-button-text">물품관리관 관리</span>' +
                             '</button>';
                     }
@@ -68,13 +67,14 @@ var assetList = {
                     text: '엑셀다운로드'
                 }
             ],
+            dataBound : assetList.onDataBound,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#'/>",
                     width: 50
                 }, {
                     field: "",
@@ -116,10 +116,10 @@ var assetList = {
         });
     },
 
-    goodsManagePopup : function() {
-        var url = "/inside/goodsManagePop.do";
+    assetManagePop : function() {
+        var url = "/inside/assetManagePop.do";
         var name = "goodsManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 500, height = 255, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -134,6 +134,21 @@ var assetList = {
         var url = "/inside/addAssetPop.do";
         var name = "addAssetPop";
         var option = "width = 1125, height = 720, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    },
+
+    onDataBound : function(){
+        var grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this));
+            assetList.viewAssetPop(dataItem.AST_INFO_SN);
+        });
+    },
+
+    viewAssetPop : function(astInfoSn) {
+        var url = "/inside/viewAssetPop.do?astInfoSn=" + astInfoSn;
+        var name = "viewAssetPop";
+        var option = "width = 950, height = 720, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

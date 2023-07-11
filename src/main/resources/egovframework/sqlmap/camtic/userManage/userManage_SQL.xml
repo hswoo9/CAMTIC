@@ -1055,4 +1055,16 @@
         WHERE
             a.EMP_SEQ = #{empSeq};
     </select>
+
+    <update id="setUserInfoReqUpd" parameterType="map">
+        /* setUserInfoReqUpd */
+        UPDATE
+        CAM_COMMON.DJ_FILE_INFO
+        SET
+        <if test='photoFileId != null and !"".equals(photoFileId)'>
+            PHOTO_FILE_ID = #{photoFileId}
+        </if>
+        WHERE
+        EMP_SEQ = #{empSeq}
+    </update>
 </mapper>
