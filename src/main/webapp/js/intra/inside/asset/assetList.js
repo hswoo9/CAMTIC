@@ -1,186 +1,38 @@
-var now = new Date();
-
 var assetList = {
 
     global : {
-        insideCodeDropDown : "",
-        codeDropDown : [{
-            AST_MC_CODE_NM : "선택하세요",
-            AST_MC_CODE : ""
-        }],
-        mdCode : "",
-        dtCode : "",
+        searchAjaxData : "",
+        dropDownDataSource : "",
     },
 
-    init : function(){
-        assetList.mainGrid();
-        assetList.fn_astCodeSet();
-        assetList.fn_insideCodeSet();
-        assetList.dataSet();
+    fnDefaultScript : function(){
+        assetList.gridReload();
+        assetList.kendoSetting();
     },
 
-    dataSet() {
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-        $("#drop1").kendoDropDownList({
-            dataTextField: "INSIDE_DT_CODE_NM",
-            dataValueField: "value",
-            dataSource: assetList.edCodeDataSource("B01")
-        });
-        $("#drop2").kendoDropDownList({
-            dataTextField: "INSIDE_DT_CODE_NM",
-            dataValueField: "value",
-            dataSource: assetList.edCodeDataSource("B02")
-        });
-        $('#drop3').kendoDropDownList({
-            dataTextField: "AST_MC_CODE_NM",
-            dataValueField: "AST_MC_CODE",
-            dataSource: assetList.global.codeDropDown
-        });
-        $('#drop3').on('change', function(){
-            var data = {
-                AST_MC_CODE : $('#drop3').val(),
-            }
-            assetList.global.mdCode = customKendo.fn_customAjax('/inside/getAssetMdCodeList',data);
-            if(assetList.global.mdCode.rs.length > 0) {
-                $('#md').css('display','block');
-                $('#dt').css('display','none');
-                $('#drop4').data('kendoDropDownList').setDataSource(assetList.global.mdCode.rs);
-                $('#drop4').data('kendoDropDownList').select(0);
-            }else{
-                $('#md').css('display','none');
-                $('#dt').css('display','none');
-            }
-        });
-        $('#drop4').kendoDropDownList({
-            dataTextField: "AST_MD_CODE_NM",
-            dataValueField: "AST_MD_CODE",
-            index:0
-        });
-        $('#drop4').on('change', function(){
-            var data = {
-                AST_MC_CODE : $('#drop3').val(),
-                AST_MD_CODE : $('#drop4').val(),
-            }
-            assetList.global.dtCode = customKendo.fn_customAjax('/inside/getAssetDtCodeList',data);
-            if(assetList.global.dtCode.rs.length > 0) {
-                $('#dt').css('display','block');
-                $('#drop5').data('kendoDropDownList').setDataSource(assetList.global.dtCode.rs);
-                $('#drop5').data('kendoDropDownList').select(0);
-            }else{
-                $('#dt').css('display','none');
-            }
-        });
-        $("#drop5").kendoDropDownList({
-            dataTextField: "AST_DT_CODE_NM",
-            dataValueField: "AST_DT_CODE",
-            index:0
-        });
-        $("#drop6").kendoDropDownList({
-            dataTextField: "INSIDE_DT_CODE_NM",
-            dataValueField: "value",
-            dataSource: assetList.edCodeDataSource("B03")
-        });
-        $("#drop7").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "11B-대한드론축구협회", value: "1" }
-            ],
-            index: 0
-        });
-        $("#drop8").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "승인", value: "1" },
-                { text: "미승인", value: "2" }
-            ],
-            index: 0
-        });
+    gridReload : function(){
+        assetList.global.searchAjaxData = {
+            startDate : $("#endDate").val(),
+            endDate : $("#endDate").val(),
+            assetPosition : $("#assetPosition").val(),
+            assetType : $("#assetType").val(),
+            categoryA : $("#categoryA").val(),
+            categoryB : $("#categoryB").val(),
+            categoryC : $("#categoryC").val(),
+            assetStatus : $("#assetStatus").val(),
+            assetPlace : $("#assetPlace").val(),
+            regStatus : $("#regStatus").val(),
+            barcodeType : $("#barcodeType").val(),
+            searchType : $("#searchType").val(),
+            searchContent : $("#searchContent").val(),
+        }
 
-        $("#drop9").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "대", value: "1" },
-                { text: "소", value: "2" }
-            ],
-            index: 0
-        });
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "자산명", value: "1" },
-                { text: "공고명", value: "2" },
-                { text: "규격", value: "3" },
-                { text: "모델", value: "4" },
-                { text: "사용자", value: "5" }
-            ],
-            index: 0
-        });
-
-        $("#searchVal").kendoTextBox();
-
-        $("#drop10").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "20개", value: "1" },
-                { text: "50개", value: "2" },
-                { text: "100개", value: "3" }
-            ],
-            index: 0
-        });
-
+        assetList.mainGrid("/inside/getAssetList.do", assetList.global.searchAjaxData);
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid : function(url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
-            sortable: true,
+            //dataSource: customKendo.fn_gridDataSource2(url,params),
             scrollable: true,
             selectable: "row",
             height: 489,
@@ -260,80 +112,200 @@ var assetList = {
     },
 
     goodsManagePopup : function() {
-        var url = "/Inside/Pop/goodsManagePop.do";
+        var url = "/inside/goodsManagePop.do";
         var name = "goodsManagePop";
         var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     bulkChangePopup : function() {
-        var url = "/Inside/Pop/bulkChangePop.do";
+        var url = "/inside/bulkChangePop.do";
         var name = "bulkChangePop";
         var option = "width = 460, height = 410, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     addAssetPopup : function() {
-        var url = "/Inside/Pop/addAssetPop.do";
+        var url = "/inside/addAssetPop.do";
         var name = "addAssetPop";
-        var option = "width = 1000, height = 700, top = 100, left = 200, location = no, _blank"
+        var option = "width = 1125, height = 720, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
-    fn_astCodeSet : function() {
-        $.ajax({
-            url : '/inside/getAssetMcCodeList',
-            type : "post",
-            async : false,
-            dataType : "json",
-            success : function(result) {
-                $.each(result.rs, function(index, item){
-                    assetList.global.codeDropDown.push(item);
+    kendoSetting : function() {
+        $("#startDate").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 1))
+        });
+        $("#endDate").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+
+        assetList.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getClassPositionList", {});
+        $("#assetPosition").kendoDropDownList({
+            dataTextField: "AST_CP_CODE_NM",
+            dataValueField: "AST_CP_CODE",
+            dataSource: assetList.global.dropDownDataSource.rs,
+            index: 0
+        });
+
+        assetList.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getClassDivisionList", {});
+        $("#assetType").kendoDropDownList({
+            dataTextField: "AST_TYPE_CODE_NM",
+            dataValueField: "AST_TYPE_CODE",
+            dataSource: assetList.global.dropDownDataSource.rs
+        });
+
+        /** 카테고리 드롭다운 */
+        assetList.global.searchAjaxData = {
+            astUpperCode : 0
+        }
+        assetList.global.dropDownDataSource = customKendo.fn_customAjax("/asset/getAstCategoryList", assetList.global.searchAjaxData);
+        assetList.global.dropDownDataSource.rs.unshift({
+            AST_CODE_NM : "카테고리(대)",
+            AST_CODE : "",
+        })
+        $("#categoryA").kendoDropDownList({
+            dataTextField: "AST_CODE_NM",
+            dataValueField: "AST_CODE",
+            dataSource: assetList.global.dropDownDataSource.rs,
+            change : function(e){
+                assetList.categoryAddRow('categoryA', this.dataItem().AST_CODE_ID)
+            }
+        });
+
+        assetList.global.dropDownDataSource = [{
+            AST_CODE_NM : "카테고리(중)",
+            AST_CODE : "",
+        }]
+        $("#categoryB").kendoDropDownList({
+            dataTextField: "AST_CODE_NM",
+            dataValueField: "AST_CODE",
+            dataSource: assetList.global.dropDownDataSource
+        });
+
+        assetList.global.dropDownDataSource = [{
+            AST_CODE_NM : "카테고리(소)",
+            AST_CODE : "",
+        }]
+        $("#categoryC").kendoDropDownList({
+            dataTextField: "AST_CODE_NM",
+            dataValueField: "AST_CODE",
+            dataSource: assetList.global.dropDownDataSource
+        });
+        /** 카테고리 드롭다운 종료 */
+
+        assetList.global.searchAjaxData = {
+            insideMdCode : "03"
+        }
+        assetList.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getInsideCodeList.do", assetList.global.searchAjaxData);
+        assetList.global.dropDownDataSource.rs.unshift({
+            INSIDE_DT_CODE_NM : "자산상태",
+            INSIDE_DT_CODE : "",
+        })
+        $("#assetStatus").kendoDropDownList({
+            dataTextField: "INSIDE_DT_CODE_NM",
+            dataValueField: "INSIDE_DT_CODE",
+            dataSource: assetList.global.dropDownDataSource.rs,
+        });
+
+        assetList.global.dropDownDataSource = customKendo.fn_customAjax("/asset/getAssetPlaceList", {});
+        assetList.global.dropDownDataSource.rs.unshift({
+            AST_PLACE_NAME : "설치장소",
+            AST_PLACE_SN : "",
+        })
+        $("#assetPlace").kendoDropDownList({
+            dataTextField: "AST_PLACE_NAME",
+            dataValueField: "AST_PLACE_SN",
+            dataSource: assetList.global.dropDownDataSource.rs,
+            index: 0
+        });
+
+        $("#regStatus").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "등록상태", value: "" },
+                { text: "승인", value: "Y" },
+                { text: "미승인", value: "N" }
+            ],
+            index: 0
+        });
+
+        $("#barcodeType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "바코드", value: "" },
+                { text: "대", value: "L" },
+                { text: "소", value: "S" }
+            ],
+            index: 0
+        });
+
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "자산명", value: "1" },
+                { text: "공고명", value: "2" },
+                { text: "규격", value: "3" },
+                { text: "모델", value: "4" },
+                { text: "사용자", value: "5" }
+            ],
+            index: 0
+        });
+
+        customKendo.fn_textBox(["searchContent"])
+    },
+
+    categoryAddRow : function(id, astUpperCode){
+        var changeId = "";
+        var defaultName = ""
+        if(id == "categoryA"){
+            changeId = "categoryB";
+            defaultName = "카테고리(중)";
+        }else if(id == "categoryB"){
+            changeId = "categoryC";
+            defaultName = "카테고리(소)";
+        }
+
+        if($("#" + id).val() != ""){
+            var result = customKendo.fn_customAjax("/asset/getAstCategoryList", {astUpperCode : astUpperCode});
+            if(result.flag){
+                $("#categoryC").data("kendoDropDownList").dataSource.data([{
+                    AST_CODE_NM : "카테고리(소)",
+                    AST_CODE    : "",
+                }]);
+
+                if(id == "categoryA"){
+                    $("#categoryB").data("kendoDropDownList").dataSource.data([{
+                        AST_CODE_NM : "카테고리(중)",
+                        AST_CODE    : "",
+                    }]);
+                }
+
+                assetList.global.dropDownDataSource = result.rs;
+                assetList.global.dropDownDataSource.unshift({
+                    AST_CODE_NM : defaultName,
+                    AST_CODE    : "",
                 })
-                console.log(assetList.global.codeDropDown);
-            }
-        })
-    },
 
-    fn_insideCodeSet : function() {
-        $.ajax({
-            url : '/inside/getInsideCodeList',
-            type : "post",
-            async : false,
-            dataType : "json",
-            success : function(result) {
-                console.log(result);
-                assetList.global.insideCodeDropDown = result.rs;
-            }
-        })
-    },
-
-    edCodeDataSource : function(code) {
-        var data = [];
-        var defaultCode = "";
-        if(code != ""){
-            switch (code){
-                case "B01" :
-                    defaultCode = "자산소속"
-                    break
-                case "B02" :
-                    defaultCode = "자산분류"
-                    break
-                case "B03" :
-                    defaultCode = "자산상태"
-                    break
-            }
-            data.push({"INSIDE_DT_CODE_NM": defaultCode, "value" : ""});
-        }else {
-            data.push({"INSIDE_DT_CODE_NM": "선택하세요", "value" : ""});
-        }
-
-        for(var i = 0 ; i < assetList.global.insideCodeDropDown.length ; i++){
-            assetList.global.insideCodeDropDown[i].value = assetList.global.insideCodeDropDown[i].INSIDE_MC_CODE + assetList.global.insideCodeDropDown[i].INSIDE_MD_CODE + assetList.global.insideCodeDropDown[i].INSIDE_DT_CODE;
-            if(assetList.global.insideCodeDropDown[i].INSIDE_MC_CODE + assetList.global.insideCodeDropDown[i].INSIDE_MD_CODE == code){
-                data.push(assetList.global.insideCodeDropDown[i]);
+                $("#" + changeId).data("kendoDropDownList").dataSource.data(assetList.global.dropDownDataSource)
+                $("#" + changeId).data("kendoDropDownList").select(0);
+                if(id == "categoryA"){
+                    $("#" + changeId).data("kendoDropDownList").bind("change", function(){assetList.categoryAddRow("categoryB", this.dataItem().AST_CODE_ID)});
+                }
             }
         }
-        return data;
-    }
+    },
+
 }

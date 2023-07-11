@@ -7,9 +7,9 @@
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .k-grid .k-cell-inner {justify-content: center;}
+    .k-grid-norecords{justify-content: space-around;}
 </style>
-
-
+<script type="text/javascript" src="/js/intra/inside/asset/assetList.js?v=${today}"/></script>
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -21,78 +21,74 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="8%">
+                        <col width="12%">
+                        <col width="8%">
+                        <col width="">
+                        <col width="9%">
+                        <col width="7%">
+                        <col width="8%">
+                        <col width="">
+                        <col width="8%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>조회기간</span>
-                                    <input type="text" id="start_date" style="width: 150px;">
-                                    ~
-                                    <input type="text" id="end_date" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>자산소속</span>
-                                    <input type="text" id="drop1" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>자산분류</span>
-                                    <input type="text" id="drop2" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>대분류</span>
-                                    <input type="text" id="drop3" style="width: 120px;">
-                                </div>
-                                <div class="mr10" id="md" style="display: none;">
-                                    <span>중분류</span>
-                                    <input type="text" id="drop4" style="width: 120px;">
-                                </div>
-                                <div class="mr10" id="dt" style="display: none;">
-                                    <span>소분류</span>
-                                    <input type="text" id="drop5" style="width: 120px;">
-                                </div>
-                            </div>
-                            <div style="display:flex;" class="mt10">
-                                <div class="mr10">
-                                    <span>자산상태</span>
-                                    <input type="text" id="drop6" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>설치장소</span>
-                                    <input type="text" id="drop7" style="width: 135px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>등록상태</span>
-                                    <input type="text" id="drop8" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>바코드</span>
-                                    <input type="text" id="drop9" style="width: 120px; margin-left: 12px; margin-right: 40px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
-                                </div>
-                            </div>
-                            <div style="display:flex;" class="mt10">
-                                <div class="mr10">
-                                    <span>목록</span>
-                                    <input type="text" id="drop10" style="width: 120px; margin-left:24px; margin-right: 6px;">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(대)" onclick=""/>
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(소)" onclick=""/>
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="자산관리카드 인쇄" onclick=""/>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">조회기간</th>
+                        <td colspan="3">
+                            <input type="text" id="startDate" style="width: 110px;"> ~
+                            <input type="text" id="endDate" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">자산소속</th>
+                        <td>
+                            <input type="text" id="assetPosition" style="width: 120px;">
+                        </td>
+                        <th class="text-center th-color">자산분류</th>
+                        <td colspan="2">
+                            <input type="text" id="assetType" style="width: 120px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">카테고리</th>
+                        <td colspan="3">
+                            <input type="text" id="categoryA" style="width: 120px;">
+                            <input type="text" id="categoryB" style="width: 140px;">
+                            <input type="text" id="categoryC" style="width: 140px;">
+                        </td>
+                        <th class="text-center th-color">자산상태</th>
+                        <td>
+                            <input type="text" id="assetStatus" style="width: 120px;">
+                        </td>
+                        <th class="text-center th-color">설치장소</th>
+                        <td colspan="2">
+                            <input type="text" id="assetPlace" style="width: 240px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">등록상태</th>
+                        <td>
+                            <input type="text" id="regStatus" style="width: 120px;">
+                        </td>
+                        <th class="text-center th-color">바코드</th>
+                        <td>
+                            <input type="text" id="barcodeType" style="width: 130px; margin-left: 12px; margin-right: 40px;">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td colspan="5">
+                            <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
+                            <input type="text" id="searchContent" style="width: 66.1%">
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9" style="text-align: right">
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(대)" onclick=""/>
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(소)" onclick=""/>
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="자산관리카드 인쇄" onclick=""/>
                         </td>
                     </tr>
                 </table>
+
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>
@@ -100,5 +96,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    assetList.init();
+    assetList.fnDefaultScript();
 </script>

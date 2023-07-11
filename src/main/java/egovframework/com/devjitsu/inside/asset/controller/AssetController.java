@@ -29,44 +29,95 @@ public class AssetController {
     @Autowired
     private AssetService assetService;
 
-    //자산리스트
-    @RequestMapping("/Inside/assetList.do")
+    /**
+     * 자산관리 > 자산리스트 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/assetList.do")
     public String assetList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
+
         model.addAttribute("loginVO", login);
+
         return "inside/asset/assetList";
     }
 
+    /**
+     * 인사이드 코드 리스트
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getInsideCodeList.do")
+    public String getInsideCodeList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getInsideCodeList(map));
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > 자산리스트 - 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getAssetList.do")
+    public String getAssetList(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("list", assetService.getAssetList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > 자산리스트 - 자산등록 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/addAssetPop.do")
+    public String addAssetPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+
+        return "popup/inside/asset/addAssetPop";
+    }
+
+    /**
+     * 자산관리 > 자산리스트 - 자산등록
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setAssetInfo.do")
+    public String setAssetInfo(@RequestParam Map<String,Object> params, Model model) {
+        assetService.setAssetInfo(params);
+        return "jsonView";
+    }
+
+
+
     //자산리스트 - 물품관리관 관리 팝업
-    @RequestMapping("/Inside/Pop/goodsManagePop.do")
+    @RequestMapping("/inside/goodsManagePop.do")
     public String goodsManagePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
+
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/goodsManagePop";
     }
 
     //자산리스트 - 자산목록 일괄변경 팝업
-    @RequestMapping("/Inside/Pop/bulkChangePop.do")
+    @RequestMapping("/inside/bulkChangePop.do")
     public String bulkChangePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/bulkChangePop";
-    }
-
-    //자산리스트 - 자산 추가 팝업
-    @RequestMapping("/Inside/Pop/addAssetPop.do")
-    public String addAssetPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/asset/addAssetPop";
     }
 
     //자산리스트 - 사업 선택 - 연구개발과제 선택 팝업
@@ -313,7 +364,7 @@ public class AssetController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/Pop/categoriesManagePop.do")
+    @RequestMapping("/inside/categoriesManagePop.do")
     public String categoriesManagePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -378,7 +429,7 @@ public class AssetController {
     }
 
     //지식재산권 리스트 - 지식재산권 일괄변경 팝업
-    @RequestMapping("/Inside/Pop/rprChangePop.do")
+    @RequestMapping("/Inside/rprChangePop.do")
     public String rprChangePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -537,16 +588,6 @@ public class AssetController {
         result.put("list", assetService.getPrtpcoGbnNameList(params));
         return result;
     }
-    @RequestMapping("/inside/getInsideCodeList")
-    public String getInsideCodeList(Model model) {
-        model.addAttribute("rs", assetService.getInsideCodeList());
-        return "jsonView";
-    }
-    @RequestMapping("/inside/getAssetMcCodeList")
-    public String getAssetMcCodeList(Model model) {
-        model.addAttribute("rs", assetService.getAssetMcCodeList());
-        return "jsonView";
-    }
     @RequestMapping("/inside/getAssetMdCodeList")
     public String getAssetMdCodeList(@RequestParam Map<String,Object> map, Model model) {
         model.addAttribute("rs", assetService.getAssetMdCodeList(map));
@@ -555,17 +596,6 @@ public class AssetController {
     @RequestMapping("/inside/getAssetDtCodeList")
     public String getAssetDtCodeList(@RequestParam Map<String,Object> map, Model model) {
         model.addAttribute("rs", assetService.getAssetDtCodeList(map));
-        return "jsonView";
-    }
-    @RequestMapping("/inside/setAssetInfo")
-    public String setAssetInfo(@RequestParam Map<String,Object> map, Model model) {
-        System.out.println(map);
-        try {
-            //assetService.setAssetInfo(map);
-            model.addAttribute("rs", "SUCCESS");
-        }catch (Exception e) {
-            model.addAttribute("rs", "FAILED");
-        }
         return "jsonView";
     }
 
@@ -599,8 +629,6 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         model.addAttribute("pk", params.get("pk"));
 
-        System.out.println("pk값----" + params.get("pk"));
-        System.out.println("params 값----" + params);
         return "popup/inside/asset/equipmentUseUpdatePop";
     }
 

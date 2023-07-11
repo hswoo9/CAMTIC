@@ -5,7 +5,12 @@ import java.util.Map;
 
 public interface AssetService {
 
-    //장비관리 팝업창 (관리자) - 장비등록
+    /** 자산관리 - 자산리스트 */
+    List<Map<String, Object>> getAssetList(Map<String, Object> params);
+    List<Map<String, Object>> getInsideCodeList(Map<String, Object> params);
+    void setAssetInfo(Map<String, Object> params);
+
+    /** */
     void setEquipmentInsert(Map<String, Object> params);
 
     //공통코드 - 장비관리구분 조회
@@ -29,8 +34,6 @@ public interface AssetService {
     //장비사용 등록 - 업체구분 조회
     List<Map<String, Object>> getPrtpcoGbnNameList(Map<String, Object> params);
 
-    List<Map<String,Object>> getInsideCodeList();
-    List<Map<String,Object>> getAssetMcCodeList();
     List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
     List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
     List<Map<String,Object>> getClassPositionList(Map<String,Object> map);
