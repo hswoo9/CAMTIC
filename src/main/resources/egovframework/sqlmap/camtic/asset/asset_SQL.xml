@@ -7,7 +7,6 @@
     <select id="getAssetList" resultType="map">
         /* getAssetList */
         SELECT
-            '-' AS AST_NO,
             AI.*,
             AP.AST_PLACE_NAME,
             IC.INSIDE_DT_CODE_NM
@@ -73,7 +72,65 @@
         </if>
     </select>
 
-    <select id="getInsideCodeList" resultType="map">
+    <select id="getAssetInfo" resultType="map" parameterType="map">
+        /* getAssetInfo */
+        SELECT
+            AI.AST_INFO_SN,
+            CONCAT(ACP.AST_CP_CODE_NM, ' > ', ACC.AST_TYPE_CODE_NM, ' > ', AC1.AST_CODE_NM, ' > ', AC2.AST_CODE_NM, ' > ', AC3.AST_CODE_NM) AS AST_GUBUN,
+            AI.AST_NO,
+            AI.BARCODE_TYPE,
+            AI.AST_NAME,
+            DATE_FORMAT(AI.PURC_DATE, '%Y/%m/%d') AS PURC_DATE,
+            AI.PURC_PRICE,
+            AI.MODEL_SIZE,
+            AI.MODEL_NAME,
+            AI.PURC_COMPANY_ID,
+            '-' AS PURC_COMPANY_NAME,
+            AI.MF_COMPANY,
+            CONCAT(AI.QTY, ' ', AI.UNIT) AS QTY,
+            AI.ORG_COUNTRY,
+            CASE WHEN AI.FUNDING_SOURCE = 0 THEN CONCAT('[법인운영]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 1 THEN CONCAT('[연구개발]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 2 THEN CONCAT('[교육사업]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 4 THEN CONCAT('[개발사업]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 5 THEN CONCAT('[기능보강]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 6 THEN CONCAT('[지원사업]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 7 THEN CONCAT('[협의회]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', AI.EXP_ACCOUNT)
+            END FUNDING_SOURCE_TXT,
+            AP.AST_PLACE_NAME,
+            AI.EMP_NAME,
+            AI.PURPOSE,
+            AI.REMARK,
+            IC.INSIDE_DT_CODE_NM
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO AI
+        JOIN
+            CAM_INSIDE.dj_asset_code_position ACP
+            ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
+        JOIN
+            CAM_INSIDE.dj_asset_code_class ACC
+        ON AI.AST_CODE_TYPE_ID = ACC.AST_TYPE_CODE
+        JOIN
+            CAM_INSIDE.dj_asset_code AC1
+        ON AI.AST_CODE_ID_1 = AC1.AST_CODE
+        JOIN
+            CAM_INSIDE.dj_asset_code AC2
+        ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
+        JOIN
+            CAM_INSIDE.dj_asset_code AC3
+        ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
+        JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP
+        ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
+        JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC
+        ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </select>
+
+    <select id="getInsideCodeList" resultType="map" parameterType="map">
         /* getInsideCodeList */
         SELECT
             *
@@ -87,6 +144,24 @@
         </if>
     </select>
 
+    <select id="getAssetInfoBarcordMax" resultType="String" parameterType="map">
+        /* getAssetInfoBarcordMax */
+        SELECT
+            RIGHT(CONCAT('00', IFNULL(max(SUBSTRING_INDEX(AST_NO, '-', -1)), 0) + 1), 3)
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO
+        WHERE
+            AST_CODE_COMPANY_ID = #{astCodeCompanyId}
+        AND
+            AST_CODE_TYPE_ID = #{astCodeTypeId}
+        AND
+            AST_CODE_ID_1 = #{astCodeId1}
+        AND
+            AST_CODE_ID_2 = #{astCodeId2}
+        AND
+            AST_CODE_ID_3 = #{astCodeId3}
+    </select>
+
     <insert id="setAssetInfo" parameterType="map">
         /* setAssetInfo */
         INSERT INTO CAM_INSIDE.DJ_ASSET_INFO
@@ -98,6 +173,7 @@
                 AST_CODE_ID_3,
                 AST_STS_CODE,
                 AST_PLACE_SN,
+                AST_NO,
                 AST_NAME,
                 PURC_DATE,
                 PURC_PRICE,
@@ -126,6 +202,7 @@
                 #{astCodeId3},
                 #{astStsCode},
                 #{astPlaceSn},
+                #{astNo},
                 #{astName},
                 #{purcDate},
                 #{purcPrice},
@@ -147,6 +224,95 @@
             )
     </insert>
 
+    <update id="setAssetInfoUpd" parameterType="map">
+        /* setAssetInfoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO
+        SET
+            AST_CODE_COMPANY_ID = #{astCodeCompanyId},
+            AST_CODE_TYPE_ID = #{astCodeTypeId},
+            AST_CODE_ID_1 = #{astCodeId1},
+            AST_CODE_ID_2 = #{astCodeId2},
+            AST_CODE_ID_3 = #{astCodeId3},
+            AST_STS_CODE = #{astStsCode},
+            AST_PLACE_SN = #{astPlaceSn},
+            AST_NO = #{astNo},
+            AST_NAME = #{astName},
+            PURC_DATE = #{purcDate},
+            PURC_PRICE = #{purcPrice},
+            PURC_COMPANY_ID = #{purcCompanyId},
+            MODEL_SIZE = #{modelSize},
+            MODEL_NAME = #{modelName},
+            MF_COMPANY = #{mfCompany},
+            ORG_COUNTRY = #{orgCountry},
+            QTY = #{qty},
+            UNIT = #{unit},
+            REG_TYPE = #{regType},
+            BARCODE_TYPE = #{barcodeType},
+            FUNDING_SOURCE = #{fundingSource},
+            EXP_ACCOUNT = #{expAccount},
+            EMP_NAME = #{empName},
+            PURPOSE = #{purpose},
+            REMARK = #{remark},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </update>
+
+    <select id="getAstManage" resultType="map">
+        /* getAstManage */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ASSET_MANAGE
+        ORDER BY REG_DATE DESC
+        LIMIT 1
+    </select>
+
+    <select id="getAssetInfoAll" parameterType="map" resultType="map">
+        /* getAssetInfoAll */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO AI
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </select>
+    <insert id="setAstManage" parameterType="map">
+        /* setAstManage */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_MANAGE
+            (
+                MANAGE_MAIN_EMP_SEQ,
+                MANAGE_MAIN_EMP_NAME,
+                MANAGE_SUB_EMP_SEQ,
+                MANAGE_SUB_EMP_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{manageMainEmpSeq},
+                #{manageMainEmpName},
+                #{manageSubEmpSeq},
+                #{manageSubEmpName},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setAstManageUpd" parameterType="map">
+        /* setAstManageUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_MANAGE
+        SET
+            MANAGE_MAIN_EMP_SEQ = #{manageMainEmpSeq},
+            MANAGE_MAIN_EMP_NAME = #{manageMainEmpName},
+            MANAGE_SUB_EMP_SEQ = #{manageSubEmpSeq},
+            MANAGE_SUB_EMP_NAME = #{manageSubEmpName},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_MANAGE_SN = #{astManageSn}
+    </update>
     <!-- 자산리스트 종료 -->
 
     <!-- 분류관리 시작-->

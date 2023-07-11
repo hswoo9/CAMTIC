@@ -28,7 +28,37 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setAssetInfo(Map<String, Object> params) {
-        assetRepository.setAssetInfo(params);
+        params.put("astNo", params.get("astNo") + "-" + assetRepository.getAssetInfoBarcordMax(params));
+        if(StringUtils.isEmpty(params.get("astInfoSn"))){
+            assetRepository.setAssetInfo(params);
+        }else{
+            assetRepository.setAssetInfoUpd(params);
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> getAssetInfo(Map<String, Object> params) {
+        return assetRepository.getAssetInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getAssetInfoAll(Map<String, Object> params) {
+        return assetRepository.getAssetInfoAll(params);
+    }
+
+    @Override
+    public Map<String, Object> getAstManage() {
+        return assetRepository.getAstManage();
+    }
+
+    @Override
+    public void setAstManage(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("astManageSn"))){
+            assetRepository.setAstManage(params);
+        }else{
+            assetRepository.setAstManageUpd(params);
+        }
     }
 
     //장비관리 팝업창 (관리자) - 장비등록

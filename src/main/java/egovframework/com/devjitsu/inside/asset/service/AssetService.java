@@ -9,6 +9,10 @@ public interface AssetService {
     List<Map<String, Object>> getAssetList(Map<String, Object> params);
     List<Map<String, Object>> getInsideCodeList(Map<String, Object> params);
     void setAssetInfo(Map<String, Object> params);
+    Map<String, Object> getAssetInfo(Map<String, Object> params);
+    Map<String, Object> getAssetInfoAll(Map<String, Object> params);
+    Map<String, Object> getAstManage();
+    void setAstManage(Map<String, Object> params);
 
     /** */
     void setEquipmentInsert(Map<String, Object> params);

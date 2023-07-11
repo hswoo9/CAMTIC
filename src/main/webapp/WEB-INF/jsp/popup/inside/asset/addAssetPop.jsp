@@ -7,48 +7,30 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    .card-header {padding: 0px 0px 40px 0px;}
+    table { background-color: #00000008; }
+    .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
 <script type="text/javascript" src="/js/intra/inside/asset/addAssetPop.js?v=${today}"/></script>
 
-<!DOCTYPE html>
-<html>
-<body>
-<div class="card">
-    <div class="card-header" style="padding:20px 0;">
-        <div class="col-lg-11" style="margin:0 auto;">
-            <div class="table-responsive">
+<body class="font-opensans" style="background-color:#fff;">
+<div class="col-lg-12" style="padding:0;">
+    <div class="card-header">
+        <div class="table-responsive">
+            <div style="background-color: #00397f;">
+                <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
+                    <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">자산추가</h3>
+                    <div style="margin-top:10px;">
+                        <button type="button" class="k-button k-button-solid-info" onclick="addAssetPop.fn_saveAstInfo()">저장</button>
+                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px 30px;">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+                <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
+                <input type="hidden" id="mod" name="mod" value="${params.modify}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="18%">
@@ -81,7 +63,7 @@
                         </td>
                         <th scope="row" class="text-center th-color">구입 금액</th>
                         <td>
-                            <input type="text" id="purcPrice" style="width: 90%; text-align: right;" onkeydown="return fn_numberWithCommas($(this).val())">원
+                            <input type="text" id="purcPrice" style="width: 90%; text-align: right;">원
                         </td>
                     </tr>
                     <tr>
@@ -170,17 +152,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="btn-st" style="text-align: right;margin-top: 10px">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="addAssetPop.fn_saveAstInfo()"/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close()"/>
-            </div>
         </div>
     </div>
 </div>
-
-
 <script>
     addAssetPop.fn_defaultScript();
 </script>
 </body>
-</html>

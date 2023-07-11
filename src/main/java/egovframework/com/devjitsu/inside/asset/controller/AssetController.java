@@ -77,11 +77,12 @@ public class AssetController {
      * @return
      */
     @RequestMapping("/inside/addAssetPop.do")
-    public String addAssetPop(HttpServletRequest request, Model model) {
+    public String addAssetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
 
         return "popup/inside/asset/addAssetPop";
     }
@@ -89,25 +90,69 @@ public class AssetController {
     /**
      * 자산관리 > 자산리스트 - 자산등록
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/inside/setAssetInfo.do")
-    public String setAssetInfo(@RequestParam Map<String,Object> params, Model model) {
+    public String setAssetInfo(@RequestParam Map<String,Object> params) {
         assetService.setAssetInfo(params);
         return "jsonView";
     }
 
+    /**
+     * 자산관리 > 자산리스트 - 자산상세보기 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/viewAssetPop.do")
+    public String viewAssetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        model.addAttribute("data", assetService.getAssetInfo(params));
+        model.addAttribute("astManage", assetService.getAstManage());
+        model.addAttribute("loginVO", login);
 
-    //자산리스트 - 물품관리관 관리 팝업
-    @RequestMapping("/inside/goodsManagePop.do")
+        return "popup/inside/asset/viewAssetPop";
+    }
+
+    /**
+     * 자산관리 > 자산리스트 - 자산수정 데이터 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getAssetInfo.do")
+    public String getAssetInfo(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("data", assetService.getAssetInfoAll(params));
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > 자산리스트 - 물품관리관 등록/수정 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/assetManagePop.do")
     public String goodsManagePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        model.addAttribute("data", assetService.getAstManage());
         model.addAttribute("loginVO", login);
-        return "popup/inside/asset/goodsManagePop";
+
+        return "popup/inside/asset/assetManagePop";
+    }
+
+    /**
+     * 자산관리 > 자산리스트 - 물품관리관 등록/수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setAstManage.do")
+    public String setAstManage(@RequestParam Map<String,Object> params) {
+        assetService.setAstManage(params);
+        return "jsonView";
     }
 
     //자산리스트 - 자산목록 일괄변경 팝업
