@@ -21,7 +21,7 @@ var rewardReqBatchPop = {
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2("/user/getEmpList", data),
             scrollable: true,
-            height: 481,
+            height: 600,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],

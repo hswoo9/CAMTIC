@@ -37,43 +37,44 @@ public class BustripServiceImpl implements BustripService {
     public void setBustripReq(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
         if(params.containsKey("hrBizReqId")){
-
+            bustripRepository.updBustripReq(params);
         } else {
             bustripRepository.insBustripReq(params);
-            String compEmpSeq = "";
-            String[] compEmpSeqArr;
-            if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
-                compEmpSeq = params.get("compEmpSeq").toString();
+        }
 
-                compEmpSeqArr = compEmpSeq.split(",");
+        String compEmpSeq = "";
+        String[] compEmpSeqArr;
+        if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
+            compEmpSeq = params.get("compEmpSeq").toString();
 
-                for(String str : compEmpSeqArr){
-                    params.put("compEmpSeq", str);
-                    params.put("empSeq", params.get("compEmpSeq"));
-                    Map<String, Object> map = userRepository.getUserInfo(params);
-                    params.put("compEmpName", map.get("EMP_NAME_KR"));
-                    params.put("compDeptName", map.get("DEPT_NAME"));
-                    params.put("compDeptSeq", map.get("DEPT_SEQ"));
-                    params.put("compDutyName", map.get("DUTY_NAME"));
-                    params.put("compPositionName", map.get("POSITION_NAME"));
+            compEmpSeqArr = compEmpSeq.split(",");
 
-                    bustripRepository.insBustripCompanion(params);
-                }
+            for(String str : compEmpSeqArr){
+                params.put("compEmpSeq", str);
+                params.put("empSeq", params.get("compEmpSeq"));
+                Map<String, Object> map = userRepository.getUserInfo(params);
+                params.put("compEmpName", map.get("EMP_NAME_KR"));
+                params.put("compDeptName", map.get("DEPT_NAME"));
+                params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                params.put("compDutyName", map.get("DUTY_NAME"));
+                params.put("compPositionName", map.get("POSITION_NAME"));
+
+                bustripRepository.insBustripCompanion(params);
             }
+        }
 
-            if(file.length > 0){
-                MainLib mainLib = new MainLib();
-                List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
-                for(int i = 0 ; i < list.size() ; i++){
-                    list.get(i).put("contentId", params.get("hrBizReqId"));
-                    list.get(i).put("empSeq", params.get("empSeq"));
-                    list.get(i).put("fileCd", params.get("menuCd"));
-                    list.get(i).put("filePath", filePath(params, base_dir));
-                    list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                    list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
-                }
-                commonRepository.insFileInfo(list);
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("hrBizReqId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
             }
+            commonRepository.insFileInfo(list);
         }
     }
 

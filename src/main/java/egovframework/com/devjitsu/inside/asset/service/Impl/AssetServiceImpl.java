@@ -16,6 +16,21 @@ public class AssetServiceImpl implements AssetService {
     @Autowired
     private AssetRepository assetRepository;
 
+    @Override
+    public List<Map<String, Object>> getAssetList(Map<String, Object> params) {
+        return assetRepository.getAssetList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getInsideCodeList(Map<String, Object> params) {
+        return assetRepository.getInsideCodeList(params);
+    }
+
+    @Override
+    public void setAssetInfo(Map<String, Object> params) {
+        assetRepository.setAssetInfo(params);
+    }
+
     //장비관리 팝업창 (관리자) - 장비등록
     @Override
     public void setEquipmentInsert(Map<String, Object> params) {
@@ -86,14 +101,6 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public List<Map<String,Object>> getPrtpcoGbnNameList(Map<String, Object> params) {
         return assetRepository.getPrtpcoGbnNameList(params);
-    }
-
-    public List<Map<String,Object>> getInsideCodeList() {
-        return assetRepository.getInsideCodeList();
-    }
-    @Override
-    public List<Map<String,Object>> getAssetMcCodeList() {
-        return assetRepository.getAssetMcCodeList();
     }
     @Override
     public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {

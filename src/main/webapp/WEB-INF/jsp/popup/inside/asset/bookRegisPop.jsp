@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div style="padding: 20px 30px;">
-                <table class="popTable table table-bordered mb-0">
+                <table class="popTable table table-bordered mb-0" style="margin-top: 10px;">
                     <colgroup>
                         <col width="20%">
                         <col width="30%">
@@ -36,9 +36,9 @@
                         <col width="30%">
                     </colgroup>
                     <thead>
-                        <tr>
+                        <%--<tr>
                             <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">도서 등록</th>
-                        </tr>
+                        </tr>--%>
                         <tr>
                             <th scope="row" class="text-center th-color">
                                 <span class="red-star">*</span>도서분류

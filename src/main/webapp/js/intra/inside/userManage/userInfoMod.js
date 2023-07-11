@@ -58,6 +58,9 @@ var userInfoMod = {
         });
 
         fn_deptSetting();
+
+		$("#name").kendoTextBox();
+
     },
 
     mainGrid : function(url, params) {
@@ -133,8 +136,8 @@ var userInfoMod = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox" onclick="userInfoMod.selectAllcheck()"/>',
-                    template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='' class='k-checkbox checkbox tdCheckBox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="checkbox" onclick="userInfoMod.selectAllcheck()"/>',
+                    template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='' class='tdCheckBox'/>",
                     width: 50
                 }, {
 					attributes : { style : "text-align : center;"},
