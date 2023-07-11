@@ -1,29 +1,24 @@
-/**
- * 2023.06.03
- * 작성자 : 김지혜
- * 내용 : 문서관리 - 등록대장
- */
+var docuList = {
+    init: function(){
+        docuList.dataSet();
+        docuList.mainGrid();
+    },
 
-var documentList = {
-    fn_defaultScript: function () {
+    dataSet: function(){
+        customKendo.fn_textBox(["searchText"]);
+        let partArr = [
+            { text: "미래전략기획본부", value: "56" },
+            { text: "R&DB사업본부", value: "51" },
+            { text: "기업성장지원본부", value: "52" },
+            { text: "일자리혁신지원센터", value: "58" },
+            { text: "우주항공사업부", value: "54" },
+            { text: "드론사업부", value: "55" },
+            { text: "스마트제조사업부", value: "53" },
+            { text: "경영지원실", value: "57" }
+        ]
+        customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 2);;
 
-        $("#deptComp").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: ""},
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
-        });
-
-        $("#title").kendoDropDownList({
+        $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -37,91 +32,103 @@ var documentList = {
             ],
             index: 0
         });
-
-        $("#titleContent").kendoTextBox();
     },
-        mainGrid: function () {
-            var dataSource = new kendo.data.DataSource({
-                serverPaging: false,
-                transport: {
-                    read : {
-                        url : '',
-                        dataType : "json",
-                        type : "post"
-                    },
-                    parameterMap: function(data, operation) {
-                        return data;
-                    }
-                },
-                schema : {
-                    data: function (data) {
-                        return data;
-                    },
-                    total: function (data) {
-                        return data.length;
-                    },
-                },
-                pageSize: 10,
-            });
 
-            $("#mainGrid").kendoGrid({
-                dataSource: dataSource,
-                sortable: true,
-                scrollable: true,
-                height: 489,
-                pageable : {
-                    refresh : true,
-                    pageSizes : [ 10, 20, 30, 50, 100 ],
-                    buttonCount : 5
+    mainGrid: function() {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : 'inside/getDocumentList',
+                    dataType : "json",
+                    type : "post"
                 },
-                toolbar: [
-                    {
-                        name: 'excel',
-                        text: '엑셀다운로드'
-                    }
-                ],
-                noRecords: {
-                    template: "데이터가 존재하지 않습니다."
+                parameterMap: function(data, operation) {
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
                 },
-                columns: [
-                    {
-                        field: "",
-                        title: "순번",
-                        width: "5%",
-                        template: "#= record-- #"
-                    }, {
-                        field: "",
-                        title: "문서번호",
-                        width: "20%"
-                    }, {
-                        field: "",
-                        title: "시행 일자",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "수신처(수신 기관)",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "제목",
-                        width: "20%"
-                    }, {
-                        field: "",
-                        title: "발송 일자",
-                        width: "10%"
-                    }, {
-                        field: "",
-                        title: "담당자",
-                        width: "10%"
-                    }, {
-                        field: "",
-                        title: "비고",
-                        width: "5%"
-                    }]
-            }).data("kendoGrid");
-        },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
 
-    documentPopup : function(){
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar: [
+                {
+                    name: 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "ROW_NUM",
+                    title: "순번",
+                    width: "5%"
+                }, {
+                    title: "문서번호",
+                    width: "20%",
+                    template: function(row){
+                        return row.DOCUMENT_FIRST_NUMBER+"-"+row.DOCUMENT_SECOND_NUMBER;
+                    }
+                }, {
+                    field: "EFFECTIVE_DATE",
+                    title: "시행 일자",
+                    width: "15%"
+                }, {
+                    field: "RECEIVE_NAME",
+                    title: "수신처(수신 기관)",
+                    width: "15%"
+                }, {
+                    field: "DOCUMENT_TITLE_NAME",
+                    title: "제목",
+                    width: "20%"
+                }, {
+                    field: "SHIPMENT_DATE",
+                    title: "발송 일자",
+                    width: "10%"
+                }, {
+                    field: "MANAGER_NAME",
+                    title: "담당자",
+                    width: "10%"
+                }, {
+                    title: "비고",
+                    width: "5%",
+                    template: function(row){
+                        if(row.ETC_CN != "") {
+                            return "<span onmouseover='docuList.showEtcDiv(\""+row.DOCUMENT_SN+"\")' onmouseout='docuList.hideEtcDiv(\""+row.DOCUMENT_SN+"\")'>보기</span>";
+                        }
+                    }
+                }]
+        }).data("kendoGrid");
+    },
+
+    showEtcDiv: function(documentSn){
+        console.log(documentSn);
+    },
+
+    hideEtcDiv: function(documentSn){
+        console.log("outo");
+    },
+
+    documentPopup: function(){
         var url = "/Inside/pop/documentPop.do";
         var name = "popup test";
         var option = "width = 750, height = 360, top = 100, left = 200, location = no"

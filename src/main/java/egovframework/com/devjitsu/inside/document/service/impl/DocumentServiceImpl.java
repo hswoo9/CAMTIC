@@ -16,6 +16,11 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentRepository documentRepository;
 
     @Override
+    public List<Map<String, Object>> getDocumentList(Map<String, Object> params){
+        return documentRepository.getDocumentList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getSnackList(Map<String, Object> params){
         return documentRepository.getSnackList(params);
     }
@@ -23,6 +28,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Map<String, Object> getSnackOne(Map<String, Object> params){
         return documentRepository.getSnackOne(params);
+    }
+
+    @Override
+    public void setDocumentInsert(Map<String, Object> params) {
+        documentRepository.setDocumentInsert(params);
     }
 
     @Override

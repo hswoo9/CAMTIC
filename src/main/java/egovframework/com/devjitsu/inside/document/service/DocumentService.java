@@ -6,6 +6,13 @@ import java.util.Map;
 public interface DocumentService {
 
     /**
+     * 등록대장 리스트 조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getDocumentList(Map<String, Object> params);
+
+    /**
      * 식대대장 리스트 조회
      * @param params
      * @return
@@ -18,6 +25,12 @@ public interface DocumentService {
      * @return
      */
     Map<String, Object> getSnackOne(Map<String, Object> params);
+
+    /**
+     * 등록대장 문서등록
+     * @param params
+     */
+    void setDocumentInsert(Map<String, Object> params);
 
     /**
      * 식대대장 신청

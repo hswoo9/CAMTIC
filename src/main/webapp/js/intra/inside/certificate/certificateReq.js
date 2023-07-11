@@ -44,7 +44,7 @@ var certificateReq = {
 
             },
             error : function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
+                alert("데이터 삭제 중 에러가 발생했습니다.");
                 window.close();
             }
         });

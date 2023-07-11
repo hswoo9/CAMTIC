@@ -3,6 +3,27 @@
 
 <mapper namespace="document">
 
+    <select id="getDocumentList" resultType="map" parameterType="map">
+        /* getDocumentList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    CCD.*,
+                    DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
+                    DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
+                FROM
+                    CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                ORDER BY CCD.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <select id="getSnackList" resultType="map" parameterType="map">
         /* getSnackList */
         SELECT
@@ -56,8 +77,46 @@
             SNACK_INFO_SN = #{snackInfoSn}
     </select>
 
+    <insert id="setDocumentInsert" parameterType="map">
+        /* setDocumentInsert */
+        INSERT INTO CAM_COMMON.DJ_CAMTIC_DOCUMENT
+            (
+                DOCUMENT_PART_TYPE,
+                DOCUMENT_PART_NAME,
+                EFFECTIVE_DT,
+                SHIPMENT_DT,
+                RECEIVE_NAME,
+                MANAGER_SN,
+                MANAGER_NAME,
+                DOCUMENT_TITLE_NAME,
+                REMARK_CN,
+                DOCUMENT_FIRST_NUMBER,
+                DOCUMENT_SECOND_NUMBER,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REG_DT
+            )
+        VALUES
+            (
+                #{documentPartType},
+                #{documentPartName},
+                #{effectiveDt},
+                #{shipmentDt},
+                #{receiveName},
+                #{managerSn},
+                #{managerName},
+                #{documentTitleName},
+                #{remarkCn},
+                CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(now(), '%Y'), 2)),
+                (SELECT IFNULL(MAX(SCCD.DOCUMENT_SECOND_NUMBER), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.DOCUMENT_FIRST_NUMBER = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+                #{regEmpSeq},
+                #{regEmpName},
+                NOW()
+            )
+    </insert>
+
     <insert id="setSnackInsert" parameterType="map">
-        /* setCertificateInsert */
+        /* setSnackInsert */
         INSERT INTO CAM_INSIDE.DJ_SNACK_INFO
             (
                 USE_DT,

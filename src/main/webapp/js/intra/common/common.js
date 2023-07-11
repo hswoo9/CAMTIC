@@ -82,6 +82,10 @@ function fn_checkAll(headerCheckBoxId, checkBoxName){
     }
 }
 
+function userSearch() {
+    window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
+}
+
 function fn_userMultiSelectPop() {
     window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }

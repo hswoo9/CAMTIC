@@ -39,22 +39,22 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>구분</span>
-                                    <input type="text" id="deptComp" style="width: 150px;">
+                                    <input type="text" id="documentPart" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
                                     <span>제목선택</span>
-                                    <input type="text" id="title" style="width: 200px;">
+                                    <input type="text" id="searchType" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="text" id="titleContent" style="width: 200px;">
+                                    <input type="text" id="searchText" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">
                                         <span>검색</span>
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="documentList.documentPopup();">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docuList.documentPopup();">
                                         문서등록
                                     </button>
                                 </div>
@@ -68,10 +68,13 @@
         <div class="panel-body">
             <div id="mainGrid"></div>
         </div>
+
+        <div style="width: 800px; height: 40px">
+            123
+        </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    documentList.fn_defaultScript();
-    documentList.mainGrid();
+    docuList.init();
 </script>
