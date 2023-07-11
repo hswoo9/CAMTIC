@@ -1,5 +1,8 @@
 package egovframework.com.devjitsu.inside.asset.service;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +11,7 @@ public interface AssetService {
     /** 자산관리 - 자산리스트 */
     List<Map<String, Object>> getAssetList(Map<String, Object> params);
     List<Map<String, Object>> getInsideCodeList(Map<String, Object> params);
-    void setAssetInfo(Map<String, Object> params);
+    void setAssetInfo(Map<String, Object> params, MultipartFile relatedFile, MultipartFile astFile, String server_dir, String base_dir);
     Map<String, Object> getAssetInfo(Map<String, Object> params);
     Map<String, Object> getAssetInfoAll(Map<String, Object> params);
     Map<String, Object> getAstManage();

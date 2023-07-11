@@ -102,7 +102,9 @@
             AI.EMP_NAME,
             AI.PURPOSE,
             AI.REMARK,
-            IC.INSIDE_DT_CODE_NM
+            IC.INSIDE_DT_CODE_NM,
+            AI.AST_FILE_NO,
+            AI.RELATED_FILE_NO
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
         JOIN
@@ -222,6 +224,10 @@
                 #{remark},
                 #{empSeq}
             )
+
+        <selectKey keyProperty="astInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_ASSET_INFO'
+        </selectKey>
     </insert>
 
     <update id="setAssetInfoUpd" parameterType="map">
@@ -256,6 +262,26 @@
             REMARK = #{remark},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </update>
+
+    <update id="setAstFileNoUpd" parameterType="map">
+        /* setAstFileNoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO
+        SET
+            AST_FILE_NO = #{astFileNo}
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </update>
+
+    <update id="setAstRelatedFileNoUpd" parameterType="map">
+        /* setAstRelatedFileNoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO
+        SET
+            RELATED_FILE_NO = #{relatedFileNo}
         WHERE
             AST_INFO_SN = #{astInfoSn}
     </update>

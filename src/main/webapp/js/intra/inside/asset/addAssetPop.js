@@ -89,37 +89,47 @@ var addAssetPop = {
         }
 
         if(confirm("자산을 등록하시겠습니까?")){
-            addAssetPop.global.saveAjaxData = {
-                astInfoSn : $("#astInfoSn").val(),
-                astCodeCompanyId : $("#astCodeCompanyId").val(),
-                astCodeTypeId : $("#astCodeTypeId").val(),
-                astCodeId1 : $("#astCodeId1").val(),
-                astCodeId2 : $("#astCodeId2").val(),
-                astCodeId3 : $("#astCodeId3").val(),
-                astStsCode : $("#astStsCode").val(),
-                astPlaceSn : $("#astPlaceSn").val(),
-                astNo : $("#astCodeCompanyId").val() + $("#astCodeTypeId").val() + $("#astCodeId1").val() + $("#astCodeId2").val() + $("#astCodeId3").val(),
-                astName : $("#astName").val(),
-                purcDate : $("#purcDate").val(),
-                purcPrice : $("#purcPrice").val(),
-                purcCompanyId : $("#purcCompanyId").val(),
-                modelSize : $("#modelSize").val(),
-                modelName : $("#modelName").val(),
-                mfCompany : $("#mfCompany").val(),
-                orgCountry : $("#orgCountry").val(),
-                qty : $("#qty").val(),
-                unit : $("#unitText").val(),
-                regType : $("#regType").val(),
-                barcodeType : $("#barcodeType").val(),
-                fundingSource : $("#fundingSource").data("kendoRadioGroup").value(),
-                expAccount : $("#expAccount").val(),
-                empName : $("#empName").val(),
-                purpose : $("#purpose").val(),
-                remark : $("#remark").val(),
-                empSeq : $("#empSeq").val()
+            var formData = new FormData();
+            formData.append("menuCd", $("#menuCd").val());
+            formData.append("astInfoSn", $("#astInfoSn").val());
+            formData.append("astCodeCompanyId", $("#astCodeCompanyId").val());
+            formData.append("astCodeTypeId", $("#astCodeTypeId").val());
+            formData.append("astCodeId1", $("#astCodeId1").val());
+            formData.append("astCodeId2", $("#astCodeId2").val());
+            formData.append("astCodeId3", $("#astCodeId3").val());
+            formData.append("astStsCode", $("#astStsCode").val());
+            formData.append("astPlaceSn", $("#astPlaceSn").val());
+            formData.append("astNo", $("#astCodeCompanyId").val() + $("#astCodeTypeId").val() + $("#astCodeId1").val() + $("#astCodeId2").val() + $("#astCodeId3").val());
+            formData.append("astName", $("#astName").val());
+            formData.append("purcDate", $("#purcDate").val());
+            formData.append("purcPrice", $("#purcPrice").val());
+            formData.append("purcCompanyId", $("#purcCompanyId").val());
+            formData.append("modelSize", $("#modelSize").val());
+            formData.append("modelName", $("#modelName").val());
+            formData.append("mfCompany", $("#mfCompany").val());
+            formData.append("orgCountry", $("#orgCountry").val());
+            formData.append("qty", $("#qty").val());
+            formData.append("unit", $("#unitText").val());
+            formData.append("regType", $("#regType").val());
+            formData.append("barcodeType", $("#barcodeType").val());
+            formData.append("fundingSource", $("#fundingSource").data("kendoRadioGroup").value());
+            formData.append("expAccount", $("#expAccount").val());
+            formData.append("empName", $("#empName").val());
+            formData.append("purpose", $("#purpose").val());
+            formData.append("remark", $("#remark").val());
+            formData.append("empSeq", $("#empSeq").val());
+
+
+            if($("#relatedFile")[0].files.length == 1){
+                formData.append("relatedFile", $("#relatedFile")[0].files[0]);
             }
 
-            var result = customKendo.fn_customAjax('/inside/setAssetInfo.do', addAssetPop.global.saveAjaxData);
+            if($("#astFile")[0].files.length == 1){
+                formData.append("astFile", $("#astFile")[0].files[0]);
+            }
+
+
+            var result = customKendo.fn_customFormDataAjax('/inside/setAssetInfo.do', formData);
             if(result.flag){
                 alert("자산이 등록되었습니다.");
                 opener.parent.assetList.gridReload();
@@ -310,6 +320,10 @@ var addAssetPop = {
         }
     },
 
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
+    },
+
     modDataInit : function(){
         window.resizeTo(1100, 785);
 
@@ -350,6 +364,14 @@ var addAssetPop = {
             $("#empName").val(result.data.EMP_NAME);
             $("#purpose").val(result.data.PURPOSE);
             $("#remark").val(result.data.REMARK);
+
+            if(result.data.astFile != null){
+                $("#astFileName").text(result.data.astFile.file_org_name + "." + result.data.astFile.file_ext);
+            }
+
+            if(result.data.relatedFile != null){
+                $("#relatedFileName").text(result.data.relatedFile.file_org_name + "." + result.data.relatedFile.file_ext);
+            }
         }
     },
 }

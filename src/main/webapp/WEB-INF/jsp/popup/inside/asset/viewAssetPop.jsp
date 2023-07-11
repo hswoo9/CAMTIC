@@ -177,13 +177,19 @@
                     <tr>
                         <th scope="row" class="text-center th-color">관련 파일</th>
                         <td colspan="3" style="padding:5px;">
-
+                            <c:if test="${data.relatedFile ne null}">
+                                <span onclick="fileDown('${data.relatedFile.file_path}${data.relatedFile.file_uuid}', '${data.relatedFile.file_org_name}.${data.relatedFile.file_ext}')">
+                                    ${data.relatedFile.file_org_name}.${data.relatedFile.file_ext}
+                                </span>
+                            </c:if>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">자산 사진</th>
                         <td colspan="3" style="padding:5px;">
-
+                            <c:if test="${data.astFile ne null}">
+                                <img src="${data.astFile.file_path}${data.astFile.file_uuid}">
+                            </c:if>
                         </td>
                     </tr>
                     <tr>
@@ -209,4 +215,11 @@
     function assetModPop(){
         self.location.href = "/inside/addAssetPop.do?astInfoSn=" + $("#astInfoSn").val() + "&modify=Y";
     }
+
+    function fileDown(filePath, fileName){
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+        });
+    }
+
 </script>

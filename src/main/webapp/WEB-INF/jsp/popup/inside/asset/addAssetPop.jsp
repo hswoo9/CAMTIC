@@ -28,6 +28,7 @@
             </div>
 
             <div style="padding: 20px 30px;">
+                <input type="hidden" id="menuCd" name="menuCd" value="${params.menuCd}">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
                 <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
                 <input type="hidden" id="mod" name="mod" value="${params.modify}">
@@ -140,13 +141,17 @@
                     <tr>
                         <th scope="row" class="text-center th-color">관련 파일</th>
                         <td colspan="3" style="padding:5px;">
-                            <input type="file">
+                            <label for="relatedFile" class="k-button k-button-solid-base">파일첨부</label>
+                            <input type="file" id="relatedFile" name="relatedFile" onchange="addAssetPop.fileChange(this)" style="display: none">
+                            <span id="relatedFileName"></span>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">자산 사진</th>
                         <td colspan="3" style="padding:5px;">
-                            <input type="file">
+                            <label for="astFile" class="k-button k-button-solid-base">파일첨부</label>
+                            <input type="file" id="astFile" name="astFile" onchange="addAssetPop.fileChange(this)" style="display: none">
+                            <span id="astFileName"></span>
                         </td>
                     </tr>
                     </tbody>

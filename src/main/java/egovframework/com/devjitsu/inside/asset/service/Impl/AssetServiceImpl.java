@@ -1,11 +1,19 @@
 package egovframework.com.devjitsu.inside.asset.service.Impl;
 
+import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.inside.asset.repository.AssetRepository;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +23,9 @@ public class AssetServiceImpl implements AssetService {
 
     @Autowired
     private AssetRepository assetRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public List<Map<String, Object>> getAssetList(Map<String, Object> params) {
@@ -27,7 +38,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void setAssetInfo(Map<String, Object> params) {
+    public void setAssetInfo(Map<String, Object> params, MultipartFile relatedFile, MultipartFile astFile, String server_dir, String base_dir) {
         params.put("astNo", params.get("astNo") + "-" + assetRepository.getAssetInfoBarcordMax(params));
         if(StringUtils.isEmpty(params.get("astInfoSn"))){
             assetRepository.setAssetInfo(params);
@@ -35,16 +46,63 @@ public class AssetServiceImpl implements AssetService {
             assetRepository.setAssetInfoUpd(params);
         }
 
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+
+        if(!relatedFile.isEmpty()){
+            fileInsMap = mainLib.fileUpload(relatedFile, filePath(params, server_dir));
+            fileInsMap.put("astInfoSn", params.get("astInfoSn"));
+            fileInsMap.put("fileCd", params.get("menuCd"));
+            fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+            fileInsMap.put("filePath", filePath(params, base_dir));
+            fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+            fileInsMap.put("empSeq", params.get("empSeq"));
+            commonRepository.insOneFileInfo(fileInsMap);
+
+            fileInsMap.put("relatedFileNo", fileInsMap.get("file_no"));
+            assetRepository.setAstRelatedFileNoUpd(fileInsMap);
+        }
+
+        if(!astFile.isEmpty()){
+            fileInsMap = mainLib.fileUpload(astFile, filePath(params, server_dir));
+            fileInsMap.put("astInfoSn", params.get("astInfoSn"));
+            fileInsMap.put("fileCd", params.get("menuCd"));
+            fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+            fileInsMap.put("filePath", filePath(params, base_dir));
+            fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+            fileInsMap.put("empSeq", params.get("empSeq"));
+            commonRepository.insOneFileInfo(fileInsMap);
+
+            fileInsMap.put("astFileNo", fileInsMap.get("file_no"));
+            assetRepository.setAstFileNoUpd(fileInsMap);
+        }
+
     }
 
     @Override
     public Map<String, Object> getAssetInfo(Map<String, Object> params) {
-        return assetRepository.getAssetInfo(params);
+        Map<String, Object> returnMap = assetRepository.getAssetInfo(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
+        returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
+        returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+        return returnMap;
     }
 
     @Override
     public Map<String, Object> getAssetInfoAll(Map<String, Object> params) {
-        return assetRepository.getAssetInfoAll(params);
+        Map<String, Object> returnMap = assetRepository.getAssetInfoAll(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
+        returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
+        returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+
+        return returnMap;
     }
 
     @Override
@@ -295,4 +353,13 @@ public class AssetServiceImpl implements AssetService {
         assetRepository.setBookInsert(params);
     }
 
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
+    }
 }

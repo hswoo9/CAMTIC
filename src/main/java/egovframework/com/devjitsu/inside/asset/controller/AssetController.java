@@ -6,12 +6,15 @@ import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +25,12 @@ import java.util.*;
 public class AssetController {
 
     private static final Logger logger = LoggerFactory.getLogger(AssetController.class);
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     @Autowired
     private UserService userService;
@@ -81,6 +90,7 @@ public class AssetController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        params.put("menuCd", "asset");
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
 
@@ -93,8 +103,10 @@ public class AssetController {
      * @return
      */
     @RequestMapping("/inside/setAssetInfo.do")
-    public String setAssetInfo(@RequestParam Map<String,Object> params) {
-        assetService.setAssetInfo(params);
+    public String setAssetInfo(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request) {
+        MultipartFile relatedFile = request.getFile("relatedFile");
+        MultipartFile astFile = request.getFile("astFile");
+        assetService.setAssetInfo(params, relatedFile, astFile, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 

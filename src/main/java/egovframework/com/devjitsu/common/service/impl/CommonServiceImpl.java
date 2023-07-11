@@ -11,6 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +37,55 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private MenuManagementRepository menuManagementRepository;
+
+    @Override
+    public void fileDownLoad(String fileNm, String path, String fileType, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InputStream in = null;
+        OutputStream out = null;
+
+        fileNm = URLDecoder.decode(fileNm, "utf-8");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("121.186.165.80")){
+            path = "http://121.186.165.80:8010" + path;
+        }else{
+            path = "http://10.10.10.114:80" + path;
+        }
+
+        String header = request.getHeader("User-Agent");
+        if(header.contains("MSIE") || header.contains("Trident")) {
+            fileNm = URLEncoder.encode(fileNm, "UTF-8").replaceAll("\\+", "%20");
+            System.out.println("MSIE" + fileNm);
+            response.setHeader("Content-Disposition", "attachment; filename="+ fileNm +";");
+        } else {
+            System.out.println("else" + fileNm);
+            fileNm = new String(fileNm.getBytes("UTF-8"), "iso-8859-1");
+            response.setHeader("Content-Disposition", "attachment; filename=\""+ fileNm +"\"");
+        }
+
+        response.setHeader("Pragma", "no-cache;");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        out = response.getOutputStream();
+        String fileUrl = path;
+        URL url = new URL(fileUrl);
+
+        // 만약 프로토콜이 https 라면 https SSL을 무시하는 로직을 수행해주어야 한다.('https 인증서 무시' 라는 키워드로 구글에 검색하면 많이 나옵니다.)
+        disableSslVerification();
+
+        in = url.openStream();
+        while(true){
+            //파일을 읽어온다.
+            int data = in.read();
+            if(data == -1){
+                break;
+            }
+            //파일을 쓴다.
+            out.write(data);
+        }
+        in.close();
+        out.close();
+    }
 
     @Override
     public String ctDept(String deptSeq) {
@@ -155,5 +215,42 @@ public class CommonServiceImpl implements CommonService {
         }
 
         return result;
+    }
+
+    public void disableSslVerification(){
+        // TODO Auto-generated method stub
+        try
+        {
+            // Create a trust manager that does not validate certificate chains
+            TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+                public void checkClientTrusted(X509Certificate[] certs, String authType){
+                }
+                public void checkServerTrusted(X509Certificate[] certs, String authType){
+                }
+            }
+            };
+
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session){
+                    return true;
+                }
+            };
+
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
     }
 }

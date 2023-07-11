@@ -39,6 +39,15 @@ public class CommonController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
+    @RequestMapping(value = "/common/fileDownload.do")
+    public void fileDownload(@RequestParam Map<String, Object> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String fileName = params.get("fileName") != null ? String.valueOf(params.get("fileName")) : "";
+        String filePath = params.get("filePath") != null ? String.valueOf(params.get("filePath")) : "";
+        String fileType = params.get("fileType") != null ? String.valueOf(params.get("fileType")) : "";
+
+        commonService.fileDownLoad(fileName, filePath, fileType, request, response);
+    }
+
     @RequestMapping(value = "/common/empInformation", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> empInformation(@RequestParam Map<String, Object> map){

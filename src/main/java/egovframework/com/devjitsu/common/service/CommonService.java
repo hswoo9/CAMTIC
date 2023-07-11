@@ -2,10 +2,23 @@ package egovframework.com.devjitsu.common.service;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
 public interface CommonService {
+
+    /**
+     * 다운로드
+     * @param fileNm
+     * @param path
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    void fileDownLoad(String fileNm, String path, String fileType, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
     /**
      * KendoTreeView 조직도
      * @param deptSeq
