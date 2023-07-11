@@ -33,32 +33,28 @@
                 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
                 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="60%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0;">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>구분</span>
-                                    <input type="text" id="division" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>검색구분</span>
-                                    <input type="text" id="title" style="width: 200px; margin-right:10px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="text" id="titleContent" style="width: 200px;">
-                                </div>
-                                <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                        <span>검색</span>
-                                    </button>
-                                </div>
-                                <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="docuList.docuPopup();">
-                                        문서등록
-                                    </button>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="division" style="width:150px;">
+                        </td>
+                        <th class="text-center th-color">검색구분</th>
+                        <td>
+                            <input type="text" id="title" style="width:200px;">
+                            <input type="text" id="titleContent" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                <span>검색</span>
+                            </button>
+                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="docuList.docuPopup();">
+                                문서등록
+                            </button>
                         </td>
                     </tr>
                 </table>

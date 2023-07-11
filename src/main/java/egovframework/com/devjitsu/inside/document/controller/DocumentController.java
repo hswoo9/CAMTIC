@@ -190,6 +190,14 @@ public class DocumentController {
         return "popup/inside/document/snackPrintPop";
     }
 
+    //등록대장 리스트 조회
+    @RequestMapping("/inside/getDocumentList")
+    public String getDocumentList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = documentService.getDocumentList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //식대대장 리스트 조회
     @RequestMapping("/inside/getSnackList")
     public String getSnackList(@RequestParam Map<String, Object> params, Model model) {
@@ -203,6 +211,13 @@ public class DocumentController {
     public String getSnackOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = documentService.getSnackOne(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    //등록대장 문서등록
+    @RequestMapping("/inside/setDocumentInsert")
+    public String setDocumentInsert(@RequestParam Map<String, Object> params) {
+        documentService.setDocumentInsert(params);
         return "jsonView";
     }
 

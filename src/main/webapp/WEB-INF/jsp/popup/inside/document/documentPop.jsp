@@ -6,54 +6,25 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
 <script type="text/javascript" src="/js/intra/inside/document/documentPop.js?v=${today}"/></script>
-
-<!DOCTYPE html>
-<html>
-<body>
+<body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="documentSn" value="${data.documentSn}"/>
 <div class="card">
     <div class="card-header" style="padding:20px 0;">
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="20%">
@@ -67,38 +38,37 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>구분</th>
-                        <td><input type="text" id="division" style="width: 150px; margin-right:10px;"></td>
-                        <td colspan="3"></td>
+                        <td colspan="3"><input type="text" id="documentPart" style="width: 150px; margin-right:10px;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>시행 일자</th>
-                        <td><input type="text" id="startDay" onchange="dateValidationCheck('startDay', this.value)" style="width: 100%;"></td>
+                        <td><input type="text" id="effectiveDt" style="width: 100%;"></td>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>발송 일자</th>
-                        <td><input type="text" id="endDay" onchange="dateValidationCheck('endDay', this.value)" style="width: 100%;"></td>
+                        <td><input type="text" id="shipmentDt" style="width: 100%;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>수신처</th>
-                        <td><input type="text" id="destination" style="width: 96%;" value="내부 결재"></td>
+                        <td><input type="text" id="receiveName" style="width: 100%;" value="내부 결재"></td>
                         <th scope="row" class="text-center th-color">담당자</th>
-                        <td><input type="text" id="manager" style="width: 50%;" value="홍길동">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:90px; height:27px; line-height:0;" onclick="">
-                                직원 선택
+                        <td><input type="text" id="empName" style="width: 74%;" value=""><input type="hidden" id="empSeq" style="width: 50%;" value="">
+                            <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch();">
+                                검색
                             </button>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>제목</th>
-                        <td colspan="3"><input type="text" id="title" style="width: 100%;"></td>
+                        <td colspan="3"><input type="text" id="documentTitleName" style="width: 100%;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">비고</th>
-                        <td colspan="3"><textarea type="text" id="remark" style="width: 100%;"></textarea></td>
+                        <td colspan="3"><textarea type="text" id="remarkCn" style="width: 100%;"></textarea></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
+                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="docuReq.saveBtn();"/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기"  onclick=""/>
             </div>
         </div>
@@ -107,8 +77,7 @@
 
 
 <script>
-    documentPop.fn_defaultScript();
-    overWk.fn_defaultScript();
+    docuReq.init();
 </script>
 </body>
 </html>

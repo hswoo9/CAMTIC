@@ -9,12 +9,20 @@ import java.util.Map;
 @Repository
 public class DocumentRepository extends AbstractDAO {
 
+    public List<Map<String, Object>> getDocumentList(Map<String, Object> params) {
+        return selectList("document.getDocumentList", params);
+    }
+
     public List<Map<String, Object>> getSnackList(Map<String, Object> params) {
         return selectList("document.getSnackList", params);
     }
 
     public Map<String, Object> getSnackOne(Map<String, Object> params) {
         return (Map<String, Object>)selectOne("document.getSnackOne", params);
+    }
+
+    public void setDocumentInsert(Map<String, Object> params) {
+        insert("document.setDocumentInsert", params);
     }
 
     public void setSnackInsert(Map<String, Object> params) {

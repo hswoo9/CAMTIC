@@ -11,17 +11,26 @@
     <select id="getUserList" parameterType="map" resultType="map">
         /* getUserList */
         SELECT
-            *
+            VEI.EMP_SEQ,
+            VEI.EMP_NAME_KR,
+            VEI.LOGIN_ID,
+            VEI.DEPT_SEQ,
+            VEI.DEPT_NAME,
+            VEI.POSITION_CODE,
+            VEI.POSITION_NAME,
+            VEI.POSITION_CODE AS POSITION_NAME,
+            VEI.DUTY_CODE,
+            VEI.DUTY_NAME
         FROM
-            DJ_CAMTIC.V_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO VEI
         WHERE
             1 = 1
         AND VEI.ACTIVE = 'Y'
         <if test="DEPT_SEQ != null and DEPT_SEQ != ''">
-        AND VEI.DEPT_SEQ = #{DEPT_SEQ}
+            AND VEI.DEPT_SEQ = #{DEPT_SEQ}
         </if>
         <if test="deptName != null and deptName != ''">
-        AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
+            AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
         </if>
     </select>
 
