@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <style>
     .card-header {padding: 0px 0px 40px 0px;}
-    }
 </style>
 <script type="text/javascript" src="/js/intra/inside/document/docOrderPop.js?v=${today}"/></script>
 
