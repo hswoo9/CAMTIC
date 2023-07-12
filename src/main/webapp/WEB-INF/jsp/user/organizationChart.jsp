@@ -10,10 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-</style>
-
 <link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
@@ -29,8 +25,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">조직도관리</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 조직도관리</div>
+            <h4 class="panel-title">조직도 관리</h4>
+            <div class="title-road">캠인사이드 > 인사관리 > 조직도 관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

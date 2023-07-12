@@ -16,13 +16,13 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title" style="margin-bottom: 5px;">인사관리</h4>
-            <div>직원조회목록</div>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 &gt; 인사관리</div>
+            <div>직원조회 목록</div>
+            <div class="title-road">캠인사이드 > 인사관리 &gt; 인사관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
-                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered">
                     <colgroup>
                         <col width="10%">
                         <col width="10%">
@@ -149,7 +149,7 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">상세검색</h4>
+            <h4 class="panel-title" style="margin-bottom: 20px;">상세검색</h4>
             <div class="title-road" style="text-align: right; margin-bottom: 5px;"></div>
             <div id="startView1" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>

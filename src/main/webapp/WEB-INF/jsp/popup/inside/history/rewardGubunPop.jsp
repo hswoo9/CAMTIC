@@ -27,7 +27,7 @@
     </div>
   </div>
   <form id="rewardGubunPop" style="padding: 20px 30px;">
-    <table class="popTable table table-bordered" style="margin-top: 10px;">
+    <table class="popTable table table-bordered">
         <colgroup>
           <col width="20%">
           <col width="45%">
