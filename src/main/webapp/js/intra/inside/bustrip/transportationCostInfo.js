@@ -69,14 +69,14 @@ var transportationCostInfo = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
                             '	<span class="k-button-text">입력</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -87,8 +87,8 @@ var transportationCostInfo = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="transportationCostInfo.fn_checkAll()" class=""/>',
+                    template : "<input type='checkbox' id='' name='' value='' class='tspcheck'/>",
                     width: 50
                 }, {
                     field: "",
@@ -125,5 +125,13 @@ var transportationCostInfo = {
         var name = "recruitAdminPop";
         var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='tspcheck']").prop("checked", true);
+        }else{
+            $("input[name='tspcheck']").prop("checked", false);
+        }
+    },
 }
