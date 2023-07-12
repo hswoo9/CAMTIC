@@ -33,6 +33,12 @@ public interface DocumentService {
     void setDocumentInsert(Map<String, Object> params);
 
     /**
+     * 개발사업수주대장 등록
+     * @param params
+     */
+    void setDocuOrderInsert(Map<String, Object> params);
+
+    /**
      * 식대대장 신청
      * @param params
      */

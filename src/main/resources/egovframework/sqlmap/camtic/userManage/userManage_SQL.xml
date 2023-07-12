@@ -163,9 +163,9 @@
             RES_REGIS_NUM,
             CAPS_NUM,
             DUTY_CODE,
+            POSITION_CODE,
             DEPT_NAME,
             DEPT_SEQ,
-            DEPT_TEAM_SEQ,
             DEPT_TEAM_NAME,
             JOB_DETAIL,
             BEFOR_CAREER,
@@ -196,7 +196,8 @@
             DIVISION_SUB,
             REG_EMP_SEQ,
             ACTIVE,
-            CAR_ACTIVE
+            CAR_ACTIVE,
+            JOIN_DAY
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -205,9 +206,9 @@
             #{RES_REGIS_NUM},
             #{CAPS_NUM},
             #{DUTY_CODE},
+            #{POSITION_CODE},
             #{DEPT_NAME},
             #{DEPT_SEQ},
-            #{DEPT_TEAM_SEQ},
             #{DEPT_TEAM_NAME},
             #{JOB_DETAIL},
             #{BEFOR_CAREER},
@@ -238,7 +239,8 @@
             #{divisionSub},
             #{regEmpSeq},
             #{ACTIVE},
-            #{CAR_ACTIVE}
+            #{CAR_ACTIVE},
+            #{JOIN_DAY}
         )
     </insert>
 
@@ -278,7 +280,9 @@
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
-        date_format(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        date_format(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+        (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = (SELECT CM_GROUP_CODE_ID FROM CAM_COMMON.DJ_COM_GROUP_CODE WHERE CM_GROUP_CODE = "DUTY") AND CM_CODE = HEI.DUTY_CODE) AS DUTY_NM2,
+        (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = (SELECT CM_GROUP_CODE_ID FROM CAM_COMMON.DJ_COM_GROUP_CODE WHERE CM_GROUP_CODE = "POSITION") AND CM_CODE = HEI.POSITION_CODE) AS POSITION_NM2
         FROM
         CAM_HR.DJ_EMP_INFO	AS HEI
         LEFT JOIN

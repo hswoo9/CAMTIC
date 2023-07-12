@@ -115,7 +115,7 @@ var userReqPop = {
         // 아이디 중복체크
         $("#idCheck").click(function(){
             var data = {
-                id : $("#loginId").val()
+                loginId : $("#loginId").val()
             }
 
             var rs = customKendo.fn_customAjax("/user/getIdCheck", data);
@@ -128,7 +128,7 @@ var userReqPop = {
             }
         });
 
-        $("#positionOrNum").kendoDropDownList({
+        $("#position").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -219,16 +219,16 @@ var userReqPop = {
             index: 0
         });
 
-        $("#positionName").kendoDropDownList({
+        $("#duty").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 {text: "선택하세요", value: ""},
-                {text: "원장", value: "원장"},
-                {text: "본부장", value: "본부장"},
-                {text: "사업부장", value: "사업부장"},
-                {text: "센터장", value: "센터장"},
-                {text: "팀장", value: "팀장"}
+                {text: "원장", value: "1"},
+                {text: "본부장", value: "2"},
+                {text: "사업부장", value: "3"},
+                {text: "센터장", value: "4"},
+                {text: "팀장", value: "5"}
             ],
             index: 0
         });
@@ -646,8 +646,9 @@ var userReqPop = {
             OFFICE_TEL_NUM : $("#officeTelNum").val(), //전화번호
             MOBILE_TEL_NUM : $("#mobileTelNum").val(), //전화번호
             EMAIL_ADDR : $("#emailAddr").val(), //이메일
-
-
+            JOIN_DAY : $("#regDate").val(), // 입사일자
+            POSITION_CODE : $("#position").val(), // 직급 / 등급
+            DUTY_CODE : $("#duty").val(), // 직책
             CAR_NUM : $("#carNum1").val()+$("#carNum2").val()+$("#carNum3").val(), //차량번호
             EMP_NAME_CN : $("#empNameCn").val(), //한자 이름
             EMP_NAME_EN : $("#empNameEn").val(), //영문 이름
@@ -668,10 +669,14 @@ var userReqPop = {
             BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value() //혈액형
         }
 
+        if($("#deptTeamName").val() != '' && $("#deptTeamName").val() != null){
+            data.DEPT_SEQ = $("#deptTeamName").val();
+        }
+
         if($("#carActive").is(":checked")){
-            data.CAR_ACTIVE = "Y"
+            data.CAR_ACTIVE = "1"
         } else {
-            data.CAR_ACTIVE = "N"
+            data.CAR_ACTIVE = "0"
         }
 
         if($("#check3").is(":checked")){
@@ -732,6 +737,10 @@ var userReqPop = {
             type : "POST",
             async : false,
             success : function (result){
+                window.close();
+                opener.userPersonList.gridReload();
+            },
+            complete : function (){
                 window.close();
                 opener.userPersonList.gridReload();
             }

@@ -6,8 +6,8 @@ var assetList = {
     },
 
     fnDefaultScript : function(){
-        assetList.gridReload();
         assetList.kendoSetting();
+        assetList.gridReload();
     },
 
     gridReload : function(){
@@ -31,6 +31,8 @@ var assetList = {
     },
 
     mainGrid : function(url, params) {
+        var record = 0;
+
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url,params),
             scrollable: true,
@@ -78,7 +80,11 @@ var assetList = {
                     width: 50
                 }, {
                     field: "",
-                    title: "순번"
+                    title: "순번",
+                    width: 50,
+                    template : function(e){
+                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
+                    }
                 }, {
                     field: "AST_NO",
                     title: "자산 번호"
@@ -102,7 +108,11 @@ var assetList = {
                     title: "사용자"
                 }, {
                     field: "PURC_PRICE",
-                    title: "구입가격(원)"
+                    title: "구입가격(원)",
+                    attributes: { style: "text-align: right" },
+                    template : function(e){
+                        return e.PURC_PRICE.toString().toMoney() + "원";
+                    }
                 }, {
                     field: "INSIDE_DT_CODE_NM",
                     title: "상태"
@@ -119,7 +129,7 @@ var assetList = {
     assetManagePop : function() {
         var url = "/inside/assetManagePop.do";
         var name = "goodsManagePop";
-        var option = "width = 500, height = 255, top = 100, left = 200, location = no, _blank"
+        var option = "width = 500, height = 240, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -131,14 +141,14 @@ var assetList = {
 
         var url = "/inside/bulkChangePop.do?astInfoSn=" + id.substring(1);
         var name = "bulkChangePop";
-        var option = "width = 650, height = 425, top = 100, left = 200, location = no, _blank"
+        var option = "width = 650, height = 380, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     addAssetPopup : function() {
         var url = "/inside/addAssetPop.do";
         var name = "addAssetPop";
-        var option = "width = 1125, height = 720, top = 100, left = 200, location = no, _blank"
+        var option = "width = 1125, height = 700, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -153,7 +163,7 @@ var assetList = {
     viewAssetPop : function(astInfoSn) {
         var url = "/inside/viewAssetPop.do?astInfoSn=" + astInfoSn;
         var name = "viewAssetPop";
-        var option = "width = 950, height = 720, top = 100, left = 200, location = no, _blank"
+        var option = "width = 950, height = 620, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

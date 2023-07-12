@@ -17,4 +17,8 @@ public interface BustripService {
     void delBustripReq(Map<String, Object> params);
 
     Map<String, Object> getBustripReqInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripReqCheck(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params);
 }

@@ -194,4 +194,48 @@
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
+
+    <select id="getBustripReqCheck" parameterType="map" resultType="map">
+        /* getBustripReqCheck */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+            STATUS IN ('100') AND
+        <![CDATA[
+            TRIP_DAY_FR >= #{startDate} AND TRIP_DAY_TO <= #{endDate}
+        ]]>
+        <if test="projectCd != null and projectCd != ''">
+            AND
+            PROJECT_CD = #{projectCd}
+        </if>
+        <if test="busnName != null and busnName != ''">
+            AND
+            BUSN_NAME like concat('%', #{busnName}, '%')
+        </if>
+
+    </select>
+
+    <select id="getBistripTotInfo" parameterType="map" resultType="map">
+        /*getBistripTotInfo*/
+        SELECT
+            EMP_NAME,
+            EMP_SEQ
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+        UNION ALL
+        SELECT
+            EMP_NAME,
+            EMP_SEQ
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
 </mapper>
+
+
+

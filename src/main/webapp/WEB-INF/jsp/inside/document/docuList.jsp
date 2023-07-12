@@ -3,13 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner>.k-link {
-        justify-content: center;
-    }
-    table { background-color: white; }
-</style>
 <script type="text/javascript" src="/js/intra/inside/document/docuList.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -33,7 +26,7 @@
                 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
                 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
                         <col width="20%">

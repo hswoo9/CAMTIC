@@ -6,19 +6,14 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-    .card-header {padding: 0px 0px 40px 0px;}
-</style>
 <script type="text/javascript" src="/js/intra/inside/history/historyReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<div style="background-color: #00397f;">
-    <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
-        <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">인사발령 등록</h3>
-    </div>
+<div class="card-header pop-header">
+    <h3 class="card-title title_NM">인사발령 등록</h3>
 </div>
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">

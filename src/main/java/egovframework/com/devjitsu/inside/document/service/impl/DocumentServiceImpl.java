@@ -36,6 +36,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public void setDocuOrderInsert(Map<String, Object> params) {
+        documentRepository.setDocuOrderInsert(params);
+    }
+
+    @Override
     public void setSnackInsert(Map<String, Object> params) {
         documentRepository.setSnackInsert(params);
     }
