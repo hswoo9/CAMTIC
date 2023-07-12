@@ -245,14 +245,13 @@ var inBustripReqPop = {
         if(rs.status != 0 && rs.status != 30){
             $("#tripCode").data("kendoDropDownList").enable(false);
             $("#project").data("kendoDropDownList").enable(false);
-
-            $("#visitLoc").attr("disabled", true);
-            $("#visitLocSub").attr("disabled", true);
+            $("#visitLoc").data("kendoTextBox").enable(false);
+            $("#visitLocSub").data("kendoTextBox").enable(false);
+            $("#bustObj").data("kendoTextBox").enable(false);
             $("#date1").data("kendoDatePicker").enable(false);
             $("#date2").data("kendoDatePicker").enable(false);
             $("#time1").data("kendoTimePicker").enable(false);
             $("#time2").data("kendoTimePicker").enable(false);
-            $("#bustObj").attr("disabled", true);
             $("#carList").data("kendoDropDownList").enable(false);
             $("input[name='useCar']").attr("disabled", true);
             $("#popEmpSeq").val(popEmpSeq.slice(0, -1));

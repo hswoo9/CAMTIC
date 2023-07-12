@@ -126,7 +126,7 @@
                     <tr>
                         <th>직급/등급</th>
                         <td>
-                            <input type="text" id="positionOrNum" style="width: 50%;">
+                            <input type="text" id="position" style="width: 50%;">
                         </td>
                         <th>CAPS 번호</th>
                         <td>
@@ -145,7 +145,7 @@
                         </td>
                         <th>직책</th>
                         <td>
-                            <input type="text" id="positionName" style="width: 50%;">
+                            <input type="text" id="duty" style="width: 50%;">
                         </td>
                     </tr>
                     <tr>
@@ -500,16 +500,22 @@
         //console.log(${uprinfList.DEPT_PARENT_SEQ});
         var deptParentSeq = '${uprinfList.DEPT_PARENT_SEQ}'
         //부서만 있는 경우 1000, 그외는 부서, 팀 있는 경우
+        var deptDropDownList = $("#deptName").data("kendoDropDownList");
+
         if(deptParentSeq == "1000"){
 
-            $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
-            $("#deptTeamName").data("kendoDropDownList").text("${uprinfList.DEPT_TEAM_NAME}");
+            deptDropDownList.select("${uprinfList.DEPT_SEQ}");
+            deptDropDownList.trigger("change");
+            <%--$("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_TEAM_NAME}");--%>
         }else{
-            $("#deptName").data("kendoDropDownList").value("${uprinfList.DEPT_PARENT_SEQ}");
-            $("#deptTeamName").data("kendoDropDownList").text("${uprinfList.DEPT_NAME}");
+
+            deptDropDownList.select(${uprinfList.DEPT_PARENT_SEQ});
+            deptDropDownList.trigger("change");
+
+            $("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
         }
 
-        $("#positionOrNum").data("kendoDropDownList").enable(false);
+        $("#position").data("kendoDropDownList").enable(false);
         /*$("#divis").data("kendoDropDownList").enable(false);*/
 /*        $("#deptName").data("kendoDropDownList").enable(false);
         $("#deptTeamName").data("kendoDropDownList").enable(false);
@@ -562,11 +568,11 @@
         $("#divisDet").data("kendoDropDownList").value("${uprinfList.DIVISION_SUB}");
 
         //직급/등급 ---insert
-        $("#positionOrNum").data("kendoDropDownList").value();
+        $("#position").data("kendoDropDownList").value();
         //직군 ---insert
         $("#jobCode").data("kendoDropDownList").value("${uprinfList.JOB_NAME}");
         //직책
-        $("#positionName").data("kendoDropDownList").value("${uprinfList.DUTY_NAME}");
+        $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_NAME}");
         //학위 ---insert
         $("#degreeCode").data("kendoDropDownList").value("${uprinfList.DEGREE_CODE}");
 
