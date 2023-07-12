@@ -104,9 +104,7 @@ public class AssetController {
      */
     @RequestMapping("/inside/setAssetInfo.do")
     public String setAssetInfo(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request) {
-        MultipartFile relatedFile = request.getFile("relatedFile");
-        MultipartFile astFile = request.getFile("astFile");
-        assetService.setAssetInfo(params, relatedFile, astFile, SERVER_DIR, BASE_DIR);
+        assetService.setAssetInfo(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -184,6 +182,19 @@ public class AssetController {
 
         return "popup/inside/asset/bulkChangePop";
     }
+
+    /**
+     * 자산관리 > 자산리스트 - 일괄변경
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setAstInfoBatch.do")
+    public String setAstInfoBatch(@RequestParam Map<String,Object> params) {
+        assetService.setAstInfoBatch(params);
+        return "jsonView";
+    }
+
+
 
     //자산리스트 - 사업 선택 - 연구개발과제 선택 팝업
     @RequestMapping("/Inside/Pop/rdTaskPop.do")

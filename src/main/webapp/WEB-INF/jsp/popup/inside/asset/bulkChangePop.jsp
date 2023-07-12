@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .card-header {padding: 0px 0px 40px 0px;}
+    .card-header {padding: 0px 0px 0px 0px;}
     table { background-color: #00000008; }
     .table > tbody > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
@@ -21,7 +21,7 @@
                 <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
                     <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">일괄변경</h3>
                     <div style="margin-top:10px;">
-                        <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="bulkChangePop.setAstInfoBatch()">저장</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     <tbody>
                     <tr>
                         <td>
-                            <input type="checkbox" class="k-checkbox checkbox">
+                            <input type="checkbox" class="k-checkbox checkbox" id="astNameChk" name="astNameChk">
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>자산명
@@ -57,7 +57,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="checkbox" class="k-checkbox checkbox">
+                            <input type="checkbox" class="k-checkbox checkbox" id="empNameChk" name="empNameChk">
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>사용자
@@ -71,7 +71,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="checkbox" class="k-checkbox checkbox">
+                            <input type="checkbox" class="k-checkbox checkbox" id="purcPriceChk" name="purcPriceChk">
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>구입 가격
@@ -82,7 +82,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="checkbox" class="k-checkbox checkbox">
+                            <input type="checkbox" class="k-checkbox checkbox" id="astStsChk" name="astStsChk">
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>상태
@@ -93,7 +93,6 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="checkbox" class="k-checkbox checkbox">
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>사유

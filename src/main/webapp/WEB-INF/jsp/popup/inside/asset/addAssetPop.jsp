@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .card-header {padding: 0px 0px 40px 0px;}
+    .card-header {padding: 0px 0px 0px 0px;}
     table { background-color: #00000008; }
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
@@ -39,10 +39,14 @@
                         <col width="12%">
                         <col width="35%">
                     </colgroup>
-                    <tbody>
+                    <thead>
                     <tr>
-                        <th colspan="4">자산 추가</th>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            자산 정보 입력
+                        </th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>자산 구분</th>
                         <td colspan="3">

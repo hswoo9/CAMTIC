@@ -339,6 +339,30 @@
         WHERE
             AST_MANAGE_SN = #{astManageSn}
     </update>
+
+    <update id="setAstInfoBatch" parameterType="map">
+        /* setAstInfoBatch */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO
+        SET
+            <if test='astName != null and !"".equals(astName)'>
+                AST_NAME = #{astName},
+            </if>
+            <if test='empName != null and !"".equals(empName)'>
+                EMP_NAME = #{empName},
+            </if>
+            <if test='purcPrice != null and !"".equals(purcPrice)'>
+                PURC_PRICE = #{purcPrice},
+            </if>
+            <if test='astStsCode != null and !"".equals(astStsCode)'>
+                AST_STS_CODE = #{astStsCode},
+            </if>
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_INFO_SN IN(${astInfoSn})
+    </update>
+
     <!-- 자산리스트 종료 -->
 
     <!-- 분류관리 시작-->
