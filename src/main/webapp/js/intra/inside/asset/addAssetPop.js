@@ -101,13 +101,13 @@ var addAssetPop = {
             formData.append("menuCd", $("#menuCd").val());
             formData.append("astInfoSn", $("#astInfoSn").val());
             formData.append("astCodeCompanyId", $("#astCodeCompanyId").val());
-            formData.append("astCodeTypeId", $("#astCodeTypeId").val());
+            formData.append("astTypeCode", $("#astTypeCode").val());
             formData.append("astCodeId1", $("#astCodeId1").val());
             formData.append("astCodeId2", $("#astCodeId2").val());
             formData.append("astCodeId3", $("#astCodeId3").val());
             formData.append("astStsCode", $("#astStsCode").val());
             formData.append("astPlaceSn", $("#astPlaceSn").val());
-            formData.append("astNo", $("#astCodeCompanyId").val() + $("#astCodeTypeId").val() + $("#astCodeId1").val() + $("#astCodeId2").val() + $("#astCodeId3").val());
+            formData.append("astNo", $("#astCodeCompanyId").val() + $("#astTypeCode").val() + $("#astCodeId1").val() + $("#astCodeId2").val() + $("#astCodeId3").val());
             formData.append("astName", $("#astName").val());
             formData.append("purcDate", $("#purcDate").val());
             formData.append("purcPrice", $("#purcPrice").val().toString().toMoney2());
@@ -168,7 +168,7 @@ var addAssetPop = {
         });
 
         addAssetPop.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getClassDivisionList", {});
-        $("#astCodeTypeId").kendoDropDownList({
+        $("#astTypeCode").kendoDropDownList({
             dataTextField: "AST_TYPE_CODE_NM",
             dataValueField: "AST_TYPE_CODE",
             dataSource: addAssetPop.global.dropDownDataSource.rs
@@ -342,7 +342,7 @@ var addAssetPop = {
         var result = customKendo.fn_customAjax("/inside/getAssetInfo.do", {astInfoSn : $("#astInfoSn").val()})
         if(result.flag){
             $("#astCodeCompanyId").data("kendoDropDownList").value(result.data.AST_CODE_COMPANY_ID);
-            $("#astCodeTypeId").data("kendoDropDownList").value(result.data.AST_CODE_TYPE_ID);
+            $("#astTypeCode").data("kendoDropDownList").value(result.data.AST_TYPE_CODE);
             $("#astCodeId1").data("kendoDropDownList").value(result.data.AST_CODE_ID_1);
             $("#astCodeId1").data("kendoDropDownList").trigger("change");
             $("#astCodeId2").data("kendoDropDownList").value(result.data.AST_CODE_ID_2);

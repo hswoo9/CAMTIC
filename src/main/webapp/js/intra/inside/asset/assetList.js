@@ -31,6 +31,8 @@ var assetList = {
     },
 
     mainGrid : function(url, params) {
+        var record = 0;
+
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url,params),
             scrollable: true,
@@ -78,7 +80,11 @@ var assetList = {
                     width: 50
                 }, {
                     field: "",
-                    title: "순번"
+                    title: "순번",
+                    width: 50,
+                    template : function(e){
+                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
+                    }
                 }, {
                     field: "AST_NO",
                     title: "자산 번호"
@@ -102,7 +108,11 @@ var assetList = {
                     title: "사용자"
                 }, {
                     field: "PURC_PRICE",
-                    title: "구입가격(원)"
+                    title: "구입가격(원)",
+                    attributes: { style: "text-align: right" },
+                    template : function(e){
+                        return e.PURC_PRICE.toString().toMoney() + "원";
+                    }
                 }, {
                     field: "INSIDE_DT_CODE_NM",
                     title: "상태"

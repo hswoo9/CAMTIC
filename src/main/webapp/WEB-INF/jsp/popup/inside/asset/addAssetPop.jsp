@@ -52,7 +52,7 @@
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>자산 구분</th>
                         <td colspan="3">
                             <input type="text" id="astCodeCompanyId" style="width: 18%;">
-                            <input type="text" id="astCodeTypeId" style="width: 18%;">
+                            <input type="text" id="astTypeCode" style="width: 18%;">
                             <input type="text" id="astCodeId1" style="width: 18%;">
                             <input type="text" id="astCodeId2" style="width: 18%;">
                             <input type="text" id="astCodeId3" style="width: 18%;">
