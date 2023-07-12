@@ -388,16 +388,23 @@ var userPersonList = {
                     field: "DEPT_NAME1",
                     title: "부서(실)"
                 }, {
-                    field: "TEAM_NAME",
+                    field: "DEPT_TEAM_NAME",
                     title: "부서(팀)"
                 }, {
                     field: "DUTY_NAME",
                     title: "직위",
                     template : function (e){
+                        console.log(e);
                         if(e.DUTY_NAME != null && e.DUTY_NAME != ""){
                             return e.DUTY_NAME
+                        } else if(e.POSITION_NAME != null && e.POSITION_NAME != "") {
+                            return e.POSITION_NAME;
                         } else {
-                            return e.POSITION_NAME
+                            if(e.DUTY_NM2 != null && e.DUTY_NM2 != ""){
+                                return e.DUTY_NM2;
+                            } else {
+                                return e.POSITION_NM2;
+                            }
                         }
                     }
                 }, {
