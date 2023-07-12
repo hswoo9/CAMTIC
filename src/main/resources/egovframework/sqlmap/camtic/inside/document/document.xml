@@ -157,8 +157,54 @@
                     </if>
                 </if>
                 #{remarkCn},
-                CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(now(), '%Y'), 2)),
+                CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
                 (SELECT IFNULL(MAX(SCCD.DOCUMENT_SECOND_NUMBER), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.DOCUMENT_FIRST_NUMBER = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+                #{regEmpSeq},
+                #{regEmpName},
+                NOW()
+            )
+    </insert>
+
+    <insert id="setDocuOrderInsert" parameterType="map">
+        /* setDocuOrderInsert */
+        INSERT INTO CAM_INSIDE.DJ_DOCUMENT_ORDER
+            (
+                MAIN_CLASS_SN,
+                CLASS_SN,
+                CLASS_NAME,
+                DOCU_YEAR_SN,
+                DOCU_NO,
+                DOCU_DE,
+                DOCU_CHECK_SN,
+                DOCU_CHECK_NAME,
+                PROJECT_NAME,
+                START_DE,
+                END_DE,
+                CO_SN,
+                CO_NAME,
+                CONDITION_NAME,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REG_DT
+            )
+        VALUES
+            (
+                1,
+                #{classSn},
+                #{className},
+                CONCAT('TICS', RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
+                (SELECT IFNULL(MAX(SIDO.DOCU_NO), 0)+1 FROM CAM_INSIDE.DJ_DOCUMENT_ORDER SIDO WHERE DOCU_YEAR_SN = CONCAT('TICS', RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+                #{docuDe},
+                #{docuCheckSn},
+                #{docuCheckName},
+                #{projectName},
+                #{startDe},
+                #{endDe},
+                #{coSn},
+                #{coName},
+                #{conditionName},
+                #{remarkCn},
                 #{regEmpSeq},
                 #{regEmpName},
                 NOW()
