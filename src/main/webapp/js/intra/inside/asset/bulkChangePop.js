@@ -23,7 +23,9 @@ var bulkChangePop = {
     setAstInfoBatch : function(){
         bulkChangePop.global.saveAjaxData = {
             astInfoSn : $("#astInfoSn").val(),
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+            regEmpSeq : $("#empSeq").val(),
+            regEmpName : $("#regEmpName").val()
         }
 
         if(!$("#astNameChk").is(':checked') && !$("#empNameChk").is(':checked') && !$("#purcPriceChk").is(':checked') && !$("#astStsChk").is(':checked')){
@@ -31,28 +33,30 @@ var bulkChangePop = {
             return;
         }
 
-        if($("#astNameChk").is(':checked')){
-            bulkChangePop.global.saveAjaxData.astName = $("#astName").val()
-        }
+        if(confirm("선택한 자산 정보를 일괄변경하시겠습니까?")){
+            if($("#astNameChk").is(':checked')){
+                bulkChangePop.global.saveAjaxData.astName = $("#astName").val()
+            }
 
-        if($("#empNameChk").is(':checked')){
-            bulkChangePop.global.saveAjaxData.empName = $("#empName").val()
-        }
+            if($("#empNameChk").is(':checked')){
+                bulkChangePop.global.saveAjaxData.empName = $("#empName").val()
+            }
 
-        if($("#purcPriceChk").is(':checked')){
-            bulkChangePop.global.saveAjaxData.purcPrice = $("#purcPrice").val()
-        }
+            if($("#purcPriceChk").is(':checked')){
+                bulkChangePop.global.saveAjaxData.purcPrice = $("#purcPrice").val()
+            }
 
-        if($("#astStsChk").is(':checked')){
-            bulkChangePop.global.saveAjaxData.astStsCode = $("#astStsCode").val()
-            bulkChangePop.global.saveAjaxData.reason = $("#reason").val()
-        }
+            if($("#astStsChk").is(':checked')){
+                bulkChangePop.global.saveAjaxData.astStsCode = $("#astStsCode").val()
+                bulkChangePop.global.saveAjaxData.reason = $("#reason").val()
+            }
 
-        var result = customKendo.fn_customAjax('/inside/setAstInfoBatch.do', bulkChangePop.global.saveAjaxData);
-        if(result.flag){
-            alert("변경되었습니다.");
-            opener.parent.assetList.gridReload();
-            window.close();
+            var result = customKendo.fn_customAjax('/inside/setAstInfoBatch.do', bulkChangePop.global.saveAjaxData);
+            if(result.flag){
+                alert("변경되었습니다.");
+                opener.parent.assetList.gridReload();
+                window.close();
+            }
         }
     }
 }

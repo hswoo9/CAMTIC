@@ -221,6 +221,13 @@ public class DocumentController {
         return "jsonView";
     }
 
+    //개발사업수주대장 등록
+    @RequestMapping("/inside/setDocuOrderInsert")
+    public String setDocuOrderInsert(@RequestParam Map<String, Object> params) {
+        documentService.setDocuOrderInsert(params);
+        return "jsonView";
+    }
+
     //식대대장 신청
     @RequestMapping("/inside/setSnackInsert")
     public String setSnackInsert(@RequestParam Map<String, Object> params) {

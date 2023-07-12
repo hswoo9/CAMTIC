@@ -132,6 +132,30 @@
             AST_INFO_SN = #{astInfoSn}
     </select>
 
+    <select id="getAstInfoModHistory" parameterType="map" resultType="map">
+        SELECT
+            AST_INFO_MOD_SN,
+            REPLACE(REPLACE(DATE_FORMAT(REG_DATE, '%Y-%m-%d %p %h:%i:%s'), 'PM', '오후'), 'AM', '오전') AS REG_DATE,
+            REG_EMP_NAME,
+            REG_EMP_IP
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </select>
+
+    <select id="getAstInfoModHistoryItem" parameterType="map" resultType="map">
+        SELECT
+            A.*
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY_ITEM A
+        JOIN
+            CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY B
+        ON A.AST_INFO_MOD_SN = B.AST_INFO_MOD_SN
+        WHERE
+            B.AST_INFO_SN = #{astInfoSn}
+    </select>
+
     <select id="getInsideCodeList" resultType="map" parameterType="map">
         /* getInsideCodeList */
         SELECT
@@ -143,6 +167,22 @@
         <if test='insideMdCode != null and !"".equals(insideMdCode)'>
         AND
             INSIDE_MD_CODE = #{insideMdCode}
+        </if>
+    </select>
+
+    <select id="getInsideCode" resultType="map" parameterType="map">
+        /* getInsideCode */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_INSIDE_CODE
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            INSIDE_MD_CODE = #{insideMdCode}
+        <if test='insideDtCode != null and !"".equals(insideDtCode)'>
+        AND
+            INSIDE_DT_CODE = #{insideDtCode}
         </if>
     </select>
 
@@ -299,12 +339,22 @@
     <select id="getAssetInfoAll" parameterType="map" resultType="map">
         /* getAssetInfoAll */
         SELECT
-            *
+            AI.*,
+            CASE WHEN AI.FUNDING_SOURCE = 0 THEN CONCAT('[법인운영]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 1 THEN CONCAT('[연구개발]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 2 THEN CONCAT('[교육사업]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 4 THEN CONCAT('[개발사업]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 5 THEN CONCAT('[기능보강]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 6 THEN CONCAT('[지원사업]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 7 THEN CONCAT('[협의회]', AI.EXP_ACCOUNT)
+                 WHEN AI.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', AI.EXP_ACCOUNT)
+            END FUNDING_SOURCE_TXT
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
         WHERE
             AST_INFO_SN = #{astInfoSn}
     </select>
+
     <insert id="setAstManage" parameterType="map">
         /* setAstManage */
         INSERT INTO CAM_INSIDE.DJ_ASSET_MANAGE
@@ -363,6 +413,49 @@
             AST_INFO_SN IN(${astInfoSn})
     </update>
 
+    <insert id="setAstInfoModHistory" parameterType="map">
+        /* setAstInfoModHistory */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY
+            (
+                AST_INFO_SN,
+                REG_EMP_IP,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{astInfoSn},
+                #{regEmpIp},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+
+        <selectKey keyProperty="astInfoModSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_ASSET_INFO_MOD_HISTORY'
+        </selectKey>
+    </insert>
+
+    <insert id="setAstInfoModHistoryItem" parameterType="list">
+        /* setAstInfoModHistoryItem */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY_ITEM
+            (
+                AST_INFO_MOD_SN,
+                MOD_ITEM_NAME,
+                MOD_OLD_ITEM_INFO,
+                MOD_NEW_ITEM_INFO,
+                REG_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.astInfoModSn},
+                #{item.modItemName},
+                #{item.modOldItemInfo},
+                #{item.modNewItemInfo},
+                #{item.regEmpSeq}
+            )
+        </foreach>
+    </insert>
     <!-- 자산리스트 종료 -->
 
     <!-- 분류관리 시작-->
@@ -534,6 +627,9 @@
         SELECT * FROM CAM_INSIDE.DJ_ASSET_CODE
         WHERE ACTIVE = 'Y'
         AND AST_CODE_ID = #{astCodeId}
+        <if test='astUpperCode != null and !"".equals(astUpperCode)'>
+            AND AST_UPPER_CODE = #{astUpperCode}
+        </if>
     </select>
 
 

@@ -207,6 +207,48 @@
                     </tbody>
                 </table>
             </div>
+
+            <div style="padding: 20px 30px;">
+                <table class="table table-bordered mb-0">
+                    <colgroup>
+                        <col width="18%">
+                        <col width="35%">
+                        <col width="18%">
+                        <col width="35%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            정보갱신 이력(${fn:length(data.history)})
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+                <c:forEach var="h" items="${data.history}" varStatus="status">
+                    <table class="table table-bordered mb-0">
+                        <colgroup>
+                            <col width="10%">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th class="text-center th-color">정보변경</th>
+                            <td style="padding:5px;">
+                                    ${h.REG_DATE} / ${h.REG_EMP_NAME} / ${h.REG_EMP_IP}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <c:forEach var="hi" items="${data.historyItem}" varStatus="status">
+                                    <c:if test="${h.AST_INFO_MOD_SN eq hi.AST_INFO_MOD_SN}">
+                                        [${hi.MOD_ITEM_NAME}] ${hi.MOD_OLD_ITEM_INFO} → ${hi.MOD_NEW_ITEM_INFO} <br>
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </c:forEach>
+            </div>
         </div>
     </div>
 </div>

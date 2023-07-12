@@ -104,6 +104,8 @@ public class AssetController {
      */
     @RequestMapping("/inside/setAssetInfo.do")
     public String setAssetInfo(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request) {
+        params.put("regEmpIp", request.getRemoteAddr());
+
         assetService.setAssetInfo(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
@@ -189,7 +191,8 @@ public class AssetController {
      * @return
      */
     @RequestMapping("/inside/setAstInfoBatch.do")
-    public String setAstInfoBatch(@RequestParam Map<String,Object> params) {
+    public String setAstInfoBatch(@RequestParam Map<String,Object> params, HttpServletRequest request) {
+        params.put("regEmpIp", request.getRemoteAddr());
         assetService.setAstInfoBatch(params);
         return "jsonView";
     }

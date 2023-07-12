@@ -113,11 +113,15 @@ var addAssetPop = {
             formData.append("regType", $("#regType").val());
             formData.append("barcodeType", $("#barcodeType").val());
             formData.append("fundingSource", $("#fundingSource").data("kendoRadioGroup").value());
+            formData.append("fundingSourceText", '[' + $("#fundingSource").data("kendoRadioGroup")._items.find(element => element.value === $("#fundingSource").data("kendoRadioGroup").value()).label + ']');
             formData.append("expAccount", $("#expAccount").val());
             formData.append("empName", $("#empName").val());
             formData.append("purpose", $("#purpose").val());
             formData.append("remark", $("#remark").val());
             formData.append("empSeq", $("#empSeq").val());
+
+            formData.append("regEmpSeq", $("#empSeq").val());
+            formData.append("regEmpName", $("#regEmpName").val());
 
 
             if($("#relatedFile")[0].files.length == 1){
@@ -329,7 +333,6 @@ var addAssetPop = {
 
         var result = customKendo.fn_customAjax("/inside/getAssetInfo.do", {astInfoSn : $("#astInfoSn").val()})
         if(result.flag){
-            console.log(result.data);
             $("#astCodeCompanyId").data("kendoDropDownList").value(result.data.AST_CODE_COMPANY_ID);
             $("#astCodeTypeId").data("kendoDropDownList").value(result.data.AST_CODE_TYPE_ID);
             $("#astCodeId1").data("kendoDropDownList").value(result.data.AST_CODE_ID_1);
