@@ -311,7 +311,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setClassDivision(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("astCodeTypeId"))){
+        if(StringUtils.isEmpty(params.get("astTypeCode"))){
             assetRepository.setClassDivision(params);
         }else{
             assetRepository.setClassDivisionUpd(params);
@@ -402,14 +402,14 @@ public class AssetServiceImpl implements AssetService {
             }
         }
 
-        if(!StringUtils.isEmpty(params.get("astCodeTypeId"))){
-            if(!assetInfo.get("AST_CODE_TYPE_ID").equals(params.get("astCodeTypeId"))){
+        if(!StringUtils.isEmpty(params.get("astTypeCode"))){
+            if(!assetInfo.get("AST_TYPE_CODE").equals(params.get("astTypeCode"))){
                 modMap.put("modItemName", "자산분류");
 
-                searchMap.put("astCodeTypeId", assetInfo.get("AST_CODE_TYPE_ID"));
+                searchMap.put("astTypeCode", assetInfo.get("AST_TYPE_CODE"));
                 modMap.put("modOldItemInfo", assetRepository.getClassDivision(searchMap).get("AST_TYPE_CODE_NM"));
 
-                searchMap.put("astCodeTypeId", params.get("astCodeTypeId"));
+                searchMap.put("astTypeCode", params.get("astTypeCode"));
                 modMap.put("modNewItemInfo", assetRepository.getClassDivision(searchMap).get("AST_TYPE_CODE_NM"));
 
                 historyItemModList.add(modMap);

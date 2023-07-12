@@ -18,6 +18,15 @@ var bulkChangePop = {
             dataValueField: "INSIDE_DT_CODE",
             dataSource: bulkChangePop.global.dropDownDataSource.rs,
         });
+
+        $("#purcPrice").keyup(function(){
+            if($(this).val().toString().toMoney().charAt(0) == "0"){
+                $(this).val($(this).val().toString().substring(1).toMoney());
+            }else{
+                $(this).val($(this).val().toString().toMoney());
+            }
+
+        });
     },
 
     setAstInfoBatch : function(){
@@ -43,7 +52,7 @@ var bulkChangePop = {
             }
 
             if($("#purcPriceChk").is(':checked')){
-                bulkChangePop.global.saveAjaxData.purcPrice = $("#purcPrice").val()
+                bulkChangePop.global.saveAjaxData.purcPrice = $("#purcPrice").val().toString().toMoney2()
             }
 
             if($("#astStsChk").is(':checked')){

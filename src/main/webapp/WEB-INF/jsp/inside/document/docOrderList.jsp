@@ -11,12 +11,12 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">개발사업 수주대장</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 문서관리 > 개발사업 수주대장</div>
+            <div class="title-road">캠인사이드 > 문서관리 > 개발사업 수주대장</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
-                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
                         <col width="20%">
@@ -52,5 +52,4 @@
 
 <script type="text/javascript">
     docuOrderList.init();
-    docuOrderList.mainGrid();
 </script>

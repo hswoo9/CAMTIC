@@ -113,8 +113,32 @@
             </div>
           </li>
           <li>
+            <button class="btn btn-notice alert-notice" data-toggle="dropdown">
+              <img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="width:40px;">
+            </button>
+            <div id="noticeDropdown1" class="dropdown-menu dm-notice pull-right">
+              <div role="tabpanel">
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="notification1">
+                    <ul class="list-group notice-list">
+                      <li class="list-group-item unread">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">개인정보</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">이미지관리</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">권한조회</a></div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div><!-- tab-pane -->
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
             <div class="btn-group">
-              <button type="button" class="btn btn-logged" data-toggle="dropdown">
+              <button type="button" class="btn btn-logged" data-toggle="dropdown" style="padding-left:5px;">
                 ${loginVO.name}님 환영합니다!
                 <!--<span class="caret"></span>-->
               </button>

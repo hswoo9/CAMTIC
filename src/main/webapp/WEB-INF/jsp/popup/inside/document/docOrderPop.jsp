@@ -9,20 +9,17 @@
 <script type="text/javascript" src="/js/intra/inside/document/docOrderPop.js?v=${today}"/></script>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="card">
-    <div class="card-header pop-header">
-        <div class="table-responsive">
-            <div style="background-color: #00397f;">
-                <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
-                    <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">개발사업 수주대장</h3>
-                    <div class="btn-st" style="margin-top:10px; text-align:center;">
-                        <button type="button" class="k-button k-button-solid-info" onclick="docuOrderReq.saveBtn();">저장</button>
-                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
-                    </div>
-                </div>
+<div style="padding:0;">
+    <div class="table-responsive">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">개발사업 수주대장</h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="docuOrderReq.saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
-            <form style="padding: 20px 30px;">
-                <table class="popTable table table-bordered mb-0" style="margin-top: 10px;">
+        </div>
+        <form style="padding: 20px 30px;">
+            <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="20%">
                     <col width="30%">
@@ -128,40 +125,39 @@
                 </tr>
                 </thead>
             </table>
-            </form>
-            <form style="padding: 0px 30px;">
-                <div class="card-header">
-                <h3 class="card-title">상품화지원 계약 프로젝트</h3>
-                </div>
-                <table class="popTable table table-bordered mb-0">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="40%">
-                        <col width="20%">
-                        <col width="10%">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>연번
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>상담코드
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>프로젝트 명
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>수주금액(천원)
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>삭제
-                        </th>
-                    </tr>
-                </table>
-            </form>
-        </div>
+        </form>
+        <form style="padding: 0px 30px;">
+            <div class="card-header" style="padding: 5px;">
+            <h3 class="card-title">상품화지원 계약 프로젝트</h3>
+            </div>
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="40%">
+                    <col width="20%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>연번
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>상담코드
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>프로젝트 명
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>수주금액(천원)
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>삭제
+                    </th>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>
 

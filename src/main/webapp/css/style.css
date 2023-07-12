@@ -111,16 +111,22 @@ input[type=file]::file-selector-button {
 }
 
 /* 네비게이션 */
-.title-road{text-align: right; font-size: 11px; color: #999999; margin-top:10px;}
+.title-road{text-align: right; font-size: 11px; color: #999999; margin-bottom: 5px;}
 
 /* 조회 조건 테이블 */
-.searchTable { background-color: white; }
+.searchTable { background-color: white; border: 1px solid #dedfdf;}
 .searchTable > tbody > tr > th{ background-color: #00397f96; color: white; text-align: center;}
 
 /* 팝업창 테이블 */
-.popTable { background-color: white; }
+.popTable { background-color: white; margin-top: 10px;}
 .popTable > thead > tr > th, .popTable > tfoot > tr > th, .popTable > tfoot > tr > th{ background-color: #8fa1c04a;
 }
 
 /* 팝업창 card-header */
-.pop-header {padding: 0px 0px 40px 0px;}
+.pop-header {padding: 0px 0px 40px 0px; display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px; background-color: #00397f;}
+
+/* 팝업창 card-title */
+.title_NM {font-size:18px; color: #f1faff;}
+
+/* 팝업창 버튼 */
+.popButton {margin-top:10px; text-align:center;}

@@ -1,5 +1,37 @@
 var now = new Date();
 
+String.prototype.toMoney  = function(){
+
+    var val = (this.valueOf() || '0');
+    var zero = val.charAt(0);
+
+    var money = val.replace(/\D/g,"");
+    var index = money.length - 3;
+    while(index >0){
+        money = money.substr(0,index) + "," + money.substr(index);
+        index -=3;
+    }
+    if(zero == "-"){
+        return "-" + money;
+    }else{
+        return money;
+    }
+};
+
+String.prototype.toMoney2  = function(){
+
+    var val = (this.valueOf() || '0');
+    var zero = val.charAt(0);
+
+    var money = val.replace(/\D/g,"");
+
+    if(zero == "-"){
+        return "-" + money;
+    }else{
+        return money;
+    }
+};
+
 function getContextPath(){
     var offset=location.href.indexOf(location.host)+location.host.length;
     var ctxPath=location.href.substring(offset, location.href.indexOf('/',offset+1));

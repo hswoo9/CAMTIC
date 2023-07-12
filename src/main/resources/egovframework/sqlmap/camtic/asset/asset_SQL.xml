@@ -34,7 +34,7 @@
             AND AST_CODE_COMPANY_ID = #{assetPosition}
         </if>
         <if test='assetType != null and !"".equals(assetType)'>
-            AND AST_CODE_TYPE_ID = #{assetType}
+            AND AST_TYPE_CODE = #{assetType}
         </if>
         <if test='categoryA != null and !"".equals(categoryA)'>
             AND AST_CODE_ID_1 = #{categoryA}
@@ -112,7 +112,7 @@
             ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
         JOIN
             CAM_INSIDE.dj_asset_code_class ACC
-        ON AI.AST_CODE_TYPE_ID = ACC.AST_TYPE_CODE
+        ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
         JOIN
             CAM_INSIDE.dj_asset_code AC1
         ON AI.AST_CODE_ID_1 = AC1.AST_CODE
@@ -195,7 +195,7 @@
         WHERE
             AST_CODE_COMPANY_ID = #{astCodeCompanyId}
         AND
-            AST_CODE_TYPE_ID = #{astCodeTypeId}
+            AST_TYPE_CODE = #{astTypeCode}
         AND
             AST_CODE_ID_1 = #{astCodeId1}
         AND
@@ -209,7 +209,7 @@
         INSERT INTO CAM_INSIDE.DJ_ASSET_INFO
             (
                 AST_CODE_COMPANY_ID,
-                AST_CODE_TYPE_ID,
+                AST_TYPE_CODE,
                 AST_CODE_ID_1,
                 AST_CODE_ID_2,
                 AST_CODE_ID_3,
@@ -238,7 +238,7 @@
         VALUES
             (
                 #{astCodeCompanyId},
-                #{astCodeTypeId},
+                #{astTypeCode},
                 #{astCodeId1},
                 #{astCodeId2},
                 #{astCodeId3},
@@ -276,7 +276,7 @@
             CAM_INSIDE.DJ_ASSET_INFO
         SET
             AST_CODE_COMPANY_ID = #{astCodeCompanyId},
-            AST_CODE_TYPE_ID = #{astCodeTypeId},
+            AST_TYPE_CODE = #{astTypeCode},
             AST_CODE_ID_1 = #{astCodeId1},
             AST_CODE_ID_2 = #{astCodeId2},
             AST_CODE_ID_3 = #{astCodeId3},
@@ -521,7 +521,13 @@
     <select id="getClassDivision" parameterType="map" resultType="map">
         /* getClassDivision */
         SELECT * FROM CAM_INSIDE.DJ_ASSET_CODE_CLASS
-        WHERE ACTIVE = 'Y' AND AST_CODE_TYPE_ID = #{astCodeTypeId}
+        WHERE ACTIVE = 'Y'
+        <if test='astCodeTypeId != null and !"".equals(astCodeTypeId)'>
+            AND AST_CODE_TYPE_ID = #{astCodeTypeId}
+        </if>
+        <if test='astTypeCode != null and !"".equals(astTypeCode)'>
+            AND AST_TYPE_CODE = #{astTypeCode}
+        </if>
     </select>
 
     <insert id="setClassDivision" parameterType="map">
