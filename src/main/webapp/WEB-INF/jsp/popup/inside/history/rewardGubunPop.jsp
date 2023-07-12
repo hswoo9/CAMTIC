@@ -8,15 +8,10 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/history/rewardGubunPop.js?v=${today}"></script>
 <style>
-  .card-header {padding: 0px 0px 40px 0px;}
-  .k-grid-header th.k-header .k-checkbox {
-    margin: 0;
-  }
-
-  .dash-left .table > thead > tr > th, .dash-right .table > thead > tr > th, .dash-left .table > tbody > tr > th, .dash-right .table > tbody > tr > th, .dash-left .table > tfoot > tr > th, .dash-right .table > tfoot > tr > th, .dash-left .table > thead > tr > td, .dash-right .table > thead > tr > td, .dash-left .table > tbody > tr > td, .dash-right .table > tbody > tr > td, .dash-left .table > tfoot > tr > td, .dash-right .table > tfoot > tr > td {
+/*  .dash-left .table > thead > tr > th, .dash-right .table > thead > tr > th, .dash-left .table > tbody > tr > th, .dash-right .table > tbody > tr > th, .dash-left .table > tfoot > tr > th, .dash-right .table > tfoot > tr > th, .dash-left .table > thead > tr > td, .dash-right .table > thead > tr > td, .dash-left .table > tbody > tr > td, .dash-right .table > tbody > tr > td, .dash-left .table > tfoot > tr > td, .dash-right .table > tfoot > tr > td {
     padding-left: 10px;
     padding-right: 10px;
-  }
+  }*/
   td {
     text-align: center;
   }
@@ -24,9 +19,9 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
   <div style="background-color: #00397f;">
-    <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">
-      <h3 class="card-title title_NM" style="font-size:18px; color: #f1faff;">포상 구분 관리</h3>
-      <div class="btn-st" style="margin-top:10px; text-align:center;">
+    <div class="card-header pop-header">
+      <h3 class="card-title title_NM">포상 구분 관리</h3>
+      <div class="btn-st popButton" >
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
       </div>
     </div>
