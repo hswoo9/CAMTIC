@@ -156,7 +156,7 @@
                         <tr>
                             <th><span class="red-star">*</span>운행거리</th>
                             <td colspan="3">
-                                <input type="text" id="moveDst" style="width: 10%;"> km
+                                <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%;"> km
                                 <button type="button" class="k-button k-button-solid-base" disabled>거리측정</button>
                                 <button type="button" class="k-button k-button-solid-base" disabled>하이패스</button>
                                 ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
@@ -181,15 +181,6 @@
                 <div>
                     <div class="card-header">
                         <h3 class="card-title">첨부파일</h3>
-                        <div class="card-options">
-                            <div class="filebox">
-                                <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
-                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                    <span class="k-button-text">파일첨부</span>
-                                </button>
-                                <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
-                            </div>
-                        </div>
                     </div>
                     <div>
                         <div class="table-responsive">
@@ -198,19 +189,17 @@
                                     <col width="50%">
                                     <col width="10%">
                                     <col width="30%">
-                                    <col width="10%">
                                 </colgroup>
                                 <thead>
                                 <tr class="text-center th-color">
                                     <th>파일명</th>
                                     <th>확장자</th>
                                     <th>용량</th>
-                                    <th>기타</th>
                                 </tr>
                                 </thead>
                                 <tbody id="fileGrid">
                                 <tr class="defultTr">
-                                    <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                                    <td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -234,7 +223,7 @@
     bustripResultPop.init(dataConf);
 
     if(dataConf != ''){
-        inBustripReqPop.setData(dataConf);
+        inBustripReqPop.setData(dataConf, "result");
     }
 
     function userMultiSearch() {

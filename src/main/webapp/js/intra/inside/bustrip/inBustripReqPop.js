@@ -194,7 +194,7 @@ var inBustripReqPop = {
 
     },
 
-    setData : function (d){
+    setData : function (d, p){
 
         var data = {
             hrBizReqId: d,
@@ -235,7 +235,7 @@ var inBustripReqPop = {
             popDeptName += list[i].DEPT_NAME + ",";
         }
 
-        inBustripReqPop.settingTempFileDataInit(fileInfo);
+        inBustripReqPop.settingTempFileDataInit(fileInfo, p);
 
         $("#popEmpSeq").val(popEmpSeq.slice(0, -1));
         $("#popEmpName").val(popEmpName.slice(0, -1));
@@ -338,27 +338,46 @@ var inBustripReqPop = {
         });
     },
 
-    settingTempFileDataInit : function(e){
+    settingTempFileDataInit : function(e, p){
         var html = '';
-        if(e.length > 0){
-            for(var i = 0; i < e.length; i++){
-                html += '<tr style="text-align: center">';
-                html += '   <td>'+ e[i].file_org_name +'</td>';
-                html += '   <td>'+ e[i].file_ext +'</td>';
-                html += '   <td>'+ e[i].file_size +'</td>';
-                html += '   <td>';
-                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                    '			<span class="k-button-text">삭제</span>' +
-                    '		</button>';
-                html += '   </td>';
-                html += '</tr>';
+
+        if(p == "result"){
+            if(e.length > 0){
+                for(var i = 0; i < e.length; i++){
+                    html += '<tr style="text-align: center">';
+                    html += '   <td>'+ e[i].file_org_name +'</td>';
+                    html += '   <td>'+ e[i].file_ext +'</td>';
+                    html += '   <td>'+ e[i].file_size +'</td>';
+                    html += '</tr>';
+                }
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
             }
-            $("#fileGrid").html(html);
-        }else{
-            $("#fileGrid").html('<tr>' +
-                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                '</tr>');
+        } else {
+            if(e.length > 0){
+                for(var i = 0; i < e.length; i++){
+                    html += '<tr style="text-align: center">';
+                    html += '   <td>'+ e[i].file_org_name +'</td>';
+                    html += '   <td>'+ e[i].file_ext +'</td>';
+                    html += '   <td>'+ e[i].file_size +'</td>';
+                    html += '   <td>';
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                        '			<span class="k-button-text">삭제</span>' +
+                        '		</button>';
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
         }
+
 
 
     }

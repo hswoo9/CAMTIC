@@ -115,7 +115,7 @@ var userReqPop = {
         // 아이디 중복체크
         $("#idCheck").click(function(){
             var data = {
-                id : $("#loginId").val()
+                loginId : $("#loginId").val()
             }
 
             var rs = customKendo.fn_customAjax("/user/getIdCheck", data);
