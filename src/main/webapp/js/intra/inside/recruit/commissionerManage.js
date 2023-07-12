@@ -16,6 +16,10 @@ var commissionerManage = {
             ],
             index: 0
         });
+
+        $("#searchName").kendoTextBox();
+        $("#searchComp").kendoTextBox();
+
     },
 
     mainGrid : function() {
@@ -57,14 +61,14 @@ var commissionerManage = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.commissionerReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="commissionerManage.commissionerReqPop();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
@@ -92,8 +96,8 @@ var commissionerManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
                     field: "",

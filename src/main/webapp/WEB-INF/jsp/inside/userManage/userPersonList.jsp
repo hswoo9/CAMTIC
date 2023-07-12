@@ -150,12 +150,12 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title" style="margin-bottom: 20px;">상세검색</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;"></div>
-            <div id="startView1" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+            <div class="title-road"></div>
+            <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <div style="width: 100%">
-                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
+            <div style="margin-bottom:10px;">
+                <table class="searchTable table table-bordered">
                     <colgroup>
                         <col width="10%">
                         <col width="40%">
@@ -175,7 +175,7 @@
                         </td>
                     </tr>
                 </table>
-                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
                     <tr style="width: 100%;">
                         <td style="width: 50%">
                             <div style="display: flex; justify-content: space-between; align-items: center;">유형</span>
