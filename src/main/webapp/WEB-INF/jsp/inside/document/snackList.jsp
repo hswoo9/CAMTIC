@@ -16,7 +16,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">야근/휴일식대대장</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 문서관리 > 야근/휴일식대대장</div>
+            <div class="title-road">캠인사이드 > 문서관리 > 야근/휴일식대대장</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
