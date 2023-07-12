@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .card-header {padding: 0px 0px 40px 0px;}
+    .card-header {padding: 0px 0px 0px 0px;}
     table { background-color: #00000008; }
     .table > tbody > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
@@ -34,10 +34,14 @@
                         <col width="30%">
                         <col width="70%">
                     </colgroup>
-                    <tbody>
+                    <thead>
                     <tr>
-                        <th colspan="2">물품관리관 관리</th>
+                        <th colspan="2" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            물품관리관 관리
+                        </th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>물품관리관(정)

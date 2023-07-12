@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-    .card-header {padding: 0px 0px 40px 0px;}
+    .card-header {padding: 0px 0px 0px 0px;}
     table { background-color: #00000008; }
     .table > tbody > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>

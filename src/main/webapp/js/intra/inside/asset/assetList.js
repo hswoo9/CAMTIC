@@ -119,7 +119,7 @@ var assetList = {
     assetManagePop : function() {
         var url = "/inside/assetManagePop.do";
         var name = "goodsManagePop";
-        var option = "width = 500, height = 255, top = 100, left = 200, location = no, _blank"
+        var option = "width = 500, height = 240, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -131,14 +131,14 @@ var assetList = {
 
         var url = "/inside/bulkChangePop.do?astInfoSn=" + id.substring(1);
         var name = "bulkChangePop";
-        var option = "width = 650, height = 425, top = 100, left = 200, location = no, _blank"
+        var option = "width = 650, height = 380, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     addAssetPopup : function() {
         var url = "/inside/addAssetPop.do";
         var name = "addAssetPop";
-        var option = "width = 1125, height = 720, top = 100, left = 200, location = no, _blank"
+        var option = "width = 1125, height = 700, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -153,7 +153,7 @@ var assetList = {
     viewAssetPop : function(astInfoSn) {
         var url = "/inside/viewAssetPop.do?astInfoSn=" + astInfoSn;
         var name = "viewAssetPop";
-        var option = "width = 950, height = 720, top = 100, left = 200, location = no, _blank"
+        var option = "width = 950, height = 620, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

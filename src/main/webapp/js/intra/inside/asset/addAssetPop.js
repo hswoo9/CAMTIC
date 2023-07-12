@@ -325,7 +325,7 @@ var addAssetPop = {
     },
 
     modDataInit : function(){
-        window.resizeTo(1100, 785);
+        window.resizeTo(1100, 788);
 
         var result = customKendo.fn_customAjax("/inside/getAssetInfo.do", {astInfoSn : $("#astInfoSn").val()})
         if(result.flag){
