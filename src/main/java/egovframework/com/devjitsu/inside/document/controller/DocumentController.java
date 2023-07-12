@@ -198,6 +198,22 @@ public class DocumentController {
         return "jsonView";
     }
 
+    //수주대장 리스트 조회
+    @RequestMapping("/inside/getDocuOrderList")
+    public String getDocuOrderList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = documentService.getDocuOrderList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //계약대장 리스트 조회
+    @RequestMapping("/inside/getDocuContractList")
+    public String getDocuContractList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = documentService.getDocuContractList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //식대대장 리스트 조회
     @RequestMapping("/inside/getSnackList")
     public String getSnackList(@RequestParam Map<String, Object> params, Model model) {
@@ -225,6 +241,13 @@ public class DocumentController {
     @RequestMapping("/inside/setDocuOrderInsert")
     public String setDocuOrderInsert(@RequestParam Map<String, Object> params) {
         documentService.setDocuOrderInsert(params);
+        return "jsonView";
+    }
+
+    //계약대장 등록
+    @RequestMapping("/inside/setDocuContractInsert")
+    public String setDocuContractInsert(@RequestParam Map<String, Object> params) {
+        documentService.setDocuContractInsert(params);
         return "jsonView";
     }
 

@@ -17,21 +17,16 @@ var docuList = {
             { text: "경영지원실", value: "57" }
         ]
         customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 1);
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "제목", value: "1"},
-                {text: "문서번호", value: "2"},
-                {text: "시행일자", value: "3"},
-                {text: "수신처", value: "4"},
-                {text: "발송일자", value: "5"},
-                {text: "담당자", value: "6"},
-                {text: "비고", value: "7"}
-            ],
-            index: 0
-        });
+        let searchArr = [
+            {text: "제목", value: "1"},
+            {text: "문서번호", value: "2"},
+            {text: "시행일자", value: "3"},
+            {text: "수신처", value: "4"},
+            {text: "발송일자", value: "5"},
+            {text: "담당자", value: "6"},
+            {text: "비고", value: "7"}
+        ]
+        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
     },
 
     mainGrid: function() {

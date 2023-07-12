@@ -13,6 +13,20 @@ public interface DocumentService {
     List<Map<String, Object>> getDocumentList(Map<String, Object> params);
 
     /**
+     * 수주대장 리스트 조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getDocuOrderList(Map<String, Object> params);
+
+    /**
+     * 계약대장 리스트 조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getDocuContractList(Map<String, Object> params);
+
+    /**
      * 식대대장 리스트 조회
      * @param params
      * @return
@@ -37,6 +51,12 @@ public interface DocumentService {
      * @param params
      */
     void setDocuOrderInsert(Map<String, Object> params);
+
+    /**
+     * 계약대장 등록
+     * @param params
+     */
+    void setDocuContractInsert(Map<String, Object> params);
 
     /**
      * 식대대장 신청

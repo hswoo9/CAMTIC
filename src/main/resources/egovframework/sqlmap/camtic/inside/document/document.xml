@@ -56,6 +56,72 @@
         ORDER BY RE.ROW_NUM DESC
     </select>
 
+    <select id="getDocuOrderList" resultType="map" parameterType="map">
+        /* getDocuOrderList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IDO.*
+                FROM
+                    CAM_INSIDE.DJ_DOCUMENT_ORDER IDO,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                    <if test='classType != null and !"".equals(classType)'>
+                        AND IDO.CLASS_SN = #{classType}
+                    </if>
+                    <choose>
+                        <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                            AND CONCAT(IDO.DOCU_YEAR_SN,'-',IDO.DOCU_NO) like CONCAT('%', #{searchText}, '%')
+                        </when>
+                        <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                            AND IDO.PROJECT_NAME like CONCAT('%', #{searchText}, '%')
+                        </when>
+                        <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                            AND DATE_FORMAT(IDO.CO_NAME, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
+                        </when>
+                    </choose>
+                ORDER BY IDO.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getDocuContractList" resultType="map" parameterType="map">
+        /* getDocuContractList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IDC.*
+                FROM
+                    CAM_INSIDE.DJ_DOCUMENT_CONTRACT IDC,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                    <if test='classType != null and !"".equals(classType)'>
+                        AND IDC.CLASS_SN = #{classType}
+                    </if>
+                    <choose>
+                        <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                            AND CONCAT(IDC.DOCU_YEAR_SN,'-',IDC.DOCU_NO) like CONCAT('%', #{searchText}, '%')
+                        </when>
+                        <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                            AND IDC.PROJECT_NAME like CONCAT('%', #{searchText}, '%')
+                        </when>
+                        <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                            AND DATE_FORMAT(IDC.CO_NAME, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
+                        </when>
+                    </choose>
+                ORDER BY IDC.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <select id="getSnackList" resultType="map" parameterType="map">
         /* getSnackList */
         SELECT
@@ -204,6 +270,50 @@
                 #{coSn},
                 #{coName},
                 #{conditionName},
+                #{remarkCn},
+                #{regEmpSeq},
+                #{regEmpName},
+                NOW()
+            )
+    </insert>
+
+    <insert id="setDocuContractInsert" parameterType="map">
+        /* setDocuContractInsert */
+        INSERT INTO CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+            (
+                MAIN_CLASS_SN,
+                MAIN_CLASS_NAME,
+                CLASS_SN,
+                CLASS_NAME,
+                DOCU_YEAR_SN,
+                DOCU_NO,
+                DOCU_DE,
+                PROJECT_NAME,
+                PROJECT_MONEY,
+                START_DE,
+                END_DE,
+                CO_SN,
+                CO_NAME,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REG_DT
+            )
+        VALUES
+            (
+                #{mainClassSn},
+                #{mainClassName},
+                #{classSn},
+                #{className},
+                CONCAT(#{docuName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
+                (SELECT IFNULL(MAX(SIDC.DOCU_NO), 0)+1 FROM CAM_INSIDE.DJ_DOCUMENT_CONTRACT SIDC WHERE DOCU_YEAR_SN = CONCAT(#{docuName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+                #{docuDe},
+                #{projectName},
+                #{projectMoney},
+                #{startDe},
+                #{endDe},
+                #{coSn},
+                #{coName},
                 #{remarkCn},
                 #{regEmpSeq},
                 #{regEmpName},

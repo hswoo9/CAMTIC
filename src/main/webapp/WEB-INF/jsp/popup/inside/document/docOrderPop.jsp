@@ -7,21 +7,9 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/document/docOrderPop.js?v=${today}"/></script>
-<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
-<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
-<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
-<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
-<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
-<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
-<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
-<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
-<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
-<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
 <body class="font-opensans" style="background-color:#fff;">
-<div style="padding:0;">
+<div class="card">
     <div class="card-header pop-header">
         <div class="table-responsive">
             <div style="background-color: #00397f;">

@@ -13,6 +13,14 @@ public class DocumentRepository extends AbstractDAO {
         return selectList("document.getDocumentList", params);
     }
 
+    public List<Map<String, Object>> getDocuOrderList(Map<String, Object> params) {
+        return selectList("document.getDocuOrderList", params);
+    }
+
+    public List<Map<String, Object>> getDocuContractList(Map<String, Object> params) {
+        return selectList("document.getDocuContractList", params);
+    }
+
     public List<Map<String, Object>> getSnackList(Map<String, Object> params) {
         return selectList("document.getSnackList", params);
     }
@@ -27,6 +35,10 @@ public class DocumentRepository extends AbstractDAO {
 
     public void setDocuOrderInsert(Map<String, Object> params) {
         insert("document.setDocuOrderInsert", params);
+    }
+
+    public void setDocuContractInsert(Map<String, Object> params) {
+        insert("document.setDocuContractInsert", params);
     }
 
     public void setSnackInsert(Map<String, Object> params) {
