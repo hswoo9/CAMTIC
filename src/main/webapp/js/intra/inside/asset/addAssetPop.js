@@ -9,6 +9,14 @@ var addAssetPop = {
     fn_defaultScript: function () {
         addAssetPop.kendoSetting();
 
+        $("#purcPrice").keyup(function(){
+            if($(this).val().toString().toMoney().charAt(0) == "0"){
+                $(this).val($(this).val().toString().substring(1).toMoney());
+            }else{
+                $(this).val($(this).val().toString().toMoney());
+            }
+        });
+
         if($("#mod").val() == "Y"){
             addAssetPop.modDataInit()
         }
@@ -102,7 +110,7 @@ var addAssetPop = {
             formData.append("astNo", $("#astCodeCompanyId").val() + $("#astCodeTypeId").val() + $("#astCodeId1").val() + $("#astCodeId2").val() + $("#astCodeId3").val());
             formData.append("astName", $("#astName").val());
             formData.append("purcDate", $("#purcDate").val());
-            formData.append("purcPrice", $("#purcPrice").val());
+            formData.append("purcPrice", $("#purcPrice").val().toString().toMoney2());
             formData.append("purcCompanyId", $("#purcCompanyId").val());
             formData.append("modelSize", $("#modelSize").val());
             formData.append("modelName", $("#modelName").val());

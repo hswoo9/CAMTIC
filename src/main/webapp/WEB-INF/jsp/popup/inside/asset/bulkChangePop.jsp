@@ -78,7 +78,7 @@
                             <span class="red-star"></span>구입 가격
                         </th>
                         <td>
-                            <input type="text" id="purcPrice" style="width: 100%;">
+                            <input type="text" id="purcPrice" style="text-align:right;width: 100%;">
                         </td>
                     </tr>
                     <tr>
