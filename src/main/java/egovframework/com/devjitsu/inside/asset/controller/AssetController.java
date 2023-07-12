@@ -191,7 +191,8 @@ public class AssetController {
      * @return
      */
     @RequestMapping("/inside/setAstInfoBatch.do")
-    public String setAstInfoBatch(@RequestParam Map<String,Object> params) {
+    public String setAstInfoBatch(@RequestParam Map<String,Object> params, HttpServletRequest request) {
+        params.put("regEmpIp", request.getRemoteAddr());
         assetService.setAstInfoBatch(params);
         return "jsonView";
     }

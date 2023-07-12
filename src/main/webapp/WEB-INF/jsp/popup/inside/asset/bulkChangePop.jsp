@@ -29,6 +29,7 @@
 
             <div style="padding: 20px 30px;">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+                <input type="hidden" id="regEmpName" name="regEmpName" value="${loginVO.name}">
                 <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
