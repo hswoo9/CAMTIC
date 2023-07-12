@@ -43,7 +43,11 @@ public class AssetServiceImpl implements AssetService {
         if(StringUtils.isEmpty(params.get("astInfoSn"))){
             assetRepository.setAssetInfo(params);
         }else{
+            Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(params);
+
             assetRepository.setAssetInfoUpd(params);
+
+            setAssetInfoModHistory(assetInfo, params);
         }
 
         MainLib mainLib = new MainLib();
@@ -94,6 +98,10 @@ public class AssetServiceImpl implements AssetService {
         returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
         searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
         returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+
+        returnMap.put("history", assetRepository.getAstInfoModHistory(params));
+        returnMap.put("historyItem", assetRepository.getAstInfoModHistoryItem(params));
+
         return returnMap;
     }
 
@@ -361,6 +369,235 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void setBookInsert(Map<String, Object> params) {
         assetRepository.setBookInsert(params);
+    }
+
+    private void setAssetInfoModHistory(Map<String, Object> assetInfo, Map<String, Object> params){
+        assetRepository.setAstInfoModHistory(params);
+
+        List<Map<String, Object>> historyItemModList = new ArrayList<>();
+        Map<String, Object> modMap = new HashMap<>();
+        Map<String, Object> searchMap = new HashMap<>();
+
+        modMap.put("astInfoModSn", params.get("astInfoModSn"));
+        modMap.put("regEmpSeq", params.get("empSeq"));
+        if(!assetInfo.get("AST_CODE_COMPANY_ID").equals(params.get("astCodeCompanyId"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자산소속");
+            searchMap.put("astCodeCompanyId", assetInfo.get("AST_CODE_COMPANY_ID"));
+            modMap.put("modOldItemInfo", assetRepository.getClassPosition(searchMap).get("AST_CP_CODE_NM"));
+
+            searchMap.put("astCodeCompanyId", params.get("astCodeCompanyId"));
+            modMap.put("modNewItemInfo", assetRepository.getClassPosition(searchMap).get("AST_CP_CODE_NM"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_CODE_TYPE_ID").equals(params.get("astCodeTypeId"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자산분류");
+
+            searchMap.put("astCodeTypeId", assetInfo.get("AST_CODE_TYPE_ID"));
+            modMap.put("modOldItemInfo", assetRepository.getClassDivision(searchMap).get("AST_TYPE_CODE_NM"));
+
+            searchMap.put("astCodeTypeId", params.get("astCodeTypeId"));
+            modMap.put("modNewItemInfo", assetRepository.getClassDivision(searchMap).get("AST_TYPE_CODE_NM"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_CODE_ID_1").equals(params.get("astCodeId1"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자산카테고리(대)");
+
+            searchMap.put("astCodeId", assetInfo.get("AST_CODE_ID_1"));
+            modMap.put("modOldItemInfo", assetRepository.getAstCategory(searchMap).get("AST_CODE_NM"));
+
+            searchMap.put("astCodeId", params.get("astCodeId1"));
+            modMap.put("modNewItemInfo", assetRepository.getAstCategory(searchMap).get("AST_CODE_NM"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_CODE_ID_2").equals(params.get("astCodeId2"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자산카테고리(중)");
+
+            searchMap.put("astUpperCode", assetInfo.get("AST_CODE_ID_1"));
+            searchMap.put("astCodeId", assetInfo.get("AST_CODE_ID_2"));
+            modMap.put("modOldItemInfo", assetRepository.getAstCategory(searchMap).get("AST_CODE_NM"));
+
+            searchMap.put("astUpperCode", params.get("astCodeId1"));
+            searchMap.put("astCodeId", params.get("astCodeId2"));
+            modMap.put("modNewItemInfo", assetRepository.getAstCategory(searchMap).get("AST_CODE_NM"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_CODE_ID_3").equals(params.get("astCodeId3"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자산카테고리(소)");
+
+            searchMap.put("astUpperCode", assetInfo.get("AST_CODE_ID_2"));
+            searchMap.put("astCodeId", assetInfo.get("AST_CODE_ID_3"));
+            modMap.put("modOldItemInfo", assetRepository.getAstCategory(searchMap).get("AST_CODE_NM"));
+
+            searchMap.put("astUpperCode", params.get("astCodeId2"));
+            searchMap.put("astCodeId", params.get("astCodeId3"));
+            modMap.put("modNewItemInfo", assetRepository.getAstCategory(searchMap).get("AST_CODE_NM"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_STS_CODE").equals(params.get("astStsCode"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자산상태");
+
+            searchMap.put("insideMdCode", "03");
+
+            searchMap.put("insideDtCode", assetInfo.get("AST_STS_CODE"));
+            modMap.put("modOldItemInfo", assetRepository.getInsideCode(searchMap).get("INSIDE_DT_CODE_NM"));
+
+            searchMap.put("insideDtCode", params.get("astStsCode"));
+            modMap.put("modNewItemInfo", assetRepository.getInsideCode(searchMap).get("INSIDE_DT_CODE_NM"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_PLACE_SN").equals(params.get("astPlaceSn"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "설치장소");
+
+            searchMap.put("astPlaceSn", assetInfo.get("AST_PLACE_SN"));
+            modMap.put("modOldItemInfo", assetRepository.getAssetPlace(searchMap).get("AST_PLACE_NAME"));
+
+            searchMap.put("astPlaceSn", params.get("astPlaceSn"));
+            modMap.put("modNewItemInfo", assetRepository.getAssetPlace(searchMap).get("AST_PLACE_NAME"));
+
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("AST_NAME").equals(params.get("astName"))){
+            modMap.put("modItemName", "자산명");
+            modMap.put("modOldItemInfo", assetInfo.get("AST_NAME"));
+            modMap.put("modNewItemInfo", params.get("astName"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("PURC_DATE").equals(params.get("purcDate"))){
+            modMap.put("modItemName", "구입일자");
+            modMap.put("modOldItemInfo", assetInfo.get("PURC_DATE"));
+            modMap.put("modNewItemInfo", params.get("purcDate"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("PURC_PRICE").equals(params.get("purcPrice"))){
+            modMap.put("modItemName", "구입금액");
+            modMap.put("modOldItemInfo", assetInfo.get("PURC_PRICE"));
+            modMap.put("modNewItemInfo", params.get("purcPrice"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("PURC_COMPANY_ID").equals(params.get("purcCompanyId"))){
+            /** 코드 조회 (업체 미정) */
+            modMap.put("modItemName", "구입업체");
+            modMap.put("modOldItemInfo", assetInfo.get("PURC_COMPANY_ID"));
+            modMap.put("modNewItemInfo", params.get("purcCompanyId"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("MODEL_SIZE").equals(params.get("modelSize"))){
+            modMap.put("modItemName", "규격");
+            modMap.put("modOldItemInfo", assetInfo.get("MODEL_SIZE"));
+            modMap.put("modNewItemInfo", params.get("modelSize"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("MODEL_NAME").equals(params.get("modelName"))){
+            modMap.put("modItemName", "모델명");
+            modMap.put("modOldItemInfo", assetInfo.get("MODEL_NAME"));
+            modMap.put("modNewItemInfo", params.get("modelName"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("MF_COMPANY").equals(params.get("mfCompany"))){
+            modMap.put("modItemName", "제조사");
+            modMap.put("modOldItemInfo", assetInfo.get("MF_COMPANY"));
+            modMap.put("modNewItemInfo", params.get("mfCompany"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("ORG_COUNTRY").equals(params.get("orgCountry"))){
+            modMap.put("modItemName", "생산국가");
+            modMap.put("modOldItemInfo", assetInfo.get("ORG_COUNTRY"));
+            modMap.put("modNewItemInfo", params.get("orgCountry"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("QTY").equals(params.get("qty"))){
+            modMap.put("modItemName", "구입수량");
+            modMap.put("modOldItemInfo", assetInfo.get("QTY"));
+            modMap.put("modNewItemInfo", params.get("qty"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("UNIT").equals(params.get("unit"))){
+            modMap.put("modItemName", "구입단위");
+            modMap.put("modOldItemInfo", assetInfo.get("UNIT"));
+            modMap.put("modNewItemInfo", params.get("unit"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("REG_TYPE").equals(params.get("regType"))){
+            modMap.put("modItemName", "등록구분");
+            modMap.put("modOldItemInfo", assetInfo.get("REG_TYPE").equals("1") ? "개별등록" : "일괄등록");
+            modMap.put("modNewItemInfo", params.get("regType").equals("1") ? "개별등록" : "일괄등록");
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("BARCODE_TYPE").equals(params.get("barcodeType"))){
+            modMap.put("modItemName", "바코드타입");
+            modMap.put("modOldItemInfo", assetInfo.get("BARCODE_TYPE").equals("1") ? "대" : "소");
+            modMap.put("modNewItemInfo", params.get("barcodeType").equals("1") ? "대" : "소");
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("FUNDING_SOURCE").equals(params.get("fundingSource"))){
+            /** 코드 조회 */
+            modMap.put("modItemName", "자금출처");
+            modMap.put("modOldItemInfo", assetInfo.get("FUNDING_SOURCE_TXT"));
+            modMap.put("modNewItemInfo", params.get("fundingSourceText"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("EXP_ACCOUNT").equals(params.get("expAccount"))){
+            modMap.put("modItemName", "지출계좌");
+            modMap.put("modOldItemInfo", assetInfo.get("EXP_ACCOUNT"));
+            modMap.put("modNewItemInfo", params.get("expAccount"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("EMP_NAME").equals(params.get("empName"))){
+            modMap.put("modItemName", "사용자");
+            modMap.put("modOldItemInfo", assetInfo.get("EMP_NAME"));
+            modMap.put("modNewItemInfo", params.get("empName"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("PURPOSE").equals(params.get("purpose"))){
+            modMap.put("modItemName", "용도");
+            modMap.put("modOldItemInfo", assetInfo.get("PURPOSE"));
+            modMap.put("modNewItemInfo", params.get("purpose"));
+            historyItemModList.add(modMap);
+        }
+
+        if(!assetInfo.get("REMARK").equals(params.get("remark"))){
+            modMap.put("modItemName", "비고");
+            modMap.put("modOldItemInfo", assetInfo.get("REMARK"));
+            modMap.put("modNewItemInfo", params.get("remark"));
+            historyItemModList.add(modMap);
+        }
+
+        assetRepository.setAstInfoModHistoryItem(historyItemModList);
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

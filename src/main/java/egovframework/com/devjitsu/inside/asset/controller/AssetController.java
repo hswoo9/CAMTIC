@@ -104,6 +104,8 @@ public class AssetController {
      */
     @RequestMapping("/inside/setAssetInfo.do")
     public String setAssetInfo(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request) {
+        params.put("regEmpIp", request.getRemoteAddr());
+
         assetService.setAssetInfo(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
