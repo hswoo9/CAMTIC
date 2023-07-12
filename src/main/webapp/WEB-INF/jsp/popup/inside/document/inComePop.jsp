@@ -6,9 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-    .card-header {padding: 0px 0px 40px 0px;}
-</style>
 
 <script type="text/javascript" src="/js/intra/inside/document/inComePop.js?v=${today}"/></script>
 <body class="font-opensans" style="background-color:#fff;">
@@ -26,7 +23,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
 <div style="padding:0;">
-    <div class="card-header">
+    <div class="card-header pop-header">
         <div class="table-responsive">
             <div style="background-color: #00397f;">
                 <div class="card-header" style="display:flex; justify-content: space-between; padding: 0px 0px 10px 0px; padding-right: 15px; padding-left: 15px; height: 50px;">

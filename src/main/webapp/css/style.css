@@ -122,3 +122,5 @@ input[type=file]::file-selector-button {
 .popTable > thead > tr > th, .popTable > tfoot > tr > th, .popTable > tfoot > tr > th{ background-color: #8fa1c04a;
 }
 
+/* 팝업창 card-header */
+.pop-header {padding: 0px 0px 40px 0px;}
