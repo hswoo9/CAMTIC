@@ -6,17 +6,13 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-    .card-header {padding: 0px 0px 40px 0px;}
-</style>
-
 <script type="text/javascript" src="/js/intra/inside/document/docuPop.js?v=${today}"/></script>
 
 <!DOCTYPE html>
 <html>
 <body class="font-opensans" style="background-color:#fff;">
 <div style="padding:0;">
-    <div class="card-header">
+    <div class="card-header pop-header">
         <div class="table-responsive">
             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
             <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
