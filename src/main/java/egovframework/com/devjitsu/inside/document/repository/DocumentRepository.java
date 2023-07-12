@@ -25,6 +25,10 @@ public class DocumentRepository extends AbstractDAO {
         insert("document.setDocumentInsert", params);
     }
 
+    public void setDocuOrderInsert(Map<String, Object> params) {
+        insert("document.setDocuOrderInsert", params);
+    }
+
     public void setSnackInsert(Map<String, Object> params) {
         insert("document.setSnackInsert", params);
     }
