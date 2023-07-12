@@ -18,26 +18,74 @@
 <div id="sidebarMenu">
     <ul class="sidebarMenuInner">
         <div class="row">
-            <div class="col-sm-5 col-md-12 col-lg-12">
-                <div class="media leftpanel-profile" style="text-align:center;">
-                    <div>
-                        <a href="#">
-                            <img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">사원 홍길동</h4>
-                        <span>(사)캠틱종합기술원 관리팀</span>
-                    </div>
-                    <div class="mt10" style="display:flex;justify-content: center;">
-                        <button class="btn btn-quirk infoBtn" id="goWork">출근</button>
-                        <button class="btn btn-quirk infoBtn" id="offWork">퇴근</button>
-                    </div>
-                </div><!-- leftpanel-profile -->
-            </div><!-- col-md-12 -->
-        </div><!-- row -->
+            <div class="col-sm-5 col-md-12 col-lg-12" style="margin-top:-10px;">
+                <div class="media leftpanel-profile" style="text-align:center; background-color:#fff;">
+                <div>
+                    <a href="#">
+                        <img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">김캠틱 선임</h4>
+                    <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">마케팅1팀</span>
+                </div>
+                <div style="margin-top:10px;">
+                    <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;">0</span></div>
+                    <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0</span></div>
+                    <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">작성할 보고</span><span style="color:#919191;font-weight:600; color:#259dab;">120</span></div>
+                </div>
+                <%--<div class="mt10" style="display:flex;justify-content: center;">
+                    <button class="btn btn-quirk infoBtn" id="goWork">출근</button>
+                    <button class="btn btn-quirk infoBtn" id="offWork">퇴근</button>
+                </div>--%>
+            </div>
+            <div class="panel" style="margin-bottom:10px;">
+                <div style="margin-top: 10px; padding: 25px 0 0 25px;">
+                    <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">최근 로그인 정보</h4>
+                </div>
+                <div class="panel-body">
+                   <table style="background-color:#fff; text-align:center;">
+                       <colgroup>
+                           <col width="40%">
+                           <col width="40%">
+                           <col width="20%">
+                       </colgroup>
+                       <tr style="border-bottom: 1px solid #eee;">
+                           <th style="color:#333;font-weight:600; text-align:center;">일시</th>
+                           <th style="color:#333;font-weight:600; text-align:center;">IP</th>
+                           <th style="color:#333;font-weight:600; text-align:center;">접속기기</th>
+                       </tr>
+                       <tr>
+                           <td style="color:#333;font-weight:600;padding:3px; text-align:center;">2023-07-11 13:43</td>
+                           <td style="color:#919191;font-weight:600;padding:3px; text-align:center;">218.158.231.107</td>
+                           <td style="text-align:center;padding:3px;">PC</td>
+                       </tr>
+                       <tr>
+                           <td style="color:#333;font-weight:600;padding:3px; text-align:center;">2023-07-11 13:43</td>
+                           <td style="color:#919191;font-weight:600;padding:3px; text-align:center;">218.158.231.107</td>
+                           <td style="text-align:center;padding:3px;">PC</td>
+                       </tr>
+                       <tr>
+                           <td style="color:#333;font-weight:600;padding:3px;">2023-07-11 08:39</td>
+                           <td style="color:#919191;font-weight:600;padding:3px;">115.144.64.1</td>
+                           <td style="text-align:center;padding:3px;">PC</td>
 
-        <div class="row" style="margin-top:15px;">
+                       </tr>
+                   </table>
+                </div>
+            </div>
+            <div class="panel">
+                <div style="padding: 25px 0 0 25px;">
+                    <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
+                </div>
+                <div class="panel-body">
+                    <div style="text-align:center;"><img src="/images/sample/testImages.png" alt="testImages" style="width:270px;"></div>
+                </div>
+            </div>
+        </div><!-- col-md-12 -->
+    </div><!-- row -->
+
+        <%--<div class="row" style="margin-top:15px;">
             <div class="col-sm-5 col-md-12 col-lg-12">
                 <div class="tab-pane" id="emailmenu">
                     <div class="panel-group" id="accordion3">
@@ -138,6 +186,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--%>
     </ul>
 </div>

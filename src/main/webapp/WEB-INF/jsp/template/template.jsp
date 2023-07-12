@@ -18,7 +18,7 @@
         </div>
     </div>
 </div>
-<div class="col-md-3 col-lg-2 dash-right" style="position:relative;">
+<div class="dash-right" style="position:relative;">
     <tiles:insertAttribute name="aside"/>
 </div>
 <tiles:insertAttribute name="footer" />
