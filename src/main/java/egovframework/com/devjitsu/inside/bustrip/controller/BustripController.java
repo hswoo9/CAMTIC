@@ -58,6 +58,17 @@ public class BustripController {
         return "inside/bustrip/bustripResult";
     }
 
+    @RequestMapping("/bustrip/getBustripTotInfo")
+    public String getBustripTotInfo(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+
+        model.addAttribute("list", list);
+
+
+        return "jsonView";
+    }
+
     //관내출장리스트
     @RequestMapping("/bustrip/inBustripList.do")
     public String inBustripList(HttpServletRequest request, Model model) {
@@ -88,7 +99,7 @@ public class BustripController {
     }
 
     /**
-     * 출장조회 데이터 불러오기
+     * 출장신청 데이터 불러오기
      * @param params
      * @param request
      * @param model
@@ -119,24 +130,47 @@ public class BustripController {
         return "jsonView";
     }
 
-    //관외출장리스트
-    @RequestMapping("/bustrip/outBustripList.do")
-    public String outBustripList(HttpServletRequest request, Model model) {
+    /**
+     * 출장결과보고
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/bustrip/viewBustripResult.do")
+    public String viewBustripResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/bustrip/outBustripList";
+        return "inside/bustrip/bustripResult";
+    }
+
+    /**
+     * 출장결과보고 상태값 확인
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/bustrip/getBustripReqCheck")
+    public String getBustripReqCheck(@RequestParam Map<String, Object> params, Model model){
+        logger.info("controller getBustripReqCheck");
+        model.addAttribute("rs", bustripService.getBustripReqCheck(params));
+
+        return "jsonView";
     }
 
     //관외출장 신청 페이지
-    @RequestMapping("/bustrip/pop/outBustripReqPop.do")
-    public String outBustripReqPop(HttpServletRequest request, Model model) {
+    @RequestMapping("/bustrip/pop/bustripResultPop.do")
+    public String bustripResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/outBustripReqPop";
+        return "popup/inside/bustrip/bustripResultPop";
     }
 
     //교통비기준정보

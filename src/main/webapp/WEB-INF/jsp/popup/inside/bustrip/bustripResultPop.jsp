@@ -6,9 +6,40 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/inBustripReqPop.js?v=${today}"></script>
 <style>
-    .card-header {padding: 0px 0px 40px 0px;}
+    .removeDay{
+        text-decoration:line-through;
+        font-weight:700;
+        color:red
+    }
+    .k-grid-toolbar{
+        justify-content: flex-end !important;
+    }
+    .k-grid-norecords{
+        justify-content: space-around;
+    }
+    .k-grid tbody tr{
+        height: 38px;
+    }
+    #wptDiv{
+        margin: 0 auto;
+        width: 100px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-around;
+    }
+    #wptDiv > label {
+        margin : 0
+    }
+    #timeDiff{
+        height: 255px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
@@ -16,12 +47,7 @@
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
                 <div class="popupTitleSt">
-                    <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
-                        출장신청
-                    </c:if>
-                    <c:if test="${params.hrBizReqId != '' && params.hrBizReqId != null}">
-                        출장정보
-                    </c:if>
+                    출장결과보고 신청
                 </div>
                 <form id="inBustripReqPop">
                     <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -127,6 +153,28 @@
                                 <input type="text" id="bustObj" style="width: 100%;">
                             </td>
                         </tr>
+                        <tr>
+                            <th><span class="red-star">*</span>운행거리</th>
+                            <td colspan="3">
+                                <input type="text" id="moveDst" style="width: 10%;"> km
+                                <button type="button" class="k-button k-button-solid-base" disabled>거리측정</button>
+                                <button type="button" class="k-button k-button-solid-base" disabled>하이패스</button>
+                                ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
+                                [<a href="#">이용방법 보기</a>]
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="red-star">*</span>운행자</th>
+                            <td>
+                                <input type="text" id="realDriver" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="red-star">*</span>출장결과</th>
+                            <td colspan="3">
+                                <input type="text" id="result" />
+                            </td>
+                        </tr>
                         </thead>
                     </table>
                 </form>
@@ -169,18 +217,12 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-
-            <div class="btn-st" style="margin-top:10px; text-align:right;">
-                <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
-                    <input type="button" class="k-button k-button-solid-info" id="saveBtn" value="저장" onclick="inBustripReqPop.fn_saveBtn();"/>
-                </c:if>
-                <c:if test="${params.hrBizReqId != '' && params.hrBizReqId != null}">
-                    <input type="button" class="k-button k-button-solid-info" id="modBtn" value="수정" onclick="inBustripReqPop.fn_updBtn('${params.hrBizReqId}');"/>
-                </c:if>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()"/>
+            <div class="btn-st" style="margin-top:10px; text-align:center;">
+                <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
+                <input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick=""/>
             </div>
         </div>
     </div>
@@ -189,6 +231,7 @@
     inBustripReqPop.init();
 
     var dataConf = '${params.hrBizReqId}';
+    bustripResultPop.init(dataConf);
 
     if(dataConf != ''){
         inBustripReqPop.setData(dataConf);
@@ -199,6 +242,3 @@
     }
 </script>
 </body>
-
-
-

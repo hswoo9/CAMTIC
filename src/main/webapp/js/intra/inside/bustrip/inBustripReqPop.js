@@ -104,7 +104,12 @@ var inBustripReqPop = {
                 {text: "선택하세요", value: ""},
                 {text: "카니발", value: "1"},
                 {text: "아반떼", value: "5"},
-                {text: "트럭", value: "3"}
+                {text: "트럭", value: "3"},
+                {text: "자가", value: "10"},
+                {text: "대중교통", value: "0"},
+                {text: "솔라티", value: "13"},
+                {text: "드론관제차량", value: "14"},
+                {text: "기타", value: "11"}
             ],
             index : 0,
             enable : true
