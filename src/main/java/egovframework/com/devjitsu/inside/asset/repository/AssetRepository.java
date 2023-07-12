@@ -22,6 +22,8 @@ public class AssetRepository extends AbstractDAO {
     public Map<String, Object> getAstManage() { return (Map<String, Object>) selectOne("asset.getAstManage");}
     public void setAstManage(Map<String, Object> params) { insert("asset.setAstManage", params);}
     public void setAstManageUpd(Map<String, Object> params) { insert("asset.setAstManageUpd", params);}
+    public void setAstInfoBatch(Map<String, Object> params) { insert("asset.setAstInfoBatch", params);}
+
 
     /** 분류관리 */
     /** 소속관리*/

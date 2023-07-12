@@ -6,8 +6,8 @@ var assetList = {
     },
 
     fnDefaultScript : function(){
-        assetList.gridReload();
         assetList.kendoSetting();
+        assetList.gridReload();
     },
 
     gridReload : function(){

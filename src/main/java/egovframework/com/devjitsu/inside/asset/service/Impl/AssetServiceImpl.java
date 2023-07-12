@@ -38,7 +38,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void setAssetInfo(Map<String, Object> params, MultipartFile relatedFile, MultipartFile astFile, String server_dir, String base_dir) {
+    public void setAssetInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
         params.put("astNo", params.get("astNo") + "-" + assetRepository.getAssetInfoBarcordMax(params));
         if(StringUtils.isEmpty(params.get("astInfoSn"))){
             assetRepository.setAssetInfo(params);
@@ -49,35 +49,40 @@ public class AssetServiceImpl implements AssetService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
+        MultipartFile relatedFile = request.getFile("relatedFile");
+        MultipartFile astFile = request.getFile("astFile");
 
-        if(!relatedFile.isEmpty()){
-            fileInsMap = mainLib.fileUpload(relatedFile, filePath(params, server_dir));
-            fileInsMap.put("astInfoSn", params.get("astInfoSn"));
-            fileInsMap.put("fileCd", params.get("menuCd"));
-            fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-            fileInsMap.put("filePath", filePath(params, base_dir));
-            fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-            fileInsMap.put("empSeq", params.get("empSeq"));
-            commonRepository.insOneFileInfo(fileInsMap);
+        if(relatedFile != null){
+            if(!relatedFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(relatedFile, filePath(params, server_dir));
+                fileInsMap.put("astInfoSn", params.get("astInfoSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
 
-            fileInsMap.put("relatedFileNo", fileInsMap.get("file_no"));
-            assetRepository.setAstRelatedFileNoUpd(fileInsMap);
+                fileInsMap.put("relatedFileNo", fileInsMap.get("file_no"));
+                assetRepository.setAstRelatedFileNoUpd(fileInsMap);
+            }
         }
 
-        if(!astFile.isEmpty()){
-            fileInsMap = mainLib.fileUpload(astFile, filePath(params, server_dir));
-            fileInsMap.put("astInfoSn", params.get("astInfoSn"));
-            fileInsMap.put("fileCd", params.get("menuCd"));
-            fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-            fileInsMap.put("filePath", filePath(params, base_dir));
-            fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-            fileInsMap.put("empSeq", params.get("empSeq"));
-            commonRepository.insOneFileInfo(fileInsMap);
+        if(astFile != null){
+            if(!astFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(astFile, filePath(params, server_dir));
+                fileInsMap.put("astInfoSn", params.get("astInfoSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
 
-            fileInsMap.put("astFileNo", fileInsMap.get("file_no"));
-            assetRepository.setAstFileNoUpd(fileInsMap);
+                fileInsMap.put("astFileNo", fileInsMap.get("file_no"));
+                assetRepository.setAstFileNoUpd(fileInsMap);
+            }
         }
-
     }
 
     @Override
@@ -117,6 +122,11 @@ public class AssetServiceImpl implements AssetService {
         }else{
             assetRepository.setAstManageUpd(params);
         }
+    }
+
+    @Override
+    public void setAstInfoBatch(Map<String, Object> params) {
+        assetRepository.setAstInfoBatch(params);
     }
 
     //장비관리 팝업창 (관리자) - 장비등록
