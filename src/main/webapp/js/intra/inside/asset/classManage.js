@@ -93,8 +93,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllCp" name="checkAllCp" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='cPGridChk#=AST_CODE_COMPANY_ID#' name='cPGridChk' value='#=AST_CODE_COMPANY_ID#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAllCp" name="checkAllCp"/>',
+                    template : "<input type='checkbox' id='cPGridChk#=AST_CODE_COMPANY_ID#' name='cPGridChk' value='#=AST_CODE_COMPANY_ID#'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -131,14 +131,14 @@ var classManage = {
 
         var url = "/inside/assetCodePositionManagePop.do?astCodeCompanyId=" + $("input[name=cPGridChk]:checked").val() + "&modify=Y";
         var name = "assetCodePositionManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     assetCodePositionManagePop : function() {
         var url = "/inside/assetCodePositionManagePop.do";
         var name = "assetCodePositionManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -191,8 +191,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllCd" name="checkAllCd" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='cDGridChk#=AST_CODE_TYPE_ID#' name='cDGridChk' value='#=AST_CODE_TYPE_ID#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAllCd" name="checkAllCd"/>',
+                    template : "<input type='checkbox' id='cDGridChk#=AST_CODE_TYPE_ID#' name='cDGridChk' value='#=AST_CODE_TYPE_ID#'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -229,14 +229,14 @@ var classManage = {
 
         var url = "/inside/divisionManagePop.do?astCodeTypeId=" + $("input[name=cDGridChk]:checked").val() + "&modify=Y";
         var name = "divisionManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     divisionManagePopup : function() {
         var url = "/inside/divisionManagePop.do";
         var name = "divisionManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -285,8 +285,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllP" name="checkAllP" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='pGridChk#=AST_PLACE_SN#' name='pGridChk' value='#=AST_PLACE_SN#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAllP" name="checkAllP"/>',
+                    template : "<input type='checkbox' id='pGridChk#=AST_PLACE_SN#' name='pGridChk' value='#=AST_PLACE_SN#'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -322,14 +322,14 @@ var classManage = {
 
         var url = "/inside/placeManagePop.do?astPlaceSn=" + $("input[name=pGridChk]:checked").val() + "&modify=Y";
         var name = "placeManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     placeManagePop : function() {
         var url = "/inside/placeManagePop.do";
         var name = "placeManagePop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -383,8 +383,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllA" name="checkAllA" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='categoryGridAChk#=AST_CODE_ID#' name='categoryGridAChk' value='#=AST_CODE_ID#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAllA" name="checkAllA"/>',
+                    template : "<input type='checkbox' id='categoryGridAChk#=AST_CODE_ID#' name='categoryGridAChk' value='#=AST_CODE_ID#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -449,8 +449,8 @@ var classManage = {
             dataBound : classManage.bDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllB" name="checkAllB" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='categoryGridBChk#=AST_CODE_ID#' name='categoryGridBChk' value='#=AST_CODE_ID#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAllB" name="checkAllB"/>',
+                    template : "<input type='checkbox' id='categoryGridBChk#=AST_CODE_ID#' name='categoryGridBChk' value='#=AST_CODE_ID#'/>",
                     width: 50
                 }, {
                     field: "RECORD",
@@ -514,8 +514,8 @@ var classManage = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='categoryGridCChk#=AST_CODE_ID#' name='categoryGridCChk' value='#=AST_CODE_ID#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC"/>',
+                    template : "<input type='checkbox' id='categoryGridCChk#=AST_CODE_ID#' name='categoryGridCChk' value='#=AST_CODE_ID#'/>",
                     width: 50
                 }, {
                     field : "RECORD",

@@ -10,11 +10,14 @@ var categoriesManagePop = {
 
     fn_defaultScript: function () {
         if($("#categoryType").val() == "categoryA"){
-            $("#titleName").text("카테고리(대) 추가");
+            /*$("#titleName").text("카테고리(대) 추가");*/
+            $("#titleNM").text("카테고리(대) 추가");
         }else if($("#categoryType").val() == "categoryB"){
-            $("#titleName").text("카테고리(중) 추가");
+            /*$("#titleName").text("카테고리(중) 추가");*/
+            $("#titleNM").text("카테고리(중) 추가");
         }else{
-            $("#titleName").text("카테고리(소) 추가");
+            /*$("#titleName").text("카테고리(소) 추가");*/
+            $("#titleNM").text("카테고리(소) 추가");
         }
 
         categoriesManagePop.makeTableInit();
@@ -47,7 +50,7 @@ var categoriesManagePop = {
                         '<th scope="row" className="text-center th-color">' +
                             '<span className="red-star"></span>카테고리(중)' +
                         '</th>' +
-                        '<td colspan="2">' +
+                        '<td colspan="3">' +
                             '<input type="text" id="astCodeNm" style="width: 100%;">' +
                         '</td>' +
                     "</tr>";

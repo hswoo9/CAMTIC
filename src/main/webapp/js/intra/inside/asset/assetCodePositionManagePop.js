@@ -4,6 +4,9 @@ var assetCodePositionManagePop = {
     },
 
     fn_defaultScript: function () {
+        $("#astCpCodeNm").kendoTextBox();
+        $("#astCpCode").kendoTextBox();
+
         customKendo.fn_textBox(["belong", "belongCode"]);
 
         if($("#mod").val() == "Y"){
