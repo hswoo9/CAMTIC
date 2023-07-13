@@ -18,12 +18,10 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
-  <div style="background-color: #00397f;">
-    <div class="card-header pop-header">
-      <h3 class="card-title title_NM">포상 구분 관리</h3>
-      <div class="btn-st popButton" >
-        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
-      </div>
+  <div class="card-header pop-header">
+    <h3 class="card-title title_NM">포상 구분 관리</h3>
+    <div class="btn-st popButton" >
+      <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
     </div>
   </div>
   <form id="rewardGubunPop" style="padding: 20px 30px;">

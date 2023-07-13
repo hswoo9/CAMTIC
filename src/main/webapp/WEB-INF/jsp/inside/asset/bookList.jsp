@@ -11,12 +11,12 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">도서리스트</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 도서관리 &gt; 도서리스트</div>
+            <div class="title-road">캠인사이드 > 도서관리 &gt; 도서리스트</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
                         <col width="90%">

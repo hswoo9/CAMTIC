@@ -124,11 +124,19 @@ var carManage = {
                 },
                 toolbar: [
                     {
-                        name: '',
-                        text: '삭제'
+                        name : 'button',
+                        template : function (e){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
+                        }
                     }, {
-                        name: '',
-                        text: '신규'
+                        name : 'button',
+                        template : function (e){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                                '	<span class="k-button-text">신규</span>' +
+                                '</button>';
+                        }
                     }
                 ],
                 noRecords: {
@@ -136,8 +144,8 @@ var carManage = {
                 },
                 columns: [
                     {
-                        headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                        template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                        headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                        template : "<input type='checkbox' id='' name='' value=''/>",
                         width: 50
                     }, {
                         field: "",

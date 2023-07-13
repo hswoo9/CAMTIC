@@ -28,6 +28,9 @@ var recruitList = {
             ],
             index: 0
         });
+
+        $("#searchVal").kendoTextBox();
+
     },
 
     mainGrid : function() {
@@ -76,14 +79,14 @@ var recruitList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="recruitList.recruitReqPop();">' +
                             '	<span class="k-button-text">채용공고등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="recruitList.recruitAdminPop();">' +
                             '	<span class="k-button-text">채용공고관리</span>' +
                             '</button>';
                     }
@@ -94,8 +97,8 @@ var recruitList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
                     field: "",
@@ -138,7 +141,7 @@ var recruitList = {
     recruitReqPop : function() {
         var url = "/Inside/pop/recruitReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=1400, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1400, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 

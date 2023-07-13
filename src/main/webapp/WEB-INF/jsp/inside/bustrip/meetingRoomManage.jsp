@@ -3,11 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-    table { background-color: white; }
-</style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/meetingRoomManage.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -20,7 +15,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">회의실관리</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 차량/회의실관리 > 회의실관리</div>
+            <div class="title-road">캠인사이드 > 차량/회의실관리 > 회의실관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -31,8 +26,23 @@
                 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
                 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="85%">
+                    </colgroup>
                     <tr>
+                        <th class="text-center th-color">사용 여부</th>
+                        <td>
+                            <input type="text" id="useYN" style="width: 150px;">
+                            <input type="text" id="space" style="width: 200px;">
+                            <input type="text" id="titleContent" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                <span>검색</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <%--<tr>
                         <td style="border-bottom:0;">
                             <div style="display:flex;">
                                 <div class="mr10">
@@ -50,15 +60,15 @@
                                         <span>검색</span>
                                     </button>
                                 </div>
-<%--                                <div class="mr10">
+&lt;%&ndash;                                <div class="mr10">
                                     <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="meetingRoomManage.meetingRoomManagePopup();">
                                         등록
                                     </button>
-                                </div>--%>
-                                <%--초기 등록 팝업창 합침--%>
+                                </div>&ndash;%&gt;
+                                &lt;%&ndash;초기 등록 팝업창 합침&ndash;%&gt;
                             </div>
                         </td>
-                    </tr>
+                    </tr>--%>
                 </table>
             </div>
             <div class="panel">
@@ -71,7 +81,7 @@
                     <div class="mt10"></div>
                     <span style="font-weight: bold;">* 회의실 등록</span>
                     <div id="" style="margin:10px 0;"></div>
-                    <table class="table table-bordered mb-0">
+                    <table class="manageTable table table-bordered mb-0">
                         <colgroup>
                             <col width="20%">
                             <col width="80%">
@@ -82,7 +92,7 @@
                                 <button type="button" id="downLoad" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0; margin-left: 450px;" onclick="">
                                     엑셀 다운로드
                                 </button>
-                                <button type="button" id="saveButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="">
+                                <button type="button" id="saveButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="width:50px; height:27px; line-height:0;" onclick="">
                                     저장
                                 </button>
                             </th>
@@ -101,7 +111,7 @@
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>수용 인원</th>
-                            <td><input type="text" id="Num" style="width: 50%;">명</td>
+                            <td><input type="text" id="Num" style="width: 50%;"> 명</td>
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>대관 여부</th>
@@ -109,7 +119,7 @@
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>대관료</th>
-                            <td><input type="text" id="rentalFee" style="width: 50%; text-align: right;">원 (VAT 포함 금액)</td>
+                            <td><input type="text" id="rentalFee" style="width: 50%; text-align: right;"> 원 (VAT 포함 금액)</td>
                         </tr>
                         <tr>
                             <th scope="row" class="text-center th-color"><span class="red-star"></span>등록자</th>

@@ -88,14 +88,14 @@ var bustripResult = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResult.popBustripRes()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripResult.popBustripRes()">' +
                             '	<span class="k-button-text">신청</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
                             '	<span class="k-button-text">신청취소</span>' +
                             '</button>';
                     }
@@ -173,7 +173,7 @@ var bustripResult = {
     popBustripRes : function(e) {
         var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+e;
         var name = "bustripResultPop";
-        var option = "width=1200, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1200, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

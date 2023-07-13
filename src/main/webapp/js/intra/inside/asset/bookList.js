@@ -64,14 +64,14 @@ var bookList = {
                 buttonCount : 5
             },
             toolbar : [
-                {
+                /*{
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookManagePopUp();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookManagePopUp();">' +
                             '	<span class="k-button-text">분류관리</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookRegisPopup();">' +
@@ -128,7 +128,7 @@ var bookList = {
     bookManagePopUp : function() {
         var url = "/Inside/Pop/bookManagePop.do";
         var name = "bookManagePop";
-        var option = "width = 500, height = 320, top = 100, left = 200, location = no, _blank"
+        var option = "width = 680, height = 320, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

@@ -112,13 +112,14 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">휴가 사용 내역</h4>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title" style="margin-bottom: 20px;">휴가 사용 내역</h4>
             <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-            <div>
-                <table class="searchTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+        </div>
+        <div class="panel-body">
+            <div style="margin-bottom:10px;">
+                <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
                         <col width="40%">
@@ -140,7 +141,6 @@
             </div>
             <div id="mainGrid" style="margin:20px 0;"></div>
         </div>
-
     </div>
 </div><!-- col-md-9 -->
 
