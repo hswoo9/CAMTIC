@@ -11,7 +11,7 @@
 <header>
   <div class="headerpanel">
      <a href="#" onclick="fn_mvMainPage();"><div class="logopanel"></div></a>
-    <div class="headerbar" style="width:1460px;">
+    <div class="headerbar" style="width:88%;">
       <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
       <div class="searchpanel">
         <div class="input-group">
@@ -126,7 +126,10 @@
                           <div class="col-xs-12">
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/camspot/privacyInfo.do')">개인정보</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">이미지관리</a></div>
-                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">권한조회</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/userPersonnelRecord.do')">인사기록카드</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/personAttendList.do')">근태관리</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/subHoliday/subHolidayAdmin.do')">휴가관리</a></div>
+
                           </div>
                         </div>
                       </li>

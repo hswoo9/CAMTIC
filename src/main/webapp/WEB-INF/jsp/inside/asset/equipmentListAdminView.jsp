@@ -4,19 +4,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentListAdminView.js?v=${today}"/></script>
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">장비 관리 (관리자)</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 장비 관리 &gt; 장비 관리 (관리자)</div>
+            <div class="title-road">캠인사이드 > 장비 관리 &gt; 장비 관리 (관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered">
                     <colgroup>
                         <col width="10%">
                         <col width="35%">
@@ -54,17 +53,15 @@
                 </table>
                 <div id="" style="margin:20px 0;">
                     <h5>[2023년 5월 장비사용현황]</h5>
-                    <table class="table table-bordered" style="width: 200px;">
+                    <table class="searchTable table table-bordered" style="width: 200px; height: 40px;">
                         <colgroup>
                             <col width="" >
                             <col width="" >
                         </colgroup>
-                        <thead>
                         <tr>
                             <th>진행상황</th>
                             <td>승인</td>
                         </tr>
-                        </thead>
                     </table>
                 </div>
                 <div id="mainGrid" style="margin:20px 0;"></div>
