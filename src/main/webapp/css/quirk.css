@@ -7416,7 +7416,7 @@ fieldset[disabled] .btn-info.active {
 }
 .panel-title {
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 700;
   color: #313745;
   letter-spacing: .2px;

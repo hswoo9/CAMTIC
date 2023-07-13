@@ -41,7 +41,7 @@
                             <ul class="nav nav-quirk" style="margin:0;">
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:13px;">초복특식제공</span><span>[1]</span>
+                                        <span style="font-weight:600; font-size:15px;">초복특식제공</span><span>[1]</span>
                                     </div>
                                     <div style="padding: 5px 10px;">
                                         <span style="margin-right:10px;">2023-07-11 12:20</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>공지</span>
@@ -49,7 +49,7 @@
                                 </li>
                                 <li style="border-top:0;">
                                     <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:13px;">07월 정기소독 실시 안내</span><span>[1]</span>
+                                        <span style="font-weight:600; font-size:15px;">07월 정기소독 실시 안내</span><span>[1]</span>
                                     </div>
                                     <div style="padding: 5px 10px;">
                                         <span style="margin-right:10px;">2023-07-11 10:22</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>공지</span>
@@ -57,7 +57,7 @@
                                 </li>
                                 <li style="border-top:0;">
                                     <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:13px;">07월 2주차 주간식단표입니다.</span><span>[1]</span>
+                                        <span style="font-weight:600; font-size:15px;">07월 2주차 주간식단표입니다.</span><span>[1]</span>
                                     </div>
                                     <div style="padding: 5px 10px;">
                                         <span style="margin-right:10px;">2023-07-05 17:22</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>주간식단표</span>
@@ -65,7 +65,7 @@
                                 </li>
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:13px;">보건협회 07월 검진 방문 안내</span><span></span>
+                                        <span style="font-weight:600; font-size:15px;">보건협회 07월 검진 방문 안내</span><span></span>
                                     </div>
                                     <div style="padding: 5px 10px;">
                                         <span style="margin-right:10px;">2023-07-03 11:22</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>공지</span>
@@ -194,28 +194,28 @@
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i>연락처 추가</a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">연락처 추가</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i>일정등록</a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">일정등록</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i>게시물쓰기</a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">게시물쓰기</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i>설문작성</a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">설문작성</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
@@ -287,7 +287,15 @@
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
             </div>
             <div class="panel-body" style="padding:5px;">
-
+                <div class="demo-section" style="text-align: center;">
+                    <div id="calendar"></div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        // create Calendar from div HTML element
+                        $("#calendar").kendoCalendar();
+                    });
+                </script>
             </div>
         </div>
     </div>
