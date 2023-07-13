@@ -125,7 +125,7 @@ var equipmentmangePop = {
                     name: '',
                     text: '삭제',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentmangePop.selectChkDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="equipmentmangePop.selectChkDel()">' +
                             '   <span class="k-button-text">삭제</span>' +
                             '</button>';
                     }

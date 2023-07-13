@@ -3,12 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-    .k-grid-norecords{justify-content: space-around;}
-</style>
 <script type="text/javascript" src="/js/intra/inside/asset/assetList.js?v=${today}"/></script>
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
@@ -16,12 +10,12 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">자산리스트</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 자산관리 &gt; 자산리스트</div>
+            <div class="title-road">캠인사이드 > 자산관리 &gt; 자산리스트</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="searchTable table table-bordered" style="border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered">
                     <colgroup>
                         <col width="8%">
                         <col width="12%">
@@ -77,14 +71,14 @@
                         <td colspan="5">
                             <input type="text" id="searchType" style="width: 140px; margin-right: 6px;" on>
                             <input type="text" id="searchContent" style="width: 66.1%" onkeypress="if(window.event.keyCode==13){assetList.gridReload()}">
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="assetList.gridReload()"/>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.gridReload()">검색</button>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="9" style="text-align: right">
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(대)" onclick=""/>
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="바코드 출력(소)" onclick=""/>
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="자산관리카드 인쇄" onclick=""/>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(대)</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(소)</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">자산관리카드 인쇄</button>
                         </td>
                     </tr>
                 </table>

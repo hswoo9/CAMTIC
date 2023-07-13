@@ -15,30 +15,28 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
-        <div style="background-color: #00397f;">
-            <div class="card-header pop-header">
-                <h3 class="card-title title_NM">식대 사용 등록</h3>
-                <div class="btn-st popButton">
-                    <c:choose>
-                        <c:when test="${status == 0}">
-                            <button type="button" class="k-button k-button-solid-info btn-A" onclick="snackReq.fn_snackCertReq(10);">신청</button>
-                            <button type="button" class="k-button k-button-solid-info btn-A" onclick="snackReq.uptBtn();">수정</button>
-                            <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="snackReq.saveBtn();"/>
-                            <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
-                        </c:when>
-                        <c:when test="${status == 10}">
-                            <button type="button" class="k-button k-button-md k-button-solid-info" onclick="snackReq.fn_snackCertReq(100)">승인</button>
-                            <button type="button" class="k-button k-button-md k-button-solid-error" onclick="snackReq.fn_snackCertReq(30)">반려</button>
-                        </c:when>
-                        <c:when test="${status == 100}">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>
-                        </c:when>
-                        <c:when test="${status == null}">
-                            <button type="button" class="k-button k-button-solid-info" onclick="snackReq.saveBtn();">저장</button>
-                            <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
-                        </c:when>
-                    </c:choose>
-                </div>
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">식대 사용 등록</h3>
+            <div class="btn-st popButton">
+                <c:choose>
+                    <c:when test="${status == 0}">
+                        <button type="button" class="k-button k-button-solid-info btn-A" onclick="snackReq.fn_snackCertReq(10);">신청</button>
+                        <button type="button" class="k-button k-button-solid-info btn-A" onclick="snackReq.uptBtn();">수정</button>
+                        <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="snackReq.saveBtn();"/>
+                        <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
+                    </c:when>
+                    <c:when test="${status == 10}">
+                        <button type="button" class="k-button k-button-md k-button-solid-info" onclick="snackReq.fn_snackCertReq(100)">승인</button>
+                        <button type="button" class="k-button k-button-md k-button-solid-error" onclick="snackReq.fn_snackCertReq(30)">반려</button>
+                    </c:when>
+                    <c:when test="${status == 100}">
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>
+                    </c:when>
+                    <c:when test="${status == null}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="snackReq.saveBtn();">저장</button>
+                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
         <form id="table-responsive" style="padding: 20px 30px;">

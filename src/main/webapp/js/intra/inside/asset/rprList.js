@@ -169,14 +169,14 @@ var rprList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rprList.jobInvenReportPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rprList.jobInvenReportPopup();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -190,8 +190,8 @@ var rprList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
                     field: "",
@@ -247,14 +247,14 @@ var rprList = {
     rprChangePopup : function() {
         var url = "/Inside/Pop/rprChangePop.do";
         var name = "rprChangePop";
-        var option = "width = 400, height = 300, top = 100, left = 200, location = no, _blank"
+        var option = "width = 600, height = 300, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     jobInvenReportPopup : function() {
         var url = "/Inside/Pop/jobInvenReportPop.do";
         var name = "jobInvenReportPop";
-        var option = "width = 500, height = 500, top = 100, left = 200, location = no, _blank"
+        var option = "width = 700, height = 500, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     }
 }

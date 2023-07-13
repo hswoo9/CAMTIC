@@ -14,24 +14,22 @@
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
-        <div style="background-color: #00397f;">
-            <div class="card-header pop-header">
-                <h3 class="card-title title_NM">증명서신청</h3>
-                <div class="btn-st popButton">
-                    <c:choose>
-                        <c:when test="${data.STATUS == 0}">
-                            <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="certificateReqPop.fn_certReq();"/>
-                            <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="certificateReqPop.uptBtn();"/>
-                            <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="certificateReqPop.saveBtn();"/>
-                            <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
-                        </c:when>
-                        <c:when test="${data.STATUS == null}">
-                            <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
-                            <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
-                        </c:when>
-                    </c:choose>
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">증명서신청</h3>
+            <div class="btn-st popButton">
+                <c:choose>
+                    <c:when test="${data.STATUS == 0}">
+                        <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="certificateReqPop.fn_certReq();"/>
+                        <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="certificateReqPop.uptBtn();"/>
+                        <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="certificateReqPop.saveBtn();"/>
+                        <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
+                    </c:when>
+                    <c:when test="${data.STATUS == null}">
+                        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
+                        <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+                    </c:when>
+                </c:choose>
 
-                </div>
             </div>
         </div>
         <form id="subHolidayReqPop" style="padding: 20px 30px;">

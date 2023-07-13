@@ -1,78 +1,68 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/rprList.js?v=${today}"/></script>
-
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner {justify-content: center;}
-</style>
-
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">지식재산권 리스트</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 지식재산권관리 &gt; 지식재산권 리스트</div>
+            <div class="title-road">캠인사이드 > 지식재산권관리 &gt; 지식재산권 리스트</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="23%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="17%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>기준</span>
-                                    <input type="text" id="drop1" style="width: 120px; margin-left: 29px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>조회기간</span>
-                                    <input type="text" id="start_date" style="width: 125px;">
-                                    ~
-                                    <input type="text" id="end_date" style="width: 125px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>구분</span>
-                                    <input type="text" id="drop2" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>상태</span>
-                                    <input type="text" id="drop3" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>유지여부</span>
-                                    <input type="text" id="drop4" style="width: 120px;">
-                                </div>
-                            </div>
-                            <div style="display:flex;" class="mt10">
-                                <div class="mr10">
-                                    <span>단독/공동</span>
-                                    <input type="text" id="drop5" style="width: 120px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>기술이전</span>
-                                    <input type="text" id="drop6" style="width: 125px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="text" id="searchType" style="width: 80px; margin-left: 7px; margin-right: 6px;">
-                                    <input type="text" id="searchVal" style="width: 140px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">기준</th>
+                        <td>
+                            <input type="text" id="drop1" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">조회기간</th>
+                        <td>
+                            <input type="text" id="start_date" style="width: 110px;">
+                            ~
+                            <input type="text" id="end_date" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="drop2" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="drop3" style="width: 150px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">유지여부</th>
+                        <td>
+                            <input type="text" id="drop4" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">단독/공동</th>
+                        <td>
+                            <input type="text" id="drop5" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">기술이전</th>
+                        <td colspan="3">
+                            <input type="text" id="drop6" style="width: 150px;">
+                            <input type="text" id="searchType" style="width: 120px;">
+                            <input type="text" id="searchVal" style="width: 140px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                검색
+                            </button>
                         </td>
                     </tr>
                 </table>

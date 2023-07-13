@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/document/docuPop.js?v=${today}"/></script>
-
-<!DOCTYPE html>
 <html>
 <body class="font-opensans" style="background-color:#fff;">
 <div style="padding:0;">

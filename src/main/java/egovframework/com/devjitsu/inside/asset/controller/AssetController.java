@@ -508,7 +508,7 @@ public class AssetController {
     }
 
     //지식재산권 리스트 - 지식재산권 일괄변경 팝업
-    @RequestMapping("/Inside/rprChangePop.do")
+    @RequestMapping("/Inside/Pop/rprChangePop.do")
     public String rprChangePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
