@@ -128,17 +128,17 @@ var subHolidayList = {
                             if(e.APPR_STAT == "N"){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>승인요청</span>" +
+                                    "<span class='k-button-text'>상신</span>" +
                                     "</button>";
                             } else if(e.APPR_STAT == "E"){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>재요청</span>" +
+                                    "<span class='k-button-text'>재상신</span>" +
                                     "</button>";
                             } else if(e.APPR_STAT == "Y"){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>결재</span>" +
+                                    "<span class='k-button-text'>열람</span>" +
                                     "</button>";
                             } else if(e.APPR_STAT =="C"){
                                 if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
@@ -167,17 +167,17 @@ var subHolidayList = {
                             if(e.APPR_STAT == "N"){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.workHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>승인요청</span>" +
+                                    "<span class='k-button-text'>상신</span>" +
                                     "</button>";
                             } else if(e.APPR_STAT == "E"){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>재요청</span>" +
+                                    "<span class='k-button-text'>재상신</span>" +
                                     "</button>";
                             } else if(e.APPR_STAT == "Y"){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>결재</span>" +
+                                    "<span class='k-button-text'>열람</span>" +
                                     "</button>";
                             } else if(e.APPR_STAT =="C"){
                                 if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
