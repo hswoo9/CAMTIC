@@ -119,12 +119,12 @@
             <div id="noticeDropdown1" class="dropdown-menu dm-notice pull-right">
               <div role="tabpanel">
                 <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane active" id="notification1">
+                  <div role="tabpanel" class="tab-pane active" id="notification1" style="background-color:#fff;">
                     <ul class="list-group notice-list">
                       <li class="list-group-item unread">
                         <div class="row">
                           <div class="col-xs-12">
-                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">개인정보</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/camspot/privacyInfo.do')">개인정보</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">이미지관리</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="">권한조회</a></div>
                           </div>
