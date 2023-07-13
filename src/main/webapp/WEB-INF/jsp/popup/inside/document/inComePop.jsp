@@ -97,8 +97,10 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>담당 부서
                 </th>
-                <td colspan="3">
+                <td class="colTd">
                     <input type="text" id="deptPart" style="width: 200px;">
+                </td>
+                <td colspan="2" class="colTd1">
                 </td>
                 <th style="display: none" scope="row" class="text-center th-color managerTd">
                     <span class="red-star"></span>담당자

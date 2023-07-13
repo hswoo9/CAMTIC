@@ -72,8 +72,8 @@ var proposalList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='' name='prsChk' value=''/>",
                     width: 50
                 }, {
                     field: "",
@@ -102,6 +102,11 @@ var proposalList = {
                 }
             ]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=prsChk]").prop("checked", true);
+            else $("input[name=prsChk]").prop("checked", false);
+        });
     },
 
     recruitReqPop : function() {
