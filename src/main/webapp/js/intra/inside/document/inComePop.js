@@ -97,7 +97,7 @@ var regisReq = {
     fn_toggleManger: function(){
         if($("#deptPart").val() == 6) {
             $(".managerTd").show();
-            $(".colTd").show();
+            $(".colTd").show(); //담당 부서 담당자 선택
             $(".colTd1").hide();
         }else {
             $(".managerTd").hide();
