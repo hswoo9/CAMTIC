@@ -87,6 +87,7 @@ var regisReq = {
         let result = customKendo.fn_customAjax("/inside/setDocumentInsert", data);
         if(result.flag) {
             alert("문서 등록이 완료되었습니다.");
+            opener.gridReload();
             window.close();
         }else {
             alert("데이터 저장 중 에러가 발생했습니다.");
