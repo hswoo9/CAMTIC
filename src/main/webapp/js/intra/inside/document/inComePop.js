@@ -96,6 +96,8 @@ var regisReq = {
     fn_toggleManger: function(){
         if($("#deptPart").val() == 6) {
             $(".managerTd").show();
+            $(".colTd").show();
+            $(".colTd1").hide();
         }else {
             $(".managerTd").hide();
         }
