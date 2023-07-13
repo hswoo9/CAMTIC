@@ -19,12 +19,10 @@
         <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
         <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
         <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-        <div style="background-color: #00397f;">
-            <div class="card-header pop-header">
-                <h3 class="card-title title_NM">회의실 사용 특정일 제외</h3>
-                <div class="btn-st popButton">
-                    <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
-                </div>
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">회의실 사용 특정일 제외</h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">

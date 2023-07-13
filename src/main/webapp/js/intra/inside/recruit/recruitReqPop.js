@@ -69,6 +69,8 @@ var recruitReqPop = {
             index: 0
         });
 
+        $("#drop3").kendoTextBox();
+
     }
 }
 

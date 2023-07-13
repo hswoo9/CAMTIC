@@ -128,7 +128,7 @@ var commissionerManage = {
     commissionerReqPop : function() {
         var url = "/Inside/pop/commissionerReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=800, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=900, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

@@ -7,27 +7,24 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
-<style>
+<%--<style>
     table { background-color: #00000008; }
-    .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
-</style>
+</style>--%>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
-        <div style="background-color: #00397f;">
-            <div class="card-header pop-header">
-                <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                    <h3 class="card-title title_NM">직원추가</h3>
-                    <div style="margin-top:10px;">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>
-                        <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
-                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
-                    </div>
-                </c:if>
-                <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                    <h3 class="card-title title_NM">직원정보</h3>
-                </c:if>
-            </div>
+        <div class="card-header pop-header">
+            <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                <h3 class="card-title title_NM">직원추가</h3>
+                <div style="margin-top:10px;">
+                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>
+                    <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
+                    <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+                </div>
+            </c:if>
+            <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                <h3 class="card-title title_NM">직원정보</h3>
+            </c:if>
         </div>
         <%--<div class="popupTitleSt">직원추가</div>--%>
         <form id="subHolidayReqPop" style="padding: 20px 30px;">
@@ -37,7 +34,7 @@
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
             <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-            <table class="table table-bordered mb-0" id="userReqPop" style="margin-top: 10px;">
+            <table class="popTable table table-bordered mb-0" id="userReqPop">
                 <colgroup>
                     <col width="13%">
                     <col width="37%">
@@ -297,7 +294,7 @@
                 </tr>
                 </thead>
             </table>
-            <table class="table table-bordered mb-0" id="userReqPopDetail" style="border-left:none;">
+            <table class="popTable table table-bordered mb-0" id="userReqPopDetail" style="border-left:none;">
                 <colgroup>
                     <col width="13%">
                     <col width="37%">
@@ -305,9 +302,9 @@
                     <col width="37%">
                 </colgroup>
                 <thead>
-                <tr>
+                <%--tr>
                     <td colspan="4" style="height:20px; border-right:none; border-left:none;background-color: #f7f7f7;"></td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">직원 부가정보</th>
                 </tr>
@@ -465,6 +462,7 @@
                         </td>
                     </tr>
                     </c:if>
+                </thead>
             </table>
         </form>
     </div>
