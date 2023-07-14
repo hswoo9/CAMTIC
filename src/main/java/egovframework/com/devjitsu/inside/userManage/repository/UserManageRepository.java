@@ -116,4 +116,7 @@ public class UserManageRepository extends AbstractDAO {
     }
 
     public void setUserInfoReqUpd(Map<String, Object> params) { insert("userManage.setUserInfoReqUpd", params);}
+    public Map<String,Object> getUserInfoModDetail(Map<String,Object> map) {
+        return (Map<String,Object>) selectOne("userManage.getUserInfoModDetail", map);
+    }
 }

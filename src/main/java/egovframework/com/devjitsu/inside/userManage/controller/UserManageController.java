@@ -480,5 +480,22 @@ public class UserManageController {
 
         return "jsonView";
     }
-
+    @RequestMapping("/userManage/userInfoModDetail")
+    public String userInfoModeDetail(@RequestParam Map<String,Object> map, Model model) {
+        System.out.println(map.get("KEY_SN"));
+        model.addAttribute("rs", userManageService.getUserInfoModDetail(map));
+        return "jsonView";
+    }
+    @RequestMapping("/userManage/modDetailPop.do")
+    public String modDetailPop(@RequestParam String typeName) {
+        switch(typeName) {
+            case "학력사항" : return "popup/inside/userManageView/degreePop";
+            case "병력사항" : return "popup/inside/userManageView/militaryPop";
+            case "가족사항" : return "popup/inside/userManageView/familyPop";
+            case "직무사항" : return "popup/inside/userManageView/jobPop";
+            case "발령사항" : return "popup/inside/userManageView/appointingPop";
+            case "경력사항" : return "popup/inside/userManageView/careerPop";
+        }
+        return "";
+    }
 }

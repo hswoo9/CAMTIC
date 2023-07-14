@@ -234,4 +234,8 @@ public class UserManageServiceImpl implements UserManageService {
     public void setUserInfoReqUpd(Map<String, Object> params) {
         userManageRepository.setUserInfoReqUpd(params);
     }
+    @Override
+    public Map<String,Object> getUserInfoModDetail(Map<String,Object> map) {
+        return userManageRepository.getUserInfoModDetail(map);
+    }
 }
