@@ -21,4 +21,11 @@ public interface BustripService {
     List<Map<String, Object>> getBustripReqCheck(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params);
+
+    /**
+     * 출장신청서 전자결재 상태값 업데이트
+     * @param bodyMap
+     * @throws Exception
+     */
+    void updateDocState(Map<String, Object> bodyMap) throws Exception;
 }

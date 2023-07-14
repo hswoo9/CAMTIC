@@ -320,6 +320,43 @@ public class BustripController {
         return "jsonView";
     }
 
+    //휴가신청 전자결재
+    @RequestMapping("/Inside/pop/approvalFormPopup/bustripApprovalPop.do")
+    public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/bustrip/approvalFormPopup/bustripApprovalPop";
+    }
+
+    /**
+     * 휴가 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/inside/bustripReqApp")
+    public String bustripReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            bustripService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    private static LoginVO getLoginVO(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        return loginVO;
+    }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

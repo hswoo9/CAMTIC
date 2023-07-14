@@ -33,7 +33,10 @@
     .table-bordered {border: 1px solid #dee2e6 !important;}
     .red-star {color: red; margin-right: 5px;}
 </style>
-
+<%
+    pageContext.setAttribute("CR", "\r");
+    pageContext.setAttribute("LF", "\n");
+%>
 <body>
     <div class="pop_head">
         <h1>문서 상신</h1>
