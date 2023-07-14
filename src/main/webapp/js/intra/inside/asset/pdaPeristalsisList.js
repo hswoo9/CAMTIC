@@ -187,8 +187,8 @@ var pdaPeristalsisList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
                     field: "",
