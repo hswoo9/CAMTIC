@@ -1071,4 +1071,12 @@
         WHERE
         EMP_SEQ = #{empSeq}
     </update>
+    <select id="getUserInfoModDetail" resultType="map" parameterType="map">
+        select
+            a.*
+        from
+            CAM_HR.${type} as a
+        where
+            a.${key} = #{id}
+    </select>
 </mapper>

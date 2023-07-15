@@ -44,4 +44,5 @@ public interface UserManageService{
     int setThumbnailUpload(List<Map<String, Object>> list, Map<String, Object> params, String path) throws Exception;
 
     void setUserInfoReqUpd(Map<String, Object> params);
+    Map<String,Object> getUserInfoModDetail(Map<String,Object> map);
 }

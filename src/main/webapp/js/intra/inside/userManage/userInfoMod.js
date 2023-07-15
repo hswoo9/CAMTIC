@@ -205,31 +205,23 @@ var userInfoMod = {
         $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
             var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
             console.log(selectedItem);
-            console.log(selectedItem.EMP_SEQ);
-            console.log(selectedItem.key);
-            console.log(selectedItem.type);
-            console.log(selectedItem.ID);
-            /*if(selectedItem.type == 'dj_emp_educational'){
-	            userInfoMod.userPersonnelRecordPop("degree");				
-			}else if(selectedItem.type == 'dj_emp_family_info'){
-				userInfoMod.userPersonnelRecordPop("family");
-			}else if(selectedItem.type == 'dj_emp_military_svc_info'){
-				userInfoMod.userPersonnelRecordPop("military");
-			}else if(selectedItem.type == 'dj_emp_certificate'){
-				userInfoMod.userPersonnelRecordPop("license");
-			}else if(selectedItem.type == 'dj_emp_reword'){
-				userInfoMod.userPersonnelRecordPop("reward");
-			}else if(selectedItem.type == 'dj_emp_appoint'){
-				userInfoMod.userPersonnelRecordPop("appointing");
-			}else if(selectedItem.type == 'dj_emp_proposal_info'){
-				userInfoMod.userPersonnelRecordPop("proposal");
-			}else if(selectedItem.type == 'dj_emp_duty_info'){
-				userInfoMod.userPersonnelRecordPop("job");
-			}else if(selectedItem.type == 'dj_emp_career'){
-				userInfoMod.userPersonnelRecordPop("career");
-			}*/
+			var data = {
+				key : selectedItem.key,
+				type : selectedItem.type,
+				id : selectedItem.ID
+			}
+			var result = customKendo.fn_customAjax('/userManage/userInfoModDetail',data);
+			userInfoMod.fn_openModDetail(JSON.stringify(result.rs),selectedItem.typeName);
         });
     },
+	fn_openModDetail : function(e,n) {
+		var typeName = n;
+		var url = "/userManage/modDetailPop.do?typeName="+typeName;
+		var name = "detail";
+		var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+		var popup = window.open(url, name, option);
+		userInfoMod.global.jsonData = e;
+	},
     fn_approvalTest : function(e) {
         if(confirm("승인 하시겠습니까?")){
             var data = {
@@ -652,12 +644,24 @@ var userInfoMod = {
 	        console.log($("input[name='btnCheck']:checkbox"));
 	    }
 	},
-	
-	    userPersonnelRecordPop : function(data){
+
+	userPersonnelRecordPop : function(data){
         console.log(data);
         var url = "/useManage/userPersonnelRecordPop.do?popName="+data;
         var name = "userPersonnelRecordPop";
         var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
+
+	/*test : function() {
+		$("#mainGrid tbody tr").dblclick(function(){
+			var tr = $(this);
+			var td = tr.children();
+			var windowPopUrl = "";
+			alert(tr);
+			//popName = "vacSaving";
+			//popStyle = "scrollbars=yes, resizeble=yes, menubar=no, toolbar=no, location=no, directories=yes, status=yes, width=1075, height=630";
+			//window.open(windowPopUrl, popName, popStyle);
+		})
+	}*/
 }

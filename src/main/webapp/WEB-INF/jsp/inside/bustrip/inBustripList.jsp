@@ -49,6 +49,13 @@
     </div>
 </div><!-- col-md-9 -->
 
+<form id="bustripDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="hrBizReqId" name="hrBizReqId"/>
+</form>
+
 <script type="text/javascript">
     inBustripList.init();
 </script>

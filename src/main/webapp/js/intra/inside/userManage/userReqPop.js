@@ -610,7 +610,7 @@ var userReqPop = {
     userReqPopImage : function() {
         var url = "/Inside/pop/userReqPopImage.do";
         var name = "recruitReqPopImage";
-        var option = "width=850, height=624, scrollbars=no, top=200, left=300, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1100, height=650, scrollbars=no, top=200, left=300, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 

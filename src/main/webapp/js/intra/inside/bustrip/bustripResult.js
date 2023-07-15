@@ -84,23 +84,6 @@ var bustripResult = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
-            toolbar : [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripResult.popBustripRes()">' +
-                            '	<span class="k-button-text">신청</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
-                            '	<span class="k-button-text">신청취소</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -162,7 +145,13 @@ var bustripResult = {
                 }, {
                     title: "결과보고",
                     template : function(d){
-                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결과보고</button>'
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결과보고</button>'
+                    },
+                    width: 100
+                }, {
+                    title : "결재",
+                    template : function(d){
+                        return '<button type="button" class="k-button k-button-solid-base">결재</button>'
                     },
                     width: 100
                 }

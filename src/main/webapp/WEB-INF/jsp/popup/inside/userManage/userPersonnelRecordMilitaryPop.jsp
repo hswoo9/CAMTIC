@@ -7,106 +7,82 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <%--<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>--%>
-<style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">병력 사항</div>
-        <form id="subHolidayReqPop">
-          <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-          <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-          <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-          <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-          <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-          <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-          <table class="table table-bordered mb-0" id="userReqPop">
-            <colgroup>
-              <col width="30%">
-              <col width="30%">
-              <col width="30%">
-            </colgroup>
-            <thead>
-            <tr>
-              <th colspan="3">병력 등록</th>
-            </tr>
-            <tr>
-              <th>전역 여부</th>
-              <td colspan="2">
-                <input type="text" id="mGubun" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>사유</th>
-              <td colspan="2">
-                <input type="text" id="reason" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>복무기간</th>
-              <td colspan="2">
-                <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
-              </td>
-            </tr>
-            <tr>
-              <th>최종계급</th>
-              <td colspan="2">
-                <input type="text" id="rank" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>군별</th>
-              <td colspan="2">
-                <input type="text" id="mType" value="test" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>병과</th>
-              <td colspan="2">
-                <input type="text" id="mDept" style="width: 50%;">
-              </td>
-            </tr>
-          </table>
-        </form>
-        <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_addInfo()"/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="fn_windowClose()"/>
-        </div>
+  <div class="table-responsive">
+    <div class="card-header pop-header">
+      <h3 class="card-title title_NM">병력 등록</h3>
+      <div class="btn-st popButton">
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
+    <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
+      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <table class="popTable table table-bordered mb-0" id="userReqPop">
+        <colgroup>
+          <col width="30%">
+          <col width="30%">
+          <col width="30%">
+        </colgroup>
+        <thead>
+        <%--<tr>
+          <th colspan="3">병력 등록</th>
+        </tr>--%>
+        <tr>
+          <th>
+            <span class="red-star"></span>전역 여부
+          </th>
+          <td colspan="2">
+            <input type="text" id="mGubun" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <span class="red-star"></span>사유
+          </th>
+          <td colspan="2">
+            <input type="text" id="reason" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <span class="red-star"></span>복무기간
+          </th>
+          <td colspan="2">
+            <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <span class="red-star"></span>최종계급
+          </th>
+          <td colspan="2">
+            <input type="text" id="rank" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <span class="red-star"></span>군별
+          </th>
+          <td colspan="2">
+            <input type="text" id="mType" value="test" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <span class="red-star"></span>병과
+          </th>
+          <td colspan="2">
+            <input type="text" id="mDept" style="width: 50%;">
+          </td>
+        </tr>
+      </table>
+    </form>
   </div>
 </div>
 </body>
@@ -132,6 +108,11 @@
     customKendo.fn_textBox("rank");
     customKendo.fn_textBox("mType");
     customKendo.fn_textBox("mDept");
+
+    $("#reason").kendoTextBox();
+    $("#rank").kendoTextBox();
+    $("#mType").kendoTextBox();
+    $("#mDept").kendoTextBox();
   }
   function fu_addInfo() {
     var data = {
