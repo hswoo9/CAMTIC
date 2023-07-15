@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.bustrip.controller;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,8 +183,16 @@ public class BustripController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
 
-        model.addAttribute("list", list);
+        if(exnpData.size() == 0){
+            model.addAttribute("list", list);
+            model.addAttribute("type", "ins");
+        } else{
+            model.addAttribute("list", exnpData);
+            model.addAttribute("type", "upd");
+        }
+        model.addAttribute("map", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -400,6 +409,35 @@ public class BustripController {
             e.printStackTrace();
         }
 
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/saveBustripExnpPop")
+    public String saveBustripExnpPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("regEmpSeq", loginVO.getUniqId());
+        try{
+            bustripService.saveBustripExnpPop(params);
+            model.addAttribute("hrBizExnpId", params.get("hrBizExnpId"));
+            model.addAttribute("hrBizReqId", params.get("hrBizReqId"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/insBustripExnpResult")
+    public String insBustripExnpResult(@RequestParam Map<String, Object> params, Model model){
+        try{
+            bustripService.insBustripExnpResult(params);
+            model.addAttribute("hrBizExnpId", params.get("hrBizExnpId"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

@@ -30,4 +30,12 @@ public interface BustripService {
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
     void saveBustripResult(Map<String, Object> params);
+
+    Map<String, Object> getBustripOne(Map<String, Object> params);
+
+    void saveBustripExnpPop(Map<String, Object> params);
+
+    void insBustripExnpResult(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params);
 }

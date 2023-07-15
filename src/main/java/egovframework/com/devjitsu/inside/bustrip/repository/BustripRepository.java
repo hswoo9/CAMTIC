@@ -65,6 +65,30 @@ public class BustripRepository extends AbstractDAO {
     }
 
     public void saveBustripResult(Map<String, Object> params) {
-        insert("bustrip.saveBustripResult", params);
+        update("bustrip.saveBustripResult", params);
+    }
+
+    public void saveBustripExnpPop(Map<String, Object> params) {
+        insert("bustrip.saveBustripExnpPop", params);
+    }
+
+    public void insBustripExnpResult(Map<String, Object> params) {
+        insert("bustrip.insBustripExnpResult", params);
+    }
+
+    public void updBustripReqDriver(Map<String, Object> params) {
+        update("bustrip.updBustripReqDriver", params);
+    }
+
+    public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBustripExnpInfo", params);
+    }
+
+    public Map<String, Object> getBustripResultInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripResultInfo", params);
+    }
+
+    public void updateBustripExnpPop(Map<String, Object> params) {
+        update("bustrip.updateBustripExnpPop", params);
     }
 }

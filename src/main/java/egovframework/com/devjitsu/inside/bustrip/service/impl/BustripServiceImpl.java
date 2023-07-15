@@ -99,8 +99,20 @@ public class BustripServiceImpl implements BustripService {
         Map<String, Object> result = new HashMap<>();
         result.put("rs", bustripRepository.getBustripReqInfo(params));
         result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("map", bustripRepository.getBustripExnpInfo(params));
+        result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripExnpInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustripOne(Map<String, Object> params) {
+        return bustripRepository.getBustripReqInfo(params);
     }
 
     @Override
@@ -151,5 +163,22 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void saveBustripResult(Map<String, Object> params) {
         bustripRepository.saveBustripResult(params);
+    }
+
+    @Override
+    public void saveBustripExnpPop(Map<String, Object> params) {
+        if(!"upd".equals(params.get("type"))){
+            bustripRepository.saveBustripExnpPop(params);
+        } else {
+            bustripRepository.updateBustripExnpPop(params);
+        }
+        if(params.containsKey("driverEmpSeq")){
+            bustripRepository.updBustripReqDriver(params);
+        }
+    }
+
+    @Override
+    public void insBustripExnpResult(Map<String, Object> params) {
+         bustripRepository.insBustripExnpResult(params);
     }
 }
