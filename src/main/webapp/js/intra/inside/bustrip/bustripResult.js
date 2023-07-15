@@ -143,15 +143,34 @@ var bustripResult = {
                     },
                     width: 100
                 }, {
+                    title: "여비정산",
+                    template : function(d){
+                        console.log(d);
+                        if(d.RES_STAUTS != 0 && d.RES_STATUS != null){
+                            return "-";
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripSetExnp('+d.hr_biz_req_id+')">여비정산</button>'
+                        }
+                    },
+                    width: 100
+                }, {
                     title: "결과보고",
                     template : function(d){
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결과보고</button>'
+                        if(d.EXP_STAT != "N" && d.EXP_STAT != null){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결과보고</button>'
+                        } else {
+                            return "-";
+                        }
                     },
                     width: 100
                 }, {
                     title : "결재",
                     template : function(d){
-                        return '<button type="button" class="k-button k-button-solid-base">결재</button>'
+                        if(d.RES_STAUTS == 10 || d.RES_STATUS == 30){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결재</button>'
+                        } else {
+                            return "-"
+                        }
                     },
                     width: 100
                 }
@@ -163,6 +182,13 @@ var bustripResult = {
         var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+e;
         var name = "bustripResultPop";
         var option = "width=1200, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    popBustripSetExnp : function (e) {
+        var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqId="+e;
+        var name = "bustripResultPop";
+        var option = "width=1600, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

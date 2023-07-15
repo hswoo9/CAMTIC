@@ -173,6 +173,20 @@ public class BustripController {
         return "popup/inside/bustrip/bustripResultPop";
     }
 
+    @RequestMapping("/bustrip/pop/bustripExnpPop.do")
+    public String bustripExnpPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+
+        model.addAttribute("list", list);
+        model.addAttribute("params", params);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/bustripExnpPop";
+    }
+
     //교통비기준정보
     @RequestMapping("/bustrip/transportationCostInfo.do")
     public String transportationCostInfo(HttpServletRequest request, Model model) {
@@ -365,6 +379,20 @@ public class BustripController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    @RequestMapping("/bustrip/saveBustripResult")
+    public String saveBustripResult(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            bustripService.saveBustripResult(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
     }
 
 }

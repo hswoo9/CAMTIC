@@ -38,7 +38,12 @@ var bustripResultPop = {
             hrBizReqId : e,
             driverEmpSeq : $("#realDriver").val(),
             result : $("#result").val(),
-            moveDst : $("#moveDst").val()
+            moveDst : $("#moveDst").val(),
+            positionCode : $("#positionCode").val(),
+            dutyCode : $("#dutyCode").val(),
+            deptSeq : $("#deptSeq").val(),
+            empSeq : $("#empSeq").val(),
+            empName : $("#empName").val()
         }
 
         var rs = customKendo.fn_customAjax("/bustrip/saveBustripResult", data);
