@@ -279,7 +279,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             >
-                            <input type="text" id="astStsModReason" style="width: 80%;" value="${data.AST_STS_MOD_REASON}">
+                            <input type="text" id="astStsModReason" style="display:none;width: 80%;" value="${data.AST_STS_MOD_REASON}">
                         </td>
                     </tr>
                     </tbody>
@@ -345,6 +345,8 @@
     if($("#astPdaInfo").val() == "Y"){
         var dropDownDataSource = customKendo.fn_customAjax("/inside/getInsideCodeList.do", {insideMdCode : "03"});
         customKendo.fn_dropDownList("newAstStsCode", dropDownDataSource.rs, "INSIDE_DT_CODE_NM","INSIDE_DT_CODE", 2);
+        $("#newAstStsCode").data("kendoDropDownList").bind("change", function(e){if(this.value() != "01")$("#astStsModReason").show()});
+        $("#newAstStsCode").data("kendoDropDownList").trigger("change");
 
         dropDownDataSource = customKendo.fn_customAjax("/asset/getAssetPlaceList", {});
         customKendo.fn_dropDownList("newAssetPlaceSn", dropDownDataSource.rs, "AST_PLACE_NAME","AST_PLACE_SN", 2);
