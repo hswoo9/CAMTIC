@@ -10,18 +10,15 @@
 <body class="font-opensans" style="background-color:#fff;">
   <div class="table-responsive">
     <div class="card-header pop-header">
-      <h3 class="card-title title_NM">병력 등록</h3>
+      <h3 class="card-title title_NM">병력 사항</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <input type="hidden" id="type" name="type" value="${params.type}">
+      <input type="hidden" id="key" name="key" value="${params.key}">
+      <input type="hidden" id="id" name="id" value="${params.id}">
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -76,10 +73,9 @@
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
   /*fn_datePicker
   fn_textBox*/
-  var jsonData = JSON.parse(opener.userInfoMod.global.jsonData);
   $(function(){
     fn_default();
-    fn_dataSet(jsonData);
+    fn_dataSet();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -101,14 +97,24 @@
     $("#mDept").kendoTextBox();
 
   }
-  function fn_dataSet(e) {
-    $("#mGubun").data("kendoDropDownList").value(e.MILITARY_SVC_TYPE); //전역 여부
-    $("#reason").val(e.M_UNFUL_REASON); //사유
-    $("#sDate").val(e.M_ENLIST_DAY); //입대일
-    $("#eDate").val(e.M_DISCHARGE_DAY); //제대일
-    $("#rank").val(e.M_LAST_RANK); //최종계급
-    $("#mType").val(e.M_DIVISION); //군별
-    $("#mDept").val(e.MOS); //병과
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/userInfoModDetail', {
+      key : $("#key").val(),
+      type : $("#type").val(),
+      id : $("#id").val()
+    });
+
+    if(result.flag) {
+      var e = result.rs;
+
+      $("#mGubun").data("kendoDropDownList").value(e.MILITARY_SVC_TYPE); //전역 여부
+      $("#reason").val(e.M_UNFUL_REASON); //사유
+      $("#sDate").val(e.M_ENLIST_DAY); //입대일
+      $("#eDate").val(e.M_DISCHARGE_DAY); //제대일
+      $("#rank").val(e.M_LAST_RANK); //최종계급
+      $("#mType").val(e.M_DIVISION); //군별
+      $("#mDept").val(e.MOS); //병과
+    }
 
     /*수정 안되게 disabled*/
     $("#mGubun").data("kendoDropDownList").enable(false);

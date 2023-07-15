@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/userManage/userInfoMod.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userInfoModReg.js?v=${today}"/></script>
 <script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 
 <div class="col-md-10 col-lg-10 dash-left">
@@ -11,8 +11,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">인사정보 변경 신청(관리자)</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사정보 변경 신청(관리자)</div>
+            <h4 class="panel-title">인사정보 변경 신청(사용자)</h4>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사정보 변경 신청(사용자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -35,11 +35,13 @@
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" style="width: 150px;">
+                            <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+                            <input type="text" id="deptName" name="deptName" style="width: 150px;" value="${loginVO.name}" disabled>
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="team" style="width: 150px;">
+                            <input type="hidden" id="teamSeq" name="teamId" value="${loginVO.teamId}">
+                            <input type="text" id="teamNm" name="teamNm" style="width: 150px;" value="${loginVO.teamNm}" disabled>
                         </td>
                     </tr>
                     <tr>
@@ -53,8 +55,9 @@
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>
-                            <input type="text" id="name" style="width: 150px;">
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="userInfoMod.gridReload()"/>
+                            <input type="hidden" id="empSeq" style="width: 150px;" value="${loginVO.uniqId}">
+                            <input type="text" id="empName" style="width: 150px;" value="${loginVO.name}" disabled>
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="userInfoModReg.gridReload()"/>
                         </td>
                     </tr>
                 </table>
@@ -65,5 +68,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    userInfoMod.init();
+    userInfoModReg.init();
 </script>

@@ -282,6 +282,8 @@ var addAssetPop = {
                     $("#expAccount").val(this._items.find(element => element.value === this.value()).label);
                     if(this.value() != "0" && this.value() != "3"){
                         $("#bizSearchBtn").show();
+                    }else{
+                        $("#bizSearchBtn").hide();
                     }
                 }
             }

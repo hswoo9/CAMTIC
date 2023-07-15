@@ -131,6 +131,31 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public Map<String, Object> getCarRequestOne(Map<String, Object> params) {
+        return bustripRepository.getCarRequestOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params) {
+        return bustripRepository.searchDuplicateCar(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCarRequestList(Map<String, Object> params) {
+        return bustripRepository.getCarRequestList(params);
+    }
+
+    @Override
+    public void setCarRequestInsert(Map<String, Object> params) {
+        bustripRepository.setCarRequestInsert(params);
+    }
+
+    @Override
+    public void setCarRequestUpdate(Map<String, Object> params) {
+        bustripRepository.setCarRequestUpdate(params);
+    }
+
+    @Override
     public void updateDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));

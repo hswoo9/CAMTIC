@@ -83,6 +83,9 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getPersonRecordApplyList(Map<String,Object> map) {
         return selectList("userManage.getPersonRecordApplyList", map);
     }
+    public List<Map<String,Object>> getPersonRecordApplyList2(Map<String,Object> map) {
+        return selectList("userManage.getPersonRecordApplyList2", map);
+    }
     public List<Map<String,Object>> getFamilyInfoList(Map<String,Object> map) {
         return selectList("userManage.getFamilyInfoList", map);
     }

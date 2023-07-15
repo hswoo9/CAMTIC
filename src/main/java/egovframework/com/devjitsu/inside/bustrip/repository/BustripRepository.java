@@ -56,6 +56,26 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.getBustripTotInfo", params);
     }
 
+    public List<Map<String, Object>> getCarRequestList(Map<String, Object> params) {
+        return selectList("bustrip.getCarRequestList", params);
+    }
+
+    public Map<String, Object> getCarRequestOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getCarRequestOne", params);
+    }
+
+    public List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params) {
+        return selectList("bustrip.searchDuplicateCar", params);
+    }
+
+    public void setCarRequestInsert(Map<String, Object> params) {
+        insert("bustrip.setCarRequestInsert", params);
+    }
+
+    public void setCarRequestUpdate(Map<String, Object> params) {
+        update("bustrip.setCarRequestUpdate", params);
+    }
+
     public void updateApprStat(Map<String, Object> params) {
         update("bustrip.updateApprStat", params);
     }

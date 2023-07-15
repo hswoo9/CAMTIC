@@ -34,6 +34,7 @@ public interface UserManageService{
     void setWorkEvalInfo (Map<String,Object> map);
     void setProposalInfo (Map<String,Object> map);
     List<Map<String,Object>> getPersonRecordApplyList(Map<String,Object> map);
+    List<Map<String,Object>> getPersonRecordApplyList2(Map<String,Object> map);
     void setUpdateUserInfoModY(Map<String,Object> map);
     void setUpdateUserInfoModN(Map<String,Object> map);
 	List<Map<String, Object>> getDeptList(Map<String, Object> params);

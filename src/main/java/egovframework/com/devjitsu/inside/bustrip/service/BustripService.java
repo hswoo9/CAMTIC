@@ -22,6 +22,16 @@ public interface BustripService {
 
     List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params);
 
+    Map<String, Object> getCarRequestOne(Map<String, Object> params);
+
+    List<Map<String, Object>> getCarRequestList(Map<String, Object> params);
+
+    List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params);
+
+    void setCarRequestInsert(Map<String, Object> params);
+
+    void setCarRequestUpdate(Map<String, Object> params);
+
     /**
      * 출장신청서 전자결재 상태값 업데이트
      * @param bodyMap
