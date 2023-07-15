@@ -218,7 +218,7 @@ var userInfoMod = {
 		var typeName = n;
 		var url = "/userManage/modDetailPop.do?typeName="+typeName;
 		var name = "detail";
-		var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+		var option = "width = 600, height = 550, top = 100, left = 200, location = no"
 		var popup = window.open(url, name, option);
 		userInfoMod.global.jsonData = e;
 	},

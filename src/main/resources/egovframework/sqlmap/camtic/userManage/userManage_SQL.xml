@@ -459,6 +459,8 @@
              ,REG_DATE
              ,SCHOOL_NAME
              ,RMK
+             ,GUBUN_CODE
+             ,GRADUATION_CODE
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -469,6 +471,8 @@
             ,NOW()
             ,#{school}
             ,#{bmk}
+            ,#{gubun}
+            ,#{graduation}
         )
     </insert>
     <insert id="setCareerInfo" parameterType="map">
