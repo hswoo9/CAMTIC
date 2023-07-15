@@ -172,4 +172,9 @@ public class BustripServiceImpl implements BustripService {
             bustripRepository.updateFinalApprStat(params);
         }
     }
+
+    @Override
+    public void saveBustripResult(Map<String, Object> params) {
+        bustripRepository.saveBustripResult(params);
+    }
 }

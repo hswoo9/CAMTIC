@@ -60,6 +60,7 @@ public interface AssetService {
     void getAssetListToPdaList(Map<String, Object> params);
     Map<String, Object> getAstPdaInfo(Map<String, Object> params);
     void setAstPdaOptInspection(Map<String, Object> params);
+    void setAssetInspectionUpload(Map<String, Object> params);
     /** */
     //장비사용 목록 조회
     List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);

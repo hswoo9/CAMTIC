@@ -13,9 +13,9 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">출장결과보고 신청</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqId}')" />
                 <button type="button" class="k-button k-button-solid-info" onclick="">결재</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
+                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
             </div>
         </div>
         <form id="inBustripReqPop" style="padding: 20px 30px;">
@@ -177,10 +177,6 @@
                 </div>
             </div>
 
-            <div class="btn-st" style="margin-top:10px; text-align:center;">
-                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqId}')" />
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close()" />
-            </div>
         </div>
     </div>
 </div>

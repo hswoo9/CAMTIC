@@ -7,7 +7,7 @@ var astPdaInfoList = {
 
     },
 
-    init : function(){
+    fnDefaultScript : function(){
         astPdaInfoList.dataSet();
 
         astPdaInfoList.gridReload();
@@ -21,9 +21,10 @@ var astPdaInfoList = {
             originAssetPlace : $("#originAssetPlace").val(),
             newAssetPlace : $("#newAssetPlace").val(),
             workType : $("#workType").val(),
-            inspectionModType : $("#inspectionModType").val(),
+            inspectionType : $("#inspectionType").val(),
             placeModType : $("#placeModType").val(),
-            astStsCodeMod : $("#astStsCodeMod").val(),
+            astStsCode : $("#astStsCode").val(),
+            astStsCodeModType : $("#astStsCodeModType").val(),
             searchType : $("#searchType").val(),
             searchContent : $("#searchContent").val(),
         }
@@ -73,10 +74,12 @@ var astPdaInfoList = {
                     }
                 }, {
                     field: "AST_NO",
-                    title: "자산 번호"
+                    title: "자산 번호",
+                    width : 100
                 }, {
                     field: "PURC_DATE",
-                    title: "구입 일자"
+                    title: "구입 일자",
+                    width : 100
                 }, {
                     field: "AST_NAME",
                     title: "자산명"
@@ -98,7 +101,8 @@ var astPdaInfoList = {
                     }
                 }, {
                     field: "ACTIVE_DATE",
-                    title: "적용일"
+                    title: "적용일",
+                    width : 100
                 }, {
                     field: "INSPECTION_TYPE",
                     title: "재물조사",
@@ -108,10 +112,12 @@ var astPdaInfoList = {
                         }else{
                             return "미실시";
                         }
-                    }
+                    },
+                    width : 100
                 }, {
                     field: "AST_NO",
-                    title: "바코드"
+                    title: "바코드",
+                    width : 100
                 }
             ]
         }).data("kendoGrid");
@@ -172,7 +178,7 @@ var astPdaInfoList = {
         astPdaInfoList.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getInsideCodeList.do", astPdaInfoList.global.searchAjaxData);
         customKendo.fn_dropDownList("astStsCode", astPdaInfoList.global.dropDownDataSource.rs, "INSIDE_DT_CODE_NM","INSIDE_DT_CODE");
 
-        $("#inspectionModType").kendoDropDownList({
+        $("#inspectionType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -195,7 +201,7 @@ var astPdaInfoList = {
         });
 
 
-        $("#astStsCodeMod").kendoDropDownList({
+        $("#astStsCodeModType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -231,6 +237,20 @@ var astPdaInfoList = {
                 astPdaInfoList.gridReload();
             }else{
                 alert("자산리스트 가져오기 작업 중 오류가 발생했습니다.");
+            }
+        }
+    },
+
+    setAssetUploadAll : function(){
+        if(confirm("재물조사 내역을 업로드 하시겠습니까?\n\n반영 항목은 위치, 자산상태, 재물조사 유무 입니다.")){
+            var result = customKendo.fn_customAjax("/asset/setAssetInspectionUpload.do", {
+                regEmpSeq : $("#empSeq").val(),
+                regEmpName : $("#empName").val(),
+                empSeq : $("#empSeq").val(),
+            });
+
+            if(result.flag){
+                alert("재물조사 업데이트가 완료되었습니다.");
             }
         }
     }

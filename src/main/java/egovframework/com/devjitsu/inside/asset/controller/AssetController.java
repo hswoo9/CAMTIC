@@ -535,7 +535,7 @@ public class AssetController {
     }
 
     /**
-     * 자산관리 > PDA 연동목록 재물조사실시
+     * 자산관리 > PDA 연동목록 - 재물조사실시
      * @param params
      * @param model
      * @return
@@ -543,6 +543,19 @@ public class AssetController {
     @RequestMapping("/asset/setAstPdaOptInspection.do")
     public String setAssetInspection(@RequestParam Map<String,Object> params, Model model) {
         assetService.setAstPdaOptInspection(params);
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > PDA 연동목록 - 재물조사 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/setAssetInspectionUpload.do")
+    public String setAssetInspectionUpload(@RequestParam Map<String,Object> params, HttpServletRequest request) {
+        params.put("regEmpIp", request.getRemoteAddr());
+        assetService.setAssetInspectionUpload(params);
         return "jsonView";
     }
 

@@ -203,26 +203,31 @@
     <select id="getBustripReqCheck" parameterType="map" resultType="map">
         /* getBustripReqCheck */
         SELECT
-            *
+            A.*,
+            B.STATUS AS RES_STATUS,
+            B.EXP_STAT
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
+        ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
         WHERE
-            STATUS IN ('100') AND
+            A.STATUS IN ('100') AND
         <![CDATA[
             TRIP_DAY_FR >= #{startDate} AND TRIP_DAY_TO <= #{endDate}
         ]]>
         <if test="projectCd != null and projectCd != ''">
             AND
-            PROJECT_CD = #{projectCd}
+            A.PROJECT_CD = #{projectCd}
         </if>
         <if test="busnName != null and busnName != ''">
             AND
-            BUSN_NAME like concat('%', #{busnName}, '%')
+            A.BUSN_NAME like concat('%', #{busnName}, '%')
         </if>
 
     </select>
 
-    <select id="getBistripTotInfo" parameterType="map" resultType="map">
+    <select id="getBustripTotInfo" parameterType="map" resultType="map">
         /*getBistripTotInfo*/
         SELECT
             EMP_NAME,
@@ -398,6 +403,35 @@
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
+
+    <insert id="saveBustripResult" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+            (
+                HR_BIZ_REQ_ID,
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                POSITION_CODE,
+                DUTY_CODE,
+                REPORT_DATE,
+                RESULT,
+                DRIVER_EMP_SEQ,
+                MOVE_DST
+            )
+        VALUES
+            (
+                #{hrBizReqId},
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{positionCode},
+                #{dutyCode},
+                DATE_FORMAT(now(), '%Y-%m-%d'),
+                #{result},
+                #{driverEmpSeq},
+                #{moveDst}
+            )
+    </insert>
 </mapper>
 
 

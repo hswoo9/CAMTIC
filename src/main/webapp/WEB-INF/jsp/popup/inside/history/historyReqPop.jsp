@@ -75,10 +75,6 @@
                             <td>
                                 <input type="text" id="relevantName" class="defaultVal" style="width: 95%;">
                             </td>
-                            <th>발령 구분</th>
-                            <td>
-                                <input type="text" id="historyType" class="defaultVal" style="width: 95%;">
-                            </td>
                             <th>발령 일자</th>
                             <td>
                                 <input type="text" id="historyDate" class="defaultVal" style="width: 95%;">

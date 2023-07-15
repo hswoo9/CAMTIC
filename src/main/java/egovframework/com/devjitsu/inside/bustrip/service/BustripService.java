@@ -38,4 +38,6 @@ public interface BustripService {
      * @throws Exception
      */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
+
+    void saveBustripResult(Map<String, Object> params);
 }

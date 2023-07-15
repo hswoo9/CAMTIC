@@ -53,7 +53,7 @@ public class BustripRepository extends AbstractDAO {
     }
 
     public List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params) {
-        return selectList("bustrip.getBistripTotInfo", params);
+        return selectList("bustrip.getBustripTotInfo", params);
     }
 
     public List<Map<String, Object>> getCarRequestList(Map<String, Object> params) {
@@ -82,5 +82,9 @@ public class BustripRepository extends AbstractDAO {
 
     public void updateFinalApprStat(Map<String, Object> params) {
         update("bustrip.updateFinalApprStat", params);
+    }
+
+    public void saveBustripResult(Map<String, Object> params) {
+        insert("bustrip.saveBustripResult", params);
     }
 }

@@ -9,32 +9,6 @@ var historyReqPop = {
 
     dataSet: function() {
         customKendo.fn_textBox(["searchVal", "numberName", "relevantName"])
-        $("#historyType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "임용 (정규직)", value: "1" },
-                { text: "임용 (계약직)", value: "2" },
-                { text: "임용 (인턴 사원)", value: "3" },
-                { text: "임용 (단기 직원)", value: "4" },
-                { text: "임용 (위촉 직원)", value: "5" },
-                { text: "임용 (경비 / 환경)", value: "6" },
-                { text: "승진 (직급)", value: "7" },
-                { text: "승진 (직위)", value: "8" },
-                { text: "전보", value: "9" },
-                { text: "겸직", value: "10" },
-                { text: "직무 대리", value: "11" },
-                { text: "파견", value: "12" },
-                { text: "면직", value: "13" },
-                { text: "강등", value: "14" },
-                { text: "조직 개편", value: "15" },
-                { text: "호칭 변경", value: "16" },
-                { text: "기타", value: "17" }
-            ],
-            index: 0
-        });
-
         $("#historyDate").kendoDatePicker({
             depth: "month",
             start: "month",
@@ -200,7 +174,7 @@ var historyReqPop = {
                     width: 55
                 }, {
                     title: "발령기준",
-                    width: 120,
+                    width: 170,
                     template : function (e){
                         return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='apntCd' />";
                     }
@@ -240,7 +214,7 @@ var historyReqPop = {
                                     '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
                                     '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="afDept">';
                             },
-                            width: 105
+                            width: 170
                         }, {
                             field: "DEPT_TEAM_NAME",
                             title: "팀",
@@ -249,7 +223,7 @@ var historyReqPop = {
                                     '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
                                     '<input type="text" id="afTeam'+e.EMP_SEQ+'" name="afTeamSeq" class="afTeam">';
                             },
-                            width: 100
+                            width: 200
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
@@ -258,7 +232,7 @@ var historyReqPop = {
                                     '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
                                     '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="afPosition">';
                             },
-                            width: 100
+                            width: 160
                         }, {
                             field: "DUTY_NAME",
                             title: "직책",
@@ -267,7 +241,7 @@ var historyReqPop = {
                                     '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
                                     '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="afDuty">';
                             },
-                            width: 100
+                            width: 120
                         }, {
                             field: "JOB_DETAIL",
                             title: "직무",
@@ -303,16 +277,27 @@ var historyReqPop = {
             dataSource : deptDsA.rs,
             dataValueField : "dept_seq",
             dataTextField : "dept_name",
-            index : 0
+            index : 0,
+            change : function(){
+                var searchData = {
+                    parentDeptSeq : this.value(),
+                    deptLevel : 2
+                }
+
+                var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
+                ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").dataSource.data(ds.rs);
+                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").select(0)
+            }
         });
 
-        var data = {}
-        data.deptLevel = 2;
+        var dataSource = [{
+            "dept_name" : "선택",
+            "dept_seq" : ""
+        }]
 
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
         $(".afTeam").kendoDropDownList({
-            dataSource : ds.rs,
+            dataSource : dataSource,
             dataValueField : "dept_seq",
             dataTextField : "dept_name",
             index : 0
