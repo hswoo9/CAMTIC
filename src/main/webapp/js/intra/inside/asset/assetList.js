@@ -86,10 +86,12 @@ var assetList = {
                     }
                 }, {
                     field: "AST_NO",
-                    title: "자산 번호"
+                    title: "자산 번호",
+                    width : 100
                 }, {
                     field: "PURC_DATE",
-                    title: "구입일자"
+                    title: "구입일자",
+                    width : 100
                 }, {
                     field: "AST_NAME",
                     title: "자산명"
@@ -104,7 +106,8 @@ var assetList = {
                     title: "설치 장소"
                 }, {
                     field: "EMP_NAME",
-                    title: "사용자"
+                    title: "사용자",
+                    width : 80
                 }, {
                     field: "PURC_PRICE",
                     title: "구입가격(원)",
@@ -273,7 +276,7 @@ var assetList = {
             dataSource: [
                 { text: "등록상태", value: "" },
                 { text: "승인", value: "1" },
-                { text: "미승인", value: "0" }
+                { text: "미승인", value: "2" }
             ],
             index: 0
         });

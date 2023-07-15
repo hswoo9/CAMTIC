@@ -64,7 +64,7 @@
         <if test='searchType != null and !"".equals(searchType)'>
             <choose>
                 <when test='"assetName".equals(searchType)'>AND AST_NAME LIKE CONCAT ('%', #{searchContent},'%')  </when>
-                <when test='"assetCode".equals(searchType)'>AND AST_CODE LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"assetCode".equals(searchType)'>AND AST_NO LIKE CONCAT ('%', #{searchContent},'%')</when>
                 <when test='"modelSize".equals(searchType)'>AND MODEL_SIZE LIKE CONCAT ('%', #{searchContent},'%')</when>
                 <when test='"modelName".equals(searchType)'>AND MODEL_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
                 <when test='"empName".equals(searchType)'>AND EMP_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
@@ -448,6 +448,11 @@
         </selectKey>
     </insert>
 
+    <delete id="setAstInfoModHistoryDel" parameterType="map">
+        /* setAstInfoModHistoryDel */
+        DELETE FROM CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY WHERE AST_INFO_MOD_SN = #{astInfoModSn}
+    </delete>
+
     <insert id="setAstInfoModHistoryItem" parameterType="list">
         /* setAstInfoModHistoryItem */
         INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY_ITEM
@@ -751,6 +756,39 @@
         ON APO.NEW_AST_STS_CODE = IC2.INSIDE_DT_CODE AND IC2.INSIDE_MD_CODE = '03'
         WHERE
             API.ACTIVE = 'Y'
+        <if test='startDate != null and !"".equals(startDate)'>
+        <![CDATA[
+		AND
+		    DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(API.PURC_DATE, '%Y%m%d')
+		AND
+		    DATE_FORMAT(#{endDate}, '%Y%m%d') >= DATE_FORMAT(API.PURC_DATE, '%Y%m%d')
+		]]>
+        </if>
+        <if test='originAssetPlace != null and !"".equals(originAssetPlace)'>
+            AND API.ORIGIN_AST_PLACE_SN = #{originAssetPlace}
+        </if>
+        <if test='newAssetPlace != null and !"".equals(newAssetPlace)'>
+            AND APO.NEW_AST_PLACE_SN = #{newAssetPlace}
+        </if>
+        <if test='workType != null and !"".equals(workType)'>
+            AND APO.WORK_TYPE = #{workType}
+        </if>
+        <if test='inspectionType != null and !"".equals(inspectionType)'>
+            AND APO.INSPECTION_TYPE = #{inspectionType}
+        </if>
+        <if test='placeModType != null and !"".equals(placeModType)'>
+            AND APO.PLACE_MOD_TYPE = #{placeModType}
+        </if>
+        <if test='astStsCodeModType != null and !"".equals(astStsCodeModType)'>
+            AND APO.AST_STS_CODE_MOD_TYPE = #{astStsCodeModType}
+        </if>
+        <if test='searchType != null and !"".equals(searchType)'>
+            <choose>
+                <when test='"assetName".equals(searchType)'>AND API.AST_NAME LIKE CONCAT ('%', #{searchContent},'%')  </when>
+                <when test='"assetCode".equals(searchType)'>AND API.AST_NO LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"modelName".equals(searchType)'>AND API.MODEL_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
+            </choose>
+        </if>
     </select>
 
     <update id="setAstPdaActiveUpd" parameterType="map">
@@ -952,6 +990,30 @@
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             AST_PDA_INFO_SN = #{astPdaInfoSn}
+    </update>
+
+    <update id="setAssetPdaActiveDtUpd" parameterType="map">
+        /* setAssetPdaActiveDtUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_PDA_INFO
+        SET
+            ACTIVE_DATE = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            AST_PDA_INFO_SN = #{astPdaInfoSn}
+    </update>
+
+    <update id="setAssetInspectionUpload" parameterType="map">
+        /* setAssetInspectionUpload */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO
+        SET
+            AST_PLACE_SN = #{newAstPlaceSn},
+            AST_STS_CODE =  #{newAstStsCode},
+            INSPECTION_TYPE = #{inspectionType},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
     </update>
 
     <!-- PDA 연동목록 종료 -->

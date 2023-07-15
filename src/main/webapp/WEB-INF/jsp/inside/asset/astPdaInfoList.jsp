@@ -15,6 +15,7 @@
         </div>
         <div class="panel-body">
             <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+            <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
@@ -55,7 +56,7 @@
                         </td>
                         <th class="text-center th-color">재물조사</th>
                         <td>
-                            <input type="text" id="inspectionModType" style="width: 100px;">
+                            <input type="text" id="inspectionType" style="width: 100px;">
                         </td>
                         <th class="text-center th-placeModType">위치변경</th>
                         <td>
@@ -63,19 +64,19 @@
                         </td>
                         <th class="text-center th-color">상태변경</th>
                         <td>
-                            <input type="text" id="astStsCodeMod" style="width: 100px;">
+                            <input type="text" id="astStsCodeModType" style="width: 100px;">
                         </td>
                     </tr>
                     <tr>
                         <th class="text-center th-color">목록</th>
                         <td colspan="5">
                             <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
-                            <input type="text" id="searchContent" style="width: 72.3%;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색</button>
+                            <input type="text" id="searchContent" style="width: 72.3%;" onkeypress="if(window.event.keyCode==13){astPdaInfoList.gridReload()}">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.gridReload()">검색</button>
                         </td>
                         <td colspan="4" style="text-align: right">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.getAssetList()">가져오기</button>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">재물조사 업로드</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setAssetUploadAll()">재물조사 업로드</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(대)</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(소)</button>
                         </td>
@@ -88,5 +89,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    astPdaInfoList.init();
+    astPdaInfoList.fnDefaultScript();
 </script>

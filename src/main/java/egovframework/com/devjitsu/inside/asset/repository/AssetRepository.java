@@ -28,6 +28,7 @@ public class AssetRepository extends AbstractDAO {
     public void setAstInfoBatch(Map<String, Object> params) { insert("asset.setAstInfoBatch", params);}
     public void setAstInfoModHistory(Map<String, Object> params) { insert("asset.setAstInfoModHistory", params);}
     public void setAstInfoModHistoryItem(List<Map<String, Object>> params) { insert("asset.setAstInfoModHistoryItem", params);}
+    public void setAstInfoModHistoryDel(Map<String, Object> params) { insert("asset.setAstInfoModHistoryDel", params);}
 
     /** 분류관리 */
     /** 소속관리*/
@@ -67,7 +68,8 @@ public class AssetRepository extends AbstractDAO {
     }
     public Map<String, Object> getAstPdaInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("asset.getAstPdaInfo", params);}
     public void setAstPdaOptInspection(Map<String, Object> params) { update("asset.setAstPdaOptInspection", params);}
-
+    public void setAssetInspectionUpload(Map<String, Object> params) { update("asset.setAssetInspectionUpload", params);}
+    public void setAssetPdaActiveDtUpd(Map<String, Object> params) { update("asset.setAssetPdaActiveDtUpd", params);}
     //장비관리 팝업창 (관리자) - 장비등록
     public void setEquipmentInsert(Map<String, Object> params) {
         insert("asset.setEquipmentInsert", params);

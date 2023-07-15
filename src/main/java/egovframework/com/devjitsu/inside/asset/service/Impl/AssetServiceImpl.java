@@ -136,13 +136,16 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setAstInfoBatch(Map<String, Object> params) {
+        String baseAstInfoSn = params.get("astInfoSn").toString();
         String[] astInfoSn = params.get("astInfoSn").toString().split(",");
         for(int i = 0; i < astInfoSn.length; i++){
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("astInfoSn", astInfoSn[i]);
-            Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(params);
+            Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(searchMap);
+            params.put("astInfoSn", astInfoSn[i]);
             setAssetInfoModHistory(assetInfo, params);
         }
+        params.put("astInfoSn", baseAstInfoSn);
 
         assetRepository.setAstInfoBatch(params);
     }
@@ -260,6 +263,34 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void setAstPdaOptInspection(Map<String, Object> params) {
         assetRepository.setAstPdaOptInspection(params);
+    }
+
+    @Override
+    @Transactional
+    public void setAssetInspectionUpload(Map<String, Object> params) {
+        List<Map<String, Object>> pdaList = assetRepository.getAstPdaInfoList(params);
+        if(pdaList.size() > 0){
+            for(int i = 0; i < pdaList.size(); i++){
+                Map<String, Object> saveMap = new HashMap<>();
+                pdaList.get(i).put("astInfoSn", pdaList.get(i).get("AST_INFO_SN"));
+                Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(pdaList.get(i));
+
+                saveMap.put("astInfoSn", pdaList.get(i).get("AST_INFO_SN"));
+                saveMap.put("astPdaInfoSn", pdaList.get(i).get("AST_PDA_INFO_SN"));
+                saveMap.put("newAstPlaceSn", pdaList.get(i).get("NEW_AST_PLACE_SN"));
+                saveMap.put("newAstStsCode", pdaList.get(i).get("NEW_AST_STS_CODE"));
+                saveMap.put("inspectionType", pdaList.get(i).get("INSPECTION_TYPE"));
+
+                saveMap.put("regEmpIp", params.get("regEmpIp"));
+                saveMap.put("regEmpSeq", params.get("regEmpSeq"));
+                saveMap.put("regEmpName", params.get("regEmpName"));
+                saveMap.put("empSeq", params.get("empSeq"));
+
+                assetRepository.setAssetInspectionUpload(saveMap);
+                assetRepository.setAssetPdaActiveDtUpd(saveMap);
+                setAssetInfoModHistory(assetInfo, saveMap);
+            }
+        }
     }
 
     @Override
@@ -689,8 +720,47 @@ public class AssetServiceImpl implements AssetService {
             }
         }
 
+        /** 재물조사 히스토리 */
+        if(!StringUtils.isEmpty(params.get("newAstPlaceSn"))) {
+            if (!assetInfo.get("AST_PLACE_SN").equals(params.get("newAstPlaceSn"))) {
+                modMap = new HashMap<>();
+                modMap.put("astInfoModSn", params.get("astInfoModSn"));
+                modMap.put("regEmpSeq", params.get("empSeq"));
+                modMap.put("modItemName", "위치/재물조사");
+
+                searchMap.put("astPlaceSn", assetInfo.get("AST_PLACE_SN"));
+                modMap.put("modOldItemInfo", assetRepository.getAssetPlace(searchMap).get("AST_PLACE_NAME"));
+
+                searchMap.put("astPlaceSn", params.get("newAstPlaceSn"));
+                modMap.put("modNewItemInfo", assetRepository.getAssetPlace(searchMap).get("AST_PLACE_NAME"));
+
+                historyItemModList.add(modMap);
+            }
+        }
+
+        if(!StringUtils.isEmpty(params.get("newAstStsCode"))) {
+            if (!assetInfo.get("AST_STS_CODE").equals(params.get("newAstStsCode"))) {
+                modMap = new HashMap<>();
+                modMap.put("astInfoModSn", params.get("astInfoModSn"));
+                modMap.put("regEmpSeq", params.get("empSeq"));
+                modMap.put("modItemName", "자산상태/재물조사");
+
+                searchMap.put("insideMdCode", "03");
+
+                searchMap.put("insideDtCode", assetInfo.get("AST_STS_CODE"));
+                modMap.put("modOldItemInfo", assetRepository.getInsideCode(searchMap).get("INSIDE_DT_CODE_NM"));
+
+                searchMap.put("insideDtCode", params.get("newAstStsCode"));
+                modMap.put("modNewItemInfo", assetRepository.getInsideCode(searchMap).get("INSIDE_DT_CODE_NM"));
+
+                historyItemModList.add(modMap);
+            }
+        }
+
         if(historyItemModList.size() > 0){
             assetRepository.setAstInfoModHistoryItem(historyItemModList);
+        }else{
+            assetRepository.setAstInfoModHistoryDel(params);
         }
     }
 
