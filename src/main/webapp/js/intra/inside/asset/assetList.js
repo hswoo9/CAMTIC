@@ -79,7 +79,6 @@ var assetList = {
                     template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#'/>",
                     width: 50
                 }, {
-                    field: "",
                     title: "순번",
                     width: 50,
                     template : function(e){
@@ -87,10 +86,12 @@ var assetList = {
                     }
                 }, {
                     field: "AST_NO",
-                    title: "자산 번호"
+                    title: "자산 번호",
+                    width : 100
                 }, {
                     field: "PURC_DATE",
-                    title: "구입일자"
+                    title: "구입일자",
+                    width : 100
                 }, {
                     field: "AST_NAME",
                     title: "자산명"
@@ -105,7 +106,8 @@ var assetList = {
                     title: "설치 장소"
                 }, {
                     field: "EMP_NAME",
-                    title: "사용자"
+                    title: "사용자",
+                    width : 80
                 }, {
                     field: "PURC_PRICE",
                     title: "구입가격(원)",
@@ -134,6 +136,11 @@ var assetList = {
     },
 
     bulkChangePopup : function() {
+        if($("input[name='aiChk']:checked").length == 0){
+            alert("변경할 자산을 선택해주세요.");
+            return
+        }
+
         var id = "";
         $.each($("input[name='aiChk']:checked"), function(e, i){
             id += ',' + $(this).val()
@@ -269,7 +276,7 @@ var assetList = {
             dataSource: [
                 { text: "등록상태", value: "" },
                 { text: "승인", value: "1" },
-                { text: "미승인", value: "0" }
+                { text: "미승인", value: "2" }
             ],
             index: 0
         });

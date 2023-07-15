@@ -42,6 +42,7 @@ public class BustripController {
     @RequestMapping("/bustrip/bustripReq.do")
     public String bustripReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -52,6 +53,7 @@ public class BustripController {
     @RequestMapping("/bustrip/bustripResult.do")
     public String bustripResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -165,6 +167,7 @@ public class BustripController {
     @RequestMapping("/bustrip/pop/bustripResultPop.do")
     public String bustripResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("params", params);
@@ -191,6 +194,7 @@ public class BustripController {
     @RequestMapping("/bustrip/transportationCostInfo.do")
     public String transportationCostInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -201,6 +205,7 @@ public class BustripController {
     @RequestMapping("/bustrip/dutyBustripExpenses.do")
     public String dutyBustripExpenses(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -211,6 +216,7 @@ public class BustripController {
     @RequestMapping("/bustrip/carReq.do")
     public String carReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -231,6 +237,7 @@ public class BustripController {
     @RequestMapping("/bustrip/meetingRoomReq.do")
     public String meetingRoomReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -248,7 +255,7 @@ public class BustripController {
     }
 
     //회의실 사용 특정일 제외 팝업창
-    @RequestMapping("/Inside/Pop/exSpecificDayPop.do")
+    @RequestMapping("/bustrip/Pop/exSpecificDayPop.do")
     public String exSpecificDayPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -258,9 +265,10 @@ public class BustripController {
     }
 
     //차량관리
-    @RequestMapping("/Inside/carManage.do")
+    @RequestMapping("/bustrip/carManage.do")
     public String carManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -268,7 +276,7 @@ public class BustripController {
     }
 
     //차량관리 팝업창
-    @RequestMapping("/Inside/Pop/carManagePop.do")
+    @RequestMapping("/bustrip/Pop/carManagePop.do")
     public String carManagePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
@@ -278,9 +286,10 @@ public class BustripController {
     }
 
     //회의실관리
-    @RequestMapping("/Inside/meetingRoomManage.do")
+    @RequestMapping("/bustrip/meetingRoomManage.do")
     public String meetingRoomManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -288,7 +297,7 @@ public class BustripController {
     }
 
     //회의실관리 팝업창
-    @RequestMapping("/Inside/Pop/meetingRoomManagePop.do")
+    @RequestMapping("/bustrip/Pop/meetingRoomManagePop.do")
     public String meetingRoomManagePop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");

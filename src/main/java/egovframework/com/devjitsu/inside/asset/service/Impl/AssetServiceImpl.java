@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.inside.asset.repository.AssetRepository;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -38,6 +39,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    @Transactional
     public void setAssetInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
         params.put("astNo", params.get("astNo") + "-" + assetRepository.getAssetInfoBarcordMax(params));
         if(StringUtils.isEmpty(params.get("astInfoSn"))){
@@ -64,7 +66,7 @@ public class AssetServiceImpl implements AssetService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("empSeq"));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("relatedFileNo", fileInsMap.get("file_no"));
@@ -80,7 +82,7 @@ public class AssetServiceImpl implements AssetService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("empSeq"));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("astFileNo", fileInsMap.get("file_no"));
@@ -134,13 +136,16 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setAstInfoBatch(Map<String, Object> params) {
+        String baseAstInfoSn = params.get("astInfoSn").toString();
         String[] astInfoSn = params.get("astInfoSn").toString().split(",");
         for(int i = 0; i < astInfoSn.length; i++){
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("astInfoSn", astInfoSn[i]);
-            Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(params);
+            Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(searchMap);
+            params.put("astInfoSn", astInfoSn[i]);
             setAssetInfoModHistory(assetInfo, params);
         }
+        params.put("astInfoSn", baseAstInfoSn);
 
         assetRepository.setAstInfoBatch(params);
     }
@@ -224,6 +229,72 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return assetRepository.getAssetDtCodeList(map);
     }
+
+    @Override
+    public List<Map<String, Object>> getAstPdaInfoList(Map<String, Object> params) {
+        return assetRepository.getAstPdaInfoList(params);
+    }
+
+    @Override
+    @Transactional
+    public void getAssetListToPdaList(Map<String, Object> params) {
+        assetRepository.setAstPdaActiveUpd(params);
+
+        assetRepository.setAstPdaInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getAstPdaInfo(Map<String, Object> params) {
+        Map<String, Object> returnMap = assetRepository.getAstPdaInfo(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
+        returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
+        returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+
+        searchMap.put("astInfoSn", returnMap.get("AST_INFO_SN"));
+        returnMap.put("history", assetRepository.getAstInfoModHistory(searchMap));
+        returnMap.put("historyItem", assetRepository.getAstInfoModHistoryItem(searchMap));
+
+        return returnMap;
+    }
+
+    @Override
+    public void setAstPdaOptInspection(Map<String, Object> params) {
+        assetRepository.setAstPdaOptInspection(params);
+    }
+
+    @Override
+    @Transactional
+    public void setAssetInspectionUpload(Map<String, Object> params) {
+        List<Map<String, Object>> pdaList = assetRepository.getAstPdaInfoList(params);
+        if(pdaList.size() > 0){
+            for(int i = 0; i < pdaList.size(); i++){
+                Map<String, Object> saveMap = new HashMap<>();
+                pdaList.get(i).put("astInfoSn", pdaList.get(i).get("AST_INFO_SN"));
+                Map<String, Object> assetInfo = assetRepository.getAssetInfoAll(pdaList.get(i));
+
+                saveMap.put("astInfoSn", pdaList.get(i).get("AST_INFO_SN"));
+                saveMap.put("astPdaInfoSn", pdaList.get(i).get("AST_PDA_INFO_SN"));
+                saveMap.put("newAstPlaceSn", pdaList.get(i).get("NEW_AST_PLACE_SN"));
+                saveMap.put("newAstStsCode", pdaList.get(i).get("NEW_AST_STS_CODE"));
+                saveMap.put("inspectionType", pdaList.get(i).get("INSPECTION_TYPE"));
+
+                saveMap.put("regEmpIp", params.get("regEmpIp"));
+                saveMap.put("regEmpSeq", params.get("regEmpSeq"));
+                saveMap.put("regEmpName", params.get("regEmpName"));
+                saveMap.put("empSeq", params.get("empSeq"));
+
+                if(!StringUtils.isEmpty(saveMap.get("newAstPlaceSn")) || !StringUtils.isEmpty(saveMap.get("newAstStsCode"))){
+                    assetRepository.setAssetInspectionUpload(saveMap);
+                }
+                assetRepository.setAssetPdaActiveDtUpd(saveMap);
+                setAssetInfoModHistory(assetInfo, saveMap);
+            }
+        }
+    }
+
     @Override
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) {
         return assetRepository.getClassPositionList(params);
@@ -651,8 +722,47 @@ public class AssetServiceImpl implements AssetService {
             }
         }
 
+        /** 재물조사 히스토리 */
+        if(!StringUtils.isEmpty(params.get("newAstPlaceSn"))) {
+            if (!assetInfo.get("AST_PLACE_SN").equals(params.get("newAstPlaceSn"))) {
+                modMap = new HashMap<>();
+                modMap.put("astInfoModSn", params.get("astInfoModSn"));
+                modMap.put("regEmpSeq", params.get("empSeq"));
+                modMap.put("modItemName", "위치/재물조사");
+
+                searchMap.put("astPlaceSn", assetInfo.get("AST_PLACE_SN"));
+                modMap.put("modOldItemInfo", assetRepository.getAssetPlace(searchMap).get("AST_PLACE_NAME"));
+
+                searchMap.put("astPlaceSn", params.get("newAstPlaceSn"));
+                modMap.put("modNewItemInfo", assetRepository.getAssetPlace(searchMap).get("AST_PLACE_NAME"));
+
+                historyItemModList.add(modMap);
+            }
+        }
+
+        if(!StringUtils.isEmpty(params.get("newAstStsCode"))) {
+            if (!assetInfo.get("AST_STS_CODE").equals(params.get("newAstStsCode"))) {
+                modMap = new HashMap<>();
+                modMap.put("astInfoModSn", params.get("astInfoModSn"));
+                modMap.put("regEmpSeq", params.get("empSeq"));
+                modMap.put("modItemName", "자산상태/재물조사");
+
+                searchMap.put("insideMdCode", "03");
+
+                searchMap.put("insideDtCode", assetInfo.get("AST_STS_CODE"));
+                modMap.put("modOldItemInfo", assetRepository.getInsideCode(searchMap).get("INSIDE_DT_CODE_NM"));
+
+                searchMap.put("insideDtCode", params.get("newAstStsCode"));
+                modMap.put("modNewItemInfo", assetRepository.getInsideCode(searchMap).get("INSIDE_DT_CODE_NM"));
+
+                historyItemModList.add(modMap);
+            }
+        }
+
         if(historyItemModList.size() > 0){
             assetRepository.setAstInfoModHistoryItem(historyItemModList);
+        }else{
+            assetRepository.setAstInfoModHistoryDel(params);
         }
     }
 

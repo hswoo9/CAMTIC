@@ -16,14 +16,24 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">자산정보 조회</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-base" onclick="">자산관리카드 인쇄</button>
+                <c:if test="${astInfo eq 'Y'}">
+                    <button type="button" class="k-button k-button-solid-base" onclick="">자산관리카드 인쇄</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-base" onclick="">바코드 출력(대)</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="">바코드 출력(소)</button>
-                <button type="button" class="k-button k-button-solid-info" onclick="assetModPop()">편집</button>
+                <c:if test="${astPdaInfo eq 'Y'}">
+                    <button type="button" class="k-button k-button-solid-info" onclick="setAssetInspection()">저장</button>
+                </c:if>
+                <c:if test="${astInfo eq 'Y'}">
+                    <button type="button" class="k-button k-button-solid-info" onclick="assetModPop()">편집</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">
+            <input type="hidden" id="astInfo" name="astInfo" value="${astInfo}">
+            <input type="hidden" id="astPdaInfo" name="astPdaInfo" value="${astPdaInfo}">
+            <input type="hidden" id="astPdaInfoSn" name="astPdaInfoSn" value="${data.AST_PDA_INFO_SN}">
             <input type="hidden" id="astInfoSn" name="astInfoSn" value="${data.AST_INFO_SN}">
             <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
             <table class="table table-bordered mb-0" style="margin-top: 10px;">
@@ -108,10 +118,22 @@
                     <td>
                         ${data.QTY}
                     </td>
-                    <th scope="row" class="text-center th-color">생산 국가</th>
-                    <td>
-                        ${data.ORG_COUNTRY}
-                    </td>
+                    <c:choose>
+                        <c:when test="${astPdaInfo eq 'Y'}">
+                            <th scope="row" class="text-center th-color">
+                                자산 상태
+                            </th>
+                            <td>
+                                    ${data.INSIDE_DT_CODE_NM}
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <th scope="row" class="text-center th-color">생산 국가</th>
+                            <td>
+                                    ${data.ORG_COUNTRY}
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -135,20 +157,22 @@
                         ${data.EMP_NAME}
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        물품관리관(정)
-                    </th>
-                    <td>
-                        ${astManage.MANAGE_MAIN_EMP_NAME}
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        물품관리관(부)
-                    </th>
-                    <td>
-                        ${astManage.MANAGE_SUB_EMP_NAME}
-                    </td>
-                </tr>
+                <c:if test="${astInfo eq 'Y'}">
+                    <tr>
+                        <th scope="row" class="text-center th-color">
+                            물품관리관(정)
+                        </th>
+                        <td>
+                                ${astManage.MANAGE_MAIN_EMP_NAME}
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            물품관리관(부)
+                        </th>
+                        <td>
+                                ${astManage.MANAGE_SUB_EMP_NAME}
+                        </td>
+                    </tr>
+                </c:if>
                 <tr>
                     <th scope="row" class="text-center th-color">용도</th>
                     <td colspan="3">
@@ -161,24 +185,26 @@
                         ${data.REMARK}
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        자산 상태
-                    </th>
-                    <td>
-                        ${data.INSIDE_DT_CODE_NM}
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">관련 파일</th>
-                    <td colspan="3" style="padding:5px;">
-                        <c:if test="${data.relatedFile ne null}">
-                            <span onclick="fileDown('${data.relatedFile.file_path}${data.relatedFile.file_uuid}', '${data.relatedFile.file_org_name}.${data.relatedFile.file_ext}')">
-                                ${data.relatedFile.file_org_name}.${data.relatedFile.file_ext}
-                            </span>
-                        </c:if>
-                    </td>
-                </tr>
+                <c:if test="${astInfo eq 'Y'}">
+                    <tr>
+                        <th scope="row" class="text-center th-color">
+                            자산 상태
+                        </th>
+                        <td>
+                                ${data.INSIDE_DT_CODE_NM}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">관련 파일</th>
+                        <td colspan="3" style="padding:5px;">
+                            <c:if test="${data.relatedFile ne null}">
+                                <span onclick="fileDown('${data.relatedFile.file_path}${data.relatedFile.file_uuid}', '${data.relatedFile.file_org_name}.${data.relatedFile.file_ext}')">
+                                    ${data.relatedFile.file_org_name}.${data.relatedFile.file_ext}
+                                </span>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:if>
                 <tr>
                     <th scope="row" class="text-center th-color">자산 사진</th>
                     <td colspan="3" style="padding:5px;">
@@ -187,12 +213,14 @@
                         </c:if>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">관련 청구서</th>
-                    <td colspan="3" style="padding:5px;">
+                <c:if test="${astInfo eq 'Y'}">
+                    <tr>
+                        <th scope="row" class="text-center th-color">관련 청구서</th>
+                        <td colspan="3" style="padding:5px;">
 
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </c:if>
                 <tr>
                     <th scope="row" class="text-center th-color">관련 소모품</th>
                     <td colspan="3" style="padding:5px;">
@@ -202,6 +230,62 @@
                 </tbody>
             </table>
         </div>
+
+        <c:if test="${astPdaInfo eq 'Y'}">
+            <div style="padding: 20px 30px;">
+                <table class="table table-bordered mb-0">
+                    <colgroup>
+                        <col width="18%">
+                        <col width="35%">
+                        <col width="18%">
+                        <col width="35%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            재물조사 자산정보
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-center th-color">
+                            변경위치
+                        </th>
+                        <td>
+                            <input type="hidden" id="originAstPlaceSn" value="${data.ORIGIN_AST_PLACE_SN}">
+                            <input type="text" id="newAssetPlaceSn" <c:if test="${data.NEW_AST_PLACE_SN ne null}"> value="${data.NEW_AST_PLACE_SN}"</c:if>>
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            재물조사
+                        </th>
+                        <td>
+                            <input type="text" id="inspectionType" style="width: 120px;" <c:if test="${data.NEW_AST_PLACE_SN ne null}"> value="${data.INSPECTION_TYPE}" </c:if>>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">
+                            자산상태
+                        </th>
+                        <td colspan="4">
+                            <input type="hidden" id="originAstStsCode" value="${data.ORIGIN_AST_STS_CODE}">
+                            <input type="text" id="newAstStsCode" style="width: 120px;"
+                                <c:choose>
+                                    <c:when test="${data.NEW_AST_STS_CODE ne null}">
+                                        value="${data.NEW_AST_STS_CODE}"
+                                    </c:when>
+                                    <c:otherwise>
+                                        value="${data.ORIGIN_AST_STS_CODE}"
+                                    </c:otherwise>
+                                </c:choose>
+                            >
+                            <input type="text" id="astStsModReason" style="display:none;width: 80%;" value="${data.AST_STS_MOD_REASON}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </c:if>
 
         <div style="padding: 20px 30px;">
             <table class="table table-bordered mb-0">
@@ -258,4 +342,66 @@
         });
     }
 
+    if($("#astPdaInfo").val() == "Y"){
+        var dropDownDataSource = customKendo.fn_customAjax("/inside/getInsideCodeList.do", {insideMdCode : "03"});
+        customKendo.fn_dropDownList("newAstStsCode", dropDownDataSource.rs, "INSIDE_DT_CODE_NM","INSIDE_DT_CODE", 2);
+        $("#newAstStsCode").data("kendoDropDownList").bind("change", function(e){if(this.value() != "01")$("#astStsModReason").show()});
+        $("#newAstStsCode").data("kendoDropDownList").trigger("change");
+
+        dropDownDataSource = customKendo.fn_customAjax("/asset/getAssetPlaceList", {});
+        customKendo.fn_dropDownList("newAssetPlaceSn", dropDownDataSource.rs, "AST_PLACE_NAME","AST_PLACE_SN", 2);
+
+        dropDownDataSource = [
+            {text: "실시", value: "1"},
+            {text: "미실시", value: "2"},
+        ]
+        customKendo.fn_dropDownList("inspectionType", dropDownDataSource, "text", "value", 2);
+
+        customKendo.fn_textBox(["astStsModReason"]);
+    }
+
+    function setAssetInspection(){
+        if(confirm("신규위치, 재물조사 유무, 자산상태를 저장하시겠습니까?")){
+            var data = {
+                astPdaInfoSn : $("#astPdaInfoSn").val(),
+                newAstStsCode : $("#newAstStsCode").val(),
+                astStsModReason : $("#astStsModReason").val(),
+                newAssetPlaceSn : $("#newAssetPlaceSn").val(),
+                inspectionType : $("#inspectionType").val(),
+                empSeq : $("#empSeq").val()
+            }
+
+            if($("#inspectionType").val()){
+                data.inspectionType = $("#inspectionType").val();
+                data.workType = $("#inspectionType").val();
+            }
+
+            if($("#newAssetPlaceSn").val()){
+                if($("#originAstPlaceSn").val() != $("#newAssetPlaceSn").val()){
+                    /** 위치 변경 */
+                    data.placeModType = '1'
+                }else{
+                    /** 위치 미변경 */
+                    data.placeModType = '2'
+                }
+            }
+
+            if($("#newAstStsCode").val()){
+                if($("#originAstStsCode").val() != $("#newAstStsCode").val()){
+                    /** 상태 변경 */
+                    data.astStsCodeModType = '1'
+                }else{
+                    /** 상태 미변경 */
+                    data.astStsCodeModType = '2'
+                }
+            }
+
+            var result = customKendo.fn_customAjax("/asset/setAstPdaOptInspection.do", data);
+            if(result.flag){
+                alert("저장되었습니다.");
+                opener.parent.astPdaInfoList.gridReload();
+                window.close();
+            }
+        }
+    }
 </script>

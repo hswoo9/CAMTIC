@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/asset/pdaPeristalsisList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/asset/astPdaInfoList.js?v=${today}"/></script>
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -14,66 +14,69 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+            <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
+                        <col width="27%">
+                        <col width="10%">
+                        <col width="">
+                        <col width="10%">
+                        <col width="">
+                        <col width="10%">
+                        <col width="">
                         <col width="10%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 110px;"> ~
-                            <input type="text" id="end_date" style="width: 110px;">
+                            <input type="text" id="startDate" style="width: 110px;"> ~
+                            <input type="text" id="endDate" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">기존위치</th>
-                        <td>
-                            <input type="text" id="drop1" style="width: 120px;">
+                        <td colspan="3">
+                            <input type="text" id="originAssetPlace">
                         </td>
                         <th class="text-center th-color">신규위치</th>
-                        <td>
-                            <input type="text" id="drop2" style="width: 120px;">
-                        </td>
-                        <th class="text-center th-color">작업구분</th>
-                        <td>
-                            <input type="text" id="drop3" style="width: 150px;">
+                        <td colspan="3">
+                            <input type="text" id="newAssetPlace">
                         </td>
                     </tr>
                     <tr>
+                        <th class="text-center th-color">작업구분</th>
+                        <td>
+                            <input type="text" id="workType" style="width: 150px;">
+                        </td>
                         <th class="text-center th-color">자산상태</th>
                         <td>
-                            <input type="text" id="drop4" style="width: 120px;">
+                            <input type="text" id="astStsCode" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">재물조사</th>
                         <td>
-                            <input type="text" id="drop5" style="width: 120px;">
+                            <input type="text" id="inspectionType" style="width: 100px;">
                         </td>
-                        <th class="text-center th-color">위치변경</th>
+                        <th class="text-center th-placeModType">위치변경</th>
                         <td>
-                            <input type="text" id="drop6" style="width: 120px;">
+                            <input type="text" id="placeModType" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">상태변경</th>
                         <td>
-                            <input type="text" id="drop7" style="width: 150px;">
+                            <input type="text" id="astStsCodeModType" style="width: 100px;">
                         </td>
                     </tr>
                     <tr>
                         <th class="text-center th-color">목록</th>
-                        <td colspan="4">
-                            <input type="text" id="drop8" style="width: 120px;">
+                        <td colspan="5">
                             <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
-                            <input type="text" id="searchVal" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색</button>
+                            <input type="text" id="searchContent" style="width: 72.3%;" onkeypress="if(window.event.keyCode==13){astPdaInfoList.gridReload()}">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.gridReload()">검색</button>
                         </td>
-                        <td colspan="3" style="text-align: right">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">가져오기</button>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">재물조사 업로드</button>
+                        <td colspan="4" style="text-align: right">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.getAssetList()">가져오기</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setAssetUploadAll()">재물조사 업로드</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(대)</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(소)</button>
                         </td>
@@ -86,5 +89,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    pdaPeristalsisList.init();
+    astPdaInfoList.fnDefaultScript();
 </script>

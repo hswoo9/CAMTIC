@@ -71,8 +71,9 @@
             <span class="red-star"></span>동거여부
           </th>
           <td colspan="2">
-            <input type="text" id="checkY" class="cohab" value="Y">
-            <input type="text" id="checkN" class="cohab" value="N">
+            <span type="text" id="includeType" name="includeType" style="width: 100%;"></span>
+            <%--<input type="text" id="checkY" class="cohab" value="Y">
+            <input type="text" id="checkN" class="cohab" value="N">--%>
           </td>
         </tr>
       </table>
@@ -90,7 +91,15 @@
     fn_default();
   });
   function fn_default() {
-    $("#checkY").kendoCheckBox({
+    $("#includeType").kendoRadioGroup({
+      items: [
+        { label : "예", value : "Y" },
+        { label : "아니오", value : "N" }
+      ],
+      layout : "horizontal",
+      labelPosition : "after",
+    });
+    /*$("#checkY").kendoCheckBox({
       label: "예",
       change: function(e) {
         if(e.checked == true){
@@ -105,7 +114,7 @@
           $("#checkY").prop("checked", false);
         }
       }
-    });
+    });*/
     customKendo.fn_datePicker("bDay", '', "yyyy-MM-dd", '');
     fn_codeSet();
     $("#relation").kendoDropDownList({
@@ -127,7 +136,8 @@
       bDay : $("#bDay").val(),
       job : $("#job").val(),
       fName : $("#fName").val(),
-      cohab : $(".cohab:checked").val(),
+      includeType : $("#includeType").getKendoRadioGroup().value(),
+      /*cohab : $(".cohab:checked").val(),*/
       type : "family",
     }
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);

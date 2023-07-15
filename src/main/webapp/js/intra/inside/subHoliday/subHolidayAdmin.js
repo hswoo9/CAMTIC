@@ -120,16 +120,6 @@ var subHolidayAdmin = {
             dataBound : subHolidayAdmin.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="subHolidayAdmin.fn_checkAll();"/>',
-                    template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\"/>";
-                        } else {
-                            return "";
-                        }
-                    },
-                    width: 40
-                }, {
                     field: "EMP_NAME_KR",
                     title: "이름",
                     width: 150,
@@ -265,12 +255,4 @@ var subHolidayAdmin = {
         var option = "width=1030, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
-
-    fn_checkAll: function(){
-        if($("#checkAll").is(":checked")) {
-            $("input[name='hisPk']").prop("checked", true);
-        }else{
-            $("input[name='hisPk']").prop("checked", false);
-        }
-    }
 }

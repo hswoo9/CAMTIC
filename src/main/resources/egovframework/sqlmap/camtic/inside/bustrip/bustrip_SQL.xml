@@ -98,12 +98,16 @@
 
     <select id="getBustripReq" parameterType="map" resultType="map">
         SELECT
-            *
+            IHBR.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ
+            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON IHBR.DOC_ID = DI.DOC_ID
         WHERE
         <![CDATA[
-            TRIP_DAY_FR >= #{startDate} AND TRIP_DAY_TO <= #{endDate}
+            IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
         ]]>
         <if test="projectCd != null and projectCd != ''">
             AND
@@ -247,7 +251,7 @@
         UPDATE
             CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
-            STATUS = #{status},
+            STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
@@ -258,7 +262,7 @@
         UPDATE
             CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
-            STATUS = #{status},
+            STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE

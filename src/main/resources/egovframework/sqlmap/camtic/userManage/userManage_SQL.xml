@@ -459,6 +459,8 @@
              ,REG_DATE
              ,SCHOOL_NAME
              ,RMK
+             ,GUBUN_CODE
+             ,GRADUATION_CODE
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -469,6 +471,8 @@
             ,NOW()
             ,#{school}
             ,#{bmk}
+            ,#{gubun}
+            ,#{graduation}
         )
     </insert>
     <insert id="setCareerInfo" parameterType="map">
@@ -506,6 +510,9 @@
                 ,M_DISCHARGE_DAY
                 ,REG_EMP_SEQ
                 ,REG_DATE
+                ,M_LAST_RANK
+                ,M_DIVISION
+                ,MOS
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -515,6 +522,9 @@
                 ,#{eDate}
                 ,#{EMP_SEQ}
                 ,now()
+                ,#{rank}
+                ,#{mType}
+                ,#{mDept}
                 )
     </insert>
     <insert id="setFmailyInfo" parameterType="map">
@@ -535,7 +545,7 @@
                 ,#{fName}
                 ,#{bDay}
                 ,#{job}
-                ,#{cohab}
+                ,#{includeType}
                 ,#{EMP_SEQ}
                 ,now()
                 )

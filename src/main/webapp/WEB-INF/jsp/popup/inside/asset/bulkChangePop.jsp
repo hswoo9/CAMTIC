@@ -54,10 +54,10 @@
                         <span class="red-star"></span>사용자
                     </th>
                     <td>
-                        <input type="text" id="empName" style="width: 66%;">
-                        <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
-                            직원 선택
-                        </button>
+                        <input type="hidden" id="empSeq" name="popEmpSeq">
+                        <input type="hidden" id="deptSeq" name="popDeptSeq">
+                        <input type="text" id="empName" name="empName" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 73%;" onclick="userSearch()" readonly>
+                        <button type="button" class="k-button k-button-solid-base" id="addMemberBtn" onclick="userSearch();">직원 선택</button>
                     </td>
                 </tr>
                 <tr>
@@ -101,6 +101,10 @@
 
 <script>
     bulkChangePop.fn_defaultScript();
+
+    function userSearch() {
+        window.open("/common/deptListPop.do","조직도","width=750,height=650");
+    }
 </script>
 </body>
 </html>

@@ -754,14 +754,4 @@ var classManage = {
             }
         }
     },
-
-    fn_schBtn : function () {
-        var data = {
-            SEARCH_DATA : $('#searchVal').val(),
-            AST_MC_CODE : "",
-            AST_MD_CODE : "",
-            AST_DT_CODE : "",
-        }
-        classManage.mainGrid4('/asset/getAstCodeList',data);
-    }
 }

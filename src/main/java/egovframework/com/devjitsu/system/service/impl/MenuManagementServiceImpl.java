@@ -77,6 +77,8 @@ public class MenuManagementServiceImpl implements MenuManagementService {
         }else {
             menuManagementRepository.setMenuUpd(params);
         }
+
+        menuManagementRepository.setMenuPathUpd(params);
     }
 
     @Override

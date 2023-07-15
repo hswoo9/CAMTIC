@@ -121,8 +121,15 @@ public class AssetController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
-        model.addAttribute("data", assetService.getAssetInfo(params));
-        model.addAttribute("astManage", assetService.getAstManage());
+        if(!StringUtils.isEmpty(params.get("astPdaInfoSn"))){
+            model.addAttribute("astPdaInfo", "Y");
+            model.addAttribute("data", assetService.getAstPdaInfo(params));
+        }else{
+            model.addAttribute("data", assetService.getAssetInfo(params));
+            model.addAttribute("astManage", assetService.getAstManage());
+            model.addAttribute("astInfo", "Y");
+        }
+
         model.addAttribute("loginVO", login);
 
         return "popup/inside/asset/viewAssetPop";
@@ -196,8 +203,6 @@ public class AssetController {
         assetService.setAstInfoBatch(params);
         return "jsonView";
     }
-
-
 
     //자산리스트 - 사업 선택 - 연구개발과제 선택 팝업
     @RequestMapping("/Inside/Pop/rdTaskPop.do")
@@ -488,13 +493,70 @@ public class AssetController {
         return "jsonView";
     }
 
-    @RequestMapping("/Inside/pdaPeristalsisList.do")
-    public String pdaPeristalsisList(HttpServletRequest request, Model model) {
+    /**
+     * 자산관리 > PDA 연동목록 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/astPdaInfoList.do")
+    public String astPdaInfoList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
+
         model.addAttribute("loginVO", login);
-        return "inside/asset/pdaPeristalsisList";
+
+        return "inside/asset/astPdaInfoList";
+    }
+
+    /**
+     * 자산관리 > PDA 연동목록 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/getAstPdaInfoList.do")
+    public String getPda(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("rs", assetService.getAstPdaInfoList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > PDA 연동목록 자산리스트에서 가져오기
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/getAssetListToPdaList.do")
+    public String getAssetListToPdaList(@RequestParam Map<String,Object> params, Model model) {
+        assetService.getAssetListToPdaList(params);
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > PDA 연동목록 - 재물조사실시
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/setAstPdaOptInspection.do")
+    public String setAssetInspection(@RequestParam Map<String,Object> params, Model model) {
+        assetService.setAstPdaOptInspection(params);
+        return "jsonView";
+    }
+
+    /**
+     * 자산관리 > PDA 연동목록 - 재물조사 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/setAssetInspectionUpload.do")
+    public String setAssetInspectionUpload(@RequestParam Map<String,Object> params, HttpServletRequest request) {
+        params.put("regEmpIp", request.getRemoteAddr());
+        assetService.setAssetInspectionUpload(params);
+        return "jsonView";
     }
 
     //지식재산권리스트
