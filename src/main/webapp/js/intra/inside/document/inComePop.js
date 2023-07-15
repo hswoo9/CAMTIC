@@ -33,7 +33,7 @@ var regisReq = {
         let deptPartType = $("#deptPart").val();
         let deptPartText;
         if(deptPartType != 6) {
-            deptPartText = $("#documentPart").data("kendoDropDownList").text();
+            deptPartText = $("#deptPart").data("kendoDropDownList").text();
         }
         let userSn = $("#userSn").val();
         let userText = $("#userText").val();

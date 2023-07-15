@@ -87,12 +87,12 @@ function fn_deptSetting(){
     $("#dept").data("kendoDropDownList").trigger("change");
 }
 
-function fn_onlyDeptSetting(){
+function fn_onlyDeptSetting(type){
     let data = {}
     data.deptLevel = 1;
     const deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
 
-    customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
+    customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq", type);
 
     $("#dept").data("kendoDropDownList").select(0);
 }

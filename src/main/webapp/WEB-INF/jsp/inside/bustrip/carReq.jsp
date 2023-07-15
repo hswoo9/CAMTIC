@@ -3,16 +3,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    table { background-color: white; }
-</style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carReq.js?v=${today}"/></script>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
+<style>
+    .k-event-inverse {
+        cursor: pointer
+    }
+</style>
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -24,34 +20,28 @@
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
-                <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">--%>
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
                         <td style="border-bottom:0;">
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>년월</span>
-                                    <input type="text" id="datePicker" style="width: 130px;">
+                                    <input type="text" id="carReqDt" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <span>사용 차량</span>
-                                    <input type="text" id="useCar" style="width: 150px;">
+                                    <input type="text" id="carClass" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
                                     <span>운행 구분</span>
-                                    <input type="text" id="raceDivision" style="width: 150px;">
+                                    <input type="text" id="carType" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
                                 <span>검색구분</span>
-                                    <input type="text" id="searchDivision" style="width: 150px;">
+                                    <input type="text" id="searchType" style="width: 150px;">
                                 </div>
                                 <div class="mr10">
-                                    <input type="text" id="name" style="width: 100px;">
+                                    <input type="text" id="searchText" style="width: 100px;">
                                 </div>
                                 <div class="mr10">
                                     <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
@@ -59,12 +49,12 @@
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
+                                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
                                         검색 초기화
                                     </button>
                                 </div>
                                 <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carReq.carPopup();">
+                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carList.carPopup();">
                                         차량 사용 신청
                                     </button>
                                 </div>
@@ -84,5 +74,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    carReq.fn_defaultScript();
+    carList.init();
 </script>

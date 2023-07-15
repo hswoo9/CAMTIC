@@ -6,41 +6,20 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"/></script>
-
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="carReqSn" value="${carReqSn}"/>
 <!DOCTYPE html>
 <html>
 <body>
@@ -48,12 +27,6 @@
     <div class="card-header" style="padding:20px 0;">
         <div class="col-lg-11" style="margin:0 auto;">
             <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="table table-bordered mb-0">
                     <colgroup>
                         <col width="30%">
@@ -65,57 +38,58 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>운행 일시</th>
-                        <td><input id="use_date" type="date" style="width: 20%;"><input id="use_time" type="time" style="width: 20%;">
-                        ~<input id="use_date2" type="date" style="width: 20%;"><input id="use_time2" type="time" style="width: 20%;"></td>
+                        <td><input id="startDt" style="width: 20%;"><input id="startTime" style="width: 20%;">
+                        ~<input id="endDt" style="width: 20%;"><input id="endTime" style="width: 20%;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 부서</th>
-                        <td><input type="text" id="useDept" style="width: 40%;"></td>
+                        <td><input type="text" id="dept" style="width: 40%;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 차량</th>
-                        <td><input type="text" id="useCar" style="width: 40%;"></td>
+                        <td><input type="text" id="carClass" style="width: 40%;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">운행 구분</th>
-                        <td><input type="text" id="raceDivision" style="width: 40%;"></input></td>
+                        <td><input type="text" id="carType" style="width: 40%;"/></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">운행 목적</th>
-                        <td><input type="text" id="racePurpose" style="width: 100%;"></input></td>
+                        <td><input type="text" id="carTitle" style="width: 100%;"/></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">목적지</th>
-                        <td><input type="text" id="destination" style="width: 100%;"></input></td>
+                        <td><input type="text" id="visit" style="width: 100%;"/></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">경유지</th>
-                        <td><input type="text" id="waypoint" style="width: 100%;"></input></td>
+                        <td><input type="text" id="waypoint" style="width: 100%;"/></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">운행자</th>
-                        <td><input type="text" id="driver" style="width: 20%;" value="홍길동">
-                            <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
-                                직원 선택
+                        <td>
+                            <input type="text" id="empName" style="width: 65%;">
+                            <input type="hidden" id="empSeq">
+                            <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px;" onclick="userSearch();">
+                                검색
                             </button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="varTR" style="display:none;">
                         <th scope="row" class="text-center th-color">긴급 연락처</th>
-                        <td>성명 : <input type="text" id="name" style="width: 20%;"></input>
-                            연락처 : <input type="text" id="tel" style="width: 30%;"></input>
+                        <td>성명 : <input type="text" id="emergencyName" style="width: 20%;"/>
+                            연락처 : <input type="text" id="emergencyTel" style="width: 30%;"/>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">신청 일자</th>
-                        <td><input id="apply_date" type="date" style="width: 20%;"></input></td>
+                        <td><input id="applyDt" style="width: 20%;"/></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="btn-st">
-                <input type="button" style="margin-right:5px;" class="k-button k-button-solid k-button-solid-info" value="결재 신청" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="삭제"  onclick=""/>
+                <input type="button" style="margin-right:5px;" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="carReq.saveBtn();"/>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
             </div>
         </div>
@@ -124,8 +98,11 @@
 
 
 <script>
-    carPop.fn_defaultScript();
-    overWk.fn_defaultScript();
+    let carData = {};
+    <c:if test="${flag eq 'true'}">
+        carData = JSON.parse('${data}');
+    </c:if>
+    carReq.init();
 </script>
 </body>
 </html>
