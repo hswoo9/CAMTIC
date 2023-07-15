@@ -377,20 +377,20 @@
             if($("#newAssetPlaceSn").val()){
                 if($("#originAstPlaceSn").val() != $("#newAssetPlaceSn").val()){
                     /** 위치 변경 */
-                    data.placeModType = '2'
+                    data.placeModType = '1'
                 }else{
                     /** 위치 미변경 */
-                    data.placeModType = '1'
+                    data.placeModType = '2'
                 }
             }
 
             if($("#newAstStsCode").val()){
                 if($("#originAstStsCode").val() != $("#newAstStsCode").val()){
                     /** 상태 변경 */
-                    data.astStsCodeModType = '2'
+                    data.astStsCodeModType = '1'
                 }else{
                     /** 상태 미변경 */
-                    data.astStsCodeModType = '1'
+                    data.astStsCodeModType = '2'
                 }
             }
 

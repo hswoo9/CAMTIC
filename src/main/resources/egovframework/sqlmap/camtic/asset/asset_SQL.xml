@@ -779,6 +779,10 @@
         <if test='placeModType != null and !"".equals(placeModType)'>
             AND APO.PLACE_MOD_TYPE = #{placeModType}
         </if>
+        <if test='astStsCode != null and !"".equals(astStsCode)'>
+            AND (CASE WHEN APO.NEW_AST_STS_CODE IS NOT NULL THEN APO.NEW_AST_STS_CODE ELSE API.AST_STS_CODE END) = #{astStsCode}
+
+        </if>
         <if test='astStsCodeModType != null and !"".equals(astStsCodeModType)'>
             AND APO.AST_STS_CODE_MOD_TYPE = #{astStsCodeModType}
         </if>
@@ -978,7 +982,7 @@
             </if>
             <if test='placeModType != null and !"".equals(placeModType)'>
                 PLACE_MOD_TYPE = #{placeModType},
-                <if test='"2".equals(placeModType)'>
+                <if test='"1".equals(placeModType)'>
                     NEW_AST_PLACE_SN = #{newAssetPlaceSn},
                 </if>
             </if>
@@ -1008,8 +1012,12 @@
         UPDATE
             CAM_INSIDE.DJ_ASSET_INFO
         SET
-            AST_PLACE_SN = #{newAstPlaceSn},
-            AST_STS_CODE =  #{newAstStsCode},
+            <if test='newAstPlaceSn != null and !"".equals(newAstPlaceSn)'>
+                AST_PLACE_SN = #{newAstPlaceSn},
+            </if>
+            <if test='newAstStsCode != null and !"".equals(newAstStsCode)'>
+                AST_STS_CODE =  #{newAstStsCode},
+            </if>
             INSPECTION_TYPE = #{inspectionType},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE

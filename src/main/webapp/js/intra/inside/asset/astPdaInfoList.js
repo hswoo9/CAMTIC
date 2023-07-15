@@ -23,6 +23,7 @@ var astPdaInfoList = {
             workType : $("#workType").val(),
             inspectionType : $("#inspectionType").val(),
             placeModType : $("#placeModType").val(),
+            astStsCode : $("#astStsCode").val(),
             astStsCodeModType : $("#astStsCodeModType").val(),
             searchType : $("#searchType").val(),
             searchContent : $("#searchContent").val(),

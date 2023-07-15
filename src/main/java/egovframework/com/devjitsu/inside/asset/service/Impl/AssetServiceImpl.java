@@ -286,7 +286,9 @@ public class AssetServiceImpl implements AssetService {
                 saveMap.put("regEmpName", params.get("regEmpName"));
                 saveMap.put("empSeq", params.get("empSeq"));
 
-                assetRepository.setAssetInspectionUpload(saveMap);
+                if(!StringUtils.isEmpty(saveMap.get("newAstPlaceSn")) || !StringUtils.isEmpty(saveMap.get("newAstStsCode"))){
+                    assetRepository.setAssetInspectionUpload(saveMap);
+                }
                 assetRepository.setAssetPdaActiveDtUpd(saveMap);
                 setAssetInfoModHistory(assetInfo, saveMap);
             }
