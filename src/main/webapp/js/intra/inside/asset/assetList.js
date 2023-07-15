@@ -79,7 +79,6 @@ var assetList = {
                     template : "<input type='checkbox' id='aiChk#=AST_INFO_SN#' name='aiChk' value='#=AST_INFO_SN#'/>",
                     width: 50
                 }, {
-                    field: "",
                     title: "순번",
                     width: 50,
                     template : function(e){
@@ -134,6 +133,11 @@ var assetList = {
     },
 
     bulkChangePopup : function() {
+        if($("input[name='aiChk']:checked").length == 0){
+            alert("변경할 자산을 선택해주세요.");
+            return
+        }
+
         var id = "";
         $.each($("input[name='aiChk']:checked"), function(e, i){
             id += ',' + $(this).val()

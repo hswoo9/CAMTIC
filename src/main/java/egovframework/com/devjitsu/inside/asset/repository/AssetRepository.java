@@ -58,6 +58,15 @@ public class AssetRepository extends AbstractDAO {
     public void setCategoryCodeDel(Map<String,Object> params) { update("asset.setCategoryCodeDel", params);}
     /** 분류관리 끝 */
 
+    /** PDA 연동 */
+    public List<Map<String,Object>> getAstPdaInfoList(Map<String,Object> params) { return selectList("asset.getAstPdaInfoList", params);}
+    public void setAstPdaActiveUpd(Map<String, Object> params) { update("asset.setAstPdaActiveUpd", params);};
+    public void setAstPdaInfo(Map<String, Object> params) {
+        insert("asset.setAstPdaInfo", params);
+        insert("asset.setAstPdaOpt", params);
+    }
+    public Map<String, Object> getAstPdaInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("asset.getAstPdaInfo", params);}
+    public void setAstPdaOptInspection(Map<String, Object> params) { update("asset.setAstPdaOptInspection", params);}
 
     //장비관리 팝업창 (관리자) - 장비등록
     public void setEquipmentInsert(Map<String, Object> params) {

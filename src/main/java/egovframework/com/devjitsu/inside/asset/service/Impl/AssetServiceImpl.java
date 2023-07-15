@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.inside.asset.repository.AssetRepository;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -38,6 +39,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    @Transactional
     public void setAssetInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
         params.put("astNo", params.get("astNo") + "-" + assetRepository.getAssetInfoBarcordMax(params));
         if(StringUtils.isEmpty(params.get("astInfoSn"))){
@@ -224,6 +226,42 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map) {
         return assetRepository.getAssetDtCodeList(map);
     }
+
+    @Override
+    public List<Map<String, Object>> getAstPdaInfoList(Map<String, Object> params) {
+        return assetRepository.getAstPdaInfoList(params);
+    }
+
+    @Override
+    @Transactional
+    public void getAssetListToPdaList(Map<String, Object> params) {
+        assetRepository.setAstPdaActiveUpd(params);
+
+        assetRepository.setAstPdaInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getAstPdaInfo(Map<String, Object> params) {
+        Map<String, Object> returnMap = assetRepository.getAstPdaInfo(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
+        returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
+        returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+
+        searchMap.put("astInfoSn", returnMap.get("AST_INFO_SN"));
+        returnMap.put("history", assetRepository.getAstInfoModHistory(searchMap));
+        returnMap.put("historyItem", assetRepository.getAstInfoModHistoryItem(searchMap));
+
+        return returnMap;
+    }
+
+    @Override
+    public void setAstPdaOptInspection(Map<String, Object> params) {
+        assetRepository.setAstPdaOptInspection(params);
+    }
+
     @Override
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) {
         return assetRepository.getClassPositionList(params);

@@ -108,19 +108,19 @@
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
         JOIN
-            CAM_INSIDE.dj_asset_code_position ACP
+            CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
             ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
         JOIN
-            CAM_INSIDE.dj_asset_code_class ACC
+            CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
         ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
         JOIN
-            CAM_INSIDE.dj_asset_code AC1
+            CAM_INSIDE.DJ_ASSET_CODE AC1
         ON AI.AST_CODE_ID_1 = AC1.AST_CODE
         JOIN
-            CAM_INSIDE.dj_asset_code AC2
+            CAM_INSIDE.DJ_ASSET_CODE AC2
         ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
         JOIN
-            CAM_INSIDE.dj_asset_code AC3
+            CAM_INSIDE.DJ_ASSET_CODE AC3
         ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
         JOIN
             CAM_INSIDE.DJ_ASSET_PLACE AP
@@ -133,6 +133,7 @@
     </select>
 
     <select id="getAstInfoModHistory" parameterType="map" resultType="map">
+        /* getAstInfoModHistory */
         SELECT
             AST_INFO_MOD_SN,
             REPLACE(REPLACE(DATE_FORMAT(REG_DATE, '%Y-%m-%d %p %h:%i:%s'), 'PM', '오후'), 'AM', '오전') AS REG_DATE,
@@ -142,9 +143,11 @@
             CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY
         WHERE
             AST_INFO_SN = #{astInfoSn}
+        ORDER BY REG_DATE DESC
     </select>
 
     <select id="getAstInfoModHistoryItem" parameterType="map" resultType="map">
+        /* getAstInfoModHistoryItem */
         SELECT
             A.*
         FROM
@@ -702,6 +705,240 @@
     </update>
     <!-- 분류관리 종료 -->
 
+    <!-- PDA 연동목록 시작 -->
+    <select id="getAstPdaInfoList" parameterType="map" resultType="map">
+        /* getAstPdaInfoList */
+        SELECT
+            API.AST_PDA_INFO_SN,
+            API.AST_INFO_SN,
+            API.AST_NO,
+            API.AST_NAME,
+            API.PURC_DATE,
+            API.ORIGIN_AST_PLACE_SN,
+            AP.AST_PLACE_NAME AS ORIGIN_AST_PLACE,
+            AP2.AST_PLACE_NAME AS NEW_AST_PLACE,
+            DATE_FORMAT(API.ACTIVE_DATE, '%Y-%m-%d') AS ACTIVE_DATE,
+            API.AST_STS_CODE AS ORIGIN_STS_CODE,
+            IC.INSIDE_DT_CODE_NM AS ORIGIN_STS_NAME,
+            IC2.INSIDE_DT_CODE_NM AS NEW_STS_NAME,
+            APO.*
+        FROM
+            CAM_INSIDE.DJ_ASSET_PDA_INFO API
+        JOIN
+            CAM_INSIDE.DJ_ASSET_PDA_OPT APO
+        ON API.AST_PDA_INFO_SN = APO.AST_PDA_INFO_SN
+        LEFT JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP
+        ON API.ORIGIN_AST_PLACE_SN = AP.AST_PLACE_SN
+        LEFT JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP2
+        ON APO.NEW_AST_PLACE_SN = AP2.AST_PLACE_SN
+        JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC
+        ON API.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        LEFT JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC2
+        ON APO.NEW_AST_STS_CODE = IC2.INSIDE_DT_CODE AND IC2.INSIDE_MD_CODE = '03'
+        WHERE
+            API.ACTIVE = 'Y'
+    </select>
+
+    <update id="setAstPdaActiveUpd" parameterType="map">
+        /* setAstPdaActiveUpd */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_PDA_INFO
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq}
+    </update>
+
+    <insert id="setAstPdaInfo" parameterType="map">
+        /* setAstPdaInfo */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_PDA_INFO
+        (
+            AST_INFO_SN,
+            AST_CODE_COMPANY_ID,
+            AST_TYPE_CODE,
+            AST_CODE_ID_1,
+            AST_CODE_ID_2,
+            AST_CODE_ID_3,
+            AST_STS_CODE,
+            ORIGIN_AST_PLACE_SN,
+            AST_NO,
+            AST_NAME,
+            PURC_DATE,
+            PURC_PRICE,
+            PURC_COMPANY_ID,
+            MODEL_SIZE,
+            MODEL_NAME,
+            MF_COMPANY,
+            ORG_COUNTRY,
+            QTY,
+            UNIT,
+            REG_TYPE,
+            BARCODE_TYPE,
+            FUNDING_SOURCE,
+            EXP_ACCOUNT,
+            EMP_NAME,
+            PURPOSE,
+            REMARK,
+            REG_STATUS,
+            AST_FILE_NO,
+            RELATED_FILE_NO,
+            REG_EMP_SEQ
+        )
+        SELECT
+            AST_INFO_SN,
+            AST_CODE_COMPANY_ID,
+            AST_TYPE_CODE,
+            AST_CODE_ID_1,
+            AST_CODE_ID_2,
+            AST_CODE_ID_3,
+            AST_STS_CODE,
+            AST_PLACE_SN,
+            AST_NO,
+            AST_NAME,
+            PURC_DATE,
+            PURC_PRICE,
+            PURC_COMPANY_ID,
+            MODEL_SIZE,
+            MODEL_NAME,
+            MF_COMPANY,
+            ORG_COUNTRY,
+            QTY,
+            UNIT,
+            REG_TYPE,
+            BARCODE_TYPE,
+            FUNDING_SOURCE,
+            EXP_ACCOUNT,
+            EMP_NAME,
+            PURPOSE,
+            REMARK,
+            REG_STATUS,
+            AST_FILE_NO,
+            RELATED_FILE_NO,
+            #{empSeq}
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO
+        WHERE
+            ACTIVE = 'Y'
+    </insert>
+
+    <insert id="setAstPdaOpt" parameterType="map">
+        /* setAstPdaOpt */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_PDA_OPT
+        (
+            AST_PDA_INFO_SN,
+            REG_EMP_SEQ
+        )
+        SELECT
+            AST_PDA_INFO_SN,
+            #{empSeq}
+        FROM
+            CAM_INSIDE.DJ_ASSET_PDA_INFO
+        WHERE
+            ACTIVE = 'Y'
+    </insert>
+
+    <select id="getAstPdaInfo" resultType="map" parameterType="map">
+        /* getAstPdaInfo */
+        SELECT
+            API.AST_PDA_INFO_SN,
+            API.AST_INFO_SN,
+            AI.AST_STS_CODE AS ORIGIN_AST_STS_CODE,
+            CONCAT(ACP.AST_CP_CODE_NM, ' > ', ACC.AST_TYPE_CODE_NM, ' > ', AC1.AST_CODE_NM, ' > ', AC2.AST_CODE_NM, ' > ', AC3.AST_CODE_NM) AS AST_GUBUN,
+            API.AST_NO,
+            API.BARCODE_TYPE,
+            API.AST_NAME,
+            DATE_FORMAT(API.PURC_DATE, '%Y/%m/%d') AS PURC_DATE,
+            API.PURC_PRICE,
+            API.MODEL_SIZE,
+            API.MODEL_NAME,
+            API.PURC_COMPANY_ID,
+            '-' AS PURC_COMPANY_NAME,
+            API.MF_COMPANY,
+            CONCAT(API.QTY, ' ', API.UNIT) AS QTY,
+            API.ORG_COUNTRY,
+            CASE WHEN API.FUNDING_SOURCE = 0 THEN CONCAT('[법인운영]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 1 THEN CONCAT('[연구개발]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 2 THEN CONCAT('[교육사업]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 4 THEN CONCAT('[개발사업]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 5 THEN CONCAT('[기능보강]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 6 THEN CONCAT('[지원사업]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 7 THEN CONCAT('[협의회]', API.EXP_ACCOUNT)
+                 WHEN API.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', API.EXP_ACCOUNT)
+                END FUNDING_SOURCE_TXT,
+            AP.AST_PLACE_NAME,
+            API.EMP_NAME,
+            API.PURPOSE,
+            API.REMARK,
+            IC.INSIDE_DT_CODE_NM,
+            API.AST_FILE_NO,
+            API.RELATED_FILE_NO,
+
+            APO.INSPECTION_TYPE,
+            APO.NEW_AST_PLACE_SN,
+            APO.NEW_AST_STS_CODE,
+            APO.AST_STS_MOD_REASON
+        FROM
+            CAM_INSIDE.DJ_ASSET_PDA_INFO API
+        JOIN
+            CAM_INSIDE.DJ_ASSET_PDA_OPT APO
+        ON API.AST_PDA_INFO_SN = APO.AST_PDA_INFO_SN
+        JOIN
+            CAM_INSIDE.DJ_ASSET_INFO AI
+        ON API.AST_INFO_SN = AI.AST_INFO_SN
+        JOIN
+            CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
+        ON API.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
+        JOIN
+            CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
+        ON API.AST_TYPE_CODE = ACC.AST_TYPE_CODE
+        JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC1
+        ON API.AST_CODE_ID_1 = AC1.AST_CODE
+        JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC2
+        ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND API.AST_CODE_ID_2 = AC2.AST_CODE
+        JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC3
+        ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND API.AST_CODE_ID_3 = AC3.AST_CODE
+        JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP
+        ON API.ORIGIN_AST_PLACE_SN = AP.AST_PLACE_SN
+        JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC
+        ON API.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        WHERE
+            API.AST_PDA_INFO_SN = #{astPdaInfoSn}
+    </select>
+
+    <update id="setAstPdaOptInspection" parameterType="map">
+        /* setAstPdaOptInspection */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_PDA_OPT
+        SET
+            <if test='inspectionType != null and !"".equals(inspectionType)'>
+                WORK_TYPE = #{workType},
+                INSPECTION_TYPE = #{inspectionType},
+            </if>
+            <if test='placeModType != null and !"".equals(placeModType)'>
+                PLACE_MOD_TYPE = #{placeModType},
+                <if test='"2".equals(placeModType)'>
+                    NEW_AST_PLACE_SN = #{newAssetPlaceSn},
+                </if>
+            </if>
+            <if test='astStsCodeModType != null and !"".equals(astStsCodeModType)'>
+                AST_STS_CODE_MOD_TYPE = #{astStsCodeModType},
+                NEW_AST_STS_CODE = #{newAstStsCode},
+                AST_STS_MOD_REASON = #{astStsModReason},
+            </if>
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            AST_PDA_INFO_SN = #{astPdaInfoSn}
+    </update>
+
+    <!-- PDA 연동목록 종료 -->
     <!--장비관리 팝업창 (관리자) - 장비등록-->
     <insert id="setEquipmentInsert" parameterType="map">
         /*setEquipmentInsert*/

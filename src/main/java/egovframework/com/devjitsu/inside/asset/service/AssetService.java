@@ -17,6 +17,16 @@ public interface AssetService {
     Map<String, Object> getAstManage();
     void setAstManage(Map<String, Object> params);
     void setAstInfoBatch(Map<String, Object> params);
+
+    /** 분류관리 */
+    List<Map<String,Object>> getClassPositionList(Map<String,Object> map);
+    Map<String, Object> getClassPosition(Map<String, Object> params);
+    List<Map<String,Object>> getClassDivisionList(Map<String,Object> map);
+    List<Map<String,Object>> getAstCategoryList(Map<String, Object> params);
+    Map<String, Object> getAstCategory(Map<String, Object> params);
+    void setCategoryCode(Map<String, Object> params);
+    void getAstCategoryDel(Map<String, Object> params);
+
     /** */
     void setEquipmentInsert(Map<String, Object> params);
 
@@ -43,15 +53,14 @@ public interface AssetService {
 
     List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
     List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
-    List<Map<String,Object>> getClassPositionList(Map<String,Object> map);
-    Map<String, Object> getClassPosition(Map<String, Object> params);
-    List<Map<String,Object>> getClassDivisionList(Map<String,Object> map);
-    List<Map<String,Object>> getAstCategoryList(Map<String, Object> params);
-    Map<String, Object> getAstCategory(Map<String, Object> params);
-    void setCategoryCode(Map<String, Object> params);
-    void getAstCategoryDel(Map<String, Object> params);
 
 
+    /** PDA 연동 */
+    List<Map<String, Object>> getAstPdaInfoList(Map<String, Object> params);
+    void getAssetListToPdaList(Map<String, Object> params);
+    Map<String, Object> getAstPdaInfo(Map<String, Object> params);
+    void setAstPdaOptInspection(Map<String, Object> params);
+    /** */
     //장비사용 목록 조회
     List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
 
