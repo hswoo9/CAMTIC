@@ -25,10 +25,6 @@
                         <col width="30%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">발령 구분</th>
-                        <td>
-                            <input type="text" id="historyType" style="width: 200px; margin-right:10px;">
-                        </td>
                         <th class="text-center th-color">발령 기준</th>
                         <td>
                             <input type="text" id="appointmentType" style="width: 140px;">
