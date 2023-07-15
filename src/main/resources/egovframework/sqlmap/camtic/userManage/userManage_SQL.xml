@@ -319,48 +319,10 @@
             HEI.DEPT_SEQ = #{deptTeam}
         </if>
         <if test='arr != null and !"".equals(arr)'>
-            <if test='subArr != null and !"".equals(subArr)'>
-            AND
-                (DIVISION IN
-                <foreach collection="arr" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>
-                OR
-                DIVISION_SUB IN
-                <foreach collection="subArr" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>)
-            </if>
-            <if test='subArr == null or "".equals(subArr)'>
-                AND
-                DIVISION IN
-                <foreach collection="arr" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>
-            </if>
-        </if>
-        <if test='subArr != null and !"".equals(subArr)'>
-            <if test='arr != null and !"".equals(arr)'>
-            AND
-                (DIVISION IN
-                <foreach collection="arr" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>
-                OR
-                DIVISION_SUB IN
-                <foreach collection="subArr" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>)
-            </if>
-            <if test='arr == null or "".equals(arr)'>
-            AND
-                DIVISION_SUB IN
-                <foreach collection="subArr" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>
-            AND
-                DIVISION in (1, 4)
-            </if>
+        AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
         </if>
     </select>
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
@@ -932,7 +894,269 @@
             A.DEPT_TEAM_NAME = #{team}
         </if>
 
-        ORDER BY a.reg_date DESC
+        ORDER BY a.reg_date2 DESC
+    </select>
+
+    <select id="getPersonRecordApplyList2" parameterType="map" resultType="map">
+        /* getPersonRecordApplyList2 */
+        SELECT
+            A.*
+        from
+            (SELECT
+            a.EDUCATIONAL_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_educational' AS 'type',
+            '학력사항' AS 'typeName',
+            'EDUCATIONAL_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_educational AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            union
+            SELECT
+            a.CAREER_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_career' AS 'type',
+            '경력사항' AS 'typeName',
+            'CAREER_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_career AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.MSI_INFO_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_military_svc_info' AS 'type',
+            '병력사항' AS 'typeName',
+            'MSI_INFO_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_military_svc_info AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.FAMILY_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_family_info' AS 'type',
+            '가족사항' AS 'typeName',
+            'FAMILY_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_family_info AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.CERTIFICATE_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_certificate' AS 'type',
+            '보유면허' AS 'typeName',
+            'CERTIFICATE_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_certificate AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.APPOINT_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_appoint' AS 'type',
+            '발령사항' AS 'typeName',
+            'APPOINT_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_appoint AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.REWORD_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_reword' AS 'type',
+            '포상사항' AS 'typeName',
+            'REWORD_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_reword AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.DUTY_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_duty_info' AS 'type',
+            '직무사항' AS 'typeName',
+            'DUTY_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_duty_info AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq
+            UNION
+            SELECT
+            a.PROPOSAL_ID AS 'ID',
+            b.EMP_SEQ,
+            b.DEPT_NAME,
+            b.DEPT_TEAM_NAME,
+            b.POSITION_NAME,
+            a.EMP_NAME,
+            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
+            a.REG_DATE as 'REG_DATE2',
+            a.admin_approval,
+            a.returnyn,
+            'dj_emp_proposal_info' AS 'type',
+            '제안제도' AS 'typeName',
+            'PROPOSAL_ID' AS 'key'
+            FROM
+            cam_hr.dj_emp_proposal_info AS a
+            LEFT join
+            cam_hr.dj_emp_info AS b
+            on
+            a.emp_seq = b.emp_seq) AS A
+        WHERE
+            1=1
+        AND
+            A.EMP_SEQ = #{empSeq}
+
+        <if test='drop1 != null and !"".equals(drop1)'>
+            and
+            <choose>
+                <when test='"1".equals(drop1)'>
+                    A.typeName = '학력사항'
+                </when>
+                <when test='"2".equals(drop1)'>
+                    A.typeName = '경력사항'
+                </when>
+                <when test='"3".equals(drop1)'>
+                    A.typeName = '병력사항'
+                </when>
+                <when test='"4".equals(drop1)'>
+                    A.typeName = '가족사항'
+                </when>
+                <when test='"5".equals(drop1)'>
+                    A.typeName = '보유면허'
+                </when>
+                <when test='"6".equals(drop1)'>
+                    A.typeName = '발령사항'
+                </when>
+                <when test='"7".equals(drop1)'>
+                    A.typeName = '포상사항'
+                </when>
+                <when test='"8".equals(drop1)'>
+                    A.typeName = '직무사항'
+                </when>
+                <when test='"9".equals(drop1)'>
+                    A.typeName = '제안제도'
+                </when>
+            </choose>
+        </if>
+        <if test='status != null and !"".equals(status)'>
+            and
+            <choose>
+                <when test='"1".equals(status)'>
+                    A.admin_approval ='N'
+                    and
+                    A.returnyn ='N'
+                </when>
+                <when test='"2".equals(status)'>
+                    A.admin_approval ='N'
+                    and
+                    A.returnyn ='Y'
+                </when>
+                <when test='"3".equals(status)'>
+                    A.admin_approval ='Y'
+                    and
+                    A.returnyn ='N'
+                </when>
+            </choose>
+        </if>
+        <if test='startDate != null and !"".equals(startDate)'>
+            <![CDATA[
+		AND
+		DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(A.REG_DATE, '%Y%m%d')
+		AND
+		DATE_FORMAT(#{endDate}, '%Y%m%d') >= DATE_FORMAT(A.REG_DATE, '%Y%m%d')
+		]]>
+        </if>
+
+        ORDER BY a.reg_date2 DESC
     </select>
 
     <update id="setUpdateUserInfoModY" parameterType="map">

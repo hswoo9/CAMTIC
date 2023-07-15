@@ -32,8 +32,7 @@ var bulkChangePop = {
     setAstInfoBatch : function(){
         bulkChangePop.global.saveAjaxData = {
             astInfoSn : $("#astInfoSn").val(),
-            empSeq : $("#empSeq").val(),
-            regEmpSeq : $("#empSeq").val(),
+            regEmpSeq : $("#regEmpSeq").val(),
             regEmpName : $("#regEmpName").val()
         }
 

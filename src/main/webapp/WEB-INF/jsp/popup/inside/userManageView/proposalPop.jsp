@@ -16,12 +16,9 @@
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <input type="hidden" id="type" name="type" value="${params.type}">
+      <input type="hidden" id="key" name="key" value="${params.key}">
+      <input type="hidden" id="id" name="id" value="${params.id}">
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -61,13 +58,9 @@
   </div>
 </body>
 <script>
-  <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
-  /*fn_datePicker
-  fn_textBox*/
-  var jsonData = JSON.parse(opener.userInfoMod.global.jsonData);
   $(function(){
     fn_default();
-    fn_dataSet(jsonData);
+    fn_dataSet();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -81,10 +74,20 @@
   }
 
   function fn_dataSet(e) {
-    $("#pGubun").val(e.PROPOSAL_GUBUN); //구분
-    $("#sDate").val(e.PROPOSAL_DATE); //년월일
-    $("#proposal").val(e.PROPOSAL_DETAIL); //주요제안내용
-    $("#status").val(e.PROPOSAL_CHECK_CHOICE); //채택여부
+    var result = customKendo.fn_customAjax('/userManage/userInfoModDetail', {
+      key : $("#key").val(),
+      type : $("#type").val(),
+      id : $("#id").val()
+    });
+
+    if(result.flag) {
+      var e = result.rs;
+
+      $("#pGubun").val(e.PROPOSAL_GUBUN); //구분
+      $("#sDate").val(e.PROPOSAL_DATE); //년월일
+      $("#proposal").val(e.PROPOSAL_DETAIL); //주요제안내용
+      $("#status").val(e.PROPOSAL_CHECK_CHOICE); //채택여부
+    }
 
     /*수정 안되게 disabled*/
     $("#pGubun").data("kendoTextBox").enable(false);

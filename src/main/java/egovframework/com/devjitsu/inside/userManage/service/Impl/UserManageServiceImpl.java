@@ -72,27 +72,24 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public List<Map<String, Object>> getEmpInfoList(Map<String, Object> map) {
 
-        if(map.containsKey("dtArr")){
-            String arrText = map.get("dtArr").toString();
+        if(map.containsKey("arr")){
+            String arrText = map.get("arr").toString();
 
-            String[] arr = arrText.split(",");
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
 
-            if(arrText != ""){
-                map.put("arr", arr);
-            } else {
-                map.put("arr", "");
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
             }
-        }
-
-        if(map.containsKey("dtSubArr")){
-            String arrText = map.get("dtSubArr").toString();
-
-            String[] subArr = arrText.split(",");
-            if(arrText != ""){
-                map.put("subArr", subArr);
-            } else {
-                map.put("subArr", "");
-            }
+            map.put("arr", arr);
         }
 
         return userManageRepository.getEmpInfoList(map);
@@ -174,6 +171,12 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String, Object>> getPersonRecordApplyList(Map<String,Object> map) {
         return userManageRepository.getPersonRecordApplyList(map);
     }
+
+    @Override
+    public List<Map<String, Object>> getPersonRecordApplyList2(Map<String,Object> map) {
+        return userManageRepository.getPersonRecordApplyList2(map);
+    }
+
     @Override
     public void setUpdateUserInfoModY(Map<String,Object> map) {
         userManageRepository.setUpdateUserInfoModY(map);

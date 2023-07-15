@@ -64,11 +64,10 @@ var userInfoMod = {
     },
 
     mainGrid : function(url, params) {
+		var record = 0;
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
-            sortable: true,
             scrollable: true,
-            selectable: "row",
             height: 540,
             pageable : {
                 refresh : true,
@@ -134,6 +133,7 @@ var userInfoMod = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+			dataBound : userInfoMod.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="checkbox" onclick="userInfoMod.selectAllcheck()"/>',
@@ -145,7 +145,7 @@ var userInfoMod = {
                     field: "",
                     title: "번호",    /*template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#' class='k-checkbox checkbox'/>",*/
                     template : function (e) {
-                        return e.num+'<input type="hidden" + value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
+                        return ($("#mainGrid").data("kendoGrid").dataSource.total() - record++)+'<input type="hidden" + value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
                     }
                 }, {
 					attributes : { style : "text-align : center;"},
@@ -201,27 +201,30 @@ var userInfoMod = {
                 },
             ]
         }).data("kendoGrid");
-                //인사정보변경신청 그리드선택시 화면
-        $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
-            var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
-            console.log(selectedItem);
-			var data = {
-				key : selectedItem.key,
-				type : selectedItem.type,
-				id : selectedItem.ID
-			}
-			var result = customKendo.fn_customAjax('/userManage/userInfoModDetail',data);
-			userInfoMod.fn_openModDetail(JSON.stringify(result.rs),selectedItem.typeName);
-        });
     },
+
+	onDataBound : function(){
+		var grid = this;
+		grid.tbody.find("tr").dblclick(function (e) {
+			var dataItem = grid.dataItem($(this));
+			var data = {
+				key : dataItem.key,
+				type : dataItem.type,
+				id : dataItem.ID
+			}
+			userInfoMod.fn_openModDetail(data, dataItem.typeName);
+		});
+	},
+
 	fn_openModDetail : function(e,n) {
 		var typeName = n;
-		var url = "/userManage/modDetailPop.do?typeName="+typeName;
+		var url = "/userManage/modDetailPop.do?typeName="+typeName + "&key=" + e.key + "&type=" + e.type + "&id=" + e.id;
 		var name = "detail";
 		var option = "width = 600, height = 550, top = 100, left = 200, location = no"
 		var popup = window.open(url, name, option);
 		userInfoMod.global.jsonData = e;
 	},
+
     fn_approvalTest : function(e) {
         if(confirm("승인 하시겠습니까?")){
             var data = {
@@ -462,8 +465,6 @@ var userInfoMod = {
 						}
 					})
 				});
-				console.log(checkCnt)
-				console.log(successCnt)
 				if (checkCnt == successCnt) {
 					alert("반려 되었습니다.");
 					$('#mainGrid').data('kendoGrid').dataSource.read();
@@ -554,7 +555,6 @@ var userInfoMod = {
     },
 */
     gridReload : function() {
-        console.log('gridReload');
         userInfoMod.global.searchAjaxData = {
             startDate : $('#start_date').val(),
             endDate : $("#end_date").val(),
@@ -564,7 +564,6 @@ var userInfoMod = {
             status : $("#status").val(),
             name : $("#name").val()
         }
-        console.log(userInfoMod.global.searchAjaxData);
         userInfoMod.mainGrid('/userManage/getPersonRecordApplyList',userInfoMod.global.searchAjaxData);
     },
     

@@ -458,7 +458,7 @@ public class AssetServiceImpl implements AssetService {
         Map<String, Object> searchMap = new HashMap<>();
 
         modMap.put("astInfoModSn", params.get("astInfoModSn"));
-        modMap.put("regEmpSeq", params.get("empSeq"));
+        modMap.put("regEmpSeq", params.get("regEmpSeq"));
 
         if(!StringUtils.isEmpty(params.get("astCodeCompanyId"))){
             if(!assetInfo.get("AST_CODE_COMPANY_ID").equals(params.get("astCodeCompanyId"))){

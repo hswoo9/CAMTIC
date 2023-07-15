@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,7 +49,12 @@ public class UserManageController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
-    //인사기록카드 페이지
+    /**
+     * 인사관리(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/userPersonList.do")
     public String userPersonList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -60,19 +66,46 @@ public class UserManageController {
         return "inside/userManage/userPersonList";
     }
 
+    /**
+     * 인사관리(사용자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/userPersonList2.do")
+    public String userPersonList2(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/userPersonList2";
+    }
+
     private static void menuSession(HttpServletRequest request, HttpSession session) {
         session.setAttribute("menuNm", request.getRequestURI());
     }
 
-    //직원조회목록 페이지
+    /**
+     * 인사기록카드(사용자)
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/userPersonnelRecord.do")
-    public String userPersonnelRecord(HttpServletRequest request, Model model){
+    public String userPersonnelRecord(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         menuSession(request, session);
 
         Map<String,Object> map = new HashMap<>();
-        map.put("empSeq", login.getUniqId());
+        if(!StringUtils.isEmpty(params.get("admin")) && !StringUtils.isEmpty(params.get("empSeq"))){
+            map.put("empSeq", params.get("empSeq"));
+        }else{
+            map.put("empSeq", login.getUniqId());
+        }
+
         Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map);
         List<Map<String,Object>> educationalList = userManageService.getEducationalList(map);
         Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map);
@@ -81,6 +114,7 @@ public class UserManageController {
         model.addAttribute("uprList", userPersonnelRecordList);
         model.addAttribute("eList", educationalList);
         model.addAttribute("mInfo", militarySvcInfo);
+
 
 
         model.addAttribute("cList", userManageService.getCareerInfoList(map));
@@ -132,14 +166,59 @@ public class UserManageController {
         return "inside/userManage/performanceResultList";
     }
 
-    //인사정보변경신청 페이지
+    /**
+     * 인사정보변경신청(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/userInfoMod.do")
     public String userInfoMod(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/userManage/userInfoMod";
+    }
+
+    /**
+     * 인사정보변경신청(관리자) 리스트
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/getPersonRecordApplyList")
+    public String getPersonRecordApplyList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("list", userManageService.getPersonRecordApplyList(map));
+        return "jsonView";
+    }
+
+    /**
+     * 인사정보변경신청(사용자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/userInfoModReg.do")
+    public String userInfoModReg(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/userInfoModReg";
+    }
+
+    /**
+     * 인사정보변경신청(사용자) 리스트
+     * @param map
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/getPersonRecordApplyList2")
+    public String getPersonRecordApplyList2(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("list", userManageService.getPersonRecordApplyList2(map));
+        return "jsonView";
     }
 
     //근로계약서 페이지
@@ -321,11 +400,7 @@ public class UserManageController {
         }
         return "jsonView";
     }
-    @RequestMapping("/userManage/getPersonRecordApplyList")
-    public String getPersonRecordApplyList(@RequestParam Map<String,Object> map, Model model) {
-        model.addAttribute("list", userManageService.getPersonRecordApplyList(map));
-        return "jsonView";
-    }
+
     @RequestMapping("/userManage/getCodeList")
     public String getCodeList(Model model) {
         model.addAttribute("rs", userManageService.getCodeList());
@@ -487,18 +562,24 @@ public class UserManageController {
         return "jsonView";
     }
     @RequestMapping("/userManage/modDetailPop.do")
-    public String modDetailPop(@RequestParam String typeName) {
-        switch(typeName) {
-            case "학력사항" : return "popup/inside/userManageView/degreePop";
-            case "병력사항" : return "popup/inside/userManageView/militaryPop";
-            case "가족사항" : return "popup/inside/userManageView/familyPop";
-            case "직무사항" : return "popup/inside/userManageView/jobPop";
-            case "발령사항" : return "popup/inside/userManageView/appointingPop";
-            case "경력사항" : return "popup/inside/userManageView/careerPop";
-            case "보유면허" : return "popup/inside/userManageView/licensePop";
-            case "상벌사항" : return "popup/inside/userManageView/rewardPop";
-            case "제안제도" : return "popup/inside/userManageView/proposalPop";
+    public String modDetailPop(@RequestParam Map<String, Object> params, Model model) {
+        String viewName = "";
+
+        model.addAttribute("params", params);
+
+        switch(params.get("typeName").toString()) {
+            default: break;
+            case "학력사항" : viewName = "popup/inside/userManageView/degreePop"; break;
+            case "병력사항" : viewName = "popup/inside/userManageView/militaryPop"; break;
+            case "가족사항" : viewName = "popup/inside/userManageView/familyPop"; break;
+            case "직무사항" : viewName = "popup/inside/userManageView/jobPop"; break;
+            case "발령사항" : viewName = "popup/inside/userManageView/appointingPop"; break;
+            case "경력사항" : viewName = "popup/inside/userManageView/careerPop"; break;
+            case "보유면허" : viewName = "popup/inside/userManageView/licensePop"; break;
+            case "상벌사항" : viewName = "popup/inside/userManageView/rewardPop"; break;
+            case "제안제도" : viewName = "popup/inside/userManageView/proposalPop"; break;
         }
-        return "";
+
+        return viewName;
     }
 }

@@ -18,7 +18,7 @@
             </div>
         </div>
         <div style="padding: 20px 30px;">
-            <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+            <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
             <input type="hidden" id="regEmpName" name="regEmpName" value="${loginVO.name}">
             <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
             <table class="popTable table table-bordered mb-0">
@@ -54,8 +54,8 @@
                         <span class="red-star"></span>사용자
                     </th>
                     <td>
-                        <input type="hidden" id="empSeq" name="popEmpSeq">
-                        <input type="hidden" id="deptSeq" name="popDeptSeq">
+                        <input type="hidden" id="empSeq" name="empSeq">
+                        <input type="hidden" id="deptSeq" name="deptSeq">
                         <input type="text" id="empName" name="empName" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" style="width: 73%;" onclick="userSearch()" readonly>
                         <button type="button" class="k-button k-button-solid-base" id="addMemberBtn" onclick="userSearch();">직원 선택</button>
                     </td>

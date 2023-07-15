@@ -6,7 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<%--<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>--%>
 <body class="font-opensans" style="background-color:#fff;">
   <div class="table-responsive">
     <div class="card-header pop-header">
@@ -16,12 +15,9 @@
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <input type="hidden" id="type" name="type" value="${params.type}">
+      <input type="hidden" id="key" name="key" value="${params.key}">
+      <input type="hidden" id="id" name="id" value="${params.id}">
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -80,10 +76,9 @@
 </body>
 <script>
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
-  var jsonData = JSON.parse(opener.userInfoMod.global.jsonData);
   $(function(){
     fn_default();
-    fn_dataSet(jsonData);
+    fn_dataSet();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -104,15 +99,25 @@
     $("#dateM").kendoTextBox();
 
   }
-  function fn_dataSet(e) {
-    $("#sDate").val(e.JOIN_DAY);
-    $("#eDate").val(e.RESIGN_DAY);
-    $("#place").val(e.EMPLOY_DEPT_NAME);
-    $("#position").val(e.POSITION_OR_DUTY);
-    $("#workType").val(e.MAIN_TASK);
-    $("#dateY").val(e.CAREER_PERIOD);
-    $("#dateM").val(e.CAREER_MONTH);
-    $("#bmk").val(e.RMK);
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/userInfoModDetail', {
+      key : $("#key").val(),
+      type : $("#type").val(),
+      id : $("#id").val()
+    });
+
+    if(result.flag) {
+      var e = result.rs;
+
+      $("#sDate").val(e.JOIN_DAY);
+      $("#eDate").val(e.RESIGN_DAY);
+      $("#place").val(e.EMPLOY_DEPT_NAME);
+      $("#position").val(e.POSITION_OR_DUTY);
+      $("#workType").val(e.MAIN_TASK);
+      $("#dateY").val(e.CAREER_PERIOD);
+      $("#dateM").val(e.CAREER_MONTH);
+      $("#bmk").val(e.RMK);
+    }
 
     /*수정 안되게 disabled*/
     $("#place").data("kendoTextBox").enable(false);
