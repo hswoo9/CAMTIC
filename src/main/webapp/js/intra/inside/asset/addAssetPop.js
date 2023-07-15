@@ -86,8 +86,8 @@ var addAssetPop = {
         }else if(!$("#astPlaceSn").val()){
             alert("설치장소를 선택해주세요.");
             return;
-        }else if(!$("#empName").val()){
-            alert("사용자를 입력해주세요.");
+        }else if(!$("#empSeq").val()){
+            alert("사용자를 선택해주세요.");
             $("#empName").focus();
             return;
         }else if(!$("#purpose").val()){
@@ -123,12 +123,14 @@ var addAssetPop = {
             formData.append("fundingSource", $("#fundingSource").data("kendoRadioGroup").value());
             formData.append("fundingSourceText", '[' + $("#fundingSource").data("kendoRadioGroup")._items.find(element => element.value === $("#fundingSource").data("kendoRadioGroup").value()).label + ']');
             formData.append("expAccount", $("#expAccount").val());
+
+            formData.append("empSeq", $("#empSeq").val());
+            formData.append("deptSeq", $("#deptSeq").val());
             formData.append("empName", $("#empName").val());
             formData.append("purpose", $("#purpose").val());
             formData.append("remark", $("#remark").val());
-            formData.append("empSeq", $("#empSeq").val());
 
-            formData.append("regEmpSeq", $("#empSeq").val());
+            formData.append("regEmpSeq", $("#regEmpSeq").val());
             formData.append("regEmpName", $("#regEmpName").val());
 
 
@@ -278,13 +280,15 @@ var addAssetPop = {
             change : function(){
                 if(this.value() != ""){
                     $("#expAccount").val(this._items.find(element => element.value === this.value()).label);
-                    $("#bizSearchBtn").show();
+                    if(this.value() != "0" && this.value() != "3"){
+                        $("#bizSearchBtn").show();
+                    }
                 }
             }
         }).data("kendoRadioGroup");
 
         customKendo.fn_textBox(["astName", "purcPrice", "modelSize", "modelName", "purcCompanyName",
-            "mfCompany", "orgCountry", "qty", "unitText", "expAccount", "empName"])
+            "mfCompany", "orgCountry", "qty", "unitText", "expAccount"])
 
         $("#purpose, #remark").kendoTextArea({
             rows : 2,
@@ -372,6 +376,8 @@ var addAssetPop = {
             $("#fundingSource").data("kendoRadioGroup").value(result.data.FUNDING_SOURCE);
             $("#expAccount").val(result.data.EXP_ACCOUNT);
             $("#astPlaceSn").data("kendoDropDownList").value(result.data.AST_PLACE_SN);
+            $("#deptSeq").val(result.data.DEPT_SEQ);
+            $("#empSeq").val(result.data.EMP_SEQ);
             $("#empName").val(result.data.EMP_NAME);
             $("#purpose").val(result.data.PURPOSE);
             $("#remark").val(result.data.REMARK);

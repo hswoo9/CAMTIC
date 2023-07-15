@@ -48,6 +48,8 @@ var bulkChangePop = {
             }
 
             if($("#empNameChk").is(':checked')){
+                bulkChangePop.global.saveAjaxData.deptSeq = $("#deptSeq").val()
+                bulkChangePop.global.saveAjaxData.empSeq = $("#empSeq").val()
                 bulkChangePop.global.saveAjaxData.empName = $("#empName").val()
             }
 

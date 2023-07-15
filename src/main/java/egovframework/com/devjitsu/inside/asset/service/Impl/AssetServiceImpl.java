@@ -66,7 +66,7 @@ public class AssetServiceImpl implements AssetService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("empSeq"));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("relatedFileNo", fileInsMap.get("file_no"));
@@ -82,7 +82,7 @@ public class AssetServiceImpl implements AssetService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("empSeq"));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("astFileNo", fileInsMap.get("file_no"));

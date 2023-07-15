@@ -99,6 +99,8 @@
                  WHEN AI.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', AI.EXP_ACCOUNT)
             END FUNDING_SOURCE_TXT,
             AP.AST_PLACE_NAME,
+            AI.DEPT_SEQ,
+            AI.EMP_SEQ,
             AI.EMP_NAME,
             AI.PURPOSE,
             AI.REMARK,
@@ -233,6 +235,8 @@
                 BARCODE_TYPE,
                 FUNDING_SOURCE,
                 EXP_ACCOUNT,
+                DEPT_SEQ,
+                EMP_SEQ,
                 EMP_NAME,
                 PURPOSE,
                 REMARK,
@@ -262,10 +266,12 @@
                 #{barcodeType},
                 #{fundingSource},
                 #{expAccount},
+                #{deptSeq},
+                #{empSeq},
                 #{empName},
                 #{purpose},
                 #{remark},
-                #{empSeq}
+                #{regEmpSeq}
             )
 
         <selectKey keyProperty="astInfoSn" resultType="Integer" order="BEFORE">
@@ -300,10 +306,12 @@
             BARCODE_TYPE = #{barcodeType},
             FUNDING_SOURCE = #{fundingSource},
             EXP_ACCOUNT = #{expAccount},
+            DEPT_SEQ = #{deptSeq},
+            EMP_SEQ = #{empSeq},
             EMP_NAME = #{empName},
             PURPOSE = #{purpose},
             REMARK = #{remark},
-            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DATE = NOW()
         WHERE
             AST_INFO_SN = #{astInfoSn}
@@ -401,7 +409,9 @@
             <if test='astName != null and !"".equals(astName)'>
                 AST_NAME = #{astName},
             </if>
-            <if test='empName != null and !"".equals(empName)'>
+            <if test='empSeq != null and !"".equals(empSeq)'>
+                DEPT_SEQ = #{deptSeq},
+                EMP_SEQ = #{empSeq},
                 EMP_NAME = #{empName},
             </if>
             <if test='purcPrice != null and !"".equals(purcPrice)'>
@@ -410,7 +420,7 @@
             <if test='astStsCode != null and !"".equals(astStsCode)'>
                 AST_STS_CODE = #{astStsCode},
             </if>
-            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DATE = NOW()
         WHERE
             AST_INFO_SN IN(${astInfoSn})
@@ -779,6 +789,8 @@
             BARCODE_TYPE,
             FUNDING_SOURCE,
             EXP_ACCOUNT,
+            DEPT_SEQ,
+            EMP_SEQ,
             EMP_NAME,
             PURPOSE,
             REMARK,
@@ -811,6 +823,8 @@
             BARCODE_TYPE,
             FUNDING_SOURCE,
             EXP_ACCOUNT,
+            DEPT_SEQ,
+            EMP_SEQ,
             EMP_NAME,
             PURPOSE,
             REMARK,
@@ -869,6 +883,8 @@
                  WHEN API.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', API.EXP_ACCOUNT)
                 END FUNDING_SOURCE_TXT,
             AP.AST_PLACE_NAME,
+            API.DEPT_SEQ,
+            API.EMP_SEQ,
             API.EMP_NAME,
             API.PURPOSE,
             API.REMARK,
