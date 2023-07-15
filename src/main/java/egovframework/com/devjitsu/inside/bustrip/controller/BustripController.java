@@ -4,6 +4,7 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
 import org.apache.commons.collections4.MapUtils;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,12 +234,20 @@ public class BustripController {
     }
 
     //차량사용신청 팝업창
-    @RequestMapping("/bustrip/Pop/carPop.do")
-    public String carPop(HttpServletRequest request, Model model) {
+    @RequestMapping("/bustrip/pop/carPop.do")
+    public String carPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("flag", "false");
+        if(params.containsKey("carReqSn")){
+            Map<String, Object> data = bustripService.getCarRequestOne(params);
+            model.addAttribute("carReqSn", data.get("CAR_REQ_SN"));
+            JSONObject jsonData =  new JSONObject(data);
+            model.addAttribute("data", jsonData);
+            model.addAttribute("flag", "true");
+        }
         return "popup/inside/bustrip/carPop";
     }
 
@@ -441,5 +450,46 @@ public class BustripController {
 
         return "jsonView";
     }
+
+    //차량캘린더 단일데이터 조회
+    @RequestMapping("/bustrip/getCarRequestOne")
+    public String getCarRequestOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = bustripService.getCarRequestOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    //차량캘린더 리스트 조회
+    @RequestMapping("/bustrip/getCarRequestList")
+    public String getCarRequestList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getCarRequestList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량중복조회
+    @RequestMapping("/bustrip/searchDuplicateCar")
+    public String searchDuplicateCar(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.searchDuplicateCar(params);
+        model.addAttribute("flag", list.size() == 0 ? "false" : "true");
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량신청
+    @RequestMapping("/bustrip/setCarRequestInsert")
+    public String setCarRequestInsert(@RequestParam Map<String, Object> params) {
+        bustripService.setCarRequestInsert(params);
+        return "jsonView";
+    }
+
+    //차량신청 수정
+    @RequestMapping("/bustrip/setCarRequestUpdate")
+    public String setCarRequestUpdate(@RequestParam Map<String, Object> params) {
+        bustripService.setCarRequestUpdate(params);
+        return "jsonView";
+    }
+
+
 
 }
