@@ -59,7 +59,7 @@
         <tr>
           <th>증명서</th>
           <td colspan="2">
-            <input type="file">
+            <input type="file" disabled>
           </td>
         </tr>
       </table>
