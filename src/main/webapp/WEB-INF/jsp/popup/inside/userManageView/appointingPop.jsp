@@ -7,95 +7,58 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <%--<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>--%>
-<style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">발령 사항</div>
-        <form id="subHolidayReqPop">
-          <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-          <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-          <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-          <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-          <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-          <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-          <table class="table table-bordered mb-0" id="userReqPop">
-            <colgroup>
-              <col width="30%">
-              <col width="30%">
-              <col width="30%">
-            </colgroup>
-            <thead>
-            <tr>
-              <th colspan="3">발령 사항</th>
-            </tr>
-            <tr>
-              <th>발령 구분</th>
-              <td colspan="2">
-                <input type="text" id="aGubun" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>발령 일자</th>
-              <td colspan="2">
-                <input type="text" id="sDate" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>발령 사항</th>
-              <td colspan="2">
-                <input type="text" id="reason" style="width: 90%;">
-              </td>
-            </tr>
-            <tr>
-              <th>비고</th>
-              <td colspan="2">
-                <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
-              </td>
-            </tr>
-          </table>
-        </form>
-        <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="fn_windowClose()"/>
-        </div>
+  <div class="table-responsive">
+    <div class="card-header pop-header">
+      <h3 class="card-title title_NM">발령 사항</h3>
+      <div class="btn-st popButton">
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
+    <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
+      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <table class="popTable table table-bordered mb-0" id="userReqPop">
+        <colgroup>
+          <col width="30%">
+          <col width="30%">
+          <col width="30%">
+        </colgroup>
+        <thead>
+        <%--<tr>
+          <th colspan="3">발령 사항</th>
+        </tr>--%>
+        <tr>
+          <th>발령 구분</th>
+          <td colspan="2">
+            <input type="text" id="aGubun" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>발령 일자</th>
+          <td colspan="2">
+            <input type="text" id="sDate" style="width: 50%;" disabled>
+          </td>
+        </tr>
+        <tr>
+          <th>발령 사항</th>
+          <td colspan="2">
+            <input type="text" id="reason" style="width: 90%;">
+          </td>
+        </tr>
+        <tr>
+          <th>비고</th>
+          <td colspan="2">
+            <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+          </td>
+        </tr>
+      </table>
+    </form>
   </div>
-</div>
 </body>
 <script>
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
@@ -113,8 +76,22 @@
     $("#bmk").kendoTextArea({
       rows : 5,
     });
+    $("#aGubun").kendoTextBox();
+    $("#reason").kendoTextBox();
   }
   function fn_dataSet(e) {
+    $("#aGubun").val(e.APPOINT_TITLE); //발령제목
+    $("#sDate").val(e.APPOINT_DAY);
+    $("#reason").val(e.APPOINT_COMMENT);
+    $("#bmk").val(e.RMK); //비고
 
+    /*수정 안되게 disabled*/
+    $("#aGubun").data("kendoTextBox").enable(false);
+    $("#reason").data("kendoTextBox").enable(false);
+    $("#bmk").data("kendoTextArea").enable(false);
+  }
+
+  function fn_windowClose() {
+    window.close();
   }
 </script>

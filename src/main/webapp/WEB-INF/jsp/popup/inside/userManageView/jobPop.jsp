@@ -7,95 +7,58 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <%--<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>--%>
-<style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">직무사항</div>
-        <form id="subHolidayReqPop">
-          <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-          <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-          <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-          <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-          <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-          <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-          <table class="table table-bordered mb-0" id="userReqPop">
-            <colgroup>
-              <col width="30%">
-              <col width="30%">
-              <col width="30%">
-            </colgroup>
-            <thead>
-            <tr>
-              <th colspan="3">직무사항</th>
-            </tr>
-            <tr>
-              <th>근무 기간</th>
-              <td colspan="2">
-                <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
-              </td>
-            </tr>
-            <tr>
-              <th>계약연봉</th>
-              <td colspan="2">
-                <input type="text" id="pay" style="width: 95%;">
-              </td>
-            </tr>
-            <tr>
-              <th>주요직무</th>
-              <td colspan="2">
-                <input type="text" id="work" value="" style="width: 95%;">
-              </td>
-            </tr>
-            <tr>
-              <th>직급</th>
-              <td colspan="2">
-                <input type="text" id="rank" style="width: 50%;">
-              </td>
-            </tr>
-          </table>
-        </form>
-        <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="fn_windowClose()"/>
-        </div>
+  <div class="table-responsive">
+    <div class="card-header pop-header">
+      <h3 class="card-title title_NM">직무 사항</h3>
+      <div class="btn-st popButton">
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
+    <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
+      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
+      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
+      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <table class="popTable table table-bordered mb-0" id="userReqPop">
+        <colgroup>
+          <col width="30%">
+          <col width="30%">
+          <col width="30%">
+        </colgroup>
+        <thead>
+        <%--<tr>
+          <th colspan="3">직무사항</th>
+        </tr>--%>
+        <tr>
+          <th>근무 기간</th>
+          <td colspan="2">
+            <input type="text" id="sDate" style="width: 45%;" disabled> ~ <input type="text" id="eDate" style="width: 45%;" disabled>
+          </td>
+        </tr>
+        <tr>
+          <th>계약연봉</th>
+          <td colspan="2">
+            <input type="text" id="pay" style="width: 95%;">
+          </td>
+        </tr>
+        <tr>
+          <th>주요직무</th>
+          <td colspan="2">
+            <input type="text" id="work" value="" style="width: 95%;">
+          </td>
+        </tr>
+        <tr>
+          <th>직급</th>
+          <td colspan="2">
+            <input type="text" id="rank" style="width: 50%;">
+          </td>
+        </tr>
+      </table>
+    </form>
   </div>
-</div>
 </body>
 <script>
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
@@ -112,11 +75,25 @@
     customKendo.fn_textBox("pay");
     customKendo.fn_textBox("work");
     customKendo.fn_textBox("rank");
+
+    $("#pay").kendoTextBox();
+    $("#work").kendoTextBox();
+    $("#rank").kendoTextBox();
   }
   function fn_windowClose() {
     window.close();
   }
   function fn_dataSet(e) {
+    $("#sDate").val(e.WORK_JOIN_DAY); //근무시작일
+    $("#eDate").val(e.WORK_LEAVE_DAY); //근무종료일
+    $("#pay").val(e.WORK_PAY); //계약연봉
+    $("#work").val(e.DUTY_DETAIL); //주요직무
+    $("#rank").val(e.POSITON_NAME); //직급이름
+
+    /*수정 안되게 disabled*/
+    $("#pay").data("kendoTextBox").enable(false);
+    $("#work").data("kendoTextBox").enable(false);
+    $("#rank").data("kendoTextBox").enable(false);
 
   }
 </script>

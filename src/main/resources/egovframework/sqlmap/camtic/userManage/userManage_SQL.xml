@@ -487,6 +487,8 @@
              ,REG_EMP_SEQ
              ,REG_DATE
              ,RMK
+             ,MAIN_TASK
+             ,CAREER_MONTH
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -498,6 +500,8 @@
             ,#{EMP_SEQ}
             ,NOW()
             ,#{bmk}
+            ,#{workType}
+            ,#{dateM}
             )
     </insert>
     <insert id="setMilitaryInfo" parameterType="map">
@@ -600,8 +604,8 @@
                  ,EMP_NAME
                  ,REWORD_DAY
                  ,REWORD_NAME
-                 ,REWORD_AGENCY_NAME
-                 ,REWORD_REASON
+                 ,RWD_ST_COMP
+                 ,RWD_OFM
                  ,REG_EMP_SEQ
                  ,REG_DATE
         )VALUES (
@@ -803,7 +807,7 @@
         a.admin_approval,
         a.returnyn,
         'dj_emp_reword' AS 'type',
-        '포상사항' AS 'typeName',
+        '상벌사항' AS 'typeName',
         'REWORD_ID' AS 'key'
         FROM
         cam_hr.dj_emp_reword AS a
@@ -881,7 +885,7 @@
                 A.typeName = '발령사항'
             </when>
             <when test='"7".equals(drop1)'>
-                A.typeName = '포상사항'
+                A.typeName = '상벌사항'
             </when>
             <when test='"8".equals(drop1)'>
                 A.typeName = '직무사항'

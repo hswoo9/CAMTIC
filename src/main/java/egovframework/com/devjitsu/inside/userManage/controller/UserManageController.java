@@ -495,6 +495,9 @@ public class UserManageController {
             case "직무사항" : return "popup/inside/userManageView/jobPop";
             case "발령사항" : return "popup/inside/userManageView/appointingPop";
             case "경력사항" : return "popup/inside/userManageView/careerPop";
+            case "보유면허" : return "popup/inside/userManageView/licensePop";
+            case "상벌사항" : return "popup/inside/userManageView/rewardPop";
+            case "제안제도" : return "popup/inside/userManageView/proposalPop";
         }
         return "";
     }

@@ -10,7 +10,7 @@
 <body class="font-opensans" style="background-color:#fff;">
   <div class="table-responsive">
     <div class="card-header pop-header">
-      <h3 class="card-title title_NM">학력 등록</h3>
+      <h3 class="card-title title_NM">학력 사항</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
