@@ -510,6 +510,9 @@
                 ,M_DISCHARGE_DAY
                 ,REG_EMP_SEQ
                 ,REG_DATE
+                ,M_LAST_RANK
+                ,M_DIVISION
+                ,MOS
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -519,6 +522,9 @@
                 ,#{eDate}
                 ,#{EMP_SEQ}
                 ,now()
+                ,#{rank}
+                ,#{mType}
+                ,#{mDept}
                 )
     </insert>
     <insert id="setFmailyInfo" parameterType="map">
