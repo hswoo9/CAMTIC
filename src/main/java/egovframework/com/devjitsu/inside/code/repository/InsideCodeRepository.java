@@ -50,4 +50,8 @@ public class InsideCodeRepository extends AbstractDAO {
     public void setCarCodeUpdate(Map<String, Object> params) {
         update("insideCode.setCarCodeUpdate", params);
     }
+
+    public void setCarCodeDelete(Map<String, Object> params) {
+        insert("insideCode.setCarCodeDelete", params);
+    }
 }

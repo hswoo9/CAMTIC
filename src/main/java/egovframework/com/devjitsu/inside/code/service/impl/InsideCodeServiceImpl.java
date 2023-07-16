@@ -65,4 +65,9 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     public void setCarCodeUpdate(Map<String, Object> params) {
         insideCodeRepository.setCarCodeUpdate(params);
     }
+
+    @Override
+    public void setCarCodeDelete(Map<String, Object> params) {
+        insideCodeRepository.setCarCodeDelete(params);
+    }
 }
