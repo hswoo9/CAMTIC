@@ -184,7 +184,7 @@ var bustripResult = {
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>재상신</span>" +
                                     "</button>";
-                            } else if(e.RES_STATUS == 100){
+                            } else if(e.RES_STATUS == 100 || e.RES_STATUS == 101){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.RES_DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>열람</span>" +
