@@ -117,7 +117,7 @@
             AND
             BUSN_NAME like concat('%', #{busnName}, '%')
         </if>
-
+        ORDER BY REG_DT DESC
     </select>
 
     <select id="getBustripReqInfo" parameterType="map" resultType="map">
