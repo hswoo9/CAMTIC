@@ -42,6 +42,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     }
 
     @Override
+    public void setVacUseHistDel(Map<String, Object> params) {
+        subHolidayRepository.setVacUseHistDel(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params) {
         return subHolidayRepository.getVacUseHistoryList(params);
     }

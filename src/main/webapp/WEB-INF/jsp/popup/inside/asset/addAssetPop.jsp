@@ -95,7 +95,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star"></span>구입 수량 / 단위</th>
                     <td>
-                        <input type="text" id="qty" style="width: 55px;"> /
+                        <input type="text" id="qty" style="width: 55px;" maxlength="5"> /
                         <input type="text" id="unit" style="width: 75px;">
                         <input type="text" id="unitText" style="width: 75px;" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" disabled>
                         <input type="text" id="regType" style="width: 95px;">

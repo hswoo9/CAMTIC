@@ -18,16 +18,18 @@
             VEI.DEPT_NAME,
             VEI.POSITION_CODE,
             VEI.POSITION_NAME,
-            VEI.POSITION_CODE AS POSITION_NAME,
             VEI.DUTY_CODE,
-            VEI.DUTY_NAME
+            VEI.DUTY_NAME,
+            CASE WHEN VEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = VEI.DUTY_CODE)
+            WHEN VEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VEI.POSITION_CODE)
+            ELSE 999 END SORT
         FROM
             CAM_HR.DJ_EMP_INFO VEI
         WHERE
             1 = 1
         AND VEI.ACTIVE = 'Y'
         <if test="notDivision != null and notDivision != ''">
-            AND VEI.DUTY_NAME != #{notDivision}
+            AND VEI.DIVISION != #{notDivision}
         </if>
         <if test="DEPT_SEQ != null and DEPT_SEQ != ''">
             AND VEI.DEPT_SEQ = #{DEPT_SEQ}
@@ -35,6 +37,7 @@
         <if test="deptName != null and deptName != ''">
             AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
         </if>
+        ORDER BY SORT
     </select>
 
     <select id="getUserListTotal" parameterType="map" resultType="map">

@@ -73,6 +73,13 @@ public class CommonCodeController {
         return "jsonView";
     }
 
+    //공통 코드 상세보기 데이터 조회
+    @RequestMapping("/system/commonCodeManagement/getCmCodeInfo.do")
+    public String vacCodeDataInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        model.addAttribute("result", commonCodeService.getCmCodeInfo(params));
+        return "jsonView";
+    }
+
     //커스텀 코드리스트
     @RequestMapping("/system/commonCodeManagement/getCustomCodeList")
     public Map<String, Object> getCustomCodeList(Model model, @RequestParam Map<String, Object> params){

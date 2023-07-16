@@ -91,7 +91,7 @@ var orgChart = {
                     field : 'DEPT_NAME',
                     title : "부서"
                 }, {
-                    field : 'POSITION_CODE',
+                    field : 'POSITION_NAME',
                     title : "직급"
                 }, {
                     field : 'DUTY_NAME',

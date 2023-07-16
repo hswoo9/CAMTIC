@@ -33,7 +33,6 @@ var subHolidayReqPop = {
         subHolidayReqPop.fn_defaultScriptTopTable();
         subHolidayReqPop.dataSet();
 
-
         $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({
             enable: false
         });

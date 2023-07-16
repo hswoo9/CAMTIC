@@ -64,7 +64,7 @@ var astPdaInfoList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='' name='' value=''/>",
+                    template : "<input type='checkbox' id='apiChk#=AST_PDA_INFO_SN#' name='apiChk' value='#=AST_PDA_INFO_SN#'/>",
                     width: 50
                 }, {
                     title: "순번",
@@ -121,6 +121,11 @@ var astPdaInfoList = {
                 }
             ]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=apiChk]").prop("checked", true);
+            else $("input[name=apiChk]").prop("checked", false);
+        });
     },
 
     onDataBound : function(){

@@ -24,6 +24,12 @@ public interface SubHolidayService {
     void setVacUseHist(Map<String, Object> params);
 
     /**
+     * 사용자 휴가사용이력 삭제
+     * @param params
+     */
+    void setVacUseHistDel(Map<String, Object> params);
+
+    /**
      * 사용자 휴가저장 리스트 admin
      * @param params
      * @return

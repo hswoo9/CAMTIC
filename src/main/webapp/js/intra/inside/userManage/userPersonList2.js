@@ -299,9 +299,6 @@ var userPersonList2 = {
                     template: "<input type='checkbox' id='' name='checkUser' value=''/>",
                     width: 50
                 }, {
-                    field: "ERP_EMP_SEQ",
-                    title: "사번"
-                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     template : function (e){
@@ -310,7 +307,8 @@ var userPersonList2 = {
                         }else {
                             return "<a href='#' onclick='userPersonList2.userReqPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
                         }
-                    }
+                    },
+                    width : 100
                 }, {
                     field: "DEPT_NAME1",
                     title: "부서(실)"

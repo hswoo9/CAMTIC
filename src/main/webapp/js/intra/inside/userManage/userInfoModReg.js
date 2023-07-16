@@ -153,7 +153,7 @@ var userInfoModReg = {
 				{ text: "가족사항", value: "4" },
 				{ text: "보유면허", value: "5" },
 				{ text: "발령사항", value: "6" },
-				{ text: "포상사항", value: "7" },
+				{ text: "상벌사항", value: "7" },
 				{ text: "직무사항", value: "8" },
 				{ text: "제안제도", value: "9" },
 			],
