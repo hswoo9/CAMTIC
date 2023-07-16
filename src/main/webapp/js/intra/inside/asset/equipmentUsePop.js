@@ -141,7 +141,7 @@ var equipmentUsePop = {
                 userSn : $("#empSeq").val(), //사용자 사원번호
                 operCn : $("#operCn").val(), //작업내용
                 useTime : $("#useTime").val(), //사용시간
-                useAmt : $("#useAmt").val(), //사용대금
+                useAmt : $("#useAmt").val().replace(/,/g, ''), //사용대금
                 prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
                 prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자

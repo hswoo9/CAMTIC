@@ -101,6 +101,18 @@ var bookRegisPop = {
             dataSource: result,
             index: 0
         });
+
+        $("#bkCost, #bkCnt").bind("keyup keydown", function() {
+            bookRegisPop.inputNumberFormat(this)
+        })
+    },
+
+    inputNumberFormat: function (obj){
+        obj.value = bookRegisPop.fn_comma(obj.value);
+    },
+
+    fn_comma: function(str){
+        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
     },
 
     fn_bkSave: function (){
@@ -159,8 +171,8 @@ var bookRegisPop = {
             bkName : $("#bkName").val(),
             bkWriter : $("#bkWriter").val(),
             bkPubl : $("#bkPubl").val(),
-            bkCost : $("#bkCost").val(),
-            bkCnt : $("#bkCnt").val(),
+            bkCost : $("#bkCost").val().replace(/,/g, ''),
+            bkCnt : $("#bkCnt").val().replace(/,/g, ''),
             bkBuyDt : $("#bkBuyDt").val(),
             bkBuyer : $("#bkBuyer").val(),
             bkBuyerName : $("#bkBuyer").data("kendoDropDownList").text(),
