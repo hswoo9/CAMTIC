@@ -22,6 +22,17 @@
             ACTIVE = "Y"
     </select>
 
+    <select id="getCarCode" parameterType="map" resultType="map">
+        /* getCarCode */
+        SELECT
+            IHCC.CAR_CLASS_SN AS value,
+            IHCC.CAR_CLASS_Name AS text
+        FROM
+            CAM_INSIDE.DJ_HR_CAR_CODE IHCC
+        WHERE
+            ACTIVE = 'Y'
+    </select>
+
 
     <insert id="insBustripReq" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ
@@ -123,9 +134,16 @@
     <select id="getBustripReqInfo" parameterType="map" resultType="map">
         /* getBustripReqInfo */
         SELECT
-            *
+            A.*,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS positionNm
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON A.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             A.HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
@@ -204,13 +222,21 @@
         /* getBustripReqCheck */
         SELECT
             A.*,
+            B.HR_BIZ_REQ_RESULT_ID,
             B.STATUS AS RES_STATUS,
-            B.EXP_STAT
+            B.EXP_STAT,
+            B.SAVE_YN,
+            B.DOC_ID AS RES_DOC_ID,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
         ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON B.DOC_ID = DI.DOC_ID
         WHERE
             A.STATUS IN ('100') AND
         <![CDATA[
@@ -299,6 +325,35 @@
         ]]>
     </select>
 
+    <select id="getCarCodeList" parameterType="map" resultType="map">
+        /* getCarCodeList */
+        SELECT
+            RE.*
+        FROM
+        (
+            SELECT
+                @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                IHCC.*
+            FROM
+                CAM_INSIDE.DJ_HR_CAR_CODE IHCC,
+                (SELECT @ROWNUM := 0) TMP
+            WHERE
+                VISIBLE = 'Y'
+            ORDER BY IHCC.REG_DATE
+        ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getCarCodeInfo" parameterType="map" resultType="map">
+        /* getCarCodeInfo */
+        SELECT
+            IHCC.*
+        FROM
+            CAM_INSIDE.DJ_HR_CAR_CODE IHCC
+        WHERE
+            CAR_CODE_SN = #{carCodeSn}
+    </select>
+
     <insert id="setCarRequestInsert" parameterType="map">
         /* setCarRequestInsert */
         INSERT INTO CAM_INSIDE.DJ_HR_CAR_REQ
@@ -381,6 +436,65 @@
             CAR_REQ_SN = #{carReqSn}
     </update>
 
+    <insert id="setCarCodeInsert" parameterType="map">
+        /* setCarCodeInsert */
+        INSERT INTO CAM_INSIDE.DJ_HR_CAR_CODE
+            (
+                ACTIVE,
+                CAR_CLASS_SN,
+                CAR_CLASS_NAME,
+                CAR_NUM_NAME,
+                CAR_USE_DEPT_ACTIVE,
+                <if test='"Y".equals(useDeptType)'>
+                    CAR_USE_DEPT_SN,
+                    CAR_USE_DEPT_NAME,
+                </if>
+                MANAGER_SN,
+                MANAGER_NAME,
+                REG_DT,
+                REMARK_CN,
+                REG_DATE
+            )
+        VALUES
+            (
+                #{active},
+                (SELECT MAX(SIHCC.CAR_CLASS_SN)+1 FROM CAM_INSIDE.DJ_HR_CAR_CODE SIHCC),
+                #{carClassName},
+                #{carNum},
+                #{useDeptType},
+                <if test='"1".equals(carType)'>
+                    #{carUseDeptSn},
+                    #{carUseDeptName},
+                </if>
+                #{empSeq},
+                #{empName},
+                #{regDt},
+                #{remarkCn},
+                now()
+            )
+    </insert>
+
+    <update id="setCarCodeUpdate" parameterType="map">
+        /* setCarCodeUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_HR_CAR_CODE
+        SET
+            ACTIVE = #{active},
+            CAR_CLASS_NAME = #{carClassName},
+            CAR_NUM_NAME = #{carNum},
+            CAR_USE_DEPT_ACTIVE = #{useDeptType},
+            <if test='"1".equals(carType)'>
+                CAR_USE_DEPT_SN = #{carUseDeptSn},
+                CAR_USE_DEPT_NAME = #{carUseDeptName},
+            </if>
+            MANAGER_SN = #{empSeq},
+            MANAGER_NAME = #{empName},
+            REG_DT = #{regDt},
+            REMARK_CN = #{remarkCn}
+        WHERE
+            CAR_CODE_SN = #{carCodeSn}
+    </update>
+
     <update id="updateApprStat" parameterType="map">
         /* bustrip updateApprStat */
         UPDATE
@@ -393,7 +507,7 @@
     </update>
 
     <update id="updateFinalApprStat" parameterType="map">
-        /* bustrip updateApprFinalStat */
+        /* bustrip updateFinalApprStat */
         UPDATE
             CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
@@ -404,34 +518,144 @@
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
 
-    <insert id="saveBustripResult" parameterType="map">
-        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+    <update id="updateResApprStat" parameterType="map">
+        /* bustrip updateResApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
+    <update id="updateResFinalApprStat" parameterType="map">
+        /* bustrip updateResFinalApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
+    <update id="saveBustripResult" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            POSITION_CODE = #{positionCode},
+            DUTY_CODE = #{dutyCode},
+            REPORT_DATE = DATE_FORMAT(now(), '%Y-%m-%d'),
+            RESULT = #{result},
+            DRIVER_EMP_SEQ = #{driverEmpSeq},
+            MOVE_DST = #{moveDst},
+            SAVE_YN = "Y"
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </update>
+
+    <update id="updateBustripExnpPop" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_EXNP
+        SET
+            OIL_COST = #{oilCost},
+            TRAF_COST = #{trafCost},
+            TRAF_DAY_COST = #{trafDayCost},
+            TOLL_COST = #{tollCost},
+            DAY_COST = #{dayCost},
+            EAT_COST = #{eatCost},
+            PARKING_COST = #{parkingCost},
+            ETC_COST = #{etcCost},
+            TOT_COST = #{totCost},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            HR_BIZ_EXNP_ID = #{hrBizExnpId}
+    </update>
+
+    <insert id="saveBustripExnpPop" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_EXNP
             (
                 HR_BIZ_REQ_ID,
                 EMP_SEQ,
                 EMP_NAME,
-                DEPT_SEQ,
-                POSITION_CODE,
-                DUTY_CODE,
-                REPORT_DATE,
-                RESULT,
-                DRIVER_EMP_SEQ,
-                MOVE_DST
+                DRIVER,
+                OIL_COST,
+                TRAF_COST,
+                TRAF_DAY_COST,
+                TOLL_COST,
+                DAY_COST,
+                EAT_COST,
+                PARKING_COST,
+                ETC_COST,
+                TOT_COST,
+                REG_EMP_SEQ
             )
         VALUES
             (
                 #{hrBizReqId},
                 #{empSeq},
                 #{empName},
-                #{deptSeq},
-                #{positionCode},
-                #{dutyCode},
-                DATE_FORMAT(now(), '%Y-%m-%d'),
-                #{result},
-                #{driverEmpSeq},
-                #{moveDst}
+                #{driver},
+                #{oilCost},
+                #{trafCost},
+                #{trafDayCost},
+                #{tollCost},
+                #{dayCost},
+                #{eatCost},
+                #{parkingCost},
+                #{etcCost},
+                #{totCost},
+                #{regEmpSeq}
+            )
+
+        <selectKey keyProperty="hrBizExnpId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_EXNP'
+        </selectKey>
+    </insert>
+
+    <insert id="insBustripExnpResult" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+            (
+             HR_BIZ_EXNP_ID,
+             HR_BIZ_REQ_ID,
+             EXP_STAT
+            )
+        VALUES
+            (
+             #{hrBizExnpId},
+             #{hrBizReqId},
+             "Y"
             )
     </insert>
+
+    <update id="updBustripReqDriver" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            DRIVER_EMP_SEQ = #{driverEmpSeq}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
+    <select id="getBustripExnpInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getBustripResultInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
 </mapper>
 
 

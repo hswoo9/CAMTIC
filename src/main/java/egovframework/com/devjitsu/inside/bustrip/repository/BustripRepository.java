@@ -14,6 +14,10 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.getUserList", params);
     }
 
+    public List<Map<String, Object>> getCarCode(Map<String, Object> params) {
+        return selectList("bustrip.getCarCode", params);
+    }
+
     public void insBustripReq(Map<String, Object> params) {
         insert("bustrip.insBustripReq", params);
     }
@@ -68,12 +72,28 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.searchDuplicateCar", params);
     }
 
+    public List<Map<String, Object>> getCarCodeList(Map<String, Object> params) {
+        return selectList("bustrip.getCarCodeList", params);
+    }
+
+    public Map<String, Object> getCarCodeInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getCarCodeInfo", params);
+    }
+
     public void setCarRequestInsert(Map<String, Object> params) {
         insert("bustrip.setCarRequestInsert", params);
     }
 
     public void setCarRequestUpdate(Map<String, Object> params) {
         update("bustrip.setCarRequestUpdate", params);
+    }
+
+    public void setCarCodeInsert(Map<String, Object> params) {
+        insert("bustrip.setCarCodeInsert", params);
+    }
+
+    public void setCarCodeUpdate(Map<String, Object> params) {
+        update("bustrip.setCarCodeUpdate", params);
     }
 
     public void updateApprStat(Map<String, Object> params) {
@@ -84,7 +104,39 @@ public class BustripRepository extends AbstractDAO {
         update("bustrip.updateFinalApprStat", params);
     }
 
+    public void updateResApprStat(Map<String, Object> params) {
+        update("bustrip.updateResApprStat", params);
+    }
+
+    public void updateResFinalApprStat(Map<String, Object> params) {
+        update("bustrip.updateResFinalApprStat", params);
+    }
+
     public void saveBustripResult(Map<String, Object> params) {
-        insert("bustrip.saveBustripResult", params);
+        update("bustrip.saveBustripResult", params);
+    }
+
+    public void saveBustripExnpPop(Map<String, Object> params) {
+        insert("bustrip.saveBustripExnpPop", params);
+    }
+
+    public void insBustripExnpResult(Map<String, Object> params) {
+        insert("bustrip.insBustripExnpResult", params);
+    }
+
+    public void updBustripReqDriver(Map<String, Object> params) {
+        update("bustrip.updBustripReqDriver", params);
+    }
+
+    public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBustripExnpInfo", params);
+    }
+
+    public Map<String, Object> getBustripResultInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripResultInfo", params);
+    }
+
+    public void updateBustripExnpPop(Map<String, Object> params) {
+        update("bustrip.updateBustripExnpPop", params);
     }
 }

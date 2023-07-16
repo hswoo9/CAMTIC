@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+
+
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"/></script>
 
 <div class="col-md-10 col-lg-10 dash-left">
@@ -10,8 +12,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">관외출장 리스트</h4>
-            <div class="title-road">캠인사이드 > 출장관리 &gt; 관외출장 리스트</div>
+            <h4 class="panel-title">출장결과보고</h4>
+            <div class="title-road">캠인사이드 > 출장관리 &gt; 출장결과보고</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -48,6 +50,13 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
+
+<form id="bustripResDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="hrBizReqId" name="hrBizReqId"/>
+</form>
 
 <script type="text/javascript">
     bustripResult.init();

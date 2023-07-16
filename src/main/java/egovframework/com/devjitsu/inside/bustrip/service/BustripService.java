@@ -10,6 +10,8 @@ public interface BustripService {
 
     List<Map<String, Object>> getUserList(Map<String, Object> params);
 
+    List<Map<String, Object>> getCarCode(Map<String, Object> params);
+
     void setBustripReq(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     List<Map<String, Object>> getBustripReq(Map<String, Object> params);
@@ -28,9 +30,17 @@ public interface BustripService {
 
     List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params);
 
+    List<Map<String, Object>> getCarCodeList(Map<String, Object> params);
+
+    Map<String, Object> getCarCodeInfo(Map<String, Object> params);
+
     void setCarRequestInsert(Map<String, Object> params);
 
     void setCarRequestUpdate(Map<String, Object> params);
+
+    void setCarCodeInsert(Map<String, Object> params);
+
+    void setCarCodeUpdate(Map<String, Object> params);
 
     /**
      * 출장신청서 전자결재 상태값 업데이트
@@ -39,5 +49,20 @@ public interface BustripService {
      */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
+    /**
+     * 출장결과보고서 전자결재 상태값 업데이트
+     * @param bodyMap
+     * @throws Exception
+     */
+    void updateResDocState(Map<String, Object> bodyMap) throws Exception;
+
     void saveBustripResult(Map<String, Object> params);
+
+    Map<String, Object> getBustripOne(Map<String, Object> params);
+
+    void saveBustripExnpPop(Map<String, Object> params);
+
+    void insBustripExnpResult(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params);
 }

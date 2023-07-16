@@ -34,6 +34,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getCarCode(Map<String, Object> params) {
+        return bustripRepository.getCarCode(params);
+    }
+
+    @Override
     public void setBustripReq(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
         if(params.containsKey("hrBizReqId")){
@@ -99,8 +104,20 @@ public class BustripServiceImpl implements BustripService {
         Map<String, Object> result = new HashMap<>();
         result.put("rs", bustripRepository.getBustripReqInfo(params));
         result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("map", bustripRepository.getBustripExnpInfo(params));
+        result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripExnpInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustripOne(Map<String, Object> params) {
+        return bustripRepository.getBustripReqInfo(params);
     }
 
     @Override
@@ -134,6 +151,16 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getCarCodeList(Map<String, Object> params) {
+        return bustripRepository.getCarCodeList(params);
+    }
+
+    @Override
+    public Map<String, Object> getCarCodeInfo(Map<String, Object> params) {
+        return bustripRepository.getCarCodeInfo(params);
+    }
+
+    @Override
     public void setCarRequestInsert(Map<String, Object> params) {
         bustripRepository.setCarRequestInsert(params);
     }
@@ -141,6 +168,16 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void setCarRequestUpdate(Map<String, Object> params) {
         bustripRepository.setCarRequestUpdate(params);
+    }
+
+    @Override
+    public void setCarCodeInsert(Map<String, Object> params) {
+        bustripRepository.setCarCodeInsert(params);
+    }
+
+    @Override
+    public void setCarCodeUpdate(Map<String, Object> params) {
+        bustripRepository.setCarCodeUpdate(params);
     }
 
     @Override
@@ -174,7 +211,54 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public void updateResDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("hrBizReqId", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
+            bustripRepository.updateResApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            bustripRepository.updateResApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            bustripRepository.updateResFinalApprStat(params);
+        }
+    }
+
+    @Override
     public void saveBustripResult(Map<String, Object> params) {
         bustripRepository.saveBustripResult(params);
+    }
+
+    @Override
+    public void saveBustripExnpPop(Map<String, Object> params) {
+        if(!"upd".equals(params.get("type"))){
+            bustripRepository.saveBustripExnpPop(params);
+        } else {
+            bustripRepository.updateBustripExnpPop(params);
+        }
+        if(params.containsKey("driverEmpSeq")){
+            bustripRepository.updBustripReqDriver(params);
+        }
+    }
+
+    @Override
+    public void insBustripExnpResult(Map<String, Object> params) {
+         bustripRepository.insBustripExnpResult(params);
     }
 }

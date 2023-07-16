@@ -12,8 +12,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">출장 여비정산</h3>
         <div class="btn-st popButton">
-            <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqId}')" />
-            <button type="button" class="k-button k-button-solid-info" onclick="">결재</button>
+            <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripExnpPop.fn_save('${params.hrBizReqId}', '${type}')" />
             <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
         </div>
     </div>
@@ -22,6 +21,16 @@
         <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
         <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
         <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
+        <c:if test="${map.use_trspt != 10}">
+            <span>
+                운행자 :
+                <c:forEach var="list" items="${list}">
+                <input type="radio" style="position: relative; top: 1px;" id="driver${list.EMP_SEQ}" <c:if test="${list.DRIVER == 'Y'}">checked</c:if> name="driver" class="driver" value="${list.EMP_SEQ}">
+                    <label for="driver${list.EMP_SEQ}">${list.EMP_NAME}</label>
+                </c:forEach>
+            </span>
+        </c:if>
+
         <table class="popTable table table-bordered mb-0" id="bustExnpTb">
             <colgroup>
 
@@ -43,34 +52,35 @@
                 <tr>
                     <td>
                         <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
-                        <input type="hidden" id="empSeq" class="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                        <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                        <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                     </td>
                     <td>
-                        <input type="text" id="oilCost" class="oilCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="oilCost" class="oilCost" value="${list.OIL_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="trafCost" class="trafCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="trafCost" class="trafCost" value="${list.TRAF_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="trafDayCost" class="trafDayCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="trafDayCost" class="trafDayCost" value="${list.TRAF_DAY_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="tollCost" class="tollCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="tollCost" class="tollCost" value="${list.TOLL_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="dayCost" class="dayCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="dayCost" class="dayCost" value="${list.DAY_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="eatCost" class="eatCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="eatCost" class="eatCost" value="${list.EAT_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="parkingCost" class="parkingCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="parkingCost" class="parkingCost" value="${list.PARKING_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="etcCost" class="etcCost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="etcCost" class="etcCost" value="${list.ETC_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="totalCost" class="totalCost" disabled />
+                        <input type="text" id="totalCost" class="totalCost" value="${list.TOT_COST}" disabled />
                     </td>
                 </tr>
             </c:forEach>
@@ -79,7 +89,7 @@
     </form>
 </div>
 <script>
-    bustripExnpPop.fn_defaultScript();
+    bustripExnpPop.fn_defaultScript('${type}');
 
 </script>
 </body>

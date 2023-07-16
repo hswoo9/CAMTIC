@@ -866,36 +866,8 @@ var docView = {
 
         /** 문서 기본 정보 */
         $("#docTitle").text(docView.global.rs.docInfo.DOC_TITLE);
-        if(docView.global.rs.docInfo.PUBLIC_TYPE != "001"){
-            $(".docPublicType").show();
-
-            var publicReasonArr = "";
-            var publicReasonArrText = "";
-            var reasonText = "";
-            var result = customKendo.fn_customAjax("/system/commonCodeManagement/getCustomCodeList", {procedureName : 'GET_PRIVATE_REASON'});
-
-            if (docView.global.rs.docInfo.PUBLIC_TYPE == "002") {
-                $("#docPublicPartText").text("문서부분공개사유");
-                publicReasonArr = docView.global.rs.docInfo.PUBLIC_REASON.split(",");
-            } else {
-                $("#docPublicPartText").text("문서비공개사유");
-                publicReasonArr = docView.global.rs.docInfo.PRIVATE_REASON.split(",");
-            }
-
-
-            $.each(publicReasonArr, function(i, v){
-                publicReasonArrText += ", " + v + "호";
-                if(result.flag){
-                    reasonText += ', ' + result.codeList.find(element => element.ID === v).VAL
-                }
-            })
-
-            $("#publicTypeKr").text(docView.global.rs.docInfo.PUBLIC_TYPE_KR + " (" + publicReasonArrText.substr(2) + ")");
-            $("#docPublicTypeReason").text(reasonText.substr(2) + ' ' + docView.global.rs.docInfo.PUBLIC_REASON_TEXT);
-        }else{
-            $(".docPublicType").hide();
-            $("#publicTypeKr").text(docView.global.rs.docInfo.PUBLIC_TYPE_KR);
-        }
+        $(".docPublicType").hide();
+        $("#publicTypeKr").text(docView.global.rs.docInfo.PUBLIC_TYPE_KR);
         $("#urgentTypeKr").text(docView.global.rs.docInfo.URGENT_TYPE_KR);
         $("#securityTypeKr").text(docView.global.rs.docInfo.SECURITY_TYPE_KR);
         $("#docGbnKr").text(docView.global.rs.docInfo.DOC_GBN_KR);

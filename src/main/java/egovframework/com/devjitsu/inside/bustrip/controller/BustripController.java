@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.bustrip.controller;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
+import org.apache.commons.collections4.MapUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,13 @@ public class BustripController {
     private String BASE_DIR;
 
 
+    @RequestMapping("/bustrip/getCarCode")
+    public String getCarCode(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getCarCode(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 
     //출장신청
     @RequestMapping("/bustrip/bustripReq.do")
@@ -152,7 +160,7 @@ public class BustripController {
 
     /**
      * 출장결과보고 상태값 확인
-     * @param request
+     * @param params
      * @param model
      * @return
      */
@@ -168,7 +176,6 @@ public class BustripController {
     @RequestMapping("/bustrip/pop/bustripResultPop.do")
     public String bustripResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("params", params);
@@ -183,8 +190,16 @@ public class BustripController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
 
-        model.addAttribute("list", list);
+        if(exnpData.size() == 0){
+            model.addAttribute("list", list);
+            model.addAttribute("type", "ins");
+        } else{
+            model.addAttribute("list", exnpData);
+            model.addAttribute("type", "upd");
+        }
+        model.addAttribute("map", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -377,6 +392,22 @@ public class BustripController {
         return "jsonView";
     }
 
+    //차량코드조회
+    @RequestMapping("/bustrip/getCarCodeList")
+    public String getCarCodeList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getCarCodeList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량코드 단일데이터조회
+    @RequestMapping("/bustrip/getCarCodeInfo")
+    public String getCarCodeInfo(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = bustripService.getCarCodeInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     //차량신청
     @RequestMapping("/bustrip/setCarRequestInsert")
     public String setCarRequestInsert(@RequestParam Map<String, Object> params) {
@@ -391,17 +422,40 @@ public class BustripController {
         return "jsonView";
     }
 
-    //휴가신청 전자결재
+    //차량코드 등록
+    @RequestMapping("/bustrip/setCarCodeInsert")
+    public String setCarCodeInsert(@RequestParam Map<String, Object> params) {
+        bustripService.setCarCodeInsert(params);
+        return "jsonView";
+    }
+
+    //차량코드 수정
+    @RequestMapping("/bustrip/setCarCodeUpdate")
+    public String setCarCodeUpdate(@RequestParam Map<String, Object> params) {
+        bustripService.setCarCodeUpdate(params);
+        return "jsonView";
+    }
+
+    //출장신청 전자결재
     @RequestMapping("/Inside/pop/approvalFormPopup/bustripApprovalPop.do")
-    public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    public String bustripApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         LoginVO login = getLoginVO(request);
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/bustrip/approvalFormPopup/bustripApprovalPop";
     }
 
+    //출장결과보고 전자결재
+    @RequestMapping("/Inside/pop/approvalFormPopup/bustripResApprovalPop.do")
+    public String bustripResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/bustrip/approvalFormPopup/bustripResApprovalPop";
+    }
+
     /**
-     * 휴가 결재 상태값에 따른 UPDATE 메서드
+     * 출장신청서 결재 상태값에 따른 UPDATE 메서드
      * @param bodyMap
      * @return
      */
@@ -413,6 +467,29 @@ public class BustripController {
         String resultMessage = "성공하였습니다.";
         try{
             bustripService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 출장 결과보고서 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/inside/bustripResReqApp")
+    public String bustripResReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            bustripService.updateResDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";
@@ -452,4 +529,32 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/saveBustripExnpPop")
+    public String saveBustripExnpPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("regEmpSeq", loginVO.getUniqId());
+        try{
+            bustripService.saveBustripExnpPop(params);
+            model.addAttribute("hrBizExnpId", params.get("hrBizExnpId"));
+            model.addAttribute("hrBizReqId", params.get("hrBizReqId"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/insBustripExnpResult")
+    public String insBustripExnpResult(@RequestParam Map<String, Object> params, Model model){
+        try{
+            bustripService.insBustripExnpResult(params);
+            model.addAttribute("hrBizExnpId", params.get("hrBizExnpId"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
