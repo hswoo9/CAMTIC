@@ -99,6 +99,35 @@
         ORDER BY RE.ROW_NUM DESC
     </select>
 
+    <select id="getRoomCodeInfo" parameterType="map" resultType="map">
+        /* getRoomCodeInfo */
+        SELECT
+            IRC.*
+        FROM
+            CAM_INSIDE.DJ_ROOM_CODE IRC
+        WHERE
+            ROOM_CODE_SN = #{roomCodeSn}
+    </select>
+
+    <select id="getRoomCodeList" parameterType="map" resultType="map">
+        /* getRoomCodeList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IRC.*
+                FROM
+                    CAM_INSIDE.DJ_ROOM_CODE IRC,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    VISIBLE = 'Y'
+                ORDER BY IRC.REG_DATE
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <insert id="setCarRequestInsert" parameterType="map">
         /* setCarRequestInsert */
         INSERT INTO CAM_INSIDE.DJ_HR_CAR_REQ
@@ -248,6 +277,72 @@
             VISIBLE = 'N'
         WHERE
             CAR_CODE_SN in (${carCodeSn})
+    </update>
+
+    <insert id="setRoomCodeInsert" parameterType="map">
+        /* setRoomCodeInsert */
+        INSERT INTO CAM_INSIDE.DJ_ROOM_CODE
+        (
+            ACTIVE,
+            ROOM_SN,
+            ROOM_NAME,
+            VISIT,
+            MANY_PEOPLE,
+            CORONATION_ACTIVE,
+            CORONATION_NAME,
+            CORONATION_MONEY_SN,
+            MANAGER_SN,
+            MANAGER_NAME,
+            REG_DT,
+            REMARK_CN,
+            REG_DATE
+        )
+        VALUES
+        (
+            #{active},
+            (SELECT MAX(SIRC.ROOM_SN)+1 FROM CAM_INSIDE.DJ_ROOM_CODE SIRC),
+            #{roomName},
+            #{visit},
+            #{manyPeople},
+            #{coronationActive},
+            #{coronationName},
+            #{coronationMoneySn},
+            #{empName},
+            #{empSeq},
+            #{regDt},
+            #{remarkCn},
+            now()
+        )
+    </insert>
+
+    <update id="setRoomCodeUpdate" parameterType="map">
+        /* setRoomCodeUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_ROOM_CODE
+        SET
+            ACTIVE = #{active},
+            ROOM_NAME = #{roomName},
+            VISIT = #{visit},
+            MANY_PEOPLE = #{manyPeople},
+            CORONATION_ACTIVE = #{coronationActive},
+            CORONATION_NAME = #{coronationName},
+            CORONATION_MONEY_SN = #{coronationMoneySn},
+            MANAGER_SN = #{empSeq},
+            MANAGER_NAME = #{empName},
+            REG_DT = #{regDt},
+            REMARK_CN = #{remarkCn}
+        WHERE
+            ROOM_CODE_SN = #{roomCodeSn}
+    </update>
+
+    <update id="setRoomCodeDelete" parameterType="map">
+        /* setRoomCodeDelete */
+        UPDATE
+            CAM_INSIDE.DJ_ROOM_CODE
+        SET
+            VISIBLE = 'N'
+        WHERE
+            ROOM_CODE_SN in (${roomCodeSn})
     </update>
 </mapper>
 

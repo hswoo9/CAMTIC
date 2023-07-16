@@ -33,6 +33,14 @@ public class InsideCodeRepository extends AbstractDAO {
         return selectList("insideCode.getCarCodeList", params);
     }
 
+    public Map<String, Object> getRoomCodeInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("insideCode.getRoomCodeInfo", params);
+    }
+
+    public List<Map<String, Object>> getRoomCodeList(Map<String, Object> params) {
+        return selectList("insideCode.getRoomCodeList", params);
+    }
+
 
 
     public void setCarRequestInsert(Map<String, Object> params) {
@@ -52,6 +60,18 @@ public class InsideCodeRepository extends AbstractDAO {
     }
 
     public void setCarCodeDelete(Map<String, Object> params) {
-        insert("insideCode.setCarCodeDelete", params);
+        update("insideCode.setCarCodeDelete", params);
+    }
+
+    public void setRoomCodeInsert(Map<String, Object> params) {
+        insert("insideCode.setRoomCodeInsert", params);
+    }
+
+    public void setRoomCodeUpdate(Map<String, Object> params) {
+        update("insideCode.setRoomCodeUpdate", params);
+    }
+
+    public void setRoomCodeDelete(Map<String, Object> params) {
+        update("insideCode.setRoomCodeDelete", params);
     }
 }

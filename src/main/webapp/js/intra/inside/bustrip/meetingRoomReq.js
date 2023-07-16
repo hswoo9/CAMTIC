@@ -141,10 +141,10 @@ var meetingRoomReq = {
                 },
                 schema : {
                     data: function (data) {
-                        return data;
+                        return data.list;
                     },
                     total: function (data) {
-                        return data.length;
+                        return data.list.length;
                     },
                 },
                 pageSize: 10,
@@ -165,10 +165,9 @@ var meetingRoomReq = {
                 },
                 columns: [
                     {
-                        field: "",
+                        field: "ROW_NUM",
                         title: "순번",
-                        width: "5%",
-                        template: "#= record-- #"
+                        width: "5%"
                     }, {
                         field: "",
                         title: "회의실",
@@ -198,7 +197,7 @@ var meetingRoomReq = {
         },
 
     meetingRoomPopup : function(){
-        var url = "/bustrip/Pop/meetingRoomPop.do";
+        var url = "/Inside/pop/meetingRoomPop.do";
         var name = "popup test";
         var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
