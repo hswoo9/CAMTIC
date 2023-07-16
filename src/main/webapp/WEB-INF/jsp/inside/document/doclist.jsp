@@ -20,23 +20,23 @@
                         <col width="10%">
                         <col width="20%">
                         <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
+                        <col width="60%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회연도</th>
+                        <th class="text-center th-color">조회년도</th>
                         <td>
-                            <input type="text" id="docuYearDe" style="width: 200px; margin-right:10px;">
+                            <input type="text" id="searchDate" style="width:150px;">
                         </td>
-                        <th class="text-center th-color">발급구분</th>
+                        <th class="text-center th-color">제목선택</th>
                         <td>
-                            <input type="text" id="proofType" style="width: 200px; margin-right:10px;">
-                        </td>
-                        <th class="text-center th-color">처리상태</th>
-                        <td>
-                            <input type="text" id="status" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">검색</button>
+                            <input type="text" id="searchType" style="width:200px;">
+                            <input type="text" id="searchText" style="width: 200px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">
+                                <span>검색</span>
+                            </button>
+                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="archiveList.archiveReqPopup();">
+                                문서고 등록
+                            </button>
                         </td>
                     </tr>
                 </table>

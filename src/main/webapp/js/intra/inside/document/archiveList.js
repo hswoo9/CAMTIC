@@ -5,6 +5,16 @@ var archiveList = {
     },
 
     dataSet: function (){
+        customKendo.fn_textBox(["searchText"]);
+        customKendo.fn_datePicker("searchDate", 'decade', "yyyy", new Date());
+        let searchArr = [
+            {text: "문서번호", value: "1"},
+            {text: "부서명", value: "2"},
+            {text: "문서위치", value: "3"},
+            {text: "문서명", value: "4"},
+            {text: "등록자", value: "5"}
+        ]
+        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
     },
 
     mainGrid: function () {
@@ -12,7 +22,7 @@ var archiveList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : 'inside/getArchiveList',
                     dataType : "json",
                     type : "post"
                 },
@@ -46,26 +56,11 @@ var archiveList = {
                 {
                     name: 'excel',
                     text: '엑셀다운로드'
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="carManage.delBtn();">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="carManage.clearBtn();">' +
-                            '	<span class="k-button-text">신규</span>' +
-                            '</button>';
-                    }
                 }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : carManage.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'carPk\');"/>',
@@ -76,49 +71,48 @@ var archiveList = {
                     title: "순번",
                     width: 50
                 }, {
-                    field: "CAR_CLASS_NAME",
-                    title: "차량 종류",
-                    width: 100
+                    field: "DOC_NUM",
+                    title: "문서번호",
+                    width: 200
                 }, {
-                    field: "CAR_NUM_NAME",
-                    title: "차량 번호",
-                    width: 100
-                }, {
-                    title: "사용 부서",
+                    title: "부서",
+                    width: 150,
                     template: function(row){
-                        if(row.CAR_USE_DEPT_ACTIVE == "Y"){
-                            const useDeptArr = row.CAR_USE_DEPT_NAME.split(",");
-                            $("#useDept").data("kendoDropDownTree").value(useDeptArr);
-                            const deptLength = useDeptArr.length
-                            if(deptLength != 1) {
-                                return useDeptArr[0]+"<br> 외 "+(useDeptArr.length-1)+"개 부서";
-                            }else {
-                                return useDeptArr[0];
-                            }
-                        }else {
+                        if (row.DEPT_NAME == "") {
                             return "전체";
+                        }else {
+                            return row.DEPT_NAME;
                         }
                     }
+                }, {
+                    title: "팀",
+                    width: 150,
+                    template: function(row){
+                        if (row.TEAM_NAME == "") {
+                            return "전체";
+                        }else {
+                            return row.TEAM_NAME;
+                        }
+                    }
+                }, {
+                    field: "VISIT",
+                    title: "위치"
                 }, {
                     field: "MANAGER_NAME",
                     title: "등록자",
-                    width: 70
+                    width: 100
                 }, {
-                    field: "REG_DT",
-                    title: "등록일자",
-                    width: 90
-                }, {
-                    title: "사용여부",
-                    width: 50,
-                    template: function(row){
-                        if(row.ACTIVE == "Y"){
-                            return "사용";
-                        }else {
-                            return "미사용";
-                        }
-                    }
+                    title: "첨부문서",
+                    width: 100
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    archiveReqPopup: function(){
+        var url = "/Inside/pop/archiveReqPopup.do";
+        var name = "archiveReqPopup";
+        var option = "width = 1000, height = 520, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
 }

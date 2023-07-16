@@ -129,6 +129,16 @@ public class DocumentController {
         return "inside/document/doclist";
     }
 
+    //문서고 - 문서고 팝업창
+    @RequestMapping("/Inside/pop/archiveReqPopup.do")
+    public String archiveReqPopup(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/archiveReqPop";
+    }
+
     //야근/휴일식대대장
     @RequestMapping("/Inside/snackList.do")
     public String snackList(HttpServletRequest request, Model model) {
@@ -230,6 +240,16 @@ public class DocumentController {
         return "jsonView";
     }
 
+    //문서고 리스트 조회
+    @RequestMapping("/inside/getArchiveList")
+    public String getArchiveList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = documentService.getArchiveList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+
+
     //등록대장 문서등록
     @RequestMapping("/inside/setDocumentInsert")
     public String setDocumentInsert(@RequestParam Map<String, Object> params) {
@@ -272,6 +292,13 @@ public class DocumentController {
         }
         return "jsonView";
 
+    }
+
+    //문서고 문서등록
+    @RequestMapping("/inside/setArchiveInsert")
+    public String setArchiveInsert(@RequestParam Map<String, Object> params) {
+        documentService.setArchiveInsert(params);
+        return "jsonView";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

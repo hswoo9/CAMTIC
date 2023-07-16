@@ -4,18 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/document/documentList.js?v=${today}"/></script>
-<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
-<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
-<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
-<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
-<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
-<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
-<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
-<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
-<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
-<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
-<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
@@ -28,12 +16,6 @@
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
-                <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">--%>
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">

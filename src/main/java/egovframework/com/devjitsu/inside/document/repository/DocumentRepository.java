@@ -29,6 +29,10 @@ public class DocumentRepository extends AbstractDAO {
         return (Map<String, Object>)selectOne("document.getSnackOne", params);
     }
 
+    public List<Map<String, Object>> getArchiveList(Map<String, Object> params) {
+        return selectList("document.getArchiveList", params);
+    }
+
     public void setDocumentInsert(Map<String, Object> params) {
         insert("document.setDocumentInsert", params);
     }
@@ -47,5 +51,9 @@ public class DocumentRepository extends AbstractDAO {
 
     public void setSnackReqCert(Map<String, Object> params) {
         update("document.setSnackReqCert", params);
+    }
+
+    public void setArchiveInsert(Map<String, Object> params) {
+        insert("document.setArchiveInsert", params);
     }
 }
