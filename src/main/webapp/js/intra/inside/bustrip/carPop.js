@@ -8,17 +8,8 @@ var carReq = {
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("applyDt", '', "yyyy-MM-dd", new Date());
-        let carArr = [
-            {text: "카니발", value: "1"},
-            {text: "아반떼", value: "5"},
-            {text: "트럭", value: "3"},
-            {text: "자가", value: "10"},
-            {text: "대중교통", value: "0"},
-            {text: "모하비", value: "12"},
-            {text: "솔라티", value: "13"},
-            {text: "드론관제차량", value: "14"}
-        ]
-        customKendo.fn_dropDownList("carClass", carArr, "text", "value", 2);
+        const carArr = customKendo.fn_customAjax('/bustrip/getCarCode').list;
+        customKendo.fn_dropDownList("carClass", carArr, "text", "value", 1);
         let carTypeArr = [
             {text: "업무용", value: "1"},
             {text: "개인 사유", value: "2"}

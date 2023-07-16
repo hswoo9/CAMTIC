@@ -1,189 +1,321 @@
-/**
- * 2023.06.05
- * 작성자 : 김지혜
- * 내용 : 차량/회의실관리 - 차량관리
- */
-var now = new Date();
 var carManage = {
-    fn_defaultScript: function () {
-        $("#use_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()))
-        });
+    init: function(){
+        carManage.dataSet();
+        carManage.mainGrid();
+    },
 
-        $("#useYN").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: ""},
-                {text: "사용", value: "사용"},
-                {text: "미사용", value: "미사용"}
-            ],
-            index: 0
-        });
-
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: ""},
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
-        });
-
-        $("#carStyle").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: ""},
-                {text: "차량 종류", value: "차량 종류"},
-                {text: "차량 번호", value: "차량 번호"}
-            ],
-            index: 0
-        });
-
-        $("#titleContent").kendoTextBox();
-
-        $("#RuseYN").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "사용", value: "사용"},
-                {text: "미사용", value: "미사용"}
-            ],
-            index: 0
-        });
-
-        $("#carType").kendoTextBox();
-        $("#carNum").kendoTextBox();
-
-        $("#Rdept").kendoDropDownTree({
+    dataSet: function (){
+        customKendo.fn_textBox(["searchText", "carClassName", "carNum", "empName", "remarkCn"]);
+        let useArr = [
+            {text: "사용", value: "Y"},
+            {text: "미사용", value: "N"}
+        ]
+        customKendo.fn_dropDownList("useType", useArr, "text", "value", 1);
+        fn_deptSetting();
+        let searchArr = [
+            {text: "차량 종류", value: "차량 종류"},
+            {text: "차량 번호", value: "차량 번호"}
+        ]
+        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
+        useArr = [
+            {text: "사용", value: "Y"},
+            {text: "미사용", value: "N"}
+        ]
+        customKendo.fn_dropDownList("active", useArr, "text", "value", 2);
+        let useDeptArr = [
+            {text: "전체 부서", value: "N"},
+            {text: "사용 부서 선택", value: "Y"}
+        ]
+        customKendo.fn_dropDownList("useDeptType", useDeptArr, "text", "value", 2);
+        $("#useDeptType").data("kendoDropDownList").bind("change", carManage.fn_toggleUseDept)
+        const deptArr = customKendo.fn_customAjax("/dept/getDeptAList", {deptLevel : 1}).rs;
+        $("#useDept").kendoDropDownTree({
             placeholder: "선택하세요",
             checkboxes: true,
             checkAll: true,
             autoClose: false,
-            dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
+            dataTextField: "dept_name",
+            dataValueField: "dept_seq",
+            dataSource: deptArr
+        });
+        customKendo.fn_datePicker("regDt", 'month', "yyyy-MM-dd", new Date());
+    },
+
+    mainGrid: function () {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/bustrip/getCarCodeList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.mod = "manage";
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
         });
 
-        $("#registrant").kendoTextBox();
-        $("#significant").kendoTextBox();
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            height: 496,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar: [
+                {
+                    name: 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="carManage.clearBtn();">' +
+                            '	<span class="k-button-text">신규</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound : carManage.onDataBound,
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='' name='' value=''/>",
+                    width: 40
+                }, {
+                    field: "ROW_NUM",
+                    title: "순번",
+                    width: 50
+                }, {
+                    field: "CAR_CLASS_NAME",
+                    title: "차량 종류",
+                    width: 100
+                }, {
+                    field: "CAR_NUM_NAME",
+                    title: "차량 번호",
+                    width: 100
+                }, {
+                    title: "사용 부서",
+                    template: function(row){
+                        if(row.CAR_USE_DEPT_ACTIVE == "Y"){
+                            const useDeptArr = row.CAR_USE_DEPT_NAME.split(",");
+                            $("#useDept").data("kendoDropDownTree").value(useDeptArr);
+                            const deptLength = useDeptArr.length
+                            if(deptLength != 1) {
+                                return useDeptArr[0]+"<br> 외 "+(useDeptArr.length-1)+"개 부서";
+                            }else {
+                                return useDeptArr[0];
+                            }
+                        }else {
+                            return "전체";
+                        }
+                    }
+                }, {
+                    field: "MANAGER_NAME",
+                    title: "등록자",
+                    width: 70
+                }, {
+                    field: "REG_DT",
+                    title: "등록일자",
+                    width: 90
+                }, {
+                    title: "여부",
+                    width: 50,
+                    template: function(row){
+                        if(row.ACTIVE == "Y"){
+                            return "사용";
+                        }else {
+                            return "미사용";
+                        }
+                    }
+                }
+            ]
+        }).data("kendoGrid");
     },
-        mainGrid: function () {
-            var dataSource = new kendo.data.DataSource({
-                serverPaging: false,
-                transport: {
-                    read : {
-                        url : '',
-                        dataType : "json",
-                        type : "post"
-                    },
-                    parameterMap: function(data, operation) {
-                        return data;
-                    }
-                },
-                schema : {
-                    data: function (data) {
-                        return data;
-                    },
-                    total: function (data) {
-                        return data.length;
-                    },
-                },
-                pageSize: 10,
-            });
 
-            $("#mainGrid").kendoGrid({
-                dataSource: dataSource,
-                sortable: true,
-                scrollable: true,
-                height: 489,
-                pageable : {
-                    refresh : true,
-                    pageSizes : [ 10, 20, 30, 50, 100 ],
-                    buttonCount : 5
-                },
-                toolbar: [
-                    {
-                        name : 'button',
-                        template : function (e){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
-                                '	<span class="k-button-text">삭제</span>' +
-                                '</button>';
-                        }
-                    }, {
-                        name : 'button',
-                        template : function (e){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                                '	<span class="k-button-text">신규</span>' +
-                                '</button>';
-                        }
-                    }
-                ],
-                noRecords: {
-                    template: "데이터가 존재하지 않습니다."
-                },
-                columns: [
-                    {
-                        headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                        template : "<input type='checkbox' id='' name='' value=''/>",
-                        width: 50
-                    }, {
-                        field: "",
-                        title: "순번",
-                        width: "10%",
-                        template: "#= record-- #"
-                    }, {
-                        field: "",
-                        title: "차량 종류",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "차량 번호",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "사용 부서",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "등록자",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "등록일자",
-                        width: "15%"
-                    }, {
-                        field: "",
-                        title: "사용 여부",
-                        width: "15%"
-                    }]
-            }).data("kendoGrid");
-        },
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function () {
+            const dataItem = grid.dataItem($(this));
+            const carCodeSn = dataItem.CAR_CODE_SN;
+            carManage.getCarCodeInfo(carCodeSn);
+        });
+    },
 
-    carManagePopup : function(){
-        var url = "/Inside/Pop/carManagePop.do";
-        var name = "popup test";
-        var option = "width = 500, height = 400, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
+    getCarCodeInfo: function(carCodeSn){
+        $.ajax({
+            url : "/bustrip/getCarCodeInfo",
+            data : {
+                carCodeSn : carCodeSn
+            },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                const data = result.data;
+
+                $("#carCodeSn").val(data.CAR_CODE_SN);
+                $("#active").data("kendoDropDownList").value(data.ACTIVE);
+                $("#carClassName").val(data.CAR_CLASS_NAME);
+                $("#carNum").val(data.CAR_NUM_NAME);
+                if(data.CAR_USE_DEPT_ACTIVE == "Y") {
+                    $("#useDeptType").data("kendoDropDownList").value(data.CAR_USE_DEPT_ACTIVE);
+                }else {
+                    $("#useDeptType").data("kendoDropDownList").value("N");
+                }
+                carManage.fn_toggleUseDept();
+                $("#empSeq").val(data.MANAGER_SN);
+                $("#empName").val(data.MANAGER_NAME);
+                $("#regDt").val(data.REG_DT);
+                $("#remarkCn").val(data.REMARK_CN);
+                if(data.CAR_USE_DEPT_ACTIVE == "Y") {
+                    const useDeptArr = data.CAR_USE_DEPT_SN.split(",");
+                    $("#useDept").data("kendoDropDownTree").value(useDeptArr);
+                }
+            },
+            error : function() {
+                alert("데이터 조회 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
+    },
+
+    clearBtn: function(){
+        $("#carCodeSn").val("");
+        $("#active").data("kendoDropDownList").value("");
+        $("#carClassName").val("");
+        $("#carNum").val("");
+        $("#useDeptType").data("kendoDropDownList").value("");
+        carManage.fn_toggleUseDept();
+        $("#empSeq").val("");
+        $("#empName").val("");
+        $("#remarkCn").val("");
+        $("#useDept").data("kendoDropDownTree").value("");
+    },
+
+    saveBtn: function(){
+        let carCodeSn = $("#carCodeSn").val();
+        let active = $("#active").val();
+        let carClassName = $("#carClassName").val();
+        let carNum = $("#carNum").val();
+        let useDeptType = $("#useDeptType").val();
+        let carUseDeptSn = $("#useDept").data("kendoDropDownTree").value().toString();
+        let carUseDeptName = "";
+        $.each($(".k-checkbox:checked"), function(index, item) {
+            if(index != 0) {
+                carUseDeptName += ",";
+            }
+            carUseDeptName += $(item).parent().parent().find('.k-treeview-leaf-text').text();
+        });
+        let empName = $("#empName").val();
+        let empSeq = $("#empSeq").val();
+        let regDt = $("#regDt").val();
+        let remarkCn = $("#remarkCn").val();
+
+        if(active == ""){ alert("사용여부가 선택되지 않았습니다."); return;}
+        if(carClassName == ""){ alert("차량종류가 작성되지 않았습니다."); return;}
+        if(useDeptType == ""){ alert("사용부서여부가 선택되지 않았습니다."); return;}
+        if(empSeq == ""){ alert("등록자가 선택되지 않았습니다."); return;}
+
+        let data = {
+            carCodeSn : carCodeSn,
+            active : active,
+            carClassName : carClassName,
+            carNum : carNum,
+            useDeptType : useDeptType,
+            carUseDeptSn : carUseDeptSn,
+            carUseDeptName : carUseDeptName,
+            empSeq : empSeq,
+            empName : empName,
+            regDt : regDt,
+            remarkCn : remarkCn
+        }
+
+        if($("#carCodeSn").val() == "") {
+            if(!confirm("차량을 등록 하시겠습니까?")){
+                return;
+            }
+            carManage.setCarCodeInsert(data);
+        }else {
+            if(!confirm("차량 정보를 수정하시겠습니까?")){
+                return;
+            }
+            carManage.setCarCodeUpdate(data);
+        }
+    },
+
+    setCarCodeInsert: function(data){
+        console.log(data);
+        $.ajax({
+            url : "/bustrip/setCarCodeInsert",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("차량 등록이 완료되었습니다.");
+                gridReload();
+                window.close();
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
+    },
+
+    setCarCodeUpdate: function(data){
+        console.log(data);
+        $.ajax({
+            url : "/bustrip/setCarCodeUpdate",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("차량 정보 수정이 완료되었습니다.");
+                gridReload();
+                window.close();
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
+    },
+
+    fn_toggleUseDept: function(){
+        const useDeptType = $("#useDeptType").data("kendoDropDownList").value();
+        if(useDeptType != "Y") {
+            $(".varTR").hide();
+        }else {
+            $(".varTR").show();
+        }
     }
 }

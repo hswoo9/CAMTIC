@@ -38,6 +38,13 @@ public class BustripController {
     private String BASE_DIR;
 
 
+    @RequestMapping("/bustrip/getCarCode")
+    public String getCarCode(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getCarCode(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 
     //출장신청
     @RequestMapping("/bustrip/bustripReq.do")
@@ -377,6 +384,22 @@ public class BustripController {
         return "jsonView";
     }
 
+    //차량코드조회
+    @RequestMapping("/bustrip/getCarCodeList")
+    public String getCarCodeList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getCarCodeList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량코드 단일데이터조회
+    @RequestMapping("/bustrip/getCarCodeInfo")
+    public String getCarCodeInfo(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = bustripService.getCarCodeInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     //차량신청
     @RequestMapping("/bustrip/setCarRequestInsert")
     public String setCarRequestInsert(@RequestParam Map<String, Object> params) {
@@ -388,6 +411,20 @@ public class BustripController {
     @RequestMapping("/bustrip/setCarRequestUpdate")
     public String setCarRequestUpdate(@RequestParam Map<String, Object> params) {
         bustripService.setCarRequestUpdate(params);
+        return "jsonView";
+    }
+
+    //차량코드 등록
+    @RequestMapping("/bustrip/setCarCodeInsert")
+    public String setCarCodeInsert(@RequestParam Map<String, Object> params) {
+        bustripService.setCarCodeInsert(params);
+        return "jsonView";
+    }
+
+    //차량코드 수정
+    @RequestMapping("/bustrip/setCarCodeUpdate")
+    public String setCarCodeUpdate(@RequestParam Map<String, Object> params) {
+        bustripService.setCarCodeUpdate(params);
         return "jsonView";
     }
 
