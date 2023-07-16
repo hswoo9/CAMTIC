@@ -20,78 +20,113 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="carReqSn" value="${carReqSn}"/>
-<!DOCTYPE html>
 <html>
-<body>
-<div class="card">
-    <div class="card-header" style="padding:20px 0;">
-        <div class="col-lg-11" style="margin:0 auto;">
-            <div class="table-responsive">
-                <table class="table table-bordered mb-0">
-                    <colgroup>
-                        <col width="30%">
-                        <col width="70%">
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th colspan="4">차량 사용 신청</th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>운행 일시</th>
-                        <td><input id="startDt" style="width: 20%;"><input id="startTime" style="width: 20%;">
-                        ~<input id="endDt" style="width: 20%;"><input id="endTime" style="width: 20%;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 부서</th>
-                        <td><input type="text" id="dept" style="width: 40%;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>사용 차량</th>
-                        <td><input type="text" id="carClass" style="width: 40%;"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">운행 구분</th>
-                        <td><input type="text" id="carType" style="width: 40%;"/></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">운행 목적</th>
-                        <td><input type="text" id="carTitle" style="width: 100%;"/></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">목적지</th>
-                        <td><input type="text" id="visit" style="width: 100%;"/></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">경유지</th>
-                        <td><input type="text" id="waypoint" style="width: 100%;"/></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">운행자</th>
-                        <td>
-                            <input type="text" id="empName" style="width: 65%;">
-                            <input type="hidden" id="empSeq">
-                            <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px;" onclick="userSearch();">
-                                검색
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="varTR" style="display:none;">
-                        <th scope="row" class="text-center th-color">긴급 연락처</th>
-                        <td>성명 : <input type="text" id="emergencyName" style="width: 20%;"/>
-                            연락처 : <input type="text" id="emergencyTel" style="width: 30%;"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">신청 일자</th>
-                        <td><input id="applyDt" style="width: 20%;"/></td>
-                    </tr>
-                    </tbody>
-                </table>
+<body class="font-opensans" style="background-color:#fff;">
+    <div class="table-responsive">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">차량 사용 신청</h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="carReq.saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
             </div>
-            <div class="btn-st">
-                <input type="button" style="margin-right:5px;" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="carReq.saveBtn();"/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
-            </div>
+        </div>
+        <div style="padding: 20px 30px;">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="30%">
+                    <col width="70%">
+                </colgroup>
+                <thead>
+                <%--<tr>
+                    <th colspan="4">차량 사용 신청</th>
+                </tr>--%>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>운행 일시
+                    </th>
+                    <td>
+                        <input id="startDt" style="width: 20%;">
+                        <input id="startTime" style="width: 20%;">
+                        ~<input id="endDt" style="width: 20%;">
+                        <input id="endTime" style="width: 20%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>사용 부서
+                    </th>
+                    <td>
+                        <input type="text" id="dept" style="width: 40%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>사용 차량
+                    </th>
+                    <td>
+                        <input type="text" id="carClass" style="width: 40%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>운행 구분
+                    </th>
+                    <td>
+                        <input type="text" id="carType" style="width: 40%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>운행 목적
+                    </th>
+                    <td>
+                        <input type="text" id="carTitle" style="width: 100%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>목적지
+                    </th>
+                    <td>
+                        <input type="text" id="visit" style="width: 100%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>경유지
+                    </th>
+                    <td>
+                        <input type="text" id="waypoint" style="width: 100%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>운행자
+                    </th>
+                    <td>
+                        <input type="text" id="empName" style="width: 65%;">
+                        <input type="hidden" id="empSeq">
+                        <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px;" onclick="userSearch();">
+                            검색
+                        </button>
+                    </td>
+                </tr>
+                <tr class="varTR" style="display:none;">
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>긴급 연락처
+                    </th>
+                    <td>성명 : <input type="text" id="emergencyName" style="width: 20%;"/>
+                        연락처 : <input type="text" id="emergencyTel" style="width: 30%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>신청 일자
+                    </th>
+                    <td><input id="applyDt" style="width: 20%;"/></td>
+                </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>

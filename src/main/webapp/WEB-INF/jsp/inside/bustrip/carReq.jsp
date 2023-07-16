@@ -15,50 +15,52 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">차량사용신청</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 차량/회의실관리 > 차량사용신청</div>
+            <div class="title-road">캠인사이드 > 차량/회의실관리 > 차량사용신청</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <div style="margin-bottom:10px;">
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+            <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="30%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0;">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>년월</span>
-                                    <input type="text" id="carReqDt" style="width: 130px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>사용 차량</span>
-                                    <input type="text" id="carClass" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>운행 구분</span>
-                                    <input type="text" id="carType" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                <span>검색구분</span>
-                                    <input type="text" id="searchType" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <input type="text" id="searchText" style="width: 100px;">
-                                </div>
-                                <div class="mr10">
-                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                        <span>검색</span>
-                                    </button>
-                                </div>
-                                <div class="mr10">
-                                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="">
-                                        검색 초기화
-                                    </button>
-                                </div>
-                                <div class="mr10">
-                                    <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="carList.carPopup();">
-                                        차량 사용 신청
-                                    </button>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">년월</th>
+                        <td>
+                            <input type="text" id="carReqDt" style="width: 130px;">
+                        </td>
+                        <th class="text-center th-color">사용 차량</th>
+                        <td>
+                            <input type="text" id="carClass" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">운행 구분</th>
+                        <td>
+                            <input type="text" id="carType" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">검색구분</th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 130px;">
+                            <input type="text" id="searchText" style="width: 100px;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                <span>검색</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" style="text-align: right">
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                검색 초기화
+                            </button>
+                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="carList.carPopup();">
+                                차량 사용 신청
+                            </button>
                         </td>
                     </tr>
                 </table>
