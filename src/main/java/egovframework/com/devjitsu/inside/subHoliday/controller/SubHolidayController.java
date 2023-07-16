@@ -81,9 +81,10 @@ public class SubHolidayController {
 
     //휴가신청
     @RequestMapping("/subHoliday/subHolidayReqPop.do")
-    public String subHolidayReqPop(HttpServletRequest request, Model model) {
+    public String subHolidayReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         LoginVO login = getLoginVO(request);
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "/popup/subHoliday/subHolidayReqPop";
     }
 

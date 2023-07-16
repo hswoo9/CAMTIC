@@ -213,46 +213,11 @@ var subHolidayList = {
 
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
-            console.log(dataItem);
-            $("#edtHolidayKindTop").data("kendoDropDownList").value(dataItem.SUBHOLIDAY_CODE_ID);
-            $("#edtHolidayRmkTop").val(dataItem.RMK);
-
-            var startDay = new Date(dataItem.VAC_USE_ST_DT);
-            var startHour = startDay.getHours();
-            if(startHour < 10) startHour = "0" + startHour;
-            var startMinute = startDay.getMinutes();
-            if(startMinute < 10) startMinute = "0" + startMinute;
-
-            $("#edtHolidayStartDateTop").data("kendoDatePicker").value(startDay);
-            $("#edtHolidayStartHourTop").data("kendoTimePicker").value(String(startHour));
-            $("#edtHolidayStartMinuteTop").data("kendoDropDownList").value(String(startMinute));
-
-            var endDay = new Date(dataItem.SUBHOLIDAY_EN_DT);
-            var endHour = endDay.getHours();
-            if(endHour < 10) endHour = "0" + endHour;
-            var endMinute = endDay.getMinutes();
-            if(endMinute < 10) endMinute = "0" + endMinute;
-
-            $("#edtHolidayEndDateTop").data("kendoDatePicker").value(endDay);
-            $("#edtHolidayEndHourTop").data("kendoTimePicker").value(String(endHour));
-            $("#edtHolidayEndMinuteTop").data("kendoDropDownList").value(String(endMinute));
-            $("#apprStat").val(dataItem.APPR_STAT);
-            $("#vacUseHistId").val(dataItem.SUBHOLIDAY_USE_ID);
-            //여기야
-            var diff = monthDiffEdtHolidayModal();
-            var vacationMin = makeDateForm($("#edtHolidayStartHourTop").val() + ":" + $("#edtHolidayStartMinuteTop").val(), $("#edtHolidayEndHourTop").val() + ":" + $("#edtHolidayEndMinuteTop").val());
-            if(parseInt($("#edtHolidayStartHourTop").val()) < 13){
-                if(parseInt($("#edtHolidayEndHourTop").val()) > 13){
-                    vacationMin -= 60;
-                }
-            }
-            var applyHour = ((diff * 8 * 60) + vacationMin) / 60;
-            $("#edtHolidayApplyHourModal").val(timeReturnToFixed(applyHour, 2));
-            $("#edtHolidayApplyPeriodModal").val(timeReturnToFixed(applyHour / 8, 3));
-            $("#edtHolidayPeriodHourModal").text(timeReturnToFixed(applyHour / 8, 3) + "(" + timeReturnToFixed(applyHour, 2) + ")");
+            var url = "/subHoliday/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID;
+            var name = "subHolidayReqPop";
+            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
         });
-
-
     },
 
     dataSet : function() {

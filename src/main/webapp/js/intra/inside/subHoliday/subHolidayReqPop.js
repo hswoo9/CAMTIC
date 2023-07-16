@@ -42,9 +42,10 @@ var subHolidayReqPop = {
         $("#other_reason").kendoTextBox();
         $("#other_emp").kendoTextBox();
 
+        if($("#vacUseHistId").val()){
+            subHolidayReqPop.getVacUseHistoryOne();
+        }
     },
-
-
 
     fn_vacEdtHolidaySaveModal: function(){
         var flag = true;
@@ -776,7 +777,39 @@ var subHolidayReqPop = {
 
     dataClear : function () {
         $("#other_emp").val("");
-    }
+    },
 
+    getVacUseHistoryOne : function(){
+        var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : $("#vacUseHistId").val()})
+        if(result.flag){
+            console.log(result.data);
+            $("#edtHolidayKindTop").data("kendoDropDownList").value(result.data.SUBHOLIDAY_CODE_ID);
+            $("#edtHolidayKindTop").data("kendoDropDownList").trigger("change");
+
+            if(result.data.SUBHOLIDAY_CODE_ID == "11"){
+                $("#edtHolidayAlternativeDate_3").val(result.data.SUBHOLIDAY_ALTERNATIVE_DAY);
+                $("#edtHolidayWorkDay_3").val(result.data.SUBHOLIDAY_WORK_DAY);
+                $("#edtHolidayStartHourTop_3").val(result.data.SUBHOLIDAY_ST_TIME);
+                $("#edtHolidayEndHourTop_3").val(result.data.SUBHOLIDAY_EN_TIME);
+            }else if(result.data.SUBHOLIDAY_CODE_ID == "9"){
+                $("#edtHolidayWorkDay_3").val(result.data.SUBHOLIDAY_WORK_DAY);
+
+                $("#edtHolidayStartDateTop_2").val(result.data.SUBHOLIDAY_ST_DT);
+                $("#edtHolidayStartHourTop_2").val(result.data.SUBHOLIDAY_ST_TIME);
+                $("#edtHolidayEndDateTop_2").val(result.data.SUBHOLIDAY_EN_DT);
+                $("#edtHolidayEndHourTop_2").val(result.data.SUBHOLIDAY_EN_TIME);
+                $("#other_reason").val(result.data.RMK_OTHER);
+            }else{
+                $("#edtHolidayStartDateTop_1").val(result.data.SUBHOLIDAY_ST_DT);
+                $("#edtHolidayStartHourTop_1").val(result.data.SUBHOLIDAY_ST_TIME);
+                $("#edtHolidayEndDateTop_1").val(result.data.SUBHOLIDAY_EN_DT);
+                $("#edtHolidayEndHourTop_1").val(result.data.SUBHOLIDAY_EN_TIME);
+                $("#other_reason").val(result.data.RMK_OTHER);
+            }
+
+            $("#holiday_reason").val(result.data.RMK);
+            $("#now_date").val(result.data.SAVE_DT)
+        }
+    }
 }
 

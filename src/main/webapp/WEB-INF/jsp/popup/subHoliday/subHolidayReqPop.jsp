@@ -23,7 +23,7 @@
           <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
           <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
           <input type="hidden" id="apprStat" value="N">
-          <input type="hidden" id="vacUseHistId" value="">
+          <input type="hidden" id="vacUseHistId" value="${params.subholidayUseId}">
           <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
             <colgroup>
               <col width="15%">
@@ -147,7 +147,6 @@
   }
 
   function userDataSet(userArr) {
-    console.log(userArr);
 
     let other_emp = "";
     for(let i=0; i < userArr.length; i++) {
