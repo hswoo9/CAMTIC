@@ -55,7 +55,6 @@
                         <div style="display:flex; justify-content: space-between;">
                             <div class="subTitSt">· 직원 기본 정보</div>
                             <div id="empInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
                             </div>
                         </div>
@@ -175,7 +174,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 학력 사항</div>
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addDegreeBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addDegreeBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -191,13 +190,13 @@
                                         <col width="15%">
                                         <col width="10%">
                                         <col width="10%">
-                                        <col width="5%">
+                                        <col width="10%">
                                         <col width="5%">
                                         <col width="15%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='eduInfoChk"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th><input type='checkbox' name='eduAllChk' id="eduAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'eduChk')"></th>
                                         <th>번호</th>
                                         <th>구분</th>
                                         <th>기간</th>
@@ -209,25 +208,22 @@
                                         <th>비고</th>
                                     </tr>
                                     <c:forEach var="l" items="${eList}" varStatus="status">
-                                        <c:choose>
-                                            <c:when test="${l.EDUCATIONAL_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox eduCheckBox' onclick=''></td>
-                                                    <td></td>
-                                                    <td>${l.SCHOOL_NAME}</td>
-                                                    <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
-                                                    <td>${l.SCHOOL_NAME}</td>
-                                                    <td>${l.DEGREE_CODE}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>${l.RMK}</td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <c:if test="${l.EDUCATIONAL_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td>
+                                                    <input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' class='k-checkbox checkbox eduCheckBox'>
+                                                </td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.GUBUN_CODE_NM}</td>
+                                                <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
+                                                <td>${l.SCHOOL_NAME}</td>
+                                                <td>${l.DEGREE_CODE_NM}</td>
+                                                <td></td>
+                                                <td>${l.GRADUATION_CODE_NM}</td>
+                                                <td>${l.SCORE}</td>
+                                                <td>${l.RMK}</td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -238,7 +234,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 경력 사항</div>
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addCareerBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addCareerBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -259,7 +255,9 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='careerInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>
+                                            <input type='checkbox' name='employAllChk' id="employAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'employChk')">
+                                        </th>
                                         <th>번호</th>
                                         <th>기간</th>
                                         <th>근무처</th>
@@ -270,24 +268,26 @@
                                         <th>비고</th>
                                     </tr>
                                     <c:forEach var="l" items="${cList}" varStatus="status">
-                                        <c:choose>
-                                            <c:when test="${l.CAREER_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
-                                                    <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
-                                                    <td>${l.EMPLOY_DEPT_NAME}</td>
-                                                    <td>${l.POSITION_OR_DUTY}</td>
-                                                    <td>${l.MAIN_TASK}</td>
-                                                    <td>${l.CAREER_PERIOD}</td>
-                                                    <td></td>
-                                                    <td>${l.RMK}</td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td><input type='checkbox' name='employChk' id='employ${l.CAREER_ID}' class='k-checkbox checkbox'></td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
+                                                <td>${l.EMPLOY_DEPT_NAME}</td>
+                                                <td>${l.POSITION_OR_DUTY}</td>
+                                                <td>${l.MAIN_TASK}</td>
+                                                <td>
+                                                    <c:if test="${l.CAREER_PERIOD ne null and l.CAREER_PERIOD ne ''}">
+                                                        ${l.CAREER_PERIOD}년
+                                                    </c:if>
+                                                    <c:if test="${l.CAREER_MONTH ne null and l.CAREER_MONTH ne ''}">
+                                                        ${l.CAREER_MONTH}개월
+                                                    </c:if>
+                                                </td>
+                                                <td>${l.MAIN_TASK}</td>
+                                                <td>${l.RMK}</td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -298,9 +298,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 병력 사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addMilitaryBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addMilitaryBtn('${mInfo.MSI_INFO_ID}')"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -315,29 +313,29 @@
                                     <thead>
                                     <tr>
                                         <th>전역 여부</th>
-                                        <td>${mList.MILITARY_SVC_TYPE}</td>
+                                        <td>${mInfo.MILITARY_SVC_TYPE_NM}</td>
                                         <th>사유</th>
-                                        <td>${mList.M_UNFUL_REASON}</td>
+                                        <td>${mInfo.M_UNFUL_REASON}</td>
                                     </tr>
                                     <tr>
                                         <th>복무기간</th>
                                         <td>
-                                            <c:choose>
-                                            <c:when test="${mList.M_ENLIST_DAY eq null or mList.M_DISCHARGE_DAY eq null or l.ADMIN_APPROVAL eq 'N'}">
-                                            </c:when>
-                                            <c:otherwise>
-                                        <td>${mList.M_ENLIST_DAY}~${mList.M_DISCHARGE_DAY}</td>
-                                        </c:otherwise>
-                                        </c:choose>
+                                            ${mInfo.M_ENLIST_DAY} ~ ${mInfo.M_DISCHARGE_DAY}
                                         </td>
                                         <th>최종계급</th>
-                                        <td></td>
+                                        <td>
+                                            ${mInfo.M_LAST_RANK}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>군별</th>
-                                        <td></td>
+                                        <td>
+                                            ${mInfo.M_DIVISION}
+                                        </td>
                                         <th>병과</th>
-                                        <td></td>
+                                        <td>
+                                            ${mInfo.MOS}
+                                        </td>
                                     </tr>
                                     </thead>
                                 </table>
@@ -402,7 +400,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 보유 면허</div>
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn(empSeq)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -997,16 +995,20 @@
     //근무평가 workEval
     //제안제도 proposal
     //학력추가
-    function addDegreeBtn(e) {
-        console.log(e);
+
+    function chkBoxAllChk(e, chkName){
+        if($(e).is(":checked")) $("input[name=" + chkName + "]").prop("checked", true);
+        else $("input[name=" + chkName + "]").prop("checked", false);
+    }
+
+    function addDegreeBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=degree";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //경력추가
-    function addCareerBtn(e) {
-        console.log(e);
+    function addCareerBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=career";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
@@ -1014,71 +1016,62 @@
     }
     //병력추가
     function addMilitaryBtn(e) {
-        console.log(e);
-        var url = "/useManage/userPersonnelRecordPop.do?popName=military";
+        var url = "/useManage/userPersonnelRecordPop.do?popName=military&msiInfoId=" + e;
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //가족추가
-    function addFamilyBtn(e) {
-        console.log(e);
+    function addFamilyBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=family";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //보유면허추가
-    function addLicenseBtn(e) {
-        console.log(e);
+    function addLicenseBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=license";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //직무사항추가
-    function addJobBtn(e) {
-        console.log(e);
+    function addJobBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=job";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //발령사항추가
-    function addAppointingBtn(e) {
-        console.log(e);
+    function addAppointingBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=appointing";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //상벌사항추가
-    function addRewardBtn(e) {
-        console.log(e);
+    function addRewardBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=reward";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //교육사항추가
-    function addEduBtn(e) {
-        console.log(e);
+    function addEduBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=edu";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //근무평가추가
-    function addWorkEvalBtn(e) {
-        console.log(e);
+    function addWorkEvalBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=workEval";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
     //제안제도추가
-    function addProposalBtn(e) {
-        console.log(e);
+    function addProposalBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=proposal";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

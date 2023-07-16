@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link rel="stylesheet" href="/css/intra/kTreeView.css">
-<script type="text/javascript" src="/js/intra/system/menu/menuAuthManage.js?v=1"/></script>
+<script type="text/javascript" src="/js/intra/system/menu/menuAuthManage.js?v=2"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>

@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.inside.userManage.repository.UserManageReposit
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,11 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public Map<String, Object> getMilitarySvcInfo(Map<String, Object> map) {
         return userManageRepository.getMilitarySvcInfo(map);
+    }
+
+    @Override
+    public Map<String, Object> getMilitaryInfo(Map<String, Object> params) {
+        return userManageRepository.getMilitaryInfo(params);
     }
 
     @Override
@@ -124,7 +130,11 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public void setMilitaryInfo(Map<String, Object> map) {
-        userManageRepository.setMilitaryInfo(map);
+        if(StringUtils.isEmpty(map.get("msiInfoId"))){
+            userManageRepository.setMilitaryInfo(map);
+        }else{
+            userManageRepository.setMilitaryInfoUpd(map);
+        }
     }
 
     @Override

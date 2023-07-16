@@ -261,33 +261,45 @@ public class UserManageController {
     }
 
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
-    public String userPersonnelRecordEduAddPop(@RequestParam String popName) {
-        switch(popName) {
+    public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model) {
+        String viewName = "";
+
+        model.addAttribute("params", params);
+
+        switch(params.get("popName").toString()) {
             case "degree":
-                return "popup/inside/userManage/userPersonnelRecordDegreePop";
+                viewName = "popup/inside/userManage/userPersonnelRecordDegreePop"; break;
             case "career":
-                return "popup/inside/userManage/userPersonnelRecordCareerPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordCareerPop"; break;
             case "military":
-                return "popup/inside/userManage/userPersonnelRecordMilitaryPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordMilitaryPop"; break;
             case "family":
-                return "popup/inside/userManage/userPersonnelRecordFamilyPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordFamilyPop"; break;
             case "license":
-                return "popup/inside/userManage/userPersonnelRecordLicensePop";
+                viewName = "popup/inside/userManage/userPersonnelRecordLicensePop"; break;
             case "job":
-                return "popup/inside/userManage/userPersonnelRecordJobPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordJobPop"; break;
             case "appointing":
-                return "popup/inside/userManage/userPersonnelRecordAppointingPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordAppointingPop"; break;
             case "reward":
-                return "popup/inside/userManage/userPersonnelRecordRewardPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordRewardPop"; break;
             case "edu":
-                return "popup/inside/userManage/userPersonnelRecordEduPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordEduPop"; break;
             case "workEval":
-                return "popup/inside/userManage/userPersonnelRecordWorkEvalPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordWorkEvalPop"; break;
             case "proposal":
-                return "popup/inside/userManage/userPersonnelRecordProposalPop";
+                viewName = "popup/inside/userManage/userPersonnelRecordProposalPop"; break;
         }
-        return "redirect:inside/userManage/userPersonnelRecord";
+
+        return viewName;
     }
+
+    @RequestMapping("/useManage/getMilitaryInfo.do")
+    public String getMilitaryInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", userManageService.getMilitaryInfo(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/useManage/setUserPersonnelRecordInfo")
     public String setUserDegreeInfo(@RequestParam Map<String,Object> map, Model model,HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -296,7 +308,6 @@ public class UserManageController {
         params.put("EMP_SEQ", login.getUniqId());
         params.put("EMP_NAME", login.getName());
         params.putAll(map);
-        System.out.println("D A T A : : : : : : : : : : "+params);
         switch(params.get("type").toString()) {
             case "degree":
                 try {

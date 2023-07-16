@@ -12,17 +12,12 @@
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">병력 등록</h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">등록</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <input type="hidden" id="msiInfoId" name="msiInfoId" value="${params.msiInfoId}">
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -94,6 +89,10 @@
   var codeDropDown = [];
   $(function(){
     fn_default();
+
+    if($("#msiInfoId").val()){
+      dataInput()
+    }
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -116,6 +115,7 @@
   }
   function fu_addInfo() {
     var data = {
+        msiInfoId : $("#msiInfoId").val(),
         mGubun : $("#mGubun").val(),
         sDate : $("#sDate").val(),
         eDate : $("#eDate").val(),
@@ -188,5 +188,18 @@
 
   function fn_windowClose() {
     window.close();
+  }
+
+  function dataInput(){
+    var result = customKendo.fn_customAjax("/useManage/getMilitaryInfo.do", {msiInfoId : $("#msiInfoId").val()})
+    if(result.flag){
+      $("#mGubun").data("kendoDropDownList").value(result.rs.MILITARY_SVC_TYPE);
+      $("#reason").val(result.rs.M_UNFUL_REASON);
+      $("#sDate").val(result.rs.M_ENLIST_DAY);
+      $("#eDate").val(result.rs.M_DISCHARGE_DAY);
+      $("#rank").val(result.rs.M_LAST_RANK);
+      $("#mType").val(result.rs.M_DIVISION);
+      $("#mDept").val(result.rs.MOS);
+    }
   }
 </script>

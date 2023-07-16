@@ -17,6 +17,7 @@ public class UserManageRepository extends AbstractDAO {
     public Map<String,Object> getMilitarySvcInfo (Map<String,Object> map) {
         return (Map<String,Object>)selectOne("userManage.getMilitarySvcInfo", map);
     }
+    public Map<String,Object> getMilitaryInfo (Map<String,Object> params) {return (Map<String,Object>)selectOne("userManage.getMilitaryInfo", params);}
     public List<Map<String,Object>> getCareerInfoList (Map<String,Object> map) {
         return selectList("userManage.getCareerInfoList", map);
     }
@@ -53,9 +54,8 @@ public class UserManageRepository extends AbstractDAO {
     public void setCareerInfo (Map<String,Object> map) {
         insert("userManage.setCareerInfo", map);
     }
-    public void setMilitaryInfo (Map<String,Object> map) {
-        insert("userManage.setMilitaryInfo", map);
-    }
+    public void setMilitaryInfo (Map<String,Object> map) {insert("userManage.setMilitaryInfo", map);}
+    public void setMilitaryInfoUpd (Map<String,Object> map) {insert("userManage.setMilitaryInfoUpd", map);}
     public void setFmailyInfo (Map<String,Object> map) {
         insert("userManage.setFmailyInfo", map);
     }

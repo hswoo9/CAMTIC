@@ -489,7 +489,6 @@
     }
 
     var empSeq = '${params.empSeq}';
-    console.log(empSeq);
 
     if(empSeq != '' && empSeq != undefined){
         //console.log(${uprinfList.DEPT_PARENT_SEQ});
