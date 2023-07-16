@@ -47,6 +47,7 @@ var orgChart = {
                 },
                 parameterMap: function(data, operation) {
                     data.DEPT_SEQ = $("#deptSeq").val();
+                    data.notDivision = "2";
                     return data;
                 }
             },

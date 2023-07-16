@@ -93,26 +93,14 @@ public class CommonServiceImpl implements CommonService {
 
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 
-        String[] parentDeptSeq = {};
-
         for (Map<String, Object> map : list) {
 
             if(map.get("dept_seq").equals(deptSeq)){
-                parentDeptSeq = ((String) map.get("path")).split("\\|");
                 map.put("selected", true);
                 map.put("expanded", true);
+            }else{
+                map.put("expanded", true);
             }
-
-        }
-
-        for (Map<String, Object> map : list) {
-
-            for (int i = 0; i < parentDeptSeq.length; i++) {
-                if(map.get("dept_seq").equals(parentDeptSeq[i])){
-                    map.put("expanded", true);
-                }
-            }
-
         }
 
         //부모

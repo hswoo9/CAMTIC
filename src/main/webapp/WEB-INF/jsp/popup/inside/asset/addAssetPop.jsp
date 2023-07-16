@@ -97,7 +97,7 @@
                     <td>
                         <input type="text" id="qty" style="width: 55px;"> /
                         <input type="text" id="unit" style="width: 75px;">
-                        <input type="text" id="unitText" style="width: 75px;">
+                        <input type="text" id="unitText" style="width: 75px;" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" disabled>
                         <input type="text" id="regType" style="width: 95px;">
                     </td>
                     <th scope="row" class="text-center th-color">바코드 타입</th>
