@@ -75,20 +75,26 @@
             A.admin_approval = 'Y'
         ORDER BY ADMIN_APPROVAL_DATE DESC
     </select>
+
     <select id="getFamilyInfoList" parameterType="map" resultType="map">
+        /* getFamilyInfoList */
         SELECT
-            *
+            A.*,
+            CASE WHEN A.INCLUDE_YN = 'Y' THEN '예'
+                ELSE '아니오'
+            END INCLUDE_TXT,
+            B.HR_DT_CODE_NM AS FAMILY_CODE_TYPE_NM
         FROM
-            cam_hr.dj_emp_info AS a
+            CAM_HR.DJ_EMP_FAMILY_INFO A
         LEFT JOIN
-            cam_hr.dj_emp_family_info AS b
-        ON
-            a.EMP_SEQ = b.EMP_SEQ
+            CAM_HR.DJ_HR_CODE B
+        ON A.FAMILY_CODE = CONCAT(B.HR_MC_CODE, B.HR_MD_CODE, B.HR_DT_CODE)
         WHERE
-            a.EMP_SEQ = #{empSeq}
-        and
-            b.admin_approval = 'Y';
+            A.EMP_SEQ = #{empSeq}
+        AND
+            A.ADMIN_APPROVAL = 'Y'
     </select>
+
     <select id="getLicenceInfoList" parameterType="map" resultType="map">
         SELECT
             *
@@ -116,18 +122,15 @@
     </select>
 
     <select id="getRewardInfoList" parameterType="map" resultType="map">
+        /* getRewardInfoList */
         SELECT
             *
         FROM
-            cam_hr.dj_emp_info AS a
-        LEFT JOIN
-            cam_hr.dj_emp_reword AS b
-        ON
-            a.EMP_SEQ = b.EMP_SEQ
+            CAM_HR.DJ_EMP_REWORD
         WHERE
-            a.EMP_SEQ = #{empSeq}
+            EMP_SEQ = #{empSeq}
         AND
-            b.admin_approval = 'Y';
+            ADMIN_APPROVAL = 'Y';
     </select>
     <select id="getDutyInfoList" parameterType="map" resultType="map">
         SELECT

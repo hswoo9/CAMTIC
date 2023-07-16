@@ -346,7 +346,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 가족 사항</div>
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addFamilyBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addFamilyBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -365,7 +365,9 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='familyInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>
+                                            <input type='checkbox' name='familyAllChk' id="familyAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'familyChk')">
+                                        </th>
                                         <th>번호</th>
                                         <th>관계</th>
                                         <th>성명</th>
@@ -373,23 +375,20 @@
                                         <th>직업</th>
                                         <th>동거여부</th>
                                     </tr>
-                                    <c:forEach var="l" items="${fList}">
-                                        <c:choose>
-                                            <c:when test="${l.FAMILY_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
-                                                    <td>${l.FAMILY_CODE_NAME}</td>
-                                                    <td>${l.FAMILY_NAME}</td>
-                                                    <td>${l.FAMILY_BIRTH}</td>
-                                                    <td>${l.FAMILY_JOB}</td>
-                                                    <td>${l.INCLUDE_YN}</td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <c:forEach var="l" items="${fList}" varStatus="status">
+                                        <c:if test="${l.FAMILY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td>
+                                                    <input type='checkbox' name='familyChk' id='familyChk${l.FAMILY_ID}' class='k-checkbox checkbox'>
+                                                </td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.FAMILY_CODE_TYPE_NM}</td>
+                                                <td>${l.FAMILY_NAME}</td>
+                                                <td>${l.FAMILY_BIRTH}</td>
+                                                <td>${l.FAMILY_JOB}</td>
+                                                <td>${l.INCLUDE_TXT}</td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -400,7 +399,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 보유 면허</div>
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn(empSeq)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -420,7 +419,9 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='certificateInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>
+                                            <input type='checkbox' name='certAllChk' id="certAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'certChk')">
+                                        </th>
                                         <th>번호</th>
                                         <th>종류</th>
                                         <th>취득일</th>
@@ -429,24 +430,19 @@
                                         <th>증명서</th>
                                         <th>비고</th>
                                     </tr>
-                                    <c:forEach var="l" items="${lList}">
-                                        <c:choose>
-                                            <c:when test="${l.CERTIFICATE_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
-                                                    <td>${l.CERTIFICATE_NAME}</td>
-                                                    <td>${l.ACQUISITION_DAY}</td>
-                                                    <td>${l.CERTIFICATE_NUM}</td>
-                                                    <td>${l.ISSUER}</td>
-                                                    <td></td>
-                                                    <td>${l.RMK}</td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <c:forEach var="l" items="${lList}" varStatus="status">
+                                        <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td><input type='checkbox' name='certChk' id='certChk${l.CERTIFICATE_ID}' class='k-checkbox checkbox'></td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.CERTIFICATE_NAME}</td>
+                                                <td>${l.ACQUISITION_DAY}</td>
+                                                <td>${l.CERTIFICATE_NUM}</td>
+                                                <td>${l.ISSUER}</td>
+                                                <td></td>
+                                                <td>${l.RMK}</td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -457,7 +453,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 직무 사항</div>
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addJobBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addJobBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -474,27 +470,22 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='dutiesInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th><input type='checkbox' name='dutyInfoAllChk' id='dutyInfoAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'dutyInfoChk')"></th>
                                         <th>번호</th>
                                         <th>근무 기간</th>
                                         <th>주요 직무</th>
                                         <th>직급</th>
                                     </tr>
-                                    <c:forEach var="l" items="${dList}">
-                                        <c:choose>
-                                            <c:when test="${l.DUTY_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
-                                                    <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
-                                                    <td>${l.DUTY_DETAIL}</td>
-                                                    <td>${l.POSITON_NAME}</td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <c:forEach var="l" items="${dList}" varStatus="status">
+                                        <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td><input type='checkbox' name='dutyInfoChk' id='dutyInfoChk${l.DUTY_ID}' class='k-checkbox checkbox'></td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
+                                                <td>${l.DUTY_DETAIL}</td>
+                                                <td>${l.POSITON_NAME}</td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -523,7 +514,9 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='lCheckAll' id='orderInfo"+ result.EMP_SEQ +"' class='checkbox' onclick=''></th>
+                                        <th>
+                                            <input type='checkbox' name='appointAllChk' id='appointAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'appointChk')">
+                                        </th>
                                         <th>번호</th>
                                         <th>발령 구분</th>
                                         <th>발령 일자</th>
@@ -532,8 +525,8 @@
                                     </tr>
                                     <c:forEach var="l" items="${aList}" varStatus="status">
                                         <tr>
-                                            <td><input type='checkbox' name='lCheck' id='' class='checkbox' onclick=''></td>
-                                            <td>${status.count}</td>
+                                            <td><input type='checkbox' name='appointChk' id='appointChk${l.APPOINT_ID}' class='k-checkbox checkbox'></td>
+                                            <td>${status.index + 1}</td>
                                             <td>${l.APNT_NAME}</td>
                                             <td>${l.historyDt}</td>
                                             <td>${l.AF_DEPT_NAME} ${l.AF_DEPT_TEAM} ${l.AF_POSITION_NAME} ${l.AF_DUTY_NAME}</td>
@@ -569,33 +562,30 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='rewardpunishmentInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>
+                                            <input type='checkbox' name='rewordAllChk' id='rewordAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'rewordChk')">
+                                        </th>
                                         <th>번호</th>
                                         <th>내/외부</th>
-                                        <th>포상 구분</th>
+                                        <th>포상/징계 구분</th>
                                         <th>포상/징계 일자</th>
                                         <th>공적 (징계) 사항</th>
                                         <th>시행처</th>
                                         <th>증명서</th>
                                     </tr>
-                                    <c:forEach var="l" items="${rList}">
-                                        <c:choose>
-                                            <c:when test="${l.REWORD_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
-
-                                            </c:when>
-                                            <c:otherwise>
-                                                <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>${l.REWORD_NAME}</td>
-                                                    <td>${l.REWORD_DAY}</td>
-                                                    <td>${l.REWORD_REASON}</td>
-                                                    <td>${l.REWORD_AGENCY_NAME}</td>
-                                                    <td></td>
-                                                </tr>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <c:forEach var="l" items="${rList}" varStatus="status">
+                                        <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' class='k-checkbox checkbox'></td>
+                                                <td>${status.index + 1}</td>
+                                                <td></td>
+                                                <td>${l.REWORD_TYPE_NAME}</td>
+                                                <td>${l.REWORD_DAY}</td>
+                                                <td>${l.REWORD_REASON}</td>
+                                                <td>${l.REWORD_AGENCY_NAME}</td>
+                                                <td></td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                     </thead>
                                 </table>
@@ -741,7 +731,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 제안 제도</div>
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addProposalBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addProposalBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
                             </div>
@@ -759,22 +749,26 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='' id='proposalInfo"+ result.EMP_SEQ +"' class='k-checkbox checkbox' onclick=''></th>
+                                        <th>
+                                            <input type='checkbox' name='propAllChk' id='propAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'propChk')">
+                                        </th>
                                         <th>번호</th>
                                         <th>구분</th>
                                         <th>년월일</th>
                                         <th>주요 제안 내용</th>
                                         <th>현재 상태</th>
                                     </tr>
-                                    <c:forEach var="l" items="${pList}">
+                                    <c:forEach var="l" items="${pList}" varStatus="status">
                                         <c:choose>
                                             <c:when test="${l.PROPOSAL_ID eq null or l.ADMIN_APPROVAL eq 'N'}">
 
                                             </c:when>
                                             <c:otherwise>
                                                 <tr>
-                                                    <td><input type='checkbox' name='' id='' class='k-checkbox checkbox' onclick=''></td>
-                                                    <td></td>
+                                                    <td>
+                                                        <input type='checkbox' name='propChk' id='propChk${l.PROPOSAL_ID}' class='k-checkbox checkbox' >
+                                                    </td>
+                                                    <td>${status.index + 1}</td>
                                                     <td>${l.PROPOSAL_GUBUN}</td>
                                                     <td>${l.PROPOSAL_DATE}</td>
                                                     <td>${l.PROPOSAL_DETAIL}</td>
@@ -858,11 +852,6 @@
         })
 
         userInfoDatePickerSetting();
-
-        $("input[name='lCheckAll']").click(function(){
-            if($(this).is(":checked")) $("input[name=lCheck]").prop("checked", true);
-            else $("input[name=lCheck]").prop("checked", false);
-        });
     })
 
     function userInfoDatePickerSetting(){
