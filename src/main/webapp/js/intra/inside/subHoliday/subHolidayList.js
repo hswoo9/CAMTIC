@@ -61,7 +61,7 @@ var subHolidayList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateReq.delBtn();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="subHolidayList.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -259,9 +259,7 @@ var subHolidayList = {
             index: 0
         });
 
-
         subHolidayList.fn_makeContent();
-
     },
 
     subHolidayReqPop : function() {
@@ -336,5 +334,27 @@ var subHolidayList = {
         }else{
             $("input[name='hisPk']").prop("checked", false);
         }
-    }
+    },
+
+    delBtn: function(){
+        let checkedList = new Array();
+        $.each($("input[name='hisPk']:checked"), function(i,v){
+            checkedList.push(this.value);
+        });
+
+        if(checkedList.length == 0){
+            alert('삭제 할 항목을 선택해 주세요.');
+            return;
+        }
+
+        if(!confirm("삭제 하시겠습니까?")){
+            return;
+        }
+
+        var result = customKendo.fn_customAjax("/subHoliday/setVacUseHistDel.do", {subHolidayUseId : checkedList.join()});
+        if(result.flag){
+            alert("휴가 작성내역이 삭제되었습니다.");
+            gridReload();
+        }
+    },
 }

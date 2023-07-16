@@ -279,7 +279,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             >
-                            <input type="text" id="astStsModReason" style="display:none;width: 80%;" value="${data.AST_STS_MOD_REASON}">
+                            <input type="text" id="astStsModReason" style="width: 80%;" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" value="${data.AST_STS_MOD_REASON}">
                         </td>
                     </tr>
                     </tbody>
@@ -345,7 +345,7 @@
     if($("#astPdaInfo").val() == "Y"){
         var dropDownDataSource = customKendo.fn_customAjax("/inside/getInsideCodeList.do", {insideMdCode : "03"});
         customKendo.fn_dropDownList("newAstStsCode", dropDownDataSource.rs, "INSIDE_DT_CODE_NM","INSIDE_DT_CODE", 2);
-        $("#newAstStsCode").data("kendoDropDownList").bind("change", function(e){if(this.value() != "01")$("#astStsModReason").show()});
+        $("#newAstStsCode").data("kendoDropDownList").bind("change", function(e){if(this.value() != "01"){$("#astStsModReason").show()}else{$("#astStsModReason").hide()}});
         $("#newAstStsCode").data("kendoDropDownList").trigger("change");
 
         dropDownDataSource = customKendo.fn_customAjax("/asset/getAssetPlaceList", {});
@@ -357,10 +357,17 @@
         ]
         customKendo.fn_dropDownList("inspectionType", dropDownDataSource, "text", "value", 2);
 
-        customKendo.fn_textBox(["astStsModReason"]);
     }
 
     function setAssetInspection(){
+        if($("#newAstStsCode").val() != "01"){
+            if(!$("#astStsModReason").val()){
+                alert("사유를 적어주세요.");
+                $("#astStsModReason").focus();
+                return;
+            }
+        }
+
         if(confirm("신규위치, 재물조사 유무, 자산상태를 저장하시겠습니까?")){
             var data = {
                 astPdaInfoSn : $("#astPdaInfoSn").val(),

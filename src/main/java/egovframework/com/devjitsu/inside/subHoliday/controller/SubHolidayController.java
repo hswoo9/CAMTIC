@@ -155,7 +155,16 @@ public class SubHolidayController {
         return "jsonView";
     }
 
-
+    /**
+     * 인사관리 > 휴가관리 - 휴가 신청내역 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/subHoliday/setVacUseHistDel.do")
+    public String setVacUseHistDel(@RequestParam Map<String, Object> params){
+        subHolidayService.setVacUseHistDel(params);
+        return "jsonView";
+    }
 
     /**
      * 마이페이지 > 복무 > 근무상황 > 연차 > admin
