@@ -41,6 +41,13 @@ public interface DocumentService {
     Map<String, Object> getSnackOne(Map<String, Object> params);
 
     /**
+     * 문서고 리스트 조회
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getArchiveList(Map<String, Object> params);
+
+    /**
      * 등록대장 문서등록
      * @param params
      */
@@ -69,4 +76,10 @@ public interface DocumentService {
      * @param params
      */
     void setSnackReqCert(Map<String, Object> params);
+
+    /**
+     * 문서고 등록
+     * @param params
+     */
+    void setArchiveInsert(Map<String, Object> params);
 }

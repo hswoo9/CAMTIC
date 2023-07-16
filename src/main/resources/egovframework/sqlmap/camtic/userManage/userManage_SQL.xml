@@ -601,16 +601,15 @@
                 )
     </insert>
     <insert id="setRewardInfo" parameterType="map">
-        INSERT INTO cam_hr.dj_emp_reword(
+        INSERT INTO cam_hr.dj_emp_reword_punishment(
                   EMP_SEQ
                  ,EMP_NAME
-                 ,REWORD_DAY
-                 ,REWORD_TYPE_NAME
-                 ,RWD_ST_COMP
-                 ,RWD_OFM
+                 ,REWORD_PUNISHMENT_DAY
+                 ,REWORD_PUNISHMENT_TYPE_NAME
+                 ,RPWD_ST_COMP
+                 ,RPWD_OFM
                  ,REG_EMP_SEQ
                  ,REG_DATE
-                 ,RWD_ETC
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -620,7 +619,6 @@
                 ,#{rIssue}
                 ,#{EMP_SEQ}
                 ,now()
-                ,''
                 )
     </insert>
     <insert id="setJobInfo" parameterType="map">
@@ -800,7 +798,7 @@
         a.emp_seq = b.emp_seq
         UNION
         SELECT
-        a.REWORD_ID AS 'ID',
+        a.REWORD_PUNISHMENT_ID AS 'ID',
         b.EMP_SEQ,
         b.DEPT_NAME,
         b.DEPT_TEAM_NAME,
@@ -810,11 +808,11 @@
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
         a.returnyn,
-        'dj_emp_reword' AS 'type',
+        'dj_emp_reword_punishment' AS 'type',
         '상벌사항' AS 'typeName',
-        'REWORD_ID' AS 'key'
+        'REWORD_PUNISHMENT_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_reword AS a
+        cam_hr.dj_emp_reword_punishment AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1071,7 +1069,7 @@
             a.emp_seq = b.emp_seq
             UNION
             SELECT
-            a.REWORD_ID AS 'ID',
+            a.REWORD_PUNISHMENT_ID AS 'ID',
             b.EMP_SEQ,
             b.DEPT_NAME,
             b.DEPT_TEAM_NAME,
@@ -1081,11 +1079,11 @@
             a.REG_DATE as 'REG_DATE2',
             a.admin_approval,
             a.returnyn,
-            'dj_emp_reword' AS 'type',
+            'dj_emp_reword_punishment' AS 'type',
             '상벌사항' AS 'typeName',
-            'REWORD_ID' AS 'key'
+            'REWORD_PUNISHMENT_ID' AS 'key'
             FROM
-            cam_hr.dj_emp_reword AS a
+            cam_hr.dj_emp_reword_punishment AS a
             LEFT join
             cam_hr.dj_emp_info AS b
             on

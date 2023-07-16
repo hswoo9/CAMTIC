@@ -105,6 +105,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    meetingRoomReq.fn_defaultScript();
-    meetingRoomReq.mainGrid();
+    meetingRoomReq.init();
 </script>

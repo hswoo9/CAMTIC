@@ -89,10 +89,10 @@
     if(result.flag) {
       var e = result.rs;
 
-      $("#rGubun").val(e.REWORD_TYPE_NAME); //구분(표창/징계)
-      $("#sDate").val(e.REWORD_DAY); //포상/징계 일자
-      $("#rIssue").val(e.RWD_OFM); //공적(징계) 사항
-      $("#agency").val(e.RWD_ST_COMP); //시행처
+      $("#rGubun").val(e.REWORD_PUNISHMENT_TYPE_NAME); //구분(표창/징계)
+      $("#sDate").val(e.REWORD_PUNISHMENT_DAY); //포상/징계 일자
+      $("#rIssue").val(e.RPWD_OFM); //공적(징계) 사항
+      $("#agency").val(e.RPWD_ST_COMP); //시행처
     }
 
     /*수정 안되게 disabled*/

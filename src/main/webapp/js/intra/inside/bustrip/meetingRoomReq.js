@@ -29,7 +29,13 @@ var meetingRoomReq = {
         userVacation : 0
     },
 
-    fn_defaultScript: function () { 
+    init: function(){
+        meetingRoomReq.dataSet();
+        meetingRoomReq.mainScheduler();
+        meetingRoomReq.mainGrid();
+    },
+
+    dataSet: function(){
 
         $("#datePicker").kendoDatePicker({
             value: new Date(),
@@ -103,6 +109,48 @@ var meetingRoomReq = {
         });
         
         $("#name").kendoTextBox();
+    },
+
+    mainScheduler: function(){
+        var schRsDs = [];
+        var ksModel = {
+            id: { from: "ROOM_REQ_SN", type: "number" },
+            title: { from: "schTitle", defaultValue: "No title", validation: { required: true } },
+            start: { type: "date", from: "START_DATE" },
+            end: { type: "date", from: "END_DATE" }
+        }
+
+        var schDataSource = new kendo.data.SchedulerDataSource({
+            transport: {
+                read: {
+                    url : "/inside/getRoomRequestList",
+                    dataType: "json"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#RegEmpSeq").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function (data) {
+                    console.log(data.list);
+                    return data.list;
+                },
+                model: {
+                    id: "id",
+                    fields: ksModel
+                }
+            }
+        });
+
+        var schResources = [
+            {
+                field : "vacCodeId",
+                dataSource : schRsDs
+            }
+        ]
+
+        kendo.culture("ko-KR");
 
         $("#scheduler").kendoScheduler({
             date: new Date(),
@@ -112,17 +160,10 @@ var meetingRoomReq = {
                 "month"
             ],
             timezone: "Etc/UTC",
-            selectable: false,
-            editable : false/*,
             dataSource: schDataSource,
-            resources: schResources,*/
-            /*
-            editable : {
-                template : $("#customEditorWorkPlanTemplate").html(),
-                destroy : false
-            },
-            */
-
+            selectable: false,
+            //dataBound : carList.onDataBound,
+            editable : false
         });
     },
 
@@ -131,7 +172,7 @@ var meetingRoomReq = {
                 serverPaging: false,
                 transport: {
                     read : {
-                        url : '',
+                        url : '/inside/getRoomRequestList',
                         dataType : "json",
                         type : "post"
                     },
@@ -165,31 +206,29 @@ var meetingRoomReq = {
                 },
                 columns: [
                     {
-                        field: "ROW_NUM",
-                        title: "순번",
-                        width: "5%"
-                    }, {
-                        field: "",
+                        field: "ROOM_CLASS_TEXT",
                         title: "회의실",
                         width: "15%"
                     }, {
-                        field: "",
                         title: "사용일시",
-                        width: "30%"
+                        width: "30%",
+                        template: function(row){
+                            return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
+                        }
                     }, {
-                        field: "",
+                        field: "USE_PURPOSE_TEXT",
                         title: "사용목적",
                         width: "20%"
                     }, {
-                        field: "",
+                        field: "RENTAL_FEE_TEXT",
                         title: "대관료",
                         width: "10%"
                     }, {
-                        field: "",
+                        field: "REG_EMP_NAME",
                         title: "등록자",
                         width: "10%"
                     }, {
-                        field: "",
+                        field: "MANAGER_NAME",
                         title: "담당자",
                         width: "10%"
                     }]

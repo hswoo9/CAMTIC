@@ -7,12 +7,24 @@
         /* getCarCode */
         SELECT
             IHCC.CAR_CLASS_SN AS value,
-            IHCC.CAR_CLASS_Name AS text
+            IHCC.CAR_CLASS_NAME AS text
         FROM
             CAM_INSIDE.DJ_HR_CAR_CODE IHCC
         WHERE
-            ACTIVE = 'Y'
+            IHCC.ACTIVE = 'Y'
     </select>
+
+    <select id="getRoomCode" parameterType="map" resultType="map">
+        /* getRoomCode */
+        SELECT
+            IRC.ROOM_SN AS value,
+            CONCAT(IRC.ROOM_NAME, ' (', IRC.VISIT, ', ', IRC.MANY_PEOPLE, '명)') AS text
+        FROM
+            CAM_INSIDE.DJ_ROOM_CODE IRC
+        WHERE
+            IRC.ACTIVE = 'Y'
+    </select>
+
 
     <select id="getCarRequestInfo" parameterType="map" resultType="map">
         /* getCarRequestInfo */
@@ -97,6 +109,35 @@
                 ORDER BY IHCC.REG_DATE
             ) RE
         ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getRoomRequestList" parameterType="map" resultType="map">
+        /* getRoomRequestList */
+        SELECT
+            IRR.ROOM_REQ_SN,
+            CONCAT('[',IRR.ROOM_CLASS_TEXT,']') AS schTitle,
+            CONCAT(IRR.START_DT, ' ',IRR.START_TIME) AS START_DATE,
+            CONCAT(IRR.END_DT, ' ',IRR.END_TIME) AS END_DATE,
+            IRR.*
+        FROM
+            CAM_INSIDE.DJ_ROOM_REQ IRR
+    </select>
+
+    <select id="searchDuplicateRoom" parameterType="map" resultType="map">
+        /* searchDuplicateRoom */
+        <![CDATA[
+            SELECT
+                IRR.MANAGER_NAME AS EMP_NAME
+            FROM
+                CAM_INSIDE.DJ_ROOM_REQ IRR
+            WHERE
+                CONCAT(REPLACE(IRR.START_DT, '-', ''), REPLACE(IRR.START_TIME, ':', '')) < CONCAT(REPLACE(#{endDt}, '-', ''), REPLACE(#{endTime}, ':', ''))
+            AND CONCAT(REPLACE(IRR.END_DT, '-', ''), REPLACE(IRR.END_TIME, ':', '')) > CONCAT(REPLACE(#{startDt}, '-', ''), REPLACE(#{startTime}, ':', ''))
+            AND ROOM_CLASS_SN = #{roomClassSn}
+        ]]>
+        <if test='roomReqSn != null and !"".equals(roomReqSn)'>
+            AND !ROOM_REQ_SN = #{roomReqSn}
+        </if>
     </select>
 
     <select id="getRoomCodeInfo" parameterType="map" resultType="map">
@@ -278,6 +319,60 @@
         WHERE
             CAR_CODE_SN in (${carCodeSn})
     </update>
+
+    <insert id="setRoomRequestInsert" parameterType="map">
+        /* setRoomRequestInsert */
+        INSERT INTO CAM_INSIDE.DJ_ROOM_REQ
+            (
+                START_DT,
+                END_DT,
+                START_TIME,
+                END_TIME,
+                ROOM_CLASS_SN,
+                ROOM_CLASS_TEXT,
+                USE_PURPOSE_SN,
+                USE_PURPOSE_TEXT,
+                <if test='"4".equals(usePurposeSn)'>
+                    ETC,
+                </if>
+                RENTAL_FEE_SN,
+                RENTAL_FEE_TEXT,
+                <if test='"1".equals(rentalFeeSn)'>
+                    PAY,
+                </if>
+                MANAGER_SN,
+                MANAGER_NAME,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REG_DT
+            )
+        VALUES
+            (
+                #{startDt},
+                #{endDt},
+                #{startTime},
+                #{endTime},
+                #{roomClassSn},
+                #{roomClassText},
+                #{usePurposeSn},
+                #{usePurposeText},
+                <if test='"4".equals(usePurposeSn)'>
+                    #{etc},
+                </if>
+                #{rentalFeeSn},
+                #{rentalFeeText},
+                <if test='"1".equals(rentalFeeSn)'>
+                    #{pay},
+                </if>
+                #{empSeq},
+                #{empName},
+                #{remarkCn},
+                #{regEmpSeq},
+                #{regEmpName},
+                NOW()
+            )
+    </insert>
 
     <insert id="setRoomCodeInsert" parameterType="map">
         /* setRoomCodeInsert */

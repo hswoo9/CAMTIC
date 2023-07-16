@@ -184,7 +184,7 @@
           defaultCode = "전역여부"
           break
         case "B05" :
-          defaultCode = "가족관계"
+          defaultCode = "선택하세요"
           break
       }
       data.push({"HR_DT_CODE_NM": defaultCode, "value" : ""});

@@ -191,13 +191,13 @@
     if(code != ""){
       switch (code){
         case "B01" :
-          defaultCode = "학력구분"
+          defaultCode = "선택하세요"
           break
         case "B02" :
-          defaultCode = "학위"
+          defaultCode = "선택하세요"
           break
         case "B03" :
-          defaultCode = "졸업"
+          defaultCode = "선택하세요"
           break
         case "B04" :
           defaultCode = "전역여부"

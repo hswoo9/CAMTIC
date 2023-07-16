@@ -166,7 +166,7 @@
           defaultCode = "졸업"
           break
         case "B04" :
-          defaultCode = "전역여부"
+          defaultCode = "선택하세요"
           break
         case "B05" :
           defaultCode = "가족관계"

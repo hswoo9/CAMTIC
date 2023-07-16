@@ -8,6 +8,9 @@ public interface InsideCodeService {
     //KendoDropDownList 차량코드
     List<Map<String, Object>> getCarCode(Map<String, Object> params);
 
+    //KendoDropDownList 회의실코드
+    List<Map<String, Object>> getRoomCode(Map<String, Object> params);
+
     //차량사용신청 캘린더 단일데이터조회
     Map<String, Object> getCarRequestInfo(Map<String, Object> params);
 
@@ -22,6 +25,12 @@ public interface InsideCodeService {
 
     //차량관리 차량코드 리스트조회
     List<Map<String, Object>> getCarCodeList(Map<String, Object> params);
+
+    //회의실사용신청 캘린더 리스트조회
+    List<Map<String, Object>> getRoomRequestList(Map<String, Object> params);
+
+    //회의실사용신청 중복조회
+    List<Map<String, Object>> searchDuplicateRoom(Map<String, Object> params);
 
     //회의실관리 회의실코드 단일데이터조회
     Map<String, Object> getRoomCodeInfo(Map<String, Object> params);
@@ -45,6 +54,9 @@ public interface InsideCodeService {
 
     //차량관리 차량코드 삭제
     void setCarCodeDelete(Map<String, Object> params);
+
+    //회의실사용신청 등록
+    void setRoomRequestInsert(Map<String, Object> params);
 
     //회의실관리 회의실코드 등록
     void setRoomCodeInsert(Map<String, Object> params);

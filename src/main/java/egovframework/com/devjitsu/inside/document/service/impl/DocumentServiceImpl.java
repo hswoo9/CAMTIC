@@ -41,6 +41,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public List<Map<String, Object>> getArchiveList(Map<String, Object> params){
+        return documentRepository.getArchiveList(params);
+    }
+
+    @Override
     public void setDocumentInsert(Map<String, Object> params) {
         documentRepository.setDocumentInsert(params);
     }
@@ -63,5 +68,10 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public void setSnackReqCert(Map<String, Object> params) {
         documentRepository.setSnackReqCert(params);
+    }
+
+    @Override
+    public void setArchiveInsert(Map<String, Object> params) {
+        documentRepository.setArchiveInsert(params);
     }
 }

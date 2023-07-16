@@ -175,6 +175,25 @@
             SNACK_INFO_SN = #{snackInfoSn}
     </select>
 
+    <select id="getArchiveList" resultType="map" parameterType="map">
+        /* getArchiveList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IAI.*
+                FROM
+                    CAM_INSIDE.DJ_ARCHIVE_INFO IAI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                ORDER BY IAI.REG_DT
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <insert id="setDocumentInsert" parameterType="map">
         /* setDocumentInsert */
         INSERT INTO CAM_COMMON.DJ_CAMTIC_DOCUMENT
@@ -381,5 +400,33 @@
                 SNACK_INFO_SN IN (${snackInfoSnArr})
             </if>
     </update>
+
+    <insert id="setArchiveInsert" parameterType="map">
+        /* setArchiveInsert */
+        INSERT INTO CAM_INSIDE.DJ_ARCHIVE_INFO
+            (
+                DOC_YEAR,
+                DOC_NUM,
+                DEPT_SEQ,
+                DEPT_NAME,
+                TEAM_SEQ,
+                TEAM_NAME,
+                VISIT,
+                MANAGER_SN,
+                MANAGER_NAME
+            )
+        VALUES
+            (
+                #{docYear},
+                #{docNum},
+                #{deptSn},
+                #{deptName},
+                #{teamSn},
+                #{teamName},
+                #{visit},
+                #{managerSn},
+                #{managerName}
+            )
+    </insert>
 
 </mapper>

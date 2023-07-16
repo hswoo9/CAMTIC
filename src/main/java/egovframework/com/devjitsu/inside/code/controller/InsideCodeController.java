@@ -139,6 +139,14 @@ public class InsideCodeController {
         return "jsonView";
     }
 
+    //KendoDropDownList 회의실코드
+    @RequestMapping("/inside/getRoomCode")
+    public String getRoomCode(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = insideCodeService.getRoomCode(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //차량사용신청 캘린더 단일데이터조회
     @RequestMapping("/bustrip/getCarRequestInfo")
     public String getCarRequestOne(@RequestParam Map<String, Object> params, Model model) {
@@ -176,6 +184,23 @@ public class InsideCodeController {
     @RequestMapping("/inside/getCarCodeList")
     public String getCarCodeList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = insideCodeService.getCarCodeList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량사용신청 캘린더 리스트조회
+    @RequestMapping("/inside/getRoomRequestList")
+    public String getRoomRequestList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = insideCodeService.getRoomRequestList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량사용신청 중복조회
+    @RequestMapping("/inside/searchDuplicateRoom")
+    public String searchDuplicateRoom(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = insideCodeService.searchDuplicateRoom(params);
+        model.addAttribute("flag", list.size() == 0 ? "false" : "true");
         model.addAttribute("list", list);
         return "jsonView";
     }
@@ -230,6 +255,13 @@ public class InsideCodeController {
     @RequestMapping("/inside/setCarCodeDelete")
     public String setCarCodeDelete(@RequestParam Map<String, Object> params) {
         insideCodeService.setCarCodeDelete(params);
+        return "jsonView";
+    }
+
+    //회의실사용신청 등록
+    @RequestMapping("/inside/setRoomRequestInsert")
+    public String setRoomRequestInsert(@RequestParam Map<String, Object> params) {
+        insideCodeService.setRoomRequestInsert(params);
         return "jsonView";
     }
 
