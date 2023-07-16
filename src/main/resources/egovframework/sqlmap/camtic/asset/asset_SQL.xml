@@ -590,8 +590,14 @@
     <!-- 분류관리 위치코드 시작-->
     <select id="getAssetPlaceList" resultType="map">
         /* getAssetPlaceList */
+         <![CDATA[
         SELECT * FROM CAM_INSIDE.DJ_ASSET_PLACE
         WHERE ACTIVE = 'Y'
+        ORDER BY (
+            CASE WHEN ASCII(SUBSTRING(AST_PLACE_NAME, 1)) BETWEEN 48 AND 57 THEN 1
+                 WHEN ASCII(SUBSTRING(AST_PLACE_NAME, 1)) < 128 THEN 3
+            ELSE 2 END), AST_PLACE_NAME
+        ]]>
     </select>
 
     <select id="getAssetPlace" parameterType="map" resultType="map">

@@ -13,7 +13,7 @@
 <script>
 	/** TODO. 2022.07.10 근무 코드 설정 모달 생성 */
 	$("#cmCodeRegistM").kendoWindow({
-		title : "근무코드 관리",
+		title : "공통코드 관리",
 		width: "1000px",
 		visible: false,
 		modal: true,
