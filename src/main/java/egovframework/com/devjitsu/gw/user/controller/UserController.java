@@ -43,6 +43,18 @@ public class UserController {
         return "user/organizationChart";
     }
 
+    //조직도 팝업용
+    @RequestMapping("/user/pop/orgPop.do")
+    public String orgPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+
+        return "popup/user/orgPop";
+    }
+
     //유저 다수 선택 팝업
     @RequestMapping("/user/pop/userMultiSelectPop.do")
     public String userMultiSelectPop(HttpServletRequest request, Model model){
