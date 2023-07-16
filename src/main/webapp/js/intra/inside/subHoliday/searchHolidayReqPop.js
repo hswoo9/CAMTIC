@@ -112,22 +112,19 @@ var searchHolidayReqPop = {
                 {
                     headerTemplate: '',
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
+                        if(e.APPR_STAT == "Y"){
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='k-checkbox checkbox checkSingle'/>";
                         } else {
                             return "";
                         }
-
                     },
-                    width: "10%"
+                    width: 30
                 }, {
                     field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "구분",
-                    width: "20%"
                 }, {
                     field: "SUBHOLIDAY_WORK_DAY",
                     title: "근로일",
-                    width: "20%"
                 }, {
                     field: "APPR_STAT",
                     title: "승인상태",
@@ -142,7 +139,6 @@ var searchHolidayReqPop = {
                             return "반려";
                         }
                     },
-                    width: "20%"
                 }
             ]
         }).data("kendoGrid");
