@@ -1047,7 +1047,7 @@
             a.admin_approval,
             a.returnyn,
             'dj_emp_reword' AS 'type',
-            '포상사항' AS 'typeName',
+            '상벌사항' AS 'typeName',
             'REWORD_ID' AS 'key'
             FROM
             cam_hr.dj_emp_reword AS a
@@ -1124,7 +1124,7 @@
                     A.typeName = '발령사항'
                 </when>
                 <when test='"7".equals(drop1)'>
-                    A.typeName = '포상사항'
+                    A.typeName = '상벌사항'
                 </when>
                 <when test='"8".equals(drop1)'>
                     A.typeName = '직무사항'
