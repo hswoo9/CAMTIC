@@ -12,9 +12,9 @@
         <div class="card-header pop-header">
           <h3 class="card-title title_NM">휴가신청</h3>
           <div class="btn-st popButton">
-            <button type="button" class="k-button k-button-solid-info" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()">저장</button>
+            <button type="button" class="k-button k-button-solid-info" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()" id="saveBtn">저장</button>
             <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
-            <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop.fn_topTableClose()">취소</button>
+            <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop.fn_topTableClose()">닫기</button>
           </div>
         </div>
         <form id="subHolidayReqPop" style="padding: 20px 30px;">
@@ -23,7 +23,7 @@
           <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
           <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
           <input type="hidden" id="apprStat" value="N">
-          <input type="hidden" id="vacUseHistId" value="">
+          <input type="hidden" id="vacUseHistId" value="${params.subholidayUseId}">
           <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
             <colgroup>
               <col width="15%">
@@ -147,7 +147,6 @@
   }
 
   function userDataSet(userArr) {
-    console.log(userArr);
 
     let other_emp = "";
     for(let i=0; i < userArr.length; i++) {

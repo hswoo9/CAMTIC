@@ -114,14 +114,15 @@
         UPDATE CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
         SET
         SUBHOLIDAY_CODE_ID = #{vacCodeId},
-        SUBHOLIDAY_USE_ST_DT = #{vacUseStDt},
-        SUBHOLIDAY_USE_ST_TIME = #{vacUseStTime},
-        SUBHOLIDAY_USE_EN_DT = #{vacUseEndt},
-        SUBHOLIDAY_USE_EN_TIME = #{vacUseEnTime},
-        SUBHOLIDAY_USE_DAY = #{vacUseDay},
-        SUBHOLIDAY_USE_HOUR = #{vacUseHour},
-        SUBHOLIDAY_USE_TIME = #{vacUseTime},
+        SUBHOLIDAY_ST_DT = #{vacUseStDt},
+        SUBHOLIDAY_ST_TIME = #{vacUseStTime},
+        SUBHOLIDAY_EN_DT = #{vacUseEndt},
+        SUBHOLIDAY_EN_TIME = #{vacUseEnTime},
+        SUBHOLIDAY_USE_DAY = #{useDay},
+        SUBHOLIDAY_WORK_DAY = #{vacWorkDt},
+        SUBHOLIDAY_ALTERNATIVE_DAY = #{vacUseAlDt},
         RMK = #{rmk},
+        RMK_OTHER = #{rmkOther},
         MOD_DATE = NOW(),
         MOD_EMP_SEQ = #{saveSeq}
         <if test="approvalReason != null and approvalReason != ''">
@@ -207,11 +208,15 @@
         /* getVacUseHistoryOne */
         SELECT
             SUH.*,
+            DATE_FORMAT(SUH.SAVE_DATE, '%Y-%m-%d') AS SAVE_DT,
             SCD.SUBHOLIDAY_DT_CODE_NM,
             EI.EMP_NAME_KR,
+            EI.DEPT_SEQ,
             EI.DEPT_NAME,
             EI.DEPT_TEAM_NAME,
-            EI.POSITION_NAME
+            EI.POSITION_CODE,
+            EI.POSITION_NAME,
+            EI.DUTY_CODE
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH
         LEFT JOIN

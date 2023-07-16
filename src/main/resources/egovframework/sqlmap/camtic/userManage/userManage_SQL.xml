@@ -565,11 +565,12 @@
                   EMP_SEQ
                  ,EMP_NAME
                  ,REWORD_DAY
-                 ,REWORD_NAME
+                 ,REWORD_TYPE_NAME
                  ,RWD_ST_COMP
                  ,RWD_OFM
                  ,REG_EMP_SEQ
                  ,REG_DATE
+                 ,RWD_ETC
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -579,6 +580,7 @@
                 ,#{rIssue}
                 ,#{EMP_SEQ}
                 ,now()
+                ,''
                 )
     </insert>
     <insert id="setJobInfo" parameterType="map">
