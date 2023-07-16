@@ -38,15 +38,6 @@ public class BustripController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
-
-    @RequestMapping("/bustrip/getCarCode")
-    public String getCarCode(@RequestParam Map<String, Object> params, Model model){
-        List<Map<String, Object>> list = bustripService.getCarCode(params);
-        model.addAttribute("list", list);
-
-        return "jsonView";
-    }
-
     //출장신청
     @RequestMapping("/bustrip/bustripReq.do")
     public String bustripReq(HttpServletRequest request, Model model) {
@@ -228,108 +219,6 @@ public class BustripController {
         return "inside/bustrip/dutyBustripExpenses";
     }
 
-    //차량사용신청
-    @RequestMapping("/bustrip/carReq.do")
-    public String carReq(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/bustrip/carReq";
-    }
-
-    //차량사용신청 팝업창
-    @RequestMapping("/bustrip/pop/carPop.do")
-    public String carPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        model.addAttribute("flag", "false");
-        if(params.containsKey("carReqSn")){
-            Map<String, Object> data = bustripService.getCarRequestOne(params);
-            model.addAttribute("carReqSn", data.get("CAR_REQ_SN"));
-            JSONObject jsonData =  new JSONObject(data);
-            model.addAttribute("data", jsonData);
-            model.addAttribute("flag", "true");
-        }
-        return "popup/inside/bustrip/carPop";
-    }
-
-    //회의실사용신청
-    @RequestMapping("/bustrip/meetingRoomReq.do")
-    public String meetingRoomReq(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/bustrip/meetingRoomReq";
-    }
-
-    //회의실사용신청 팝업창
-    @RequestMapping("/bustrip/Pop/meetingRoomPop.do")
-    public String meetingRoomPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/meetingRoomPop";
-    }
-
-    //회의실 사용 특정일 제외 팝업창
-    @RequestMapping("/bustrip/Pop/exSpecificDayPop.do")
-    public String exSpecificDayPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/exSpecificDayPop";
-    }
-
-    //차량관리
-    @RequestMapping("/bustrip/carManage.do")
-    public String carManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/bustrip/carManage";
-    }
-
-    //차량관리 팝업창
-    @RequestMapping("/bustrip/Pop/carManagePop.do")
-    public String carManagePop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/carManagePop";
-    }
-
-    //회의실관리
-    @RequestMapping("/bustrip/meetingRoomManage.do")
-    public String meetingRoomManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/bustrip/meetingRoomManage";
-    }
-
-    //회의실관리 팝업창
-    @RequestMapping("/bustrip/Pop/meetingRoomManagePop.do")
-    public String meetingRoomManagePop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/meetingRoomManagePop";
-    }
-
     /**
      * 출장 신청
      * @param params
@@ -364,75 +253,6 @@ public class BustripController {
         } catch (Exception e){
             e.printStackTrace();
         }
-        return "jsonView";
-    }
-
-    //차량캘린더 단일데이터 조회
-    @RequestMapping("/bustrip/getCarRequestOne")
-    public String getCarRequestOne(@RequestParam Map<String, Object> params, Model model) {
-        Map<String, Object> data = bustripService.getCarRequestOne(params);
-        model.addAttribute("data", data);
-        return "jsonView";
-    }
-
-    //차량캘린더 리스트 조회
-    @RequestMapping("/bustrip/getCarRequestList")
-    public String getCarRequestList(@RequestParam Map<String, Object> params, Model model) {
-        List<Map<String, Object>> list = bustripService.getCarRequestList(params);
-        model.addAttribute("list", list);
-        return "jsonView";
-    }
-
-    //차량중복조회
-    @RequestMapping("/bustrip/searchDuplicateCar")
-    public String searchDuplicateCar(@RequestParam Map<String, Object> params, Model model) {
-        List<Map<String, Object>> list = bustripService.searchDuplicateCar(params);
-        model.addAttribute("flag", list.size() == 0 ? "false" : "true");
-        model.addAttribute("list", list);
-        return "jsonView";
-    }
-
-    //차량코드조회
-    @RequestMapping("/bustrip/getCarCodeList")
-    public String getCarCodeList(@RequestParam Map<String, Object> params, Model model) {
-        List<Map<String, Object>> list = bustripService.getCarCodeList(params);
-        model.addAttribute("list", list);
-        return "jsonView";
-    }
-
-    //차량코드 단일데이터조회
-    @RequestMapping("/bustrip/getCarCodeInfo")
-    public String getCarCodeInfo(@RequestParam Map<String, Object> params, Model model) {
-        Map<String, Object> data = bustripService.getCarCodeInfo(params);
-        model.addAttribute("data", data);
-        return "jsonView";
-    }
-
-    //차량신청
-    @RequestMapping("/bustrip/setCarRequestInsert")
-    public String setCarRequestInsert(@RequestParam Map<String, Object> params) {
-        bustripService.setCarRequestInsert(params);
-        return "jsonView";
-    }
-
-    //차량신청 수정
-    @RequestMapping("/bustrip/setCarRequestUpdate")
-    public String setCarRequestUpdate(@RequestParam Map<String, Object> params) {
-        bustripService.setCarRequestUpdate(params);
-        return "jsonView";
-    }
-
-    //차량코드 등록
-    @RequestMapping("/bustrip/setCarCodeInsert")
-    public String setCarCodeInsert(@RequestParam Map<String, Object> params) {
-        bustripService.setCarCodeInsert(params);
-        return "jsonView";
-    }
-
-    //차량코드 수정
-    @RequestMapping("/bustrip/setCarCodeUpdate")
-    public String setCarCodeUpdate(@RequestParam Map<String, Object> params) {
-        bustripService.setCarCodeUpdate(params);
         return "jsonView";
     }
 

@@ -14,10 +14,6 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.getUserList", params);
     }
 
-    public List<Map<String, Object>> getCarCode(Map<String, Object> params) {
-        return selectList("bustrip.getCarCode", params);
-    }
-
     public void insBustripReq(Map<String, Object> params) {
         insert("bustrip.insBustripReq", params);
     }
@@ -58,42 +54,6 @@ public class BustripRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripTotInfo", params);
-    }
-
-    public List<Map<String, Object>> getCarRequestList(Map<String, Object> params) {
-        return selectList("bustrip.getCarRequestList", params);
-    }
-
-    public Map<String, Object> getCarRequestOne(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("bustrip.getCarRequestOne", params);
-    }
-
-    public List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params) {
-        return selectList("bustrip.searchDuplicateCar", params);
-    }
-
-    public List<Map<String, Object>> getCarCodeList(Map<String, Object> params) {
-        return selectList("bustrip.getCarCodeList", params);
-    }
-
-    public Map<String, Object> getCarCodeInfo(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("bustrip.getCarCodeInfo", params);
-    }
-
-    public void setCarRequestInsert(Map<String, Object> params) {
-        insert("bustrip.setCarRequestInsert", params);
-    }
-
-    public void setCarRequestUpdate(Map<String, Object> params) {
-        update("bustrip.setCarRequestUpdate", params);
-    }
-
-    public void setCarCodeInsert(Map<String, Object> params) {
-        insert("bustrip.setCarCodeInsert", params);
-    }
-
-    public void setCarCodeUpdate(Map<String, Object> params) {
-        update("bustrip.setCarCodeUpdate", params);
     }
 
     public void updateApprStat(Map<String, Object> params) {

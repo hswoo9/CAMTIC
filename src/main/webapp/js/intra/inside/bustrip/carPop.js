@@ -1,3 +1,4 @@
+var flag = false;
 var carReq = {
     init: function(){
         carReq.dataSet(carData);
@@ -8,7 +9,7 @@ var carReq = {
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("applyDt", '', "yyyy-MM-dd", new Date());
-        const carArr = customKendo.fn_customAjax('/bustrip/getCarCode').list;
+        const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
         customKendo.fn_dropDownList("carClass", carArr, "text", "value", 1);
         let carTypeArr = [
             {text: "업무용", value: "1"},
@@ -94,9 +95,7 @@ var carReq = {
             regEmpSeq : regEmpSeq,
             regEmpName : regEmpName
         }
-        //중복체크
-        let flag = carReq.searchDuplicateCar(data);
-
+        carReq.searchDuplicateCar(data);
         if(flag) {
             if($("#carReqSn").val() == "") {
                 if(!confirm("차량사용신청을 저장하시겠습니까?")){
@@ -115,7 +114,7 @@ var carReq = {
 
     searchDuplicateCar: function(data){
         $.ajax({
-            url : "/bustrip/searchDuplicateCar",
+            url : "/inside/searchDuplicateCar",
             data : data,
             type : "post",
             dataType : "json",
@@ -123,30 +122,22 @@ var carReq = {
             success : function(result){
                 console.log(result);
                 if(result.flag == "true") {
-                    //let flag = false;
                     let duplicateText = "";
                     for(let i = 0; i < result.list.length; i++) {
-                        //if(result.list[i].EMP_NAME != $("#regEmpName").val()) {
-                            if(i != 0) {
-                                duplicateText += ", ";
-                            }
-                            duplicateText += result.list[i].EMP_NAME;
-                            //flag = true;
-                        //}
+                        if(i != 0) {
+                            duplicateText += ", ";
+                        }
+                        duplicateText += result.list[i].EMP_NAME;
                     }
-                    //if(flag) {
-                        alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
-                        return false;
-                    //}else {
-                    //    return flag;
-                    //}
+                    alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
+                    flag = false;
                 }else {
-                    return true;
+                    flag = true;
                 }
             },
             error : function() {
                 alert("운행일시 중복 조회 중 오류가 발생했습니다. 관리자에게 문의 바랍니다.");
-                return false;
+                flag = false;
             }
         });
     },
@@ -154,7 +145,7 @@ var carReq = {
     setCarRequestInsert: function(data){
         console.log(data);
         $.ajax({
-            url : "/bustrip/setCarRequestInsert",
+            url : "/inside/setCarRequestInsert",
             data : data,
             type : "post",
             dataType : "json",
@@ -174,7 +165,7 @@ var carReq = {
 
     setCarRequestUpdate: function(data){
         $.ajax({
-            url : "/bustrip/setCarRequestUpdate",
+            url : "/inside/setCarRequestUpdate",
             data : data,
             type : "post",
             dataType : "json",

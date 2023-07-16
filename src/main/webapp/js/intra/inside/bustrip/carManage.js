@@ -46,7 +46,7 @@ var carManage = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/bustrip/getCarCodeList',
+                    url : '/inside/getCarCodeList',
                     dataType : "json",
                     type : "post"
                 },
@@ -167,7 +167,7 @@ var carManage = {
 
     getCarCodeInfo: function(carCodeSn){
         $.ajax({
-            url : "/bustrip/getCarCodeInfo",
+            url : "/inside/getCarCodeInfo",
             data : {
                 carCodeSn : carCodeSn
             },
