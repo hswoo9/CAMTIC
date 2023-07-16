@@ -6,8 +6,15 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
+<link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
+<script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/organizationChart.js?${toDate}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList.js?${toDate}'/>"></script>
+
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
+<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div style="padding:0;">
     <div class="table-responsive">
