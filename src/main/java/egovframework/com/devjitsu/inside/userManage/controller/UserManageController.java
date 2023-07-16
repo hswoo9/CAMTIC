@@ -241,6 +241,17 @@ public class UserManageController {
         return "inside/userManage/agreementReq";
     }
 
+    //캠스팟메뉴 이미지관리
+    @RequestMapping("/Inside/imageManage.do")
+    public String imageManage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/imageManage";
+    }
+
     @RequestMapping("/Inside/pop/sign/popDrawSignView.do")
     public String popDrawSignView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
