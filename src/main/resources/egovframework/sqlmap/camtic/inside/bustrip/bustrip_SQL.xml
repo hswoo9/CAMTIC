@@ -225,12 +225,18 @@
             B.HR_BIZ_REQ_RESULT_ID,
             B.STATUS AS RES_STATUS,
             B.EXP_STAT,
-            B.SAVE_YN
+            B.SAVE_YN,
+            B.DOC_ID AS RES_DOC_ID,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
         ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON B.DOC_ID = DI.DOC_ID
         WHERE
             A.STATUS IN ('100') AND
         <![CDATA[
