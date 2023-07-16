@@ -243,3 +243,6 @@ var meetingRoomReq = {
     }
 }
 
+function gridReload(){
+    $("#scheduler").data("kendoScheduler").dataSource.read();
+}
