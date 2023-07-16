@@ -1,76 +1,74 @@
-var now = new Date();
-var docContent = "";
+var recruitReq = {
 
-var recruitReqPop = {
-
-    defaultScript : function(){
-        recruitReqPop.dataSet();
+    init: function(){
+        recruitReq.dataSet();
     },
 
-    dataSet : function() {
-        $("#text1, #text2, #text3, #text4, #text5, #text6, #text7, #text8, #text9, #text10, #text11, #text12, #text13, #text14, #text15, #text16, #text17, #text18").kendoTextBox();
+    dataSet: function(){
+        customKendo.fn_textBox(["recruitNum", "recruitTitle", "recruitDetail", "uploadText", "jobPositionEtc", "eligibilityEtc", "workType", "admission", "receiptDocu", "remark"]);
+        customKendo.fn_datePicker("uploadDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+        $("#startTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "09:00"});
+        $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});
+        $("#recruitNum, #uploadDt, #startDt, #endDt, #startTime, #endTime").attr("readonly", true);
+        let recruitStatusArr = [
+            {text: "작성중(임시저장)", value: "1"},
+            {text: "접수중", value: "2"},
+            {text: "심사중", value: "3"},
+            {text: "채용완료", value: "4"}
+        ]
+        customKendo.fn_dropDownList("recruitStatus", recruitStatusArr, "text", "value", 2);
+        $("#recruitStatus").data("kendoDropDownList").select(1);
 
-        $("#date1, #date2, #date3").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-        $("#time1").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "09:00"
-        });
-
-        $("#time2").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "09:00"
-        });
-
-        $("#drop1").kendoDropDownList({
+        $(".dept").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
-            dataSource: [
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
+            dataSource: customKendo.fn_customAjax("/dept/getDeptAList", data).rs,
             index: 0
         });
+        $(".dept").data("kendoDropDownList").bind("change", fn_chngDeptComp)
+    },
 
-        $("#drop2").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "제조혁신팀", value: "제조혁신팀"},
-                {text: "신기술융합팀", value: "신기술융합팀"},
-                {text: "우주개발팀", value: "우주개발팀"},
-                {text: "항공개발팀", value: "항공개발팀"},
-                {text: "사업지원팀", value: "사업지원팀"},
-                {text: "인재개발팀", value: "인재개발팀"},
-                {text: "일자리창업팀", value: "일자리창업팀"},
-                {text: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터"},
-                {text: "지역산업육성팀", value: "지역산업육성팀"},
-                {text: "경영지원팀", value: "경영지원팀"},
-                {text: "미래전략기획팀", value: "미래전략기획팀"},
-                {text: "J-밸리혁신팀", value: "J-밸리혁신팀"},
-                {text: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
-                {text: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
-            ],
-            index: 0
-        });
+    saveBtn: function(){
+        let recruitNum = $("#recruitNum").val();
+        let recruitTitle = $("#recruitTitle").val();
+        let recruitDetail = $("#recruitDetail").val();
+        let uploadDt = $("#uploadDt").val();
+        let uploadText = $("#uploadText").val();
+        let startDt = $("#startDt").val();
+        let endDt = $("#endDt").val();
+        let startTime = $("#startTime").val();
+        let endTime = $("#endTime").val();
+        let jobPositionEtc = $("#jobPositionEtc").val();
+        let eligibilityEtc = $("#eligibilityEtc").val();
+        let workType = $("#workType").val();
+        let admission = $("#admission").val();
+        let receiptDocu = $("#receiptDocu").val();
+        let remark = $("#remark").val();
+        let recruitStatusSn = $("#recruitStatus").val();
+        let recruitStatusText = $("#recruitStatus").data("kendoDropDownList").text();
 
-        $("#drop3").kendoTextBox();
+        if(recruitTitle == ""){ alert("공고제목이 작성되지 않았습니다."); return;}
+        if(recruitDetail == ""){ alert("공고내용이 작성되지 않았습니다."); return;}
+        if(startDt == ""||endDt == ""){ alert("모집일시가 작성되지 않았습니다."); return;}
+    },
+
+    addTable: function(){
 
     }
 }
 
+function fn_chngDeptComp(){
+    let data = {}
+    data.deptLevel = 2;
+    data.parentDeptSeq = this.value();
+
+    const ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+    $(".team").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: ds.rs,
+        index: 0
+    });
+}

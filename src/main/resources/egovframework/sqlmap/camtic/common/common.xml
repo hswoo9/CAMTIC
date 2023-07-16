@@ -90,7 +90,7 @@
     <update id="updOneFileInfo" parameterType="map">
         /* updOneFileInfo */
         UPDATE
-            DJ_CAMTIC.V_FILE_INFO
+            CAM_COMMON.DJ_FILE_INFO
         SET
             FILE_UUID = #{fileUUID},
             FILE_ORG_NAME = #{fileOrgName},

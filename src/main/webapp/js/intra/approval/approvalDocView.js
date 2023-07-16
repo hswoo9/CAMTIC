@@ -326,12 +326,12 @@ var docView = {
         if(result.flag) {
             alert("반려되었습니다.");
 
-            var result = docView.setAlarmEvent("return");
+            /*var result = docView.setAlarmEvent("return");
             if(result.flag){
                 if(result.rs!= "SUCCESS") {
                     alert(result.message);
                 }
-            }
+            }*/
 
             try {
                 opener.parent.gridReload();
