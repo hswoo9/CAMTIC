@@ -78,7 +78,6 @@
                                 <label for="dsD">연수생/학생연구원</label>
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsE">
                                 <label for="dsE">기타</label>
-                                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;bottom: 5px;">상세검색</button>
                             </div>
                         </td>
                     </tr>
@@ -175,12 +174,4 @@
 
 <script type="text/javascript">
     userPersonList2.init();
-
-    function detailSearchShow(e){
-        if(e == "none"){
-            $("#detailSearchDiv").show()
-        }else{
-            $("#detailSearchDiv").hide()
-        }
-    }
 </script>

@@ -11,7 +11,7 @@
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
 <div class="col-md-10 col-lg-10 dash-left">
-    <div class="panel">
+    <div class="panel" id="mainCard">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
@@ -135,6 +135,7 @@
                             <input type="text" id="start_date_detail" style="width: 140px;">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;">돌아가기</button>
                         </td>
                     </tr>
                 </table>
@@ -192,8 +193,10 @@
 
     function detailSearchShow(e){
         if(e == "none"){
+            $("#mainCard").hide()
             $("#detailSearchDiv").show()
         }else{
+            $("#mainCard").show()
             $("#detailSearchDiv").hide()
         }
     }
