@@ -13,8 +13,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">출장결과보고 신청</h3>
             <div class="btn-st popButton">
-                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqId}')" />
-                <button type="button" class="k-button k-button-solid-info" onclick="">결재</button>
+                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqResultId}')" />
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
             </div>
         </div>
@@ -125,7 +124,7 @@
                 <tr>
                     <th><span class="red-star">*</span>운행거리</th>
                     <td colspan="3">
-                        <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%;"> km
+                        <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
                         <button type="button" class="k-button k-button-solid-base" disabled>거리측정</button>
                         <button type="button" class="k-button k-button-solid-base" disabled>하이패스</button>
                         ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
@@ -146,7 +145,33 @@
                 </tr>
                 </thead>
             </table>
+
+            <table class="popTable table table-bordered mb-0" id="bustExnpTb">
+                <colgroup>
+
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>유류비</th>
+                    <th>교통비</th>
+                    <th>교통일비</th>
+                    <th>통행료</th>
+                    <th>일비</th>
+                    <th>식비</th>
+                    <th>주차비</th>
+                    <th>기타</th>
+                    <th>합계</th>
+                </tr>
+                </thead>
+                <tbody id="bustExnpBody">
+
+                </tbody>
+            </table>
         </form>
+
+
+
         <div>
             <form style="padding: 0px 30px;">
                 <div class="card-header" style="padding: 5px;">
@@ -175,8 +200,8 @@
                         </table>
                     </div>
                 </div>
+            </form>
             </div>
-
         </div>
     </div>
 </div>
@@ -187,7 +212,7 @@
     bustripResultPop.init(dataConf);
 
     if(dataConf != ''){
-        inBustripReqPop.setData(dataConf, "result");
+        inBustripReqPop.setData(dataConf, "result", '${params.hrBizReqResultId}');
     }
 
     function userMultiSearch() {

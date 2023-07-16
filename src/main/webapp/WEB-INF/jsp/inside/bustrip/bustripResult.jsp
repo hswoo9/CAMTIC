@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+
+
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"/></script>
 
 <div class="col-md-10 col-lg-10 dash-left">

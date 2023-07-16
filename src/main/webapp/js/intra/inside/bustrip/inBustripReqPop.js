@@ -195,17 +195,47 @@ var inBustripReqPop = {
 
     },
 
-    setData : function (d, p){
+    setData : function (d, p, rsKey){
 
         var data = {
             hrBizReqId: d,
+            hrBizReqResultId : rsKey
         }
         var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", data);
-        console.log(result);
+
+        var res = result.rs.rsRes;
+        var map = result.rs.map;
+
+        var html = "";
+        for(var i = 0 ; i < map.length ; i++){
+            if(map[i].DRIVER == "Y"){
+                $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
+            }
+
+            html += "<tr style='text-align: right'>";
+            html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
+            html += "   <td>"+map[i].OIL_COST+"</td>";
+            html += "   <td>"+map[i].TRAF_COST+"</td>";
+            html += "   <td>"+map[i].TRAF_DAY_COST+"</td>";
+            html += "   <td>"+map[i].TOLL_COST+"</td>";
+            html += "   <td>"+map[i].DAY_COST+"</td>";
+            html += "   <td>"+map[i].EAT_COST+"</td>";
+            html += "   <td>"+map[i].PARKING_COST+"</td>";
+            html += "   <td>"+map[i].ETC_COST+"</td>";
+            html += "   <td>"+map[i].TOT_COST+"</td>";
+            html += "</tr>";
+
+        }
+        console.log(map);
+        $("#bustExnpBody").html(html);
+
 
         var rs = result.rs.rs;
         var list = result.rs.list;
         var fileInfo = result.rs.fileInfo;
+
+        $("#moveDst").val(res.MOVE_DST);
+        $("#result").val(res.RESULT);
         $("#tripCode").data("kendoDropDownList").value(rs.trip_code);
         $("#project").data("kendoDropDownList").value(rs.project_cd);
         if(rs.project_cd != "" && rs.project_cd != 0){
@@ -256,7 +286,7 @@ var inBustripReqPop = {
             $("#carList").data("kendoDropDownList").enable(false);
             $("input[name='useCar']").attr("disabled", true);
             $("#popEmpSeq").val(popEmpSeq.slice(0, -1));
-
+            $("#realDriver").data("kendoDropDownList").enable(false);
             $("#modBtn").css("display", "none");
             $("#fileUpload").css("display", "none");
             $("#addMemberBtn").attr("disabled", true);

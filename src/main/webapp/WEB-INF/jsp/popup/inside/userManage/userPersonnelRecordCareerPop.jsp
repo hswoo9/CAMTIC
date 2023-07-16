@@ -127,6 +127,7 @@
         dateY : $("#dateY").val(),
         dateM : $("#dateM").val(),
         bmk : $("#bmk").val(),
+        workType : $("#workType").val(),
         type : "career",
     }
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);

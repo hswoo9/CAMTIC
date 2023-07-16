@@ -6,121 +6,79 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<%--<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>--%>
-<style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">경력사항</div>
-        <form id="subHolidayReqPop">
-          <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-          <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-          <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-          <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-          <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-          <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
-          <table class="table table-bordered mb-0" id="userReqPop">
-            <colgroup>
-              <col width="30%">
-              <col width="30%">
-              <col width="30%">
-            </colgroup>
-            <thead>
-            <tr>
-              <th colspan="3">경력 등록</th>
-            </tr>
-            <tr>
-              <th>기간</th>
-              <td colspan="2">
-                <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
-              </td>
-            </tr>
-            <tr>
-              <th>근무처</th>
-              <td colspan="2">
-                <input type="text" id="place" style="width: 95%;">
-              </td>
-            </tr>
-            <tr>
-              <th>직위(급)</th>
-              <td colspan="2">
-                <input type="text" id="position" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>담당업무</th>
-              <td colspan="2">
-                <input type="text" id="workType" style="width: 50%;">
-              </td>
-            </tr>
-            <tr>
-              <th>근무년수</th>
-              <td colspan="2">
-                <input type="text" id="dateY" style="width: 10%;"> 년 <input type="text" id="dateM" style="width: 10%;"> 개월
-              </td>
-            </tr>
-            <tr>
-              <th>증명서</th>
-              <td colspan="2">
-                <input type="file">
-              </td>
-            </tr>
-            <tr>
-              <th>비고</th>
-              <td colspan="2">
-                <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
-              </td>
-            </tr>
-          </table>
-        </form>
-        <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="fn_windowClose()"/>
-        </div>
+  <div class="table-responsive">
+    <div class="card-header pop-header">
+      <h3 class="card-title title_NM">경력 사항</h3>
+      <div class="btn-st popButton">
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
+    <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <input type="hidden" id="type" name="type" value="${params.type}">
+      <input type="hidden" id="key" name="key" value="${params.key}">
+      <input type="hidden" id="id" name="id" value="${params.id}">
+      <table class="popTable table table-bordered mb-0" id="userReqPop">
+        <colgroup>
+          <col width="30%">
+          <col width="30%">
+          <col width="30%">
+        </colgroup>
+        <thead>
+        <%--<tr>
+          <th colspan="3">경력 등록</th>
+        </tr>--%>
+        <tr>
+          <th>기간</th>
+          <td colspan="2">
+            <input type="text" id="sDate" style="width: 45%;" disabled> ~ <input type="text" id="eDate" style="width: 45%;" disabled>
+          </td>
+        </tr>
+        <tr>
+          <th>근무처</th>
+          <td colspan="2">
+            <input type="text" id="place" style="width: 95%;">
+          </td>
+        </tr>
+        <tr>
+          <th>직위(급)</th>
+          <td colspan="2">
+            <input type="text" id="position" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>담당업무</th>
+          <td colspan="2">
+            <input type="text" id="workType" style="width: 50%;">
+          </td>
+        </tr>
+        <tr>
+          <th>근무년수</th>
+          <td colspan="2">
+            <input type="text" id="dateY" style="width: 10%;"> 년 <input type="text" id="dateM" style="width: 10%;"> 개월
+          </td>
+        </tr>
+        <tr>
+          <th>증명서</th>
+          <td colspan="2">
+            <input type="file" disabled>
+          </td>
+        </tr>
+        <tr>
+          <th>비고</th>
+          <td colspan="2">
+            <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+          </td>
+        </tr>
+      </table>
+    </form>
   </div>
-</div>
 </body>
 <script>
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
-  var jsonData = JSON.parse(opener.userInfoMod.global.jsonData);
   $(function(){
     fn_default();
-    fn_dataSet(jsonData);
+    fn_dataSet();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -134,11 +92,44 @@
     $("#bmk").kendoTextArea({
       rows : 5,
     });
+    $("#place").kendoTextBox();
+    $("#position").kendoTextBox();
+    $("#workType").kendoTextBox();
+    $("#dateY").kendoTextBox();
+    $("#dateM").kendoTextBox();
+
   }
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/userInfoModDetail', {
+      key : $("#key").val(),
+      type : $("#type").val(),
+      id : $("#id").val()
+    });
+
+    if(result.flag) {
+      var e = result.rs;
+
+      $("#sDate").val(e.JOIN_DAY);
+      $("#eDate").val(e.RESIGN_DAY);
+      $("#place").val(e.EMPLOY_DEPT_NAME);
+      $("#position").val(e.POSITION_OR_DUTY);
+      $("#workType").val(e.MAIN_TASK);
+      $("#dateY").val(e.CAREER_PERIOD);
+      $("#dateM").val(e.CAREER_MONTH);
+      $("#bmk").val(e.RMK);
+    }
+
+    /*수정 안되게 disabled*/
+    $("#place").data("kendoTextBox").enable(false);
+    $("#position").data("kendoTextBox").enable(false);
+    $("#workType").data("kendoTextBox").enable(false);
+    $("#dateY").data("kendoTextBox").enable(false);
+    $("#dateM").data("kendoTextBox").enable(false);
+    $("#bmk").data("kendoTextArea").enable(false);
+
+  }
+
   function fn_windowClose() {
     window.close();
-  }
-  function fn_dataSet(e) {
-
   }
 </script>

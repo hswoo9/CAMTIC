@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
-<script type="text/javascript" src="/js/intra/inside/userManage/userPersonList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userPersonList2.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -15,9 +15,9 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title" style="margin-bottom: 5px;">인사관리(관리자)</h4>
+            <h4 class="panel-title" style="margin-bottom: 5px;">인사관리(사용자)</h4>
             <div>직원조회 목록</div>
-            <div class="title-road">캠인사이드 > 인사관리 &gt; 인사관리(관리자)</div>
+            <div class="title-road">캠인사이드 > 인사관리 &gt; 인사관리(사용자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -68,29 +68,16 @@
                                 }
                             </style>
                             <div class="mt10">
-                                <input type="checkbox" class="detailSearch" division="0" id="dsA" checked>
-                                <label for="dsA">정규직원</label>
-                                <input type="checkbox" class="detailSearch" division="4" divisionSub="1" style="margin-left: 10px;" id="dsB" checked>
-                                <label for="dsB">계약직원</label>
-                                <input type="checkbox" class="detailSearch" division="4" divisionSub="2" style="margin-left: 10px;" id="dsC" checked>
-                                <label for="dsC">인턴사원</label>
-
-
-                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
-                                <label for="dsD">경비/환경</label>
-                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
-                                <label for="dsE">단기직원</label>
-
-                                <input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">
-                                <label for="dsF">위촉직원</label>
-                                <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
-                                <label for="dsG">연수생/학생연구원</label>
-                                <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsH">
-                                <label for="dsH">기타</label>
-                                <input type="checkbox" class="detailSearch" value="9" style="margin-left: 10px;" id="dsI">
-                                <label for="dsI">임시직원</label>
-                                <input type="checkbox" class="detailSearch" division="9" style="margin-left: 10px;" id="dsJ">
-                                <label for="dsJ">퇴사직원</label>
+                                <input type="checkbox" class="detailSearch" id="dsA" checked>
+                                <label for="dsA">전담직원</label>
+                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
+                                <label for="dsB">단기직원</label>
+                                <input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsC">
+                                <label for="dsC">위촉직원</label>
+                                <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsD">
+                                <label for="dsD">연수생/학생연구원</label>
+                                <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsE">
+                                <label for="dsE">기타</label>
                                 <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;bottom: 5px;">상세검색</button>
                             </div>
                         </td>
@@ -108,7 +95,7 @@
         </div>
     </div>
 
-    <div class="panel" id="detailSearchDiv" style="display: none">
+    <div class="panel" id="detailSearchDiv" style="display: none;">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
@@ -186,9 +173,8 @@
     </div>
 </div><!-- col-md-9 -->
 
-<%--<jsp:include page="/WEB-INF/jsp/popup/approval/popup/approvalService.jsp?v=${today}"></jsp:include>--%>
 <script type="text/javascript">
-    userPersonList.init();
+    userPersonList2.init();
 
     function detailSearchShow(e){
         if(e == "none"){

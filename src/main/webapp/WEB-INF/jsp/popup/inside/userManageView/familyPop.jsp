@@ -16,12 +16,9 @@
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <input type="hidden" id="type" name="type" value="${params.type}">
+      <input type="hidden" id="key" name="key" value="${params.key}">
+      <input type="hidden" id="id" name="id" value="${params.id}">
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -67,13 +64,9 @@
   </div>
 </body>
 <script>
-  <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
-  /*fn_datePicker
-  fn_textBox*/
-  var jsonData = JSON.parse(opener.userInfoMod.global.jsonData);
   $(function(){
     fn_default();
-    fn_dataSet(jsonData);
+    fn_dataSet();
   });
   function fn_default() {
     $("#includeType").kendoRadioGroup({
@@ -85,24 +78,10 @@
       labelPosition : "after",
     });
 
-    /*$("#checkY").kendoCheckBox({
-      label: "예",
-      change: function(e) {
-        if(e.checked == true){
-          $("#checkN").prop("checked", false);
-        }
-      }
-    });
-    $("#checkN").kendoCheckBox({
-      label: "아니오",
-      change: function(e) {
-        if(e.checked == true){
-          $("#checkY").prop("checked", false);
-        }
-      }
-    });*/
     customKendo.fn_datePicker("bDay", '', "yyyy-MM-dd", '');
+
     fn_codeSet();
+
     $("#relation").kendoDropDownList({
       dataTextField: "HR_DT_CODE_NM",
       dataValueField: "value",
@@ -116,20 +95,30 @@
     $("#fName").kendoTextBox();
     $("#job").kendoTextBox();
   }
-  function fn_dataSet(e) {
-    $("#relation").data("kendoDropDownList").value(e.FAMILY_CODE); //관계
-    $("#fName").val(e.FAMILY_NAME); //성명
-    $("#bDay").val(e.FAMILY_BIRTH); //생년월일
-    $("#job").val(e.FAMILY_JOB); //직업
-    $("#includeType").data("kendoRadioGroup").value(e.INCLUDE_YN); //동거여부
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/userInfoModDetail', {
+      key : $("#key").val(),
+      type : $("#type").val(),
+      id : $("#id").val()
+    });
+
+    if(result.flag) {
+      var e = result.rs;
+
+      $("#relation").data("kendoDropDownList").value(e.FAMILY_CODE); //관계
+      $("#fName").val(e.FAMILY_NAME); //성명
+      $("#bDay").val(e.FAMILY_BIRTH); //생년월일
+      $("#job").val(e.FAMILY_JOB); //직업
+      $("#includeType").data("kendoRadioGroup").value(e.INCLUDE_YN); //동거여부
+    }
 
     /*수정 안되게 disabled*/
     $("#relation").data("kendoDropDownList").enable(false);
     $("#fName").data("kendoTextBox").enable(false);
     $("#job").data("kendoTextBox").enable(false);
     $("#includeType").data("kendoRadioGroup").enable(false);
-
   }
+
   function fn_codeSet() {
     $.ajax({
       url : '/userManage/getCodeList',

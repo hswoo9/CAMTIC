@@ -215,8 +215,10 @@
         /* getBustripReqCheck */
         SELECT
             A.*,
+            B.HR_BIZ_REQ_RESULT_ID,
             B.STATUS AS RES_STATUS,
-            B.EXP_STAT
+            B.EXP_STAT,
+            B.SAVE_YN
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
@@ -503,34 +505,121 @@
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
 
-    <insert id="saveBustripResult" parameterType="map">
-        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+    <update id="saveBustripResult" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            POSITION_CODE = #{positionCode},
+            DUTY_CODE = #{dutyCode},
+            REPORT_DATE = DATE_FORMAT(now(), '%Y-%m-%d'),
+            RESULT = #{result},
+            DRIVER_EMP_SEQ = #{driverEmpSeq},
+            MOVE_DST = #{moveDst},
+            SAVE_YN = "Y"
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </update>
+
+    <update id="updateBustripExnpPop" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_EXNP
+        SET
+            OIL_COST = #{oilCost},
+            TRAF_COST = #{trafCost},
+            TRAF_DAY_COST = #{trafDayCost},
+            TOLL_COST = #{tollCost},
+            DAY_COST = #{dayCost},
+            EAT_COST = #{eatCost},
+            PARKING_COST = #{parkingCost},
+            ETC_COST = #{etcCost},
+            TOT_COST = #{totCost},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            HR_BIZ_EXNP_ID = #{hrBizExnpId}
+    </update>
+
+    <insert id="saveBustripExnpPop" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_EXNP
             (
                 HR_BIZ_REQ_ID,
                 EMP_SEQ,
                 EMP_NAME,
-                DEPT_SEQ,
-                POSITION_CODE,
-                DUTY_CODE,
-                REPORT_DATE,
-                RESULT,
-                DRIVER_EMP_SEQ,
-                MOVE_DST
+                DRIVER,
+                OIL_COST,
+                TRAF_COST,
+                TRAF_DAY_COST,
+                TOLL_COST,
+                DAY_COST,
+                EAT_COST,
+                PARKING_COST,
+                ETC_COST,
+                TOT_COST,
+                REG_EMP_SEQ
             )
         VALUES
             (
                 #{hrBizReqId},
                 #{empSeq},
                 #{empName},
-                #{deptSeq},
-                #{positionCode},
-                #{dutyCode},
-                DATE_FORMAT(now(), '%Y-%m-%d'),
-                #{result},
-                #{driverEmpSeq},
-                #{moveDst}
+                #{driver},
+                #{oilCost},
+                #{trafCost},
+                #{trafDayCost},
+                #{tollCost},
+                #{dayCost},
+                #{eatCost},
+                #{parkingCost},
+                #{etcCost},
+                #{totCost},
+                #{regEmpSeq}
+            )
+
+        <selectKey keyProperty="hrBizExnpId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_EXNP'
+        </selectKey>
+    </insert>
+
+    <insert id="insBustripExnpResult" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+            (
+             HR_BIZ_EXNP_ID,
+             HR_BIZ_REQ_ID,
+             EXP_STAT
+            )
+        VALUES
+            (
+             #{hrBizExnpId},
+             #{hrBizReqId},
+             "Y"
             )
     </insert>
+
+    <update id="updBustripReqDriver" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            DRIVER_EMP_SEQ = #{driverEmpSeq}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
+    <select id="getBustripExnpInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getBustripResultInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </select>
 </mapper>
 
 

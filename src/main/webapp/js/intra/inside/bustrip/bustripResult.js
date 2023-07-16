@@ -146,7 +146,7 @@ var bustripResult = {
                     title: "여비정산",
                     template : function(d){
                         console.log(d);
-                        if(d.RES_STAUTS != 0 && d.RES_STATUS != null){
+                        if(d.RES_STATUS != 30 && d.RES_STATUS != null && d.RES_STATUS != 0){
                             return "-";
                         } else {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripSetExnp('+d.hr_biz_req_id+')">여비정산</button>'
@@ -156,8 +156,10 @@ var bustripResult = {
                 }, {
                     title: "결과보고",
                     template : function(d){
-                        if(d.EXP_STAT != "N" && d.EXP_STAT != null){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결과보고</button>'
+                        if(d.RES_STATUS != 30 && d.RES_STATUS != null && d.RES_STATUS != 0){
+                            return "-";
+                        } else if(d.EXP_STAT != "N" && d.EXP_STAT != null){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.HR_BIZ_REQ_RESULT_ID+', '+d.hr_biz_req_id+')">결과보고</button>'
                         } else {
                             return "-";
                         }
@@ -166,7 +168,7 @@ var bustripResult = {
                 }, {
                     title : "결재",
                     template : function(d){
-                        if(d.RES_STAUTS == 10 || d.RES_STATUS == 30){
+                        if(d.SAVE_YN == "Y"){
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결재</button>'
                         } else {
                             return "-"
@@ -178,8 +180,8 @@ var bustripResult = {
         }).data("kendoGrid");
     },
 
-    popBustripRes : function(e) {
-        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+e;
+    popBustripRes : function(e, d) {
+        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
         var name = "bustripResultPop";
         var option = "width=1200, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

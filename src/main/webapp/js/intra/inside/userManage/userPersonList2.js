@@ -5,17 +5,17 @@
  */
 var now = new Date();
 
-var userPersonList = {
+var userPersonList2 = {
     global : {
         searchAjaxData : "",
     },
 
     init : function () {
-        userPersonList.dataSet();
-        userPersonList.gridReload();
+        userPersonList2.dataSet();
+        userPersonList2.gridReload();
 
         $(".detailSearch").change(function(){
-            userPersonList.gridReload();
+            userPersonList2.gridReload();
         })
     },
 
@@ -28,7 +28,7 @@ var userPersonList = {
 
         customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq");
 
-        $("#deptComp").data("kendoDropDownList").bind("change", userPersonList.fn_chngDeptComp)
+        $("#deptComp").data("kendoDropDownList").bind("change", userPersonList2.fn_chngDeptComp)
         $("#deptComp").data("kendoDropDownList").select(0);
         $("#deptComp").data("kendoDropDownList").trigger("change");
 
@@ -138,9 +138,6 @@ var userPersonList = {
             deptLevel : 2
         }
         var ds5 = customKendo.fn_customAjax("/dept/getDeptAList", ds5Data);
-
-        console.log(ds5);
-
         $("#detailSearch5").kendoDropDownTree({
             placeholder: "선택하세요",
             checkboxes: true,
@@ -247,7 +244,7 @@ var userPersonList = {
 
         $("#kindContent").on("keyup", function(key){
             if(key.keyCode == 13){
-                userPersonList.gridReload();
+                userPersonList2.gridReload();
             }
         });
     },
@@ -277,13 +274,6 @@ var userPersonList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userReqPop();">' +
-                            '	<span class="k-button-text">직원 추가</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function (e) {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
@@ -305,7 +295,7 @@ var userPersonList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList2.fn_checkAll();" style="position : relative; top : 2px;"/>',
                     template: "<input type='checkbox' id='' name='checkUser' value=''/>",
                     width: 50
                 }, {
@@ -318,7 +308,7 @@ var userPersonList = {
                         if(e.EMP_NAME_KR == null || +e.EMP_NAME_KR == ""){
                             return "";
                         }else {
-                            return "<a href='#' onclick='userPersonList.userReqPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            return "<a href='#' onclick='userPersonList2.userReqPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
                         }
                     }
                 }, {
@@ -353,13 +343,6 @@ var userPersonList = {
                 }, {
                     field: "JOIN_DAY2",
                     title: "입사일"
-                }, {
-                    title: "인사기록카드",
-                    template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userPersonnelRecord(' + e.EMP_SEQ + ')">' +
-                            '	<span class="k-button-text">인사기록카드<span>' +
-                            '</button>';
-                    }
                 }
             ]
         }).data("kendoGrid");
@@ -439,7 +422,7 @@ var userPersonList = {
                     title: "나이",
                     template : function(e){
                         if(e.RES_REGIS_NUM != null && e.RES_REGIS_NUM != "") {
-                            var age = userPersonList.fn_setCalcAge(e.RES_REGIS_NUM);
+                            var age = userPersonList2.fn_setCalcAge(e.RES_REGIS_NUM);
                             return age;
                         } else {
                             return "-";
@@ -492,7 +475,7 @@ var userPersonList = {
     },
 
     gridReload : function() {
-        userPersonList.global.searchAjaxData = {
+        userPersonList2.global.searchAjaxData = {
             userKind : $('#userKind').val(),
             empNameKr : $("#kindContent").val(),
             startDate : $("#start_date").val(),
@@ -501,19 +484,25 @@ var userPersonList = {
             deptComp : $("#deptComp").val(),
             deptTeam : $("#deptTeam").val()
         }
+
         var arr = "";
 
         if($(".detailSearch:checked").length == 0){
             arr += "|999&N"
         }else{
             $(".detailSearch:checked").each(function(){
-                arr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                if($(this).attr("id") == "dsA"){
+                    arr += "|0&N|4&1,2"
+                }else{
+                    arr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                }
+
             })
         }
 
-        userPersonList.global.searchAjaxData.arr = arr.substring(1);
+        userPersonList2.global.searchAjaxData.arr = arr.substring(1);
 
-        userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
+        userPersonList2.mainGrid('/userManage/getEmpInfoList',userPersonList2.global.searchAjaxData);
     },
 
     gridReloadDetail : function() {
@@ -526,7 +515,7 @@ var userPersonList = {
         var testDropDownTree7 = $("#detailSearch8").data("kendoDropDownTree");
         var testDropDownTree8 = $("#detailSearch9").data("kendoDropDownTree");
 
-        userPersonList.global.searchAjaxData = {
+        userPersonList2.global.searchAjaxData = {
             workStatusCode : $('#workStatusCode').val(), // 입퇴사 현황
             startDate : $("#start_date_detail").val(), // 조회 기간 시작일
             searchDetail1 : JSON.stringify(testDropDownTree1.value()),
@@ -540,8 +529,8 @@ var userPersonList = {
         }
 
 
-        console.log(JSON.stringify(userPersonList.global.searchAjaxData));
-        userPersonList.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList.global.searchAjaxData);
+        console.log(JSON.stringify(userPersonList2.global.searchAjaxData));
+        userPersonList2.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList2.global.searchAjaxData);
     },
 
     //주민번호 앞자리 입력시 나이 출력하는 함수
