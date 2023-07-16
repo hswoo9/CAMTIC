@@ -130,7 +130,7 @@ var menuAM = {
 
     getAuthorityTypeCode : function(){
         menuAM.global.searchAjaxData = {
-            cmGroupCodeId : "22"
+            cmGroupCodeId : "8"
         }
 
         var result = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", menuAM.global.searchAjaxData);

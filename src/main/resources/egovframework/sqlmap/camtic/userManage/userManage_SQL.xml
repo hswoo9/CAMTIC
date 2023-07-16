@@ -28,46 +28,52 @@
     <select id="getEducationalList" parameterType="map" resultType="map">
         /* getEducationalList */
         SELECT
-            *
+            B.*,
+            C.HR_DT_CODE_NM AS GUBUN_CODE_NM,
+            C2.HR_DT_CODE_NM AS DEGREE_CODE_NM,
+            C3.HR_DT_CODE_NM AS GRADUATION_CODE_NM
         FROM
-            cam_hr.dj_emp_info AS a
+            CAM_HR.DJ_EMP_EDUCATIONAL AS B
         LEFT JOIN
-            cam_hr.dj_emp_educational AS b
-        ON
-            a.EMP_SEQ = b.EMP_SEQ
+            CAM_HR.DJ_HR_CODE C
+        on B.GUBUN_CODE = CONCAT(C.HR_MC_CODE, C.HR_MD_CODE, C.HR_DT_CODE)
+        LEFT JOIN
+            CAM_HR.DJ_HR_CODE C2
+        on B.DEGREE_CODE = CONCAT(C2.HR_MC_CODE, C2.HR_MD_CODE, C2.HR_DT_CODE)
+        LEFT JOIN
+            CAM_HR.DJ_HR_CODE C3
+        ON B.GRADUATION_CODE = CONCAT(C3.HR_MC_CODE, C3.HR_MD_CODE, C3.HR_DT_CODE)
         WHERE
-            a.EMP_SEQ = #{empSeq}
+            B.EMP_SEQ = #{empSeq}
         AND
-            b.admin_approval = 'Y';
+            B.admin_approval = 'Y'
+        ORDER BY B.ADMIN_APPROVAL_DATE DESC
     </select>
     <select id="getMilitarySvcInfo" parameterType="map" resultType="map">
         /* getMilitarySvcInfo */
         SELECT
-            *
+            A.*,
+            B.HR_DT_CODE_NM AS MILITARY_SVC_TYPE_NM
         FROM
-            cam_hr.dj_emp_info AS a
+            CAM_HR.DJ_EMP_MILITARY_SVC_INFO A
         LEFT JOIN
-            cam_hr.dj_emp_military_svc_info AS b
-        ON
-            a.EMP_SEQ = b.EMP_SEQ
+            CAM_HR.DJ_HR_CODE B
+        ON MILITARY_SVC_TYPE = CONCAT(B.HR_MC_CODE, B.HR_MD_CODE, B.HR_DT_CODE)
         WHERE
-            a.EMP_SEQ = #{empSeq}
-            and
-            b.admin_approval = 'Y';
+            A.EMP_SEQ = #{empSeq}
+        AND
+            A.ADMIN_APPROVAL = 'Y'
     </select>
     <select id="getCareerInfoList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
-            cam_hr.dj_emp_info AS a
-        LEFT JOIN
-            cam_hr.dj_emp_career AS b
-        ON
-            a.EMP_SEQ = b.EMP_SEQ
+            CAM_HR.DJ_EMP_CAREER A
         WHERE
-            a.EMP_SEQ = #{empSeq}
+            A.EMP_SEQ = #{empSeq}
         AND
-            b.admin_approval = 'Y';
+            A.admin_approval = 'Y'
+        ORDER BY ADMIN_APPROVAL_DATE DESC
     </select>
     <select id="getFamilyInfoList" parameterType="map" resultType="map">
         SELECT
@@ -416,7 +422,7 @@
             </if>
     </select>
     <insert id="setEducationalInfo" parameterType="map">
-        INSERT INTO cam_hr.dj_emp_educational(
+        INSERT INTO CAM_HR.DJ_EMP_EDUCATIONAL(
               EMP_SEQ
              ,EMP_NAME
              ,ADMISSION_DAY
@@ -428,6 +434,7 @@
              ,RMK
              ,GUBUN_CODE
              ,GRADUATION_CODE
+             ,SCORE
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -440,6 +447,7 @@
             ,#{bmk}
             ,#{gubun}
             ,#{graduation}
+            ,#{score}
         )
     </insert>
     <insert id="setCareerInfo" parameterType="map">
@@ -471,8 +479,19 @@
             ,#{dateM}
             )
     </insert>
+
+    <select id="getMilitaryInfo" parameterType="map" resultType="map">
+        /* getMilitaryInfo */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_MILITARY_SVC_INFO
+        WHERE
+            MSI_INFO_ID = #{msiInfoId}
+    </select>
+
     <insert id="setMilitaryInfo" parameterType="map">
-        INSERT INTO cam_hr.dj_emp_military_svc_info(
+        INSERT INTO CAM_HR.DJ_EMP_MILITARY_SVC_INFO(
                  EMP_SEQ
                 ,EMP_NAME
                 ,MILITARY_SVC_TYPE
@@ -498,6 +517,22 @@
                 ,#{mDept}
                 )
     </insert>
+    <update id="setMilitaryInfoUpd" parameterType="map">
+        /* setMilitaryInfoUpd */
+        UPDATE
+            CAM_HR.DJ_EMP_MILITARY_SVC_INFO
+        SET
+            MILITARY_SVC_TYPE = #{mGubun},
+            M_UNFUL_REASON = #{reason},
+            M_ENLIST_DAY = #{sDate},
+            M_DISCHARGE_DAY = #{eDate},
+            M_LAST_RANK = #{rank},
+            M_DIVISION = #{mType},
+            MOS = #{mDept},
+            MOD_EMP_SEQ = #{EMP_SEQ}
+        WHERE
+            MSI_INFO_ID = #{msiInfoId}
+    </update>
     <insert id="setFmailyInfo" parameterType="map">
         INSERT INTO cam_hr.dj_emp_family_info(
                 EMP_SEQ

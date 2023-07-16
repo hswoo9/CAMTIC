@@ -8,6 +8,7 @@ public interface UserManageService{
     Map<String,Object> getUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getEducationalList (Map<String,Object> map);
     Map<String,Object> getMilitarySvcInfo (Map<String,Object> map);
+    Map<String,Object> getMilitaryInfo (Map<String,Object> map);
     List<Map<String,Object>> getCareerInfoList (Map<String,Object> map);
     List<Map<String,Object>> getFamilyInfoList(Map<String,Object> map);
     List<Map<String,Object>> getLicenceInfoList(Map<String,Object> map);
