@@ -23,6 +23,12 @@ public interface InsideCodeService {
     //차량관리 차량코드 리스트조회
     List<Map<String, Object>> getCarCodeList(Map<String, Object> params);
 
+    //회의실관리 회의실코드 단일데이터조회
+    Map<String, Object> getRoomCodeInfo(Map<String, Object> params);
+
+    //회의실관리 회의실코드 리스트조회
+    List<Map<String, Object>> getRoomCodeList(Map<String, Object> params);
+
 
 
     //차량사용신청 등록
@@ -39,4 +45,13 @@ public interface InsideCodeService {
 
     //차량관리 차량코드 삭제
     void setCarCodeDelete(Map<String, Object> params);
+
+    //회의실관리 회의실코드 등록
+    void setRoomCodeInsert(Map<String, Object> params);
+
+    //회의실관리 회의실코드 수정
+    void setRoomCodeUpdate(Map<String, Object> params);
+
+    //회의실관리 회의실코드 삭제
+    void setRoomCodeDelete(Map<String, Object> params);
 }

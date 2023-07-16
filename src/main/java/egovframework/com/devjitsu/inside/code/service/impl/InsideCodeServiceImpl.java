@@ -44,6 +44,16 @@ public class InsideCodeServiceImpl implements InsideCodeService {
         return insideCodeRepository.getCarCodeList(params);
     }
 
+    @Override
+    public Map<String, Object> getRoomCodeInfo(Map<String, Object> params) {
+        return insideCodeRepository.getRoomCodeInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRoomCodeList(Map<String, Object> params) {
+        return insideCodeRepository.getRoomCodeList(params);
+    }
+
 
 
     @Override
@@ -69,5 +79,20 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     @Override
     public void setCarCodeDelete(Map<String, Object> params) {
         insideCodeRepository.setCarCodeDelete(params);
+    }
+
+    @Override
+    public void setRoomCodeInsert(Map<String, Object> params) {
+        insideCodeRepository.setRoomCodeInsert(params);
+    }
+
+    @Override
+    public void setRoomCodeUpdate(Map<String, Object> params) {
+        insideCodeRepository.setRoomCodeUpdate(params);
+    }
+
+    @Override
+    public void setRoomCodeDelete(Map<String, Object> params) {
+        insideCodeRepository.setRoomCodeDelete(params);
     }
 }

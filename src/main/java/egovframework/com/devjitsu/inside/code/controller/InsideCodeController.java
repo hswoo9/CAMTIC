@@ -180,6 +180,22 @@ public class InsideCodeController {
         return "jsonView";
     }
 
+    //회의실관리 회의실코드 단일데이터조회
+    @RequestMapping("/inside/getRoomCodeInfo")
+    public String getRoomCodeInfo(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = insideCodeService.getRoomCodeInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    //회의실관리 회의실코드 리스트조회
+    @RequestMapping("/inside/getRoomCodeList")
+    public String getRoomCodeList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = insideCodeService.getRoomCodeList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
 
 
     //차량사용신청 등록
@@ -214,6 +230,27 @@ public class InsideCodeController {
     @RequestMapping("/inside/setCarCodeDelete")
     public String setCarCodeDelete(@RequestParam Map<String, Object> params) {
         insideCodeService.setCarCodeDelete(params);
+        return "jsonView";
+    }
+
+    //회의실관리 회의실코드 등록
+    @RequestMapping("/inside/setRoomCodeInsert")
+    public String setRoomCodeInsert(@RequestParam Map<String, Object> params) {
+        insideCodeService.setRoomCodeInsert(params);
+        return "jsonView";
+    }
+
+    //회의실관리 회의실코드 수정
+    @RequestMapping("/inside/setRoomCodeUpdate")
+    public String setRoomCodeUpdate(@RequestParam Map<String, Object> params) {
+        insideCodeService.setRoomCodeUpdate(params);
+        return "jsonView";
+    }
+
+    //회의실관리 회의실코드 삭제
+    @RequestMapping("/inside/setRoomCodeDelete")
+    public String setRoomCodeDelete(@RequestParam Map<String, Object> params) {
+        insideCodeService.setRoomCodeDelete(params);
         return "jsonView";
     }
 

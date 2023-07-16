@@ -39,6 +39,7 @@ var carManage = {
             dataSource: deptArr
         });
         customKendo.fn_datePicker("regDt", 'month', "yyyy-MM-dd", new Date());
+        $("#regDt, #empName").attr("readonly", true);
     },
 
     mainGrid: function () {
@@ -142,7 +143,7 @@ var carManage = {
                     title: "등록일자",
                     width: 90
                 }, {
-                    title: "여부",
+                    title: "사용여부",
                     width: 50,
                     template: function(row){
                         if(row.ACTIVE == "Y"){
