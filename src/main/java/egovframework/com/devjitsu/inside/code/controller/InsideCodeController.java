@@ -197,16 +197,23 @@ public class InsideCodeController {
     }
 
     //차량관리 차량코드 등록
-    @RequestMapping("/bustrip/setCarCodeInsert")
+    @RequestMapping("/inside/setCarCodeInsert")
     public String setCarCodeInsert(@RequestParam Map<String, Object> params) {
         insideCodeService.setCarCodeInsert(params);
         return "jsonView";
     }
 
     //차량관리 차량코드 수정
-    @RequestMapping("/bustrip/setCarCodeUpdate")
+    @RequestMapping("/inside/setCarCodeUpdate")
     public String setCarCodeUpdate(@RequestParam Map<String, Object> params) {
         insideCodeService.setCarCodeUpdate(params);
+        return "jsonView";
+    }
+
+    //차량관리 차량코드 삭제
+    @RequestMapping("/inside/setCarCodeDelete")
+    public String setCarCodeDelete(@RequestParam Map<String, Object> params) {
+        insideCodeService.setCarCodeDelete(params);
         return "jsonView";
     }
 

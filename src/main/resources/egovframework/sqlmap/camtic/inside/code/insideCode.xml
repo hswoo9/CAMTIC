@@ -65,6 +65,9 @@
             AND CONCAT(REPLACE(IHCR.END_DT, '-', ''), REPLACE(IHCR.END_TIME, ':', '')) > CONCAT(REPLACE(#{startDt}, '-', ''), REPLACE(#{startTime}, ':', ''))
             AND CAR_CLASS_SN = #{carClassSn}
         ]]>
+        <if test='carReqSn != null and !"".equals(carReqSn)'>
+            AND !CAR_REQ_SN = #{carReqSn}
+        </if>
     </select>
 
     <select id="getCarCodeInfo" parameterType="map" resultType="map">
@@ -235,6 +238,16 @@
             REMARK_CN = #{remarkCn}
         WHERE
             CAR_CODE_SN = #{carCodeSn}
+    </update>
+
+    <update id="setCarCodeDelete" parameterType="map">
+        /* setCarCodeDelete */
+        UPDATE
+            CAM_INSIDE.DJ_HR_CAR_CODE
+        SET
+            VISIBLE = 'N'
+        WHERE
+            CAR_CODE_SN in (${carCodeSn})
     </update>
 </mapper>
 

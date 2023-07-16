@@ -83,7 +83,7 @@ var carManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="carManage.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -102,8 +102,8 @@ var carManage = {
             dataBound : carManage.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='' name='' value=''/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'carPk\');"/>',
+                    template : "<input type='checkbox' name='carPk' class='carPk'/>",
                     width: 40
                 }, {
                     field: "ROW_NUM",
@@ -271,7 +271,7 @@ var carManage = {
     setCarCodeInsert: function(data){
         console.log(data);
         $.ajax({
-            url : "/bustrip/setCarCodeInsert",
+            url : "/inside/setCarCodeInsert",
             data : data,
             type : "post",
             dataType : "json",
@@ -292,7 +292,7 @@ var carManage = {
     setCarCodeUpdate: function(data){
         console.log(data);
         $.ajax({
-            url : "/bustrip/setCarCodeUpdate",
+            url : "/inside/setCarCodeUpdate",
             data : data,
             type : "post",
             dataType : "json",
@@ -305,6 +305,49 @@ var carManage = {
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
+    },
+
+    delBtn: function(){
+        const ch = $('#mainGrid tbody .carPk:checked');
+        let checkedList = new Array();
+        $.each(ch, function(i,v){
+            checkedList.push( $("#mainGrid").data("kendoGrid").dataItem($(v).closest("tr")).CAR_CODE_SN);
+        });
+
+        if(checkedList.length == 0){
+            alert('삭제 할 항목을 선택해 주세요.');
+            return;
+        }
+
+        let data = {
+            carCodeSn : checkedList.join()
+        }
+
+        if(!confirm("해당 삭제버튼은 사용여부가 아닌, 완전 삭제입니다. 삭제 하시겠습니까?")){
+            return;
+        }
+        carManage.setCarCodeDelete(data);
+    },
+
+    setCarCodeDelete: function(data){
+        $.ajax({
+            url : "/inside/setCarCodeDelete",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("데이터 삭제가 완료되었습니다.");
+                gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 삭제 중 에러가 발생했습니다.");
                 window.close();
             }
         });

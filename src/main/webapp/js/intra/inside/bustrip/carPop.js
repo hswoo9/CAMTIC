@@ -20,6 +20,7 @@ var carReq = {
         $("#startTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "09:00"});
         $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});
         fn_onlyDeptSetting(2);
+        $("#startDt, #endDt, #applyDt, #empName, #startTime, #endTime").attr("readonly", true);
 
         if(!isNaN(carData.CAR_REQ_SN)) {
             let data = carData;
