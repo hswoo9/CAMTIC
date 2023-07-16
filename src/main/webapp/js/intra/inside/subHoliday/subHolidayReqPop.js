@@ -360,7 +360,7 @@ var subHolidayReqPop = {
                 '                        <span style="width: 9%;"> ~ </span>\n' +
                 '                        <input type="text" id="edtHolidayEndHourTop_3" name="edtHolidayEndHourTop_3" className="timeInput" data-bind="value:end" style="width: 20%;">\n' +
                 '                       </td>\n' +
-                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick=""/></td>\n' +
+                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="" id="resetBtn"/></td>\n' +
                 '                      </tr>\n' +
                 '                  </table>\n' +
                 '                </td>\n' +
@@ -473,7 +473,7 @@ var subHolidayReqPop = {
                 '                <td colspan="3">\n' +
                 '                  <input id="edtHolidayWorkDay_3" style="width:20%; margin-right:5px;">\n' +
                 '                  <input type="hidden" id="hisPk" name="hisPk" value="${data.SUBHOLIDAY_USE_ID}">\n' +
-                '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
+                '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button" id="searchBtn"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -531,9 +531,9 @@ var subHolidayReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
+                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -684,9 +684,9 @@ var subHolidayReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
+                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -782,7 +782,6 @@ var subHolidayReqPop = {
     getVacUseHistoryOne : function(){
         var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : $("#vacUseHistId").val()})
         if(result.flag){
-            console.log(result.data);
             $("#edtHolidayKindTop").data("kendoDropDownList").value(result.data.SUBHOLIDAY_CODE_ID);
             $("#edtHolidayKindTop").data("kendoDropDownList").trigger("change");
 
@@ -808,7 +807,44 @@ var subHolidayReqPop = {
             }
 
             $("#holiday_reason").val(result.data.RMK);
-            $("#now_date").val(result.data.SAVE_DT)
+            $("#now_date").val(result.data.SAVE_DT);
+
+            if(result.data.APPR_STAT != "N"){
+                $("#saveBtn").hide();
+
+                $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
+
+                if(result.data.SUBHOLIDAY_CODE_ID == "11"){
+                    $("#edtHolidayAlternativeDate_3").data("kendoDatePicker").enable(false);
+                    $("#edtHolidayWorkDay_3").data("kendoDatePicker").enable(false);
+                    $("#edtHolidayStartHourTop_3").data("kendoTimePicker").enable(false);
+                    $("#edtHolidayEndHourTop_3").data("kendoTimePicker").enable(false);
+                    $("#resetBtn").hide()
+                }else if(result.data.SUBHOLIDAY_CODE_ID == "9") {
+                    $("#searchBtn").hide();
+                    $("#otherEmpSearchBtn").hide();
+                    $("#selectResetBtn").hide();
+
+                    $("#edtHolidayStartDateTop_2").data("kendoDatePicker").enable(false);
+                    $("#edtHolidayStartHourTop_2").data("kendoTimePicker").enable(false);
+                    $("#edtHolidayEndDateTop_2").data("kendoDatePicker").enable(false);
+                    $("#edtHolidayEndHourTop_2").data("kendoTimePicker").enable(false);
+                    $("#other_emp").attr("disabled", "disabled");
+                }else{
+                    $("#otherEmpSearchBtn").hide();
+                    $("#selectResetBtn").hide();
+
+                    $("#edtHolidayStartDateTop_1").data("kendoDatePicker").enable(false);
+                    $("#edtHolidayStartHourTop_1").data("kendoTimePicker").enable(false);
+                    $("#edtHolidayEndDateTop_1").data("kendoDatePicker").enable(false);
+                    $("#edtHolidayEndHourTop_1").data("kendoTimePicker").enable(false);
+
+                    $("#other_emp").attr("disabled", "disabled");
+                }
+
+                $("#other_reason").attr("disabled", "disabled");
+                $("#holiday_reason").attr("disabled", "disabled");
+            }
         }
     }
 }
