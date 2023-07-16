@@ -70,7 +70,7 @@
             <span class="red-star"></span>군별
           </th>
           <td colspan="2">
-            <input type="text" id="mType" value="test" style="width: 50%;">
+            <input type="text" id="mType" style="width: 50%;">
           </td>
         </tr>
         <tr>
@@ -166,7 +166,7 @@
           defaultCode = "졸업"
           break
         case "B04" :
-          defaultCode = "전역여부"
+          defaultCode = "선택하세요"
           break
         case "B05" :
           defaultCode = "가족관계"
