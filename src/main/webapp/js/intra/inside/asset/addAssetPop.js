@@ -250,6 +250,11 @@ var addAssetPop = {
             ],
             select : 0,
             change : function(e){
+                if(this.value() == ""){
+                    $("#unitText").removeAttr("disabled");
+                }else{
+                    $("#unitText").attr("disabled", "disabled");
+                }
                 $("#unitText").val(this.value());
             }
         })
@@ -290,7 +295,7 @@ var addAssetPop = {
         }).data("kendoRadioGroup");
 
         customKendo.fn_textBox(["astName", "purcPrice", "modelSize", "modelName", "purcCompanyName",
-            "mfCompany", "orgCountry", "qty", "unitText", "expAccount"])
+            "mfCompany", "orgCountry", "qty", "expAccount"])
 
         $("#purpose, #remark").kendoTextArea({
             rows : 2,

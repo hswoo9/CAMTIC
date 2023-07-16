@@ -191,6 +191,10 @@ var assetList = {
         });
 
         assetList.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getClassPositionList", {});
+        assetList.global.dropDownDataSource.rs.unshift({
+            AST_CP_CODE_NM : "전체",
+            AST_CP_CODE : "",
+        })
         $("#assetPosition").kendoDropDownList({
             dataTextField: "AST_CP_CODE_NM",
             dataValueField: "AST_CP_CODE",
@@ -199,6 +203,10 @@ var assetList = {
         });
 
         assetList.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getClassDivisionList", {});
+        assetList.global.dropDownDataSource.rs.unshift({
+            AST_TYPE_CODE_NM : "전체",
+            AST_TYPE_CODE : "",
+        })
         $("#assetType").kendoDropDownList({
             dataTextField: "AST_TYPE_CODE_NM",
             dataValueField: "AST_TYPE_CODE",

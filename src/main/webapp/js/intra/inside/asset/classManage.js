@@ -131,14 +131,14 @@ var classManage = {
 
         var url = "/inside/assetCodePositionManagePop.do?astCodeCompanyId=" + $("input[name=cPGridChk]:checked").val() + "&modify=Y";
         var name = "assetCodePositionManagePop";
-        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 160, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     assetCodePositionManagePop : function() {
         var url = "/inside/assetCodePositionManagePop.do";
         var name = "assetCodePositionManagePop";
-        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 160, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -229,14 +229,14 @@ var classManage = {
 
         var url = "/inside/divisionManagePop.do?astCodeTypeId=" + $("input[name=cDGridChk]:checked").val() + "&modify=Y";
         var name = "divisionManagePop";
-        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 160, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     divisionManagePopup : function() {
         var url = "/inside/divisionManagePop.do";
         var name = "divisionManagePop";
-        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 160, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -322,14 +322,14 @@ var classManage = {
 
         var url = "/inside/placeManagePop.do?astPlaceSn=" + $("input[name=pGridChk]:checked").val() + "&modify=Y";
         var name = "placeManagePop";
-        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 160, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     placeManagePop : function() {
         var url = "/inside/placeManagePop.do";
         var name = "placeManagePop";
-        var option = "width = 550, height = 200, top = 100, left = 200, location = no, _blank"
+        var option = "width = 550, height = 160, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
@@ -656,16 +656,30 @@ var classManage = {
             return;
         }
 
+        var heightSize = 160;
+        var widthSize = 600;
+        if(category == "categoryC"){
+            heightSize = 240;
+            widthSize = 715
+        }
+
         var url = "/inside/categoriesManagePop.do?categoryType=" + category + "&astCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modify=Y";
         var name = "categoriesManagePop";
-        var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
+        var option = "width = " + widthSize + ", height = " + heightSize + ", top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 
     categoriesManagePopup : function(category, e) {
+        var heightSize = 160;
+        var widthSize = 600;
+        if(category == "categoryC"){
+            heightSize = 240;
+            widthSize = 715
+        }
+
         var url = "/inside/categoriesManagePop.do?categoryType=" + category + "&astUpperCode=" + $(e).attr("astUpperCode");
         var name = "categoriesManagePop";
-        var option = "width = 500, height = 400, top = 100, left = 200, location = no, _blank"
+        var option = "width = " + widthSize + ", height = " + heightSize + ", top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

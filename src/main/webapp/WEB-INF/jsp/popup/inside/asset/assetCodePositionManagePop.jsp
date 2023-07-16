@@ -37,7 +37,7 @@
                     <th scope="row" class="text-center th-color"><span class="red-star"></span>소속</th>
                     <td colspan><input type="text" id="astCpCodeNm" style="width: 100%; margin-right:10px;"></td>
                     <th scope="row" class="text-center th-color"><span class="red-star"></span>소속 코드</th>
-                    <td colspan><input type="text" id="astCpCode" style="width: 100%; margin-right:10px;"></td>
+                    <td colspan><input type="text" id="astCpCode" style="width: 100%; margin-right:10px;" maxlength="1"></td>
                 </tr>
                 </thead>
             </table>

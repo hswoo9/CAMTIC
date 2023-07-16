@@ -26,6 +26,9 @@
         WHERE
             1 = 1
         AND VEI.ACTIVE = 'Y'
+        <if test="notDivision != null and notDivision != ''">
+            AND VEI.DUTY_NAME != #{notDivision}
+        </if>
         <if test="DEPT_SEQ != null and DEPT_SEQ != ''">
             AND VEI.DEPT_SEQ = #{DEPT_SEQ}
         </if>

@@ -42,7 +42,7 @@ var categoriesManagePop = {
                             '<span className="red-star"></span>코드' +
                         '</th>' +
                         '<td>' +
-                            '<input type="text" id="astCode" style="width: 100%;">' +
+                            '<input type="text" id="astCode" style="width: 100%;" maxlength="1">' +
                         '</td>' +
                      "</tr>";
         }else if($("#categoryType").val() == "categoryB"){
