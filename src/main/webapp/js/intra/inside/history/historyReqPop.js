@@ -79,7 +79,6 @@ var historyReqPop = {
     onDataBound : function(){
         const grid = this;
         grid.tbody.find("tr").dblclick(function (e) {
-            console.log(e);
         });
     },
 
@@ -169,11 +168,15 @@ var historyReqPop = {
                         style : "text-align:center",
                     }
                 }, {
+                    field: "ERP_EMP_SEQ",
+                    title: "사번",
+                    width: 80
+                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     width: 55
                 }, {
-                    title: "발령기준",
+                    title: "발령구분",
                     width: 170,
                     template : function (e){
                         return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='apntCd' />";
