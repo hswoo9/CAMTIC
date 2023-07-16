@@ -21,7 +21,7 @@ var bustripResult = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : new Date(now.setMonth(now.getMonth() + 1))
         });
 
         $("#pjt_cd").kendoDropDownList({
@@ -167,9 +167,31 @@ var bustripResult = {
                     width: 100
                 }, {
                     title : "결재",
-                    template : function(d){
-                        if(d.SAVE_YN == "Y"){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.hr_biz_req_id+')">결재</button>'
+                    template : function(e){
+                        if(e.SAVE_YN == "Y"){
+                            if(e.RES_STATUS == 0){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResult.bustripResDrafting(\""+e.hr_biz_req_id+"\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>상신</span>" +
+                                    "</button>";
+                            } else if(e.RES_STATUS == 10){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.doc_id+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
+                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
+                                    "<span class='k-button-text'>회수</span>" +
+                                    "</button>";
+                            } else if(e.RES_STATUS == 30 || e.RES_STATUS == 40){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.doc_id+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>재상신</span>" +
+                                    "</button>";
+                            } else if(e.RES_STATUS == 100){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.doc_id+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>열람</span>" +
+                                    "</button>";
+                            } else{
+                                return "-";
+                            }
                         } else {
                             return "-"
                         }
@@ -192,5 +214,18 @@ var bustripResult = {
         var name = "bustripResultPop";
         var option = "width=1600, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    bustripResDrafting: function(hrBizReqId) {
+        $("#hrBizReqId").val(hrBizReqId);
+        $("#bustripResDraftFrm").one("submit", function() {
+            var url = "/Inside/pop/approvalFormPopup/bustripResApprovalPop.do";
+            var name = "bustripResApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Inside/pop/approvalFormPopup/bustripResApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'bustripResApprovalPop';
+        }).trigger("submit");
     }
 }

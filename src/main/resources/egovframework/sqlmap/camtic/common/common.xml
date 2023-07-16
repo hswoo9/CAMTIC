@@ -110,7 +110,7 @@
             EMP_SEQ,
             REG_EMP_SEQ
         FROM
-            DJ_CAMTIC.V_FILE_INFO
+            CAM_COMMON.DJ_FILE_INFO
         WHERE
             FILE_NO = #{fileNo}
     </select>

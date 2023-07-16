@@ -49,6 +49,13 @@ public interface BustripService {
      */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
+    /**
+     * 출장결과보고서 전자결재 상태값 업데이트
+     * @param bodyMap
+     * @throws Exception
+     */
+    void updateResDocState(Map<String, Object> bodyMap) throws Exception;
+
     void saveBustripResult(Map<String, Object> params);
 
     Map<String, Object> getBustripOne(Map<String, Object> params);

@@ -104,6 +104,14 @@ public class BustripRepository extends AbstractDAO {
         update("bustrip.updateFinalApprStat", params);
     }
 
+    public void updateResApprStat(Map<String, Object> params) {
+        update("bustrip.updateResApprStat", params);
+    }
+
+    public void updateResFinalApprStat(Map<String, Object> params) {
+        update("bustrip.updateResFinalApprStat", params);
+    }
+
     public void saveBustripResult(Map<String, Object> params) {
         update("bustrip.saveBustripResult", params);
     }
