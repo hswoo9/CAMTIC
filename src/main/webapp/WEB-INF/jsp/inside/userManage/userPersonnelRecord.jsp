@@ -17,6 +17,8 @@
 <style>
     .likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
     .likeTab li{padding: 5px 18px; border-radius: 5px 5px 0 0; background-color: #6787b0; border: 1px solid #eee; font-weight: 600; cursor: pointer; font-size:13px; color: white; width: 104px; text-align: center;}
+    .likeTab li:hover {background-color: #262b36;}
+    .likeTab li.activeY {background-color: #262b36;}
     .k-input-md{font-size:12px;}
     .subTitSt{font-weight: 600; text-align: left; font-size: 13px; padding: 10px;}
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #00397f96; color: white;}
@@ -792,54 +794,80 @@
 <script>
     $(function(){
         $("#TabA").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .eduInfo .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "block");
             $("#empInfoBtn, #eduInfoBtn, #careerInfoBtn, #armyInfoBtn, #familyInfoBtn, #certificateInfoBtn, #dutiesInfoBtn, #orderInfoBtn, #rewardpunishmentInfoBtn, #lifelonglearningInfoBtn, #workevaluationInfoBtn, #proposalInfoBtn").css("display", "none");
         });
         $("#TabB").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".eduInfo, #eduInfoBtn").css("display", "block");
         });
         $("#TabC").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .eduInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".careerInfo, #careerInfoBtn").css("display", "block");
         });
         $("#TabD").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .eduInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".armyInfo, #armyInfoBtn").css("display", "block");
         });
         $("#TabE").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .eduInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".familyInfo, #familyInfoBtn").css("display", "block");
         });
         $("#TabF").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .eduInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".certificateInfo, #certificateInfoBtn").css("display", "block");
         });
         $("#TabG").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .eduInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".dutiesInfo, #dutiesInfoBtn").css("display", "block");
         });
         $("#TabH").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .eduInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".orderInfo, #orderInfoBtn").css("display", "block");
         });
         $("#TabI").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .eduInfo, .lifelonglearningInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".rewardpunishmentInfo, #rewardpunishmentInfoBtn").css("display", "block");
         });
         $("#TabJ").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .eduInfo, .workevaluationInfo, .proposalInfo").css("display", "none");
             $(".lifelonglearningInfo, #lifelonglearningInfoBtn").css("display", "block");
         });
         $("#TabK").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .eduInfo, .proposalInfo").css("display", "none");
             $(".workevaluationInfo, #workevaluationInfoBtn").css("display", "block");
         });
         $("#TabL").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".empInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .eduInfo").css("display", "none");
             $(".proposalInfo, #proposalInfoBtn").css("display", "block");
         });
         $("#TabM").on("click",function(){
+            $(".likeTab li.activeY").removeClass("activeY");
+            $(this).addClass("activeY");
             $(".eduInfo, .careerInfo, .armyInfo, .familyInfo, .certificateInfo, .dutiesInfo, .orderInfo, .rewardpunishmentInfo, .lifelonglearningInfo, .workevaluationInfo, .eduInfo, .proposalInfo").css("display", "none");
             $(".empInfo, #empInfoBtn").css("display", "block");
         });
