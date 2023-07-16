@@ -7,6 +7,7 @@ var userReqPop = {
         codeDropDownDept : [],
         codeDropDownDept2 : [],
         openerParams : [],
+        dropDownDataSource : ""
     },
 
     defaultScript : function(){
@@ -128,29 +129,8 @@ var userReqPop = {
             }
         });
 
-        $("#position").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "수석행정원 / 1급", value: "1"},
-                {text: "수석매니저 / 1급", value: "2"},
-                {text: "수석연구원 / 1급", value: "3"},
-                {text: "책임행정원 / 2급", value: "4"},
-                {text: "책임매니저 / 2급", value: "5"},
-                {text: "책임연구원 / 2급", value: "6"},
-                {text: "선임연구원 / 3급", value: "7"},
-                {text: "선임매니저 / 3급", value: "8"},
-                {text: "선임행정원 / 3급", value: "9"},
-                {text: "주임매니저 / 4급", value: "10"},
-                {text: "행정원 / 4급", value: "11"},
-                {text: "주임행정원 / 4급", value: "12"},
-                {text: "매니저 / 4급", value: "13"},
-                {text: "주임연구원 / 4급", value: "14"},
-                {text: "연구원 / 4급", value: "15"}
-            ],
-            index: 0
-        });
+        userReqPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "4"});
+        customKendo.fn_dropDownList("position", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
 
         $.ajax({
             url : "/userManage/getDeptCodeList2",
@@ -206,32 +186,11 @@ var userReqPop = {
         });
 
 
+        userReqPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "9"});
+        customKendo.fn_dropDownList("jobCode", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
 
-        $("#jobCode").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "R&D", value: "R&D"},
-                {text: "A&C", value: "A&C"},
-                {text: "P&M", value: "P&M"}
-            ],
-            index: 0
-        });
-
-        $("#duty").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "원장", value: "1"},
-                {text: "본부장", value: "2"},
-                {text: "사업부장", value: "3"},
-                {text: "센터장", value: "4"},
-                {text: "팀장", value: "5"}
-            ],
-            index: 0
-        });
+        userReqPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
+        customKendo.fn_dropDownList("duty", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
 
         $("#degreeCode").kendoDropDownList({
             dataTextField: "text",

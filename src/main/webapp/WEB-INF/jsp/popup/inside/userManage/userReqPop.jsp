@@ -497,13 +497,11 @@
         var deptDropDownList = $("#deptName").data("kendoDropDownList");
 
         if(deptParentSeq == "1000"){
-
-            deptDropDownList.select("${uprinfList.DEPT_SEQ}");
+            deptDropDownList.value("${uprinfList.DEPT_SEQ}");
             deptDropDownList.trigger("change");
             <%--$("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_TEAM_NAME}");--%>
         }else{
-
-            deptDropDownList.select(${uprinfList.DEPT_PARENT_SEQ});
+            deptDropDownList.value(${uprinfList.DEPT_PARENT_SEQ});
             deptDropDownList.trigger("change");
 
             $("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
@@ -562,11 +560,11 @@
         $("#divisDet").data("kendoDropDownList").value("${uprinfList.DIVISION_SUB}");
 
         //직급/등급 ---insert
-        $("#position").data("kendoDropDownList").value();
+        $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
         //직군 ---insert
-        $("#jobCode").data("kendoDropDownList").value("${uprinfList.JOB_NAME}");
+        $("#jobCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
         //직책
-        $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_NAME}");
+        $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_CODE}");
         //학위 ---insert
         $("#degreeCode").data("kendoDropDownList").value("${uprinfList.DEGREE_CODE}");
 
