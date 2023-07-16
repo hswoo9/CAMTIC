@@ -113,6 +113,18 @@ var equipmentUsePop = {
                 })
             }
         })
+
+        $("#useAmt").bind("keyup keydown", function() {
+            equipmentUsePop.inputNumberFormat(this)
+        })
+    },
+
+    inputNumberFormat: function (obj){
+        obj.value = equipmentUsePop.fn_comma(obj.value);
+    },
+
+    fn_comma: function(str){
+        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
     },
 
     equipUseSave : function (){
