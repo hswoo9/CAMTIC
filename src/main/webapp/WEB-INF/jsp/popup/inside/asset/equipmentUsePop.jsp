@@ -74,12 +74,12 @@
                         <th scope="row" class="text-center th-color">
                             <span class="red-star">*</span>사용시간
                         </th>
-                        <td colspan><input type="text" id="useTime" style="width: 65%;"> 시간
+                        <td colspan><input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" style="width: 65%;"> 시간
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star">*</span>사용대금
                         </th>
-                        <td><input type="text" id="useAmt" style="width: 90%; text-align: right;">원</td>
+                        <td><input type="text" id="useAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right;">원</td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>의뢰업체</th>

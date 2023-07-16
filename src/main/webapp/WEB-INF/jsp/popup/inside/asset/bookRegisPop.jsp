@@ -57,9 +57,9 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매가</th>
-                        <td><input type="text" id="bkCost" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 100%; text-align: right;"></td>
+                        <td><input type="text" id="bkCost" onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 100%; text-align: right;"></td>
                         <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매수량</th>
-                        <td colspan><input type="text" id="bkCnt" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 100%; text-align: right;"></td>
+                        <td colspan><input type="text" id="bkCnt" onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 100%; text-align: right;"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매일자</th>
