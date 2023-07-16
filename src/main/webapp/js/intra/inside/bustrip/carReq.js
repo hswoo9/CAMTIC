@@ -8,7 +8,7 @@ var carList = {
         customKendo.fn_textBox(["searchText"]);
         customKendo.fn_datePicker("carReqDt", 'year', "yyyy-MM", new Date());
 
-        const carArr = customKendo.fn_customAjax('/bustrip/getCarCode').list;
+        const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
         customKendo.fn_dropDownList("carClass", carArr, "text", "value", 1);
 
         let carTypeArr = [
@@ -36,7 +36,7 @@ var carList = {
         var schDataSource = new kendo.data.SchedulerDataSource({
             transport: {
                 read: {
-                    url : "/bustrip/getCarRequestList",
+                    url : "/inside/getCarRequestList",
                     dataType: "json"
                 },
                 parameterMap: function(data) {
@@ -90,9 +90,9 @@ var carList = {
     },
 
     carPopup: function(carReqSn){
-        let url = "/bustrip/pop/carPop.do";
+        let url = "/Inside/pop/carPop.do";
         if(!isNaN(carReqSn)) {
-            url = "/bustrip/pop/carPop.do?carReqSn="+carReqSn;
+            url = "/Inside/pop/carPop.do?carReqSn="+carReqSn;
         }
         let name = "carPop";
         let option = "width = 900, height = 500, top = 100, left = 200, location = no";

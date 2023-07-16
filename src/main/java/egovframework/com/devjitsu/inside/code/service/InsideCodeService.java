@@ -1,0 +1,39 @@
+package egovframework.com.devjitsu.inside.code.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface InsideCodeService {
+
+    //KendoDropDownList 차량코드
+    List<Map<String, Object>> getCarCode(Map<String, Object> params);
+
+    //차량사용신청 캘린더 단일데이터조회
+    Map<String, Object> getCarRequestInfo(Map<String, Object> params);
+
+    //차량사용신청 캘린더 리스트조회
+    List<Map<String, Object>> getCarRequestList(Map<String, Object> params);
+
+    //차량사용신청 중복조회
+    List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params);
+
+    //차량관리 차량코드 단일데이터조회
+    Map<String, Object> getCarCodeInfo(Map<String, Object> params);
+
+    //차량관리 차량코드 리스트조회
+    List<Map<String, Object>> getCarCodeList(Map<String, Object> params);
+
+
+
+    //차량사용신청 등록
+    void setCarRequestInsert(Map<String, Object> params);
+
+    //차량사용신청 수정
+    void setCarRequestUpdate(Map<String, Object> params);
+
+    //차량관리 차량코드 등록
+    void setCarCodeInsert(Map<String, Object> params);
+
+    //차량관리 차량코드 수정
+    void setCarCodeUpdate(Map<String, Object> params);
+}

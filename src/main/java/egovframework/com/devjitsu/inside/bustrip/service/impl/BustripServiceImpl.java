@@ -34,11 +34,6 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
-    public List<Map<String, Object>> getCarCode(Map<String, Object> params) {
-        return bustripRepository.getCarCode(params);
-    }
-
-    @Override
     public void setBustripReq(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
         if(params.containsKey("hrBizReqId")){
@@ -133,51 +128,6 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params) {
         return bustripRepository.getBustripTotInfo(params);
-    }
-
-    @Override
-    public Map<String, Object> getCarRequestOne(Map<String, Object> params) {
-        return bustripRepository.getCarRequestOne(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params) {
-        return bustripRepository.searchDuplicateCar(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getCarRequestList(Map<String, Object> params) {
-        return bustripRepository.getCarRequestList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getCarCodeList(Map<String, Object> params) {
-        return bustripRepository.getCarCodeList(params);
-    }
-
-    @Override
-    public Map<String, Object> getCarCodeInfo(Map<String, Object> params) {
-        return bustripRepository.getCarCodeInfo(params);
-    }
-
-    @Override
-    public void setCarRequestInsert(Map<String, Object> params) {
-        bustripRepository.setCarRequestInsert(params);
-    }
-
-    @Override
-    public void setCarRequestUpdate(Map<String, Object> params) {
-        bustripRepository.setCarRequestUpdate(params);
-    }
-
-    @Override
-    public void setCarCodeInsert(Map<String, Object> params) {
-        bustripRepository.setCarCodeInsert(params);
-    }
-
-    @Override
-    public void setCarCodeUpdate(Map<String, Object> params) {
-        bustripRepository.setCarCodeUpdate(params);
     }
 
     @Override
