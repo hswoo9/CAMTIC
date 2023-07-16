@@ -234,7 +234,7 @@ var equipmentUseUpdatePop = {
                 async : false,
             });
             alert("수정 되었습니다.");
-            location.reload();
+            opener.gridReload();
             window.close()
         }
     }

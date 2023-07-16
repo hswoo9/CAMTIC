@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="recruit">
+
+    <select id="getRecruitNum" resultType="map">
+        /* getRecruitNum */
+        SELECT CONCAT('제', DATE_FORMAT(NOW(), '%Y'), '-', LPAD((SELECT IFNULL(max(siri.RECRUIT_SN), 0)+1 FROM cam_inside.dj_recruit_info siri), '2', '0'), '호') AS RECRUIT_NUM FROM DUAL
+    </select>
+</mapper>
+
+
+

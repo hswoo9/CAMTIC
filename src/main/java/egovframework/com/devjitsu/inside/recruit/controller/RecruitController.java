@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.inside.recruit.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,15 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class RecruitController {
 
     private static final Logger logger = LoggerFactory.getLogger(RecruitController.class);
 
+    @Autowired
+    private RecruitService recruitService;
     @Autowired
     private UserService userService;
 
@@ -33,13 +37,15 @@ public class RecruitController {
         return "inside/recruit/recruitList";
     }
 
-    //채용관리 페이지
+    //채용관리 채용등록 팝업
     @RequestMapping("/Inside/pop/recruitReqPop.do")
     public String recruitReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        Map<String, Object> data = recruitService.getRecruitNum();
+        model.addAttribute("recruitNum", data.get("RECRUIT_NUM"));
         return "popup/inside/recruit/recruitReqPop";
     }
 

@@ -74,7 +74,7 @@
         </choose>
             VFI.*
         FROM
-            DJ_CAMTIC.V_FILE_INFO VFI
+            CAM_COMMON.DJ_FILE_INFO VFI
         JOIN
             DJ_CAMTIC.V_PURC_INFO_TEMP VPIT
         ON

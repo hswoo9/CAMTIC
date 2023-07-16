@@ -156,6 +156,7 @@ public class BustripServiceImpl implements BustripService {
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             bustripRepository.updateApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            params.put("approveStatCode", 100);
             bustripRepository.updateFinalApprStat(params);
         }
     }
