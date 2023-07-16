@@ -191,7 +191,8 @@
         DJ_CAMTIC.A_DOC_INFO DI ON VUH.DOC_ID = DI.DOC_ID
         where
         1=1
-
+        AND
+            VUH.APPR_STAT != 'N'
         <if test='status != null and !"".equals(status)'>
             AND VUH.APPR_STAT = #{status}
         </if>
