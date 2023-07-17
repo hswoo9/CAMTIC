@@ -367,7 +367,7 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">사유</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -380,6 +380,8 @@ var subHolidayReqPop = {
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html);
             subHolidayReqPop.dataSet();
+
+            $("#holiday_reason").kendoTextBox();
 
             $("#edtHolidayAlternativeDate_3").kendoDatePicker({
                 culture : "ko-KR",
@@ -517,22 +519,21 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">사유</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
+                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
-                '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -545,6 +546,10 @@ var subHolidayReqPop = {
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html2);
             subHolidayReqPop.dataSet();
+
+            $("#holiday_reason").kendoTextBox();
+            $("#other_reason").kendoTextBox();
+            $("#other_emp").kendoTextBox();
 
             var data = "-"; // 적절한 값으로 초기화합니다.
             function sendMeData(data) {
@@ -670,13 +675,13 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">사유</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -684,8 +689,8 @@ var subHolidayReqPop = {
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -698,6 +703,10 @@ var subHolidayReqPop = {
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html3);
             subHolidayReqPop.dataSet();
+
+            $("#holiday_reason").kendoTextBox();
+            $("#other_reason").kendoTextBox();
+            $("#other_emp").kendoTextBox();
 
             $("#edtHolidayStartDateTop_1").kendoDatePicker({
                 culture : "ko-KR",

@@ -113,7 +113,7 @@ var searchHolidayReqPop = {
                     headerTemplate: '',
                     template : function(e){
                         if(e.APPR_STAT == "Y"){
-                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='k-checkbox checkbox checkSingle'/>";
+                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='checkbox checkSingle'/>";
                         } else {
                             return "";
                         }
