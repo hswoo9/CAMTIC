@@ -136,7 +136,7 @@ var userInfoMod = {
 			dataBound : userInfoMod.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="checkbox" onclick="userInfoMod.selectAllcheck()"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="userInfoMod.selectAllcheck()"/>',
                     template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='' class='tdCheckBox'/>",
                     width: 50
                 }, {

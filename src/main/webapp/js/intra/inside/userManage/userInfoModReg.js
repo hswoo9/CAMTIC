@@ -50,7 +50,7 @@ var userInfoModReg = {
 			dataBound : userInfoModReg.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="checkbox" onclick="userInfoModReg.selectAllcheck()"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="userInfoModReg.selectAllcheck()"/>',
                     template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='' class='tdCheckBox'/>",
                     width: 50
                 }, {
