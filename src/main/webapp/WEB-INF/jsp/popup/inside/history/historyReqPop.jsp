@@ -57,27 +57,25 @@
                     <table class="searchTable table table-bordered mb-0" id="">
                         <colgroup>
                             <col width="10%">
-                            <col width="15%">
+                            <col width="23%">
                             <col width="10%">
-                            <col width="15%">
+                            <col width="23%">
                             <col width="10%">
-                            <col width="15%">
-                            <col width="10%">
-                            <col width="15%">
+                            <col width="23%">
                         </colgroup>
                         <tbody>
                         <tr>
                             <th>호수</th>
                             <td>
-                                <input type="text" id="numberName" class="defaultVal" style="width: 95%;">
+                                <input type="text" id="numberName" class="defaultVal" style="width: 200px;">
                             </td>
                             <th>관련근거</th>
                             <td>
-                                <input type="text" id="relevantName" class="defaultVal" style="width: 95%;">
+                                <input type="text" id="relevantName" class="defaultVal" style="width: 200px;">
                             </td>
                             <th>발령 일자</th>
-                            <td>
-                                <input type="text" id="historyDate" class="defaultVal" style="width: 95%;">
+                            <td colspan="3">
+                                <input type="text" id="historyDate" class="defaultVal" style="width: 200px;">
                             </td>
                         </tr>
                         </tbody>
