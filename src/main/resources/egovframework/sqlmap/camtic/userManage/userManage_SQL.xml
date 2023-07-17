@@ -260,9 +260,6 @@
             cam_hr.dj_hr_code
         WHERE
             ACTIVE = 'Y'
-        <if test=''>
-
-        </if>
     </select>
     <select id="getDeptCodeList2" parameterType="map" resultType="map">
         /*getDeptCodeList2*/
