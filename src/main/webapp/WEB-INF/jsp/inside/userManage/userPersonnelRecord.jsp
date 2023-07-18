@@ -507,7 +507,6 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="6%">
                                         <col width="15%">
                                         <col width="15%">
@@ -516,9 +515,6 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='appointAllChk' id='appointAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'appointChk')">
-                                        </th>
                                         <th>번호</th>
                                         <th>발령 구분</th>
                                         <th>발령 일자</th>
@@ -527,7 +523,6 @@
                                     </tr>
                                     <c:forEach var="l" items="${aList}" varStatus="status">
                                         <tr>
-                                            <td><input type='checkbox' name='appointChk' id='appointChk${l.APPOINT_ID}' class='k-checkbox checkbox'></td>
                                             <td>${status.index + 1}</td>
                                             <td>${l.APNT_NAME}</td>
                                             <td>${l.historyDt}</td>

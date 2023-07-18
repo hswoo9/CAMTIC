@@ -37,7 +37,7 @@ var userInfoMod = {
                 { text: "병력사항", value: "3" },
                 { text: "가족사항", value: "4" },
                 { text: "보유면허", value: "5" },
-                { text: "발령사항", value: "6" },
+                /*{ text: "발령사항", value: "6" },*/
                 { text: "상벌사항", value: "7" },
                 { text: "직무사항", value: "8" },
                 { text: "제안제도", value: "9" },
@@ -68,7 +68,7 @@ var userInfoMod = {
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             scrollable: true,
-            height: 540,
+            height: 500,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -79,7 +79,7 @@ var userInfoMod = {
 					name : 'button',
 					template : function (e){
 						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.gridReload()">' +
-							'	<span class="k-button-text">검색</span>' +
+							'	<span class="k-button-text">조회</span>' +
 							'</button>';
 					}
 				},

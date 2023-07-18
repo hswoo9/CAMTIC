@@ -48,8 +48,6 @@
                         <td>
                             <input type="text" id="userGender" style="width:70px;">
                         </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
                             <input type="text" id="start_date" style="width: 110px;">

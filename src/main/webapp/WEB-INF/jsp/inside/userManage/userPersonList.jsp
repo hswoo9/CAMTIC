@@ -134,7 +134,7 @@
                         <th class="text-center th-color">조회 기간</th>
                         <td>
                             <input type="text" id="start_date_detail" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">조회</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;">돌아가기</button>
                         </td>

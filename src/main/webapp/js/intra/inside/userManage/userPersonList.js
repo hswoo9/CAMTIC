@@ -278,7 +278,7 @@ var userPersonList = {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
-                            '	<span class="k-button-text">검색</span>' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 },
