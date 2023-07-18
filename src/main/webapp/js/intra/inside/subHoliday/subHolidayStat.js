@@ -132,7 +132,7 @@ var subHolidayStat = {
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 490,
+            height: 568,
             sortable: true,
             scrollable: true,
             noRecords: {
@@ -149,6 +149,16 @@ var subHolidayStat = {
                     empty: "데이터가 없습니다.",
                 }
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayStat.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             dataBound: subHolidayStat.onDataBound,
             columns: [
                 {

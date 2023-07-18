@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/recruit/recruitList.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -18,25 +18,19 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col width="40%">
                         <col width="10%">
-                        <col width="60%">
+                        <col width="40%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="recruitYear" style="width: 140px;">
+                            <input type="text" id="recruitYear" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="searchType" style="width: 140px;">
-                            <input type="text" id="searchVal" style="width: 140px;">
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                검색
-                            </button>
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                채용통계 조회
-                            </button>
+                            <input type="text" id="searchType" style="width: 100px;">
+                            <input type="text" id="searchVal" style="width: 150px;">
                         </td>
                     </tr>
                 </table>

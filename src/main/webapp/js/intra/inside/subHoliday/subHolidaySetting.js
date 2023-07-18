@@ -75,7 +75,7 @@ var subHolidaySetting = {
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 490,
+            height: 538,
             sortable: true,
             scrollable: true,
             noRecords: {

@@ -10,7 +10,7 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -31,7 +31,7 @@
                     <tr>
                         <th class="text-center th-color">조회연도</th>
                         <td>
-                            <input type="text" id="docuYearDe" style="width: 200px; margin-right:10px;">
+                            <input type="text" id="docuYearDe" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">발급구분</th>
                         <td>
@@ -40,7 +40,6 @@
                                 <span>처리상태</span>
                                 <input type="text" id="status" style="width: 150px;">
                             </div>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="certificateAdmin.gridReload();">검색</button>
                         </td>
                     </tr>
                 </table>
