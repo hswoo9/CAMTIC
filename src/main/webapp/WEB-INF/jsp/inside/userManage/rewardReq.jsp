@@ -5,7 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/history/rewardReq.js?v=${today}"/></script>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -18,19 +18,21 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="30%">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td style="border-bottom:0; background-color: white">
-                            <input type="text" id="start_date" style="width: 45%;">
+                            <input type="text" id="start_date" style="width: 110px;">
                             ~
-                            <input type="text" id="end_date" style="width: 45%;">
+                            <input type="text" id="end_date" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">포상 구분</th>
                         <td>
@@ -38,18 +40,15 @@
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" style="width: 45%; margin-right:10px;">
-                            <input type="text" id="team" style="width: 50%;">
+                            <input type="text" id="dept" style="width: 150px;">
+                            <input type="text" id="team" style="width: 180px;">
                         </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">
                             검색어
                         </th>
                         <td colspan="5">
-                            <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchText" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">검색</button>
+                            <input type="text" id="searchType" style="width: 70px;">
+                            <input type="text" id="searchText" style="width: 130px;">
                         </td>
                     </tr>
                 </table>

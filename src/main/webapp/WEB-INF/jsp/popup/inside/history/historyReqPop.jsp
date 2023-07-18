@@ -40,7 +40,7 @@
                         <th class="text-center th-color">성명</th>
                         <td>
                             <input type="text" id="searchVal" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReqPop.gridReload()">검색</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReqPop.gridReload()">조회</button>
                         </td>
                     </tr>
                 </table>

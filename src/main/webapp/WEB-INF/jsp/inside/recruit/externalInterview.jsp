@@ -5,7 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/recruit/externalInterview.js?v=${today}"/></script>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>

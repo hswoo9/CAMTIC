@@ -46,7 +46,7 @@
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="deptName" style="width: 200px;">
+                            <input type="text" id="deptName" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>
