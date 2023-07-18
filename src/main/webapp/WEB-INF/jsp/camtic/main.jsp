@@ -24,7 +24,7 @@
     <a href="#" class="aside2">공지</a>
     <a href="#" class="aside3">SNS</a>
     <a href="#" class="aside4">채용<br>공고</a>
-    <%--<a href="#" class="aside5">장비<br>사용</a>--%>
+    <a href="#" class="aside5">장비<br>사용</a>
     <a href="#wrap" class="aside6 _gotop">TOP</a>
   </aside>
 
@@ -41,13 +41,13 @@
           </dl>
           <p><span>J - Valley</span></p>
         </div>
-        <%--<div class="roll2">
+        <div class="roll2">
           <div class="swiper-wrapper">
             <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/1193x803?text=vis2);"></div>
             <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/1193x803?text=vis3);"></div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);"></div>
           </div>
-        </div>--%>
+        </div>
       </div>
       <div class="rig">
         <div class="roll">
@@ -331,8 +331,7 @@
             <div class="roll">
               <div class="swiper-wrapper">
                 <a href="#" class="swiper-slide">
-                  <iframe width="580" height="370" src="https://www.youtube.com/embed/tBQ9ewstL9E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                  <%--<i style="background-image:url(https://fakeimg.pl/580x370?text=1);">동영상 제목</i>--%>
+                  <i style="background-image:url(https://fakeimg.pl/580x370?text=1);">동영상 제목</i>
                 </a>
                 <a href="#" class="swiper-slide">
                   <i style="background-image:url(https://fakeimg.pl/580x370?text=2);">동영상 제목</i>
@@ -379,11 +378,11 @@
           <div class="roll">
             <div class="swiper-wrapper">
 
-              <a href="http://sjbnews.com/news/news.php?number=779360" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th01.jpg);"></i></div>
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
                 <div class="info">
                   <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">전북 인공위성 1호는 우리 손으로</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
                   <p class="sum">
                     함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
                     함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
@@ -392,98 +391,7 @@
                 </div>
               </a>
 
-              <a href="https://www.jjan.kr/article/20230427580175" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th02.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">우리는 성공으로 향하고 있다" 전북청창사, 비전 캠프 진행</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="face">페이스북</span></p>
-                </div>
-              </a>
-
-              <a href="https://www.facebook.com/photo?fbid=610327794488046&set=a.556869086500584" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th03.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">J-밸리 신산업 창업지원사업 예비창업자 모집</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="insta">인스타그램</span></p>
-                </div>
-              </a>
-
-              <a href="http://sjbnews.com/news/news.php?number=777933" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th04.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">천연물 바이오산업 핵심은 '기술과 협력'</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="kakao">카카오톡</span></p>
-                </div>
-              </a>
-
-              <a href="http://sjbnews.com/news/news.php?number=779360" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th01.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">전북 인공위성 1호는 우리 손으로</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="kakao">카카오톡</span></p>
-                </div>
-              </a>
-
-              <a href="https://www.jjan.kr/article/20230427580175" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th02.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">우리는 성공으로 향하고 있다" 전북청창사, 비전 캠프 진행</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="face">페이스북</span></p>
-                </div>
-              </a>
-
-              <a href="https://www.facebook.com/photo?fbid=610327794488046&set=a.556869086500584" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th03.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">J-밸리 신산업 창업지원사업 예비창업자 모집</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="insta">인스타그램</span></p>
-                </div>
-              </a>
-
-              <a href="http://sjbnews.com/news/news.php?number=777933" class="swiper-slide">
-                <div class="img"><i style="background-image:url(/images/camtic/sns_th04.jpg);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">천연물 바이오산업 핵심은 '기술과 협력'</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="kakao">카카오톡</span></p>
-                </div>
-              </a>
-
-              <%--<a href="#" class="swiper-slide">
+              <a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
                 <div class="info">
                   <p class="date">2023-01-20 오전 11:09</p>
@@ -546,7 +454,46 @@
                   </p>
                   <p class="sns"><span class="insta">인스타그램</span></p>
                 </div>
-              </a>--%>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="kakao">카카오톡</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="face">페이스북</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="insta">인스타그램</span></p>
+                </div>
+              </a>
 
             </div>
           </div>
@@ -555,7 +502,7 @@
     </div>
   </div>
 
-  <?include_once PATH.'/inc/foot.php';?>
+  <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 <script>
   vis.init();

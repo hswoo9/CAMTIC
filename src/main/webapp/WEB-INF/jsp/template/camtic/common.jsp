@@ -20,7 +20,10 @@
   <meta name="description" content=""/>
   <meta name="keywords" content=""/>
   <title>-</title>
-  <link rel="stylesheet" href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css" />
   <link rel="stylesheet" href="/css/camtic/common.css"/>
   <link rel="stylesheet" href="/css/camtic/global.css"/>
   <script src="/js/camtic/jquery.min.js"></script>
