@@ -24,16 +24,16 @@
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered">
                     <colgroup>
-                        <col width="5%">
+                        <col width="8%">
                         <col width="10%">
-                        <col width="5%">
+                        <col width="8%">
                         <col width="10%">
-                        <col width="5%">
-                        <col width="5%">
-                        <col width="6%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
                         <col width="10%">
-                        <col width="5%">
-                        <col width="15%">
+                        <col width="8%">
+                        <col width="20%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">부서</th>
