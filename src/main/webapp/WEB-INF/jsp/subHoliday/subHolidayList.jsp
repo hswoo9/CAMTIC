@@ -11,7 +11,7 @@
 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
 <input type="hidden" id="apprStat" value="N">
 <input type="hidden" id="vacUseHistId" value="">
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -31,7 +31,7 @@
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td style="border-right: none">
-                            <input id="datePicker" style="width:200px;">
+                            <input id="datePicker" style="width:110px;">
                         </td>
                         <td style="border: none; float: right">
                             <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidayList.subHolidayReqPop();">신청</button>
@@ -134,7 +134,6 @@
                         <th class="text-center th-color">처리상태</th>
                         <td>
                             <input type="text" id="status" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">검색</button>
                         </td>
                     </tr>
                 </table>

@@ -89,7 +89,7 @@ var subHolidayAdmin = {
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 490,
+            height: 538,
             sortable: true,
             scrollable: true,
             noRecords: {
@@ -107,6 +107,14 @@ var subHolidayAdmin = {
                 }
             },
             toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
                 {
                     name : 'button',
                     template : function (e){
