@@ -3,8 +3,6 @@
  * 작성자 : 김은진
  * 내용 : 인사관리 - 직원조회목록
  */
-var now = new Date();
-
 var userPersonList2 = {
     global : {
         searchAjaxData : "",

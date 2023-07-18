@@ -54,7 +54,7 @@
                         <td colspan="3">
                             <input type="text" id="userKind" style="width: 100px;">
                             <input type="text" id="kindContent" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">검색</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList2.gridReload()">검색</button>
                         </td>
                     </tr>
                 </table>
@@ -90,83 +90,6 @@
                         <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">서열관리</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel" id="detailSearchDiv" style="display: none;">
-        <div class="panel-heading">
-        </div>
-        <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title" style="margin-bottom: 20px;">상세검색</h4>
-            <div class="title-road"></div>
-            <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-        </div>
-        <div class="panel-body">
-            <div style="margin-bottom:10px;">
-                <table class="searchTable table table-bordered">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="40%">
-                        <col width="10%">
-                        <col width="40%">
-                    </colgroup>
-                    <tr>
-                        <th class="text-center th-color">현황</th>
-                        <td>
-                            <input type="text" id="workStatusCode" style="width: 150px; margin-right:10px;">
-                        </td>
-                        <th class="text-center th-color">조회 기간</th>
-                        <td>
-                            <input type="text" id="start_date_detail" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReloadDetail()">검색</button>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색초기화</button>
-                        </td>
-                    </tr>
-                </table>
-                <table class="searchTable table table-bordered mb-0">
-                    <tr style="width: 100%;">
-                        <td style="width: 50%">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">유형</span>
-                            <input type="text" id="detailSearch2" style="width: 90%;"></div>
-                        </td>
-                        <td style="width: 50%">
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">성별</span>
-                            <input type="text" id="detailSearch3" style="width: 90%;"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">부서</span>
-                            <input type="text" id="detailSearch4" style="width: 90%;"></div>
-                        </td>
-                        <td>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">팀</span>
-                            <input type="text" id="detailSearch5" style="width: 90%;"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">직급</span>
-                            <input type="text" id="detailSearch6" style="width: 90%;"></div>
-                        </td>
-                        <td>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">연령</span>
-                            <input type="text" id="detailSearch7" style="width: 90%;"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">근속년수</span>
-                            <input type="text" id="detailSearch8" style="width: 90%;"></div>
-                        </td>
-                        <td>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span class="mr10">최종학력</span>
-                            <input type="text" id="detailSearch9" style="width: 90%;"></div>
-                        </td>
-                    </tr>
-                </table>
-                <div id="mainGrid2" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>
