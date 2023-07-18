@@ -1,44 +1,24 @@
-<%--
-Created by IntelliJ IDEA.
-User: jsy
-Date: 2023-02-28
-Time: 오후 3:21
-To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .tit_p{font-weight: bold; margin-bottom: 13px; padding-left: 12px; font-size: 13px;}
-    table { background-color: white; }
-</style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
-<%--<script type="text/javascript" src="<c:url value='/js/intra/approval/draftFormList.js?${toDate}'/>"></script>--%>
 <script type="text/javascript" src="/js/intra/approval/draftFormList.js?${toDate}"/></script>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
 <div class="col-md-10 col-lg-10 dash-left">
     <div class="panel">
-        <div class="panel-heading">
-        </div>
+        <div class="panel-heading"></div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">양식목록</h4>
             <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠도큐먼트 > 상신/보관함 > 양식목록</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <table style="margin-bottom:10px;">
+            <table style="margin-bottom:10px; width: 100%; background-color: white;">
                 <tr>
                     <td style="padding: 15px 0px 15px 0px; width: 320px;">
                         <div>
-                            <input id="formSearch" name="formSearch" placeholder="양식명" style="width: 281px" onkeypress="if(window.event.keyCode==13){draftFormList.getDraftFromSearch()}"/>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="draftFormList.getDraftFromSearch()">
+                            <input id="formSearch" name="formSearch" placeholder="양식명" style="width: 281px" onkeypress="if(window.event.keyCode==13){draftFormList.getDraftFormSearch()}"/>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="draftFormList.getDraftFormSearch()">
                                 <span class="k-icon k-i-search k-button-icon"></span>
                             </button>
                         </div>
@@ -61,12 +41,11 @@ To change this template use File | Settings | File Templates.
                     </td>
                 </tr>
             </table>
-        </div>
-    </div>
-</div><!-- col-md-9 -->
-
+        </div><!-- panel-body -->
+    </div><!-- panel -->
+</div><!-- col-md-10 -->
 
 <script type="text/javascript">
-    var datas = JSON.parse('${data}');
-    draftFormList.fnDefaultScript(datas);
+    let datas = JSON.parse('${data}');
+    draftFormList.fn_DefaultScript(datas);
 </script>

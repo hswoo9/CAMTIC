@@ -213,7 +213,7 @@ var subHolidayList = {
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
 
-            var url = "/subHoliday/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
+            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
             var name = "subHolidayReqPop";
             var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
@@ -263,7 +263,7 @@ var subHolidayList = {
     },
 
     subHolidayReqPop : function() {
-        var url = "/subHoliday/subHolidayReqPop.do";
+        var url = "/subHoliday/pop/subHolidayReqPop.do";
         var name = "subHolidayReqPop";
         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

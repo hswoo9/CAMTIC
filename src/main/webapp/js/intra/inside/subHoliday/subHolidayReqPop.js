@@ -18,10 +18,12 @@ var subHolidayReqPop = {
 
         modalTemplate : "",
         minuteList : new Array(),
+
+        type: "",
+        code: ""
     },
 
-    fn_defaultScript : function(){
-
+    fn_defaultScript: function(){
         var data = {
             mcCode : subHolidayReqPop.global.mcCode,
             mdCode : subHolidayReqPop.global.mdCode,
@@ -43,6 +45,21 @@ var subHolidayReqPop = {
 
         if($("#vacUseHistId").val()){
             subHolidayReqPop.getVacUseHistoryOne();
+        }
+
+        //캠도큐먼트 양식목록에서 기안시 처리작업
+        subHolidayReqPop.global.code = $("#code").val();
+        subHolidayReqPop.global.type = $("#type").val();
+        if(subHolidayReqPop.global.code == "11"){
+            $("#edtHolidayKindTop").data("kendoDropDownList").value(subHolidayReqPop.global.code);
+            subHolidayReqPop.dataSetChange();
+        }
+        if(subHolidayReqPop.global.type == "drafting"){
+            $(".request").hide();
+            $(".drafting").show();
+        }else {
+            $(".request").show();
+            $(".drafting").hide();
         }
     },
 
@@ -158,9 +175,14 @@ var subHolidayReqPop = {
                 success: function (rs) {
                     alert("신청 데이터 저장이 완료되었습니다.");
                     //subHolidayReqPop.fn_topTableClear();
-                   /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
-                    opener.gridReload();
-                    window.close();
+                    /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
+                    if(subHolidayReqPop.global.type == "drafting") {
+                        //TODO.20230718 작업중
+                        console.log(rs.vacUseHistId);
+                    }else {
+                        opener.gridReload();
+                        window.close();
+                    }
                 },
                 error: function () {
                     alert("신청 데이터 저장 중 에러가 발생했습니다.");

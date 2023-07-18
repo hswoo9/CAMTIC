@@ -41,6 +41,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/draftFormList.do")
     public String draftFormList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());

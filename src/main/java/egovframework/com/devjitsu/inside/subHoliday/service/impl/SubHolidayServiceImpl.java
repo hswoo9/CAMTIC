@@ -28,17 +28,21 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
     @Override
     @Transactional
-    public void setVacUseHist(Map<String, Object> params) {
+    public int setVacUseHist(Map<String, Object> params) {
+        int result = 0;
         if(params.containsKey("vacUseHistId")){
             subHolidayRepository.updateVacUseHist(params);
         }else{
             if(params.containsKey("checkUseYn")){
                 subHolidayRepository.setVacUseHist(params);
                 subHolidayRepository.updateVacUseHistWork(params);
+                result = Integer.parseInt(params.get("vacUseHistId").toString());
             }else {
                 subHolidayRepository.setVacUseHist(params);
+                result = Integer.parseInt(params.get("vacUseHistId").toString());
             }
         }
+        return result;
     }
 
     @Override
