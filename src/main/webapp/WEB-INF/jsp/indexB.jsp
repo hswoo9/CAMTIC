@@ -243,39 +243,53 @@
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">연락처 추가</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-user" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">연락처 추가</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">일정등록</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">일정등록</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">게시물쓰기</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">게시물쓰기</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">설문작성</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">설문작성</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-10 col-sm-10" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #505b72; padding:5px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i>PC메신져 다운로드</a></h3>
+                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-10 col-sm-10" style="padding-right:0;">
+        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+            <div class="panel" style="margin-bottom:10px;">
+                <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="" onclick="open_in_frame('/Inside/carReq.do')"><i class="fa fa-car" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">차량사용신청</span></a></h3>
+                </div>
+            </div><!-- panel -->
+        </div>
+        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+            <div class="panel" style="margin-bottom:10px;">
+                <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
+                </div>
+            </div><!-- panel -->
+        </div>
+        <%--<div class="col-md-10 col-sm-10" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">최근 로그인 정보</h4>
@@ -311,7 +325,7 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div>--%>
     <div class="col-md-10 col-sm-10" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
@@ -361,8 +375,6 @@
         </div>
     </div>
     </div>
-
-
 </div>
 
 <script>

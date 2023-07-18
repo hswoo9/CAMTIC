@@ -9212,8 +9212,8 @@ blockquote {
 }
 .headerpanel .logopanel {
   position: absolute;
-  left: -220px;
-  width: 220px;
+  left: -260px;
+  width: 260px;
   height: 64px;
   padding: 18px 15px;
   background-color: #20242d;
@@ -9241,7 +9241,7 @@ blockquote {
 }
 @media (min-width: 992px) {
   .headerbar {
-    margin-left: 220px;
+    margin-left: 260px;
     left: 0 !important;
   }
 }
@@ -9300,7 +9300,7 @@ blockquote {
 }
 .header-right {
   float: right;
-  padding-right: 20px;
+  padding-right: 110px;
 }
 .headermenu {
   list-style: none;
@@ -9670,11 +9670,11 @@ blockquote {
 /************ LEFT PANEL ***********/
 .leftpanel {
   background-color: #ffffff;
-  width: 220px;
+  width: 260px;
   position: fixed;
   top: 64px;
   bottom: 0;
-  left: -220px;
+  left: -260px;
   z-index: 100;
   overflow-y: auto;
   overflow-x: hidden;
@@ -11616,7 +11616,7 @@ blockquote {
 }
 @media (min-width: 992px) {
   .mainpanel {
-    margin-left: 220px;
+    margin-left: 260px;
   }
 }
 @media (max-width: 991px) {
