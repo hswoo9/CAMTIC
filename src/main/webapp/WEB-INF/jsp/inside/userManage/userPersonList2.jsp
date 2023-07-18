@@ -10,7 +10,7 @@
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -24,37 +24,40 @@
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered">
                     <colgroup>
+                        <col width="5%">
                         <col width="10%">
+                        <col width="5%">
                         <col width="10%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="6%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="5%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="deptComp" style="width: 200px; margin-right:10px;">
+                            <input type="text" id="deptComp" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="deptTeam" style="width: 200px; margin-right:10px;">
+                            <input type="text" id="deptTeam" style="width: 180px;">
                         </td>
                         <th class="text-center th-color">성별</th>
                         <td>
-                            <input type="text" id="userGender" style="width:200px; margin-right:10px;">
+                            <input type="text" id="userGender" style="width:70px;">
                         </td>
                     </tr>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 200px;">
+                            <input type="text" id="start_date" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td colspan="3">
                             <input type="text" id="userKind" style="width: 100px;">
-                            <input type="text" id="kindContent" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList2.gridReload()">검색</button>
+                            <input type="text" id="kindContent" style="width: 150px;">
                         </td>
                     </tr>
                 </table>

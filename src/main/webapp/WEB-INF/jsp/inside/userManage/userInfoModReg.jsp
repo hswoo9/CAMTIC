@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/js/intra/inside/userManage/userInfoModReg.js?v=${today}"/></script>
 <script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -19,19 +19,25 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="30%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 150px;">
+                            <input type="text" id="start_date" style="width: 110px;">
                             ~
-                            <input type="text" id="end_date" style="width: 150px;">
+                            <input type="text" id="end_date" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
@@ -41,23 +47,20 @@
                         <th class="text-center th-color">팀</th>
                         <td>
                             <input type="hidden" id="teamSeq" name="teamId" value="${loginVO.teamId}">
-                            <input type="text" id="teamNm" name="teamNm" style="width: 150px;" value="${loginVO.teamNm}" disabled>
+                            <input type="text" id="teamNm" name="teamNm" style="width: 180px;" value="${loginVO.teamNm}" disabled>
                         </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">신청 항목</th>
                         <td>
-                            <input type="text" id="drop1" style="width: 150px;">
+                            <input type="text" id="drop1" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="status" style="width: 150px;">
+                            <input type="text" id="status" style="width: 70px;">
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>
                             <input type="hidden" id="empSeq" style="width: 150px;" value="${loginVO.uniqId}">
                             <input type="text" id="empName" style="width: 150px;" value="${loginVO.name}" disabled>
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="userInfoModReg.gridReload()"/>
                         </td>
                     </tr>
                 </table>

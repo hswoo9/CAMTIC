@@ -75,6 +75,14 @@ var userInfoMod = {
                 buttonCount : 5
             },
             toolbar : [
+				{
+					name : 'button',
+					template : function (e){
+						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.gridReload()">' +
+							'	<span class="k-button-text">검색</span>' +
+							'</button>';
+					}
+				},
                 {
                     name : 'button',
                     template : function (e){

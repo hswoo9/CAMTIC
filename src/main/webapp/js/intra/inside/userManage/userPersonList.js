@@ -36,9 +36,9 @@ var userPersonList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "전체", value: "0"},
-                {text: "남", value: "남"},
-                {text: "여", value: "여"}
+                {text: "전체", value: ""},
+                {text: "남", value: "M"},
+                {text: "여", value: "F"}
             ],
             index: 0
         });
@@ -274,6 +274,14 @@ var userPersonList = {
                 buttonCount: 5
             },
             toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
+                            '	<span class="k-button-text">검색</span>' +
+                            '</button>';
+                    }
+                },
                 {
                     name: 'button',
                     template: function (e) {
