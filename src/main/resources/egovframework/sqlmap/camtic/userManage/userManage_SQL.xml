@@ -301,6 +301,10 @@
         CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
         HEI.active = 'Y'
+        <if test='userGender != null and !"".equals(userGender)'>
+        AND
+            HEI.GENDER_CODE = #{userGender}
+        </if>
         <if test='startDate != null and !"".equals(startDate)'>
             <![CDATA[
 	    AND
@@ -325,6 +329,10 @@
                                         PARENT_DEPT_SEQ = #{deptComp}
                                     )
             </if>
+        </if>
+        <if test='userGender != null and !"".equals(userGender)'>
+            AND
+            HEI.GENDER_CODE = #{userGender}
         </if>
         <if test='deptTeam != null and !"".equals(deptTeam)'>
             AND
