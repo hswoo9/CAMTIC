@@ -16,7 +16,7 @@ var userInfoMod = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : ""
+            value : new Date(now.setMonth(now.getMonth() - 1))
         });
 
         $("#end_date").kendoDatePicker({
@@ -24,7 +24,7 @@ var userInfoMod = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : ""
+            value : new Date()
         });
 
         $("#drop1").kendoDropDownList({
