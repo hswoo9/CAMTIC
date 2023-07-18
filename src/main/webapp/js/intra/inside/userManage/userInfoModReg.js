@@ -57,11 +57,11 @@ var userInfoModReg = {
             },
 			dataBound : userInfoModReg.onDataBound,
             columns: [
-                {
+                /*{
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="userInfoModReg.selectAllcheck()"/>',
                     template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='' class='tdCheckBox'/>",
                     width: 50
-                }, {
+                }, */{
 					attributes : { style : "text-align : center;"},
 					width: "50px",	
                     field: "",
@@ -139,7 +139,7 @@ var userInfoModReg = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : ""
+			value : new Date(now.setMonth(now.getMonth() - 1))
 		});
 
 		$("#end_date").kendoDatePicker({
@@ -147,7 +147,7 @@ var userInfoModReg = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : ""
+			value : new Date()
 		});
 
 		$("#drop1").kendoDropDownList({
