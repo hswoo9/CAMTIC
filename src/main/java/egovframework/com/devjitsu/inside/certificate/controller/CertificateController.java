@@ -30,14 +30,14 @@ public class CertificateController {
     private CommonCodeService commonCodeService;
 
     //증명서신청 페이지
-    @RequestMapping("/Inside/certificateReq.do")
+    @RequestMapping("/Inside/certificateList.do")
     public String certificateReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/certificateReq";
+        return "inside/certificate/certificateList";
     }
 
     //증명서관리 페이지
@@ -48,7 +48,7 @@ public class CertificateController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/certificateAdmin";
+        return "inside/certificate/certificateAdmin";
     }
 
     //증명서신청 팝업 페이지

@@ -1,10 +1,10 @@
 var now = new Date();
 
-var certificateReq = {
+var certificateList = {
 
     init : function(){
-        certificateReq.dataSet();
-        certificateReq.mainGrid();
+        certificateList.dataSet();
+        certificateList.mainGrid();
     },
 
     delBtn: function(){
@@ -26,7 +26,7 @@ var certificateReq = {
         if(!confirm("삭제 하시겠습니까?")){
             return;
         }
-        certificateReq.setCertificateDelete(data);
+        certificateList.setCertificateDelete(data);
     },
 
     setCertificateDelete: function(data){
@@ -147,14 +147,14 @@ var certificateReq = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateReq.certificateReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateList.certificateReqPop();">' +
                             '	<span class="k-button-text">신청</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateReq.delBtn();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateList.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -163,10 +163,10 @@ var certificateReq = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : certificateReq.onDataBound,
+            dataBound : certificateList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="certificateReq.fn_checkAll();" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="certificateList.fn_checkAll();" style="position : relative; top : 2px;" />',
                     template : function (e){
                         if(e.STATUS == "100" || e.STATUS == "10" || e.STATUS == "110"){
                             return "";
@@ -177,8 +177,14 @@ var certificateReq = {
                     width: 50,
                 }, {
                     field: "ROW_NUM",
-                    title: "발급 번호",
-                    width: 80
+                    title: "순번",
+                    width: 50
+                }, {
+                    title: "발급번호",
+                    width: 150,
+                    template: function(row){
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.NUMBER+"호";
+                    }
                 }, {
                     field: "REG_DE",
                     title: "요청일",
@@ -209,8 +215,7 @@ var certificateReq = {
                     width: 130
                 }, {
                     field: "USAGE_NAME",
-                    title: "용도",
-                    width: 400
+                    title: "용도"
                 }, {
                     title: "처리 상태",
                     template : function(row){
@@ -233,12 +238,13 @@ var certificateReq = {
                     title: "발급",
                     template: function(e){
                         if(e.STATUS == "100")
-                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateReq.certifiPrintPop('+e.USER_PROOF_SN+');">' +
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateList.certifiPrintPop('+e.USER_PROOF_SN+');">' +
                                     '	<span class="k-button-text">발급</span>' +
                                     '</button>';
                         else
                             return '';
-                    }
+                    },
+                    width: 120
                 }
             ]
         }).data("kendoGrid");
@@ -249,7 +255,7 @@ var certificateReq = {
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
             const userProofSn = dataItem.USER_PROOF_SN;
-            certificateReq.certificateReqPop(userProofSn);
+            certificateList.certificateReqPop(userProofSn);
         });
     },
 

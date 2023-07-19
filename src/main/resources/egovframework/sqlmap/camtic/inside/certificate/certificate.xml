@@ -20,7 +20,9 @@
                     IUP.USAGE_NAME,
                     IUP.STATUS,
                     DATE_FORMAT(IUP.APPROVAL_RESULT_DATE, '%Y-%m-%d') AS APPROVAL_RESULT_DATE,
-                    HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME
+                    HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME,
+                    IUP.NUMBER,
+                    IUP.DOCU_YEAR_DE
                 FROM
                     CAM_INSIDE.DJ_USER_PROOF IUP
                 LEFT JOIN
