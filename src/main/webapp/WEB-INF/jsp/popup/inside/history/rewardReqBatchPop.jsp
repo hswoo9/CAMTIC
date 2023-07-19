@@ -57,21 +57,17 @@
                     <table class="searchTable table table-bordered mb-0" id="">
                         <colgroup>
                             <col width="10%">
-                            <col width="15%">
+                            <col width="23%">
                             <col width="10%">
-                            <col width="15%">
+                            <col width="23%">
                             <col width="10%">
-                            <col width="15%">
-                            <col width="10%">
-                            <col width="15%">
+                            <col width="23%">
                         </colgroup>
                         <tbody>
                         <tr>
                             <th>포상번호</th>
-                            <td>
-                                <input type="text" id="numberName" class="defaultVal" style="width: 95%;">
-                            </td>
                             <td colspan="6">
+                                <input type="text" id="numberName" class="defaultVal" style="width: 200px;">
                             </td>
                         </tr>
                         </tbody>

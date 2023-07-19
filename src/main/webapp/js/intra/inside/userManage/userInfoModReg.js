@@ -15,13 +15,21 @@ var userInfoModReg = {
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             scrollable: true,
-            height: 540,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
             toolbar : [
+				{
+					name : 'button',
+					template : function (e){
+						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoModReg.gridReload()">' +
+							'	<span class="k-button-text">조회</span>' +
+							'</button>';
+					}
+				},
                 {
                     name: 'excel',
                     text: '엑셀다운로드'
@@ -49,11 +57,11 @@ var userInfoModReg = {
             },
 			dataBound : userInfoModReg.onDataBound,
             columns: [
-                {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="checkbox" onclick="userInfoModReg.selectAllcheck()"/>',
+                /*{
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="userInfoModReg.selectAllcheck()"/>',
                     template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='' class='tdCheckBox'/>",
                     width: 50
-                }, {
+                }, */{
 					attributes : { style : "text-align : center;"},
 					width: "50px",	
                     field: "",
@@ -131,7 +139,7 @@ var userInfoModReg = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : ""
+			value : new Date(now.setMonth(now.getMonth() - 1))
 		});
 
 		$("#end_date").kendoDatePicker({
@@ -139,7 +147,7 @@ var userInfoModReg = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : ""
+			value : new Date()
 		});
 
 		$("#drop1").kendoDropDownList({
@@ -152,7 +160,7 @@ var userInfoModReg = {
 				{ text: "병력사항", value: "3" },
 				{ text: "가족사항", value: "4" },
 				{ text: "보유면허", value: "5" },
-				{ text: "발령사항", value: "6" },
+				/*{ text: "발령사항", value: "6" },*/
 				{ text: "상벌사항", value: "7" },
 				{ text: "직무사항", value: "8" },
 				{ text: "제안제도", value: "9" },

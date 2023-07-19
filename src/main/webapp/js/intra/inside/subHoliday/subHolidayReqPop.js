@@ -18,10 +18,12 @@ var subHolidayReqPop = {
 
         modalTemplate : "",
         minuteList : new Array(),
+
+        type: "",
+        code: ""
     },
 
-    fn_defaultScript : function(){
-
+    fn_defaultScript: function(){
         var data = {
             mcCode : subHolidayReqPop.global.mcCode,
             mdCode : subHolidayReqPop.global.mdCode,
@@ -43,6 +45,22 @@ var subHolidayReqPop = {
 
         if($("#vacUseHistId").val()){
             subHolidayReqPop.getVacUseHistoryOne();
+        }
+
+        //캠도큐먼트 양식목록에서 기안시 처리작업
+        subHolidayReqPop.global.code = $("#code").val();
+        subHolidayReqPop.global.type = $("#type").val();
+        if(subHolidayReqPop.global.code == "11"){
+            $("#edtHolidayKindTop").data("kendoDropDownList").value(subHolidayReqPop.global.code);
+            subHolidayReqPop.dataSetChange();
+            $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
+        }
+        if(subHolidayReqPop.global.type == "drafting"){
+            $(".request").hide();
+            $(".drafting").show();
+        }else {
+            $(".request").show();
+            $(".drafting").hide();
         }
     },
 
@@ -74,11 +92,11 @@ var subHolidayReqPop = {
             if(!flag){
                 return;
             }
-        }/*else if (!$("#edtHolidayKindTop").val()) {
+        }else if (!$("#edtHolidayKindTop").val()) {
             alert("휴가구분을 선택해주세요.");
             flag = false;
             return;
-        }else if (!$("#edtHolidayStartDateTop_1").val()){
+        }/*else if (!$("#edtHolidayStartDateTop_1").val()){
             alert("휴가 시작일을 선택해주세요.");
             flag = false;
             return;
@@ -158,9 +176,22 @@ var subHolidayReqPop = {
                 success: function (rs) {
                     alert("신청 데이터 저장이 완료되었습니다.");
                     //subHolidayReqPop.fn_topTableClear();
-                   /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
-                    opener.gridReload();
-                    window.close();
+                    /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
+                    if(subHolidayReqPop.global.type == "drafting") {
+                        $("#subHolidayId").val(rs.vacUseHistId);
+                        $("#subHolidayDraftFrm").one("submit", function() {
+                            var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+                            var name = "_self";
+                            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                            var popup = window.open(url, name, option);
+                            this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+                            this.method = 'POST';
+                            this.target = '_self';
+                        }).trigger("submit");
+                    }else {
+                        opener.gridReload();
+                        window.close();
+                    }
                 },
                 error: function () {
                     alert("신청 데이터 저장 중 에러가 발생했습니다.");
@@ -367,7 +398,7 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">사유</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -380,6 +411,8 @@ var subHolidayReqPop = {
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html);
             subHolidayReqPop.dataSet();
+
+            $("#holiday_reason").kendoTextBox();
 
             $("#edtHolidayAlternativeDate_3").kendoDatePicker({
                 culture : "ko-KR",
@@ -517,22 +550,21 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">사유</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
+                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
-                '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -545,6 +577,10 @@ var subHolidayReqPop = {
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html2);
             subHolidayReqPop.dataSet();
+
+            $("#holiday_reason").kendoTextBox();
+            $("#other_reason").kendoTextBox();
+            $("#other_emp").kendoTextBox();
 
             var data = "-"; // 적절한 값으로 초기화합니다.
             function sendMeData(data) {
@@ -670,13 +706,13 @@ var subHolidayReqPop = {
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">사유</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
                 '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
                 '                <td colspan="3">\n' +
-                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
+                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -684,8 +720,8 @@ var subHolidayReqPop = {
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -698,6 +734,10 @@ var subHolidayReqPop = {
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html3);
             subHolidayReqPop.dataSet();
+
+            $("#holiday_reason").kendoTextBox();
+            $("#other_reason").kendoTextBox();
+            $("#other_emp").kendoTextBox();
 
             $("#edtHolidayStartDateTop_1").kendoDatePicker({
                 culture : "ko-KR",

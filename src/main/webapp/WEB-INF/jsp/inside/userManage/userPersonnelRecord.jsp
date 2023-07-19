@@ -16,7 +16,7 @@
 
 <style>
     .likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
-    .likeTab li{padding: 5px 18px; border-radius: 5px 5px 0 0; background-color: #6787b0; border: 1px solid #eee; font-weight: 600; cursor: pointer; font-size:13px; color: white; width: 104px; text-align: center;}
+    .likeTab li{padding: 5px 18px; border-radius: 5px 5px 0 0; background-color: #6787b0; border: 1px solid #eee; font-weight: 600; cursor: pointer; font-size:13px; color: white; width: 125px; text-align: center;}
     .likeTab li:hover {background-color: #262b36;}
     .likeTab li.activeY {background-color: #262b36;}
     .k-input-md{font-size:12px;}
@@ -26,7 +26,7 @@
 </style>
 
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -498,16 +498,15 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 발령 사항</div>
                             <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
+                                <%--<input type="button" class="k-button k-button-solid-info" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>--%>
                             </div>
                         </div>
                         <div class="table-responsive">
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="6%">
                                         <col width="15%">
                                         <col width="15%">
@@ -516,9 +515,6 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='appointAllChk' id='appointAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'appointChk')">
-                                        </th>
                                         <th>번호</th>
                                         <th>발령 구분</th>
                                         <th>발령 일자</th>
@@ -527,7 +523,6 @@
                                     </tr>
                                     <c:forEach var="l" items="${aList}" varStatus="status">
                                         <tr>
-                                            <td><input type='checkbox' name='appointChk' id='appointChk${l.APPOINT_ID}' class='k-checkbox checkbox'></td>
                                             <td>${status.index + 1}</td>
                                             <td>${l.APNT_NAME}</td>
                                             <td>${l.historyDt}</td>

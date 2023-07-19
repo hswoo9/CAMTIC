@@ -41,15 +41,8 @@
                         </td>
                     </tr>
                 </table>
+                <div id="mainGrid"></div>
             </div>
-        </div>
-
-        <div class="panel-body">
-            <div id="mainGrid"></div>
-        </div>
-
-        <div style="width: 800px; height: 40px">
-            123
         </div>
     </div>
 </div><!-- col-md-9 -->

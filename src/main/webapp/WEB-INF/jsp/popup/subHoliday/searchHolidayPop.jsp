@@ -7,39 +7,6 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/subHoliday/searchHolidayReqPop.js?v=${today}"></script>
-<style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -50,35 +17,33 @@
 <input type="hidden" id="apprStat" value="N">
 <input type="hidden" id="vacUseHistId" value="">
 
-<div class="col-lg-12" style="padding:0;">
-    <div class="card-header" style="padding-top:45px;">
-      <div class="col-lg-11" style="margin:0 auto;">
-        <div class="popupTitleSt">휴일근로일자</div>
-        <div>
-          <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-            <tr>
-              <td style="border-bottom:0; background-color: white">
-                <div style="display:flex; justify-content: space-between;">
-                  <div style="display:flex;">
-                    <div class="mr20">
-                      <span>조회년월</span>
-                      <input id="start_date" style="width:150px; margin-right:5px;">
-                      ~
-                      <input id="end_date" style="width:150px; margin-right:5px;">
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div id="mainGrid" style="margin:20px 0;"></div>
-        <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info" value="확인" onclick="searchHolidayReqPop.fn_selectChkUse()"/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="searchHolidayReqPop.fn_topTableClose()"/>
-        </div>
-      </div>
+<div class="table-responsive">
+  <div class="card-header pop-header">
+    <h3 class="card-title title_NM">휴일근로일자</h3>
+    <div class="btn-st popButton">
+      <button type="button" class="k-button k-button-solid-info" onclick="searchHolidayReqPop.fn_selectChkUse()">확인</button>
+      <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="searchHolidayReqPop.fn_topTableClose()">닫기</button>
     </div>
+  </div>
+  <div style="padding: 20px 30px;">
+    <table class="popTable table table-bordered mb-0">
+      <colgroup>
+        <col width="20%">
+        <col width="80%">
+      </colgroup>
+      <thead>
+      <tr>
+        <th>조회년월</th>
+        <td>
+          <input id="start_date" style="width:150px; margin-right:5px;">
+          ~
+          <input id="end_date" style="width:150px; margin-right:5px;">
+        </td>
+      </tr>
+      </thead>
+    </table>
+    <div id="mainGrid" style="margin:20px 0;"></div>
+  </div>
 </div>
 <script>
   searchHolidayReqPop.defaultScript();

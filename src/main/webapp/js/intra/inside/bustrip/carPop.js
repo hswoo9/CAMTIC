@@ -193,7 +193,3 @@ var carReq = {
         }
     }
 }
-
-function gridReload(){
-    $("#scheduler").data("kendoScheduler").dataSource.read();
-}

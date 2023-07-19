@@ -47,7 +47,7 @@ var externalInterview = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],

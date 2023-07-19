@@ -100,3 +100,6 @@ var carList = {
     }
 }
 
+function gridReload(){
+    $("#scheduler").data("kendoScheduler").dataSource.read();
+}

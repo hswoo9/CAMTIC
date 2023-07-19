@@ -26,8 +26,8 @@
         <ul class="headermenu">
           <li>
             <div id="noticePanel" class="btn-group">
-              <a href="/user/organizationChart.do">
-                <button class="btn btn-notice" style="float:left; font-size:22px;">
+              <a href="#">
+                <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="orgPopup();">
                   <i class="fa fa-sitemap"></i>
                 </button>
               </a>
@@ -161,5 +161,12 @@
 <script>
     function fn_mvMainPage(){
         open_in_frame("/indexBMain.do");
+    }
+
+    function orgPopup(){
+      var url = "/user/pop/orgPop.do";
+      var name = "popup test";
+      var option = "width = 955, height = 807, top = 100, left = 200, location = no"
+      var popup = window.open(url, name, option);
     }
 </script>

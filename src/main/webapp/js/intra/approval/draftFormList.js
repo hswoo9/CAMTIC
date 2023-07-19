@@ -1,26 +1,32 @@
 var draftFormList = {
-    global : {
-        formList : "",
-        searchAjaxData : "",
-        draftParam : "",
-        windowPopUrl : "",
-        popName : "",
-        popStyle : "",
+    global: {
+        formList: "",
+        searchAjaxData: "",
+        draftParam: "",
+        windowPopUrl: "",
+        popName: "",
+        popStyle: "",
     },
 
-    fnDefaultScript : function(params){
+    fn_DefaultScript: function(params){
+        draftFormList.dataSet(params);
+        draftFormList.mainTree(params);
+    },
+
+    dataSet: function(params){
         draftFormList.global.formList = params;
-
         customKendo.fn_textBox(['formSearch']);
+    },
 
-        $("#formTreeViewDiv").kendoTreeView({
+    mainTree: function(params){
+        let mainTree = $("#formTreeViewDiv").kendoTreeView({
             dataSource: params,
             dataTextField:['FORM_NAME'],
             select: draftFormList.treeClick,
         });
     },
 
-    treeClick : function(e){
+    treeClick: function(e){
         var item = $("#formTreeViewDiv").data("kendoTreeView").dataItem(e.node);
         draftFormList.global.searchAjaxData = {
             formId : item.FORM_ID
@@ -32,7 +38,7 @@ var draftFormList = {
             console.log(result);
             $("#formDetailDiv *").remove();
             var htmlStr = "";
-            htmlStr += "<table id=\"formItemInfo\" class=\"table table-bordered\" style=\"border: 1px solid #dcdcdc;\">" +
+            htmlStr += "<table id=\"formItemInfo\" class=\"table table-bordered\" style=\"border: 1px solid #dcdcdc; background-color: white;\">" +
                 "   <colgroup>" +
                 "       <col width=\"15%\">" +
                 "   </colgroup>" +
@@ -57,33 +63,33 @@ var draftFormList = {
             $("#formDetailDiv").append(htmlStr);
 
             draftFormList.global.draftParam = {
-                mod : "W",
-                formId : result.formInfoReqOpt.FORM_ID,
-                compSeq : "1000",
-                empSeq : $("#empSeq").val(),
-                type : "drafting",
-                menuCd : "normal",
-                docType : "A",
-                linkageProcessId : result.formInfoReqOpt.LINKAGE_PROCESS_ID,
-                linkageType : result.formInfoReqOpt.LINKAGE_TYPE,
-                linkagePopActive : result.formInfoReqOpt.LINKAGE_POP_ACTIVE,
-                linkagePopWidth : result.formInfoReqOpt.LINKAGE_POP_WIDTH,
-                linkagePopHeight : result.formInfoReqOpt.LINKAGE_POP_HEIGHT
+                mod: "W",
+                formId: result.formInfoReqOpt.FORM_ID,
+                compSeq: "1000",
+                empSeq: $("#regEmpSeq").val(),
+                type: "drafting",
+                menuCd: "normal",
+                docType: "A",
+                linkageProcessId: result.formInfoReqOpt.LINKAGE_PROCESS_ID,
+                linkageType: result.formInfoReqOpt.LINKAGE_TYPE,
+                linkagePopActive: result.formInfoReqOpt.LINKAGE_POP_ACTIVE,
+                linkagePopWidth: result.formInfoReqOpt.LINKAGE_POP_WIDTH,
+                linkagePopHeight: result.formInfoReqOpt.LINKAGE_POP_HEIGHT
             }
         }
     },
 
-    getDraftFromSearch : function(){
+    getDraftFormSearch: function(){
         var query = $("#formSearch").val();
         var dataSource = $("#formTreeViewDiv").data("kendoTreeView").dataSource;
         draftFormList.filter(dataSource, query);
     },
 
-    filter : function(dataSource, query){
+    filter: function(dataSource, query){
         var hasVisibleChildren = false;
         var data = dataSource instanceof kendo.data.HierarchicalDataSource && dataSource.data();
 
-        for (var i = 0; i < data.length; i++) {
+        for(var i = 0; i < data.length; i++){
             var item = data[i];
             var text = item.FORM_NAME;
             var itemVisible = query === true || query === "" || text.indexOf(query) >= 0;
@@ -95,14 +101,14 @@ var draftFormList = {
             item.hidden = !itemVisible && !anyVisibleChildren;
         }
 
-        if (data) {
+        if(data){
             dataSource.filter({ field: "hidden", operator: "neq", value: true });
         }
 
         return hasVisibleChildren;
     },
 
-    formDraftPop : function(){
+    formDraftPop: function(){
         if(draftFormList.global.draftParam.linkagePopActive == "Y"){
             draftFormList.global.searchAjaxData = {
                 linkageProcessId : draftFormList.global.draftParam.linkageProcessId
@@ -123,5 +129,5 @@ var draftFormList = {
         }else{
             linkageProcessOn(draftFormList.global.draftParam, "target");
         }
-    },
+    }
 }

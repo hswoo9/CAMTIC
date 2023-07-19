@@ -19,14 +19,14 @@
             <div class="btn-st popButton">
                 <c:choose>
                     <c:when test="${data.STATUS == 0}">
-                        <input type="button" class="k-button k-button-solid-info btn-A" value="신청" onclick="certificateReqPop.fn_certReq();"/>
-                        <input type="button" class="k-button k-button-solid-info btn-A" value="수정" onclick="certificateReqPop.uptBtn();"/>
-                        <input type="button" class="k-button k-button-solid-info btn-B" style="display: none" value="저장" onclick="certificateReqPop.saveBtn();"/>
-                        <input type="button" class="k-button  k-button-solid-error btn-B" style="display: none" value="취소" onclick="window.close();"/>
+                        <button type="button" class="k-button k-button-solid-info btn-A" onclick="certificateReqPop.fn_certReq();">신청</button>
+                        <button type="button" class="k-button k-button-solid-info btn-A" onclick="certificateReqPop.uptBtn();">수정</button>
+                        <button type="button" class="k-button k-button-solid-info btn-B" style="display: none" onclick="certificateReqPop.saveBtn();">저장</button>
+                        <button type="button" class="k-button  k-button-solid-error btn-B" style="display: none" onclick="window.close();">취소</button>
                     </c:when>
                     <c:when test="${data.STATUS == null}">
-                        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="certificateReqPop.saveBtn();"/>
-                        <input type="button" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+                        <button type="button" class="k-button k-button-solid-info" onclick="certificateReqPop.saveBtn();">저장</button>
+                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </c:when>
                 </c:choose>
 

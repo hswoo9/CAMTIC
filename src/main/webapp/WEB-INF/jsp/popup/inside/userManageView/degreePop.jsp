@@ -136,6 +136,7 @@
       $("#degree").data("kendoDropDownList").value(e.DEGREE_CODE); //학위
       $("#graduation").data("kendoDropDownList").value(e.GRADUATION_CODE); //졸업
       $("#bmk").val(e.RMK); //비고
+      $("#score").val(e.SCORE); //성적
     }
 
     /*수정 안되게 disabled*/

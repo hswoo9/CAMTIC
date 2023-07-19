@@ -67,12 +67,22 @@ var certificateAdmin = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="certificateAdmin.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -82,6 +92,12 @@ var certificateAdmin = {
                     field: "ROW_NUM",
                     title: "발급 번호",
                     width: 80
+                }, {
+                    title: "발급번호",
+                    width: 150,
+                    template: function(row){
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.NUMBER+"호";
+                    }
                 }, {
                     field: "REG_DE",
                     title: "요청일",
@@ -128,8 +144,7 @@ var certificateAdmin = {
                     width: 100
                 }, {
                     field: "USAGE_NAME",
-                    title: "용도",
-                    width: 300
+                    title: "용도"
                 }, {
                     field: "",
                     title: "비고",
@@ -154,7 +169,7 @@ var certificateAdmin = {
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
             const userProofSn = dataItem.USER_PROOF_SN;
-            certificateReq.certificateReqPop(userProofSn, "mng");
+            certificateList.certificateReqPop(userProofSn, "mng");
         });
     },
 

@@ -89,7 +89,7 @@ var subHolidayAdmin = {
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 490,
+            height: 538,
             sortable: true,
             scrollable: true,
             noRecords: {
@@ -107,6 +107,14 @@ var subHolidayAdmin = {
                 }
             },
             toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
                 {
                     name : 'button',
                     template : function (e){
@@ -193,7 +201,7 @@ var subHolidayAdmin = {
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
 
-            var url = "/subHoliday/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
+            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
             var name = "subHolidayReqPop";
             var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);

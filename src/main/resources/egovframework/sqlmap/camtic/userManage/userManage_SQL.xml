@@ -260,9 +260,6 @@
             cam_hr.dj_hr_code
         WHERE
             ACTIVE = 'Y'
-        <if test=''>
-
-        </if>
     </select>
     <select id="getDeptCodeList2" parameterType="map" resultType="map">
         /*getDeptCodeList2*/
@@ -304,6 +301,10 @@
         CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
         HEI.active = 'Y'
+        <if test='userGender != null and !"".equals(userGender)'>
+        AND
+            HEI.GENDER_CODE = #{userGender}
+        </if>
         <if test='startDate != null and !"".equals(startDate)'>
             <![CDATA[
 	    AND
@@ -328,6 +329,10 @@
                                         PARENT_DEPT_SEQ = #{deptComp}
                                     )
             </if>
+        </if>
+        <if test='userGender != null and !"".equals(userGender)'>
+            AND
+            HEI.GENDER_CODE = #{userGender}
         </if>
         <if test='deptTeam != null and !"".equals(deptTeam)'>
             AND
@@ -783,27 +788,6 @@
         a.emp_seq = b.emp_seq
         UNION
         SELECT
-        a.APPOINT_ID AS 'ID',
-        b.EMP_SEQ,
-        b.DEPT_NAME,
-        b.DEPT_TEAM_NAME,
-        b.POSITION_NAME,
-        a.EMP_NAME,
-        date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
-        a.REG_DATE as 'REG_DATE2',
-        a.admin_approval,
-        a.returnyn,
-        'dj_emp_appoint' AS 'type',
-        '발령사항' AS 'typeName',
-        'APPOINT_ID' AS 'key'
-        FROM
-        cam_hr.dj_emp_appoint AS a
-        LEFT join
-        cam_hr.dj_emp_info AS b
-        on
-        a.emp_seq = b.emp_seq
-        UNION
-        SELECT
         a.REWORD_PUNISHMENT_ID AS 'ID',
         b.EMP_SEQ,
         b.DEPT_NAME,
@@ -889,9 +873,9 @@
             <when test='"5".equals(drop1)'>
                 A.typeName = '보유면허'
             </when>
-            <when test='"6".equals(drop1)'>
+            <!--<when test='"6".equals(drop1)'>
                 A.typeName = '발령사항'
-            </when>
+            </when>-->
             <when test='"7".equals(drop1)'>
                 A.typeName = '상벌사항'
             </when>
@@ -1054,27 +1038,6 @@
             a.emp_seq = b.emp_seq
             UNION
             SELECT
-            a.APPOINT_ID AS 'ID',
-            b.EMP_SEQ,
-            b.DEPT_NAME,
-            b.DEPT_TEAM_NAME,
-            b.POSITION_NAME,
-            a.EMP_NAME,
-            date_format(a.reg_date, '%Y-%m-%d') AS REG_DATE,
-            a.REG_DATE as 'REG_DATE2',
-            a.admin_approval,
-            a.returnyn,
-            'dj_emp_appoint' AS 'type',
-            '발령사항' AS 'typeName',
-            'APPOINT_ID' AS 'key'
-            FROM
-            cam_hr.dj_emp_appoint AS a
-            LEFT join
-            cam_hr.dj_emp_info AS b
-            on
-            a.emp_seq = b.emp_seq
-            UNION
-            SELECT
             a.REWORD_PUNISHMENT_ID AS 'ID',
             b.EMP_SEQ,
             b.DEPT_NAME,
@@ -1159,9 +1122,9 @@
                 <when test='"5".equals(drop1)'>
                     A.typeName = '보유면허'
                 </when>
-                <when test='"6".equals(drop1)'>
+                <!--<when test='"6".equals(drop1)'>
                     A.typeName = '발령사항'
-                </when>
+                </when>-->
                 <when test='"7".equals(drop1)'>
                     A.typeName = '상벌사항'
                 </when>

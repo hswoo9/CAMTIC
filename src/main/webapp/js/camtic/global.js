@@ -195,9 +195,45 @@ const vis = {
 	},
 };
 
+var rowHeight = {
+	init : function(){
+		if($('._row').length > 0){
+			this.action();
+		}
+	},
+	action : function(){
+		$('._row').matchHeight();
+		$win.on('load',function(){
+			$.fn.matchHeight._update();
+		});
+	}
+}
+
+
+const tab = {
+	init() {
+		for (let i = 1; i <= 3; i++) {
+			const tabClass = `._tab${i}`;
+			const boxClass = `._box${i}`;
+			if ($(tabClass).length > 0) {
+				this.action(tabClass, boxClass);
+			}
+		}
+	},
+	action(tabClass, boxClass) {
+		$(tabClass).children().on('click', function() {
+			const index = $(this).index();
+			$(this).addClass('active').siblings().removeClass('active');
+			$(boxClass).eq(index).addClass('active').siblings().removeClass('active');
+		});
+	}
+};
+
 $doc.ready(function(){
 	head.init();
+	rowHeight.init();
 	fam.init();
+	tab.init();
 });
 
 $win.on('load',function(){

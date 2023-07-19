@@ -20,6 +20,55 @@
 </style>
 
 <div id="mainContent">
+    <div class="col-md-2 col-lg-2" style="margin-top:-10px;">
+        <div class="media leftpanel-profile" style="text-align:center; background-color:#fff;">
+            <div>
+                <a href="#">
+                    <img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">김캠틱 선임</h4>
+                <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">마케팅1팀</span>
+            </div>
+            <div style="margin-top:10px;">
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;">0</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">작성할 보고</span><span style="color:#919191;font-weight:600; color:#259dab;">120</span></div>
+            </div>
+        </div>
+        <div class="panel" style="margin-top:10px;margin-bottom:10px;">
+            <div style="padding: 25px 0 0 25px;">
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
+            </div>
+            <div class="panel-body" style="padding:5px;">
+                <div style="display:flex;justify-content: space-between; margin: 0 23px 10px 23px;">
+                    <div style="font-weight:600; font-size:15px;">2023.07</div>
+                    <div style="font-weight:600; font-size:15px;"><span style="margin-right:10px;">&lt;</span><span>&gt;</span></div>
+                </div>
+                <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
+                    <div style="display:flex;">
+                        <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/02</div>
+                        <div>고경수 주임</div>
+                    </div>
+                </div>
+                <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
+                    <div style="display:flex;">
+                        <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/05</div>
+                        <div>권정룡 책임</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div style="padding: 25px 0 0 25px;">
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
+            </div>
+            <div class="panel-body">
+                <div style="text-align:center;"><img src="/images/sample/testImages.png" alt="testImages" style="width:220px;"></div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-7 col-lg-7 dash-left" style="margin-top:-10px;">
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
@@ -41,34 +90,34 @@
                                 <ul class="nav nav-quirk" style="margin:0;">
                                     <li style="border-top:0; border-bottom:0;">
                                         <div style="padding: 10px 10px 0px;">
-                                            <span style="font-weight:600; font-size:15px;">초복특식제공</span><span>[1]</span>
+                                            <span style="font-weight:600; font-size:15px;">외부전문가 및 강사 등에 지급하는 소득에 대한 소득신고(원천징수)관련 협조사항 안내</span><span>[1]</span>
                                         </div>
                                         <div style="padding: 5px 10px;">
-                                            <span style="margin-right:10px;">2023-07-11 12:20</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>공지</span>
+                                            <span style="margin-right:10px;">2023-07-11 12:20</span><span style="margin-right:10px;">박정아</span><span style="margin-right:10px;">|</span><span>공지</span>
                                         </div>
                                     </li>
                                     <li style="border-top:0;">
                                         <div style="padding: 10px 10px 0px;">
-                                            <span style="font-weight:600; font-size:15px;">07월 정기소독 실시 안내</span><span>[1]</span>
+                                            <span style="font-weight:600; font-size:15px;">캠틱 주간업무 보고(23.07.17. ~ 23.07.21.)</span><span>[1]</span>
                                         </div>
                                         <div style="padding: 5px 10px;">
-                                            <span style="margin-right:10px;">2023-07-11 10:22</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>공지</span>
+                                            <span style="margin-right:10px;">2023-07-11 10:22</span><span style="margin-right:10px;">유수영</span><span style="margin-right:10px;">|</span><span>업무보고</span>
                                         </div>
                                     </li>
                                     <li style="border-top:0;">
                                         <div style="padding: 10px 10px 0px;">
-                                            <span style="font-weight:600; font-size:15px;">07월 2주차 주간식단표입니다.</span><span>[1]</span>
+                                            <span style="font-weight:600; font-size:15px;">[35회차] 2023년 7월 캠-퍼스 공통학습(캠.화.지) 일정 안내(7.18)</span><span>[1]</span>
                                         </div>
                                         <div style="padding: 5px 10px;">
-                                            <span style="margin-right:10px;">2023-07-05 17:22</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>주간식단표</span>
+                                            <span style="margin-right:10px;">2023-07-05 17:22</span><span style="margin-right:10px;">송은화</span><span style="margin-right:10px;">|</span><span>공지</span>
                                         </div>
                                     </li>
                                     <li style="border-top:0; border-bottom:0;">
                                         <div style="padding: 10px 10px 0px;">
-                                            <span style="font-weight:600; font-size:15px;">보건협회 07월 검진 방문 안내</span><span></span>
+                                            <span style="font-weight:600; font-size:15px;">국가연구개발사업 연구활동비-회의비 사용 서식에 대한 건의</span><span></span>
                                         </div>
                                         <div style="padding: 5px 10px;">
-                                            <span style="margin-right:10px;">2023-07-03 11:22</span><span style="margin-right:10px;">유재경 선임</span><span style="margin-right:10px;">|</span><span>공지</span>
+                                            <span style="margin-right:10px;">2023-07-03 11:22</span><span style="margin-right:10px;">김광석</span><span style="margin-right:10px;">|</span><span>제안제도</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -190,67 +239,93 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-sm-3" style="padding-right:0; margin-top:-10px;">
+    <div class="col-md-3 col-sm-3" style="padding-right:0; margin-top:-10px; padding-left:0;">
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">연락처 추가</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-user" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">연락처 추가</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">일정등록</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">일정등록</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">게시물쓰기</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">게시물쓰기</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">설문작성</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">설문작성</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
         <div class="col-md-10 col-sm-10" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #505b72; padding:5px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i>PC메신져 다운로드</a></h3>
+                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-10 col-sm-10" style="padding-right:0;">
+        <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
-                <div style="padding: 25px 0 0 25px;">
-                    <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
+                <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="" onclick="open_in_frame('/Inside/carReq.do')"><i class="fa fa-car" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">차량사용신청</span></a></h3>
                 </div>
-                <div class="panel-body" style="padding:5px;">
-                    <div style="display:flex;justify-content: space-between; margin: 0 23px 10px 23px;">
-                        <div style="font-weight:600; font-size:15px;">2023.07</div>
-                        <div style="font-weight:600; font-size:15px;"><span style="margin-right:10px;">&lt;</span><span>&gt;</span></div>
-                    </div>
-                    <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
-                        <div style="display:flex;">
-                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/02</div>
-                            <div>백승문 조장</div>
-                        </div>
-                    </div>
-                    <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
-                        <div style="display:flex;">
-                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/05</div>
-                            <div>장다솜 담당</div>
-                        </div>
-                    </div>
+            </div><!-- panel -->
+        </div>
+        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+            <div class="panel" style="margin-bottom:10px;">
+                <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
                 </div>
+            </div><!-- panel -->
+        </div>
+        <%--<div class="col-md-10 col-sm-10" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div style="padding: 25px 0 0 25px;">
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">최근 로그인 정보</h4>
+            </div>
+            <div class="panel-body">
+                <table style="background-color:#fff; text-align:center;">
+                    <colgroup>
+                        <col width="40%">
+                        <col width="40%">
+                        <col width="20%">
+                    </colgroup>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <th style="color:#333;font-weight:600; text-align:center;">일시</th>
+                        <th style="color:#333;font-weight:600; text-align:center;">IP</th>
+                        <th style="color:#333;font-weight:600; text-align:center;">접속기기</th>
+                    </tr>
+                    <tr>
+                        <td style="color:#333;font-weight:600;padding:3px; text-align:center;">2023-07-11 13:43</td>
+                        <td style="color:#919191;font-weight:600;padding:3px; text-align:center;">218.158.231.107</td>
+                        <td style="text-align:center;padding:3px;">PC</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#333;font-weight:600;padding:3px; text-align:center;">2023-07-11 13:43</td>
+                        <td style="color:#919191;font-weight:600;padding:3px; text-align:center;">218.158.231.107</td>
+                        <td style="text-align:center;padding:3px;">PC</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#333;font-weight:600;padding:3px;">2023-07-11 08:39</td>
+                        <td style="color:#919191;font-weight:600;padding:3px;">115.144.64.1</td>
+                        <td style="text-align:center;padding:3px;">PC</td>
+
+                    </tr>
+                </table>
             </div>
         </div>
+    </div>--%>
         <div class="col-md-10 col-sm-10" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div style="padding: 25px 0 0 25px;">
@@ -287,7 +362,7 @@
                     <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
                 </div>
                 <div class="panel-body" style="padding:5px;">
-                    <div class="demo-section" style="text-align: center;">
+                    <div class="demo-section" style="text-align: center; width:300ps; margin-left:10px;">
                         <div id="calendar"></div>
                     </div>
                     <script>
@@ -300,8 +375,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <script>

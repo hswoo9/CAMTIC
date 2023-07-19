@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/recruit/commissionerManage.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -27,7 +27,7 @@
                     <tr>
                         <th class="text-center th-color">성명</th>
                         <td>
-                            <input type="text" id="searchName" style="width: 200px;">
+                            <input type="text" id="searchName" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">기관명</th>
                         <td>
@@ -36,7 +36,6 @@
                         <th class="text-center th-color">전문분야</th>
                         <td>
                             <input type="text" id="expertise" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색</button>
                         </td>
                     </tr>
                 </table>

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-03-13
-  Time: 오후 2:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -21,7 +14,7 @@
 <input type="hidden" id="apprStat" value="N">
 <input type="hidden" id="vacUseHistId" value="">
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -53,45 +46,8 @@
                         <th class="text-center th-color">이름</th>
                         <td>
                             <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">검색</button>
                         </td>
                     </tr>
-                    <%--<tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;justify-content: space-between;">
-                                <div style="display:flex;">
-                                &lt;%&ndash;<div class="mr20">
-                                    <span>조회기간</span>
-                                    <input id="startDay" style="width:150px; margin-right:5px;">
-                                    ~
-                                    <input id="endDay" style="width:150px; margin-right:5px;">
-                                </div>&ndash;%&gt;
-                                <div class="mr20">
-                                    <span>휴가구분</span>
-                                    <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:150px;">
-                                </div>
-
-                                <div class="mr20">
-                                    <span>상태</span>
-                                    <input type="text" id="status" style="width: 150px;">
-                                </div>
-
-                                <div>
-                                    <span>이름</span>
-                                    <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
-                                </div>
-                                <div style="margin-left:10px;">
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">검색</button>
-                                </div>
-                                </div>
-                                <div>
-                                <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();" disabled>연가일괄등록</button>
-                                </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>--%>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>

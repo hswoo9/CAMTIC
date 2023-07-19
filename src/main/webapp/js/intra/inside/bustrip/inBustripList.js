@@ -180,7 +180,7 @@ var inBustripList = {
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>상신</span>" +
                                 "</button>";
-                        } else if(e.status == 10){
+                        } else if(e.status == 10 || e.status == 50){
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.doc_id+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
                                 "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                 "<span class='k-button-text'>회수</span>" +

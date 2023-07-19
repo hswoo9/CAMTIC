@@ -61,6 +61,14 @@ var subHolidayList = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
+                {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="subHolidayList.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
@@ -213,7 +221,7 @@ var subHolidayList = {
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
 
-            var url = "/subHoliday/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
+            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
             var name = "subHolidayReqPop";
             var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
@@ -263,7 +271,7 @@ var subHolidayList = {
     },
 
     subHolidayReqPop : function() {
-        var url = "/subHoliday/subHolidayReqPop.do";
+        var url = "/subHoliday/pop/subHolidayReqPop.do";
         var name = "subHolidayReqPop";
         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
