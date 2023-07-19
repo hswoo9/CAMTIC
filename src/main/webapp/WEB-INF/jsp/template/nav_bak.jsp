@@ -353,7 +353,7 @@
                                 <li>
                                     <a href="#" class="toggleMain">증명서관리</a>
                                     <ul class="innerMain children c_d">
-                                        <li><a href="#" onclick="open_in_frame('/Inside/certificateReq.do?menu=c_d')" class="toggleMain1">증명서신청</a></li>
+                                        <li><a href="#" onclick="open_in_frame('/Inside/certificateList.do?menu=c_d')" class="toggleMain1">증명서신청</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/certificateAdmin.do?menu=c_d')" class="toggleMain1">증명서관리</a></li>
                                     </ul>
                                 </li>
