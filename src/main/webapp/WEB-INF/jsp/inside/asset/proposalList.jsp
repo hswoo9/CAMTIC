@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/proposalList.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -18,9 +18,8 @@
                 <table class="searchTable table table-bordered mb-0">
                     <tr>
                         <td>
-                            <input type="text" id="searchType" style="width: 140px;">
+                            <input type="text" id="searchType" style="width: 120px;">
                             <input type="text" id="searchVal" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">검색</button>
                         </td>
                     </tr>
                 </table>

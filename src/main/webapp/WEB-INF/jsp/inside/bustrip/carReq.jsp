@@ -9,7 +9,7 @@
         cursor: pointer
     }
 </style>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>

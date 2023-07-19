@@ -113,20 +113,6 @@ public class HomepageController {
 
 
 
-    //공지사항
-    @RequestMapping("/camtic/news/notice.do")
-    public String Nnotice(){ return "camtic/news/notice"; }
-    //사업공고
-    @RequestMapping("/camtic/news/business.do")
-    public String Nbusiness(){ return "camtic/news/business"; }
-    //교육/행사
-    @RequestMapping("/camtic/news/study.do")
-    public String Nstudy(){ return "camtic/news/study"; }
-    //유관기관소식
-    @RequestMapping("/camtic/news/partner.do")
-    public String Npartner(){ return "camtic/news/partner"; }
-
-
 
     //포토뉴스
     @RequestMapping("/camtic/pr/photo.do")

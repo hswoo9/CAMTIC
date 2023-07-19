@@ -17,7 +17,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>

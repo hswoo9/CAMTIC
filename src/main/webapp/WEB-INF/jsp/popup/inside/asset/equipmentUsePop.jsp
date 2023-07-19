@@ -83,7 +83,7 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>의뢰업체</th>
-                        <td colspan="3"><input type="text" id="clientPrtpcoName" style="width: 30%;">
+                        <td colspan="3"><input type="text" id="clientPrtpcoName" disabled style="width: 30%;">
                             <button type="button" id="search1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled style="width:10%; height:27px; line-height:0;" onclick="">
                                 검색
                             </button>

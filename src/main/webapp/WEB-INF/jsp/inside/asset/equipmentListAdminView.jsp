@@ -4,7 +4,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentListAdminView.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<style>
+    .table-bordered > tbody > tr > td {
+        padding-left: 50px;
+        padding-right: 10px;
+    }
+</style>
+<div class= "mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -17,37 +23,36 @@
             <div>
                 <table class="searchTable table table-bordered">
                     <colgroup>
-                        <col width="10%">
-                        <col width="35%">
-                        <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="usePdStrDe" style="width: 45%;">
+                            <input type="text" id="usePdStrDe" style="width: 110px;">
                             ~
-                            <input type="text" id="usePdEndDe" style="width: 45%;">
+                            <input type="text" id="usePdEndDe" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="mainEqipmnGbnName" style="width: 200px;">
+                            <input type="text" id="mainEqipmnGbnName" style="width: 130px;">
                         </td>
                         <th class="text-center th-color">업체구분</th>
                         <td>
-                            <input type="text" id="mainPrtpcoGbnName" style="width:140px;">
+                            <input type="text" id="mainPrtpcoGbnName" style="width:120px;">
                         </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">
                             검색어
                         </th>
                         <td colspan="5">
                             <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchVal" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.mainGrid();">조회</button>
+                            <input type="text" id="searchVal" style="width: 140px;">
                         </td>
                     </tr>
                 </table>

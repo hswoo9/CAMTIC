@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/workPlan/workPlan.js?v=${today}"/></script>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>

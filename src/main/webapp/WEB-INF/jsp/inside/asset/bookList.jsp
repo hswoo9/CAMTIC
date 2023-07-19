@@ -5,7 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/bookList.js?v=${today}"/></script>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -26,7 +26,6 @@
                         <td>
                             <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                             <input type="text" id="searchText" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">검색</button>
                         </td>
                     </tr>
                 </table>

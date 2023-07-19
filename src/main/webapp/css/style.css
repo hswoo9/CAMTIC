@@ -137,3 +137,6 @@ input[type=file]::file-selector-button {
 
 /* 첨부파일 필드 숨기기 */
 .filebox input[type="file"] {position: absolute;width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;}
+
+/* 화면 크기 mainCard*/
+.mainCard {padding-left: 10px;padding-right: 10px;}

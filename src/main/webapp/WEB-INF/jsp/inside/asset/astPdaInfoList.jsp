@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/astPdaInfoList.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -72,7 +72,6 @@
                         <td colspan="5">
                             <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">
                             <input type="text" id="searchContent" style="width: 72.3%;" onkeypress="if(window.event.keyCode==13){astPdaInfoList.gridReload()}">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.gridReload()">검색</button>
                         </td>
                         <td colspan="4" style="text-align: right">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.getAssetList()">가져오기</button>

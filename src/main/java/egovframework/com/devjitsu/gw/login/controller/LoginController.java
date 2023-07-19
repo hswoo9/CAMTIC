@@ -31,6 +31,7 @@ public class LoginController {
     public String loginAccess(@RequestParam Map<String, Object> params, @ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
 
         if (params != null && params.get("id") != null && !params.get("id").equals("")) {
+            boolean isAdmin = false;
             logger.info("params : "+params);
             LoginVO login = new LoginVO();
 
@@ -40,7 +41,15 @@ public class LoginController {
             logger.info("LoginVO : "+login);
 
             if (login != null) {
+                if(login.getUniqId().equals("1")){
+                    isAdmin = true;
+                    login.setUserSe("ADMIN");
+                }
+
                 request.getSession().setAttribute("LoginVO", login);
+                request.getSession().setAttribute("isAdmin", isAdmin);
+
+
 
                 logger.info("이름은 : "+login.getName());
                 //Map<String, Object> loginMsMap = loginService.actionLoginMs(params);
