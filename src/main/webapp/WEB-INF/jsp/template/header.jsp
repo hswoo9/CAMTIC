@@ -124,12 +124,15 @@
                       <li class="list-group-item unread">
                         <div class="row">
                           <div class="col-xs-12">
-                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/camspot/privacyInfo.do')">개인정보</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/imageManage.do')">이미지관리</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#">참여내역</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/userPersonnelRecord.do')">인사기록카드</a></div>
-                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/personAttendList.do')">근태관리</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/personAttendList.do')">근태내역</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/subHoliday/subHolidayList.do')">휴가관리</a></div>
-
+                            <c:if test="${isAdmin}">
+                              <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/subHoliday/subHolidaySetting.do')">발생연차관리</a></div>
+                              <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#">급여관리</a></div>
+                            </c:if>
                           </div>
                         </div>
                       </li>
