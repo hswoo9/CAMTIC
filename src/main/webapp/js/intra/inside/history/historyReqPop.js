@@ -1,5 +1,3 @@
-var now = new Date();
-
 var historyReqPop = {
 
     init : function(){
@@ -8,15 +6,10 @@ var historyReqPop = {
     },
 
     dataSet: function() {
-        customKendo.fn_textBox(["searchVal", "numberName", "relevantName"])
-        $("#historyDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
+        customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
+        customKendo.fn_datePicker("historyDate", "month", "yyyy-MM-dd", new Date());
         fn_deptSetting();
+        $("#historyDate").data("kendoDatePicker").enable(false);
     },
 
     mainGrid : function() {
@@ -407,6 +400,9 @@ var historyReqPop = {
                 afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
                 afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
                 afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),
+
+                deptSeq           : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
+                position          : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[0].trim(),
 
                 afEtc             : $(v).find('#afEtc'+empSeq).val()
             }

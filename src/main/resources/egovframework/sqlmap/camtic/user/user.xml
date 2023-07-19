@@ -104,4 +104,23 @@
                 #{item}
             </foreach>
     </select>
+
+    <update id="setUserInfoUpdate" parameterType="list">
+        /* setUserInfoUpdate */
+        <foreach collection="historyList" item="item" index="index" separator=";">
+            UPDATE
+                CAM_HR.DJ_EMP_INFO
+            SET
+                DEPT_SEQ = #{item.deptSeq},
+                DEPT_NAME = #{item.afDeptName},
+                DEPT_TEAM_NAME = #{item.afTeamName},
+                POSITION_CODE = #{item.afPositionCode},
+                POSITION_NAME = #{item.position},
+                DUTY_CODE = #{item.afDutyCode},
+                DUTY_NAME = #{item.afDutyName},
+                JOB_DETAIL = #{item.afJobDetail}
+            WHERE
+                EMP_SEQ = #{item.empSeq}
+        </foreach>
+    </update>
 </mapper>

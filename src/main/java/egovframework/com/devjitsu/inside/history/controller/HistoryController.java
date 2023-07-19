@@ -149,6 +149,7 @@ public class HistoryController {
     @RequestMapping("/inside/setHistoryInsert")
     public String setHistoryInsert(@RequestParam Map<String, Object> params) {
         historyService.setHistoryInsert(params);
+        userService.setUserInfoUpdate(params);
         return "jsonView";
     }
 

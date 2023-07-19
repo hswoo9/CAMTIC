@@ -38,4 +38,8 @@ public class UserServiceImpl implements UserService {
     public List<Map<String, Object>> getEmpSelList(Map<String, Object> params) {
         return userRepository.getEmpSelList(params);
     }
+
+    public void setUserInfoUpdate(Map<String, Object> params) {
+        userRepository.setUserInfoUpdate(params);
+    }
 }
