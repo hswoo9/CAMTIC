@@ -13,7 +13,7 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">성과결과조회</h4>

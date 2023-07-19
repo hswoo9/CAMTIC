@@ -5,9 +5,13 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/history/historyReq.js?v=${today}"/></script>
 <style>
+    .dash-left .table > tbody > tr > th {
+    padding-left: 5px;
+    padding-right: 5px;
+    }
     .dash-left .table > tbody > tr > td {
-        padding-left: 3px;
-        padding-right: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 </style>
 <div class="col-md-12 col-lg-12 dash-left">

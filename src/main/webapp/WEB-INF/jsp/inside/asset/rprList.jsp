@@ -4,7 +4,17 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/rprList.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<style>
+    .table-bordered > tbody > tr > th {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .table-bordered > tbody > tr > td {
+        padding-left: 7px;
+        padding-right: 5px;
+    }
+</style>
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -17,19 +27,23 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="23%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="17%">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">기준</th>
                         <td>
-                            <input type="text" id="drop1" style="width: 150px;">
+                            <input type="text" id="drop1" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">조회기간</th>
                         <td>
@@ -39,30 +53,25 @@
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="drop2" style="width: 150px;">
+                            <input type="text" id="drop2" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="drop3" style="width: 150px;">
+                            <input type="text" id="drop3" style="width: 70px;">
                         </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">유지여부</th>
                         <td>
                             <input type="text" id="drop4" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">단독/공동</th>
                         <td>
-                            <input type="text" id="drop5" style="width: 150px;">
+                            <input type="text" id="drop5" style="width: 70px;">
                         </td>
                         <th class="text-center th-color">기술이전</th>
                         <td colspan="3">
-                            <input type="text" id="drop6" style="width: 150px;">
-                            <input type="text" id="searchType" style="width: 120px;">
+                            <input type="text" id="drop6" style="width: 100px;">
+                            <input type="text" id="searchType" style="width: 100px;">
                             <input type="text" id="searchVal" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                검색
-                            </button>
                         </td>
                     </tr>
                 </table>

@@ -13,7 +13,7 @@ var equipmentList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : new Date(now.setMonth(now.getMonth() - 1))
         });
 
         $("#usePdEndDe").kendoDatePicker({
@@ -21,7 +21,7 @@ var equipmentList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() + 1))
+            value : new Date()
         });
 
         $("#searchType").kendoDropDownList({
@@ -120,7 +120,7 @@ var equipmentList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 538,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -128,6 +128,14 @@ var equipmentList = {
             },
             toolbar : [
                 {
+                    name: '',
+                    text: '조회',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.mainGrid();">' +
+                            '   <span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: '',
                     text: '장비사용 등록',
                     template : function (e){

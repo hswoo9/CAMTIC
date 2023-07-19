@@ -52,7 +52,7 @@ var classManage = {
         $("#positionGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource3(url,params),
             scrollable: true,
-            height: 300,
+            height: 508,
             pageable: {
                 refresh: true,
                 pageSize : 10,
@@ -150,7 +150,7 @@ var classManage = {
         $("#divisionGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource3(url,params),
             scrollable: true,
-            height: 300,
+            height: 508,
             pageable: {
                 refresh: true,
                 pageSize : 10,
@@ -250,7 +250,7 @@ var classManage = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 300,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -347,7 +347,7 @@ var classManage = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 300,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -413,7 +413,7 @@ var classManage = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 300,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -479,7 +479,7 @@ var classManage = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 300,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],

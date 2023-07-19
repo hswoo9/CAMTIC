@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/assetList.js?v=${today}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -18,11 +18,11 @@
                 <table class="searchTable table table-bordered">
                     <colgroup>
                         <col width="8%">
-                        <col width="12%">
+                        <col width="15%">
                         <col width="8%">
-                        <col width="">
+                        <col width="15">
                         <col width="9%">
-                        <col width="7%">
+                        <col width="15%">
                         <col width="8%">
                         <col width="">
                         <col width="8%">
@@ -45,8 +45,8 @@
                     <tr>
                         <th class="text-center th-color">카테고리</th>
                         <td colspan="3">
-                            <input type="text" id="categoryA" style="width: 120px;">
-                            <input type="text" id="categoryB" style="width: 140px;">
+                            <input type="text" id="categoryA" style="width: 120px; margin-right: 5px;">
+                            <input type="text" id="categoryB" style="width: 140px; margin-right: 5px;">
                             <input type="text" id="categoryC" style="width: 140px;">
                         </td>
                         <th class="text-center th-color">자산상태</th>
@@ -71,7 +71,6 @@
                         <td colspan="5">
                             <input type="text" id="searchType" style="width: 140px; margin-right: 6px;" on>
                             <input type="text" id="searchContent" style="width: 66.1%" onkeypress="if(window.event.keyCode==13){assetList.gridReload()}">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.gridReload()">검색</button>
                         </td>
                     </tr>
                     <tr>

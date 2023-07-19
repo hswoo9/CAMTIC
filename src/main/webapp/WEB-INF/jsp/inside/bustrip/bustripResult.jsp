@@ -7,7 +7,7 @@
 
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"/></script>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
