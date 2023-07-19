@@ -14,7 +14,7 @@
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info request" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()" id="saveBtn">저장</button>
         <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
-        <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='' style="display: none">
+        <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='subHolidayReqPop.fn_vacEdtHolidaySaveModal()' style="display: none">
           <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
           <span class='k-button-text'>상신</span>
         </button>
@@ -22,14 +22,12 @@
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
       <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
       <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
       <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
       <input type="hidden" id="apprStat" value="N">
       <input type="hidden" id="vacUseHistId" value="${params.subholidayUseId}">
       <input type="hidden" id="code" value="${code}">
-      <input type="hidden" id="type" value="${type}">
       <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
         <colgroup>
           <col width="15%">
@@ -144,6 +142,14 @@
     </form>
   </div>
 </div>
+
+<form id="subHolidayDraftFrm" method="post">
+  <input type="hidden" id="menuCd" name="menuCd" value="subHoliday">
+  <input type="hidden" id="type" name="type" value="${type}">
+  <input type="hidden" id="nowUrl" name="nowUrl" />
+  <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
+</form>
+
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=${today}"></script>
 <script>
   subHolidayReqPop.fn_defaultScript();

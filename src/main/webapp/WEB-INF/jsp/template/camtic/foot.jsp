@@ -38,9 +38,9 @@
   <div class="top">
     <div class="inner">
       <ul class="fnb">
-        <li><a href="/etc/privacy.html">개인정보처리방침</a></li>
+        <li><a href="/etc/privacy.do">개인정보처리방침</a></li>
         <li><a href="#">이용약관</a></li>
-        <li><a href="/etc/email.html">이메일무단수집거부</a></li>
+        <li><a href="/etc/email.do">이메일무단수집거부</a></li>
         <li><a href="#">찾아오시는 길</a></li>
       </ul>
       <div class="rig">

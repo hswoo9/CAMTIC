@@ -53,6 +53,7 @@ var subHolidayReqPop = {
         if(subHolidayReqPop.global.code == "11"){
             $("#edtHolidayKindTop").data("kendoDropDownList").value(subHolidayReqPop.global.code);
             subHolidayReqPop.dataSetChange();
+            $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
         }
         if(subHolidayReqPop.global.type == "drafting"){
             $(".request").hide();
@@ -91,11 +92,11 @@ var subHolidayReqPop = {
             if(!flag){
                 return;
             }
-        }/*else if (!$("#edtHolidayKindTop").val()) {
+        }else if (!$("#edtHolidayKindTop").val()) {
             alert("휴가구분을 선택해주세요.");
             flag = false;
             return;
-        }else if (!$("#edtHolidayStartDateTop_1").val()){
+        }/*else if (!$("#edtHolidayStartDateTop_1").val()){
             alert("휴가 시작일을 선택해주세요.");
             flag = false;
             return;
@@ -177,8 +178,16 @@ var subHolidayReqPop = {
                     //subHolidayReqPop.fn_topTableClear();
                     /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
                     if(subHolidayReqPop.global.type == "drafting") {
-                        //TODO.20230718 작업중
-                        console.log(rs.vacUseHistId);
+                        $("#subHolidayId").val(rs.vacUseHistId);
+                        $("#subHolidayDraftFrm").one("submit", function() {
+                            var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+                            var name = "_self";
+                            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                            var popup = window.open(url, name, option);
+                            this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+                            this.method = 'POST';
+                            this.target = '_self';
+                        }).trigger("submit");
                     }else {
                         opener.gridReload();
                         window.close();
