@@ -125,7 +125,7 @@
                     <th><span class="red-star">*</span>운행거리</th>
                     <td colspan="3">
                         <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
-                        <button type="button" class="k-button k-button-solid-base" disabled>거리측정</button>
+                        <button type="button" class="k-button k-button-solid-base" onclick="window.open('https://map.naver.com/')">거리측정</button>
                         <button type="button" class="k-button k-button-solid-base" disabled>하이패스</button>
                         ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
                         [<a href="#">이용방법 보기</a>]
