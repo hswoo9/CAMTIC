@@ -226,7 +226,8 @@ img {max-width:100%;}
 #vis .rig .roll,
 #vis .rig .vis {height:803px;position:relative;overflow:hidden;}
 #vis .rig .vis {padding:0 15px;}
-#vis .rig .vis1 {background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}
+/*#vis .rig .vis1 {background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}*/
+#vis .rig .vis1 {background:url(/images/camtic/main1-1.png) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}
 #vis .rig .tit dt {font-size:14px;color:rgba(255,255,255,0.54);margin-bottom:13px;}
 #vis .rig .tit dd {font-size:38px;font-weight:bold;color:#fff;}
 #vis .rig .area {display:flex;justify-content:center;margin-top:45px;text-align:center;}
