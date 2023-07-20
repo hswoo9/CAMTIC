@@ -169,6 +169,16 @@ public class DocumentController {
         return "popup/inside/document/snackPop";
     }
 
+    //식대대장 통계조회 팝업창
+    @RequestMapping("/Inside/snackStat.do")
+    public String snackStat(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/snackStat";
+    }
+
     //증명서인쇄 팝업 페이지
     @RequestMapping("/Inside/pop/snackPrintPop.do")
     public String snackPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
