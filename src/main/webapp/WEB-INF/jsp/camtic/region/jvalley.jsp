@@ -35,7 +35,7 @@
           <div class="bot">
             <div class="__tit2">
               <h3><strong>세부내용</strong></h3>
-              <p>전주첨다벤처단지의 세부내용입니다.</p>
+              <p>전주첨단벤처단지의 세부내용입니다.</p>
             </div>
 
             <div class="tbl">
