@@ -111,7 +111,8 @@
             REMARK_NAME,
             DOCU_YEAR_DE,
             CRTR_SN,
-            NUMBER
+            NUMBER,
+            STATUS
         )
         VALUES
         (
@@ -130,7 +131,8 @@
             #{remarkName},
             LEFT(#{regDe}, 4),
             #{empSeq},
-            (SELECT MAX(IUP.NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF IUP WHERE IUP.DOCU_YEAR_DE = LEFT(#{regDe}, 4))
+            (SELECT MAX(IUP.NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF IUP WHERE IUP.DOCU_YEAR_DE = LEFT(#{regDe}, 4)),
+            10
         )
     </insert>
 

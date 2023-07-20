@@ -21,11 +21,11 @@
                     <c:when test="${data.STATUS == 0}">
                         <button type="button" class="k-button k-button-solid-info btn-A" onclick="certificateReqPop.fn_certReq();">신청</button>
                         <button type="button" class="k-button k-button-solid-info btn-A" onclick="certificateReqPop.uptBtn();">수정</button>
-                        <button type="button" class="k-button k-button-solid-info btn-B" style="display: none" onclick="certificateReqPop.saveBtn();">저장</button>
+                        <button type="button" class="k-button k-button-solid-info btn-B" style="display: none" onclick="certificateReqPop.saveBtn();">승인요청</button>
                         <button type="button" class="k-button  k-button-solid-error btn-B" style="display: none" onclick="window.close();">취소</button>
                     </c:when>
                     <c:when test="${data.STATUS == null}">
-                        <button type="button" class="k-button k-button-solid-info" onclick="certificateReqPop.saveBtn();">저장</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="certificateReqPop.saveBtn();">승인요청</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </c:when>
                 </c:choose>
