@@ -19,4 +19,5 @@
 <script>
   $("#navigation .mdCategory").text($("#header .gnb > ."+middleCategory+" span").text());
   $("#navigation .smCategory").text($("#header .gnb ."+middleCategory+"_"+smallCategory+" a").text());
+  $("#title h3").text($("#header .gnb ."+middleCategory+"_"+smallCategory+" a").text());
 </script>

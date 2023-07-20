@@ -47,6 +47,7 @@
             <li class="region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
             <li class="region_jvalley"><a href="/camtic/region/jvalley.do">제조창업 플랫폼(J-valley)</a></li>
             <li class="region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>
+            <li style="display: none" class="region_view"><a href="/camtic/region/view.do">게시판</a></li>
           </ul>
         </li>
         <li class="company">
@@ -83,6 +84,7 @@
                 <li class="member_step"><a href="/camtic/member/step.do">채용절차</a></li>
               </ul>
             </li>
+            <li style="display: none" class="member_view"><a href="/camtic/member/view.do">게시판</a></li>
           </ul>
         </li>
         <li class="news">
@@ -92,6 +94,7 @@
             <li class="news_business"><a href="/camtic/news/business.do">사업공고</a></li>
             <li class="news_study"><a href="/camtic/news/study.do">교육/행사</a></li>
             <li class="news_partner"><a href="/camtic/news/partner.do">유관기관소식</a></li>
+            <li style="display: none" class="news_view"><a href="/camtic/news/view.do">게시판</a></li>
           </ul>
         </li>
         <li class="pr">
@@ -102,6 +105,7 @@
             <li class="pr_news"><a href="/camtic/pr/news.do">뉴스레터</a></li>
             <li class="pr_video"><a href="/camtic/pr/video.do">홍보영상</a></li>
             <li class="pr_ci"><a href="/camtic/pr/ci.do">CI 소개</a></li>
+            <li style="display: none" class="pr_view"><a href="/camtic/pr/view.do">게시판</a></li>
           </ul>
         </li>
       </ul>

@@ -9,6 +9,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="lnb">
+  <h2></h2>
   <ul class="lnb">
     <li class="about about_greeting"><a href="/camtic/about/greeting.do">원장 인사말</a></li>
     <li class="about about_business"><a href="/camtic/about/business.do">주요사업</a></li>
@@ -20,6 +21,7 @@
     <li class="region region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
     <li class="region region_jvalley"><a href="/camtic/region/jvalley.do">제조창업 플랫폼(J-valley)</a></li>
     <li class="region region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>
+    <li style="display: none" class="region_view"><a href="/camtic/region/view.do">게시판</a></li>
 
     <li class="company company_root"><a href="/camtic/company/root.do">복합소재뿌리기술센터</a></li>
     <li class="company company_drone"><a href="/camtic/company/drone.do">드론산업혁신지원센터</a></li>
@@ -44,22 +46,25 @@
         <li class="member member_step"><a href="/camtic/member/step.do">채용절차</a></li>
       </ul>
     </li>
+    <li style="display: none" class="member_view"><a href="/camtic/member/view.do">게시판</a></li>
 
     <li class="news news_notice"><a href="/camtic/news/notice.do">공지사항</a></li>
     <li class="news news_business"><a href="/camtic/news/business.do">사업공고</a></li>
     <li class="news news_study"><a href="/camtic/news/study.do">교육/행사</a></li>
     <li class="news news_partner"><a href="/camtic/news/partner.do">유관기관소식</a></li>
+    <li style="display: none" class="news_view"><a href="/camtic/news/view.do">게시판</a></li>
 
     <li class="pr pr_photo"><a href="/camtic/pr/photo.do">포토뉴스</a></li>
     <li class="pr pr_report"><a href="/camtic/pr/report.do">보도자료</a></li>
     <li class="pr pr_news"><a href="/camtic/pr/news.do">뉴스레터</a></li>
     <li class="pr pr_video"><a href="/camtic/pr/video.do">홍보영상</a></li>
     <li class="pr pr_ci"><a href="/camtic/pr/ci.do">CI 소개</a></li>
-    <?}?>
+    <li style="display: none" class="pr pr_view"><a href="/camtic/pr/view.do">게시판</a></li>
   </ul>
 </div>
 
 <script>
   $("."+middleCategory+"_"+smallCategory).addClass('active');
-  $( "#lnb .lnb > li" ).not("."+middleCategory).hide();
+  $("#lnb .lnb > li").not("."+middleCategory).hide();
+  $("#lnb h2").text($("#header .gnb > ."+middleCategory+" span").text());
 </script>
