@@ -21,17 +21,16 @@ var snackStat = {
         ]
         customKendo.fn_dropDownTree("searchType", searchTypeSource, "text", "value", 1);
         $("#searchType").data("kendoDropDownTree").value(["1", "2", "3"]);
+        $("#searchTypeText").val($("#searchType").data("kendoDropDownTree").value().toString());
         $("#startDt").data("kendoDatePicker").bind("change", snackStat.mainChart)
         $("#endDt").data("kendoDatePicker").bind("change", snackStat.mainChart)
         $("#searchDept").data("kendoDropDownList").bind("change", snackStat.mainChart)
         $("#searchType").data("kendoDropDownTree").bind("change", snackStat.mainChart)
     },
 
-    chartReload: function(){
-        $("#mainChart").data("kendoChart").refresh();
-    },
-
     mainChart: function(){
+        $("#searchTypeText").val($("#searchType").data("kendoDropDownTree").value().toString());
+
         let data = {
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),

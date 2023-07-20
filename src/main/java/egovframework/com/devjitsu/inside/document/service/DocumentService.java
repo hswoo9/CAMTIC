@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.document.service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +48,13 @@ public interface DocumentService {
      * @return
      */
     Map<String, Object> getSnackStat(Map<String, Object> params);
+
+    /**
+     * 식대대장 통계 엑셀다운로드
+     * @param params
+     * @return
+     */
+    void snackListDownload(Map<String, Object> params, HttpServletResponse response) throws IOException;
 
     /**
      * 문서고 리스트 조회

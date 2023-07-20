@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -257,6 +259,12 @@ public class DocumentController {
         model.addAttribute("dept", data.get("dept"));
         model.addAttribute("total", data.get("total"));
         return "jsonView";
+    }
+
+    //식대대장 통계 엑셀다운로드
+    @RequestMapping("/excel/snackListDownload")
+    public void snackListDownload(@RequestParam Map<String, Object> params, HttpServletResponse response) throws IOException {
+        documentService.snackListDownload(params, response);
     }
 
     //문서고 리스트 조회

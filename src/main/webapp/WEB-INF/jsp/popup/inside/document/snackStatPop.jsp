@@ -14,38 +14,44 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
-        <div class="card-header pop-header">
-            <h3 class="card-title title_NM">식대 통계</h3>
-            <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+        <form action="/excel/snackListDownload" method="get">
+            <div class="card-header pop-header">
+                <h3 class="card-title title_NM">식대 통계</h3>
+                <div class="btn-st popButton">
+                    <button type="submit" class="k-button k-button-solid-base" style="margin-right:5px;">
+                        <span class="k-icon k-i-file-excel k-button-icon"></span> 엑셀다운로드
+                    </button>
+                    <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+                </div>
             </div>
-        </div>
-        <table class="searchTable table table-bordered mb-0" style="border: 0; margin-left: 20px;  margin-top : 5px; border: 1px solid #dedfdf; width: 1500px">
-            <colgroup>
-                <col width="10%">
-                <col width="20%">
-                <col width="10%">
-                <col width="10%">
-                <col width="10%">
-                <col width="35%">
-            </colgroup>
-            <tr>
-                <th class="text-center th-color">조회기간</th>
-                <td>
-                    <input type="text" id="startDt" style="width: 120px;">
-                    ~
-                    <input type="text" id="endDt" style="width: 120px;">
-                </td>
-                <th class="text-center th-color">부서구분</th>
-                <td>
-                    <input type="text" id="searchDept" style="width: 150px;">
-                </td>
-                <th class="text-center th-color">식대구분</th>
-                <td>
-                    <input type="text" id="searchType" style="width: 570px;">
-                </td>
-            </tr>
-        </table>
+            <table class="searchTable table table-bordered mb-0" style="border: 0; margin-left: 20px;  margin-top : 5px; border: 1px solid #dedfdf; width: 1500px">
+                <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="35%">
+                </colgroup>
+                <tr>
+                    <th class="text-center th-color">조회기간</th>
+                    <td>
+                        <input type="text" name="startDt" id="startDt" style="width: 120px;">
+                        ~
+                        <input type="text" name="endDt" id="endDt" style="width: 120px;">
+                    </td>
+                    <th class="text-center th-color">부서구분</th>
+                    <td>
+                        <input type="text" name="searchDept" id="searchDept" style="width: 150px;">
+                    </td>
+                    <th class="text-center th-color">식대구분</th>
+                    <td>
+                        <input type="text" name="searchType" id="searchType" style="width: 570px;">
+                        <input type="hidden" name="searchTypeText" id="searchTypeText">
+                    </td>
+                </tr>
+            </table>
+        </form>
         <div id="mainChart"></div>
     </div>
 </div>

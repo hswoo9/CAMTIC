@@ -2,9 +2,16 @@ package egovframework.com.devjitsu.inside.document.service.impl;
 
 import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
 import egovframework.com.devjitsu.inside.document.service.DocumentService;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +53,68 @@ public class DocumentServiceImpl implements DocumentService {
         result.put("dept", documentRepository.getSnackStatDept(params));
         result.put("total", documentRepository.getSnackStat(params));
         return result;
+    }
+
+    @Override
+    public void snackListDownload(Map<String, Object> params, HttpServletResponse response) throws IOException {
+        Workbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("test");
+        Row row = null;
+        Cell cell = null;
+        int rowNum = 0;
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        cell.setCellValue("NO");
+        cell = row.createCell(1);
+        cell.setCellValue("일시");
+        cell = row.createCell(2);
+        cell.setCellValue("식대구분");
+        cell = row.createCell(3);
+        cell.setCellValue("부서");
+        cell = row.createCell(4);
+        cell.setCellValue("팀");
+        cell = row.createCell(5);
+        cell.setCellValue("주문처");
+        cell = row.createCell(6);
+        cell.setCellValue("금액");
+        cell = row.createCell(7);
+        cell.setCellValue("결제구분");
+        cell = row.createCell(8);
+        cell.setCellValue("수령자");
+
+        List<Map<String, Object>> list = documentRepository.getSnackList(params);
+
+        for (Map<String, Object> map : list) {
+            row = sheet.createRow(rowNum++);
+            cell = row.createCell(0);
+            cell.setCellValue("");
+            cell = row.createCell(1);
+            cell.setCellValue(map.get("USE_DT").toString());
+            cell = row.createCell(2);
+            cell.setCellValue(map.get("SNACK_TYPE_TEXT").toString());
+            cell = row.createCell(3);
+            cell.setCellValue(map.get("REG_DEPT_NAME").toString());
+            cell = row.createCell(4);
+            cell.setCellValue(map.get("REG_TEAM_NAME").toString());
+            cell = row.createCell(5);
+            cell.setCellValue("-");
+            cell = row.createCell(6);
+            cell.setCellValue(Integer.parseInt(map.get("AMOUNT_SN").toString()));
+        }
+
+        for(int i = 0 ; i < list.size() ; i++){
+            sheet.autoSizeColumn(i);
+            sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+1056); //너비 더 넓게
+        }
+
+        response.setContentType("ms-vnd/excel");
+        String fileName = "식대대장.xlsx";
+        String outputFileName = new String(fileName.getBytes("KSC5601"), "8859_1");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + outputFileName + "\"");
+
+        wb.write(response.getOutputStream());
+        wb.close();
     }
 
     @Override

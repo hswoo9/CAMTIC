@@ -43,6 +43,8 @@ var snackList = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
                     return data;
                 }
             },
@@ -161,8 +163,8 @@ var snackList = {
     },
 
     dataSet: function(){
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
         $("#mealsDivision").kendoDropDownList({
@@ -245,7 +247,7 @@ var snackList = {
     snackStatPopup: function(){
         const url = "/Inside/pop/snackStatPop.do";
         const name = "snackStatPop";
-        const option = "width = 1600, height = 530, top = 100, left = 200, location = no";
+        const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
 }
