@@ -169,9 +169,11 @@ var customKendo = {
      * @param type
      */
     fn_dropDownList : function (id, dataSource, textField, valueField, type){
-        if(type == "2") {
+        if(type == "2"){
             dataSource.unshift({[textField] : "선택하세요", [valueField] : ""});
-        }else {
+        }else if(type == "3"){
+            //type이 3일때는 기본 항목 없음
+        }else{
             dataSource.unshift({[textField] : "전체", [valueField] : ""});
         }
 
