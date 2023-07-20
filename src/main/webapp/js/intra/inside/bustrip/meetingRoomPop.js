@@ -18,7 +18,7 @@ var roomReq = {
         customKendo.fn_dropDownList("saveType", saveTypeArr, "text", "value", 2);
         $("#saveType").data("kendoDropDownList").value(1);
         $("#saveType").data("kendoDropDownList").enable(false);
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", $("#startDt").val() == "" ? new Date() : $("#startDt").val());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "09:00"});
         $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});

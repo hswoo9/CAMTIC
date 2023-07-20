@@ -2,11 +2,37 @@ var userViewPop = {
 
     global : {
         saveAjaxData : "",
+        dropDownDataSource : ""
     },
 
     defaultScript : function () {
+        userViewPop.dataSet();
 
+    },
+    dataSet : function() {
+        var data = {
 
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq", "6");
+
+        $("#deptComp").data("kendoDropDownList").bind("change", userViewPop.fn_chngDeptComp)
+        $("#deptComp").data("kendoDropDownList").select(0);
+        $("#deptComp").data("kendoDropDownList").trigger("change");
+
+        userViewPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
+        customKendo.fn_dropDownList("duty", userViewPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", "4");
+    },
+
+    fn_chngDeptComp : function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq","5")
     },
 
     /** 관리자 버튼*/
@@ -44,5 +70,12 @@ var userViewPop = {
                 alert("삭제 처리 중 오류가 발생하였습니다.");
             }
         }
-    }
+    },
+
+    userAccountPop : function(e) {
+        var url = "/Inside/pop/userAccountPop.do?empSeq=" + e;
+        var name = "userAccountPop";
+        var option = "width=550, height=350, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
 }

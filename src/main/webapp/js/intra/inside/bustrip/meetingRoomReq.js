@@ -161,85 +161,100 @@ var meetingRoomReq = {
             ],
             timezone: "Etc/UTC",
             dataSource: schDataSource,
-            selectable: false,
+            selectable: true,
             //dataBound : carList.onDataBound,
             editable : false
         });
+
+        $("#scheduler").on("dblclick", ".k-state-selected:not(.k-event)", function(e){
+            var url = "/Inside/pop/meetingRoomPop.do?startDt=" + meetingRoomReq.dateFormat($("#scheduler").data("kendoScheduler").select().start);
+            var name = "popup test";
+            var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+            var popup = window.open(url, name, option);
+            window.open(url, name, option);
+        });
     },
 
-        mainGrid: function () {
-            var dataSource = new kendo.data.DataSource({
-                serverPaging: false,
-                transport: {
-                    read : {
-                        url : '/inside/getRoomRequestList',
-                        dataType : "json",
-                        type : "post"
-                    },
-                    parameterMap: function(data, operation) {
-                        return data;
-                    }
+    mainGrid: function () {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/inside/getRoomRequestList',
+                    dataType : "json",
+                    type : "post"
                 },
-                schema : {
-                    data: function (data) {
-                        return data.list;
-                    },
-                    total: function (data) {
-                        return data.list.length;
-                    },
+                parameterMap: function(data, operation) {
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
                 },
-                pageSize: 10,
-            });
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
 
-            $("#mainGrid").kendoGrid({
-                dataSource: dataSource,
-                sortable: true,
-                scrollable: true,
-                height: 489,
-                pageable : {
-                    refresh : true,
-                    pageSizes : [ 10, 20, 30, 50, 100 ],
-                    buttonCount : 5
-                },
-                noRecords: {
-                    template: "데이터가 존재하지 않습니다."
-                },
-                columns: [
-                    {
-                        field: "ROOM_CLASS_TEXT",
-                        title: "회의실",
-                        width: "15%"
-                    }, {
-                        title: "사용일시",
-                        width: "30%",
-                        template: function(row){
-                            return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
-                        }
-                    }, {
-                        field: "USE_PURPOSE_TEXT",
-                        title: "사용목적",
-                        width: "20%"
-                    }, {
-                        field: "RENTAL_FEE_TEXT",
-                        title: "대관료",
-                        width: "10%"
-                    }, {
-                        field: "REG_EMP_NAME",
-                        title: "등록자",
-                        width: "10%"
-                    }, {
-                        field: "MANAGER_NAME",
-                        title: "담당자",
-                        width: "10%"
-                    }]
-            }).data("kendoGrid");
-        },
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "ROOM_CLASS_TEXT",
+                    title: "회의실",
+                    width: "15%"
+                }, {
+                    title: "사용일시",
+                    width: "30%",
+                    template: function(row){
+                        return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
+                    }
+                }, {
+                    field: "USE_PURPOSE_TEXT",
+                    title: "사용목적",
+                    width: "20%"
+                }, {
+                    field: "RENTAL_FEE_TEXT",
+                    title: "대관료",
+                    width: "10%"
+                }, {
+                    field: "REG_EMP_NAME",
+                    title: "등록자",
+                    width: "10%"
+                }, {
+                    field: "MANAGER_NAME",
+                    title: "담당자",
+                    width: "10%"
+                }]
+        }).data("kendoGrid");
+    },
 
     meetingRoomPopup : function(){
         var url = "/Inside/pop/meetingRoomPop.do";
         var name = "popup test";
         var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    dateFormat : function(date) {
+        let dateFormat2 = date.getFullYear() +
+            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+        return dateFormat2;
     }
 }
 

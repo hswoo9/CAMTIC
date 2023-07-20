@@ -70,7 +70,27 @@
                 <tr>
                     <th>직원구분</th>
                     <td>
-                        ${uprinfList.DIVISION}
+                        <c:if test="${uprinfList.DIVISION == '0'}">
+                            정규직원
+                        </c:if>
+                        <c:if test="${uprinfList.DIVISION == '4'}">
+                            계약직원
+                        </c:if>
+                        <c:if test="${uprinfList.DIVISION == '3'}">
+                            단기직원
+                        </c:if>
+                        <c:if test="${uprinfList.DIVISION == '1'}">
+                            위촉직원
+                        </c:if>
+                        <c:if test="${uprinfList.DIVISION == '2'}">
+                            연수생/학생연구원
+                        </c:if>
+                        <c:if test="${uprinfList.DIVISION == '10'}">
+                            기타
+                        </c:if>
+                        <c:if test="${uprinfList.DIVISION == '9'}">
+                            퇴사직원
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -106,7 +126,15 @@
                 <tr>
                     <th>직군</th>
                     <td>
-                        ??
+                        <c:if test="${uprinfList.OCCUPATION_CODE == '1'}">
+                            R&D
+                        </c:if>
+                        <c:if test="${uprinfList.OCCUPATION_CODE == '2'}">
+                            A&C
+                        </c:if>
+                        <c:if test="${uprinfList.OCCUPATION_CODE == '3'}">
+                            P&M
+                        </c:if>
                     </td>
                     <th>학위</th>
                     <td>
@@ -116,8 +144,8 @@
                 <tr>
                     <th>겸직</th>
                     <td colspan="3">
-                        <input type="text" id="deptName" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
-                        <input type="text" id="deptTeamName" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
+                        <input type="text" id="deptComp" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
+                        <input type="text" id="deptTeam" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
                         <input type="text" id="duty" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
                             <button type="button" class="k-button k-button-solid-info" onclick="">추가</button>
@@ -178,7 +206,7 @@
                     <td colspan="3">
                         더존코드 : | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 :
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
-                            <button type="button" class="k-button k-button-solid-info" onclick="">수정</button>
+                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userAccountPop('${params.empSeq}')">수정</button>
                         </c:if>
                     </td>
                 </tr>
@@ -331,3 +359,6 @@
     </div>
 </div>
 </body>
+<script>
+    userViewPop.defaultScript();
+</script>

@@ -54,7 +54,7 @@
                 </th>
                 <td>
                     <input type="text" id="saveType" style="width: 20%; margin-right:10px;">
-                    <input id="startDt" style="width: 20%;"><input id="startTime" style="width: 15%;">~
+                    <input id="startDt" style="width: 20%;" value="${params.startDt}"><input id="startTime" style="width: 15%;">~
                     <input id="endDt" style="width: 20%;"><input id="endTime" style="width: 15%;">
                     <button type="button" id="exSpecificDayButton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;margin-top: 10px;" onclick="meetingRoomPop.exSpecificDayPopup();" disabled>
                         특정일 제외
