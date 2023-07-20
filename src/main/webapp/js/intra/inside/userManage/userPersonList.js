@@ -484,6 +484,20 @@ var userPersonList = {
         }).data("kendoGrid");
     },
 
+    userReqPop : function(e) {
+
+        console.log(e);
+        var url = "/Inside/pop/userReqPop.do";
+
+        if(e != null && e != ""){
+            url += "?empSeq=" + e;
+        }
+
+        var name = "recruitReqPop";
+        var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
     userViewPop : function(e) {
 
         console.log(e);

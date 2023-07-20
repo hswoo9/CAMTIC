@@ -128,25 +128,13 @@ public class UserManageController {
         return "inside/userManage/userPersonnelRecord";
     }
 
-    //직원조회목록 페이지
-    @RequestMapping("/Inside/pop/userReqPop.do")
-    public String userReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
-        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
-
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        model.addAttribute("params", params);
-        model.addAttribute("uprinfList", userPersonnelinformList);
-
-        System.out.println("parmas값 --------" + params);
-        System.out.println("dfdf --------" + userPersonnelinformList);
-        return "popup/inside/userManage/userReqPop";
-    }
-
-    //인사관리(관리자) 직원 정보 페이지
+    /**
+     * 인사관리 직원 정보 조회 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/pop/userViewPop.do")
     public String userViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -163,6 +151,69 @@ public class UserManageController {
         System.out.println("dfdf --------" + userPersonnelinformList);
         return "popup/inside/userManage/userViewPop";
     }
+
+    /**
+     * 인사관리 직원 정보 등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userReqPop.do")
+    public String userReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+
+        return "popup/inside/userManage/userReqPop";
+    }
+
+    /**
+     * 인사관리 직원 퇴사처리 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/userResignRegPop.do")
+    public String userResignRegPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("empInfo", userManageService.getUserPersonnelinformList(params));
+
+        return "popup/inside/userManage/userResignRegPop";
+    }
+
+    /**
+     * 인사관리 직원 퇴사처리
+     * @param map
+     * @return
+     */
+    @RequestMapping("/userManage/setUserResignReg.do")
+    public String setUserResignReg(@RequestParam Map<String,Object> map) {
+        userManageService.setUserResignReg(map);
+        return "jsonView";
+    }
+
+    /**
+     * 인사관리 직원 삭제처리
+     * @param map
+     * @return
+     */
+    @RequestMapping("/userManage/setUserDel.do")
+    public String setUserDel(@RequestParam Map<String,Object> params) {
+        userManageService.setUserDel(params);
+        return "jsonView";
+    }
+
 
     //직원조회목록 페이지
     @RequestMapping("/Inside/pop/userReqPopImage.do")

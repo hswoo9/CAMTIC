@@ -300,7 +300,7 @@
         LEFT JOIN
         CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-        HEI.active = 'Y'
+            HEI.ACTIVE = 'Y'
         <if test='userGender != null and !"".equals(userGender)'>
         AND
             HEI.GENDER_CODE = #{userGender}
@@ -1307,6 +1307,33 @@
             a.EMP_SEQ = #{empSeq};
     </select>
 
+    <update id="setUserResignReg" parameterType="map">
+        /* setUserResignReg */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            WORK_STATUS_CODE = 'N',
+            DIVISION = '9999',
+            RESIGN_DAY = #{resignDay},
+            RESIGN_REASON = #{resignReason},
+            MOD_DATE = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="setUserDel" parameterType="map">
+        /* setUserDel */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            ACTIVE = 'N',
+            MOD_DATE = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </update>
+
     <update id="setUserInfoReqUpd" parameterType="map">
         /* setUserInfoReqUpd */
         UPDATE
@@ -1318,6 +1345,7 @@
         WHERE
         EMP_SEQ = #{empSeq}
     </update>
+
     <select id="getUserInfoModDetail" resultType="map" parameterType="map">
         select
             a.*

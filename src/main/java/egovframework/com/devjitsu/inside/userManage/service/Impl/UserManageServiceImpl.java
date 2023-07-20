@@ -213,6 +213,16 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public void setUserResignReg(Map<String, Object> params) {
+        userManageRepository.setUserResignReg(params);
+    }
+
+    @Override
+    public void setUserDel(Map<String, Object> params) {
+        userManageRepository.setUserDel(params);
+    }
+
+    @Override
     public int setThumbnailUpload(List<Map<String, Object>> list, Map<String, Object> params, String path) throws Exception {
         Map<String, Object> fileParam = new HashMap<>();
         int result = 0;
