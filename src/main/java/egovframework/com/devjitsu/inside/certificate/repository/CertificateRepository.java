@@ -20,6 +20,9 @@ public class CertificateRepository extends AbstractDAO {
     public void setCertificateInsert(Map<String, Object> params) {
         insert("certificate.setCertificateInsert", params);
     }
+    public void setCertificateAdminInsert(Map<String, Object> params) {
+        insert("certificate.setCertificateAdminInsert", params);
+    }
 
     public void setCertificateUpdate(Map<String, Object> params) {
         insert("certificate.setCertificateUpdate", params);

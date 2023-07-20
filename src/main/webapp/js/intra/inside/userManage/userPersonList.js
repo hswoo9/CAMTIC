@@ -485,12 +485,10 @@ var userPersonList = {
     },
 
     userReqPop : function(e) {
-
-        console.log(e);
-        var url = "/Inside/pop/userReqPop.do";
+        var url = "/Inside/pop/userReqPop.do?admin=Y";
 
         if(e != null && e != ""){
-            url += "?empSeq=" + e;
+            url += "&empSeq=" + e;
         }
 
         var name = "recruitReqPop";

@@ -60,7 +60,7 @@
                 <tr>
                     <th>사번</th>
                     <td>
-                        <input type="text" id="regErpSn" value="C1234567" style="width: 80%;">
+                        <input type="text" id="regErpSn" value="${LoginVO.erpEmpCd}" style="width: 80%;">
                     </td>
                     <th>성명</th>
                     <td>

@@ -704,12 +704,12 @@ var userReqPop = {
                 opener.userPersonList.gridReload();
             }
         })
-
     },
 
     fn_windowClose : function(){
         window.close();
     },
+
 
     fn_regex : function (type, value) {
         // 숫자 검사기
@@ -737,6 +737,25 @@ var userReqPop = {
                 }
                 return value;
         }
+    },
+
+    /** 관리자 버튼*/
+    certificateReqPop : function(e) {
+        var url = "/inside/pop/certificateReqAdminPop.do?empSeq=" + e;
+        var name = "certificateReqPop";
+        var option = "width=965, height=380, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    printPop : function(userProofSn) {
+        if(!confirm("증명서 발급은 1회만 가능합니다. 진행하시겠습니까?")){
+            return;
+        }
+
+        var url = "/Inside/pop/certifiPrintPop.do?userProofSn="+userProofSn;
+        var name = "certifiPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 
 }
@@ -781,4 +800,3 @@ function viewPhoto(input){
         reader.readAsDataURL(input.files[0]);
     }
 }
-

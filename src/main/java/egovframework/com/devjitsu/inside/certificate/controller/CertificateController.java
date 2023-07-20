@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.certificate.controller;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.service.LoginService;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class CertificateController {
     @Autowired
     private CommonCodeService commonCodeService;
 
+    @Autowired
+    private LoginService loginService;
+
     //증명서신청 페이지
     @RequestMapping("/Inside/certificateList.do")
     public String certificateReq(HttpServletRequest request, Model model) {
@@ -51,7 +55,48 @@ public class CertificateController {
         return "inside/certificate/certificateAdmin";
     }
 
-    //증명서신청 팝업 페이지
+    /**
+     * 증명서 신청 팝업 페이지(관리자)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/certificateReqAdminPop.do")
+    public String certificateReqAdminPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login2 = (LoginVO) session.getAttribute("LoginVO");
+
+        LoginVO login = new LoginVO();
+        login.setUniqId((String) params.get("empSeq"));
+        login = loginService.actionLogin(login);
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("regEmpInfo", login2);
+        model.addAttribute("params", params);
+
+
+        return "popup/inside/certificate/certificateReqAdminPop";
+    }
+
+    /**
+     * 증명저 신청 저장 ( 관리자 )
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setCertificateAdminInsert")
+    public String setCertificateAdminInsert(@RequestParam Map<String, Object> params, Model model) {
+        certificateService.setCertificateAdminInsert(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /**
+     * 증명서 신청 팝업 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/pop/certificateReqPop.do")
     public String certificateReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

@@ -9,7 +9,7 @@
             HEI.LOGIN_ID AS id,
             HEI.EMP_NAME_KR AS name,
             HEI.EMP_SEQ AS uniqId,
-
+            HEI.ERP_EMP_SEQ AS erpEmpCd,
             HEI.DEPT_SEQ AS orgnztId,
             HEI.DEPT_NAME AS orgnztNm,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS deptId,
@@ -32,7 +32,11 @@
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        WHERE
-            LOGIN_ID = #{id}
+        WHERE 1=1
+        <choose>
+            <when test='uniqId != null and !"".equals(uniqId)'>AND EMP_SEQ = #{uniqId}</when>
+            <otherwise>AND LOGIN_ID = #{id}</otherwise>
+        </choose>
+
     </select>
 </mapper>

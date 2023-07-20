@@ -29,6 +29,11 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    public void setCertificateAdminInsert(Map<String, Object> params) {
+        certificateRepository.setCertificateAdminInsert(params);
+    }
+
+    @Override
     public void setCertificateInsert(Map<String, Object> params) {
         certificateRepository.setCertificateInsert(params);
     }

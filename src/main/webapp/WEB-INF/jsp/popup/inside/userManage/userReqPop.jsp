@@ -14,26 +14,24 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                <h3 class="card-title title_NM">직원추가</h3>
-                <div class="btn-st popButton">
-<%--                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userReqPop.userReqPopImage();">이미지 관리</button>--%>
-                    <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>
-                    <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
-                </div>
-            </c:if>
-            <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                <h3 class="card-title title_NM">직원정보</h3>
-            </c:if>
+            <%--            <c:if test="${params.empSeq == null || params.empSeq == ''}">--%>
+            <%--                <h3 class="card-title title_NM">직원추가</h3>--%>
+            <%--                <div class="btn-st popButton">--%>
+            <%--                    <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>--%>
+            <%--                </div>--%>
+            <%--            </c:if>--%>
+            <h3 class="card-title title_NM">직원등록</h3>
+            <div>
+                <c:if test="${params.admin != null && params.admin == 'Y'}">
+                    <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="userReqPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
+                    <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="">편집</button>
+                    <button type="button" class="k-button k-button-solid-error" style="margin-top: 8px;" onclick="">퇴사처리</button>
+                    <button type="button" class="k-button k-button-solid-error" style="margin-top: 8px;" onclick="">삭제</button>
+                </c:if>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
+            </div>
         </div>
-        <%--<div class="popupTitleSt">직원추가</div>--%>
         <form id="subHolidayReqPop" style="padding: 20px 30px;">
-            <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-            <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-            <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-            <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-            <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-            <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
             <table class="popTable table table-bordered mb-0" id="userReqPop">
                 <colgroup>
                     <col width="13%">
@@ -96,18 +94,18 @@
                         </td>
                     </tr>
                 </c:if>
-<%--                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                    <tr>
-                        <th><span class="red-star">*</span>비밀번호</th>
-                        <td>
-                            <input type="text" id="loginPasswd" style="width: 50%;" value="${uprinfList.LOGIN_PASSWD}" disabled="disabled">
-                        </td>
-                        <th><span class="red-star">*</span>비밀번호 확인</th>
-                        <td>
-                            <input type="password" id="checkPasswd" style="width: 50%;" disabled>
-                        </td>
-                    </tr>
-                </c:if>--%>
+                <%--                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                                    <tr>
+                                        <th><span class="red-star">*</span>비밀번호</th>
+                                        <td>
+                                            <input type="text" id="loginPasswd" style="width: 50%;" value="${uprinfList.LOGIN_PASSWD}" disabled="disabled">
+                                        </td>
+                                        <th><span class="red-star">*</span>비밀번호 확인</th>
+                                        <td>
+                                            <input type="password" id="checkPasswd" style="width: 50%;" disabled>
+                                        </td>
+                                    </tr>
+                                </c:if>--%>
                 <tr>
                     <th>부서</th>
                     <td>
@@ -277,8 +275,8 @@
                     <td colspan="3">
                         <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
                         ex) 22 가 1111
-                    </c:if>
-                    <c:if test="${uprinfList.CAR_ACTIVE == 1}">
+                        </c:if>
+                        <c:if test="${uprinfList.CAR_ACTIVE == 1}">
                     <th>차량소유</th>
                     <td colspan="3">
                         <input type="checkbox" checked id="carActive2"> 차량을 소유하고 있음
@@ -287,9 +285,9 @@
                 <tr>
                     <th>차량번호</th>
                     <td colspan="3">
-                            <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}" disabled="disabled">
-                            ex) 22 가 1111
-                    </c:if>
+                        <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}" disabled="disabled">
+                        ex) 22 가 1111
+                        </c:if>
                     </td>
                 </tr>
                 </thead>
@@ -437,23 +435,23 @@
                 </tr>
                 <tr>
                     <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                        <th>재직여부</th>
-                        <td colspan="3">
-                            <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
-                        </td>
-                        </tr>
-                        <tr style="display: none;" id="noneTr1">
-                            <th>퇴사일자</th>
-                            <td colspan="3">
-                                <input type="text" id="resignDay" style="width: 20%;">
-                            </td>
-                        </tr>
-                    </c:if>
-                    <c:if test="${uprinfList.WORK_STATUS_CODE == 'N'}">
-                        <th>재직여부</th>
-                        <td colspan="3">
-                            <input type="checkbox" checked id="check4"> 퇴사직원임
-                        </td>
+                    <th>재직여부</th>
+                    <td colspan="3">
+                        <input type="checkbox" id="check3" onclick="onDisplay1();"> 퇴사직원임
+                    </td>
+                </tr>
+                <tr style="display: none;" id="noneTr1">
+                    <th>퇴사일자</th>
+                    <td colspan="3">
+                        <input type="text" id="resignDay" style="width: 20%;">
+                    </td>
+                </tr>
+                </c:if>
+                <c:if test="${uprinfList.WORK_STATUS_CODE == 'N'}">
+                    <th>재직여부</th>
+                    <td colspan="3">
+                        <input type="checkbox" checked id="check4"> 퇴사직원임
+                    </td>
                     </tr>
                     <tr>
                         <th>퇴사일자</th>
@@ -461,7 +459,7 @@
                             <input type="text" id="resignDay" style="width: 20%;" value="${uprinfList.RESIGN_DAY}">
                         </td>
                     </tr>
-                    </c:if>
+                </c:if>
                 </thead>
             </table>
         </form>
@@ -509,19 +507,19 @@
 
         $("#position").data("kendoDropDownList").enable(false);
         /*$("#divis").data("kendoDropDownList").enable(false);*/
-/*        $("#deptName").data("kendoDropDownList").enable(false);
-        $("#deptTeamName").data("kendoDropDownList").enable(false);
-        $("#positionOrNum").data("kendoDropDownList").enable(false);
-        $("#jobCode").data("kendoDropDownList").enable(false);
-        $("#positionName").data("kendoDropDownList").enable(false);
-        $("#degreeCode").data("kendoDropDownList").enable(false);
-        $("#regDate").data("kendoDatePicker").enable(false);*/
-/*        $("#homePageActive").data("kendoRadioGroup").enable(false);
-        $("#bday").data("kendoDatePicker").enable(false);
-        $("#weddingActive").data("kendoRadioGroup").enable(false);
-        $("#weddingDay").data("kendoDatePicker").enable(false);
-        $("#bloodType").data("kendoRadioGroup").enable(false);
-        $("#resignDay").data("kendoDatePicker").enable(false);*/
+        /*        $("#deptName").data("kendoDropDownList").enable(false);
+                $("#deptTeamName").data("kendoDropDownList").enable(false);
+                $("#positionOrNum").data("kendoDropDownList").enable(false);
+                $("#jobCode").data("kendoDropDownList").enable(false);
+                $("#positionName").data("kendoDropDownList").enable(false);
+                $("#degreeCode").data("kendoDropDownList").enable(false);
+                $("#regDate").data("kendoDatePicker").enable(false);*/
+        /*        $("#homePageActive").data("kendoRadioGroup").enable(false);
+                $("#bday").data("kendoDatePicker").enable(false);
+                $("#weddingActive").data("kendoRadioGroup").enable(false);
+                $("#weddingDay").data("kendoDatePicker").enable(false);
+                $("#bloodType").data("kendoRadioGroup").enable(false);
+                $("#resignDay").data("kendoDatePicker").enable(false);*/
 
         //직원구분
         $("#divis").data("kendoDropDownList").value("${uprinfList.DIVISION}");

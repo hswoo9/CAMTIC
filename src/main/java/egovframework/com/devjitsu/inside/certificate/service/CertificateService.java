@@ -20,6 +20,13 @@ public interface CertificateService {
     Map<String, Object> getCertificateOne(Map<String, Object> params);
 
     /**
+     * 증명서신청 증명서신청 저장 ( 관리자 )
+     * @param params
+     * @return
+     */
+    void setCertificateAdminInsert(Map<String, Object> params);
+
+    /**
      * 증명서신청 증명서신청 저장
      * @param params
      * @return
