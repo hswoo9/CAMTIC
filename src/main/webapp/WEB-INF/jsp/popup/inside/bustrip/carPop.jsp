@@ -45,7 +45,7 @@
                         <span class="red-star"></span>운행 일시
                     </th>
                     <td>
-                        <input id="startDt" style="width: 20%;">
+                        <input id="startDt" style="width: 20%;" value="${params.startDt}">
                         <input id="startTime" style="width: 20%;">
                         ~<input id="endDt" style="width: 20%;">
                         <input id="endTime" style="width: 20%;">
@@ -137,6 +137,7 @@
     <c:if test="${flag eq 'true'}">
         carData = JSON.parse('${data}');
     </c:if>
+
     carReq.init();
 </script>
 </body>

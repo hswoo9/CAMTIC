@@ -57,6 +57,7 @@ public class InsideCodeController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("flag", "false");
+        model.addAttribute("params", params);
         if(params.containsKey("carReqSn")){
             Map<String, Object> data = insideCodeService.getCarRequestInfo(params);
             model.addAttribute("carReqSn", data.get("CAR_REQ_SN"));
@@ -101,11 +102,13 @@ public class InsideCodeController {
 
     //회의실사용신청 팝업창
     @RequestMapping("/Inside/pop/meetingRoomPop.do")
-    public String meetingRoomPop(HttpServletRequest request, Model model) {
+    public String meetingRoomPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
         return "popup/inside/bustrip/meetingRoomPop";
     }
 

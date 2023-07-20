@@ -46,7 +46,6 @@ var carList = {
             },
             schema: {
                 data: function (data) {
-                    console.log(data.list);
                     return data.list;
                 },
                 model: {
@@ -74,13 +73,20 @@ var carList = {
             ],
             timezone: "Etc/UTC",
             dataSource: schDataSource,
-            selectable: false,
+            selectable: true,
             dataBound : carList.onDataBound,
             editable : false
         });
+
+        $("#scheduler").on("dblclick", ".k-state-selected:not(.k-event)", function(e){
+            let url = "/Inside/pop/carPop.do?startDt=" + carList.dateFormat($("#scheduler").data("kendoScheduler").select().start);
+            let name = "carPop";
+            let option = "width = 900, height = 500, top = 100, left = 200, location = no";
+            window.open(url, name, option);
+        });
     },
 
-    onDataBound: function(){
+    onDataBound: function(e){
         const scheduler = this;
         $(".k-event-inverse").dblclick(function (e) {
             var scheduler = $("#scheduler").getKendoScheduler();
@@ -97,6 +103,13 @@ var carList = {
         let name = "carPop";
         let option = "width = 900, height = 500, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    dateFormat : function(date) {
+        let dateFormat2 = date.getFullYear() +
+            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+        return dateFormat2;
     }
 }
 

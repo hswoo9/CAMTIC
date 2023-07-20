@@ -6,7 +6,7 @@ var carReq = {
 
     dataSet: function(carData){
         customKendo.fn_textBox(["carTitle", "visit", "waypoint", "empName", "emergencyName", "emergencyTel"]);
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", $("#startDt").val() == "" ? new Date() : $("#startDt").val());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("applyDt", '', "yyyy-MM-dd", new Date());
         const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
