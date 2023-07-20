@@ -20,9 +20,9 @@
   <a href="#" id="alarm">주요 알림 맞춤서비스</a>
 
   <aside id="aside">
-    <a href="#" class="aside1">첫화면</a>
-    <a href="#" class="aside2">공지</a>
-    <a href="#" class="aside3">SNS</a>
+    <a href="/camtic" class="aside1">첫화면</a>
+    <a href="/camtic/news/notice.do" class="aside2">공지</a>
+    <%--<a href="#" class="aside3">SNS</a>--%>
     <a href="#" class="aside4">채용<br>공고</a>
     <a href="#" class="aside5">장비<br>사용</a>
     <a href="#wrap" class="aside6 _gotop">TOP</a>
@@ -212,10 +212,10 @@
     <div id="ban">
       <div class="inner">
         <ul>
-          <li><a href="#"><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
-          <li><a href="#"><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
-          <li><a href="#"><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
-          <li><a href="#"><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론산업혁신지원센터"></a></li>
+          <li><a href="http://mold.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
+          <li><a href="http://maker.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
+          <li><a href="http://www.jhitech.or.kr/" target='_blank'><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
+          <li><a href="http://drone.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론기술개발지원센터"></a></li>
         </ul>
       </div>
     </div>
@@ -224,9 +224,9 @@
       <div class="inner">
         <div class="lef">
           <ul class="sns">
-            <li><a href="https://www.facebook.com/CAMTIC4U"><span>페이스북</span></a></li>
-            <li><a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link"><span>인스타그램</span></a></li>
-            <li><a href="https://pf.kakao.com/_Txmjps"><span>카카오톡</span></a></li>
+            <li><a href="https://www.facebook.com/CAMTIC4U" target='_blank'><span>페이스북</span></a></li>
+            <li><a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank'><span>인스타그램</span></a></li>
+            <li><a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao"><span>카카오톡</span></a></li>
           </ul>
           <dl class="tit">
             <dt>캠틱종합기술원</dt>
