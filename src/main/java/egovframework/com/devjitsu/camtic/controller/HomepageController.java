@@ -111,9 +111,6 @@ public class HomepageController {
     @RequestMapping("/camtic/member/step.do")
     public String Mstep(){ return "camtic/member/step"; }
 
-
-
-
     //포토뉴스
     @RequestMapping("/camtic/pr/photo.do")
     public String Pphoto(){ return "camtic/pr/photo"; }
@@ -130,4 +127,10 @@ public class HomepageController {
     @RequestMapping("/camtic/pr/ci.do")
     public String Pci(){ return "camtic/pr/ci"; }
 
+    //이메일무단수집거부
+    @RequestMapping("/camtic/etc/privacy.do")
+    public String privacy(){ return "camtic/etc/privacy"; }
+    //찾아오시는길
+    @RequestMapping("/camtic/etc/email.do")
+    public String email(){ return "camtic/etc/email"; }
 }

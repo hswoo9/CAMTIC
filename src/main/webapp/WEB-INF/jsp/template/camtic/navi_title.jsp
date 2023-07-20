@@ -10,12 +10,13 @@
 
 <ul id="navigation">
   <li><a href="/camtic">홈으로</a></li>
-  <?
-						for($i=0;$i<count($_tit);$i++){
-							echo '<li>'.$_tit[$i].'</span>';
-  }
-  ?>
+  <li class="mdCategory">캠틱소개</li>
+  <li class="smCategory">원장 인사말</li>
 </ul>
 <div id="title">
-  <h3><?=end($_tit)?></h3>
+  <h3>원장 인사말</h3>
 </div>
+<script>
+  $("#navigation .mdCategory").text($("#header .gnb > ."+middleCategory+" span").text());
+  $("#navigation .smCategory").text($("#header .gnb ."+middleCategory+"_"+smallCategory+" a").text());
+</script>

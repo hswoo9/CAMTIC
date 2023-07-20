@@ -30,7 +30,7 @@
     <div class="inner">
       <h1 class="logo"><a href="/camtic">캠틱종합기술원</a></h1>
       <ul class="gnb">
-        <li class="about_greeting">
+        <li class="about">
           <a href="/camtic/about/greeting.do"><span>캠틱소개</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="about_greeting"><a href="/camtic/about/greeting.do">원장 인사말</a></li>
@@ -41,7 +41,7 @@
             <li class="about_location"><a href="/camtic/about/location.do">오시는 길</a></li>
           </ul>
         </li>
-        <li class="region_about">
+        <li class="region">
           <a href="/camtic/region/about.do"><span>지역과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
@@ -49,7 +49,7 @@
             <li class="region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>
           </ul>
         </li>
-        <li class="company_root">
+        <li class="company">
           <a href="/camtic/company/root.do"><span>기업과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="company_root"><a href="/camtic/company/root.do">복합소재뿌리기술센터</a></li>
@@ -60,7 +60,7 @@
             <li class="company_job"><a href="/camtic/company/job.do">일자리창업지원</a></li>
           </ul>
         </li>
-        <li class="tech_drone">
+        <li class="tech">
           <a href="/camtic/tech/drone.do"><span>기술과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="tech_drone"><a href="/camtic/tech/drone.do">드론모빌리티</a></li>
@@ -70,7 +70,7 @@
             <li class="tech_space"><a href="/camtic/tech/space.do">우주·항공·방산</a></li>
           </ul>
         </li>
-        <li class="member_cluster">
+        <li class="member">
           <a href="/camtic/member/cluster.do"><span>직원과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="member_cluster"><a href="/camtic/member/cluster.do">캠틱 클러스터</a></li>
