@@ -53,6 +53,8 @@ public class HomepageController {
     //입주기업및입주안내페이지
     @RequestMapping("/camtic/region/list.do")
     public String Rlist(){ return "camtic/region/list"; }
+    @RequestMapping("/camtic/region/view.do")
+    public String Rview(){ return "camtic/region/view"; }
 
 
 
@@ -110,9 +112,8 @@ public class HomepageController {
     //채용절차
     @RequestMapping("/camtic/member/step.do")
     public String Mstep(){ return "camtic/member/step"; }
-
-
-
+    @RequestMapping("/camtic/member/view.do")
+    public String Mview(){ return "camtic/member/view"; }
 
     //포토뉴스
     @RequestMapping("/camtic/pr/photo.do")
@@ -129,5 +130,13 @@ public class HomepageController {
     //CI소개
     @RequestMapping("/camtic/pr/ci.do")
     public String Pci(){ return "camtic/pr/ci"; }
+    @RequestMapping("/camtic/pr/view.do")
+    public String Pview(){ return "camtic/pr/view"; }
 
+    //이메일무단수집거부
+    @RequestMapping("/camtic/etc/privacy.do")
+    public String privacy(){ return "camtic/etc/privacy"; }
+    //찾아오시는길
+    @RequestMapping("/camtic/etc/email.do")
+    public String email(){ return "camtic/etc/email"; }
 }

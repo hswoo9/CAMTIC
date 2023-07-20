@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--<div id="fam">
+<!--<div id="fam"> 이사님 요청으로 하단 배너 숨김
   <div class="inner">
     <div class="cont">
       <button type="button" class="prev"><span class="hide">PREV</span><i class="axi axi-angle-left" aria-hidden="true"></i></button>
@@ -32,15 +32,15 @@
       </div>
     </div>
   </div>
-</div>--%>
+</div>-->
 
 <footer id="footer">
   <div class="top">
     <div class="inner">
       <ul class="fnb">
-        <li><a href="/etc/privacy.do">개인정보처리방침</a></li>
+        <li><a href="/camtic/etc/privacy.do">개인정보처리방침</a></li>
         <li><a href="#">이용약관</a></li>
-        <li><a href="/etc/email.do">이메일무단수집거부</a></li>
+        <li><a href="/camtic/etc/email.do">이메일무단수집거부</a></li>
         <li><a href="#">찾아오시는 길</a></li>
       </ul>
       <div class="rig">

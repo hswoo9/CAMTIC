@@ -20,9 +20,9 @@
   <a href="#" id="alarm">주요 알림 맞춤서비스</a>
 
   <aside id="aside">
-    <a href="#" class="aside1">첫화면</a>
-    <a href="#" class="aside2">공지</a>
-    <a href="#" class="aside3">SNS</a>
+    <a href="/camtic" class="aside1">첫화면</a>
+    <a href="/camtic/news/notice.do" class="aside2">공지</a>
+    <%--<a href="#" class="aside3">SNS</a>--%>
     <a href="#" class="aside4">채용<br>공고</a>
     <a href="#" class="aside5">장비<br>사용</a>
     <a href="#wrap" class="aside6 _gotop">TOP</a>
@@ -43,161 +43,24 @@
         </div>
         <div class="roll2">
           <div class="swiper-wrapper">
-            <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/1193x803?text=vis2);"></div>
-            <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/1193x803?text=vis3);"></div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);"></div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-2.png);"></div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-3.png);"></div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-4.png);"></div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-1.png);"></div>
           </div>
         </div>
       </div>
       <div class="rig">
         <div class="roll">
           <div class="swiper-wrapper">
-            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">
-              <dl class="tit">
-                <dt>CAMTIC Advanced Mechatronics Technology Institute for Commercialization</dt>
-                <dd>HARDWARE</dd>
-              </dl>
-              <div class="area">
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-1.png" alt=""></div>
-                  <dl>
-                    <dt>설계·디자인</dt>
-                    <dd>CAD(2D) · CATIA(3D)</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-2.png" alt=""></div>
-                  <dl>
-                    <dt>시제품제작</dt>
-                    <dd>3D프린터 · SMT제조시설</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-3.png" alt=""></div>
-                  <dl>
-                    <dt>
-                      하드웨어<br>
-                      엑셀러레이터 공간
-                    </dt>
-                    <dd>
-                      시제품 제작 및 양산공간<br>
-                      상품화지원동
-                    </dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-4.png" alt=""></div>
-                  <dl>
-                    <dt>창업 · 성장공간</dt>
-                    <dd>전주드론제작소, 창업동 등</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-5.png" alt=""></div>
-                  <dl>
-                    <dt>시장출시 제품지원</dt>
-                    <dd>고속가공기, 워터젯가공기등</dd>
-                  </dl>
-                </div>
-              </div>
+            <%--<div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">--%>
+            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-1.png);">
             </div>
-            <div class="vis vis1 swiper-slide" style="background-image:url(https://fakeimg.pl/1193x803?text=vis2);">
-              <dl class="tit">
-                <dt>CAMTIC Advanced Mechatronics Technology Institute for Commercialization2</dt>
-                <dd>HARDWARE2</dd>
-              </dl>
-              <div class="area">
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-1.png" alt=""></div>
-                  <dl>
-                    <dt>설계·디자인</dt>
-                    <dd>CAD(2D) · CATIA(3D)</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-2.png" alt=""></div>
-                  <dl>
-                    <dt>시제품제작</dt>
-                    <dd>3D프린터 · SMT제조시설</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-3.png" alt=""></div>
-                  <dl>
-                    <dt>
-                      하드웨어<br>
-                      엑셀러레이터 공간
-                    </dt>
-                    <dd>
-                      시제품 제작 및 양산공간<br>
-                      상품화지원동
-                    </dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-4.png" alt=""></div>
-                  <dl>
-                    <dt>창업 · 성장공간</dt>
-                    <dd>전주드론제작소, 창업동 등</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-5.png" alt=""></div>
-                  <dl>
-                    <dt>시장출시 제품지원</dt>
-                    <dd>고속가공기, 워터젯가공기등</dd>
-                  </dl>
-                </div>
-              </div>
+            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-2.png);">
             </div>
-            <div class="vis vis1 swiper-slide" style="background-image:url(https://fakeimg.pl/1193x803?text=vis3);">
-              <dl class="tit">
-                <dt>CAMTIC Advanced Mechatronics Technology Institute for Commercialization3</dt>
-                <dd>HARDWARE3</dd>
-              </dl>
-              <div class="area">
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-1.png" alt=""></div>
-                  <dl>
-                    <dt>설계·디자인</dt>
-                    <dd>CAD(2D) · CATIA(3D)</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-2.png" alt=""></div>
-                  <dl>
-                    <dt>시제품제작</dt>
-                    <dd>3D프린터 · SMT제조시설</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-3.png" alt=""></div>
-                  <dl>
-                    <dt>
-                      하드웨어<br>
-                      엑셀러레이터 공간
-                    </dt>
-                    <dd>
-                      시제품 제작 및 양산공간<br>
-                      상품화지원동
-                    </dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-4.png" alt=""></div>
-                  <dl>
-                    <dt>창업 · 성장공간</dt>
-                    <dd>전주드론제작소, 창업동 등</dd>
-                  </dl>
-                </div>
-                <div class="box">
-                  <div class="img"><img src="/images/camtic/vis1-5.png" alt=""></div>
-                  <dl>
-                    <dt>시장출시 제품지원</dt>
-                    <dd>고속가공기, 워터젯가공기등</dd>
-                  </dl>
-                </div>
-              </div>
+            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-3.png);">
+            </div>
+            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-4.png);">
             </div>
           </div>
         </div>
@@ -247,7 +110,7 @@
                   <p class="date">2023-01-04</p>
                 </a>
               </div>
-              <a href="#" class="more">+ 더보기</a>
+              <a href="/camtic/news/notice.do" class="more">+ 더보기</a>
             </div>
             <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false">
               <div class="sec">
@@ -279,7 +142,7 @@
                   <p class="date">2023-01-04</p>
                 </a>
               </div>
-              <a href="#" class="more">+ 더보기</a>
+              <a href="/camtic/news/business.do" class="more">+ 더보기</a>
             </div>
             <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false">
               <div class="sec">
@@ -330,14 +193,14 @@
           <div class="area">
             <div class="roll">
               <div class="swiper-wrapper">
-                <a href="#" class="swiper-slide">
-                  <i style="background-image:url(https://fakeimg.pl/580x370?text=1);">동영상 제목</i>
+                <a href="http://www.camtic.or.kr/CAMTIC/PR/pr_PhotoView?BBSNUM=862&&SearchText=&PAGE=1" class="swiper-slide">
+                  <i style="background-image:url(/images/camtic/photo1-1.jpg);">동영상 제목</i>
                 </a>
-                <a href="#" class="swiper-slide">
-                  <i style="background-image:url(https://fakeimg.pl/580x370?text=2);">동영상 제목</i>
+                <a href="http://www.camtic.or.kr/CAMTIC/PR/pr_letterlist" class="swiper-slide">
+                  <i style="background-image:url(/images/camtic/photo1-2.jpg);">동영상 제목</i>
                 </a>
-                <a href="#" class="swiper-slide">
-                  <i style="background-image:url(https://fakeimg.pl/580x370?text=3);">동영상 제목</i>
+                <a href="http://www.camtic.or.kr/CAMTIC/PR/pr_movielist" class="swiper-slide">
+                  <i style="background-image:url(https://i.ytimg.com/vi_webp/HWn1OONOxEA/sddefault.webp);">동영상 제목</i>
                 </a>
               </div>
             </div>
@@ -349,10 +212,10 @@
     <div id="ban">
       <div class="inner">
         <ul>
-          <li><a href="#"><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
-          <li><a href="#"><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
-          <li><a href="#"><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
-          <li><a href="#"><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론산업혁신지원센터"></a></li>
+          <li><a href="http://mold.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
+          <li><a href="http://maker.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
+          <li><a href="http://www.jhitech.or.kr/" target='_blank'><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
+          <li><a href="http://drone.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론기술개발지원센터"></a></li>
         </ul>
       </div>
     </div>
@@ -361,9 +224,9 @@
       <div class="inner">
         <div class="lef">
           <ul class="sns">
-            <li><span>페이스북</span></li>
-            <li><span>인스타그램</span></li>
-            <li><span>카카오톡</span></li>
+            <li><a href="https://www.facebook.com/CAMTIC4U" target='_blank'><span>페이스북</span></a></li>
+            <li><a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank'><span>인스타그램</span></a></li>
+            <li><a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao"><span>카카오톡</span></a></li>
           </ul>
           <dl class="tit">
             <dt>캠틱종합기술원</dt>

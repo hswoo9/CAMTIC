@@ -31,6 +31,8 @@ public class BoardController {
     //유관기관소식
     @RequestMapping("/camtic/news/partner.do")
     public String Npartner(){ return "camtic/news/partner"; }
+    @RequestMapping("/camtic/news/view.do")
+    public String Nview(){ return "camtic/news/view"; }
 
 
 

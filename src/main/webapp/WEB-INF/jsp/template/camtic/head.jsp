@@ -21,16 +21,16 @@
       <li><a href="#"><span>전주첨단벤처단지</span></a></li>
     </ul>
     <div class="sns">
-      <a href="#" class="insta">인스타그램</a>
-      <a href="#" class="face">페이스북</a>
-      <a href="#" class="kakao">카카오톡</a>
+      <a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank' class="insta">인스타그램</a>
+      <a href="https://www.facebook.com/CAMTIC4U" target='_blank' class="face">페이스북</a>
+      <a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao">카카오톡</a>
     </div>
   </div>
   <div class="bot">
     <div class="inner">
       <h1 class="logo"><a href="/camtic">캠틱종합기술원</a></h1>
       <ul class="gnb">
-        <li class="about_greeting">
+        <li class="about">
           <a href="/camtic/about/greeting.do"><span>캠틱소개</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="about_greeting"><a href="/camtic/about/greeting.do">원장 인사말</a></li>
@@ -41,15 +41,16 @@
             <li class="about_location"><a href="/camtic/about/location.do">오시는 길</a></li>
           </ul>
         </li>
-        <li class="region_about">
+        <li class="region">
           <a href="/camtic/region/about.do"><span>지역과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
             <li class="region_jvalley"><a href="/camtic/region/jvalley.do">제조창업 플랫폼(J-valley)</a></li>
             <li class="region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>
+            <li style="display: none" class="region_view"><a href="/camtic/region/view.do">게시판</a></li>
           </ul>
         </li>
-        <li class="company_root">
+        <li class="company">
           <a href="/camtic/company/root.do"><span>기업과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="company_root"><a href="/camtic/company/root.do">복합소재뿌리기술센터</a></li>
@@ -60,7 +61,7 @@
             <li class="company_job"><a href="/camtic/company/job.do">일자리창업지원</a></li>
           </ul>
         </li>
-        <li class="tech_drone">
+        <li class="tech">
           <a href="/camtic/tech/drone.do"><span>기술과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="tech_drone"><a href="/camtic/tech/drone.do">드론모빌리티</a></li>
@@ -70,7 +71,7 @@
             <li class="tech_space"><a href="/camtic/tech/space.do">우주·항공·방산</a></li>
           </ul>
         </li>
-        <li class="member_cluster">
+        <li class="member">
           <a href="/camtic/member/cluster.do"><span>직원과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="member_cluster"><a href="/camtic/member/cluster.do">캠틱 클러스터</a></li>
@@ -83,6 +84,7 @@
                 <li class="member_step"><a href="/camtic/member/step.do">채용절차</a></li>
               </ul>
             </li>
+            <li style="display: none" class="member_view"><a href="/camtic/member/view.do">게시판</a></li>
           </ul>
         </li>
         <li class="news">
@@ -92,6 +94,7 @@
             <li class="news_business"><a href="/camtic/news/business.do">사업공고</a></li>
             <li class="news_study"><a href="/camtic/news/study.do">교육/행사</a></li>
             <li class="news_partner"><a href="/camtic/news/partner.do">유관기관소식</a></li>
+            <li style="display: none" class="news_view"><a href="/camtic/news/view.do">게시판</a></li>
           </ul>
         </li>
         <li class="pr">
@@ -102,6 +105,7 @@
             <li class="pr_news"><a href="/camtic/pr/news.do">뉴스레터</a></li>
             <li class="pr_video"><a href="/camtic/pr/video.do">홍보영상</a></li>
             <li class="pr_ci"><a href="/camtic/pr/ci.do">CI 소개</a></li>
+            <li style="display: none" class="pr_view"><a href="/camtic/pr/view.do">게시판</a></li>
           </ul>
         </li>
       </ul>
@@ -111,6 +115,14 @@
 </header>
 
 <a href="#" id="alarm">주요 알림 맞춤서비스</a>
+<aside id="aside">
+  <a href="/camtic" class="aside1">첫화면</a>
+  <a href="/camtic/news/notice.do" class="aside2">공지</a>
+  <%--<a href="#" class="aside3">SNS</a>--%>
+  <a href="#" class="aside4">채용<br>공고</a>
+  <a href="#" class="aside5">장비<br>사용</a>
+  <a href="#wrap" class="aside6 _gotop">TOP</a>
+</aside>
 
 <script>
   const pathname = $(location).attr('pathname');
