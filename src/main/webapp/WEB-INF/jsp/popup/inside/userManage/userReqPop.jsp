@@ -14,20 +14,10 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <%--            <c:if test="${params.empSeq == null || params.empSeq == ''}">--%>
-            <%--                <h3 class="card-title title_NM">직원추가</h3>--%>
-            <%--                <div class="btn-st popButton">--%>
-            <%--                    <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.userReqSave();">저장</button>--%>
-            <%--                </div>--%>
-            <%--            </c:if>--%>
             <h3 class="card-title title_NM">직원등록</h3>
             <div>
-                <c:if test="${params.admin != null && params.admin == 'Y'}">
-                    <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="userReqPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
-                    <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="">편집</button>
-                    <button type="button" class="k-button k-button-solid-error" style="margin-top: 8px;" onclick="">퇴사처리</button>
-                    <button type="button" class="k-button k-button-solid-error" style="margin-top: 8px;" onclick="">삭제</button>
-                </c:if>
+                <button type="button" class="k-button k-button-solid-base" style="margin-top: 8px;" onclick="history.back();">뒤로가기</button>
+                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
         </div>
