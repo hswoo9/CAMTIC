@@ -3,9 +3,14 @@ package egovframework.com.devjitsu.hp.board.service.impl;
 
 import egovframework.com.devjitsu.hp.board.repository.BoardRepository;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
+import egovframework.com.devjitsu.hp.board.util.ArticlePage;
+import egovframework.com.devjitsu.hp.board.util.Pagination;
+import egovframework.com.devjitsu.hp.board.util.PagingResponse;
+import egovframework.com.devjitsu.hp.board.util.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +21,18 @@ public class BoardServiceImpl implements BoardService {
     private BoardRepository boardRepository;
 
     @Override
-    public List<Map<String, Object>> selectBoardList(Map<String, Object> params) {
-        return boardRepository.selectBoardList(params);
+    public PagingResponse<PostResponse> selectBoardList(ArticlePage articlePage) {
+        int count = (int) boardRepository.selectBoardListCount(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        List<PostResponse> list = boardRepository.selectBoardList(articlePage);
+
+        return new PagingResponse<>(list, pagination);
     }
 
     @Override

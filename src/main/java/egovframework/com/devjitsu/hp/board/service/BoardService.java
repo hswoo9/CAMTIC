@@ -1,12 +1,15 @@
 package egovframework.com.devjitsu.hp.board.service;
 
-import java.util.List;
+import egovframework.com.devjitsu.hp.board.util.ArticlePage;
+import egovframework.com.devjitsu.hp.board.util.PagingResponse;
+import egovframework.com.devjitsu.hp.board.util.PostResponse;
+
 import java.util.Map;
 
 public interface BoardService {
 
 
-    List<Map<String, Object>> selectBoardList(Map<String, Object> params);
+    PagingResponse<PostResponse> selectBoardList(ArticlePage params);
 
     Map<String, Object> selectBoard(Map<String, Object> params);
 

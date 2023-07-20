@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardCt">
+
+
+    <select id="selectBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID = #{searchCategory}
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="selectBoard" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID = #{category}
+        AND
+            BOARD_ARTICLE_ID = #{boardId}
+    </select>
+
+    <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+    </select>
+
+    <insert id="insertBoard" parameterType="map">
+        INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
+            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, REG_EMP_NAME)
+        VALUE
+            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{writer})
+    </insert>
+</mapper>
