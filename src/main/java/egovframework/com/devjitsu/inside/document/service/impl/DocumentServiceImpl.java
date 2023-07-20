@@ -41,6 +41,14 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public Map<String, Object> getSnackStat(Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("dept", documentRepository.getSnackStatDept(params));
+        result.put("total", documentRepository.getSnackStat(params));
+        return result;
+    }
+
+    @Override
     public List<Map<String, Object>> getArchiveList(Map<String, Object> params){
         return documentRepository.getArchiveList(params);
     }

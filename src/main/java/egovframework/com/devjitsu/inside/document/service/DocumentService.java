@@ -41,6 +41,13 @@ public interface DocumentService {
     Map<String, Object> getSnackOne(Map<String, Object> params);
 
     /**
+     * 식대대장 통계 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getSnackStat(Map<String, Object> params);
+
+    /**
      * 문서고 리스트 조회
      * @param params
      * @return

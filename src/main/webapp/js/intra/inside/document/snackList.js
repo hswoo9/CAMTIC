@@ -70,24 +70,26 @@ var snackList = {
             toolbar: [
                 {
                     name: 'button',
-                    template: function (e) {
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-info" onclick="snackList.fn_snackCertAllReq(100)">' +
                             '	<span class="k-button-text">결재</span>' +
                             '</button>';
                     },
                 }, {
                     name: 'button',
-                    template: function (e) {
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackList.snackPopup();">' +
                             '	<span class="k-button-text">식대 등록하기</span>' +
                             '</button>';
                     }
-                },
-                {
-                    name: '',
-                    text: '통계조회'
-                },
-                {
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackList.snackStatPopup();">' +
+                        '	<span class="k-button-text">통계 조회</span>' +
+                        '</button>';
+                    }
+                }, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 },
@@ -237,6 +239,13 @@ var snackList = {
         const url = "/Inside/pop/snackPop.do"+urlParams;
         const name = "popup test";
         const option = "width = 1000, height = 360, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    snackStatPopup: function(){
+        const url = "/Inside/pop/snackStatPop.do";
+        const name = "snackStatPop";
+        const option = "width = 1600, height = 530, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
 }

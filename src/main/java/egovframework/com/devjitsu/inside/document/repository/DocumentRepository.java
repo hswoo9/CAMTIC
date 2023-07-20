@@ -29,6 +29,14 @@ public class DocumentRepository extends AbstractDAO {
         return (Map<String, Object>)selectOne("document.getSnackOne", params);
     }
 
+    public List<Map<String, Object>> getSnackStatDept(Map<String, Object> params) {
+        return selectList("document.getSnackStatDept", params);
+    }
+
+    public List<Map<String, Object>> getSnackStat(Map<String, Object> params) {
+        return selectList("document.getSnackStat", params);
+    }
+
     public List<Map<String, Object>> getArchiveList(Map<String, Object> params) {
         return selectList("document.getArchiveList", params);
     }

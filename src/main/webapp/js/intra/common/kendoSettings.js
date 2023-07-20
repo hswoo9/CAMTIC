@@ -185,6 +185,35 @@ var customKendo = {
     },
 
     /**
+     * Custom kendoDropDownTree
+     * @param id
+     * @param dataSource
+     * @param textField
+     * @param valueField
+     * @param type
+     */
+    fn_dropDownTree : function (id, dataSource, textField, valueField, type){
+        let placeholder = "";
+        if(type == "2"){
+            placeholder = "선택하세요";
+        }else if(type == "3"){
+            //type이 3일때는 기본 항목 없음
+        }else{
+            placeholder = "전체";
+        }
+
+        $("#" + id).kendoDropDownTree({
+            placeholder: placeholder,
+            checkboxes: true,
+            checkAll: true,
+            autoClose: false,
+            dataSource : dataSource,
+            dataTextField: textField,
+            dataValueField: valueField
+        });
+    },
+
+    /**
      * Custom Ajax
      * type : post
      * dataType : json

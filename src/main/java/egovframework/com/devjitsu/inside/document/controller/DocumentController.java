@@ -170,13 +170,13 @@ public class DocumentController {
     }
 
     //식대대장 통계조회 팝업창
-    @RequestMapping("/Inside/snackStat.do")
+    @RequestMapping("/Inside/pop/snackStatPop.do")
     public String snackStat(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/document/snackStat";
+        return "popup/inside/document/snackStatPop";
     }
 
     //증명서인쇄 팝업 페이지
@@ -247,6 +247,15 @@ public class DocumentController {
     public String getSnackOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = documentService.getSnackOne(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    //식대대장 통계 조회
+    @RequestMapping("/inside/getSnackStat")
+    public String getSnackStat(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = documentService.getSnackStat(params);
+        model.addAttribute("dept", data.get("dept"));
+        model.addAttribute("total", data.get("total"));
         return "jsonView";
     }
 
