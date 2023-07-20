@@ -42,7 +42,8 @@ public interface UserManageService{
 	void setUpdateUserInfoReturnY(Map<String, Object> map);
 	void setUpdateUserInfoReturnN(Map<String, Object> map);
     Map<String,Object> getUserPersonnelinformList (Map<String,Object> params);
-
+    void setUserResignReg(Map<String, Object> params);
+    void setUserDel(Map<String, Object> params);
     int setThumbnailUpload(List<Map<String, Object>> list, Map<String, Object> params, String path) throws Exception;
 
     void setUserInfoReqUpd(Map<String, Object> params);

@@ -11,14 +11,17 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
+            <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
             <c:if test="${params.empSeq != null && params.empSeq != ''}">
                 <h3 class="card-title title_NM">직원 기본정보</h3>
                 <div class="btn-st popButton">
                     <c:if test="${params.admin != null && params.admin == 'Y'}">
-                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
-                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
-                        <button type="button" class="k-button k-button-solid-error" onclick="">퇴사처리</button>
-                        <button type="button" class="k-button k-button-solid-error" onclick="">삭제</button>
+                        <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
+                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
+                            <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.userResignation('${params.empSeq}')">퇴사처리</button>
+                            <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
+                        </c:if>
                     </c:if>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                 </div>
@@ -113,10 +116,12 @@
                 <tr>
                     <th>겸직</th>
                     <td colspan="3">
-                        <input type="text" id="deptName" style="width: 200px;">
-                        <input type="text" id="deptTeamName" style="width: 200px;">
-                        <input type="text" id="duty" style="width: 200px;">
-                        <button type="button" class="k-button k-button-solid-info" onclick="">추가</button>
+                        <input type="text" id="deptName" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
+                        <input type="text" id="deptTeamName" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
+                        <input type="text" id="duty" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
+                        <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="">추가</button>
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -171,7 +176,10 @@
                 <tr>
                     <th>계좌정보</th>
                     <td colspan="3">
-                        더존코드 : | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 : <button type="button" class="k-button k-button-solid-info" onclick="">수정</button>
+                        더존코드 : | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 :
+                        <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="">수정</button>
+                        </c:if>
                     </td>
                 </tr>
                 </thead>
