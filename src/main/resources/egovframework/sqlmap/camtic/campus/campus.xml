@@ -41,9 +41,9 @@
                 WHERE
                     EI.REG_EMP_SEQ = #{empSeq}
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear} || DATE_FORMAT(END_DT, '%Y') = #{eduYear})
-                ORDER BY EI.REG_DATE
+                ORDER BY EI.EDU_INFO_ID
             ) RE
-        ORDER BY RE.ROW_NUM DESC
+        ORDER BY RE.EDU_INFO_ID DESC
     </select>
 
     <select id="getEduInfoOne" resultType="map" parameterType="map">
@@ -120,7 +120,7 @@
         LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON EI.EDU_CATEGORY_DETAIL_ID = ECD.EDU_CATEGORY_DETAIL_ID
         LEFT JOIN
-            CAMPUS.DJ_EDU_PLAN EP ON ECD.EDU_CATEGORY_ID = EP.EDU_CATEGORY_ID AND EI.DUTY_CLASS = EP.DUTY_CLASS AND EI.REG_EMP_SEQ = EP.REG_EMP_SEQ
+            CAMPUS.DJ_EDU_PLAN EP ON ECD.EDU_CATEGORY_ID = EP.EDU_CATEGORY_ID AND EI.DUTY_CLASS = EP.DUTY_CLASS AND EI.REG_EMP_SEQ = EP.REG_EMP_SEQ AND DATE_FORMAT(EI.REG_DT, '%Y') = EP.TARGET_YEAR
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = EI.REG_EMP_SEQ
         LEFT JOIN
@@ -325,14 +325,17 @@
             (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ) AS SUM_ALL
         FROM
             CAMPUS.DJ_EDU_INFO CEI
-                LEFT JOIN
+        LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON CEI.REG_EMP_SEQ = HEI.EMP_SEQ
-                LEFT JOIN
+        LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY_DETAIL CECD ON CEI.EDU_CATEGORY_DETAIL_ID = CECD.EDU_CATEGORY_DETAIL_ID
-                LEFT JOIN
+        LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY CEC ON CEC.EDU_CATEGORY_ID = CECD.EDU_CATEGORY_ID
+        LEFT JOIN
+            CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID
         WHERE
             1=1
+        AND CER.STATUS = 100
         GROUP BY HEI.EMP_NAME_KR, DUTY_CLASS, EDU_CATEGORY_DETAIL_NAME
     </select>
 
@@ -346,7 +349,7 @@
                 EDU_CATEGORY_DETAIL_ID,
                 EDU_CATEGORY_DETAIL_NAME,
                 LEVEL_ID,
-                DUTY_CALSS,
+                DUTY_CLASS,
                 EDU_NAME,
                 EDU_OBJECT,
                 EDU_CONTENT,

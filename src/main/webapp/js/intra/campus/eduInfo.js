@@ -70,7 +70,7 @@ var eduInfo = {
             dataBound : eduInfo.onDataBound,
             columns: [
                 {
-                    field: "ROW_NUM",
+                    field: "EDU_INFO_ID",
                     title: "연번",
                     width: 50
                 }, {

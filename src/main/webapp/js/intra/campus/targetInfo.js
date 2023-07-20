@@ -296,7 +296,7 @@ var targetInfo = {
         }
         var url = "/Campus/pop/targetInfoPop.do?targetYear="+$("#targetYear").val();
         var name = "targetInfoPop";
-        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var option = "width = 1250, height = 800, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     },
 
@@ -307,7 +307,7 @@ var targetInfo = {
         }
         var url = "/Campus/pop/targetMainSetPop.do?targetYear="+$("#targetYear").val();
         var name = "targetMainSetPop";
-        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var option = "width = 1250, height = 800, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     },
 
@@ -318,7 +318,7 @@ var targetInfo = {
         }
         var url = "/Campus/pop/targetSubInfoPop.do?targetYear="+$("#targetYear").val();
         var name = "targetSubInfoPop";
-        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var option = "width = 1250, height = 800, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     },
 

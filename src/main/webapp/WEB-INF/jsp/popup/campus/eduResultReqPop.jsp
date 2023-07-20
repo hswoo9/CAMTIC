@@ -56,7 +56,7 @@
             </colgroup>
             <thead>
               <tr>
-                <th>${data.DUTY_CALSS == 1 ? '주 업무' : '연계 업무'}</th>
+                <th>${data.DUTY_CLASS == 1 ? '주 업무' : '연계 업무'}</th>
                 <td colspan="3">
                   ${data.EDU_CATEGORY_NAME} > LEVEL ${data.LEVEL_ID} ${data.EDU_CATEGORY_DETAIL_NAME}
                 </td>
