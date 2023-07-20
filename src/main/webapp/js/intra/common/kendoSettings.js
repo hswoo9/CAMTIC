@@ -173,6 +173,12 @@ var customKendo = {
             dataSource.unshift({[textField] : "선택하세요", [valueField] : ""});
         }else if(type == "3"){
             //type이 3일때는 기본 항목 없음
+        }else if(type == "4"){
+            dataSource.unshift({[textField] : "직책 선택", [valueField] : ""});
+        }else if(type == "5"){
+            dataSource.unshift({[textField] : "팀 선택", [valueField] : ""});
+        }else if(type == "6"){
+            dataSource.unshift({[textField] : "부서 선택", [valueField] : ""});
         }else{
             dataSource.unshift({[textField] : "전체", [valueField] : ""});
         }
