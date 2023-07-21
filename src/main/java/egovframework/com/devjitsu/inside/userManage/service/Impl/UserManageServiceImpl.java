@@ -261,4 +261,28 @@ public class UserManageServiceImpl implements UserManageService {
     public Map<String,Object> getUserInfoModDetail(Map<String,Object> map) {
         return userManageRepository.getUserInfoModDetail(map);
     }
+
+    @Override
+    public List<Map<String, Object>> getEmploymentContList(Map<String,Object> map) {
+        return userManageRepository.getEmploymentContList(map);
+    }
+    @Override
+    public Map<String,Object> getEmploymentInfo(Map<String,Object> map) {
+        return userManageRepository.getEmploymentInfo(map);
+    }
+
+    @Override
+    public void setEmploymentContract(Map<String, Object> map) {
+        userManageRepository.setEmploymentContract(map);
+    }
+
+    @Override
+    public void sendSalaryWorkerReq(List<String> params) {
+        userManageRepository.sendSalaryWorkerReq(params);
+    }
+
+    @Override
+    public void setEmploymentInfoFlag(Map<String, Object> map) {
+        userManageRepository.setEmploymentInfoFlag(map);
+    }
 }

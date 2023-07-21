@@ -48,4 +48,11 @@ public interface UserManageService{
 
     void setUserInfoReqUpd(Map<String, Object> params);
     Map<String,Object> getUserInfoModDetail(Map<String,Object> map);
+
+    /** 연봉근로계약 */
+    List<Map<String,Object>> getEmploymentContList(Map<String,Object> map);
+    Map<String,Object> getEmploymentInfo(Map<String,Object> map);
+    void setEmploymentContract(Map<String,Object> map);
+    void sendSalaryWorkerReq(List<String> params);
+    void setEmploymentInfoFlag(Map<String, Object> params);
 }

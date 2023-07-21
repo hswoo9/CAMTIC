@@ -244,3 +244,6 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     font-size: 17px;
     color: #fefefe;
 }*/
+.k-pager-refresh {
+    display: none !important;
+}

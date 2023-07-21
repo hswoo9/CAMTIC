@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="employM">
+
+    <select id="getEmploymentContList" parameterType="map" resultType="map">
+        /* getEmploymentContList */
+        SELECT
+            EC.SALARY_CONTRACT_ID,
+            EC.EMP_SEQ,
+            EC.EMP_NAME,
+            EC.DEPT_SEQ,
+            EI.DEPT_NAME,
+            EI.DEPT_TEAM_NAME,
+            EI.JOB_DETAIL,
+            EC.SALARY_CONTRACT_REQ_DT,
+            EC.CONTRACT_ST_DT,
+            EC.CONTRACT_EN_DT,
+            EC.SEND_YN,
+            EC.FLAG
+        FROM
+            CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT EC
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON EI.EMP_SEQ = EC.EMP_SEQ
+        JOIN
+            CAM_HR.DJ_DEPT_INFO DI
+        ON EC.DEPT_SEQ = DI.DEPT_SEQ
+        WHERE 1=1
+        <if test='startDate != null and !"".equals(startDate)'>
+        <![CDATA[
+		AND
+		    DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(EC.SALARY_CONTRACT_REQ_DT, '%Y%m%d')
+		AND
+		    DATE_FORMAT(#{endDate}, '%Y%m%d') >= DATE_FORMAT(EC.SALARY_CONTRACT_REQ_DT, '%Y%m%d')
+		]]>
+        </if>
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+        AND
+            (DI.PARENT_DEPT_SEQ = #{deptSeq} OR EC.DEPT_SEQ = #{deptSeq})
+        </if>
+        <if test='team != null and !"".equals(team)'>
+        AND
+            EC.DEPT_SEQ = #{team}
+        </if>
+        <if test='status != null and !"".equals(status)'>
+        AND
+            EC.FLAG = #{status}
+        </if>
+        <if test='empName != null and !"".equals(empName)'>
+        AND
+            EC.EMP_NAME LIKE CONCAT('%', #{empName}, '%')
+        </if>
+        <if test='empSeq != null and !"".equals(empSeq)'>
+        AND
+            EC.EMP_SEQ = #{empSeq}
+        </if>
+    </select>
+
+    <select id="getEmploymentInfo" parameterType="map" resultType="map">
+        /* getEmploymentInfo */
+        SELECT
+            EC.SALARY_CONTRACT_ID,
+            EC.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            EC.DEPT_SEQ,
+            EI.DEPT_NAME,
+            EI.DEPT_TEAM_NAME,
+            EI.JOB_DETAIL,
+            EI.ZIP_CODE,
+            EI.ADDR,
+            DATE_FORMAT(EI.BDAY, '%Y-%m-%d') AS BDAY,
+            EI.ADDR_DETAIL,
+            EC.SALARY_CONTRACT_REQ_DT,
+            DATE_FORMAT(EC.SALARY_CONTRACT_REQ_DT, '%Y년 %m월 %d일') AS SALARY_CONTRACT_REQ_DT2,
+            EC.CONTRACT_ST_DT,
+            EC.CONTRACT_EN_DT,
+            DATE_FORMAT(EC.CONTRACT_ST_DT, '%Y년 %m월 %d일') AS CONTRACT_ST_DT2,
+            DATE_FORMAT(EC.CONTRACT_EN_DT, '%Y년 %m월 %d일') AS CONTRACT_EN_DT2,
+            EC.MONTH_SALARY,
+            EC.TOTAL_SALARY,
+            EC.SEND_YN,
+            EC.FLAG
+        FROM
+            CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT EC
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON EI.EMP_SEQ = EC.EMP_SEQ
+        WHERE 1=1
+        AND SALARY_CONTRACT_ID = #{salaryContractId}
+    </select>
+
+    <insert id="setEmploymentContract" parameterType="map">
+        /* setEmploymentContract */
+        INSERT INTO CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT
+        (
+            SALARY_CONTRACT_REQ_DT,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            JOB_DETAIL,
+            CONTRACT_ST_DT,
+            CONTRACT_EN_DT,
+            MONTH_SALARY,
+            TOTAL_SALARY,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{regDt},
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{jobDetail},
+            #{contractStDt},
+            #{contractEnDt},
+            #{monthSalary},
+            #{totalSalary},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="sendSalaryWorkerReq" parameterType="map">
+        /* sendSalaryWorkerReq */
+        UPDATE
+            CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT
+        SET
+            SEND_YN = 'Y'
+        WHERE
+            SALARY_CONTRACT_ID IN
+            (
+            <foreach collection="list" item="item" separator=",">
+                #{item}
+            </foreach>
+            )
+    </update>
+
+    <update id="setEmploymentInfoFlag" parameterType="map">
+        /* setEmploymentInfoFlag */
+        UPDATE
+            CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT
+        SET
+            FLAG = #{flag},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SALARY_CONTRACT_ID = #{salaryContractId}
+    </update>
+</mapper>
+
+
+
