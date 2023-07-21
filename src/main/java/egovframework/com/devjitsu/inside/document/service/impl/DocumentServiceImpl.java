@@ -83,9 +83,33 @@ public class DocumentServiceImpl implements DocumentService {
         cell = row.createCell(8);
         cell.setCellValue("수령자");
 
-        List<Map<String, Object>> list = documentRepository.getSnackList(params);
+        List<Map<String, Object>> list = documentRepository.getSnackExcelList(params);
+
+        String snackType = "";
+        String snackDept = "";
+        String snackTeam = "";
+        int sum = 0;
 
         for (Map<String, Object> map : list) {
+            if(rowNum != 1 && (!snackType.equals(map.get("SNACK_TYPE_TEXT").toString()) || !snackDept.equals(map.get("REG_DEPT_NAME").toString()) || !snackTeam.equals(map.get("REG_TEAM_NAME").toString()))) {
+                row = sheet.createRow(rowNum++);
+                cell = row.createCell(0);
+                cell.setCellValue("");
+                cell = row.createCell(1);
+                cell.setCellValue("");
+                cell = row.createCell(2);
+                cell.setCellValue("");
+                cell = row.createCell(3);
+                cell.setCellValue("");
+                cell = row.createCell(4);
+                cell.setCellValue("");
+                cell = row.createCell(5);
+                cell.setCellValue("합계");
+                cell = row.createCell(6);
+                cell.setCellValue(sum);
+                sum = 0;
+            }
+
             row = sheet.createRow(rowNum++);
             cell = row.createCell(0);
             cell.setCellValue("");
@@ -101,11 +125,32 @@ public class DocumentServiceImpl implements DocumentService {
             cell.setCellValue("-");
             cell = row.createCell(6);
             cell.setCellValue(Integer.parseInt(map.get("AMOUNT_SN").toString()));
+
+            sum += Integer.parseInt(map.get("AMOUNT_SN").toString());
+            snackType = map.get("SNACK_TYPE_TEXT").toString();
+            snackDept = map.get("REG_DEPT_NAME").toString();
+            snackTeam = map.get("REG_TEAM_NAME").toString();
         }
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        cell.setCellValue("");
+        cell = row.createCell(1);
+        cell.setCellValue("");
+        cell = row.createCell(2);
+        cell.setCellValue("");
+        cell = row.createCell(3);
+        cell.setCellValue("");
+        cell = row.createCell(4);
+        cell.setCellValue("");
+        cell = row.createCell(5);
+        cell.setCellValue("합계");
+        cell = row.createCell(6);
+        cell.setCellValue(sum);
 
         for(int i = 0 ; i < list.size() ; i++){
             sheet.autoSizeColumn(i);
-            sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+1056); //너비 더 넓게
+            sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+1656); //너비 더 넓게
         }
 
         response.setContentType("ms-vnd/excel");
