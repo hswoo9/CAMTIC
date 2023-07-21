@@ -29,7 +29,7 @@
             </div>
             <div class="media-body">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">김캠틱 선임</h4>
-                <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">마케팅1팀</span>
+                <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">경영지원실</span>
             </div>
             <div style="margin-top:10px;">
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;">0</span></div>
@@ -268,13 +268,6 @@
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-10 col-sm-10" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #505b72; padding:5px;">
-                    <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>
-                </div>
-            </div><!-- panel -->
-        </div>
         <div class="col-md-5 col-sm-5" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
@@ -373,6 +366,13 @@
                 </script>
             </div>
         </div>
+    </div>
+    <div class="col-md-10 col-sm-10" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #505b72; padding:5px;">
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>
+            </div>
+        </div><!-- panel -->
     </div>
     </div>
 </div>
