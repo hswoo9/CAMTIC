@@ -55,6 +55,7 @@
         AND
             EC.EMP_SEQ = #{empSeq}
         </if>
+        ORDER BY EC.REG_DATE DESC
     </select>
 
     <select id="getEmploymentInfo" parameterType="map" resultType="map">
