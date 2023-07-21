@@ -488,7 +488,9 @@
                 TEAM_NAME,
                 VISIT,
                 MANAGER_SN,
-                MANAGER_NAME
+                MANAGER_NAME,
+                PRESERVATION_PERIOD,
+                DISPOSAL_YEAR
             )
         VALUES
             (
@@ -500,7 +502,9 @@
                 #{teamName},
                 #{visit},
                 #{managerSn},
-                #{managerName}
+                #{managerName},
+                #{prePeriod},
+                #{disYear}
             )
     </insert>
 

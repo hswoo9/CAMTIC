@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>등록자
+                        <span class="red-star"></span>담당자
                     </th>
                     <td colspan="3">
                         <input type="text" id="empName" style="width: 65%;">
@@ -80,7 +80,21 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>첨부문서
+                        <span class="red-star"></span>보존년한
+                    </th>
+                    <td>
+                        <input type="text" id="prePeriod" style="width: 100%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>폐기년도
+                    </th>
+                    <td>
+                        <input type="text" id="disYear" style="width: 100%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>첨부파일
                     </th>
                     <td colspan="3">
                         <input type="file" disabled>

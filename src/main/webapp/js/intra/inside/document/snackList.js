@@ -63,7 +63,7 @@ var snackList = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 489,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -73,6 +73,13 @@ var snackList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    },
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-info" onclick="snackList.fn_snackCertAllReq(100)">' +
                             '	<span class="k-button-text">결재</span>' +
                             '</button>';
@@ -80,7 +87,7 @@ var snackList = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackList.snackPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.snackPopup();">' +
                             '	<span class="k-button-text">식대 등록하기</span>' +
                             '</button>';
                     }

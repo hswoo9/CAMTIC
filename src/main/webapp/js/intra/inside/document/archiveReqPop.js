@@ -8,6 +8,34 @@ var archiveReq = {
         fn_deptSetting(2);
         customKendo.fn_textBox(["docNum", "visit", "empName"]);
         $("#docYear, #empName").attr("readonly", true);
+
+        $("#prePeriod").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: "" },
+                {text: "1년", value: "1"},
+                {text: "2년", value: "2"},
+                {text: "3년", value: "3"},
+                {text: "4년", value: "4"},
+                {text: "5년", value: "5"}
+            ],
+            index: 0
+        });
+
+        $("#disYear").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: "" },
+                {text: "1년", value: "1"},
+                {text: "2년", value: "2"},
+                {text: "3년", value: "3"},
+                {text: "4년", value: "4"},
+                {text: "5년", value: "5"}
+            ],
+            index: 0
+        });
     },
 
     saveBtn: function(){
@@ -20,6 +48,8 @@ var archiveReq = {
         let visit = $("#visit").val();
         let managerSn = $("#empSeq").val();
         let managerName = $("#empName").val();
+        let prePeriod = $("#prePeriod").val();
+        let disYear = $("#disYear").val();
 
         let data = {
             docYear : docYear,
@@ -30,12 +60,16 @@ var archiveReq = {
             teamName : teamName,
             visit : visit,
             managerSn : managerSn,
-            managerName : managerName
+            managerName : managerName,
+            prePeriod : prePeriod,
+            disYear : disYear
         }
 
         if(docNum == "") { alert("문서번호가 선택되지 않았습니다."); return; }
         if(visit == "") { alert("문서위치가 작성되지 않았습니다."); return; }
         if(managerSn == "") { alert("등록자가 작성되지 않았습니다."); return; }
+        if(prePeriod == "") { alert("보존년한이 작성되지 않았습니다."); return; }
+        if(disYear == "") { alert("폐기년도가 작성되지 않았습니다."); return; }
 
         if($("#archiveSn").val() == "") {
             if(!confirm("문서를 등록하시겠습니까?")){

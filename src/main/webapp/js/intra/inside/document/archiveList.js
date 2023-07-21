@@ -14,6 +14,11 @@ var archiveList = {
             {text: "문서명", value: "4"},
             {text: "등록자", value: "5"}
         ]
+        let stateArr = [
+            {text: "보관", value: "1"},
+            {text: "폐기", value: "2"}
+        ]
+        customKendo.fn_dropDownList("doclistState", stateArr, "text", "value", 1);
         customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
     },
 
@@ -46,7 +51,7 @@ var archiveList = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 496,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -54,6 +59,20 @@ var archiveList = {
             },
             toolbar: [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="archiveList.archiveReqPopup();">' +
+                            '	<span class="k-button-text">문서고 등록</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -99,10 +118,21 @@ var archiveList = {
                     title: "위치"
                 }, {
                     field: "MANAGER_NAME",
-                    title: "등록자",
+                    title: "담당자",
                     width: 100
                 }, {
-                    title: "첨부문서",
+                    field: "PRESERVATION_PERIOD",
+                    title: "보존년한",
+                    width: 100
+                }, {
+                    field: "DISPOSAL_YEAR",
+                    title: "폐기년도",
+                    width: 100
+                }, {
+                    title: "첨부파일",
+                    width: 100
+                }, {
+                    title: "문서고 상태",
                     width: 100
                 }
             ]
