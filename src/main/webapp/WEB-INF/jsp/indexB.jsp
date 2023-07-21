@@ -49,13 +49,13 @@
                 <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
                     <div style="display:flex;">
                         <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/02</div>
-                        <div>고경수 주임</div>
+                        <div>국민 선임</div>
                     </div>
                 </div>
                 <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
                     <div style="display:flex;">
                         <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/05</div>
-                        <div>권정룡 책임</div>
+                        <div>심형준 선임</div>
                     </div>
                 </div>
             </div>
@@ -169,46 +169,46 @@
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">
                                         <div style="display:flex;">
-                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">BIZ On 관리자</div>
-                                            <div>[참조-오다정 담당] 주식회사 대한풍력닥트 F30FSH 2HP (삼화내압)</div>
+                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">홍보자료</div>
+                                            <div>캠틱종합기술원 소개자료(PPT)(2023.07.17.)</div>
                                         </div>
-                                        <div>13:42</div>
+                                        <div>2023/07/17</div>
                                     </div>
                                 </li>
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">
                                         <div style="display:flex;">
-                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">이정욱</div>
-                                            <div>[결재 완료] '윤영광 선임'이(가) 작성한 '신일팬테크 명판 요청'이(가) 완료되었습니다.</div>
+                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">공지사항</div>
+                                            <div>외부전문가 및 강사 등에 지급하는 소득에 대한 소득신고(원천징수)관련 협조사항 안내</div>
                                         </div>
-                                        <div>13:42</div>
+                                        <div>2023/07/17</div>
                                     </div>
                                 </li>
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">
                                         <div style="display:flex;">
-                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">BIZ On 관리자</div>
-                                            <div>[참조-오다정 담당] 주식회사 대한풍력닥트 F30FSH 2HP (삼화내압)</div>
+                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">업무보고</div>
+                                            <div>캠틱 주간업무 보고(23.07.17. ~ 23.07.21.)</div>
                                         </div>
-                                        <div>13:42</div>
+                                        <div>2023/07/15</div>
                                     </div>
                                 </li>
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">
                                         <div style="display:flex;">
-                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">BIZ On 관리자</div>
-                                            <div>[참조-오다정 담당] 주식회사 대한풍력닥트 F30FSH 2HP (삼화내압)</div>
+                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">업무보고</div>
+                                            <div>캠틱 주간업무 보고(23.07.10. ~ 23.07.14.)</div>
                                         </div>
-                                        <div>13:42</div>
+                                        <div>2023/07/09</div>
                                     </div>
                                 </li>
                                 <li style="border-top:0; border-bottom:0;">
                                     <div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">
                                         <div style="display:flex;">
-                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">BIZ On 관리자</div>
-                                            <div>[참조-오다정 담당] 주식회사 대한풍력닥트 F30FSH 2HP (삼화내압)</div>
+                                            <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">공지사항</div>
+                                            <div>[35회차] 2023년 7월 캠-퍼스 공통학습(캠.화.지) 일정 안내(7.18)</div>
                                         </div>
-                                        <div>13:42</div>
+                                        <div>2023/07/06</div>
                                     </div>
                                 </li>
                             </ul>
