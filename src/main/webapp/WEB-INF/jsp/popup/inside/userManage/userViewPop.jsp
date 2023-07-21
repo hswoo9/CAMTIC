@@ -100,13 +100,23 @@
                     </td>
                     <th>부서(실)</th>
                     <td>
-                        ${uprinfList.PARENT_DEPT_NAME}
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+                            ${uprinfList.DEPT_NAME}
+                        </c:if>
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+                            ${uprinfList.PARENT_DEPT_NAME}
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
                     <th>부서(팀)</th>
                     <td>
-                        ${uprinfList.DEPT_TEAM_NAME}
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+                            없음
+                        </c:if>
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+                            ${uprinfList.DEPT_TEAM_NAME}
+                        </c:if>
                     </td>
                     <th>직책</th>
                     <td>
