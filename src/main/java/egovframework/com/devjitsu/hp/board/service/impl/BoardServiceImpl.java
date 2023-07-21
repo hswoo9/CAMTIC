@@ -56,7 +56,5 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void setBoardArticleViewCount(Map<String, Object> params) {
-        boardRepository.setBoardArticleViewCount(params);
-    }
+    public void setBoardArticleViewCount(Map<String, Object> params) { boardRepository.setBoardArticleViewCount(params); }
 }

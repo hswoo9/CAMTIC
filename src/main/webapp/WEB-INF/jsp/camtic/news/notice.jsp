@@ -4,8 +4,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style>
+  .subject{
+    cursor: pointer;
+  }
+</style>
+
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
-</head>
+
 
 <body>
 <div id="wrap">
@@ -49,7 +55,7 @@
           <c:forEach var="list" items="${list.list}" varStatus="status">
             <tr>
               <td>${status.count}</td>
-              <td class="subject"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
+              <td class="subject" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
               <td>${list.REG_EMP_NAME}</td>
               <td>
                 <fmt:parseDate value="${list.REG_DATE}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" type="both"></fmt:parseDate>

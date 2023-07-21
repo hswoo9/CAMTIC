@@ -112,6 +112,16 @@
       content : content
     }
 
+    if($("#noticeTitle").val() == ""){
+      alert("제목을 입력해주세요.");
+      return false;
+    }
+
+    if(content == ""){
+      alert("내용을 입력해주세요.");
+      return false;
+    }
+
     if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
 
     $.ajax({
