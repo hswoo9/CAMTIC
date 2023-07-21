@@ -1,14 +1,6 @@
-/**
- * 2023.06.06
- * 작성자 : 김지혜
- * 내용 : 자산관리 > 지식재산권 리스트 - 직무발명 신고
- */
-
-var jobInvenReportPop = {
-    fn_defaultScript: function () {
-
+const inventionReq = {
+    init: function(){
         $("#author").kendoTextBox();
-
         $("#type").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -24,11 +16,9 @@ var jobInvenReportPop = {
             ],
             index: 0
         });
-
         $("#name").kendoTextBox();
         $("#document").kendoTextBox();
         $("#regDate").kendoTextBox();
-
         $("#conft").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -39,8 +29,12 @@ var jobInvenReportPop = {
             ],
             index: 0
         });
-
     }
 }
 
+function userDataSet(userArr) {
+    for(let i=0; i<userArr.length; i++){
 
+    }
+    console.log(userArr);
+}
