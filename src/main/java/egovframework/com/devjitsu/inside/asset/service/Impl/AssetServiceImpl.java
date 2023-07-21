@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.asset.service.Impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
@@ -292,6 +294,63 @@ public class AssetServiceImpl implements AssetService {
                 assetRepository.setAssetPdaActiveDtUpd(saveMap);
                 setAssetInfoModHistory(assetInfo, saveMap);
             }
+        }
+    }
+
+    //직무발명신고서 조회
+    @Override
+    public Map<String, Object> getInventionInfo(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("info", assetRepository.getInventionInfo(params));
+        result.put("shareList", assetRepository.getInventionShareList(params));
+        return result;
+    }
+
+    @Override
+    public void setInventionInsert(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 직무발명신고서 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.setInventionInsert(params);
+            if(!share.isEmpty()) {
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void updateDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("inventionInfoSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            assetRepository.updateApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            assetRepository.updateApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            params.put("approveStatCode", 100);
+            assetRepository.updateFinalApprStat(params);
         }
     }
 

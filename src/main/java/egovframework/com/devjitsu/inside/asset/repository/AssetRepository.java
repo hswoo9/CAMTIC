@@ -30,6 +30,17 @@ public class AssetRepository extends AbstractDAO {
     public void setAstInfoModHistoryItem(List<Map<String, Object>> params) { insert("asset.setAstInfoModHistoryItem", params);}
     public void setAstInfoModHistoryDel(Map<String, Object> params) { insert("asset.setAstInfoModHistoryDel", params);}
 
+    public Map<String, Object> getInventionInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getInventionInfo", params);}
+    public List<Map<String,Object>> getInventionShareList(Map<String,Object> params) { return selectList("asset.getInventionShareList", params);}
+    public Map<String, Object> getInventionManager(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getInventionManager", params);}
+    public int setInventionInsert(Map<String, Object> params) { int result = (int)insert("asset.setInventionInsert", params); return result;}
+    public void setInventionShareInsert(Map<String, Object> params) { insert("asset.setInventionShareInsert", params);}
+    public void updateApprStat(Map<String, Object> params) { update("asset.updateApprStat", params);}
+    public void updateFinalApprStat(Map<String, Object> params) {
+        update("asset.updateFinalApprStat", params);
+    }
+
+
     /** 분류관리 */
     /** 소속관리*/
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) { return selectList("asset.getClassPositionList", params);}

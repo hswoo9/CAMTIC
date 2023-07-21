@@ -589,6 +589,31 @@ public class AssetController {
         return "popup/inside/asset/inventionReqPop";
     }
 
+    @RequestMapping("/inside/getInventionInfo")
+    public String getInventionInfo(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = assetService.getInventionInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    //캠도큐먼트 - 직무발명신고서 신청폼 등록
+    @RequestMapping("/inside/setInventionInsert")
+    public String setInventionInsert(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setInventionInsert(params);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        return "jsonView";
+    }
+
+    //캠도큐먼트 - 직무발명신고서 전자결재
+    @RequestMapping("/popup/inside/approvalFormPopup/inventionApprovalPop.do")
+    public String inventionApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/asset/approvalFormPopup/inventionApprovalPop";
+    }
+
     /**
      * 직무발명신고서 결재 상태값에 따른 UPDATE 메서드
      * @param bodyMap
@@ -601,7 +626,7 @@ public class AssetController {
         String resultCode = "SUCCESS";
         String resultMessage = "성공하였습니다.";
         try{
-            //certificateService.updateDocState(bodyMap);
+            assetService.updateDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";
