@@ -4,8 +4,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style>
+  .subject{
+    cursor: pointer;
+  }
+</style>
+
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
-</head>
+
 
 <body>
 <div id="wrap">
@@ -17,7 +23,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__topArea">
-          <div class="total">전체 <strong>9,999</strong>건</div>
+          <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
           <form class="__sch">
             <div class="inp">
               <label for="searchInput" class="hide">검색어 입력</label>
@@ -49,7 +55,7 @@
           <c:forEach var="list" items="${list.list}" varStatus="status">
             <tr>
               <td>${status.count}</td>
-              <td class="subject"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
+              <td class="subject" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
               <td>${list.REG_EMP_NAME}</td>
               <td>
                 <fmt:parseDate value="${list.REG_DATE}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" type="both"></fmt:parseDate>
@@ -60,9 +66,6 @@
           </c:forEach>
           </tbody>
         </table>
-<script>
-console.log('${list}');
-</script>
         <div class="__botArea">
           <div class="cen">
             <div class="__paging">
@@ -76,7 +79,7 @@ console.log('${list}');
             </div>
 
             <div class="rig">
-              <a href="/camtic/news/register.do" class="__btn1 blue"><span>게시글 작성</span></a>
+              <a href="/camtic/news/write.do" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
           </div>
         </div>
@@ -87,12 +90,19 @@ console.log('${list}');
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 
+<input type="hidden" id="total" value="${totalCnt.totalRecordCount}" />
 <script>
+
+  $(function () {
+    var total = $("#total").val();
+
+    $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+  });
 
   function fn_detailBoard(key){
     var category = "notice";
 
-    location.href="/camtic/news/view.do?boardId=" + key + "&category=" + category;
+    location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + category;
 
   }
 </script>

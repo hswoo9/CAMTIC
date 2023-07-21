@@ -79,7 +79,7 @@ var inBustripList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 525,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -87,6 +87,13 @@ var inBustripList = {
             },
             toolbar : [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="inBustripList.mainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="inBustripList.inBustripReqPop()">' +

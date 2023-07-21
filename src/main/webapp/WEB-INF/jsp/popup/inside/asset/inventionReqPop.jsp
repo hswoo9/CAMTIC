@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/asset/jobInvenReportPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/asset/inventionReqPop.js?v=${today}"/></script>
 <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -20,7 +20,7 @@
             <div class="card-header pop-header">
                 <h3 class="card-title title_NM">직무발명 신고</h3>
                 <div class="btn-st popButton">
-                    <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+                    <button type="button" class="k-button k-button-solid-info" onclick="">상신</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     </th>
                     <td>
                         <input type="text" id="author" style="width: 70%;">
-                        <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:80px; height:27px; line-height:0;" onclick="">
+                        <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:80px; height:27px; line-height:0;" onclick="fn_userMultiSelectPop()">
                             직원 선택
                         </button>
                     </td>
@@ -107,7 +107,7 @@
         </div>
     </div>
 <script>
-    jobInvenReportPop.fn_defaultScript();
+    inventionReq.init();
 </script>
 </body>
 </html>

@@ -24,6 +24,7 @@
             <ul class="info">
               <li>작성자 : ${map.REG_EMP_NAME}</li>
               <li>작성일 : <fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/></li>
+              <li>조회수 : ${map.BOARD_ARTICLE_VIEW_COUNT}</li>
             </ul>
           </div>
           <!-- <dl class="file">
@@ -44,8 +45,10 @@
         <div class="__botArea">
           <div class="rig">
             <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
-            <a href="javascript:fn_regist();" class="__btn1 grayLine"><span>수정</span></a>
             <a href="/camtic/news/notice.do" class="__btn1 grayLine"><span>목록보기</span></a>
+            <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
+            <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
+
           </div>
         </div>
 
@@ -57,8 +60,40 @@
 </body>
 </html>
 
+<input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
 <script>
-  function fn_regist(){
+  function fn_regist(key){
+    var category = "notice";
 
+    location.href="/camtic/news/register.do?boardArticleId=" + key + "&category=" + category;
+
+  }
+
+  function fn_delNotice(){
+    var data = {
+      boardArticleId : $("#boardArticleId").val(),
+      boardId : "notice",
+      category : "notice",
+    }
+
+    if($("#boardArticleId").val() == ""){
+      alert("게시글 내용을 입력해주세요.");
+      return false;
+    }
+
+    if(!confirm("해당 게시글을 삭제하시겠습니까?")) {return false;}
+
+    $.ajax({
+      url : '/camtic/news/deleteBoard.do',
+      type : 'POST',
+      data: data,
+      dataType : "json",
+      async: false,
+      success: function() {
+        alert("삭제가 완료되었습니다.");
+
+        location.href = '/camtic/news/notice.do';
+      }
+    });
   }
 </script>

@@ -54,4 +54,7 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(Map<String, Object> params) {
         boardRepository.deleteBoard(params);
     }
+
+    @Override
+    public void setBoardArticleViewCount(Map<String, Object> params) { boardRepository.setBoardArticleViewCount(params); }
 }

@@ -30,18 +30,17 @@
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 45%;">
+                            <input type="text" id="start_date" style="width: 110px;">
                             ~
-                            <input type="text" id="end_date" style="width: 45%;">
+                            <input type="text" id="end_date" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">프로젝트</th>
                         <td>
-                            <input type="text" id="pjt_cd" style="width: 200px;">
+                            <input type="text" id="pjt_cd" style="width: 120px;">
                         </td>
                         <th class="text-center th-color">사업명</th>
                         <td>
-                            <input type="text" id="busnName" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResult.mainGrid()">검색</button>
+                            <input type="text" id="busnName" style="width: 150px;">
                         </td>
                     </tr>
                 </table>

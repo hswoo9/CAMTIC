@@ -28,42 +28,46 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="15%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">년월</th>
                         <td>
-                            <input type="text" id="datePicker" style="width: 150px;">
+                            <input type="text" id="datePicker" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">회의실 구분</th>
                         <td>
-                            <input type="text" id="meetingRoomDivision" style="width: 150px;">
+                            <input type="text" id="meetingRoomDivision" style="width: 170px;">
                         </td>
                         <th class="text-center th-color">사용 목적</th>
                         <td>
-                            <input type="text" id="usePurpose" style="width: 150px;">
+                            <input type="text" id="usePurpose" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">대관료</th>
                         <td>
-                            <input type="text" id="rentalFee" style="width: 150px;">
+                            <input type="text" id="rentalFee" style="width: 70px;">
+                        </td>
+                        <th class="text-center th-color">검색구분</th>
+                        <td>
+                            <input type="text" id="searchDivision" style="width: 100px;">
+                            <input type="text" id="name" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-center th-color">검색구분</th>
-                        <td colspan="7">
-                            <input type="text" id="searchDivision" style="width: 150px; /*margin-right:10px;*/">
-                            <input type="text" id="name" style="width: 100px;">
+                        <td colspan="10" style="text-align: right">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                검색
+                                조회
                             </button>
-                            <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-right:485px;" onclick="">
+                            <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                 검색 초기화
                             </button>
                             <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">

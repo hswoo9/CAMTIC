@@ -235,6 +235,21 @@
             </choose>
     </select>
 
+    <select id="getSnackExcelList" resultType="map" parameterType="map">
+        /* getSnackExcelList */
+        SELECT
+            ISI.*
+        FROM
+            CAM_INSIDE.DJ_SNACK_INFO ISI
+        WHERE
+            1=1
+        AND DATE_FORMAT(USE_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        <if test='searchTypeText != null and searchTypeText != ""'>
+            AND SNACK_TYPE in (${searchTypeText})
+        </if>
+        ORDER BY REG_DEPT_NAME, REG_TEAM_NAME, SNACK_TYPE, USE_DT
+    </select>
+
     <select id="getArchiveList" resultType="map" parameterType="map">
         /* getArchiveList */
         SELECT

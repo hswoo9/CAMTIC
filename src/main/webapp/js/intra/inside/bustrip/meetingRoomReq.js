@@ -203,7 +203,7 @@ var meetingRoomReq = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 489,
+            height: 472,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],

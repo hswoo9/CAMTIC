@@ -21,28 +21,32 @@ public class BoardController {
     private BoardService boardService;
 
     /**
-     * 공지사항
+     * 공지사항 페이지
      * */
     @RequestMapping("/camtic/news/notice.do")
     public String notice(Model model, HttpServletRequest request, ArticlePage articlePage){
+
         articlePage.setSearchCategory("notice");
         PagingResponse<PostResponse> list = boardService.selectBoardList(articlePage);
         model.addAttribute("list", list);
+        model.addAttribute("articlePage", articlePage);
+        model.addAttribute("totalCnt", articlePage.getPagination());
         return "camtic/news/notice";
     }
 
     /**
-     * 공지사항 상세보기
+     * 공지사항 상세보기 페이지
      * */
     @RequestMapping("/camtic/news/view.do")
     public String noticeView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        boardService.setBoardArticleViewCount(params);
         Map<String, Object> map = boardService.selectBoard(params);
         model.addAttribute("map", map);
         return "camtic/news/view";
     }
 
     /**
-     * 게시글 작성
+     * 게시글 작성 페이지
      * */
     @RequestMapping("/camtic/news/write.do")
     public String noticeWrite(Model model){
@@ -50,7 +54,7 @@ public class BoardController {
     }
 
     /**
-     * 게시글 수정
+     * 게시글 수정 페이지
      * */
     @RequestMapping("/camtic/news/register.do")
     public String noticeRegister(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
@@ -59,6 +63,9 @@ public class BoardController {
         return "camtic/news/register";
     }
 
+    /**
+     * 게시글 작성
+     * */
     @RequestMapping("/camtic/news/insNotice.do")
     public String insNotice(Model model, @RequestParam Map<String, Object> params){
         boardService.insertBoard(params);
@@ -67,6 +74,9 @@ public class BoardController {
         return "jsonView";
     }
 
+    /**
+     * 게시글 수정
+     * */
     @RequestMapping("/camtic/news/updNotice.do")
     public String updNotice(Model model, @RequestParam Map<String, Object> params){
         boardService.updateBoard(params);
@@ -75,6 +85,9 @@ public class BoardController {
         return "jsonView";
     }
 
+    /**
+     * 게시글 삭제
+     * */
     @RequestMapping("/camtic/news/deleteBoard.do")
     public String delNotice(Model model, @RequestParam Map<String, Object> params){
         boardService.deleteBoard(params);

@@ -579,14 +579,37 @@ public class AssetController {
         return "popup/inside/asset/rprChangePop";
     }
 
-    //지식재산권 리스트 - 직무발명 신고 팝업
-    @RequestMapping("/Inside/Pop/jobInvenReportPop.do")
-    public String jobInvenReportPop(HttpServletRequest request, Model model) {
+    //캠도큐먼트 - 직무발명신고서 전자결재 신청폼 팝업
+    @RequestMapping("/Inside/pop/inventionReqPop.do")
+    public String inventionReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/asset/jobInvenReportPop";
+        return "popup/inside/asset/inventionReqPop";
+    }
+
+    /**
+     * 직무발명신고서 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/inside/inventionReqApp")
+    public String certificateReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            //certificateService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
     }
 
     //접수내역

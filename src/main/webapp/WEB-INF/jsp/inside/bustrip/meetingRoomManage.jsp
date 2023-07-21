@@ -18,18 +18,15 @@
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="15%">
-                        <col width="85%">
+                        <col width="10%">
+                        <col width="90%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">사용 여부</th>
                         <td>
-                            <input type="text" id="useType" style="width: 150px;">
-                            <input type="text" id="searchType" style="width: 200px;">
-                            <input type="text" id="searchText" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                <span>검색</span>
-                            </button>
+                            <input type="text" id="useType" style="width: 100px;">
+                            <input type="text" id="searchType" style="width: 100px;">
+                            <input type="text" id="searchText" style="width: 150px;">
                         </td>
                     </tr>
                 </table>
