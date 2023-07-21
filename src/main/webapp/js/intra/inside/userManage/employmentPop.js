@@ -222,6 +222,11 @@ var employmentPop = {
         }
     },
 
+    getPdfFileDown : function(){
+        employmentPop.global.hwpCtrl.SaveAs(employmentPop.global.data.DEPT_NAME + "_" +
+            employmentPop.global.data.EMP_NAME_KR + "_연봉근로계약서" , "PDF", "download:true");
+    },
+
     numToKOR : function(num){
         var hanA = new Array("","일","이","삼","사","오","육","칠","팔","구","십");
         var danA = new Array("","십","백","천","","십","백","천","","십","백","천","","십","백","천");

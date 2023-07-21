@@ -43,6 +43,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">연봉근로계약서 조회</h3>
         <div class="btn-st popButton" id="popBtnDiv">
+            <button type="button" class="k-button k-button-solid-base" onclick="employmentPop.getPdfFileDown()">PDF 저장</button>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
