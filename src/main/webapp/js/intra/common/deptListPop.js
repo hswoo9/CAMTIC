@@ -130,6 +130,7 @@ var deptListPop = {
         opener.parent.$("#empSeq").val(row.EMP_SEQ);
         opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
         opener.parent.$("#deptName").val(row.DEPT_NAME);
+        opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
         window.close();
     }
 

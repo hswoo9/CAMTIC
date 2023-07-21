@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.userManage.controller;
 
+import com.google.gson.Gson;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -313,15 +314,135 @@ public class UserManageController {
         return "jsonView";
     }
 
-    //근로계약서 페이지
+    /**
+     * 연봉근로계약서(사용자)
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/employmentReq.do")
     public String employmentReq(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        return "inside/userManage/employmentReq";
+    }
+
+    /**
+     * 연봉근로계약서(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/employmentManage.do")
+    public String employmentManage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/employmentManage";
+    }
+
+    /**
+     * 연봉근로계약서 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/getEmploymentContList.do")
+    public String getEmploymentContList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", userManageService.getEmploymentContList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 연봉근로계약서 작성(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/employmentReqPop.do")
+    public String employmentReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/employmentReq";
+        return "popup/inside/employ/employmentReqPop";
     }
+
+    /**
+     * 연봉근로계약서 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/setEmploymentContract.do")
+    public String setEmploymentContract(@RequestParam Map<String, Object> params, Model model){
+        userManageService.setEmploymentContract(params);
+        return "jsonView";
+    }
+
+    /**
+     * 연봉근로계약서 발송
+     * @param params
+     * @return
+     */
+    @RequestMapping("/userManage/sendSalaryWorkerReq.do")
+    public String sendSalaryRWorkerReq(@RequestParam(value = "sendArr[]") List<String> params){
+        userManageService.sendSalaryWorkerReq(params);
+        return "jsonView";
+    }
+
+    /**
+     * 연봉근로계약서 보기 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/employmentPop.do")
+    public String employmentPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", new Gson().toJson((LoginVO) session.getAttribute("LoginVO")));
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+        params.put("menuCd", "employment");
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+
+        return "popup/inside/employ/employmentPop";
+    }
+
+    /**
+     * 연봉근로계약서 데이터 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/userManage/getEmploymentInfo.do")
+    public String getEmploymentInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", userManageService.getEmploymentInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/setEmploymentInfoFlag.do")
+    public String setEmploymentInfoFlag(@RequestParam Map<String, Object> params){
+        userManageService.setEmploymentInfoFlag(params);
+        return "jsonView";
+    }
+
 
     //연봉계약서 페이지
     @RequestMapping("/Inside/agreementReq.do")
