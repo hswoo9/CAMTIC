@@ -72,18 +72,27 @@ var bustripResult = {
             },
             pageSize: 10,
         });
-
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 525,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResult.mainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },

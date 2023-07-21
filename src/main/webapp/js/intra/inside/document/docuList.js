@@ -55,12 +55,11 @@ var docuContractList = {
             },
             pageSize: 10,
         });
-
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 489,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -68,6 +67,20 @@ var docuContractList = {
             },
             toolbar: [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="docuContractList.docuPopup();">' +
+                            '	<span class="k-button-text">문서등록</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }

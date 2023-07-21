@@ -29,12 +29,12 @@
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
-                        <col width="30%">
+                        <col width="20%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">년월</th>
                         <td>
-                            <input type="text" id="carReqDt" style="width: 130px;">
+                            <input type="text" id="carReqDt" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">사용 차량</th>
                         <td>
@@ -47,14 +47,14 @@
                         <th class="text-center th-color">검색구분</th>
                         <td>
                             <input type="text" id="searchType" style="width: 130px;">
-                            <input type="text" id="searchText" style="width: 100px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                <span>검색</span>
-                            </button>
+                            <input type="text" id="searchText" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="8" style="text-align: right">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                <span>조회</span>
+                            </button>
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                 검색 초기화
                             </button>
