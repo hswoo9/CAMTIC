@@ -19,5 +19,5 @@ public interface BoardService {
 
     void deleteBoard(Map<String, Object> params);
 
-
+    void setBoardArticleViewCount(Map<String, Object> params);
 }

@@ -100,10 +100,6 @@
     });
   });
 
-  function fn_move(){
-    location.href="/camtic/news/notice.do";
-  }
-
   function fn_saveNotice(){
 
     var content = CKEDITOR.instances.contents.getData();

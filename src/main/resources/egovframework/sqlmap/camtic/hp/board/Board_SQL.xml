@@ -11,6 +11,8 @@
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
             BOARD_CATEGORY_ID = #{searchCategory}
+        AND
+            ACTIVE = 'Y'
         LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
@@ -22,14 +24,27 @@
         WHERE
             BOARD_CATEGORY_ID = #{category}
         AND
-            BOARD_ARTICLE_ID = #{boardId}
+            BOARD_ARTICLE_ID = #{boardArticleId}
+        AND
+            ACTIVE = 'Y'
     </select>
+
+    <update id="setBoardArticleViewCount" parameterType="map">
+        UPDATE
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        SET
+            BOARD_ARTICLE_VIEW_COUNT = (BOARD_ARTICLE_VIEW_COUNT + 1)
+        WHERE
+            BOARD_ARTICLE_ID = #{boardArticleId}
+    </update>
 
     <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
             COUNT(*)
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            ACTIVE = 'Y'
     </select>
 
     <insert id="insertBoard" parameterType="map">
@@ -38,4 +53,29 @@
         VALUE
             (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{writer})
     </insert>
+
+    <update id="updateBoard" parameterType="map">
+        UPDATE CAM_COMMON.DJ_BOARD_ARTICLE
+        SET
+            BOARD_ARTICLE_TITLE = #{noticeTitle},
+            BOARD_ARTICLE_CONTENT = #{content}
+        WHERE
+            BOARD_ARTICLE_ID = #{boardArticleId}
+        AND
+            BOARD_ID = #{boardId}
+        AND
+            BOARD_CATEGORY_ID = #{category}
+    </update>
+
+    <update id="deleteBoard" parameterType="map">
+        UPDATE CAM_COMMON.DJ_BOARD_ARTICLE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            BOARD_ARTICLE_ID = #{boardArticleId}
+          AND
+            BOARD_ID = #{boardId}
+          AND
+            BOARD_CATEGORY_ID = #{category}
+    </update>
 </mapper>

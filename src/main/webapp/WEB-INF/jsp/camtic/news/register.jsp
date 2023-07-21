@@ -2,6 +2,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
@@ -40,19 +41,19 @@
                 <tr>
                   <th>제목</th>
                   <td>
-                    <input type="text" id="noticeTitle" class="" value="" disabled/>
+                    <input type="text" id="noticeTitle" class="" value="${map.BOARD_ARTICLE_TITLE}"/>
                   </td>
                 </tr>
                 <tr>
                   <th>작성자</th>
                   <td>
-                    <input type="text" id="writer" class="" value="관리자" disabled/>
+                    <input type="text" id="writer" class="" value="${map.REG_EMP_NAME}" disabled/>
                   </td>
                 </tr>
                 <tr>
                   <th>작성일자</th>
                   <td>
-                    <input type="text" id="writeDate" class="" value="" disabled/>
+                    <input type="text" id="writeDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
                   </td>
                 </tr>
               </table>
@@ -73,8 +74,8 @@
 
           <div class="__botArea">
             <div class="rig">
-              <a href="/camtic/news/notice.do" class="__btn1 grayLine"><span>목록보기</span></a>
-              <a href="javascript:void(0);" onclick="fn_saveNotice();" class="__btn1 grayLine"><span>등록하기</span></a>
+              <a href="javascript:void(0);" onclick="fn_move();" class="__btn1 grayLine"><span>뒤로가기</span></a>
+              <a href="javascript:void(0);" onclick="fn_updNotice();" class="__btn1 grayLine"><span>수정하기</span></a>
             </div>
           </div>
       </div>
@@ -84,50 +85,53 @@
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 
+<input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
+<input type="hidden" id="prevContent" value="${map.BOARD_ARTICLE_CONTENT}"/>
 <script>
+  var referrer = document.referrer;
+
   $(function () {
-    let today = new Date();
-
-    let year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let date = today.getDate();
-
-    $("#writeDate").val(year + "년 " + month + "월 " + date + "일")
 
     CKEDITOR.replace('contents', {
         filebrowserUploadUrl:'/ckeditor/fileupload.do',
         uploadUrl:'/ckeditor/fileupload.do'
       });
+
+
+    CKEDITOR.instances.contents.setData($("#prevContent").val());
+
     });
 
   function fn_move(){
-    location.href="/camtic/news/notice.do";
+    location.href= referrer;
   }
 
-  function fn_saveNotice(){
+  function fn_updNotice(){
 
     var content = CKEDITOR.instances.contents.getData();
 
+    console.log(content);
+
     var data = {
+      boardArticleId : $("#boardArticleId").val(),
       boardId : "notice",
-      boardCategoryId : "notice",
+      category : "notice",
       noticeTitle : $("#noticeTitle").val(),
-      writer : $("#writer").val().toString(),
       content : content
     }
 
-    if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
+    if(!confirm("게시글을 수정하시겠습니까?")) {return false;}
 
     $.ajax({
-      url : '/camtic/news/insNotice.do',
+      url : '/camtic/news/updNotice.do',
       type : 'POST',
       data: data,
       dataType : "json",
       async: false,
       success: function() {
-        alert("등록");
+        alert("수정이 완료되었습니다.");
 
-        location.href = '/camtic/news/notice.do';
+        location.href = referrer;
       }
     });
 

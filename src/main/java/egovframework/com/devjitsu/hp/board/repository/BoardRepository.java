@@ -36,4 +36,6 @@ public class BoardRepository extends AbstractDAO {
     public void deleteBoard(Map<String, Object> params) {
         delete("boardCt.deleteBoard", params);
     }
+
+    public void setBoardArticleViewCount(Map<String, Object> params) { update("boardCt.setBoardArticleViewCount", params);}
 }

@@ -25,9 +25,12 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/news/notice.do")
     public String notice(Model model, HttpServletRequest request, ArticlePage articlePage){
+
         articlePage.setSearchCategory("notice");
         PagingResponse<PostResponse> list = boardService.selectBoardList(articlePage);
         model.addAttribute("list", list);
+        model.addAttribute("articlePage", articlePage);
+        model.addAttribute("totalCnt", articlePage.getPagination());
         return "camtic/news/notice";
     }
 
@@ -36,6 +39,7 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/news/view.do")
     public String noticeView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        boardService.setBoardArticleViewCount(params);
         Map<String, Object> map = boardService.selectBoard(params);
         model.addAttribute("map", map);
         return "camtic/news/view";
