@@ -84,7 +84,11 @@
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 
+
+<input type="hidden" id="categoryId" value="${categoryId}">
 <script>
+  var category = $("#categoryId").val();
+
   $(function () {
     let today = new Date();
 
@@ -105,8 +109,8 @@
     var content = CKEDITOR.instances.contents.getData();
 
     var data = {
-      boardId : "notice",
-      boardCategoryId : "notice",
+      boardId : category,
+      boardCategoryId : category,
       noticeTitle : $("#noticeTitle").val(),
       writer : $("#writer").val().toString(),
       content : content

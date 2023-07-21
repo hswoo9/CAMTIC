@@ -86,9 +86,11 @@
 </div>
 
 <input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
+<input type="hidden" id="boardCategoryId" value="${map.BOARD_CATEGORY_ID}"/>
 <input type="hidden" id="prevContent" value="${map.BOARD_ARTICLE_CONTENT}"/>
 <script>
   var referrer = document.referrer;
+  var categoryId = $("#boardCategoryId").val();
 
   $(function () {
 
@@ -110,14 +112,17 @@
 
     var content = CKEDITOR.instances.contents.getData();
 
-    console.log(content);
-
     var data = {
       boardArticleId : $("#boardArticleId").val(),
-      boardId : "notice",
-      category : "notice",
+      boardId : categoryId,
+      boardCategoryId : categoryId,
       noticeTitle : $("#noticeTitle").val(),
       content : content
+    }
+
+    if(content == ""){
+      alert("내용을 입력해주세요.");
+      return false;
     }
 
     if(!confirm("게시글을 수정하시겠습니까?")) {return false;}

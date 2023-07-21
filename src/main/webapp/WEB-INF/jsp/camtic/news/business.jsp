@@ -2,9 +2,16 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<style>
+  .subject{
+    cursor: pointer;
+  }
+</style>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
-</head>
+
 
 <body>
 <div id="wrap">
@@ -16,7 +23,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__topArea">
-          <div class="total">전체 <strong>1,450</strong>건</div>
+          <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
           <form class="__sch">
             <div class="inp">
               <label for="searchInput" class="hide">검색어 입력</label>
@@ -45,45 +52,34 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14</td>
-            <td>99999</td>
-          </tr>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14</td>
-            <td>99999</td>
-          </tr>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14</td>
-            <td>99999</td>
-          </tr>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14 </td>
-            <td>99999</td>
-          </tr>
+          <c:forEach var="list" items="${list.list}" varStatus="status">
+            <tr>
+              <td>${status.count}</td>
+              <td class="subject" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
+              <td>${list.REG_EMP_NAME}</td>
+              <td>
+                <fmt:parseDate value="${list.REG_DATE}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" type="both"></fmt:parseDate>
+                <fmt:formatDate value="${regDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
+              </td>
+              <td>${list.BOARD_ARTICLE_VIEW_COUNT}</td>
+            </tr>
+          </c:forEach>
           </tbody>
         </table>
-
         <div class="__botArea">
           <div class="cen">
             <div class="__paging">
-              <a href="#" class="arr prev"><span class="hide">이전 페이지</span></i></a>
+              <a href="#" class="arr prev"><span class="hide">이전 페이지</span></a>
               <strong class="num active">1</strong>
               <a href="#" class="num">2</a>
               <a href="#" class="num">3</a>
-              <a href="#" class="arr next"><span class="hide">다음 페이지</span></i></a>
+              <a href="#" class="num">4</a>
+              <a href="#" class="num">5</a>
+              <a href="#" class="arr next"><span class="hide">다음 페이지</span></a>
+            </div>
+
+            <div class="rig">
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
           </div>
         </div>
@@ -93,5 +89,29 @@
   </div>
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+
+<input type="hidden" id="total" value="${totalCnt.totalRecordCount}" />
+<input type="hidden" id="boardCategoryId" value="${articlePage.searchCategory}"/>
+<script>
+
+  $(function () {
+    var total = $("#total").val();
+
+    $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+  });
+
+  function fn_writeBoard(){
+    var category = $("#boardCategoryId").val();
+
+    location.href="/camtic/news/write.do?category=" + category;
+  }
+
+  function fn_detailBoard(key){
+    var category = $("#boardCategoryId").val();
+
+    location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + category;
+
+  }
+</script>
 </body>
 </html>

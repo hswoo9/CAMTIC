@@ -22,7 +22,7 @@
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
-            BOARD_CATEGORY_ID = #{category}
+            BOARD_CATEGORY_ID = #{boardCategoryId}
         AND
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND
@@ -44,6 +44,8 @@
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
+            BOARD_CATEGORY_ID = #{searchCategory}
+        AND
             ACTIVE = 'Y'
     </select>
 
@@ -64,7 +66,7 @@
         AND
             BOARD_ID = #{boardId}
         AND
-            BOARD_CATEGORY_ID = #{category}
+            BOARD_CATEGORY_ID = #{boardCategoryId}
     </update>
 
     <update id="deleteBoard" parameterType="map">
@@ -76,6 +78,6 @@
           AND
             BOARD_ID = #{boardId}
           AND
-            BOARD_CATEGORY_ID = #{category}
+            BOARD_CATEGORY_ID = #{boardCategoryId}
     </update>
 </mapper>

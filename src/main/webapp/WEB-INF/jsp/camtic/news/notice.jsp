@@ -79,7 +79,7 @@
             </div>
 
             <div class="rig">
-              <a href="/camtic/news/write.do" class="__btn1 blue"><span>게시글 작성</span></a>
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
           </div>
         </div>
@@ -91,7 +91,9 @@
 </div>
 
 <input type="hidden" id="total" value="${totalCnt.totalRecordCount}" />
+<input type="hidden" id="boardCategoryId" value="${articlePage.searchCategory}"/>
 <script>
+  var categoryId = $("#boardCategoryId").val();
 
   $(function () {
     var total = $("#total").val();
@@ -99,11 +101,12 @@
     $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
   });
 
+  function fn_writeBoard(){
+    location.href="/camtic/news/write.do?boardCategoryId=" + categoryId;
+  }
+
   function fn_detailBoard(key){
-    var category = "notice";
-
-    location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + category;
-
+    location.href="/camtic/news/view.do?boardArticleId=" + key + "&boardCategoryId=" + categoryId;
   }
 </script>
 </body>
