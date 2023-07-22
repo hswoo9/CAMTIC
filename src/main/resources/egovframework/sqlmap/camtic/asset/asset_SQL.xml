@@ -463,19 +463,13 @@
     <select id="getInventionShareList" resultType="map">
         /* getInventionShareList */
         SELECT
-            *
+            IISI.*,
+            HEI.DEPT_NAME
         FROM
-            CAM_INSIDE.DJ_INVENTION_SHARE_INFO
-        WHERE INVENTION_INFO_SN = #{inventionInfoSn}
-    </select>
-
-    <select id="getInventionManager" resultType="map">
-        /* getInventionManager */
-        SELECT
-            *
-        FROM
-            CAM_INSIDE.DJ_INVENTION_INFO
-        WHERE INVENTION_INFO_SN = #{inventionInfoSn}
+            CAM_INSIDE.DJ_INVENTION_SHARE_INFO IISI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
+        WHERE IISI.INVENTION_INFO_SN = #{inventionInfoSn}
     </select>
 
     <insert id="setInventionInsert" parameterType="map">

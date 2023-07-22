@@ -634,6 +634,21 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regEmpName', true, true, false);
                     hwpDocCtrl.putFieldText('regEmpName', invenInfo.REG_EMP_NAME);
 
+                    let field = "";
+                    for(let i=1; i<shareList.length+1; i++){
+                        field = "empName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i].EMP_NAME);
+
+                        field = "deptName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i].DEPT_NAME);
+
+                        field = "share"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i].SHARE);
+                    }
+
                     hwpDocCtrl.global.HwpCtrl.MoveToField('manager', true, true, false);
                     hwpDocCtrl.putFieldText('manager', invenInfo.MANAGER_NAME);
                 }
