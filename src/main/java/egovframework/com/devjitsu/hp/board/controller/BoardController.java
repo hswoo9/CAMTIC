@@ -24,14 +24,34 @@ public class BoardController {
      * 공지사항 페이지
      * */
     @RequestMapping("/camtic/news/notice.do")
-    public String notice(Model model, HttpServletRequest request, ArticlePage articlePage){
+    public String notice(Model model, ArticlePage articlePage){
 
-        articlePage.setSearchCategory("notice");
-        PagingResponse<PostResponse> list = boardService.selectBoardList(articlePage);
-        model.addAttribute("list", list);
-        model.addAttribute("articlePage", articlePage);
-        model.addAttribute("totalCnt", articlePage.getPagination());
+
+        /*articlePage.setSearchCategory("notice");
+        PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);
+
+        model.addAttribute("boardArticleList", response);
+
+        model.addAttribute("pagination", articlePage.getPagination());
+        model.addAttribute("page", articlePage.getPage());*/
+
+        /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
         return "camtic/news/notice";
+    }
+
+    @RequestMapping("/board/getBoardArticleList.do")
+    public String getNormalBoardList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
+
+        articlePage.setSearchCategory((String) param.get("categoryId"));
+        PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);
+
+        model.addAttribute("boardArticleList", response);
+
+        model.addAttribute("pagination", articlePage.getPagination());
+        model.addAttribute("page", articlePage.getPage());
+
+        /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
+        return "jsonView";
     }
 
     /**

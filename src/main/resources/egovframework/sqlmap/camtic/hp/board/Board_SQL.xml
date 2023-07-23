@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardCt">
-
-
     <select id="selectBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
             *
@@ -14,6 +12,17 @@
         AND
             ACTIVE = 'Y'
         LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID = #{searchCategory}
+        AND
+            ACTIVE = 'Y'
     </select>
 
     <select id="selectBoard" resultType="map" parameterType="map">
@@ -37,15 +46,6 @@
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
     </update>
-
-    <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
-        SELECT
-            COUNT(*)
-        FROM
-            CAM_COMMON.DJ_BOARD_ARTICLE
-        WHERE
-            ACTIVE = 'Y'
-    </select>
 
     <insert id="insertBoard" parameterType="map">
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
