@@ -30,16 +30,6 @@ public class AssetRepository extends AbstractDAO {
     public void setAstInfoModHistoryItem(List<Map<String, Object>> params) { insert("asset.setAstInfoModHistoryItem", params);}
     public void setAstInfoModHistoryDel(Map<String, Object> params) { insert("asset.setAstInfoModHistoryDel", params);}
 
-    public Map<String, Object> getInventionInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getInventionInfo", params);}
-    public List<Map<String,Object>> getInventionShareList(Map<String,Object> params) { return selectList("asset.getInventionShareList", params);}
-    public int setInventionInsert(Map<String, Object> params) { int result = (int)insert("asset.setInventionInsert", params); return result;}
-    public void setInventionShareInsert(Map<String, Object> params) { insert("asset.setInventionShareInsert", params);}
-    public void updateApprStat(Map<String, Object> params) { update("asset.updateApprStat", params);}
-    public void updateFinalApprStat(Map<String, Object> params) {
-        update("asset.updateFinalApprStat", params);
-    }
-
-
     /** 분류관리 */
     /** 소속관리*/
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) { return selectList("asset.getClassPositionList", params);}
@@ -80,6 +70,17 @@ public class AssetRepository extends AbstractDAO {
     public void setAstPdaOptInspection(Map<String, Object> params) { update("asset.setAstPdaOptInspection", params);}
     public void setAssetInspectionUpload(Map<String, Object> params) { update("asset.setAssetInspectionUpload", params);}
     public void setAssetPdaActiveDtUpd(Map<String, Object> params) { update("asset.setAssetPdaActiveDtUpd", params);}
+
+    /** 지식재산권 관리 */
+    public Map<String, Object> getInventionInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getInventionInfo", params);}
+    public List<Map<String,Object>> getInventionShareList(Map<String,Object> params) { return selectList("asset.getInventionShareList", params);}
+    public List<Map<String, Object>> getRprReceiptList(Map<String, Object> params) { return selectList("asset.getRprReceiptList", params); }
+    public int setInventionInsert(Map<String, Object> params) { int result = (int)insert("asset.setInventionInsert", params); return result;}
+    public void setInventionShareInsert(Map<String, Object> params) { insert("asset.setInventionShareInsert", params);}
+    public void updateApprStat(Map<String, Object> params) { update("asset.updateApprStat", params);}
+    public void updateFinalApprStat(Map<String, Object> params) { update("asset.updateFinalApprStat", params); }
+    /** 지식재산권 관리 끝 */
+
     //장비관리 팝업창 (관리자) - 장비등록
     public void setEquipmentInsert(Map<String, Object> params) {
         insert("asset.setEquipmentInsert", params);

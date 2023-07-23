@@ -610,8 +610,8 @@ var hwpDocCtrl = {
                 async: false,
                 success: function (result) {
                     console.log(result);
-                    const invenInfo = result.data.info;
-                    const shareList = result.data.shareList;
+                    const invenInfo = result.rs.info;
+                    const shareList = result.rs.shareList;
 
                     let today = new Date();
                     let year = today.getFullYear(); // 년도
@@ -638,15 +638,15 @@ var hwpDocCtrl = {
                     for(let i=1; i<shareList.length+1; i++){
                         field = "empName"+i;
                         hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
-                        hwpDocCtrl.putFieldText(field, shareList[i].EMP_NAME);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].EMP_NAME);
 
                         field = "deptName"+i;
                         hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
-                        hwpDocCtrl.putFieldText(field, shareList[i].DEPT_NAME);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].DEPT_NAME);
 
                         field = "share"+i;
                         hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
-                        hwpDocCtrl.putFieldText(field, shareList[i].SHARE);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].SHARE);
                     }
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('manager', true, true, false);

@@ -25,13 +25,13 @@
                     <tr>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="drop1" style="width: 150px;">
+                            <input type="text" id="rprClass" style="width: 200px;">
+                            <input type="text" id="iprClass" style="width: 200px;">
                         </td>
                         <th class="text-center th-color">종류</th>
                         <td>
-                            <input type="text" id="drop2" style="width: 100px;">
                             <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchVal" style="width: 140px;">
+                            <input type="text" id="searchText" style="width: 140px;">
                         </td>
                     </tr>
                 </table>
@@ -41,6 +41,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-<script type="text/javascript">
+<script>
     rprReceiptList.init();
 </script>

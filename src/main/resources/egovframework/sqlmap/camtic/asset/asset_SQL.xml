@@ -448,99 +448,6 @@
         </selectKey>
     </insert>
 
-    <select id="getInventionInfo" resultType="map">
-        /* getInventionInfo */
-        SELECT
-            III.*,
-            IFNULL((SELECT SHEI.EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO SHEI WHERE SHEI.DEPT_SEQ = (SELECT SSHDI.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO SSHDI WHERE (SSHDI.DEPT_SEQ = HEI.DEPT_SEQ OR SSHDI.PARENT_DEPT_SEQ = HEI.DEPT_SEQ) AND DEPT_LEVEL = 1) AND DUTY_CODE IN (1, 2, 3) AND ACTIVE = 'Y'), "공석") AS MANAGER_NAME
-        FROM
-            CAM_INSIDE.DJ_INVENTION_INFO III
-        LEFT JOIN
-            CAM_HR.DJ_EMP_INFO HEI ON III.REG_EMP_SEQ = HEI.EMP_SEQ
-        WHERE INVENTION_INFO_SN = #{inventionInfoSn}
-    </select>
-
-    <select id="getInventionShareList" resultType="map">
-        /* getInventionShareList */
-        SELECT
-            IISI.*,
-            HEI.DEPT_NAME
-        FROM
-            CAM_INSIDE.DJ_INVENTION_SHARE_INFO IISI
-        LEFT JOIN
-            CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
-        WHERE IISI.INVENTION_INFO_SN = #{inventionInfoSn}
-    </select>
-
-    <insert id="setInventionInsert" parameterType="map">
-        /* setInventionInsert */
-        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
-            (
-                IPR_CLASS,
-                IPR_NAME,
-                TITLE,
-                DETAIL_CN,
-                REG_DATE,
-                REG_EMP_SEQ,
-                REG_EMP_NAME
-            )
-        VALUE
-            (
-                #{iprClass},
-                #{iprName},
-                #{title},
-                #{detailCn},
-                #{regDate},
-                #{regEmpSeq},
-                #{regEmpName}
-            )
-        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
-        </selectKey>
-    </insert>
-
-    <insert id="setInventionShareInsert" parameterType="map">
-        /* setInventionShareInsert */
-        INSERT INTO CAM_INSIDE.DJ_INVENTION_SHARE_INFO
-            (
-                INVENTION_INFO_SN,
-                EMP_SEQ,
-                EMP_NAME,
-                SHARE
-            )
-        VALUES
-        <foreach collection="share" item="item" separator=" , ">
-            (
-                #{inventionInfoSn},
-                #{item.shareEmpSeq},
-                #{item.shareEmpName},
-                #{item.share}
-            )
-        </foreach>
-    </insert>
-
-    <update id="updateApprStat" parameterType="map">
-        /* updateApprStat */
-        UPDATE
-            CAM_INSIDE.DJ_INVENTION_INFO
-        SET
-            STATUS = #{approveStatCode},
-            APPROVAL_EMP_SEQ = #{empSeq},
-            DOC_ID = #{docId}
-        WHERE
-            INVENTION_INFO_SN = #{inventionInfoSn}
-    </update>
-
-    <update id="updateFinalApprStat" parameterType="map">
-        /* updateApprFinalStat */
-        UPDATE
-            CAM_INSIDE.DJ_INVENTION_INFO
-        SET
-            STATUS = #{approveStatCode}
-        WHERE
-            INVENTION_INFO_SN = #{inventionInfoSn}
-    </update>
-
     <delete id="setAstInfoModHistoryDel" parameterType="map">
         /* setAstInfoModHistoryDel */
         DELETE FROM CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY WHERE AST_INFO_MOD_SN = #{astInfoModSn}
@@ -1122,8 +1029,129 @@
         WHERE
             AST_INFO_SN = #{astInfoSn}
     </update>
-
     <!-- PDA 연동목록 종료 -->
+
+    <!-- 지식재산권관리 -->
+    <select id="getInventionInfo" resultType="map">
+        /* getInventionInfo */
+        SELECT
+            III.*,
+            IFNULL((SELECT SHEI.EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO SHEI WHERE SHEI.DEPT_SEQ = (SELECT SSHDI.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO SSHDI WHERE (SSHDI.DEPT_SEQ = HEI.DEPT_SEQ OR SSHDI.PARENT_DEPT_SEQ = HEI.DEPT_SEQ) AND DEPT_LEVEL = 1) AND DUTY_CODE IN (1, 2, 3) AND ACTIVE = 'Y'), "공석") AS MANAGER_NAME
+        FROM
+            CAM_INSIDE.DJ_INVENTION_INFO III
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON III.REG_EMP_SEQ = HEI.EMP_SEQ
+        WHERE INVENTION_INFO_SN = #{inventionInfoSn}
+    </select>
+
+    <select id="getInventionShareList" resultType="map">
+        /* getInventionShareList */
+        SELECT
+            IISI.*,
+            HEI.DEPT_NAME
+        FROM
+            CAM_INSIDE.DJ_INVENTION_SHARE_INFO IISI
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
+        WHERE IISI.INVENTION_INFO_SN = #{inventionInfoSn}
+    </select>
+
+    <select id="getRprReceiptList" parameterType="map" resultType="map">
+        /*getRprReceiptList*/
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    III.*
+                FROM
+                    CAM_INSIDE.DJ_INVENTION_INFO III,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                <if test="rprClass != null and rprClass != ''">
+                    AND RPR_CLASS = #{rprClass}
+                </if>
+                ORDER BY III.REG_DATE, III.REG_DT
+            ) RE
+        ORDER BY RE.REG_DATE DESC
+    </select>
+
+    <insert id="setInventionInsert" parameterType="map">
+        /* setInventionInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
+            (
+                SHARE_SN,
+                SHARE_NAME,
+                IPR_CLASS,
+                IPR_NAME,
+                TITLE,
+                DETAIL_CN,
+                REG_DATE,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #(shareSn),
+                #{shareName},
+                #{iprClass},
+                #{iprName},
+                #{title},
+                #{detailCn},
+                #{regDate},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setInventionShareInsert" parameterType="map">
+        /* setInventionShareInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_SHARE_INFO
+        (
+            INVENTION_INFO_SN,
+            EMP_SEQ,
+            EMP_NAME,
+            SHARE
+        )
+        VALUES
+        <foreach collection="share" item="item" separator=" , ">
+            (
+                #{inventionInfoSn},
+                #{item.shareEmpSeq},
+                #{item.shareEmpName},
+                #{item.share}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateApprStat" parameterType="map">
+        /* updateApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            DOC_ID = #{docId}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="updateFinalApprStat" parameterType="map">
+        /* updateApprFinalStat */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            STATUS = #{approveStatCode}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+    <!-- 지식재산권관리 종료-->
+
     <!--장비관리 팝업창 (관리자) - 장비등록-->
     <insert id="setEquipmentInsert" parameterType="map">
         /*setEquipmentInsert*/

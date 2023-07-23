@@ -62,19 +62,15 @@ public interface AssetService {
     void setAstPdaOptInspection(Map<String, Object> params);
     void setAssetInspectionUpload(Map<String, Object> params);
 
+
+    /** 지식재산권 */
     Map<String, Object> getInventionInfo(Map<String, Object> params);
-
-    //캠도큐먼트 - 직무발명신고서 신청폼 등록
+    List<Map<String, Object>> getInventionShareList(Map<String, Object> params);
+    List<Map<String, Object>> getRprReceiptList(Map<String, Object> params);
     void setInventionInsert(Map<String, Object> params);
-
-    /**
-     * 휴가 전자결재 상태값 업데이트
-     * @param bodyMap
-     * @throws Exception
-     */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
-    /** */
+
     //장비사용 목록 조회
     List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
 

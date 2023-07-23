@@ -297,13 +297,37 @@ public class AssetServiceImpl implements AssetService {
         }
     }
 
-    //직무발명신고서 조회
+    @Override
+    public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) {
+        return assetRepository.getClassPositionList(params);
+    }
+
+    @Override
+    public Map<String, Object> getClassPosition(Map<String, Object> params) {
+        return assetRepository.getClassPosition(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getClassDivisionList(Map<String, Object> params) {
+        return assetRepository.getClassDivisionList(params);
+    }
+
     @Override
     public Map<String, Object> getInventionInfo(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         result.put("info", assetRepository.getInventionInfo(params));
         result.put("shareList", assetRepository.getInventionShareList(params));
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getInventionShareList(Map<String, Object> params) {
+        return assetRepository.getInventionShareList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRprReceiptList(Map<String, Object> params) {
+        return assetRepository.getRprReceiptList(params);
     }
 
     @Override
@@ -352,21 +376,6 @@ public class AssetServiceImpl implements AssetService {
             params.put("approveStatCode", 100);
             assetRepository.updateFinalApprStat(params);
         }
-    }
-
-    @Override
-    public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) {
-        return assetRepository.getClassPositionList(params);
-    }
-
-    @Override
-    public Map<String, Object> getClassPosition(Map<String, Object> params) {
-        return assetRepository.getClassPosition(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getClassDivisionList(Map<String, Object> params) {
-        return assetRepository.getClassDivisionList(params);
     }
 
     //장비사용 목록 조회

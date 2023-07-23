@@ -2,11 +2,12 @@
  * Kendo Setting
  * @type {{
  *         global: {},
+ *         fn_gridDataSource: (function(*, *): *),
+ *         fn_gridDataSource2: (function(*, *): *),
  *         fn_textBox: customKendo.fn_textBox,
  *         fn_customAjax: (function(*, *): *),
  *         fn_dropDownList: customKendo.fn_dropDownList,
- *         fn_gridDataSource: (function(*, *): *),
- *         fn_gridDataSource2: (function(*, *): *),
+ *         fn_dropDownTree: customKendo.fn_dropDownList,
  *         fn_datePicker: customKendo.fn_datePicker
  *        }}
  */
@@ -231,16 +232,16 @@ var customKendo = {
     fn_customAjax : function(url, data){
         var result;
         $.ajax({
-            url : url,
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(rs) {
+            url: url,
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(rs) {
                 result = rs;
                 result.flag = true;
             },
-            error :function (e) {
+            error: function (e) {
                 result.flag = false;
                 console.log('error : ', e);
             }
