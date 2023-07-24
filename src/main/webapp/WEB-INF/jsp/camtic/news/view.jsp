@@ -61,19 +61,21 @@
 </html>
 
 <input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
+<input type="hidden" id="category" value="${categoryId}" />
 <script>
+  var categoryId = $("#category").val();
+
+
   function fn_regist(key){
-    var category = "notice";
 
-    location.href="/camtic/news/register.do?boardArticleId=" + key + "&category=" + category;
-
+    location.href="/camtic/news/register.do?boardArticleId=" + key + "&category=" + categoryId;
   }
 
   function fn_delNotice(){
     var data = {
       boardArticleId : $("#boardArticleId").val(),
-      boardId : "notice",
-      category : "notice",
+      boardId : categoryId,
+      category :categoryId,
     }
 
     if($("#boardArticleId").val() == ""){

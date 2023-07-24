@@ -73,7 +73,7 @@
 
           <div class="__botArea">
             <div class="rig">
-              <a href="/camtic/news/notice.do" class="__btn1 grayLine"><span>목록보기</span></a>
+              <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
               <a href="javascript:void(0);" onclick="fn_saveNotice();" class="__btn1 grayLine"><span>등록하기</span></a>
             </div>
           </div>
@@ -84,7 +84,10 @@
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 
+<input type="hidden" id="category" value="${categoryId}" />
 <script>
+  var categoryId = $("#category").val();
+
   $(function () {
     let today = new Date();
 
@@ -100,13 +103,19 @@
     });
   });
 
+  function fn_goList(){
+
+    location.href = 'news/camtic/' + categoryId;
+  }
+
   function fn_saveNotice(){
 
     var content = CKEDITOR.instances.contents.getData();
 
+    console.log(categoryId);
     var data = {
-      boardId : "notice",
-      boardCategoryId : "notice",
+      boardId : categoryId,
+      boardCategoryId : categoryId,
       noticeTitle : $("#noticeTitle").val(),
       writer : $("#writer").val().toString(),
       content : content
@@ -133,7 +142,7 @@
       success: function() {
         alert("등록");
 
-        location.href = '/camtic/news/notice.do';
+        location.href = '/camtic/news/'+categoryId+'.do';
       }
     });
 

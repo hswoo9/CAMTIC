@@ -36,6 +36,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public Object selectBoardListCnt(ArticlePage articlePage) {
+        return boardRepository.selectBoardListCount(articlePage);
+    }
+
+    @Override
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return boardRepository.selectBoard(params);
     }
