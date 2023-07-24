@@ -12,7 +12,7 @@ var archiveList = {
             {text: "부서명", value: "2"},
             {text: "문서위치", value: "3"},
             {text: "문서명", value: "4"},
-            {text: "등록자", value: "5"}
+            {text: "담당자", value: "5"}
         ]
         let stateArr = [
             {text: "보관", value: "1"},
@@ -32,6 +32,21 @@ var archiveList = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.searchDate = $("#searchDate").val();
+                    data.doclistState = $("#doclistState").getKendoDropDownList().value();
+                    data.searchType = $("#searchType").getKendoDropDownList().value()
+                    /*if(searchType == 1) {
+                        data.searchVal = "DOC_NUM"
+                    }else if(searchType == 2) {
+                        data.searchVal = "DEPT_NAME"
+                    }else if(searchType == 3) {
+                        data.searchVal = "VISIT"
+                    }/!*else if(searchType == 4) {
+                        data.searchText = ""
+                    }*!/else if(searchType == 5) {
+                        data.searchVal = "MANAGER_NAME"
+                    }*/
+                    data.searchText = $("#searchText").val();
                     data.mod = "manage";
                     return data;
                 }
@@ -116,6 +131,9 @@ var archiveList = {
                 }, {
                     field: "VISIT",
                     title: "위치"
+                }, {
+                    field: "DOC_NAME",
+                    title: "문서명"
                 }, {
                     field: "MANAGER_NAME",
                     title: "담당자",

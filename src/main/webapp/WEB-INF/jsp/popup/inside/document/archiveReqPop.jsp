@@ -68,6 +68,14 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>문서명
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="docName" style="width: 100%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>담당자
                     </th>
                     <td colspan="3">

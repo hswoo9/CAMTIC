@@ -6,7 +6,7 @@ var archiveReq = {
     dataSet: function(){
         customKendo.fn_datePicker("docYear", 'decade', "yyyy", new Date());
         fn_deptSetting(2);
-        customKendo.fn_textBox(["docNum", "visit", "empName"]);
+        customKendo.fn_textBox(["docNum", "visit", "empName", "docName"]);
         $("#docYear, #empName").attr("readonly", true);
 
         $("#prePeriod").kendoDropDownList({
@@ -50,6 +50,7 @@ var archiveReq = {
         let managerName = $("#empName").val();
         let prePeriod = $("#prePeriod").val();
         let disYear = $("#disYear").val();
+        let docName = $("#docName").val();
 
         let data = {
             docYear : docYear,
@@ -62,11 +63,13 @@ var archiveReq = {
             managerSn : managerSn,
             managerName : managerName,
             prePeriod : prePeriod,
-            disYear : disYear
+            disYear : disYear,
+            docName : docName,
         }
 
         if(docNum == "") { alert("문서번호가 선택되지 않았습니다."); return; }
         if(visit == "") { alert("문서위치가 작성되지 않았습니다."); return; }
+        if(docName == "") { alert("문서명이 작성되지 않았습니다."); return; }
         if(managerSn == "") { alert("등록자가 작성되지 않았습니다."); return; }
         if(prePeriod == "") { alert("보존년한이 작성되지 않았습니다."); return; }
         if(disYear == "") { alert("폐기년도가 작성되지 않았습니다."); return; }
