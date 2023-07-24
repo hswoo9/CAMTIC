@@ -1,13 +1,10 @@
-var now = new Date();
-
 var rprList = {
-
-    init : function(){
+    init(){
         rprList.dataSet();
         rprList.mainGrid();
     },
 
-    dataSet() {
+    dataSet(){
         $("#start_date").kendoDatePicker({
             depth: "month",
             start: "month",
@@ -121,20 +118,21 @@ var rprList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : 'inside/getRprReceiptList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.rprClass = 2;
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -176,7 +174,7 @@ var rprList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rprList.jobInvenReportPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rprList.rprReceiptReqPop();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
@@ -201,41 +199,41 @@ var rprList = {
                     template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "APPLICANT_DT",
                     title: "출원일자"
                 }, {
-                    field: "",
+                    field: "REG_DATE",
                     title: "등록일자"
                 }, {
-                    field: "",
+                    field: "IPR_NAME",
                     title: "구분"
                 }, {
-                    field: "",
+                    field: "STATE_NAME",
                     title: "상태"
                 }, {
-                    field: "",
+                    field: "TECH_NAME",
                     title: "기술이전"
                 }, {
-                    field: "",
+                    field: "TAIN_NAME",
                     title: "유지여부"
                 }, {
-                    field: "",
+                    field: "EXPIRATION_DT",
                     title: "존속만료일"
                 }, {
-                    field: "",
+                    field: "TITLE",
                     title: "지식재산권 명칭",
                     width: "10%"
                 }, {
-                    field: "",
+                    field: "SHARE_NAME",
                     title: "발명자"
                 }, {
-                    field: "",
+                    field: "APPLICANT_NUM",
                     title: "출원번호"
                 }, {
-                    field: "",
+                    field: "REG_NUM",
                     title: "등록번호"
                 }, {
                     field: "",
@@ -258,10 +256,10 @@ var rprList = {
         var popup = window.open(url, name, option);
     },
 
-    jobInvenReportPopup : function() {
-        var url = "/Inside/Pop/jobInvenReportPop.do";
-        var name = "jobInvenReportPop";
-        var option = "width = 700, height = 500, top = 100, left = 200, location = no, _blank"
-        var popup = window.open(url, name, option);
+    rprReceiptReqPop() {
+        const url = "/Inside/pop/rprReceiptReqPop.do";
+        const name = "rprReceiptReqPop";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
     }
 }

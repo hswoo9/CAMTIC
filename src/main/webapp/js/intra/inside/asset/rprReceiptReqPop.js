@@ -4,7 +4,7 @@ const rprReceiptReq = {
     },
 
     dataSet: function(){
-        customKendo.fn_textBox(["userText", "title", "tech", "applicant", "applicantNum", "applicantNation", "regNum"]);
+        customKendo.fn_textBox(["userText", "title", "applicantName", "applicantNum", "applicantNation", "regNum"]);
         $("#detailCn, #remarkCn").kendoTextArea();
         let iprDataSource = [
             { text: "특허", value: "1" },
@@ -35,7 +35,7 @@ const rprReceiptReq = {
             { text: "이전완료", value: "2" },
             { text: "이전가능", value: "3" }
         ]
-        customKendo.fn_dropDownList("tain", techDataSource, "text", "value", 2);
+        customKendo.fn_dropDownList("tech", techDataSource, "text", "value", 2);
         let confidentialityDataSource = [
             { text: "공개", value: "1" },
             { text: "비공개", value: "2" }
@@ -49,20 +49,22 @@ const rprReceiptReq = {
         customKendo.fn_datePicker("applicantDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("expirationDt", "month", "yyyy-MM-dd", new Date());
-        $("#userText, #regDate").attr("readonly", true);
-        
-        const result = customKendo.fn_customAjax("/inside/getInventionInfo", {
-            inventionInfoSn: $("#inventionInfoSn").val()
-        });
-        const invenInfo = result.rs.info;
-        const shareList = result.rs.shareList;
+        $("#userText, #regDate, #applicantDt, #expirationDt").attr("readonly", true);
 
-        $("#userSn").val(invenInfo.SHARE_SN);
-        $("#userText").val(invenInfo.SHARE_NAME);
-        rprReceiptReq.useDataChange(shareList);
-        $("#iprClass").data("kendoDropDownList").value(invenInfo.IPR_CLASS);
-        $("#title").val(invenInfo.TITLE);
-        $("#detailCn").val(invenInfo.DETAIL_CN);
+        if($("#inventionInfoSn").val() != ""){
+            const result = customKendo.fn_customAjax("/inside/getInventionInfo", {
+                inventionInfoSn: $("#inventionInfoSn").val()
+            });
+            const invenInfo = result.rs.info;
+            const shareList = result.rs.shareList;
+
+            $("#userSn").val(invenInfo.SHARE_SN);
+            $("#userText").val(invenInfo.SHARE_NAME);
+            rprReceiptReq.useDataChange(shareList);
+            $("#iprClass").data("kendoDropDownList").value(invenInfo.IPR_CLASS);
+            $("#title").val(invenInfo.TITLE);
+            $("#detailCn").val(invenInfo.DETAIL_CN);
+        }
     },
 
     saveBtn: function(){
@@ -71,9 +73,26 @@ const rprReceiptReq = {
         let userText = $("#userText").val();
         let iprClass = $("#iprClass").val();
         let iprName = $("#iprClass").data("kendoDropDownList").text();
+        let stateSn = $("#state").val();
+        let stateName = $("#state").data("kendoDropDownList").text();
+        let tainSn = $("#tain").val();
+        let tainName = $("#tain").data("kendoDropDownList").text();
+        let techSn = $("#tech").val();
+        let techName = $("#tech").data("kendoDropDownList").text();
+        let confidentialitySn = $("#confidentiality").val();
+        let confidentialityName = $("#confidentiality").data("kendoDropDownList").text();
         let title = $("#title").val();
+        let singleSn = $("#single").val();
+        let singleName = $("#single").data("kendoDropDownList").text();
+        let applicantName = $("#applicantName").val();
         let detailCn = $("#detailCn").val();
+        let applicantNum = $("#applicantNum").val();
+        let applicantDt = $("#applicantDt").val();
+        let applicantNation = $("#applicantNation").val();
+        let regNum = $("#regNum").val();
         let regDate = $("#regDate").val();
+        let expirationDt = $("#expirationDt").val();
+        let remarkCn = $("#remarkCn").val();
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
         let shareUserArr = new Array();
@@ -96,13 +115,32 @@ const rprReceiptReq = {
         }
 
         let data = {
+            rprClass: 2,
+            rprName: "포상급지급 신청서",
             shareSn: userSn,
             shareName: userText,
             iprClass: iprClass,
             iprName: iprName,
+            stateSn: stateSn,
+            stateName: stateName,
+            tainSn: tainSn,
+            tainName: tainName,
+            techSn: techSn,
+            techName: techName,
+            confidentialitySn: confidentialitySn,
+            confidentialityName: confidentialityName,
             title: title,
+            singleSn: singleSn,
+            singleName: singleName,
+            applicantName: applicantName,
             detailCn: detailCn,
+            applicantNum: applicantNum,
+            applicantDt: applicantDt,
+            applicantNation: applicantNation,
+            regNum: regNum,
             regDate: regDate,
+            expirationDt: expirationDt,
+            remarkCn: remarkCn,
             regEmpSeq: regEmpSeq,
             regEmpName: regEmpName,
             shareUser: JSON.stringify(shareUserArr)
@@ -110,42 +148,36 @@ const rprReceiptReq = {
 
         if(userSn == "") { alert("발명자(저자)가 선택되지 않았습니다."); return; }
         if(iprClass == "") { alert("지식재산권 종류가 선택되지 않았습니다."); return; }
+        if(stateSn == "") { alert("상태가 선택되지 않았습니다."); return; }
+        if(stateSn == "") { alert("유지여부가 선택되지 않았습니다."); return; }
+        if(tainSn == "") { alert("기술이전이 선택되지 않았습니다."); return; }
+        if(confidentialitySn == "") { alert("대외비가 선택되지 않았습니다."); return; }
+        if(singleSn == "") { alert("단독/공동여부 선택되지 않았습니다."); return; }
+        if(applicantName == "") { alert("출원인이 작성되지 않았습니다."); return; }
+        if(applicantNum == "") { alert("출원번호가 작성되지 않았습니다."); return; }
+        if(regNum == "") { alert("등록번호가 작성되지 않았습니다."); return; }
         if(title == "") { alert("지식재산권 명칭이 작성되지 않았습니다."); return; }
         if(detailCn == "") { alert("주요내용이 작성되지 않았습니다."); return; }
         if(flag) {
-            if($("#inventionInfoSn").val() == "") {
-                if(!confirm("직무발명을 신고하시겠습니까?")){
-                    return;
-                }
-                rprReceiptReq.setInventionInsert(data);
-            }else {
-                if(!confirm("문서를 수정하시겠습니까?")){
-                    return;
-                }
-                rprReceiptReq.setInventionUpdate(data);
+            if(!confirm("지식재산권을 등록하시겠습니까?")){
+                return;
             }
+            rprReceiptReq.setRprReceiptInsert(data);
         }
 
     },
 
-    setInventionInsert: function(data){
+    setRprReceiptInsert: function(data){
         $.ajax({
-            url : "/inside/setInventionInsert",
+            url : "/inside/setRprReceiptInsert",
             data : data,
             type : "post",
             dataType : "json",
             async : false,
-            success : function(result){
-                $("#inventionInfoSn").val(result.inventionInfoSn);
-                $("#inventionDraftFrm").one("submit", function() {
-                    const url = "/popup/inside/approvalFormPopup/inventionApprovalPop.do";
-                    const name = "_self";
-                    const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-                    window.open(url, name, option);
-                    this.action = "/popup/inside/approvalFormPopup/inventionApprovalPop.do";
-                    this.method = 'POST';
-                    this.target = '_self';
-                }).trigger("submit");
+            success : function(){
+                alert("지식재산권 등록이 완료되었습니다.");
+                opener.open_in_frame('/Inside/rprList.do');
+                window.close();
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
@@ -154,7 +186,7 @@ const rprReceiptReq = {
         });
     },
 
-    setInventionUpdate: function(data){
+    setRprReceiptUpdate: function(data){
         console.log(data);
     },
 

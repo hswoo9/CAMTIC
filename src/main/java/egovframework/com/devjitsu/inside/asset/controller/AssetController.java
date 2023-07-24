@@ -645,12 +645,17 @@ public class AssetController {
         model.addAttribute("list", list);
         return "jsonView";
     }
-
     //캠도큐먼트 - 직무발명신고서 신청폼 등록
     @RequestMapping("/inside/setInventionInsert")
     public String setInventionInsert(@RequestParam Map<String, Object> params, Model model) {
         assetService.setInventionInsert(params);
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        return "jsonView";
+    }
+    //지식재산권 등록
+    @RequestMapping("/inside/setRprReceiptInsert")
+    public String setRprReceiptInsert(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setRprReceiptInsert(params);
         return "jsonView";
     }
     //직무발명신고서 결재 상태값에 따른 UPDATE 메서드

@@ -119,7 +119,7 @@
                     <span class="red-star"></span>출원인
                 </th>
                 <td>
-                    <input type="text" id="applicant" style="width: 100%;">
+                    <input type="text" id="applicantName" style="width: 100%;">
                 </td>
             </tr>
             <tr>
@@ -148,7 +148,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>출원인
+                    <span class="red-star"></span>출원국
                 </th>
                 <td>
                     <input type="text" id="applicantNation" style="width: 100%;">

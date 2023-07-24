@@ -121,8 +121,6 @@ var rprReceiptList = {
                     template: function(row){
                         if(row.STATUS == 100) {
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='rprReceiptList.rprReceiptReqPop("+row.INVENTION_INFO_SN+");'>지식재산권 등록</button>";
-                        }else if(row.RES_STATUS == 100){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick=''>포상급지급신청서 작성</button>";
                         }else{
                             return "-";
                         }

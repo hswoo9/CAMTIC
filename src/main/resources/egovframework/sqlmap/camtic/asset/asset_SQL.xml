@@ -1094,13 +1094,82 @@
             )
         VALUE
             (
-                #(shareSn),
+                #{shareSn},
                 #{shareName},
                 #{iprClass},
                 #{iprName},
                 #{title},
                 #{detailCn},
                 #{regDate},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setRprReceiptInsert" parameterType="map">
+        /* setRprReceiptInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
+            (
+                RPR_CLASS,
+                RPR_NAME,
+                SHARE_SN,
+                SHARE_NAME,
+                IPR_CLASS,
+                IPR_NAME,
+                STATE_SN,
+                STATE_NAME,
+                TAIN_SN,
+                TAIN_NAME,
+                TECH_SN,
+                TECH_NAME,
+                CONFIDENTIALITY_SN,
+                CONFIDENTIALITY_NAME,
+                TITLE,
+                SINGLE_SN,
+                SINGLE_NAME,
+                APPLICANT_NAME,
+                DETAIL_CN,
+                APPLICANT_NUM,
+                APPLICANT_DT,
+                APPLICANT_NATION,
+                REG_NUM,
+                REG_DATE,
+                EXPIRATION_DT,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{rprClass},
+                #{rprName},
+                #{shareSn},
+                #{shareName},
+                #{iprClass},
+                #{iprName},
+                #{stateSn},
+                #{stateName},
+                #{tainSn},
+                #{tainName},
+                #{techSn},
+                #{techName},
+                #{confidentialitySn},
+                #{confidentialityName},
+                #{title},
+                #{singleSn},
+                #{singleName},
+                #{applicantName},
+                #{detailCn},
+                #{applicantNum},
+                #{applicantDt},
+                #{applicantNation},
+                #{regNum},
+                #{regDate},
+                #{expirationDt},
+                #{remarkCn},
                 #{regEmpSeq},
                 #{regEmpName}
             )
