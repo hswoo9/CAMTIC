@@ -11,6 +11,7 @@
             BOARD_CATEGORY_ID = #{searchCategory}
         AND
             ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
         LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 

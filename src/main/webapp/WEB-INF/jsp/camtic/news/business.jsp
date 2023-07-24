@@ -128,7 +128,7 @@
    * page : 페이지
    * recordSize : 리스트에 출력할 데이터 수
    * pageSize : 페이징 넘버 수
-   * ArticlePage.java와 동일하게 가져가야함
+   * ArticlePage.java 참조
    * */
   function movePage(page){
     const queryParams = {
