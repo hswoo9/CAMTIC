@@ -92,7 +92,6 @@
   var referrer = document.referrer;
   var categoryId = $("#boardCategoryId").val();
 
-  console.log(categoryId);
   $(function () {
 
     CKEDITOR.replace('contents', {

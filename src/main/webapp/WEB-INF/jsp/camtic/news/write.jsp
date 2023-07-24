@@ -105,7 +105,7 @@
 
   function fn_goList(){
 
-    location.href = 'news/camtic/' + categoryId;
+    location.href = '/camtic/news/'+categoryId+'.do';
   }
 
   function fn_saveNotice(){

@@ -51,36 +51,12 @@
             <th scope="col">조회수</th>
           </tr>
           </thead>
-          <%--<tbody>
-          <c:forEach var="list" items="${boardArticleList.list}" varStatus="status">
-            <tr>
-              <td>${status.count}</td>
-              <td class="subject" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
-              <td>${list.REG_EMP_NAME}</td>
-              <td>
-                <fmt:parseDate value="${list.REG_DATE}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" type="both"></fmt:parseDate>
-                <fmt:formatDate value="${regDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
-              </td>
-              <td>${list.BOARD_ARTICLE_VIEW_COUNT}</td>
-            </tr>
-          </c:forEach>
-          </tbody>--%>
 
           <tbody id="tableBody">
           </tbody>
         </table>
         <div class="__botArea">
           <div class="cen">
-            <%--<div class="__paging">
-              <a href="#" class="arr prev"><span class="hide">이전 페이지</span></a>
-              <strong class="num active">1</strong>
-              <a href="#" class="num">2</a>
-              <a href="#" class="num">3</a>
-              <a href="#" class="num">4</a>
-              <a href="#" class="num">5</a>
-              <a href="#" class="arr next"><span class="hide">다음 페이지</span></a>
-            </div>--%>
-
             <div class="__paging">
 
             </div>
@@ -99,38 +75,82 @@
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 
-<%--<input type="hidden" id="total" value="${pagination.totalRecordCount}" />--%>
 <script>
   var categoryKey = "notice";
-  var globalData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey,'');
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey,'');
+  var flag = false;
 
-  var paginationData = globalData.articlePage.pagination;
-  var startPage = paginationData.startPage;
-  var endPage = paginationData.endPage;
-  var page = globalData.articlePage.page;
-  var total = globalData.articlePage.pagination.totalRecordCount;
+  var paginationData;
+  var startPage;
+  var endPage;
+  var page;
+  var total = firstData.articlePage.pagination.totalRecordCount;
 
-  var data = globalData.boardArticleList.list;
+  /** 최초의 데이터와 페이지 이동할 때의 데이터 구분 */
+  function dataChk(e, f) {
+    if(flag == false){
+      paginationData = firstData.articlePage.pagination;
+      startPage = paginationData.startPage;
+      endPage = paginationData.endPage;
+      page = firstData.articlePage.page;
+    }else if(flag == true){
+      paginationData = e.articlePage.pagination;
+      startPage = paginationData.startPage;
+      endPage = paginationData.endPage;
+      page = e.articlePage.page;
+    }
+  }
+
+  var data = firstData.boardArticleList.list;
   $(function () {
     $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 
+    dataChk();
 
     drawPage();
     drawTable(data);
   });
 
+  //작성 이동
   function fn_writeBoard(){
 
     location.href = '/camtic/news/write.do?category=' + categoryKey;
   }
 
+  //상세보기 이동
   function fn_detailBoard(key){
 
     location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + categoryKey;
   }
 
+
+  /**
+   * 페이지 이동
+   * page : 페이지
+   * recordSize : 리스트에 출력할 데이터 수
+   * pageSize : 페이징 넘버 수
+   * ArticlePage.java와 동일하게 가져가야함
+   * */
+   function movePage(page){
+    const queryParams = {
+      page: (page) ? page : 1,
+      recordSize: 10,
+      pageSize: 10
+    }
+     var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey, "");
+     drawTable(result.boardArticleList.list);
+
+     flag = true;
+
+     dataChk(result, flag);
+     drawPage();
+  }
+
+  //게시글 리스트 그리기
   function drawTable(data) {
     //const tableBody = document.getElementById("tableBody");
+    $("#tableBody").html('');
+
     let html = "";
 
     data.forEach((item, index) => {
@@ -152,8 +172,8 @@
     $("#tableBody").append(html);
   }
 
-
-   function drawPage(){
+  //페이징 그리기
+  function drawPage(){
     /*if ( !pagination || !params ) {
       document.querySelector('.paging').innerHTML = '';
       throw new Error('Missing required parameters...');
@@ -165,20 +185,11 @@
     for (let i =startPage; i <= endPage; i++) {
       html += (i !== page)
               ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-              : '<strong class="num actiove">' + i + '</strong>'
+              : '<strong class="num active">' + i + '</strong>'
     }
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
     $(".__paging").html(html);
-  }
-
-   function movePage(page){
-    const queryParams = {
-      page: (page) ? page : 1,
-      recordSize: 20,
-      pageSize: 10
-    }
-     fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey, "");
   }
 
   function fn_customAjax(url, data){

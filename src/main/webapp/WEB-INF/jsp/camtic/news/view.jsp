@@ -45,7 +45,7 @@
         <div class="__botArea">
           <div class="rig">
             <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
-            <a href="/camtic/news/notice.do" class="__btn1 grayLine"><span>목록보기</span></a>
+              <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
             <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
             <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
 
@@ -65,6 +65,10 @@
 <script>
   var categoryId = $("#category").val();
 
+  function fn_goList(){
+
+    location.href = '/camtic/news/'+categoryId+'.do';
+  }
 
   function fn_regist(key){
 
@@ -78,11 +82,6 @@
       category :categoryId,
     }
 
-    if($("#boardArticleId").val() == ""){
-      alert("게시글 내용을 입력해주세요.");
-      return false;
-    }
-
     if(!confirm("해당 게시글을 삭제하시겠습니까?")) {return false;}
 
     $.ajax({
@@ -94,7 +93,7 @@
       success: function() {
         alert("삭제가 완료되었습니다.");
 
-        location.href = '/camtic/news/notice.do';
+        location.href = '/camtic/news/'+categoryId+'.do';
       }
     });
   }
