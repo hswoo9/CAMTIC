@@ -15,7 +15,7 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">OJT관리</h4>
@@ -26,15 +26,17 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
 
             <div style="margin-bottom:10px;">
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="40%">
+                        <col width="10%">
+                        <col width="40%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div>
-                                    <span>조회년도</span>
-                                    <input type="text" id="eduYear" style="width: 140px;">
-                                </div>
-                            </div>
+                        <th class="text-center th-color">조회년도</th>
+                        <td colspan="3">
+                            <input type="text" id="eduYear" style="width: 140px;">
                         </td>
                     </tr>
                 </table>
