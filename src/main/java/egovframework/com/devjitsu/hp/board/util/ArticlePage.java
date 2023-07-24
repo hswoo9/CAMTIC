@@ -24,7 +24,7 @@ public class ArticlePage {
 
     public ArticlePage() {
         this.page = 1;
-        this.recordSize = 20;
+        this.recordSize = 10;
         this.pageSize = 10;
     }
 
