@@ -264,6 +264,24 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                AND DOC_YEAR = #{searchDate}
+                <choose>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND DOC_NUM like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND DEPT_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                        AND VISIT like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                        AND DOC_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
+                        AND MANAGER_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                </choose>
                 ORDER BY IAI.REG_DT
             ) RE
         ORDER BY RE.ROW_NUM DESC
@@ -490,7 +508,8 @@
                 MANAGER_SN,
                 MANAGER_NAME,
                 PRESERVATION_PERIOD,
-                DISPOSAL_YEAR
+                DISPOSAL_YEAR,
+                DOC_NAME
             )
         VALUES
             (
@@ -504,7 +523,8 @@
                 #{managerSn},
                 #{managerName},
                 #{prePeriod},
-                #{disYear}
+                #{disYear},
+                #{docName}
             )
     </insert>
 

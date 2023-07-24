@@ -22,6 +22,7 @@
     width : 10%;
     text-align: left;
   }
+
 </style>
 
 
@@ -99,7 +100,8 @@
 
     CKEDITOR.replace('contents', {
       filebrowserUploadUrl:'/ckeditor/fileupload.do',
-      uploadUrl:'/ckeditor/fileupload.do'
+      uploadUrl:'/ckeditor/fileupload.do',
+      height: 500,
     });
   });
 

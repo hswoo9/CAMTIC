@@ -40,12 +40,34 @@
               ${map.BOARD_ARTICLE_CONTENT}
             </div>
           </div>
+
+
+          <div class="con">
+            <table style="width: 50%;">
+
+              <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
+                <tr>
+                  <th style="text-align: center; width: 50%;">이전글</th>
+                  <td style="cursor: pointer;" onclick="fn_detailBoard('${map.beforeKey}')">
+                    <a href="#" onclick="fn_detailBoard('${map.beforeKey}')">${map.beforeName}</a></td>
+                </tr>
+              </c:if>
+              <c:if test="${map.afterKey ne '' && map.afterKey ne null}">
+                <tr>
+                  <th style="text-align: center; width: 50%;">다음글</th>
+                  <td style="cursor: pointer;" onclick="fn_detailBoard('${map.afterKey}')">
+                    <a href="#" onclick="fn_detailBoard('${map.afterKey}')">${map.afterName}</a></td>
+                </tr>
+              </c:if>
+            </table>
+          </div>
+
         </div>
 
         <div class="__botArea">
           <div class="rig">
             <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
-              <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
+            <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
             <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
             <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
 
@@ -68,6 +90,12 @@
   function fn_goList(){
 
     location.href = '/camtic/news/'+categoryId+'.do';
+  }
+
+  //상세보기 이동
+  function fn_detailBoard(key){
+
+    location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + categoryId;
   }
 
   function fn_regist(key){
