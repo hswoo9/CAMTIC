@@ -15,7 +15,7 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">학습체계도 관리</h4>
@@ -25,14 +25,10 @@
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div style="width: 100%">
-                                    <input type="text" id="detailSearch" style="width: 90%;">
-                                </div>
-                            </div>
+                        <td colspan="4">
+                            <input type="text" id="detailSearch" style="width: 100%;">
                         </td>
                     </tr>
                 </table>

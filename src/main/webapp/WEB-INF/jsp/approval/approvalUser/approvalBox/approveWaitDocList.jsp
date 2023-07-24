@@ -22,7 +22,7 @@ To change this template use File | Settings | File Templates.
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
         </div>
@@ -33,7 +33,7 @@ To change this template use File | Settings | File Templates.
         </div>
         <div class="panel-body">
             <div class="table-responsive" style="margin-bottom:10px;">
-                <table style="width: 100%">
+                <table class="searchTable table table-bordered" style="width: 100%">
                     <colgroup>
                         <col width="10%">
                         <col width="25%">
@@ -50,9 +50,6 @@ To change this template use File | Settings | File Templates.
                         </th>
                         <td>
                             <input type="text" id="docTitle" name="docTitle" style="width: 90%">
-                            <button type="button" class=" k-button k-button-md k-button-solid k-button-solid-base" onclick="approveWaitDocList.gridReload()">
-                                <span class="k-icon k-i-search k-button-icon"></span>
-                            </button>
                         </td>
                     </tr>
                 </table>

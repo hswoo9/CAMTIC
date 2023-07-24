@@ -32,6 +32,13 @@ var storageBoxDraft = {
             },
             toolbar : [
                 {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxDraft.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },{
                     name : 'excel',
                     text: '엑셀다운로드'
                 }

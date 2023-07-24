@@ -26,20 +26,18 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/news/notice.do")
     public String notice(Model model, ArticlePage articlePage){
-
-
         /*articlePage.setSearchCategory("notice");
         PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);
-
         model.addAttribute("boardArticleList", response);
-
         model.addAttribute("pagination", articlePage.getPagination());
         model.addAttribute("page", articlePage.getPage());*/
-
         /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
         return "camtic/news/notice";
     }
 
+    /**
+     * 게시판 TABLE DATA
+     * */
     @RequestMapping("/board/getBoardArticleList.do")
     public String getNormalBoardList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
 
@@ -50,7 +48,6 @@ public class BoardController {
 
         model.addAttribute("pagination", articlePage.getPagination());
         model.addAttribute("page", articlePage.getPage());
-
         /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
         return "jsonView";
     }
