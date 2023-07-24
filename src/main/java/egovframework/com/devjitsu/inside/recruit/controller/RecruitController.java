@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -87,6 +89,21 @@ public class RecruitController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/recruit/externalInterview";
+    }
+
+    //채용공고 리스트
+    @RequestMapping("/inside/getRecruitList")
+    public String getRecruitList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = recruitService.getRecruitList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //채용공고 저장
+    @RequestMapping("/inside/setRecruitInsert")
+    public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
+        recruitService.setRecruitInsert(params);
+        return "jsonView";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

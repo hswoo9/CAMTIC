@@ -7,6 +7,114 @@
         /* getRecruitNum */
         SELECT CONCAT('제', DATE_FORMAT(NOW(), '%Y'), '-', LPAD((SELECT IFNULL(max(siri.RECRUIT_SN), 0)+1 FROM cam_inside.dj_recruit_info siri), '2', '0'), '호') AS RECRUIT_NUM FROM DUAL
     </select>
+
+    <select id="getRecruitList" parameterType="map" resultType="map">
+        /*getRecruitList*/
+        SELECT
+            RE.*
+        FROM
+            (
+            SELECT
+                @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                IRI.*
+            FROM
+                CAM_INSIDE.DJ_RECRUIT_INFO IRI,
+                (SELECT @ROWNUM := 0) TMP
+            WHERE
+                1=1
+            ORDER BY IRI.REG_DT
+            ) RE
+        ORDER BY RE.REG_DT DESC
+    </select>
+
+    <insert id="setRecruitInsert" parameterType="map">
+        /* setRecruitInsert */
+        INSERT INTO CAM_INSIDE.DJ_RECRUIT_INFO
+            (
+                RECRUIT_NUM,
+                RECRUIT_TITLE,
+                RECRUIT_DETAIL,
+                UPLOAD_DT,
+                UPLOAD_TEXT,
+                START_DT,
+                END_DT,
+                START_TIME,
+                END_TIME,
+                JOB_POSITION_ETC,
+                ELIGIBILITY_ETC,
+                WORK_TYPE,
+                ADMISSION,
+                RECEIPT_DOCU,
+                REMARK,
+                RECRUIT_STATUS_SN,
+                RECRUIT_STATUS_TEXT,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{recruitNum},
+                #{recruitTitle},
+                #{recruitDetail},
+                #{uploadDt},
+                #{uploadText},
+                #{startDt},
+                #{endDt},
+                #{startTime},
+                #{endTime},
+                #{jobPositionEtc},
+                #{eligibilityEtc},
+                #{workType},
+                #{admission},
+                #{receiptDocu},
+                #{remark},
+                #{recruitStatusSn},
+                #{recruitStatusText},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="recruitInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_RECRUIT_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setRecruitAreaInsert" parameterType="map">
+        /* setRecruitAreaInsert */
+        INSERT INTO CAM_INSIDE.DJ_RECRUIT_AREA_INFO
+            (
+                RECRUIT_INFO_SN,
+                DEPT_SEQ,
+                DEPT_NAME,
+                TEAM_SEQ,
+                TEAM_NAME,
+                JOB,
+                RECRUITMENT,
+                CAREER_TYPE_SN,
+                CAREER_TYPE_NAME,
+                DUTY,
+                CAREER,
+                WORK_TYPE,
+                QUALIFICATION
+            )
+        VALUES
+        <foreach collection="area" item="item" separator=" , ">
+            (
+                #{recruitInfoSn},
+                #{item.deptSeq},
+                #{item.deptName},
+                #{item.teamSeq},
+                #{item.teamName},
+                #{item.job},
+                #{item.recruitment},
+                #{item.careerTypeSn},
+                #{item.careerTypeName},
+                #{item.duty},
+                #{item.career},
+                #{item.workType},
+                #{item.qualification}
+            )
+        </foreach>
+    </insert>
 </mapper>
 
 

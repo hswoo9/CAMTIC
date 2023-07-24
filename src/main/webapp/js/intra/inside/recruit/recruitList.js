@@ -1,5 +1,3 @@
-var now = new Date();
-
 var recruitList = {
 
     init : function(){
@@ -38,20 +36,20 @@ var recruitList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : 'inside/getRecruitList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -115,37 +113,52 @@ var recruitList = {
                     template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "순번"
                 }, {
-                    field: "",
+                    field: "RECRUIT_NUM",
                     title: "공고번호"
                 }, {
-                    field: "",
+                    field: "RECRUIT_TITLE",
                     title: "공고명"
                 }, {
-                    field: "",
-                    title: "모집기간"
+                    title: "모집기간",
+                    template: function(row) {
+                        return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
+                    },
+                    width: 350
                 }, {
-                    field: "",
+                    field: "JOB_POSITION_ETC",
                     title: "모집분야"
                 }, {
-                    field: "",
-                    title: "경력"
+                    title: "경력",
+                    template: function(row) {
+                        return "-";
+                    }
+                }, {
+                    title: "채용인원",
+                    template: function(row) {
+                        return "-";
+                    }
+                }, {
+                    title: "접수인원",
+                    template: function(row) {
+                        return "-";
+                    }
                 }, {
                     field: "",
-                    title: "채용인원"
+                    title: "서류심사",
+                    template: function(row) {
+                        return "-";
+                    }
                 }, {
                     field: "",
-                    title: "접수인원"
+                    title: "면접심사",
+                    template: function(row) {
+                        return "-";
+                    }
                 }, {
-                    field: "",
-                    title: "서류심사"
-                }, {
-                    field: "",
-                    title: "면접심사"
-                }, {
-                    field: "",
+                    field: "RECRUIT_STATUS_TEXT",
                     title: "상태"
                 }
             ]
