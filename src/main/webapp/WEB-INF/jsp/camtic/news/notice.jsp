@@ -86,7 +86,7 @@
             </div>
 
             <div class="rig">
-              <a href="/camtic/news/write.do" class="__btn1 blue"><span>게시글 작성</span></a>
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
 
 
@@ -114,9 +114,15 @@
   $(function () {
     $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 
+
     drawPage();
     drawTable(data);
   });
+
+  function fn_writeBoard(){
+
+    location.href = '/camtic/news/write.do?category=' + categoryKey;
+  }
 
   function fn_detailBoard(key){
 

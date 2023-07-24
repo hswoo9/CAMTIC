@@ -2,9 +2,16 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
+<style>
+  .subject{
+    cursor: pointer;
+  }
+</style>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
-</head>
+
 
 <body>
 <div id="wrap">
@@ -16,7 +23,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__topArea">
-          <div class="total">전체 <strong>1,450</strong>건</div>
+          <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
           <form class="__sch">
             <div class="inp">
               <label for="searchInput" class="hide">검색어 입력</label>
@@ -44,47 +51,45 @@
             <th scope="col">조회수</th>
           </tr>
           </thead>
-          <tbody>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14</td>
-            <td>99999</td>
-          </tr>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14</td>
-            <td>99999</td>
-          </tr>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14</td>
-            <td>99999</td>
-          </tr>
-          <tr>
-            <td>99999</td>
-            <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
-            <td>관리자</td>
-            <td>2023-06-14 </td>
-            <td>99999</td>
-          </tr>
+          <%--<tbody>
+          <c:forEach var="list" items="${boardArticleList.list}" varStatus="status">
+            <tr>
+              <td>${status.count}</td>
+              <td class="subject" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')"><a href="#" onclick="fn_detailBoard('${list.BOARD_ARTICLE_ID}')">${list.BOARD_ARTICLE_TITLE}</a></td>
+              <td>${list.REG_EMP_NAME}</td>
+              <td>
+                <fmt:parseDate value="${list.REG_DATE}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" type="both"></fmt:parseDate>
+                <fmt:formatDate value="${regDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
+              </td>
+              <td>${list.BOARD_ARTICLE_VIEW_COUNT}</td>
+            </tr>
+          </c:forEach>
+          </tbody>--%>
+
+          <tbody id="tableBody">
           </tbody>
         </table>
-
         <div class="__botArea">
           <div class="cen">
-            <div class="__paging">
-              <a href="#" class="arr prev"><span class="hide">이전 페이지</span></i></a>
+            <%--<div class="__paging">
+              <a href="#" class="arr prev"><span class="hide">이전 페이지</span></a>
               <strong class="num active">1</strong>
               <a href="#" class="num">2</a>
               <a href="#" class="num">3</a>
-              <a href="#" class="arr next"><span class="hide">다음 페이지</span></i></a>
+              <a href="#" class="num">4</a>
+              <a href="#" class="num">5</a>
+              <a href="#" class="arr next"><span class="hide">다음 페이지</span></a>
+            </div>--%>
+
+            <div class="__paging">
+
             </div>
+
+            <div class="rig">
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
+            </div>
+
+
           </div>
         </div>
 
@@ -93,5 +98,110 @@
   </div>
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+
+<%--<input type="hidden" id="total" value="${pagination.totalRecordCount}" />--%>
+<script>
+  var categoryKey = "study";
+  var globalData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey,'');
+
+  var paginationData = globalData.articlePage.pagination;
+  var startPage = paginationData.startPage;
+  var endPage = paginationData.endPage;
+  var page = globalData.articlePage.page;
+  var total = globalData.articlePage.pagination.totalRecordCount;
+
+  var data = globalData.boardArticleList.list;
+  $(function () {
+    $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+
+
+    drawPage();
+    drawTable(data);
+  });
+
+  function fn_writeBoard(){
+
+    location.href = '/camtic/news/write.do?category=' + categoryKey;
+  }
+
+  function fn_detailBoard(key){
+
+    location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + categoryKey;
+  }
+
+  function drawTable(data) {
+    //const tableBody = document.getElementById("tableBody");
+    let html = "";
+
+    data.forEach((item, index) => {
+      html += "<tr>";
+      html += '<td>'+ (index + 1) +'</td>';
+      html += '<td class="subject" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
+      html += '<td>'+ item.reg_EMP_NAME +'</td>';
+
+      const formattedMonth = String(item.reg_DATE.monthValue).padStart(2, '0');
+      const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
+
+      html += '<td>'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</td>';
+
+      html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
+      html += "</tr>";
+    });
+
+    /*tableBody.innerHTML = html;*/
+    $("#tableBody").append(html);
+  }
+
+
+  function drawPage(){
+    /*if ( !pagination || !params ) {
+      document.querySelector('.paging').innerHTML = '';
+      throw new Error('Missing required parameters...');
+    }*/
+
+    let html = '';
+    html += '<a href="javascript:void(0);" onclick="movePage(' + (page - 1) + ')" class="arr prev"><span class="hide">이전 페이지</span></a>';
+
+    for (let i =startPage; i <= endPage; i++) {
+      html += (i !== page)
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num actiove">' + i + '</strong>'
+    }
+
+    html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
+    $(".__paging").html(html);
+  }
+
+  function movePage(page){
+    const queryParams = {
+      page: (page) ? page : 1,
+      recordSize: 20,
+      pageSize: 10
+    }
+    fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey, "");
+  }
+
+  function fn_customAjax(url, data){
+    var result;
+
+    $.ajax({
+      url : url,
+      data : data,
+      type : "post",
+      dataType : "json",
+      async : false,
+      success : function(rs) {
+        result = rs;
+        result.flag = true;
+      },
+      error :function (e) {
+        result.flag = false;
+        console.log('error : ', e);
+      }
+    });
+
+    return result;
+  }
+</script>
+
 </body>
-</html>

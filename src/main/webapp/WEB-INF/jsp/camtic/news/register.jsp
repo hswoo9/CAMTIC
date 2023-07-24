@@ -86,10 +86,13 @@
 </div>
 
 <input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
+<input type="hidden" id="boardCategoryId" value="${map.BOARD_CATEGORY_ID}"/>
 <input type="hidden" id="prevContent" value="${map.BOARD_ARTICLE_CONTENT}"/>
 <script>
   var referrer = document.referrer;
+  var categoryId = $("#boardCategoryId").val();
 
+  console.log(categoryId);
   $(function () {
 
     CKEDITOR.replace('contents', {
@@ -114,8 +117,8 @@
 
     var data = {
       boardArticleId : $("#boardArticleId").val(),
-      boardId : "notice",
-      category : "notice",
+      boardId : categoryId,
+      category : categoryId,
       noticeTitle : $("#noticeTitle").val(),
       content : content
     }
