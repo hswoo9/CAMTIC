@@ -30,13 +30,13 @@
         SELECT
             *,
             (SELECT BOARD_ARTICLE_ID FROM CAM_COMMON.DJ_BOARD_ARTICLE
-            WHERE <![CDATA[BOARD_ARTICLE_ID <  #{boardArticleId}]]> AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID DESC LIMIT 1) as 'beforeKey',
+            WHERE <![CDATA[BOARD_ARTICLE_ID <  #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID DESC LIMIT 1) as 'beforeKey',
             (SELECT BOARD_ARTICLE_TITLE FROM CAM_COMMON.DJ_BOARD_ARTICLE
-            WHERE <![CDATA[BOARD_ARTICLE_ID <  #{boardArticleId}]]> AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID DESC LIMIT 1) as 'beforeName',
+            WHERE <![CDATA[BOARD_ARTICLE_ID <  #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID DESC LIMIT 1) as 'beforeName',
             (SELECT BOARD_ARTICLE_ID FROM CAM_COMMON.DJ_BOARD_ARTICLE
-            WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterKey',
+            WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterKey',
             (SELECT BOARD_ARTICLE_TITLE FROM CAM_COMMON.DJ_BOARD_ARTICLE
-            WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterName'
+            WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterName'
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
