@@ -33,6 +33,7 @@ public class RecruitController {
     @RequestMapping("/Inside/recruitList.do")
     public String certificateReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -65,6 +66,7 @@ public class RecruitController {
     @RequestMapping("/Inside/commissionerManage.do")
     public String commissionerManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -85,6 +87,7 @@ public class RecruitController {
     @RequestMapping("/Inside/externalInterview.do")
     public String externalInterview(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -99,10 +102,25 @@ public class RecruitController {
         return "jsonView";
     }
 
+    //평가위원 리스트
+    @RequestMapping("/inside/getCommissionerList")
+    public String getCommissionerList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = recruitService.getCommissionerList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //채용공고 저장
     @RequestMapping("/inside/setRecruitInsert")
     public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
         recruitService.setRecruitInsert(params);
+        return "jsonView";
+    }
+
+    //평가위원 저장
+    @RequestMapping("/inside/setCommissionerInsert")
+    public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) {
+        recruitService.setCommissionerInsert(params);
         return "jsonView";
     }
 

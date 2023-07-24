@@ -26,6 +26,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public List<Map<String, Object>> getCommissionerList(Map<String, Object> params) {
+        return recruitRepository.getCommissionerList(params);
+    }
+
+    @Override
     public void setRecruitInsert(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> area = gson.fromJson((String) params.get("areaArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
@@ -40,5 +45,10 @@ public class RecruitServiceImpl implements RecruitService {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    @Override
+    public void setCommissionerInsert(Map<String, Object> params) {
+        recruitRepository.setCommissionerInsert(params);
     }
 }

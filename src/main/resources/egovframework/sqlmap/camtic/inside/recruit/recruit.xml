@@ -27,6 +27,25 @@
         ORDER BY RE.REG_DT DESC
     </select>
 
+    <select id="getCommissionerList" parameterType="map" resultType="map">
+        /*getCommissionerList*/
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IRCI.*
+                FROM
+                    CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO IRCI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                ORDER BY IRCI.REG_DT
+            ) RE
+        ORDER BY RE.REG_DT DESC
+    </select>
+
     <insert id="setRecruitInsert" parameterType="map">
         /* setRecruitInsert */
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_INFO
@@ -114,6 +133,34 @@
                 #{item.qualification}
             )
         </foreach>
+    </insert>
+
+    <insert id="setCommissionerInsert" parameterType="map">
+        /* setCommissionerInsert */
+        INSERT INTO CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
+            (
+                ID,
+                NAME,
+                FIRST_RRN_NAME,
+                SECOND_RRN_NAME,
+                TEL_NUM,
+                EMAIL,
+                BELONG,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{id},
+                #{name},
+                #{firstRrnName},
+                #{secondRrnName},
+                #{telNum},
+                #{email},
+                #{belong},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
     </insert>
 </mapper>
 

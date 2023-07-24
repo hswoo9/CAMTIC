@@ -7,18 +7,24 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/commissionerReqPop.js?v=${today}"></script>
-<%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-<input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-<input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">면접심사 평가위원 등록</h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="commissionerReq.saveBtn()">저장</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
       </div>
     </div>
@@ -35,46 +41,46 @@
           <th>
             <span class="red-star"></span>임시아이디
           </th>
-          <td><input type="text" id="text1" style="width: 80%"></td>
+          <td><input type="text" id="id" style="width: 80%"></td>
           <th>
             <span class="red-star"></span>임시비밀번호
           </th>
-          <td><input type="text" id="text2" style="width: 80%"></td>
+          <td><input type="password" id="pwd" style="width: 80%"></td>
         </tr>
         <tr>
           <th>
             <span class="red-star"></span>성명
           </th>
-          <td><input type="text" id="text3" style="width: 80%"></td>
+          <td><input type="text" id="name" style="width: 80%"></td>
           <th>
             <span class="red-star"></span>주민등록번호
           </th>
-          <td><input type="text" id="text4" style="width: 30%"> - <input type="text" id="text5" style="width: 30%"></td>
+          <td>
+            <input type="text" maxlength="6" id="firstRrnName" oninput="onlyNumber(this);" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
+            -
+            <input type="text" maxlength="1" id="secondRrnName" oninput="onlyNumber(this);" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
+          </td>
         </tr>
         <tr>
           <th>
             <span class="red-star"></span>휴대폰
           </th>
-          <td><input type="text" id="text6" style="width: 80%"></td>
+          <td><input type="text" id="telNum" style="width: 80%"></td>
           <th>
             <span class="red-star"></span>이메일
           </th>
-          <td><input type="text" id="text7" style="width: 80%"></td>
+          <td><input type="text" id="email" style="width: 80%"></td>
         </tr>
         <tr>
           <th>
             <span class="red-star"></span>소속
           </th>
-          <td><input type="text" id="text8" style="width: 80%"></td>
-          <th>
-            <span class="red-star"></span>김위원
-          </th>
-          <td><input type="text" id="text9" style="width: 80%"></td>
+          <td colspan="3"><input type="text" id="belong" style="width: 80%"></td>
         </tr>
       </table>
     </form>
 </div>
 <script>
-  commissionerReqPop.defaultScript();
+  commissionerReq.init();
 </script>
 </body>
