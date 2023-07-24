@@ -25,7 +25,7 @@ To change this template use File | Settings | File Templates.
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
 <div id="mainContentArea">
-    <div class="col-md-10 col-lg-10 dash-left">
+    <div class="col-md-12 col-lg-12 dash-left">
         <div class="panel">
             <div class="panel-heading">
             </div>
@@ -35,8 +35,8 @@ To change this template use File | Settings | File Templates.
                 <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
             </div>
             <div class="panel-body">
-                <div class="table-responsive" style="margin-bottom:10px;">
-                    <table style="width: 100%">
+                <div style="margin-bottom:10px;">
+                    <table class="searchTable table table-bordered" style="width: 100%">
                         <colgroup>
                             <col width="10%">
                             <col width="25%">
@@ -53,9 +53,6 @@ To change this template use File | Settings | File Templates.
                             </th>
                             <td>
                                 <input type="text" id="docTitle" name="docTitle" style="width: 90%">
-                                <button type="button" class=" k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxDraft.gridReload()">
-                                    <span class="k-icon k-i-search k-button-icon"></span>
-                                </button>
                             </td>
                         </tr>
                     </table>
