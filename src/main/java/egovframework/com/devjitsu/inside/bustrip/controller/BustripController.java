@@ -377,4 +377,13 @@ public class BustripController {
 
         return "jsonView";
     }
+
+    //같은 날 일비 중복조회
+    @RequestMapping("/bustrip/getBustripMaxDayCost")
+    public String getBustripMaxDayCost(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getBustripMaxDayCost(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
 }

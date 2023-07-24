@@ -212,4 +212,9 @@ public class BustripServiceImpl implements BustripService {
     public void insBustripExnpResult(Map<String, Object> params) {
          bustripRepository.insBustripExnpResult(params);
     }
+
+    @Override
+    public Map<String, Object> getBustripMaxDayCost(Map<String, Object> params) {
+        return bustripRepository.getBustripMaxDayCost(params);
+    }
 }

@@ -6,7 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${toDate}"></script>
+<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="table-responsive">
     <div class="card-header pop-header">
@@ -49,38 +50,38 @@
                     <th>합계</th>
                 </tr>
             <c:forEach var="list" items="${list}">
-                <tr>
+                <tr class="addData">
                     <td>
                         <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
                         <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
                         <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                     </td>
                     <td>
-                        <input type="text" id="oilCost" class="oilCost" value="${list.OIL_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="${list.OIL_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="trafCost" class="trafCost" value="${list.TRAF_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="trafDayCost" class="trafDayCost" value="${list.TRAF_DAY_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="${list.TRAF_DAY_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="tollCost" class="tollCost" value="${list.TOLL_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.TOLL_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="dayCost" class="dayCost" value="${list.DAY_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="${list.DAY_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="eatCost" class="eatCost" value="${list.EAT_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" value="${list.EAT_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="parkingCost" class="parkingCost" value="${list.PARKING_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="${list.PARKING_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="etcCost" class="etcCost" value="${list.ETC_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                        <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     </td>
                     <td>
-                        <input type="text" id="totalCost" class="totalCost" value="${list.TOT_COST}" disabled />
+                        <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
                     </td>
                 </tr>
             </c:forEach>

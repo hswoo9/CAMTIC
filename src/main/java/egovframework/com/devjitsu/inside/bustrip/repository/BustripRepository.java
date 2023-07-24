@@ -99,4 +99,8 @@ public class BustripRepository extends AbstractDAO {
     public void updateBustripExnpPop(Map<String, Object> params) {
         update("bustrip.updateBustripExnpPop", params);
     }
+
+    public Map<String, Object> getBustripMaxDayCost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripMaxDayCost", params);
+    }
 }

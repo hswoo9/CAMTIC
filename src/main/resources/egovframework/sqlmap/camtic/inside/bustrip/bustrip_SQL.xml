@@ -422,6 +422,27 @@
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
+
+    <select id="getBustripMaxDayCost" parameterType="map" resultType="map">
+        /* getBustripMaxDayCost */
+        SELECT
+            IFNULL(MAX(DAY_COST), 0) AS DAY_COST
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR ON IHBE.HR_BIZ_REQ_ID = IHBR.HR_BIZ_REQ_ID
+        WHERE
+            IHBE.EMP_SEQ = #{empSeq}
+        <![CDATA[
+        AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%M%D') <= DATE_FORMAT(
+                (SELECT TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE HR_BIZ_REQ_ID = #{hrBizReqId})
+            , '%Y%M%D')
+        AND DATE_FORMAT(IHBR.TRIP_DAY_TO, '%Y%M%D') >= DATE_FORMAT(
+                (SELECT TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE HR_BIZ_REQ_ID = #{hrBizReqId})
+            , '%Y%M%D')
+        ]]>
+        AND IHBE.HR_BIZ_REQ_ID != #{hrBizReqId}
+    </select>
 </mapper>
 
 

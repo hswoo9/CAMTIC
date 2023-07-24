@@ -1,7 +1,5 @@
 var bustripExnpPop = {
 
-
-
     fn_defaultScript : function (type){
 
         $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox();
@@ -43,6 +41,28 @@ var bustripExnpPop = {
 
             }
         });
+
+        let dayCostArr = [];
+        $.each($(".addData"), function(i, v){
+            let dayCost = {};
+            dayCost.empSeq = $(v).find('.empSeq').val();
+
+            let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
+                empSeq: $(v).find('.empSeq').val(),
+                hrBizReqId: $("#hrBizReqId").val()
+            });
+
+            dayCost.dayCost = dayCostResult.data.DAY_COST;
+            dayCostArr[i] = dayCost;
+        });
+
+        console.log(dayCostArr);
+
+        for(let i=0; i<dayCostArr.length; i++){
+            if(Number(dayCostArr[i].dayCost.replace(",", "")) > 0){
+                $("#dayCost"+String(dayCostArr[i].empSeq)).data("kendoTextBox").enable(false);
+            }
+        }
     },
 
     inputNumberFormat: function (obj){
