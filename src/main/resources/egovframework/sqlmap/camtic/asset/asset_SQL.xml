@@ -1073,6 +1073,12 @@
                 <if test="rprClass != null and rprClass != ''">
                     AND RPR_CLASS = #{rprClass}
                 </if>
+                <if test="'receipt'.equals(mod)">
+                    AND RPR_CLASS != 2
+                </if>
+                <if test="resYn != null and resYn != ''">
+                    AND RES_YN = #{resYn}
+                </if>
                 ORDER BY III.REG_DATE, III.REG_DT
             ) RE
         ORDER BY RE.REG_DATE DESC
@@ -1101,6 +1107,43 @@
                 #{title},
                 #{detailCn},
                 #{regDate},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setRprResultInsert" parameterType="map">
+        /* setRprResultInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
+            (
+                RPR_CLASS,
+                RPR_NAME,
+                SHARE_SN,
+                SHARE_NAME,
+                IPR_CLASS,
+                IPR_NAME,
+                TITLE,
+                DETAIL_CN,
+                REG_DATE,
+                REG_NUM,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{rprClass},
+                #{rprName},
+                #{shareSn},
+                #{shareName},
+                #{iprClass},
+                #{iprName},
+                #{title},
+                #{detailCn},
+                #{regDate},
+                #{regNum},
                 #{regEmpSeq},
                 #{regEmpName}
             )

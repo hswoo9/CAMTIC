@@ -186,10 +186,6 @@ const rprReceiptReq = {
         });
     },
 
-    setRprReceiptUpdate: function(data){
-        console.log(data);
-    },
-
     useDataChange: function(shareList){
         let html = "";
         html += "<table>";

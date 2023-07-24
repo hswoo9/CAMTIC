@@ -653,6 +653,72 @@ var hwpDocCtrl = {
                     hwpDocCtrl.putFieldText('manager', invenInfo.MANAGER_NAME);
                 }
             });
+        }else if(data.menuCd == "rprRes") {
+            const inventionInfoSn = data.approKey.split("_")[1];
+
+            if(inventionInfoSn == null || inventionInfoSn == undefined || inventionInfoSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url: "/inside/getInventionInfo",
+                data: {
+                    inventionInfoSn: inventionInfoSn
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    console.log(result);
+                    const invenInfo = result.rs.info;
+                    const shareList = result.rs.shareList;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('iprClass', true, true, false);
+                    hwpDocCtrl.putFieldText('iprClass', "✓ "+invenInfo.IPR_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
+                    hwpDocCtrl.putFieldText('title', invenInfo.TITLE);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('detail', true, true, false);
+                    hwpDocCtrl.putFieldText('detail', invenInfo.DETAIL_CN);
+
+                    let toDate = year+"년 "+month+"월 "+date+"일";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                    hwpDocCtrl.putFieldText('toDate', toDate);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regEmpName', true, true, false);
+                    hwpDocCtrl.putFieldText('regEmpName', invenInfo.REG_EMP_NAME);
+
+                    let field = "";
+                    for(let i=1; i<shareList.length+1; i++){
+                        field = "empName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].EMP_NAME);
+
+                        field = "deptName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].DEPT_NAME);
+
+                        field = "share"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].SHARE);
+                    }
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regNum', true, true, false);
+                    hwpDocCtrl.putFieldText('regNum', invenInfo.REG_NUM);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regNum', true, true, false);
+                    hwpDocCtrl.putFieldText('regDate', invenInfo.REG_DATE);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('manager', true, true, false);
+                    hwpDocCtrl.putFieldText('manager', invenInfo.MANAGER_NAME);
+                }
+            });
         }
     },
 

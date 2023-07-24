@@ -118,12 +118,13 @@ var rprList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : 'inside/getRprReceiptList',
+                    url : "inside/getRprReceiptList",
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
                     data.rprClass = 2;
+                    data.mod = "view";
                     return data;
                 }
             },

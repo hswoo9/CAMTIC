@@ -8,7 +8,7 @@ var rprReceiptList = {
         customKendo.fn_textBox(["searchText"]);
         let rprClassSource = [
             { text: "직무발명 신고서", value: "1" },
-            { text: "포상급지급 신청서", value: "2" }
+            { text: "포상급지급 신청서", value: "3" }
         ]
         customKendo.fn_dropDownList("rprClass", rprClassSource, "text", "value", 2);
         let iprClassSource = [
@@ -42,6 +42,7 @@ var rprReceiptList = {
                 },
                 parameterMap: function(data){
                     data.rprClass = $("#rprClass").val();
+                    data.mod = "receipt";
                     return data;
                 }
             },
@@ -119,7 +120,7 @@ var rprReceiptList = {
                 }, {
                     field: "작성",
                     template: function(row){
-                        if(row.STATUS == 100) {
+                        if(row.RPR_CLASS == "1" && row.STATUS == 100) {
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='rprReceiptList.rprReceiptReqPop("+row.INVENTION_INFO_SN+");'>지식재산권 등록</button>";
                         }else{
                             return "-";

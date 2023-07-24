@@ -603,6 +603,33 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         return "/popup/inside/asset/approvalFormPopup/inventionApprovalPop";
     }
+    //캠도큐먼트 - 포상급지급신청서 전자결재 신청폼 팝업
+    @RequestMapping("/Inside/pop/rprResultPop.do")
+    public String rprResultPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/rprResultPop";
+    }
+    //캠도큐먼트 - 포상급지급신청서 전자결재 페이지
+    @RequestMapping("/popup/inside/approvalFormPopup/rprResApprovalPop.do")
+    public String rprResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/asset/approvalFormPopup/rprResApprovalPop";
+    }
+    //캠도큐먼트 - 지식재산권 선택 팝업
+    @RequestMapping("/Inside/pop/searchRprPop.do")
+    public String searchRprPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/searchRprPop";
+    }
     //접수내역 패아자
     @RequestMapping("/Inside/rprReceiptList.do")
     public String rprReceiptList(HttpServletRequest request, Model model) {
@@ -652,13 +679,20 @@ public class AssetController {
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }
+    //캠도큐먼트 - 포상급지급신청서 신청폼 등록
+    @RequestMapping("/inside/setRprResultInsert")
+    public String setRprResultInsert(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setRprResultInsert(params);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        return "jsonView";
+    }
     //지식재산권 등록
     @RequestMapping("/inside/setRprReceiptInsert")
     public String setRprReceiptInsert(@RequestParam Map<String, Object> params, Model model) {
         assetService.setRprReceiptInsert(params);
         return "jsonView";
     }
-    //직무발명신고서 결재 상태값에 따른 UPDATE 메서드
+    //직무발명신고서, 포상급지급신청서 결재 상태값에 따른 UPDATE 메서드
     @RequestMapping(value = "/inside/inventionReqApp")
     public String certificateReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println("bodyMap");

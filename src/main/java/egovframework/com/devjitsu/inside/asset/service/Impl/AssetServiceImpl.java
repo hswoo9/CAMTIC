@@ -348,6 +348,23 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public void setRprResultInsert(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 직무발명신고서 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.setRprResultInsert(params);
+            if(!share.isEmpty()) {
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
     public void setRprReceiptInsert(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
