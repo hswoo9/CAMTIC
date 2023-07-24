@@ -138,11 +138,11 @@
       pageSize: 10
     }
      var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey, "");
-     drawTable(result.boardArticleList.list);
 
      flag = true;
 
      dataChk(result, flag);
+     drawTable(result.boardArticleList.list);
      drawPage();
   }
 
@@ -153,9 +153,16 @@
 
     let html = "";
 
+    let num = total + 1;
+
+    if(page != 1){
+      num = num - ((page - 1) * 10);
+    }
     data.forEach((item, index) => {
+      num = num - 1;
+
       html += "<tr>";
-      html += '<td>'+ (index + 1) +'</td>';
+      html += '<td>'+ (num) +'</td>';
       html += '<td class="subject" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
       html += '<td>'+ item.reg_EMP_NAME +'</td>';
 
