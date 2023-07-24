@@ -253,7 +253,14 @@
     <select id="getArchiveList" resultType="map" parameterType="map">
         /* getArchiveList */
         SELECT
-            RE.*
+            RE.*,
+        <![CDATA[
+            case
+            when (DOC_YEAR + DISPOSAL_YEAR < DATE_FORMAT(NOW(), '%Y'))
+        then 'N'
+        ELSE 'Y'
+        END AS DISPOSE_YN
+        ]]>
         FROM
             (
                 SELECT

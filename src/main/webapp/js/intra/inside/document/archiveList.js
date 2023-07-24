@@ -151,7 +151,14 @@ var archiveList = {
                     width: 100
                 }, {
                     title: "문서고 상태",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>폐기</span>";
+                        }else {
+                            return "보관";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
