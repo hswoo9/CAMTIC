@@ -15,7 +15,6 @@
   .__boardView .con {
     padding: 0px;
   }
-
 </style>
 
 <body>
@@ -47,7 +46,7 @@
           </dl> -->
           <div class="con">
             <div style="border-bottom: 1px solid #ccc; padding: 10px 0 10px 0;">
-              첨부파일
+              임시(첨부파일 이름 들어갈 곳)
             </div>
 
 
@@ -60,16 +59,16 @@
           <div class="con">
             <table>
               <c:if test="${map.afterKey ne '' && map.afterKey ne null}">
-                <tr style="border-bottom: 1px solid #ececec; padding: 10px 0 10px 0;">
-                  <th style="text-align: left; width: 7%; padding-left: 10px;">다음글</th>
-                  <td style="cursor: pointer; width: auto;" onclick="fn_detailBoard('${map.afterKey}')">
+                <tr style="border-bottom: 1px solid #ececec;">
+                  <td style="text-align: center; width: 10%; background-color: #f7f7f7;">다음글</td>
+                  <td style="padding: 5px 0 5px 15px;">
                     <a href="#" onclick="fn_detailBoard('${map.afterKey}')">${map.afterName}</a></td>
                 </tr>
               </c:if>
               <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
-                <tr style="border-top: 1px solid #ececec; padding: 10px 0 10px 0;">
-                  <th style="text-align: left; width: 7%; padding-left: 10px;">이전글</th>
-                  <td style="cursor: pointer; width: auto;" onclick="fn_detailBoard('${map.beforeKey}')">
+                <tr style="border-top: 1px solid #ececec;">
+                  <td style="text-align: center; width: 10%; background-color: #f7f7f7;">이전글</td>
+                  <td style="padding: 5px 0 5px 15px;">
                     <a href="#" onclick="fn_detailBoard('${map.beforeKey}')">${map.beforeName}</a></td>
                 </tr>
               </c:if>
