@@ -47,6 +47,18 @@
             ACTIVE = 'Y'
     </select>
 
+    <select id="selectBoardFile" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = #{category}
+        AND
+            FR_KEY = #{boardArticleId}
+
+    </select>
+
     <update id="setBoardArticleViewCount" parameterType="map">
         UPDATE
             CAM_COMMON.DJ_BOARD_ARTICLE
@@ -61,6 +73,10 @@
             (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, REG_EMP_NAME)
         VALUE
             (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{writer})
+
+        <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_BOARD_ARTICLE'
+        </selectKey>
     </insert>
 
     <update id="updateBoard" parameterType="map">

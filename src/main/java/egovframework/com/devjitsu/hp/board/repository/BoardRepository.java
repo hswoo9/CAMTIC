@@ -24,6 +24,9 @@ public class BoardRepository extends AbstractDAO {
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("boardCt.selectBoard", params);
     }
+    public List<Map<String, Object>> selectBoardFile(Map<String, Object> params) {
+        return selectList("boardCt.selectBoardFile", params);
+    }
 
     public void insertBoard(Map<String, Object> params) {
         insert("boardCt.insertBoard", params);

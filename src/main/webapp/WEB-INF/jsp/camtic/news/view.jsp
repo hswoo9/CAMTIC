@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
+<script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
 <style>
   .txt_zone {padding: 50px 50px 160px 50px; font-size: 17px; color: #252525;}
 
@@ -46,13 +47,29 @@
           </dl> -->
           <div class="con">
             <div style="border-bottom: 1px solid #ccc; padding: 10px 0 10px 0;">
-              임시(첨부파일 이름 들어갈 곳)
+              <c:if test="${fileMap ne null}">
+                <c:forEach var="file" items="${fileMap}" varStatus="status">
+                  <c:choose>
+                    <c:when test="${status.count eq 1}">
+                      <span onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
+                          ${file.file_org_name}.${file.file_ext}
+                      </span>
+                    </c:when>
+                    <c:otherwise>
+                      <span onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
+                          , ${file.file_org_name}.${file.file_ext}
+                      </span>
+                    </c:otherwise>
+                  </c:choose>
+                </c:forEach>
+              </c:if>
             </div>
 
 
             <div class="txt_zone" style="line-height:25px;">
               ${map.BOARD_ARTICLE_CONTENT}
             </div>
+
           </div>
 
 
@@ -110,19 +127,22 @@
 <script>
   var categoryId = $("#category").val();
 
-  function fn_goList(){
+  function fileDown(filePath, fileName){
+    kendo.saveAs({
+      dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
+  }
 
+  function fn_goList(){
     location.href = '/camtic/news/'+categoryId+'.do';
   }
 
   //상세보기 이동
   function fn_detailBoard(key){
-
     location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + categoryId;
   }
 
   function fn_regist(key){
-
     location.href="/camtic/news/register.do?boardArticleId=" + key + "&category=" + categoryId;
   }
 

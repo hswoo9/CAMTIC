@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -119,8 +121,10 @@ public class BoardController {
         boardService.setBoardArticleViewCount(params);
 
         Map<String, Object> map = boardService.selectBoard(params);
+        List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
         model.addAttribute("categoryId", params.get("category"));
         model.addAttribute("map", map);
+        model.addAttribute("fileMap", fileList);
         return "camtic/news/view";
     }
 
@@ -150,8 +154,9 @@ public class BoardController {
      * 게시글 작성
      * */
     @RequestMapping("/camtic/news/insNotice.do")
-    public String insNotice(Model model, @RequestParam Map<String, Object> params){
-        boardService.insertBoard(params);
+    public String insNotice(Model model, @RequestParam Map<String, Object> params, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("boardFile").toArray(new MultipartFile[0]);
+        boardService.insertBoard(params, file, SERVER_DIR, BASE_DIR);
 
         model.addAttribute("rs", "sc");
         return "jsonView";
