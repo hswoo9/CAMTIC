@@ -7,6 +7,15 @@
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
   .txt_zone {padding: 50px 50px 160px 50px; font-size: 17px; color: #252525;}
+
+  /*.__boardView .head {
+    border-top: 1px solid #ccc;
+  }*/
+
+  .__boardView .con {
+    padding: 0px;
+  }
+
 </style>
 
 <body>
@@ -27,6 +36,7 @@
               <li>조회수 : ${map.BOARD_ARTICLE_VIEW_COUNT}</li>
             </ul>
           </div>
+
           <!-- <dl class="file">
               <dt><span>첨부파일</span></dt>
               <dd>
@@ -36,6 +46,11 @@
               </dd>
           </dl> -->
           <div class="con">
+            <div style="border-bottom: 1px solid #ccc; padding: 10px 0 10px 0;">
+              첨부파일
+            </div>
+
+
             <div class="txt_zone" style="line-height:25px;">
               ${map.BOARD_ARTICLE_CONTENT}
             </div>
@@ -43,34 +58,43 @@
 
 
           <div class="con">
-            <table style="width: 50%;">
-
-              <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
-                <tr>
-                  <th style="text-align: center; width: 50%;">이전글</th>
-                  <td style="cursor: pointer;" onclick="fn_detailBoard('${map.beforeKey}')">
-                    <a href="#" onclick="fn_detailBoard('${map.beforeKey}')">${map.beforeName}</a></td>
-                </tr>
-              </c:if>
+            <table>
               <c:if test="${map.afterKey ne '' && map.afterKey ne null}">
-                <tr>
-                  <th style="text-align: center; width: 50%;">다음글</th>
-                  <td style="cursor: pointer;" onclick="fn_detailBoard('${map.afterKey}')">
+                <tr style="border-bottom: 1px solid #ececec; padding: 10px 0 10px 0;">
+                  <th style="text-align: left; width: 7%; padding-left: 10px;">다음글</th>
+                  <td style="cursor: pointer; width: auto;" onclick="fn_detailBoard('${map.afterKey}')">
                     <a href="#" onclick="fn_detailBoard('${map.afterKey}')">${map.afterName}</a></td>
                 </tr>
               </c:if>
+              <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
+                <tr style="border-top: 1px solid #ececec; padding: 10px 0 10px 0;">
+                  <th style="text-align: left; width: 7%; padding-left: 10px;">이전글</th>
+                  <td style="cursor: pointer; width: auto;" onclick="fn_detailBoard('${map.beforeKey}')">
+                    <a href="#" onclick="fn_detailBoard('${map.beforeKey}')">${map.beforeName}</a></td>
+                </tr>
+              </c:if>
+
             </table>
           </div>
 
         </div>
 
         <div class="__botArea">
-          <div class="rig">
-            <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
+          <div class="rig" style="left: 0px;">
             <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
+          </div>
+          <div class="rig" style="left: 12%;">
+            <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
             <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
             <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
-
+          </div>
+          <div class="rig">
+          <c:if test="${map.afterKey ne '' && map.afterKey ne null}">
+            <a href="javascript:void(0);" onclick="fn_detailBoard('${map.afterKey}');" class="__btn1 grayLine"><span>다음글</span></a>
+          </c:if>
+          <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
+            <a href="javascript:void(0);" onclick="fn_detailBoard('${map.beforeKey}');" class="__btn1 grayLine"><span>이전글</span></a>
+          </c:if>
           </div>
         </div>
 
