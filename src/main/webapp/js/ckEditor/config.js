@@ -8,6 +8,15 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
 
+	config.enterMode = '2' ,// 엔터모드는 <br/>
+	config.toolbarCanCollapse = true; // 에디터 메뉴 축소/확대 가능 버튼 보이기
+
+	config.filebrowserUploadUrl      = '/ckeditor/fileupload.do',
+	//config.filebrowserUploadUrl      = '/upld/uploadFile.do?type=Files',
+	config.filebrowserImageUploadUrl = '/upld/uploadFile.do?type=Images',
+	config.uploadUrl = '/ckeditor/fileupload.do';
+	config.filebrowserUploadMethod='form'; //파일 오류났을때 alert띄워줌
+
 	// 태그 허용
 	config.allowedContent = true;
 

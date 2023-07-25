@@ -41,6 +41,7 @@
             <col style="width:100px;"/>
             <col style="width:150px;"/>
             <col style="width:100px;"/>
+            <%--<col style="width:100px;"/>--%>
           </colgroup>
           <thead>
           <tr>
@@ -49,6 +50,7 @@
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
             <th scope="col">조회수</th>
+            <%--<th scope="col">첨부파일</th>--%>
           </tr>
           </thead>
 
@@ -172,6 +174,7 @@
       html += '<td>'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</td>';
 
       html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
+      /*html += '<td></td>';*/
       html += "</tr>";
     });
 
