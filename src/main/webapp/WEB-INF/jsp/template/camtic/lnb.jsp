@@ -48,10 +48,10 @@
     </li>
     <li style="display: none" class="member_view"><a href="/camtic/member/view.do">게시판</a></li>
 
-    <li class="news news_notice"><a href="/camtic/news/notice.do">공지사항</a></li>
-    <li class="news news_business"><a href="/camtic/news/business.do">사업공고</a></li>
-    <li class="news news_study"><a href="/camtic/news/study.do">교육/행사</a></li>
-    <li class="news news_partner"><a href="/camtic/news/partner.do">유관기관소식</a></li>
+    <li class="news news_notice"><a href="/camtic/news/commonBoard.do?categoryKey=notice">공지사항</a></li>
+    <li class="news news_business"><a href="/camtic/news/commonBoard.do?categoryKey=business">사업공고</a></li>
+    <li class="news news_study"><a href="/camtic/news/commonBoard.do?categoryKey=study">교육/행사</a></li>
+    <li class="news news_partner"><a href="/camtic/news/commonBoard.do?categoryKey=partner">유관기관소식</a></li>
     <li style="display: none" class="news_view"><a href="/camtic/news/view.do">게시판</a></li>
 
     <li class="pr pr_photo"><a href="/camtic/pr/photo.do">포토뉴스</a></li>

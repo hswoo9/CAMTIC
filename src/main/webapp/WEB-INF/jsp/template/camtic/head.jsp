@@ -90,10 +90,10 @@
         <li class="news">
           <a href="/camtic/news/notice.do"><span>캠틱소식</span><i aria-hidden="true"></i></a>
           <ul>
-            <li class="news_notice"><a href="/camtic/news/notice.do">공지사항</a></li>
-            <li class="news_business"><a href="/camtic/news/business.do">사업공고</a></li>
-            <li class="news_study"><a href="/camtic/news/study.do">교육/행사</a></li>
-            <li class="news_partner"><a href="/camtic/news/partner.do">유관기관소식</a></li>
+            <li class="news_notice"><a href="/camtic/news/commonBoard.do?categoryKey=notice">공지사항</a></li>
+            <li class="news_business"><a href="/camtic/news/commonBoard.do?categoryKey=business">사업공고</a></li>
+            <li class="news_study"><a href="/camtic/news/commonBoard.do?categoryKey=study">교육/행사</a></li>
+            <li class="news_partner"><a href="/camtic/news/commonBoard.do?categoryKey=partner">유관기관소식</a></li>
             <li style="display: none" class="news_view"><a href="/camtic/news/view.do">게시판</a></li>
           </ul>
         </li>

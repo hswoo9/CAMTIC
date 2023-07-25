@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.hp.board.util.PagingResponse;
 import egovframework.com.devjitsu.hp.board.util.PostResponse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,12 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
+
     /**
      * 공지사항 페이지
      * */
@@ -33,6 +40,16 @@ public class BoardController {
         model.addAttribute("page", articlePage.getPage());*/
         /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
         return "camtic/news/notice";
+    }
+
+    /**
+     * 공통게시판 페이지
+     * */
+    @RequestMapping("/camtic/news/commonBoard.do")
+    public String commonBoard(Model model, @RequestParam Map<String, Object> param){
+
+        model.addAttribute("categoryKey", param.get("categoryKey"));
+        return "camtic/news/commonBoard";
     }
 
     /**
