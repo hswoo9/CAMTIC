@@ -95,6 +95,9 @@ public interface AssetService {
     Map<String, Object> getAssetPlace(Map<String, Object> params);
     void setAssetPlace(Map<String,Object> map);
     void setAssetPlaceDel(Map<String,Object> map);
+    Map<String,Object> getCategoryMonthly(Map<String, Object> params);
+    List<Map<String,Object>> getLGCategoryMonthly(Map<String, Object> params);
+    List<Map<String,Object>> getMDCategoryMonthly(Map<String, Object> params);
 
 
     //

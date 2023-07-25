@@ -543,6 +543,22 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public Map<String, Object> getCategoryMonthly(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("LGCategory", assetRepository.getLGCategoryMonthly(params));
+        result.put("MDCategory", assetRepository.getMDCategoryMonthly(params));
+        return result;
+    }
+    @Override
+    public List<Map<String,Object>> getLGCategoryMonthly(Map<String, Object> params) {
+        return assetRepository.getLGCategoryMonthly(params);
+    }
+    @Override
+    public List<Map<String,Object>> getMDCategoryMonthly(Map<String, Object> params) {
+        return assetRepository.getMDCategoryMonthly(params);
+    }
+
+    @Override
     public List<Map<String,Object>> getBookList(Map<String, Object> params) {
         return assetRepository.getBookList(params);
     }
