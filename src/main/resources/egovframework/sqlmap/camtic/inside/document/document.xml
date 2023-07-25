@@ -253,19 +253,19 @@
     <select id="getArchiveList" resultType="map" parameterType="map">
         /* getArchiveList */
         SELECT
-            RE.*,
-        <![CDATA[
-            case
-            when (DOC_YEAR + DISPOSAL_YEAR < DATE_FORMAT(NOW(), '%Y'))
-        then 'N'
-        ELSE 'Y'
-        END AS DISPOSE_YN
-        ]]>
+            RE.*
         FROM
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    IAI.*
+                    IAI.*,
+                    <![CDATA[
+                        case
+                        when (DOC_YEAR + DISPOSAL_YEAR < DATE_FORMAT(NOW(), '%Y'))
+                    then 'N'
+                    ELSE 'Y'
+                    END AS DISPOSE_YN
+                    ]]>
                 FROM
                     CAM_INSIDE.DJ_ARCHIVE_INFO IAI,
                     (SELECT @ROWNUM := 0) TMP
@@ -291,6 +291,12 @@
                 </choose>
                 ORDER BY IAI.REG_DT
             ) RE
+        <if test='"1".equals(doclistState)'>
+            WHERE RE.DISPOSE_YN = 'N'
+        </if>
+        <if test='"2".equals(doclistState)'>
+            WHERE RE.DISPOSE_YN = 'Y'
+        </if>
         ORDER BY RE.ROW_NUM DESC
     </select>
 
