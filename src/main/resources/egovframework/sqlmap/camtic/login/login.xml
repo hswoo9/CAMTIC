@@ -36,8 +36,8 @@
             1=1
         AND
             ACTIVE = 'Y'
-        AND
-            WORK_STATUS_CODE = 'Y'
+        /*AND
+            WORK_STATUS_CODE = 'Y'*/
         <choose>
             <when test='uniqId != null and !"".equals(uniqId)'>AND EMP_SEQ = #{uniqId}</when>
             <otherwise>AND LOGIN_ID = #{id}</otherwise>
