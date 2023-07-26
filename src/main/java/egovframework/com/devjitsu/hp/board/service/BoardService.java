@@ -25,7 +25,7 @@ public interface BoardService {
     void insertBoard(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /** 게시글 수정 */
-    void updateBoard(Map<String, Object> params);
+    void updateBoard(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /** 게시글 삭제 */
     void deleteBoard(Map<String, Object> params);
