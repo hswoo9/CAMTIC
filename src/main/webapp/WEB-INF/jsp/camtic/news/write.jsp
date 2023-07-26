@@ -156,7 +156,7 @@
     let month = today.getMonth() + 1;
     let date = today.getDate();
 
-    $("#writeDate").val(year + "년 " + month + "월 " + date + "일")
+    $("#writeDate").val(year + "년 " + month + "월 " + date + "일");
 
     CKEDITOR.replace('contents', {
       height: 500

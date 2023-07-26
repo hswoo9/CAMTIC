@@ -1,25 +1,40 @@
 package egovframework.com.devjitsu.hp.board.controller;
 
+import egovframework.com.devjitsu.gw.user.controller.UserController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
 import egovframework.com.devjitsu.hp.board.util.PostResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class BoardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private BoardService boardService;
@@ -29,6 +44,9 @@ public class BoardController {
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
+
+    @Value("#{properties['File.Slash']}")
+    private String slash;
 
     /**
      * 공지사항 페이지
@@ -184,6 +202,121 @@ public class BoardController {
         return "jsonView";
     }
 
+
+    @RequestMapping(value="/ckeditor/fileupload.do", method= RequestMethod.POST)
+    public void fileupload(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest multiFile) throws IOException {
+        logger.info("---------------- fileupload ----------------");
+
+        PrintWriter pw = null;
+        OutputStream os = null;
+        MultipartFile file = multiFile.getFile("upload");
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        if(file != null) {
+            if(file.getSize() > 0 && StringUtils.isNotBlank(file.getName())) {
+
+                if(file.getContentType().toLowerCase().startsWith("image/")) {
+
+                    String path = "";
+
+                    if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
+                        path = SERVER_DIR + "ckeditor";
+                    }else{
+                        path = SERVER_DIR + "ckeditor";
+                    }
+
+                    try {
+                        String fileName = file.getOriginalFilename();
+                        byte[] bytes = file.getBytes();
+
+                        String filename_ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+                        filename_ext = filename_ext.toLowerCase();
+
+                        logger.info("fileName : " + fileName + ", extension : " + filename_ext);
+
+                        String realFilePath = path + slash;
+
+                        logger.info("default path : " + path + " , realFilePath : " + realFilePath);
+
+                        File uploadFile = new File(realFilePath);
+                        if(!uploadFile.exists()) {
+                            uploadFile.mkdirs();
+                        }
+
+                        fileName = UUID.randomUUID().toString() + "." + filename_ext;
+
+                        os = new FileOutputStream(new File(realFilePath + fileName));
+                        os.write(bytes);
+                        os.flush(); // outputStream 에 저장된 데이터를 전송하고 초기화
+
+                        String callback = request.getParameter("CKEditorFuncNum");
+                        logger.info("callback funcNum : " + callback);
+
+                        pw = response.getWriter();
+                        String fileUrl = "/ckeditor/imgsubmit.do?fileName=" + fileName;
+
+                        // 업로드시 메시지 출력
+                        pw.println("{\"filename\" : \""+fileName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
+                        pw.flush();
+
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if(os != null) {
+                            os.close();
+                        }
+                        if(pw != null) {
+                            pw.close();
+                        }
+                    }
+                }
+            }
+        }
+
+        return;
+    }
+
+    @RequestMapping("/ckeditor/imgsubmit.do")
+    public void imgsubmit(@RequestParam(value="fileName") String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //서버에 저장된 이미지 경로
+        String filePath = SERVER_DIR + "ckeditor" + slash + fileName;
+        File imgFile = new File(filePath);
+
+        //사진 이미지 찾지 못하는 경우 예외처리로 빈 이미지 파일을 설정한다.
+        if(imgFile.isFile()) {
+            byte[] buf = new byte[1024];
+            int readByte = 0;
+            int length = 0;
+            byte[] imgBuf = null;
+
+            FileInputStream fileInputStream = null;
+            ByteArrayOutputStream outputStream = null;
+            ServletOutputStream out = null;
+
+            try{
+                fileInputStream = new FileInputStream(imgFile);
+                outputStream = new ByteArrayOutputStream();
+                out = response.getOutputStream();
+
+                while((readByte = fileInputStream.read(buf)) != -1){
+                    outputStream.write(buf, 0, readByte);
+                }
+
+                imgBuf = outputStream.toByteArray();
+                length = imgBuf.length;
+                out.write(imgBuf, 0, length);
+                out.flush();
+
+            } catch(IOException e){
+                logger.info(e.getMessage());
+            } finally {
+                outputStream.close();
+                fileInputStream.close();
+                out.close();
+            }
+        }
+
+    }
 
 
 
