@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
@@ -45,29 +46,33 @@
                   <p><a href="#">파일명이 노출됩니다.hwp</a></p>
               </dd>
           </dl> -->
+          <script>console.log('${fn:length(fileMap)}' + "안녕하세요.")</script>
           <div class="con">
-            <div style="border-bottom: 1px solid #ccc; padding: 10px 0 10px 0;">
-              <c:if test="${fileMap ne null}">
-                <c:forEach var="file" items="${fileMap}" varStatus="status">
-                  <c:choose>
-                    <c:when test="${status.count eq 1}">
-                      <span onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
-                          ${file.file_org_name}.${file.file_ext}
-                      </span>
-                    </c:when>
-                    <c:otherwise>
-                      <span onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
-                          , ${file.file_org_name}.${file.file_ext}
-                      </span>
-                    </c:otherwise>
-                  </c:choose>
-                </c:forEach>
-              </c:if>
-              <c:if test="${fileMap eq null}">
-                <span></span>
-              </c:if>
+            <div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
+              <c:choose>
+                <c:when test="${fn:length(fileMap) ne 0}">
+                  <c:forEach var="file" items="${fileMap}" varStatus="status">
+                    <c:choose>
+                      <c:when test="${status.count eq 1}">
+                        <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
+                        <span style="cursor: pointer;" onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
+                            ${file.file_org_name}.${file.file_ext}
+                        </span>
+                      </c:when>
+                      <c:otherwise>
+                        <span style="cursor: pointer;" onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
+                            , <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666); background-size: 15px;">
+                            ${file.file_org_name}.${file.file_ext}
+                        </span>
+                      </c:otherwise>
+                    </c:choose>
+                  </c:forEach>
+                </c:when>
+                <c:otherwise>
+                  <span></span>
+                </c:otherwise>
+              </c:choose>
             </div>
-
 
             <div class="txt_zone" style="line-height:25px;">
               ${map.BOARD_ARTICLE_CONTENT}
