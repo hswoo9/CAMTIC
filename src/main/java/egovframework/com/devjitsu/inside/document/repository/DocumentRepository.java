@@ -68,4 +68,9 @@ public class DocumentRepository extends AbstractDAO {
     public void setArchiveInsert(Map<String, Object> params) {
         insert("document.setArchiveInsert", params);
     }
+
+    //문서고 등록 - 문서위치 조회
+    public List<Map<String, Object>> getDocumentPlaceList(Map<String, Object> params) {
+        return selectList("document.getDocumentPlaceList", params);
+    }
 }

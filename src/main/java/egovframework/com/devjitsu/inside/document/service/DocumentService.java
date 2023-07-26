@@ -98,4 +98,10 @@ public interface DocumentService {
      * @param params
      */
     void setArchiveInsert(Map<String, Object> params);
+
+    /**
+     * 문서고 등록 - 문서위치 조회
+     * @param params
+     */
+    List<Map<String, Object>> getDocumentPlaceList(Map<String, Object> params);
 }

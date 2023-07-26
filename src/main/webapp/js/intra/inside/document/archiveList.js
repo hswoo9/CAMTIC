@@ -103,19 +103,41 @@ var archiveList = {
                 }, {
                     field: "ROW_NUM",
                     title: "순번",
-                    width: 50
+                    width: 50,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.ROW_NUM+"</span>";
+                        }else {
+                            return row.ROW_NUM;
+                        }
+                    }
                 }, {
                     field: "DOC_NUM",
                     title: "문서번호",
-                    width: 200
+                    width: 200,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.DOC_NUM+"</span>";
+                        }else {
+                            return row.DOC_NUM;
+                        }
+                    }
                 }, {
                     title: "부서",
                     width: 150,
                     template: function(row){
                         if (row.DEPT_NAME == "") {
-                            return "전체";
+                            if (row.DISPOSE_YN == "Y") {
+                                return "<span style='text-decoration: line-through;'>전체</span>";
+                            }else {
+                                return row.DEPT_NAME;
+                            }
                         }else {
-                            return row.DEPT_NAME;
+                            if (row.DISPOSE_YN == "Y") {
+                                return "<span style='text-decoration: line-through;'>"+row.DEPT_NAME+"</span>";
+                            }else {
+                                return row.DEPT_NAME;
+                            }
                         }
                     }
                 }, {
@@ -123,32 +145,82 @@ var archiveList = {
                     width: 150,
                     template: function(row){
                         if (row.TEAM_NAME == "") {
-                            return "전체";
+                            if (row.DISPOSE_YN == "Y") {
+                                return "<span style='text-decoration: line-through;'>전체</span>";
+                            }else {
+                                return row.TEAM_NAME;
+                            }
                         }else {
-                            return row.TEAM_NAME;
+                            if (row.DISPOSE_YN == "Y") {
+                                return "<span style='text-decoration: line-through;'>"+row.TEAM_NAME+"</span>";
+                            }else {
+                                return row.TEAM_NAME;
+                            }
                         }
                     }
                 }, {
                     field: "VISIT",
-                    title: "위치"
+                    title: "위치",
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.VISIT+"</span>";
+                        }else {
+                            return row.VISIT;
+                        }
+                    }
                 }, {
                     field: "DOC_NAME",
-                    title: "문서명"
+                    title: "문서명",
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.DOC_NAME+"</span>";
+                        }else {
+                            return row.DOC_NAME;
+                        }
+                    }
                 }, {
                     field: "MANAGER_NAME",
                     title: "담당자",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.MANAGER_NAME+"</span>";
+                        }else {
+                            return row.MANAGER_NAME;
+                        }
+                    }
                 }, {
                     field: "PRESERVATION_PERIOD",
                     title: "보존년한",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.PRESERVATION_PERIOD+"</span>";
+                        }else {
+                            return row.PRESERVATION_PERIOD;
+                        }
+                    }
                 }, {
                     field: "DISPOSAL_YEAR",
                     title: "폐기년도",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>"+row.DISPOSAL_YEAR+"</span>";
+                        }else {
+                            return row.DISPOSAL_YEAR;
+                        }
+                    }
                 }, {
                     title: "첨부파일",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        if (row.DISPOSE_YN == "Y") {
+                            return "<span style='text-decoration: line-through;'>없음</span>";
+                        }else {
+                            return "없음";
+                        }
+                    }
                 }, {
                     title: "문서고 상태",
                     width: 100,

@@ -261,7 +261,7 @@
                     IAI.*,
                     <![CDATA[
                         case
-                        when (DOC_YEAR + DISPOSAL_YEAR < DATE_FORMAT(NOW(), '%Y'))
+                        when (DISPOSAL_YEAR >= DATE_FORMAT(NOW(), '%Y'))
                     then 'N'
                     ELSE 'Y'
                     END AS DISPOSE_YN
@@ -540,5 +540,17 @@
                 #{docName}
             )
     </insert>
+
+    <!--문서고 등록 - 문서위치 조회-->
+    <select id="getDocumentPlaceList" parameterType="map" resultType="map">
+        /*getDocumentPlaceList*/
+        SELECT
+            CM_CODE_NM AS TEXT,
+            CM_CODE_ID AS VALUE
+        FROM
+            CAM_COMMON.DJ_COM_CODE
+        WHERE
+            CM_GROUP_CODE_ID = 10
+    </select>
 
 </mapper>
