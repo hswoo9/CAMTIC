@@ -163,8 +163,10 @@ public class BoardController {
     public String noticeRegister(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
         Map<String, Object> map = boardService.selectBoard(params);
 
+        List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
         model.addAttribute("categoryId", params.get("category"));
         model.addAttribute("map", map);
+        model.addAttribute("fileMap", fileList);
         return "camtic/news/register";
     }
 
@@ -220,9 +222,9 @@ public class BoardController {
                     String path = "";
 
                     if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
-                        path = SERVER_DIR + "ckeditor";
+                        path = SERVER_DIR + "ckeditor/";
                     }else{
-                        path = SERVER_DIR + "ckeditor";
+                        path = SERVER_DIR + "ckeditor/";
                     }
 
                     try {
@@ -234,7 +236,7 @@ public class BoardController {
 
                         logger.info("fileName : " + fileName + ", extension : " + filename_ext);
 
-                        String realFilePath = path + slash;
+                        String realFilePath = path;
 
                         logger.info("default path : " + path + " , realFilePath : " + realFilePath);
 
@@ -279,7 +281,7 @@ public class BoardController {
     @RequestMapping("/ckeditor/imgsubmit.do")
     public void imgsubmit(@RequestParam(value="fileName") String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
         //서버에 저장된 이미지 경로
-        String filePath = SERVER_DIR + "ckeditor" + slash + fileName;
+        String filePath = SERVER_DIR + "ckeditor/" + fileName;
         File imgFile = new File(filePath);
 
         //사진 이미지 찾지 못하는 경우 예외처리로 빈 이미지 파일을 설정한다.

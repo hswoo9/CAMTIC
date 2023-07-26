@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
+<script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <style>
   input[type="text"] {
@@ -22,6 +23,28 @@
   table th{
     width : 10%;
     text-align: left;
+  }
+  .file-and-table-container {
+    display: flex;
+    margin-top: 50px;
+  }
+  .fileTable {
+    width: 80%;
+    border-collapse: collapse;
+    margin : 0 0 0 20px;
+  }
+  .fileTable .fileTr .fileTh {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+  .fileTable .fileTr .fileTh {
+    background-color: #f2f2f2;
+    text-align: center;
+  }
+
+  .__btn1 {
+    min-width: 120px;
+    height: 40px;
   }
 </style>
 
@@ -68,7 +91,44 @@
               </dd>
           </dl> -->
           <div class="con">
-            <textarea class="txt_area_01" id="contents"></textarea>
+            <textarea class="txt_area_01" id="contents">
+              ${map.BOARD_ARTICLE_CONTENT}
+            </textarea>
+
+            <form>
+              <div class="file-and-table-container">
+                <div>
+                  <div class="filebox">
+                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                      <span class="__btn1 grayLine">파일첨부</span>
+                    </button>
+                    <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                  </div>
+                </div>
+
+                <table class="fileTable" style="width: 50%;">
+                  <colgroup>
+                    <col width="50%">
+                    <col width="10%">
+                    <col width="30%">
+                    <col width="10%">
+                  </colgroup>
+                  <thead>
+                  <tr class="fileTr">
+                    <th class="fileTh">파일명</th>
+                    <th class="fileTh">확장자</th>
+                    <th class="fileTh">용량</th>
+                    <th class="fileTh">기타</th>
+                  </tr>
+                  </thead>
+                  <tbody id="fileGrid">
+                  <tr class="defultTr">
+                    <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
           </div>
 
 
@@ -95,13 +155,11 @@
   $(function () {
 
     CKEDITOR.replace('contents', {
-        filebrowserUploadUrl:'/ckeditor/fileupload.do',
-        uploadUrl:'/ckeditor/fileupload.do',
-        height: 500,
+        height: 500
       });
 
 
-    CKEDITOR.instances.contents.setData($("#prevContent").val());
+    /*CKEDITOR.instances.contents.setData($("#prevContent").val());*/
 
     });
 
@@ -113,14 +171,28 @@
 
     var content = CKEDITOR.instances.contents.getData();
 
-    console.log(content);
-
     var data = {
       boardArticleId : $("#boardArticleId").val(),
       boardId : categoryId,
       category : categoryId,
       noticeTitle : $("#noticeTitle").val(),
       content : content
+    }
+
+    var formData = new FormData();
+
+    formData.append("boardId", categoryId);
+    formData.append("boardCategoryId", categoryId);
+    formData.append("menuCd", categoryId);
+    formData.append("noticeTitle", $("#noticeTitle").val());
+    formData.append("writer", $("#writer").val().toString());
+    formData.append("content", content);
+
+    //첨부파일
+    if(fCommon.global.attFiles != null){
+      for(var i = 0; i < fCommon.global.attFiles.length; i++){
+        formData.append("boardFile", fCommon.global.attFiles[i]);
+      }
     }
 
     if(!confirm("게시글을 수정하시겠습니까?")) {return false;}
