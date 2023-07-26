@@ -158,10 +158,77 @@
         height: 500
       });
 
-
     /*CKEDITOR.instances.contents.setData($("#prevContent").val());*/
 
+    fnDefaultScript();
+
+
+
+
     });
+
+  function fnDefaultScript() {
+    var data = {
+      boardArticleId : $("#boardArticleId").val(),
+      category : categoryId
+    }
+
+    $.ajax({
+      url: "/camtic/news/getFileListInfo.do",
+      data: data,
+      dataType : "json",
+      async: false,
+      success: function(rs){
+        console.log(rs.fileMap);
+        if(rs.fileMap.length > 0){
+          $("#fileGrid").find(".defultTr").remove();
+          $("#fileGrid").find(".addFile").remove();
+
+          var html = '';
+          for (var i = 0; i < rs.fileMap.length; i++) {
+            html += '<tr style="text-align: center" class="addFile">';
+            html += '   <td>' + rs.fileMap[i].file_org_name + '</td>';
+            html += '   <td>' + rs.fileMap[i].file_ext + '</td>';
+            html += '   <td>' + rs.fileMap[i].file_size + '</td>';
+            html += '   <td>';
+            html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="commonFileDel(' + rs.fileMap[i].file_no + ')">'
+            html += '   </td>';
+            html += '</tr>';
+          }
+
+          $("#fileGrid").append(html);
+        }
+      },
+
+    });
+  }
+
+  function commonFileDel(e, v){
+    if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+      $.ajax({
+        url: "/common/commonFileDel",
+        data: {
+          fileNo: e
+        },
+        type: "post",
+        datatype: "json",
+        success: function (rs) {
+          var rs = rs.rs;
+          alert(rs.message);
+          if(rs.code == "200"){
+            $(v).closest("tr").remove();
+            if($("#fileGrid").find("tr").length == 0){
+              $("#fileGrid").html('<tr>' +
+                      '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                      '</tr>');
+            }
+
+            fnDefaultScript();
+          }
+        }
+      });
+    }
+  }
 
   function fn_move(){
     location.href= referrer;
@@ -171,18 +238,19 @@
 
     var content = CKEDITOR.instances.contents.getData();
 
-    var data = {
+    /*var data = {
       boardArticleId : $("#boardArticleId").val(),
       boardId : categoryId,
       category : categoryId,
       noticeTitle : $("#noticeTitle").val(),
       content : content
-    }
+    }*/
 
     var formData = new FormData();
 
     formData.append("boardId", categoryId);
-    formData.append("boardCategoryId", categoryId);
+    formData.append("category", categoryId);
+    formData.append("boardArticleId", $("#boardArticleId").val());
     formData.append("menuCd", categoryId);
     formData.append("noticeTitle", $("#noticeTitle").val());
     formData.append("writer", $("#writer").val().toString());
@@ -200,9 +268,12 @@
     $.ajax({
       url : '/camtic/news/updNotice.do',
       type : 'POST',
-      data: data,
+      data: formData,
       dataType : "json",
-      async: false,
+      contentType: false,
+      processData: false,
+      enctype : 'multipart/form-data',
+      async : false,
       success: function() {
         alert("수정이 완료되었습니다.");
 

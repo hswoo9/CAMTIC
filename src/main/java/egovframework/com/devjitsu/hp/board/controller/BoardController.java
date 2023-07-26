@@ -163,11 +163,20 @@ public class BoardController {
     public String noticeRegister(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
         Map<String, Object> map = boardService.selectBoard(params);
 
-        List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
         model.addAttribute("categoryId", params.get("category"));
         model.addAttribute("map", map);
-        model.addAttribute("fileMap", fileList);
         return "camtic/news/register";
+    }
+
+    /**
+     * 게시글 수정 페이지(파일 불러오기)
+     * */
+    @RequestMapping("/camtic/news/getFileListInfo.do")
+    public String getFileListInfo(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
+        model.addAttribute("fileMap", fileList);
+        return "jsonView";
     }
 
     /**
@@ -186,8 +195,9 @@ public class BoardController {
      * 게시글 수정
      * */
     @RequestMapping("/camtic/news/updNotice.do")
-    public String updNotice(Model model, @RequestParam Map<String, Object> params){
-        boardService.updateBoard(params);
+    public String updNotice(Model model, @RequestParam Map<String, Object> params, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("boardFile").toArray(new MultipartFile[0]);
+        boardService.updateBoard(params, file, SERVER_DIR, BASE_DIR);
 
         model.addAttribute("rs", "sc");
         return "jsonView";

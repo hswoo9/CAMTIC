@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.hp.board.service.impl;
 
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.hp.board.repository.BoardRepository;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +84,63 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
+    @Override
+    public void updateBoard(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        boardRepository.updateBoard(params);
+
+        List<Map<String, Object>> chkList = boardRepository.selectBoardFile(params);
+        for(int x = 0; x< chkList.size(); x++){
+            Map<String, Object> chkMap = new HashMap<>();
+
+            chkMap.put("fileNo", chkList.get(x).get("file_no"));
+            getContentFileOne(chkMap);
+        }
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, listFilePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("frKey", params.get("boardArticleId"));
+                list.get(i).put("empSeq", "1");
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+    }
+
+    /** 파일서버 첨부파일 삭제 */
+    private Map<String, Object> getContentFileOne(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Map<String, Object> fileMap = new HashMap<>();
+            fileMap = commonRepository.getContentFileOne(params);
+
+            CommonUtil commonUtil = new CommonUtil();
+            boolean isDelete = commonUtil.deleteFile(new String[]{fileMap.get("file_uuid").toString()}, fileMap.get("file_path").toString());
+
+            if(isDelete){
+                commonRepository.getContentFileDelOne(params);
+            }else{
+                throw new Exception();
+            }
+
+            result.put("code", "200");
+            result.put("message", "파일이 삭제되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "파일 삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
     private String filePath(HttpServletRequest request, Map<String, Object> params, String base_dir){
         String path = "";
 
@@ -111,10 +170,7 @@ public class BoardServiceImpl implements BoardService {
         return path;
     }
 
-    @Override
-    public void updateBoard(Map<String, Object> params) {
-        boardRepository.updateBoard(params);
-    }
+
 
     @Override
     public void deleteBoard(Map<String, Object> params) {
