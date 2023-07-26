@@ -62,6 +62,10 @@ function dirname(path) {
 function onlyNumber(e) {
     e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '').replace(/[.]/g, '');
 }
+//숫자만 입력받으면서 콤마 찍어주기
+function onlyComma(e) {
+    e.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
+}
 
 //yyyyMMdd 두 날짜의 차이 구하기 (개월수)
 function betweenDay(firstDate, secondDate) {

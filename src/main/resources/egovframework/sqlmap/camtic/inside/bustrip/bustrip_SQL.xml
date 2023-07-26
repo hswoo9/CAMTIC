@@ -443,6 +443,46 @@
         ]]>
         AND IHBE.HR_BIZ_REQ_ID != #{hrBizReqId}
     </select>
+
+    <select id="getBustripCostList" parameterType="map" resultType="map">
+        /* getBustripCostList */
+        SELECT
+            IHCI.*
+        FROM
+            CAM_INSIDE.DJ_HR_COST_INFO IHCI
+        WHERE
+            1=1
+        ORDER BY REG_DT DESC
+    </select>
+
+    <insert id="setBustripCostInsert" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_COST_INFO
+            (
+                START_DT,
+                END_DT,
+                TRIP_CODE,
+                TRIP_TEXT,
+                EXNP_CODE,
+                EXNP_TEXT,
+                COST_AMT,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{startDt},
+                #{endDt},
+                #{tripCode},
+                #{tripText},
+                #{exnpCode},
+                #{exnpText},
+                #{costAmt},
+                #{remarkCn},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
 </mapper>
 
 

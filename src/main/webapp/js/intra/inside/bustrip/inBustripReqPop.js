@@ -414,3 +414,26 @@ var inBustripReqPop = {
 
 }
 
+function userDataSet(userArr){
+    let userText = "";
+    let userSn = "";
+    let userDeptText = "";
+    let userDeptSn = "";
+    for(let i=0; i<userArr.length; i++) {
+        if(userText != "") {
+            userText += ",";
+            userSn += ",";
+            userDeptText += ",";
+            userDeptSn += ",";
+        }
+        userText += userArr[i].empName;
+        userSn += userArr[i].empSeq;
+        userDeptText += userArr[i].deptName;
+        userDeptSn += userArr[i].deptSeq;
+    }
+
+    $("#popEmpSeq").val(userSn);
+    $("#popEmpName").val(userText);
+    $("#popDeptSeq").val(userDeptSn);
+    $("#popDeptName").val(userDeptText);
+}

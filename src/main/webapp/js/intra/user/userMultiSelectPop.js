@@ -190,8 +190,11 @@ var userMultiSel = {
                                 "		<td>" +
                                 "			<input type='hidden' id='approveEmpSeq' name='approveEmpSeq' value='"+result.EMP_SEQ+"'>" +
                                 "			<input type='hidden' id='approveEmpName' name='approveEmpName' value='"+result.EMP_NAME_KR+"'>" +
+                                "			<input type='hidden' id='approveDeptSeq' name='approveDeptSeq' value='"+result.DEPT_SEQ+"'>" +
                                 "			<input type='hidden' id='approveDeptName' name='approveDeptName' value='"+result.DEPT_NAME+"'>" +
+                                "			<input type='hidden' id='approvePositionCode' name='approvePositionCode' value='"+result.POSITION_CODE+"'>" +
                                 "			<input type='hidden' id='approvePositionName' name='approvePositionName' value='"+result.POSITION_NAME+"'>" +
+                                "			<input type='hidden' id='approveDutyCode' name='approveDutyCode' value='"+result.DUTY_CODE+"'>" +
                                 "			<input type='hidden' id='approveDutyName' name='approveDutyName' value='"+result.DUTY_NAME+"'>" +
                                 "			<span id='approveOrder'>"+($("#approvalLineDataTb tbody tr").length+1)+"</span>"+
                                 "		</td>" +

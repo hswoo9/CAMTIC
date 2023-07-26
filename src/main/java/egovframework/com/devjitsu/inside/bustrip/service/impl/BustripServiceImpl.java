@@ -217,4 +217,14 @@ public class BustripServiceImpl implements BustripService {
     public Map<String, Object> getBustripMaxDayCost(Map<String, Object> params) {
         return bustripRepository.getBustripMaxDayCost(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getBustripCostList(Map<String, Object> params) {
+        return bustripRepository.getBustripCostList(params);
+    }
+
+    @Override
+    public void setBustripCostInsert(Map<String, Object> params) {
+        bustripRepository.setBustripCostInsert(params);
+    }
 }
