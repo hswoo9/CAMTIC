@@ -156,7 +156,7 @@
     let month = today.getMonth() + 1;
     let date = today.getDate();
 
-    $("#writeDate").val(year + "년 " + month + "월 " + date + "일")
+    $("#writeDate").val(year + "년 " + month + "월 " + date + "일");
 
     CKEDITOR.replace('contents', {
       height: 500
@@ -172,31 +172,13 @@
 
     var content = CKEDITOR.instances.contents.getData();
 
-    console.log(categoryId);
-    var data = {
+    /*var data = {
       boardId : categoryId,
       boardCategoryId : categoryId,
       noticeTitle : $("#noticeTitle").val(),
       writer : $("#writer").val().toString(),
       content : content
-    }
-
-    var formData = new FormData();
-
-    formData.append("boardId", categoryId);
-    formData.append("boardCategoryId", categoryId);
-    formData.append("menuCd", categoryId);
-    formData.append("noticeTitle", $("#noticeTitle").val());
-    formData.append("writer", $("#writer").val().toString());
-    formData.append("content", content);
-
-    //증빙파일 첨부파일
-    if(fCommon.global.attFiles != null){
-      for(var i = 0; i < fCommon.global.attFiles.length; i++){
-        formData.append("boardFile", fCommon.global.attFiles[i]);
-      }
-    }
-
+    }*/
 
     if($("#noticeTitle").val() == ""){
       alert("제목을 입력해주세요.");
@@ -208,7 +190,21 @@
       return false;
     }
 
-    console.log(formData);
+    var formData = new FormData();
+
+    formData.append("boardId", categoryId);
+    formData.append("boardCategoryId", categoryId);
+    formData.append("menuCd", categoryId);
+    formData.append("noticeTitle", $("#noticeTitle").val());
+    formData.append("writer", $("#writer").val().toString());
+    formData.append("content", content);
+
+    //첨부파일
+    if(fCommon.global.attFiles != null){
+      for(var i = 0; i < fCommon.global.attFiles.length; i++){
+        formData.append("boardFile", fCommon.global.attFiles[i]);
+      }
+    }
 
     if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
 

@@ -17,6 +17,12 @@
     .popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
     .timeBoxSt{text-align: center; font-size: 20px;}
     .timeBox{padding: 10px;}
+    .col-lg-2{
+        width: 20%!important;
+    }
+    .col-lg-7{
+        width: 55%!important;
+    }
 </style>
 
 <div id="mainContent">
@@ -60,17 +66,26 @@
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div style="padding: 25px 0 0 25px;">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
+        <div class="panel" style="margin-bottom:10px;">
+            <div style="padding: 25px 0 0 25px; height: 53px;">
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
             </div>
-            <div class="panel-body">
-                <div style="text-align:center;"><img src="/images/sample/testImages.png" alt="testImages" style="width:220px;"></div>
+            <div class="panel-body" style="padding:5px;">
+                <div class="demo-section" style="text-align: center; width:300ps; height: 343px;">
+                    <div id="calendar"></div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        // create Calendar from div HTML element
+                        $("#calendar").kendoCalendar();
+                    });
+                </script>
             </div>
         </div>
     </div>
-    <div class="col-md-7 col-lg-7 dash-left" style="margin-top:-10px;">
-    <div class="panel" style="margin-bottom:10px;">
+    </div>
+    <div class="col-md-7 col-lg-7" style="margin-top:-10px;">
+    <div class="panel" style="margin-bottom:10px; height: 465px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">게시판 최근글</h4>
         </div>
@@ -88,7 +103,7 @@
                     <div class="tab-pane active" id="tab1" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;">
-                                <li style="border-top:0; border-bottom:0;">
+                                <li style="border-top:0; border-bottom:0; ">
                                     <div style="padding: 10px 10px 0px;">
                                         <span style="font-weight:600; font-size:15px;">외부전문가 및 강사 등에 지급하는 소득에 대한 소득신고(원천징수)관련 협조사항 안내</span><span>[1]</span>
                                     </div>
@@ -148,7 +163,7 @@
         </div>
     </div>
 
-    <div class="panel">
+    <div class="panel" style="height: 407px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">메일함</h4>
         </div>
@@ -239,87 +254,50 @@
         </div>
     </div>
 </div>
-    <div class="col-md-3 col-sm-3" style="padding-right:0; margin-top:-10px; padding-left:0;">
-        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+    <div class="col-md-3 col-sm-3" style="margin-top:-10px; padding-left:0;">
+        <div class="col-md-6 col-sm-6" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
                     <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-user" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">연락처 추가</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+        <div class="col-md-6 col-sm-6" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
                     <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">일정등록</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+        <div class="col-md-6 col-sm-6" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
                     <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">게시물쓰기</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+        <div class="col-md-6 col-sm-6" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
                     <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">설문작성</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+        <div class="col-md-6 col-sm-6" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="" onclick="open_in_frame('/Inside/carReq.do')"><i class="fa fa-car" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">차량사용신청</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/carReq.do')"><i class="fa fa-car" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">차량사용신청</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <div class="col-md-5 col-sm-5" style="padding-right:0;">
+        <div class="col-md-6 col-sm-6" style="padding-right:0;">
             <div class="panel" style="margin-bottom:10px;">
                 <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
+                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
                 </div>
             </div><!-- panel -->
         </div>
-        <%--<div class="col-md-10 col-sm-10" style="padding-right:0;">
-        <div class="panel" style="margin-bottom:10px;">
-            <div style="padding: 25px 0 0 25px;">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">최근 로그인 정보</h4>
-            </div>
-            <div class="panel-body">
-                <table style="background-color:#fff; text-align:center;">
-                    <colgroup>
-                        <col width="40%">
-                        <col width="40%">
-                        <col width="20%">
-                    </colgroup>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="color:#333;font-weight:600; text-align:center;">일시</th>
-                        <th style="color:#333;font-weight:600; text-align:center;">IP</th>
-                        <th style="color:#333;font-weight:600; text-align:center;">접속기기</th>
-                    </tr>
-                    <tr>
-                        <td style="color:#333;font-weight:600;padding:3px; text-align:center;">2023-07-11 13:43</td>
-                        <td style="color:#919191;font-weight:600;padding:3px; text-align:center;">218.158.231.107</td>
-                        <td style="text-align:center;padding:3px;">PC</td>
-                    </tr>
-                    <tr>
-                        <td style="color:#333;font-weight:600;padding:3px; text-align:center;">2023-07-11 13:43</td>
-                        <td style="color:#919191;font-weight:600;padding:3px; text-align:center;">218.158.231.107</td>
-                        <td style="text-align:center;padding:3px;">PC</td>
-                    </tr>
-                    <tr>
-                        <td style="color:#333;font-weight:600;padding:3px;">2023-07-11 08:39</td>
-                        <td style="color:#919191;font-weight:600;padding:3px;">115.144.64.1</td>
-                        <td style="text-align:center;padding:3px;">PC</td>
-
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>--%>
-    <div class="col-md-10 col-sm-10" style="padding-right:0;">
+    <div class="col-md-12 col-sm-12" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">작성할 보고</h4>
@@ -349,25 +327,17 @@
             </div>
         </div>
     </div>
-    <div class="col-md-10 col-sm-10" style="padding-right:0;">
+    <div class="col-md-12 col-sm-12" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
             </div>
-            <div class="panel-body" style="padding:5px;">
-                <div class="demo-section" style="text-align: center; width:300ps; margin-left:10px;">
-                    <div id="calendar"></div>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        // create Calendar from div HTML element
-                        $("#calendar").kendoCalendar();
-                    });
-                </script>
+            <div class="panel-body">
+                <div style="text-align:center;"><img src="/images/sample/testImages.png" alt="testImages" style="width:220px;"></div>
             </div>
         </div>
     </div>
-    <div class="col-md-10 col-sm-10" style="padding-right:0;">
+    <div class="col-md-12 col-sm-12" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #505b72; padding:5px;">
                 <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>

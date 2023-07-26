@@ -47,6 +47,7 @@ public class CommonServiceImpl implements CommonService {
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("121.186.165.80")){
             path = "http://121.186.165.80:8010" + path;
+        }else if(request.getServerName().contains("218.158.231.186")){
         }else{
             path = "http://10.10.10.114:80" + path;
         }

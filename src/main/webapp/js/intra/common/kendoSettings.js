@@ -5,6 +5,7 @@
  *         fn_gridDataSource: (function(*, *): *),
  *         fn_gridDataSource2: (function(*, *): *),
  *         fn_textBox: customKendo.fn_textBox,
+ *         fn_textArea: customKendo.fn_textArea,
  *         fn_customAjax: (function(*, *): *),
  *         fn_dropDownList: customKendo.fn_dropDownList,
  *         fn_dropDownTree: customKendo.fn_dropDownList,
@@ -158,6 +159,16 @@ var customKendo = {
     fn_textBox : function(idArray){
         for(var i = 0; i < idArray.length; i++){
             $("#"+idArray[i]).kendoTextBox();
+        }
+    },
+
+    /**
+     * Custom KendoTextArea
+     * @param idArray[]
+     */
+    fn_textArea : function(idArray){
+        for(var i = 0; i < idArray.length; i++){
+            $("#"+idArray[i]).kendoTextArea();
         }
     },
 

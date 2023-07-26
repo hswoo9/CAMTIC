@@ -47,4 +47,8 @@ public interface BustripService {
     List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params);
 
     Map<String, Object> getBustripMaxDayCost(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripCostList(Map<String, Object> params);
+
+    void setBustripCostInsert(Map<String, Object> params);
 }

@@ -73,7 +73,7 @@
         approvalParams.linkageProcessCode = "camticEquipment";
         approvalParams.approKey = "camticEquipment_${params.searchDe}".replace("-", "");
 
-        //linkageProcessOn(approvalParams);
+        linkageProcessOn(approvalParams);
     }
 
     console.log('${data}');

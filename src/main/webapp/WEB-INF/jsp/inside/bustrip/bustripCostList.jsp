@@ -3,15 +3,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/bustrip/dutyBustripExpenses.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripCostList.js?v=${today}"/></script>
 
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">직급별 출장여비</h4>
-            <div class="title-road">캠인사이드 > 출장관리 &gt; 직급별 출장여비</div>
+            <h4 class="panel-title">도내/외 여비설정</h4>
+            <div class="title-road">캠인사이드 > 출장관리 &gt; 도내/외 여비설정</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -23,5 +23,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    dutyBustripExpenses.init();
+    costList.init();
 </script>

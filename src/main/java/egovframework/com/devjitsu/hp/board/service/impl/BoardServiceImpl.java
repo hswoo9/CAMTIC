@@ -11,8 +11,12 @@ import egovframework.com.devjitsu.hp.board.util.PagingResponse;
 import egovframework.com.devjitsu.hp.board.util.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -59,29 +63,50 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void insertBoard(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         boardRepository.insertBoard(params);
 
         if(file.length > 0){
             MainLib mainLib = new MainLib();
-            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, listFilePath(params, server_dir));
             for(int i = 0 ; i < list.size() ; i++){
                 list.get(i).put("frKey", params.get("boardArticleId"));
                 list.get(i).put("empSeq", "1");
                 list.get(i).put("fileCd", params.get("menuCd"));
-                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
                 list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
             }
             commonRepository.insFileInfo(list);
         }
     }
-    private String filePath (Map<String, Object> params, String base_dir){
+
+    private String filePath(HttpServletRequest request, Map<String, Object> params, String base_dir){
+        String path = "";
+
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String fmtNow = now.format(fmt);
 
-        String path = base_dir + params.get("menuCd").toString()+"File/" + fmtNow + "/";
+        String devUrl = "http:\\\\218.158.231.186:8080";
+        String prodUrl = "http:\\\\218.158.231.186:8080";
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
+            path = devUrl + base_dir + "boardFile/" + params.get("menuCd").toString()+"File/" + fmtNow + "/";
+        }else{
+            path = prodUrl + base_dir + "boardFile/" + params.get("menuCd").toString()+"File/" + fmtNow + "/";
+        }
+
+        return path.replace("\\\\", "//");
+    }
+
+    private String listFilePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + "boardFile/" + params.get("menuCd").toString()+"File/" + fmtNow + "/";
 
         return path;
     }

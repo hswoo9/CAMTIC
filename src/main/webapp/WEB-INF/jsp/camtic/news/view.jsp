@@ -63,6 +63,9 @@
                   </c:choose>
                 </c:forEach>
               </c:if>
+              <c:if test="${fileMap eq null}">
+                <span></span>
+              </c:if>
             </div>
 
 

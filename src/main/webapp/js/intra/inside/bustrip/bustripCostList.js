@@ -1,10 +1,8 @@
-var now = new Date();
-
-var dutyBustripExpenses = {
+var costList = {
 
     init : function(){
-        dutyBustripExpenses.dataSet();
-        dutyBustripExpenses.mainGrid();
+        costList.dataSet();
+        costList.mainGrid();
     },
 
     dataSet() {
@@ -28,20 +26,20 @@ var dutyBustripExpenses = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/bustrip/getBustripCostList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -62,15 +60,15 @@ var dutyBustripExpenses = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
-                            '	<span class="k-button-text">입력</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="costList.bustripCostReqPop();">' +
+                            '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
                 }, {
@@ -87,45 +85,33 @@ var dutyBustripExpenses = {
             },
             columns: [
                 {
-                    field: "",
-                    title: "정렬순서"
+                    title: "적용기간",
+                    template: function(row){
+                        return row.START_DT+" ~ "+row.END_DT;
+                    }
                 }, {
-                    field: "",
-                    title: "명칭"
+                    field: "TRIP_TEXT",
+                    title: "출장구분"
                 }, {
-                    field: "",
-                    title: "현지교통비"
+                    field: "EXNP_TEXT",
+                    title: "여비 종류"
                 }, {
-                    field: "",
-                    title: "숙박비"
+                    title: "여비지급 금액",
+                    template: function(row){
+                        return fn_numberWithCommas(row.COST_AMT);
+                    }
                 }, {
-                    field: "",
-                    title: "식비"
-                }, {
-                    field: "",
-                    title: "관내여비"
-                }, {
-                    field: "",
-                    title: "해당직급"
-                }, {
-                    field: "",
-                    title: "비교"
+                    field: "REMARK_CN",
+                    title: "비고"
                 }
             ]
         }).data("kendoGrid");
     },
 
-    recruitReqPop : function() {
-        var url = "/Inside/recruitReqPop.do";
-        var name = "recruitReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
-    recruitAdminPop : function() {
-        var url = "/Inside/recruitAdminPop.do";
-        var name = "recruitAdminPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
+    bustripCostReqPop : function() {
+        const url = "/bustrip/pop/bustripCostReqPop.do";
+        const name = "bustripCostReqPop";
+        const option = "width=865, height=475, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
     }
 }
