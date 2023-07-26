@@ -42,27 +42,7 @@ var bustripExnpPop = {
             }
         });
 
-        let dayCostArr = [];
-        $.each($(".addData"), function(i, v){
-            let dayCost = {};
-            dayCost.empSeq = $(v).find('.empSeq').val();
-
-            let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
-                empSeq: $(v).find('.empSeq').val(),
-                hrBizReqId: $("#hrBizReqId").val()
-            });
-
-            dayCost.dayCost = dayCostResult.data.DAY_COST;
-            dayCostArr[i] = dayCost;
-        });
-
-        console.log(dayCostArr);
-
-        for(let i=0; i<dayCostArr.length; i++){
-            if(Number(dayCostArr[i].dayCost.replace(",", "")) > 0){
-                $("#dayCost"+String(dayCostArr[i].empSeq)).data("kendoTextBox").enable(false);
-            }
-        }
+        bustripExnpPop.fn_settingCost(type);
     },
 
     inputNumberFormat: function (obj){
@@ -125,5 +105,40 @@ var bustripExnpPop = {
         parent.opener.bustripResult.mainGrid();
 
         window.close();
+    },
+
+    fn_settingCost(type){
+        if(type != "upd") {
+            let costList = customKendo.fn_customAjax("/bustrip/getBustripCostList", {
+                hrBizReqId: $("#hrBizReqId").val()
+            }).list;
+            console.log(costList);
+            for(let i=0; i<costList.length; i++){
+                $("."+String(costList[i].EXNP_CODE)).val(fn_numberWithCommas(costList[i].COST_AMT));
+            }
+
+            let dayCostArr = [];
+            $.each($(".addData"), function(i, v){
+                let dayCost = {};
+                dayCost.empSeq = $(v).find('.empSeq').val();
+
+                let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
+                    empSeq: $(v).find('.empSeq').val(),
+                    hrBizReqId: $("#hrBizReqId").val()
+                });
+
+                dayCost.dayCost = dayCostResult.data.DAY_COST;
+                dayCostArr[i] = dayCost;
+            });
+
+            console.log(dayCostArr);
+
+            for(let i=0; i<dayCostArr.length; i++){
+                if(Number(dayCostArr[i].dayCost.replace(",", "")) > 0){
+                    $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
+                    $("#dayCost"+String(dayCostArr[i].empSeq)).data("kendoTextBox").enable(false);
+                }
+            }
+        }
     }
 }
