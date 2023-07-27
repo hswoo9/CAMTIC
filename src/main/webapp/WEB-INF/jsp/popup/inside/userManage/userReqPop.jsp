@@ -17,7 +17,7 @@
             <h3 class="card-title title_NM">직원등록</h3>
             <div>
                 <button type="button" class="k-button k-button-solid-base" style="margin-top: 8px;" onclick="history.back();">뒤로가기</button>
-                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="">저장</button>
+                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="userReqPop.userReqSave();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
         </div>
