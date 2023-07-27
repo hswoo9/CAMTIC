@@ -26,7 +26,15 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
+
+        <ul id="navigation">
+          <li><a href="/camtic">홈으로</a></li>
+          <li class="">캠틱소식</li>
+          <li class=""><span class="categoryName"></span></li>
+        </ul>
+        <div id="title">
+          <h3><span class="categoryName"></span></h3>
+        </div>
 
         <div class="__boardView">
           <div class="head">
@@ -134,6 +142,18 @@
 <input type="hidden" id="category" value="${categoryId}" />
 <script>
   var categoryId = $("#category").val();
+
+  $(function () {
+    if(categoryId == "notice"){
+      $(".categoryName").text("공지사항");
+    }else if(categoryId == "business"){
+      $(".categoryName").text("사업공고");
+    }else if(categoryId == "study"){
+      $(".categoryName").text("교육/행사");
+    }else if(categoryId == "partner"){
+      $(".categoryName").text("유관기관소식");
+    }
+  });
 
   function fileDown(filePath, fileName){
     kendo.saveAs({

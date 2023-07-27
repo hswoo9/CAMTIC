@@ -20,7 +20,15 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
+
+        <ul id="navigation">
+          <li><a href="/camtic">홈으로</a></li>
+          <li class="">캠틱소식</li>
+          <li class=""><span class="categoryName"></span></li>
+        </ul>
+        <div id="title">
+          <h3><span class="categoryName"></span></h3>
+        </div>
 
         <div class="__topArea">
           <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
@@ -77,9 +85,9 @@
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 
-<input type="hidden" id="categoryKey" value="${categoryKey}" />
+<input type="hidden" id="category" value="${categoryKey}" />
 <script>
-  var categoryKey = $("#categoryKey").val();
+  var categoryKey = $("#category").val();
 
   var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey,'');
   var flag = false;
@@ -107,6 +115,16 @@
 
   var data = firstData.boardArticleList.list;
   $(function () {
+    if(categoryKey == "notice"){
+      $(".categoryName").text("공지사항");
+    }else if(categoryKey == "business"){
+      $(".categoryName").text("사업공고");
+    }else if(categoryKey == "study"){
+      $(".categoryName").text("교육/행사");
+    }else if(categoryKey == "partner"){
+      $(".categoryName").text("유관기관소식");
+    }
+
     $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 
     dataChk();

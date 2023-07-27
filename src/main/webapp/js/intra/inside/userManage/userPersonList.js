@@ -627,6 +627,7 @@ var userPersonList = {
     },
 
     userPersonnelRecord : function(empSeq){
-        open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq)
+        open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq + '&admin=Y')
+        /*open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq)*/
     }
 }
