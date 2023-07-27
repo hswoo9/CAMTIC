@@ -46,13 +46,13 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>부서명
+                        <span class="red-star"></span>부서
                     </th>
                     <td>
                         <input type="text" id="dept" style="width: 150px; margin-right:10px;">
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>팀명
+                        <span class="red-star"></span>팀
                     </th>
                     <td>
                         <input type="text" id="team" style="width: 100%; margin-right:10px;">
@@ -97,7 +97,7 @@
                         <span class="red-star"></span>폐기년도
                     </th>
                     <td>
-                        <input type="text" id="disYear" style="width: 100%;">
+                        <input type="text" id="disYear" style="width: 100%;" disabled>
                     </td>
                 </tr>
                 <tr>

@@ -23,9 +23,11 @@
                             <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
                         </c:if>
                     </c:if>
-                    <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
-                    <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
-                    <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
+                    <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
+                        <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
+                    </c:if>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                 </div>
             </c:if>

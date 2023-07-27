@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -335,6 +336,15 @@ public class DocumentController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    //문서고 등록 - 문서위치 조회
+    @RequestMapping("/document/getDocumentPlaceList")
+    @ResponseBody
+    public Map<String, Object> getDocumentPlaceList(@RequestParam Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", documentService.getDocumentPlaceList(params));
+        return result;
     }
 
 }

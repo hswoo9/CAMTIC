@@ -196,4 +196,10 @@ public class DocumentServiceImpl implements DocumentService {
     public void setArchiveInsert(Map<String, Object> params) {
         documentRepository.setArchiveInsert(params);
     }
+
+    //문서고 등록 - 문서위치 조회
+    @Override
+    public List<Map<String,Object>> getDocumentPlaceList(Map<String, Object> params) {
+        return documentRepository.getDocumentPlaceList(params);
+    }
 }

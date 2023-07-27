@@ -26,7 +26,7 @@
   }
   .file-and-table-container {
     display: flex;
-    margin-top: 50px;
+    margin-top: 30px;
   }
   .fileTable {
     width: 80%;
@@ -46,6 +46,10 @@
     min-width: 120px;
     height: 40px;
   }
+
+  #title{
+    margin-bottom: 0;
+  }
 </style>
 
 
@@ -60,14 +64,14 @@
         <div class="__boardView">
           <div class="head">
             <div>
-              <table style="">
-                <tr>
+              <table style="line-height: 60px;">
+                <tr style="border-bottom: 1px solid #ccc;">
                   <th>제목</th>
                   <td>
                     <input type="text" id="noticeTitle" class="" value="${map.BOARD_ARTICLE_TITLE}"/>
                   </td>
                 </tr>
-                <tr>
+                <tr style="border-bottom: 1px solid #ccc;">
                   <th>작성자</th>
                   <td>
                     <input type="text" id="writer" class="" value="${map.REG_EMP_NAME}" disabled/>

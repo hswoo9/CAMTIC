@@ -463,6 +463,7 @@ img {max-width:100%;}
 }
 
 #sub {padding:35px 15px 100px;}
+/*#sub > .inner {max-width:1562px;margin:0 auto;display:flex;justify-content:space-between;gap:30px;}*/
 #sub > .inner {max-width:1562px;margin:0 auto;display:flex;justify-content:space-between;gap:30px;}
 
 #lnb {position:relative;z-index:20;width:236px;padding-top:50px;}
