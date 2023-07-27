@@ -50,6 +50,8 @@
   #title{
     margin-bottom: 0;
   }
+
+  div#content img { max-width: 100%; height: auto; }
 </style>
 
 
@@ -60,7 +62,17 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
+
+        <ul id="navigation">
+          <li><a href="/camtic">홈으로</a></li>
+          <li class="">캠틱소식</li>
+          <li class=""><span class="categoryName"></span></li>
+          <li class="">게시글 수정</li>
+        </ul>
+        <div id="title">
+          <h3><span class="categoryName"></span></h3>
+        </div>
+
         <div class="__boardView">
           <div class="head">
             <div>
@@ -150,13 +162,23 @@
 </div>
 
 <input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
-<input type="hidden" id="boardCategoryId" value="${map.BOARD_CATEGORY_ID}"/>
-<input type="hidden" id="prevContent" value="${map.BOARD_ARTICLE_CONTENT}"/>
+<input type="hidden" id="category" value="${map.BOARD_CATEGORY_ID}"/>
+<%--<input type="hidden" id="prevContent" value="${map.BOARD_ARTICLE_CONTENT}"/>--%>
 <script>
   var referrer = document.referrer;
-  var categoryId = $("#boardCategoryId").val();
+  var categoryId = $("#category").val();
 
   $(function () {
+    if(categoryId == "notice"){
+      $(".categoryName").text("공지사항");
+    }else if(categoryId == "business"){
+      $(".categoryName").text("사업공고");
+    }else if(categoryId == "study"){
+      $(".categoryName").text("교육/행사");
+    }else if(categoryId == "partner"){
+      $(".categoryName").text("유관기관소식");
+    }
+
 
     CKEDITOR.replace('contents', {
         height: 500
@@ -249,6 +271,16 @@
       noticeTitle : $("#noticeTitle").val(),
       content : content
     }*/
+
+    if($("#noticeTitle").val() == ""){
+      alert("제목을 입력해주세요.");
+      return false;
+    }
+
+    if(content == ""){
+      alert("내용을 입력해주세요.");
+      return false;
+    }
 
     var formData = new FormData();
 

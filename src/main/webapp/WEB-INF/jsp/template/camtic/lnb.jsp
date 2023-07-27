@@ -67,4 +67,17 @@
   $("."+middleCategory+"_"+smallCategory).addClass('active');
   $("#lnb .lnb > li").not("."+middleCategory).hide();
   $("#lnb h2").text($("#header .gnb > ."+middleCategory+" span").text());
+
+
+  $(function () {
+    const categoryInb = $("#category").val();
+
+    if(categoryInb != ""){
+      $(".news"+"_"+categoryInb).addClass('active');
+    }else{
+      const boardPathName = $(location).attr('search');
+      const boardGub = boardPathName.split("=")[1];
+      $(".news"+"_"+boardGub).addClass('active');
+    }
+  });
 </script>
