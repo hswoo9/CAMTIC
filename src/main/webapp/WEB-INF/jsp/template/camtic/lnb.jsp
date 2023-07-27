@@ -74,10 +74,11 @@
 
     if(categoryInb != ""){
       $(".news"+"_"+categoryInb).addClass('active');
-    }else{
+    }
+    /*else{
       const boardPathName = $(location).attr('search');
       const boardGub = boardPathName.split("=")[1];
       $(".news"+"_"+boardGub).addClass('active');
-    }
+    }*/
   });
 </script>
