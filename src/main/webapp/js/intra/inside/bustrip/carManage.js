@@ -133,7 +133,7 @@ var carManage = {
                             $("#useDept").data("kendoDropDownTree").value(useDeptArr);
                             const deptLength = useDeptArr.length
                             if(deptLength != 1) {
-                                return useDeptArr[0]+"<br> 외 "+(useDeptArr.length-1)+"개 부서";
+                                return useDeptArr[0]+" 외 "+(useDeptArr.length-1)+"개 부서";
                             }else {
                                 return useDeptArr[0];
                             }

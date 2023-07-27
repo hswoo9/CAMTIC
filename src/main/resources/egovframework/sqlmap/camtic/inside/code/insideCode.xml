@@ -69,7 +69,8 @@
         /* searchDuplicateCar */
         <![CDATA[
             SELECT
-                IHCR.EMP_NAME
+                IHCR.EMP_NAME,
+                IHCR.EMP_SEQ
             FROM
                 CAM_INSIDE.DJ_HR_CAR_REQ IHCR
             WHERE
