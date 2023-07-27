@@ -7,6 +7,19 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/inBustripReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <body class="font-opensans" style="background-color:#fff;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -108,17 +121,9 @@
                     </td>
                 </tr>
                 <tr id="carLine">
-                    <th><span class="red-star">*</span>업무차량</th>
-                    <td>
-                        <div style="position: relative; top: 4px;">
-                            <input type="radio" name="useCar" id="car1" value="N" checked>
-                            <label for="car1">미사용</label>
-                            <input type="radio" name="useCar" id="car2" value="Y">
-                            <label for="car2">사용</label>
-                        </div>
-                    </td>
-                    <th>차량</th>
-                    <td>
+
+                    <th><span class="red-star">*</span>차량</th>
+                    <td colspan="3">
                         <input type="text" id="carList" style="width: 40%;">
                         <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" disabled onclick=""/><br>
                     </td>

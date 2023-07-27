@@ -1,10 +1,6 @@
-var now = new Date();
-var docContent = "";
-
 var inBustripReqPop = {
 
     init : function(){
-
         inBustripReqPop.dataSet();
     },
 
@@ -97,31 +93,15 @@ var inBustripReqPop = {
             }
         });
 
-        $("#carList").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""},
-                {text: "카니발", value: "1"},
-                {text: "아반떼", value: "5"},
-                {text: "트럭", value: "3"},
-                {text: "자가", value: "10"},
-                {text: "대중교통", value: "0"},
-                {text: "모하비", value: "12"},
-                {text: "솔라티", value: "13"},
-                {text: "드론관제차량", value: "14"},
-                {text: "기타", value: "11"}
-            ],
-            index : 0,
-            enable : true
-        });
+        const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
+        carArr.push({text: "자가", value: "10"});
+        carArr.push({text: "대중교통", value: "0"});
+        customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
 
         $("#project, #busnName, #popEmpName, #visitLoc, #visitLocSub, #userName, #moveDst, #bustObj").kendoTextBox();
     },
 
     fn_saveBtn: function(){
-
-
         if($("#tripCode").val() == ""){
             alert("출장 구분을 선택해주세요.");
             return;
@@ -136,6 +116,9 @@ var inBustripReqPop = {
             return;
         } else if($("#bustObj").val() == ""){
             alert("출장목적을 입력해주세요.");
+            return;
+        } else if($("#carList").val() == ""){
+            alert("차량을 선택해주세요.");
             return;
         }
 
@@ -160,7 +143,7 @@ var inBustripReqPop = {
         formData.append("tripDayTo", $("#date2").val());
         formData.append("tripTimeFr", $("#time1").val());
         formData.append("tripTimeTo", $("#time2").val());
-        formData.append("useCar", $("input[name='useCar']:checked").val());
+        formData.append("useCar", "Y");
         formData.append("useTrspt", $("#carList").val());
         formData.append("busnName", $("#busnName").val());
         formData.append("title", $("#bustObj").val());
@@ -175,6 +158,36 @@ var inBustripReqPop = {
             for(var i = 0; i < fCommon.global.attFiles.length; i++){
                 formData.append("purcFile", fCommon.global.attFiles[i]);
             }
+        }
+
+        if($("#carList").val() != "10" && $("#carList").val() != "0"){
+            let data = {
+                startDt : $("#date1").val(),
+                endDt : $("#date2").val(),
+                startTime : $("#time1").val(),
+                endTime : $("#time2").val(),
+                useDeptSeq : $("#regDeptSeq").val(),
+                useDeptName : $("#regDeptName").val(),
+                carClassSn : $("#carList").val(),
+                carClassText : $("#carList").data("kendoDropDownList").text(),
+                carTypeSn : 1,
+                carTypeText : "업무용",
+                carTitleName : $("#bustObj").val(),
+                visitName : $("#visitLoc").val(),
+                waypointName : $("#visitLocSub").val(),
+                empSeq : $("#regEmpSeq").val(),
+                empName : $("#regEmpName").val(),
+                regEmpSeq : $("#regEmpSeq").val(),
+                regEmpName : $("#regEmpName").val(),
+                type: "bustripReq"
+            }
+            carReq.searchDuplicateCar(data);
+
+            if(flag && carType == "A") {
+                carReq.setCarRequestInsert(data);
+            }
+        }else {
+            flag = true;
         }
 
         $.ajax({
