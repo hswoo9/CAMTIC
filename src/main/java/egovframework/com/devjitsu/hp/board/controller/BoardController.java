@@ -49,20 +49,6 @@ public class BoardController {
     private String slash;
 
     /**
-     * 공지사항 페이지
-     * */
-    @RequestMapping("/camtic/news/notice.do")
-    public String notice(Model model, ArticlePage articlePage){
-        /*articlePage.setSearchCategory("notice");
-        PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);
-        model.addAttribute("boardArticleList", response);
-        model.addAttribute("pagination", articlePage.getPagination());
-        model.addAttribute("page", articlePage.getPage());*/
-        /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
-        return "camtic/news/notice";
-    }
-
-    /**
      * 공통게시판 페이지
      * */
     @RequestMapping("/camtic/news/commonBoard.do")
@@ -88,48 +74,6 @@ public class BoardController {
         /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
         return "jsonView";
     }
-
-    /**
-     * 사업공고 페이지
-     * */
-    @RequestMapping("/camtic/news/business.do")
-    public String business(Model model, HttpServletRequest request, ArticlePage articlePage){
-
-        articlePage.setSearchCategory("business");
-        PagingResponse<PostResponse> list = boardService.selectBoardList(articlePage);
-        model.addAttribute("list", list);
-        model.addAttribute("articlePage", articlePage);
-        model.addAttribute("totalCnt", articlePage.getPagination());
-        return "camtic/news/business";
-    }
-    /**
-     * 교육/행사 페이지
-     * */
-    @RequestMapping("/camtic/news/study.do")
-    public String study(Model model, HttpServletRequest request, ArticlePage articlePage){
-
-        articlePage.setSearchCategory("study");
-        PagingResponse<PostResponse> list = boardService.selectBoardList(articlePage);
-        model.addAttribute("list", list);
-        model.addAttribute("articlePage", articlePage);
-        model.addAttribute("totalCnt", articlePage.getPagination());
-        return "camtic/news/study";
-    }
-
-    /**
-     * 유관기관소식 페이지
-     * */
-    @RequestMapping("/camtic/news/partner.do")
-    public String partner(Model model, HttpServletRequest request, ArticlePage articlePage){
-
-        articlePage.setSearchCategory("partner");
-        PagingResponse<PostResponse> list = boardService.selectBoardList(articlePage);
-        model.addAttribute("list", list);
-        model.addAttribute("articlePage", articlePage);
-        model.addAttribute("totalCnt", articlePage.getPagination());
-        return "camtic/news/partner";
-    }
-
 
     /**
      * 공지사항 상세보기 페이지
@@ -329,22 +273,4 @@ public class BoardController {
         }
 
     }
-
-
-
-    /*//사업공고
-    @RequestMapping("/camtic/news/business.do")
-    public String Nbusiness(){ return "camtic/news/business"; }
-    //교육/행사
-    @RequestMapping("/camtic/news/study.do")
-    public String Nstudy(){ return "camtic/news/study"; }
-    //유관기관소식
-    @RequestMapping("/camtic/news/partner.do")
-    public String Npartner(){ return "camtic/news/partner"; }
-    @RequestMapping("/camtic/news/view.do")
-    public String Nview(){ return "camtic/news/view"; }*/
-
-
-
-
 }

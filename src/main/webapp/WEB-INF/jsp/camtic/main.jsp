@@ -21,7 +21,7 @@
 
   <aside id="aside">
     <a href="/camtic" class="aside1">첫화면</a>
-    <a href="/camtic/news/notice.do" class="aside2">공지</a>
+    <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="aside2">공지</a>
     <%--<a href="#" class="aside3">SNS</a>--%>
     <a href="#" class="aside4">채용<br>공고</a>
     <a href="#" class="aside5">장비<br>사용</a>
@@ -110,7 +110,7 @@
                   <p class="date">2023-01-04</p>
                 </a>
               </div>
-              <a href="/camtic/news/notice.do" class="more">+ 더보기</a>
+              <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="more">+ 더보기</a>
             </div>
             <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false">
               <div class="sec">
