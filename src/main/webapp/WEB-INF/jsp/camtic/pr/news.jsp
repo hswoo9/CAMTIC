@@ -47,7 +47,7 @@
             </div>
           </div>
         </div>
-        <div class="__newsList" style="margin-top:15px;">
+        <div class="__newsList" style="margin-top:45px;">
           <a href="./view.do" class="box">
             <div class="img"><i style="background-image:url(https://fakeimg.pl/408x238/f3f3f3);"></i></div>
             <div class="info">
