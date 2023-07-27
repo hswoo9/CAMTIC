@@ -6,29 +6,15 @@
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
 <style>
-  .__galListhead{display: flex;
-    flex-wrap: wrap;
-    gap: 90px 26px;}
-
+  .__galListhead{display: flex; flex-wrap: wrap; gap: 90px 26px;}
   .__galListhead .boxHead{display: block; width: calc((100% / 2) - (52px / 4)); border: 1px solid #ccc;}
   .__galListhead .boxHead .info{padding: 25px 15px 20px;}
-  .__galListhead .boxHead .info .subject{font-size: 18px;
-    line-height: 1.35;
-    height: 2.7em;
-    display: -webkit-box;
-    word-wrap: break-word;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #252525;
-    font-weight: 500;
-    letter-spacing: -0.075em;}
+  .__galListhead .boxHead .info .subject{font-size: 18px; line-height: 1.35; height: 2.7em; display: -webkit-box; word-wrap: break-word;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; color: #252525; font-weight: 500; letter-spacing: -0.075em;}
   .__galListhead .boxHead .info .content{font-size: 15px; line-height:20px; color: #555;}
+
   @media (max-width: 1024px) {
-    .__galListhead {
-      gap: 10px;
-    }
+    .__galListhead {gap: 10px;}
     .__galListhead .boxHead{width: calc((100% / 2) - (10px / 2));}
   }
 </style>
