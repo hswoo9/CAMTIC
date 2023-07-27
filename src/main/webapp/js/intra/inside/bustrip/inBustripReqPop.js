@@ -99,6 +99,18 @@ var inBustripReqPop = {
         customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
 
         $("#project, #busnName, #popEmpName, #visitLoc, #visitLocSub, #userName, #moveDst, #bustObj").kendoTextBox();
+
+        const waypointArr = customKendo.fn_customAjax('/bustrip/getWaypointCostList').list;
+        waypointArr.push({WAYPOINT_NAME: "직접입력", HR_WAYPOINT_INFO_SN: "999"});
+        customKendo.fn_dropDownList("visitLocCode", waypointArr, "WAYPOINT_NAME", "HR_WAYPOINT_INFO_SN", 2);
+        $("#visitLocCode").data("kendoDropDownList").bind("change", function(){
+            if($("#visitLocCode").val() == "999"){
+                $(".visitLocSub").show();
+            }else{
+                $(".visitLocSub").hide();
+            }
+        })
+
     },
 
     fn_saveBtn: function(){
@@ -138,7 +150,8 @@ var inBustripReqPop = {
         formData.append("compDeptSeq", $("#popDeptSeq").val());
         formData.append("compDeptName", $("#popDeptName").val());
         formData.append("visitLoc", $("#visitLoc").val());
-        formData.append("visitLocSub", $("#visitLocSub").val());
+        formData.append("visitLocSub", $("#visitLocCode").val() == "999" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
+        formData.append("visitLocCode", $("#visitLocCode").val());
         formData.append("tripDayFr", $("#date1").val());
         formData.append("tripDayTo", $("#date2").val());
         formData.append("tripTimeFr", $("#time1").val());
