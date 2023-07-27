@@ -3,6 +3,7 @@ var now = new Date();
 var rewardReqBatchPop = {
 
     init : function(){
+        rewardReqBatchPop.fn_selEmp()
         rewardReqBatchPop.dataSet();
         rewardReqBatchPop.mainGrid();
     },
@@ -126,6 +127,12 @@ var rewardReqBatchPop = {
             },
             toolbar : [
                 {
+                    name : 'text',
+                    template : function (e){
+                        return '<span>포상번호</span>' +
+                            '	<input type="text" id="numberName" class="defaultVal" style="width: 150px;">' ;
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rewardReqBatchPop.fn_saveApnt()">' +

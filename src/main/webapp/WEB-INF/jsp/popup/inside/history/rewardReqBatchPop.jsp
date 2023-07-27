@@ -54,25 +54,7 @@
                     </div>
                 </div>
                 <div class="col-md-9 col-lg-9 dash-left mt-10">
-                    <table class="searchTable table table-bordered mb-0" id="">
-                        <colgroup>
-                            <col width="10%">
-                            <col width="23%">
-                            <col width="10%">
-                            <col width="23%">
-                            <col width="10%">
-                            <col width="23%">
-                        </colgroup>
-                        <tbody>
-                        <tr>
-                            <th>포상번호</th>
-                            <td colspan="6">
-                                <input type="text" id="numberName" class="defaultVal" style="width: 200px;">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="table-responsive mt20">
+                    <div class="table-responsive mt20" style="margin-top:60px;">
                         <div id="popMainGrid"></div>
                     <%--          <div class="table-responsive mt20">--%>
                     <%--            <table class="table table-bordered">--%>
