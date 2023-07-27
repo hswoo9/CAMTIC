@@ -153,4 +153,12 @@ public class AssetRepository extends AbstractDAO {
         insert("asset.setBookInsert", params);
     }
 
+    //지식재산권 리스트 삭제
+    public void setRprListDelete(List<String> rprPk) { update("asset.setRprListDelete", rprPk);}
+
+    //지식재산권 리스트 수정 창 조회
+    public List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params) {
+        return selectList("asset.getRprReceiptUpdateList", params);
+    }
+
 }

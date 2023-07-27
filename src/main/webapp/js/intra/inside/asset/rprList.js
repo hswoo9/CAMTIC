@@ -168,13 +168,6 @@ var rprList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">수정</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rprList.rprReceiptReqPop();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
@@ -182,7 +175,7 @@ var rprList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="rprList.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -196,8 +189,8 @@ var rprList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='' name='' value=''/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="rprList.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template : "<input type='checkbox' id='rprPk#=INVENTION_INFO_SN#' name='rprPk' value='#=INVENTION_INFO_SN#'/>",
                     width: 50
                 }, {
                     field: "ROW_NUM",
@@ -248,6 +241,57 @@ var rprList = {
                 }
             ]
         }).data("kendoGrid");
+
+        //지식재산권 리스트 더블 클릭시 수정 팝업창
+        $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
+            var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
+            console.log(selectedItem);
+            console.log(selectedItem.INVENTION_INFO_SN);
+            //pk
+            rprList.rprReceiptUpdatePop(selectedItem.INVENTION_INFO_SN);
+        });
+
+    },
+
+    delBtn : function (){
+        if($("input[name='rprPk']:checked").length == 0){
+            alert("삭제할 데이터를 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 삭제하시겠습니까?")){
+            return;
+        }
+
+        var rprPk = new Array();
+        $("input[name='rprPk']").each(function(){
+            if(this.checked){
+                rprPk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/inside/setRprListDelete',
+            data : {
+                rprPk : rprPk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='rprPk']").prop("checked", true);
+        }else{
+            $("input[name='rprPk']").prop("checked", false);
+        }
     },
 
     rprChangePopup : function() {
@@ -260,6 +304,13 @@ var rprList = {
     rprReceiptReqPop() {
         const url = "/Inside/pop/rprReceiptReqPop.do";
         const name = "rprReceiptReqPop";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    },
+
+    rprReceiptUpdatePop : function(data){
+        const url = "/Inside/pop/rprReceiptUpdatePop.do?pk="+data;
+        const name = "rprReceiptUpdatePop";
         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
     }

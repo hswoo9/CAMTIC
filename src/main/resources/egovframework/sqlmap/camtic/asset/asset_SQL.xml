@@ -1079,6 +1079,7 @@
                 <if test="resYn != null and resYn != ''">
                     AND RES_YN = #{resYn}
                 </if>
+                    AND ACTIVE = 'Y'
                 ORDER BY III.REG_DATE, III.REG_DT
             ) RE
         ORDER BY RE.REG_DATE DESC
@@ -1683,5 +1684,27 @@
                 #{bkRepl}
             )
     </insert>
+
+    <!--지식재산권 리스트 삭제-->
+    <update id="setRprListDelete" parameterType="java.util.List">
+        /* setRprListDelete */
+        UPDATE
+        CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+        ACTIVE = 'N', UP_DT = NOW()
+        WHERE
+        INVENTION_INFO_SN IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--지식재산권 리스트 수정 창 조회-->
+    <select id="getRprReceiptUpdateList" parameterType="map" resultType="map">
+        /*getRprReceiptUpdateList*/
+
+    </select>
 
 </mapper>

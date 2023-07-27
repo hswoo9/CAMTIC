@@ -939,4 +939,32 @@ public class AssetController {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
     }
+
+    //지식재산권 리스트 삭제
+    @RequestMapping("/inside/setRprListDelete")
+    public String setRprListDelete(@RequestParam(value = "rprPk[]") List<String> rprPk, Model model){
+        model.addAttribute("rs", assetService.setRprListDelete(rprPk));
+        return "jsonView";
+    }
+
+    //지식재산권 리스트 수정 팝업창
+    @RequestMapping("/Inside/pop/rprReceiptUpdatePop.do")
+    public String rprReceiptUpdatePop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("pk", params.get("pk"));
+
+        return "popup/inside/asset/rprReceiptUpdatePop";
+    }
+
+    //지식재산권 리스트 수정 창 조회
+    @RequestMapping("/asset/getRprReceiptUpdateList")
+    public String getRprReceiptUpdateList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getRprReceiptUpdateList(map));
+        return "jsonView";
+    }
+
+
 }

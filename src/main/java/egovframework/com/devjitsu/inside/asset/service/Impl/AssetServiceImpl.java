@@ -893,4 +893,29 @@ public class AssetServiceImpl implements AssetService {
 
         return path;
     }
+
+    //지식재산권 리스트 삭제
+    @Override
+    public Map<String, Object> setRprListDelete(List<String> rprPk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setRprListDelete(rprPk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //지식재산권 리스트 수정 창 조회
+    @Override
+    public List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params) {
+        return assetRepository.getRprReceiptUpdateList(params);
+    }
+
 }

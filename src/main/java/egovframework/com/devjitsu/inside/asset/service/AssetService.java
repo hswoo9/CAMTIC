@@ -105,4 +105,10 @@ public interface AssetService {
 
     //도서등록
     void setBookInsert(Map<String, Object> params);
+
+    //지식재산권 리스트 삭제
+    Map<String, Object> setRprListDelete(List<String> rprPk);
+
+    //지식재산권 리스트 수정 창 조회
+    List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params);
 }
