@@ -505,6 +505,36 @@
         WHERE
             1=1
     </select>
+
+    <select id="getWaypointCostList" parameterType="map" resultType="map">
+        /* getWaypointCostList */
+        SELECT
+            IHWI.*
+        FROM
+            CAM_INSIDE.DJ_HR_WAYPOINT_INFO IHWI
+        WHERE
+            1=1
+        ORDER BY IHWI.REG_DT DESC
+    </select>
+
+    <insert id="setWaypointCostInsert" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_WAYPOINT_INFO
+            (
+                WAYPOINT_NAME,
+                DISTANCE,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{waypointName},
+                #{distance},
+                #{remarkCn},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
 </mapper>
 
 

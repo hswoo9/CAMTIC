@@ -197,18 +197,28 @@ public class BustripController {
         return "popup/inside/bustrip/bustripExnpPop";
     }
 
-    //교통비기준정보
-    @RequestMapping("/bustrip/transportationCostInfo.do")
-    public String transportationCostInfo(HttpServletRequest request, Model model) {
+    //경유지기준정보
+    @RequestMapping("/bustrip/waypointCostList.do")
+    public String waypointCostList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/bustrip/transportationCostInfo";
+        return "inside/bustrip/waypointCostList";
     }
 
-    //도내/외여비 리스트 페이지
+    //경유지기준정보 설정 팝업
+    @RequestMapping("/bustrip/pop/waypointCostReqPop.do")
+    public String waypointCostReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/waypointCostReqPop";
+    }
+
+    //국내출장여비 리스트 페이지
     @RequestMapping("/bustrip/bustripCostList.do")
     public String bustripCostList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -219,7 +229,7 @@ public class BustripController {
         return "inside/bustrip/bustripCostList";
     }
 
-    //도내/외여비 설정 팝업
+    //국내출장여비 설정 팝업
     @RequestMapping("/bustrip/pop/bustripCostReqPop.do")
     public String bustripCostReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -330,21 +340,6 @@ public class BustripController {
         return "jsonView";
     }
 
-    private static LoginVO getLoginVO(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-        return loginVO;
-    }
-
-    //오늘날짜 구하기 yyyyMMddhhmmss
-    public static String getCurrentDateTime() {
-        Date today = new Date();
-        Locale currentLocale = new Locale("KOREAN", "KOREA");
-        String pattern = "yyyyMMddHHmmss";
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
-        return formatter.format(today);
-    }
-
     @RequestMapping("/bustrip/saveBustripResult")
     public String saveBustripResult(@RequestParam Map<String, Object> params, Model model){
 
@@ -397,7 +392,7 @@ public class BustripController {
         return "jsonView";
     }
 
-    //도내/외여비 리스트
+    //국내출장여비 리스트
     @RequestMapping("/bustrip/getBustripCostList")
     public String getBustripCostList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = bustripService.getBustripCostList(params);
@@ -410,5 +405,35 @@ public class BustripController {
     public String setBustripCostInsert(@RequestParam Map<String, Object> params, Model model){
         bustripService.setBustripCostInsert(params);
         return "jsonView";
+    }
+
+    //경유지 리스트
+    @RequestMapping("/bustrip/getWaypointCostList")
+    public String getWaypointCostList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getWaypointCostList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //경유지등록
+    @RequestMapping("/bustrip/setWaypointCostInsert")
+    public String setWaypointCostInsert(@RequestParam Map<String, Object> params){
+        bustripService.setWaypointCostInsert(params);
+        return "jsonView";
+    }
+
+    private static LoginVO getLoginVO(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        return loginVO;
+    }
+
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 }

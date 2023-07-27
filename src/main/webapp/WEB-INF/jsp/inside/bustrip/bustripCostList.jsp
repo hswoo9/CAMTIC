@@ -10,8 +10,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">도내/외 여비설정</h4>
-            <div class="title-road">캠인사이드 > 출장관리 &gt; 도내/외 여비설정</div>
+            <h4 class="panel-title">국내출장 여비설정</h4>
+            <div class="title-road">캠인사이드 > 출장관리 &gt; 국내출장 여비설정</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

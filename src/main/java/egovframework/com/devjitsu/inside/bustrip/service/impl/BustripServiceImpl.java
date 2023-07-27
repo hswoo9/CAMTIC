@@ -227,4 +227,14 @@ public class BustripServiceImpl implements BustripService {
     public void setBustripCostInsert(Map<String, Object> params) {
         bustripRepository.setBustripCostInsert(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getWaypointCostList(Map<String, Object> params) {
+        return bustripRepository.getWaypointCostList(params);
+    }
+
+    @Override
+    public void setWaypointCostInsert(Map<String, Object> params) {
+        bustripRepository.setWaypointCostInsert(params);
+    }
 }

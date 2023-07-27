@@ -1,8 +1,8 @@
-var costList = {
+var waypointList = {
 
     init : function(){
-        costList.dataSet();
-        costList.mainGrid();
+        waypointList.dataSet();
+        waypointList.mainGrid();
     },
 
     dataSet() {
@@ -13,7 +13,7 @@ var costList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/bustrip/getBustripCostList',
+                    url : '/bustrip/getWaypointCostList',
                     dataType : "json",
                     type : "post"
                 },
@@ -54,7 +54,7 @@ var costList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="costList.bustripCostReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="waypointList.waypointCostReqPop();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
@@ -72,33 +72,28 @@ var costList = {
             },
             columns: [
                 {
-                    title: "적용기간",
+                    field: "WAYPOINT_NAME",
+                    title: "경유지명"
+                }, {
+                    title: "거리",
                     template: function(row){
-                        return row.START_DT+" ~ "+row.END_DT;
-                    }
-                }, {
-                    field: "TRIP_TEXT",
-                    title: "출장구분"
-                }, {
-                    field: "EXNP_TEXT",
-                    title: "여비 종류"
-                }, {
-                    title: "여비지급 금액",
-                    template: function(row){
-                        return fn_numberWithCommas(row.COST_AMT);
+                        return row.DISTANCE+" km";
                     }
                 }, {
                     field: "REMARK_CN",
                     title: "비고"
+                }, {
+                    field: "REG_EMP_NAME",
+                    title: "등록자"
                 }
             ]
         }).data("kendoGrid");
     },
 
-    bustripCostReqPop : function() {
-        const url = "/bustrip/pop/bustripCostReqPop.do";
-        const name = "bustripCostReqPop";
-        const option = "width=865, height=475, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    waypointCostReqPop : function() {
+        const url = "/bustrip/pop/waypointCostReqPop.do";
+        const name = "waypointCostReqPop";
+        const option = "width=575, height=280, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
     }
 }
