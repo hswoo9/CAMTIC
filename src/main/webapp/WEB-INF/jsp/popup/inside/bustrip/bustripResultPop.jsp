@@ -86,8 +86,9 @@
                         <button type="button" class="k-button-solid-base k-button" disabled>업체선택</button>
                     </td>
                     <th>경유지</th>
-                    <td>
-                        <input type="text" id="visitLocSub" style="width: 60%;"> ex) 전라북도 전주시
+                    <td style="display: flex; justify-content: space-between">
+                        <input type="text" id="visitLocCode" style="width: 45%;">
+                        <div class="visitLocSub" style="display: none; width: 50%;"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
                     </td>
                 </tr>
                 <tr>

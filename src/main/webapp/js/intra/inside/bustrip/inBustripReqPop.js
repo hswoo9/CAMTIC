@@ -260,6 +260,7 @@ var inBustripReqPop = {
         var list = result.rs.list;
         var fileInfo = result.rs.fileInfo;
 
+        $("#moveDst").val(rs.distance);
         $("#moveDst").val(res.MOVE_DST);
         $("#result").val(res.RESULT);
         $("#tripCode").data("kendoDropDownList").value(rs.trip_code);
@@ -268,6 +269,13 @@ var inBustripReqPop = {
             $("#busnLine").css("display", "");
         }
         $("#visitLoc").val(rs.visit_loc);
+        $("#visitLocCode").data("kendoDropDownList").value(rs.visit_loc_code);
+        if($("#visitLocCode").val() == "999"){
+            $(".visitLocSub").show();
+        }else{
+            $("#moveDst").data("kendoTextBox").enable(false);
+            $(".visitLocSub").hide();
+        }
         $("#visitLocSub").val(rs.visit_loc_sub);
         $("#date1").val(rs.trip_day_fr);
         $("#date2").val(rs.trip_day_to);
