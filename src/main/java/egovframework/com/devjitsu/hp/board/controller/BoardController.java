@@ -129,6 +129,7 @@ public class BoardController {
     @RequestMapping("/camtic/news/insNotice.do")
     public String insNotice(Model model, @RequestParam Map<String, Object> params, MultipartHttpServletRequest request){
         MultipartFile[] file = request.getFiles("boardFile").toArray(new MultipartFile[0]);
+        //MultipartFile oneFile = request.getFile("boardFile");
         boardService.insertBoard(params, file, SERVER_DIR, BASE_DIR);
 
         model.addAttribute("rs", "sc");
