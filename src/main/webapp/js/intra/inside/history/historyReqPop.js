@@ -6,9 +6,9 @@ var historyReqPop = {
     },
 
     dataSet: function() {
+        fn_deptSetting();
         customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         customKendo.fn_datePicker("historyDate", "month", "yyyy-MM-dd", new Date());
-        fn_deptSetting();
         $("#historyDate").data("kendoDatePicker").enable(false);
     },
 
@@ -132,6 +132,24 @@ var historyReqPop = {
             },
             toolbar : [
                 {
+                    name : 'text',
+                    template : function (e){
+                        return '<span>호수</span>' +
+                            '	<input type="text" id="numberName" class="defaultVal" style="width: 150px;">' ;
+                    }
+                },{
+                    name : 'text',
+                    template : function (e){
+                        return '<span>관련근거</span>' +
+                            '	<input type="text" id="relevantName" class="defaultVal" style="width: 150px;">' ;
+                    }
+                },{
+                    name : 'text',
+                    template : function (e){
+                        return '<span>발령 일자</span>' +
+                            '	<input type="text" id="historyDate" class="defaultVal" style="width: 200px;">' ;
+                    }
+                },{
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReqPop.fn_saveApnt()">' +
@@ -260,6 +278,8 @@ var historyReqPop = {
         }).data("kendoGrid");
 
         historyReqPop.fn_popGridSetting();
+
+
     },
 
     fn_popGridSetting : function() {
@@ -291,6 +311,8 @@ var historyReqPop = {
             "dept_name" : "선택",
             "dept_seq" : ""
         }]
+
+
 
         $(".afTeam").kendoDropDownList({
             dataSource : dataSource,
