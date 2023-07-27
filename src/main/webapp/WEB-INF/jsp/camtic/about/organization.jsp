@@ -5,7 +5,22 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-
+<style>
+  .img{width:1250px; height:1000px;}
+  .imgMobile {display: none;}
+  .imgMobileList{display:none;}
+  @media screen and (max-width: 1024px) {
+    .img {width:750px; height:650px;}
+    .imgMobileList{display: inline;}
+    .imgList{display: none;}
+  }
+  @media screen and (max-width: 600px) {
+    .img {display: none;}
+    .imgList{display: none;}
+    .imgMobile {display: inline;}
+    .imgMobileList{display: inline;}
+  }
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -25,8 +40,8 @@
               <svg
                       version="1.1"
                       id="svg2"
-                      width="1300"
-                      height="1000"
+                      <%--width="1300"
+                      height="1000"--%>
                       viewBox="0 0 1724.7467 1431.5601"
                       sodipodi:docname="2265_infographic1.ai"
                       xmlns="http://www.w3.org/2000/svg"
@@ -1019,10 +1034,980 @@
                           id="tspan498">익산고용 안정일자리센터</tspan></text>
                 </g>
               </svg>
+          </div>
 
+
+          <%--조직도 모바일버전--%>
+          <div class="imgMobile">
+            <svg
+                    version="1.1"
+                    id="svg2"
+                    width="320"
+                    height="550"
+                    viewBox="0 0 1077.0374 1581.3333"
+                    sodipodi:docname="2265_infographic1_mobile.ai"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:svg="http://www.w3.org/2000/svg">
+              <defs
+                      id="defs6">
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath18">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path16" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath42">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path40" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath66">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path64" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath90">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path88" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath114">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path112" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath138">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path136" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath162">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path160" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath204">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path202" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath252">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path250" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath280">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path278" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath300">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path298" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath320">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path318" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath340">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path338" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath364">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path362" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath388">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path386" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath412">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path410" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath436">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path434" />
+                </clipPath>
+                <clipPath
+                        clipPathUnits="userSpaceOnUse"
+                        id="clipPath460">
+                  <path
+                          d="M 0,1186 H 807.778 V 0 H 0 Z"
+                          id="path458" />
+                </clipPath>
+              </defs>
+              <sodipodi:namedview
+                      id="namedview4"
+                      pagecolor="#ffffff"
+                      bordercolor="#000000"
+                      borderopacity="0.25"
+                      inkscape:showpageshadow="2"
+                      inkscape:pageopacity="0.0"
+                      inkscape:pagecheckerboard="0"
+                      inkscape:deskcolor="#d1d1d1" />
+              <g
+                      id="g8"
+                      inkscape:groupmode="layer"
+                      inkscape:label="2265_infographic1_mobile"
+                      transform="matrix(1.3333333,0,0,-1.3333333,0,1581.3333)">
+                <path
+                        d="M 0,0 H 807.778 V 1186 H 0 Z"
+                        style="fill:#f2fcfe;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="path10" />
+                <g
+                        id="g12">
+                  <g
+                          id="g14"
+                          clip-path="url(#clipPath18)">
+                    <g
+                            id="g20"
+                            transform="translate(46.1734,985.594)">
+                      <path
+                              d="m 0,0 h 137.419 c 3.153,0 5.709,2.556 5.709,5.709 V 48.2 c 0,3.153 -2.556,5.709 -5.709,5.709 L 0,53.909 c -3.153,0 -5.709,-2.556 -5.709,-5.709 V 5.709 C -5.709,2.556 -3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path22" />
+                    </g>
+                    <g
+                            id="g24"
+                            transform="translate(86.5327,978.3478)">
+                      <path
+                              d="M 0,0 H 150.152 V 68.402 H 0 c -2.795,0 -5.061,-2.266 -5.061,-5.061 V 5.061 C -5.061,2.266 -2.795,0 0,0"
+                              style="fill:#252525;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path26" />
+                    </g>
+                    <g
+                            id="g28"
+                            transform="translate(56.3086,999.0651)">
+                      <path
+                              d="m 0,0 h 9.974 c 2.812,0 5.092,2.279 5.092,5.091 v 8.605 H -5.091 V 5.091 C -5.091,2.279 -2.812,0 0,0 m -1.481,22.716 c 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.573 -2.896,-6.468 -6.468,-6.468 -3.572,0 -6.468,2.895 -6.468,6.468"
+                              style="fill:#252525;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path30" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,134.2383,1004.5801)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text34"><tspan
+                        x="0 16.559999 33.119999"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan32">이사회</tspan></text>
+                <g
+                        id="g36">
+                  <g
+                          id="g38"
+                          clip-path="url(#clipPath42)">
+                    <g
+                            id="g44"
+                            transform="translate(46.1734,808.7908)">
+                      <path
+                              d="m 0,0 h 137.419 c 3.153,0 5.709,2.556 5.709,5.709 V 48.2 c 0,3.153 -2.556,5.709 -5.709,5.709 L 0,53.909 c -3.153,0 -5.709,-2.556 -5.709,-5.709 V 5.709 C -5.709,2.556 -3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path46" />
+                    </g>
+                    <g
+                            id="g48"
+                            transform="translate(86.5327,801.5446)">
+                      <path
+                              d="M 0,0 H 150.152 V 68.402 H 0 c -2.795,0 -5.061,-2.266 -5.061,-5.061 V 5.061 C -5.061,2.266 -2.795,0 0,0"
+                              style="fill:#002157;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path50" />
+                    </g>
+                    <g
+                            id="g52"
+                            transform="translate(56.3086,822.2619)">
+                      <path
+                              d="m 0,0 h 9.974 c 2.812,0 5.092,2.279 5.092,5.091 v 8.605 H -5.091 V 5.091 C -5.091,2.279 -2.812,0 0,0 m -1.481,22.716 c 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.573 -2.896,-6.468 -6.468,-6.468 -3.572,0 -6.468,2.895 -6.468,6.468"
+                              style="fill:#002157;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path54" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,117.6782,827.7773)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text58"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan56">운영위원회</tspan></text>
+                <g
+                        id="g60">
+                  <g
+                          id="g62"
+                          clip-path="url(#clipPath66)">
+                    <g
+                            id="g68"
+                            transform="translate(47.1687,721.2939)">
+                      <path
+                              d="m 0,0 h 137.419 c 3.153,0 5.709,2.556 5.709,5.709 V 48.2 c 0,3.153 -2.556,5.709 -5.709,5.709 L 0,53.909 c -3.153,0 -5.709,-2.556 -5.709,-5.709 V 5.709 C -5.709,2.556 -3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path70" />
+                    </g>
+                    <g
+                            id="g72"
+                            transform="translate(87.528,714.0477)">
+                      <path
+                              d="M 0,0 H 150.152 V 68.402 H 0 c -2.795,0 -5.061,-2.266 -5.061,-5.061 V 5.061 C -5.061,2.266 -2.795,0 0,0"
+                              style="fill:#234d89;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path74" />
+                    </g>
+                    <g
+                            id="g76"
+                            transform="translate(57.3039,734.765)">
+                      <path
+                              d="m 0,0 h 9.974 c 2.812,0 5.092,2.279 5.092,5.091 v 8.605 H -5.091 V 5.091 C -5.091,2.279 -2.812,0 0,0 m -1.481,22.716 c 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.573 -2.896,-6.468 -6.468,-6.468 -3.572,0 -6.468,2.895 -6.468,6.468"
+                              style="fill:#234d89;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path78" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,93.834,740.2803)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text82"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998 82.800003 99.360001 115.92"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan80">미래전략기획본부</tspan></text>
+                <g
+                        id="g84">
+                  <g
+                          id="g86"
+                          clip-path="url(#clipPath90)">
+                    <g
+                            id="g92"
+                            transform="translate(512.3774,985.594)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path94" />
+                    </g>
+                    <g
+                            id="g96"
+                            transform="translate(472.018,978.3478)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#252525;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path98" />
+                    </g>
+                    <g
+                            id="g100"
+                            transform="translate(502.2422,1012.7607)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.279 -5.092,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.279 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#252525;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path102" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(0.91555,0,0,-1,383.6157,1004.5806)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text106"><tspan
+                        x="0 16.559999 21.6"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan104">감 사</tspan></text>
+                <g
+                        id="g108">
+                  <g
+                          id="g110"
+                          clip-path="url(#clipPath114)">
+                    <g
+                            id="g116"
+                            transform="translate(512.3774,808.7908)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path118" />
+                    </g>
+                    <g
+                            id="g120"
+                            transform="translate(472.018,801.5446)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#002157;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path122" />
+                    </g>
+                    <g
+                            id="g124"
+                            transform="translate(502.2422,835.9575)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.28 -5.092,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.28 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#002157;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path126" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,358.0728,827.7773)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text130"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan128">인사위원회</tspan></text>
+                <g
+                        id="g132">
+                  <g
+                          id="g134"
+                          clip-path="url(#clipPath138)">
+                    <g
+                            id="g140"
+                            transform="translate(512.3774,721.2939)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path142" />
+                    </g>
+                    <g
+                            id="g144"
+                            transform="translate(472.018,714.0477)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#234d89;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path146" />
+                    </g>
+                    <g
+                            id="g148"
+                            transform="translate(502.2422,748.4606)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.279 -5.092,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.279 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#234d89;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path150" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,358.0728,740.2803)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text154"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan152">경영지원실</tspan></text>
+                <g
+                        id="g156">
+                  <g
+                          id="g158"
+                          clip-path="url(#clipPath162)">
+                    <path
+                            d="m 321.366,1002.962 h -85.19 v -3 h 85.19 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path164" />
+                    <path
+                            d="m 277.27,84.742 h 3 v 982.472 h -3 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path166" />
+                    <path
+                            d="m 321.366,837.245 h -85.19 v -3 h 85.19 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path168" />
+                    <path
+                            d="m 321.366,611.347 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path170" />
+                    <path
+                            d="m 321.366,472.945 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path172" />
+                    <path
+                            d="m 321.366,314.544 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path174" />
+                    <path
+                            d="m 321.366,176.142 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path176" />
+                    <path
+                            d="m 321.366,87.741 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path178" />
+                    <path
+                            d="m 321.366,749.748 h -85.19 v -3 h 85.19 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path180" />
+                    <g
+                            id="g182"
+                            transform="translate(371.1719,1073.9956)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path184" />
+                    </g>
+                    <g
+                            id="g186"
+                            transform="translate(330.8125,1066.7494)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#0054a5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path188" />
+                    </g>
+                    <g
+                            id="g190"
+                            transform="translate(361.0366,1101.1624)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.091,-2.28 -5.091,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.28 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#0054a5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path192" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,228.458,1094.3145)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:20px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text196"><tspan
+                        x="0 18.4 36.799999"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan194">이사장</tspan></text>
+                <g
+                        id="g198">
+                  <g
+                          id="g200"
+                          clip-path="url(#clipPath204)">
+                    <g
+                            id="g206"
+                            transform="translate(371.1719,897.1924)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path208" />
+                    </g>
+                    <g
+                            id="g210"
+                            transform="translate(330.8125,889.9462)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#0054a5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path212" />
+                    </g>
+                    <g
+                            id="g214"
+                            transform="translate(361.0366,924.3592)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.091,-2.28 -5.091,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.28 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#0054a5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path216" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,234.8579,917.5117)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:20px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text220"><tspan
+                        x="0 18.4 24"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan218">원 장</tspan></text>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,87.4629,690.8477)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:15px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#252525;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text244"><tspan
+                        x="0 8.6099997 11.985 25.785 39.584999 53.384998 67.184998 80.985001 94.785004 108.585"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan222">· 미래전략기획본부</tspan><tspan
+                        x="0 8.6099997 11.985 20.235001 25.59 39.389999 53.189999 66.989998 80.790001"
+                        y="21.075001"
+                        sodipodi:role="line"
+                        id="tspan224">· J-밸리혁신팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan226">· 사업지원팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59"
+                        y="21.075001"
+                        sodipodi:role="line"
+                        id="tspan228">· 경영지원팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59 315.39001 329.19"
+                        y="435.20999"
+                        sodipodi:role="line"
+                        id="tspan230">· 우주항공개발팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59 315.39001 329.19"
+                        y="456.285"
+                        sodipodi:role="line"
+                        id="tspan232">· 우주항공기술팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59"
+                        y="138.405"
+                        sodipodi:role="line"
+                        id="tspan234">· 제조혁신팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59 315.39001"
+                        y="159.48"
+                        sodipodi:role="line"
+                        id="tspan236">· 신기술융합팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59 315.39001 329.19"
+                        y="276.81"
+                        sodipodi:role="line"
+                        id="tspan238">· 지역산업육성팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59"
+                        y="297.88501"
+                        sodipodi:role="line"
+                        id="tspan240">· 인재개발팀</tspan><tspan
+                        x="234.405 243.015 246.39 260.19 273.98999 287.79001 301.59 315.39001 329.19 342.98999"
+                        y="318.64499"
+                        sodipodi:role="line"
+                        id="tspan242">· 일자리창업허브팀</tspan></text>
+                <g
+                        id="g246">
+                  <g
+                          id="g248"
+                          clip-path="url(#clipPath252)">
+                    <path
+                            d="m 562.182,611.347 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path254" />
+                    <path
+                            d="m 562.182,472.945 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path256" />
+                    <path
+                            d="m 562.182,408.485 h -23.548 v -3 h 23.548 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path258" />
+                    <path
+                            d="m 562.182,176.142 h -44.095 v -3 h 44.095 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path260" />
+                    <g
+                            id="g262"
+                            transform="translate(756.1258,582.6167)">
+                      <path
+                              d="m 0,0 h -183.836 c -6.179,0 -11.188,5.009 -11.188,11.187 v 32.086 c 0,6.179 5.009,11.187 11.188,11.187 L 0,54.46 c 6.179,0 11.188,-5.008 11.188,-11.187 V 11.187 C 11.188,5.009 6.179,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path264" />
+                    </g>
+                    <g
+                            id="g266"
+                            transform="translate(764.3133,603.9661)">
+                      <path
+                              d="m 0,0 v -10.702 c 0,-4.217 -3.431,-7.647 -7.648,-7.647 h -184.916 c -4.217,0 -7.647,3.43 -7.647,7.647 V 0 0.78 22.464 c 0,4.216 3.43,7.647 7.647,7.647 H -7.648 C -3.431,30.111 0,26.68 0,22.464 V 0.78 Z m -7.648,33.111 h -184.916 c -5.871,0 -10.647,-4.776 -10.647,-10.647 V 0.78 0 -10.702 c 0,-5.871 4.776,-10.647 10.647,-10.647 H -7.648 C -1.776,-21.349 3,-16.573 3,-10.702 V 0 0.78 22.464 c 0,5.871 -4.776,10.647 -10.648,10.647"
+                              style="fill:#41ace0;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path268" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,595.2075,603.3496)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:15px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#41ace0;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text272"><tspan
+                        x="0 13.8 27.6 41.400002 55.200001 69 82.800003 96.599998 110.4 124.2"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan270">뿌리소재뿌리기술센터</tspan></text>
+                <g
+                        id="g274">
+                  <g
+                          id="g276"
+                          clip-path="url(#clipPath280)">
+                    <g
+                            id="g282"
+                            transform="translate(756.1259,147.4118)">
+                      <path
+                              d="m 0,0 h -183.837 c -6.178,0 -11.187,5.009 -11.187,11.188 v 32.085 c 0,6.179 5.009,11.187 11.187,11.187 H 0 c 6.179,0 11.188,-5.008 11.188,-11.187 V 11.188 C 11.188,5.009 6.179,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path284" />
+                    </g>
+                    <g
+                            id="g286"
+                            transform="translate(764.3134,168.7612)">
+                      <path
+                              d="m 0,0 v -10.702 c 0,-4.217 -3.431,-7.647 -7.648,-7.647 h -184.916 c -4.217,0 -7.648,3.43 -7.648,7.647 V 0 0.78 22.464 c 0,4.216 3.431,7.647 7.648,7.647 H -7.648 C -3.431,30.111 0,26.68 0,22.464 V 0.78 Z m -7.648,33.111 h -184.916 c -5.871,0 -10.648,-4.776 -10.648,-10.647 V 0.78 0 -10.702 c 0,-5.871 4.777,-10.647 10.648,-10.647 H -7.648 C -1.776,-21.349 3,-16.573 3,-10.702 V 0 0.78 22.464 c 0,5.871 -4.776,10.647 -10.648,10.647"
+                              style="fill:#22cb56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path288" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,593.1084,168.1445)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:15px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#22cb56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text292"><tspan
+                        x="0 13.8 27.6 41.400002 55.200001 59.400002 73.199997 87 100.8 114.6 128.39999"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan290">드론산업 혁신지원센터</tspan></text>
+                <g
+                        id="g294">
+                  <g
+                          id="g296"
+                          clip-path="url(#clipPath300)">
+                    <g
+                            id="g302"
+                            transform="translate(756.1259,444.2151)">
+                      <path
+                              d="m 0,0 h -183.837 c -6.178,0 -11.187,5.009 -11.187,11.187 v 32.086 c 0,6.179 5.009,11.187 11.187,11.187 L 0,54.46 c 6.179,0 11.187,-5.008 11.187,-11.187 V 11.187 C 11.187,5.009 6.179,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path304" />
+                    </g>
+                    <g
+                            id="g306"
+                            transform="translate(764.3133,465.5645)">
+                      <path
+                              d="m 0,0 v -10.702 c 0,-4.217 -3.431,-7.647 -7.647,-7.647 h -184.917 c -4.217,0 -7.647,3.43 -7.647,7.647 V 0 0.78 22.464 c 0,4.216 3.43,7.647 7.647,7.647 H -7.647 C -3.431,30.111 0,26.68 0,22.464 V 0.78 Z m -7.647,33.111 h -184.917 c -5.871,0 -10.647,-4.776 -10.647,-10.647 V 0.78 0 -10.702 c 0,-5.871 4.776,-10.647 10.647,-10.647 H -7.647 C -1.776,-21.349 3,-16.573 3,-10.702 V 0 0.78 22.464 c 0,5.871 -4.776,10.647 -10.647,10.647"
+                              style="fill:#305c99;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path308" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,602.1074,464.9473)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:15px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#305c99;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text312"><tspan
+                        x="0 13.8 27.6 41.400002 55.200001 69 82.800003 96.599998 110.4"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan310">전북조선업도약센터</tspan></text>
+                <g
+                        id="g314">
+                  <g
+                          id="g316"
+                          clip-path="url(#clipPath320)">
+                    <g
+                            id="g322"
+                            transform="translate(756.1259,379.7546)">
+                      <path
+                              d="m 0,0 h -183.837 c -6.178,0 -11.187,5.009 -11.187,11.188 v 32.085 c 0,6.179 5.009,11.187 11.187,11.187 H 0 c 6.179,0 11.187,-5.008 11.187,-11.187 V 11.188 C 11.187,5.009 6.179,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path324" />
+                    </g>
+                    <g
+                            id="g326"
+                            transform="translate(764.3133,401.104)">
+                      <path
+                              d="m 0,0 v -10.702 c 0,-4.217 -3.431,-7.647 -7.647,-7.647 h -184.917 c -4.217,0 -7.647,3.43 -7.647,7.647 V 0 0.78 22.464 c 0,4.216 3.43,7.647 7.647,7.647 H -7.647 C -3.431,30.111 0,26.68 0,22.464 V 0.78 Z m -7.647,33.111 h -184.917 c -5.871,0 -10.647,-4.776 -10.647,-10.647 V 0.78 0 -10.702 c 0,-5.871 4.776,-10.647 10.647,-10.647 H -7.647 C -1.776,-21.349 3,-16.573 3,-10.702 V 0 0.78 22.464 c 0,5.871 -4.776,10.647 -10.647,10.647"
+                              style="fill:#305c99;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path328" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,586.2075,400.4873)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:15px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#305c99;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text332"><tspan
+                        x="0 13.8 27.6 41.400002 55.200001 59.400002 73.199997 87 100.8 114.6 128.39999 142.2"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan330">익산고용 안정일자리센터</tspan></text>
+                <g
+                        id="g334">
+                  <g
+                          id="g336"
+                          clip-path="url(#clipPath340)">
+                    <g
+                            id="g342"
+                            transform="translate(512.3774,286.0891)">
+                      <path
+                              d="m 0,0 h -137.418 c -3.154,0 -5.71,2.556 -5.71,5.709 V 48.2 c 0,3.153 2.556,5.709 5.71,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path344" />
+                    </g>
+                    <g
+                            id="g346"
+                            transform="translate(472.018,278.8429)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#0054a5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path348" />
+                    </g>
+                    <g
+                            id="g350"
+                            transform="translate(502.2422,313.2558)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.28 -5.092,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.28 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#0054a5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path352" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,341.604,305.0752)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text356"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998 82.800003 99.360001"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan354">우주항공사업부</tspan></text>
+                <g
+                        id="g358">
+                  <g
+                          id="g360"
+                          clip-path="url(#clipPath364)">
+                    <g
+                            id="g366"
+                            transform="translate(512.3774,59.2859)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path368" />
+                    </g>
+                    <g
+                            id="g370"
+                            transform="translate(472.018,52.0397)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#23cab9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path372" />
+                    </g>
+                    <g
+                            id="g374"
+                            transform="translate(502.2422,86.4526)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.279 -5.092,-5.092 v -8.604 H 5.092 v 8.604 C 5.092,-2.279 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#23cab9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path376" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,333.3242,78.2817)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text380"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998 82.800003 99.360001 115.92"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan378">스마트제조사업부</tspan></text>
+                <g
+                        id="g382">
+                  <g
+                          id="g384"
+                          clip-path="url(#clipPath388)">
+                    <g
+                            id="g390"
+                            transform="translate(512.3774,582.8923)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path392" />
+                    </g>
+                    <g
+                            id="g394"
+                            transform="translate(472.018,575.6461)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#41ace0;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path396" />
+                    </g>
+                    <g
+                            id="g398"
+                            transform="translate(502.2422,610.059)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.28 -5.092,-5.091 v -8.605 H 5.092 v 8.605 C 5.092,-2.28 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#41ace0;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path400" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,341.8921,601.8789)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text404"><tspan
+                        x="0 11.808 24.516001 36.521999 49.104 65.664001 82.223999 98.783997"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan402">R&amp;BD사업본부</tspan></text>
+                <g
+                        id="g406">
+                  <g
+                          id="g408"
+                          clip-path="url(#clipPath412)">
+                    <g
+                            id="g414"
+                            transform="translate(512.3774,444.4907)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path416" />
+                    </g>
+                    <g
+                            id="g418"
+                            transform="translate(472.018,437.2445)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#305c99;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path420" />
+                    </g>
+                    <g
+                            id="g422"
+                            transform="translate(502.2422,471.6574)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.28 -5.092,-5.092 v -8.604 H 5.092 v 8.604 C 5.092,-2.28 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#305c99;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path424" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,333.3242,463.4766)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text428"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998 82.800003 99.360001 115.92"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan426">기업성장지원본부</tspan></text>
+                <g
+                        id="g430">
+                  <g
+                          id="g432"
+                          clip-path="url(#clipPath436)">
+                    <g
+                            id="g438"
+                            transform="translate(512.3774,147.6875)">
+                      <path
+                              d="m 0,0 h -137.419 c -3.153,0 -5.709,2.556 -5.709,5.709 V 48.2 c 0,3.153 2.556,5.709 5.709,5.709 L 0,53.909 c 3.153,0 5.709,-2.556 5.709,-5.709 V 5.709 C 5.709,2.556 3.153,0 0,0"
+                              style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path440" />
+                    </g>
+                    <g
+                            id="g442"
+                            transform="translate(472.018,140.4413)">
+                      <path
+                              d="M 0,0 H -150.152 V 68.402 H 0 c 2.795,0 5.061,-2.266 5.061,-5.061 V 5.061 C 5.061,2.266 2.795,0 0,0"
+                              style="fill:#22cb56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path444" />
+                    </g>
+                    <g
+                            id="g446"
+                            transform="translate(502.2421,174.8542)">
+                      <path
+                              d="m 0,0 h -9.974 c -2.812,0 -5.092,-2.279 -5.092,-5.092 v -8.604 H 5.092 v 8.604 C 5.092,-2.279 2.812,0 0,0 m -4.987,2.552 c -3.572,0 -6.468,2.896 -6.468,6.468 0,3.572 2.896,6.468 6.468,6.468 3.572,0 6.468,-2.896 6.468,-6.468 0,-3.572 -2.896,-6.468 -6.468,-6.468"
+                              style="fill:#22cb56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                              id="path448" />
+                    </g>
+                  </g>
+                </g>
+                <text
+                        xml:space="preserve"
+                        transform="matrix(1,0,0,-1,358.1641,166.6738)"
+                        style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:18px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                        id="text452"><tspan
+                        x="0 16.559999 33.119999 49.68 66.239998"
+                        y="0"
+                        sodipodi:role="line"
+                        id="tspan450">드론사업부</tspan></text>
+                <g
+                        id="g454">
+                  <g
+                          id="g456"
+                          clip-path="url(#clipPath460)">
+                    <path
+                            d="m 538.634,406.985 h 3 v 64.673 h -3 z"
+                            style="fill:#130a33;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                            id="path462" />
+                  </g>
+                </g>
+              </g>
+            </svg>
           </div>
         </div>
 
+        <%--조직도 사원리스트 웹버전--%>
+        <div class="imgList">
+          <p style="font-size: 24px; font-weight: 600; color: #000; margin-top: 30px;">미래전략기획본부</p>
+          <table class="__tblList respond1" style="margin-top:10px;">
+            <caption>조직도 사원리스트</caption>
+            <colgroup>
+              <col style="width:33%;"/>
+              <col style="width:33%;"/>
+              <col style="width:33%;"/>
+              <%--<col style="width:100px;"/>--%>
+            </colgroup>
+            <thead>
+            <tr>
+              <th scope="col">부서</th>
+              <th scope="col">팀</th>
+              <th scope="col">연락처</th>
+            </tr>
+            </thead>
+            <tr>
+              <td scope="col">미래전략기획본부</td>
+              <td scope="col">미래전략기획팀</td>
+              <td scope="col">063)219-0394</td>
+            </tr>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <%--조직도 사원리스트 모바일버전--%>
+        <div class="imgMobileList">
+          <div class="__tit2 __mt80">
+            <h3><strong>미래전략기획본부</strong></h3>
+          </div>
+          <table class="__tblList tdfz14 bd1 bg3 respond2 __mt20">
+            <caption>주요업무 표</caption>
+            <tbody>
+            <tr>
+              <th scope="col">부서</th>
+              <th scope="col">팀</th>
+              <th scope="col">연락처</th>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">미래전략기획본부</strong></td>
+              <td><strong class="__black __fz18 fwm">미래전략기획팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0394</strong></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
