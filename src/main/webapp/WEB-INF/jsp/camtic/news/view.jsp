@@ -61,6 +61,10 @@
                 <c:when test="${fn:length(fileMap) ne 0}">
                   <c:forEach var="file" items="${fileMap}" varStatus="status">
                     <c:choose>
+                      <c:when test="${file.file_down_path ne null}">
+                        <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
+                        <a href="${file.file_down_path}">${file.file_org_name}.${file.file_ext}</a>
+                      </c:when>
                       <c:when test="${status.count eq 1}">
                         <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
                         <span style="cursor: pointer;" onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">

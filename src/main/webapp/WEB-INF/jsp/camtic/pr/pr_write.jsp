@@ -1,0 +1,262 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
+<script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
+<style>
+    input[type="text"] {
+        width: 50%;
+        height: 34px;
+        display: inline-block;
+        background: none;
+        border: 1px solid #c9c9c9;
+        padding-left: 5px;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    .txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
+
+    table th{
+        width : 10%;
+        text-align: left;
+    }
+    .file-and-table-container {
+        display: flex;
+        margin-top: 50px;
+    }
+    .fileTable {
+        width: 80%;
+        border-collapse: collapse;
+        margin : 0 0 0 20px;
+    }
+    .fileTable .fileTr .fileTh {
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    .fileTable .fileTr .fileTh {
+        background-color: #f2f2f2;
+        text-align: center;
+    }
+
+    .__btn1 {
+        min-width: 120px;
+        height: 40px;
+    }
+
+    #title{
+        margin-bottom: 0;
+    }
+
+</style>
+
+
+<body>
+<div id="wrap">
+	<jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
+	<div id="sub">
+		<div class="inner">
+			<jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
+			<div id="content">
+
+				<ul id="navigation">
+					<li><a href="/camtic">홈으로</a></li>
+					<li class="">홍보관</li>
+					<li class=""><span class="categoryName"></span></li>
+					<li class="">게시글 등록</li>
+				</ul>
+				<div id="title">
+					<h3><span class="categoryName"></span></h3>
+				</div>
+
+				<div class="__boardView">
+					<div class="head">
+						<div>
+							<table style="line-height: 60px;">
+								<tr style="border-bottom: 1px solid #ccc;">
+									<th>제목</th>
+									<td>
+										<input type="text" id="noticeTitle" class="inputText" value="" />
+									</td>
+								</tr>
+								<tr style="border-bottom: 1px solid #ccc;">
+									<th>작성자</th>
+									<td>
+										<input type="text" id="writer" class="inputText" value="관리자" disabled/>
+									</td>
+								</tr>
+								<tr>
+									<th>작성일자</th>
+									<td>
+										<input type="text" id="writeDate" class="inputText" value="" disabled/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!-- <dl class="file">
+					    <dt><span>첨부파일</span></dt>
+					    <dd>
+						<p><a href="#">파일명이 노출됩니다.hwp</a></p>
+						<p><a href="#">파일명이 노출됩니다.hwp</a></p>
+						<p><a href="#">파일명이 노출됩니다.hwp</a></p>
+					    </dd>
+					</dl> -->
+					<div class="con">
+						<textarea class="txt_area_01" id="contents"></textarea>
+
+						<form>
+							<div class="file-and-table-container">
+								<div>
+									<div class="filebox">
+										<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+											<span class="__btn1 grayLine">파일첨부</span>
+										</button>
+										<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+									</div>
+								</div>
+
+								<table class="fileTable" style="width: 50%;">
+									<colgroup>
+										<col width="50%">
+										<col width="10%">
+										<col width="30%">
+										<col width="10%">
+									</colgroup>
+									<thead>
+									<tr class="fileTr">
+										<th class="fileTh">파일명</th>
+										<th class="fileTh">확장자</th>
+										<th class="fileTh">용량</th>
+										<th class="fileTh">기타</th>
+									</tr>
+									</thead>
+									<tbody id="fileGrid">
+									<tr class="defultTr">
+										<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+
+					</div>
+
+					<div class="__botArea">
+						<div class="rig">
+							<a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
+							<a href="javascript:void(0);" onclick="fn_saveNotice();" class="__btn1 grayLine"><span>등록하기</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
+</div>
+
+<input type="hidden" id="category" value="${categoryId}" />
+<script>
+    var categoryId = $("#category").val();
+
+    $(function () {
+        let today = new Date();
+
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let date = today.getDate();
+        let formattedMonth = String(month).padStart(2, '0');
+        let formattedDay = String(date).padStart(2, '0');
+
+        //$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
+        $("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
+
+        CKEDITOR.replace('contents', {
+            height: 500
+        });
+
+        if(categoryId == "notice"){
+            $(".categoryName").text("공지사항");
+        }else if(categoryId == "business"){
+            $(".categoryName").text("사업공고");
+        }else if(categoryId == "study"){
+            $(".categoryName").text("교육/행사");
+        }else if(categoryId == "partner"){
+            $(".categoryName").text("유관기관소식");
+        }
+    });
+
+    function fn_goList(){
+
+        location.href = '/camtic/news/'+categoryId+'.do';
+    }
+
+    function fn_saveNotice(){
+        var content = CKEDITOR.instances.contents.getData();
+
+        /*var data = {
+	  boardId : categoryId,
+	  boardCategoryId : categoryId,
+	  noticeTitle : $("#noticeTitle").val(),
+	  writer : $("#writer").val().toString(),
+	  content : content
+	}*/
+
+        if($("#noticeTitle").val() == ""){
+            alert("제목을 입력해주세요.");
+            return false;
+        }
+
+        if(content == ""){
+            alert("내용을 입력해주세요.");
+            return false;
+        }
+
+        var formData = new FormData();
+
+        formData.append("boardId", categoryId);
+        formData.append("boardCategoryId", categoryId);
+        formData.append("menuCd", categoryId);
+        formData.append("noticeTitle", $("#noticeTitle").val());
+        formData.append("writer", $("#writer").val().toString());
+        formData.append("content", content);
+
+        if(fCommon.global.attFiles != null){
+	        if(fCommon.global.attFiles.length > 1){
+	            alert("파일을 1개만 첨부해주세요.");
+	            return false;
+	        }
+
+            //첨부파일
+            if(fCommon.global.attFiles.name.split(".")[1] != "jpg"){
+                alert("파일 확장자를 확인해주세요.");
+                return false;
+            }
+            formData.append("boardFile", fCommon.global.attFiles);
+        }
+
+        if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
+
+        $.ajax({
+            url : '/camtic/news/insNotice.do',
+            type : 'POST',
+            data: formData,
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success: function() {
+
+                location.href = '/camtic/news/'+categoryId+'.do';
+            }
+        });
+
+
+    }
+
+</script>
+</body>
+</html>

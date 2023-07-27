@@ -89,7 +89,7 @@
           </ul>
         </li>
         <li class="news">
-          <a href="/camtic/news/notice.do"><span>캠틱소식</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/news/commonBoard.do?categoryKey=notice"><span>캠틱소식</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="news_notice"><a href="/camtic/news/commonBoard.do?categoryKey=notice">공지사항</a></li>
             <li class="news_business"><a href="/camtic/news/commonBoard.do?categoryKey=business">사업공고</a></li>
@@ -118,7 +118,7 @@
 <a href="#" id="alarm">주요 알림 맞춤서비스</a>
 <aside id="aside">
   <a href="/camtic" class="aside1">첫화면</a>
-  <a href="/camtic/news/notice.do" class="aside2">공지</a>
+  <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="aside2">공지</a>
   <%--<a href="#" class="aside3">SNS</a>--%>
   <a href="#" class="aside4">채용<br>공고</a>
   <a href="#" class="aside5">장비<br>사용</a>
