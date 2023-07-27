@@ -154,6 +154,30 @@ public class UserManageController {
     }
 
     /**
+     * 인사관리 직원 정보 조회 팝업2 - 인사관리(사용자)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewPop2.do")
+    public String userViewPop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewPop2";
+    }
+
+    /**
      * 인사관리 직원 정보 등록 팝업
      * @param params
      * @param request

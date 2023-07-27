@@ -463,7 +463,7 @@ var userPersonList2 = {
     },
 
     userViewPop : function(e) {
-        var url = "/Inside/pop/userViewPop.do";
+        var url = "/Inside/pop/userViewPop2.do";
 
         if(e != null && e != ""){
             url += "?empSeq=" + e;

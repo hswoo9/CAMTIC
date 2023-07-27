@@ -1,15 +1,16 @@
 var historyReqPop = {
 
     init : function(){
+        historyReqPop.fn_selEmp();
         historyReqPop.dataSet();
         historyReqPop.mainGrid();
     },
 
     dataSet: function() {
-        fn_deptSetting();
         customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         customKendo.fn_datePicker("historyDate", "month", "yyyy-MM-dd", new Date());
         $("#historyDate").data("kendoDatePicker").enable(false);
+        fn_deptSetting();
     },
 
     mainGrid : function() {
@@ -278,7 +279,6 @@ var historyReqPop = {
         }).data("kendoGrid");
 
         historyReqPop.fn_popGridSetting();
-
 
     },
 
