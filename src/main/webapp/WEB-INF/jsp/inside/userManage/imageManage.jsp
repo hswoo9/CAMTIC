@@ -20,6 +20,8 @@
             <div class="title-road">캠스팟 > 이미지관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
+        <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}" />
+        <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
         <div class="panel-body">
             <form id="userReqPopImage" style="padding: 20px 30px;">
                 <div style="text-align:right; font-weight:600;">[직원정보] ${params.EMP_NAME_KR}</div>
@@ -36,30 +38,60 @@
                     <tr style="height:250px;border-top: 1px solid #00000014;">
                         <th>결재사인</th>
                         <td>
-                            <span>등록된 결재사진이 없습니다.</span>
-                        </td>
-                        <th>증명사진</th>
-                        <td>
                             <div class="filebox">
-                                <input type="hidden" id="fileNo" name="fileNo" value="${data.FILE_NO}">
+                                <input type="hidden" id="signFileNo" name="signFileNo" value="${data.signImg.file_no}">
                                 <div class="card-picture" style="padding-top: 0 !important; margin:0px; overflow: hidden; position: relative;">
                                     <c:choose>
-                                        <c:when test="${data.FILE_PATH ne null}">
-                                            <input type="hidden" id="filePath" name="filePath" value="${data.FILE_PATH}">
-                                            <input type="hidden" id="fileName" name="fileName" value="${data.FILE_UUID}">
-                                            <img id="photoView" src="${data.FILE_PATH}${data.FILE_UUID}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                        <c:when test="${data.signImg.file_path ne null}">
+                                            <input type="hidden" id="signFilePath" name="signFilePath" value="${data.signImg.file_path}">
+                                            <input type="hidden" id="signFileName" name="signFileName" value="${data.signImg.file_uuid}">
+                                            <img id="signPhotoView" width="150px;" height="180px;" src="${data.signImg.file_path}${data.signImg.file_uuid}">
                                         </c:when>
                                         <c:otherwise>
-                                            <span>등록된 증명사진이 없습니다.</span>
+                                            <img id="signPhotoView" width="150px;" height="180px;" style="cursor:pointer; display: none;">
+                                            <span id="signPhotoViewText">등록된 결재사진이 없습니다.</span>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
                             </div>
-
+                        </td>
+                        <th>증명사진</th>
+                        <td>
+                            <div class="filebox">
+                                <input type="hidden" id="fileNo" name="fileNo" value="${data.idImg.file_no}">
+                                <div class="card-picture" style="padding-top: 0 !important; margin:0px; overflow: hidden; position: relative;">
+                                    <c:choose>
+                                        <c:when test="${data.idImg.file_path ne null}">
+                                            <input type="hidden" id="filePath" name="filePath" value="${data.idImg.file_path}">
+                                            <input type="hidden" id="fileName" name="fileName" value="${data.idImg.file_uuid}">
+                                            <img id="photoView" width="150px;" height="180px;" src="${data.idImg.file_path}${data.idImg.file_uuid}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img id="photoView" width="150px;" height="180px;" style="cursor:pointer; display: none;">
+                                            <span id="photoViewText">등록된 증명사진이 없습니다.</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
                         </td>
                         <th>개인사진</th>
                         <td>
-                            <span>등록된 개인사진이 없습니다.</span>
+                            <div class="filebox">
+                                <input type="hidden" id="myFileNo" name="myFileNo" value="${data.myImg.file_no}">
+                                <div class="card-picture" style="padding-top: 0 !important; margin:0px; overflow: hidden; position: relative;">
+                                    <c:choose>
+                                        <c:when test="${data.myImg.file_path ne null}">
+                                            <input type="hidden" id="myFilePath" name="myFilePath" value="${data.myImg.file_path}">
+                                            <input type="hidden" id="myFileName" name="myFileName" value="${data.myImg.file_uuid}">
+                                            <img id="myPhotoView" width="150px;" height="180px;" src="${data.myImg.file_path}${data.myImg.file_uuid}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img id="myPhotoView" width="150px;" height="180px;" style="cursor:pointer; display: none;">
+                                            <span id="myPhotoViewText">등록된 개인사진이 없습니다.</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -68,7 +100,7 @@
                             <div class="filebox">
                                 <label for="signPhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>
                                 <span>결재사인 이미지는 150*150 크기입니다.</span>
-                                <input type="file" id="signPhotoFile">
+                                <input type="file" id="signPhotoFile" onchange="viewSignPhoto(this)">
                             </div>
                         </td>
                     </tr>
@@ -89,7 +121,7 @@
                                 <input type="file">
                                 <label for="myPhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>
                                 <span>개인사진 이미지는 110*110 크기입니다.</span>
-                                <input type="file" id="myPhotoFile">
+                                <input type="file" id="myPhotoFile" onchange="viewMyPhoto(this)">
                             </div>
                         </td>
                     </tr>
@@ -103,7 +135,7 @@
                     </thead>
                 </table>
             </form>
-        <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="empInfoFileSave();">저장</button>
         </div>
     </div>
 </div>

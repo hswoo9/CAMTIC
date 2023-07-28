@@ -172,6 +172,7 @@
             RES_REGIS_NUM,
             CAPS_NUM,
             DUTY_CODE,
+            DUTY_NAME,
             POSITION_CODE,
             DEPT_NAME,
             DEPT_SEQ,
@@ -204,13 +205,21 @@
             <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
             WEDDING_DAY,
             </if>
+            <if test="GRADE_NAME != null and GRADE_NAME != ''">
+                GRADE_NAME,
+            </if>
+            <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+                DEGREE_CODE,
+            </if>
             BLOOD_TYPE,
             DIVISION,
             DIVISION_SUB,
             REG_EMP_SEQ,
             ACTIVE,
             CAR_ACTIVE,
-            JOIN_DAY
+            OCCUPATION_CODE,
+            JOIN_DAY,
+            WORK_STATUS_CODE
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -219,7 +228,9 @@
             #{RES_REGIS_NUM},
             #{CAPS_NUM},
             #{DUTY_CODE},
+            #{DUTY_NAME},
             #{POSITION_CODE},
+            #{POSITION_NAME},
             #{DEPT_NAME},
             #{DEPT_SEQ},
             #{DEPT_TEAM_NAME},
@@ -251,13 +262,21 @@
             <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
                 #{WEDDING_DAY},
             </if>
+            <if test="GRADE_NAME != null and GRADE_NAME != ''">
+                #{GRADE_NAME},
+            </if>
+            <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+                #{DEGREE_CODE},
+            </if>
             #{BLOOD_TYPE},
             #{division},
             #{divisionSub},
             #{regEmpSeq},
             #{ACTIVE},
             #{CAR_ACTIVE},
-            #{JOIN_DAY}
+            #{OCCUPATION_CODE},
+            #{JOIN_DAY},
+            'Y'
         )
     </insert>
 
@@ -1219,6 +1238,15 @@
     <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
         /* getUserPersonnelinformList */
         SELECT
+            <![CDATA[
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                  THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) ELSE 0
+            END) AS prev_hire,
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                  THEN CONCAT(CAST(a.BEFOR_CAREER AS UNSIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) * 12))
+                  ELSE a.BEFOR_CAREER
+            END) AS prev_hire_mon,
+            ]]>
             SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
             CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.EMP_SEQ,
@@ -1239,7 +1267,7 @@
             a.POSITION_CODE,
             a.POSITION_NAME,
             a.DUTY_CODE,
-            a.DUTY_NAME,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = '3' AND CM_CODE = a.DUTY_CODE AND ACTIVE = 'Y') AS DUTY_NAME,
             a.GRADE_CODE,
             a.GRADE_NAME,
             a.POSITION_OR_DUTY,
@@ -1376,10 +1404,18 @@
             <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
             WEDDING_DAY = #{WEDDING_DAY},
             </if>
+            <if test="GRADE_NAME != null and GRADE_NAME != ''">
+                GRADE_NAME = #{GRADE_NAME},
+            </if>
+            <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+                DEGREE_CODE = #{DEGREE_CODE},
+            </if>
             RES_REGIS_NUM = #{RES_REGIS_NUM},
             CAPS_NUM = #{CAPS_NUM},
             DUTY_CODE = #{DUTY_CODE},
+            DUTY_NAME = #{DUTY_NAME},
             POSITION_CODE = #{POSITION_CODE},
+            POSITION_NAME = #{POSITION_NAME},
             DEPT_NAME = #{DEPT_NAME},
             DEPT_SEQ = #{DEPT_SEQ},
             DEPT_TEAM_NAME = #{DEPT_TEAM_NAME},
@@ -1414,7 +1450,73 @@
             MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DATE = NOW(),
             CAR_ACTIVE = #{CAR_ACTIVE},
-            JOIN_DAY = #{JOIN_DAY}
+            JOIN_DAY = #{JOIN_DAY},
+            OCCUPATION_CODE = #{OCCUPATION_CODE}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
+    </update>
+
+    <select id="getUserImageInfo" resultType="map" parameterType="map">
+        /* getUserImageInfo */
+        SELECT
+            IM.IMAGE_ID,
+            IM.EMP_SEQ,
+            IM.SIGN_IMAGE_PK,
+            IM.ID_IMAGE_PK,
+            IM.PERSONAL_IMAGE_PK
+        FROM
+            CAM_INSIDE.DJ_IMAGE_MANAGE IM
+        WHERE
+            IM.EMP_SEQ = #{empSeq}
+    </select>
+
+    <insert id="setUserImageReq" parameterType="map">
+        /* setUserImageReq */
+        INSERT INTO CAM_INSIDE.DJ_IMAGE_MANAGE(
+            EMP_SEQ,
+        <if test='signImg != 0'>
+            SIGN_IMAGE_PK,
+        </if>
+        <if test='idImg != 0'>
+            ID_IMAGE_PK,
+        </if>
+        <if test='personalImg != 0'>
+            PERSONAL_IMAGE_PK,
+        </if>
+            REG_EMP_SEQ,
+            REG_DATE
+        ) VALUES (
+            #{empSeq},
+        <if test='signImg != 0'>
+            #{signImg},
+        </if>
+        <if test='idImg != 0'>
+            #{idImg},
+        </if>
+        <if test='personalImg != 0'>
+            #{personalImg},
+        </if>
+            #{loginEmpSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="setUserImageUpd" parameterType="map">
+        /* setUserImageUpd */
+        UPDATE
+            CAM_INSIDE.DJ_IMAGE_MANAGE
+        SET
+            <if test='signImg != 0'>
+                SIGN_IMAGE_PK = #{signImg},
+            </if>
+            <if test='idImg != 0'>
+                ID_IMAGE_PK = #{idImg},
+            </if>
+            <if test='personalImg != 0'>
+                PERSONAL_IMAGE_PK = #{personalImg},
+            </if>
+            MOD_EMP_SEQ = #{loginEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{empSeq}
     </update>
 </mapper>

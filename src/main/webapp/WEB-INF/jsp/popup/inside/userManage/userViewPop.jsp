@@ -17,6 +17,7 @@
                 <div class="btn-st popButton">
                     <c:if test="${isAdmin}">
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
                             <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.userResignation('${params.empSeq}')">퇴사처리</button>
@@ -24,6 +25,7 @@
                         </c:if>
                     </c:if>
                     <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
                         <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
@@ -51,7 +53,14 @@
                     </td>
                     <th rowspan="5"><span class="red-star"></span>증명사진</th>
                     <td rowspan="5" style="text-align: center">
-                        이미지
+                        <c:choose>
+                            <c:when test="${idPhoto.file_path ne null}">
+                                <img id="preview" style="width: 150px; height: 180px;" src="${idPhoto.file_path}${idPhoto.file_uuid}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <span>등록된 증명사진이 없습니다.</span>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>
@@ -211,9 +220,7 @@
                 <tr>
                     <th>경력사항</th>
                     <td>
-                        <c:if test="${uprinfList.hire != null and uprinfList.hire != ''}">
-                            ${uprinfList.hire}년${uprinfList.hire_mon}개월
-                        </c:if>
+                        <span id="hire"></span>
                     </td>
                     <th></th>
                     <td></td>
@@ -373,5 +380,6 @@
 <script>
     userViewPop.defaultScript();
     $("#resRegisNum").text(" (" + userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
-    console.log(userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}'));
+    $("#hire").text(userViewPop.fn_sethire('${uprinfList.prev_hire}','${uprinfList.prev_hire_mon}','${uprinfList.hire}','${uprinfList.hire_mon}'));
+
 </script>

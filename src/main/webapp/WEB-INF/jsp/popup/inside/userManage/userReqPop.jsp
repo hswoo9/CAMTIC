@@ -109,7 +109,7 @@
                 <tr>
                     <th>직군</th>
                     <td>
-                        <input type="text" id="jobCode" style="width: 50%;">
+                        <input type="text" id="occupationCode" style="width: 50%;">
                     </td>
                     <th>직책</th>
                     <td>
@@ -226,22 +226,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <c:if test="${params.empSeq == null || params.empSeq == ''}">
+
                     <th>차량소유</th>
                     <td colspan="3">
-                        <input type="checkbox" id="carActive" onclick="onDisplay();"> 차량을 소유하고 있음
-                    </td>
-                </tr>
-                <tr style="display: none;" id="noneTr">
-                    <th>차량번호</th>
-                    <td colspan="3">
-                        <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
-                        ex) 22 가 1111
-                        </c:if>
-                        <c:if test="${uprinfList.CAR_ACTIVE == 1}">
-                    <th>차량소유</th>
-                    <td colspan="3">
-                        <input type="checkbox" checked id="carActive2"> 차량을 소유하고 있음
+                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == 1}">checked</c:if> id="carActive"> 차량을 소유하고 있음
                     </td>
                 </tr>
                 <tr>
@@ -249,7 +237,6 @@
                     <td colspan="3">
                         <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}">
                         ex) 22 가 1111
-                        </c:if>
                     </td>
                 </tr>
                 </thead>
@@ -522,7 +509,7 @@
         //직급/등급 ---insert
         $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
         //직군 ---insert
-        $("#jobCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
+        $("#occupationCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
         //직책
         $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_CODE}");
         //학위 ---insert

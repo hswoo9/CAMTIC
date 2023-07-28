@@ -36,6 +36,13 @@ var userViewPop = {
     },
 
     /** 관리자 버튼*/
+    userImageReqPop : function (e) {
+        var url = "/Inside/pop/userReqPopImage.do?empSeq=" + e;
+        var name = "recruitReqPopImage";
+        var option = "width=1100, height=650, scrollbars=no, top=200, left=300, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
     certificateReqPop : function(e) {
         var url = "/inside/pop/certificateReqAdminPop.do?empSeq=" + e;
         var name = "certificateReqPop";
@@ -132,4 +139,14 @@ var userViewPop = {
 
         return age;
     },
+
+    fn_sethire : function(prevHire, prevHireMon, hire, hireMon){
+        var totalHire = parseInt(prevHire) + parseInt(hire);
+        var totalHireMon = parseInt(prevHireMon) + parseInt(hireMon);
+        if(totalHireMon > 12){
+            totalHire = parseInt(totalHire) + parseInt(String(totalHireMon/12).split(".")[0]);
+            totalHireMon = totalHireMon%12;
+        }
+        return totalHire + "년 " + totalHireMon + "개월 (전직경력 : " + prevHire + "년 " + prevHireMon + "개월 + 현직경력 : " + hire + "년 " + hireMon + "개월)" ;
+    }
 }
