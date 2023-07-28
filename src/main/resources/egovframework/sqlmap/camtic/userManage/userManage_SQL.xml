@@ -181,6 +181,7 @@
             ACCOUNT_HOLDER,
             BANK_NAME,
             ACCOUNT_NUM,
+            ZIP_CODE,
             ADDR,
             ADDR_DETAIL,
             OFFICE_TEL_NUM,
@@ -200,6 +201,9 @@
             VISIONR,
             HOME_PAGE_ACTIVE,
             WEDDING_ACTIVE,
+            <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+            WEDDING_DAY,
+            </if>
             BLOOD_TYPE,
             DIVISION,
             DIVISION_SUB,
@@ -224,6 +228,7 @@
             #{ACCOUNT_HOLDER},
             #{BANK_NAME},
             #{ACCOUNT_NUM},
+            #{ZIP_CODE},
             #{ADDR},
             #{ADDR_DETAIL},
             #{OFFICE_TEL_NUM},
@@ -243,6 +248,9 @@
             #{VISIONR},
             #{HOME_PAGE_ACTIVE},
             #{WEDDING_ACTIVE},
+            <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+                #{WEDDING_DAY},
+            </if>
             #{BLOOD_TYPE},
             #{division},
             #{divisionSub},
@@ -1211,6 +1219,8 @@
     <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
         /* getUserPersonnelinformList */
         SELECT
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
+            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.EMP_SEQ,
             a.ERP_EMP_SEQ,
             a.LOGIN_ID,
@@ -1275,8 +1285,8 @@
             a.ACTIVE,
             a.REG_EMP_SEQ,
             a.REG_DATE,
-            a.MOD_EMP_SEQ,
-            a.MOD_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = a.MOD_EMP_SEQ GROUP BY EMP_SEQ) AS MOD_EMP_NAME,
+            DATE_FORMAT(a.MOD_DATE, '%Y-%m-%d %H:%i:%s') AS MOD_DATE,
             a.RES_REGIS_NUM,
             a.CHECK_PASSWD,
             a.CAPS_NUM,
@@ -1300,7 +1310,8 @@
             a.VISIONL,
             a.VISIONR,
             a.DIVISION,
-            a.DIVISION_SUB
+            a.DIVISION_SUB,
+            a.DUZON_CODE
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -1340,10 +1351,10 @@
         CAM_COMMON.DJ_FILE_INFO
         SET
         <if test='photoFileId != null and !"".equals(photoFileId)'>
-            FILE_NO = #{photoFileId}
+            PHOTO_FILE_ID = #{photoFileId}
         </if>
         WHERE
-        EMP_SEQ = #{loginEmpSeq}
+        EMP_SEQ = #{empSeq}
     </update>
 
     <select id="getUserInfoModDetail" resultType="map" parameterType="map">
@@ -1354,6 +1365,58 @@
         where
             a.${key} = #{id}
     </select>
+
+    <update id="setUserReqDetailUpdate" parameterType="map">
+            /*setUserReqDetailUpdate*/
+            UPDATE CAM_HR.DJ_EMP_INFO
+            SET EMP_NAME_KR = #{EMP_NAME_KR},
+            <if test="PASSCHANGE != null and PASSCHANGE != ''">
+                LOGIN_PASSWD = #{LOGIN_PASSWD},
+            </if>
+            <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+            WEDDING_DAY = #{WEDDING_DAY},
+            </if>
+            RES_REGIS_NUM = #{RES_REGIS_NUM},
+            CAPS_NUM = #{CAPS_NUM},
+            DUTY_CODE = #{DUTY_CODE},
+            POSITION_CODE = #{POSITION_CODE},
+            DEPT_NAME = #{DEPT_NAME},
+            DEPT_SEQ = #{DEPT_SEQ},
+            DEPT_TEAM_NAME = #{DEPT_TEAM_NAME},
+            JOB_DETAIL = #{JOB_DETAIL},
+            BEFOR_CAREER = #{BEFOR_CAREER},
+            ACCOUNT_HOLDER = #{ACCOUNT_HOLDER},
+            BANK_NAME = #{BANK_NAME},
+            ACCOUNT_NUM = #{ACCOUNT_NUM},
+            ZIP_CODE = #{ZIP_CODE},
+            ADDR = #{ADDR},
+            ADDR_DETAIL = #{ADDR_DETAIL},
+            OFFICE_TEL_NUM = #{OFFICE_TEL_NUM},
+            MOBILE_TEL_NUM = #{MOBILE_TEL_NUM},
+            EMAIL_ADDR = #{EMAIL_ADDR},
+            CAR_NUM = #{CAR_NUM},
+            EMP_NAME_CN = #{EMP_NAME_CN},
+            EMP_NAME_EN = #{EMP_NAME_EN},
+            EMG_TEL_NUM = #{EMG_TEL_NUM},
+            LEGAL_DOMICILE = #{LEGAL_DOMICILE},
+            HOBBY = #{HOBBY},
+            RELIGION = #{RELIGION},
+            SPECIALITY = #{SPECIALITY},
+            WEIGHT = #{WEIGHT},
+            HEIGHT = #{HEIGHT},
+            VISIONL = #{VISIONL},
+            VISIONR = #{VISIONR},
+            HOME_PAGE_ACTIVE = #{HOME_PAGE_ACTIVE},
+            WEDDING_ACTIVE = #{WEDDING_ACTIVE},
+            BLOOD_TYPE = #{BLOOD_TYPE},
+            DIVISION = #{division},
+            DIVISION_SUB = #{divisionSub},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW(),
+            CAR_ACTIVE = #{CAR_ACTIVE},
+            JOIN_DAY = #{JOIN_DAY}
+        WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
+    </update>
 
     <select id="getUserImageInfo" resultType="map" parameterType="map">
         /* getUserImageInfo */

@@ -856,4 +856,34 @@ public class UserManageController {
 
         return viewName;
     }
+
+
+    /**
+     * 직원 계좌 정보 수정
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/updateUserBankInfo")
+    public String updateUserBankInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+            model.addAttribute("rs", userManageService.updateUserBankInfo(params));
+        return "jsonView";
+    }
+
+    /**
+     * 직원 정보 수정
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/setUserReqDetailUpdate")
+    public String setUserReqDetailUpdate(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("regEmpSeq", loginVO.getUniqId());
+        model.addAttribute("rs", userManageService.setUserReqDetailUpdate(params));
+        return "jsonView";
+    }
 }

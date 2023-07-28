@@ -314,4 +314,16 @@ public class UserManageServiceImpl implements UserManageService {
     public void setEmploymentInfoFlag(Map<String, Object> map) {
         userManageRepository.setEmploymentInfoFlag(map);
     }
+
+    @Override
+    public Object updateUserBankInfo(Map<String, Object> params) {
+        return userManageRepository.updateUserBankInfo(params);
+    }
+
+    @Override
+    public Object setUserReqDetailUpdate(Map<String, Object> params) {
+        return userManageRepository.setUserReqDetailUpdate(params);
+    }
+
+
 }

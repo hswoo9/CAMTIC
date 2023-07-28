@@ -71,10 +71,6 @@
                         <td>
                             <input type="text" id="mealsDivision" style="width: 100px;">
                         </td>
-                        <th class="text-center th-color">거래처</th>
-                        <td>
-                            <input type="text" id="account" style="width: 150px;">
-                        </td>
                         <th class="text-center th-color">결제 구분</th>
                         <td>
                             <input type="text" id="payDivision" style="width: 70px;">

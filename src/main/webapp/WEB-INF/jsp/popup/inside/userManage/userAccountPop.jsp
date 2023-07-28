@@ -74,7 +74,7 @@
                     <span class="red-star"></span>카드번호
                 </th>
                 <td>
-                    <input type="text" id="cardNum" style="width: 100%;" disabled/>
+                    <input type="text" id="cardNum" style="width: 100%;" value="${uprinfList.ATT_CARD_NUM}"/>
                 </td>
             </tr>
             <tr>
@@ -82,7 +82,7 @@
                     <span class="red-star"></span>더존Code
                 </th>
                 <td>
-                    <input type="text" id="dozonCode" style="width: 100%;" disabled/>
+                    <input type="text" id="duzonCode" style="width: 100%;" value="${uprinfList.DUZON_CODE}"/>
                 </td>
             </tr>
             </thead>
@@ -92,7 +92,8 @@
 </div>
 
 <script>
-    userAccountPop.defaultScript();
+
+    userAccountPop.defaultScript('${uprinfList.EMP_SEQ}');
 </script>
 </body>
 </html>

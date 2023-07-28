@@ -140,7 +140,7 @@ var snackReq = {
         customKendo.fn_textBox(["useHour", "useMin", "userText", "corporCard", "areaName", "usAmount", "useReason"]);
         customKendo.fn_datePicker("useDt", 'month', "yyyy-MM-dd", new Date());
         let snackTypeDataSource = [
-            {text: "야간 간식", value: "1"},
+            {text: "야간 식대", value: "1"},
             {text: "휴일 식대", value: "2"},
             {text: "평일 식대", value: "3"}
         ]

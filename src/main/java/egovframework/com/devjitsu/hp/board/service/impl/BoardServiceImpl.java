@@ -20,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -36,6 +33,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public PagingResponse<PostResponse> selectBoardList(ArticlePage articlePage) {
+        List<PostResponse> list = new ArrayList<>();
+        String category = articlePage.getSearchCategory();
+
         int count = (int) boardRepository.selectBoardListCount(articlePage);
         if (count < 1) {
             return new PagingResponse<>(Collections.emptyList(), null);
@@ -43,9 +43,11 @@ public class BoardServiceImpl implements BoardService {
 
         Pagination pagination = new Pagination(count, articlePage);
         articlePage.setPagination(pagination);
-
-        List<PostResponse> list = boardRepository.selectBoardList(articlePage);
-
+        if(category.equals("notice") || category.equals("business") || category.equals("study") || category.equals("partner")){
+            list = boardRepository.selectBoardList(articlePage);
+        }else {
+            list = boardRepository.selectPrBoardList(articlePage);
+        }
         return new PagingResponse<>(list, pagination);
     }
 

@@ -87,6 +87,10 @@
             </div>
 
             <div class="txt_zone" style="line-height:25px;">
+              <c:if test="${categoryId eq 'photo'}" >
+                <img src="'${file.file_path}${file.file_uuid}'">
+              </c:if>
+
               ${map.BOARD_ARTICLE_CONTENT}
             </div>
 
@@ -166,7 +170,7 @@
   }
 
   function fn_goList(){
-    location.href = '/camtic/news/'+categoryId+'.do';
+    location.href = '/camtic/news/commonBoard.do?categoryKey='+categoryId;
   }
 
   //상세보기 이동

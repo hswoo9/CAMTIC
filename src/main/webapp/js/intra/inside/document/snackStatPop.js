@@ -15,7 +15,7 @@ var snackStat = {
         ]
         customKendo.fn_dropDownList("searchDept", searchDeptSource, "text", "value", 3);
         let searchTypeSource = [
-            {text: "야간간식", value: "1"},
+            {text: "야간식대", value: "1"},
             {text: "평일식대", value: "2"},
             {text: "휴일식대", value: "3"}
         ]
@@ -77,6 +77,10 @@ var snackStat = {
             series: [
                 {
                     name: "Total",
+                    labels: {
+                        visible: true,
+                        format: "{0:N0}원"
+                    },
                     data: totalArr
                 }
             ],
@@ -89,15 +93,12 @@ var snackStat = {
                     visible: true
                 },
                 labels: {
-                    rotation: "auto"
+                    rotation: "auto",
+                    format: "{0:N0}"
                 }
             },
             categoryAxis: {
                 categories: deptArr
-            },
-            tooltip: {
-                visible: true,
-                template: "#= series.name #: #= value #"
             }
         });
     }

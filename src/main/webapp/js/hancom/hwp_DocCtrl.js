@@ -192,7 +192,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('eduContent', true, true, false);
                     hwpDocCtrl.putFieldText('eduContent', ResultData.EDU_CONTENT);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('eduMoney', true, true, false);
-                    hwpDocCtrl.putFieldText('eduMoney', numberWithCommas(ResultData.EDU_MONEY)+" 원");
+                    hwpDocCtrl.putFieldText('eduMoney', fn_numberWithCommas(ResultData.EDU_MONEY)+" 원");
                     hwpDocCtrl.global.HwpCtrl.MoveToField('attachDocName', true, true, false);
                     hwpDocCtrl.putFieldText('attachDocName', ResultData.ATTACH_DOC_NAME);
 
@@ -214,7 +214,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('travelMoneyType', true, true, false);
                     hwpDocCtrl.putFieldText('travelMoneyType', travelText);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
-                    hwpDocCtrl.putFieldText('returnMoney', numberWithCommas(ResultData.RETURN_MONEY)+" 원");
+                    hwpDocCtrl.putFieldText('returnMoney', fn_numberWithCommas(ResultData.RETURN_MONEY)+" 원");
                     hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
                     hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('bookWriterName', true, true, false);
@@ -1461,12 +1461,4 @@ var hwpDocCtrl = {
         vp.SetItem("ZoomRatio", zoomRatio);		// 	화면 확대 비율
         hwpDocCtrl.global.HwpCtrl.ViewProperties = vp;
     }
-}
-
-//숫자에 콤마 찍기
-function numberWithCommas(num) {
-    if (!num || num=="" || num==undefined) {
-        return 0;
-    }
-    return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

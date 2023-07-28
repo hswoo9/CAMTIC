@@ -57,4 +57,11 @@ public interface UserManageService{
     void setEmploymentContract(Map<String,Object> map);
     void sendSalaryWorkerReq(List<String> params);
     void setEmploymentInfoFlag(Map<String, Object> params);
+
+    Object updateUserBankInfo(Map<String, Object> params);
+
+    Object setUserReqDetailUpdate(Map<String, Object> params);
+
+
+
 }

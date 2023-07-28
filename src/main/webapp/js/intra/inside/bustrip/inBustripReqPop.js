@@ -214,11 +214,16 @@ var inBustripReqPop = {
             async : false,
             success : function(result){
 
-                opener.parent.inBustripList.mainGrid();
+                opener.parent.open_in_frame('/bustrip/inBustripList.do');
                 window.close();
             }
         });
 
+    },
+
+    test: function(){
+        window.open('/indexB.do', '123123');
+        opener.parent.open_in_frame('/Inside/carReq.do');
     },
 
     setData : function (d, p, rsKey){
@@ -396,7 +401,7 @@ var inBustripReqPop = {
             async : false,
             success : function(result){
 
-                opener.parent.inBustripList.mainGrid();
+                opener.parent.open_in_frame('/bustrip/inBustripList.do');
                 window.close();
             }
         });

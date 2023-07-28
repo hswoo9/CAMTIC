@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class PostResponse {
 
+
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ARTICLE_TITLE;                  // 제목
     private String REG_EMP_NAME;                 // 작성자
@@ -15,6 +16,7 @@ public class PostResponse {
 
     private String EMP_SEQ;    // 작성자 사원번호
 
+    private String FILE_PATH;
 
     public Long getBOARD_ARTICLE_ID() {
         return BOARD_ARTICLE_ID;
@@ -50,5 +52,9 @@ public class PostResponse {
 
     public String getEMP_SEQ() {
         return EMP_SEQ;
+    }
+
+    public String getFIle_PATH() {
+        return FILE_PATH;
     }
 }

@@ -739,94 +739,99 @@ var userReqPop = {
         }
     },
 
-    //첨부 이미지 미리보기
-    viewPhoto : function(input) {
-        if(input.files[0].size > 10000000){
-            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
-            return;
-        }
+    addrSearch : function(){
+        daum.postcode.load(function(){
+            new daum.Postcode({
+                oncomplete: function(data){
 
-        if(input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#photoView').attr('src', e.target.result);
-                $('#photoView').css('display', 'block');
-                $('#photoViewText').css('display', 'none');
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    },
+                    var roadAddr = data.roadAddress; // 도로명 주소 변수
+                    var extraRoadAddr = ''; // 참고 항목 변수
 
-    //첨부 이미지 미리보기
-    viewSignPhoto : function(input) {
-        if(input.files[0].size > 10000000){
-            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
-            return;
-        }
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraRoadAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우
+                    if(extraRoadAddr !== ''){
+                        extraRoadAddr = ' (' + extraRoadAddr + ')';
+                    }
 
-        if(input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#signPhotoView').attr('src', e.target.result);
-                $('#signPhotoView').css('display', 'block');
-                $('#signPhotoViewText').css('display', 'none');
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    },
+                    $("#zipCode").val(data.zonecode);
+                    $("#addr").val(roadAddr);
+                    $("#addrDetail").val(roadAddr);
 
-    //첨부 이미지 미리보기
-    viewMyPhoto : function(input) {
-        if(input.files[0].size > 10000000){
-            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
-            return;
-        }
+                    // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                    if(roadAddr !== ''){
+                        //$("#subAddr").val(extraRoadAddr);
+                    } else {
+                        //$("#subAddr").val("");
+                    }
 
-        if(input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#myPhotoView').attr('src', e.target.result);
-                $('#myPhotoView').css('display', 'block');
-                $('#myPhotoViewText').css('display', 'none');
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    },
+                    var guideTextBox = document.getElementById("guide");
+                    // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시
+                    if(data.autoRoadAddress) {
+                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                        guideTextBox.style.display = 'block';
 
-    empInfoFileSave : function (){
+                    } else if(data.autoJibunAddress) {
+                        var expJibunAddr = data.autoJibunAddress;
+                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                        guideTextBox.style.display = 'block';
+                    } else {
+                        guideTextBox.innerHTML = '';
+                        guideTextBox.style.display = 'none';
+                    }
 
-        var formData = new FormData();
-        formData.append("menuCd", $("#menuCd").val());
-        formData.append("empSeq", $("#empSeq").val());
-
-        if($("#idPhotoFile")[0].files.length == 1){ //증명사진
-            formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
-        }
-        if($("#signPhotoFile")[0].files.length == 1){   //결재사진
-            formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
-        }
-        if($("#myPhotoFile")[0].files.length == 1){ //개인사진
-            formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
-        }
-
-        $.ajax({
-            url: '/userManage/setempInfoFileSave.do',
-            data: formData,
-            type: "post",
-            async : false,
-            datatype: "json",
-            contentType: false,
-            processData: false,
-            success: function () {
-                alert("정보 등록이 완료되었습니다.");
-                open_in_frame('/Inside/imageManage.do');
-            },
-            error : function(){
-                alert("정보 등록 중 에러가 발생했습니다.");
-            }
+                    $("#addrDetail").focus();
+                }
+            }).open();
         });
-    }
+    },
 }
 
+function empInfoFileSave(){
 
+    var formData = new FormData();
+    if($("#idPhotoFile")[0].files.length == 1){
+        formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
+    }
 
+    $.ajax({
+        url: "<c:url value='/userManage/setempInfoFileSave.do'/>",
+        data: formData,
+        type: "post",
+        async : false,
+        datatype: "json",
+        contentType: false,
+        processData: false,
+        success: function () {
+            alert("정보 등록이 완료되었습니다.");
+            open_in_frame("/appointment/userInfoReq.do");
+        },
+        error : function(){
+            alert("정보 등록 중 에러가 발생했습니다.");
+        }
+    });
+}
+
+//첨부 이미지 미리보기
+function viewPhoto(input){
+    if(input.files[0].size > 10000000){
+        alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+        return;
+    }
+
+    if(input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#photoView').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
