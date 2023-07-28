@@ -1053,7 +1053,10 @@
             CAM_INSIDE.DJ_INVENTION_SHARE_INFO IISI
                 LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
-        WHERE IISI.INVENTION_INFO_SN = #{inventionInfoSn}
+        WHERE
+            IISI.INVENTION_INFO_SN = #{inventionInfoSn}
+        AND
+            IISI.ACTIVE = 'Y'
     </select>
 
     <select id="getRprReceiptList" parameterType="map" resultType="map">
@@ -1706,5 +1709,52 @@
         /*getRprReceiptUpdateList*/
 
     </select>
+
+    <update id="updRprReceipt" parameterType="map">
+        /* updRprReceipt */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            RPR_CLASS = #{rprClass},
+            RPR_NAME = #{rprName},
+            SHARE_SN = #{shareSn},
+            SHARE_NAME = #{shareName},
+            IPR_CLASS = #{iprClass},
+            IPR_NAME = #{iprName},
+            STATE_SN = #{stateSn},
+            STATE_NAME = #{stateName},
+            TAIN_SN = #{tainSn},
+            TAIN_NAME = #{tainName},
+            TECH_SN = #{techSn},
+            TECH_NAME = #{techName},
+            CONFIDENTIALITY_SN = #{confidentialitySn},
+            CONFIDENTIALITY_NAME = #{confidentialityName},
+            TITLE = #{title},
+            SINGLE_SN = #{singleSn},
+            SINGLE_NAME = #{singleName},
+            APPLICANT_NAME = #{applicantName},
+            DETAIL_CN = #{detailCn},
+            APPLICANT_NUM = #{applicantNum},
+            APPLICANT_DT = #{applicantDt},
+            APPLICANT_NATION = #{applicantNation},
+            REG_NUM = #{regNum},
+            REG_DATE = #{regDate},
+            EXPIRATION_DT = #{expirationDt},
+            REMARK_CN = #{remarkCn},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName}
+        WHERE
+            INVENTION_INFO_SN  = #{inventionInfoSn}
+    </update>
+
+    <update id="updInventionShare" parameterType="map">
+        /* updInventionShare */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_SHARE_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
 
 </mapper>

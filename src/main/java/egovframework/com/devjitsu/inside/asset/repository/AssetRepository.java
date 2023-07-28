@@ -161,4 +161,7 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.getRprReceiptUpdateList", params);
     }
 
+    public int updRprReceipt(Map<String, Object> params) { int result = (int)update("asset.updRprReceipt", params); return result;}
+    public void updInventionShare(Map<String, Object> params) { update("asset.updInventionShare", params);}
+
 }
