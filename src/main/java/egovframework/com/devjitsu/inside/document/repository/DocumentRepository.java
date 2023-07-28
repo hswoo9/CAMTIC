@@ -73,4 +73,16 @@ public class DocumentRepository extends AbstractDAO {
     public List<Map<String, Object>> getDocumentPlaceList(Map<String, Object> params) {
         return selectList("document.getDocumentPlaceList", params);
     }
+
+    public void setProductInsert(Map<String, Object> params){
+        insert("document.setProductInsert", params);
+    }
+
+    public void insOneFileInfo(Map<String, Object> params){
+        insert("document.insOneFileInfo", params);
+    }
+
+    public void setDocuContractFileKey(Map<String, Object> params){
+        update("document.setDocuContractFileKey", params);
+    }
 }

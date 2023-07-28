@@ -1,5 +1,9 @@
 package egovframework.com.devjitsu.inside.document.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import egovframework.com.devjitsu.common.utiles.ConvertUtil;
+import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
 import egovframework.com.devjitsu.inside.document.service.DocumentService;
 import org.apache.poi.ss.usermodel.Cell;
@@ -7,6 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +23,8 @@ import java.util.Map;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
+
+
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -178,8 +185,27 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void setDocuContractInsert(Map<String, Object> params) {
-        documentRepository.setDocuContractInsert(params);
+    public void setDocuContractInsert(Map<String, Object> params, String base_dir) {
+        try{
+            documentRepository.setDocuContractInsert(params);
+            //
+            Gson gson = new Gson();
+            List<Map<String, Object>> area = gson.fromJson((String) params.get("productArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            if(!area.isEmpty()) {
+                params.put("area", area);
+                documentRepository.setProductInsert(params);
+            }
+            ConvertUtil convertUtil = new ConvertUtil();
+            Map<String, Object> fileSaveMap = new HashMap<>();
+            fileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docFileStr")), "hwp", params, base_dir, "");
+            fileSaveMap.put("frKey", params.get("documentContractSn"));
+            documentRepository.insOneFileInfo(fileSaveMap);
+            params.put("fileNo", fileSaveMap.get("fileNo"));
+            documentRepository.setDocuContractFileKey(params);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
     }
 
     @Override

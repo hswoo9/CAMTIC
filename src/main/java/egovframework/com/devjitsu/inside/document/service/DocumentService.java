@@ -79,7 +79,7 @@ public interface DocumentService {
      * 계약대장 등록
      * @param params
      */
-    void setDocuContractInsert(Map<String, Object> params);
+    void setDocuContractInsert(Map<String, Object> params, String base_dir);
 
     /**
      * 식대대장 신청
