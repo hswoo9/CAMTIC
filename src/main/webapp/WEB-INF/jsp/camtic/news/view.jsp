@@ -166,7 +166,7 @@
   }
 
   function fn_goList(){
-    location.href = '/camtic/news/'+categoryId+'.do';
+    location.href = '/camtic/news/commonBoard.do?categoryKey='+categoryId;
   }
 
   //상세보기 이동

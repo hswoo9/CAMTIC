@@ -274,4 +274,16 @@ public class BoardController {
         }
 
     }
+
+    /**
+     * 멀티미디어 게시글 작성 페이지
+     * */
+    @RequestMapping("/camtic/pr/pr_write.do")
+    public String prBoardWrite(Model model, @RequestParam Map<String, Object> params){
+
+        model.addAttribute("categoryId", params.get("category"));
+        return "camtic/pr/pr_write";
+    }
+
+
 }

@@ -114,7 +114,7 @@
 										<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
 											<span class="__btn1 grayLine">파일첨부</span>
 										</button>
-										<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+										<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
 									</div>
 								</div>
 
@@ -177,8 +177,8 @@
             height: 500
         });
 
-        if(categoryId == "notice"){
-            $(".categoryName").text("공지사항");
+        if(categoryId == "photo"){
+            $(".categoryName").text("포토뉴스");
         }else if(categoryId == "business"){
             $(".categoryName").text("사업공고");
         }else if(categoryId == "study"){
@@ -190,7 +190,7 @@
 
     function fn_goList(){
 
-        location.href = '/camtic/news/'+categoryId+'.do';
+        location.href = '/camtic/pr/'+categoryId+'.do';
     }
 
     function fn_saveNotice(){
@@ -229,12 +229,13 @@
 	            return false;
 	        }
 
+            console.log(fCommon.global.attFiles);
             //첨부파일
-            if(fCommon.global.attFiles.name.split(".")[1] != "jpg"){
-                alert("파일 확장자를 확인해주세요.");
+            if(fCommon.global.attFiles[0].name.split(".")[1] != "png"){
+                alert("파일 확장자를 확인해주세요. \n png 업로드 가능");
                 return false;
             }
-            formData.append("boardFile", fCommon.global.attFiles);
+            formData.append("boardFile", fCommon.global.attFiles[0]);
         }
 
         if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
@@ -250,7 +251,7 @@
             async : false,
             success: function() {
 
-                location.href = '/camtic/news/'+categoryId+'.do';
+                location.href = '/camtic/pr/'+categoryId+'.do';
             }
         });
 

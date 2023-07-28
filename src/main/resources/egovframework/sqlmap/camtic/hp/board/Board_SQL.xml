@@ -4,15 +4,31 @@
 <mapper namespace="boardCt">
     <select id="selectBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
-            *
+            *,
+            (CASE WHEN (SELECT COUNT(FR_KEY) FROM CAM_COMMON.DJ_FILE_INFO WHERE FR_KEY = DBA.BOARD_ARTICLE_ID) != 0 THEN 'Y'
+                  ELSE 'N' END) AS FILE_YN
         FROM
-            CAM_COMMON.DJ_BOARD_ARTICLE
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE
             BOARD_CATEGORY_ID = #{searchCategory}
         AND
             ACTIVE = 'Y'
         ORDER BY REG_DATE DESC
         LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="selectPrBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        SELECT
+            *,
+            (SELECT CONCAT(FILE_PATH,FILE_UUID) FROM CAM_COMMON.DJ_FILE_INFO WHERE FR_KEY = DBA.BOARD_ARTICLE_ID) AS FILE_PATH
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
+        WHERE
+            BOARD_CATEGORY_ID = #{searchCategory}
+        AND
+            ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+            LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
     <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
