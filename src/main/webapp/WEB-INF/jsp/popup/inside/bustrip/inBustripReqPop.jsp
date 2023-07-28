@@ -126,7 +126,7 @@
                     <th><span class="red-star">*</span>차량</th>
                     <td colspan="3">
                         <input type="text" id="carList" style="width: 40%;">
-                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="opener.parent.open_in_frame('/Inside/carReq.do')"/><br>
+                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="inBustripReqPop.test()"/><br>
                     </td>
                 </tr>
                 <tr>

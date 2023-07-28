@@ -221,6 +221,15 @@ var inBustripReqPop = {
 
     },
 
+    test: function(){
+        //A
+        var child = window.open('/indexB.do', 'popupB_blank');
+        child.open_in_frame('/Inside/carReq.do');
+
+        //B
+        //opener.open_in_frame('/Inside/carReq.do');
+    },
+
     setData : function (d, p, rsKey){
 
         var data = {
