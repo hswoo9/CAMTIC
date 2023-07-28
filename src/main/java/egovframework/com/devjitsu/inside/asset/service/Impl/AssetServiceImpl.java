@@ -935,4 +935,9 @@ public class AssetServiceImpl implements AssetService {
             System.out.println(e);
         }
     }
+
+    @Override
+    public void updRprAllChange(Map<String, Object> params){
+        assetRepository.updRprAllChange(params);
+    }
 }

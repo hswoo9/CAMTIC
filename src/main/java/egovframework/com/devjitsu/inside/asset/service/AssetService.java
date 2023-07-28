@@ -112,6 +112,9 @@ public interface AssetService {
     //지식재산권 리스트 수정 창 조회
     List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params);
 
-    //지식재산권 수정
+    /** 지식재산권 수정 */
     void updRprReceipt(Map<String, Object> params);
+
+    /** 지식재산권 일괄변경 */
+    void updRprAllChange(Map<String, Object> params);
 }
