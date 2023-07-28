@@ -38,6 +38,9 @@
         <if test="deptName != null and deptName != ''">
             AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
         </if>
+        <if test="sEmpName != null and sEmpName != ''">
+            AND VEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
+        </if>
         ORDER BY SORT
     </select>
 
