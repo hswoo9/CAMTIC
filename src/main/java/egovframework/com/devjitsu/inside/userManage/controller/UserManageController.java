@@ -271,8 +271,10 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         model.addAttribute("data", userManageService.getUserImageList(params));
 
         return "popup/inside/userManage/userReqPopImage";

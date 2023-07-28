@@ -285,17 +285,22 @@ public class UserManageServiceImpl implements UserManageService {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> infoMap = userManageRepository.getUserImageInfo(params);
 
-        if(infoMap.get("ID_IMAGE_PK") != "" || infoMap.get("ID_IMAGE_PK") != null){
-            params.put("fileNo", infoMap.get("ID_IMAGE_PK"));
-            resultMap.put("idImg", commonRepository.getContentFileOne(params));
-        }
-        if(infoMap.get("SIGN_IMAGE_PK") != "" || infoMap.get("SIGN_IMAGE_PK") != null){
-            params.put("fileNo", infoMap.get("SIGN_IMAGE_PK"));
-            resultMap.put("signImg", commonRepository.getContentFileOne(params));
-        }
-        if(infoMap.get("PERSONAL_IMAGE_PK") != "" || infoMap.get("PERSONAL_IMAGE_PK") != null){
-            params.put("fileNo", infoMap.get("PERSONAL_IMAGE_PK"));
-            resultMap.put("myImg", commonRepository.getContentFileOne(params));
+        if(infoMap != null){
+            if(infoMap.get("ID_IMAGE_PK") != "" || infoMap.get("ID_IMAGE_PK") != null){
+                params.put("fileNo", infoMap.get("ID_IMAGE_PK"));
+                resultMap.put("idImg", commonRepository.getContentFileOne(params));
+            }
+            if(infoMap.get("SIGN_IMAGE_PK") != "" || infoMap.get("SIGN_IMAGE_PK") != null){
+                params.put("fileNo", infoMap.get("SIGN_IMAGE_PK"));
+                resultMap.put("signImg", commonRepository.getContentFileOne(params));
+            }
+            if(infoMap.get("PERSONAL_IMAGE_PK") != "" || infoMap.get("PERSONAL_IMAGE_PK") != null){
+                params.put("fileNo", infoMap.get("PERSONAL_IMAGE_PK"));
+                resultMap.put("myImg", commonRepository.getContentFileOne(params));
+            }
+            resultMap.put("null", "");
+        } else {
+            resultMap.put("null", "");
         }
 
         return resultMap;
