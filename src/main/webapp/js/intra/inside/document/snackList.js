@@ -34,6 +34,7 @@ var snackList = {
     },
 
     mainGrid: function() {
+        let sum=0;
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -54,7 +55,7 @@ var snackList = {
                 },
                 total: function (data) {
                     return data.list.length;
-                },
+                }
             },
             pageSize: 10,
         });
@@ -147,7 +148,14 @@ var snackList = {
                 }, {
                     field: "AMOUNT_SN",
                     title: "이용금액(원)",
-                    width: "10%"
+                    width: "10%",
+                    template: function(row){
+                        sum += Number(row.AMOUNT_SN);
+                        return fn_numberWithCommas(row.AMOUNT_SN);
+                    },
+                    footerTemplate: function(){
+                        return "총계 : "+fn_numberWithCommas(sum)+" 원";
+                    }
                 }, {
                     field: "CARD_TEXT",
                     title: "결재 구분",
@@ -158,6 +166,10 @@ var snackList = {
                     width: "10%"
                 }]
         }).data("kendoGrid");
+    },
+
+    calc: function(){
+
     },
 
     onDataBound: function(){
@@ -179,7 +191,7 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "야간 간식", value: "야간 간식"},
+                {text: "야간 식대", value: "야간 식대"},
                 {text: "휴일 식대", value: "휴일 식대"},
                 {text: "평일 식대", value: "평일 식대"}
             ],

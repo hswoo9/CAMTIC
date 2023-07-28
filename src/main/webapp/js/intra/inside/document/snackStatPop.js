@@ -15,7 +15,7 @@ var snackStat = {
         ]
         customKendo.fn_dropDownList("searchDept", searchDeptSource, "text", "value", 3);
         let searchTypeSource = [
-            {text: "야간간식", value: "1"},
+            {text: "야간식대", value: "1"},
             {text: "평일식대", value: "2"},
             {text: "휴일식대", value: "3"}
         ]
