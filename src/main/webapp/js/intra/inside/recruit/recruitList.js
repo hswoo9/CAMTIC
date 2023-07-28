@@ -46,6 +46,7 @@ var recruitList = {
             },
             schema : {
                 data: function (data) {
+                    console.log(data.list);
                     return data.list;
                 },
                 total: function (data) {
