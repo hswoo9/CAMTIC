@@ -841,4 +841,11 @@ public class UserManageController {
 
         return viewName;
     }
+
+
+    @RequestMapping("/userManage/updateUserBankInfo")
+    public String updateUserBankInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+            model.addAttribute("rs", userManageService.updateUserBankInfo(params));
+        return "jsonView";
+    }
 }

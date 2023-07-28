@@ -2,11 +2,12 @@ var userAccountPop = {
 
     global : {
         saveAjaxData : "",
+        targetEmpSeq : "",
     },
 
-    defaultScript : function () {
-
-        $("#bankName, #accountNum, #accountHolder, #cardNum, #dozonCode").kendoTextBox();
+    defaultScript : function (empSeq) {
+        userAccountPop.global.targetEmpSeq = empSeq;
+        $("#bankName, #accountNum, #accountHolder, #cardNum, #duzonCode").kendoTextBox();
     },
 
     userAccountSave : function (){
@@ -18,20 +19,21 @@ var userAccountPop = {
             accountNum : $("#accountNum").val(), //계좌번호
             accountHolder : $("#accountHolder").val(), //예금주
             cardNum : $("#cardNum").val(), //카드번호
-            dozonCode : $("#dozonCode").val() //더존CODE
+            duzonCode : $("#duzonCode").val(), //더존CODE
+            targetEmpSeq : userAccountPop.global.targetEmpSeq,
+            regEmpSeq : $("#regEmpSeq").val()
         }
         console.log(data);
 
         $.ajax({
-            url : '',
+            url : '/userManage/updateUserBankInfo',
             data : data,
             dataType: "json",
-            type : "get",
+            type : "post",
             async : false,
             success : function(result){
-                console.log(result);
                 alert("저장이 완료되었습니다.");
-                opener.gridReload();
+                opener.location.reload();
                 window.close();
 
             },

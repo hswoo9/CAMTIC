@@ -149,6 +149,20 @@
         WHERE
             SALARY_CONTRACT_ID = #{salaryContractId}
     </update>
+
+    <update id="updateUserBankInfo" parameterType="map">
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET BANK_NAME = #{bankName},
+            ACCOUNT_NUM = #{accountNum},
+            ACCOUNT_HOLDER = #{accountHolder},
+            ATT_CARD_NUM = #{cardNum},
+            DUZON_CODE = #{duzonCode},
+            MOD_DATE = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE EMP_SEQ = #{targetEmpSeq}
+    </update>
+
 </mapper>
 
 

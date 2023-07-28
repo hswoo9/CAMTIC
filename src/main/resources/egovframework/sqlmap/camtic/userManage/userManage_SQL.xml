@@ -1275,8 +1275,8 @@
             a.ACTIVE,
             a.REG_EMP_SEQ,
             a.REG_DATE,
-            a.MOD_EMP_SEQ,
-            a.MOD_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = a.MOD_EMP_SEQ GROUP BY EMP_SEQ) AS MOD_EMP_NAME,
+            DATE_FORMAT(a.MOD_DATE, '%Y-%m-%d %H:%i:%s') AS MOD_DATE,
             a.RES_REGIS_NUM,
             a.CHECK_PASSWD,
             a.CAPS_NUM,
@@ -1300,7 +1300,8 @@
             a.VISIONL,
             a.VISIONR,
             a.DIVISION,
-            a.DIVISION_SUB
+            a.DIVISION_SUB,
+            a.DUZON_CODE
         FROM
             cam_hr.dj_emp_info AS a
         WHERE

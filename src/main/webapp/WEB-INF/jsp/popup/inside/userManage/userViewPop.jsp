@@ -219,7 +219,7 @@
                 <tr>
                     <th>계좌정보</th>
                     <td colspan="3">
-                        더존코드 : | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 :
+                        더존코드 : ${uprinfList.DUZON_CODE} | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 : ${uprinfList.ATT_CARD_NUM}
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userAccountPop('${params.empSeq}')">수정</button>
                         </c:if>
@@ -365,7 +365,7 @@
                     </td>
                     <th>최근수정자</th>
                     <td>
-                        ${uprinfList.MOD_EMP_SEQ}
+                        ${uprinfList.MOD_EMP_NAME}
                     </td>
                 </tr>
                 </thead>
