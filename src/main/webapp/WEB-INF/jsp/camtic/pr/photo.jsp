@@ -125,7 +125,7 @@
     data.forEach((item, index) => {
       html += "<a class='box' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
       if(item.file_PATH != undefined || item.file_PATH != null){
-        html += '<div class="img"><i style="background-image:url("+item.file_PATH+");"></i></div>';
+        html += '<div class="img"><i style="background-image:url("+item.file_PATH+"); background-size:298 189px;"></i></div>';
       }else{
         html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
       }
