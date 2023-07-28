@@ -100,7 +100,7 @@
                             <div class="filebox">
                                 <label for="signPhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>
                                 <span>결재사인 이미지는 150*150 크기입니다.</span>
-                                <input type="file" id="signPhotoFile" onchange="userReqPop.viewSignPhoto(this)">
+                                <input type="file" id="signPhotoFile" onchange="viewSignPhoto(this)">
                             </div>
                         </td>
                     </tr>
@@ -110,7 +110,7 @@
                             <div class="filebox"> <%--style.css 파일 필드 숨기기--%>
                                 <label for="idPhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>
                                 <span>증명사진 이미지는 150*150 크기입니다.</span>
-                                <input type="file" id="idPhotoFile" name="idPhotoFile" onchange="userReqPop.viewPhoto(this)">
+                                <input type="file" id="idPhotoFile" name="idPhotoFile" onchange="viewPhoto(this)">
                             </div>
                         </td>
                     </tr>
@@ -121,7 +121,7 @@
                                 <input type="file">
                                 <label for="myPhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>
                                 <span>개인사진 이미지는 110*110 크기입니다.</span>
-                                <input type="file" id="myPhotoFile" onchange="userReqPop.viewMyPhoto(this)">
+                                <input type="file" id="myPhotoFile" onchange="viewMyPhoto(this)">
                             </div>
                         </td>
                     </tr>
@@ -135,7 +135,7 @@
                     </thead>
                 </table>
             </form>
-        <button type="button" class="k-button k-button-solid-info" onclick="userReqPop.empInfoFileSave();">저장</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="empInfoFileSave();">저장</button>
         </div>
     </div>
 </div>
