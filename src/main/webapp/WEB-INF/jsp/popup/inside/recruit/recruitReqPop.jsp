@@ -57,7 +57,7 @@
           <tr>
             <th style="text-align: center">공고내용</th>
             <td colspan="3">
-              <input type="text" id="recruitDetail" style="width: 70%">
+              <textarea id="recruitDetail" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -78,7 +78,7 @@
           <tr id="areaTr">
             <th style="text-align: center">
               모집분야<br>
-              <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mt10" value="추가" onclick="" disabled/>
+              <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mt10" value="추가" onclick="recruitReq.fn_areaTrAdd();" />
             </th>
             <td colspan="3" id="areaTd">
             </td>
@@ -88,7 +88,7 @@
               모집분야 기타
             </th>
             <td colspan="3">
-              <input type="text" id="jobPositionEtc" style="width: 80%">
+              <input type="text" id="jobPositionEtc" style="width: 70%">
             </td>
           </tr>
           <tr>
@@ -96,7 +96,7 @@
               응시자격 기타
             </th>
             <td colspan="3">
-              <input type="text" id="eligibilityEtc" style="width: 80%">
+              <textarea id="eligibilityEtc" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -104,7 +104,7 @@
               근무형태
             </th>
             <td colspan="3">
-              <input type="text" id="workType" style="width: 80%">
+              <textarea id="workType" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -112,10 +112,10 @@
               전형방법
             </th>
             <td colspan="3">
-              <input type="text" id="admission" style="width: 80%">
+              <textarea id="admission" style="width: 70%"></textarea>
             </td>
           </tr>
-          <tr>
+          <%--<tr>
             <th>
               지원서류
             </th>
@@ -130,13 +130,13 @@
             <td colspan="3">
               <input type="file" disabled>
             </td>
-          </tr>
+          </tr>--%>
           <tr>
             <th>
               원서접수
             </th>
             <td colspan="3">
-              <input type="text" id="receiptDocu" style="width: 80%">
+              <textarea id="receiptDocu" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -144,7 +144,7 @@
               기타사항
             </th>
             <td colspan="3">
-              <input type="text" id="remark" style="width: 80%">
+                <textarea id="remark" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -152,7 +152,7 @@
               상태(값 자동변경)
             </th>
             <td colspan="3">
-              <input type="text" id="recruitStatus">
+              <input type="text" id="recruitStatus" style="width: 20%;">
             </td>
           </tr>
         </table>
