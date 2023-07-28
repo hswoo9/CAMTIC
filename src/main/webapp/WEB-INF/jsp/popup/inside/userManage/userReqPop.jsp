@@ -17,6 +17,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">직원등록</h3>
             <div>
+                <input type="hidden" id="targetEmpSeq" value="${params.empSeq}" />
                 <c:if test="${params.empSeq != null && params.empSeq != ''}">
                     <button type="button" class="k-button k-button-solid-base" style="margin-top: 8px;" onclick="history.back();">뒤로가기</button>
                 </c:if>
@@ -188,12 +189,13 @@
                     <th>거주지</th>
                     <td colspan="3">
                         <div style="display: flex">
-                            <input type="text" id="addr" style="width: 15%; margin-right:10px;" value="${uprinfList.ZIP_CODE}">
+                            <input type="text" id="zipCode" style="width: 15%; margin-right:10px;" value="${uprinfList.ZIP_CODE}">
                             <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="userReqPop.addrSearch();"/>
                         </div>
                         <div style="display: flex" class="mt5">
-                            <input type="text" id="addrDetail" style="width: 95%;" value="${uprinfList.ADDR}">
+                            <input id="addr" style="width: 95%;" value="${uprinfList.ADDR}">
                             <span id="guide" style="color:#999;display:none"></span>
+                            <input type="hidden" id="addrDetail">
                         </div>
                     </td>
                 </tr>

@@ -58,4 +58,8 @@ public interface UserManageService{
 
     Object updateUserBankInfo(Map<String, Object> params);
 
+    Object setUserReqDetailUpdate(Map<String, Object> params);
+
+
+
 }

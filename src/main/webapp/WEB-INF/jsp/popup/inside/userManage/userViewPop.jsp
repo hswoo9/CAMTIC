@@ -69,7 +69,7 @@
                 <tr>
                     <th>주민등록번호</th>
                     <td>
-                        ${uprinfList.RES_REGIS_NUM}
+                        ${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}-*******<span id="resRegisNum"></span>
                     </td>
                 </tr>
                 <tr>
@@ -211,7 +211,9 @@
                 <tr>
                     <th>경력사항</th>
                     <td>
-                        ??
+                        <c:if test="${uprinfList.hire != null and uprinfList.hire != ''}">
+                            ${uprinfList.hire}년${uprinfList.hire_mon}개월
+                        </c:if>
                     </td>
                     <th></th>
                     <td></td>
@@ -296,10 +298,10 @@
                 <tr>
                     <th>결혼관계</th>
                     <td>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
                             기혼
                         </c:if>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
                             미혼
                         </c:if>
                     </td>
@@ -345,19 +347,13 @@
                         ${uprinfList.WEIGHT}
                     </td>
                     <th>시력</th>
-                <c:if test="${uprinfList.VISIONL == null || uprinfList.VISIONR == ''}">
-                    <td>
-                        ${uprinfList.VISIONL}
-                        ${uprinfList.VISIONR}
-                    </td>
+                    <c:if test="${uprinfList.VISIONL != null || uprinfList.VISIONR != null}">
+                        <td>
+                            좌 : ${uprinfList.VISIONL} /
+                            우 : ${uprinfList.VISIONR}
+                        </td>
+                    </c:if>
                 </tr>
-                </c:if>
-                <c:if test="${uprinfList.VISIONL != null || uprinfList.VISIONR != null}">
-                    <td>
-                        좌 : ${uprinfList.VISIONL} /
-                        우 : ${uprinfList.VISIONR}
-                    </td>
-                </c:if>
                 <tr>
                     <th>최근수정일</th>
                     <td>
@@ -376,4 +372,6 @@
 </body>
 <script>
     userViewPop.defaultScript();
+    $("#resRegisNum").text(" (" + userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
+    console.log(userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}'));
 </script>

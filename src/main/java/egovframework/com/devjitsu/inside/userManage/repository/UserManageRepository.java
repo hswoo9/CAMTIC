@@ -134,4 +134,8 @@ public class UserManageRepository extends AbstractDAO {
     public Object updateUserBankInfo(Map<String, Object> params) {
         return update("employM.updateUserBankInfo", params);
     }
+
+    public Object setUserReqDetailUpdate(Map<String, Object> params) {
+        return update("userManage.setUserReqDetailUpdate", params);
+    }
 }

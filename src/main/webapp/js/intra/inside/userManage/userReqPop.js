@@ -15,7 +15,7 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #addr, #addrDetail, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
 
         var detDs = [
             {text: "선택", value: ""},
@@ -600,6 +600,7 @@ var userReqPop = {
             ACCOUNT_HOLDER : $("#accountHolder").val(), //예금주
             BANK_NAME : $("#bankName").val(), //은행명
             ACCOUNT_NUM : $("#accountNum").val(), //계좌번호
+            ZIP_CODE : $("#zipCode").val(), //우편번호 현주소(주소)
             ADDR : $("#addr").val(), //우편번호 현주소(주소)
             ADDR_DETAIL : $("#addrDetail").val(), //거주지 지번주소
             OFFICE_TEL_NUM : $("#officeTelNum").val(), //전화번호
@@ -626,6 +627,16 @@ var userReqPop = {
             HOME_PAGE_ACTIVE : $("#homePageActive").getKendoRadioGroup().value(), //홈페이지 게시
             WEDDING_ACTIVE : $("#weddingActive").getKendoRadioGroup().value(), //결혼 관계
             BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value() //혈액형
+
+
+
+        }
+        if($("#weddingActive").getKendoRadioGroup().value() == "Y"){
+            data.WEDDING_DAY = $("#weddingDay").val();
+        }
+
+        if($("#targetEmpSeq").val() != ""){
+            data.TARGET_EMP_SEQ = $("#targetEmpSeq").val();
         }
 
         if($("#deptTeamName").val() != '' && $("#deptTeamName").val() != null){
@@ -655,26 +666,28 @@ var userReqPop = {
             return;
         }
 
-        if(!idFlag){
-            alert("중복확인을 해주세요.")
-            return;
-        }
+
 
         if(data.division == "" || data.division == null) {
             alert("직원구분을 선택해주세요.");
             return;
         }
 
-        if(data.LOGIN_PASSWD == "" || data.LOGIN_PASSWD == null){
-            alert("비밀번호를 입력해주세요.");
+        if($("#targetEmpSeq").val() != ""){
+            if(data.LOGIN_PASSWD != "" || data.LOGIN_PASSWD != null){
+                data.PASSCHANGE = "true";
+            }
+        }else{
 
-            return;
-        }
+            if(!idFlag){
+                alert("중복확인을 해주세요.")
+                return;
+            }
 
-        if(data.LOGIN_ID == "" || data.LOGIN_ID == null){
-            alert("비밀번호를 입력해주세요.");
-
-            return;
+            if(data.LOGIN_PASSWD == "" || data.LOGIN_PASSWD == null){
+                alert("비밀번호를 입력해주세요.");
+                return;
+            }
         }
 
         if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 7){
@@ -688,9 +701,16 @@ var userReqPop = {
             return;
         }
 
-        console.log(data);
+        var urlType = "";
+
+        if($("#targetEmpSeq").val() != ""){
+            urlType = "/userManage/setUserReqDetailUpdate";
+        }else{
+            urlType = "/userManage/setUserReqDetailInsert";
+        }
+
         $.ajax({
-            url : '/userManage/setUserReqDetailInsert',
+            url : urlType,
             data : data,
             dataType : "application/json",
             type : "POST",
@@ -700,9 +720,14 @@ var userReqPop = {
                 opener.userPersonList.gridReload();
             },
             complete : function (){
-                window.close();
+                if($("#targetEmpSeq").val() != ""){
+                    location.href = "/Inside/pop/userViewPop.do?empSeq=" + $("#targetEmpSeq").val();
+                }else{
+                    window.close();
+                }
                 opener.userPersonList.gridReload();
-            }
+            },
+
         })
     },
 
@@ -761,7 +786,8 @@ var userReqPop = {
                         extraRoadAddr = ' (' + extraRoadAddr + ')';
                     }
 
-                    $("#addr").val(data.zonecode);
+                    $("#zipCode").val(data.zonecode);
+                    $("#addr").val(roadAddr);
                     $("#addrDetail").val(roadAddr);
 
                     // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.

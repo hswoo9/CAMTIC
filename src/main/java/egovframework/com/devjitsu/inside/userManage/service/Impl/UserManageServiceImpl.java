@@ -291,5 +291,10 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.updateUserBankInfo(params);
     }
 
+    @Override
+    public Object setUserReqDetailUpdate(Map<String, Object> params) {
+        return userManageRepository.setUserReqDetailUpdate(params);
+    }
+
 
 }
