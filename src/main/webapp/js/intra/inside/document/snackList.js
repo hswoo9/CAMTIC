@@ -64,7 +64,7 @@ var snackList = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 508,
+            height: 551,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -114,10 +114,6 @@ var snackList = {
                     template : "<input type='checkbox' id='sanckPk#=SNACK_INFO_SN#' name='sanckPk' value='#=SNACK_INFO_SN#'/>",
                     width: 50
                 }, {
-                    field: "ROW_NUM",
-                    title: "순번",
-                    width: "50"
-                }, {
                     field: "SNACK_TYPE_TEXT",
                     title: "식대 구분",
                     width: "10%"
@@ -158,7 +154,7 @@ var snackList = {
                     }
                 }, {
                     field: "CARD_TEXT",
-                    title: "결재 구분",
+                    title: "결제 구분",
                     width: "10%"
                 }, {
                     field: "RECIPIENT_EMP_NAME",
