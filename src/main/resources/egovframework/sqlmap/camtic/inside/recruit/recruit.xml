@@ -162,6 +162,16 @@
                 #{regEmpName}
             )
     </insert>
+
+    <select id="getRecruitAreaList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO
+        WHERE
+            RECRUIT_INFO_SN = #{RECRUIT_INFO_SN}
+        ORDER BY REG_DT DESC
+    </select>
 </mapper>
 
 

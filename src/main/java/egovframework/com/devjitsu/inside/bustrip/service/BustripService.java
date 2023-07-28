@@ -8,11 +8,9 @@ import java.util.Map;
 public interface BustripService {
 
 
-    List<Map<String, Object>> getUserList(Map<String, Object> params);
+    List<Map<String, Object>> getBustripList(Map<String, Object> params);
 
     void setBustripReq(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
-
-    List<Map<String, Object>> getBustripReq(Map<String, Object> params);
 
     void delBustripReq(Map<String, Object> params);
 

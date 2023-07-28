@@ -220,8 +220,7 @@
                 <tr>
                     <th>경력사항</th>
                     <td>
-                        ${uprinfList.hire + uprinfList.prev_hire}년 ${uprinfList.hire_mon + uprinfList.prev_hire_mon}개월
-                            (전직경력 : ${uprinfList.prev_hire}년 ${uprinfList.prev_hire_mon}개월 + 현직경력 : ${uprinfList.hire}년 ${uprinfList.hire_mon}개월)
+                        <span id="hire"></span>
                     </td>
                     <th></th>
                     <td></td>
@@ -381,5 +380,6 @@
 <script>
     userViewPop.defaultScript();
     $("#resRegisNum").text(" (" + userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
-    console.log(userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}'));
+    $("#hire").text(userViewPop.fn_sethire('${uprinfList.prev_hire}','${uprinfList.prev_hire_mon}','${uprinfList.hire}','${uprinfList.hire_mon}'));
+
 </script>

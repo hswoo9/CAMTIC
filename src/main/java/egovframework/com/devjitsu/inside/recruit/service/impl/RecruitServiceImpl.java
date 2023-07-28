@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,16 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public List<Map<String, Object>> getRecruitList(Map<String, Object> params) {
-        return recruitRepository.getRecruitList(params);
+        List<Map<String, Object>> recruitList = recruitRepository.getRecruitList(params);
+        if(recruitList.size() > 0){
+            for(int i = 0 ; i < recruitList.size() ; i++){
+                List<Map<String, Object>> recruitAreaList = recruitRepository.getRecruitAreaList(recruitList.get(i));
+                if(recruitAreaList.size() > 0){
+                    recruitList.get(i).put("recruitAreaList", recruitAreaList);
+                }
+            }
+        }
+        return recruitList;
     }
 
     @Override

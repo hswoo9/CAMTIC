@@ -218,7 +218,8 @@
             ACTIVE,
             CAR_ACTIVE,
             OCCUPATION_CODE,
-            JOIN_DAY
+            JOIN_DAY,
+            WORK_STATUS_CODE
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -274,7 +275,8 @@
             #{ACTIVE},
             #{CAR_ACTIVE},
             #{OCCUPATION_CODE},
-            #{JOIN_DAY}
+            #{JOIN_DAY},
+            'Y'
         )
     </insert>
 
@@ -1236,8 +1238,15 @@
     <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
         /* getUserPersonnelinformList */
         SELECT
-            SUBSTRING_INDEX(TRUNCATE(a.BEFOR_CAREER / 12, 1), '.', 1) AS prev_hire,
-            CONCAT(SUBSTRING_INDEX(TRUNCATE(a.BEFOR_CAREER / 12, 1), '.', -1) + 1) as prev_hire_mon,
+            <![CDATA[
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                  THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) ELSE 0
+            END) AS prev_hire,
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                  THEN CONCAT(CAST(a.BEFOR_CAREER AS UNSIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) * 12))
+                  ELSE a.BEFOR_CAREER
+            END) AS prev_hire_mon,
+            ]]>
             SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
             CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.EMP_SEQ,

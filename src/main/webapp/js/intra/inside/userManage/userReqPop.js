@@ -610,7 +610,7 @@ var userReqPop = {
             POSITION_CODE : $("#position").val(), // 직급 / 등급
             DUTY_CODE : $("#duty").val(), // 직책
             DUTY_NAME : $("#duty").data("kendoDropDownList").text(), // 직책
-            CAR_NUM : $("#carNum1").val()+$("#carNum2").val()+$("#carNum3").val(), //차량번호
+
             EMP_NAME_CN : $("#empNameCn").val(), //한자 이름
             EMP_NAME_EN : $("#empNameEn").val(), //영문 이름
 
@@ -648,8 +648,10 @@ var userReqPop = {
 
         if($("#carActive").is(":checked")){
             data.CAR_ACTIVE = "1"
+            data.CAR_NUM = $("#carNum1").val();
         } else {
             data.CAR_ACTIVE = "0"
+            data.CAR_NUM = "";
         }
 
         if($("#check3").is(":checked")){

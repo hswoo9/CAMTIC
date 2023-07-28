@@ -10,9 +10,7 @@ import java.util.Map;
 public class BustripRepository extends AbstractDAO {
 
 
-    public List<Map<String, Object>> getUserList(Map<String, Object> params) {
-        return selectList("bustrip.getUserList", params);
-    }
+    public List<Map<String, Object>> getBustripList(Map<String, Object> params) { return selectList("bustrip.getBustripList", params); }
 
     public void insBustripReq(Map<String, Object> params) {
         insert("bustrip.insBustripReq", params);
@@ -20,10 +18,6 @@ public class BustripRepository extends AbstractDAO {
 
     public void insBustripCompanion(Map<String, Object> params) {
         insert("bustrip.insBustripCompanion", params);
-    }
-
-    public List<Map<String, Object>> getBustripReq(Map<String, Object> params) {
-        return selectList("bustrip.getBustripReq", params);
     }
 
     public void delBustripReq(Map<String, Object> params) {

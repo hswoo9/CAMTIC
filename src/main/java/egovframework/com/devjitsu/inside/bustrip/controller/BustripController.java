@@ -38,6 +38,30 @@ public class BustripController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
+    /** 출장신청 리스트 페이지 */
+    @RequestMapping("/bustrip/bustripList.do")
+    public String bustripList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/bustripList";
+    }
+
+    /** 출장신청 등록 팝업*/
+    @RequestMapping("/bustrip/pop/bustripReqPop.do")
+    public String bustripReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("params", params);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/bustripReqPop";
+    }
+    
     //출장신청
     @RequestMapping("/bustrip/bustripReq.do")
     public String bustripReq(HttpServletRequest request, Model model) {
@@ -71,35 +95,6 @@ public class BustripController {
         return "jsonView";
     }
 
-    //관내출장리스트
-    @RequestMapping("/bustrip/inBustripList.do")
-    public String inBustripList(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/bustrip/inBustripList";
-    }
-
-    /**
-     * 출장 신청 / 출장 조회
-     * @param request
-     * @param model
-     * @return
-     */
-    @RequestMapping("/bustrip/pop/inBustripReqPop.do")
-    public String inBustripReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
-        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
-        model.addAttribute("params", params);
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/inBustripReqPop";
-    }
-
     /**
      * 출장신청 데이터 불러오기
      * @param params
@@ -114,20 +109,6 @@ public class BustripController {
 
         model.addAttribute("rs", bustripService.getBustripReqInfo(params));
         model.addAttribute("params", params);
-
-        return "jsonView";
-    }
-
-    /**
-     * 동반자 유저 리스트
-     * JSY
-     * 2022.08.01
-     */
-    @RequestMapping("/bustrip/getUserList")
-    public String getUserList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
-        logger.info("controller getUserList");
-        List<Map<String, Object>> list = bustripService.getUserList(params);
-        model.addAttribute("data", list);
 
         return "jsonView";
     }
@@ -254,10 +235,10 @@ public class BustripController {
         return "jsonView";
     }
 
-    @RequestMapping("/bustrip/getBustripReq")
-    public String getBustripReq(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    @RequestMapping("/bustrip/getBustripList")
+    public String getBustripList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
 
-        List<Map<String, Object>> list = bustripService.getBustripReq(params);
+        List<Map<String, Object>> list = bustripService.getBustripList(params);
 
         model.addAttribute("list", list);
         return "jsonView";
