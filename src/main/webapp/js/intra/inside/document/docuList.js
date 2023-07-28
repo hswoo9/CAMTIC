@@ -168,7 +168,7 @@ var docuContractList = {
     docuPopup: function(){
         var url = "/Inside/Pop/docuPop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+        var option = "width = 1000, height = 550, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
 
