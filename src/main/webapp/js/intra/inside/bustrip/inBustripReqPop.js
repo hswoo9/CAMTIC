@@ -214,7 +214,7 @@ var inBustripReqPop = {
             async : false,
             success : function(result){
 
-                opener.parent.inBustripList.mainGrid();
+                opener.parent.open_in_frame('/bustrip/inBustripList.do');
                 window.close();
             }
         });
@@ -222,12 +222,8 @@ var inBustripReqPop = {
     },
 
     test: function(){
-        //A
-        var child = window.open('/indexB.do', 'popupB_blank');
-        child.open_in_frame('/Inside/carReq.do');
-
-        //B
-        //opener.open_in_frame('/Inside/carReq.do');
+        window.open('/indexB.do', '123123');
+        opener.parent.open_in_frame('/Inside/carReq.do');
     },
 
     setData : function (d, p, rsKey){
@@ -405,7 +401,7 @@ var inBustripReqPop = {
             async : false,
             success : function(result){
 
-                opener.parent.inBustripList.mainGrid();
+                opener.parent.open_in_frame('/bustrip/inBustripList.do');
                 window.close();
             }
         });
