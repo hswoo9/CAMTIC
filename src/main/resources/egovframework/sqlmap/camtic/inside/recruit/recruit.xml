@@ -147,7 +147,10 @@
                 EMAIL,
                 BELONG,
                 REG_EMP_SEQ,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                GENDER,
+                DUTY_POSITION,
+                BMK
             )
         VALUE
             (
@@ -159,7 +162,10 @@
                 #{email},
                 #{belong},
                 #{regEmpSeq},
-                #{regEmpName}
+                #{regEmpName},
+                #{gender},
+                #{dutyPosition},
+                #{bmk}
             )
     </insert>
 

@@ -75,7 +75,22 @@
           <th>
             <span class="red-star"></span>소속
           </th>
-          <td colspan="3"><input type="text" id="belong" style="width: 80%"></td>
+          <td><input type="text" id="belong" style="width: 80%"></td>
+          <th>
+            <span class="red-star"></span>성별
+          </th>
+          <td><span id="gender" style="width: 80%"></span></td>
+        </tr>
+        <tr>
+          <th>
+            <span class="red-star"></span>직급(직책)
+          </th>
+          <td><input type="text" id="dutyPosition" style="width: 80%"></td>
+          <th>
+            <span class="red-star"></span>비고
+          </th>
+          <td><input type="text" id="bmk" style="width: 80%"></td>
+
         </tr>
       </table>
     </form>
