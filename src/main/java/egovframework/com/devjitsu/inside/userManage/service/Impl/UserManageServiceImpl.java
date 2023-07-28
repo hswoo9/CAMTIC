@@ -255,12 +255,41 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public void setUserInfoReqUpd(Map<String, Object> params) {
-        userManageRepository.setUserInfoReqUpd(params);
+
+        Map<String, Object> infoMap = userManageRepository.getUserImageInfo(params);
+
+        if(infoMap != null){
+            userManageRepository.setUserImageUpd(params);   // 업데이트
+        } else {
+            userManageRepository.setUserImageReq(params);   // 저장
+        }
     }
     @Override
     public Map<String,Object> getUserInfoModDetail(Map<String,Object> map) {
         return userManageRepository.getUserInfoModDetail(map);
     }
+
+    @Override
+    public Map<String, Object> getUserImageList(Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> infoMap = userManageRepository.getUserImageInfo(params);
+
+        if(infoMap.get("ID_IMAGE_PK") != "" || infoMap.get("ID_IMAGE_PK") != null){
+            params.put("fileNo", infoMap.get("ID_IMAGE_PK"));
+            resultMap.put("idImg", commonRepository.getContentFileOne(params));
+        }
+        if(infoMap.get("SIGN_IMAGE_PK") != "" || infoMap.get("SIGN_IMAGE_PK") != null){
+            params.put("fileNo", infoMap.get("SIGN_IMAGE_PK"));
+            resultMap.put("signImg", commonRepository.getContentFileOne(params));
+        }
+        if(infoMap.get("PERSONAL_IMAGE_PK") != "" || infoMap.get("PERSONAL_IMAGE_PK") != null){
+            params.put("fileNo", infoMap.get("PERSONAL_IMAGE_PK"));
+            resultMap.put("myImg", commonRepository.getContentFileOne(params));
+        }
+
+        return resultMap;
+    }
+
 
     @Override
     public List<Map<String, Object>> getEmploymentContList(Map<String,Object> map) {

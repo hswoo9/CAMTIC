@@ -484,8 +484,13 @@ public class UserManageController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String, Object> params = new HashMap<>();
+        params.put("empSeq", login.getUniqId());
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", userManageService.getUserImageList(params));
         return "inside/userManage/imageManage";
     }
 
@@ -791,7 +796,7 @@ public class UserManageController {
 
     //이미지관리 파일 추가
     @RequestMapping("/userManage/setempInfoFileSave.do")
-    public String setempInfoFileSave(@RequestParam Map<String, Object> params, @RequestParam("idPhotoFile") MultipartFile[] idPhotoFile, MultipartHttpServletRequest request, Model model) throws Exception {
+    public String setempInfoFileSave(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
@@ -803,13 +808,23 @@ public class UserManageController {
         String base_path = BASE_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         MainLib mainLib = new MainLib();
-        List<Map<String, Object>> list = new ArrayList<>();
-        list = mainLib.multiFileUpload(idPhotoFile, server_path);
+        List<Map<String, Object>> idPhotoFile = new ArrayList<>();
+        List<Map<String, Object>> signPhotoFile = new ArrayList<>();
+        List<Map<String, Object>> myPhotoFile = new ArrayList<>();
 
-        int photoFileId = userManageService.setThumbnailUpload(list, params, base_path);
+        idPhotoFile = mainLib.multiFileUpload(request.getFiles("idPhotoFile").toArray(new MultipartFile[0]), server_path);
+        signPhotoFile = mainLib.multiFileUpload(request.getFiles("signPhotoFile").toArray(new MultipartFile[0]), server_path);
+        myPhotoFile = mainLib.multiFileUpload(request.getFiles("myPhotoFile").toArray(new MultipartFile[0]), server_path);
+
+        int photoFileId = userManageService.setThumbnailUpload(idPhotoFile, params, base_path);     //증명사진
+        int signPhotoFileId = userManageService.setThumbnailUpload(signPhotoFile, params, base_path);   //결재사진
+        int myPhotoFileId = userManageService.setThumbnailUpload(myPhotoFile, params, base_path);   //개인사진
 
         params.put("loginEmpSeq", loginVO.getUniqId());
-        params.put("photoFileId", photoFileId);
+        params.put("idImg", photoFileId);
+        params.put("signImg", signPhotoFileId);
+        params.put("personalImg", myPhotoFileId);
+
         userManageService.setUserInfoReqUpd(params);
 
         return "jsonView";

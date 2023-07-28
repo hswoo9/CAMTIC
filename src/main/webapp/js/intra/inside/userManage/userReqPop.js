@@ -738,45 +738,95 @@ var userReqPop = {
                 return value;
         }
     },
-}
 
-function empInfoFileSave(){
-
-    var formData = new FormData();
-    if($("#idPhotoFile")[0].files.length == 1){
-        formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
-    }
-
-    $.ajax({
-        url: "<c:url value='/userManage/setempInfoFileSave.do'/>",
-        data: formData,
-        type: "post",
-        async : false,
-        datatype: "json",
-        contentType: false,
-        processData: false,
-        success: function () {
-            alert("정보 등록이 완료되었습니다.");
-            open_in_frame("/appointment/userInfoReq.do");
-        },
-        error : function(){
-            alert("정보 등록 중 에러가 발생했습니다.");
+    //첨부 이미지 미리보기
+    viewPhoto : function(input) {
+        if(input.files[0].size > 10000000){
+            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+            return;
         }
-    });
-}
 
-//첨부 이미지 미리보기
-function viewPhoto(input){
-    if(input.files[0].size > 10000000){
-        alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
-        return;
-    }
-
-    if(input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#photoView').attr('src', e.target.result);
+        if(input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#photoView').attr('src', e.target.result);
+                $('#photoView').css('display', 'block');
+                $('#photoViewText').css('display', 'none');
+            }
+            reader.readAsDataURL(input.files[0]);
         }
-        reader.readAsDataURL(input.files[0]);
+    },
+
+    //첨부 이미지 미리보기
+    viewSignPhoto : function(input) {
+        if(input.files[0].size > 10000000){
+            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+            return;
+        }
+
+        if(input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#signPhotoView').attr('src', e.target.result);
+                $('#signPhotoView').css('display', 'block');
+                $('#signPhotoViewText').css('display', 'none');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    },
+
+    //첨부 이미지 미리보기
+    viewMyPhoto : function(input) {
+        if(input.files[0].size > 10000000){
+            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+            return;
+        }
+
+        if(input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#myPhotoView').attr('src', e.target.result);
+                $('#myPhotoView').css('display', 'block');
+                $('#myPhotoViewText').css('display', 'none');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    },
+
+    empInfoFileSave : function (){
+
+        var formData = new FormData();
+        formData.append("menuCd", $("#menuCd").val());
+        formData.append("empSeq", $("#empSeq").val());
+
+        if($("#idPhotoFile")[0].files.length == 1){ //증명사진
+            formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
+        }
+        if($("#signPhotoFile")[0].files.length == 1){   //결재사진
+            formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
+        }
+        if($("#myPhotoFile")[0].files.length == 1){ //개인사진
+            formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
+        }
+
+        $.ajax({
+            url: '/userManage/setempInfoFileSave.do',
+            data: formData,
+            type: "post",
+            async : false,
+            datatype: "json",
+            contentType: false,
+            processData: false,
+            success: function () {
+                alert("정보 등록이 완료되었습니다.");
+                open_in_frame('/Inside/imageManage.do');
+            },
+            error : function(){
+                alert("정보 등록 중 에러가 발생했습니다.");
+            }
+        });
     }
 }
+
+
+

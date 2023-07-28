@@ -1340,10 +1340,10 @@
         CAM_COMMON.DJ_FILE_INFO
         SET
         <if test='photoFileId != null and !"".equals(photoFileId)'>
-            PHOTO_FILE_ID = #{photoFileId}
+            FILE_NO = #{photoFileId}
         </if>
         WHERE
-        EMP_SEQ = #{empSeq}
+        EMP_SEQ = #{loginEmpSeq}
     </update>
 
     <select id="getUserInfoModDetail" resultType="map" parameterType="map">
@@ -1354,4 +1354,69 @@
         where
             a.${key} = #{id}
     </select>
+
+    <select id="getUserImageInfo" resultType="map" parameterType="map">
+        /* getUserImageInfo */
+        SELECT
+            IM.IMAGE_ID,
+            IM.EMP_SEQ,
+            IM.SIGN_IMAGE_PK,
+            IM.ID_IMAGE_PK,
+            IM.PERSONAL_IMAGE_PK
+        FROM
+            CAM_INSIDE.DJ_IMAGE_MANAGE IM
+        WHERE
+            IM.EMP_SEQ = #{empSeq}
+    </select>
+
+    <insert id="setUserImageReq" parameterType="map">
+        /* setUserImageReq */
+        INSERT INTO CAM_INSIDE.DJ_IMAGE_MANAGE(
+            EMP_SEQ,
+        <if test='signImg != 0'>
+            SIGN_IMAGE_PK,
+        </if>
+        <if test='idImg != 0'>
+            ID_IMAGE_PK,
+        </if>
+        <if test='personalImg != 0'>
+            PERSONAL_IMAGE_PK,
+        </if>
+            REG_EMP_SEQ,
+            REG_DATE
+        ) VALUES (
+            #{empSeq},
+        <if test='signImg != 0'>
+            #{signImg},
+        </if>
+        <if test='idImg != 0'>
+            #{idImg},
+        </if>
+        <if test='personalImg != 0'>
+            #{personalImg},
+        </if>
+            #{loginEmpSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="setUserImageUpd" parameterType="map">
+        /* setUserImageUpd */
+        UPDATE
+            CAM_INSIDE.DJ_IMAGE_MANAGE
+        SET
+            <if test='signImg != 0'>
+                SIGN_IMAGE_PK = #{signImg},
+            </if>
+            <if test='idImg != 0'>
+                ID_IMAGE_PK = #{idImg},
+            </if>
+            <if test='personalImg != 0'>
+                PERSONAL_IMAGE_PK = #{personalImg},
+            </if>
+            MOD_EMP_SEQ = #{loginEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </update>
 </mapper>

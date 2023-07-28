@@ -124,6 +124,11 @@ public class UserManageRepository extends AbstractDAO {
         return (Map<String,Object>) selectOne("userManage.getUserInfoModDetail", map);
     }
 
+    /** 이미지 관리 */
+    public Map<String, Object> getUserImageInfo(Map<String, Object> map){ return (Map<String, Object>) selectOne("userManage.getUserImageInfo", map); }
+    public void setUserImageReq(Map<String, Object> params) { insert("userManage.setUserImageReq", params); }
+    public void setUserImageUpd(Map<String, Object> params) { update("userManage.setUserImageUpd", params); }
+
     /** 연봉근로계약 */
     public List<Map<String,Object>> getEmploymentContList(Map<String,Object> map) {return selectList("employM.getEmploymentContList", map);}
     public Map<String,Object> getEmploymentInfo(Map<String,Object> map) {return (Map<String,Object>) selectOne("employM.getEmploymentInfo", map);}
