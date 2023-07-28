@@ -131,7 +131,12 @@ var docuContractList = {
                     width: "5%",
                     template : function(row){
                         if(row.file_no != null){
-                            return '<a href=\"javascript:docuContractList.fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ row.file_org_name + "." + row.file_ext +'\');\">보기</a>';
+                            var fileName = row.file_org_name;
+                            if(fileName.indexOf(".") > -1){
+                            }else{
+                                fileName = row.file_org_name + "." + row.file_ext;
+                            }
+                            return '<a href=\"javascript:docuContractList.fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">보기</a>';
                         }else{
                             return '';
                         }
