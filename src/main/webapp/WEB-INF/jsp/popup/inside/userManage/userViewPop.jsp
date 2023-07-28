@@ -17,6 +17,7 @@
                 <div class="btn-st popButton">
                     <c:if test="${isAdmin}">
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
                             <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.userResignation('${params.empSeq}')">퇴사처리</button>
@@ -24,6 +25,7 @@
                         </c:if>
                     </c:if>
                     <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
                         <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>

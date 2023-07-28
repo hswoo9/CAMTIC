@@ -36,6 +36,13 @@ var userViewPop = {
     },
 
     /** 관리자 버튼*/
+    userImageReqPop : function (e) {
+        var url = "/Inside/pop/userReqPopImage.do?empSeq=" + e;
+        var name = "recruitReqPopImage";
+        var option = "width=1100, height=650, scrollbars=no, top=200, left=300, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
     certificateReqPop : function(e) {
         var url = "/inside/pop/certificateReqAdminPop.do?empSeq=" + e;
         var name = "certificateReqPop";

@@ -871,6 +871,42 @@ function empInfoFileSave(){
     });
 }
 
+//이미지관리 팝업창에서 저장
+function empInfoFileSavePop(){
+
+    var formData = new FormData();
+    formData.append("menuCd", $("#menuCd").val());
+    formData.append("empSeq", $("#empSeq").val());
+
+    if($("#idPhotoFile")[0].files.length == 1){ //증명사진
+        formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
+    }
+    if($("#signPhotoFile")[0].files.length == 1){   //결재사인
+        formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
+    }
+    if($("#myPhotoFile")[0].files.length == 1){ //개인사진
+        formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
+    }
+
+    $.ajax({
+        url: '/userManage/setempInfoFileSave.do',
+        data: formData,
+        type: "post",
+        async : false,
+        datatype: "json",
+        contentType: false,
+        processData: false,
+        success: function () {
+            alert("정보 등록이 완료되었습니다.");
+            window.opener.location.reload();
+            window.close();
+        },
+        error : function(){
+            alert("정보 등록 중 에러가 발생했습니다.");
+        }
+    });
+}
+
 //증명사진 첨부 이미지 미리보기
 function viewPhoto(input){
     if(input.files[0].size > 10000000){

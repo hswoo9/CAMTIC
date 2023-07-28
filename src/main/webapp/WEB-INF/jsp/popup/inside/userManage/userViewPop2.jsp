@@ -38,7 +38,14 @@
                     </td>
                     <th rowspan="5"><span class="red-star"></span>증명사진</th>
                     <td rowspan="5" style="text-align: center">
-                        이미지
+                        <c:choose>
+                            <c:when test="${idPhoto.file_path ne null}">
+                                <img id="preview" style="width: 150px; height: 180px;" src="${idPhoto.file_path}${idPhoto.file_uuid}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <span>등록된 증명사진이 없습니다.</span>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>

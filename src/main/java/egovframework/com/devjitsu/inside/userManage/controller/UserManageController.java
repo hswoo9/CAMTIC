@@ -172,6 +172,7 @@ public class UserManageController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
 
         System.out.println("parmas값 --------" + params);
         System.out.println("dfdf --------" + userPersonnelinformList);
@@ -266,11 +267,14 @@ public class UserManageController {
 
     //직원조회목록 페이지
     @RequestMapping("/Inside/pop/userReqPopImage.do")
-    public String userReqPopImage(HttpServletRequest request, Model model){
+    public String userReqPopImage(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", userManageService.getUserImageList(params));
+
         return "popup/inside/userManage/userReqPopImage";
     }
 
