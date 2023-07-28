@@ -147,6 +147,7 @@ public class UserManageController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
 
         System.out.println("parmas값 --------" + params);
         System.out.println("dfdf --------" + userPersonnelinformList);

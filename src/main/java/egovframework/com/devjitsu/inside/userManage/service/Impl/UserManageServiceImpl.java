@@ -213,6 +213,17 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public Map<String, Object> getUserIdPhotoInfo(Map<String, Object> params) {
+        Map<String, Object> infoMap = userManageRepository.getUserImageInfo(params);
+
+        if(infoMap != null){
+            params.put("fileNo", infoMap.get("ID_IMAGE_PK"));
+        }
+
+        return commonRepository.getContentFileOne(params);
+    }
+
+    @Override
     public void setUserResignReg(Map<String, Object> params) {
         userManageRepository.setUserResignReg(params);
     }
