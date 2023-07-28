@@ -211,9 +211,8 @@
                 <tr>
                     <th>경력사항</th>
                     <td>
-                        <c:if test="${uprinfList.hire != null and uprinfList.hire != ''}">
-                            ${uprinfList.hire}년${uprinfList.hire_mon}개월
-                        </c:if>
+                        ${uprinfList.hire + uprinfList.prev_hire}년 ${uprinfList.hire_mon + uprinfList.prev_hire_mon}개월
+                            (전직경력 : ${uprinfList.prev_hire}년 ${uprinfList.prev_hire_mon}개월 + 현직경력 : ${uprinfList.hire}년 ${uprinfList.hire_mon}개월)
                     </td>
                     <th></th>
                     <td></td>

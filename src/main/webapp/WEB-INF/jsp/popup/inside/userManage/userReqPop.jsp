@@ -109,7 +109,7 @@
                 <tr>
                     <th>직군</th>
                     <td>
-                        <input type="text" id="jobCode" style="width: 50%;">
+                        <input type="text" id="occupationCode" style="width: 50%;">
                     </td>
                     <th>직책</th>
                     <td>
@@ -522,7 +522,7 @@
         //직급/등급 ---insert
         $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
         //직군 ---insert
-        $("#jobCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
+        $("#occupationCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
         //직책
         $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_CODE}");
         //학위 ---insert
