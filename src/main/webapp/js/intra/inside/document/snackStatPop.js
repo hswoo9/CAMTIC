@@ -77,6 +77,10 @@ var snackStat = {
             series: [
                 {
                     name: "Total",
+                    labels: {
+                        visible: true,
+                        format: "{0:N0}원"
+                    },
                     data: totalArr
                 }
             ],
@@ -89,15 +93,12 @@ var snackStat = {
                     visible: true
                 },
                 labels: {
-                    rotation: "auto"
+                    rotation: "auto",
+                    format: "{0:N0}"
                 }
             },
             categoryAxis: {
                 categories: deptArr
-            },
-            tooltip: {
-                visible: true,
-                template: "#= series.name #: #= value #"
             }
         });
     }
