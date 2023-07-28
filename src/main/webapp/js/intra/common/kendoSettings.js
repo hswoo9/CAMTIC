@@ -153,6 +153,23 @@ var customKendo = {
     },
 
     /**
+     * Custom kendoTimePicker
+     * culture : ko-KR
+     * @param id
+     * @param opt
+     * @param format
+     * @param value
+     */
+    fn_timePicker : function (id, opt, format, value) {
+        $("#" + id).kendoTimePicker({
+            culture : "ko-KR",
+            interval : opt,
+            format : format,
+            value : value
+        });
+    },
+
+    /**
      * Custom KendoTextBox
      * @param idArray[]
      */

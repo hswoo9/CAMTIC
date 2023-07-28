@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/inBustripReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/inBustripReqPop.bustripReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
     <div class="table-responsive">
         <div class="card-header pop-header">

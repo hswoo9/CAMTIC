@@ -3,8 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/bustrip/inBustripList.js?v=${today}"/></script>
-
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripList.js?v=${today}"/></script>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -56,5 +55,5 @@
 </form>
 
 <script type="text/javascript">
-    inBustripList.init();
+    bustripList.init();
 </script>

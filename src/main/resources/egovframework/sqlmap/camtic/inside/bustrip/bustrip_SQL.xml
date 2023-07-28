@@ -3,36 +3,42 @@
 
 <mapper namespace="bustrip">
 
-    <select id="getUserList" parameterType="map" resultType="map">
-        /* getUserList Ma */
+    <select id="getBustripList" parameterType="map" resultType="map">
+        /* getBustripList */
         SELECT
-            emp_seq,
-            login_id,
-            erp_emp_seq,
-            emp_name_kr,
-            dept_seq,
-            dept_name,
-            position_code,
-            position_name,
-            duty_code,
-            duty_name
+            IHBR.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_HR.DJ_EMP_INFO
+            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON IHBR.DOC_ID = DI.DOC_ID
         WHERE
-            ACTIVE = "Y"
+            <![CDATA[
+                IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
+            ]]>
+            <if test="projectCd != null and projectCd != ''">
+                AND PROJECT_CD = #{projectCd}
+            </if>
+            <if test="busnName != null and busnName != ''">
+                AND BUSN_NAME like concat('%', #{busnName}, '%')
+            </if>
+        ORDER BY REG_DT DESC
     </select>
 
-
     <insert id="insBustripReq" parameterType="map">
+        /* insBustripReq */
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ
             (
                 EMP_SEQ,
                 EMP_NAME,
                 DEPT_SEQ,
+                DEPT_NAME,
                 POSITION_CODE,
                 DUTY_CODE,
                 APPLY_DATE,
                 TRIP_CODE,
+                VISIT_CRM,
                 VISIT_LOC,
                 VISIT_LOC_SUB,
                 VISIT_LOC_CODE,
@@ -53,10 +59,12 @@
                 #{empSeq},
                 #{empName},
                 #{deptSeq},
+                #{deptName},
                 #{positionCode},
                 #{dutyCode},
                 #{applyDate},
                 #{tripCode},
+                #{visitCrm},
                 #{visitLoc},
                 #{visitLocSub},
                 #{visitLocCode},
@@ -99,38 +107,15 @@
         )
     </insert>
 
-    <select id="getBustripReq" parameterType="map" resultType="map">
-        SELECT
-            IHBR.*,
-            DI.APPRO_KEY,
-            DI.DOC_MENU_CD
-        FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON IHBR.DOC_ID = DI.DOC_ID
-        WHERE
-        <![CDATA[
-            IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
-        ]]>
-        <if test="projectCd != null and projectCd != ''">
-            AND
-            PROJECT_CD = #{projectCd}
-        </if>
-        <if test="busnName != null and busnName != ''">
-            AND
-            BUSN_NAME like concat('%', #{busnName}, '%')
-        </if>
-        ORDER BY REG_DT DESC
-    </select>
-
     <select id="getBustripReqInfo" parameterType="map" resultType="map">
         /* getBustripReqInfo */
         SELECT
             A.*,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
-            CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS positionNm,
-            IFNULL(IHWI.DISTANCE, 0) AS distance
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
+            IFNULL(IHWI.DISTANCE, 0) AS DISTANCE,
+            DATE_FORMAT(A.REG_DT, '%Y%m%d') AS REG_DATE
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
@@ -193,9 +178,8 @@
     <update id="updBustripReq" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
-            POSITION_CODE = #{positionCode},
-            DUTY_CODE = #{dutyCode},
             TRIP_CODE = #{tripCode},
+            VISIT_CRM = #{visitCrm},
             VISIT_LOC = #{visitLoc},
             VISIT_LOC_SUB = #{visitLocSub},
             TRIP_DAY_FR = #{tripDayFr},

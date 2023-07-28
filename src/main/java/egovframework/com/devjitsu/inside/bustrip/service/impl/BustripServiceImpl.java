@@ -29,8 +29,8 @@ public class BustripServiceImpl implements BustripService {
 
 
     @Override
-    public List<Map<String, Object>> getUserList(Map<String, Object> params) {
-        return bustripRepository.getUserList(params);
+    public List<Map<String, Object>> getBustripList(Map<String, Object> params) {
+        return bustripRepository.getBustripList(params);
     }
 
     @Override
@@ -86,11 +86,6 @@ public class BustripServiceImpl implements BustripService {
         String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         return path;
-    }
-
-    @Override
-    public List<Map<String, Object>> getBustripReq(Map<String, Object> params) {
-        return bustripRepository.getBustripReq(params);
     }
 
     @Override

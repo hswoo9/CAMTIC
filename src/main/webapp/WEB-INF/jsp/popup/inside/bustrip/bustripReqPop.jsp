@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/bustrip/inBustripReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -26,24 +26,24 @@
             <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
                 <h3 class="card-title title_NM">출장신청</h3>
                 <div class="btn-st popButton">
-                    <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="inBustripReqPop.fn_saveBtn();">저장</button>
+                    <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="bustripReq.fn_saveBtn();">저장</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
                 </div>
             </c:if>
             <c:if test="${params.hrBizReqId != '' && params.hrBizReqId != null}">
                 <h3 class="card-title title_NM">출장정보</h3>
                 <div class="btn-st popButton">
-                    <button type="button" class="k-button k-button-solid-info" id="modBtn" onclick="inBustripReqPop.fn_updBtn('${params.hrBizReqId}');">수정</button>
+                    <button type="button" class="k-button k-button-solid-info" id="modBtn" onclick="bustripReq.fn_updBtn('${params.hrBizReqId}');">수정</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
                 </div>
             </c:if>
         </div>
-        <form id="inBustripReqPop" style="padding: 20px 30px;">
+        <form id="bustripReqPop" style="padding: 20px 30px;">
             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
             <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-            <table class="popTable table table-bordered mb-0" id="inBustripReqPopTb">
+            <table class="popTable table table-bordered mb-0" id="bustripReqPopTb">
                 <colgroup>
                     <col width="10%">
                     <col width="30%">
@@ -103,11 +103,17 @@
                 <tr>
                     <th><span class="red-star">*</span>방문지</th>
                     <td>
-                        <input type="text" id="visitLoc" style="width: 60%;">
+                        <input type="text" id="visitCrm" style="width: 60%;">
                         <button type="button" class="k-button-solid-base k-button" disabled>업체선택</button>
                     </td>
+                    <th><span class="red-star">*</span>출장지역</th>
+                    <td>
+                        <input type="text" id="visitLoc" style="width: 80%;">
+                    </td>
+                </tr>
+                <tr>
                     <th>경유지</th>
-                    <td style="display: flex; justify-content: space-between">
+                    <td colspan="3" style="display: flex; justify-content: space-between">
                         <input type="text" id="visitLocCode" style="width: 45%;">
                         <div class="visitLocSub" style="display: none; width: 50%;"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
                     </td>
@@ -126,7 +132,7 @@
                     <th><span class="red-star">*</span>차량</th>
                     <td colspan="3">
                         <input type="text" id="carList" style="width: 40%;">
-                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="inBustripReqPop.test()"/><br>
+                        <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.test()"/><br>
                     </td>
                 </tr>
                 <tr>
@@ -179,17 +185,8 @@
         </div>
     </div>
 <script>
-    inBustripReqPop.init();
-
-    var dataConf = '${params.hrBizReqId}';
-
-    if(dataConf != ''){
-        inBustripReqPop.setData(dataConf);
-    }
-
-    function userMultiSearch() {
-        window.open("/common/deptMultiPop.do","조직도","width=750,height=650");
-    }
+    const hrBizReqId = '${params.hrBizReqId}';
+    bustripReq.init();
 </script>
 </body>
 
