@@ -5,7 +5,19 @@ var commissionerReq = {
     },
 
     dataSet(){
-        customKendo.fn_textBox(["id", "pwd", "name", "firstRrnName", "secondRrnName", "telNum", "email", "belong"]);
+        customKendo.fn_textBox(["id", "pwd", "name", "firstRrnName", "secondRrnName", "telNum", "email", "belong", "dutyPosition", "bmk"]);
+
+        $("#gender").kendoRadioGroup({
+            items: [
+                { label : "남", value : "M" },
+                { label : "여", value : "F" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "M",
+        }).data("kendoRadioGroup");
+
+        //$("#applyOverWorkType").data("kendoRadioGroup").value($("#APPLY_OVER_WORK_TYPE").val());
     },
 
     saveBtn(){
@@ -19,6 +31,9 @@ var commissionerReq = {
         let belong = $("#belong").val();
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
+        let gender = $("#gender").data("kendoRadioGroup").value();
+        let dutyPosition = $("#dutyPosition").val();
+        let bmk = $("#bmk").val();
 
         let data = {
             id: id,
@@ -30,7 +45,10 @@ var commissionerReq = {
             email: email,
             belong: belong,
             regEmpSeq: regEmpSeq,
-            regEmpName: regEmpName
+            regEmpName: regEmpName,
+            gender : gender,
+            dutyPosition : dutyPosition,
+            bmk : bmk
         }
 
         if(id == ""){ alert("임시아이디가 작성되지 않았습니다."); return;}
@@ -38,6 +56,7 @@ var commissionerReq = {
         if(name == ""){ alert("성명 작성되지 않았습니다."); return;}
         if(firstRrnName == "") { alert("주민등록번호 앞자리가 작성되지 않았습니다."); return;}
         if(secondRrnName == "") { alert("주민등록번호 뒷자리가 작성되지 않았습니다."); return;}
+        if(gender == "") { alert("직급(직책)이 작성되지 않았습니다."); return;}
 
         if(!confirm("평가위원을 저장하시겠습니까?")){
             return;
