@@ -94,7 +94,7 @@ var orgChart = {
                     name: '',
                     text: '조회',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userMultiSel.treeViewReload();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="orgChart.mainGrid();">' +
                             '   <span class="k-button-text">조회</span>' +
                             '</button>';
                     }
