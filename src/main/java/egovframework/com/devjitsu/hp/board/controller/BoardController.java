@@ -290,6 +290,18 @@ public class BoardController {
     }
 
     /**
+     * 멀티미디어 게시글 수정 페이지
+     * */
+    @RequestMapping("/camtic/pr/pr_register.do")
+    public String prBoardRegister(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        Map<String, Object> map = boardService.selectBoard(params);
+
+        model.addAttribute("categoryId", params.get("category"));
+        model.addAttribute("map", map);
+        return "camtic/pr/pr_register";
+    }
+
+    /**
      * 멀티미디어 게시글 상세보기 페이지
      * */
     @RequestMapping("/camtic/pr/pr_view.do")

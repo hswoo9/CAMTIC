@@ -95,6 +95,15 @@
 										<input type="text" id="writeDate" class="inputText" value="" disabled/>
 									</td>
 								</tr>
+								<c:if test="${categoryId eq 'video'}">
+									<tr style="border-top: 1px solid #ccc;">
+										<th>유튜브 주소(URL)</th>
+									<td>
+										<input type="text" id="urlText" class="inputText" placeholder="재생중인 페이지의 주소를 입력해주세요." value="" />
+									</td>
+									</tr>
+								</c:if>
+
 							</table>
 						</div>
 					</div>
@@ -107,8 +116,17 @@
 					    </dd>
 					</dl> -->
 					<div class="con">
-						<textarea class="txt_area_01" id="contents"></textarea>
 
+						<c:choose>
+
+							<c:when test="${categoryId eq 'video'}">
+
+							</c:when>
+
+							<c:otherwise>
+								<textarea class="txt_area_01" id="contents"></textarea>
+							</c:otherwise>
+						</c:choose>
 						<form>
 							<div class="file-and-table-container">
 
@@ -137,34 +155,12 @@
 								</table>
 
 								<div>
-									<c:choose>
-
-									<c:when test="${categoryId eq 'report'}">
-										<div class="filebox">
-											<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
-												<span class="__btn1 grayLine">이미지첨부</span>
-											</button>
-											<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
-										</div>
-
-										<div class="filebox">
-											<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload2" onclick="$('#fileList').click()" >
-												<span class="__btn1 grayLine">파일첨부</span>
-											</button>
-											<input type="file" id="fileList2" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
-										</div>
-									</c:when>
-
-									<c:otherwise>
-										<div class="filebox">
-											<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
-												<span class="__btn1 grayLine">파일첨부</span>
-											</button>
-											<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
-										</div>
-									</c:otherwise>
-									</c:choose>
-
+									<div class="filebox">
+										<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
+											<span class="__btn1 grayLine">파일첨부</span>
+										</button>
+										<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -200,9 +196,11 @@
         //$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
         $("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
 
-        CKEDITOR.replace('contents', {
-            height: 500
-        });
+		if(categoryId != 'video'){
+	        CKEDITOR.replace('contents', {
+	            height: 500
+	        });
+		}
 
         if(categoryId == "photo"){
             $(".categoryName").text("포토뉴스");
@@ -210,12 +208,16 @@
             $(".categoryName").text("보도자료");
         }else if(categoryId == "study"){
             $(".categoryName").text("교육/행사");
-        }else if(categoryId == "partner"){
-            $(".categoryName").text("유관기관소식");
+        }else if(categoryId == "video"){
+            $(".categoryName").text("홍보영상");
         }
 
-        if(categoryId == "photo"){
+        if(categoryId == "photo" || categoryId == "video"){
             $("#textMod").text("표지");
+            $("#fileUpload span").text("이미지 첨부");
+        }else if(categoryId == "report") {
+            $("#textMod").text("첨부 이미지");
+            $("#fileUpload span").text("이미지 첨부");
         }
     });
 
@@ -225,8 +227,14 @@
     }
 
     function fn_saveNotice(){
-        var content = CKEDITOR.instances.contents.getData();
-
+        if(categoryId != "video"){
+            var content = CKEDITOR.instances.contents.getData();
+        }else{
+            if($("#urlText").val() == ""){
+                alert("유튜브 주소(URL)을 입력해주세요.");
+                return false;
+            }
+        }
         /*var data = {
 	  boardId : categoryId,
 	  boardCategoryId : categoryId,
@@ -240,7 +248,7 @@
             return false;
         }
 
-        if(content == ""){
+        if(content == "" && categoryId != "video"){
             alert("내용을 입력해주세요.");
             return false;
         }
@@ -253,17 +261,19 @@
         formData.append("noticeTitle", $("#noticeTitle").val());
         formData.append("writer", $("#writer").val().toString());
         formData.append("content", content);
+        formData.append("urlText", $("#urlText").val());
 
-        if(fCommon.global.attFiles != null){
+        if(fCommon.global.attFiles.length != 0){
 	        if(fCommon.global.attFiles.length > 1){
-	            alert("파일을 1개만 첨부해주세요.");
+	            alert("첨부 이미지는 1개만 업로드 가능합니다..");
 	            return false;
 	        }
 
             console.log(fCommon.global.attFiles);
             //첨부파일
-            if(fCommon.global.attFiles[0].name.split(".")[1] != "png"){
-                alert("파일 확장자를 확인해주세요. \n png 업로드 가능");
+            if(fCommon.global.attFiles[0].name.split(".")[1] == "png" || fCommon.global.attFiles[0].name.split(".")[1] == "jpg") {
+            }else{
+                alert("파일 확장자를 확인해주세요. \n jqp, png 확장자만 업로드 가능합니다.");
                 return false;
             }
             formData.append("boardFile", fCommon.global.attFiles[0]);

@@ -78,9 +78,7 @@
         $(".news"+"_"+categoryInb).addClass('active');
 
       }else{
-        const boardPathName = $(location).attr('search');
-        const boardGub = boardPathName.split("=")[1];
-        $(".pr"+"_"+boardGub).addClass('active');
+        $(".pr"+"_"+categoryInb).addClass('active');
       }
     }
     /*else{

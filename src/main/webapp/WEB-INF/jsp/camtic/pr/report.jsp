@@ -134,8 +134,6 @@
     let html = "";
 
     data.forEach((item, index) => {
-      console.log(item);
-      console.log("index : " + index);
       if(index == 0){
         htmlHead += "<div class='boxHead' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
         if(item.file_PATH) {
