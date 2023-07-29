@@ -103,6 +103,14 @@
 									</td>
 									</tr>
 								</c:if>
+								<c:if test="${categoryId eq 'news'}">
+									<tr style="border-top: 1px solid #ccc;">
+										<th>해시태그</th>
+										<td>
+											<input type="text" id="hashText" class="inputText" placeholder="예시)#OOO#OOO2#OOO3" value="" />
+										</td>
+									</tr>
+								</c:if>
 
 							</table>
 						</div>
@@ -212,7 +220,7 @@
             $(".categoryName").text("홍보영상");
         }
 
-        if(categoryId == "photo" || categoryId == "video"){
+        if(categoryId == "photo" || categoryId == "video" || categoryId == "news"){
             $("#textMod").text("표지");
             $("#fileUpload span").text("이미지 첨부");
         }else if(categoryId == "report") {
@@ -253,6 +261,13 @@
             return false;
         }
 
+        if(categoryId == "news"){
+            if($("#hashText").val() == ""){
+                alert("해시태그를 입력해주세요.");
+                return false;
+            }
+        }
+
         var formData = new FormData();
 
         formData.append("boardId", categoryId);
@@ -262,6 +277,7 @@
         formData.append("writer", $("#writer").val().toString());
         formData.append("content", content);
         formData.append("urlText", $("#urlText").val());
+        formData.append("hashText", $("#hashText").val());
 
         if(fCommon.global.attFiles.length != 0){
 	        if(fCommon.global.attFiles.length > 1){

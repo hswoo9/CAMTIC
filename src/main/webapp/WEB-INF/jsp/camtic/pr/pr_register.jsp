@@ -103,6 +103,14 @@
                     </td>
                   </tr>
                 </c:if>
+                <c:if test="${categoryId eq 'news'}">
+                  <tr style="border-top: 1px solid #ccc;">
+                    <th>해시태그</th>
+                    <td>
+                      <input type="text" id="hashText" class="inputText" placeholder="예시)#OOO#OOO2#OOO3" value="${map.BOARD_ARTICLE_HASHTAG}" />
+                    </td>
+                  </tr>
+                </c:if>
               </table>
             </div>
           </div>
@@ -187,6 +195,10 @@
 
   $(function () {
     if(categoryId == "news"){
+      $(".categoryName").text("뉴스레터");
+    }else if(categoryId == "report"){
+      $(".categoryName").text("보도자료");
+    }else if(categoryId == "news"){
       $(".categoryName").text("뉴스레터");
     }else if(categoryId == "video"){
       $(".categoryName").text("홍보영상");
@@ -311,6 +323,13 @@
       return false;
     }
 
+    if(categoryId == "news"){
+      if($("#hashText").val() == ""){
+        alert("해시태그를 입력해주세요.");
+        return false;
+      }
+    }
+
     var formData = new FormData();
 
     formData.append("boardId", categoryId);
@@ -321,6 +340,7 @@
     formData.append("writer", $("#writer").val().toString());
     formData.append("content", content);
     formData.append("urlText", $("#urlText").val());
+    formData.append("hashText", $("#hashText").val());
 
     //첨부파일
     if(fCommon.global.attFiles.length != 0){

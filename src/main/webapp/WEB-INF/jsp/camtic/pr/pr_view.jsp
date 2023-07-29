@@ -182,7 +182,7 @@
   }
 
   function fn_regist(key){
-    location.href="/camtic/news/register.do?boardArticleId=" + key + "&category=" + categoryId;
+    location.href="/camtic/pr/pr_register.do?boardArticleId=" + key + "&category=" + categoryId;
   }
 
   function fn_delNotice(){

@@ -98,9 +98,9 @@
 
     <insert id="insertBoard" parameterType="map">
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
-            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME)
+            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, BOARD_ARTICLE_HASHTAG, REG_EMP_NAME)
         VALUE
-            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{writer})
+            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{hashText}, #{writer})
 
         <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_BOARD_ARTICLE'
@@ -112,7 +112,8 @@
         SET
             BOARD_ARTICLE_TITLE = #{noticeTitle},
             BOARD_ARTICLE_CONTENT_URL = #{urlText},
-            BOARD_ARTICLE_CONTENT = #{content}
+            BOARD_ARTICLE_CONTENT = #{content},
+            BOARD_ARTICLE_HASHTAG = #{hashText}
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND

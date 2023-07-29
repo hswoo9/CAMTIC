@@ -18,8 +18,9 @@ public class PostResponse {
     private String EMP_SEQ;    // 작성자 사원번호
 
     private String FILE_PATH;
-
     private String BOARD_ARTICLE_CONTENT_URL;
+    private String BOARD_ARTICLE_HASHTAG;
+
 
     public Long getBOARD_ARTICLE_ID() {
         return BOARD_ARTICLE_ID;
@@ -31,6 +32,7 @@ public class PostResponse {
     public String getBOARD_ARTICLE_CONTENT() { return BOARD_ARTICLE_CONTENT; }
 
     public String getBOARD_ARTICLE_CONTENT_URL() { return BOARD_ARTICLE_CONTENT_URL; }
+    public String getBOARD_ARTICLE_HASHTAG() { return BOARD_ARTICLE_HASHTAG; }
 
     public String getREG_EMP_NAME() {
         return REG_EMP_NAME;
