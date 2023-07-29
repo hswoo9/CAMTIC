@@ -20,6 +20,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="mod" value="${params.mode}"/>
 <body class="font-opensans" style="background-color:#fff;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -113,9 +114,10 @@
                 </tr>
                 <tr>
                     <th>경유지</th>
-                    <td colspan="3" style="display: flex; justify-content: space-between">
+                    <td colspan="3" style="display: flex;">
                         <input type="text" id="visitLocCode" style="width: 45%;">
-                        <div class="visitLocSub" style="display: none; width: 50%;"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
+                        <div class="visitLocSub" style="display: none; width: 50%; margin-left: 10px"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
+                        <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
                     </td>
                 </tr>
                 <tr>

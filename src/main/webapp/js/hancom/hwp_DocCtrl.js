@@ -427,11 +427,11 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 
-                    let regSign = busInfo.emp_name+" (인)";
+                    let regSign = busInfo.EMP_NAME+" (인)";
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                     hwpDocCtrl.putFieldText('regSign', regSign);
 
-                    let tripCode = busInfo.trip_code;
+                    let tripCode = busInfo.TRIP_CODE;
                     let tripCodeText = "";
                     if (tripCode == 1) {
                         tripCodeText = "도내(시내)";
@@ -445,18 +445,18 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
                     hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
-                    let tripDate = busInfo.trip_day_fr.split("-")[0]+"년"+busInfo.trip_day_fr.split("-")[1]+"월"+busInfo.trip_day_fr.split("-")[2]+"일 "+busInfo.trip_time_fr
+                    let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.TRIP_TIME_FR
                         +" ~ "
-                        +busInfo.trip_day_to.split("-")[0]+"년"+busInfo.trip_day_to.split("-")[1]+"월"+busInfo.trip_day_to.split("-")[2]+"일 "+busInfo.trip_time_to;
+                        +busInfo.TRIP_DAY_TO.split("-")[0]+"년"+busInfo.TRIP_DAY_TO.split("-")[1]+"월"+busInfo.TRIP_DAY_TO.split("-")[2]+"일 "+busInfo.TRIP_TIME_TO;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tripDate', true, true, false);
                     hwpDocCtrl.putFieldText('tripDate', tripDate);
 
-                    let visit = busInfo.visit_loc + " "+ busInfo.visit_loc_sub;
+                    let visit = busInfo.VISIT_LOC + " "+ busInfo.VISIT_LOC_SUB;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('visit', true, true, false);
                     hwpDocCtrl.putFieldText('visit', visit);
 
                     let carText = "";
-                    const carList = busInfo.use_trspt;
+                    const carList = busInfo.USE_TRSPT;
                     if (carList == 1) {
                         carText = "카니발";
                     }else if (carList == 5) {
@@ -476,21 +476,21 @@ var hwpDocCtrl = {
                     }else if (carList == 11) {
                         carText = "기타";
                     }
-                    let car = busInfo.use_car == "Y" ? "미사용" : "사용 ("+carText+")"
+                    let car = busInfo.USE_CAR == "Y" ? "미사용" : "사용 ("+carText+")"
                     hwpDocCtrl.global.HwpCtrl.MoveToField('car', true, true, false);
                     hwpDocCtrl.putFieldText('car', car);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
-                    hwpDocCtrl.putFieldText('empName', busInfo.emp_name);
+                    hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('dept', true, true, false);
-                    hwpDocCtrl.putFieldText('dept', busInfo.deptNm+" "+busInfo.teamNm);
+                    hwpDocCtrl.putFieldText('dept', busInfo.DEPT_NAME+" "+busInfo.TEAM_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('position', true, true, false);
-                    hwpDocCtrl.putFieldText('position', busInfo.positionNm);
+                    hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
-                    hwpDocCtrl.putFieldText('title', busInfo.title);
+                    hwpDocCtrl.putFieldText('title', busInfo.TITLE);
                 }
             });
         }else if(data.menuCd == "bustripRes") {
@@ -524,11 +524,11 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 
-                    let regSign = busInfo.emp_name+" (인)";
+                    let regSign = busInfo.EMP_NAME+" (인)";
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                     hwpDocCtrl.putFieldText('regSign', regSign);
 
-                    let tripCode = busInfo.trip_code;
+                    let tripCode = busInfo.TRIP_CODE;
                     let tripCodeText = "";
                     if (tripCode == 1) {
                         tripCodeText = "도내(시내)";
@@ -542,18 +542,18 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
                     hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
-                    let tripDate = busInfo.trip_day_fr.split("-")[0]+"년"+busInfo.trip_day_fr.split("-")[1]+"월"+busInfo.trip_day_fr.split("-")[2]+"일 "+busInfo.trip_time_fr
+                    let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.trip_time_fr
                         +" ~ "
-                        +busInfo.trip_day_to.split("-")[0]+"년"+busInfo.trip_day_to.split("-")[1]+"월"+busInfo.trip_day_to.split("-")[2]+"일 "+busInfo.trip_time_to;
+                        +busInfo.TRIP_DAY_TO.split("-")[0]+"년"+busInfo.TRIP_DAY_TO.split("-")[1]+"월"+busInfo.TRIP_DAY_TO.split("-")[2]+"일 "+busInfo.trip_time_to;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tripDate', true, true, false);
                     hwpDocCtrl.putFieldText('tripDate', tripDate);
 
-                    let visit = busInfo.visit_loc + " "+ busInfo.visit_loc_sub;
+                    let visit = busInfo.VISIT_LOC + " "+ busInfo.VISIT_LOC_SUB;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('visit', true, true, false);
                     hwpDocCtrl.putFieldText('visit', visit);
 
                     let carText = "";
-                    const carList = busInfo.use_trspt;
+                    const carList = busInfo.USE_TRSPT;
                     if (carList == 1) {
                         carText = "카니발";
                     }else if (carList == 5) {
@@ -573,24 +573,24 @@ var hwpDocCtrl = {
                     }else if (carList == 11) {
                         carText = "기타";
                     }
-                    let car = busInfo.use_car == "Y" ? "미사용" : "사용 ("+carText+")"
+                    let car = busInfo.USE_CAR == "Y" ? "미사용" : "사용 ("+carText+")"
                     hwpDocCtrl.global.HwpCtrl.MoveToField('car', true, true, false);
                     hwpDocCtrl.putFieldText('car', car);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
-                    hwpDocCtrl.putFieldText('empName', busInfo.emp_name);
+                    hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName2', true, true, false);
-                    hwpDocCtrl.putFieldText('empName2', busInfo.emp_name);
+                    hwpDocCtrl.putFieldText('empName2', busInfo.EMP_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('dept', true, true, false);
-                    hwpDocCtrl.putFieldText('dept', busInfo.deptNm+" "+busInfo.teamNm);
+                    hwpDocCtrl.putFieldText('dept', busInfo.DEPT_NAME+" "+busInfo.TEAM_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('position', true, true, false);
-                    hwpDocCtrl.putFieldText('position', busInfo.positionNm);
+                    hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
-                    hwpDocCtrl.putFieldText('title', busResInfo.result);
+                    hwpDocCtrl.putFieldText('title', busResInfo.RESULT);
                 }
             });
         }else if(data.menuCd == "invention") {

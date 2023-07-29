@@ -1,7 +1,7 @@
-var bustripList = {
+var bustripMngList = {
     init: function(){
-        bustripList.pageSet();
-        bustripList.mainGrid();
+        bustripMngList.pageSet();
+        bustripMngList.mainGrid();
     },
 
     pageSet: function(){
@@ -43,7 +43,6 @@ var bustripList = {
                     data.endDate = $("#end_date").val();
                     data.projectCd = $("#pjt_cd").val();
                     data.busnName = $("#busnName").val();
-                    data.empSeq = $("#regEmpSeq").val();
                     return data;
                 }
             },
@@ -77,38 +76,14 @@ var bustripList = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripList.bustripReqPop()">' +
-                            '	<span class="k-button-text">신청</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustripList.fn_delBtn()">' +
-                            '	<span class="k-button-text">신청취소</span>' +
-                            '</button>';
-                    }
                 }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: bustripList.onDataBound,
+            dataBound: bustripMngList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bstCheck\');" class=""/>',
-                    template: function(row){
-                        if(row.STATUS == 0){
-                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_ID+"' style='position: relative; top:3px' class='bstCheck'/>"
-                        }else{
-                            return "";
-                        }
-                    },
-                    width: 50
-                }, {
                     title: "사업명",
                     width: 200,
                     template: function(row){
@@ -163,34 +138,6 @@ var bustripList = {
                     },
                     width: 80
                 }, {
-                    title: "결재",
-                    template: function(row){
-                        if(row.STATUS == 0){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+row.HR_BIZ_REQ_ID+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>상신</span>" +
-                                "</button>";
-                        } else if(row.STATUS == 10 || row.STATUS == 50){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                "<span class='k-button-text'>회수</span>" +
-                                "</button>";
-                        } else if(row.STATUS == 30 || row.STATUS == 40){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+row.DOC_ID+"\", \""+row.DOC_MENU_CD+"\", \""+row.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재상신</span>" +
-                                "</button>";
-                        } else if(row.STATUS == 100){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>열람</span>" +
-                                "</button>";
-                        } else{
-                            return "-";
-                        }
-                    },
-                    width: 60
-                }, {
                     title: "결재상태",
                     template: function(row){
                         if(row.STATUS == 0){
@@ -218,55 +165,14 @@ var bustripList = {
         grid.element.off('dblclick');
         grid.tbody.find("tr").dblclick(function(){
             var dataItem = grid.dataItem($(this).closest("tr"));
-            bustripList.bustripReqPop(dataItem.HR_BIZ_REQ_ID);
-        });
-    },
-
-    fn_delBtn: function(){
-        let keyAr = [];
-        if($("input[name='bstCheck']:checked").length == 0){ alert("취소할 출장을 선택해주세요.") }
-        if(!confirm("선택한 출장 신청을 취소하시겠습니까?")){ return; }
-
-        $("input[name='bstCheck']:checked").each(function(){
-            keyAr.push(this.value);
-        });
-
-        $.ajax({
-            url : "/bustrip/delBustripReq",
-            data: {
-                keyAr : keyAr
-            },
-            type : "post",
-            traditional: true,
-            dataType: "json",
-            success : function(){
-                gridReload();
-            }
+            bustripMngList.bustripReqPop(dataItem.HR_BIZ_REQ_ID);
         });
     },
 
     bustripReqPop: function(e){
-        let url = "";
-        if(e == null || e == "" || e== undefined){
-            url = "/bustrip/pop/bustripReqPop.do";
-        } else {
-            url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+e;
-        }
+        let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+e+"&mode=mng";
         let name = "bustripReqPop";
         let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
-    },
-
-    bustripDrafting: function(hrBizReqId){
-        $("#hrBizReqId").val(hrBizReqId);
-        $("#bustripDraftFrm").one("submit", function(){
-            let url = "/Inside/pop/approvalFormPopup/bustripApprovalPop.do";
-            let name = "bustripApprovalPop";
-            let option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            window.open(url, name, option);
-            this.action = "/Inside/pop/approvalFormPopup/bustripApprovalPop.do";
-            this.method = 'POST';
-            this.target = 'bustripApprovalPop';
-        }).trigger("submit");
     }
 }

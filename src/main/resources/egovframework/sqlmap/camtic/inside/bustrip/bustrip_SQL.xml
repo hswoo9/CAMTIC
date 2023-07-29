@@ -23,6 +23,9 @@
             <if test="busnName != null and busnName != ''">
                 AND BUSN_NAME like concat('%', #{busnName}, '%')
             </if>
+            <if test="empSeq != null and !''.equals(empSeq)">
+                AND IHBR.REG_EMP_SEQ = #{empSeq}
+            </if>
         ORDER BY REG_DT DESC
     </select>
 
@@ -115,7 +118,7 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
             CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
             IFNULL(IHWI.DISTANCE, 0) AS DISTANCE,
-            DATE_FORMAT(A.REG_DT, '%Y%m%d') AS REG_DATE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN

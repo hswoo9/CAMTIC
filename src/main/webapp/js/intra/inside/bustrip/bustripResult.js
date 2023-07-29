@@ -1,34 +1,18 @@
-var now = new Date();
-
-var bustripResult = {
-
-    init : function(){
-        bustripResult.dataSet();
-        bustripResult.mainGrid();
+var bustripResList = {
+    init: function(){
+        bustripResList.dataSet();
+        bustripResList.mainGrid();
     },
 
-    dataSet() {
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() + 1))
-        });
+    dataSet: function(){
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date());
 
         $("#pjt_cd").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택하세요", value: "" },
+                { text: "전체", value: "" },
                 { text: "해당없음", value: "0" },
                 { text: "연구개발", value: "1" },
                 { text: "개발사업", value: "2" },
@@ -87,7 +71,7 @@ var bustripResult = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResult.mainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResList.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -99,50 +83,50 @@ var bustripResult = {
             columns: [
                 {
                     title: "사업명",
-                    width: 250,
-                    template : function(d){
+                    width: 200,
+                    template : function(row){
                         var busnName = "";
                         var project = "";
-                        if(d.busn_name != "" && d.busn_name != null && d.busn_name != undefined){
-                            busnName = d.busn_name;
+                        if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
+                            busnName = row.BUSN_NAME;
                         }
 
-                        if(d.project_cd != "" && d.project_cd != null){
-                            project = "(" + d.project + ") ";
+                        if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
+                            project = "(" + row.PROJECT + ") ";
                         }
                         return  project + busnName;
                     }
                 }, {
-                    field: "emp_name",
+                    field: "EMP_NAME",
                     title: "출장자",
                     width: 80
                 }, {
-                    title: "출장지<br>(경유지)",
-                    template: function(d){
-                        return d.visit_loc + " → " + d.visit_loc_sub;
+                    title: "출장지 (경유지)",
+                    template: function(row){
+                        return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
                     },
-                    width: 120
+                    width: 160
                 }, {
                     title: "출발일시",
-                    template: function(d){
-                        return d.trip_day_fr + " " + d.trip_time_fr;
+                    template: function(row){
+                        return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
                     width: 100
                 }, {
                     title: "복귀일시",
-                    template: function(d){
-                        return d.trip_day_to + " " + d.trip_time_to;
+                    template: function(row){
+                        return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
                     },
                     width: 100
                 }, {
                     title: "업무차량",
-                    template : function(d){
-                        if(d.use_car == "Y"){
-                            if(d.use_trspt == 1){
+                    template : function(row){
+                        if(row.USE_CAR == "Y"){
+                            if(row.USE_TRSPT == 1){
                                 return "사용 (카니발)";
-                            } else if(d.use_trspt == 5){
+                            } else if(row.USE_TRSPT == 5){
                                 return "사용 (아반떼)";
-                            } else if(d.use_trspt == 3){
+                            } else if(row.USE_TRSPT == 3){
                                 return "사용 (트럭)";
                             }
                             return "사용";
@@ -153,48 +137,48 @@ var bustripResult = {
                     width: 100
                 }, {
                     title: "여비정산",
-                    template : function(d){
-                        console.log(d);
-                        if(d.RES_STATUS != 30 && d.RES_STATUS != null && d.RES_STATUS != 0){
+                    template : function(row){
+                        console.log(row);
+                        if(row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0){
                             return "-";
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripSetExnp('+d.hr_biz_req_id+')">여비정산</button>'
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripSetExnp('+row.HR_BIZ_REQ_ID+')">여비정산</button>'
                         }
                     },
-                    width: 100
+                    width: 80
                 }, {
                     title: "결과보고",
-                    template : function(d){
-                        if(d.RES_STATUS != 30 && d.RES_STATUS != null && d.RES_STATUS != 0){
+                    template : function(row){
+                        if(row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0){
                             return "-";
-                        } else if(d.EXP_STAT != "N" && d.EXP_STAT != null){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResult.popBustripRes('+d.HR_BIZ_REQ_RESULT_ID+', '+d.hr_biz_req_id+')">결과보고</button>'
+                        } else if(row.EXP_STAT != "N" && row.EXP_STAT != null){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+row.HR_BIZ_REQ_RESULT_ID+', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
                         } else {
                             return "-";
                         }
                     },
-                    width: 100
+                    width: 80
                 }, {
                     title : "결재",
-                    template : function(e){
-                        if(e.SAVE_YN == "Y"){
-                            if(e.RES_STATUS == 0){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResult.bustripResDrafting(\""+e.hr_biz_req_id+"\");'>" +
+                    template : function(row){
+                        if(row.SAVE_YN == "Y"){
+                            if(row.RES_STATUS == 0){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResDrafting(\""+row.HR_BIZ_REQ_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>상신</span>" +
                                     "</button>";
-                            } else if(e.RES_STATUS == 10){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.RES_DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
+                            } else if(row.RES_STATUS == 10){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+row.RES_DOC_ID+"\", \""+row.APPRO_KEY+"\", 1, \"retrieve\");'>" +
                                     "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                                     "<span class='k-button-text'>회수</span>" +
                                     "</button>";
-                            } else if(e.RES_STATUS == 30 || e.RES_STATUS == 40){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.RES_DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                            } else if(row.RES_STATUS == 30 || row.RES_STATUS == 40){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+row.RES_DOC_ID+"\", \""+row.DOC_MENU_CD+"\", \""+row.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>재상신</span>" +
                                     "</button>";
-                            } else if(e.RES_STATUS == 100 || e.RES_STATUS == 101){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.RES_DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                            } else if(row.RES_STATUS == 100 || row.RES_STATUS == 101){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+row.RES_DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>열람</span>" +
                                     "</button>";
@@ -205,22 +189,22 @@ var bustripResult = {
                             return "-"
                         }
                     },
-                    width: 100
+                    width: 80
                 }
             ]
         }).data("kendoGrid");
     },
 
     popBustripRes : function(e, d) {
-        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
-        var name = "bustripResultPop";
+        var url = "/bustrip/pop/bustripResListPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
+        var name = "bustripResListPop";
         var option = "width=1200, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
     popBustripSetExnp : function (e) {
         var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqId="+e;
-        var name = "bustripResultPop";
+        var name = "bustripResListPop";
         var option = "width=1600, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },

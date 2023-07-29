@@ -1,4 +1,8 @@
 const bustripReq = {
+    global: {
+        waypointArr: []
+    },
+
     init: function(){
         bustripReq.pageSet();
     },
@@ -50,13 +54,25 @@ const bustripReq = {
         carArr.push({text: "대중교통", value: "0"});
         customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
         const waypointArr = customKendo.fn_customAjax('/bustrip/getWaypointCostList').list;
+        bustripReq.global.waypointArr = waypointArr;
         waypointArr.push({WAYPOINT_NAME: "직접입력", HR_WAYPOINT_INFO_SN: "999"});
         customKendo.fn_dropDownList("visitLocCode", waypointArr, "WAYPOINT_NAME", "HR_WAYPOINT_INFO_SN", 2);
         $("#visitLocCode").data("kendoDropDownList").bind("change", function(){
             if($("#visitLocCode").val() == "999"){
                 $(".visitLocSub").show();
+                $(".visitMove").hide();
             }else{
                 $(".visitLocSub").hide();
+                $(".visitMove").show();
+                let code = $("#visitLocCode").data("kendoDropDownList").value();
+                let distance = 0;
+                for(let i=0; i<waypointArr.length; i++){
+                    let pk = waypointArr[i].HR_WAYPOINT_INFO_SN;
+                    if(pk == code){
+                        distance = waypointArr[i].DISTANCE;
+                    }
+                }
+                $(".visitMoveSpan").text(distance+" km");
             }
         })
         if(hrBizReqId != ""){
@@ -109,12 +125,23 @@ const bustripReq = {
         $("#visitLoc").val(rs.VISIT_LOC);
         $("#visitLocCode").data("kendoDropDownList").value(rs.VISIT_LOC_CODE);
         if($("#visitLocCode").val() == "999"){
+            $(".visitMove").hide();
             $(".visitLocSub").show();
         }else{
             if(isNaN(res)) {
                 $("#moveDst").data("kendoTextBox").enable(false);
             }
             $(".visitLocSub").hide();
+            $(".visitMove").show();
+            let code = $("#visitLocCode").data("kendoDropDownList").value();
+            let distance = 0;
+            for(let i=0; i<bustripReq.global.waypointArr.length; i++){
+                let pk = bustripReq.global.waypointArr[i].HR_WAYPOINT_INFO_SN;
+                if(pk == code){
+                    distance = bustripReq.global.waypointArr[i].DISTANCE;
+                }
+            }
+            $(".visitMoveSpan").text(distance+" km");
         }
         $("#visitLocSub").val(rs.VISIT_LOC_SUB);
         $("#date1").val(rs.TRIP_DAY_FR);
@@ -157,7 +184,13 @@ const bustripReq = {
         $("#deptName").val(rs.DEPT_NAME);
         $("#reqDate").val(rs.REG_DATE);
 
-        if(rs.STATUS != 0 && rs.STATUS != 30){
+        if(isNaN(res)) {
+            $("#moveDst").val(rs.DISTANCE);
+            $("#moveDst").val(res.MOVE_DST);
+            $("#result").val(res.RESULT);
+        }
+
+        if((rs.STATUS != 0 && rs.STATUS != 30) || $("mod").val() == "mng"){
             $("#popEmpName").data("kendoTextBox").enable(false);
             $("#tripCode").data("kendoDropDownList").enable(false);
             $("#project").data("kendoDropDownList").enable(false);
@@ -181,12 +214,6 @@ const bustripReq = {
             $("#addMemberBtn").attr("disabled", true);
             $("#projectAddBtn").attr("disabled", true);
             $("#carBtn").css("display", "none");
-        }
-
-        if(isNaN(res)) {
-            $("#moveDst").val(rs.DISTANCE);
-            $("#moveDst").val(res.MOVE_DST);
-            $("#result").val(res.RESULT);
         }
     },
 
@@ -216,7 +243,7 @@ const bustripReq = {
         formData.append("compDeptName", $("#popDeptName").val());
         formData.append("visitCrm", $("#visitCrm").val());
         formData.append("visitLoc", $("#visitLoc").val());
-        formData.append("visitLocSub", $("#visitLocCode").val() == "999" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
+        formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
         formData.append("visitLocCode", $("#visitLocCode").val());
         formData.append("tripDayFr", $("#date1").val());
         formData.append("tripDayTo", $("#date2").val());
@@ -312,7 +339,7 @@ const bustripReq = {
         formData.append("compDeptName", $("#popDeptName").val());
         formData.append("visitCrm", $("#visitCrm").val());
         formData.append("visitLoc", $("#visitLoc").val());
-        formData.append("visitLocSub", $("#visitLocCode").val() == "999" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
+        formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
         formData.append("visitLocCode", $("#visitLocCode").val());
         formData.append("tripDayFr", $("#date1").val());
         formData.append("tripDayTo", $("#date2").val());
