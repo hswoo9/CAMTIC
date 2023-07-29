@@ -90,7 +90,7 @@
 <script>
   var categoryKey = $("#category").val();
 
-  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey,'');
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=10','');
   var flag = false;
 
   var paginationData;
@@ -160,7 +160,7 @@
       recordSize: 10,
       pageSize: 10
     }
-     var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey, "");
+     var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + '&recordSize=10', "");
 
      flag = true;
 

@@ -26,6 +26,8 @@
   .file-and-table-container {
     display: flex;
     margin-top: 50px;
+    padding-top: 10px;
+    border-top: 1px solid #c9c9c9;
   }
   .fileTable {
     width: 80%;
@@ -109,16 +111,9 @@
 
             <form>
               <div class="file-and-table-container">
-                <div>
-                  <div class="filebox">
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
-                      <span class="__btn1 grayLine">파일첨부</span>
-                    </button>
-                    <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
-                  </div>
-                </div>
+                <div><span>첨부파일</span></div>
 
-                <table class="fileTable" style="width: 50%;">
+                <table class="fileTable" style="width: 40%; margin-right: 15px;">
                   <colgroup>
                     <col width="50%">
                     <col width="10%">
@@ -139,6 +134,15 @@
                   </tr>
                   </tbody>
                 </table>
+
+                <div>
+                  <div class="filebox">
+                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                      <span class="__btn1 grayLine">파일첨부</span>
+                    </button>
+                    <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                  </div>
+                </div>
               </div>
             </form>
 
@@ -190,7 +194,7 @@
 
   function fn_goList(){
 
-    location.href = '/camtic/news/'+categoryId+'.do';
+    location.href = '/camtic/news/commonBoard.do?categoryKey='+categoryId;
   }
 
   function fn_saveNotice(){

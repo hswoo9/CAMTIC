@@ -74,7 +74,14 @@
     const categoryInb = $("#category").val();
 
     if(categoryInb != ""){
-      $(".news"+"_"+categoryInb).addClass('active');
+      if(categoryInb == "notice" || categoryInb == "business" || categoryInb == "study" || categoryInb == "partner"){
+        $(".news"+"_"+categoryInb).addClass('active');
+
+      }else{
+        const boardPathName = $(location).attr('search');
+        const boardGub = boardPathName.split("=")[1];
+        $(".pr"+"_"+boardGub).addClass('active');
+      }
     }
     /*else{
       const boardPathName = $(location).attr('search');

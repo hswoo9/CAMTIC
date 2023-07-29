@@ -8,6 +8,7 @@ public class PostResponse {
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ARTICLE_TITLE;                  // 제목
     private String REG_EMP_NAME;                 // 작성자
+    private String BOARD_ARTICLE_CONTENT;                 // 작성 내용
     private int BOARD_ARTICLE_VIEW_COUNT;                   // 조회 수
     private String PUBLIC_YN;              // 공개유무
     private String FILE_YN;              // 파일유무
@@ -25,6 +26,7 @@ public class PostResponse {
     public String getBOARD_ARTICLE_TITLE() {
         return BOARD_ARTICLE_TITLE;
     }
+    public String getBOARD_ARTICLE_CONTENT() { return BOARD_ARTICLE_CONTENT; }
 
     public String getREG_EMP_NAME() {
         return REG_EMP_NAME;
