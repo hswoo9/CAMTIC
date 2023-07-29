@@ -2,6 +2,8 @@ package egovframework.com.devjitsu.inside.document.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.common.utiles.ConvertUtil;
+import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.document.service.DocumentService;
@@ -9,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,9 @@ import java.util.*;
 public class DocumentController {
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     @Autowired
     private UserService userService;
@@ -113,11 +119,25 @@ public class DocumentController {
 
     //계약대장 - 계약대장 팝업창
     @RequestMapping("/Inside/Pop/docuPop.do")
-    public String docuPop(HttpServletRequest request, Model model) {
+    public String docuPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        String hwpUrl = "";
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/purchaseContractTmp.hwp");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/purchaseContractTmp.hwp");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
         return "popup/inside/document/docuPop";
     }
 
@@ -295,7 +315,8 @@ public class DocumentController {
     //계약대장 등록
     @RequestMapping("/inside/setDocuContractInsert")
     public String setDocuContractInsert(@RequestParam Map<String, Object> params) {
-        documentService.setDocuContractInsert(params);
+        documentService.setDocuContractInsert(params, BASE_DIR);
+
         return "jsonView";
     }
 

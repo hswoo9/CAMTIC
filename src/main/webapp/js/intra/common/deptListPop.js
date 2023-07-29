@@ -55,7 +55,11 @@ var deptListPop = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.DEPT_SEQ = dept;
+                    if($("#sEmpName").val() == '' || $("#sEmpName").val() == null){
+                        data.DEPT_SEQ = $("#deptSeq").val();
+                    } else {
+                        data.sEmpName = $("#sEmpName").val();
+                    }
                     return data;
                 }
             },
@@ -72,7 +76,7 @@ var deptListPop = {
 
         $("#userList").kendoGrid({
             dataSource: deptUserDataSource,
-            height: 415,
+            height: 395,
             sortable: true,
             scrollable: true,
             pageable: {
@@ -86,6 +90,20 @@ var deptListPop = {
                     empty: "데이터가 없습니다.",
                 }
             },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar : [
+                {
+                    name: '',
+                    text: '조회',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="deptListPop.treeViewReload();">' +
+                            '   <span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
+            ],
             columns: [
                 {
                     field: "DEPT_NAME",
@@ -110,7 +128,9 @@ var deptListPop = {
         var item = $("#treeview").data("kendoTreeView").dataItem(e.node);
         deptSeq = item.dept_seq;
         deptName = item.dept_name;
-        deptListPop.treeViewReload(deptSeq);
+        // deptListPop.treeViewReload(deptSeq);
+        $("#deptSeq").val(item.dept_seq);
+        $("#sEmpName").val('');
         $("#userList").data("kendoGrid").dataSource.read();
     },
     gridReload : function() {

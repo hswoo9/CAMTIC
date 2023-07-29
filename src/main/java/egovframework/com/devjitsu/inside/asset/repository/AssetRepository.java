@@ -161,4 +161,12 @@ public class AssetRepository extends AbstractDAO {
         return selectList("asset.getRprReceiptUpdateList", params);
     }
 
+    public int updRprReceipt(Map<String, Object> params) { int result = (int)update("asset.updRprReceipt", params); return result;}
+
+    /** 지식재산권 지분 비활성화 */
+    public void updInventionShare(Map<String, Object> params) { update("asset.updInventionShare", params);}
+
+    /** 지식재산권 일괄 변경 */
+    public void updRprAllChange(Map<String, Object> params) { update("asset.updRprAllChange", params);}
+
 }

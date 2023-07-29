@@ -92,7 +92,8 @@
     <select id="getDocuContractList" resultType="map" parameterType="map">
         /* getDocuContractList */
         SELECT
-            RE.*
+            RE.*,
+            DFI.*
         FROM
             (
                 SELECT
@@ -119,6 +120,8 @@
                     </choose>
                 ORDER BY IDC.REG_DT
             ) RE
+            LEFT JOIN CAM_COMMON.DJ_FILE_INFO DFI
+            ON RE.FILE_SN = DFI.FILE_NO
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -422,7 +425,15 @@
                 REMARK_CN,
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
-                REG_DT
+                REG_DT,
+
+                PROJECT_NUMBER,
+                REPRESENTATIVE,
+                BUSINESS_NUMBER,
+                ZIP_CODE,
+                ADDR,
+                ADDR_DETAIL
+
             )
         VALUES
             (
@@ -442,8 +453,17 @@
                 #{remarkCn},
                 #{regEmpSeq},
                 #{regEmpName},
-                NOW()
+                NOW(),
+                #{projectNumber},
+                #{representative},
+                #{businessNumber},
+                #{zipCode},
+                #{addr},
+                #{addrDetail}
             )
+        <selectKey keyProperty="documentContractSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_DOCUMENT_CONTRACT'
+        </selectKey>
     </insert>
 
     <insert id="setSnackInsert" parameterType="map">
@@ -553,4 +573,68 @@
             CM_GROUP_CODE_ID = 10
     </select>
 
+    <insert id="setProductInsert" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_DOCUMENT_PRODUCT
+        (
+            DOCUMENT_CONTRACT_SN,
+            PRODUCT_NAME,
+            PRODUCT_COUNT,
+            PRODUCT_ONE_MONEY,
+            PRODUCT_TOTAL_MONEY,
+            BMK
+        )
+        VALUES
+        <foreach collection="area" item="item" separator=" , ">
+        (
+            #{documentContractSn},
+            #{item.productName},
+            #{item.productCount},
+            #{item.productOneMoney},
+            #{item.productTotalMoney},
+            #{item.bmk}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="insOneFileInfo" parameterType="map" >
+        /* insOneFileInfo */
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+        FILE_CD,
+        FILE_UUID,
+        FILE_ORG_NAME,
+        FILE_PATH,
+        FILE_SIZE,
+        FILE_EXT,
+        EMP_SEQ,
+        REG_EMP_SEQ
+         <if test="frKey != null and frKey != ''">
+             , FR_KEY
+         </if>
+        )
+        VALUES
+        (
+        #{fileCd},
+        #{fileUUID},
+        #{fileOrgName},
+        #{filePath},
+        #{fileSize},
+        #{fileExt},
+        #{empSeq},
+        #{empSeq}
+        <if test="frKey != null and frKey != ''">
+            , #{frKey}
+        </if>
+        )
+
+        <selectKey keyProperty="fileNo" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_FILE_INFO'
+        </selectKey>
+    </insert>
+
+    <update id="setDocuContractFileKey" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+        SET FILE_SN = #{fileNo}
+        WHERE DOCUMENT_CONTRACT_SN = #{documentContractSn}
+    </update>
 </mapper>

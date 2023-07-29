@@ -17,6 +17,8 @@
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
+        <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}" />
+        <input type="hidden" id="empSeq" name="empSeq" value="${params.empSeq}" />
         <form id="userReqPopImage" style="padding: 20px 30px;">
             <div style="text-align:right; font-weight:600;">[직원정보] ${params.EMP_NAME_KR}</div>
             <table class="popTable table table-bordered mb-0" id="userReqPopImageTable">

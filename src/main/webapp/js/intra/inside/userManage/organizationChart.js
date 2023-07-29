@@ -9,6 +9,7 @@ var orgChart = {
         var item = $("#deptTree").data("kendoTreeView").dataItem(e.node);
         orgChart.global.deptSeq = item.dept_seq;
         $("#deptSeq").val(item.dept_seq);
+        $("#sEmpName").val('');
         $("#deptUserGrid").data("kendoGrid").dataSource.read();
     },
 
@@ -35,7 +36,10 @@ var orgChart = {
             select: orgChart.treeClick,
         });
 
+        orgChart.mainGrid();
+    },
 
+    mainGrid : function(){
         var deptUserDataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -46,7 +50,11 @@ var orgChart = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.DEPT_SEQ = $("#deptSeq").val();
+                    if($("#sEmpName").val() == '' || $("#sEmpName").val() == null){
+                        data.DEPT_SEQ = $("#deptSeq").val();
+                    } else {
+                        data.sEmpName = $("#sEmpName").val();
+                    }
                     data.notDivision = "2";
                     return data;
                 }
@@ -81,6 +89,17 @@ var orgChart = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            toolbar : [
+                {
+                    name: '',
+                    text: '조회',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="orgChart.mainGrid();">' +
+                            '   <span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
+            ],
             columns: [
                 {
                     title : "이름",
@@ -99,6 +118,5 @@ var orgChart = {
                 }
             ],
         }).data("kendoGrid");
-
-    },
+    }
 }

@@ -10,6 +10,7 @@
 </div>
 <div style="padding: 20px">
 	<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+	<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 	<table style="padding: 20px;">
 		<colgroup>
 			<col width="272px">
@@ -38,6 +39,8 @@
 						</li>
 					</ul>
 					<div style="height:447px;width: 410px;">
+						<span>성명</span>
+						<input type="text" id="sEmpName" style="width: 180px; margin-bottom: 5px;" class="k-input" onkeypress="if(window.event.keyCode==13){userMultiSel.treeViewReload();}">
 						<div id="userList">
 						</div>
 					</div>
@@ -95,7 +98,7 @@
 	let deptSeq = '${loginVO.orgnztId}';
 
 	userMultiSel.fnDefaultScript();
-	userMultiSel.treeViewReload();
+	userMultiSel.treeViewReload(deptSeq);
 	userMultiSel.treeClick();
 	userMultiSel.gridChoose();
 </script>

@@ -1053,7 +1053,10 @@
             CAM_INSIDE.DJ_INVENTION_SHARE_INFO IISI
                 LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
-        WHERE IISI.INVENTION_INFO_SN = #{inventionInfoSn}
+        WHERE
+            IISI.INVENTION_INFO_SN = #{inventionInfoSn}
+        AND
+            IISI.ACTIVE = 'Y'
     </select>
 
     <select id="getRprReceiptList" parameterType="map" resultType="map">
@@ -1078,6 +1081,47 @@
                 </if>
                 <if test="resYn != null and resYn != ''">
                     AND RES_YN = #{resYn}
+                </if>
+
+                <if test="dateType != null and dateType != ''">
+                    <if test='dateType == 1'>
+                    <![CDATA[
+                        AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') >= DATE_FORMAT(#{stDt}, '%Y-%m-%d')
+                        AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') <= DATE_FORMAT(#{enDt}, '%Y-%m-%d')
+                    ]]>
+                    </if>
+                    <if test='dateType == 2'>
+                        <![CDATA[
+                        AND DATE_FORMAT(III.EXPIRATION_DT, '%Y-%m-%d') >= DATE_FORMAT(#{stDt}, '%Y-%m-%d')
+                        AND DATE_FORMAT(III.EXPIRATION_DT, '%Y-%m-%d') <= DATE_FORMAT(#{enDt}, '%Y-%m-%d')
+                    ]]>
+                    </if>
+                </if>
+                <if test="iprClass != null and iprClass !=''">
+                    AND IPR_CLASS = #{iprClass}
+                </if>
+                <if test="stateType != null and stateType !=''">
+                    AND STATE_SN = #{stateType}
+                </if>
+                <if test="tainType != null and tainType !=''">
+                    AND TAIN_SN = #{tainType}
+                </if>
+                <if test="singleType != null and singleType !=''">
+                    AND SINGLE_SN = #{singleType}
+                </if>
+                <if test="techType != null and techType !=''">
+                    AND TECH_SN = #{techType}
+                </if>
+                <if test="searchType != null and searchType !=''">
+                    <if test="searchType == 1">
+                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
+                    <if test="searchType == 2">
+                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
+                    <if test="searchType == 3">
+                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
                 </if>
                     AND ACTIVE = 'Y'
                 ORDER BY III.REG_DATE, III.REG_DT
@@ -1706,5 +1750,80 @@
         /*getRprReceiptUpdateList*/
 
     </select>
+
+    <update id="updRprReceipt" parameterType="map">
+        /* updRprReceipt */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            RPR_CLASS = #{rprClass},
+            RPR_NAME = #{rprName},
+            SHARE_SN = #{shareSn},
+            SHARE_NAME = #{shareName},
+            IPR_CLASS = #{iprClass},
+            IPR_NAME = #{iprName},
+            STATE_SN = #{stateSn},
+            STATE_NAME = #{stateName},
+            TAIN_SN = #{tainSn},
+            TAIN_NAME = #{tainName},
+            TECH_SN = #{techSn},
+            TECH_NAME = #{techName},
+            CONFIDENTIALITY_SN = #{confidentialitySn},
+            CONFIDENTIALITY_NAME = #{confidentialityName},
+            TITLE = #{title},
+            SINGLE_SN = #{singleSn},
+            SINGLE_NAME = #{singleName},
+            APPLICANT_NAME = #{applicantName},
+            DETAIL_CN = #{detailCn},
+            APPLICANT_NUM = #{applicantNum},
+            APPLICANT_DT = #{applicantDt},
+            APPLICANT_NATION = #{applicantNation},
+            REG_NUM = #{regNum},
+            REG_DATE = #{regDate},
+            EXPIRATION_DT = #{expirationDt},
+            REMARK_CN = #{remarkCn},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName}
+        WHERE
+            INVENTION_INFO_SN  = #{inventionInfoSn}
+    </update>
+
+    <update id="updInventionShare" parameterType="map">
+        /* updInventionShare */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_SHARE_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="updRprAllChange" parameterType="map">
+        /* updRprAllChange */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            <if test='"Y".equals(statChkYN)'>
+                STATE_SN = #{stateSn},
+                STATE_NAME = #{stateName},
+            </if>
+            <if test='"Y".equals(tainChkYN)'>
+                TAIN_SN = #{tainSn},
+                TAIN_NAME = #{tainName},
+            </if>
+            <if test='"Y".equals(techChkYN)'>
+                TECH_SN = #{techSn},
+                TECH_NAME = #{techName},
+            </if>
+            <if test='"Y".equals(conftChkYN)'>
+                CONFIDENTIALITY_SN = #{confidentialitySn},
+                CONFIDENTIALITY_NAME = #{confidentialityName},
+            </if>
+            UP_DT = NOW()
+        WHERE
+            RPR_CLASS = 2
+        AND
+            ACTIVE = 'Y'
+    </update>
 
 </mapper>

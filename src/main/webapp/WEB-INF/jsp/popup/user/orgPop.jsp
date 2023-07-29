@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/css/intra/user/org.css?${toDate}">
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/organizationChart.js?${toDate}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList.js?${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/organizationChart.js?v=${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList.js?v=${toDate}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -36,6 +36,10 @@
                         </td>
                         <td colspan="2" style="height:350px;">
                             <div id="gridForm2" style="width:100%; height:100%;">
+                                <div style="margin: 10px 0 5px 5px;">
+                                    <span>성명</span>
+                                    <input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){orgChart.mainGrid();}">
+                                </div>
                                 <div id="deptUserGrid">
 
                                 </div>
@@ -50,6 +54,7 @@
 
 <script>
     var datas = JSON.parse('${data}');
+
     orgChart.fn_defaultScript(datas);
 </script>
 </body>

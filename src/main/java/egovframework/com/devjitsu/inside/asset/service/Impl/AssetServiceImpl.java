@@ -918,4 +918,26 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getRprReceiptUpdateList(params);
     }
 
+    @Override
+    public void updRprReceipt(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 지식재산권 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.updRprReceipt(params);
+            if(!share.isEmpty()) {
+                assetRepository.updInventionShare(params);  //이전 데이터 비활성화 후 다시 insert
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void updRprAllChange(Map<String, Object> params){
+        assetRepository.updRprAllChange(params);
+    }
 }

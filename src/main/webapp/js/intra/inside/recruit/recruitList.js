@@ -46,6 +46,7 @@ var recruitList = {
             },
             schema : {
                 data: function (data) {
+                    console.log(data.list);
                     return data.list;
                 },
                 total: function (data) {
@@ -107,6 +108,8 @@ var recruitList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            detailTemplate : kendo.template($("#template").html()),
+            detailInit: recruitList.detailInit,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
@@ -177,5 +180,55 @@ var recruitList = {
         var name = "recruitAdminPop";
         var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    detailInit : function(e){
+        var detailRow = e.detailRow;
+
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            serverSorting: false,
+            serverFiltering: false,
+            pageSize: 10,
+            filter: { field: "RECRUIT_INFO_SN", operator: "eq", value: e.data.RECRUIT_INFO_SN },
+            schema : {
+                data: function (data) {
+                    return e.data.recruitAreaList;
+                },
+                total: function (data) {
+                    return de.data.recruitAreaList.length;
+                },
+            }
+        });
+
+        detailRow.find(".subGrid").kendoGrid({
+            dataSource: e.data.recruitAreaList,
+            scrollable: false,
+            sortable: true,
+            pageable: false,
+            columns: [
+                {
+                    field: "JOB",
+                    title: "모집분야",
+                }, {
+                    field: "DUTY",
+                    title: "경력",
+                }, {
+                    field: "RECRUITMENT",
+                    title: "채용인원",
+                }, {
+                    field: "",
+                    title: "접수인원",
+                }, {
+                    field: "",
+                    title: "서류심사",
+                }, {
+                    field: "",
+                    title: "면접심사",
+                }
+            ]
+        });
+
+
     }
 }

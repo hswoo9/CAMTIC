@@ -952,9 +952,13 @@ public class AssetController {
     public String rprReceiptUpdatePop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("inventionInfoSn", params.get("pk"));
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("pk", params.get("pk"));
+        model.addAttribute("data", assetService.getInventionInfo(params));
 
         return "popup/inside/asset/rprReceiptUpdatePop";
     }
@@ -966,5 +970,17 @@ public class AssetController {
         return "jsonView";
     }
 
+    /** 지식재산권 수정 */
+    @RequestMapping("/inside/updRprReceipt")
+    public String updRprReceipt(@RequestParam Map<String, Object> params, Model model) {
+        assetService.updRprReceipt(params);
+        return "jsonView";
+    }
 
+    /** 지식재산권 일괄변경 */
+    @RequestMapping("/inside/updRprAllChange")
+    public String updRprAllChange(@RequestParam Map<String, Object> params, Model model) {
+        assetService.updRprAllChange(params);
+        return "jsonView";
+    }
 }

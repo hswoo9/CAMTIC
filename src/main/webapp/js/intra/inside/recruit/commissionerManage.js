@@ -113,19 +113,30 @@ var commissionerManage = {
                     field: "NAME",
                     title: "성명"
                 }, {
-                    field: "",
-                    title: "성별"
+                    field: "GENDER",
+                    title: "성별",
+                    template: function(e){
+                        if(e.GENDER != null){
+                            if(e.GENDER == "M"){
+                                return "남";
+                            }else if(e.GENDER == "F"){
+                                return "여";
+                            }
+                        }else{
+                            return "-";
+                        }
+                    }
                 }, {
                     field: "BELONG",
                     title: "기관(소속)"
                 }, {
-                    field: "",
+                    field: "DUTY_POSITION",
                     title: "직급(직책)"
                 }, {
                     field: "TEL_NUM",
                     title: "휴대폰"
                 }, {
-                    field: "",
+                    field: "BMK",
                     title: "비고"
                 }
             ]

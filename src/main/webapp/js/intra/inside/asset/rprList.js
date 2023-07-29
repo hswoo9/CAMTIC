@@ -125,6 +125,17 @@ var rprList = {
                 parameterMap: function(data) {
                     data.rprClass = 2;
                     data.mod = "view";
+
+                    data.dateType = $("#drop1").val();
+                    data.stDt = $("#start_date").val();
+                    data.enDt = $("#end_date").val();
+                    data.iprClass = $("#drop2").val();
+                    data.stateType = $("#drop3").val();
+                    data.tainType = $("#drop4").val();
+                    data.singleType = $("#drop5").val();
+                    data.techType = $("#drop6").val();
+                    data.searchType = $("#searchType").val();
+                    data.searchVal = $("#searchVal").val();
                     return data;
                 }
             },
@@ -154,7 +165,7 @@ var rprList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rprList.mainGrid();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }

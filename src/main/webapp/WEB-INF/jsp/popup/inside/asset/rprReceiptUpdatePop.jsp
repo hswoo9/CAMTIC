@@ -19,14 +19,14 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="inventionInfoSn" name="inventionInfoSn" value="${data.inventionInfoSn}"/>
+<input type="hidden" id="inventionInfoSn" name="inventionInfoSn" value="${pk}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-11" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">지식재산권 수정</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="">수정</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="rprReceiptUpdate.saveBtn();">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>
         </div>
@@ -45,17 +45,25 @@
                     <span class="red-star"></span>발명자 / 저자
                 </th>
                 <td>
-                    <input type="text" id="userText" style="width: 70%;">
-                    <input type="hidden" id="userSn" style="width: 70%;">
+                    <input type="text" id="userText" style="width: 70%;" value="${data.info.SHARE_NAME}" />
+                    <input type="hidden" id="userSn" style="width: 70%;" value="${data.info.SHARE_SN}" />
                     <button type="button" id="staffSlect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:80px; height:27px; line-height:0;" onclick="fn_userMultiSelectPop()">
                         직원 선택
                     </button>
                 </td>
             </tr>
-            <tr style="display:none;" id="shareTr">
+            <tr id="shareTr">
                 <th>지분 입력</th>
-                <td id="shareTd">
-
+                <td>
+                    <table id="shareTd">
+                        <c:forEach var="item" items="${data.shareList}" varStatus="status">
+                        <tr class='addData'>
+                            <input type='hidden' class='shareEmpSeq' value='${item.EMP_SEQ}'/>
+                            <th class='shareEmpName'>${item.EMP_NAME}</th>
+                            <td><input type='text' id='share${item.EMP_SEQ}' style='width: 80%; text-align: right' class='share' value='${item.SHARE}' oninput='onlyNumber(this);'/> %</td>
+                        </tr>
+                        </c:forEach>
+                    </table>
                 </td>
             </tr>
             <tr>
@@ -63,7 +71,7 @@
                     <span class="red-star"></span>지식재산권 종류
                 </th>
                 <td>
-                    <input type="text" id="iprClass" style="width: 100%;">
+                    <input type="text" id="iprClass" style="width: 100%;" value="${data.info.IPR_CLASS}" />
                 </td>
             </tr>
             <tr>
@@ -71,7 +79,7 @@
                     <span class="red-star"></span>상태
                 </th>
                 <td>
-                    <input type="text" id="state" style="width: 100%;">
+                    <input type="text" id="state" style="width: 100%;" value="${data.info.STATE_SN}" />
                 </td>
             </tr>
             <tr>
@@ -79,7 +87,7 @@
                     <span class="red-star"></span>유지여부
                 </th>
                 <td>
-                    <input type="text" id="tain" style="width: 100%;">
+                    <input type="text" id="tain" style="width: 100%;" value="${data.info.TAIN_SN}" />
                 </td>
             </tr>
             <tr>
@@ -87,7 +95,7 @@
                     <span class="red-star"></span>기술이전
                 </th>
                 <td>
-                    <input type="text" id="tech" style="width: 100%;">
+                    <input type="text" id="tech" style="width: 100%;" value="${data.info.TECH_SN}" />
                 </td>
             </tr>
             <tr>
@@ -95,7 +103,7 @@
                     <span class="red-star"></span>대외비
                 </th>
                 <td>
-                    <input type="text" id="confidentiality" style="width: 100%;">
+                    <input type="text" id="confidentiality" style="width: 100%;" value="${data.info.CONFIDENTIALITY_SN}" />
                 </td>
             </tr>
             <tr>
@@ -103,7 +111,7 @@
                     <span class="red-star"></span>지식재산권 명칭
                 </th>
                 <td>
-                    <input type="text" id="title" style="width: 100%;">
+                    <input type="text" id="title" style="width: 100%;" value="${data.info.TITLE}" />
                 </td>
             </tr>
             <tr>
@@ -111,7 +119,7 @@
                     <span class="red-star"></span>단독/공동
                 </th>
                 <td>
-                    <input type="text" id="single" style="width: 100%;">
+                    <input type="text" id="single" style="width: 100%;" value="${data.info.SINGLE_SN}" />
                 </td>
             </tr>
             <tr>
@@ -119,7 +127,7 @@
                     <span class="red-star"></span>출원인
                 </th>
                 <td>
-                    <input type="text" id="applicantName" style="width: 100%;">
+                    <input type="text" id="applicantName" style="width: 100%;" value="${data.info.APPLICANT_NAME}" />
                 </td>
             </tr>
             <tr>
@@ -127,7 +135,7 @@
                     <span class="red-star"></span>주요내용
                 </th>
                 <td>
-                    <textarea type="text" id="detailCn" style="width: 100%; height: 60px"></textarea>
+                    <textarea type="text" id="detailCn" style="width: 100%; height: 60px" /></textarea>
                 </td>
             </tr>
             <tr>
@@ -135,7 +143,7 @@
                     <span class="red-star"></span>출원번호
                 </th>
                 <td>
-                    <input type="text" id="applicantNum" style="width: 100%;">
+                    <input type="text" id="applicantNum" style="width: 100%;" value="${data.info.APPLICANT_NUM}" />
                 </td>
             </tr>
             <tr>
@@ -143,7 +151,7 @@
                     <span class="red-star"></span>출원일자
                 </th>
                 <td>
-                    <input type="text" id="applicantDt" style="width: 100%;">
+                    <input type="text" id="applicantDt" style="width: 100%; " value="${data.info.APPLICANT_DT}" />
                 </td>
             </tr>
             <tr>
@@ -151,7 +159,7 @@
                     <span class="red-star"></span>출원국
                 </th>
                 <td>
-                    <input type="text" id="applicantNation" style="width: 100%;">
+                    <input type="text" id="applicantNation" style="width: 100%;" value="${data.info.APPLICANT_NATION}" />
                 </td>
             </tr>
             <tr>
@@ -159,7 +167,7 @@
                     <span class="red-star"></span>등록번호
                 </th>
                 <td>
-                    <input type="text" id="regNum" style="width: 100%;">
+                    <input type="text" id="regNum" style="width: 100%;" value="${data.info.REG_NUM}" />
                 </td>
             </tr>
             <tr>
@@ -167,7 +175,7 @@
                     <span class="red-star"></span>등록일자
                 </th>
                 <td>
-                    <input type="text" id="regDate" style="width: 100%;">
+                    <input type="text" id="regDate" style="width: 100%;" value="${data.info.REG_DATE}" />
                 </td>
             </tr>
             <tr>
@@ -175,7 +183,7 @@
                     <span class="red-star"></span>존속만료일
                 </th>
                 <td>
-                    <input type="text" id="expirationDt" style="width: 100%;">
+                    <input type="text" id="expirationDt" style="width: 100%;" value="${data.info.EXPIRATION_DT}" />
                 </td>
             </tr>
             <tr>
@@ -183,7 +191,7 @@
                     <span class="red-star"></span>증빙(출원)
                 </th>
                 <td style="padding:5px;">
-                    <input type="file">
+                    <input type="file" value="" />
                 </td>
             </tr>
             <tr>
@@ -191,7 +199,7 @@
                     <span class="red-star"></span>증빙(등록)
                 </th>
                 <td style="padding:5px;">
-                    <input type="file">
+                    <input type="file" value="" />
                 </td>
             </tr>
             <tr>
@@ -199,7 +207,7 @@
                     <span class="red-star"></span>비고
                 </th>
                 <td>
-                    <textarea type="text" id="remarkCn" style="width: 100%; height: 60px"></textarea>
+                    <textarea type="text" id="remarkCn" style="width: 100%; height: 60px" value="${data.info.REMARK_CN}" /></textarea>
                 </td>
             </tr>
             </thead>
@@ -209,6 +217,13 @@
 </div>
 
 <script>
+    $("#detailCn").val('${data.info.DETAIL_CN}');
+
+    customKendo.fn_datePicker("applicantDt", "month", "yyyy-MM-dd", '${data.info.APPLICANT_DT}');
+    customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", '${data.info.REG_DATE}');
+    customKendo.fn_datePicker("expirationDt", "month", "yyyy-MM-dd", '${data.info.EXPIRATION_DT}');
+
+    $("#remarkCn").val('${data.info.REMARK_CN}');
     rprReceiptUpdate.init();
 </script>
 </body>

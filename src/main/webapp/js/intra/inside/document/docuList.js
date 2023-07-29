@@ -126,6 +126,23 @@ var docuContractList = {
                     title: "계약 업체(자)",
                     width: "15%"
                 }, {
+                    field: "",
+                    title: "문서",
+                    width: "5%",
+                    template : function(row){
+                        if(row.file_no != null){
+                            var fileName = row.file_org_name;
+                            if(fileName.indexOf(".") > -1){
+                            }else{
+                                fileName = row.file_org_name + "." + row.file_ext;
+                            }
+                            return '<a href=\"javascript:docuContractList.fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">보기</a>';
+                        }else{
+                            return '';
+                        }
+
+                    }
+                }, {
                     title: "비고",
                     width: "5%",
                     template: function(row){
@@ -151,7 +168,18 @@ var docuContractList = {
     docuPopup: function(){
         var url = "/Inside/Pop/docuPop.do";
         var name = "popup test";
-        var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+        var option = "width = 1000, height = 550, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    fileDown : function(filePath, fileName){
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
+        });
     }
+
 }

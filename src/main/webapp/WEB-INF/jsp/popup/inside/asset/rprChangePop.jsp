@@ -20,7 +20,7 @@
             <div class="card-header pop-header">
                 <h3 class="card-title title_NM">지식재산권 일괄변경</h3>
                 <div class="btn-st popButton">
-                    <button type="button" class="k-button k-button-solid-info" onclick="">저장</button>
+                    <button type="button" class="k-button k-button-solid-info" onclick="rprChangePop.changeBtn();">저장</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
                 </div>
             </div>
@@ -37,40 +37,40 @@
                 </tr>--%>
                 <tr>
                     <td>
-                        <input type="checkbox" style="width: 100%; margin-right:10px;">
+                        <input type="checkbox" style="width: 100%; margin-right:10px;" id="statChkYN" name="chkYn" onclick="rprChangePop.rprChangeCheck('statChkYN');" value="N" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>상태
                     </th>
                     <td>
-                        <input type="text" id="status" style="width: 100%;">
+                        <input type="text" id="state" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" style="width: 100%; margin-right:10px;">
+                        <input type="checkbox" style="width: 100%; margin-right:10px;" id="tainChkYN" name="chkYn" onclick="rprChangePop.rprChangeCheck('tainChkYN');" value="N" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>유지여부
                     </th>
                     <td>
-                        <input type="text" id="maintainYN" style="width: 100%;">
+                        <input type="text" id="tain" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" style="width: 100%; margin-right:10px;">
+                        <input type="checkbox" style="width: 100%; margin-right:10px;" id="techChkYN" name="chkYn" onclick="rprChangePop.rprChangeCheck('techChkYN');" value="N" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>기술이전
                     </th>
                     <td>
-                        <input type="text" id="tcnTransfer" style="width: 100%;">
+                        <input type="text" id="tech" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" style="width: 100%; margin-right:10px;">
+                        <input type="checkbox" style="width: 100%; margin-right:10px;" id="conftChkYN" name="chkYn" onclick="rprChangePop.rprChangeCheck('conftChkYN');" value="N" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>대외비
