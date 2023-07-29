@@ -64,7 +64,11 @@ public class BoardController {
     @RequestMapping("/board/getBoardArticleList.do")
     public String getNormalBoardList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
 
+        int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
+
         articlePage.setSearchCategory((String) param.get("categoryId"));
+        articlePage.setRecordSize(recordSize);
+
         PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);
 
         model.addAttribute("boardArticleList", response);
@@ -283,6 +287,21 @@ public class BoardController {
 
         model.addAttribute("categoryId", params.get("category"));
         return "camtic/pr/pr_write";
+    }
+
+    /**
+     * 멀티미디어 게시글 상세보기 페이지
+     * */
+    @RequestMapping("/camtic/pr/pr_view.do")
+    public String prBoardView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        boardService.setBoardArticleViewCount(params);
+
+        Map<String, Object> map = boardService.selectBoard(params);
+        List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
+        model.addAttribute("categoryId", params.get("category"));
+        model.addAttribute("map", map);
+        model.addAttribute("fileMap", fileList);
+        return "camtic/pr/pr_view";
     }
 
 

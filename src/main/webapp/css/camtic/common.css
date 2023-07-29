@@ -260,6 +260,8 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__galList {display:flex;flex-wrap:wrap;gap:90px 26px;}
 .__galList .box {display:block;width:calc((100% / 4) - (78px / 4));border:1px solid #ccc;}
 .__galList .box .img i {display:block;padding-top:calc(189 / 298 * 100%);background-repeat:no-repeat;background-position:50% 50%;background-size:cover;background-image:url(/images/camtic/img-noimg.jpg);}
+/*2023-07-29 홍보관/보도자료 이미지 css 변경*/
+.__galListhead .boxHead .img i {display:block;padding-top:calc(250 / 600 * 100%);background-repeat:no-repeat;background-position:50% 50%;background-size:cover;background-image:url(/images/camtic/img-noimg.jpg);}
 .__galList .box .info {padding:25px 15px 20px;}
 .__galList .box .info .subject {font-size:18px;line-height:1.35;height:2.7em;display:-webkit-box;word-wrap:break-word;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;color:#252525;font-weight:500;letter-spacing:-0.075em;}
 .__galList .box .info .sum {font-size:15px;color:#707070;margin-top:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}

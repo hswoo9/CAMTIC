@@ -28,59 +28,20 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__galListhead">
-          <div class="boxHead">
-            <div class="img"></div>
-          </div>
-          <div class="boxHead">
-            <div class="info">
-              <p class="subject">23.05.20 제1회 FIDA(국제드론축구 연맹) 세계드론축구대회 성료 세계드론축구대회 성료세계드론축구대회 성료</p>
-            </div>
-            <div class="info">
-              <p class="content">방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다. 이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다. 얼음과 방황하여도, 아니더면, 칼이다. 산야에 없는 놀이 이상의 길을 너의 아름다우냐? 같은 풍부하게 없으면, 듣는다. 동력은 이상은 예수는 곳이 운다. 오직 스며들어 발휘하기 유소년에게서 밝은 청춘을 아름다우냐? 얼마나 그들은 우리 피는 전인 생생하며, 그것을 쓸쓸하랴? 미인을 끝까지 무엇이 끓는다.</p>
-            </div>
-          </div>
+
         </div>
-          <div class="__galList" style="margin-top:15px;">
-          <a href="./view.do" class="box">
-            <div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>
-            <div class="info">
-              <p class="subject">23.05.20 제1회 FIDA(국제드론축구 연맹) 세계드론축구대회 성료 세계드론축구대회 성료세계드론축구대회 성료</p>
-              <p class="date">2023-05-22</p>
-            </div>
-          </a>
-          <a href="./view.do" class="box">
-            <div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>
-            <div class="info">
-              <p class="subject">23.05.20 제1회 FIDA(국제드론축구 연맹) 세계드론축구대회 성료 세계드론축구대회 성료세계드론축구대회 성료</p>
-              <p class="date">2023-05-22</p>
-            </div>
-          </a>
-          <a href="./view.do" class="box">
-            <div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>
-            <div class="info">
-              <p class="subject">23.05.20 제1회 FIDA(국제드론축구 연맹) 세계드론축구대회 성료 세계드론축구대회 성료세계드론축구대회 성료</p>
-              <p class="date">2023-05-22</p>
-            </div>
-          </a>
-          <a href="./view.do" class="box">
-            <div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>
-            <div class="info">
-              <p class="subject">23.05.20 제1회 FIDA(국제드론축구 연맹) 세계드론축구대회 성료 세계드론축구대회 성료세계드론축구대회 성료</p>
-              <p class="date">2023-05-22</p>
-            </div>
-          </a>
+        <div class="__galList" style="margin-top:15px;">
+
         </div>
 
         <div class="__botArea">
           <div class="cen">
             <div class="__paging">
-              <a href="#" class="arr first"><i class="axi axi-angle-double-left" aria-hidden="true"><span class="hide">첫 페이지</span></i></a>
-              <a href="#" class="arr prev"><i class="axi axi-angle-left" aria-hidden="true"><span class="hide">이전 페이지</span></i></a>
-              <strong class="num active">1</strong>
-              <a href="#" class="num">2</a>
-              <a href="#" class="num">3</a>
-              <a href="#" class="arr next"><i class="axi axi-angle-right" aria-hidden="true"><span class="hide">다음 페이지</span></i></a>
-              <a href="#" class="arr last"><i class="axi axi-angle-double-right" aria-hidden="true"><span class="hide">마지막 페이지</span></i></a>
+
+            </div>
+
+            <div class="rig">
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
           </div>
         </div>
@@ -90,5 +51,163 @@
   </div>
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+
+<script>
+
+  var categoryKey = "report";
+
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=5','');
+  var flag = false;
+
+  var paginationData;
+  var startPage;
+  var endPage;
+  var page;
+  var total = firstData.articlePage.pagination.totalRecordCount;
+
+  /** 최초의 데이터와 페이지 이동할 때의 데이터 구분 */
+  function dataChk(e, f) {
+    if(flag == false){
+      paginationData = firstData.articlePage.pagination;
+      startPage = paginationData.startPage;
+      endPage = paginationData.endPage;
+      page = firstData.articlePage.page;
+    }else if(flag == true){
+      paginationData = e.articlePage.pagination;
+      startPage = paginationData.startPage;
+      endPage = paginationData.endPage;
+      page = e.articlePage.page;
+    }
+  }
+
+  var data = firstData.boardArticleList.list;
+  $(function () {
+
+    $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+
+    dataChk();
+
+    drawPage();
+    drawTable(data);
+  });
+
+  //작성 이동
+  function fn_writeBoard(){
+
+    location.href = '/camtic/pr/pr_write.do?category=' + categoryKey;
+  }
+
+  //상세보기 이동
+  function fn_detailBoard(key){
+
+    location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryKey;
+  }
+
+  /**
+   * 페이지 이동
+   * page : 페이지
+   * recordSize : 리스트에 출력할 데이터 수
+   * pageSize : 페이징 넘버 수
+   * ArticlePage.java 참조
+   * */
+  function movePage(page){
+    const queryParams = {
+      page: (page) ? page : 1,
+      recordSize: 5,
+      pageSize: 10
+    }
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=5", "");
+
+    flag = true;
+
+    dataChk(result, flag);
+    drawTable(result.boardArticleList.list);
+    drawPage();
+  }
+
+  //게시글 리스트 그리기
+  function drawTable(data) {
+    $(".__galListhead").html('');
+    $(".__galList").html('');
+
+    let htmlHead = "";
+    let html = "";
+
+    data.forEach((item, index) => {
+      console.log(item);
+      console.log("index : " + index);
+      if(index == 0){
+        htmlHead += "<div class='boxHead' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
+        if(item.file_PATH) {
+          htmlHead += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto;"></i></div>';
+        }else {
+          htmlHead += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
+        }
+        htmlHead += '</div>';
+        htmlHead += '<div class="boxHead" style="cursor:pointer;" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')" >';
+        htmlHead += '<div class="info">';
+        htmlHead += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
+        htmlHead += '</div>';
+        htmlHead += '<div class="info">';
+        htmlHead += '<p class="content">'+ item.board_ARTICLE_CONTENT +'</p>';
+        htmlHead += '</div></div>';
+      }else{
+        html += "<a class='box' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
+        if(item.file_PATH){
+          html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
+        }else{
+          html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
+        }
+        html += '<div class="info">';
+        html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
+        const formattedMonth = String(item.reg_DATE.monthValue).padStart(2, '0');
+        const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
+        html += '<p class="date">'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</p>';
+        html += '</div>';
+        html += "</a>";
+      }
+    });
+
+    $(".__galListhead").append(htmlHead);
+    $(".__galList").append(html);
+  }
+
+  //페이징 그리기
+  function drawPage(){
+    let html = '';
+    html += '<a href="javascript:void(0);" onclick="movePage(' + (page - 1) + ')" class="arr prev"><span class="hide">이전 페이지</span></a>';
+
+    for (let i =startPage; i <= endPage; i++) {
+      html += (i !== page)
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num active">' + i + '</strong>'
+    }
+
+    html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
+    $(".__paging").html(html);
+  }
+
+  function fn_customAjax(url, data){
+    var result;
+
+    $.ajax({
+      url : url,
+      data : data,
+      type : "post",
+      dataType : "json",
+      async : false,
+      success : function(rs) {
+        result = rs;
+        result.flag = true;
+      },
+      error :function (e) {
+        result.flag = false;
+        console.log('error : ', e);
+      }
+    });
+
+    return result;
+  }
+</script>
+
 </body>
-</html>

@@ -46,7 +46,7 @@
 
   var categoryKey = "photo";
 
-  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey,'');
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=8', '');
   var flag = false;
 
   var paginationData;
@@ -90,7 +90,7 @@
   //상세보기 이동
   function fn_detailBoard(key){
 
-    location.href="/camtic/news/view.do?boardArticleId=" + key + "&category=" + categoryKey;
+    location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryKey;
   }
 
   /**
@@ -103,10 +103,10 @@
   function movePage(page){
     const queryParams = {
       page: (page) ? page : 1,
-      recordSize: 10,
+      recordSize: 8,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey, "");
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=8", "");
 
     flag = true;
 
@@ -124,7 +124,7 @@
 
     data.forEach((item, index) => {
       html += "<a class='box' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
-      if(item.file_PATH != undefined || item.file_PATH != null){
+      if(item.file_PATH){
         html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
       }else{
         html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';

@@ -26,6 +26,8 @@
     .file-and-table-container {
         display: flex;
         margin-top: 50px;
+        padding-top: 10px;
+        border-top: 1px solid #c9c9c9;
     }
     .fileTable {
         width: 80%;
@@ -109,16 +111,10 @@
 
 						<form>
 							<div class="file-and-table-container">
-								<div>
-									<div class="filebox">
-										<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
-											<span class="__btn1 grayLine">파일첨부</span>
-										</button>
-										<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
-									</div>
-								</div>
 
-								<table class="fileTable" style="width: 50%;">
+								<div><span id="textMod">첨부파일</span></div>
+
+								<table class="fileTable" style="width: 40%; margin-right: 15px;">
 									<colgroup>
 										<col width="50%">
 										<col width="10%">
@@ -139,6 +135,37 @@
 									</tr>
 									</tbody>
 								</table>
+
+								<div>
+									<c:choose>
+
+									<c:when test="${categoryId eq 'report'}">
+										<div class="filebox">
+											<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
+												<span class="__btn1 grayLine">이미지첨부</span>
+											</button>
+											<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
+										</div>
+
+										<div class="filebox">
+											<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload2" onclick="$('#fileList').click()" >
+												<span class="__btn1 grayLine">파일첨부</span>
+											</button>
+											<input type="file" id="fileList2" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
+										</div>
+									</c:when>
+
+									<c:otherwise>
+										<div class="filebox">
+											<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
+												<span class="__btn1 grayLine">파일첨부</span>
+											</button>
+											<input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
+										</div>
+									</c:otherwise>
+									</c:choose>
+
+								</div>
 							</div>
 						</form>
 
@@ -179,12 +206,16 @@
 
         if(categoryId == "photo"){
             $(".categoryName").text("포토뉴스");
-        }else if(categoryId == "business"){
-            $(".categoryName").text("사업공고");
+        }else if(categoryId == "report"){
+            $(".categoryName").text("보도자료");
         }else if(categoryId == "study"){
             $(".categoryName").text("교육/행사");
         }else if(categoryId == "partner"){
             $(".categoryName").text("유관기관소식");
+        }
+
+        if(categoryId == "photo"){
+            $("#textMod").text("표지");
         }
     });
 
