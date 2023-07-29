@@ -28,6 +28,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
+<input type="hidden" id="type" value="${type}"/>
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">출장 여비정산</h3>
@@ -85,34 +86,34 @@
                         <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                     </td>
                     <td>
-                        <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%">
+                        <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.OIL_CORP_YN}">
                         <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="${list.OIL_COST}" oninput="onlyNumber(this)" style="width: 55%" disabled />
                     </td>
                     <td>
-                        <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%">
+                        <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">
                         <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
-                        <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%">
+                        <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">
                         <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="${list.TRAF_DAY_COST}" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
-                        <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%">
+                        <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TOLL_CORP_YN}">
                         <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
                         <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" disabled />
                     </td>
                     <td>
-                        <input id="eatCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn eatCorpYn" style="width: 40%">
+                        <input id="eatCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn eatCorpYn" style="width: 40%" value="${list.EAT_CORP_YN}">
                         <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" value="${list.EAT_COST}" onkeyup="bustripExnpReq.eatCheck(this);" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
-                        <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%">
+                        <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.PARKING_CORP_YN}">
                         <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="${list.PARKING_COST}" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
-                        <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%">
+                        <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">
                         <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>

@@ -1,6 +1,7 @@
 const bustripExnpReq = {
     global: {
-        costData: ""
+        costData: "",
+        bustripInfo: {}
     },
 
     init: function(type){
@@ -14,7 +15,7 @@ const bustripExnpReq = {
             {text: "개인", value: "N"},
             {text: "법인", value: "Y"}
         ]
-        if(type == "upd" || ("#mod").val() == "mng"){
+        if(type == "upd" || $("#mod").val() == "mng"){
             $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox({
                 enable: false
             });
@@ -39,15 +40,45 @@ const bustripExnpReq = {
         costData.css("text-align", "right");
         costData.bind("keyup", bustripExnpReq.horizontalSum);
         $(".eatCorpYn").bind("keyup", bustripExnpReq.horizontalSum);
+        $('input[type=radio][name=driver]').change(bustripExnpReq.fn_getFuelInfo);
     },
 
     dataSet: function(type){
         let costData = bustripExnpReq.global.costData;
         if(type != "upd"){
             costData.val(0);
+            var data = {
+                hrBizReqId: $("#hrBizReqId").val()
+            }
+            var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", data);
+            bustripExnpReq.global.bustripInfo = result.rs.rs;
+            console.log(result.rs.rs);
         }
 
         bustripExnpReq.fn_getExnpInfo(type);
+        bustripExnpReq.horizontalSum();
+        bustripExnpReq.fn_getFuelInfo(type);
+    },
+
+    fn_getFuelInfo: function(type){
+        if(type != "upd") {
+            var empSeq = $('input[name=driver]:checked').val();
+
+            let costInfo = customKendo.fn_customAjax("/bustrip/getBustripFuelCostInfo", {
+                empSeq: empSeq
+            }).data;
+
+            console.log(costInfo);
+            let bustripInfo = bustripExnpReq.global.bustripInfo;
+            console.log(bustripInfo);
+            let realDis = Number(bustripInfo.DISTANCE);
+            let codeDis = Number(costInfo.DISTANCE);
+            let ceil = Math.ceil(realDis/codeDis);
+            let amt = ceil * Number(costInfo.COST_AMT);
+
+            $(".oilCost").val(0);
+            $("#oilCost"+String(empSeq)).val(fn_comma(amt));
+        }
         bustripExnpReq.horizontalSum();
     },
 

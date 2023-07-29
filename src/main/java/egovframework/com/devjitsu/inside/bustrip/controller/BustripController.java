@@ -221,6 +221,27 @@ public class BustripController {
         return "popup/inside/bustrip/waypointCostReqPop";
     }
 
+    //유가 기준정보 리스트 페이지
+    @RequestMapping("/bustrip/bustripFuelCostList.do")
+    public String bustripFuelCostList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/bustripFuelCostList";
+    }
+
+    //유가 기준정보 추가 팝업
+    @RequestMapping("/bustrip/pop/bustripFuelCostReqPop.do")
+    public String bustripFuelCostReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/bustripFuelCostReqPop";
+    }
+
     //국내출장여비 리스트 페이지
     @RequestMapping("/bustrip/bustripCostList.do")
     public String bustripCostList(HttpServletRequest request, Model model) {
@@ -410,6 +431,13 @@ public class BustripController {
         return "jsonView";
     }
 
+    //출장유가등록
+    @RequestMapping("/bustrip/setBustripFuelCostInsert")
+    public String setBustripFuelCostInsert(@RequestParam Map<String, Object> params, Model model){
+        bustripService.setBustripFuelCostInsert(params);
+        return "jsonView";
+    }
+
     //경유지 리스트
     @RequestMapping("/bustrip/getWaypointCostList")
     public String getWaypointCostList(@RequestParam Map<String, Object> params, Model model){
@@ -439,6 +467,23 @@ public class BustripController {
         }
         return "jsonView";
 
+    }
+
+    //출장 기준유가 리스트
+    @RequestMapping("/bustrip/getBustripFuelCostList")
+    public String getBustripFuelCostList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getBustripFuelCostList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //유류 기준정보 조회
+    @RequestMapping("/bustrip/getBustripFuelCostInfo")
+    public String getBustripFuelCostInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getBustripFuelCostInfo(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
     }
 
     private static LoginVO getLoginVO(HttpServletRequest request) {

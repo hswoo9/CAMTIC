@@ -106,6 +106,14 @@ public class BustripRepository extends AbstractDAO {
         insert("bustrip.setBustripCostInsert", params);
     }
 
+    public void setBustripFuelCostInsert(Map<String, Object> params) {
+        insert("bustrip.setBustripFuelCostInsert", params);
+    }
+
+    public void setBustripFuelCostUpdate(Map<String, Object> params) {
+        update("bustrip.setBustripFuelCostUpdate", params);
+    }
+
     public List<Map<String, Object>> getWaypointCostList(Map<String, Object> params) {
         return selectList("bustrip.getWaypointCostList", params);
     }
@@ -116,5 +124,13 @@ public class BustripRepository extends AbstractDAO {
 
     public void setReqCert(Map<String, Object> params) {
         update("bustrip.setReqCert", params);
+    }
+
+    public List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params) {
+        return selectList("bustrip.getBustripFuelCostList", params);
+    }
+
+    public Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripFuelCostInfo", params);
     }
 }

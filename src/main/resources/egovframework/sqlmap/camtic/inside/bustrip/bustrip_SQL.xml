@@ -552,6 +552,56 @@
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
+
+    <insert id="setBustripFuelCostInsert" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_HR_FUEL_COST_INFO
+            (
+                START_DT,
+                DISTANCE,
+                COST_AMT,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{startDt},
+                #{distance},
+                #{costAmt},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setBustripFuelCostUpdate" parameterType="map">
+        /* setBustripFuelCostUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_HR_FUEL_COST_INFO
+        SET
+            END_DT = DATE_SUB(#{startDt}, INTERVAL 1 DAY)
+        ORDER BY HR_FUEL_COST_INFO_SN DESC LIMIT 1
+    </update>
+
+    <select id="getBustripFuelCostList" parameterType="map" resultType="map">
+        /* getBustripFuelCostList */
+        SELECT
+            IHFCI.*
+        FROM
+            CAM_INSIDE.DJ_HR_FUEL_COST_INFO IHFCI
+        WHERE
+            1=1
+        ORDER BY IHFCI.REG_DT DESC
+    </select>
+
+    <select id="getBustripFuelCostInfo" parameterType="map" resultType="map">
+        /* getBustripFuelCostInfo */
+        SELECT
+            IHFCI.*
+        FROM
+            CAM_INSIDE.DJ_HR_FUEL_COST_INFO IHFCI
+        WHERE
+            1=1
+        ORDER BY IHFCI.REG_DT DESC limit 1
+    </select>
 </mapper>
 
 
