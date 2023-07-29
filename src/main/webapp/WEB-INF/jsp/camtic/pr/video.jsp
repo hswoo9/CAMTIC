@@ -56,8 +56,6 @@
   var total = firstData.articlePage.pagination.totalRecordCount;
 
   // YT.Player 생성자 호출을 위한 변수
-  var firstVideoId = "";
-  var endVideoId = "";
   var resultVideoId = "";
 
   /** 최초의 데이터와 페이지 이동할 때의 데이터 구분 */
@@ -168,14 +166,12 @@
     let videoId = "";
 
     data.forEach((item, index) => {
-      videoId = item.board_ARTICLE_CONTENT_URL;
-
-      videoId = videoId.split("v=")[1];
-
+      if(item.board_ARTICLE_CONTENT_URL){
+        videoId = item.board_ARTICLE_CONTENT_URL;
+        videoId = videoId.split("v=")[1];
+      }
        if(index == 0) {
-         firstVideoId = videoId.toString();
-
-         resultVideoId = firstVideoId;
+         resultVideoId = videoId.toString();
        }
 
         html += "<a class='box'>";

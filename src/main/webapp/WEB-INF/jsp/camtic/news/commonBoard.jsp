@@ -36,7 +36,7 @@
             <div class="inp">
               <label for="searchInput" class="hide">검색어 입력</label>
               <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-              <button type="submit">검색</button>
+              <button type="button">검색</button>
             </div>
           </form>
         </div>

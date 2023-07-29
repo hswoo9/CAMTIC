@@ -13,6 +13,10 @@
             BOARD_CATEGORY_ID = #{searchCategory}
         AND
             ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+        AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
         ORDER BY REG_DATE DESC
         LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
@@ -27,6 +31,10 @@
             BOARD_CATEGORY_ID = #{searchCategory}
         AND
             ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
         ORDER BY REG_DATE DESC
             LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
@@ -40,6 +48,10 @@
             BOARD_CATEGORY_ID = #{searchCategory}
         AND
             ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
     </select>
 
     <select id="selectBoard" resultType="map" parameterType="map">

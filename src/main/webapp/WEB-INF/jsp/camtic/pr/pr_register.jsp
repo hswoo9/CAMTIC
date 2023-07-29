@@ -65,7 +65,7 @@
 
         <ul id="navigation">
           <li><a href="/camtic">홈으로</a></li>
-          <li class="">캠틱소식</li>
+          <li class="">홍보관</li>
           <li class=""><span class="categoryName"></span></li>
           <li class="">게시글 수정</li>
         </ul>
@@ -186,8 +186,8 @@
   var categoryId = $("#category").val();
 
   $(function () {
-    if(categoryId == "notice"){
-      $(".categoryName").text("공지사항");
+    if(categoryId == "news"){
+      $(".categoryName").text("뉴스레터");
     }else if(categoryId == "video"){
       $(".categoryName").text("홍보영상");
     }

@@ -248,7 +248,7 @@
       async : false,
       success: function() {
 
-        location.href = '/camtic/news/'+categoryId+'.do';
+        location.href = '/camtic/news/commonBoard.do?categoryKey='+categoryId;
       }
     });
 

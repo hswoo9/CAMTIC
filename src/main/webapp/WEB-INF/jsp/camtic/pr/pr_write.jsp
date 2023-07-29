@@ -206,8 +206,8 @@
             $(".categoryName").text("포토뉴스");
         }else if(categoryId == "report"){
             $(".categoryName").text("보도자료");
-        }else if(categoryId == "study"){
-            $(".categoryName").text("교육/행사");
+        }else if(categoryId == "news"){
+            $(".categoryName").text("뉴스레터");
         }else if(categoryId == "video"){
             $(".categoryName").text("홍보영상");
         }

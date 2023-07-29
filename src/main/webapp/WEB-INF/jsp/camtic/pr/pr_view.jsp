@@ -29,7 +29,7 @@
 
         <ul id="navigation">
           <li><a href="/camtic">홈으로</a></li>
-          <li class="">캠틱소식</li>
+          <li class="">홍보관</li>
           <li class=""><span class="categoryName"></span></li>
         </ul>
         <div id="title">
@@ -54,7 +54,6 @@
                   <p><a href="#">파일명이 노출됩니다.hwp</a></p>
               </dd>
           </dl> -->
-          <script>console.log('${fn:length(fileMap)}' + "안녕하세요.")</script>
           <div class="con">
             <div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
               <c:choose>
@@ -156,14 +155,14 @@
   var categoryId = $("#category").val();
 
   $(function () {
-    if(categoryId == "notice"){
-      $(".categoryName").text("공지사항");
-    }else if(categoryId == "business"){
-      $(".categoryName").text("사업공고");
-    }else if(categoryId == "study"){
-      $(".categoryName").text("교육/행사");
-    }else if(categoryId == "partner"){
-      $(".categoryName").text("유관기관소식");
+    if(categoryId == "photo"){
+      $(".categoryName").text("포토뉴스");
+    }else if(categoryId == "report"){
+      $(".categoryName").text("보도자료");
+    }else if(categoryId == "news"){
+      $(".categoryName").text("뉴스레터");
+    }else if(categoryId == "video"){
+      $(".categoryName").text("홍보영상");
     }
   });
 
