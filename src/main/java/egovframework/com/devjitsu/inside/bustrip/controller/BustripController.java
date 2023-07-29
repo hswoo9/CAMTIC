@@ -95,6 +95,17 @@ public class BustripController {
         return "inside/bustrip/bustripResult";
     }
 
+    /** 출장결과보고 리스트 관리자 페이지 */
+    @RequestMapping("/bustrip/bustripResMngList.do")
+    public String bustripResMngList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/bustripResMngList";
+    }
+
     @RequestMapping("/bustrip/getBustripTotInfo")
     public String getBustripTotInfo(@RequestParam Map<String, Object> params, Model model){
 
@@ -412,6 +423,22 @@ public class BustripController {
     public String setWaypointCostInsert(@RequestParam Map<String, Object> params){
         bustripService.setWaypointCostInsert(params);
         return "jsonView";
+    }
+
+    //여비 승인
+    @RequestMapping("/bustrip/setReqCert")
+    public String setReqCert(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        try{
+            bustripService.setReqCert(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+
     }
 
     private static LoginVO getLoginVO(HttpServletRequest request) {

@@ -62,10 +62,6 @@ function dirname(path) {
 function onlyNumber(e) {
     e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '').replace(/[.]/g, '');
 }
-//숫자만 입력받으면서 콤마 찍어주기
-function onlyComma(e) {
-    e.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
-}
 
 //yyyyMMdd 두 날짜의 차이 구하기 (개월수)
 function betweenDay(firstDate, secondDate) {
@@ -126,10 +122,22 @@ function fn_userMultiSelectPop() {
     window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
 
-//숫자에 콤마 찍기
+//숫자에 콤마 찍기 number
 function fn_numberWithCommas(num) {
     if (!num || num=="" || num==undefined) {
         return 0;
     }
     return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//숫자에 콤마찍기 string
+function fn_comma(str){
+    if (!str || str=="" || str==undefined) {
+        return "0";
+    }
+    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
+}
+
+function fn_inputNumberFormat(obj){
+    obj.value = fn_comma(obj.value);
 }

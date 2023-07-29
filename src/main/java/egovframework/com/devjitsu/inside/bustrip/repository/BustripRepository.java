@@ -113,4 +113,8 @@ public class BustripRepository extends AbstractDAO {
     public void setWaypointCostInsert(Map<String, Object> params) {
         insert("bustrip.setWaypointCostInsert", params);
     }
+
+    public void setReqCert(Map<String, Object> params) {
+        update("bustrip.setReqCert", params);
+    }
 }

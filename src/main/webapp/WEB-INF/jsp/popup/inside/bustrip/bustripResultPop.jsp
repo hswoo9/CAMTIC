@@ -6,14 +6,15 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/inBustripReqPop.bustripReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="mod" value="${params.mode}"/>
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">출장결과보고 신청</h3>
             <div class="btn-st popButton">
-                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqResultId}')" />
+                <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqResultId}')" />
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
             </div>
         </div>
@@ -82,13 +83,20 @@
                 <tr>
                     <th><span class="red-star">*</span>방문지</th>
                     <td>
-                        <input type="text" id="visitLoc" style="width: 60%;">
+                        <input type="text" id="visitCrm" style="width: 60%;">
                         <button type="button" class="k-button-solid-base k-button" disabled>업체선택</button>
                     </td>
+                    <th><span class="red-star">*</span>출장지역</th>
+                    <td>
+                        <input type="text" id="visitLoc" style="width: 80%;">
+                    </td>
+                </tr>
+                <tr>
                     <th>경유지</th>
-                    <td style="display: flex; justify-content: space-between">
+                    <td colspan="3" style="display: flex;">
                         <input type="text" id="visitLocCode" style="width: 45%;">
-                        <div class="visitLocSub" style="display: none; width: 50%;"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
+                        <div class="visitLocSub" style="display: none; width: 50%; margin-left: 10px"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
+                        <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
                     </td>
                 </tr>
                 <tr>
@@ -126,7 +134,7 @@
                     <th><span class="red-star">*</span>운행거리</th>
                     <td colspan="3">
                         <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
-                        <button type="button" class="k-button k-button-solid-base" onclick="window.open('https://map.naver.com/')">거리측정</button>
+                        <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="window.open('https://map.naver.com/')">거리측정</button>
                         <button type="button" class="k-button k-button-solid-base" disabled>하이패스</button>
                         ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
                         [<a href="#">이용방법 보기</a>]
@@ -207,17 +215,9 @@
     </div>
 </div>
 <script>
-    inBustripReqPop.init();
-
-    var dataConf = '${params.hrBizReqId}';
-    bustripResultPop.init(dataConf);
-
-    if(dataConf != ''){
-        inBustripReqPop.setData(dataConf, "result", '${params.hrBizReqResultId}');
-    }
-
-    function userMultiSearch() {
-        window.open("/common/deptMultiPop.do","조직도","width=750,height=650");
-    }
+    const hrBizReqId = '${params.hrBizReqId}';
+    const hrBizReqResultId = '${params.hrBizReqResultId}';
+    bustripResultPop.init(hrBizReqId, hrBizReqResultId);
+    bustripReq.init();
 </script>
 </body>

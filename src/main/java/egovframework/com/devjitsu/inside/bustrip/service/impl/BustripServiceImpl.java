@@ -232,4 +232,9 @@ public class BustripServiceImpl implements BustripService {
     public void setWaypointCostInsert(Map<String, Object> params) {
         bustripRepository.setWaypointCostInsert(params);
     }
+
+    @Override
+    public void setReqCert(Map<String, Object> params) {
+        bustripRepository.setReqCert(params);
+    }
 }

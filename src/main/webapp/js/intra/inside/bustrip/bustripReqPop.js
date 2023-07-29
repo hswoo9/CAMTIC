@@ -87,31 +87,9 @@ const bustripReq = {
         }
         var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", data);
 
-        var res = result.rs.rsRes;
-        var map = result.rs.map;
         var rs = result.rs.rs;
         var list = result.rs.list;
         var fileInfo = result.rs.fileInfo;
-
-        var html = "";
-        for(var i = 0 ; i < map.length ; i++){
-            if(map[i].DRIVER == "Y"){
-                $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
-            }
-            html += "<tr style='text-align: right'>";
-            html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
-            html += "   <td>"+map[i].OIL_COST+"</td>";
-            html += "   <td>"+map[i].TRAF_COST+"</td>";
-            html += "   <td>"+map[i].TRAF_DAY_COST+"</td>";
-            html += "   <td>"+map[i].TOLL_COST+"</td>";
-            html += "   <td>"+map[i].DAY_COST+"</td>";
-            html += "   <td>"+map[i].EAT_COST+"</td>";
-            html += "   <td>"+map[i].PARKING_COST+"</td>";
-            html += "   <td>"+map[i].ETC_COST+"</td>";
-            html += "   <td>"+map[i].TOT_COST+"</td>";
-            html += "</tr>";
-        }
-        $("#bustExnpBody").html(html);
 
         $("#tripCode").data("kendoDropDownList").value(rs.TRIP_CODE);
         $("#project").data("kendoDropDownList").value(rs.PROJECT_CD);
@@ -128,9 +106,6 @@ const bustripReq = {
             $(".visitMove").hide();
             $(".visitLocSub").show();
         }else{
-            if(isNaN(res)) {
-                $("#moveDst").data("kendoTextBox").enable(false);
-            }
             $(".visitLocSub").hide();
             $(".visitMove").show();
             let code = $("#visitLocCode").data("kendoDropDownList").value();
@@ -184,13 +159,7 @@ const bustripReq = {
         $("#deptName").val(rs.DEPT_NAME);
         $("#reqDate").val(rs.REG_DATE);
 
-        if(isNaN(res)) {
-            $("#moveDst").val(rs.DISTANCE);
-            $("#moveDst").val(res.MOVE_DST);
-            $("#result").val(res.RESULT);
-        }
-
-        if((rs.STATUS != 0 && rs.STATUS != 30) || $("mod").val() == "mng"){
+        if((rs.STATUS != 0 && rs.STATUS != 30) || $("#mod").val() == "mng"){
             $("#popEmpName").data("kendoTextBox").enable(false);
             $("#tripCode").data("kendoDropDownList").enable(false);
             $("#project").data("kendoDropDownList").enable(false);
@@ -206,14 +175,15 @@ const bustripReq = {
             $("#carList").data("kendoDropDownList").enable(false);
             $("input[name='useCar']").attr("disabled", true);
             $("#popEmpSeq").val(popEmpSeq.slice(0, -1));
-            if(isNaN(res)) {
-                $("#realDriver").data("kendoDropDownList").enable(false);
-            }
             $("#modBtn").css("display", "none");
             $("#fileUpload").css("display", "none");
             $("#addMemberBtn").attr("disabled", true);
             $("#projectAddBtn").attr("disabled", true);
             $("#carBtn").css("display", "none");
+            if($("#mod").val() == "mng"){
+                $("#result").data("kendoTextBox").enable(false);
+                $("#saveBtn").css("display", "none");
+            }
         }
     },
 

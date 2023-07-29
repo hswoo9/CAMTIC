@@ -350,6 +350,13 @@
                 PARKING_COST,
                 ETC_COST,
                 TOT_COST,
+                OIL_CORP_YN,
+                TRAF_CORP_YN,
+                TRAF_DAY_CORP_YN,
+                TOLL_CORP_YN,
+                EAT_CORP_YN,
+                PARKING_CORP_YN,
+                ETC_CORP_YN,
                 REG_EMP_SEQ
             )
         VALUES
@@ -367,6 +374,13 @@
                 #{parkingCost},
                 #{etcCost},
                 #{totCost},
+                #{oilCorpYn},
+                #{trafCorpYn},
+                #{trafDayCorpYn},
+                #{tollCorpYn},
+                #{eatCorpYn},
+                #{parkingCorpYn},
+                #{etcCorpYn},
                 #{regEmpSeq}
             )
 
@@ -386,7 +400,7 @@
             (
              #{hrBizExnpId},
              #{hrBizReqId},
-             "Y"
+             "0"
             )
     </insert>
 
@@ -528,6 +542,16 @@
                 #{regEmpName}
             )
     </insert>
+
+    <update id="setReqCert" parameterType="map">
+        /* bustrip.setReqCert */
+        UPDATE
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            EXP_STAT = ${status}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
 </mapper>
 
 

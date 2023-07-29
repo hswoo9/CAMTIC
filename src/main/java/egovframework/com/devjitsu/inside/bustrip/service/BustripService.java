@@ -53,4 +53,6 @@ public interface BustripService {
     List<Map<String, Object>> getWaypointCostList(Map<String, Object> params);
 
     void setWaypointCostInsert(Map<String, Object> params);
+
+    void setReqCert(Map<String, Object> params);
 }
