@@ -58,6 +58,9 @@
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                 검색 초기화
                             </button>
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="carList.carStatPop();">
+                                통계 조회
+                            </button>
                             <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="carList.carPopup();">
                                 차량 사용 신청
                             </button>

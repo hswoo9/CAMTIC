@@ -83,6 +83,54 @@
         </if>
     </select>
 
+    <select id="getCarStatType" resultType="map" parameterType="map">
+        /* getCarStatType */
+        SELECT
+            CAR_CLASS_TEXT AS type
+        FROM
+            CAM_INSIDE.DJ_HR_CAR_REQ
+        WHERE
+            1=1
+        AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY CAR_CLASS_TEXT
+    </select>
+
+    <select id="getCarStat" resultType="map" parameterType="map">
+        /* getCarStat */
+        SELECT
+            COUNT(CAR_CLASS_SN) AS value
+        FROM
+            CAM_INSIDE.DJ_HR_CAR_REQ
+        WHERE
+            1=1
+        AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY CAR_CLASS_TEXT
+    </select>
+
+    <select id="getRoomStatType" resultType="map" parameterType="map">
+        /* getRoomStatType */
+        SELECT
+            ROOM_CLASS_TEXT AS type
+        FROM
+            CAM_INSIDE.DJ_ROOM_REQ
+        WHERE
+            1=1
+          AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY ROOM_CLASS_TEXT
+    </select>
+
+    <select id="getRoomStat" resultType="map" parameterType="map">
+        /* getRoomStat */
+        SELECT
+            COUNT(ROOM_REQ_SN) AS value
+        FROM
+            CAM_INSIDE.DJ_ROOM_REQ
+        WHERE
+            1=1
+          AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY ROOM_CLASS_TEXT
+    </select>
+
     <select id="getCarCodeInfo" parameterType="map" resultType="map">
         /* getCarCodeInfo */
         SELECT

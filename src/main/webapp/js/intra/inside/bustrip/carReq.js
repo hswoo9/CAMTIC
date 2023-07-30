@@ -95,6 +95,13 @@ var carList = {
         });
     },
 
+    dateFormat : function(date) {
+        let dateFormat2 = date.getFullYear() +
+            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+        return dateFormat2;
+    },
+
     carPopup: function(carReqSn){
         let url = "/Inside/pop/carPop.do";
         if(!isNaN(carReqSn)) {
@@ -105,11 +112,11 @@ var carList = {
         window.open(url, name, option);
     },
 
-    dateFormat : function(date) {
-        let dateFormat2 = date.getFullYear() +
-            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
-        return dateFormat2;
+    carStatPop: function(){
+        const url = "/Inside/pop/carStatPop.do";
+        const name = "carStatPop";
+        const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }
 

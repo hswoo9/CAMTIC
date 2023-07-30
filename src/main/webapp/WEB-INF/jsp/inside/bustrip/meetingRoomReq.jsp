@@ -73,6 +73,9 @@
                             <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                 달력 보기 (BAR)
                             </button>
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="meetingRoomReq.roomStatPop();">
+                                통계 조회
+                            </button>
                             <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="meetingRoomReq.meetingRoomPopup();">
                                 회의실 사용 신청
                             </button>
