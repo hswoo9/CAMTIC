@@ -176,12 +176,10 @@
 
         htmlHead += '<hr style="height: auto; width:1px; margin: 0; color:#ccc; background-color:#ccc;">';
 
-        htmlHead += "<div class='newboxHead' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
-        if(item.file_PATH) {
-          htmlHead += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto;"></i></div>';
-        }else {
-          htmlHead += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
-        }
+        htmlHead += "<div class='newboxHead' style='cursor:pointer; border: 1px solid #ccc; padding: 5px 0 0 15px;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
+        htmlHead += '<div class="info" style="margin-top:10px;">';
+        htmlHead += '<p class="subject">'+ item.board_ARTICLE_CONTENT +'</p>';
+        htmlHead += '</div>';
         htmlHead += '</div>';
 
         htmlHead += '<div class="newboxHead" style="cursor:pointer;" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')" >';
