@@ -42,6 +42,7 @@ var bustripResList = {
                     data.endDate = $("#end_date").val();
                     data.projectCd = $("#pjt_cd").val();
                     data.busnName = $("#busnName").val();
+                    data.empSeq = $("#regEmpSeq").val();
 
                     return data;
                 }

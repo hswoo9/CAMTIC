@@ -141,3 +141,9 @@ function fn_comma(str){
 function fn_inputNumberFormat(obj){
     obj.value = fn_comma(obj.value);
 }
+
+function fileDown(filePath, fileName){
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
+}

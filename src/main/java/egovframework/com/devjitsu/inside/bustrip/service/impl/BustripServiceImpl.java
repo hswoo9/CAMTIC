@@ -44,7 +44,7 @@ public class BustripServiceImpl implements BustripService {
 
         String compEmpSeq = "";
         String[] compEmpSeqArr;
-        if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
+        if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
             compEmpSeq = params.get("compEmpSeq").toString();
 
             compEmpSeqArr = compEmpSeq.split(",");

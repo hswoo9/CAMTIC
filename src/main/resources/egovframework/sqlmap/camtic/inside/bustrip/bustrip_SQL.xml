@@ -232,6 +232,9 @@
             AND
             A.BUSN_NAME like concat('%', #{busnName}, '%')
         </if>
+        <if test="empSeq != null and !''.equals(empSeq)">
+            AND A.REG_EMP_SEQ = #{empSeq}
+        </if>
         ORDER BY A.REG_DT DESC
     </select>
 
@@ -461,10 +464,10 @@
             1=1
         <if test="hrBizReqId != null and hrBizReqId != ''">
             <![CDATA[
-                AND DATE_FORMAT(IHCI.START_DT, '%Y%M%D') <= DATE_FORMAT(
+                AND DATE_FORMAT(IHCI.START_DT, '%Y%m%d') <= DATE_FORMAT(
                     (SELECT SIHBR.TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE SIHBR.HR_BIZ_REQ_ID = #{hrBizReqId})
                 , '%Y%M%D')
-                AND DATE_FORMAT(IHCI.END_DT, '%Y%M%D') >= DATE_FORMAT(
+                AND DATE_FORMAT(IHCI.END_DT, '%Y%m%d') >= DATE_FORMAT(
                     (SELECT SIHBR.TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE SIHBR.HR_BIZ_REQ_ID = #{hrBizReqId})
                 , '%Y%M%D')
                 AND IHCI.TRIP_CODE = (SELECT SIHBR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE SIHBR.HR_BIZ_REQ_ID = #{hrBizReqId})
