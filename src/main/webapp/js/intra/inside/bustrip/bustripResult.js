@@ -150,9 +150,7 @@ var bustripResList = {
                 }, {
                     title: "결과보고",
                     template : function(row){
-                        if(row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0){
-                            return "-";
-                        } else if(row.EXP_STAT != "N" && row.EXP_STAT != null){
+                        if(row.EXP_STAT == 100){
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+row.HR_BIZ_REQ_RESULT_ID+', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
                         } else {
                             return "-";
