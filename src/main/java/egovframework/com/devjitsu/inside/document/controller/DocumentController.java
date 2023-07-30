@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +31,9 @@ import java.util.*;
 public class DocumentController {
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
@@ -188,8 +193,20 @@ public class DocumentController {
             JSONObject jsonData =  new JSONObject(data);
             model.addAttribute("data", jsonData);
             model.addAttribute("flag", "true");
+            model.addAttribute("params", params);
         }
         return "popup/inside/document/snackPop";
+    }
+
+    //야근/휴일식대대장 관리자 페이지
+    @RequestMapping("/Inside/snackAdminList.do")
+    public String snackAdminList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/document/snackAdminList";
     }
 
     //식대대장 통계조회 팝업창
@@ -322,8 +339,9 @@ public class DocumentController {
 
     //식대대장 신청
     @RequestMapping("/inside/setSnackInsert")
-    public String setSnackInsert(@RequestParam Map<String, Object> params) {
-        documentService.setSnackInsert(params);
+    public String setSnackInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
+        MultipartFile[] file = request.getFiles("snackFile").toArray(new MultipartFile[0]);
+        documentService.setSnackInsert(params, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -340,7 +358,6 @@ public class DocumentController {
             e.printStackTrace();
         }
         return "jsonView";
-
     }
 
     //문서고 문서등록

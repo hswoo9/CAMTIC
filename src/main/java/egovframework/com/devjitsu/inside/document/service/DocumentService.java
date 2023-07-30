@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.document.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -85,7 +87,7 @@ public interface DocumentService {
      * 식대대장 신청
      * @param params
      */
-    void setSnackInsert(Map<String, Object> params);
+    void setSnackInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /**
      * 식대대장 승인요청

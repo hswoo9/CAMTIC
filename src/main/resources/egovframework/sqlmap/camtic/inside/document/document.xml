@@ -133,12 +133,23 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    ISI.*
+                    ISI.*,
+                    CFI.file_org_name,
+                    CFI.file_ext,
+                    CFI.file_size,
+                    IFNULL(CFI.file_no, 0) AS file_no,
+                    CFI.file_path,
+                    CFI.file_uuid
                 FROM
-                    CAM_INSIDE.DJ_SNACK_INFO ISI,
+                    CAM_INSIDE.DJ_SNACK_INFO ISI
+                LEFT JOIN
+                    CAM_COMMON.DJ_FILE_INFO CFI ON ISI.SNACK_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'snack',
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                <if test="empSeq != null and empSeq != ''">
+                    AND ISI.REG_EMP_SEQ = #{empSeq}
+                </if>
                 AND DATE_FORMAT(USE_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
                 ORDER BY ISI.REG_DT
             ) RE
@@ -170,11 +181,19 @@
             HEI.EMP_NAME_KR,
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
-            CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
         FROM
             CAM_INSIDE.DJ_SNACK_INFO ISI
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON ISI.REG_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON ISI.SNACK_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'snack'
         WHERE
             SNACK_INFO_SN = #{snackInfoSn}
     </select>
@@ -241,9 +260,21 @@
     <select id="getSnackExcelList" resultType="map" parameterType="map">
         /* getSnackExcelList */
         SELECT
-            ISI.*
+            ISI.USE_DT,
+            ISI.SNACK_TYPE,
+            ISI.SNACK_TYPE_TEXT,
+            IFNULL(CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END, "") AS REG_DEPT_NAME,
+            IFNULL(CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END, "") AS REG_TEAM_NAME,
+            IFNULL(HEI.EMP_NAME_KR, "") AS EMP_NAME,
+            ISI.AMOUNT_SN
         FROM
             CAM_INSIDE.DJ_SNACK_INFO ISI
+        LEFT JOIN
+            CAM_INSIDE.DJ_SNACK_COMPANION ISC ON ISI.SNACK_INFO_SN = ISC.SNACK_INFO_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON ISC.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             1=1
         AND DATE_FORMAT(USE_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
@@ -485,7 +516,10 @@
                 AMOUNT_SN,
                 USE_REASON,
                 REG_EMP_SEQ,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                REG_DEPT_NAME,
+                REG_TEAM_NAME,
+                STATUS,
             )
         VALUES
             (
@@ -504,8 +538,34 @@
                 #{usAmount},
                 #{useReason},
                 #{empSeq},
-                #{empName}
+                #{empName},
+                #{regDeptName},
+                #{regTeamName},
+                '10'
             )
+        <selectKey keyProperty="snackInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SNACK_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setSnackCompanionInsert" parameterType="map">
+        /* setSnackCompanionInsert */
+        INSERT INTO CAM_INSIDE.DJ_SNACK_COMPANION
+            (
+                SNACK_INFO_SN,
+                EMP_SEQ,
+                EMP_NAME,
+                AMT
+            )
+        VALUES
+        <foreach collection="amt" item="item" separator=" , ">
+            (
+                #{snackInfoSn},
+                #{item.amtEmpSeq},
+                #{item.amtEmpName},
+                #{item.amt}
+            )
+        </foreach>
     </insert>
 
     <update id="setSnackReqCert" parameterType="map">

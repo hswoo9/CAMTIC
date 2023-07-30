@@ -6,7 +6,7 @@ var snackStat = {
     },
 
         dataSet: function(){
-        customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 6)));
         customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
         $("#startDt, #endDt").attr("readonly", true);
         let searchDeptSource = [
