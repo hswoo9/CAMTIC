@@ -127,21 +127,21 @@ var subHolidayReqPop = {
                 if($("#edtHolidayKindTop").val() == 11){
                     data.vacUseStDt = $("#edtHolidayStartDateTop_3").val();
                     data.vacUseStTime = $("#edtHolidayStartHourTop_3").val();
-                    data.vacUseEndt = $("#edtHolidayEndDateTop_3").val();
+                    data.vacUseEnDt = $("#edtHolidayEndDateTop_3").val();
                     data.vacUseEnTime = $("#edtHolidayEndHourTop_3").val();
                     data.vacUseAlDt = $("#edtHolidayAlternativeDate_3").val();
                     data.vacWorkDt = $("#edtHolidayWorkDay_3").val();
                 }else if($("#edtHolidayKindTop").val() == 9){
                     data.vacUseStDt = $("#edtHolidayStartDateTop_2").val();
                     data.vacUseStTime = $("#edtHolidayStartHourTop_2").val();
-                    data.vacUseEndt = $("#edtHolidayEndDateTop_2").val();
+                    data.vacUseEnDt = $("#edtHolidayEndDateTop_2").val();
                     data.vacUseEnTime = $("#edtHolidayEndHourTop_2").val();
                     data.vacWorkDt = $("#edtHolidayWorkDay_3").val();
                     data.checkUseYn = 'Y';
                 }else{
                     data.vacUseStDt = $("#edtHolidayStartDateTop_1").val();
                     data.vacUseStTime = $("#edtHolidayStartHourTop_1").val();
-                    data.vacUseEndt = $("#edtHolidayEndDateTop_1").val();
+                    data.vacUseEnDt = $("#edtHolidayEndDateTop_1").val();
                     data.vacUseEnTime = $("#edtHolidayEndHourTop_1").val();
                 }
 
@@ -178,16 +178,29 @@ var subHolidayReqPop = {
                     //subHolidayReqPop.fn_topTableClear();
                     /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
                     if(subHolidayReqPop.global.type == "drafting") {
-                        $("#subHolidayId").val(rs.vacUseHistId);
-                        $("#subHolidayDraftFrm").one("submit", function() {
-                            var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
-                            var name = "_self";
-                            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-                            var popup = window.open(url, name, option);
-                            this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
-                            this.method = 'POST';
-                            this.target = '_self';
-                        }).trigger("submit");
+                        if($("#edtHolidayKindTop").val() != 11){
+                            $("#subHolidayId").val(rs.vacUseHistId);
+                            $("#subHolidayDraftFrm").one("submit", function() {
+                                var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+                                var name = "_self";
+                                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                                var popup = window.open(url, name, option);
+                                this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+                                this.method = 'POST';
+                                this.target = '_self';
+                            }).trigger("submit");
+                        }else{
+                            $("#subHolidayId").val(rs.vacUseHistId);
+                            $("#subHolidayDraftFrm").one("submit", function() {
+                                var url = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
+                                var name = "_self";
+                                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                                var popup = window.open(url, name, option);
+                                this.action = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
+                                this.method = 'POST';
+                                this.target = '_self';
+                            }).trigger("submit");
+                        }
                     }else {
                         opener.gridReload();
                         window.close();
