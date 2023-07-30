@@ -1123,6 +1123,9 @@
                         AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')
                     </if>
                 </if>
+                <if test="beforeYn != null and beforeYn !=''">
+                    AND STATUS != 100
+                </if>
                     AND ACTIVE = 'Y'
                 ORDER BY III.REG_DATE, III.REG_DT
             ) RE
@@ -1175,7 +1178,8 @@
                 REG_DATE,
                 REG_NUM,
                 REG_EMP_SEQ,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                BEFORE_SN
             )
         VALUE
             (
@@ -1190,7 +1194,8 @@
                 #{regDate},
                 #{regNum},
                 #{regEmpSeq},
-                #{regEmpName}
+                #{regEmpName},
+                #{befSn}
             )
         <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
@@ -1296,6 +1301,18 @@
             DOC_ID = #{docId}
         WHERE
             INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="updateBefApprStat" parameterType="map">
+        /* updateBefApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            DOC_ID = #{docId}
+        WHERE
+            INVENTION_INFO_SN = (SELECT BEFORE_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE INVENTION_INFO_SN = #{inventionInfoSn})
     </update>
 
     <update id="updateFinalApprStat" parameterType="map">

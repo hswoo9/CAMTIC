@@ -32,6 +32,7 @@ const searchRprPop = {
                 parameterMap: function(data) {
                     data.rprClass = 2;
                     data.resYn = "N";
+                    data.beforeYn = "Y";
                     return data;
                 }
             },

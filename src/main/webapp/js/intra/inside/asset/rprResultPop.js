@@ -62,6 +62,7 @@ var rprResReq = {
     },
 
     saveBtn: function(){
+        let befSn = $("#inventionInfoSn").val();
         let userSn = $("#userSn").val();
         let userText = $("#userText").val();
         let iprClass = $("#iprClass").val();
@@ -96,6 +97,7 @@ var rprResReq = {
             regDate: regDate,
             regEmpSeq: regEmpSeq,
             regEmpName: regEmpName,
+            befSn: befSn,
             shareUser: JSON.stringify(shareUserArr)
         }
 

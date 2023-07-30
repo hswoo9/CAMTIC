@@ -80,6 +80,7 @@ public class AssetRepository extends AbstractDAO {
     public int setRprReceiptInsert(Map<String, Object> params) { int result = (int)insert("asset.setRprReceiptInsert", params); return result;}
     public void setInventionShareInsert(Map<String, Object> params) { insert("asset.setInventionShareInsert", params);}
     public void updateApprStat(Map<String, Object> params) { update("asset.updateApprStat", params);}
+    public void updateBefApprStat(Map<String, Object> params) { update("asset.updateBefApprStat", params);}
     public void updateFinalApprStat(Map<String, Object> params) { update("asset.updateFinalApprStat", params); }
     /** 지식재산권 관리 끝 */
 
