@@ -109,7 +109,6 @@ var historyReqPop = {
             },
             schema : {
                 data: function (data) {
-                    console.log(data);
                     return data.list;
                 },
                 total: function (data) {
@@ -227,7 +226,7 @@ var historyReqPop = {
                             template : function (e){
                                 return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
                                     '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
-                                    '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="afDept">';
+                                    '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="afDept" value="' + e.DEPT_SEQ + '">';
                             },
                             width: 170
                         }, {
@@ -236,25 +235,25 @@ var historyReqPop = {
                             template : function (e){
                                 return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
                                     '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
-                                    '<input type="text" id="afTeam'+e.EMP_SEQ+'" name="afTeamSeq" class="afTeam">';
+                                    '<input type="text" id="afTeam'+e.EMP_SEQ+'" name="afTeamSeq" class="afTeam" value="' + e.TEAM_SEQ + '">';
                             },
                             width: 200
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
                             template : function (e){
-                                return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_SEQ + '">' +
+                                return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                     '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                    '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="afPosition">';
+                                    '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="afPosition" value="' + e.POSITION_SEQ + '">';
                             },
                             width: 160
                         }, {
                             field: "DUTY_NAME",
                             title: "직책",
                             template : function (e){
-                                return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_SEQ + '">' +
+                                return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
                                     '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                    '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="afDuty">';
+                                    '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="afDuty" value="' + e.DUTY_SEQ + '">';
                             },
                             width: 120
                         }, {
@@ -262,7 +261,7 @@ var historyReqPop = {
                             title: "직무",
                             template : function (e){
                                 return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
-                                    '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="afJobDetail">';
+                                    '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="afJobDetail" value="' + e.JOB_DETAIL + '">';
                             },
                             width: 100
                         },
@@ -280,6 +279,14 @@ var historyReqPop = {
 
         historyReqPop.fn_popGridSetting();
 
+        $.each($("#popMainGrid tbody tr"), function(){
+            var dataItem = $("#popMainGrid").data("kendoGrid").dataItem($(this));
+            $(this).find("input[name='afDept']").data("kendoDropDownList").trigger("change");
+            $(this).find("input[name='afTeamSeq']").data("kendoDropDownList").value(dataItem.TEAM_SEQ);
+            $(this).find("input[name='afPosition']").data("kendoDropDownList").value(dataItem.POSITION_CODE);
+            $(this).find("input[name='afDuty']").data("kendoDropDownList").value(dataItem.DUTY_CODE);
+            $(this).find("input[name='afJobDetail']").val(dataItem.JOB_DETAIL);
+        })
     },
 
     fn_popGridSetting : function() {
@@ -303,7 +310,8 @@ var historyReqPop = {
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
                 ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
                 $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").dataSource.data(ds.rs);
-                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").select(0)
+                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").select(0);
+                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").value($(this.element).closest("td").next().find("input[class=afTeam]").val());
             }
         });
 
@@ -419,6 +427,7 @@ var historyReqPop = {
                 afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
                 afPositionCode    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value(),
                 afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
+                afGradeName       : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[1].trim(),
                 afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
                 afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
                 afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),
