@@ -118,6 +118,7 @@
                 DEPT_TEAM_NAME = #{item.afTeamName},
                 POSITION_CODE = #{item.afPositionCode},
                 POSITION_NAME = #{item.position},
+                GRADE_NAME = #{item.afGradeName},
                 DUTY_CODE = #{item.afDutyCode},
                 DUTY_NAME = #{item.afDutyName},
                 JOB_DETAIL = #{item.afJobDetail}
