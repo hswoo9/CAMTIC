@@ -7,10 +7,13 @@
         /* getBustripList */
         SELECT
             IHBR.*,
+            CAR_CLASS_NAME,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_CAR_CODE IHCC ON IHBR.USE_TRSPT = IHCC.CAR_CLASS_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON IHBR.DOC_ID = DI.DOC_ID
         WHERE
@@ -26,7 +29,7 @@
             <if test="empSeq != null and !''.equals(empSeq)">
                 AND IHBR.REG_EMP_SEQ = #{empSeq}
             </if>
-        ORDER BY REG_DT DESC
+        ORDER BY IHBR.REG_DT DESC
     </select>
 
     <insert id="insBustripReq" parameterType="map">
@@ -55,7 +58,8 @@
                 USE_TRSPT,
                 PROJECT,
                 PROJECT_CD,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                REG_EMP_NAME
             )
         VALUES
             (
@@ -81,9 +85,9 @@
                 #{useTrspt},
                 #{project},
                 #{projectCd},
-                #{empSeq}
+                #{empSeq},
+                #{empName}
             )
-
         <selectKey keyProperty="hrBizReqId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ'
         </selectKey>

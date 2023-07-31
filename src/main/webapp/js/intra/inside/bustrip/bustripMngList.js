@@ -105,7 +105,11 @@ var bustripMngList = {
                 }, {
                     title: "출장지 (경유지)",
                     template: function(row){
-                        return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        if(row.VISIT_LOC_SUB != ""){
+                            return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        }else{
+                            return row.VISIT_CRM;
+                        }
                     },
                     width: 160
                 }, {
@@ -121,21 +125,8 @@ var bustripMngList = {
                     },
                     width: 100
                 }, {
-                    title: "업무차량",
-                    template : function(row){
-                        if(row.USE_CAR == "Y"){
-                            if(row.USE_TRSPT == 1){
-                                return "사용 (카니발)";
-                            } else if(row.USE_TRSPT == 5){
-                                return "사용 (아반떼)";
-                            } else if(row.USE_TRSPT == 3){
-                                return "사용 (트럭)";
-                            }
-                            return "사용";
-                        } else {
-                            return "사용안함";
-                        }
-                    },
+                    field: "CAR_CLASS_NAME",
+                    title: "차량",
                     width: 80
                 }, {
                     title: "결재상태",

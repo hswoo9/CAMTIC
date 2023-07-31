@@ -55,12 +55,17 @@ const bustripReq = {
         customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
         const waypointArr = customKendo.fn_customAjax('/bustrip/getWaypointCostList').list;
         bustripReq.global.waypointArr = waypointArr;
+        waypointArr.unshift({WAYPOINT_NAME: "없음", HR_WAYPOINT_INFO_SN: ""});
         waypointArr.push({WAYPOINT_NAME: "직접입력", HR_WAYPOINT_INFO_SN: "999"});
-        customKendo.fn_dropDownList("visitLocCode", waypointArr, "WAYPOINT_NAME", "HR_WAYPOINT_INFO_SN", 2);
+        customKendo.fn_dropDownList("visitLocCode", waypointArr, "WAYPOINT_NAME", "HR_WAYPOINT_INFO_SN", 3);
         $("#visitLocCode").data("kendoDropDownList").bind("change", function(){
             if($("#visitLocCode").val() == "999"){
                 $(".visitLocSub").show();
                 $(".visitMove").hide();
+            }else if($("#visitLocCode").val() == ""){
+                $(".visitLocSub").hide();
+                $(".visitMove").show();
+                $(".visitMoveSpan").hide();
             }else{
                 $(".visitLocSub").hide();
                 $(".visitMove").show();
@@ -105,6 +110,9 @@ const bustripReq = {
         if($("#visitLocCode").val() == "999"){
             $(".visitMove").hide();
             $(".visitLocSub").show();
+        }else if($("#visitLocCode").val() == ""){
+            $(".visitLocSub").hide();
+            $(".visitMove").show();
         }else{
             $(".visitLocSub").hide();
             $(".visitMove").show();
@@ -188,15 +196,15 @@ const bustripReq = {
     },
 
     fn_saveBtn: function(){
-        if(!confirm("출장신청을 진행하시겠습니까?")){ return; }
-
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
         if($("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
+        if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
         if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+        if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
 
         var formData = new FormData();
         formData.append("menuCd", "bustripReq");
@@ -223,105 +231,8 @@ const bustripReq = {
         formData.append("useTrspt", $("#carList").val());
         formData.append("busnName", $("#busnName").val());
         formData.append("title", $("#bustObj").val());
-        formData.append("tripTimeTo", $("#time2").val());
-        formData.append("positionCode", $("#positionCode").val());
-        formData.append("dutyCode", $("#dutyCode").val());
-        formData.append("applyDate", $("#reqDate").val());
-
-        //증빙파일 첨부파일
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("purcFile", fCommon.global.attFiles[i]);
-            }
-        }
-
-        //차량신청 체크
-        if($("#carList").val() != "10" && $("#carList").val() != "0"){
-            let data = {
-                startDt : $("#date1").val(),
-                endDt : $("#date2").val(),
-                startTime : $("#time1").val(),
-                endTime : $("#time2").val(),
-                useDeptSeq : $("#regDeptSeq").val(),
-                useDeptName : $("#regDeptName").val(),
-                carClassSn : $("#carList").val(),
-                carClassText : $("#carList").data("kendoDropDownList").text(),
-                carTypeSn : 1,
-                carTypeText : "업무용",
-                carTitleName : $("#bustObj").val(),
-                visitName : $("#visitLoc").val(),
-                waypointName : $("#visitLocSub").val(),
-                empSeq : $("#regEmpSeq").val(),
-                empName : $("#regEmpName").val(),
-                regEmpSeq : $("#regEmpSeq").val(),
-                regEmpName : $("#regEmpName").val(),
-                type: "bustripReq"
-            }
-            carReq.searchDuplicateCar(data);
-
-            if(flag) {
-                carReq.setCarRequestInsert(data);
-            }
-        }else {
-            flag = true;
-        }
-
-        if(flag || (!flag && carType == "B")){
-            $.ajax({
-                url : "/bustrip/setBustripReq",
-                type : 'POST',
-                data : formData,
-                dataType : "json",
-                contentType: false,
-                processData: false,
-                enctype : 'multipart/form-data',
-                async : false,
-                success : function(){
-                    alert("출장 신청이 완료되었습니다.");
-                    opener.parent.open_in_frame('/bustrip/bustripList.do');
-                    window.close();
-                }
-            });
-        }
-    },
-
-    fn_updBtn: function(key){
-        if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return; }
-        if($("#project").val() == ""){ alert("관련사업을 선택해주세요."); return; }
-        if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
-        if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
-        if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
-
-        var formData = new FormData();
-
-        formData.append("hrBizReqId", key);
-        formData.append("menuCd", "bustripReq");
-        formData.append("empSeq", $("#regEmpSeq").val());
-        formData.append("empName", $("#regEmpName").val());
-        formData.append("deptSeq", $("#regDeptSeq").val());
-        formData.append("deptName", $("#regDeptName").val());
-        formData.append("tripCode", $("#tripCode").val());
-        formData.append("projectCd", $("#project").val());
-        formData.append("project", $("#project").data("kendoDropDownList").text());
-        formData.append("compEmpSeq", $("#popEmpSeq").val());
-        formData.append("compEmpName", $("#popEmpName").val());
-        formData.append("compDeptSeq", $("#popDeptSeq").val());
-        formData.append("compDeptName", $("#popDeptName").val());
-        formData.append("visitCrm", $("#visitCrm").val());
-        formData.append("visitLoc", $("#visitLoc").val());
-        formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
-        formData.append("visitLocCode", $("#visitLocCode").val());
-        formData.append("tripDayFr", $("#date1").val());
-        formData.append("tripDayTo", $("#date2").val());
-        formData.append("tripTimeFr", $("#time1").val());
-        formData.append("tripTimeTo", $("#time2").val());
-        formData.append("useCar", $("input[name='useCar']:checked").val());
-        formData.append("useTrspt", $("#carList").val());
-        formData.append("busnName", $("#busnName").val());
-        formData.append("title", $("#bustObj").val());
-        formData.append("tripTimeTo", $("#time2").val());
-        formData.append("positionCode", $("#positionCode").val());
-        formData.append("dutyCode", $("#dutyCode").val());
+        formData.append("positionCode", $("#regPositionCode").val());
+        formData.append("dutyCode", $("#regDutyCode").val());
         formData.append("applyDate", $("#reqDate").val());
 
         //증빙파일 첨부파일
@@ -363,6 +274,13 @@ const bustripReq = {
         }
 
         if(flag || (!flag && carType == "B")){
+            if(hrBizReqId == ""){
+                if(!confirm("출장신청을 진행하시겠습니까?")){ return; }
+            }else{
+                if(!confirm("출장 데이터를 수정하시겠습니까?")){ return; }
+                formData.append("hrBizReqId", hrBizReqId);
+            }
+
             $.ajax({
                 url : "/bustrip/setBustripReq",
                 type : 'POST',
@@ -372,7 +290,12 @@ const bustripReq = {
                 processData: false,
                 enctype : 'multipart/form-data',
                 async : false,
-                success : function(result){
+                success : function(){
+                    if(hrBizReqId == ""){
+                        alert("출장 신청이 완료되었습니다.");
+                    }else{
+                        alert("출장 수정이 완료되었습니다.");
+                    }
                     opener.parent.open_in_frame('/bustrip/bustripList.do');
                     window.close();
                 }
@@ -419,16 +342,12 @@ const bustripReq = {
                     '</tr>');
             }
         }
-
-
-
     },
 
     test: function(){
         window.open('/indexB.do', '123123');
         opener.parent.open_in_frame('/Inside/carReq.do');
-    },
-
+    }
 }
 
 function userDataSet(userArr){
