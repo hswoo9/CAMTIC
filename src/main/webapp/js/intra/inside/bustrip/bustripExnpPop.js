@@ -10,6 +10,7 @@ const bustripExnpReq = {
     },
 
     pageSet: function(type){
+        window.resizeTo(1700, 750);
         bustripExnpReq.global.costData = $(".oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost");
         let corpArr = [
             {text: "개인", value: "N"},
@@ -25,9 +26,6 @@ const bustripExnpReq = {
                 dataValueField: "value",
                 enable: false
             });
-            $("input[name=driver]").each(function(i) {
-                $(this).attr('disabled', "true");
-            });
         }else {
             $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox();
             $(".corpYn").kendoDropDownList({
@@ -40,7 +38,6 @@ const bustripExnpReq = {
         costData.css("text-align", "right");
         costData.bind("keyup", bustripExnpReq.horizontalSum);
         $(".eatCorpYn").bind("keyup", bustripExnpReq.horizontalSum);
-        $('input[type=radio][name=driver]').change(bustripExnpReq.fn_getFuelInfo);
     },
 
     dataSet: function(type){
@@ -48,11 +45,11 @@ const bustripExnpReq = {
         if(type != "upd"){
             costData.val(0);
             var data = {
-                hrBizReqId: $("#hrBizReqId").val()
+                hrBizReqResultId: hrBizReqResultId
             }
-            var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", data);
-            bustripExnpReq.global.bustripInfo = result.rs.rs;
-            console.log(result.rs.rs);
+            var result = customKendo.fn_customAjax("/bustrip/getBustripOne", data);
+            bustripExnpReq.global.bustripInfo = result.map;
+            console.log(result.map);
         }
 
         bustripExnpReq.fn_getExnpInfo(type);
@@ -62,16 +59,16 @@ const bustripExnpReq = {
 
     fn_getFuelInfo: function(type){
         if(type != "upd") {
-            var empSeq = $('input[name=driver]:checked').val();
+            let bustripInfo = bustripExnpReq.global.bustripInfo;
+            var empSeq = bustripInfo.DRIVER_EMP_SEQ;
 
             let costInfo = customKendo.fn_customAjax("/bustrip/getBustripFuelCostInfo", {
                 empSeq: empSeq
             }).data;
 
             console.log(costInfo);
-            let bustripInfo = bustripExnpReq.global.bustripInfo;
             console.log(bustripInfo);
-            let realDis = Number(bustripInfo.DISTANCE);
+            let realDis = Number(bustripInfo.MOVE_DST);
             let codeDis = Number(costInfo.DISTANCE);
             let ceil = Math.ceil(realDis/codeDis);
             let amt = ceil * Number(costInfo.COST_AMT);
@@ -119,10 +116,6 @@ const bustripExnpReq = {
     },
 
     fn_saveBtn: function(id, type){
-        if($("input[name='driver']:checked").val() == "" || $("input[name='driver']:checked").val() == null ||  $("input[name='driver']:checked").val() == undefined){
-            alert("운행자가 필요합니다");
-            return;
-        }
         var bustExnpTb = document.getElementById('bustExnpTb');
         var rowList = bustExnpTb.rows;
 
@@ -134,7 +127,7 @@ const bustripExnpReq = {
 
 
             var data = {
-                hrBizReqId : id,
+                hrBizReqResultId : hrBizReqResultId,
                 hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
                 empName : $(row.cells[0]).find("input[type=text]").val(),
                 empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
@@ -155,31 +148,27 @@ const bustripExnpReq = {
                 etcCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 totCost : $(row.cells[9]).find("input[type=text]").val(),
                 expStat : "Y",
-                driver : "N",
                 type : type
-            }
-
-            if(data.empSeq == $("input[name='driver']:checked").val()){
-                data.driver = "Y"
-                data.driverEmpSeq = data.empSeq
             }
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
         }
 
-        if(type != "upd"){
-            customKendo.fn_customAjax("/bustrip/insBustripExnpResult", result);
+        var data = {
+            hrBizReqResultId : hrBizReqResultId,
+            empSeq : $("#regEmpSeq").val(),
+            status : 10
         }
+        var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
         alert("승인요청이 완료되었습니다.");
         parent.opener.gridReload();
-
         window.close();
     },
 
     fn_getExnpInfo(type){
         if(type != "upd") {
             let costList = customKendo.fn_customAjax("/bustrip/getBustripCostList", {
-                hrBizReqId: $("#hrBizReqId").val()
+                hrBizReqResultId: hrBizReqResultId
             }).list;
             console.log(costList);
             for(let i=0; i<costList.length; i++){
@@ -193,7 +182,7 @@ const bustripExnpReq = {
 
                 let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
                     empSeq: $(v).find('.empSeq').val(),
-                    hrBizReqId: $("#hrBizReqId").val()
+                    hrBizReqResultId: hrBizReqResultId
                 });
 
                 dayCost.dayCost = dayCostResult.data.DAY_COST;
@@ -227,7 +216,7 @@ const bustripExnpReq = {
             return;
         }
         var data = {
-            hrBizReqId : key,
+            hrBizReqResultId : hrBizReqResultId,
             empSeq : $("#regEmpSeq").val(),
             status : p
         }

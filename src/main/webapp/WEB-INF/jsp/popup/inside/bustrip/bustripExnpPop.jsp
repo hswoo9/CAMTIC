@@ -51,15 +51,6 @@
         <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
         <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
         <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-        <c:if test="${map.use_trspt != 10}">
-            <span>
-                운행자 :
-                <c:forEach var="list" items="${list}">
-                <input type="radio" style="position: relative; top: 1px;" id="driver${list.EMP_SEQ}" <c:if test="${list.DRIVER == 'Y'}">checked</c:if> name="driver" class="driver" value="${list.EMP_SEQ}">
-                    <label for="driver${list.EMP_SEQ}">${list.EMP_NAME}</label>
-                </c:forEach>
-            </span>
-        </c:if>
 
         <table class="popTable table table-bordered mb-0" id="bustExnpTb">
             <colgroup>
@@ -126,6 +117,7 @@
     </form>
 </div>
 <script>
+    const hrBizReqResultId = '${params.hrBizReqResultId}';
     bustripExnpReq.init('${type}');
 </script>
 </body>

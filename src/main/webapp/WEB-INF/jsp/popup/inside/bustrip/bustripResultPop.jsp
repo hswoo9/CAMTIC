@@ -8,13 +8,34 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM">출장결과보고 신청</h3>
+            <h3 class="card-title title_NM">출장결과보고</h3>
             <div class="btn-st popButton">
-                <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="저장" onclick="bustripResultPop.fn_save('${params.hrBizReqResultId}')" />
+                <c:choose>
+                    <c:when test="${params.mode eq 'mng'}">
+                        <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
+                        <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="다음단계" onclick="bustripResultPop.fn_saveBtn('${params.hrBizReqResultId}')" />
+                    </c:otherwise>
+                </c:choose>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
             </div>
         </div>
@@ -72,7 +93,7 @@
                     <th>동반자</th>
                     <td colspan="3">
                         <input type="text" id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
-                        <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="userMultiSearch();">출장자 추가</button>
+                        <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop();">출장자 추가</button>
                         <div id="companionList">
                             <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
                             <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
@@ -93,10 +114,15 @@
                 </tr>
                 <tr>
                     <th>경유지</th>
-                    <td colspan="3" style="display: flex;">
-                        <input type="text" id="visitLocCode" style="width: 45%;">
-                        <div class="visitLocSub" style="display: none; width: 50%; margin-left: 10px"><input type="text" id="visitLocSub" style="width: 100%;"/></div>
-                        <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
+                    <td>
+                        <div style="display: flex">
+                            <input type="text" id="visitLocCode" style="width: 180px;">
+                            <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
+                        </div>
+                    </td>
+                    <th class="visitLocSub" style="display: none"><span class="red-star">*</span>경유지명</th>
+                    <td class="visitLocSub" style="display: none;">
+                        <input type="text" id="visitLocSub" style="width: 80%;"/>
                     </td>
                 </tr>
                 <tr>
@@ -109,19 +135,9 @@
                     </td>
                 </tr>
                 <tr id="carLine">
-                    <th><span class="red-star">*</span>업무차량</th>
-                    <td>
-                        <div style="position: relative; top: 4px;">
-                            <input type="radio" name="useCar" id="car1" value="N" checked>
-                            <label for="car1">미사용</label>
-                            <input type="radio" name="useCar" id="car2" value="Y">
-                            <label for="car2">사용</label>
-                        </div>
-                    </td>
                     <th>차량</th>
-                    <td>
+                    <td colspan="3">
                         <input type="text" id="carList" style="width: 40%;">
-                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" disabled onclick=""/><br>
                     </td>
                 </tr>
                 <tr>
@@ -155,7 +171,7 @@
                 </thead>
             </table>
 
-            <table class="popTable table table-bordered mb-0" id="bustExnpTb">
+            <table class="popTable table table-bordered mb-0" id="bustExnpTb" style="display: none">
                 <colgroup>
 
                 </colgroup>
@@ -217,7 +233,7 @@
 <script>
     const hrBizReqId = '${params.hrBizReqId}';
     const hrBizReqResultId = '${params.hrBizReqResultId}';
-    bustripResultPop.init(hrBizReqId, hrBizReqResultId);
-    bustripReq.init();
+    let pageName = 'bustripResReq';
+    bustripResultPop.init();
 </script>
 </body>

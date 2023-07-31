@@ -5,7 +5,8 @@ var bustripResList = {
     },
 
     dataSet: function(){
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        now = new Date();
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 6)));
         customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date());
 
         $("#pjt_cd").kendoDropDownList({
@@ -137,21 +138,14 @@ var bustripResList = {
                     },
                     width: 100
                 }, {
-                    title: "여비정산",
-                    template : function(row){
-                        console.log(row);
-                        if(row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0){
-                            return "-";
-                        } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripSetExnp('+row.HR_BIZ_REQ_ID+')">여비정산</button>'
-                        }
-                    },
-                    width: 80
-                }, {
                     title: "결과보고",
                     template : function(row){
-                        if(row.EXP_STAT == 100){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+row.HR_BIZ_REQ_RESULT_ID+', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
+                        if(row.STATUS == 100){
+                            if(row.HR_BIZ_REQ_RESULT_ID == ""){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
+                            }else{
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+row.HR_BIZ_REQ_RESULT_ID+', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
+                            }
                         } else {
                             return "-";
                         }
@@ -160,9 +154,9 @@ var bustripResList = {
                 }, {
                     title : "결재",
                     template : function(row){
-                        if(row.SAVE_YN == "Y"){
+                        if(row.EXP_STAT == "100"){
                             if(row.RES_STATUS == 0){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResDrafting(\""+row.HR_BIZ_REQ_ID+"\");'>" +
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResDrafting(\""+row.HR_BIZ_REQ_RESULT_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>상신</span>" +
                                     "</button>";
@@ -195,21 +189,18 @@ var bustripResList = {
     },
 
     popBustripRes : function(e, d) {
-        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
+        if(e.HR_BIZ_REQ_RESULT_ID == "N"){
+            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+d;
+        }else{
+            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
+        }
         var name = "bustripResListPop";
         var option = "width=1200, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
-    popBustripSetExnp : function (e) {
-        var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqId="+e;
-        var name = "bustripResListPop";
-        var option = "width=1700, height=750, scrollbars=no, top=100, left=100, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
-    bustripResDrafting: function(hrBizReqId) {
-        $("#hrBizReqId").val(hrBizReqId);
+    bustripResDrafting: function(hrBizReqResultId) {
+        $("#hrBizReqResultId").val(hrBizReqResultId);
         $("#bustripResDraftFrm").one("submit", function() {
             var url = "/Inside/pop/approvalFormPopup/bustripResApprovalPop.do";
             var name = "bustripResApprovalPop";

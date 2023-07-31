@@ -94,6 +94,7 @@ public class BustripServiceImpl implements BustripService {
         Map<String, Object> result = new HashMap<>();
         result.put("rs", bustripRepository.getBustripReqInfo(params));
         result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
@@ -107,7 +108,7 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public Map<String, Object> getBustripOne(Map<String, Object> params) {
-        return bustripRepository.getBustripReqInfo(params);
+        return bustripRepository.getBustripResultInfoR(params);
     }
 
     @Override
@@ -123,6 +124,11 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params) {
         return bustripRepository.getBustripTotInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripResTotInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripResTotInfo(params);
     }
 
     @Override
@@ -188,7 +194,32 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void saveBustripResult(Map<String, Object> params) {
-        bustripRepository.saveBustripResult(params);
+        if(params.containsKey("hrBizReqResultId")){
+            bustripRepository.updBustripResult(params);
+        } else {
+            bustripRepository.saveBustripResult(params);
+        }
+
+        String compEmpSeq = "";
+        String[] compEmpSeqArr;
+        if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+            compEmpSeq = params.get("compEmpSeq").toString();
+
+            compEmpSeqArr = compEmpSeq.split(",");
+
+            for(String str : compEmpSeqArr){
+                params.put("compEmpSeq", str);
+                params.put("empSeq", params.get("compEmpSeq"));
+                Map<String, Object> map = userRepository.getUserInfo(params);
+                params.put("compEmpName", map.get("EMP_NAME_KR"));
+                params.put("compDeptName", map.get("DEPT_NAME"));
+                params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                params.put("compDutyName", map.get("DUTY_NAME"));
+                params.put("compPositionName", map.get("POSITION_NAME"));
+
+                bustripRepository.insBustripResCompanion(params);
+            }
+        }
     }
 
     @Override

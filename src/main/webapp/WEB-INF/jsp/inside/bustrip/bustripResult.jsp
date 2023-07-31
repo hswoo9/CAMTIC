@@ -51,7 +51,7 @@
     <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="hrBizReqId" name="hrBizReqId"/>
+    <input type="hidden" id="hrBizReqResultId" name="hrBizReqResultId"/>
 </form>
 
 <script type="text/javascript">

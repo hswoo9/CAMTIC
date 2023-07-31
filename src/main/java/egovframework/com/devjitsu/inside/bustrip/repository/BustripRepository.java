@@ -16,8 +16,16 @@ public class BustripRepository extends AbstractDAO {
         insert("bustrip.insBustripReq", params);
     }
 
+    public void saveBustripResult(Map<String, Object> params) {
+        insert("bustrip.saveBustripResult", params);
+    }
+
     public void insBustripCompanion(Map<String, Object> params) {
         insert("bustrip.insBustripCompanion", params);
+    }
+
+    public void insBustripResCompanion(Map<String, Object> params) {
+        insert("bustrip.insBustripResCompanion", params);
     }
 
     public void delBustripReq(Map<String, Object> params) {
@@ -33,6 +41,10 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.getBustripCompanionInfo", params);
     }
 
+    public List<Map<String, Object>> getBustripResCompanionInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBustripResCompanionInfo", params);
+    }
+
     public List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripReqFileInfo", params);
     }
@@ -42,12 +54,21 @@ public class BustripRepository extends AbstractDAO {
         delete("bustrip.delBustripCompnTarget", params);
     }
 
+    public void updBustripResult(Map<String, Object> params) {
+        update("bustrip.updBustripResReq", params);
+        delete("bustrip.delBustripResCompnTarget", params);
+    }
+
     public List<Map<String, Object>> getBustripReqCheck(Map<String, Object> params) {
         return selectList("bustrip.getBustripReqCheck", params);
     }
 
     public List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripTotInfo", params);
+    }
+
+    public List<Map<String, Object>> getBustripResTotInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBustripResTotInfo", params);
     }
 
     public void updateApprStat(Map<String, Object> params) {
@@ -64,10 +85,6 @@ public class BustripRepository extends AbstractDAO {
 
     public void updateResFinalApprStat(Map<String, Object> params) {
         update("bustrip.updateResFinalApprStat", params);
-    }
-
-    public void saveBustripResult(Map<String, Object> params) {
-        update("bustrip.saveBustripResult", params);
     }
 
     public void saveBustripExnpPop(Map<String, Object> params) {
@@ -88,6 +105,10 @@ public class BustripRepository extends AbstractDAO {
 
     public Map<String, Object> getBustripResultInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("bustrip.getBustripResultInfo", params);
+    }
+
+    public Map<String, Object> getBustripResultInfoR(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripResultInfoR", params);
     }
 
     public void updateBustripExnpPop(Map<String, Object> params) {

@@ -118,17 +118,7 @@ var bustripResMngList = {
                         if(row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0){
                             return "-";
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResMngList.popBustripSetExnp('+row.HR_BIZ_REQ_ID+')">여비정산</button>'
-                        }
-                    },
-                    width: 80
-                }, {
-                    title: "결과보고",
-                    template : function(row){
-                        if(row.SAVE_YN == "Y"){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResMngList.popBustripRes('+row.HR_BIZ_REQ_RESULT_ID+', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
-                        } else {
-                            return "-";
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResMngList.popBustripRes('+row.HR_BIZ_REQ_ID+', '+row.HR_BIZ_REQ_RESULT_ID+')">여비정산</button>'
                         }
                     },
                     width: 80
@@ -138,16 +128,9 @@ var bustripResMngList = {
     },
 
     popBustripRes : function(e, d) {
-        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d+"&mode=mng";
+        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+e+"&hrBizReqResultId="+d+"&mode=mng";
         var name = "bustripResListPop";
         var option = "width=1200, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
-    popBustripSetExnp : function (e) {
-        var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqId="+e+"&mode=mng";
-        var name = "bustripResListPop";
-        var option = "width=1700, height=750, scrollbars=no, top=100, left=100, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }

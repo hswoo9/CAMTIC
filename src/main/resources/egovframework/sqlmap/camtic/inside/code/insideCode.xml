@@ -12,6 +12,7 @@
             CAM_INSIDE.DJ_HR_CAR_CODE IHCC
         WHERE
             IHCC.ACTIVE = 'Y'
+        AND IHCC.VISIBLE = 'Y'
     </select>
 
     <select id="getRoomCode" parameterType="map" resultType="map">
@@ -23,6 +24,7 @@
             CAM_INSIDE.DJ_ROOM_CODE IRC
         WHERE
             IRC.ACTIVE = 'Y'
+        AND IRC.VISIBLE = 'Y'
     </select>
 
 

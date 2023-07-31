@@ -183,7 +183,7 @@ public class BustripController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
-        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+        List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
 
         if(exnpData.size() == 0){
@@ -193,11 +193,17 @@ public class BustripController {
             model.addAttribute("list", exnpData);
             model.addAttribute("type", "upd");
         }
-        model.addAttribute("map", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/bustripExnpPop";
+    }
+
+    //출장결과조회
+    @RequestMapping("/bustrip/getBustripOne")
+    public String getBustripOne(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("map", bustripService.getBustripOne(params));
+        return "jsonView";
     }
 
     //경유지기준정보
@@ -318,11 +324,11 @@ public class BustripController {
     public String bustripResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         LoginVO login = getLoginVO(request);
 
-        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+        List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         model.addAttribute("list", list);
         List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
         model.addAttribute("exnpList", exnpData);
-        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/bustrip/approvalFormPopup/bustripResApprovalPop";
@@ -379,7 +385,7 @@ public class BustripController {
 
         try{
             bustripService.saveBustripResult(params);
-            model.addAttribute("rs", "sc");
+            model.addAttribute("rs", "params");
         } catch (Exception e){
             e.printStackTrace();
         }

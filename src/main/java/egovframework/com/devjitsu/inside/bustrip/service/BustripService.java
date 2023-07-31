@@ -20,6 +20,8 @@ public interface BustripService {
 
     List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params);
 
+    List<Map<String, Object>> getBustripResTotInfo(Map<String, Object> params);
+
     /**
      * 출장신청서 전자결재 상태값 업데이트
      * @param bodyMap

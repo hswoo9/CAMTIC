@@ -494,25 +494,24 @@ var hwpDocCtrl = {
                 }
             });
         }else if(data.menuCd == "bustripRes") {
-            const hrBizReqId = data.approKey.split("_")[1];
+            const hrBizReqResultId = data.approKey.split("_")[1];
 
-            if(hrBizReqId == null || hrBizReqId == undefined || hrBizReqId == "") {
+            if(hrBizReqResultId == null || hrBizReqResultId == undefined || hrBizReqResultId == "") {
                 alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
             }
 
             $.ajax({
-                url: "/bustrip/getBustripReqInfo",
+                url: "/bustrip/getBustripOne",
                 data: {
-                    hrBizReqId: hrBizReqId
+                    hrBizReqResultId: hrBizReqResultId
                 },
                 type: "post",
                 dataType: "json",
                 async: false,
                 success: function (result) {
                     console.log(result);
-                    const busInfo = result.rs.rs;
-                    const companionInfo = result.rs.list;
-                    const busResInfo = result.rs.rsRes;
+                    const busInfo = result.map;
+                    console.log(busInfo);
 
                     let today = new Date();
                     let year = today.getFullYear(); // 년도

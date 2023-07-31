@@ -93,25 +93,121 @@
         </selectKey>
     </insert>
 
+    <update id="saveBustripResult" parameterType="map">
+        /* saveBustripResult */
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+            (
+                HR_BIZ_REQ_ID,
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION_CODE,
+                DUTY_CODE,
+                TRIP_CODE,
+                VISIT_CRM,
+                VISIT_LOC,
+                VISIT_LOC_SUB,
+                VISIT_LOC_CODE,
+                TRIP_DAY_FR,
+                TRIP_DAY_TO,
+                TRIP_TIME_FR,
+                TRIP_TIME_TO,
+                BUSN_NAME,
+                TITLE,
+                USE_CAR,
+                USE_TRSPT,
+                PROJECT,
+                PROJECT_CD,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REPORT_DATE,
+                RESULT,
+                DRIVER_EMP_SEQ,
+                MOVE_DST,
+                SAVE_YN
+            )
+        VALUES
+            (
+                #{hrBizReqId},
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{positionCode},
+                #{dutyCode},
+                #{tripCode},
+                #{visitCrm},
+                #{visitLoc},
+                #{visitLocSub},
+                #{visitLocCode},
+                #{tripDayFr},
+                #{tripDayTo},
+                #{tripTimeFr},
+                #{tripTimeTo},
+                #{busnName},
+                #{title},
+                #{useCar},
+                #{useTrspt},
+                #{project},
+                #{projectCd},
+                #{empSeq},
+                #{empName},
+                DATE_FORMAT(now(), '%Y-%m-%d'),
+                #{result},
+                #{driverEmpSeq},
+                #{moveDst},
+                "Y"
+            )
+        <selectKey keyProperty="hrBizReqResultId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ_RESULT'
+        </selectKey>
+    </update>
+
     <insert id="insBustripCompanion" parameterType="map">
         /* insBustripCompanion */
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_COMPANION
-        (
-            HR_BIZ_REQ_ID,
-            EMP_SEQ,
-            DEPT_NAME,
-            POSITION_NAME,
-            DUTY_NAME,
-            EMP_NAME
-        ) VALUES
-        (
-            #{hrBizReqId},
-            #{compEmpSeq},
-            #{compDeptName},
-            #{compPositionName},
-            #{compDutyName},
-            #{compEmpName}
-        )
+            (
+                HR_BIZ_REQ_ID,
+                EMP_SEQ,
+                DEPT_NAME,
+                POSITION_NAME,
+                DUTY_NAME,
+                EMP_NAME
+            )
+        VALUES
+            (
+                #{hrBizReqId},
+                #{compEmpSeq},
+                #{compDeptName},
+                #{compPositionName},
+                #{compDutyName},
+                #{compEmpName}
+            )
+    </insert>
+
+    <insert id="insBustripResCompanion" parameterType="map">
+        /* insBustripResCompanion */
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_COMPANION
+            (
+                HR_BIZ_REQ_RESULT_ID,
+                HR_BIZ_REQ_ID,
+                EMP_SEQ,
+                DEPT_NAME,
+                POSITION_NAME,
+                DUTY_NAME,
+                EMP_NAME
+            )
+        VALUES
+            (
+                #{hrBizReqResultId},
+                (SELECT sa.HR_BIZ_REQ_ID FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT sa WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}),
+                #{compEmpSeq},
+                #{compDeptName},
+                #{compPositionName},
+                #{compDutyName},
+                #{compEmpName}
+            )
     </insert>
 
     <select id="getBustripReqInfo" parameterType="map" resultType="map">
@@ -142,6 +238,16 @@
             CAM_INSIDE.DJ_HR_BIZ_COMPANION A
         WHERE
             A.HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getBustripResCompanionInfo" parameterType="map" resultType="map">
+        /* getBustripResCompanionInfo */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION A
+        WHERE
+            A.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </select>
 
     <delete id="delBustripReq" parameterType="map">
@@ -204,11 +310,43 @@
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
 
+    <update id="updBustripResReq" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            TRIP_CODE = #{tripCode},
+            VISIT_CRM = #{visitCrm},
+            VISIT_LOC = #{visitLoc},
+            VISIT_LOC_SUB = #{visitLocSub},
+            TRIP_DAY_FR = #{tripDayFr},
+            TRIP_DAY_TO = #{tripDayTo},
+            TRIP_TIME_FR = #{tripTimeFr},
+            TRIP_TIME_TO = #{tripTimeTo},
+            BUSN_NAME = #{busnName},
+            TITLE = #{title},
+            USE_CAR = #{useCar},
+            USE_TRSPT = #{useTrspt},
+            PROJECT = #{project},
+            PROJECT_CD = #{projectCd},
+            MOD_EMP_SEQ = #{empSeq},
+            RESULT = #{result},
+            DRIVER_EMP_SEQ = #{driverEmpSeq},
+            MOVE_DST = #{moveDst}
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </update>
+
+    <delete id="delBustripResCompnTarget" parameterType="map">
+        DELETE FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </delete>
+
     <select id="getBustripReqCheck" parameterType="map" resultType="map">
         /* getBustripReqCheck */
         SELECT
             A.*,
-            B.HR_BIZ_REQ_RESULT_ID,
+            IFNULL(B.HR_BIZ_REQ_RESULT_ID, "") AS HR_BIZ_REQ_RESULT_ID,
             B.STATUS AS RES_STATUS,
             B.EXP_STAT,
             B.SAVE_YN,
@@ -226,7 +364,7 @@
         WHERE
             A.STATUS IN ('100') AND
         <![CDATA[
-            TRIP_DAY_FR >= #{startDate} AND TRIP_DAY_TO <= #{endDate}
+            A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
         ]]>
         <if test="projectCd != null and projectCd != ''">
             AND
@@ -275,6 +413,39 @@
             IHBC.HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
 
+    <select id="getBustripResTotInfo" parameterType="map" resultType="map">
+        /*getBustripResTotInfo*/
+        SELECT
+            IHBR.EMP_NAME,
+            IHBR.EMP_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN IFNULL(HEI.POSITION_NAME, "") ELSE HEI.DUTY_NAME END AS positionNm
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHBR
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
+                LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            IHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        UNION ALL
+        SELECT
+            IHBC.EMP_NAME,
+            IHBC.EMP_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN IFNULL(HEI.POSITION_NAME, "") ELSE HEI.DUTY_NAME END AS positionNm
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION IHBC
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IHBC.EMP_SEQ = HEI.EMP_SEQ
+                LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            IHBC.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </select>
+
     <update id="updateApprStat" parameterType="map">
         /* bustrip updateApprStat */
         UPDATE
@@ -321,23 +492,6 @@
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
 
-    <update id="saveBustripResult" parameterType="map">
-        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
-        SET
-            EMP_SEQ = #{empSeq},
-            EMP_NAME = #{empName},
-            DEPT_SEQ = #{deptSeq},
-            POSITION_CODE = #{positionCode},
-            DUTY_CODE = #{dutyCode},
-            REPORT_DATE = DATE_FORMAT(now(), '%Y-%m-%d'),
-            RESULT = #{result},
-            DRIVER_EMP_SEQ = #{driverEmpSeq},
-            MOVE_DST = #{moveDst},
-            SAVE_YN = "Y"
-        WHERE
-            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
-    </update>
-
     <update id="updateBustripExnpPop" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_EXNP
         SET
@@ -358,10 +512,9 @@
     <insert id="saveBustripExnpPop" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_EXNP
             (
-                HR_BIZ_REQ_ID,
+                HR_BIZ_REQ_RESULT_ID,
                 EMP_SEQ,
                 EMP_NAME,
-                DRIVER,
                 OIL_COST,
                 TRAF_COST,
                 TRAF_DAY_COST,
@@ -382,10 +535,9 @@
             )
         VALUES
             (
-                #{hrBizReqId},
+                #{hrBizReqResultId},
                 #{empSeq},
                 #{empName},
-                #{driver},
                 #{oilCost},
                 #{trafCost},
                 #{trafDayCost},
@@ -439,7 +591,7 @@
         FROM
             CAM_INSIDE.DJ_HR_BIZ_EXNP
         WHERE
-            HR_BIZ_REQ_ID = #{hrBizReqId}
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </select>
 
     <select id="getBustripResultInfo" parameterType="map" resultType="map">
@@ -451,6 +603,15 @@
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
 
+    <select id="getBustripResultInfoR" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </select>
+
     <select id="getBustripMaxDayCost" parameterType="map" resultType="map">
         /* getBustripMaxDayCost */
         SELECT
@@ -458,18 +619,18 @@
         FROM
             CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE
         LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR ON IHBE.HR_BIZ_REQ_ID = IHBR.HR_BIZ_REQ_ID
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHBR ON IHBE.HR_BIZ_REQ_RESULT_ID = IHBR.HR_BIZ_REQ_RESULT_ID
         WHERE
             IHBE.EMP_SEQ = #{empSeq}
         <![CDATA[
         AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%M%D') <= DATE_FORMAT(
-                (SELECT TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE HR_BIZ_REQ_ID = #{hrBizReqId})
+                (SELECT TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
             , '%Y%M%D')
         AND DATE_FORMAT(IHBR.TRIP_DAY_TO, '%Y%M%D') >= DATE_FORMAT(
-                (SELECT TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE HR_BIZ_REQ_ID = #{hrBizReqId})
+                (SELECT TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
             , '%Y%M%D')
         ]]>
-        AND IHBE.HR_BIZ_REQ_ID != #{hrBizReqId}
+        AND IHBE.HR_BIZ_REQ_RESULT_ID != #{hrBizReqResultId}
     </select>
 
     <select id="getBustripCostList" parameterType="map" resultType="map">
@@ -480,15 +641,15 @@
             CAM_INSIDE.DJ_HR_COST_INFO IHCI
         WHERE
             1=1
-        <if test="hrBizReqId != null and hrBizReqId != ''">
+        <if test="hrBizReqResultId != null and hrBizReqResultId != ''">
             <![CDATA[
                 AND DATE_FORMAT(IHCI.START_DT, '%Y%m%d') <= DATE_FORMAT(
-                    (SELECT SIHBR.TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE SIHBR.HR_BIZ_REQ_ID = #{hrBizReqId})
+                    (SELECT SIHBR.TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE SIHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
                 , '%Y%M%D')
                 AND DATE_FORMAT(IHCI.END_DT, '%Y%m%d') >= DATE_FORMAT(
-                    (SELECT SIHBR.TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE SIHBR.HR_BIZ_REQ_ID = #{hrBizReqId})
+                    (SELECT SIHBR.TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE SIHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
                 , '%Y%M%D')
-                AND IHCI.TRIP_CODE = (SELECT SIHBR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ SIHBR WHERE SIHBR.HR_BIZ_REQ_ID = #{hrBizReqId})
+                AND IHCI.TRIP_CODE = (SELECT SIHBR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE SIHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
             ]]>
         </if>
         ORDER BY IHCI.REG_DT DESC
@@ -571,7 +732,7 @@
         SET
             EXP_STAT = ${status}
         WHERE
-            HR_BIZ_REQ_ID = #{hrBizReqId}
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
     <insert id="setBustripFuelCostInsert" parameterType="map">

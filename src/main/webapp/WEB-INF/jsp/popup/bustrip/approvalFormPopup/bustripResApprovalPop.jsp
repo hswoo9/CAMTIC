@@ -38,44 +38,44 @@
                     <tr>
                         <td style="height:30px; background-color:#FFE0E0; text-align:center; width: 102px"><p style="font-weight: bold;">출장기간</p></td>
                         <td style="height:30px; width: 531px"><p>
-                            ${rs.rs.TRIP_DAY_FR} ~ ${rs.rs.TRIP_DAY_TO}
+                            ${rs.TRIP_DAY_FR} ~ ${rs.TRIP_DAY_TO}
                         </p></td>
                     </tr>
                     <tr>
                         <td style="height:30px; background-color:#FFE0E0; text-align:center; width: 102px"><p style="font-weight: bold;">출 장 지</p></td>
                         <td style="height:30px; width: 531px"><p>
-                            ${rs.rs.VISIT_CRM} ${rs.rs.VISIT_LOC_SUB}
+                            ${rs.VISIT_CRM} ${rs.VISIT_LOC_SUB}
                         </p></td>
                     </tr>
                     <tr>
                         <td style="height:30px; background-color:#FFE0E0; text-align:center; width: 102px"><p style="font-weight: bold;">출장차량</p></td>
                         <td style="height:30px; width: 531px"><p>
                             <c:choose>
-                                <c:when test="${rs.rs.USE_TRSPT == 1}">
+                                <c:when test="${rs.USE_TRSPT == 1}">
                                     카니발
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 5}">
+                                <c:when test="${rs.USE_TRSPT == 5}">
                                     아반떼
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 3}">
+                                <c:when test="${rs.USE_TRSPT == 3}">
                                     트럭
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 10}">
+                                <c:when test="${rs.USE_TRSPT == 10}">
                                     자가
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 0}">
+                                <c:when test="${rs.USE_TRSPT == 0}">
                                     대중교통
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 12}">
+                                <c:when test="${rs.USE_TRSPT == 12}">
                                     모하비
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 13}">
+                                <c:when test="${rs.USE_TRSPT == 13}">
                                     솔라티
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 14}">
+                                <c:when test="${rs.USE_TRSPT == 14}">
                                     드론관제차량
                                 </c:when>
-                                <c:when test="${rs.rs.USE_TRSPT == 11}">
+                                <c:when test="${rs.USE_TRSPT == 11}">
                                     기타
                                 </c:when>
                             </c:choose>
@@ -84,7 +84,7 @@
                     <tr>
                         <td style="height:120px; background-color:#FFE0E0; text-align:center; width: 102px"><p style="font-weight: bold;">출장결과</p></td>
                         <td style="height:120px; width: 531px"><p>
-                            ${rs.rsRes.RESULT}
+                            ${rs.RESULT}
                         </p></td>
                     </tr>
                     <tr>
@@ -151,7 +151,7 @@
         approvalParams.linkageProcessId = "7";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticBustripRes";
-        approvalParams.approKey = "camticBustripRes_${data.hrBizReqId}";
+        approvalParams.approKey = "camticBustripRes_${data.hrBizReqResultId}";
 
         linkageProcessOn(approvalParams);
     }

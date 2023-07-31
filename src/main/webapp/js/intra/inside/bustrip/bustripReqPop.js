@@ -5,6 +5,9 @@ const bustripReq = {
 
     init: function(){
         bustripReq.pageSet();
+        if(hrBizReqId != ""){
+            bustripReq.dataSet(hrBizReqId);
+        }
     },
 
     pageSet: function(){
@@ -62,10 +65,18 @@ const bustripReq = {
             if($("#visitLocCode").val() == "999"){
                 $(".visitLocSub").show();
                 $(".visitMove").hide();
+                if(pageName == "bustripResReq"){
+                    $("#moveDst").attr("disabled", false);
+                    $("#moveBtn").attr("disabled", false);
+                }
             }else if($("#visitLocCode").val() == ""){
                 $(".visitLocSub").hide();
                 $(".visitMove").show();
                 $(".visitMoveSpan").hide();
+                if(pageName == "bustripResReq"){
+                    $("#moveDst").attr("disabled", false);
+                    $("#moveBtn").attr("disabled", false);
+                }
             }else{
                 $(".visitLocSub").hide();
                 $(".visitMove").show();
@@ -78,41 +89,47 @@ const bustripReq = {
                     }
                 }
                 $(".visitMoveSpan").text(distance+" km");
+                if(pageName == "bustripResReq"){
+                    $("#moveDst").attr("disabled", true);
+                    $("#moveBtn").attr("disabled", true);
+                }
             }
-        })
-        if(hrBizReqId != ""){
-            bustripReq.dataSet(hrBizReqId);
-        }
+        });
     },
 
-    dataSet: function (d, p, rsKey){
-        var data = {
-            hrBizReqId: d,
-            hrBizReqResultId : rsKey
-        }
-        var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", data);
-
-        var rs = result.rs.rs;
+    dataSet: function (d, p){
+        var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
+            hrBizReqId: d
+        });
+        var busInfo = result.rs.rs;
         var list = result.rs.list;
         var fileInfo = result.rs.fileInfo;
 
-        $("#tripCode").data("kendoDropDownList").value(rs.TRIP_CODE);
-        $("#project").data("kendoDropDownList").value(rs.PROJECT_CD);
+        $("#tripCode").data("kendoDropDownList").value(busInfo.TRIP_CODE);
+        $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
         if($("#project").val() == 0 || $("#project").val() == ""){
             $("#busnLine").css("display", "none");
         } else {
             $("#busnLine").css("display", "");
         }
 
-        $("#visitCrm").val(rs.VISIT_CRM);
-        $("#visitLoc").val(rs.VISIT_LOC);
-        $("#visitLocCode").data("kendoDropDownList").value(rs.VISIT_LOC_CODE);
+        $("#visitCrm").val(busInfo.VISIT_CRM);
+        $("#visitLoc").val(busInfo.VISIT_LOC);
+        $("#visitLocCode").data("kendoDropDownList").value(busInfo.VISIT_LOC_CODE);
         if($("#visitLocCode").val() == "999"){
             $(".visitMove").hide();
             $(".visitLocSub").show();
+            if(pageName == "bustripResReq"){
+                $("#moveDst").attr("disabled", false);
+                $("#moveBtn").attr("disabled", false);
+            }
         }else if($("#visitLocCode").val() == ""){
             $(".visitLocSub").hide();
             $(".visitMove").show();
+            if(pageName == "bustripResReq"){
+                $("#moveDst").attr("disabled", false);
+                $("#moveBtn").attr("disabled", false);
+            }
         }else{
             $(".visitLocSub").hide();
             $(".visitMove").show();
@@ -125,15 +142,19 @@ const bustripReq = {
                 }
             }
             $(".visitMoveSpan").text(distance+" km");
+            if(pageName == "bustripResReq"){
+                $("#moveDst").attr("disabled", true);
+                $("#moveBtn").attr("disabled", true);
+            }
         }
-        $("#visitLocSub").val(rs.VISIT_LOC_SUB);
-        $("#date1").val(rs.TRIP_DAY_FR);
-        $("#date2").val(rs.TRIP_DAY_TO);
-        $("#time1").val(rs.TRIP_TIME_FR);
-        $("#time2").val(rs.TRIP_TIME_TO);
-        $("#bustObj").val(rs.TITLE);
-        $("#carList").data("kendoDropDownList").value(rs.USE_TRSPT);
-        if(rs.USE_CAR == "Y"){
+        $("#visitLocSub").val(busInfo.VISIT_LOC_SUB);
+        $("#date1").val(busInfo.TRIP_DAY_FR);
+        $("#date2").val(busInfo.TRIP_DAY_TO);
+        $("#time1").val(busInfo.TRIP_TIME_FR);
+        $("#time2").val(busInfo.TRIP_TIME_TO);
+        $("#bustObj").val(busInfo.TITLE);
+        $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
+        if(busInfo.USE_CAR == "Y"){
             $("#car2").prop("checked", true);
         } else {
             $("#car1").prop("checked", true);
@@ -162,12 +183,13 @@ const bustripReq = {
 
         bustripReq.settingTempFileDataInit(fileInfo, p);
 
-        $("#empSeq").val(rs.EMP_SEQ);
-        $("#empName").val(rs.EMP_NAME);
-        $("#deptName").val(rs.DEPT_NAME);
-        $("#reqDate").val(rs.REG_DATE);
+        $("#empSeq").val(busInfo.EMP_SEQ);
+        $("#empName").val(busInfo.EMP_NAME);
+        $("#deptName").val(busInfo.DEPT_NAME);
+        $("#reqDate").val(busInfo.REG_DATE);
+        $("#moveDst").val(busInfo.DISTANCE);
 
-        if((rs.STATUS != 0 && rs.STATUS != 30) || $("#mod").val() == "mng"){
+        if((busInfo.STATUS != 0 && busInfo.STATUS != 30 && pageName == 'bustripReq') || $("#mod").val() == "mng"){
             $("#popEmpName").data("kendoTextBox").enable(false);
             $("#tripCode").data("kendoDropDownList").enable(false);
             $("#project").data("kendoDropDownList").enable(false);
@@ -372,4 +394,12 @@ function userDataSet(userArr){
     $("#popEmpName").val(userText);
     $("#popDeptSeq").val(userDeptSn);
     $("#popDeptName").val(userDeptText);
+
+    if(pageName == "bustripResReq"){
+        userArr.unshift({
+            empName : $("#regEmpName").val(),
+            empSeq : $("#regEmpSeq").val()
+        })
+        customKendo.fn_dropDownList("realDriver", userArr, "empName", "empSeq", "3");
+    }
 }
