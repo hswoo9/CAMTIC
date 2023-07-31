@@ -289,7 +289,7 @@
             //첨부파일
             if(fCommon.global.attFiles[0].name.split(".")[1] == "png" || fCommon.global.attFiles[0].name.split(".")[1] == "jpg") {
             }else{
-                alert("파일 확장자를 확인해주세요. \n jqp, png 확장자만 업로드 가능합니다.");
+                alert("파일 확장자를 확인해주세요. \n jpg, png 확장자만 업로드 가능합니다.");
                 return false;
             }
             formData.append("boardFile", fCommon.global.attFiles[0]);
