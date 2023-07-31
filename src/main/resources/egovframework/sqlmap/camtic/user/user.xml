@@ -89,7 +89,9 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
             HEI.EMP_NAME_KR,
+            HEI.POSITION_CODE,
             HEI.POSITION_NAME,
+            HEI.DUTY_CODE,
             HEI.DUTY_NAME,
             HEI.JOB_DETAIL
         FROM
