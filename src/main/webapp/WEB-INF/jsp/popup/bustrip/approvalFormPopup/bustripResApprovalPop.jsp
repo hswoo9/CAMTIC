@@ -4,6 +4,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
+<div class="pop_wrap_dir" id="approvePop">
 <div id="approveDataPop">
     <table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">
         <tr>
@@ -106,21 +107,13 @@
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">유류비</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">교통비</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">통행료</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">일비</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">숙박비</p></td>
+                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">숙박비</p></td>
+                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">일비</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">식비</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">주차비</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">기타</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold">합계</p></td>
                     </tr>
-                    <c:set var = "oilTotal" value = "0" />
-                    <c:set var = "trafTotal" value = "0" />
-                    <c:set var = "trafDayTotal" value = "0" />
-                    <c:set var = "tollTotal" value = "0" />
-                    <c:set var = "dayTotal" value = "0" />
-                    <c:set var = "eatTotal" value = "0" />
-                    <c:set var = "parkingTotal" value = "0" />
-                    <c:set var = "etcTotal" value = "0" />
                     <c:forEach var="exnpList" items="${exnpList}">
                         <tr>
                             <td style="height:25px;text-align:center;"><p>${exnpList.EMP_NAME}</p></td>
@@ -139,6 +132,7 @@
             </td>
         </tr>
     </table>
+</div>
 </div>
 <script>
     approvalDataInit();

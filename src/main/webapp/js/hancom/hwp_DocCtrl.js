@@ -427,10 +427,6 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 
-                    let regSign = busInfo.EMP_NAME+" (인)";
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
-                    hwpDocCtrl.putFieldText('regSign', regSign);
-
                     let tripCode = busInfo.TRIP_CODE;
                     let tripCodeText = "";
                     if (tripCode == 1) {
@@ -492,8 +488,9 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
                     hwpDocCtrl.putFieldText('title', busInfo.TITLE);
 
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('doc_content', true, true, false);
-                    hwpDocCtrl.global.HwpCtrl.SetTextFile(draft.global.templateFormOpt.doc_contents, "HTML", "insertfile");
+                    let regSign = busInfo.EMP_NAME+" (인)";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
+                    hwpDocCtrl.putFieldText('regSign', regSign);
                 }
             });
         }else if(data.menuCd == "bustripRes") {
@@ -531,8 +528,6 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                     hwpDocCtrl.putFieldText('regSign', regSign);
 
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('doc_content', true, true, false);
-                    hwpDocCtrl.global.HwpCtrl.SetTextFile(draft.global.templateFormOpt.doc_contents, "HTML", "insertfile");
                 }
             });
         }else if(data.menuCd == "invention") {
@@ -661,6 +656,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.putFieldText('manager', invenInfo.MANAGER_NAME);
                 }
             });
+        }else if(data.menuCd == "equipment"){
         }
     },
 
@@ -698,7 +694,6 @@ var hwpDocCtrl = {
                 if(res.result){
                     if(hwpDocCtrl.global.mod == "W"){
                         hwpDocCtrl.openCallBack();
-                        hwpDocCtrl.dataSet();
                     }else if (hwpDocCtrl.global.mod == "RW"){
                         hwpDocCtrl.modOpenCallBack();
                     }else if (hwpDocCtrl.global.mod == "V"){
@@ -742,6 +737,8 @@ var hwpDocCtrl = {
         hwpDocCtrl.global.HwpCtrl.ShowCaret(true);
         hwpDocCtrl.global.HwpCtrl.ShowStatusBar(true);
         hwpDocCtrl.global.HwpCtrl.SetFieldViewOption(2);
+
+        hwpDocCtrl.dataSet();
 
         if(hwpDocCtrl.global.HwpCtrl.FieldExist("header_campaign")){
             hwpDocCtrl.global.HwpCtrl.MoveToField('header_campaign', true, true, false);
@@ -801,6 +798,11 @@ var hwpDocCtrl = {
                 hwpDocCtrl.global.HwpCtrl.MoveToField('dept_name', true, true, false);
                 hwpDocCtrl.putFieldText('dept_name', hwpDocCtrl.global.loginEmpInfo.DEPT_NAME);
             }
+        }
+
+        if(hwpDocCtrl.global.HwpCtrl.FieldExist("doc_content")){
+            hwpDocCtrl.global.HwpCtrl.MoveToField('doc_content', true, true, false);
+            hwpDocCtrl.global.HwpCtrl.SetTextFile(draft.global.templateFormOpt.doc_contents, "HTML", "insertfile");
         }
 
         for(var i = 0; i < hwpDocCtrl.global.templateCustomField.length; i ++){
