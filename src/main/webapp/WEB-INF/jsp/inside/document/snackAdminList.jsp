@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 
-<script type="text/javascript" src="/js/intra/inside/document/snackList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/document/snackAdminList.js?v=${today}"/></script>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
@@ -14,8 +14,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">야근/휴일식대대장</h4>
-            <div class="title-road">캠인사이드 > 문서관리 > 야근/휴일식대대장</div>
+            <h4 class="panel-title">야근/휴일식대대장 (관리자)</h4>
+            <div class="title-road">캠인사이드 > 문서관리 > 야근/휴일식대대장 (관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -50,6 +50,14 @@
                             ~
                             <input type="text" id="endDt" style="width: 110px;">
                         </td>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="dept" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="team" style="width: 180px;">
+                        </td>
                         <th class="text-center th-color">식대 구분</th>
                         <td>
                             <input type="text" id="mealsDivision" style="width: 100px;">
@@ -71,5 +79,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    snackList.init();
+    snackAdminList.init();
 </script>

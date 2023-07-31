@@ -203,7 +203,7 @@ const bustripExnpReq = {
             console.log(dayCostArr);
 
             for(let i=0; i<dayCostArr.length; i++){
-                if(Number(dayCostArr[i].dayCost.replace(",", "")) > 0){
+                if(dayCostArr[i].dayCost.replace(",", "") > 0){
                     $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
                 }
             }
@@ -211,8 +211,8 @@ const bustripExnpReq = {
     },
 
     eatCheck(e){
-        if(e.value >= 30000 && $(e).closest("td").find("input[name=corpYn]").val() == "N"){
-            alert("개인카드 식비는 3만원 이상 입력이 불가능합니다.");
+        if(e.value > 30000 && $(e).closest("td").find("input[name=corpYn]").val() == "N"){
+            alert("개인카드 식비는 3만원 초과 입력이 불가능합니다.");
             e.value = 0;
             bustripExnpReq.horizontalSum();
         }

@@ -1,9 +1,31 @@
 let sum=0;
-var snackList = {
+var snackAdminList = {
 
     init: function() {
-        snackList.dataSet();
-        snackList.mainGrid();
+        snackAdminList.dataSet();
+        snackAdminList.mainGrid();
+    },
+
+    fn_setCertRep : function (p, key){
+        var message = "승인하시겠습니까?"
+        if(p == 30){
+            message = "반려하시겠습니까?"
+        }
+        if(!confirm(message)){
+            return;
+        }
+        var data = {
+            snackInfoSn : key,
+            empSeq : $("#empSeq").val(),
+            status : p
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setSnackReqCert", data);
+
+        if(result.flag){
+            gridReload();
+        }
+
     },
 
     mainGrid: function() {
@@ -53,16 +75,16 @@ var snackList = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.snackPopup();">' +
-                            '	<span class="k-button-text">식대 등록하기</span>' +
-                            '</button>';
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackAdminList.snackStatPopup();">' +
+                        '	<span class="k-button-text">통계 조회</span>' +
+                        '</button>';
                     }
                 }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : snackList.onDataBound,
+            dataBound : snackAdminList.onDataBound,
             columns: [
                 {
                     field: "SNACK_TYPE_TEXT",
@@ -123,19 +145,19 @@ var snackList = {
 
                     }
                 }, {
-                    title: "처리 상태",
-                    template : function(row){
-                        if(row.STATUS == "10") {
-                            return "대기";
-                        }else if(row.STATUS == "100") {
-                            return "승인";
-                        }else if(row.STATUS == "30") {
-                            return "반려";
-                        }else {
-                            return "데이터 오류"
+                    field: "",
+                    title: "비고",
+                    template : function(e){
+                        if(e.STATUS == "10"){
+                            return '<span>' +
+                                '       <button type="button" class="k-button k-button-md k-button-solid-info" onclick="snackAdminList.fn_setCertRep(100, \''+e.SNACK_INFO_SN+'\')">승인</button>' +
+                                '       <button type="button" class="k-button k-button-md k-button-solid-error" onclick="snackAdminList.fn_setCertRep(30, \''+e.SNACK_INFO_SN+'\')">반려</button>' +
+                                '   </span>';
+                        } else {
+                            return "";
                         }
                     },
-                    width: 100
+                    width: 150
                 }
             ]
         }).data("kendoGrid");
@@ -146,11 +168,12 @@ var snackList = {
     },
 
     onDataBound: function(){
+        sum = 0;
         const grid = this;
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
             const snackInfoSn = dataItem.SNACK_INFO_SN;
-            snackList.snackPopup(snackInfoSn);
+            snackAdminList.snackPopup(snackInfoSn, 'mng');
         });
     },
 
@@ -209,6 +232,7 @@ var snackList = {
             ],
             index: 0
         });
+        fn_deptSetting();
     },
 
     snackPopup: function(snackInfoSn, mode){
@@ -221,13 +245,13 @@ var snackList = {
             }
             urlParams += "snackInfoSn=" + snackInfoSn;
         }
-        if(!isNaN(mode)){
+        if(isNaN(mode)){
             if(urlParams == "") {
                 urlParams += "?";
             }else {
                 urlParams += "&";
             }
-            urlParams += "&mode=" + mode;
+            urlParams += "mode=" + mode;
         }
         const url = "/Inside/pop/snackPop.do"+urlParams;
         const name = "popup test";
@@ -243,7 +267,3 @@ var snackList = {
     }
 }
 
-function gridReload(){
-    sum = 0;
-    $("#mainGrid").data("kendoGrid").dataSource.read();
-}

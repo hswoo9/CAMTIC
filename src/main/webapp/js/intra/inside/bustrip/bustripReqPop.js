@@ -200,10 +200,10 @@ const bustripReq = {
 
         var formData = new FormData();
         formData.append("menuCd", "bustripReq");
-        formData.append("empSeq", $("#empSeq").val());
-        formData.append("empName", $("#empName").val());
-        formData.append("deptSeq", $("#deptSeq").val());
-        formData.append("deptName", $("#deptName").val());
+        formData.append("empSeq", $("#regEmpSeq").val());
+        formData.append("empName", $("#regEmpName").val());
+        formData.append("deptSeq", $("#regDeptSeq").val());
+        formData.append("deptName", $("#regDeptName").val());
         formData.append("tripCode", $("#tripCode").val());
         formData.append("projectCd", $("#project").val());
         formData.append("project", $("#project").data("kendoDropDownList").text());
@@ -296,10 +296,10 @@ const bustripReq = {
 
         formData.append("hrBizReqId", key);
         formData.append("menuCd", "bustripReq");
-        formData.append("empSeq", $("#empSeq").val());
-        formData.append("empName", $("#empName").val());
-        formData.append("deptSeq", $("#deptSeq").val());
-        formData.append("deptName", $("#deptName").val());
+        formData.append("empSeq", $("#regEmpSeq").val());
+        formData.append("empName", $("#regEmpName").val());
+        formData.append("deptSeq", $("#regDeptSeq").val());
+        formData.append("deptName", $("#regDeptName").val());
         formData.append("tripCode", $("#tripCode").val());
         formData.append("projectCd", $("#project").val());
         formData.append("project", $("#project").data("kendoDropDownList").text());

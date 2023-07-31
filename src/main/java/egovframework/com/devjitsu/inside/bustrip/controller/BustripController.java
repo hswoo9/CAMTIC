@@ -304,6 +304,10 @@ public class BustripController {
     @RequestMapping("/Inside/pop/approvalFormPopup/bustripApprovalPop.do")
     public String bustripApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         LoginVO login = getLoginVO(request);
+
+        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+
+        model.addAttribute("list", list);
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/bustrip/approvalFormPopup/bustripApprovalPop";
@@ -313,6 +317,12 @@ public class BustripController {
     @RequestMapping("/Inside/pop/approvalFormPopup/bustripResApprovalPop.do")
     public String bustripResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         LoginVO login = getLoginVO(request);
+
+        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+        model.addAttribute("list", list);
+        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+        model.addAttribute("exnpList", exnpData);
+        model.addAttribute("rs", bustripService.getBustripReqInfo(params));
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/bustrip/approvalFormPopup/bustripResApprovalPop";

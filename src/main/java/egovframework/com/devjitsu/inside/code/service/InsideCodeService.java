@@ -19,6 +19,8 @@ public interface InsideCodeService {
 
     //차량사용신청 중복조회
     List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params);
+    Map<String, Object> getCarStat(Map<String, Object> params);
+    Map<String, Object> getRoomStat(Map<String, Object> params);
 
     //차량관리 차량코드 단일데이터조회
     Map<String, Object> getCarCodeInfo(Map<String, Object> params);

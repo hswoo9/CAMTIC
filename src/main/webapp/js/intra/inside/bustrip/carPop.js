@@ -142,6 +142,9 @@ var carReq = {
                     if(!flag && data.type != "bustripReq"){
                         alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
                     }
+                    if(!flag && carType == "A" && data.type == "bustripReq"){
+                        alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
+                    }
                 }else {
                     flag = true;
                 }

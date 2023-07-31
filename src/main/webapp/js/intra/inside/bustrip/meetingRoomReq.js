@@ -243,6 +243,13 @@ var meetingRoomReq = {
         }).data("kendoGrid");
     },
 
+    dateFormat : function(date) {
+        let dateFormat2 = date.getFullYear() +
+            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+        return dateFormat2;
+    },
+
     meetingRoomPopup : function(){
         var url = "/Inside/pop/meetingRoomPop.do";
         var name = "popup test";
@@ -250,11 +257,11 @@ var meetingRoomReq = {
         var popup = window.open(url, name, option);
     },
 
-    dateFormat : function(date) {
-        let dateFormat2 = date.getFullYear() +
-            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
-        return dateFormat2;
+    roomStatPop: function(){
+        const url = "/Inside/pop/roomStatPop.do";
+        const name = "roomStatPop";
+        const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }
 

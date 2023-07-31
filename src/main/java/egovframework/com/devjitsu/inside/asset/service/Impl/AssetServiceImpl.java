@@ -408,6 +408,7 @@ public class AssetServiceImpl implements AssetService {
             assetRepository.updateApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
+            assetRepository.updateBefApprStat(params);
             assetRepository.updateFinalApprStat(params);
         }
     }
