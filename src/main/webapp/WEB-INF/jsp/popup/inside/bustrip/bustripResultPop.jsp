@@ -28,12 +28,14 @@
             <h3 class="card-title title_NM">출장결과보고</h3>
             <div class="btn-st popButton">
                 <c:choose>
-                    <c:when test="${params.mode eq 'mng'}">
+                    <c:when test="${params.mode eq 'mng' || rs.STATUS == 10}">
                         <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
                         <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
                     </c:when>
-                    <c:otherwise>
+                    <c:when test="${rs.STATUS != 10 || rs.STATUS != 100}">
                         <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="다음단계" onclick="bustripResultPop.fn_saveBtn('${params.hrBizReqResultId}')" />
+                    </c:when>
+                    <c:otherwise>
                     </c:otherwise>
                 </c:choose>
                 <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />

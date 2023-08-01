@@ -172,6 +172,7 @@ public class BustripController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);

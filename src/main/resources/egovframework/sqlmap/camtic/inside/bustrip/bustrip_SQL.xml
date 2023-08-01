@@ -477,7 +477,7 @@
             STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
-            HR_BIZ_REQ_ID = #{hrBizReqId}
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
     <update id="updateResFinalApprStat" parameterType="map">
@@ -489,7 +489,7 @@
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
-            HR_BIZ_REQ_ID = #{hrBizReqId}
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
     <update id="updateBustripExnpPop" parameterType="map">
