@@ -20,22 +20,19 @@ var docuContractReq = {
             {text: "JVADA", value: "2"}
         ]
         customKendo.fn_dropDownList("mainClass", mainClassArr, "text", "value", 2);
+
+        $("#mainClass").data("kendoDropDownList").value(1);
+
         let classArr = [
-            {text: "제작", value: "1"},
-            {text: "가공", value: "2"},
+            {text: "외주", value: "1"},
+            {text: "용역", value: "2"},
             {text: "구매", value: "3"},
-            {text: "공사", value: "4"},
-            {text: "전담인력", value: "5"},
-            {text: "시간제", value: "6"},
-            {text: "위촉연구원", value: "7"},
-            {text: "현장연수생", value: "8"},
-            {text: "입주", value: "9"},
-            {text: "장비사용", value: "10"},
-            {text: "용역", value: "11"},
-            {text: "기타", value: "12"}
+            {text: "임대차", value: "4"}
         ]
+
         customKendo.fn_dropDownList("class", classArr, "text", "value", 2);
         $("#docuDe, #startDe, #endDe").attr("readonly", true);
+        $("#productTable").css("display", "none");
 
         var html = ""
         html += '<tr rowIndexNumber="0" class="productItem">';
@@ -43,21 +40,54 @@ var docuContractReq = {
         html += '       <input type="text" id="productName0">';
         html += '    </td>';
         html += '    <td>';
-        html += '       <input type="text" id="productCount0">';
+        html += '       <input type="text" id="productCount0" style="text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
         html += '    </td>';
         html += '    <td>';
-        html += '       <input type="text" id="productOneMoney0">';
+        html += '       <input type="text" id="productOneMoney0" style="text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
         html += '    </td>';
         html += '    <td>';
-        html += '       <input type="text" id="productTotalMoney0">';
+        html += '       <input type="text" id="productTotalMoney0" style="text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
         html += '    </td>';
         html += '    <td>';
-        html += '       <textarea id="bmk0" style="width: 80%;"></textarea>';
+        html += '       <textarea id="bmk0" style="width: 100%;"></textarea>';
         html += '    </td>';
         html += '</tr>';
         $("#product").append(html);
         customKendo.fn_textBox(["productName0", "productCount0", "productOneMoney0", "productTotalMoney0"]);
         $("#bmk0").kendoTextArea({ rows: 2, maxLength:50, placeholder: "" });
+
+
+        $("#class").change(function (){
+            if(this.value == 3){
+                $("#productTable").css("display", "");
+            } else {
+                $("#productTable").css("display", "none");
+            }
+        });
+    },
+
+    inputNumberFormat : function (obj){
+        obj.value = docuContractReq.comma(docuContractReq.uncomma(obj.value));
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    },
+
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
     },
 
     saveBtn: function(){
@@ -88,14 +118,14 @@ var docuContractReq = {
         let menuCd = "contract";
         let docFileName = "구매 계약서.hwp";
         let docId = "contractHwp";
-
+        let contractAmount = docuContractReq.uncomma($("#contractAmount").val());
 
         $.each($('.productItem'), function(i, v){
             let areaInfo = {
                 productName   		        		: $(v).find('#productName'+i).val(),
-                productCount   		        	: $(v).find('#productCount'+i).val(),
-                productOneMoney   		        	: $(v).find('#productOneMoney'+i).val(),
-                productTotalMoney   		    : $(v).find('#productTotalMoney'+i).val(),
+                productCount   		        	: docuContractReq.uncomma($(v).find('#productCount'+i).val()),
+                productOneMoney   		        	: docuContractReq.uncomma($(v).find('#productOneMoney'+i).val()),
+                productTotalMoney   		    : docuContractReq.uncomma($(v).find('#productTotalMoney'+i).val()),
                 bmk   		    : $(v).find('#bmk'+i).val(),
             }
             areaArr.push(areaInfo);
@@ -128,7 +158,8 @@ var docuContractReq = {
             empSeq : empSeq,
             menuCd : menuCd,
             docFileName : docFileName,
-            docId : docId
+            docId : docId,
+            contractAmount : contractAmount
         }
 
 
@@ -145,12 +176,14 @@ var docuContractReq = {
             if(!confirm("문서를 등록하시겠습니까?")){
                 return;
             }
+            docuContractReq.loading();
             docuContractReq.fn_SetHtml(data, "insert");
             //docuContractReq.setDocuContractInsert(data);
         }else {
             if(!confirm("문서를 수정하시겠습니까?")){
                 return;
             }
+            docuContractReq.loading();
             docuContractReq.fn_SetHtml(data, "update");
             //docuContractReq.setDocuContractUpdate(data);
         }
@@ -177,6 +210,17 @@ var docuContractReq = {
 
     editorComplete : function(data, type){
         var filePath = docuContractReq.global.params.hwpTemplateFile;
+
+        if(data.classSn == 1){
+            filePath += "outsourcingTmp.hwp";
+        } else if (data.classSn == 2){
+            filePath += "serviceTmp.hwp";
+        } else if (data.classSn == 3){
+            filePath += "purchaseContractTmp.hwp";
+        } else if (data.classSn == 4){
+            filePath += "rentalCarTmp.hwp";
+        }
+
         console.log(filePath);
         docuContractReq.global.hwpCtrl.Open(filePath, "HWP", "", function () {
         }, {"userData" : "success"});
@@ -198,6 +242,9 @@ var docuContractReq = {
             docuContractReq.global.hwpCtrl.PutFieldText("total_date", totalDate);
             docuContractReq.global.hwpCtrl.PutFieldText("end_de", data.endDe.split("-")[0] + "년 " +data.endDe.split("-")[1] + "월 " + data.endDe.split("-")[2] + "일");
 
+            docuContractReq.global.hwpCtrl.PutFieldText("docu_de", data.docuDe.split("-")[0] + "년 " +data.endDe.split("-")[1] + "월 " + data.endDe.split("-")[2] + "일");
+            var moneyToHan = "금" + docuContractReq.fn_convertToKoreanNumber(data.contractAmount) + "정(금"+ $("#contractAmount").val()+"원, VAT별도)";
+            docuContractReq.global.hwpCtrl.PutFieldText("money_to_han", moneyToHan);
             if(data.areaArr != null){
                 for(var i = 0 ; i < data.areaArr.length; i++){
                     docuContractReq.global.hwpCtrl.PutFieldText("product_name" + i, data.areaArr[i].productName);
@@ -230,6 +277,40 @@ var docuContractReq = {
         docuContractReq.global.hwpCtrl.GetTextFile("HWPML2X", "", function (e){
             docuContractReq.fn_getHwpToStr(e, data, type)
         });
+    },
+
+    fn_convertToKoreanNumber : function (val) {
+        var numKor = new Array("", "일", "이", "삼", "사","오","육","칠","팔","구","십");                                  // 숫자 문자
+        var danKor = new Array("", "십", "백", "천", "", "십", "백", "천", "", "십", "백", "천", "", "십", "백", "천");    // 만위 문자열
+        var result = "";
+
+        if(val && !isNaN(val)){
+            // CASE: 금액이 공란/NULL/문자가 포함된 경우가 아닌 경우에만 처리
+
+            for(var i = 0; i < val.length; i++) {
+                var str = "";
+                var num = numKor[val.charAt(val.length - (i+1))];
+                if(num != "")   str += num + danKor[i];    // 숫자가 0인 경우 텍스트를 표현하지 않음
+                switch(i){
+                    case 4:str += "만";break;     // 4자리인 경우 '만'을 붙여줌 ex) 10000 -> 일만
+                    case 8:str += "억";break;     // 8자리인 경우 '억'을 붙여줌 ex) 100000000 -> 일억
+                    case 12:str += "조";break;    // 12자리인 경우 '조'를 붙여줌 ex) 1000000000000 -> 일조
+                }
+
+                result = str + result;
+            }
+
+            // Step. 불필요 단위 제거
+            if(result.indexOf("억만") > 0)    result = result.replace("억만", "억");
+            if(result.indexOf("조만") > 0)    result = result.replace("조만", "조");
+            if(result.indexOf("조억") > 0)    result = result.replace("조억", "조");
+
+
+
+            result = result + "원";
+        }
+
+        return result ;
     },
 
     fn_getHwpToStr : function(e, data, type){

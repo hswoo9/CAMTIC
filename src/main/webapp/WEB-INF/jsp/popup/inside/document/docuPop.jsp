@@ -6,7 +6,9 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/icons.css">
 <script type="text/javascript" src="/js/intra/inside/document/docuPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -49,7 +51,7 @@
                 <%--<tr>
                     <th colspan="4">계약대장</th>
                 </tr>--%>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>계약 기관
                     </th>
@@ -84,7 +86,7 @@
                         <span class="red-star"></span>계약 금액
                     </th>
                     <td>
-                        <input type="text" id="contractAmount" style="width: 90%; text-align: right;"> 원
+                        <input type="text" id="contractAmount" style="width: 90%; text-align: right;"  onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>계약 기간
@@ -156,7 +158,7 @@
                     추가
                 </button>
             </div>--%>
-            <table class="popTable table table-bordered mb-0">
+            <table class="popTable table table-bordered mb-0" id="productTable">
                 <thead>
                     <tr>
                         <th scope="row" class="text-center th-color">
@@ -189,6 +191,9 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script>
     docuContractReq.init(JSON.parse('${params}'));
+
+
+
 </script>
 </body>
 </html>

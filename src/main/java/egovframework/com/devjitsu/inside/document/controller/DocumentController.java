@@ -134,10 +134,10 @@ public class DocumentController {
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
             hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
-            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/purchaseContractTmp.hwp");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
         }else{
             hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
-            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/purchaseContractTmp.hwp");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
         }
 
         params.put("hwpUrl", hwpUrl);
