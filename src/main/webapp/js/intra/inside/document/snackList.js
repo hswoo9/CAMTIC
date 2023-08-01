@@ -18,6 +18,10 @@ var snackList = {
                 parameterMap: function(data) {
                     data.startDt = $("#startDt").val();
                     data.endDt = $("#endDt").val();
+                    data.empSeq = $("#regEmpSeq").val();
+                    data.mealsDivision = $("#mealsDivision").val();
+                    data.payDivision = $("#payDivision").val();
+                    data.approval = $("#approval").val();
                     return data;
                 }
             },
@@ -164,9 +168,9 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "야간 식대", value: "야간 식대"},
-                {text: "휴일 식대", value: "휴일 식대"},
-                {text: "평일 식대", value: "평일 식대"}
+                {text: "야간 식대", value: "1"},
+                {text: "휴일 식대", value: "2"},
+                {text: "평일 식대", value: "3"}
             ],
             index: 0
         });
@@ -176,9 +180,9 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "개인", value: "개인"},
-                {text: "법인", value: "법인"},
-                {text: "외상", value: "외상"}
+                {text: "개인", value: "1"},
+                {text: "법인", value: "2"},
+                {text: "외상", value: "3"}
             ],
             index: 0
         });
@@ -204,11 +208,13 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "결재", value: "결재"},
-                {text: "미결재", value: "미결재"}
+                {text: "결재", value: "100"},
+                {text: "미결재", value: "0"},
+                {text: "반려", value: "30"}
             ],
             index: 0
         });
+        fn_searchBind();
     },
 
     snackPopup: function(snackInfoSn, mode){

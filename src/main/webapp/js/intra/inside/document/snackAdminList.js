@@ -40,6 +40,10 @@ var snackAdminList = {
                 parameterMap: function(data) {
                     data.startDt = $("#startDt").val();
                     data.endDt = $("#endDt").val();
+                    data.empSeq = $("#regEmpSeq").val();
+                    data.mealsDivision = $("#mealsDivision").val();
+                    data.payDivision = $("#payDivision").val();
+                    data.approval = $("#approval").val();
                     return data;
                 }
             },
@@ -187,9 +191,9 @@ var snackAdminList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "야간 식대", value: "야간 식대"},
-                {text: "휴일 식대", value: "휴일 식대"},
-                {text: "평일 식대", value: "평일 식대"}
+                {text: "야간 식대", value: "1"},
+                {text: "휴일 식대", value: "2"},
+                {text: "평일 식대", value: "3"}
             ],
             index: 0
         });
@@ -199,25 +203,9 @@ var snackAdminList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "개인", value: "개인"},
-                {text: "법인", value: "법인"},
-                {text: "외상", value: "외상"}
-            ],
-            index: 0
-        });
-
-        $("#account").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: "" },
-                {text: "순대이야기", value: "순대이야기"},
-                {text: "지리산밥상", value: "지리산밥상"},
-                {text: "김밥한끼", value: "김밥한끼"},
-                {text: "한솔본가", value: "한솔본가"},
-                {text: "고궁", value: "고궁"},
-                {text: "두찜효자1호점", value: "두찜효자1호점"},
-                {text: "전주정든식당", value: "전주정든식당"}
+                {text: "개인", value: "1"},
+                {text: "법인", value: "2"},
+                {text: "외상", value: "3"}
             ],
             index: 0
         });
@@ -233,6 +221,7 @@ var snackAdminList = {
             index: 0
         });
         fn_deptSetting();
+        fn_searchBind();
     },
 
     snackPopup: function(snackInfoSn, mode){
@@ -267,3 +256,7 @@ var snackAdminList = {
     }
 }
 
+function gridReload(){
+    sum = 0;
+    $("#mainGrid").data("kendoGrid").dataSource.read();
+}

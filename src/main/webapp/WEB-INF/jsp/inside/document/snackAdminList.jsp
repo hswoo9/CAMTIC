@@ -46,29 +46,29 @@
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="startDt" style="width: 110px;">
+                            <input type="text" id="startDt" class="searchInput" style="width: 110px;">
                             ~
-                            <input type="text" id="endDt" style="width: 110px;">
+                            <input type="text" id="endDt" class="searchInput" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" style="width: 150px;">
+                            <input type="text" id="dept" class="searchInput" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="team" style="width: 180px;">
+                            <input type="text" id="team" class="searchInput" style="width: 180px;">
                         </td>
                         <th class="text-center th-color">식대 구분</th>
                         <td>
-                            <input type="text" id="mealsDivision" style="width: 100px;">
+                            <input type="text" id="mealsDivision" class="searchInput" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">결제 구분</th>
                         <td>
-                            <input type="text" id="payDivision" style="width: 70px;">
+                            <input type="text" id="payDivision" class="searchInput" style="width: 70px;">
                         </td>
                         <th class="text-center th-color">결재</th>
                         <td>
-                            <input type="text" id="approval" style="width: 80px;">
+                            <input type="text" id="approval" class="searchInput" style="width: 80px;">
                         </td>
                     </tr>
                 </table>
