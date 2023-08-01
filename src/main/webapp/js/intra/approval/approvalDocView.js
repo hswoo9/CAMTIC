@@ -841,7 +841,7 @@ var docView = {
     },
 
     initData : function(){
-        /** 결재자 부재체크
+        /** 결재자 부재체크 */
         if(docView.global.rs.approveNowRoute != null){
             if(docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
                 if(!docView.getIsExistsAbsent()){
@@ -850,7 +850,7 @@ var docView = {
                     $("#returnBtn").hide();
                 }
             }
-        }*/
+        }
 
         /** 열람 시간 업데이트 (결재자) */
         if(docView.global.rs.approveRoute.filter(element => element.APPROVE_EMP_SEQ == docView.global.loginVO.uniqId && element.APPROVE_ORDER != 0).length > 0){
