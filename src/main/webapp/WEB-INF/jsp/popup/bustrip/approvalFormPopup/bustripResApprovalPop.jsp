@@ -38,7 +38,7 @@
                     <tr>
                         <td style="height:30px; background-color:#FFE0E0; text-align:center; width: 102px"><p style="font-weight: bold;">출장기간</p></td>
                         <td style="height:30px; width: 531px"><p>
-                            ${rs.TRIP_DAY_FR} ~ ${rs.TRIP_DAY_TO}
+                            ${rs.TRIP_DAY_FR} ${rs.TRIP_TIME_FR} ~ ${rs.TRIP_DAY_TO} ${rs.TRIP_TIME_TO}
                         </p></td>
                     </tr>
                     <tr>

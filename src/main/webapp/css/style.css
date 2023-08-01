@@ -140,3 +140,6 @@ input[type=file]::file-selector-button {
 
 /* 화면 크기 mainCard*/
 .mainCard {padding-left: 10px;padding-right: 10px;}
+
+/* 전자결재 HTML 양식 숨김 */
+.pop_wrap_dir {display: none;}

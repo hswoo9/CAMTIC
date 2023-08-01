@@ -4,6 +4,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
+<div class="pop_wrap_dir" id="approvePop">
 <div id="approveDataPop">
     <table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">
         <tr>
@@ -29,6 +30,7 @@
             </td>
         </tr>
     </table>
+</div>
 </div>
 <script>
     approvalDataInit();
