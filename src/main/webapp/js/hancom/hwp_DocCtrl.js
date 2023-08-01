@@ -472,8 +472,9 @@ var hwpDocCtrl = {
                     }else if (carList == 11) {
                         carText = "기타";
                     }
+                    let car = carText;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('car', true, true, false);
-                    hwpDocCtrl.putFieldText('car', carText);
+                    hwpDocCtrl.putFieldText('car', car);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
                     hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);

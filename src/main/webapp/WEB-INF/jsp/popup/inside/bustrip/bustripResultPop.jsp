@@ -28,7 +28,7 @@
             <h3 class="card-title title_NM">출장결과보고</h3>
             <div class="btn-st popButton">
                 <c:choose>
-                    <c:when test="${params.mode eq 'mng' && rs.STATUS == 10}">
+                    <c:when test="${params.mode eq 'mng' && rs.EXP_STAT == 10}">
                         <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
                         <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
                     </c:when>
