@@ -386,7 +386,7 @@ public class BustripController {
 
         try{
             bustripService.saveBustripResult(params);
-            model.addAttribute("rs", "params");
+            model.addAttribute("params", params);
         } catch (Exception e){
             e.printStackTrace();
         }

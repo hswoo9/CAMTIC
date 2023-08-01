@@ -231,9 +231,10 @@ var bustripResultPop = {
             enctype : 'multipart/form-data',
             async : false,
             success : function(result){
+                console.log(result);
                 if(hrBizReqResultId == ""){
                     alert("출장 신청이 완료되었습니다.");
-                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.rs.hrBizReqResultId;
+                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId;
                 }else{
                     alert("출장 수정이 완료되었습니다.");
                     var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId;
@@ -263,6 +264,11 @@ var bustripResultPop = {
         var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
 
         if(result.flag){
+            if(p == 30){
+                alert("반려되었습니다.");
+            }else{
+                alert("승인되었습니다..");
+            }
             opener.gridReload();
             window.close();
         }

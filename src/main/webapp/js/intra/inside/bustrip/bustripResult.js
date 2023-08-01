@@ -154,7 +154,7 @@ var bustripResList = {
                 }, {
                     title : "결재",
                     template : function(row){
-                        if(row.EXP_STAT == "100"){
+                        if(row.EXP_STAT == 100){
                             if(row.RES_STATUS == 0){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResDrafting(\""+row.HR_BIZ_REQ_RESULT_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
@@ -189,7 +189,7 @@ var bustripResList = {
     },
 
     popBustripRes : function(e, d) {
-        if(e.HR_BIZ_REQ_RESULT_ID == "N"){
+        if(e == "N"){
             var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+d;
         }else{
             var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
