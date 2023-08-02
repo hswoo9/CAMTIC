@@ -1262,8 +1262,6 @@
             a.DEPT_TEAM_NAME,
             (select dept_name from cam_hr.dj_dept_info where dept_seq = (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ)) PARENT_DEPT_NAME,
             (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ) AS DEPT_PARENT_SEQ,
-            a.JOB_CODE,
-            a.JOB_NAME,
             a.POSITION_CODE,
             a.POSITION_NAME,
             a.DUTY_CODE,
