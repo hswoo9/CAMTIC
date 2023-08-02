@@ -385,4 +385,41 @@ public class DocumentController {
         return result;
     }
 
+    //문서고 삭제
+    @RequestMapping("/document/setAchiveDelete")
+    public String setAchiveDelete(@RequestParam(value = "archivePk[]") List<String> archivePk, Model model){
+        model.addAttribute("rs", documentService.setAchiveDelete(archivePk));
+        return "jsonView";
+    }
+
+    //문서고 폐기
+    @RequestMapping("/document/setAchiveScrap")
+    public String setAchiveScrap(@RequestParam(value = "archivePk[]") List<String> archivePk, Model model){
+        model.addAttribute("rs", documentService.setAchiveScrap(archivePk));
+        return "jsonView";
+    }
+
+    //문서고 업데이트
+    @RequestMapping("/document/setArchiveUpdate")
+    public String setArchiveUpdate(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", documentService.setArchiveUpdate(params));
+        return "jsonView";
+    }
+
+    //문서고 수정 팝업창
+    @RequestMapping("/Inside/pop/archiveUpdatePop.do")
+    public String archiveUpdatePop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> archiveList = documentService.getArchiveinfoList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("pk", params.get("pk"));
+        model.addAttribute("archiveList", archiveList);
+
+        return "popup/inside/document/archiveUpdatePop";
+    }
+
 }

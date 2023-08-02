@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/document/archiveList.js?v=${todate}"/></script>
+<input type="hidden" id="archiveSn" name="archiveSn" value="${pk}">
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -31,7 +32,7 @@
                         </td>
                         <th class="text-center th-color">문서고 상태</th>
                         <td>
-                            <input type="text" id="doclistState" style="width:70px;">
+                            <input type="text" id="doclistState" style="width:110px;">
                         </td>
                         <th class="text-center th-color">제목선택</th>
                         <td>

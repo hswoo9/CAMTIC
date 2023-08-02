@@ -106,4 +106,25 @@ public interface DocumentService {
      * @param params
      */
     List<Map<String, Object>> getDocumentPlaceList(Map<String, Object> params);
+
+    /**
+     * 문서고 삭제
+     * */
+    Map<String, Object> setAchiveDelete(List<String> archivePk);
+
+    /**
+     * 문서고 폐기
+     * */
+    Map<String, Object> setAchiveScrap(List<String> archivePk);
+
+    /**
+     * 문서고 업데이트
+     * */
+    Map<String, Object> setArchiveUpdate(Map<String, Object> params);
+
+    /**
+     * 문서고 수정에 들어갈 항목 조회
+     * */
+    Map<String,Object> getArchiveinfoList (Map<String,Object> params);
+
 }

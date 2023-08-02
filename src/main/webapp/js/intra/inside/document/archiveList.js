@@ -1,4 +1,5 @@
 var archiveList = {
+
     init: function(){
         archiveList.dataSet();
         archiveList.mainGrid();
@@ -16,7 +17,8 @@ var archiveList = {
         ]
         let stateArr = [
             {text: "보관", value: "1"},
-            {text: "폐기", value: "2"}
+            {text: "폐기예정", value: "2"},
+            {text: "폐기", value: "3"}
         ]
         customKendo.fn_dropDownList("doclistState", stateArr, "text", "value", 1);
         customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
@@ -88,6 +90,22 @@ var archiveList = {
                             '</button>';
                     }
                 }, {
+                    name: '',
+                    text: '폐기',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="archiveList.selectChkScrap()">' +
+                            '   <span class="k-button-text">폐기</span>' +
+                            '</button>';
+                    }
+                }, /*{
+                    name: '',
+                    text: '선택 삭제',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="archiveList.selectChkDel()">' +
+                            '   <span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                },*/ {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -95,12 +113,13 @@ var archiveList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: archiveList.dblclick,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'carPk\');"/>',
-                    template : "<input type='checkbox' name='carPk' class='carPk'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="archiveList.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template : "<input type='checkbox' id='archivePk#=ARCHIVE_INFO_SN#' name='archivePk' value='#=ARCHIVE_INFO_SN#'/>",
                     width: 40
-                }, {
+                }, /*{
                     field: "ROW_NUM",
                     title: "순번",
                     width: 50,
@@ -111,15 +130,22 @@ var archiveList = {
                             return row.ROW_NUM;
                         }
                     }
-                }, {
+                }, */{
                     field: "DOC_NUM",
                     title: "문서번호",
                     width: 200,
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>"+row.DOC_NUM+"</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NUM+"</span>";
+                            }else{
+                                return row.DOC_NUM;
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NUM+"</span>";
                         }else {
-                            return row.DOC_NUM;
+                            return row.DOC_NUM
                         }
                     }
                 }, {
@@ -129,12 +155,26 @@ var archiveList = {
                         if (row.DEPT_NAME == "") {
                             if (row.DISPOSE_YN == "Y") {
                                 return "<span style='text-decoration: line-through;'>전체</span>";
+                                if (row.ACTIVE == "D") {
+                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
+                                }else{
+                                    return row.DEPT_NAME;
+                                }
+                            }else if(row.ACTIVE == "D"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
                             }else {
                                 return row.DEPT_NAME;
                             }
                         }else {
                             if (row.DISPOSE_YN == "Y") {
-                                return "<span style='text-decoration: line-through;'>"+row.DEPT_NAME+"</span>";
+                                return "<span style='text-decoration: line-through;'>" + row.DEPT_NAME + "</span>";
+                                if (row.ACTIVE == "D") {
+                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.DEPT_NAME + "</span>";
+                                } else {
+                                    return row.DEPT_NAME;
+                                }
+                            }else if(row.ACTIVE == "D"){
+                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.DEPT_NAME + "</span>";
                             }else {
                                 return row.DEPT_NAME;
                             }
@@ -147,12 +187,26 @@ var archiveList = {
                         if (row.TEAM_NAME == "") {
                             if (row.DISPOSE_YN == "Y") {
                                 return "<span style='text-decoration: line-through;'>전체</span>";
-                            }else {
-                                return row.TEAM_NAME;
-                            }
+                                if (row.ACTIVE == "D") {
+                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
+                            }else{
+                                    return row.TEAM_NAME;
+                                }
+                            }else if(row.ACTIVE == "D"){
+                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
+                                }else {
+                                    return row.TEAM_NAME;
+                                }
                         }else {
                             if (row.DISPOSE_YN == "Y") {
                                 return "<span style='text-decoration: line-through;'>"+row.TEAM_NAME+"</span>";
+                                if (row.ACTIVE == "D") {
+                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.TEAM_NAME + "</span>";
+                                } else {
+                                    return row.TEAM_NAME;
+                                }
+                            }else if(row.ACTIVE == "D"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.TEAM_NAME + "</span>";
                             }else {
                                 return row.TEAM_NAME;
                             }
@@ -164,6 +218,13 @@ var archiveList = {
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>"+row.VISIT+"</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.VISIT+"</span>";
+                            }else{
+                                return row.VISIT;
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.VISIT+"</span>";
                         }else {
                             return row.VISIT;
                         }
@@ -174,8 +235,15 @@ var archiveList = {
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>"+row.DOC_NAME+"</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NAME+"</span>";
+                            }else{
+                                return row.DOC_NAME;
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NAME+"</span>";
                         }else {
-                            return row.DOC_NAME;
+                            return row.DOC_NAME
                         }
                     }
                 }, {
@@ -185,6 +253,13 @@ var archiveList = {
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>"+row.MANAGER_NAME+"</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.MANAGER_NAME+"</span>";
+                            }else{
+                                return row.MANAGER_NAME;
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.MANAGER_NAME+"</span>";
                         }else {
                             return row.MANAGER_NAME;
                         }
@@ -196,8 +271,15 @@ var archiveList = {
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>"+row.PRESERVATION_PERIOD+"</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.PRESERVATION_PERIOD+"</span>";
+                            }else{
+                                return row.PRESERVATION_PERIOD;
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.PRESERVATION_PERIOD+"</span>";
                         }else {
-                            return row.PRESERVATION_PERIOD;
+                            return row.PRESERVATION_PERIOD
                         }
                     }
                 }, {
@@ -207,6 +289,13 @@ var archiveList = {
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>"+row.DISPOSAL_YEAR+"</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DISPOSAL_YEAR+"</span>";
+                            }else{
+                                return row.DISPOSAL_YEAR;
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DISPOSAL_YEAR+"</span>";
                         }else {
                             return row.DISPOSAL_YEAR;
                         }
@@ -217,6 +306,13 @@ var archiveList = {
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
                             return "<span style='text-decoration: line-through;'>없음</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>없음</span>";
+                            }else{
+                                return "없음";
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>없음</span>";
                         }else {
                             return "없음";
                         }
@@ -226,7 +322,14 @@ var archiveList = {
                     width: 100,
                     template: function(row){
                         if (row.DISPOSE_YN == "Y") {
-                            return "<span style='text-decoration: line-through;'>폐기</span>";
+                            return "<span style='text-decoration: line-through;'>폐기예정</span>";
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through; text-decoration-color: red;'>폐기</span>";
+                            }else{
+                                return "폐기예정";
+                            }
+                        }else if(row.ACTIVE == "D"){
+                            return "<span style='text-decoration: line-through; text-decoration-color: red;'>폐기</span>";
                         }else {
                             return "보관";
                         }
@@ -234,11 +337,110 @@ var archiveList = {
                 }
             ]
         }).data("kendoGrid");
+
+
+    },
+
+    dblclick : function(){
+        const grid = this;
+        //문서고 리스트 더블 클릭시 수정 팝업창
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var selectedItem = grid.dataItem($(this));
+            console.log(selectedItem);
+            console.log(selectedItem.ARCHIVE_INFO_SN);
+            //pk
+            archiveList.archiveUpdatePop(selectedItem.ARCHIVE_INFO_SN);
+
+        });
+
+    },
+
+    selectChkDel : function (){
+        if($("input[name='archivePk']:checked").length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 삭제하시겠습니까?")){
+            return;
+        }
+
+        var archivePk = new Array();
+        $("input[name='archivePk']").each(function(){
+            if(this.checked){
+                archivePk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/document/setAchiveDelete',
+            data : {
+                archivePk : archivePk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
+    },
+
+    selectChkScrap : function (){
+        if($("input[name='archivePk']:checked").length == 0){
+            alert("폐기할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 폐기하시겠습니까?")){
+            return;
+        }
+
+        var archivePk = new Array();
+        $("input[name='archivePk']").each(function(){
+            if(this.checked){
+                archivePk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/document/setAchiveScrap',
+            data : {
+                archivePk : archivePk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='archivePk']").prop("checked", true);
+        }else{
+            $("input[name='archivePk']").prop("checked", false);
+        }
     },
 
     archiveReqPopup: function(){
         var url = "/Inside/pop/archiveReqPopup.do";
         var name = "archiveReqPopup";
+        var option = "width = 1000, height = 520, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    archiveUpdatePop: function(data){
+        console.log(data);
+        var url = "/Inside/pop/archiveUpdatePop.do?pk="+data;
+        var name = "archiveUpdatePop";
         var option = "width = 1000, height = 520, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }

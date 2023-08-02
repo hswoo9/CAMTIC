@@ -274,4 +274,65 @@ public class DocumentServiceImpl implements DocumentService {
 
         return path;
     }
+
+    //문서고 삭제
+    @Override
+    public Map<String, Object> setAchiveDelete(List<String> archivePk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            documentRepository.setAchiveDelete(archivePk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //문서고 폐기
+    @Override
+    public Map<String, Object> setAchiveScrap(List<String> archivePk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            documentRepository.setAchiveScrap(archivePk);
+
+            result.put("code", "200");
+            result.put("message", "폐기가 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "폐기 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //문서고 업데이트
+    @Override
+    public Map<String, Object> setArchiveUpdate(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            documentRepository.setArchiveUpdate(params);
+
+            result.put("code", "200");
+            result.put("message", "수정이 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "수정 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //문서고 수정에 들어갈 항목 조회
+    @Override
+    public Map<String, Object> getArchiveinfoList(Map<String, Object> params) {
+        return documentRepository.getArchiveinfoList(params);
+    }
+
 }
