@@ -46,7 +46,7 @@
                     DEPT_SEQ,
                     DEPT_NAME,
                     POSITION_CODE,
-                    POSITION_CODE AS POSITION_NAME,
+                    POSITION_NAME,
                     DUTY_CODE,
                     DUTY_NAME,
                     ACTIVE

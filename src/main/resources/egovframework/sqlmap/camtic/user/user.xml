@@ -25,7 +25,7 @@
             VEI.DEPT_NAME,
             VEI.POSITION_CODE,
             VEI.POSITION_NAME,
-            VEI.POSITION_CODE AS POSITION_NAME,
+            VEI.POSITION_NAME AS POSITION_NAME,
             VEI.DUTY_CODE,
             VEI.DUTY_NAME
         FROM
