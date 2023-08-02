@@ -93,7 +93,7 @@ var docuContractList = {
                     title: "계약 번호",
                     width: "10%",
                     template: function(row) {
-                        return row.DOCU_YEAR_SN+"-"+row.DOCU_NO;
+                        return row.DOCU_NO;
                     }
                 }, {
                     field: "DOCU_DE",
