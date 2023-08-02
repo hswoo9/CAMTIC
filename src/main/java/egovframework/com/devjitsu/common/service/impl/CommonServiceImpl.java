@@ -242,4 +242,9 @@ public class CommonServiceImpl implements CommonService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<Map<String, Object>> commonCodeList(Map<String, Object> params) {
+        return commonRepository.commonCodeList(params);
+    }
 }

@@ -183,4 +183,17 @@
         /* getContentFileDelOne */
         DELETE FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_NO = #{fileNo}
     </delete>
+
+    <select id="commonCodeList" parameterType="map" resultType="map">
+        /* commonCodeList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_COM_CODE A
+        LEFT JOIN
+            CAM_COMMON.DJ_COM_GROUP_CODE B
+        ON A.CM_GROUP_CODE_ID = B.CM_GROUP_CODE_ID
+        WHERE
+            B.CM_GROUP_CODE = #{cmGroupCode}
+    </select>
 </mapper>

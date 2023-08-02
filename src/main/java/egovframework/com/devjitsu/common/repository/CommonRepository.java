@@ -35,4 +35,8 @@ public class CommonRepository extends AbstractDAO {
     public void getContentFileDelOne(Map<String, Object> params) {
         delete("common.getContentFileDelOne", params);
     }
+
+    public List<Map<String, Object>> commonCodeList(Map<String, Object> params) {
+        return selectList("common.commonCodeList", params);
+    }
 }
