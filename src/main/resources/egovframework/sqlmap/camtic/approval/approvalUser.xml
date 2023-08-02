@@ -271,6 +271,7 @@
             '0' AS EMP_SEQ
         FROM
             CAM_HR.DJ_DEPT_INFO
+        ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
 
     <select id="getApproveDocBoxList" parameterType="map" resultType="map">
@@ -378,6 +379,7 @@
             CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
         WHERE
             DI.DEPT_SEQ NOT IN (#{deptSeq})
+        ORDER BY DI.DEPT_LEVEL, DI.ORDER_SN
     </select>
 
     <insert id="setUserFavApproveRoute" parameterType="map">
