@@ -27,7 +27,7 @@
           <li>
             <div id="noticePanel" class="btn-group">
               <a href="#">
-                <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="orgPopup();">
+                <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="myPopup();">
                   <i class="fa fa-sitemap"></i>
                 </button>
               </a>
@@ -168,6 +168,13 @@
 
     function orgPopup(){
       var url = "/user/pop/orgPop.do";
+      var name = "popup test";
+      var option = "width = 955, height = 807, top = 100, left = 200, location = no"
+      var popup = window.open(url, name, option);
+    }
+
+    function myPopup(){
+      var url = "/user/pop/myPop.do";
       var name = "popup test";
       var option = "width = 955, height = 807, top = 100, left = 200, location = no"
       var popup = window.open(url, name, option);

@@ -33,4 +33,8 @@ public class UserRepository extends AbstractDAO {
     public void setUserInfoUpdate(Map<String, Object> params) {
         update("user.setUserInfoUpdate", params);
     }
+
+    public Map<String,Object> getUserPersonnelinformList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("user.getUserPersonnelinformList", params);
+    }
 }

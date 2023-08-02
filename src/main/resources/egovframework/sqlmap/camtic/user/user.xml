@@ -126,4 +126,14 @@
                 EMP_SEQ = #{item.empSeq}
         </foreach>
     </update>
+
+    <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
+        /* getUserPersonnelinformList */
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+    </select>
 </mapper>
