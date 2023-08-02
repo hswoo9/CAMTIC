@@ -5,7 +5,7 @@
 
     <select id="ctDept" parameterType="map" resultType="map">
         /* ctDept */
-        SELECT * FROM DJ_CAMTIC.V_DEPT_INFO
+        SELECT * FROM CAM_HR.DJ_DEPT_INFO
     </select>
 
     <select id="getUserList" parameterType="map" resultType="map">
