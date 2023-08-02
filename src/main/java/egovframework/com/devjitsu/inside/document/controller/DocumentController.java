@@ -362,8 +362,9 @@ public class DocumentController {
 
     //문서고 문서등록
     @RequestMapping("/inside/setArchiveInsert")
-    public String setArchiveInsert(@RequestParam Map<String, Object> params) {
-        documentService.setArchiveInsert(params);
+    public String setArchiveInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
+        MultipartFile[] file = request.getFiles("archiveFile").toArray(new MultipartFile[0]);
+        documentService.setArchiveInsert(params, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -401,8 +402,10 @@ public class DocumentController {
 
     //문서고 업데이트
     @RequestMapping("/document/setArchiveUpdate")
-    public String setArchiveUpdate(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("rs", documentService.setArchiveUpdate(params));
+    public String setArchiveUpdate(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("archiveFile").toArray(new MultipartFile[0]);
+        documentService.setArchiveUpdate(params, file, SERVER_DIR, BASE_DIR);
+        model.addAttribute("pk", params.get("pk"));
         return "jsonView";
     }
 
@@ -420,6 +423,15 @@ public class DocumentController {
         model.addAttribute("archiveList", archiveList);
 
         return "popup/inside/document/archiveUpdatePop";
+    }
+
+
+    //문서고 수정창에서도 조회
+    @RequestMapping("/inside/getArchiveinfoList")
+    public String getArchiveinfoList(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = documentService.getArchiveinfoList(params);
+        model.addAttribute("data", data);
+        return "jsonView";
     }
 
 }

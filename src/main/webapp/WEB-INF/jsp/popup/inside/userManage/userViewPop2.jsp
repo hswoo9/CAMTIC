@@ -276,7 +276,7 @@
                         ${uprinfList.LEGAL_DOMICILE}
                     </td>
                 </tr>
-                    <c:if test="${uprinfList.CAR_ACTIVE == 1}">
+                    <c:if test="${uprinfList.CAR_ACTIVE == Y}">
                     <th>차량소유</th>
                     <td>
                         <%--<input type="checkbox" checked id="carActive2">--%>소유
@@ -290,10 +290,10 @@
                 <tr>
                     <th>결혼관계</th>
                     <td>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
                             기혼
                         </c:if>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
                             미혼
                         </c:if>
                     </td>

@@ -291,7 +291,7 @@
                         ${uprinfList.LEGAL_DOMICILE}
                     </td>
                 </tr>
-                    <c:if test="${uprinfList.CAR_ACTIVE == 1}">
+                    <c:if test="${uprinfList.CAR_ACTIVE == Y}">
                     <th>차량소유</th>
                     <td>
                         <%--<input type="checkbox" checked id="carActive2">--%>소유

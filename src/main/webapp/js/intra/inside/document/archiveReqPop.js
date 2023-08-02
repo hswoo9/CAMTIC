@@ -69,20 +69,29 @@ var archiveReq = {
         let prePeriod = $("#prePeriod").val();
         let disYear = $("#disYear").val();
         let docName = $("#docName").val();
+        let empSeq = $("#regEmpSeq").val();
 
-        let data = {
-            docYear : docYear,
-            docNum : docNum,
-            deptSn : deptSn,
-            deptName : deptName,
-            teamSn : teamSn,
-            teamName : teamName,
-            visit : visit,
-            managerSn : managerSn,
-            managerName : managerName,
-            prePeriod : prePeriod,
-            disYear : disYear,
-            docName : docName,
+        var formData = new FormData();
+        formData.append("menuCd", "archive");
+        formData.append("docYear", docYear);
+        formData.append("docNum", docNum);
+        formData.append("deptSn", deptSn);
+        formData.append("deptName", deptName);
+        formData.append("teamSn", teamSn);
+        formData.append("teamName", teamName);
+        formData.append("visit", visit);
+        formData.append("managerSn", managerSn);
+        formData.append("managerName", managerName);
+        formData.append("prePeriod", prePeriod);
+        formData.append("disYear", disYear);
+        formData.append("docName", docName);
+        formData.append("empSeq", empSeq);
+
+        //증빙파일 첨부파일
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("archiveFile", fCommon.global.attFiles[i]);
+            }
         }
 
         if(docNum == "") { alert("문서번호가 선택되지 않았습니다."); return; }
@@ -96,24 +105,37 @@ var archiveReq = {
             if(!confirm("문서를 등록하시겠습니까?")){
                 return;
             }
-            archiveReq.setArchiveInsert(data);
+            archiveReq.setArchiveInsert(formData);
         }else {
             if(!confirm("문서를 수정하시겠습니까?")){
                 return;
             }
-            archiveReq.setArchiveUpdate(data);
+            archiveReq.setArchiveUpdate(formData);
         }
     },
 
-    setArchiveInsert: function(data){
-        let result = customKendo.fn_customAjax("/inside/setArchiveInsert", data);
-        if(result.flag) {
-            alert("문서 등록이 완료되었습니다.");
-            opener.gridReload();
-            window.close();
-        }else {
-            alert("데이터 저장 중 에러가 발생했습니다.");
-        }
+    setArchiveInsert: function(formData){
+        $.ajax({
+            url : "/inside/setArchiveInsert",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("문서 등록이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
     },
 
     setArchiveUpdate: function(data){

@@ -41,7 +41,7 @@
         FROM
         CAM_INSIDE.DJ_OVER_WORK_PLAN OWP
         JOIN
-        DJ_CAMTIC.V_EMP_INFO VEI
+        CAM_HR.DJ_EMP_INFO VEI
         ON VEI.EMP_SEQ = OWP.REQUEST_EMP_SEQ
         JOIN
         DJ_CAMTIC.V_WORK_CODE WC
@@ -144,7 +144,7 @@
         FROM
             CAM_INSIDE.DJ_OVER_WORK_PLAN OWP
                 JOIN
-            DJ_CAMTIC.V_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO VEI
             ON VEI.EMP_SEQ = OWP.REQUEST_EMP_SEQ
                 JOIN
             DJ_CAMTIC.V_WORK_CODE WC

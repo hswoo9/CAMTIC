@@ -647,10 +647,10 @@ var userReqPop = {
         }
 
         if($("#carActive").is(":checked")){
-            data.CAR_ACTIVE = "1"
+            data.CAR_ACTIVE = "Y"
             data.CAR_NUM = $("#carNum1").val();
         } else {
-            data.CAR_ACTIVE = "0"
+            data.CAR_ACTIVE = "N"
             data.CAR_NUM = "";
         }
 

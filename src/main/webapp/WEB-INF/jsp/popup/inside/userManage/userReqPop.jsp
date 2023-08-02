@@ -229,7 +229,7 @@
 
                     <th>차량소유</th>
                     <td colspan="3">
-                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == 1}">checked</c:if> id="carActive"> 차량을 소유하고 있음
+                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
                     </td>
                 </tr>
                 <tr>

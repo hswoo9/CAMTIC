@@ -42,4 +42,9 @@ public class UserServiceImpl implements UserService {
     public void setUserInfoUpdate(Map<String, Object> params) {
         userRepository.setUserInfoUpdate(params);
     }
+
+    @Override
+    public Map<String, Object> getUserPersonnelinformList(Map<String, Object> params) {
+        return userRepository.getUserPersonnelinformList(params);
+    }
 }

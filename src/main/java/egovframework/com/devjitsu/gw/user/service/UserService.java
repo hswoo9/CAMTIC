@@ -15,4 +15,6 @@ public interface UserService {
     List<Map<String, Object>> getEmpSelList(Map<String, Object> params);
 
     void setUserInfoUpdate(Map<String, Object> params);
+
+    Map<String,Object> getUserPersonnelinformList (Map<String,Object> params);
 }

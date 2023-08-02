@@ -10,7 +10,7 @@
             DUTY_NAME,
             BDAY
 
-        FROM  DJ_CAMTIC.V_EMP_INFO VEI
+        FROM  CAM_HR.DJ_EMP_INFO VEI
 
         WHERE VEI.ACTIVE = 'Y' and VEI.DEPT_NAME = #{deptNm}
     </select>
@@ -25,7 +25,7 @@
             VEI.DEPT_NAME,
             VEI.POSITION_CODE,
             VEI.POSITION_NAME,
-            VEI.POSITION_CODE AS POSITION_NAME,
+            VEI.POSITION_NAME AS POSITION_NAME,
             VEI.DUTY_CODE,
             VEI.DUTY_NAME
         FROM
@@ -126,4 +126,14 @@
                 EMP_SEQ = #{item.empSeq}
         </foreach>
     </update>
+
+    <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
+        /* getUserPersonnelinformList */
+        SELECT
+            *
+        FROM
+            cam_hr.dj_emp_info AS a
+        WHERE
+            a.EMP_SEQ = #{empSeq};
+    </select>
 </mapper>
