@@ -10,7 +10,7 @@
             DUTY_NAME,
             BDAY
 
-        FROM  DJ_CAMTIC.V_EMP_INFO VEI
+        FROM  CAM_HR.DJ_EMP_INFO VEI
 
         WHERE VEI.ACTIVE = 'Y' and VEI.DEPT_NAME = #{deptNm}
     </select>

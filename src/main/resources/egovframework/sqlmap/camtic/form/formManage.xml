@@ -213,7 +213,7 @@
         FROM
             DJ_CAMTIC.A_FORM_CUSTOM_FIELD FCF
                 LEFT JOIN
-            DJ_CAMTIC.V_EMP_INFO EI
+            CAM_HR.DJ_EMP_INFO EI
             ON FCF.REG_EMP_SEQ = EI.EMP_SEQ
         WHERE
             FORM_ID = #{formId}

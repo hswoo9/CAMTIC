@@ -51,7 +51,7 @@
                     DUTY_NAME,
                     ACTIVE
                 FROM
-                    DJ_CAMTIC.V_EMP_INFO
+                    CAM_HR.DJ_EMP_INFO
             )VUI
         WHERE
             VUI.ACTIVE = 'Y'
