@@ -40,7 +40,7 @@
     <li class="member member_cluster"><a href="/camtic/member/cluster.do">캠틱 클러스터</a></li>
     <li class="member member_campus"><a href="/camtic/member/campus.do">캠 - 퍼스</a></li>
     <li class="member member_welfare"><a href="/camtic/member/welfare.do">캠 - 웰페어</a></li>
-    <li class="member member_job chi">
+    <li class="member member_job member_step chi">
       <a href="/camtic/member/job.do">캠 - 인크루트</a>
       <ul>
         <li class="member member_job"><a href="/camtic/member/job.do">채용공고</a></li>
