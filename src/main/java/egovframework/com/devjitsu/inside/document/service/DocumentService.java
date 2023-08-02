@@ -99,7 +99,7 @@ public interface DocumentService {
      * 문서고 등록
      * @param params
      */
-    void setArchiveInsert(Map<String, Object> params);
+    void setArchiveInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /**
      * 문서고 등록 - 문서위치 조회
@@ -120,7 +120,7 @@ public interface DocumentService {
     /**
      * 문서고 업데이트
      * */
-    Map<String, Object> setArchiveUpdate(Map<String, Object> params);
+    Map<String, Object> setArchiveUpdate(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /**
      * 문서고 수정에 들어갈 항목 조회

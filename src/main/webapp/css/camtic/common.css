@@ -390,8 +390,8 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 
 .__tblList {border-top:2px solid #155996;table-layout:fixed;}
 .__tblList tr > * {text-align:center;padding:13px 10px;line-height:1.6;}
-.__tblList tr th {font-size:13px;color:#155996;background:#f2fcfe;border-bottom:1px solid #ccc;font-weight:600;letter-spacing:-0.05em;}
-.__tblList tr td {font-size:16px;padding:15px 10px;border-bottom:1px solid #ccc;}
+.__tblList tr th {font-size:13px;color:#155996;background:#f2fcfe;border:1px solid #ccc;font-weight:600;letter-spacing:-0.05em;}
+.__tblList tr td {font-size:16px;padding:15px 10px;border:1px solid #ccc;}
 .__tblList tr .subject {text-align:left;}
 .__tblList tr .subject a {display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:#000;}
 .__tblList .notice td {background:#f6fcff}

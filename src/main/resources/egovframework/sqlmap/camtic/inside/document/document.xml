@@ -307,10 +307,18 @@
                         when (DISPOSAL_YEAR >= DATE_FORMAT(NOW(), '%Y'))
                     then 'N'
                     ELSE 'Y'
-                    END AS DISPOSE_YN
+                    END AS DISPOSE_YN,
+                    CFI.file_org_name,
+                    CFI.file_ext,
+                    CFI.file_size,
+                    IFNULL(CFI.file_no, 0) AS file_no,
+                    CFI.file_path,
+                    CFI.file_uuid
                     ]]>
                 FROM
-                    CAM_INSIDE.DJ_ARCHIVE_INFO IAI,
+                    CAM_INSIDE.DJ_ARCHIVE_INFO IAI
+                LEFT JOIN
+                    CAM_COMMON.DJ_FILE_INFO CFI ON IAI.ARCHIVE_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'archive',
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
@@ -646,6 +654,9 @@
                 #{docName},
                 NULL
             )
+        <selectKey keyProperty="archiveInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_ARCHIVE_INFO'
+        </selectKey>
     </insert>
 
     <!--문서고 등록 - 문서위치 조회-->
@@ -784,9 +795,17 @@
     <select id="getArchiveinfoList" parameterType="map" resultType="map">
         /* getArchiveinfoList */
         SELECT
-            a.*
+            a.*,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
         FROM
             CAM_INSIDE.DJ_ARCHIVE_INFO as a
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON a.ARCHIVE_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'archive'
         WHERE
             ARCHIVE_INFO_SN = #{pk}
     </select>

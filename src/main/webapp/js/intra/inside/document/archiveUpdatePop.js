@@ -59,6 +59,64 @@ var archiveUpdatePop = {
 
             $("#disYear").val(str + str1 - 1);
         });
+
+        var data = {};
+        $.ajax({
+            url : '/inside/getArchiveinfoList',
+            data : {
+                pk : $("#archiveSn").val()
+            },
+            dataType: "json",
+            type : "POST",
+            async : false,
+            success : function (rs){
+                data = rs.data;
+            }
+        });
+console.log(data);
+        archiveUpdatePop.settingTempFileDataInit(data);
+    },
+
+    settingTempFileDataInit : function(e, p){
+        var html = '';
+
+        if(p == "result"){
+            if(e.file_no > 0){
+                $(".resultTh").hide();
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td>'+ e.file_ext +'</td>';
+                html += '   <td>'+ e.file_size +'</td>';
+                html += '</tr>';
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        } else {
+            if(e.file_no > 0){
+                $(".resultTh").show();
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td>'+ e.file_ext +'</td>';
+                html += '   <td>'+ e.file_size +'</td>';
+                html += '   <td>';
+                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e.file_no +', this)">' +
+                    '			<span class="k-button-text">삭제</span>' +
+                    '		</button>';
+                html += '   </td>';
+                html += '</tr>';
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+
+
     },
 
     saveBtn: function () {
@@ -79,22 +137,30 @@ var archiveUpdatePop = {
             let docName = $("#docName").val();
             let empSeq = $("#empSeq").val();
 
-            let data = {
-                pk: pk,
-                docYear: docYear,
-                docNum: docNum,
-                deptSn: deptSn,
-                deptName: deptName,
-                teamSn: teamSn,
-                teamName: teamName,
-                visit: visit,
-                managerSn: managerSn,
-                managerName: managerName,
-                prePeriod: prePeriod,
-                disYear: disYear,
-                docName: docName,
-                empSeq: empSeq,
+            var formData = new FormData();
+            formData.append("menuCd", "archive");
+            formData.append("pk", pk);
+            formData.append("docYear", docYear);
+            formData.append("docNum", docNum);
+            formData.append("deptSn", deptSn);
+            formData.append("deptName", deptName);
+            formData.append("teamSn", teamSn);
+            formData.append("teamName", teamName);
+            formData.append("visit", visit);
+            formData.append("managerSn", managerSn);
+            formData.append("managerName", managerName);
+            formData.append("prePeriod", prePeriod);
+            formData.append("disYear", disYear);
+            formData.append("docName", docName);
+            formData.append("empSeq", empSeq);
+
+            //증빙파일 첨부파일
+            if(fCommon.global.attFiles != null){
+                for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                    formData.append("archiveFile", fCommon.global.attFiles[i]);
+                }
             }
+
 
             if (docNum == "") {
                 alert("문서번호가 선택되지 않았습니다.");
@@ -121,24 +187,27 @@ var archiveUpdatePop = {
                 return;
             }
 
-            console.log(data);
+            console.log(formData);
 
             $.ajax({
                 url: '/document/setArchiveUpdate',
-                data: data,
+                data: formData,
                 type : "post",
                 dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
                 async: false,
                 success : function(result){
                     console.log(result);
                     alert("수정이 완료되었습니다.");
                     opener.gridReload();
-                    ///window.close();
+                    window.close();
 
                 },
                 error : function() {
                     alert("저장 중 에러가 발생했습니다.");
-                    //window.close();
+                    window.close();
                 }
             });
         }

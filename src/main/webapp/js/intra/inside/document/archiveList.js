@@ -135,17 +135,12 @@ var archiveList = {
                     title: "문서번호",
                     width: 200,
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.DOC_NUM+"</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>"+row.DOC_NUM+"</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NUM+"</span>";
-                            }else{
-                                return row.DOC_NUM;
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NUM+"</span>";
-                        }else {
-                            return row.DOC_NUM
+                        }else{
+                            return row.DOC_NUM;
                         }
                     }
                 }, {
@@ -153,29 +148,19 @@ var archiveList = {
                     width: 150,
                     template: function(row){
                         if (row.DEPT_NAME == "") {
-                            if (row.DISPOSE_YN == "Y") {
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>전체</span>";
+                            }else if(row.DISPOSE_YN == "Y"){
                                 return "<span style='text-decoration: line-through;'>전체</span>";
-                                if (row.ACTIVE == "D") {
-                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
-                                }else{
-                                    return row.DEPT_NAME;
-                                }
-                            }else if(row.ACTIVE == "D"){
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
-                            }else {
-                                return row.DEPT_NAME;
+                            }else{
+                                return 전체;
                             }
                         }else {
-                            if (row.DISPOSE_YN == "Y") {
-                                return "<span style='text-decoration: line-through;'>" + row.DEPT_NAME + "</span>";
-                                if (row.ACTIVE == "D") {
-                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.DEPT_NAME + "</span>";
-                                } else {
-                                    return row.DEPT_NAME;
-                                }
-                            }else if(row.ACTIVE == "D"){
-                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.DEPT_NAME + "</span>";
-                            }else {
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.DEPT_NAME+"</span>";
+                            }else if(row.DISPOSE_YN == "Y"){
+                                return "<span style='text-decoration: line-through;'>"+row.DEPT_NAME+"</span>";
+                            }else{
                                 return row.DEPT_NAME;
                             }
                         }
@@ -185,29 +170,19 @@ var archiveList = {
                     width: 150,
                     template: function(row){
                         if (row.TEAM_NAME == "") {
-                            if (row.DISPOSE_YN == "Y") {
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>전체</span>";
+                            }else if(row.DISPOSE_YN == "Y"){
                                 return "<span style='text-decoration: line-through;'>전체</span>";
-                                if (row.ACTIVE == "D") {
-                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
                             }else{
-                                    return row.TEAM_NAME;
-                                }
-                            }else if(row.ACTIVE == "D"){
-                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>전체</span>";
-                                }else {
-                                    return row.TEAM_NAME;
-                                }
+                                return 전체;
+                            }
                         }else {
-                            if (row.DISPOSE_YN == "Y") {
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.TEAM_NAME+"</span>";
+                            }else if(row.DISPOSE_YN == "Y"){
                                 return "<span style='text-decoration: line-through;'>"+row.TEAM_NAME+"</span>";
-                                if (row.ACTIVE == "D") {
-                                    return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.TEAM_NAME + "</span>";
-                                } else {
-                                    return row.TEAM_NAME;
-                                }
-                            }else if(row.ACTIVE == "D"){
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + row.TEAM_NAME + "</span>";
-                            }else {
+                            }else{
                                 return row.TEAM_NAME;
                             }
                         }
@@ -216,16 +191,11 @@ var archiveList = {
                     field: "VISIT",
                     title: "위치",
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.VISIT+"</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>"+row.VISIT+"</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.VISIT+"</span>";
-                            }else{
-                                return row.VISIT;
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.VISIT+"</span>";
-                        }else {
+                        }else{
                             return row.VISIT;
                         }
                     }
@@ -233,17 +203,12 @@ var archiveList = {
                     field: "DOC_NAME",
                     title: "문서명",
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.DOC_NAME+"</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>"+row.DOC_NAME+"</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NAME+"</span>";
-                            }else{
-                                return row.DOC_NAME;
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DOC_NAME+"</span>";
-                        }else {
-                            return row.DOC_NAME
+                        }else{
+                            return row.DOC_NAME;
                         }
                     }
                 }, {
@@ -251,16 +216,11 @@ var archiveList = {
                     title: "담당자",
                     width: 100,
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.MANAGER_NAME+"</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>"+row.MANAGER_NAME+"</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.MANAGER_NAME+"</span>";
-                            }else{
-                                return row.MANAGER_NAME;
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.MANAGER_NAME+"</span>";
-                        }else {
+                        }else{
                             return row.MANAGER_NAME;
                         }
                     }
@@ -269,17 +229,12 @@ var archiveList = {
                     title: "보존년한",
                     width: 100,
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.PRESERVATION_PERIOD+"</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>"+row.PRESERVATION_PERIOD+"</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.PRESERVATION_PERIOD+"</span>";
-                            }else{
-                                return row.PRESERVATION_PERIOD;
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.PRESERVATION_PERIOD+"</span>";
-                        }else {
-                            return row.PRESERVATION_PERIOD
+                        }else{
+                            return row.PRESERVATION_PERIOD;
                         }
                     }
                 }, {
@@ -287,16 +242,11 @@ var archiveList = {
                     title: "폐기년도",
                     width: 100,
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.DISPOSAL_YEAR+"</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>"+row.DISPOSAL_YEAR+"</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DISPOSAL_YEAR+"</span>";
-                            }else{
-                                return row.DISPOSAL_YEAR;
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>"+row.DISPOSAL_YEAR+"</span>";
-                        }else {
+                        }else{
                             return row.DISPOSAL_YEAR;
                         }
                     }
@@ -304,33 +254,34 @@ var archiveList = {
                     title: "첨부파일",
                     width: 100,
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
-                            return "<span style='text-decoration: line-through;'>없음</span>";
+                        console.log(row.file_no);
+                        if(row.file_no != 0){
                             if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>없음</span>";
+                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>있음</span>";
+                            }else if(row.DISPOSE_YN == "Y"){
+                                return "<span style='text-decoration: line-through;'>있음</span>";
+                            }else{
+                                return "있음";
+                            }
+                        }else{
+                            if (row.ACTIVE == "D") {
+                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>없음</span>";
+                            }else if(row.DISPOSE_YN == "Y"){
+                                return "<span style='text-decoration: line-through;'>없음</span>";
                             }else{
                                 return "없음";
                             }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>없음</span>";
-                        }else {
-                            return "없음";
                         }
                     }
                 }, {
                     title: "문서고 상태",
                     width: 100,
                     template: function(row){
-                        if (row.DISPOSE_YN == "Y") {
+                        if (row.ACTIVE == "D") {
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>폐기</span>";
+                        }else if(row.DISPOSE_YN == "Y"){
                             return "<span style='text-decoration: line-through;'>폐기예정</span>";
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through; text-decoration-color: red;'>폐기</span>";
-                            }else{
-                                return "폐기예정";
-                            }
-                        }else if(row.ACTIVE == "D"){
-                            return "<span style='text-decoration: line-through; text-decoration-color: red;'>폐기</span>";
-                        }else {
+                        }else{
                             return "보관";
                         }
                     }

@@ -635,7 +635,7 @@
                           x="0 8.6099997 11.985 25.785 39.584999 53.384998 67.184998 80.985001 94.785004 108.585"
                           y="0"
                           sodipodi:role="line"
-                          id="tspan264">· 미래전략기획본부</tspan><tspan
+                          id="tspan264">· 미래전략기획팀</tspan><tspan
                           x="0 8.6099997 11.985 20.235001 25.59 39.389999 53.189999 66.989998 80.790001"
                           y="21.075001"
                           sodipodi:role="line"
@@ -917,6 +917,28 @@
                                 style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
                                 id="path432" />
                       </g>
+                      <%--<g
+                              id="g434"
+                              transform="translate(281.816,169.777)">
+                        <path
+                                d="m 0,0 v -10.702 c 0,-4.217 -3.431,-7.647 -7.648,-7.647 h -184.916 c -4.217,0 -7.647,3.43 -7.647,7.647 V 0 0.78 22.464 c 0,4.216 3.43,7.647 7.647,7.647 H -7.648 C -3.431,30.111 0,26.68 0,22.464 V 0.78 Z m -7.648,33.111 h -184.916 c -5.871,0 -10.647,-4.776 -10.647,-10.647 V 0.78 0 -10.702 c 0,-5.871 4.776,-10.647 10.647,-10.647 H -7.648 C -1.776,-21.349 3,-16.573 3,-10.702 V 0 0.78 22.464 c 0,5.871 -4.776,10.647 -10.648,10.647"
+                                style="fill:#41ace0;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                                id="path436" />
+                      </g>
+                    </g>
+                  </g>
+                  <text
+                          xml:space="preserve"
+                          transform="matrix(1,0,0,-1,112.7104,169.1606)"
+                          style="font-variant:normal;font-weight:500;font-stretch:normal;font-size:15px;font-family:'Noto Sans CJK KR';-inkscape-font-specification:NotoSansCJKkr-Medium;writing-mode:lr-tb;fill:#41ace0;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                          id="text440"><tspan
+                          x="0 13.8 27.6 41.400002 55.200001 69 82.800003 96.599998 110.4 124.2"
+                          y="0"
+                          sodipodi:role="line"
+                          id="tspan438">신기술융합팀</tspan></text>--%>
+
+
+                      <%-- 뿌리소재뿌리기술센터 --%>
                       <g
                               id="g434"
                               transform="translate(281.816,169.777)">
@@ -981,7 +1003,9 @@
                                 style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
                                 id="path472" />
                       </g>
-                      <g
+
+                      <%--드론사업부 하위--%>
+                      <%--<g
                               id="g474"
                               transform="translate(979.4172,242.8193)">
                         <path
@@ -999,7 +1023,7 @@
                           x="0 13.8 27.6 41.400002 55.200001 59.400002 73.199997 87 100.8 114.6 128.39999"
                           y="0"
                           sodipodi:role="line"
-                          id="tspan478">드론산업 혁신지원센터</tspan></text>
+                          id="tspan478">드론산업 혁신지원센터</tspan></text>--%>
                   <g
                           id="g482">
                     <g
@@ -1661,7 +1685,7 @@
                               style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
                               id="path284" />
                     </g>
-                    <g
+                    <%--<g
                             id="g286"
                             transform="translate(764.3134,168.7612)">
                       <path
@@ -1679,7 +1703,7 @@
                         x="0 13.8 27.6 41.400002 55.200001 59.400002 73.199997 87 100.8 114.6 128.39999"
                         y="0"
                         sodipodi:role="line"
-                        id="tspan290">드론산업 혁신지원센터</tspan></text>
+                        id="tspan290">드론산업 혁신지원센터</tspan></text>--%>
                 <g
                         id="g294">
                   <g
@@ -1962,7 +1986,7 @@
 
         <%--조직도 사원리스트 웹버전--%>
         <div class="imgList">
-          <p style="font-size: 24px; font-weight: 600; color: #000; margin-top: 30px;">미래전략기획본부</p>
+          <p style="font-size: 24px; font-weight: 600; color: #000; margin-top: 30px;">부서 연락처</p>
           <table class="__tblList respond1" style="margin-top:10px;">
             <caption>조직도 사원리스트</caption>
             <colgroup>
@@ -1979,9 +2003,76 @@
             </tr>
             </thead>
             <tr>
-              <td scope="col">미래전략기획본부</td>
+              <td rowspan="2" scope="col">미래전략기획본부</td>
               <td scope="col">미래전략기획팀</td>
               <td scope="col">063)219-0394</td>
+            </tr>
+            <tr>
+              <td scope="col">J-밸리혁신팀</td>
+              <td scope="col">063)219-0383</td>
+            </tr>
+            <tr>
+              <td rowspan="3" scope="col">R&BD사업본부</td>
+              <td scope="col">신기술융합팀</td>
+              <td scope="col">063)219-0322</td>
+            </tr>
+            <tr>
+              <td scope="col">제조혁신팀</td>
+              <td scope="col">063)219-0371</td>
+            </tr>
+            <tr>
+              <td scope="col">복합소재뿌리기술센터</td>
+              <td scope="col">063)219-0329</td>
+            </tr>
+            <tr>
+              <td rowspan="2" scope="col">기업성장지원본부</td>
+              <td scope="col">창업/기업성장지원팀</td>
+              <td scope="col">063)219-0341</td>
+            </tr>
+            <tr>
+              <td scope="col">인재개발팀</td>
+              <td scope="col">063)219-0426</td>
+            </tr>
+            <tr>
+              <td rowspan="3" scope="col">일자리혁신지원센터</td>
+              <td scope="col">일자리사업팀</td>
+              <td scope="col">063)219-0396</td>
+            </tr>
+            <tr>
+              <td scope="col">전북조선업도약팀</td>
+              <td scope="col">063)450-1304</td>
+            </tr>
+            <tr>
+              <td scope="col">익산고용안정팀</td>
+              <td scope="col">063)837-0401</td>
+            </tr>
+            <tr>
+              <td rowspan="2" scope="col">우주항공사업부</td>
+              <td scope="col">우주개발팀</td>
+              <td scope="col">063)219-0354</td>
+            </tr>
+            <tr>
+              <td scope="col">항공개발팀</td>
+              <td scope="col">063)219-0358</td>
+            </tr>
+            <tr>
+              <td scope="col">드론사업부</td>
+              <td scope="col"></td>
+              <td scope="col">063)219-0420</td>
+            </tr>
+            <tr>
+              <td scope="col">스마트제조사업부</td>
+              <td scope="col"></td>
+              <td scope="col">063)219-0432</td>
+            </tr>
+            <tr>
+              <td rowspan="2" scope="col">경영지원실</td>
+              <td scope="col">사업지원팀</td>
+              <td scope="col">063)219-0415</td>
+            </tr>
+            <tr>
+              <td scope="col">경영지원팀</td>
+              <td scope="col">063)219-0309</td>
             </tr>
             <tbody>
             </tbody>
@@ -1990,7 +2081,7 @@
         <%--조직도 사원리스트 모바일버전--%>
         <div class="imgMobileList">
           <div class="__tit2 __mt80">
-            <h3><strong>미래전략기획본부</strong></h3>
+            <h3><strong>부서 연락처</strong></h3>
           </div>
           <table class="__tblList tdfz14 bd1 bg3 respond2 __mt20">
             <caption>주요업무 표</caption>
@@ -2001,9 +2092,76 @@
               <th scope="col">연락처</th>
             </tr>
             <tr>
-              <td><strong class="__black __fz18 fwm">미래전략기획본부</strong></td>
+              <td rowspan="2"><strong class="__black __fz18 fwm">미래전략기획본부</strong></td>
               <td><strong class="__black __fz18 fwm">미래전략기획팀</strong></td>
               <td><strong class="__black __fz18 fwm">063)219-0394</strong></td>
+            </tr>
+            <tr>
+            <td><strong class="__black __fz18 fwm">J-밸리혁신팀</strong></td>
+            <td><strong class="__black __fz18 fwm">063)219-0383</strong></td>
+            </tr>
+            <tr>
+              <td rowspan="3"><strong class="__black __fz18 fwm">R&BD사업본부</strong></td>
+              <td><strong class="__black __fz18 fwm">신기술융합팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0322</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">제조혁신팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0371</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">복합소재뿌리기술센터</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0329</strong></td>
+            </tr>
+            <tr>
+              <td rowspan="2"><strong class="__black __fz18 fwm">기업성장지원본부</strong></td>
+              <td><strong class="__black __fz18 fwm">창업/기업성장지원팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0341</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">인재개발팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0426</strong></td>
+            </tr>
+            <tr>
+              <td rowspan="3"><strong class="__black __fz18 fwm">일자리혁신지원센터</strong></td>
+              <td><strong class="__black __fz18 fwm">일자리사업팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0396</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">전북조선업도약팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)450-1304</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">익산고용안정팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)837-0401</strong></td>
+            </tr>
+            <tr>
+              <td rowspan="2"><strong class="__black __fz18 fwm">우주항공사업부</strong></td>
+              <td><strong class="__black __fz18 fwm">우주개발팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0354</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">항공개발팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0358</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">드론사업부</strong></td>
+              <td><strong class="__black __fz18 fwm"></strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0420</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">스마트제조사업부</strong></td>
+              <td><strong class="__black __fz18 fwm"></strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0432</strong></td>
+            </tr>
+            <tr>
+              <td rowspan="2"><strong class="__black __fz18 fwm">경영지원실</strong></td>
+              <td><strong class="__black __fz18 fwm">사업지원팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0415</strong></td>
+            </tr>
+            <tr>
+              <td><strong class="__black __fz18 fwm">경영지원팀</strong></td>
+              <td><strong class="__black __fz18 fwm">063)219-0309</strong></td>
             </tr>
             </tbody>
           </table>
