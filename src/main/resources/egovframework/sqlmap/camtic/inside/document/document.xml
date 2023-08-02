@@ -332,6 +332,7 @@
                         AND MANAGER_NAME like CONCAT('%', #{searchText}, '%')
                     </when>
                 </choose>
+                AND ACTIVE != 'N'
                 ORDER BY IAI.REG_DT
             ) RE
         <if test='"1".equals(doclistState)'>
@@ -339,6 +340,9 @@
         </if>
         <if test='"2".equals(doclistState)'>
             WHERE RE.DISPOSE_YN = 'Y'
+        </if>
+        <if test='"3".equals(doclistState)'>
+            WHERE ACTIVE = 'D'
         </if>
         ORDER BY RE.ROW_NUM DESC
     </select>
@@ -623,7 +627,8 @@
                 MANAGER_NAME,
                 PRESERVATION_PERIOD,
                 DISPOSAL_YEAR,
-                DOC_NAME
+                DOC_NAME,
+                UPDT_DT
             )
         VALUES
             (
@@ -638,7 +643,8 @@
                 #{managerName},
                 #{prePeriod},
                 #{disYear},
-                #{docName}
+                #{docName},
+                NULL
             )
     </insert>
 
@@ -718,4 +724,71 @@
         SET FILE_SN = #{fileNo}
         WHERE DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </update>
+
+    <!--문서고 삭제-->
+    <update id="setAchiveDelete" parameterType="java.util.List">
+        /* setAchiveDelete */
+        UPDATE
+        CAM_INSIDE.DJ_ARCHIVE_INFO
+        SET
+        ACTIVE = 'N', UPDT_DT = NOW()
+        WHERE
+        ARCHIVE_INFO_SN IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--문서고 폐기-->
+    <update id="setAchiveScrap" parameterType="java.util.List">
+        /* setAchiveScrap */
+        UPDATE
+        CAM_INSIDE.DJ_ARCHIVE_INFO
+        SET
+        ACTIVE = 'D', UPDT_DT = NOW()
+        WHERE
+        ARCHIVE_INFO_SN IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--문서고 업데이트-->
+    <update id="setArchiveUpdate" parameterType="map">
+        /* setArchiveUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_ARCHIVE_INFO
+        SET
+            DOC_YEAR = #{docYear},
+            DOC_NUM = #{docNum},
+            DEPT_SEQ = #{deptSn},
+            DEPT_NAME = #{deptName},
+            TEAM_SEQ = #{teamSn},
+            TEAM_NAME = #{teamName},
+            VISIT = #{visit},
+            MANAGER_SN = #{managerSn},
+            MANAGER_NAME = #{managerName},
+            PRESERVATION_PERIOD = #{prePeriod},
+            DISPOSAL_YEAR = #{disYear},
+            DOC_NAME = #{docName},
+            UPDT_DT = NOW(),
+            UPDUSR_SN = #{empSeq}
+        WHERE
+            ARCHIVE_INFO_SN = #{pk}
+    </update>
+
+    <select id="getArchiveinfoList" parameterType="map" resultType="map">
+        /* getArchiveinfoList */
+        SELECT
+            a.*
+        FROM
+            CAM_INSIDE.DJ_ARCHIVE_INFO as a
+        WHERE
+            ARCHIVE_INFO_SN = #{pk}
+    </select>
+
 </mapper>

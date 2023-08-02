@@ -85,4 +85,19 @@ public class DocumentRepository extends AbstractDAO {
     public void setDocuContractFileKey(Map<String, Object> params){
         update("document.setDocuContractFileKey", params);
     }
+
+    //문서고 삭제
+    public void setAchiveDelete(List<String> archivePk) { update("document.setAchiveDelete", archivePk);}
+
+    //문서고 폐기
+    public void setAchiveScrap(List<String> archivePk) { update("document.setAchiveScrap", archivePk);}
+
+    //문서고 업데이트
+    public void setArchiveUpdate(Map<String, Object> params) { update("document.setArchiveUpdate", params);}
+
+    //문서고 수정에 들어갈 항목 조회
+    public Map<String,Object> getArchiveinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("document.getArchiveinfoList", params);
+    }
+
 }
