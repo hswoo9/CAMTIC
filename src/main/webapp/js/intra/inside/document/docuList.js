@@ -7,18 +7,10 @@ var docuContractList = {
     dataSet: function(){
         customKendo.fn_textBox(["searchText"]);
         let classArr = [
-            {text: "제작", value: "1"},
-            {text: "가공", value: "2"},
+            {text: "외주", value: "1"},
+            {text: "용역", value: "2"},
             {text: "구매", value: "3"},
-            {text: "공사", value: "4"},
-            {text: "전담인력", value: "5"},
-            {text: "시간제", value: "6"},
-            {text: "위촉연구원", value: "7"},
-            {text: "현장연수생", value: "8"},
-            {text: "입주", value: "9"},
-            {text: "장비사용", value: "10"},
-            {text: "용역", value: "11"},
-            {text: "기타", value: "12"}
+            {text: "임대차", value: "4"}
         ]
         customKendo.fn_dropDownList("classType", classArr, "text", "value", 1);
         let searchArr = [

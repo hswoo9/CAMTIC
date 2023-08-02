@@ -11,7 +11,7 @@ var docuContractReq = {
     },
 
     dataSet: function(){
-        customKendo.fn_textBox(["projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "zipCode", "addr", "addrDetail", "representative", "businessNumber"]);
+        customKendo.fn_textBox(["suretyInsurance", "dlvLoc", "payment", "rentalInfo", "rentalEa", "projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "zipCode", "addr", "addrDetail", "representative", "businessNumber"]);
         customKendo.fn_datePicker("docuDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("startDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDe", 'month', "yyyy-MM-dd", new Date());
@@ -63,7 +63,88 @@ var docuContractReq = {
             } else {
                 $("#productTable").css("display", "none");
             }
+
+            if(this.value == 4){
+                $("#rentalAmtInfo").css("display", "");
+            } else {
+                $("#rentalAmtInfo").css("display", "none");
+                $("#rentalInfo, #rentalEa, #contractAmount").val("");
+            }
+
+            if(this.value == 1 || this.value == 2){
+                $("#outsourcingInfo, #outsourcingInfo2").css("display", "");
+            } else {
+                $("#outsourcingInfo, #outsourcingInfo2").css("display", "none");
+            }
+
+            if(this.value == 2){
+                $("#validText").text("결과 보고");
+                $("#dlvLoc").val(" *기타 세부적인 사항은 과업지시서에 따름.");
+                $("#payment").val("최종 결과보고서 제출 후 30일이내 100% 현금 결제");
+            } else {
+                $("#validText").text("납품 장소");
+                $("#dlvLoc").val('"갑"의 지정장소');
+                $("#payment").val("납품/검수 완료 후 45일 이내 100% 현금 지급");
+            }
         });
+
+        var dp = $("#startDe").data("kendoDatePicker");
+        var dp2 = $("#endDe").data("kendoDatePicker");
+        dp.bind("change", function(){
+            if($("#startDe").val() > $("#endDe").val()){
+                $("#endDe").val($("#startDe").val());
+            }
+
+            var startDe = $("#startDe").val().replaceAll("-", "");
+            var endDe = $("#endDe").val().replaceAll("-", "");
+
+            var date1 = new Date(startDe.substr(0,4),startDe.substr(4,2)-1,startDe.substr(6,2));
+            var date2 = new Date(endDe.substr(0,4),endDe.substr(4,2)-1,endDe.substr(6,2));
+
+            var interval = date2 - date1;
+            var day = 1000*60*60*24;
+            var month = day*30;
+            var year = month*12;
+
+            var monthData = parseInt(interval/month);
+            $("#totalMonth").val(monthData);
+
+            docuContractReq.fn_rentalTotalAmt();
+        });
+
+        dp2.bind("change", function(){
+            if($("#startDe").val() > $("#endDe").val()){
+                $("#startDe").val($("#endDe").val());
+            }
+
+            var startDe = $("#startDe").val().replaceAll("-", "");
+            var endDe = $("#endDe").val().replaceAll("-", "");
+
+            var date1 = new Date(startDe.substr(0,4),startDe.substr(4,2)-1,startDe.substr(6,2));
+            var date2 = new Date(endDe.substr(0,4),endDe.substr(4,2)-1,endDe.substr(6,2));
+
+            var interval = date2 - date1;
+            var day = 1000*60*60*24;
+            var month = day*30;
+            var year = month*12;
+
+            var monthData = parseInt(interval/month);
+            $("#totalMonth").val(monthData);
+
+            docuContractReq.fn_rentalTotalAmt();
+        });
+
+        $("#rentalInfo, #rentalEa").on("keyup", function(){
+            docuContractReq.fn_rentalTotalAmt();
+        });
+    },
+
+    fn_rentalTotalAmt : function(){
+        if($("#class").val() == 4){
+            var rentalInfo = docuContractReq.uncomma($("#rentalInfo").val());
+            var rentalEa = docuContractReq.uncomma($("#rentalEa").val());
+            $("#contractAmount").val(docuContractReq.comma(rentalInfo * rentalEa * $("#totalMonth").val()));
+        }
     },
 
     inputNumberFormat : function (obj){
@@ -116,17 +197,23 @@ var docuContractReq = {
         let addrDetail = $("#addrDetail").val();
         let empSeq = $("#regEmpSeq").val();
         let menuCd = "contract";
-        let docFileName = "구매 계약서.hwp";
+        let docFileName = "외주 계약서.hwp";
         let docId = "contractHwp";
         let contractAmount = docuContractReq.uncomma($("#contractAmount").val());
+        let rentalEa = docuContractReq.uncomma($("#rentalEa").val());
+        let rentalInfo = docuContractReq.uncomma($("#rentalInfo").val());
+        let totalMonth = $("#totalMonth").val();
+        let payment = $("#payment").val();
+        let suretyInsurance = $("#suretyInsurance").val();
+        let dlvLoc = $("#dlvLoc").val();
 
         $.each($('.productItem'), function(i, v){
             let areaInfo = {
-                productName   		        		: $(v).find('#productName'+i).val(),
-                productCount   		        	: docuContractReq.uncomma($(v).find('#productCount'+i).val()),
-                productOneMoney   		        	: docuContractReq.uncomma($(v).find('#productOneMoney'+i).val()),
-                productTotalMoney   		    : docuContractReq.uncomma($(v).find('#productTotalMoney'+i).val()),
-                bmk   		    : $(v).find('#bmk'+i).val(),
+                productName   		: $(v).find('#productName'+i).val(),
+                productCount   		: docuContractReq.uncomma($(v).find('#productCount'+i).val()),
+                productOneMoney   	: docuContractReq.uncomma($(v).find('#productOneMoney'+i).val()),
+                productTotalMoney   : docuContractReq.uncomma($(v).find('#productTotalMoney'+i).val()),
+                bmk   		        : $(v).find('#bmk'+i).val(),
             }
             areaArr.push(areaInfo);
         });
@@ -159,7 +246,32 @@ var docuContractReq = {
             menuCd : menuCd,
             docFileName : docFileName,
             docId : docId,
-            contractAmount : contractAmount
+            contractAmount : contractAmount,
+            rentalEa : rentalEa,
+            rentalInfo : rentalInfo,
+            totalMonth : totalMonth,
+            payment : payment,
+            surtInsr : suretyInsurance,
+            dlvLoc : dlvLoc
+        }
+
+        if(data.surtInsr == "" || data.surtInsr == null){
+            data.surtInsr = 0;
+        }
+
+        if(data.rentalInfo == "" || data.rentalInfo == null){
+            data.rentalInfo = 0;
+        }
+
+
+        if(data.classSn == 1){
+            data.docFileName = "외주 계약서.hwp";
+        } else if (data.classSn == 2){
+            data.docFileName = "용역 계약서.hwp";
+        } else if (data.classSn == 3){
+            data.docFileName = "구매 계약서.hwp";
+        } else if (data.classSn == 4){
+            data.docFileName = "임대차 계약서.hwp";
         }
 
 
@@ -240,11 +352,28 @@ var docuContractReq = {
 
             var totalDate = data.startDe.split("-")[0] + "년 " +data.startDe.split("-")[1] + "월 " + data.startDe.split("-")[2] + "일 ~ " + data.endDe.split("-")[0] + "년 " +data.endDe.split("-")[1] + "월 " + data.endDe.split("-")[2] + "일";
             docuContractReq.global.hwpCtrl.PutFieldText("total_date", totalDate);
+            docuContractReq.global.hwpCtrl.PutFieldText("start_de", data.startDe.split("-")[0] + "년 " +data.startDe.split("-")[1] + "월 " + data.startDe.split("-")[2] + "일");
             docuContractReq.global.hwpCtrl.PutFieldText("end_de", data.endDe.split("-")[0] + "년 " +data.endDe.split("-")[1] + "월 " + data.endDe.split("-")[2] + "일");
 
             docuContractReq.global.hwpCtrl.PutFieldText("docu_de", data.docuDe.split("-")[0] + "년 " +data.endDe.split("-")[1] + "월 " + data.endDe.split("-")[2] + "일");
             var moneyToHan = "금" + docuContractReq.fn_convertToKoreanNumber(data.contractAmount) + "정(금"+ $("#contractAmount").val()+"원, VAT별도)";
             docuContractReq.global.hwpCtrl.PutFieldText("money_to_han", moneyToHan);
+            var monthRentalAmt = docuContractReq.comma(data.rentalInfo * data.rentalEa) + "원 (" + docuContractReq.comma(data.rentalInfo) + "원 x " + docuContractReq.comma(data.rentalEa) + "대)";
+            var totRentalAmt = docuContractReq.comma(data.rentalInfo * data.rentalEa * data.totalMonth) + "원 (" + docuContractReq.comma(data.rentalInfo * data.rentalEa) + "원 x " + data.totalMonth + "개월)";
+            docuContractReq.global.hwpCtrl.PutFieldText("month_rental_amt", monthRentalAmt);
+            docuContractReq.global.hwpCtrl.PutFieldText("total_rental_amt", totRentalAmt);
+
+            docuContractReq.global.hwpCtrl.PutFieldText("payment", data.payment);
+            docuContractReq.global.hwpCtrl.PutFieldText("surt_insr", data.surtInsr);
+            docuContractReq.global.hwpCtrl.PutFieldText("dlv_loc", data.dlvLoc);
+
+
+            var surt_amt = "일금" + docuContractReq.fn_convertToKoreanNumber(data.contractAmount / data.surtInsr) + "원정(\\" + docuContractReq.comma(data.contractAmount / data.surtInsr) + ")";
+            var sub_amt = "일금" + docuContractReq.fn_convertToKoreanNumber(data.contractAmount) + "원정(\\" + docuContractReq.comma(data.contractAmount) + ")";
+            docuContractReq.global.hwpCtrl.putFieldText("surt_amt", surt_amt);
+            docuContractReq.global.hwpCtrl.putFieldText("sub_amt", sub_amt);
+
+
             if(data.areaArr != null){
                 for(var i = 0 ; i < data.areaArr.length; i++){
                     docuContractReq.global.hwpCtrl.PutFieldText("product_name" + i, data.areaArr[i].productName);

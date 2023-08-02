@@ -472,7 +472,13 @@
                 BUSINESS_NUMBER,
                 ZIP_CODE,
                 ADDR,
-                ADDR_DETAIL
+                ADDR_DETAIL,
+                RENTAL_EA,
+                RENTAL_INFO,
+                TOTAL_MONTH,
+                PAYMENT,
+                SURT_INSR,
+                DLV_LOC
 
             )
         VALUES
@@ -499,7 +505,13 @@
                 #{businessNumber},
                 #{zipCode},
                 #{addr},
-                #{addrDetail}
+                #{addrDetail},
+                #{rentalEa},
+                #{rentalInfo},
+                #{totalMonth},
+                #{payment},
+                #{surtInsr},
+                #{dlvLoc}
             )
         <selectKey keyProperty="documentContractSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_DOCUMENT_CONTRACT'

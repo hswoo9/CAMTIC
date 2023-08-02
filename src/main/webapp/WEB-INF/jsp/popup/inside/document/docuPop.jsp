@@ -1,3 +1,4 @@
+</td>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -97,6 +98,43 @@
                         <input type="text" id="endDe" style="width: 45%;">
                     </td>
                 </tr>
+                <tr id="outsourcingInfo" style="display:none">
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>대금 지급
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="payment" style="width: 100%;" value="납품/검수 완료 후 45일 이내 100% 현금 지급">
+                    </td>
+                </tr>
+                <tr id="outsourcingInfo2" style="display: none">
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>보증 보험
+                    </th>
+                    <td style="font-weight: bold">
+                        <input type="text" id="suretyInsurance" maxlength="3" style="width: 90%; text-align: right;" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
+                    </td>
+                    <th scope="row" class="text-center th-color" id="validText">
+                        <span class="red-star"></span>납품 장소
+                    </th>
+                    <td style="font-weight: bold">
+                        <input type="text" id="dlvLoc" style="width: 100%;" value='"갑"의 지정장소'>
+                    </td>
+                </tr>
+                <tr id="rentalAmtInfo" style="display: none">
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>임대 가격
+                    </th>
+                    <td style="font-weight: bold">
+                        <input type="text" id="rentalInfo" style="width: 90%; text-align: right;" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
+                        <input type="hidden" id="totalMonth">
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>임대 수량
+                    </th>
+                    <td style="font-weight: bold">
+                        <input type="text" id="rentalEa" style="width: 90%; text-align: right;"  onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 개
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>계약 번호
@@ -160,23 +198,23 @@
             </div>--%>
             <table class="popTable table table-bordered mb-0" id="productTable">
                 <thead>
-                    <tr>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>품명
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>수량
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>단가
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>금액
-                        </th>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>비고
-                        </th>
-                    </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>품명
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>수량
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>단가
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>금액
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>비고
+                    </th>
+                </tr>
                 </thead>
                 <tbody id="product">
                 </tbody>
@@ -191,9 +229,6 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script>
     docuContractReq.init(JSON.parse('${params}'));
-
-
-
 </script>
 </body>
 </html>
