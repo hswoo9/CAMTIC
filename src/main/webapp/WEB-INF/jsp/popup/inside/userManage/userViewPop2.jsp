@@ -290,10 +290,10 @@
                 <tr>
                     <th>결혼관계</th>
                     <td>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
                             기혼
                         </c:if>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
                             미혼
                         </c:if>
                     </td>
