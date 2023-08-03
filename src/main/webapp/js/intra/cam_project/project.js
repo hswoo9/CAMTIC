@@ -74,6 +74,7 @@ var camPrj = {
     },
 
     gridReload : function (){
+        $(".container").css("display", "none");
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
@@ -126,10 +127,14 @@ var camPrj = {
             dataBound : function (e){
                 var self = e.sender;
                 self.tbody.find("tr").dblclick(function(e) {
+                    $(".container").css("display", "");
                     $(".circle").each(function(){
                         $(this).removeClass("active")
+                        $(this).removeClass("ready")
                         $(this).removeAttr("check");
+                        $(this).removeAttr("onClick");
                     });
+
                     switch (self.dataItem(this).B){
                         case "상담":
                             $("#ps0").attr("check", "Y");
@@ -143,7 +148,7 @@ var camPrj = {
                         case "개발계획":
                             $("#ps3").attr("check", "Y");
                             break;
-                        case "구매":
+                        case "설계":
                             $("#ps4").attr("check", "Y");
                             break;
                         case "납품":
@@ -169,7 +174,10 @@ var camPrj = {
 
                     for(var i = 0 ; i <= index ; i++){
                         $("#ps" + i).addClass("active");
+                        $("#ps" + i).attr("onClick","javascript:alert('뷰페이지 개발중')");
                     }
+                    $("#ps" + (index + 1)).addClass("ready");
+                    $("#ps" + (index + 1)).attr("onClick","javascript:alert('작성창 개발중')");
                 });
             },
             columns: [
@@ -194,7 +202,7 @@ var camPrj = {
                     width: "7%"
                 }, {
                     field: "D",
-                    title: "프로젝트명",
+                    title: "상담제목",
                     width: "20%"
                 }, {
                     field: "E",
@@ -232,6 +240,9 @@ var camPrj = {
     },
 
     setPrjPop: function (){
-
+        var url = "/project/pop/viewRegProject.do";
+        var name = "popup";
+        var option = "width = 900, height = 850, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     },
 }

@@ -75,6 +75,11 @@
         font-weight: bold;
         color: black;
     }
+    .circle.ready {
+        border-color: #FF772EFF;
+        font-weight: bold;
+        color: black;
+    }
 </style>
 <div class="mainCard">
     <div class="panel">
@@ -127,14 +132,14 @@
                     </tr>
                 </table>
 
-                <div class="container">
+                <div class="container" style="display: none;">
                     <div class="progress-container">
                         <div class="progress" id="progress"></div>
                         <div class="circle" id="ps0">상담</div>
                         <div class="circle" id="ps1">견적</div>
                         <div class="circle" id="ps2">수주보고</div>
                         <div class="circle" id="ps3">개발계획</div>
-                        <div class="circle" id="ps4">구매</div>
+                        <div class="circle" id="ps4">설계</div>
                         <div class="circle" id="ps5">납품</div>
                         <div class="circle" id="ps6">결과보고</div>
                         <div class="circle" id="ps7">원가보고</div>
