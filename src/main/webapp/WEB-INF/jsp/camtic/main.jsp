@@ -17,50 +17,84 @@
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
 
-  <a href="#" id="alarm">주요 알림 맞춤서비스</a>
-
-  <aside id="aside">
-    <a href="/camtic" class="aside1">첫화면</a>
-    <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="aside2">공지</a>
-    <%--<a href="#" class="aside3">SNS</a>--%>
-    <a href="#" class="aside4">채용<br>공고</a>
-    <a href="#" class="aside5">장비<br>사용</a>
-    <a href="#wrap" class="aside6 _gotop">TOP</a>
-  </aside>
+  <jsp:include page="/WEB-INF/jsp/template/camtic/alarm.jsp" flush="false"/>
+  <jsp:include page="/WEB-INF/jsp/template/camtic/aside.jsp" flush="false"/>
 
   <div id="content">
     <div id="vis">
       <div class="lef">
-        <div class="tit">
-          <dl>
-            <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
-            <dd>
-              창업 - 혁신 - 성장<br>
-              제조창업플랫폼
-            </dd>
-          </dl>
-          <p><span>J - Valley</span></p>
-        </div>
         <div class="roll2">
           <div class="swiper-wrapper">
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-2.png);"></div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-3.png);"></div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-4.png);"></div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-1.png);"></div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-2.png);">
+              <div class="tit">
+                <dl>
+                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dd>
+                    창업 - 혁신 - 성장<br>
+                    제조창업플랫폼
+                  </dd>
+                </dl>
+                <p><span>J - Valley</span></p>
+              </div>
+            </div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-3.png);">
+              <div class="tit">
+                <dl>
+                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dd>
+                    창업 - 혁신 - 성장<br>
+                    제조창업플랫폼
+                  </dd>
+                </dl>
+                <p><span>J - Valley</span></p>
+              </div>
+            </div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-4.png);">
+              <div class="tit">
+                <dl>
+                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dd>
+                    창업 - 혁신 - 성장<br>
+                    제조창업플랫폼
+                  </dd>
+                </dl>
+                <p><span>J - Valley</span></p>
+              </div>
+            </div>
+            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-1.png);">
+              <div class="tit">
+                <dl>
+                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dd>
+                    창업 - 혁신 - 성장<br>
+                    제조창업플랫폼
+                  </dd>
+                </dl>
+                <p><span>J - Valley</span></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="rig">
         <div class="roll">
           <div class="swiper-wrapper">
-            <%--<div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">--%>
-            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-1.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-1.png);">
+              <!-- 배너 중간에 이미지나 글귀를 넣어야한다면 아래 nimg : 이미지, hide : 글귀 태그 사용-->
+              <div class="nimg"></div>
+              <div class="hide"></div>
             </div>
-            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-2.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-2.png);">
+              <div class="nimg"></div>
+              <div class="hide"></div>
             </div>
-            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-3.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-3.png);">
+              <div class="nimg"></div>
+              <div class="hide"></div>
             </div>
-            <div class="vis vis1 swiper-slide" style="background-image:url(/images/camtic/main1-4.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-4.png);">
+              <div class="nimg"></div>
+              <div class="hide"></div>
             </div>
           </div>
         </div>
@@ -68,7 +102,7 @@
       <div class="cont">
         <span class="now">01</span>
         <div class="bar"></div>
-        <span class="max">03</span>
+        <span class="max">04</span>
         <button type="button" class="auto"><span class="hide">PLAY</span><i class="axi axi-pause2" aria-hidden="true"></i></button>
       </div>
       <div class="scr"><span>SCROLL</span></div>
@@ -209,14 +243,114 @@
       </div>
     </div>
 
-    <div id="ban">
+    <div id="sau">
       <div class="inner">
-        <ul>
-          <li><a href="http://mold.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
-          <li><a href="http://maker.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
-          <li><a href="http://www.jhitech.or.kr/" target='_blank'><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
-          <li><a href="http://drone.camtic.or.kr/main/" target='_blank'><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론기술개발지원센터"></a></li>
-        </ul>
+        <div class="tit">
+          <h3>사업공고</h3>
+          <div class="bt">
+            <button type="button" class="prev"><i class="axi axi-angle-left"></i></button>
+            <button type="button" class="next"><i class="axi axi-angle-right"></i></button>
+          </div>
+        </div>
+        <div class="area">
+          <div class="swiper-wrapper">
+            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+              <div class="head">
+                <div class="ico">진행</div>
+                <dl>
+                  <dt>마감일</dt>
+                  <dd>2023-12-31</dd>
+                </dl>
+              </div>
+              <div class="cont">
+                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="date">
+                  <i class="axi axi-clock" aria-hidden="true"></i>
+                  <p>
+                    2023-07-24 00:00:00 ~<br>
+                    2023-07-24 00:00:00
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+              <div class="head">
+                <div class="ico">진행</div>
+                <dl>
+                  <dt>마감일</dt>
+                  <dd>2023-12-31</dd>
+                </dl>
+              </div>
+              <div class="cont">
+                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="date">
+                  <i class="axi axi-clock" aria-hidden="true"></i>
+                  <p>
+                    2023-07-24 00:00:00 ~<br>
+                    2023-07-24 00:00:00
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+              <div class="head">
+                <div class="ico">진행</div>
+                <dl>
+                  <dt>마감일</dt>
+                  <dd>2023-12-31</dd>
+                </dl>
+              </div>
+              <div class="cont">
+                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="date">
+                  <i class="axi axi-clock" aria-hidden="true"></i>
+                  <p>
+                    2023-07-24 00:00:00 ~<br>
+                    2023-07-24 00:00:00
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+              <div class="head">
+                <div class="ico">진행</div>
+                <dl>
+                  <dt>마감일</dt>
+                  <dd>2023-12-31</dd>
+                </dl>
+              </div>
+              <div class="cont">
+                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="date">
+                  <i class="axi axi-clock" aria-hidden="true"></i>
+                  <p>
+                    2023-07-24 00:00:00 ~<br>
+                    2023-07-24 00:00:00
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+              <div class="head">
+                <div class="ico">진행</div>
+                <dl>
+                  <dt>마감일</dt>
+                  <dd>2023-12-31</dd>
+                </dl>
+              </div>
+              <div class="cont">
+                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="date">
+                  <i class="axi axi-clock" aria-hidden="true"></i>
+                  <p>
+                    2023-07-24 00:00:00 ~<br>
+                    2023-07-24 00:00:00
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -365,6 +499,16 @@
     </div>
   </div>
 
+  <div id="ban">
+    <div class="inner">
+      <ul>
+        <li><a href="#"><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
+        <li><a href="#"><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
+        <li><a href="#"><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
+        <li><a href="#"><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론산업혁신지원센터"></a></li>
+      </ul>
+    </div>
+  </div>
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 <script>

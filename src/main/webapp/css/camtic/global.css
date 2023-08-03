@@ -127,12 +127,7 @@ img {max-width:100%;}
 #footer .top .rig .site ul {position:absolute;left:0;bottom:100%;width:100%;background:#fff;z-index:50;border:1px solid #ccc;display:none;}
 #footer .top .rig .site ul li {border-bottom:1px solid #ccc;}
 #footer .top .rig .site ul li a {display:block;font-size:16px;padding:12px 14px;letter-spacing:-0.03em;}
-#footer .top .rig .site:hover > button:before,
-#footer .top .rig .site:focus-within > button:before {transform:rotate(180deg);}
-#footer .top .rig .site:hover ul,
-#footer .top .rig .site:focus-within ul {display:block;}
-#footer .top .rig .site ul li:hover a,
-#footer .top .rig .site ul li:focus-within a {background:#f3f3f3;color:#333;}
+#footer .top .rig .site ul li:hover a {background:#f3f3f3;color:#333;}
 #footer .top .gotop {position:absolute;left:100%;top:0;width:50px;height:50px;background:#293846;align-items:center;justify-content:center;color:#fff;}
 #footer .top .gotop i {display:block;margin-top:-3px;}
 #footer .top .gotop span {font-size:14px;display:block;margin-top:3px;}
@@ -157,6 +152,11 @@ img {max-width:100%;}
 	#footer .bot .copy {margin-top:10px;}
 }
 
+@media all and (min-width:1025px){
+	#footer .top .rig .site:hover > button:before {transform:rotate(180deg);}
+	#footer .top .rig .site:hover ul {display:block;}
+}
+
 @media all and (max-width:1024px){
 	#footer .top .inner {flex-direction:column}
 	#footer .top .fnb {display:flex;justify-content:center;flex-wrap:wrap;gap:5px 0;padding:10px;margin:0 -15px;}
@@ -169,6 +169,9 @@ img {max-width:100%;}
 	#footer .top .rig .site:first-child > button {border-left:none;}
 	#footer .top .rig .site:last-child > button {border-right:none;}
 	#footer .top .rig .site ul li a {font-size:13px;padding:10px;}
+	#footer .top .rig .site.active > button:before {transform:rotate(180deg);}
+	#footer .top .rig .site.active ul {display:block;}
+
 
 	#footer .bot {padding:20px 15px;}
 	#footer .bot .inner {display:block;padding:0;}
@@ -212,23 +215,24 @@ img {max-width:100%;}
 
 #vis {height:803px;display:flex;position:relative;}
 #vis > div {position:relative;}
-#vis .lef {background:url(/images/camtic/vis-bg.jpg) no-repeat 50% 50% / cover;width:36.979166%;padding:140px 40px 0 85px;}
+#vis .lef {background:url(/images/camtic/vis-bg.jpg) no-repeat 50% 50% / cover;width:36.979166%;}
 #vis .lef .tit dl {color:#333;}
 #vis .lef .tit dl dt {font-size:24px;line-height:1.3;letter-spacing:-0.04em;margin-bottom:10px;}
 #vis .lef .tit dl dd {font-size:65px;line-height:1.25;letter-spacing:-0.05em;font-weight:300;}
 #vis .lef .tit p {margin-top:10px;}
 #vis .lef .tit p span {display:inline-block;font-size:64px;font-weight:900;filter:drop-shadow(10px 10px 5px rgba(0,0,0,0.2));background:linear-gradient(to right,#00529c, #4bc1be);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;}
 #vis .lef .roll2,
-#vis .lef .roll2 .box {width:360px;height:194px;overflow:hidden;}
+#vis .lef .roll2 .box {width:100%;height:100%;overflow:hidden;}
 #vis .lef .roll2 {position:absolute;right:0;bottom:0;z-index:10;overflow:hidden;}
-#vis .lef .roll2 .box {background-repeat:no-repeat;background-position:50% 50%;background-size:cover;}
+#vis .lef .roll2 .box {background-repeat:no-repeat;background-position:50% 50%;background-size:cover;padding:140px 40px 0 85px;}
 #vis .rig {width:0;flex-grow:1;}
 #vis .rig .roll,
 #vis .rig .vis {height:803px;position:relative;overflow:hidden;}
-#vis .rig .vis {padding:0 15px;}
-#vis .rig .vis1 {background:url(/images/camtic/main1-1.png) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}
+#vis .rig .vis {padding:0 15px;background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;}
+#vis .rig .vis1 {background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}
 #vis .rig .tit dt {font-size:14px;color:rgba(255,255,255,0.54);margin-bottom:13px;}
 #vis .rig .tit dd {font-size:38px;font-weight:bold;color:#fff;}
+#vis .rig .nimg {position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:20px;}
 #vis .rig .area {display:flex;justify-content:center;margin-top:45px;text-align:center;}
 #vis .rig .area .box {width:200px;position:relative;}
 #vis .rig .area .box:before {content:"";display:block;width:60px;height:1px;background:#fff;position:absolute;left:100%;margin-left:-30px;top:120px;transform:rotate(45deg);}
@@ -263,7 +267,6 @@ img {max-width:100%;}
 }
 
 @media all and (max-width:1420px){
-	#vis .lef {padding-left:75px;}
 	#vis .lef .tit dl dt {font-size:1.5vw;}
 	#vis .lef .tit dl dd {font-size:4vw;letter-spacing:-0.075em;}
 	#vis .lef .tit p span {font-size:4.2vw;}
@@ -274,11 +277,25 @@ img {max-width:100%;}
 	#aside {display:none;}
 
 	#vis {height:auto;display:block;}
-	#vis .lef {display:none;}
+	#vis .lef {height:auto;width:auto;padding:0;}
+	#vis .lef .tit dl dt {font-size:4vw;margin-bottom:2vw;}
+	#vis .lef .tit dl dd {font-size:10vw;}
+	#vis .lef .tit p {margin-top:1vw;}
+	#vis .lef .tit p span {font-size:12vw;}
+	#vis .lef .roll2 {position:relative;}
+	#vis .lef .roll2 .box {padding:7vw 5vw;height:60vw;}
+
 	#vis .rig {width:auto;}
-	#vis .rig .roll,
+	/* #vis .rig .roll,
 	#vis .rig .vis {height:360px;}
 	#vis .rig .vis {padding:40px 15px 0;}
+	 */
+
+	#vis .rig .roll,
+	#vis .rig .vis {height:auto;}
+	#vis .rig .vis {padding:0;}
+	#vis .rig .vis .nimg {position:relative;}
+
 	#vis .rig .tit dt {font-size:14px;margin-bottom:10px;}
 	#vis .rig .tit dd {font-size:24px;}
 	#vis .rig .area {margin-top:20px;}
@@ -290,12 +307,13 @@ img {max-width:100%;}
 	#vis .rig .area .box dl dt {font-size:13px;line-height:1.2;letter-spacing:-0.05em;}
 	#vis .rig .area .box dl dd {margin-top:7px;font-size:11px;line-height:1.3;}
 
-	#vis .cont {left:0;height:auto;gap:10px;width:auto;padding:7px 5px 7px 10px;}
-	#vis .cont span {font-size:14px;}
-	#vis .cont .bar {width:40px;}
+	#vis .cont {left:auto;top:60vw;bottom:auto;right:0;height:auto;gap:10px;width:auto;padding:3px 5px 3px 7px;margin-top:-25px;}
+	#vis .cont span {font-size:12px;}
+	#vis .cont .bar {width:30px;}
 	#vis .cont .auto {margin-left:-5px;}
+	#vis .cont .auto i {font-size:18px;}
 
-	#vis .scr {width:50px;margin-left:-25px;bottom:15px;font-size:9px;padding-top:40px;}
+	#vis .scr {width:50px;margin-left:-25px;bottom:15px;font-size:9px;padding-top:40px;display:none;}
 	#vis .scr:before {width:20px;height:32px;margin-left:-10px;border-radius:10px;}
 	#vis .scr:after {width:2px;height:6px;border-radius:1px;margin-left:-1px;top:6px;}
 }
@@ -385,14 +403,14 @@ img {max-width:100%;}
 	#mid .rig .swiper-slide i {height:auto;padding-top:63.7931%;}
 }
 
-#ban {padding:0 15px 180px;}
+#ban {padding:100px 15px 30px;}
 #ban .inner {max-width:1600px;margin:0 auto;}
 #ban ul {display:flex;gap:27px;}
 #ban ul li {border:1px solid #ddd;border-radius:5px;width:0;flex-grow:1;overflow:hidden;}
 #ban ul li a {display:flex;align-items:center;justify-content:center;height:100%;}
 
 @media all and (max-width:1024px){
-	#ban {padding:0 15px 40px;}
+	#ban {padding:40px 15px 10px;}
 	#ban ul {gap:5px;}
 	#ban ul li a {padding:0 5px;}
 }
@@ -1863,7 +1881,436 @@ img {max-width:100%;}
 	.__welfare2 .box dl dd {font-size:12px;margin-top:7px;letter-spacing:-0.05em;}
 }
 
+
+#Service {position:absolute;display:none;left:0;top:0;width:100%;height:100%;background-color:#fff;z-index:3000;font-family:'GmarketSans',sans-serif;line-height:1.6;font-size:17px;}
+#Service .subject {font-size:30px;color:#000;}
+#Service .subject,
+#Service .txtst {margin-right:25px;display:inline-block;}
+#Service .svg_close {position:fixed;right:30px;top:15px;border-radius:50%;background-color:#ee2e5b;z-index:3001}
+#Service .svg_close button {width:75px;height:75px;background:url(/images/camtic/btn_close.png) center no-repeat;display:block;}
+#Service .svgroup_l {position:fixed;left:0;top:0;width:28%;height:100%;text-align:center;overflow:hidden;z-index:100;}
+#Service .svgroup_l .svg_logo {position:absolute;left:40px;top:35px;width:204px;height:47px;background:url(/images/camtic/logo2.png) no-repeat 0 50%;}
+#Service .svgroup_l .svg_slogan {margin-top:40%;}
+#Service .svgroup_l .svg_slogan h3 {width:343px;height:142px;margin-bottom:40px;background:url(/images/camtic/slogan.png) left top no-repeat;display:inline-block;display:none;}
+#Service .svgroup_l .svg_slogan dl dt {font-size:25px;font-weight:400;color:#ffc127;margin-bottom:5px;}
+#Service .svgroup_l .svg_slogan dl dd {color:rgba(255,255,255,.8);}
+#Service .svgroup_l .svg_menu {width:55%;margin-top:13%;display:inline-block;}
+#Service .svgroup_l .svg_menu ul li {width:100%;height:57px;}
+#Service .svgroup_l .svg_menu ul li a {position:relative;height:100%;line-height:60px;text-indent:-10px;color:rgba(255,255,255,.75);background:url(/images/camtic/nav_arrow.png) 87% center no-repeat;border-radius:50px;display:block;}
+#Service .svgroup_l .svg_menu ul li a::after {content:'';position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:85%;height:1px;background-color:rgba(255,255,255,.15);}
+#Service .svgroup_l .svg_menu ul li a:hover,
+#Service .svgroup_l .svg_menu a.menu_on {background-color:#182b3a;background-image:none;border-radius:50px;z-index:2;}
+#Service .svgroup_l .svg_menu ul li a:hover span,
+#Service .svgroup_l .svg_menu a.menu_on span {position:relative;height:100%;padding-left:60px;color:rgba(255,255,255,.9);transition:all .5s ease;display:inline-block;}
+#Service .svgroup_l .svg_menu a:hover span::before,
+/*임시 수정*/
+#Service .svgroup_l .svg_menu a.menu_on span::before {content:'';position:absolute;left:14px;top:0;width:28px;height:51px;background:url(/images/camtic/logo2.png) left center no-repeat;display:inline-block;}
+#Service .svgroup_l .svg_menu ul li a:hover::after {display:none;}
+#Service .svgroup_l .svg_intro {position:absolute;left:0;top:0;width:100%;height:100%;background:url(/images/camtic/intro_bg.jpg) top center no-repeat;z-index:-1;}
+#Service .svgroup_l .svg_intro::after {content:'';position:absolute;left:0;top:0;width:100%;height:100%;background-color:rgba(32,71,131,.9);}
+#Service .svgroup_l .svg_intro video {position:absolute;left:-65%;top:0;right:0;bottom:0;min-width:100%;min-height:100%;}
+#Service .svgroup_r {float:right;width:72%;min-height:100%;}
+#Service .svgroup_r .svg_contents {position:relative;width:88%;margin:45px auto 0 auto;}
+
+/*주요알림 모아보기*/
+#Service .svgroup_r .svg_contents .notification {position:relative;float:left;width:100%;margin-top:80px;padding-bottom:50px;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;}
+#Service .svgroup_r .svg_contents .notification h4 {position:absolute;top:-59px;width:33.33333%;height:60px;line-height:3.5;text-align:center;background-color:#0066b3;}
+#Service .svgroup_r .svg_contents .notification h4:hover,
+#Service .svgroup_r .svg_contents .notification .on {background-color:#00ac6c;}
+#Service .svgroup_r .svg_contents .notification h4 a {font-size:18px;font-weight:400;color:#fff;display:block;}
+#Service .svgroup_r .svg_contents .notification .on a{text-decoration:underline}
+#Service .svgroup_r .svg_contents .notification .popupzone1 {position:relative;float:left;width:100%;min-height:850px;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 .poptit1 {left:-1px;border-radius:10px 0 0 0;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul,
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul,
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul {position:relative;float:left;width:100%;padding:50px;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul li,
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li {float:left;width:31.5%;margin:0 2.7% 2.7% 0;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul li a,
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li a {height:100%;display:block;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul li:nth-child(3n+3),
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li:nth-child(3n+3),
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(4n+4) {float:right;margin-right:0;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul li dl,
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li dl {padding:5% 7%;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul li dl dt,
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li dl dt {font-weight:400;color:#343434;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 ul li dl dd,
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li dl dd {font-size:13.5px;color:#949494;letter-spacing:.3px;padding-left:20px;margin-top:3px;background:url(/images/camtic/icon_time.png) left 2px no-repeat;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb,
+#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb {height:160px;background-color:#f5fcfa;border-bottom:1px solid #e0e0e0;overflow:hidden;}
+#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb img,
+#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb img,
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li img {width:100%;height:100%;}
+#Service .svgroup_r .svg_contents .notification .popupzone2 {position:absolute;left:0;top:0;width:100%;min-height:850px;}
+#Service .svgroup_r .svg_contents .notification .popupzone2 .poptit2 {left:33.333333%;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 {position:absolute;left:0;top:0;width:100%;min-height:850px;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 .poptit3 {right:-1px;border-radius:0 10px 0 0;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li {float:left;width:23%;height:100px;margin:0 2.6% 2.6% 0;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li a {height:100%;display:block;border:1px solid #e0e0e0;border-radius:10px;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li i {width:65px;height:65px;margin:17px 0 0 25px;border-radius:50%;display:inline-block;overflow:hidden;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {float:right;width:calc(84% - 65px);margin:25px 2% 0 0;font-size:16px;color:#343434;line-height:1.5;}/*width:50%;margin:25px 15px 0;*/
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li a:hover {border:1px solid #0066B3;box-shadow:3px 3px 5px 0px rgba(0,0,0,.1);transition:all .3s ease;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li a:hover strong {color:#0066B3;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(1) i {background:url(/images/camtic/banner_img1.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(2) i {background:url(/images/camtic/banner_img2.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(3) i {background:url(/images/camtic/banner_img3.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(4) i {background:url(/images/camtic/banner_img4.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(5) i {background:url(/images/camtic/banner_img5.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(6) i {background:url(/images/camtic/banner_img6.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(7) i {background:url(/images/camtic/banner_img7.jpg) center no-repeat;}
+#Service .svgroup_r .svg_contents .notification .popCon1,
+#Service .svgroup_r .svg_contents .notification .popCon2,
+#Service .svgroup_r .svg_contents .notification .popCon3 {position:relative;float:left;width:100%;z-index:2010;}
+
+/*리스트 더보기 버튼*/
+#Service .svgroup_r .svg_contents .readMore {overflow:hidden;}
+#Service .svgroup_r .svg_contents .btn_rdmore,
+#Service .svgroup_r .svg_contents .btn_folding {float:left;width:98%;margin:0 auto;text-align:center;}
+#Service .svgroup_r .svg_contents .btn_rdmore a,
+#Service .svgroup_r .svg_contents .btn_folding a {position:relative;width:170px;height:45px;line-height:3;text-align:center;margin:30px auto 0 auto;font-size:16px;border-radius:.2em;border:1px solid #e0e0e0;display:inline-block;}
+#Service .svgroup_r .svg_contents .btn_rdmore a::after {content:'';position:absolute;left:0;top:0;width:100%;height:70px;background:url(/images/camtic/more_bt.png) center bottom no-repeat;}
+#Service .svgroup_r .svg_contents .btn_folding a::after {content:'';position:absolute;left:0;bottom:0;width:100%;height:70px;background:url(/images/camtic/more_bt.png) center bottom no-repeat;transform:rotate(-180deg);}
+
+#Service .helper {position:relative;float:left;width:100%;padding:4% 5% 3% 5%;margin:20px 0 7% 0;background-color:#fff;border:1px solid #e0e0e0;border-radius:10px;}
+#Service .helper .hp_search {width:100%;padding-bottom:4%;margin-bottom:3%;border-bottom:1px dotted #ccc;display:inline-block;}
+#Service .helper .hp_search .hp_num {float:left;width:25%;min-height:250px;margin-top:-15px;background:url(/images/camtic/helper_bg.png) left top no-repeat;}
+#Service .helper .hp_search form {float:right;width:75%;margin-top:20px;}
+#Service .helper .hp_search input {width:81%;height:65px;padding:0 15px 0 10px;border-radius:5px;background-color:#f6f6f6;}
+#Service .helper .hp_search button {float:right;width:18%;height:65px;font-size:17px;text-indent:20px;color:#fff;background:#00ac6c url(/images/camtic/icon_search.png) 18% 22px no-repeat;border-radius:5px;vertical-align:top;}
+#Service .helper .hp_search button:hover {background-color:#006db4;}
+#Service .helper .hp_search .hp_keyword {margin-top:26px;}
+#Service .helper .hp_search .hp_keyword li {margin:0 13px 13px 0;display:inline-block;}
+#Service .helper .hp_search .hp_keyword li:last-child {margin-right:0;}
+#Service .helper .hp_search .hp_keyword li a {padding:7px 12px;font-size:15.5px;border:1px dashed #ccc;display:block;}
+#Service .helper .hp_search .hp_keyword li a:hover {border:1px dashed #e21157;color:#e21157;}
+#Service .helper .hp_link h4 {font-size:23px;color:#212121;margin-bottom:10px;}
+#Service .helper .hp_link h4 span {font-family:'GmarketSansBold', sans-serif;}
+#Service .helper .hp_link .synthesis {float:left;width:67%;}
+#Service .helper .hp_link .synthesis ul li {float:left;width:22.7%;height:150px;text-align:center;margin:0 3% 3% 0;border:1px solid #e0e0e0;border-radius:7px;}
+#Service .helper .hp_link .synthesis ul li:nth-child(4n+4) {float:right;margin-right:0;}
+#Service .helper .hp_link .synthesis ul li span {margin-top:60%;padding:0 5%;line-height:1.5;display:inline-block;}
+#Service .helper .hp_link .synthesis ul li:nth-child(1) {background:url(/images/camtic/synthesis_icon1.png) center 35px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(2) {background:url(/images/camtic/synthesis_icon2.png) center 33px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(3) {background:url(/images/camtic/synthesis_icon3.png) center 35px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(4) {background:url(/images/camtic/synthesis_icon4.png) center 37px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(5) {background:url(/images/camtic/synthesis_icon5.png) center 32px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(6) {background:url(/images/camtic/synthesis_icon6.png) center 30px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(7) {background:url(/images/camtic/synthesis_icon7.png) 45% 33px no-repeat;}
+#Service .helper .hp_link .synthesis ul li:nth-child(8) {background:url(/images/camtic/synthesis_icon8.png) center 33px no-repeat;}
+#Service .helper .hp_link .external {float:right;width:30%;}
+#Service .helper .hp_link .external ul {width:100%;border:1px solid #e0e0e0;border-radius:7px;background-color:#f8f8f8;display:inline-block;}
+#Service .helper .hp_link .external ul li {float:left;width:50%;height:106px;text-align:center;border-bottom:1px solid #e0e0e0;}
+#Service .helper .hp_link .external ul li:nth-child(odd) {border-right:1px solid #e0e0e0;}
+#Service .helper .hp_link .external ul li:last-child {border-bottom:0;}
+#Service .helper .hp_link .external ul li span {font-size:15.5px;margin-top:40%;padding:0 5%;line-height:1.3;display:inline-block;}
+#Service .helper .hp_link .external ul li span .red {color:#e92754;}
+#Service .helper .hp_link .external ul li:nth-child(1) {background:url(/images/camtic/external_logo1.png) center 23px no-repeat;}
+#Service .helper .hp_link .external ul li:nth-child(2) {background:url(/images/camtic/external_logo2.png) center 23px no-repeat;}
+#Service .helper .hp_link .external ul li:nth-child(3) {background:url(/images/camtic/external_logo3.png) center 25px no-repeat;}
+#Service .helper .hp_link .external ul li:nth-child(4) {background:url(/images/camtic/external_logo5.png) center 26px no-repeat;}
+#Service .helper .hp_link .external ul li:nth-child(5),
+#Service .helper .hp_link .external ul li:nth-child(6) {background:url(/images/camtic/external_logo4.png) center 32px no-repeat;}
+#Service .helper .hp_link .external ul li:nth-child(7) {background:url(/images/camtic/external_logo6.png) center 28px no-repeat;}
+#Service .helper .hp_link .synthesis ul li a,
+#Service .helper .hp_link .external ul li a {height:100%;color:#4a4a4a;display:block;}
+#Service .helper .hp_link .synthesis ul li a:hover {color:#00ac6c;}
+#Service .helper .hp_link .external ul li a:hover {color:#0066b3;}
+
+
+@media all and (max-width:1660px){
+	/* 주요 알림 맞춤서비스 */
+	#Service .svg_close {right:15px;}
+	#Service .svg_close button {width:8vh;height:8vh;background-size:40%;}
+	#Service .svgroup_l::after {width:80%;height:20vh;background-size:80%;}
+	#Service .svgroup_l .svg_logo {left:30px;top:25px;width:37%;height:5vh;background-size:100%;}
+	#Service .svgroup_l .svg_slogan {margin-top:45%;}
+	#Service .svgroup_l .svg_slogan h3 {width:70%;height:16vh;margin-bottom:5%;background-size:100%;}
+	#Service .svgroup_l .svg_menu {width:63%;}
+	#Service .svgroup_r .svg_contents {margin:6vh auto 0 auto;}
+	#Service .svgroup_r .svg_contents .notification {margin-top:8vh;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 ul,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 ul,
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul {padding:4vh 4.5vh;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb {height:130px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li {width:31.5%;margin:0 2.7% 2.7% 0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(3n+3) {float:right;margin-right:0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(4n+4) {float:left;margin-right:2.7%;}
+	#Service .helper .hp_search .hp_num {width:25%;}
+	#Service .helper .hp_search form {width:73%;}
+	#Service .helper .hp_link .synthesis {width:64%;}
+	#Service .helper .hp_link .synthesis ul li {height:130px;}
+	#Service .helper .hp_link .synthesis ul li span {margin-top:80px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(1) {background-position:center 30px;background-size:35%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(2) {background-position:center 27px;background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(3) {background-position:center 30px;background-size:35%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(4) {background-position:center 30px;background-size:40%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(5) {background-position:center 24px;background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(6) {background-position:center 22px;background-size:33%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(7) {background-position:45% 26px;background-size:34%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(8) {background-position:center 28px;background-size:28%;}
+	#Service .helper .hp_link .external {width:32%;}
+	#Service .helper .hp_link .external ul li {height:91px;}
+	#Service .helper .hp_link .external ul li span {margin-top:55px;}
+	#Service .helper .hp_link .external ul li:nth-child(1) {background-position:center 18px;background-size:23%;}
+	#Service .helper .hp_link .external ul li:nth-child(2) {background-position:center 18px;background-size:23%;}
+	#Service .helper .hp_link .external ul li:nth-child(3) {background-position:center 20px;background-size:40%;}
+	#Service .helper .hp_link .external ul li:nth-child(4) {background-position:center 27px;background-size:38%;}
+	#Service .helper .hp_link .external ul li:nth-child(5),
+	#Service .helper .hp_link .external ul li:nth-child(6) {background-position:center 25px;background-size:35%;}
+	#Service .helper .hp_link .external ul li:nth-child(7) {background-position:center 25px;background-size:40%;}
+}
+
+@media all and (max-width:1440px){
+	#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb {height:120px;}
+
+	#Service .helper .hp_search {padding-bottom:2.5%;margin-bottom:3%;}
+	#Service .helper .hp_search .hp_num {width:21%;margin-top:0;background-size:100%;}
+	#Service .helper .hp_search form {width:75%;}
+	#Service .helper .hp_search input {width:76%;}
+	#Service .helper .hp_search button {width:23%;}
+	#Service .helper .hp_search .hp_keyword {margin-top:20px;}
+}
+
+@media all and (max-width:1366px){
+	#Service .subject {font-size:25px;}
+	#Service .svgroup_r .svg_contents .notification {margin-top:55px;}
+	#Service .svgroup_r .svg_contents .notification h4 {top:-50px;height:50px;line-height:3.1;}
+	#Service .svgroup_r .svg_contents .notification h4 a {font-size:17px;}
+
+	#Service .helper .hp_search .hp_num {min-height:200px;}
+	#Service .helper .hp_search .hp_keyword li:nth-child(8),
+	#Service .helper .hp_search .hp_keyword li:nth-child(9) {display:none;}
+}
+
+@media all and (max-width:1280px){
+	#Service .svgroup_l .svg_menu {width:73%;}
+	#Service .svgroup_l .svg_slogan dl dt {font-size:23px;}
+	#Service .svgroup_l .svg_menu ul li {height:53px;}
+	#Service .svgroup_l .svg_menu ul li a {line-height:55px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li {width:31.5%;height:90px;margin:0 2.7% 2.7% 0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(3n+3) {float:right;margin-right:0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(4n+4) {float:left;margin-right:2.7%;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li i {width:55px;height:55px;margin:17px 0 0 20px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:53%;margin:20px 2% 0 0;}
+	#Service .helper .hp_search input {height:50px;padding:0 15px 0 10px;}
+	#Service .helper .hp_search button {height:50px;font-size:16px;background-position:25% 14px;}
+	#Service .helper .hp_search button i {display:none;}
+	#Service .helper .hp_search .hp_keyword li {margin:0 10px 10px 0;}
+}
+
 @media all and (max-width:1024px){
+	#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb {height:100px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li {width:48%;height:90px;margin:0 0 3.5% 0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(odd) {float:left;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(even) {float:right;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li:nth-child(4n+4) {margin-right:0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li i {width:55px;height:55px;margin:17px 0 0 20px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:53%;margin:20px 2% 0 0;}
+
+	#Service .helper .hp_search .hp_keyword li:nth-child(6),
+	#Service .helper .hp_search .hp_keyword li:nth-child(7) {display:none;}
+	#Service .helper .hp_link .synthesis,
+	#Service .helper .hp_link .external {width:100%;margin-bottom:15px;}
+	#Service .helper .hp_link .external ul li {float:left;width:33.333333%;border-right:1px solid #e0e0e0;}
+	#Service .helper .hp_link .external ul li span {font-size:inherit;}
+	#Service .helper .hp_link .external ul li:nth-child(3n+3) {border-right:0;}
+	#Service .helper .hp_link .external ul li:nth-child(1) {background-size:15%;}
+	#Service .helper .hp_link .external ul li:nth-child(2) {background-size:17%;}
+	#Service .helper .hp_link .external ul li:nth-child(3) {background-size:30%;}
+	#Service .helper .hp_link .external ul li:nth-child(4) {background-size:32%;}
+	#Service .helper .hp_link .external ul li:nth-child(5),
+	#Service .helper .hp_link .external ul li:nth-child(6) {background-size:30%;}
+	#Service .helper .hp_link .external ul li:nth-child(7) {background-size:35%;}
+}
+
+@media all and (max-width:820px){
+	#Service .svg_close button {width:55px;height:55px;}
+	#Service .svgroup_l {position:relative;width:100%;height:440px;}
+	#Service .svgroup_l .svg_logo {left:30px;top:25px;width:170px;height:50px;}
+	#Service .svgroup_l .svg_slogan {margin-top:120px;}
+	#Service .svgroup_l .svg_slogan h3 {width:100%;height:130px;}
+	#Service .svgroup_l .svg_menu {width:35%;margin-top:30px;}
+	#Service .svgroup_l .svg_intro video {left:0;}
+	#Service .svgroup_r {width:100%;}
+	#Service .svgroup_r .txtst {display:none;}
+	#Service .svgroup_r .svg_contents {margin:5% auto 0 auto;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 ul,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 ul,
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul {padding:5%;}
+
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:63%;}
+}
+
+@media all and (max-width:640px){
+	#Service .svg_close button {width:45px;height:45px;}
+	#Service .svgroup_l .svg_logo {top:20px;width:160px;}
+	#Service .svgroup_l .svg_slogan h3 {height:100px;}
+	#Service .svgroup_l .svg_slogan dl dt {font-size:20px;}
+	#Service .svgroup_l .svg_menu {width:40%;}
+	#Service .svgroup_l .svg_menu::after {top:-95px;width:190px;height:100px;}
+	#Service .svgroup_r .svg_contents .notification {margin-top:50px;}
+	#Service .svgroup_r .svg_contents .notification h4 {top:-45px;height:45px;}
+	#Service .svgroup_r .svg_contents .notification h4 a {font-size:16px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 ul li,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 ul li {width:48%;margin:0 0 2.7% 0;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 ul li:nth-child(odd),
+	#Service .svgroup_r .svg_contents .notification .popupzone2 ul li:nth-child(odd) {float:left;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 ul li:nth-child(even),
+	#Service .svgroup_r .svg_contents .notification .popupzone2 ul li:nth-child(even) {float:right;}
+
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:52%;}
+}
+
+@media all and (max-width:460px){
+	#Service .svg_close button {width:40px;height:40px;}
+	#Service .svgroup_l {height:350px;}
+	#Service .svgroup_l .svg_logo {left:20px;top:15px;width:130px;}
+	#Service .svgroup_l .svg_slogan {margin-top:90px;}
+	#Service .svgroup_l .svg_menu {width:70%;margin-top:20px;}
+	#Service .svgroup_l .svg_menu::after {top:-95px;width:190px;height:100px;}
+	#Service .svgroup_l .svg_menu ul li {height:48px;}
+	#Service .svgroup_l .svg_menu ul li a {line-height:50px;}
+
+	#Service .svgroup_r .svg_contents .notification {margin-top:50px;border:0;}
+	#Service .svgroup_r .svg_contents .notification h4 span {display:none;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1,
+	#Service .svgroup_r .svg_contents .notification .popupzone2,
+	#Service .svgroup_r .svg_contents .notification .popupzone3 {min-height:auto;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 ul li,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 ul li {width:100%;margin-bottom:5%;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb {height:150px;}
+	#Service .svgroup_r .svg_contents .btn_rdmore a,
+	#Service .svgroup_r .svg_contents .btn_folding a {width:130px;height:40px;line-height:2.7;font-size:inherit;}
+	#Service .svgroup_r .svg_contents .btn_rdmore a::after,
+	#Service .svgroup_r .svg_contents .btn_folding a::after {height:55px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li {width:100%;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:65%;}
+
+	#Service .helper {margin-top:5px;}
+	#Service .helper .hp_search .hp_num {width:100%;height:250px;background-size:75%;background-position:top center;}
+	#Service .helper .hp_search form {width:100%;}
+	#Service .helper .hp_search input {height:40px;}
+	#Service .helper .hp_search button {height:40px;background-image:none;text-indent:0;font-size:inherit;}
+	#Service .helper .hp_search .hp_keyword li a {font-size:inherit;padding:5px 10px;}
+	#Service .helper .hp_search .hp_keyword li:nth-child(5) {display:none;}
+	#Service .helper .hp_link h4 {font-size:19px;}
+	#Service .helper .hp_link .synthesis ul li {width:31%;height:100px;}
+	#Service .helper .hp_link .synthesis ul li span {margin-top:60px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(1) {background-position:center 22px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(2) {background-position:center 20px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(3) {margin-right:0;background-position:center 20px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(4) {background-position:center 22px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(5) {background-position:center 20px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(6) {background-position:center 18px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(7) {background-position:45% 18px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(8) {float:left;background-position:center 20px;}
+
+	#Service .helper .hp_link .external ul li {width:50%;border:0}
+	#Service .helper .hp_link .external ul li:nth-child(3) {border:1px solid #e0e0e0;border-left:0;}
+	#Service .helper .hp_link .external ul li:nth-child(4) {border:1px solid #e0e0e0;border-left:0;border-right:0;}
+	#Service .helper .hp_link .external ul li:nth-child(5),
+	#Service .helper .hp_link .external ul li:nth-child(6) {border-bottom:1px solid #e0e0e0;}
+}
+
+@media all and (max-width:385px){
+	/* 주요 알림 맞춤서비스 */
+	#Service .subject {font-size:19px;}
+	#Service .svgroup_l .svg_menu ul li {height:45px;}
+	#Service .svgroup_l .svg_menu ul li a {line-height:47px;}
+	#Service .svgroup_r .svg_contents .notification {margin-top:45px;}
+	#Service .svgroup_r .svg_contents .notification h4 {top:-40px;height:40px;line-height:2.9;}
+	#Service .svgroup_r .svg_contents .notification h4 a {font-size:15.3px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone1 .pop_thumb,
+	#Service .svgroup_r .svg_contents .notification .popupzone2 .pop_thumb {height:130px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li {height:80px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li i {width:50px;height:50px;margin:15px 0 0 20px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:62%;font-size:inherit;padding-right:2%;}
+
+	#Service .helper .hp_search .hp_num {height:230px;}
+	#Service .helper .hp_search form {margin-top:0;}
+	#Service .helper .hp_search .hp_keyword li:nth-child(4) {margin-right:0;}
+	#Service .helper .hp_link .synthesis ul li {width:48.5%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(even) {float:right;margin-right:0;}
+	#Service .helper .hp_link .synthesis ul li span {margin-top:65px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(1) {background-size:30%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(2) {background-size:24%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(3) {background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(4) {background-size:34%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(5) {background-size:22%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(6) {background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(7) {background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(8) {background-size:24%;}
+	#Service .helper .hp_link .external ul li {width:50%;border:0}
+	#Service .helper .hp_link .external ul li:nth-child(3) {border:1px solid #e0e0e0;border-left:0;}
+	#Service .helper .hp_link .external ul li:nth-child(4) {border:1px solid #e0e0e0;border-left:0;border-right:0;}
+}
+
+@media all and (max-width:340px){
+	#Service .svgroup_l {height:330px;}
+	#Service .svgroup_r .svg_contents .notification h4 {top:-35px;height:35px;}
+	#Service .svgroup_r .svg_contents .notification h4 a {font-size:14px;}
+	#Service .svgroup_r .svg_contents .notification {margin-top:40px;}
+	#Service .svgroup_r .svg_contents .notification .popupzone3 ul li strong {width:56%;}
+
+	#Service .helper .hp_search .hp_num {height:200px;}
+	#Service .helper .hp_search input,
+	#Service .helper .hp_search button {height:35px;}
+
+	#Service .helper .hp_search form {margin-top:0;}
+	#Service .helper .hp_search .hp_keyword li:nth-child(4) {margin-right:0;}
+	#Service .helper .hp_link h4 {font-size:17px;}
+	#Service .helper .hp_link .synthesis ul li {width:48.5%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(even) {float:right;margin-right:0;}
+	#Service .helper .hp_link .synthesis ul li span {margin-top:65px;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(1) {background-size:30%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(2) {background-size:24%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(3) {background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(4) {background-size:34%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(5) {background-size:22%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(6) {background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(7) {background-size:28%;}
+	#Service .helper .hp_link .synthesis ul li:nth-child(8) {background-size:24%;}
+	#Service .helper .hp_link .external ul li {width:50%;border:0}
+	#Service .helper .hp_link .external ul li:nth-child(3) {border:1px solid #e0e0e0;border-left:0;}
+	#Service .helper .hp_link .external ul li:nth-child(4) {border:1px solid #e0e0e0;border-left:0;border-right:0;}
+}
+
+#sau {margin:0 auto 80px;padding:0 15px;overflow:hidden;}
+#sau .inner {max-width:1600px;margin:0 auto;}
+#sau .tit {position:relative;margin-bottom:20px;}
+#sau .tit h3 {color:#000;font-size:40px;}
+#sau .tit .bt {position:absolute;right:0;bottom:0;display:flex;}
+#sau .tit .bt button {display:flex;width:40px;height:40px;border:1px solid #ccc;align-items:center;justify-content:center;font-size:24px;color:#000;background:none;}
+#sau .tit .bt button ~ button {margin-left:-1px;}
+#sau .area {position:relative;overflow:hidden;}
+#sau .area .box {border:1px solid #ccc;}
+#sau .area .box .head {display:flex;border-bottom:1px solid #ddd;align-items:center;}
+#sau .area .box .head .ico {width:50px;height:50px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background:#145ba2;font-weight:bold;font-size:16px;}
+#sau .area .box .head dl {width:0;flex-grow:1;padding:0 15px;display:flex;font-size:16px;gap:10px;}
+#sau .area .box .head dl dt {color:#000;font-weight:500;}
+#sau .area .box .cont {padding:30px 15px;}
+#sau .area .box .cont .txt {font-size:24px;line-height:1.4;height:2.8em;display:-webkit-box;word-wrap:break-word;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;font-weight:bold;color:#000;}
+#sau .area .box .cont .date {position:relative;padding-left:30px;font-size:16px;margin-top:15px;line-height:1.4;margin-top:20px;}
+#sau .area .box .cont .date i {position:absolute;left:0;top:1px;color:#aaa;font-size:20px;}
+
+@media all and (max-width:1024px){
+	#sau {margin:0 auto 40px;}
+	#sau .tit {margin-bottom:15px;}
+	#sau .tit h3 {font-size:30px;}
+	#sau .tit .bt button {width:30px;height:30px;font-size:20px;}
+	#sau .area {overflow:visible;}
+	#sau .area .box {width:240px;}
+	#sau .area .box .head .ico {width:40px;height:40px;font-size:14px;}
+	#sau .area .box .head dl {font-size:14px;}
+	#sau .area .box .cont {padding:20px 15px;}
+	#sau .area .box .cont .txt {font-size:16px;}
+	#sau .area .box .cont .date {padding-left:25px;font-size:14px;margin-top:12px;}
+	#sau .area .box .cont .date i {font-size:16px;}
 }
 
 @media all and (max-width:1024px){
