@@ -115,19 +115,16 @@
   </div>
 </header>
 
-<a href="#" id="alarm">주요 알림 맞춤서비스</a>
-<aside id="aside">
-  <a href="/camtic" class="aside1">첫화면</a>
-  <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="aside2">공지</a>
-  <%--<a href="#" class="aside3">SNS</a>--%>
-  <a href="#" class="aside4">채용<br>공고</a>
-  <a href="#" class="aside5">장비<br>사용</a>
-  <a href="#wrap" class="aside6 _gotop">TOP</a>
-</aside>
+<jsp:include page="/WEB-INF/jsp/template/camtic/alarm.jsp" flush="false"/>
+<jsp:include page="/WEB-INF/jsp/template/camtic/aside.jsp" flush="false"/>
+
 
 <script>
   const pathname = $(location).attr('pathname');
   const middleCategory = pathname.split("/")[2];
-  const smallCategory = pathname.split("/")[3].split(".")[0];
+  let smallCategory = pathname.split("/")[3];
+  if(smallCategory != undefined){
+    smallCategory = smallCategory.split(".")[0];
+  };
   $("."+middleCategory+"_"+smallCategory).addClass('active');
 </script>
