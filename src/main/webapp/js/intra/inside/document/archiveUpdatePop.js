@@ -97,7 +97,7 @@ console.log(data);
         } else {
             if(e.file_no > 0){
                 $(".resultTh").show();
-                html += '<tr style="text-align: center">';
+                html += '<tr style="text-align: center"  class="addFile">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
@@ -116,12 +116,10 @@ console.log(data);
         }
 
 
-
     },
 
     saveBtn: function () {
-
-        if (confirm("수정하시겠습니까?")) {
+    console.log(fCommon.global.attFiles);
             let pk = $("#archiveSn").val();
             let docYear = $("#docYear").val();
             let docNum = $("#docNum").val();
@@ -161,6 +159,14 @@ console.log(data);
                 }
             }
 
+            console.log(fCommon.global.attFiles.length + "파일크기");
+            if(fCommon.global.attFiles.length != 0){
+                if(fCommon.global.attFiles.length > 1){
+                    alert("첨부파일은 1개만 업로드 가능합니다.");
+                    return false;
+                }
+                console.log(fCommon.global.attFiles);
+            }
 
             if (docNum == "") {
                 alert("문서번호가 선택되지 않았습니다.");
@@ -211,6 +217,5 @@ console.log(data);
                 }
             });
         }
-    }
 }
 

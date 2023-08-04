@@ -94,6 +94,14 @@ var archiveReq = {
             }
         }
 
+        if(fCommon.global.attFiles.length != 0){
+            if(fCommon.global.attFiles.length > 1){
+                alert("첨부파일은 1개만 업로드 가능합니다.");
+                return false;
+            }
+            console.log(fCommon.global.attFiles);
+        }
+
         if(docNum == "") { alert("문서번호가 선택되지 않았습니다."); return; }
         if(visit == "") { alert("문서위치가 작성되지 않았습니다."); return; }
         if(docName == "") { alert("문서명이 작성되지 않았습니다."); return; }

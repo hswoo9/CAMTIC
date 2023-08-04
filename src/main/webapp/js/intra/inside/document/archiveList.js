@@ -230,11 +230,11 @@ var archiveList = {
                     width: 100,
                     template: function(row){
                         if (row.ACTIVE == "D") {
-                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.PRESERVATION_PERIOD+"</span>";
+                            return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>"+row.PRESERVATION_PERIOD+"년</span>";
                         }else if(row.DISPOSE_YN == "Y"){
-                            return "<span style='text-decoration: line-through;'>"+row.PRESERVATION_PERIOD+"</span>";
+                            return "<span style='text-decoration: line-through;'>"+row.PRESERVATION_PERIOD+"년</span>";
                         }else{
-                            return row.PRESERVATION_PERIOD;
+                            return row.PRESERVATION_PERIOD +"년";
                         }
                     }
                 }, {
@@ -253,23 +253,28 @@ var archiveList = {
                 }, {
                     title: "첨부파일",
                     width: 100,
-                    template: function(row){
-                        console.log(row.file_no);
-                        if(row.file_no != 0){
-                            if (row.ACTIVE == "D") {
-                                return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>있음</span>";
-                            }else if(row.DISPOSE_YN == "Y"){
-                                return "<span style='text-decoration: line-through;'>있음</span>";
-                            }else{
-                                return "있음";
+                    template: function(row) {
+                        if (row.file_no != 0) {
+                            console.log(row);
+                            var fileName = row.file_org_name;
+                            if (fileName.indexOf(".") > -1) {
+                            } else {
+                                fileName = row.file_org_name + "." + row.file_ext;
                             }
-                        }else{
+                            if (row.ACTIVE == "D") {
+                                return '<a style=\'text-decoration: line-through; text-decoration-color: red; color : red;\' href=\"javascript:fileDown(\'http://218.158.231.186:8080/' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
+                            }else if(row.DISPOSE_YN == "Y"){
+                                return '<a style=\'text-decoration: line-through;\' href=\"javascript:fileDown(\'http://218.158.231.186:8080/' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
+                            }else{
+                                return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'http://218.158.231.186:8080/' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
+                            }
+                        } else {
                             if (row.ACTIVE == "D") {
                                 return "<span style='text-decoration: line-through; text-decoration-color: red; color : red;'>없음</span>";
                             }else if(row.DISPOSE_YN == "Y"){
                                 return "<span style='text-decoration: line-through;'>없음</span>";
                             }else{
-                                return "없음";
+                                return "<span style='color : red;'>없음</span>";
                             }
                         }
                     }
@@ -394,5 +399,11 @@ var archiveList = {
         var name = "archiveUpdatePop";
         var option = "width = 1000, height = 520, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fileDown : function(filePath, fileName){
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
+        });
     }
 }

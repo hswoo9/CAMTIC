@@ -352,7 +352,7 @@
         <if test='"3".equals(doclistState)'>
             WHERE ACTIVE = 'D'
         </if>
-        ORDER BY RE.ROW_NUM DESC
+        ORDER BY ARCHIVE_INFO_SN
     </select>
 
     <insert id="setDocumentInsert" parameterType="map">
