@@ -1,10 +1,10 @@
 var now = new Date();
 
-var historyReq = {
+var historyList = {
 
     init : function(){
-        historyReq.dataSet();
-        historyReq.mainGrid();
+        historyList.dataSet();
+        historyList.mainGrid();
     },
 
     mainGrid: function(){
@@ -62,7 +62,7 @@ var historyReq = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.historyReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.historyReqPop();">' +
                             '	<span class="k-button-text">인사발령등록</span>' +
                             '</button>';
                     }
@@ -71,7 +71,7 @@ var historyReq = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : historyReq.onDataBound,
+            dataBound : historyList.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -119,6 +119,22 @@ var historyReq = {
                     field: "APPROVE_EMP_NAME",
                     title: "기록인",
                     width: 100
+                }, {
+                    title: "발령장",
+                    width: 100,
+                    template : function(row){
+                        if(row.file_no != null){
+                            var fileName = row.file_org_name;
+                            if(fileName.indexOf(".") > -1){
+                            }else{
+                                fileName = row.file_org_name + "." + row.file_ext;
+                            }
+                            return '<a href=\"javascript:fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">다운</a>';
+                        }else{
+                            return '';
+                        }
+
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -212,7 +228,7 @@ var historyReq = {
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
             const apntSn = dataItem.APNT_SN;
-            historyReq.historyViewPop(apntSn);
+            historyList.historyViewPop(apntSn);
         });
     },
 

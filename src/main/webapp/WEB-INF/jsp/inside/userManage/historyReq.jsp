@@ -89,5 +89,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    historyReq.init();
+    historyList.init();
 </script>

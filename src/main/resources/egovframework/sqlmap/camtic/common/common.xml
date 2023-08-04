@@ -64,27 +64,33 @@
     <insert id="insOneFileInfo" parameterType="map" >
         /* insOneFileInfo */
         INSERT INTO CAM_COMMON.DJ_FILE_INFO
-        (
-        FILE_CD,
-        FILE_UUID,
-        FILE_ORG_NAME,
-        FILE_PATH,
-        FILE_SIZE,
-        FILE_EXT,
-        EMP_SEQ,
-        REG_EMP_SEQ
-        )
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                EMP_SEQ,
+                REG_EMP_SEQ
+                <if test="contentId != null and contentId != ''">
+                    , CONTENT_ID
+                </if>
+            )
         VALUES
-        (
-        #{fileCd},
-        #{fileUUID},
-        #{fileOrgName},
-        #{filePath},
-        #{fileSize},
-        #{fileExt},
-        #{empSeq},
-        #{empSeq}
-        )
+            (
+                #{fileCd},
+                #{fileUUID},
+                #{fileOrgName},
+                #{filePath},
+                #{fileSize},
+                #{fileExt},
+                #{empSeq},
+                #{empSeq}
+                <if test="contentId != null and contentId != ''">
+                    , #{contentId}
+                </if>
+            )
 
         <selectKey keyProperty="file_no" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_FILE_INFO'

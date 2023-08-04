@@ -30,7 +30,7 @@ public interface HistoryService {
      * 발령등록
      * @param params
      */
-    void setHistoryInsert(Map<String, Object> params);
+    void setHistoryInsert(Map<String, Object> params, String base_dir);
 
     /**
      * 포상등록

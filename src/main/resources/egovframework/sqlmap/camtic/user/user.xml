@@ -109,22 +109,20 @@
 
     <update id="setUserInfoUpdate" parameterType="list">
         /* setUserInfoUpdate */
-        <foreach collection="historyList" item="item" index="index" separator=";">
-            UPDATE
-                CAM_HR.DJ_EMP_INFO
-            SET
-                DEPT_SEQ = #{item.deptSeq},
-                DEPT_NAME = #{item.afDeptName},
-                DEPT_TEAM_NAME = #{item.afTeamName},
-                POSITION_CODE = #{item.afPositionCode},
-                POSITION_NAME = #{item.position},
-                GRADE_NAME = #{item.afGradeName},
-                DUTY_CODE = #{item.afDutyCode},
-                DUTY_NAME = #{item.afDutyName},
-                JOB_DETAIL = #{item.afJobDetail}
-            WHERE
-                EMP_SEQ = #{item.empSeq}
-        </foreach>
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{afDeptName},
+            DEPT_TEAM_NAME = #{afTeamName},
+            POSITION_CODE = #{afPositionCode},
+            POSITION_NAME = IFNULL(#{position}, ""),
+            GRADE_NAME = #{afGradeName},
+            DUTY_CODE = #{afDutyCode},
+            DUTY_NAME = IFNULL(#{afDutyName}, ""),
+            JOB_DETAIL = #{afJobDetail}
+        WHERE
+            EMP_SEQ = #{hisEmpSeq}
     </update>
 
     <select id="getUserPersonnelinformList" parameterType="map" resultType="map">

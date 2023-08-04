@@ -1,11 +1,14 @@
 package egovframework.com.devjitsu.inside.history.controller;
 
+import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.history.service.HistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +27,17 @@ public class HistoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(HistoryController.class);
 
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Autowired
     private HistoryService historyService;
@@ -43,11 +55,25 @@ public class HistoryController {
 
     //발령신청 페이지
     @RequestMapping("/Inside/pop/historyReqPop.do")
-    public String historyReqPop(HttpServletRequest request, Model model) {
+    public String historyReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        String hwpUrl = "";
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
         return "popup/inside/history/historyReqPop";
     }
 
@@ -148,7 +174,7 @@ public class HistoryController {
      */
     @RequestMapping("/inside/setHistoryInsert")
     public String setHistoryInsert(@RequestParam Map<String, Object> params) {
-        historyService.setHistoryInsert(params);
+        historyService.setHistoryInsert(params, BASE_DIR);
         userService.setUserInfoUpdate(params);
         return "jsonView";
     }
