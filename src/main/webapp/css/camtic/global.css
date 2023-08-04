@@ -318,7 +318,8 @@ img {max-width:100%;}
 	#vis .scr:after {width:2px;height:6px;border-radius:1px;margin-left:-1px;top:6px;}
 }
 
-#mid {padding:150px 15px;overflow:hidden;}
+/* 높이 수정 */
+#mid {padding:80px 15px;overflow:hidden;}
 #mid .inner {max-width:1600px;margin:0 auto;display:flex;gap:70px;}
 #mid .lef {width:0;flex-grow:1;padding-top:55px;}
 #mid .lef .tab {display:flex;margin-bottom:55px;}
@@ -1914,13 +1915,15 @@ img {max-width:100%;}
 
 /*주요알림 모아보기*/
 #Service .svgroup_r .svg_contents .notification {position:relative;float:left;width:100%;margin-top:80px;padding-bottom:50px;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;}
-#Service .svgroup_r .svg_contents .notification h4 {position:absolute;top:-59px;width:33.33333%;height:60px;line-height:3.5;text-align:center;background-color:#0066b3;}
+/* 팝업존만 보이게 수정*/
+#Service .svgroup_r .svg_contents .notification h4 {position:absolute;top:-59px;width:100%;height:60px;line-height:3.5;text-align:center;background-color:#0066b3;}
 #Service .svgroup_r .svg_contents .notification h4:hover,
 #Service .svgroup_r .svg_contents .notification .on {background-color:#00ac6c;}
 #Service .svgroup_r .svg_contents .notification h4 a {font-size:18px;font-weight:400;color:#fff;display:block;}
 #Service .svgroup_r .svg_contents .notification .on a{text-decoration:underline}
 #Service .svgroup_r .svg_contents .notification .popupzone1 {position:relative;float:left;width:100%;min-height:850px;}
-#Service .svgroup_r .svg_contents .notification .popupzone1 .poptit1 {left:-1px;border-radius:10px 0 0 0;}
+/* 팝업존만 보이게 수정*/
+#Service .svgroup_r .svg_contents .notification .popupzone1 .poptit1 {left:-1px;border-radius:10px 10px 0 0;}
 #Service .svgroup_r .svg_contents .notification .popupzone1 ul,
 #Service .svgroup_r .svg_contents .notification .popupzone2 ul,
 #Service .svgroup_r .svg_contents .notification .popupzone3 ul {position:relative;float:left;width:100%;padding:50px;}

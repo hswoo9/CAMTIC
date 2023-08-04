@@ -25,7 +25,7 @@
       <div class="lef">
         <div class="roll2">
           <div class="swiper-wrapper">
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-2.png);">
+            <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/710x803/333?text=1);">
               <div class="tit">
                 <dl>
                   <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
@@ -37,7 +37,7 @@
                 <p><span>J - Valley</span></p>
               </div>
             </div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-3.png);">
+            <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/710x803/333?text=2);">
               <div class="tit">
                 <dl>
                   <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
@@ -49,7 +49,7 @@
                 <p><span>J - Valley</span></p>
               </div>
             </div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-4.png);">
+            <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/710x803/333?text=3);">
               <div class="tit">
                 <dl>
                   <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
@@ -61,7 +61,7 @@
                 <p><span>J - Valley</span></p>
               </div>
             </div>
-            <div class="box swiper-slide" style="background-image:url(/images/camtic/main1-1.png);">
+            <div class="box swiper-slide" style="background-image:url(https://fakeimg.pl/710x803/333?text=4);">
               <div class="tit">
                 <dl>
                   <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
@@ -79,22 +79,29 @@
       <div class="rig">
         <div class="roll">
           <div class="swiper-wrapper">
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-1.png);">
-              <!-- 배너 중간에 이미지나 글귀를 넣어야한다면 아래 nimg : 이미지, hide : 글귀 태그 사용-->
-              <div class="nimg"></div>
-              <div class="hide"></div>
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">
+              <div class="nimg"><img src="https://fakeimg.pl/955x390?text=vis1" alt=""></div>
+              <div class="hide">
+                접근성 관련 텍스트
+              </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-2.png);">
-              <div class="nimg"></div>
-              <div class="hide"></div>
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">
+              <div class="nimg"><img src="https://fakeimg.pl/955x390?text=vis2" alt=""></div>
+              <div class="hide">
+                접근성 관련 텍스트
+              </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-3.png);">
-              <div class="nimg"></div>
-              <div class="hide"></div>
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">
+              <div class="nimg"><img src="https://fakeimg.pl/955x390?text=vis3" alt=""></div>
+              <div class="hide">
+                접근성 관련 텍스트
+              </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/main1-4.png);">
-              <div class="nimg"></div>
-              <div class="hide"></div>
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/vis1.jpg);">
+              <div class="nimg"><img src="https://fakeimg.pl/955x390?text=vis4" alt=""></div>
+              <div class="hide">
+                접근성 관련 텍스트
+              </div>
             </div>
           </div>
         </div>
