@@ -125,13 +125,27 @@
             EMP_SEQ = #{hisEmpSeq}
     </update>
 
-    <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
-        /* getUserPersonnelinformList */
+    <select id="getUserPersonnelOne" parameterType="map" resultType="map">
+        /* getUserPersonnelOne */
         SELECT
             *
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
-            a.EMP_SEQ = #{empSeq};
+            a.EMP_SEQ = #{pk};
+    </select>
+
+    <select id="getUserImageInfo" resultType="map" parameterType="map">
+        /* getUserImageInfo */
+        SELECT
+            IM.IMAGE_ID,
+            IM.EMP_SEQ,
+            IM.SIGN_IMAGE_PK,
+            IM.ID_IMAGE_PK,
+            IM.PERSONAL_IMAGE_PK
+        FROM
+            CAM_INSIDE.DJ_IMAGE_MANAGE IM
+        WHERE
+            IM.EMP_SEQ = #{pk}
     </select>
 </mapper>

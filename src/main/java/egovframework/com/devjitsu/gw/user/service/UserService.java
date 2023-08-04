@@ -16,5 +16,7 @@ public interface UserService {
 
     void setUserInfoUpdate(Map<String, Object> params);
 
-    Map<String,Object> getUserPersonnelinformList (Map<String,Object> params);
+    Map<String,Object> getUserPersonnelOne (Map<String,Object> params);
+
+    Map<String, Object> getUserIdPhotoInfo(Map<String, Object> params);
 }

@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.gw.user.service.impl;
 
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public List<Map<String, Object>> getOrgDeptList(Map<String, Object> param) {
@@ -44,7 +48,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> getUserPersonnelinformList(Map<String, Object> params) {
-        return userRepository.getUserPersonnelinformList(params);
+    public Map<String, Object> getUserPersonnelOne(Map<String, Object> params) {
+        return userRepository.getUserPersonnelOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getUserIdPhotoInfo(Map<String, Object> params) {
+        Map<String, Object> infoMap = userRepository.getUserImageInfo(params);
+
+        if(infoMap != null){
+            params.put("fileNo", infoMap.get("ID_IMAGE_PK"));
+        }
+
+        return commonRepository.getContentFileOne(params);
     }
 }

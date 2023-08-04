@@ -11,6 +11,23 @@
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/organizationChart.js?v=${toDate}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList.js?v=${toDate}'/>"></script>
+<style>
+	div.left {
+		width: 30%;
+		float: left;
+		box-sizing: border-box;
+		text-align: center;
+	}
+	div.right {
+		width: 60%;
+		height: 300px;
+		float: right;
+		box-sizing: border-box;
+		/*background: #dee4ed;*/
+		background: #f7f7f7;
+		border-radius: 5px;
+	}
+</style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -19,36 +36,76 @@
 <div style="padding:0;">
     <div class="table-responsive">
             <div class="card-header pop-header">
-                <h3 class="card-title title_NM">직원정보 수정중</h3>
+                <h3 class="card-title title_NM">직원정보</h3>
                 <div class="btn-st popButton">
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
                 </div>
             </div>
-            <%--<div style="padding: 20px 30px;">
-                <table>
-                    <tr>
-                        <td rowspan="2">
-                            <div id="gridForm" style="width:255px; overflow: auto;border: 1px solid #dedfdf;">
-                                <div id="deptTree" style="height:685px;">
+		<div style="padding: 30px 30px;">
+			<div class="left">
+				<c:choose>
+					<c:when test="${idPhoto.file_path ne null}">
+						<img src="${idPhoto.file_path}${idPhoto.file_uuid}" alt="" class="media-object img-circle" style="width:100px; display : block; margin : auto;">
+					</c:when>
+					<c:otherwise>
+						<img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="width:100px; display : block; margin : auto;">
+					</c:otherwise>
+				</c:choose>
+				<h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">${uprinfList.EMP_NAME_KR} ${uprinfList.POSITION_NAME}</h4>
+				<span style="color:#919191; font-size:13px;line-height:20px;">${uprinfList.DEPT_NAME} ${uprinfList.DEPT_TEAM_NAME} ${uprinfList.DUTY_NAME}</span><br>
+				<span style="color:#919191; font-size:13px;line-height:20px;">${uprinfList.EMAIL_ADDR}</span>
+				<%--<div style="margin-top: 30px;">
+					<img class="leftEmail" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px; margin-right: 40px;">
+					<img class="rightCalendar" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px;">
+				</div>
+				<div class="media-heading" style="margin-top: 10px;">
+					<a style="list-style: none; color:#919191; display: inline; margin-right: 22px;">이메일</a>
+					<a style="list-style: none; color:#919191; display: inline;">일정 보기</a>
+				</div>--%>
+				<div style="margin-top: 35px;">
+					<ul style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px; padding:0px;">
+						<li style="list-style: none; display: inline; margin-right: 40px;">
+							<img class="leftEmail" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px;">
+						</li>
+						<li style="list-style: none; display: inline;">
+							<img class="rightCalendar" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px;">
+						</li>
+					</ul>
+					<ul style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px; padding:0px;">
+						<li style="list-style: none; display: inline; margin-right: 35px;">이메일</li>
+						<li style="list-style: none; display: inline;">일정 보기</li>
+					</ul>
+				</div>
 
-                                </div>
-                            </div>
-                        </td>
-                        <td colspan="2" style="height:350px;">
-                            <div id="gridForm2" style="width:100%; height:100%;">
-                                <div style="margin: 10px 0 5px 5px;">
-                                    <span>성명</span>
-                                    <input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){orgChart.mainGrid();}">
-                                </div>
-                                <div id="deptUserGrid">
-
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>--%>
-        </div>
+			</div>
+			<div class="right">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 50px;">회사명</li>
+					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">캠틱종합기술원</li>
+				</ul>
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 34px;">직책/부서</li>
+					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.DEPT_NAME} ${uprinfList.DEPT_TEAM_NAME} ${uprinfList.DUTY_NAME}</li>
+				</ul>
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직무</li>
+					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.JOB_DETAIL}</li>
+				</ul>
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">휴대전화</li>
+					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.MOBILE_TEL_NUM}</li>
+				</ul>
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">내선번호</li>
+					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;"></li>
+				</ul>
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">사원번호</li>
+					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.ERP_EMP_SEQ}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
 
 
