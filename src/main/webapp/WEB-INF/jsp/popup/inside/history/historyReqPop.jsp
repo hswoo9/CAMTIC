@@ -7,11 +7,20 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/history/historyReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="empName" value="${loginVO.name}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <div class="card-header pop-header">
     <h3 class="card-title title_NM">인사발령 등록</h3>
 </div>
@@ -40,7 +49,7 @@
                         <th class="text-center th-color">성명</th>
                         <td>
                             <input type="text" id="searchVal" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReqPop.gridReload()">조회</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.gridReload()">조회</button>
                         </td>
                     </tr>
                 </table>
@@ -55,59 +64,20 @@
                 </div>
                 <div class="col-md-9 col-lg-9 dash-left mt-10">
                     <div class="table-responsive mt20" style="margin-top:60px;">
-                        <div id="popMainGrid">
-
-                        </div>
-<%--                        <table class="table table-bordered">--%>
-<%--                            <colgroup>--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                                <col width="6%" >--%>
-<%--                            </colgroup>--%>
-<%--                            <thead>--%>
-<%--                            <tr>--%>
-<%--                                <th rowspan="2"><input type="checkbox" class="apntCheckAll" id="apntCheckAll"></th>--%>
-<%--                                <th rowspan="2">성명</th>--%>
-<%--                                <th rowspan="2">발령기준</th>--%>
-<%--                                <th colspan="5">발령전</th>--%>
-<%--                                <th colspan="5">발령후</th>--%>
-<%--                                <th rowspan="2">비고</th>--%>
-<%--                            </tr>--%>
-<%--                            <tr>--%>
-<%--                                <th>부서</th>--%>
-<%--                                <th>팀</th>--%>
-<%--                                <th>직급/등급</th>--%>
-<%--                                <th>직책</th>--%>
-<%--                                <th>직무</th>--%>
-<%--                                <th>부서</th>--%>
-<%--                                <th>팀</th>--%>
-<%--                                <th>직급/등급</th>--%>
-<%--                                <th>직책</th>--%>
-<%--                                <th>직무</th>--%>
-<%--                            </tr>--%>
-<%--                            </thead>--%>
-<%--                            <tbody id="apntBody">--%>
-
-<%--                            </tbody>--%>
-<%--                        </table>--%>
+                        <div id="popMainGrid"></div>
                     </div><!-- table-responsive -->
                 </div>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
+<div id="docEditor" style="width: 960px;display: none; margin-top: 300px;"></div>
+<script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
+<script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script>
-    historyReqPop.init();
+    let params = JSON.parse('${params}');
+    historyReq.init();
 </script>
 </body>
