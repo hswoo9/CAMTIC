@@ -181,7 +181,6 @@
             <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false">
               <div class="sec">
                 <a href="#" class="box">
-                  <div class="ddakji ing"><span>진행중</span></div>
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -190,7 +189,6 @@
                   <p class="date">2023-01-04</p>
                 </a>
                 <a href="#" class="box">
-                  <div class="ddakji end"><span>완료</span></div>
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -199,7 +197,6 @@
                   <p class="date">2023-01-04</p>
                 </a>
                 <a href="#" class="box">
-                  <div class="ddakji ing"><span>진행중</span></div>
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
