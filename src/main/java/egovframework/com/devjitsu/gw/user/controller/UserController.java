@@ -124,12 +124,16 @@ public class UserController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        Map<String,Object> userPersonnelinformList = userService.getUserPersonnelinformList(params);
+        Map<String,Object> userPersonnelOne = userService.getUserPersonnelOne(params);
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
-        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("uprinfList", userPersonnelOne);
+        model.addAttribute("pk", params.get("pk"));
+        model.addAttribute("idPhoto", userService.getUserIdPhotoInfo(params));
+
+        System.out.println("사용자 기본정보 --------" + userPersonnelOne);
 
         return "popup/user/myPop";
     }
