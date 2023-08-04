@@ -113,8 +113,8 @@
         <div class="lef">
           <ul class="tab">
             <li class="active"><button type="button" id="tab1" role="tab" aria-controls="tab-panel1" aria-selected="true">공지사항</button></li>
-            <li><button type="button" role="tab" id="tab2" aria-controls="tab-panel2" aria-selected="false">사업공고</button></li>
-            <li><button type="button" role="tab" id="tab3" aria-controls="tab-panel3" aria-selected="false">채용공고</button></li>
+            <li><button type="button" role="tab" id="tab2" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
+            <li><button type="button" role="tab" id="tab3" aria-controls="tab-panel3" aria-selected="false">보도자료</button></li>
           </ul>
           <div class="area">
             <div class="item active" id="tab-panel1" role="tabpanel" aria-labelledby="tab1" aria-selected="true">
