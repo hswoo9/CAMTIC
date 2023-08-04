@@ -175,7 +175,7 @@
             </thead>
             <tbody>
             <tr>
-              <th scope="row">네비게이션</th>
+              <th scope="row">관리책임자</th>
               <td>노상흡</td>
               <td>본부장</td>
               <td>캠틱종합기술원</td>

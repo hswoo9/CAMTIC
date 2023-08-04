@@ -120,8 +120,8 @@
         <div class="lef">
           <ul class="tab">
             <li class="active"><button type="button" id="tab1" role="tab" aria-controls="tab-panel1" aria-selected="true">공지사항</button></li>
-            <li><button type="button" role="tab" id="tab2" aria-controls="tab-panel2" aria-selected="false">사업공고</button></li>
-            <li><button type="button" role="tab" id="tab3" aria-controls="tab-panel3" aria-selected="false">채용공고</button></li>
+            <li><button type="button" role="tab" id="tab2" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
+            <li><button type="button" role="tab" id="tab3" aria-controls="tab-panel3" aria-selected="false">보도자료</button></li>
           </ul>
           <div class="area">
             <div class="item active" id="tab-panel1" role="tabpanel" aria-labelledby="tab1" aria-selected="true">
@@ -188,7 +188,6 @@
             <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false">
               <div class="sec">
                 <a href="#" class="box">
-                  <div class="ddakji ing"><span>진행중</span></div>
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -197,7 +196,6 @@
                   <p class="date">2023-01-04</p>
                 </a>
                 <a href="#" class="box">
-                  <div class="ddakji end"><span>완료</span></div>
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -206,7 +204,6 @@
                   <p class="date">2023-01-04</p>
                 </a>
                 <a href="#" class="box">
-                  <div class="ddakji ing"><span>진행중</span></div>
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
