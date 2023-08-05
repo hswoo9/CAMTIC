@@ -139,7 +139,7 @@
                         <div class="circle" id="ps1">견적</div>
                         <div class="circle" id="ps2">수주보고</div>
                         <div class="circle" id="ps3">개발계획</div>
-                        <div class="circle" id="ps4">설계</div>
+                        <div class="circle" id="ps4">공정</div>
                         <div class="circle" id="ps5">납품</div>
                         <div class="circle" id="ps6">결과보고</div>
                         <div class="circle" id="ps7">원가보고</div>

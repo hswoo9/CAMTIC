@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.cam_project.controller;
 
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,67 +45,7 @@ public class ProjectController {
     @RequestMapping("/project/getProjectList")
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 
-//        model.addAttribute("list", projectService.getProjectList(params));
-
-        /* 임시 데이터 */
-        List<Map<String, Object>> list = new ArrayList<>();
-
-        for (int i = 0 ; i < 4 ; i++){
-            Map<String, Object> map = new HashMap<>();
-
-            if(i == 0){
-                map.put("A", "엔지니어링");
-                map.put("B", "상담");
-                map.put("C", "");
-                map.put("D", "상담1");
-                map.put("E", "주식회사 데브짓수");
-                map.put("F", "2023-01-30");
-                map.put("G", "2023-09-30");
-                map.put("H", "");
-                map.put("I", "100,000,000");
-                map.put("J", "이 호");
-                map.put("K", "");
-            } else if (i == 1){
-                map.put("A", "엔지니어링");
-                map.put("B", "납품");
-                map.put("C", "");
-                map.put("D", "상담2");
-                map.put("E", "주식회사 데브짓수");
-                map.put("F", "2023-01-30");
-                map.put("G", "2023-09-30");
-                map.put("H", "");
-                map.put("I", "800,000,000");
-                map.put("J", "이 호");
-                map.put("K", "");
-            } else if ( i == 2){
-                map.put("A", "엔지니어링");
-                map.put("B", "개발계획");
-                map.put("C", "");
-                map.put("D", "상담3");
-                map.put("E", "주식회사 데브짓수");
-                map.put("F", "2023-01-30");
-                map.put("G", "2023-09-30");
-                map.put("H", "");
-                map.put("I", "200,000,000");
-                map.put("J", "이 호");
-                map.put("K", "");
-            } else {
-                map.put("A", "엔지니어링");
-                map.put("B", "원가보고");
-                map.put("C", "");
-                map.put("D", "상담4");
-                map.put("E", "주식회사 데브짓수");
-                map.put("F", "2023-01-30");
-                map.put("G", "2023-09-30");
-                map.put("H", "2023-08-03");
-                map.put("I", "300,000,000");
-                map.put("J", "이 호");
-                map.put("K", "");
-            }
-
-
-            list.add(map);
-        }
+        List<Map<String,Object>> list = projectService.getProjectList(params);
 
         model.addAttribute("list", list);
 
@@ -118,8 +59,10 @@ public class ProjectController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        model.addAttribute("loginVO", loginVO);
+        Map<String, Object> map = projectService.getProjectStep1(params);
 
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
         return "popup/cam_project/regProject";
     }
 

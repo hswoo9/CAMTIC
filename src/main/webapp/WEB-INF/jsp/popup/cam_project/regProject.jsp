@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/project.js?v=${today}'/>"></script>
 <body class="font-opensans" style="background-color:#fff;">
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -24,14 +24,15 @@
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;">프로젝트 등록</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
                 <input type="text" id="busnClass" style="width: 200px" />
+                <input type="hidden" id="pjtStep" value="">
+                <input type="hidden" id="pjtStepNm" value="">
             </h3>
 
-
-
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="regPrj.fn_save()">저장</button>
+                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regPrj.fn_save()">저장</button>
+                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regPrj.fn_mod()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -49,7 +50,7 @@
                         <span class="red-star"></span>상담일자
                     </th>
                     <td>
-                        <input type="text" id="B" style="width: 90%;">
+                        <input type="text" id="consultDt" style="width: 90%;">
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>면담자
@@ -69,7 +70,7 @@
                         <span class="red-star"></span>제목
                     </th>
                     <td colspan="3">
-                        <input type="text" id="C" style="width: 95%;">
+                        <input type="text" id="pjtNm" style="width: 95%;">
                     </td>
                 </tr>
                 <tr>
@@ -77,13 +78,13 @@
                         <span class="red-star"></span>예상견적가
                     </th>
                     <td>
-                        <input type="text" id="E" style="width: 90%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
+                        <input type="text" id="expAmt" style="width: 90%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>장소
                     </th>
                     <td>
-                        <input type="text" id="F" style="width: 90%;">
+                        <input type="text" id="contLoc" style="width: 90%;">
                     </td>
                 </tr>
                 <tr>
@@ -93,7 +94,7 @@
                     <td>
                         <input type="text" id="G" style="width: 80%;" disabled>
                         <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('개발 진행중')">
-                            검색
+                            조회
                         </button>
                     </td>
                     <th scope="row" class="text-center th-color">
@@ -160,7 +161,7 @@
                     <td>
                         <input type="text" id="P" style="width: 80%;" disabled>
                         <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">
-                            검색
+                            조회
                         </button>
                     </td>
                     <th scope="row" class="text-center th-color">
@@ -189,7 +190,19 @@
                         <span class="red-star"></span>상담내용
                     </th>
                     <td colspan="3">
-                        <textarea id="U" style="width: 100%;"></textarea>
+                        <textarea id="contEtc" style="width: 100%;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>출장정보
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="bustripReq" style="width: 90%;">
+                        <input type="hidden" id="bustripReqId" />
+                        <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popBustrip();">
+                            조회
+                        </button>
                     </td>
                 </tr>
                 </thead>
@@ -241,7 +254,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 
 <script>
-    regPrj.fn_defaultScript();
+    var inParameters = JSON.parse('${map}');
+
+    regPrj.fn_defaultScript(inParameters);
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");

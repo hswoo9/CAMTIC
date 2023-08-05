@@ -107,13 +107,6 @@ var camPrj = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-primary" onclick="camPrj.gridReload()">' +
-                            '	<span class="k-button-text">수정</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="camPrj.gridReload()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
@@ -135,29 +128,30 @@ var camPrj = {
                         $(this).removeAttr("onClick");
                     });
 
-                    switch (self.dataItem(this).B){
-                        case "상담":
+                    console.log(self.dataItem(this));
+                    switch (self.dataItem(this).PJT_STEP) {
+                        case "E0":
                             $("#ps0").attr("check", "Y");
                             break;
-                        case "견적":
+                        case "E1":
                             $("#ps1").attr("check", "Y");
                             break;
-                        case "수주보고":
+                        case "E2":
                             $("#ps2").attr("check", "Y");
                             break;
-                        case "개발계획":
+                        case "E3":
                             $("#ps3").attr("check", "Y");
                             break;
-                        case "설계":
+                        case "E4":
                             $("#ps4").attr("check", "Y");
                             break;
-                        case "납품":
+                        case "E5":
                             $("#ps5").attr("check", "Y");
                             break;
-                        case "결과보고":
+                        case "E6":
                             $("#ps6").attr("check", "Y");
                             break;
-                        case "원가보고":
+                        case "E7":
                             $("#ps7").attr("check", "Y");
                             break;
                         default:
@@ -174,7 +168,7 @@ var camPrj = {
 
                     for(var i = 0 ; i <= index ; i++){
                         $("#ps" + i).addClass("active");
-                        $("#ps" + i).attr("onClick","javascript:alert('뷰페이지 개발중')");
+                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+self.dataItem(this).PJT_SN+")");
                     }
                     $("#ps" + (index + 1)).addClass("ready");
                     $("#ps" + (index + 1)).attr("onClick","javascript:alert('작성창 개발중')");
@@ -182,65 +176,116 @@ var camPrj = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="camPrj.fn_allCheck()" class=""/>',
+                    template : function (e){
+                        if(e.PJT_CD != null && e.PJT_CD != ""){
+                            return "";
+                        } else {
+                            return "<input type='checkbox' id='' name='pjtCheck' value='' class=''/>"
+                        }
+                    },
                     width: "3%"
                 }, {
-                    field: "A",
+                    field: "BUSN_NM",
                     title: "사업구분",
                     width: "5%"
                 }, {
-                    field: "B",
+                    field: "PJT_STEP_NM",
                     title: "진행단계",
-                    width: "5%",
-                    template : function(e){
-                        return e.B;
-                    }
+                    width: "5%"
                 }, {
-                    field: "C",
+                    field: "PJT_CD",
                     title: "프로젝트 코드",
                     width: "7%"
                 }, {
-                    field: "D",
-                    title: "상담제목",
+                    field: "PJT_NM",
+                    title: "프로젝트 명",
                     width: "20%"
                 }, {
-                    field: "E",
+                    field: "COMP_NM",
                     title: "업체명",
                     width: "10%"
                 }, {
-                    field: "F",
+                    field: "STR_DT",
                     title: "수주일",
-                    width: "7%"
-                }, {
-                    field: "G",
-                    title: "완료예정일",
-                    width: "7%"
-                }, {
-                    field: "H",
-                    title: "완료일",
-                    width: "7%"
-                }, {
-                    field: "I",
-                    title: "수주금액",
-                    width: "10%",
+                    width: "7%",
                     template: function(e){
-                        return '<div style="text-align: right;">'+e.I+'</div>';
+
+                        if(e.STR_DT == null || e.STR_DT == ""){
+                            return "";
+                        }
+                        var date = new Date(e.STR_DT);
+                        var yyyy = date.getFullYear();
+                        var mm = date.getMonth()+1;
+                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var dd = date.getDate();
+                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy+'-'+mm+'-'+dd;
                     }
                 }, {
-                    field: "J",
+                    field: "END_EXP_DT",
+                    title: "완료예정일",
+                    width: "7%",
+                    template: function(e){
+                        if(e.END_EXP_DT == null || e.END_EXP_DT == ""){
+                            return "";
+                        }
+                        var date = new Date(e.END_EXP_DT);
+                        var yyyy = date.getFullYear();
+                        var mm = date.getMonth()+1;
+                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var dd = date.getDate();
+                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy+'-'+mm+'-'+dd;
+                    }
+                }, {
+                    field: "END_DT",
+                    title: "완료일",
+                    width: "7%",
+                    template: function(e){
+                        if(e.END_DT == null || e.END_DT == ""){
+                            return "";
+                        }
+                        var date = new Date(e.END_DT);
+                        var yyyy = date.getFullYear();
+                        var mm = date.getMonth()+1;
+                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var dd = date.getDate();
+                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy+'-'+mm+'-'+dd;
+                    }
+                }, {
+                    field: "PJT_AMT",
+                    title: "수주금액",
+                    width: "7%",
+                    template: function(e){
+                        return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
+                    }
+                }, {
+                    field: "PM",
                     title: "PM",
                     width: "5%"
-                }, {
-                    field: "K",
-                    title: "비고",
-                    width: "10%"
                 }]
         }).data("kendoGrid");
     },
 
-    setPrjPop: function (){
-        var url = "/project/pop/viewRegProject.do";
+    fn_allCheck : function (){
+        if($(this).is(":checked")) $("input[name=pjtChk]").prop("checked", true);
+        else $("input[name=pjtChk]").prop("checked", false);
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    setPrjPop: function (key){
+        var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+
+        if(key == null || key == ""){
+            url = "/project/pop/viewRegProject.do";
+        }
+
         var name = "popup";
         var option = "width = 900, height = 850, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project">
+
+    <select id="getProjectList" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+        ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+    </select>
+
+    <select id="getProjectStep1" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+        ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insProject" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT
+        (
+            PJT_NM,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            BUSN_CLASS,
+            BUSN_NM,
+            PJT_NM,
+            PJT_STEP,
+            PJT_STEP_NM,
+            CONSULT_DT
+        ) VALUES (
+            #{pjtNm},
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{busnClass},
+            #{busnNm},
+            #{pjtNm},
+            #{pjtStep},
+            #{pjtStepNm},
+            #{consultDt}
+        )
+    </insert>
+
+</mapper>

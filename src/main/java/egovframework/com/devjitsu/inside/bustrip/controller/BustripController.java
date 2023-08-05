@@ -503,6 +503,12 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/pop/viewBustripList.do")
+    public String viewBustripList(){
+
+        return "popup/inside/bustrip/viewBustripList";
+    }
+
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");

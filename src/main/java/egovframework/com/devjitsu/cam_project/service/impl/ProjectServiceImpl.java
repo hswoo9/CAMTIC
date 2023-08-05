@@ -25,12 +25,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
-        return null;
+        return projectRepository.getProjectList(params);
     }
 
 
     @Override
     public void setProject(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        if(!params.containsKey("pjtSn")){
+            projectRepository.insProject(params);
+        }
+
         if(file.length > 0){
             MainLib mainLib = new MainLib();
             List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
@@ -54,5 +58,10 @@ public class ProjectServiceImpl implements ProjectService {
         String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         return path;
+    }
+
+    @Override
+    public Map<String, Object> getProjectStep1(Map<String, Object> params) {
+        return projectRepository.getProjectStep1(params);
     }
 }
