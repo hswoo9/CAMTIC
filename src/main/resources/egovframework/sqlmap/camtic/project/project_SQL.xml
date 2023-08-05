@@ -31,6 +31,9 @@
             PJT_STEP,
             PJT_STEP_NM,
             CONSULT_DT
+            <if test="hrBizReqId != null and hrBizReqId != ''">
+             ,HR_BIZ_REQ_ID
+            </if>
         ) VALUES (
             #{pjtNm},
             #{empSeq},
@@ -43,7 +46,13 @@
             #{pjtStep},
             #{pjtStepNm},
             #{consultDt}
+            <if test="hrBizReqId != null and hrBizReqId != ''">
+                ,#{hrBizReqId}
+            </if>
         )
+        <selectKey keyProperty="HR_BIZ_REQ_ID" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        </selectKey>
     </insert>
 
 </mapper>

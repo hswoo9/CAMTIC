@@ -60,7 +60,8 @@ var regPrj = {
             busnNm : $("#busnClass").data("kendoDropDownList").text(),
             contEtc : $("#contEtc").val(),
             pjtStep : $("#pjtStep").val(),
-            pjtStepNm : $("#pjtStepNm").val()
+            pjtStepNm : $("#pjtStepNm").val(),
+            bustripReqId : $("#bustripReqId").val()
         }
         var formData = new FormData();
         formData.append("pjtNm", data.pjtNm);
@@ -76,6 +77,15 @@ var regPrj = {
         formData.append("contEtc", data.contEtc);
         formData.append("pjtStep", data.pjtStep);
         formData.append("pjtStepNm", data.pjtStepNm);
+
+        // 캠CRM 데이터 INSERT 처리 해줘야함(캠CRM 미개발)
+
+        if(data.bustripReqId != "" && data.bustripReqId != null){
+            formData.append("hrBizReqId", data.bustripReqId);
+
+            // 1. 출장 상태값 변경
+
+        }
 
         //증빙파일 첨부파일
         if(fCommon.global.attFiles != null){
@@ -103,7 +113,7 @@ var regPrj = {
     },
 
     fn_mod : function(){
-
+        alert("개발중");
     },
 
     fn_setData : function (p) {

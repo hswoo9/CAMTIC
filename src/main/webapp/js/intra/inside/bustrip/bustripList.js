@@ -298,10 +298,16 @@ var bustripList = {
                 }, {
                     title: "",
                     template: function(row){
+                        var busnName = "";
+                        var project = "";
+                        if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
+                            busnName = row.BUSN_NAME;
+                        }
+
                         if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
                             project = "(" + row.PROJECT + ") ";
                         }
-                        var title =  project + "출장지 : " + row.VISIT_LOC_SUB;
+                        var title =  project + busnName + " 출장지 : " + row.VISIT_LOC_SUB;
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripList.fn_selBustripInfo(\''+row.HR_BIZ_REQ_ID+'\', \''+title+'\');">선택</button>';
                     },
                     width: 60
