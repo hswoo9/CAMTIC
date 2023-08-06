@@ -97,7 +97,7 @@
                     </td>
                     <td>
                         <input id="eatCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn eatCorpYn" style="width: 40%" value="${list.EAT_CORP_YN}">
-                        <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" value="${list.EAT_COST}" onkeyup="bustripExnpReq.eatCheck(this);" oninput="onlyNumber(this)" style="width: 55%" />
+                        <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" value="${list.EAT_COST}" onkeyup="bustripExnpReq.fn_eatCheck(this);" oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
                         <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.PARKING_CORP_YN}">

@@ -32,7 +32,10 @@
                         <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
                         <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
                     </c:when>
-                    <c:when test="${rs.EXP_STAT != 10 || rs.EXP_STAT != 100}">
+                    <c:when test="${rs.EXP_STAT == 100}">
+                        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
+                    </c:when>
+                    <c:when test="${rs.EXP_STAT != 10}">
                         <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="다음단계" onclick="bustripResultPop.fn_saveBtn('${params.hrBizReqResultId}')" />
                         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
                     </c:when>
@@ -153,7 +156,7 @@
                     <th><span class="red-star">*</span>운행거리</th>
                     <td colspan="3">
                         <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
-                        <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="window.open('https://map.naver.com/')">거리측정</button>
+                        <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리측정</button>
                         <button type="button" class="k-button k-button-solid-base" disabled>하이패스</button>
                         ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
                         [<a href="#">이용방법 보기</a>]

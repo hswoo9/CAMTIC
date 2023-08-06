@@ -15,7 +15,6 @@ var bustripResultPop = {
             hrBizReqId : hrBizReqId
         });
         customKendo.fn_dropDownList("realDriver", ds.list, "EMP_NAME", "EMP_SEQ", "3");
-        customKendo.fn_textBox(["result"]);
         customKendo.fn_textArea(["result"]);
     },
 
@@ -171,32 +170,62 @@ var bustripResultPop = {
                 $("#addMemberBtn").attr("disabled", true);
                 $("#projectAddBtn").attr("disabled", true);
                 $("#carBtn").css("display", "none");
+                $("#result").data("kendoTextArea").enable(false);
                 if($("#mod").val() == "mng"){
-                    $("#result").data("kendoTextArea").enable(false);
                     $("#saveBtn").css("display", "none");
-                }
-                $("#realDriver").data("kendoDropDownList").enable(false);
-                var map = result.rs.map;
-                var html = "";
-                for(var i = 0 ; i < map.length ; i++){
-                    if(map[i].DRIVER == "Y"){
-                        $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
+                    var map = result.rs.map;
+                    var html = "";
+                    let oilCostTotal = 0;
+                    let trafCostTotal = 0;
+                    let trafDayTotal = 0;
+                    let tollCostTotal = 0;
+                    let dayCostTotal = 0;
+                    let eatCostTotal = 0;
+                    let parkingCostTotal = 0;
+                    let etcCostTotal = 0;
+                    let totalCostTotal = 0;
+                    for(var i = 0 ; i < map.length ; i++){
+                        if(map[i].DRIVER == "Y"){
+                            $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
+                        }
+                        oilCostTotal += Number(map[i].OIL_COST.replace(",", ""));
+                        trafCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
+                        trafDayTotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
+                        tollCostTotal += Number(map[i].TOLL_COST.replace(",", ""));
+                        dayCostTotal += Number(map[i].DAY_COST.replace(",", ""));
+                        eatCostTotal += Number(map[i].EAT_COST.replace(",", ""));
+                        parkingCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
+                        etcCostTotal += Number(map[i].ETC_COST.replace(",", ""));
+                        totalCostTotal += Number(map[i].TOT_COST.replace(",", ""));
+                        html += "<tr style='text-align: right'>";
+                        html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
+                        html += "   <td>"+map[i].OIL_COST+"</td>";
+                        html += "   <td>"+map[i].TRAF_COST+"</td>";
+                        html += "   <td>"+map[i].TRAF_DAY_COST+"</td>";
+                        html += "   <td>"+map[i].TOLL_COST+"</td>";
+                        html += "   <td>"+map[i].DAY_COST+"</td>";
+                        html += "   <td>"+map[i].EAT_COST+"</td>";
+                        html += "   <td>"+map[i].PARKING_COST+"</td>";
+                        html += "   <td>"+map[i].ETC_COST+"</td>";
+                        html += "   <td>"+map[i].TOT_COST+"</td>";
+                        html += "</tr>";
                     }
                     html += "<tr style='text-align: right'>";
-                    html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
-                    html += "   <td>"+map[i].OIL_COST+"</td>";
-                    html += "   <td>"+map[i].TRAF_COST+"</td>";
-                    html += "   <td>"+map[i].TRAF_DAY_COST+"</td>";
-                    html += "   <td>"+map[i].TOLL_COST+"</td>";
-                    html += "   <td>"+map[i].DAY_COST+"</td>";
-                    html += "   <td>"+map[i].EAT_COST+"</td>";
-                    html += "   <td>"+map[i].PARKING_COST+"</td>";
-                    html += "   <td>"+map[i].ETC_COST+"</td>";
-                    html += "   <td>"+map[i].TOT_COST+"</td>";
+                    html += "   <td style='text-align: center'>합계</td>";
+                    html += "   <td>"+fn_comma(oilCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(trafCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(trafDayTotal)+"</td>";
+                    html += "   <td>"+fn_comma(tollCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(dayCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(eatCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(parkingCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(etcCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(totalCostTotal)+"</td>";
                     html += "</tr>";
+                    $("#bustExnpBody").html(html);
+                    $("#bustExnpTb").show();
                 }
-                $("#bustExnpBody").html(html);
-                $("#bustExnpTb").show();
+                $("#realDriver").data("kendoDropDownList").enable(false);
                 $("#moveDst").data("kendoTextBox").enable(false);
             }
         }
@@ -309,5 +338,10 @@ var bustripResultPop = {
         }
 
     },
+
+    fn_moveCheck: function(){
+        alert("거리는 최단거리로 입력해야 합니다.");
+        window.open('https://map.naver.com/');
+    }
 }
 

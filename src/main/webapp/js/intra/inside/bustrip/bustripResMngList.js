@@ -87,13 +87,13 @@ var bustripResMngList = {
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
-                    width: 100
+                    width: 80
                 }, {
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
                     },
-                    width: 100
+                    width: 80
                 }, {
                     title: "업무차량",
                     template : function(row){
@@ -122,6 +122,32 @@ var bustripResMngList = {
                         }
                     },
                     width: 80
+                }, {
+                    title: "결재상태",
+                    template: function(row){
+                        if(row.EXP_STAT == 100){
+                            if(row.RES_STATUS == 0){
+                                return "미결재";
+                            }else if(row.RES_STATUS == 10){
+                                return "상신";
+                            }else if(row.RES_STATUS == 30){
+                                return "반려";
+                            }else if(row.RES_STATUS == 40){
+                                return "회수";
+                            }else if(row.RES_STATUS == 100){
+                                return "결재완료";
+                            }else {
+                                return "-";
+                            }
+                        }else if(row.EXP_STAT == 10){
+                            return "여비정산 승인요청 중";
+                        }else if(row.EXP_STAT == 30){
+                            return "여비정산 반려";
+                        }else if(row.EXP_STAT == 0){
+                            return "결과보고서 작성중";
+                        }
+                    },
+                    width: 100
                 }
             ]
         }).data("kendoGrid");

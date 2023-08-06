@@ -36,25 +36,64 @@ const bustripExnpReq = {
         }
         let costData = bustripExnpReq.global.costData;
         costData.css("text-align", "right");
-        costData.bind("keyup", bustripExnpReq.tableSum);
-        $(".eatCorpYn").bind("keyup", bustripExnpReq.tableSum);
+        costData.bind("keyup", bustripExnpReq.fn_setTableSum);
+        $(".eatCorpYn").bind("keyup", bustripExnpReq.fn_setTableSum);
     },
 
     dataSet: function(type){
         let costData = bustripExnpReq.global.costData;
         if(type != "upd"){
             costData.val(0);
-            var data = {
-                hrBizReqResultId: hrBizReqResultId
-            }
-            var result = customKendo.fn_customAjax("/bustrip/getBustripOne", data);
-            bustripExnpReq.global.bustripInfo = result.map;
-            console.log(result.map);
         }
+        var data = {
+            hrBizReqResultId: hrBizReqResultId
+        }
+        var result = customKendo.fn_customAjax("/bustrip/getBustripOne", data);
+        bustripExnpReq.global.bustripInfo = result.map;
+        console.log(result.map);
 
         bustripExnpReq.fn_getExnpInfo(type);
-        bustripExnpReq.tableSum();
         bustripExnpReq.fn_getFuelInfo(type);
+    },
+
+    fn_getExnpInfo(type){
+        let bustripInfo = bustripExnpReq.global.bustripInfo;
+        let costList = customKendo.fn_customAjax("/bustrip/getBustripCostList", {
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        console.log(costList);
+        if(type != "upd") {
+            for(let i=0; i<costList.length; i++){
+                $("."+String(costList[i].EXNP_CODE)).val(fn_comma(costList[i].COST_AMT));
+            }
+
+            let dayCostArr = [];
+            $.each($(".addData"), function(i, v){
+                let dayCost = {};
+                dayCost.empSeq = $(v).find('.empSeq').val();
+
+                let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
+                    empSeq: $(v).find('.empSeq').val(),
+                    hrBizReqResultId: hrBizReqResultId
+                });
+
+                dayCost.dayCost = dayCostResult.data.DAY_COST;
+                dayCostArr[i] = dayCost;
+            });
+
+            console.log(dayCostArr);
+
+            for(let i=0; i<dayCostArr.length; i++){
+                if(dayCostArr[i].dayCost.replace(",", "") > 0){
+                    $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
+                }else{
+                    if(bustripInfo.TRIP_CODE == "3" && (bustripInfo.USE_TRSPT == "0" || bustripInfo.DRIVER_EMP_SEQ == dayCostArr[i].empSeq)){
+                        let amt = $("#dayCost"+String(dayCostArr[i].empSeq)).val().replace(",", "");
+                        $("#dayCost"+String(dayCostArr[i].empSeq)).val(costList[i].COST_AMTNumber(amt)+10000);
+                    }
+                }
+            }
+        }
     },
 
     fn_getFuelInfo: function(type){
@@ -76,10 +115,18 @@ const bustripExnpReq = {
             $(".oilCost").val(0);
             $("#oilCost"+String(empSeq)).val(fn_comma(amt));
         }
-        bustripExnpReq.tableSum();
+        bustripExnpReq.fn_setTableSum();
     },
 
-    tableSum: function(){
+    fn_eatCheck(e){
+        if(e.value > 30000 && $(e).closest("td").find("input[name=corpYn]").val() == "N"){
+            alert("개인카드 식비는 3만원 초과 입력이 불가능합니다.");
+            e.value = 0;
+            bustripExnpReq.fn_setTableSum();
+        }
+    },
+
+    fn_setTableSum: function(){
         fn_inputNumberFormat(this);
         if(this.value == ""){
             this.value = 0;
@@ -188,48 +235,6 @@ const bustripExnpReq = {
         window.close();
     },
 
-    fn_getExnpInfo(type){
-        if(type != "upd") {
-            let costList = customKendo.fn_customAjax("/bustrip/getBustripCostList", {
-                hrBizReqResultId: hrBizReqResultId
-            }).list;
-            console.log(costList);
-            for(let i=0; i<costList.length; i++){
-                $("."+String(costList[i].EXNP_CODE)).val(fn_comma(costList[i].COST_AMT));
-            }
-
-            let dayCostArr = [];
-            $.each($(".addData"), function(i, v){
-                let dayCost = {};
-                dayCost.empSeq = $(v).find('.empSeq').val();
-
-                let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
-                    empSeq: $(v).find('.empSeq').val(),
-                    hrBizReqResultId: hrBizReqResultId
-                });
-
-                dayCost.dayCost = dayCostResult.data.DAY_COST;
-                dayCostArr[i] = dayCost;
-            });
-
-            console.log(dayCostArr);
-
-            for(let i=0; i<dayCostArr.length; i++){
-                if(dayCostArr[i].dayCost.replace(",", "") > 0){
-                    $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
-                }
-            }
-        }
-    },
-
-    eatCheck(e){
-        if(e.value > 30000 && $(e).closest("td").find("input[name=corpYn]").val() == "N"){
-            alert("개인카드 식비는 3만원 초과 입력이 불가능합니다.");
-            e.value = 0;
-            bustripExnpReq.tableSum();
-        }
-    },
-
     fn_setCertRep : function (p, key){
         var message = "승인하시겠습니까?"
         if(p == 30){
@@ -251,5 +256,5 @@ const bustripExnpReq = {
             window.close();
         }
 
-    },
+    }
 }
