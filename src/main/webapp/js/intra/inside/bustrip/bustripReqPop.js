@@ -11,7 +11,8 @@ const bustripReq = {
     },
 
     pageSet: function(){
-        $("#busnName, #popEmpName, #visitCrm, #visitLoc, #visitLocSub, #userName, #moveDst, #bustObj").kendoTextBox();
+        $("#busnName, #popEmpName, #visitCrm, #visitLoc, #visitLocSub, #userName, #moveDst").kendoTextBox();
+        $("#bustObj").kendoTextArea();
         $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({enable: false});
         customKendo.fn_datePicker("date1", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("date2", 'month', "yyyy-MM-dd", new Date());
@@ -197,7 +198,7 @@ const bustripReq = {
             $("#visitLoc").data("kendoTextBox").enable(false);
             $("#visitLocSub").data("kendoTextBox").enable(false);
             $("#visitLocCode").data("kendoDropDownList").enable(false);
-            $("#bustObj").data("kendoTextBox").enable(false);
+            $("#bustObj").data("kendoTextArea").enable(false);
             $("#date1").data("kendoDatePicker").enable(false);
             $("#date2").data("kendoDatePicker").enable(false);
             $("#time1").data("kendoTimePicker").enable(false);
@@ -226,7 +227,6 @@ const bustripReq = {
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
         if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
-        if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
 
         var formData = new FormData();
         formData.append("menuCd", "bustripReq");

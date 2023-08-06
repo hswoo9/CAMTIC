@@ -36,8 +36,8 @@ const bustripExnpReq = {
         }
         let costData = bustripExnpReq.global.costData;
         costData.css("text-align", "right");
-        costData.bind("keyup", bustripExnpReq.horizontalSum);
-        $(".eatCorpYn").bind("keyup", bustripExnpReq.horizontalSum);
+        costData.bind("keyup", bustripExnpReq.tableSum);
+        $(".eatCorpYn").bind("keyup", bustripExnpReq.tableSum);
     },
 
     dataSet: function(type){
@@ -53,7 +53,7 @@ const bustripExnpReq = {
         }
 
         bustripExnpReq.fn_getExnpInfo(type);
-        bustripExnpReq.horizontalSum();
+        bustripExnpReq.tableSum();
         bustripExnpReq.fn_getFuelInfo(type);
     },
 
@@ -76,10 +76,10 @@ const bustripExnpReq = {
             $(".oilCost").val(0);
             $("#oilCost"+String(empSeq)).val(fn_comma(amt));
         }
-        bustripExnpReq.horizontalSum();
+        bustripExnpReq.tableSum();
     },
 
-    horizontalSum: function(){
+    tableSum: function(){
         fn_inputNumberFormat(this);
         if(this.value == ""){
             this.value = 0;
@@ -93,26 +93,49 @@ const bustripExnpReq = {
 
         var rowList = bustExnpTb.rows;
 
-        for(var i = 1 ; i < rowList.length ; i++){
+        let totalCostArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let totalTotalCost = 0;
+
+        //가로합계
+        for(var i = 1 ; i < rowList.length-1 ; i++){
             var row = rowList[i];
             var tdsNum = row.childElementCount;
             var totalCost = 0;
 
             for (var j = 1; j < tdsNum - 1; j++) {
+                totalCostArr[j] += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
                 totalCost += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
                 console.log("j = " + j + ", " + $(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
             }
+            console.log(totalCostArr);
 
             if(totalCost != 0){
                 $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalCost));
             } else {
                 $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
             }
+            totalTotalCost += totalCost;
         }
-    },
 
-    verticalSum: function(){
+        //세로합계
+        for(var i = 1 ; i < 2 ; i++){
+            var row = rowList[rowList.length-1];
+            var tdsNum = row.childElementCount;
 
+            for (var j = 1; j < tdsNum - 2; j++) {
+                if(totalCostArr[j] != 0){
+                    $(row.cells[j]).find("input[type=text]").val(fn_comma(totalCostArr[j]));
+                } else {
+                    $(row.cells[j]).find("input[type=text]").val(0);
+                }
+            }
+
+            if(totalTotalCost != 0){
+                $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalTotalCost));
+            } else {
+                $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
+            }
+        }
     },
 
     fn_saveBtn: function(id, type){
@@ -120,7 +143,7 @@ const bustripExnpReq = {
         var rowList = bustExnpTb.rows;
 
         var result = "";
-        for(var i = 1 ; i < rowList.length ; i++){
+        for(var i = 1 ; i < rowList.length-1 ; i++){
             var row = rowList[i];
             var tdsNum = row.childElementCount;
             var totalCost = 0;
@@ -203,7 +226,7 @@ const bustripExnpReq = {
         if(e.value > 30000 && $(e).closest("td").find("input[name=corpYn]").val() == "N"){
             alert("개인카드 식비는 3만원 초과 입력이 불가능합니다.");
             e.value = 0;
-            bustripExnpReq.horizontalSum();
+            bustripExnpReq.tableSum();
         }
     },
 

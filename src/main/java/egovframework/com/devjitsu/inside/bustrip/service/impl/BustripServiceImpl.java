@@ -176,7 +176,7 @@ public class BustripServiceImpl implements BustripService {
         bodyMap.put("approKey", approKey);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("hrBizReqId", approKey);
+        params.put("hrBizReqResultId", approKey);
         params.put("docName", bodyMap.get("formName"));
         params.put("docId", docId);
         params.put("docTitle", bodyMap.get("docTitle"));

@@ -138,7 +138,7 @@
             <tr>
                 <th><span class="red-star">*</span>출장목적</th>
                 <td colspan="3">
-                    <input type="text" id="bustObj" style="width: 100%;">
+                    <textarea id="bustObj" style="width: 100%; height: 60px"></textarea>
                 </td>
             </tr>
             </thead>
