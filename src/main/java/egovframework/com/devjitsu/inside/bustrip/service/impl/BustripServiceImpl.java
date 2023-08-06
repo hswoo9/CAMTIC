@@ -284,4 +284,9 @@ public class BustripServiceImpl implements BustripService {
     public Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params) {
         return bustripRepository.getBustripFuelCostInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPopBustripList(Map<String, Object> params) {
+        return bustripRepository.getPopBustripList(params);
+    }
 }

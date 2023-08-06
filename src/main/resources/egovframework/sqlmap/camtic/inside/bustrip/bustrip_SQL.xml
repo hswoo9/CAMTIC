@@ -785,6 +785,24 @@
             1=1
         ORDER BY IHFCI.REG_DT DESC limit 1
     </select>
+
+    <select id="getPopBustripList" parameterType="map" resultType="map">
+        SELECT *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        WHERE
+            (STATUS = 100 OR STATUS = 101)
+        AND
+            PJT_SN IS NULL
+    </select>
+
+    <update id="updBustripResult" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            PJT_SN = #{PJT_SN}
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </update>
 </mapper>
 
 

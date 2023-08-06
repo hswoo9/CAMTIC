@@ -20,4 +20,8 @@ public class ProjectRepository extends AbstractDAO {
     public void insProject(Map<String, Object> params) {
         insert("project.insProject", params);
     }
+
+    public void insPjtEngn(Map<String, Object> params) {
+        insert("project.insPjtEngn", params);
+    }
 }

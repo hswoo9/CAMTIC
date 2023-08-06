@@ -26,8 +26,8 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
                 <input type="text" id="busnClass" style="width: 200px" />
-                <input type="hidden" id="pjtStep" value="">
-                <input type="hidden" id="pjtStepNm" value="">
+                <input type="hidden" id="pjtStep" value="E0">
+                <input type="hidden" id="pjtStepNm" value="상담">
             </h3>
 
             <div class="btn-st popButton">
@@ -92,7 +92,7 @@
                         <span class="red-star"></span>업체코드
                     </th>
                     <td>
-                        <input type="text" id="G" style="width: 80%;" disabled>
+                        <input type="text" id="crmCd" style="width: 80%;" disabled>
                         <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('개발 진행중')">
                             조회
                         </button>
@@ -101,7 +101,7 @@
                         <span class="red-star"></span>소재지
                     </th>
                     <td>
-                        <input type="text" id="H" style="width: 90%;" disabled>
+                        <input type="text" id="crmLoc" style="width: 90%;" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -109,13 +109,13 @@
                         <span class="red-star"></span>업체명
                     </th>
                     <td>
-                        <input type="text" id="I" style="width: 90%;" disabled>
+                        <input type="text" id="crmNm" style="width: 90%;" disabled>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>주요생산품
                     </th>
                     <td>
-                        <input type="text" id="J" style="width: 90%;" disabled>
+                        <input type="text" id="crmProd" style="width: 90%;" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -123,13 +123,13 @@
                         <span class="red-star"></span>대표자
                     </th>
                     <td>
-                        <input type="text" id="K" style="width: 90%;" disabled>
+                        <input type="text" id="crmCeo" style="width: 90%;" disabled>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>우편번호
                     </th>
                     <td>
-                        <input type="text" id="L" style="width: 90%;" disabled>
+                        <input type="text" id="crmPost" style="width: 90%;" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -137,7 +137,7 @@
                         <span class="red-star"></span>주소
                     </th>
                     <td colspan="3">
-                        <input type="text" id="M" style="width: 90%;" disabled>
+                        <input type="text" id="crmAddr" style="width: 90%;" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -145,13 +145,13 @@
                         <span class="red-star"></span>전화번호
                     </th>
                     <td>
-                        <input type="text" id="N" style="width: 90%;" disabled>
+                        <input type="text" id="crmCallNum" style="width: 90%;" disabled>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>팩스번호
                     </th>
                     <td>
-                        <input type="text" id="O" style="width: 90%;" disabled>
+                        <input type="text" id="crmFax" style="width: 90%;" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -159,7 +159,7 @@
                         <span class="red-star"></span>의뢰인
                     </th>
                     <td>
-                        <input type="text" id="P" style="width: 80%;" disabled>
+                        <input type="text" id="crmReqMem" style="width: 80%;" disabled>
                         <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">
                             조회
                         </button>
@@ -168,7 +168,7 @@
                         <span class="red-star"></span>핸드폰
                     </th>
                     <td>
-                        <input type="text" id="Q" style="width: 90%;" disabled>
+                        <input type="text" id="crmPhNum" style="width: 90%;" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -176,13 +176,13 @@
                         <span class="red-star"></span>홈페이지
                     </th>
                     <td>
-                        <input type="text" id="R" style="width: 90%;" disabled>
+                        <input type="text" id="crmHp" style="width: 90%;" disabled>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>메일주소
                     </th>
                     <td>
-                        <input type="text" id="S" style="width: 90%;">
+                        <input type="text" id="crmMail" style="width: 90%;">
                     </td>
                 </tr>
                 <tr>
@@ -199,7 +199,7 @@
                     </th>
                     <td colspan="3">
                         <input type="text" id="bustripReq" style="width: 90%;">
-                        <input type="hidden" id="bustripReqId" />
+                        <input type="hidden" id="hrBizReqResultId" />
                         <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popBustrip();">
                             조회
                         </button>

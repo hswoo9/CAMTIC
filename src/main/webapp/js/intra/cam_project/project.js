@@ -107,7 +107,7 @@ var camPrj = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="camPrj.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="camPrj.fn_delPjt(this)">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -176,12 +176,12 @@ var camPrj = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="camPrj.fn_allCheck()" class=""/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="camPrj.fn_allCheck(this)" class=""/>',
                     template : function (e){
                         if(e.PJT_CD != null && e.PJT_CD != ""){
                             return "";
                         } else {
-                            return "<input type='checkbox' id='' name='pjtCheck' value='' class=''/>"
+                            return "<input type='checkbox' id='' name='pjtCheck' value='"+e.PJT_SN+"' class=''/>"
                         }
                     },
                     width: "3%"
@@ -269,14 +269,21 @@ var camPrj = {
         }).data("kendoGrid");
     },
 
-    fn_allCheck : function (){
-        if($(this).is(":checked")) $("input[name=pjtChk]").prop("checked", true);
-        else $("input[name=pjtChk]").prop("checked", false);
+    fn_allCheck : function (e){
+        if($(e).is(":checked"))
+            $("input[name='pjtCheck']").prop("checked", true);
+        else
+            $("input[name='pjtCheck']").prop("checked", false);
     },
 
     comma: function(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
     },
 
     setPrjPop: function (key){
@@ -290,4 +297,16 @@ var camPrj = {
         var option = "width = 900, height = 850, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
+    fn_delPjt : function(t){
+        $("input[name='pjtCheck']").each(function(e){
+            if($(this).is(":checked")){
+                // alert(this.value);
+                alert("삭제하시겠습니까?");
+
+                // Todo. project 삭제 처리
+
+            }
+        })
+    }
+
 }
