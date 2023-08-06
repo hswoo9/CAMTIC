@@ -16,9 +16,9 @@ var regPrj = {
         var busnDDL = $("#busnClass").data("kendoDropDownList");
         busnDDL.bind("change", regPrj.fn_busnDDLChange);
 
-        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "bustripReq", "H", "I", "J",
-                                "K", "L", "M", "N", "O", "P", "Q", "R",
-                                "S", "T", "V", "W", "X", "Y", "Z",
+        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "bustripReq", "crmCd", "crmProd",
+                                "crmCeo", "crmPost", "crmAddr", "crmPhNum", "crmLoc", "crmFax",
+                                "crmCallNum", "crmHp", "crmMail", "crmNm", "crmReqMem",
                                 "deptName", "empName"]);
 
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
@@ -49,20 +49,26 @@ var regPrj = {
 
         var data = {
             pjtNm : $("#pjtNm").val(),
-            expAmt : $("#expAmt").val(),
+            expAmt : camPrj.uncomma($("#expAmt").val()),
             contLoc : $("#contLoc").val(),
             deptName : $("#deptName").val(),
             empName : $("#empName").val(),
             deptSeq : $("#deptSeq").val(),
             empSeq : $("#empSeq").val(),
-            consultDt : $("#consultDt").val(),
+            contDt : $("#consultDt").val(),
             busnClass : $("#busnClass").val(),
             busnNm : $("#busnClass").data("kendoDropDownList").text(),
             contEtc : $("#contEtc").val(),
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
-            bustripReqId : $("#bustripReqId").val()
+            hrBizReqResultId : $("#hrBizReqResultId").val(),
+            crmCd : $("#crmCd").val()
         }
+
+        if(data.busnNm == "D"){
+            data.menuCd = "engn";
+        }
+
         var formData = new FormData();
         formData.append("pjtNm", data.pjtNm);
         formData.append("expAmt", data.expAmt);
@@ -71,17 +77,20 @@ var regPrj = {
         formData.append("empName", data.empName);
         formData.append("deptSeq", data.deptSeq);
         formData.append("empSeq", data.empSeq);
-        formData.append("consultDt", data.consultDt);
+        formData.append("contDt", data.contDt);
         formData.append("busnClass", data.busnClass);
         formData.append("busnNm", data.busnNm);
         formData.append("contEtc", data.contEtc);
         formData.append("pjtStep", data.pjtStep);
         formData.append("pjtStepNm", data.pjtStepNm);
+        formData.append("menuCd", data.menuCd);
+        formData.append("crmCd", data.crmCd);
+
 
         // 캠CRM 데이터 INSERT 처리 해줘야함(캠CRM 미개발)
 
-        if(data.bustripReqId != "" && data.bustripReqId != null){
-            formData.append("hrBizReqId", data.bustripReqId);
+        if(data.hrBizReqResultId != "" && data.hrBizReqResultId != null){
+            formData.append("hrBizReqResultId", data.hrBizReqResultId);
 
             // 1. 출장 상태값 변경
 

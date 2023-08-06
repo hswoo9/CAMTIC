@@ -294,6 +294,15 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/getPopBustripList")
+    public String getPopBustripList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        List<Map<String, Object>> list = bustripService.getPopBustripList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/bustrip/delBustripReq")
     public String delBustripReq(@RequestParam String[] keyAr, Model model){
         try{

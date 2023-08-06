@@ -210,7 +210,7 @@ var bustripList = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/bustrip/getBustripList",
+                    url: "/bustrip/getPopBustripList",
                     dataType: "json",
                     type: "post"
                 },
@@ -249,6 +249,15 @@ var bustripList = {
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: bustripList.onDataBound,
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripList.popGridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }],
             columns: [
                 {
                     title: "사업명",
@@ -308,12 +317,16 @@ var bustripList = {
                             project = "(" + row.PROJECT + ") ";
                         }
                         var title =  project + busnName + " 출장지 : " + row.VISIT_LOC_SUB;
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripList.fn_selBustripInfo(\''+row.HR_BIZ_REQ_ID+'\', \''+title+'\');">선택</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripList.fn_selBustripInfo(\''+row.HR_BIZ_REQ_RESULT_ID+'\', \''+title+'\');">선택</button>';
                     },
                     width: 60
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    popGridReload: function (){
+        $("#popMainGrid").data("kendoGrid").dataSource.read();
     },
 
     onDataBound: function(){
@@ -327,7 +340,7 @@ var bustripList = {
 
     fn_selBustripInfo: function (d, title){
         opener.parent.$("#bustripReq").val(title)
-        opener.parent.$("#bustripReqId").val(d);
+        opener.parent.$("#hrBizReqResultId").val(d);
 
         window.close();
     },
