@@ -16,6 +16,7 @@ var bustripResultPop = {
         });
         customKendo.fn_dropDownList("realDriver", ds.list, "EMP_NAME", "EMP_SEQ", "3");
         customKendo.fn_textBox(["result"]);
+        customKendo.fn_textArea(["result"]);
     },
 
     dataSet : function() {
@@ -114,6 +115,41 @@ var bustripResultPop = {
             $("#moveDst").val(resInfo.MOVE_DST);
             $("#result").val(resInfo.RESULT);
 
+            $("#visitLocCode").data("kendoDropDownList").bind("change", function(){
+                if($("#visitLocCode").val() == "999"){
+                    $(".visitMove").hide();
+                    $(".visitLocSub").show();
+                    if(pageName == "bustripResReq"){
+                        $("#moveDst").attr("disabled", false);
+                        $("#moveBtn").attr("disabled", false);
+                    }
+                }else if($("#visitLocCode").val() == ""){
+                    $(".visitLocSub").hide();
+                    $(".visitMove").show();
+                    if(pageName == "bustripResReq"){
+                        $("#moveDst").attr("disabled", false);
+                        $("#moveBtn").attr("disabled", false);
+                    }
+                }else{
+                    $(".visitLocSub").hide();
+                    $(".visitMove").show();
+                    let code = $("#visitLocCode").data("kendoDropDownList").value();
+                    let distance = 0;
+                    for(let i=0; i<bustripReq.global.waypointArr.length; i++){
+                        let pk = bustripReq.global.waypointArr[i].HR_WAYPOINT_INFO_SN;
+                        if(pk == code){
+                            distance = bustripReq.global.waypointArr[i].DISTANCE;
+                        }
+                    }
+                    $(".visitMoveSpan").text(distance+" km");
+                    $("#moveDst").val(distance);
+                    if(pageName == "bustripResReq"){
+                        $("#moveDst").attr("disabled", true);
+                        $("#moveBtn").attr("disabled", true);
+                    }
+                }
+            });
+
             if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
                 $("#popEmpName").data("kendoTextBox").enable(false);
                 $("#tripCode").data("kendoDropDownList").enable(false);
@@ -122,7 +158,7 @@ var bustripResultPop = {
                 $("#visitLoc").data("kendoTextBox").enable(false);
                 $("#visitLocSub").data("kendoTextBox").enable(false);
                 $("#visitLocCode").data("kendoDropDownList").enable(false);
-                $("#bustObj").data("kendoTextBox").enable(false);
+                $("#bustObj").data("kendoTextArea").enable(false);
                 $("#date1").data("kendoDatePicker").enable(false);
                 $("#date2").data("kendoDatePicker").enable(false);
                 $("#time1").data("kendoTimePicker").enable(false);
@@ -136,7 +172,7 @@ var bustripResultPop = {
                 $("#projectAddBtn").attr("disabled", true);
                 $("#carBtn").css("display", "none");
                 if($("#mod").val() == "mng"){
-                    $("#result").data("kendoTextBox").enable(false);
+                    $("#result").data("kendoTextArea").enable(false);
                     $("#saveBtn").css("display", "none");
                 }
                 $("#realDriver").data("kendoDropDownList").enable(false);
@@ -175,7 +211,6 @@ var bustripResultPop = {
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
         if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
-        if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
         if($("#realDriver").val() == ""){ alert("운행자를 선택해주세요."); return; }
         if($("#result").val() == ""){ alert("출장결과를 입력해주세요."); return; }
         if($("#moveDst").val() == ""){ alert("운행거리를 입력해주세요."); return; }

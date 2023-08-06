@@ -112,6 +112,38 @@
                     </td>
                 </tr>
             </c:forEach>
+                <tr class="TotalData">
+                    <td>
+                        <div style="text-align: center">합계</div>
+                    </td>
+                    <td>
+                        <input type="text" id="oilTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="trafTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="trafDayTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="tollTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="dayTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="eatTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="parkingTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="etcTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="totalTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                    </td>
+                </tr>
             </thead>
         </table>
     </form>

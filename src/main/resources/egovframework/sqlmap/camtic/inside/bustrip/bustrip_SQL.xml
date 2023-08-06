@@ -318,6 +318,7 @@
             VISIT_CRM = #{visitCrm},
             VISIT_LOC = #{visitLoc},
             VISIT_LOC_SUB = #{visitLocSub},
+            VISIT_LOC_CODE = #{visitLocCode},
             TRIP_DAY_FR = #{tripDayFr},
             TRIP_DAY_TO = #{tripDayTo},
             TRIP_TIME_FR = #{tripTimeFr},
