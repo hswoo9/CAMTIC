@@ -168,7 +168,7 @@ var camPrj = {
 
                     for(var i = 0 ; i <= index ; i++){
                         $("#ps" + i).addClass("active");
-                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+self.dataItem(this).PJT_SN+")");
+                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(index + 1)+","+self.dataItem(this).PJT_SN+")");
                     }
                     $("#ps" + (index + 1)).addClass("ready");
                     $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
@@ -293,8 +293,14 @@ var camPrj = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    setPrjPop: function (key){
-        var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+    setPrjPop: function (i, key){
+        var url = "";
+
+        if(i == 1){
+            url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+        } else if (i == 2){
+            url = "/project/pop/engnStep.do?step=" + (i-1) + "&pjtSn=" + key;;
+        }
 
         if(key == null || key == ""){
             url = "/project/pop/viewRegProject.do";
@@ -352,7 +358,7 @@ var camPrj = {
     fn_step1: function (i, key){
         var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
         var name = "popup";
-        var option = "width = 900, height = 400, top = 100, left = 200, location = no"
+        var option = "width = 900, height = 820, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 

@@ -17,4 +17,10 @@ public interface ProjectService {
     void delProject(Map<String, Object> params);
 
     Map<String, Object> getProjectData(Map<String, Object> params);
+
+    void insStep1(Map<String, Object> params);
+
+    void insStep1Sub(Map<String, Object> params);
+
+    Map<String, Object> getStep1Data(Map<String, Object> params);
 }
