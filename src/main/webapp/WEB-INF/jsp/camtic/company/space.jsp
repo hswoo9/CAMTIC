@@ -412,7 +412,7 @@
               </ul>
 
               <div class="use3">
-                <a href="#"><strong>전주드론제작소 - 윙윙스테이션</strong> 바로가기</a>
+                <a href="http://maker.camtic.or.kr/main/" target="_blank"><strong>전주드론제작소 - 윙윙스테이션</strong> 바로가기</a>
               </div>
 
             </div>
