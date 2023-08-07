@@ -74,6 +74,36 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/delProject")
+    public String delProject(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.delProject(params);
+
+            model.addAttribute("rs", "SC");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/pop/engnStep.do")
+    public String engnStep(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute("loginVO", loginVO)
+                .addAttribute("menuCd", "ES" + params.get("step"))
+                .addAttribute(map);
+
+
+        return "popup/cam_project/engineering/step" + params.get("step");
+    }
+
 
 
 }

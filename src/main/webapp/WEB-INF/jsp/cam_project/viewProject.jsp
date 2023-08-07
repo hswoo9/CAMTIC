@@ -80,6 +80,7 @@
         font-weight: bold;
         color: black;
     }
+
 </style>
 <div class="mainCard">
     <div class="panel">

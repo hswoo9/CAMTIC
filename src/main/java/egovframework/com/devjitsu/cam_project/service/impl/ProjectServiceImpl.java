@@ -82,4 +82,14 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectStep1(Map<String, Object> params) {
         return projectRepository.getProjectStep1(params);
     }
+
+    @Override
+    public void delProject(Map<String, Object> params) {
+        projectRepository.delProject(params);
+    }
+
+    @Override
+    public Map<String, Object> getProjectData(Map<String, Object> params) {
+        return projectRepository.getProjectData(params);
+    }
 }

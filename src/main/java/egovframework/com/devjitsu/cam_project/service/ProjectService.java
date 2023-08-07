@@ -13,4 +13,8 @@ public interface ProjectService {
     void setProject(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     Map<String, Object> getProjectStep1(Map<String, Object> params);
+
+    void delProject(Map<String, Object> params);
+
+    Map<String, Object> getProjectData(Map<String, Object> params);
 }

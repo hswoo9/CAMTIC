@@ -122,13 +122,13 @@ var camPrj = {
                 self.tbody.find("tr").dblclick(function(e) {
                     $(".container").css("display", "");
                     $(".circle").each(function(){
+                        self.tbody.find("tr").css("background-color", "");
                         $(this).removeClass("active")
                         $(this).removeClass("ready")
                         $(this).removeAttr("check");
                         $(this).removeAttr("onClick");
                     });
 
-                    console.log(self.dataItem(this));
                     switch (self.dataItem(this).PJT_STEP) {
                         case "E0":
                             $("#ps0").attr("check", "Y");
@@ -171,7 +171,10 @@ var camPrj = {
                         $("#ps" + i).attr("onClick","camPrj.setPrjPop("+self.dataItem(this).PJT_SN+")");
                     }
                     $("#ps" + (index + 1)).addClass("ready");
-                    $("#ps" + (index + 1)).attr("onClick","javascript:alert('작성창 개발중')");
+                    $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
+
+                    $(this).css("background-color", "#a7e1fc");
+
                 });
             },
             columns: [
@@ -267,6 +270,10 @@ var camPrj = {
                     width: "5%"
                 }]
         }).data("kendoGrid");
+
+        $("#mainGrid").data("kendoGrid").setOptions({
+            selectable : true
+        })
     },
 
     fn_allCheck : function (e){
@@ -302,11 +309,51 @@ var camPrj = {
             if($(this).is(":checked")){
                 // alert(this.value);
                 alert("삭제하시겠습니까?");
+                var data = {
+                    pjtSn : this.value
+                }
+                customKendo.fn_customAjax("/project/delProject", data);
 
-                // Todo. project 삭제 처리
-
+                camPrj.gridReload();
             }
         })
+    },
+
+
+    popSetStep: function (i, key){
+        switch (i){
+            case 1 :
+                camPrj.fn_step1(i, key);
+                break;
+            case 2 :
+                alert("수주보고")
+                break;
+            case 3 :
+                alert("개발계획")
+                break;
+            case 4 :
+                alert("공정")
+                break;
+            case 5 :
+                alert("납품")
+                break;
+            case 6 :
+                alert("결과보고")
+                break;
+            case 7 :
+                alert("원가보고")
+                break;
+            default:
+                break;
+        }
+    },
+
+
+    fn_step1: function (i, key){
+        var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
+        var name = "popup";
+        var option = "width = 900, height = 400, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
 
 }

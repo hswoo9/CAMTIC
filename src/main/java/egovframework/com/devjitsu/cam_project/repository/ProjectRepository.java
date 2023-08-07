@@ -24,4 +24,13 @@ public class ProjectRepository extends AbstractDAO {
     public void insPjtEngn(Map<String, Object> params) {
         insert("project.insPjtEngn", params);
     }
+
+    public void delProject(Map<String, Object> params) {
+
+        delete("project.delProject", params);
+    }
+
+    public Map<String, Object> getProjectData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProjectData", params);
+    }
 }
