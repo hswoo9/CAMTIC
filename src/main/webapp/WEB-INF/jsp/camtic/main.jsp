@@ -126,27 +126,27 @@
           <div class="area">
             <div class="item active" id="tab-panel1" role="tabpanel" aria-labelledby="tab1" aria-selected="true">
               <div class="sec notice">
-                <a href="#" class="box">
-                  <p class="subject">2022년 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
+                <a href="/camtic/news/view.do?boardArticleId=22&category=notice" class="box">
+                  <p class="subject">전주첨단벤처단지 정전에 따른 홈페이지 사용 중단 안내</p>
                   <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
+                    캠틱종합기술원 홈페이지를 이용하시는 고객님께 양해 말씀 드립니다.
+                    전기설비 정기점검에 따른 정전으로 아래의 점검기간 동안 홈페이지 서비스가 일시 중지할 예정이오니, 홈페이지 이용에 참고하시기 바랍니다.
                   </p>
-                  <p class="date">2023-01-04</p>
+                  <p class="date">2023-07-25</p>
                 </a>
-                <a href="#" class="box">
-                  <p class="subject">2022년 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
+                <a href="/camtic/news/view.do?boardArticleId=13330&category=notice" class="box">
+                  <p class="subject">2023 지역주도형 청년일자리사업 '맛있는 군산' 청년선발인원 공고</p>
                   <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
+                    2023년 지역주도형 청년일자리사업 선발인원을 다음과 같이 안내드립니다.
+                    1. 합격자 명단
                   </p>
-                  <p class="date">2023-01-04</p>
+                  <p class="date">2023-01-31</p>
                 </a>
-                <a href="#" class="box">
-                  <p class="subject">2022년 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
+                <a href="/camtic/news/view.do?boardArticleId=13321&category=notice" class="box">
+                  <p class="subject">드론산업혁신지원센터 11월 드론활용 장비교육 안내</p>
                   <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
+                    드론산업혁신지원센터 11월 드론활용 장비교육 안내
+                    |일시| 2022.11.25(금) 15:00 - 16:30 |장소| 전주혁신창업허브 드론산업혁신지원센터 (전라북도 전주시 유상로 67)
                   </p>
                   <p class="date">2023-01-04</p>
                 </a>
@@ -155,39 +155,39 @@
             </div>
             <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false">
               <div class="sec">
-                <a href="#" class="box">
+                <a href="/camtic/member/view.do" class="box">
                   <div class="ddakji ing"><span>진행중</span></div>
-                  <p class="subject">2222 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
+                  <p class="subject">이영 중소벤처기업부 장관, 전주첨단벤처단지 방문 및 기업간담회</p>
                   <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
+                    방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다.
+                    이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다.
                   </p>
                   <p class="date">2023-01-04</p>
                 </a>
-                <a href="#" class="box">
+                <a href="/camtic/member/view.do" class="box">
                   <div class="ddakji end"><span>완료</span></div>
-                  <p class="subject">222 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
+                  <p class="subject">2 이영 중소벤처기업부 장관, 전주첨단벤처단지 방문 및 기업간담회</p>
                   <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
+                    방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다.
+                    이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다.
                   </p>
                   <p class="date">2023-01-04</p>
                 </a>
-                <a href="#" class="box">
+                <a href="/camtic/member/view.do" class="box">
                   <div class="ddakji ing"><span>진행중</span></div>
-                  <p class="subject">222 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
+                  <p class="subject">3 이영 중소벤처기업부 장관, 전주첨단벤처단지 방문 및 기업간담회</p>
                   <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
+                    방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다.
+                    이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다.
                   </p>
                   <p class="date">2023-01-04</p>
                 </a>
               </div>
-              <a href="/camtic/news/business.do" class="more">+ 더보기</a>
+              <a href="/camtic/member/job.do" class="more">+ 더보기</a>
             </div>
             <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false">
               <div class="sec">
-                <a href="#" class="box">
+                <a href="/camtic/pr/pr_view.do?boardArticleId=41505&category=report" class="box">
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -195,7 +195,7 @@
                   </p>
                   <p class="date">2023-01-04</p>
                 </a>
-                <a href="#" class="box">
+                <a href="/camtic/pr/pr_view.do?boardArticleId=41504&category=report" class="box">
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -203,7 +203,7 @@
                   </p>
                   <p class="date">2023-01-04</p>
                 </a>
-                <a href="#" class="box">
+                <a href="/camtic/pr/pr_view.do?boardArticleId=41503&category=report" class="box">
                   <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
                   <p class="sum">
                     전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
@@ -212,7 +212,7 @@
                   <p class="date">2023-01-04</p>
                 </a>
               </div>
-              <a href="#" class="more">+ 더보기</a>
+              <a href="/camtic/pr/report.do" class="more">+ 더보기</a>
             </div>
           </div>
         </div>
@@ -258,78 +258,78 @@
         </div>
         <div class="area">
           <div class="swiper-wrapper">
-            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+            <a href="/camtic/news/view.do?boardArticleId=53&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
               <div class="head">
                 <div class="ico">진행</div>
                 <dl>
                   <dt>마감일</dt>
-                  <dd>2023-12-31</dd>
+                  <dd>2023-08-31</dd>
                 </dl>
               </div>
               <div class="cont">
-                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="txt">지역 사회 발전을 위한 창의적 아이디어 공모전</div>
                 <div class="date">
                   <i class="axi axi-clock" aria-hidden="true"></i>
                   <p>
-                    2023-07-24 00:00:00 ~<br>
-                    2023-07-24 00:00:00
+                    2023-08-01 00:00:00 ~<br>
+                    2023-08-31 00:00:00
                   </p>
                 </div>
               </div>
             </a>
-            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+            <a href="/camtic/news/view.do?boardArticleId=37&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
               <div class="head">
                 <div class="ico">진행</div>
                 <dl>
                   <dt>마감일</dt>
-                  <dd>2023-12-31</dd>
+                  <dd>2023-06-21</dd>
                 </dl>
               </div>
               <div class="cont">
-                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="txt">[전북바이오융합산업진흥원] 바이오헬스 기업지원 모집공고</div>
                 <div class="date">
                   <i class="axi axi-clock" aria-hidden="true"></i>
                   <p>
-                    2023-07-24 00:00:00 ~<br>
-                    2023-07-24 00:00:00
+                    2023-06-19 00:00:00 ~<br>
+                    2023-06-21 00:00:00
                   </p>
                 </div>
               </div>
             </a>
-            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+            <a href="/camtic/news/view.do?boardArticleId=33466&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
               <div class="head">
                 <div class="ico">진행</div>
                 <dl>
                   <dt>마감일</dt>
-                  <dd>2023-12-31</dd>
+                  <dd>2023-07-31</dd>
                 </dl>
               </div>
               <div class="cont">
-                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="txt">2023년 R&D 혁신밸리 창업지원 초기 글로벌 사업화 지원 2차 안내</div>
                 <div class="date">
                   <i class="axi axi-clock" aria-hidden="true"></i>
                   <p>
-                    2023-07-24 00:00:00 ~<br>
-                    2023-07-24 00:00:00
+                    2023-07-17 00:00:00 ~<br>
+                    2023-07-31 00:00:00
                   </p>
                 </div>
               </div>
             </a>
-            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
+            <a href="/camtic/news/view.do?boardArticleId=33463&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
               <div class="head">
                 <div class="ico">진행</div>
                 <dl>
                   <dt>마감일</dt>
-                  <dd>2023-12-31</dd>
+                  <dd>2023-07-21</dd>
                 </dl>
               </div>
               <div class="cont">
-                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
+                <div class="txt">[공고] 2023 K-AAM eVTOL 기술개발 경연대회 참가자 모집</div>
                 <div class="date">
                   <i class="axi axi-clock" aria-hidden="true"></i>
                   <p>
-                    2023-07-24 00:00:00 ~<br>
-                    2023-07-24 00:00:00
+                    2023-07-10 00:00:00 ~<br>
+                    2023-07-21 00:00:00
                   </p>
                 </div>
               </div>
@@ -506,10 +506,10 @@
   <div id="ban">
     <div class="inner">
       <ul>
-        <li><a href="#"><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
-        <li><a href="#"><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
-        <li><a href="#"><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
-        <li><a href="#"><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론산업혁신지원센터"></a></li>
+        <li><a href="http://mold.camtic.or.kr/main/" target="_blank"><img src="/images/camtic/img-main-ban1.png" alt="복합소재 뿌리기술센터"></a></li>
+        <li><a href="http://maker.camtic.or.kr/main/" target="_blank"><img src="/images/camtic/img-main-ban2.png" alt="윙윙스테이션"></a></li>
+        <li><a href="http://www.jhitech.or.kr/" target="_blank"><img src="/images/camtic/img-main-ban3.png" alt="전주첨단벤처단지"></a></li>
+        <li><a href="http://drone.camtic.or.kr/main/" target="_blank"><img src="/images/camtic/img-main-ban4.png" alt="국토교통부지원 드론기술개발지원센터"></a></li>
       </ul>
     </div>
   </div>
