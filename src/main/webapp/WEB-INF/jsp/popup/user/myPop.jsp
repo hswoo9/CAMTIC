@@ -45,10 +45,10 @@
 			<div class="left">
 				<c:choose>
 					<c:when test="${idPhoto.file_path ne null}">
-						<img src="${idPhoto.file_path}${idPhoto.file_uuid}" alt="" class="media-object img-circle" style="width:100px; display : block; margin : auto;">
+						<img src="${idPhoto.file_path}${idPhoto.file_uuid}" width="100px;" height="100px;"  alt="" class="media-object img-circle" style="width:100px; display : block; margin : auto;">
 					</c:when>
 					<c:otherwise>
-						<img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="width:100px; display : block; margin : auto;">
+						<img src="/images/photos/loggeduser1.png" width="100px;" height="100px;" alt="" class="media-object img-circle" style="width:100px; display : block; margin : auto;">
 					</c:otherwise>
 				</c:choose>
 				<h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">${uprinfList.EMP_NAME_KR} ${uprinfList.POSITION_NAME}</h4>
