@@ -55,11 +55,11 @@
           <a href="/camtic/company/root.do"><span>기업과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="company_root"><a href="/camtic/company/root.do">복합소재뿌리기술센터</a></li>
-            <li class="company_drone"><a href="/camtic/company/drone.do">드론산업혁신지원센터</a></li>
+            <li class="company_drone"><a href="/camtic/company/drone.do">드론기술개발지원센터</a></li>
             <li class="company_space"><a href="/camtic/company/space.do">메이커스페이스</a></li>
-            <li class="company_support"><a href="/camtic/company/support.do">기업육성지원</a></li>
-            <li class="company_talent"><a href="/camtic/company/talent.do">인재개발센터</a></li>
-            <li class="company_job"><a href="/camtic/company/job.do">일자리창업지원</a></li>
+            <li class="company_support"><a href="/camtic/company/support.do">창업/기업 성장지원</a></li>
+            <li class="company_talent"><a href="/camtic/company/talent.do">인재개발지원</a></li>
+            <li class="company_job"><a href="/camtic/company/job.do">일자리혁신지원</a></li>
           </ul>
         </li>
         <li class="tech">
