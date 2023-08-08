@@ -28,7 +28,7 @@
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dt>지역과 함께 성장</dt>
                   <dd>
                     창업 - 혁신 - 성장<br>
                     제조창업플랫폼
@@ -40,10 +40,10 @@
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dt>기업과 함께 성장</dt>
                   <dd>
-                    창업 - 혁신 - 성장<br>
-                    제조창업플랫폼
+                    기업수요 및 성장주기 연계<br>
+                    H/W, S/W 지원
                   </dd>
                 </dl>
                 <p><span>J - Valley 2</span></p>
@@ -52,10 +52,10 @@
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dt>기술과 함께 성장</dt>
                   <dd>
-                    창업 - 혁신 - 성장<br>
-                    제조창업플랫폼
+                    시장기반<br>
+                    신기술 · 신산업 육성 지원
                   </dd>
                 </dl>
                 <p><span>J - Valley 3</span></p>
@@ -64,10 +64,10 @@
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>기업과 함께 성장하는 캠틱종합기술원</dt>
+                  <dt>직원과 함께 성장</dt>
                   <dd>
-                    창업 - 혁신 - 성장<br>
-                    제조창업플랫폼
+                    행복한 일터<br>
+                    캠틱 클러스터 구축
                   </dd>
                 </dl>
                 <p><span>J - Valley 4</span></p>
