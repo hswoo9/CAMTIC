@@ -168,7 +168,7 @@ var camPrj = {
 
                     for(var i = 0 ; i <= index ; i++){
                         $("#ps" + i).addClass("active");
-                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(index + 1)+","+self.dataItem(this).PJT_SN+")");
+                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
                     }
                     $("#ps" + (index + 1)).addClass("ready");
                     $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");

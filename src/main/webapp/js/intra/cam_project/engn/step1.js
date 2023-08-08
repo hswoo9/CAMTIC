@@ -155,7 +155,7 @@ var es1 = {
                                 dataType : "json",
                                 success : function(rs){
                                     if(rs.code == 200){
-                                        location.reload();
+                                        window.close()
                                     }
                                 }
                             })
