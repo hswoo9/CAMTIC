@@ -44,7 +44,7 @@ var es1 = {
             html += '   <td><input type="text" class="prodCnt" id="prodCnt'+idx+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(inputData.prodCnt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="unit" id="unit'+idx+'" value="'+inputData.unit+'"/></td>';
             html += '   <td><input type="text" class="unitAmt" id="unitAmt'+idx+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(inputData.unitAmt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
-            html += '   <td><input type="text" class="supAmt" id="supAmt'+idx+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(inputData.supAmt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+            html += '   <td><input type="text" class="supAmt" id="supAmt'+idx+'" disabled style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(inputData.supAmt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="prodEtc" id="prodEtc'+idx+'" value="'+inputData.prodEtc+'" /></td>';
             html += '   <td style="text-align: center">';
             html += '       <button type="button" id="delBtn" onclick="es1.fn_delRow('+idx+')" class="k-button k-button-solid-error">삭제</button>';
@@ -253,7 +253,7 @@ var es1 = {
             html += '   <td><input type="text" class="prodCnt" id="prodCnt'+(idx+1)+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].PROD_CNT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="unit" id="unit'+(idx+1)+'" value="'+estSubList[idx].UNIT+'"/></td>';
             html += '   <td><input type="text" class="unitAmt" id="unitAmt'+(idx+1)+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].UNIT_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
-            html += '   <td><input type="text" class="supAmt" id="supAmt'+(idx+1)+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].SUP_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+            html += '   <td><input type="text" class="supAmt" id="supAmt'+(idx+1)+'" style="text-align: right;" disabled onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].SUP_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="prodEtc" id="prodEtc'+(idx+1)+'" value="'+etc+'" /></td>';
             html += '   <td style="text-align: center">';
             html += '       <button type="button" id="delBtn" onclick="es1.fn_delRow('+(idx+1)+')" class="k-button k-button-solid-error">삭제</button>';
