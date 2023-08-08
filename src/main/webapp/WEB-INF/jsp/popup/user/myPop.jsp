@@ -79,27 +79,27 @@
 
 			</div>
 			<div class="right">
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 45px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 50px;">회사명</li>
 					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">캠틱종합기술원</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 34px;">직책/부서</li>
 					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.DEPT_NAME} ${uprinfList.DEPT_TEAM_NAME} ${uprinfList.DUTY_NAME}</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직무</li>
 					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.JOB_DETAIL}</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">휴대전화</li>
 					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.MOBILE_TEL_NUM}</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">내선번호</li>
 					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;"></li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px;">
+				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">사원번호</li>
 					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.ERP_EMP_SEQ}</li>
 				</ul>
