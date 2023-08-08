@@ -219,7 +219,7 @@ var historyList = {
     historyReqPop: function(){
         var url = "/Inside/pop/historyReqPop.do";
         var name = "historyReqPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1800, height=695, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
