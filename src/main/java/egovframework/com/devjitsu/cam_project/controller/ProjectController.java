@@ -139,6 +139,12 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getStep1SubData")
+    public String getStep1SubData(@RequestParam Map<String, Object> params, Model model){
 
+        model.addAttribute("result", projectService.getStep1SubData(params));
+
+        return "jsonView";
+    }
 
 }

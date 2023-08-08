@@ -87,7 +87,7 @@ var es1 = {
             prodEtc : $("#prodEtc").val(),
         }
 
-
+        es1.global.totAmt = 0;
         $("#productTb > tr").each(function (idx){
             if(idx != 0){
                 $(this).removeAttr("id");
@@ -106,11 +106,17 @@ var es1 = {
                 });
 
                 $("#prodCnt" + idx + ", #unitAmt" + idx).on("keyup", function(){
+                    es1.global.totAmt -= Number(es1.uncomma($("#supAmt" + idx).val()));
                     $("#supAmt" + idx).val(es1.comma(es1.uncomma($("#unitAmt" + idx).val()) * es1.uncomma($("#prodCnt" + idx).val())));
-                    es1.global.totAmt += Number(es1.uncomma(inputData.supAmt));
+                    es1.global.totAmt += Number(es1.uncomma($("#supAmt" + idx).val()));
                     // 견적가 합계 구하기
                     $("#expAmt").val(es1.comma(es1.global.totAmt));
                 });
+
+
+                es1.global.totAmt += Number(es1.uncomma($("#supAmt" + idx).val()));
+                // 견적가 합계 구하기
+                $("#expAmt").val(es1.comma(es1.global.totAmt));
             }
         });
 
@@ -175,7 +181,8 @@ var es1 = {
                                 dataType : "json",
                                 success : function(rs){
                                     if(rs.code == 200){
-                                        window.close()
+                                        opener.parent.camPrj.gridReload();
+                                        window.close();
                                     }
                                 }
                             })
@@ -230,7 +237,7 @@ var es1 = {
             dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
             var sdfDate = yyyy+'-'+mm+'-'+dd;
 
-            html += "<tr>";
+            html += "<tr id='tr2"+ rs.result.estList[i].EST_SN+"' onclick='es1.fn_versionClick("+rs.result.estList[i].EST_SN+")'>";
             html += "   <td style='text-align: right'>"+ (i+1) +"</td>";
             html += "   <td>"+ rs.result.estList[i].EST_NM +"</td>";
             html += "   <td style='text-align: right'>"+ es1.comma(rs.result.estList[i].EST_TOT_AMT) +"</td>";
@@ -245,6 +252,93 @@ var es1 = {
         var estList = rs.result.estList[0];
         var estSubList = rs.result.estSubList;
 
+
+        for(var idx = 0 ; idx < estSubList.length ; idx++){
+            var html = "";
+            var etc = ""
+            if(estSubList[idx].ETC != null && estSubList[idx].ETC != ""){
+                etc = estSubList[idx].ETC;
+            }
+
+            console.log('tr'+(idx+1));
+            html += '<tr id="tr'+(idx+1)+'">';
+            html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+(idx+1)+'</span></td>';
+            html += '   <td><input type="text" class="prodNm" id="prodNm'+(idx+1)+'" value="'+estSubList[idx].PROD_NM+'"/></td>';
+            html += '   <td><input type="text" class="prodCnt" id="prodCnt'+(idx+1)+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].PROD_CNT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+            html += '   <td><input type="text" class="unit" id="unit'+(idx+1)+'" value="'+estSubList[idx].UNIT+'"/></td>';
+            html += '   <td><input type="text" class="unitAmt" id="unitAmt'+(idx+1)+'" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].UNIT_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+            html += '   <td><input type="text" class="supAmt" id="supAmt'+(idx+1)+'" style="text-align: right;" disabled onkeyup="es1.inputNumberFormat(this)" value="'+es1.comma(estSubList[idx].SUP_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+            html += '   <td><input type="text" class="prodEtc" id="prodEtc'+(idx+1)+'" value="'+etc+'" /></td>';
+            html += '   <td style="text-align: center">';
+            html += '       <button type="button" id="delBtn" onclick="es1.fn_delRow('+(idx+1)+')" class="k-button k-button-solid-error">삭제</button>';
+            html += '   </td>';
+            html += '</tr>';
+
+            $("#productTb").append(html);
+
+            $("#prodNm" + (idx+1) + ", #prodCnt" + (idx+1) + ", #unit" + (idx+1) + ", #unitAmt" + (idx+1) + ", #supAmt" + (idx+1) + ", #prodEtc" + (idx+1) + "").kendoTextBox();
+
+        }
+
+        $("#productTb > tr").each(function(e){
+            $("#prodCnt" + e + ", #unitAmt" + e).on("keyup", function(){
+                var unitAmt = $("#unitAmt" + e).val();
+                $("#supAmt" + e).val(es1.comma(es1.uncomma($("#unitAmt" + e).val()) * es1.uncomma($("#prodCnt" + e).val())));
+
+                es1.global.totAmt = 0;
+                $("#productTb > tr").each(function (idx){
+                    es1.global.totAmt += Number(es1.uncomma($("#supAmt" + idx).val()));
+                    // 견적가 합계 구하기
+                    $("#expAmt").val(es1.comma(es1.global.totAmt));
+                });
+            });
+        });
+
+
+
+
+
+        $("#estDe").val(estList.EST_DE);
+        $("#etc").val(estList.EST_ISS);
+        $("#expAmt").val(es1.comma(estList.EST_TOT_AMT));
+        $("#vat" + estList.VAT).prop("checked", true);
+
+
+    },
+
+    fn_versionClick: function (k){
+
+        $("#productTb2 > tr").each(function(){
+            $(this).css("background-color", "#ffffff");
+        });
+        $("#tr2" + k).css("background-color", "#a7e1fc");
+
+        var data = {
+            estSn : k
+        }
+
+        var rs = customKendo.fn_customAjax("/project/getStep1SubData", data);
+
+        var estSubList = rs.result.estSubList;
+        $("#productTb").empty();
+        var bsHtml = "";
+        bsHtml = "<tr>\n" +
+            "                    <td style=\"text-align: center\"><span style=\"position: relative; top:5px\">추가</span></td>\n" +
+            "                    <td><input type=\"text\" class=\"prodNm\" alias=\"prodNm\" id=\"prodNm\" /></td>\n" +
+            "                    <td><input type=\"text\" class=\"prodCnt\" alias=\"prodCnt\" id=\"prodCnt\" style=\"text-align: right;\" onkeyup=\"es1.inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
+            "                    <td><input type=\"text\" class=\"unit\" alias=\"unit\" id=\"unit\" /></td>\n" +
+            "                    <td><input type=\"text\" class=\"unitAmt\" alias=\"unitAmt\" id=\"unitAmt\" style=\"text-align: right;\" onkeyup=\"es1.inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
+            "                    <td><input type=\"text\" class=\"supAmt\" alias=\"supAmt\" id=\"supAmt\" disabled style=\"text-align: right;\" /></td>\n" +
+            "                    <td><input type=\"text\" class=\"prodEtc\" alias=\"prodEtc\" id=\"prodEtc\" /></td>\n" +
+            "                    <td style=\"text-align: center\"><button type=\"button\" id=\"addBtn\" class=\"k-button k-button-solid-base\">추가</button> </td>\n" +
+            "                </tr>"
+        $("#productTb").append(bsHtml);
+
+        $("#prodNm, #prodCnt, #unit, #unitAmt, #supAmt, #prodEtc").kendoTextBox();
+
+        $("#prodCnt, #unitAmt").on("keyup", function(){
+            $("#supAmt").val(es1.comma(es1.uncomma($("#unitAmt").val()) * es1.uncomma($("#prodCnt").val())))
+        });
 
         for(var idx = 0 ; idx < estSubList.length ; idx++){
             var html = "";
@@ -269,13 +363,21 @@ var es1 = {
             $("#productTb").append(html);
 
             $("#prodNm" + (idx+1) + ", #prodCnt" + (idx+1) + ", #unit" + (idx+1) + ", #unitAmt" + (idx+1) + ", #supAmt" + (idx+1) + ", #prodEtc" + (idx+1) + "").kendoTextBox();
+
         }
 
-        $("#estDe").val(estList.EST_DE);
-        $("#etc").val(estList.EST_ISS);
-        $("#expAmt").val(es1.comma(estList.EST_TOT_AMT));
-        $("#vat" + estList.VAT).prop("checked", true);
+        $("#productTb > tr").each(function(e){
+            $("#prodCnt" + e + ", #unitAmt" + e).on("keyup", function(){
+                $("#supAmt" + e).val(es1.comma(es1.uncomma($("#unitAmt" + e).val()) * es1.uncomma($("#prodCnt" + e).val())));
 
+                es1.global.totAmt = 0;
+                $("#productTb > tr").each(function (idx){
+                    es1.global.totAmt += Number(es1.uncomma($("#supAmt" + idx).val()));
+                    // 견적가 합계 구하기
+                    $("#expAmt").val(es1.comma(es1.global.totAmt));
+                });
+            });
+        });
 
     }
 }
