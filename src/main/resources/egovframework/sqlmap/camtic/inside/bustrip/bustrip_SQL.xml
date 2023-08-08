@@ -383,7 +383,7 @@
     </select>
 
     <select id="getBustripTotInfo" parameterType="map" resultType="map">
-        /*getBistripTotInfo*/
+        /*getBustripTotInfo*/
         SELECT
             IHBR.EMP_NAME,
             IHBR.EMP_SEQ,
@@ -804,6 +804,76 @@
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
+
+    <select id="getBustripSettleList" parameterType="map" resultType="map">
+        /* getBustripSettleList */
+        SELECT
+            A.*,
+            SUM(CORP_SUM) AS CORP_TOTAL,
+            SUM(PERSON_SUM) AS PERSON_TOTAL
+        FROM (
+            SELECT
+                PROJECT,
+                BUSN_NAME,
+                TRIP_CODE,
+                IHBRR.EMP_NAME AS REQ_NAME,
+                (SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SIHBC WHERE IHBRR.HR_BIZ_REQ_RESULT_ID = SIHBC.HR_BIZ_REQ_RESULT_ID) AS COMPANION,
+                VISIT_CRM,
+                TRIP_DAY_FR,
+                TRIP_TIME_FR,
+                TRIP_DAY_TO,
+                TRIP_TIME_TO,
+                CAR_CLASS_NAME,
+                IHBE.*,
+                (
+                    (CASE WHEN IHBE.OIL_CORP_YN = 'Y' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TOLL_CORP_YN = 'Y' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.EAT_CORP_YN = 'Y' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.PARKING_CORP_YN = 'Y' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.ETC_CORP_YN = 'Y' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                ) AS CORP_SUM,
+                (
+                    (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    REPLACE(IHBE.DAY_COST, ',', '')+
+                    (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                ) AS PERSON_SUM
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHBRR
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_CAR_CODE IHCC ON IHBRR.USE_TRSPT = IHCC.CAR_CLASS_SN
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE ON IHBRR.HR_BIZ_REQ_RESULT_ID = IHBE.HR_BIZ_REQ_RESULT_ID
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO HEI ON IHBRR.EMP_SEQ = HEI.EMP_SEQ
+            LEFT JOIN
+                CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+            WHERE
+                IHBRR.STATUS = 100
+            <if test="applyDt != null and applyDt != ''">
+                AND (DATE_FORMAT(IHBRR.TRIP_DAY_FR, '%Y-%m') = #{applyDt} OR (DATE_FORMAT(IHBRR.TRIP_DAY_TO, '%Y-%m') = #{applyDt}))
+            </if>
+            <if test="deptSeq != null and !''.equals(deptSeq)">
+                AND IHBRR.REG_EMP_SEQ IN (
+                                            SELECT
+                                                DEPT_SEQ
+                                            FROM
+                                                CAM_HR.DJ_DEPT_INFO
+                                            WHERE
+                                                DEPT_SEQ = #{deptSeq}
+                                            OR
+                                                PARENT_DEPT_SEQ = #{deptSeq}
+                                        )
+            </if>
+        ) A
+        GROUP BY HR_BIZ_REQ_RESULT_ID
+    </select>
 </mapper>
 
 

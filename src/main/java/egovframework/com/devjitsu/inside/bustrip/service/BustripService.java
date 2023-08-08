@@ -65,4 +65,6 @@ public interface BustripService {
     Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getPopBustripList(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripSettleList(Map<String, Object> params);
 }

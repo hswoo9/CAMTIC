@@ -207,6 +207,26 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 출장 정산목록 페이지 */
+    @RequestMapping("/bustrip/bustripSettleList.do")
+    public String bustripSettleList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/bustripSettleList";
+    }
+
+    /** 출장 정산목록 리스트 */
+    @RequestMapping("/bustrip/getBustripSettleList")
+    public String getBustripSettleList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getBustripSettleList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //경유지기준정보
     @RequestMapping("/bustrip/waypointCostList.do")
     public String waypointCostList(HttpServletRequest request, Model model) {
