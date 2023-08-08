@@ -178,7 +178,7 @@
             <div>
               <p>- 법인 홈페이지 (<a href="http://www.camtic.or.kr/camtic/intro.html" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.camtic.or.kr</a>)</p>
               <p class="mt5">- 상품화지원센터 홈페이지 (<a href="http://www.camtic.co.kr/CAMTIC/Development/Development00" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.camtic.co.kr</a>)</p>
-              <p class="mt5">- 인재개발센터 홈페이지 (<a href="http://edu.camtic.or.kr/HRD/index.aspx" target="_blank" style="font-size: 15px; line-height: 1.6em;">edu.camtic.or.kr</a>)</p>
+              <p class="mt5">- 인재개발지원 홈페이지 (<a href="http://edu.camtic.or.kr/HRD/index.aspx" target="_blank" style="font-size: 15px; line-height: 1.6em;">edu.camtic.or.kr</a>)</p>
               <p class="mt5">- 전주벤처기업육성촉진지구발전협의회 홈페이지 (<a href="http://www.jvada.or.kr/" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.jvada.or.kr</a>)</p>
             </div>
           </div>
