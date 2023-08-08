@@ -111,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(estList.size() != 0){
             result.put("estList", estList);
-            params.put("estSn", estList.get(0).get("EST_SN"));
+            params.put("estSn", estList.get(estList.size()).get("EST_SN"));
             result.put("estSubList", projectRepository.getStep1EstSubList(params));
         }
 

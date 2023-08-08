@@ -6,7 +6,6 @@ var es1 = {
     },
 
     fn_defaultScript: function (){
-
         customKendo.fn_textBox(["contCd", "crmCompNm", "crmMem", "expAmt", "pjtNm"]);
 
         customKendo.fn_datePicker("estDe", "depth", "yyyy-MM-dd", new Date());
@@ -52,7 +51,7 @@ var es1 = {
             html += '</tr>';
             $("#productTb").append(html);
 
-            es1.global.totAmt += Number(es1.uncomma(inputData.supAmt));
+            es1.global.totAmt += Number(es1.uncomma($("#supAmt" + idx).val()));
             // 견적가 합계 구하기
             $("#expAmt").val(es1.comma(es1.global.totAmt));
 
@@ -301,6 +300,7 @@ var es1 = {
         $("#estDe").val(estList.EST_DE);
         $("#etc").val(estList.EST_ISS);
         $("#expAmt").val(es1.comma(estList.EST_TOT_AMT));
+        es1.global.totAmt = Number(es1.uncomma($("#expAmt").val()));
         $("#vat" + estList.VAT).prop("checked", true);
 
 
