@@ -1,32 +1,89 @@
-var historyReq = {
-
+const historyReq = {
     global : {
+        userArr : [],
         hwpCtrl : "",
         params : "",
     },
 
     init : function(){
-        historyReq.global.params = params;
-        historyReq.fn_selEmp();
-        historyReq.dataSet();
         historyReq.mainGrid();
+        historyReq.editGrid();
+        historyReq.dataSet();
     },
 
     dataSet: function() {
+        historyReq.global.params = params;
+        historyReq.fn_selEmp();
         customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         customKendo.fn_datePicker("historyDate", "month", "yyyy-MM-dd", new Date());
         $("#historyDate").data("kendoDatePicker").enable(false);
-        fn_deptSetting();
+
+
+
+        $("#apntCdAll").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "임용 (정규직)", value: "1" },
+                { text: "임용 (계약직)", value: "2" },
+                { text: "임용 (인턴 사원)", value: "3" },
+                { text: "임용 (단기 직원)", value: "4" },
+                { text: "임용 (위촉 직원)", value: "5" },
+                { text: "임용 (경비 / 환경)", value: "6" },
+                { text: "승진 (직급)", value: "7" },
+                { text: "승진 (직위)", value: "8" },
+                { text: "전보", value: "9" },
+                { text: "겸직", value: "10" },
+                { text: "직무 대리", value: "11" },
+                { text: "파견", value: "12" },
+                { text: "면직", value: "13" },
+                { text: "강등", value: "14" },
+                { text: "조직 개편", value: "15" },
+                { text: "호칭 변경", value: "16" },
+                { text: "기타", value: "17" }
+            ],
+            index: 0,
+            change: historyReq.test
+        });
     },
 
-    mainGrid : function() {
-        var data = {
-            deptSeq : $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
-            empName : $("#searchVal").val()
-        }
+    test: function(){
+        const grid = $("#popMainGrid").data("kendoGrid");
+        $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            let empSeq = dataItem.EMP_SEQ;
+            $("#apntCd"+String(empSeq)).data("kendoDropDownList").value($("#apntCdAll").val());
+        });
+    },
+
+    mainGrid: function() {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/user/getEmpList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.empName = $("#searchVal").val()
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
 
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/user/getEmpList", data),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -38,6 +95,19 @@ var historyReq = {
             },
             toolbar : [
                 {
+                    name : 'text',
+                    template : function (e){
+                        return  '<span>이름</span>' +
+                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;">' ;
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.mainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.fn_selEmp()">' +
@@ -49,12 +119,11 @@ var historyReq = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : historyReq.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkEmpAll" name="checkEmpAll" onclick="fn_checkAll(\'checkEmpAll\', \'checkEmp\')" style="position : relative; top : 2px;" />',
                     template : function (e){
-                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkEmp' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
                     width: 30,
                     attribute : {
@@ -66,7 +135,7 @@ var historyReq = {
                 }, {
                     field: "TEAM_NAME",
                     title: "팀",
-                    width: 100,
+                    width: 140,
                 }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
@@ -76,94 +145,54 @@ var historyReq = {
         }).data("kendoGrid");
     },
 
-    onDataBound : function(){
-        const grid = this;
-        grid.tbody.find("tr").dblclick(function (e) {
-        });
-    },
-
-    gridReload: function (){
-        historyReq.mainGrid();
-    },
-
-    fn_selEmp: function(){
-        var empArr = [];
-        $("input[name='checkUser']").each(function(){
-            if(this.checked){
-                empArr.push(this.value);
-            }
-        });
-
-        var data = {
-            empArr : empArr
-        }
-
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            pageSize: 100,
-            transport: {
-                read : {
-                    url : "/user/getEmpSelList",
-                    dataType : "json",
-                    contentType:'application/json; charset=utf-8',
-                    type : "post",
-                    async : false
-                },
-                parameterMap: function(data, operation) {
-                    return JSON.stringify({"empArr" : empArr});
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                }
-            },
-        });
-
-
+    editGrid: function(){
         $("#popMainGrid").kendoGrid({
-            dataSource: dataSource,
             scrollable: true,
             height: 600,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
-            },
-            toolbar : [
+            toolbar: [
                 {
-                    name : 'text',
-                    template : function (e){
+                    name: 'text',
+                    template: function(){
                         return '<span>호수</span>' +
                             '	<input type="text" id="numberName" class="defaultVal" style="width: 150px;">' ;
                     }
-                },{
-                    name : 'text',
-                    template : function (e){
+                }, {
+                    name: 'text',
+                    template: function(){
                         return '<span>관련근거</span>' +
                             '	<input type="text" id="relevantName" class="defaultVal" style="width: 150px;">' ;
                     }
-                },{
-                    name : 'text',
-                    template : function (e){
+                }, {
+                    name: 'text',
+                    template: function(){
                         return '<span>발령 일자</span>' +
                             '	<input type="text" id="historyDate" class="defaultVal" style="width: 200px;">' ;
                     }
-                },{
-                    name : 'button',
-                    template : function (e){
+                }, {
+                    name: 'text',
+                    template: function(){
+                        return '<span>발령구분 일괄변경</span>' +
+                            '	<input type="text" id="apntCdAll" style="width: 150px;">' ;
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt()">' +
                             '	<span class="k-button-text">저장</span>' +
                             '</button>';
                     }
                 }, {
-                    name : 'button',
-                    template : function (e){
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="historyReq.fn_delApnt()">' +
-                            '	<span class="k-button-text">취소<span>' +
+                            '	<span class="k-button-text">삭제<span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="historyReq.fn_delApntAll()">' +
+                            '	<span class="k-button-text">초기화<span>' +
                             '</button>';
                     }
                 }
@@ -173,7 +202,7 @@ var historyReq = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="historyReq.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
                     template : function (e){
                         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
@@ -201,11 +230,11 @@ var historyReq = {
                         {
                             field: "DEPT_NAME",
                             title: "부서",
-                            width: 105
+                            width: 170
                         }, {
                             field: "TEAM_NAME",
                             title: "팀",
-                            width: 100
+                            width: 170
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
@@ -217,7 +246,7 @@ var historyReq = {
                         }, {
                             field: "JOB_DETAIL",
                             title: "직무",
-                            width: 100
+                            width: 200
                         },
                     ]
                 }, {
@@ -240,7 +269,7 @@ var historyReq = {
                                     '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
                                     '<input type="text" id="afTeam'+e.EMP_SEQ+'" name="afTeamSeq" class="afTeam" value="' + e.TEAM_SEQ + '">';
                             },
-                            width: 200
+                            width: 170
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
@@ -266,7 +295,7 @@ var historyReq = {
                                 return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
                                     '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="afJobDetail" value="' + e.JOB_DETAIL + '">';
                             },
-                            width: 100
+                            width: 200
                         },
                     ]
                 }, {
@@ -279,6 +308,43 @@ var historyReq = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    fn_selEmp: function(){
+        let flag = false;
+        let userArr = [];
+        $("input[name='checkEmp']").each(function(){
+            if(this.checked){
+                if(historyReq.global.userArr.indexOf(this.value) < 0) {
+                    userArr.push(this.value);
+                    historyReq.global.userArr.push(this.value);
+                    flag = true;
+                }
+            }
+        });
+
+        if(!flag){
+            return;
+        }
+
+        $.ajax({
+            url : "/user/getEmpSelList",
+            data : JSON.stringify({"empArr" : userArr}),
+            contentType:'application/json; charset=utf-8',
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                let grid = $("#popMainGrid").data("kendoGrid");
+                let list = result.list;
+                for(let i=0; i<list.length; i++){
+                    grid.dataSource.add(list[i]);
+                }
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
 
         historyReq.fn_popGridSetting();
 
@@ -580,11 +646,26 @@ var historyReq = {
     },
 
     fn_delApnt : function(){
-        var grid = $("#popMainGrid").data("kendoGrid");
+        const grid = $("#popMainGrid").data("kendoGrid");
+        let dataItem = {};
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+            dataItem = grid.dataItem($(this).closest("tr"));
             grid.removeRow($(this).closest('tr'));
+            historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
+                return value != dataItem.EMP_SEQ;
+            });
         });
 
         historyReq.fn_popGridSetting();
+    },
+
+    fn_delApntAll : function(){
+        if(!confirm("선택하신 데이터가 전부 삭제됩니다. 초기화 하시겠습니까?")){
+            return;
+        }
+        const grid = $("#popMainGrid").data("kendoGrid");
+        $("#popMainGrid").find("input[name='checkUser']").each(function(){
+            grid.removeRow($(this).closest('tr'));
+        });
     }
 }

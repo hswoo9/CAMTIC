@@ -44,8 +44,8 @@ var menuGM = {
                     name: 'button',
                     template: function (e) {
                         return "그룹명 <input type='text' id='searchContent' name='searchContent' onkeypress='if(window.event.keyCode==13){menuGM.gridReload()}'>" +
-                            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuGM.gridReload()' style='height: 30px'>" +
-                            "<span class='k-icon k-i-search k-button-icon''></span>" +
+                            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuGM.gridReload()'>" +
+                            "<span class='k-button-text'>조회</span>" +
                             "</button>"
                     }
                 }
@@ -136,8 +136,8 @@ var menuGM = {
                     name: 'button',
                     template: function (e) {
                         return "<input type='text' id='searchUserName' name='searchUserName' onkeypress='if(window.event.keyCode==13){menuGM.subGrid();}' placeholder='사용자명' style='margin-right: 0'>" +
-                            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuGM.subGrid();' style='height: 30px;'>" +
-                            "<span class='k-icon k-i-search k-button-icon''></span>" +
+                            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuGM.subGrid();'>" +
+                            "<span class='k-button-text'>조회</span>" +
                             "</button>"
                     }
                 }, {
@@ -150,14 +150,14 @@ var menuGM = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuGM.setAuthorityGroupUser()'>" +
+                        return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-info' onclick='menuGM.setAuthorityGroupUser()'>" +
                             "<span class='k-button-text'>저장</span>" +
                             "</button>";
                     }
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuGM.setAuthorityGroupUserDel()'>" +
+                        return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='menuGM.setAuthorityGroupUserDel()'>" +
                             "<span class='k-button-text'>삭제</span>" +
                             "</button>";
                     }
