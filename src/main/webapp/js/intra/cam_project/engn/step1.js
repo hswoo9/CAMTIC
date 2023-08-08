@@ -55,13 +55,18 @@ var es1 = {
             es1.global.totAmt += Number(es1.uncomma(inputData.supAmt));
             // 견적가 합계 구하기
             $("#expAmt").val(es1.comma(es1.global.totAmt));
+
             $("#prodNm" + idx + ", #prodCnt" + idx + ", #unit" + idx + ", #unitAmt" + idx + ", #supAmt" + idx + ", #prodEtc" + idx + "").kendoTextBox();
 
             $("#prodCnt" + idx + ", #unitAmt" + idx).on("keyup", function(){
                 $("#supAmt" + idx).val(es1.comma(es1.uncomma($("#unitAmt" + idx).val()) * es1.uncomma($("#prodCnt" + idx).val())));
-                es1.global.totAmt += Number(es1.uncomma(inputData.supAmt));
-                // 견적가 합계 구하기
-                $("#expAmt").val(es1.comma(es1.global.totAmt));
+
+                es1.global.totAmt = 0;
+                $("#productTb > tr").each(function (idx){
+                    es1.global.totAmt += Number(es1.uncomma($("#supAmt" + idx).val()));
+                    // 견적가 합계 구하기
+                    $("#expAmt").val(es1.comma(es1.global.totAmt));
+                });
             });
 
         });
@@ -115,7 +120,7 @@ var es1 = {
 
     fn_save : function() {
 
-        if($("#befExpAmt").val() != $("#expAmt").val()){
+        if($("#befExpAmt").val() != es1.uncomma($("#expAmt").val())){
             if(!confirm("예상견적가와 견적가가 다릅니다. 저장하시겠습니까?")){
                 return false;
             }
