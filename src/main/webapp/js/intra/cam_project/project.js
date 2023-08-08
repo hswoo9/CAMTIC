@@ -28,10 +28,6 @@ var camPrj = {
             index: 0
         });
 
-        var date = new Date();
-        customKendo.fn_datePicker("startDt", "depth", "yyyy-MM-dd", date);
-        customKendo.fn_datePicker("endDt", "depth", "yyyy-MM-dd", new Date(date.setMonth(date.getMonth() + 1)));
-
         $("#searchValue").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -60,8 +56,6 @@ var camPrj = {
         var parameters = {
             busnClass : $("#busnClass").val(),
             consultDt : $("#consultDt").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
             searchValue : $("#searchValue").val(),
             searchValue2 : $("#searchValue2").val(),
             searchText : $("#searchText").val(),
@@ -168,7 +162,7 @@ var camPrj = {
 
                     for(var i = 0 ; i <= index ; i++){
                         $("#ps" + i).addClass("active");
-                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(index + 1)+","+self.dataItem(this).PJT_SN+")");
+                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
                     }
                     $("#ps" + (index + 1)).addClass("ready");
                     $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");

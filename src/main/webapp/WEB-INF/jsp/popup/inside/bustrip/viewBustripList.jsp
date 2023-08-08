@@ -28,18 +28,10 @@
                 </colgroup>
                 <tr>
                     <th class="text-center th-color">출장 기간</th>
-                    <td>
-                        <input type="text" id="start_date" style="width: 110px;">
+                    <td colspan="5">
+                        <input type="text" id="start_date" style="width: 150px;">
                         ~
-                        <input type="text" id="end_date" style="width: 110px;">
-                    </td>
-                    <th class="text-center th-color">프로젝트</th>
-                    <td>
-                        <input type="text" id="pjt_cd" style="width: 120px;">
-                    </td>
-                    <th class="text-center th-color">사업명</th>
-                    <td>
-                        <input type="text" id="busnName" style="width: 150px;">
+                        <input type="text" id="end_date" style="width: 150px;">
                     </td>
                 </tr>
             </table>

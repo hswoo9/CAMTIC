@@ -57,6 +57,10 @@ var es1 = {
             $("#expAmt").val(es1.comma(es1.global.totAmt));
             $("#prodNm" + idx + ", #prodCnt" + idx + ", #unit" + idx + ", #unitAmt" + idx + ", #supAmt" + idx + ", #prodEtc" + idx + "").kendoTextBox();
 
+            $("#prodCnt" + idx + ", #unitAmt" + idx).on("keyup", function(){
+                $("#supAmt" + idx).val(es1.comma(es1.uncomma($("#unitAmt" + idx).val()) * es1.uncomma($("#prodCnt" + idx).val())))
+            });
+
         });
 
         es1.fn_setData();
@@ -91,6 +95,10 @@ var es1 = {
 
                     $("#tr"+idx+" > td > button").removeAttr("onclick");
                     $("#tr"+idx+" > td > button").attr("onclick", "es1.fn_delRow("+idx+")");
+                });
+
+                $("#prodCnt" + idx + ", #unitAmt" + idx).on("keyup", function(){
+                    $("#supAmt" + idx).val(es1.comma(es1.uncomma($("#unitAmt" + idx).val()) * es1.uncomma($("#prodCnt" + idx).val())))
                 });
             }
         });
@@ -155,7 +163,7 @@ var es1 = {
                                 dataType : "json",
                                 success : function(rs){
                                     if(rs.code == 200){
-                                        location.reload();
+                                        window.close()
                                     }
                                 }
                             })

@@ -33,7 +33,8 @@
             BUSN_NM,
             PJT_STEP,
             PJT_STEP_NM,
-            CONSULT_DT
+            CONSULT_DT,
+            CRM_CD
         ) VALUES (
             #{pjtNm},
             #{empSeq},
@@ -44,7 +45,8 @@
             #{busnNm},
             #{pjtStep},
             #{pjtStepNm},
-            #{contDt}
+            #{contDt},
+            #{crmCd}
         )
         <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
