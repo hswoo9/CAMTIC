@@ -1,10 +1,93 @@
-var now = new Date();
+now = new Date();
 
 var historyList = {
 
     init : function(){
         historyList.dataSet();
         historyList.mainGrid();
+    },
+
+    dataSet: function(){
+        customKendo.fn_textBox(["searchText"])
+        $("#historyType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "임용 (정규직)", value: "1" },
+                { text: "임용 (계약직)", value: "2" },
+                { text: "임용 (인턴 사원)", value: "3" },
+                { text: "임용 (단기 직원)", value: "4" },
+                { text: "임용 (위촉 직원)", value: "5" },
+                { text: "임용 (경비 / 환경)", value: "6" },
+                { text: "승진 (직급)", value: "7" },
+                { text: "승진 (직위)", value: "8" },
+                { text: "전보", value: "9" },
+                { text: "겸직", value: "10" },
+                { text: "직무 대리", value: "11" },
+                { text: "파견", value: "12" },
+                { text: "면직", value: "13" },
+                { text: "강등", value: "14" },
+                { text: "조직 개편", value: "15" },
+                { text: "호칭 변경", value: "16" },
+                { text: "기타", value: "17" }
+            ],
+            index: 0
+        });
+
+        $("#gender").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value : ""},
+                { text: "남자", value: "M" },
+                { text: "여자", value: "F" },
+            ],
+            index: 0
+        });
+
+        $("#start_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 6))
+        });
+
+        $("#end_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+
+        $("#appointmentType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "발령전", value: "1" },
+                { text: "발령후", value: "2" }
+            ],
+            index: 0
+        });
+
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "성명", value: "1" },
+                { text: "직급", value: "2" },
+                { text: "등급", value: "3" },
+                { text: "직책", value: "4" },
+                { text: "직무", value: "5" },
+                { text: "호수", value: "6" },
+                { text: "비고", value: "7" }
+            ],
+            index: 0
+        });
+        fn_deptSetting();
     },
 
     mainGrid: function(){
@@ -119,108 +202,9 @@ var historyList = {
                     field: "APPROVE_EMP_NAME",
                     title: "기록인",
                     width: 100
-                }, {
-                    title: "발령장",
-                    width: 100,
-                    template : function(row){
-                        if(row.file_no != null){
-                            var fileName = row.file_org_name;
-                            if(fileName.indexOf(".") > -1){
-                            }else{
-                                fileName = row.file_org_name + "." + row.file_ext;
-                            }
-                            return '<a href=\"javascript:fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">다운</a>';
-                        }else{
-                            return '';
-                        }
-
-                    }
                 }
             ]
         }).data("kendoGrid");
-    },
-
-    dataSet: function(){
-        customKendo.fn_textBox(["searchText"])
-        $("#historyType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "임용 (정규직)", value: "1" },
-                { text: "임용 (계약직)", value: "2" },
-                { text: "임용 (인턴 사원)", value: "3" },
-                { text: "임용 (단기 직원)", value: "4" },
-                { text: "임용 (위촉 직원)", value: "5" },
-                { text: "임용 (경비 / 환경)", value: "6" },
-                { text: "승진 (직급)", value: "7" },
-                { text: "승진 (직위)", value: "8" },
-                { text: "전보", value: "9" },
-                { text: "겸직", value: "10" },
-                { text: "직무 대리", value: "11" },
-                { text: "파견", value: "12" },
-                { text: "면직", value: "13" },
-                { text: "강등", value: "14" },
-                { text: "조직 개편", value: "15" },
-                { text: "호칭 변경", value: "16" },
-                { text: "기타", value: "17" }
-            ],
-            index: 0
-        });
-
-        $("#gender").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value : ""},
-                { text: "남자", value: "M" },
-                { text: "여자", value: "F" },
-            ],
-            index: 0
-        });
-
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 6))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-        $("#appointmentType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "발령전", value: "1" },
-                { text: "발령후", value: "2" }
-            ],
-            index: 0
-        });
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "1" },
-                { text: "직급", value: "2" },
-                { text: "등급", value: "3" },
-                { text: "직책", value: "4" },
-                { text: "직무", value: "5" },
-                { text: "호수", value: "6" },
-                { text: "비고", value: "7" }
-            ],
-            index: 0
-        });
-        fn_deptSetting();
     },
 
     onDataBound: function(){

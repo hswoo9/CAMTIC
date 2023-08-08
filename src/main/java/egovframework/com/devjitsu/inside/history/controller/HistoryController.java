@@ -42,6 +42,42 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
 
+    //발령장 조회 페이지
+    @RequestMapping("/Inside/historyView.do")
+    public String historyView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/historyView";
+    }
+
+    //발령장 조회 팝업
+    @RequestMapping("/Inside/pop/historyPrintPop.do")
+    public String historyPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        String hwpUrl = "";
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("apntSn", params.get("apntSn"));
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        return "popup/inside/history/historyPrintPop";
+    }
+
     //발령관리 페이지
     @RequestMapping("/Inside/historyReq.do")
     public String historyReq(HttpServletRequest request, Model model) {
