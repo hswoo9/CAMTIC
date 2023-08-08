@@ -150,6 +150,7 @@ var es1 = {
             url : "/project/insStep1",
             data : data,
             type : "post",
+
             dataType : "json",
             success :function (rs){
                 var rs2;
@@ -168,7 +169,7 @@ var es1 = {
 
                             $.ajax({
                                 url : "/project/insStep1Sub",
-                                data : data,
+                                data : data2,
                                 type : "post",
                                 async : false,
                                 dataType : "json",
