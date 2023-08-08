@@ -99,7 +99,6 @@ public class ProjectServiceImpl implements ProjectService {
     public void insStep1(Map<String, Object> params) {
         projectRepository.insStep1(params);
         projectRepository.updProjectStep(params);
-
         projectRepository.updProjectEngnStep(params);
     }
 
@@ -111,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(estList.size() != 0){
             result.put("estList", estList);
-            params.put("estSn", estList.get(estList.size()).get("EST_SN"));
+            params.put("estSn", estList.get(estList.size() - 1).get("EST_SN"));
             result.put("estSubList", projectRepository.getStep1EstSubList(params));
         }
 
@@ -130,5 +129,30 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("estSubList", projectRepository.getStep1EstSubList(params));
 
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getStep1EstData(Map<String, Object> params) {
+        return projectRepository.getStep1EstData(params);
+    }
+
+
+    @Override
+    public void insStep2(Map<String, Object> params) {
+        projectRepository.insStep2(params);
+
+        // 전자결재 개발 완료 시 결재완료 시점으로 이동
+        projectRepository.updProjectStep(params);
+        projectRepository.updProjectEngnStep(params);
+    }
+
+    @Override
+    public void updProjectDelv(Map<String, Object> params) {
+        projectRepository.updProjectDelv(params);
+    }
+
+    @Override
+    public Map<String, Object> getStep2DelvData(Map<String, Object> params) {
+        return projectRepository.getStep2DelvData(params);
     }
 }

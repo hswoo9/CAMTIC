@@ -25,4 +25,12 @@ public interface ProjectService {
     Map<String, Object> getStep1Data(Map<String, Object> params);
 
     Map<String, Object> getStep1SubData(Map<String, Object> params);
+
+    Map<String, Object> getStep1EstData(Map<String, Object> params);
+
+    void insStep2(Map<String, Object> params);
+
+    void updProjectDelv(Map<String, Object> params);
+
+    Map<String, Object> getStep2DelvData(Map<String, Object> params);
 }

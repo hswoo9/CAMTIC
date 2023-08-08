@@ -193,4 +193,78 @@
         WHERE
             EST_SN = #{estSn}
     </select>
+
+    <select id="getStep1EstData" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST A
+        WHERE
+            PJT_SN = #{pjtSn}
+        ORDER BY EST_SN DESC LIMIT 1
+    </select>
+
+    <insert id="insStep2" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
+        (
+            PJT_SN,
+            DELV_DE,
+            DELV_SUMR,
+            DELV_SPEC,
+            DELV_ITEM,
+            DELV_CNT,
+            DELV_UNIT,
+            DELV_LOC,
+            DELV_MEAN,
+            DELV_ASSU,
+            DELV_TEST,
+            DELV_AMT,
+            DELV_DEPT,
+            PM_EMP_SEQ,
+            PM_EMP_NM,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{delvDe},
+            #{delvSumr},
+            #{delvSpec},
+            #{delvItem},
+            #{delvCnt},
+            #{delvUnit},
+            #{delvLoc},
+            #{delvMean},
+            #{delvAssu},
+            #{delvTest},
+            #{delvAmt},
+            #{delvDept},
+            #{pmEmpSeq},
+            #{pmEmpNm},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="DELV_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
+        </selectKey>
+    </insert>
+
+    <update id="updProjectDelv" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_AMT = #{delvAmt},
+            STR_DT = #{estDe},
+            END_EXP_DT = #{delvDe},
+            PM = #{pmEmpNm}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getStep2DelvData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DELV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>

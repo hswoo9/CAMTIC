@@ -57,4 +57,20 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getStep1EstSubList(Map<String, Object> params) {
         return selectList("project.getStep1EstSubList", params);
     }
+
+    public Map<String, Object> getStep1EstData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getStep1EstData", params);
+    }
+
+    public void insStep2(Map<String, Object> params) {
+        insert("project.insStep2", params);
+    }
+
+    public void updProjectDelv(Map<String, Object> params) {
+        update("project.updProjectDelv", params);
+    }
+
+    public Map<String, Object> getStep2DelvData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getStep2DelvData", params);
+    }
 }

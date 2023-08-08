@@ -96,12 +96,21 @@ public class ProjectController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         Map<String, Object> map = projectService.getProjectData(params);
+        Map<String, Object> estMap = projectService.getStep1EstData(params);
         model.addAttribute("loginVO", loginVO)
                 .addAttribute("menuCd", "ES" + params.get("step"))
-                .addAttribute(map);
+                .addAttribute(map).addAttribute("estMap", estMap);
 
 
         return "popup/cam_project/engineering/step" + params.get("step");
+    }
+
+    @RequestMapping("/project/getStep2DelvData")
+    public String getStep2DelvData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("map", projectService.getStep2DelvData(params));
+
+        return "jsonView";
     }
 
     @RequestMapping("/project/insStep1")
@@ -143,6 +152,27 @@ public class ProjectController {
     public String getStep1SubData(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("result", projectService.getStep1SubData(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insStep2")
+    public String insStep2(@RequestParam Map<String, Object> params, Model model){
+
+        // 프로젝트 코드 생성 요기서 (나중에 전자결재 결재완료시 옮김)
+        
+        try{
+            projectService.insStep2(params);
+
+            // 추후 전자결재가 붙으면 결재완료 시 업데이트 되는거로 변경
+            projectService.updProjectDelv(params);
+
+
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

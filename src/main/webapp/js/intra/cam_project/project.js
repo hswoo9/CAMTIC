@@ -292,15 +292,14 @@ var camPrj = {
 
         if(i == 1){
             url = "/project/pop/viewRegProject.do?pjtSn=" + key;
-        } else if (i == 2){
-            url = "/project/pop/engnStep.do?step=" + (i-1) + "&pjtSn=" + key;;
+        } else {
+            url = "/project/pop/engnStep.do?step=" + (i-1) + "&pjtSn=" + key;
         }
-
         if(key == null || key == ""){
             url = "/project/pop/viewRegProject.do";
         }
 
-        var name = "popup";
+        var name = "_blank";
         var option = "width = 900, height = 850, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
@@ -323,10 +322,10 @@ var camPrj = {
     popSetStep: function (i, key){
         switch (i){
             case 1 :
-                camPrj.fn_step1(i, key);
+                camPrj.fn_step(i, key);
                 break;
             case 2 :
-                alert("수주보고")
+                camPrj.fn_step(i, key);
                 break;
             case 3 :
                 alert("개발계획")
@@ -349,11 +348,14 @@ var camPrj = {
     },
 
 
-    fn_step1: function (i, key){
+    fn_step: function (i, key){
         var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
-        var name = "popup";
+        var name = "_blank";
         var option = "width = 900, height = 820, top = 100, left = 200, location = no"
+
         var popup = window.open(url, name, option);
-    }
+    },
+
+
 
 }
