@@ -216,13 +216,34 @@ const vis = {
 
 		const autoBtn2 = visEl.querySelector('.auto');
 		const autoBtnSpan2 = autoBtn2.querySelector('span');
-		autoBtn2.addEventListener('click', () => {
-			autoBtn2.classList.toggle('pause');
-			autoBtnSpan2.textContent = autoBtn2.classList.contains('pause') ? 'PAUSE' : 'PLAY';
-		});
+
+		let isAutoPaused = false;
+		let autoInterval;
+
+		function toggleAutoPlay() {
+
+			if (isAutoPaused) {
+				autoBtnSpan2.textContent = 'PAUSE';
+				autoBtn2.classList.remove('pause');
+
+
+				visEl.querySelector('.bar').classList.add('active');
+				visSwiper.autoplay.start();
+				visSwiper2.autoplay.start();
+			} else {
+				autoBtnSpan2.textContent = 'PLAY';
+				autoBtn2.classList.add('pause');
+
+				clearInterval(autoInterval);
+				visSwiper.autoplay.stop();
+				visSwiper2.autoplay.stop();
+			}
+			isAutoPaused = !isAutoPaused;
+		}
+
+		autoBtn2.addEventListener('click', toggleAutoPlay);
 	},
 };
-
 var rowHeight = {
 	init : function(){
 		if($('._row').length > 0){
