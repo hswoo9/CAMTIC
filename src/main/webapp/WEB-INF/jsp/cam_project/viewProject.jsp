@@ -104,15 +104,8 @@
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">사업구분</th>
-                        <td>
+                        <td colspan="5">
                             <input type="text" id="busnClass" style="width: 150px;">
-                        </td>
-                        <th class="text-center th-color">상담일자</th>
-                        <td colspan="4">
-                            <input type="text" id="consultDt" style="width: 150px;">
-                            <input type="text" id="startDt" style="width: 150px;">
-                            ~
-                            <input type="text" id="endDt" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>

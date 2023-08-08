@@ -140,6 +140,7 @@ var regPrj = {
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
         }
+        console.log(p);
         $("#pjtTitle").text("프로젝트 수정 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
         $("#expAmt").val(camPrj.comma(p.EXP_AMT));
@@ -151,6 +152,19 @@ var regPrj = {
         $("#consultDt").val(regPrj.fn_dateTimeToString(p.CONSULT_DT));
         $("#pjtStep").val(p.PJT_STEP);
         $("#pjtStepNm").val(p.PJT_STEP_NM);
+        $("#crmCd").val(p.CRM_CD);
+        $("#crmLoc").val(p.CRM_LOC);
+        $("#crmNm").val(p.CRM_NM);
+        $("#crmPost").val(p.POST);
+        $("#crmAddr").val(p.ADDR);
+        $("#crmProd").val(p.CRM_PROD);
+        $("#crmCeo").val(p.CRM_CEO);
+        $("#crmFax").val(p.CRM_FAX);
+        $("#crmCallNum").val(p.TEL_NUM);
+        $("#crmReqMem").val(p.CRM_CEO);
+        $("#crmPhNum").val(p.PH_NUM);
+        $("#crmMail").val(p.EMAIL);
+        $("#contEtc").val(p.CONT_ETC);
 
         $("#modBtn").css("display", "");
         $("#saveBtn").css("display", "none");
@@ -165,9 +179,11 @@ var regPrj = {
             project = "(" + p.PROJECT + ") ";
         }
         var title =  project + busnName + " 출장지 : " + p.VISIT_LOC_SUB;
-        console.log(p);
-        $("#bustripReq").val(title);
-        $("#hrBizReqResultId").val(p.HR_BIZ_REQ_RESULT_ID);
+        if(p.VISIT_LOC_SUB != null && p.VISIT_LOC_SUB != ''){
+            $("#bustripReq").val(title);
+            $("#hrBizReqResultId").val(p.HR_BIZ_REQ_RESULT_ID);
+        }
+
     },
 
 

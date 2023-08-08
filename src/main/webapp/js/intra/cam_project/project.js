@@ -28,10 +28,6 @@ var camPrj = {
             index: 0
         });
 
-        var date = new Date();
-        customKendo.fn_datePicker("startDt", "depth", "yyyy-MM-dd", date);
-        customKendo.fn_datePicker("endDt", "depth", "yyyy-MM-dd", new Date(date.setMonth(date.getMonth() + 1)));
-
         $("#searchValue").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -60,8 +56,6 @@ var camPrj = {
         var parameters = {
             busnClass : $("#busnClass").val(),
             consultDt : $("#consultDt").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
             searchValue : $("#searchValue").val(),
             searchValue2 : $("#searchValue2").val(),
             searchText : $("#searchText").val(),
