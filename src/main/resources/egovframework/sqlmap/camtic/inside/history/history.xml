@@ -40,12 +40,20 @@
                 <if test='deptSeq != null and !"".equals(deptSeq)'>
                     AND HEI.DEPT_SEQ = #{deptSeq}
                 </if>
-                AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+                <if test='start_date != null and !"".equals(start_date)'>
+                    AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+                </if>
                 <if test='gender != null and !"".equals(gender)'>
                     AND HEI.GENDER_CODE = #{gender}
                 </if>
                 <if test='searchText != null and !"".equals(searchText)'>
                     AND 1 = 1
+                </if>
+                <if test='applyDt != null and !"".equals(applyDt)'>
+                    AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m') = #{applyDt}
+                </if>
+                <if test='empSeq != null and !"".equals(empSeq)'>
+                    AND HAI.EMP_SEQ = #{empSeq}
                 </if>
                 ORDER BY HAI.REG_DT
             ) RE
@@ -59,6 +67,8 @@
             DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
             HEI.ERP_EMP_SEQ,
             HAI.EMP_NAME,
+            HAI.REG_EMP_NAME,
+            DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT,
 
             IFNULL(HAI.BF_DEPT_NAME, '-') AS BF_DEPT_NAME,
             IFNULL(HAI.BF_TEAM_NAME, '-') AS BF_TEAM_NAME,
@@ -72,11 +82,15 @@
             IFNULL(HAI.AF_DUTY_NAME, '-') AS AF_DUTY_NAME,
             IFNULL(HAI.AF_JOB_DETAIL, '-') AS AF_JOB_DETAIL,
 
-            HAI.ETC
+            HAI.ETC,
+
+            CFI.*
         FROM
             CAM_HR.DJ_APNT_INFO HAI
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history'
         WHERE
             HAI.APNT_SN = #{apntSn}
     </select>
@@ -160,6 +174,7 @@
                 AF_JOB_DETAIL,
                 ETC,
                 REG_EMP_SEQ,
+                REG_EMP_NAME,
                 NUMBER_NAME,
                 RELEVANT_NAME,
                 HISTORY_DT
@@ -190,6 +205,7 @@
                 #{afJobDetail},
                 #{afEtc},
                 #{empSeq},
+                #{regEmpName},
                 #{numberName},
                 #{relevantName},
                 #{historyDate}

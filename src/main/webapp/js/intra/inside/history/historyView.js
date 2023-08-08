@@ -8,7 +8,7 @@ var historyView = {
     },
 
     dataSet() {
-        customKendo.fn_datePicker("applyDt", "", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("applyDt", "year", "yyyy-MM", new Date());
     },
 
     mainGrid : function() {
@@ -20,7 +20,7 @@ var historyView = {
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
                     data.empSeq = $("#regEmpSeq").val();
                     data.applyDt = $("#applyDt").val();
                     return data;
@@ -116,7 +116,7 @@ var historyView = {
                     title: "발령장",
                     width: 100,
                     template : function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateList.historyPrintPop('+row.APNT_SN+');">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="historyView.historyPrintPop('+row.APNT_SN+');">' +
                             '	<span class="k-button-text">발급</span>' +
                             '</button>';
                     }

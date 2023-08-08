@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class HistoryController {
@@ -56,19 +53,22 @@ public class HistoryController {
     //발령장 조회 팝업
     @RequestMapping("/Inside/pop/historyPrintPop.do")
     public String historyPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
 
-        String hwpUrl = "";
+        Map<String, Object> data = new HashMap<>();
+        if(params.containsKey("apntSn")){
+            data = historyService.getHistoryOne(params);
+            model.addAttribute("data", new Gson().toJson(data));
+        }
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
             hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
-            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
         }else{
             hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
-            params.put("hwpTemplateFile", "http://218.158.231.186:8080/upload/templateForm/");
         }
 
         params.put("hwpUrl", hwpUrl);
