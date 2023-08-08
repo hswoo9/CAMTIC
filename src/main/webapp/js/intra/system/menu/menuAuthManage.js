@@ -68,13 +68,13 @@ var menuAM = {
                     template: function (e) {
                         return "그룹명 <input type='text' id='searchContent' name='searchContent' onkeypress='if(window.event.keyCode==13){menuAM.gridReload()}'>" +
                             "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuAM.gridReload()'>" +
-                            "<span class='k-icon k-i-search k-button-icon''></span>" +
+                            "<span class='k-button-text'>조회</span>" +
                             "</button>"
                     }
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='menuAM.setMenuAuthorityGroupDel()'>" +
+                        return "<button type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-error' onclick='menuAM.setMenuAuthorityGroupDel()'>" +
                             "<span class='k-button-text'>삭제</span>" +
                             "</button>"
                     }

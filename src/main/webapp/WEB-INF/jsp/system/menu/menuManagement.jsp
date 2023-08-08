@@ -9,7 +9,7 @@
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
 	<div class="panel">
 		<div class="panel-heading">
 		</div>
@@ -35,9 +35,9 @@
 										</li>
 									</ul>
 									<div>
-										<input id="menuSearch" name="menuSearch" placeholder="메뉴명 입력" style="width: 85%" onkeypress="if(window.event.keyCode==13){menuM.menuTreeSearch(this.value)}"/>
-										<button type="button" class=" k-button k-button-md k-button-solid k-button-solid-base" onclick="menuM.menuTreeSearch($('#menuSearch').val())">
-											<span class="k-icon k-i-search k-button-icon"></span>
+										<input id="menuSearch" name="menuSearch" placeholder="메뉴명 입력" style="width: 83%" onkeypress="if(window.event.keyCode==13){menuM.menuTreeSearch(this.value)}"/>
+										<button type="button" style="padding: 2px 8px;" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="menuM.menuTreeSearch($('#menuSearch').val())">
+											<span class="k-button-text">조회</span>
 										</button>
 										<div id="gridForm" style="height:609px; width: 315px;overflow: auto;border: 1px solid #dedfdf;">
 											<div id="menuTreeView">
@@ -61,15 +61,15 @@
 												<tbody>
 												<tr>
 													<td colspan="4" style="text-align: right;border: none">
-														<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="menuM.inputReset()">
+														<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="menuM.inputReset()">
 															<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
 															<span class="k-button-text">신규 등록</span>
 														</button>
-														<button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="menuM.setMenu()">
+														<button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="menuM.setMenu()">
 															<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
 															<span class="k-button-text">저장</span>
 														</button>
-														<button type="button" id="delBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="menuM.setMenuDel()">
+														<button type="button" id="delBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="menuM.setMenuDel()">
 															<span class="k-icon k-i-cancel k-button-icon"></span>
 															<span class="k-button-text">삭제</span>
 														</button>

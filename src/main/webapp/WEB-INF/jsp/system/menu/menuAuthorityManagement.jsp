@@ -10,7 +10,7 @@
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
 	<div class="panel">
 		<div class="panel-heading">
 		</div>
@@ -71,11 +71,11 @@
 										<tbody>
 										<tr>
 											<td colspan="4" style="text-align: right;border: none">
-												<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="menuAM.inputReset()">
+												<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="menuAM.inputReset()">
 													<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
 													<span class="k-button-text">신규 등록</span>
 												</button>
-												<button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="menuAM.setMenuAuthorityGroup()">
+												<button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="menuAM.setMenuAuthorityGroup()">
 													<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
 													<span class="k-button-text">저장</span>
 												</button>
