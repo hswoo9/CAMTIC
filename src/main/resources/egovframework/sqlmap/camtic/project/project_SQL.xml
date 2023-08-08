@@ -13,6 +13,10 @@
         SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
         ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
+        ON A.PJT_SN = C.PJT_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO D
+        ON A.CRM_CD = D.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -81,7 +85,110 @@
         SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
             ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
+            ON A.PJT_SN = C.PJT_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO D
+            ON A.CRM_CD = D.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insStep1" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_EST
+        (
+            PJT_SN,
+            EST_DE,
+            EST_NM,
+            CRM_NM,
+            CRM_MEM,
+            VAT,
+            EST_TOT_AMT,
+            EST_ISS,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{estDe},
+            #{estNm},
+            #{crmNm},
+            #{crmMem},
+            #{vat},
+            #{estTotAmt},
+            #{estIss},
+            #{regEmpSeq}
+        )
+
+        <selectKey keyProperty="EST_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_EST'
+        </selectKey>
+    </insert>
+
+    <insert id="insStep1Sub" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_EST_SUB
+        (
+            EST_SN,
+            PROD_NM,
+            PROD_CNT,
+            UNIT,
+            UNIT_AMT,
+            SUP_AMT,
+            ETC
+        ) VALUES
+        (
+            #{estSn},
+            #{prodNm},
+            #{prodCnt},
+            #{unit},
+            #{unitAmt},
+            #{supAmt},
+            #{etc}
+        )
+    </insert>
+
+    <update id="updProjectStep" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = #{pjtStep},
+            PJT_STEP_NM = #{pjtStepNm}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updProjectEngnStep" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            MOD_DT = sysdate(),
+            MOD_EMP_SEQ = #{regEmpSeq},
+            <choose>
+                <when test="step == 2">STEP2 = 'Y', STEP3 = 'R'</when>
+                <when test="step == 3">STEP3 = 'Y', STEP4 = 'R'</when>
+                <when test="step == 4">STEP4 = 'Y', STEP5 = 'R'</when>
+                <when test="step == 5">STEP5 = 'Y', STEP6 = 'R'</when>
+                <when test="step == 6">STEP6 = 'Y', STEP7 = 'R'</when>
+                <when test="step == 7">STEP7 = 'Y', STEP8 = 'R'</when>
+                <when test="step == 8">STEP8 = 'Y'</when>
+                <otherwise>PJT_SN = #{pjtSn}</otherwise>
+            </choose>
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getStep1EstList" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST A
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getStep1EstSubList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST_SUB
+        WHERE
+            EST_SN = #{estSn}
     </select>
 </mapper>

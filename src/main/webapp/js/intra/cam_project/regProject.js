@@ -126,8 +126,6 @@ var regPrj = {
     },
 
     fn_setData : function (p) {
-        console.log(p);
-
         var busnClass = $("#busnClass").data("kendoDropDownList")
         busnClass.value(p.BUSN_CLASS);
         if(p.BUSN_CLASS == "D"){
@@ -156,6 +154,20 @@ var regPrj = {
 
         $("#modBtn").css("display", "");
         $("#saveBtn").css("display", "none");
+
+        var busnName = "";
+        var project = "";
+        if(p.BUSN_NAME != "" && p.BUSN_NAME != null && p.BUSN_NAME != undefined){
+            busnName = p.BUSN_NAME;
+        }
+
+        if(p.PROJECT_CD != "" && p.PROJECT_CD != null){
+            project = "(" + p.PROJECT + ") ";
+        }
+        var title =  project + busnName + " 출장지 : " + p.VISIT_LOC_SUB;
+        console.log(p);
+        $("#bustripReq").val(title);
+        $("#hrBizReqResultId").val(p.HR_BIZ_REQ_RESULT_ID);
     },
 
 
@@ -171,6 +183,14 @@ var regPrj = {
 
     fn_popBustrip : function (){
         var url = "/bustrip/pop/viewBustripList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

@@ -104,6 +104,41 @@ public class ProjectController {
         return "popup/cam_project/engineering/step" + params.get("step");
     }
 
+    @RequestMapping("/project/insStep1")
+    public String insStep1(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.insStep1(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insStep1Sub")
+    public String insStep1Sub(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.insStep1Sub(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getStep1Data")
+    public String getStep1Data(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("result", projectService.getStep1Data(params));
+
+        return "jsonView";
+    }
+
 
 
 }

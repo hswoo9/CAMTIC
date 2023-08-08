@@ -93,7 +93,7 @@
                     </th>
                     <td>
                         <input type="text" id="crmCd" style="width: 80%;" disabled>
-                        <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('개발 진행중')">
+                        <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popCamCrmList()">
                             조회
                         </button>
                     </td>
