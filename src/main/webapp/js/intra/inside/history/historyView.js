@@ -69,6 +69,7 @@ var historyView = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : historyView.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -123,6 +124,22 @@ var historyView = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const apntSn = dataItem.APNT_SN;
+            historyView.historyViewPop(apntSn);
+        });
+    },
+
+    historyViewPop: function(apntSn){
+        var url = "/Inside/pop/historyViewPop.do?apntSn="+apntSn;
+        var name = "historyViewPop";
+        var option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     historyPrintPop : function(userProofSn) {
