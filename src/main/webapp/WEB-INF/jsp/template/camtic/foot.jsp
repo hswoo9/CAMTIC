@@ -92,11 +92,11 @@
     <div class="inner">
       <ul class="fnb">
         <li><a href="/camtic/etc/privacy.do" onclick="fn_wrap1(); return false;">개인정보처리방침</a></li>
-        <li><a href="#" onclick="fn_wrap2(); return false;">이용약관</a></li>
+        <%--<li><a href="#" onclick="fn_wrap2(); return false;">이용약관</a></li>--%>
         <li><a href="#" onclick="fn_wrap3(); return false;">이메일무단수집거부</a></li>
         <li><a href="#">찾아오시는 길</a></li>
       </ul>
-      <div class="rig">
+      <%--<div class="rig">
         <div class="site">
           <button type="button">패밀리사이트<i aria-hidden="true"></i></button>
           <ul>
@@ -117,7 +117,7 @@
             <li><a href="#">관련사이트5</a></li>
           </ul>
         </div>
-      </div>
+      </div>--%>
       <button type="button" class="gotop _gotop"><i class="axi axi-caret-up" aria-hidden="true"></i><span>TOP</span></button>
     </div>
   </div>
@@ -379,11 +379,11 @@
     <div class="bg _close" onclick="fn_wrap1Hiding(); return false;"></div>
   </div>
 
-  <div class="__pop-basic _pop-ajax wrap2" style="display:none;">
+  <%--<div class="__pop-basic _pop-ajax wrap2" style="display:none;">
     <div class="fit inner p_size" style="width:1280px; top:120px; position:fixed; left:17%;">
       <div class="title" style="background-color: white; border-bottom:2px solid black;">
         <h3 style="color: black;font-weight: 500;font-size: 25px;">이용약관</h3>
-        <button type="button" class="pop-close _close cls" onclick="fn_wrap2Hiding(); return false;"><%--<i class="ri-close-line"></i>--%>x</button>
+        <button type="button" class="pop-close _close cls" onclick="fn_wrap2Hiding(); return false;">&lt;%&ndash;<i class="ri-close-line"></i>&ndash;%&gt;x</button>
       </div>
       <div class="desc" style="font-size: 15px; color: #666;">
         <p class="tit" style="font-size: 20px;color: green;">(사)캠틱종합기술원 이용약관</p>
@@ -391,7 +391,7 @@
         <br>
         <p class="sub-tit" style="font-weight: bold;font-size: 17px;">제 1장 총칙</p>
         <p class="txt" style="font-weight: bold;">제 1 조 (목적)</p>
-        <p class="txt">본 약관(이하 '약관'이라 합니다)은 (사)캠틱종합기술원(이하 '기술원'이라 합니다)과 이용자 간에 기술원이 제공하는 (사)캠틱종합기술원 <%--(<a href="https://www.jiat.re.kr" target="_blank" style="font-size: 15px; line-height: 1.6em;">https://www.jiat.re.kr</a>)--%>(이하 '서비스'라 합니다)의 이용에 필요한 사항을 구체적으로 규정함을 목적으로 합니다.</p>
+        <p class="txt">본 약관(이하 '약관'이라 합니다)은 (사)캠틱종합기술원(이하 '기술원'이라 합니다)과 이용자 간에 기술원이 제공하는 (사)캠틱종합기술원 &lt;%&ndash;(<a href="https://www.jiat.re.kr" target="_blank" style="font-size: 15px; line-height: 1.6em;">https://www.jiat.re.kr</a>)&ndash;%&gt;(이하 '서비스'라 합니다)의 이용에 필요한 사항을 구체적으로 규정함을 목적으로 합니다.</p>
 
         <br>
         <p class="txt" style="font-weight: bold;">제 2 조 (용어의 정의)</p>
@@ -501,7 +501,7 @@
       </div>
     </div>
     <div class="bg _close" onclick="fn_wrap2Hiding(); return false;"></div>
-  </div>
+  </div>--%>
   <div class="__pop-basic _pop-ajax wrap3" style="display:none;">
     <div class="fit inner p_size" style="width:930px; top:120px; position:fixed; left:25%;">
       <div class="title" style="background-color: white; border-bottom:2px solid black;">

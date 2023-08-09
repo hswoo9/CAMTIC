@@ -15,4 +15,22 @@
   <a href="/camtic/news/commonBoard.do?categoryKey=business" class="aside4">사업<br>공고</a>
   <a href="/camtic/about/organization.do" class="aside5">조직<br>연락처</a>
   <a href="#wrap" class="aside6 _gotop">TOP</a>
+  <a class="aside7" onclick="cssChange()"> > </a>
+  <a class="aside8" onclick="cssChange1()"> < </a>
 </aside>
+
+<script>
+  $(".aside8").hide();
+  function cssChange() {
+    $("#aside").width('20px');
+    $(".aside7").hide();
+    $(".aside8").show();
+  }
+  function cssChange1() {
+    $("#aside").width('64px');
+    $(".aside8").hide();
+    $(".aside7").show();
+  }
+
+</script>
+

@@ -213,7 +213,7 @@ img {max-width:100%;}
 #aside .aside5 {background:#7cbd4c;}
 #aside .aside6 {background:#1b1b1b;font-size:18px;}
 
-#vis {height:803px;display:flex;position:relative;}
+#vis {height:600px;display:flex;position:relative;}
 #vis > div {position:relative;}
 #vis .lef {background:url(/images/camtic/vis-bg.jpg) no-repeat 50% 50% / cover;width:36.979166%;}
 #vis .lef .tit dl {color:#333;}
@@ -227,7 +227,7 @@ img {max-width:100%;}
 #vis .lef .roll2 .box {background-repeat:no-repeat;background-position:50% 50%;background-size:cover;padding:140px 40px 0 85px;}
 #vis .rig {width:0;flex-grow:1;}
 #vis .rig .roll,
-#vis .rig .vis {height:803px;position:relative;overflow:hidden;}
+#vis .rig .vis {height:600px;position:relative;overflow:hidden;}
 #vis .rig .vis {padding:0 15px;background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;}
 #vis .rig .vis1 {background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}
 #vis .rig .tit dt {font-size:14px;color:rgba(255,255,255,0.54);margin-bottom:13px;}
@@ -319,9 +319,9 @@ img {max-width:100%;}
 }
 
 /* 높이 수정 */
-#mid {padding:80px 15px;overflow:hidden;}
+#mid {padding:30px 15px;overflow:hidden;}
 #mid .inner {max-width:1600px;margin:0 auto;display:flex;gap:70px;}
-#mid .lef {width:0;flex-grow:1;padding-top:55px;}
+#mid .lef {width:0;flex-grow:1;/*padding-top:55px;*/}
 #mid .lef .tab {display:flex;margin-bottom:55px;}
 #mid .lef .tab li {position:relative;margin-right:15px;padding-right:19px;}
 #mid .lef .tab li:before {content:'';display:block;width:4px;height:4px;border-radius:50%;background:#c5c9d6;position:absolute;right:0;top:8px;}
@@ -502,7 +502,7 @@ img {max-width:100%;}
 #lnb .lnb > .chi.active > a:before {background-image:url(/images/camtic/ico-lnb-on.svg);}
 #lnb .lnb > .chi.active > ul {display:block;}
 
-#sub #content {width:1280px;margin:0 auto;}
+#sub #content {width:1280px;margin:0 auto; margin-left: 70px;}
 #sub #lnb + #content {margin:0;}
 
 #navigation {display:flex;justify-content:flex-end;align-items:center;margin-bottom:35px;}

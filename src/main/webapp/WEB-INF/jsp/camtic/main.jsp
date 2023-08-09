@@ -17,9 +17,6 @@
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
 
-  <jsp:include page="/WEB-INF/jsp/template/camtic/alarm.jsp" flush="false"/>
-  <jsp:include page="/WEB-INF/jsp/template/camtic/aside.jsp" flush="false"/>
-
   <div id="content">
     <div id="vis">
       <div class="lef">
