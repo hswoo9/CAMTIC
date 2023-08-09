@@ -33,4 +33,16 @@ public interface ProjectService {
     void updProjectDelv(Map<String, Object> params);
 
     Map<String, Object> getStep2DelvData(Map<String, Object> params);
+
+    List<Map<String, Object>> groupCodeList(Map<String, Object> params);
+
+    void saveGroupCode(Map<String, Object> params);
+
+    List<Map<String, Object>> codeList(Map<String, Object> params);
+
+    void insSetLgCode(Map<String, Object> params);
+
+    List<Map<String, Object>> smCodeList(Map<String, Object> params);
+
+    void insPjtCode(Map<String, Object> params);
 }

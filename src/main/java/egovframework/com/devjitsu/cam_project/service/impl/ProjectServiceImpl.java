@@ -155,4 +155,35 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getStep2DelvData(Map<String, Object> params) {
         return projectRepository.getStep2DelvData(params);
     }
+
+    @Override
+    public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {
+        return projectRepository.groupCodeList(params);
+    }
+
+    @Override
+    public void saveGroupCode(Map<String, Object> params) {
+        projectRepository.saveGroupCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> codeList(Map<String, Object> params) {
+        return projectRepository.codeList(params);
+    }
+
+    @Override
+    public void insSetLgCode(Map<String, Object> params) {
+        projectRepository.insSetLgCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> smCodeList(Map<String, Object> params) {
+        return projectRepository.smCodeList(params);
+    }
+
+
+    @Override
+    public void insPjtCode(Map<String, Object> params) {
+        projectRepository.insPjtCode(params);
+    }
 }

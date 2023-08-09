@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -173,6 +174,80 @@ public class ProjectController {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/project/codeManagement.do")
+    public String codeManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_project/codeManagement";
+    }
+
+    @RequestMapping("/project/groupCodeList")
+    public String groupCodeList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.groupCodeList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/codeList")
+    public String codeList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.codeList(params));
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/project/saveGroupCode")
+    public String saveGroupCode(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.saveGroupCode(params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insSetLgCode")
+    public String insSetLgCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.insSetLgCode(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/smCodeList")
+    @ResponseBody
+    public List<Map<String, Object>> smCodeList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = projectService.smCodeList(params);
+        return list;
+    }
+
+    @RequestMapping("/project/insPjtCode")
+    public String insPjtCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.insPjtCode(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         return "jsonView";
     }

@@ -267,4 +267,88 @@
         WHERE
             PJT_SN = #{pjtSn}
     </select>
+
+    <select id="groupCodeList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        GROUP BY GRP_SN
+    </select>
+
+    <insert id="insGroupCode" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CD
+        (
+            GRP_SN,
+            GRP_NM
+        )
+        VALUES
+        (
+            #{grpSn},
+            #{grpNm}
+        )
+    </insert>
+
+    <select id="codeList" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            LG_CD IS NOT NULL
+        AND
+            PJT_CD IS NULL
+    </select>
+
+    <insert id="insSetLgCode" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM
+        )
+        VALUES
+        (
+            #{grpSn},
+            #{grpNm},
+            #{lgCode},
+            #{lgCodeNm}
+        )
+    </insert>
+
+    <select id="smCodeList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            GRP_SN = #{grpSn}
+        AND
+            LG_CD = #{lgCd}
+        AND
+            PJT_CD IS NOT NULL
+    </select>
+
+    <insert id="insPjtCode" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM,
+            PJT_CD,
+            PJT_CD_NM
+        )
+        VALUES
+        (
+            #{grpSn},
+            #{grpNm},
+            #{lgCd},
+            #{lgCdNm},
+            #{pjtCd},
+            #{pjtCdNm}
+        )
+    </insert>
+
 </mapper>

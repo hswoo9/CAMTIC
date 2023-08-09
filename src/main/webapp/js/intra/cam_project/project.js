@@ -303,6 +303,7 @@ var camPrj = {
         var option = "width = 900, height = 850, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
+
     fn_delPjt : function(t){
         $("input[name='pjtCheck']").each(function(e){
             if($(this).is(":checked")){
