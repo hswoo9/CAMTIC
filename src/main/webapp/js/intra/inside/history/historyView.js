@@ -56,14 +56,6 @@ var historyView = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                },
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyView.historyReqPop();">' +
-                            '	<span class="k-button-text">인사발령등록</span>' +
-                            '</button>';
-                    }
                 }
             ],
             noRecords: {

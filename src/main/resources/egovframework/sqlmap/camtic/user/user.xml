@@ -113,7 +113,7 @@
             CAM_HR.DJ_EMP_INFO
         SET
             DEPT_SEQ = #{deptSeq},
-            DEPT_NAME = #{afDeptName},
+            DEPT_NAME = (CASE WHEN #{afTeamName} = '' THEN #{afDeptName} ELSE #{afTeamName} END),
             DEPT_TEAM_NAME = #{afTeamName},
             POSITION_CODE = #{afPositionCode},
             POSITION_NAME = IFNULL(#{position}, ""),

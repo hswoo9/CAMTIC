@@ -667,5 +667,6 @@ const historyReq = {
         $("#popMainGrid").find("input[name='checkUser']").each(function(){
             grid.removeRow($(this).closest('tr'));
         });
+        historyReq.global.userArr = [];
     }
 }
