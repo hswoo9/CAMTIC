@@ -157,7 +157,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void updProjectDelv(Map<String, Object> params) {
         int pjtCdCnt = projectRepository.cntProjectCode(params);
-        params.put("pjtCd", params.get("pjtTmpCd") + String.format("%02d", pjtCdCnt));
+        params.put("pjtCd", params.get("pjtTmpCd") + String.format("%02d", pjtCdCnt+1));
         projectRepository.updProjectDelv(params);
 
         int checkProjectCnt = projectRepository.checkProjectCode(params);

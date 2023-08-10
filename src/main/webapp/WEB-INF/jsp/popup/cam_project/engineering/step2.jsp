@@ -36,7 +36,7 @@
             </h3>
 
             <div class="btn-st popButton">
-                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="es2.fn_save()">저장</button>
+                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="openModal()">저장</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="es2.fn_mod()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
@@ -81,7 +81,7 @@
                         <input type="text" id="delvDe" style="width: 90%;">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>개요
                     </th>
@@ -89,7 +89,7 @@
                         <textarea type="text" id="sumry" style="width: 100%;"></textarea>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>사양
                     </th>
@@ -125,13 +125,13 @@
                         <input type="text" id="delvLoc" style="width: 90%;">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>납품수단
                     </th>
                     <td colspan="3">
                         <span style="position: relative; top: 5px;">
-                            <input type="radio" id="vatN" name="delvMeans" value="고객수령">
+                            <input type="radio" id="vatN" name="delvMeans" value="고객수령" checked>
                             <label for="vatN">고객수령</label>
                             <input type="radio" id="vatY" name="delvMeans" value="법인차량" style="margin-left:10px;">
                             <label for="vatY">법인차량</label>
@@ -140,7 +140,7 @@
                         </span>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>품질보증
                     </th>
@@ -148,12 +148,20 @@
                         <textarea type="text" id="delvAssu" style="width: 100%;"></textarea>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>검수
                     </th>
                     <td colspan="3">
                         <textarea type="text" id="delvTest" style="width: 100%;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>특이사항
+                    </th>
+                    <td colspan="3">
+                        <textarea type="text" id="delvIssu" style="width: 100%;"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -349,7 +357,9 @@
         }
     });
 
-    $("#dialog").data("kendoWindow").open();
+    function openModal(){
+        $("#dialog").data("kendoWindow").open();
+    }
 
 
     function modalSetData(){

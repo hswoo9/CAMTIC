@@ -13,7 +13,7 @@ var es2 = {
         customKendo.fn_datePicker("delvDe", "depth", "yyyy-MM-dd", new Date());
 
         $("#estDe").val($("#befEstDe").val());
-        $("#sumry, #specf, #delvAssu, #delvTest").kendoTextArea({
+        $("#sumry, #specf, #delvAssu, #delvTest, #delvIssu").kendoTextArea({
             rows: 5,
         });
 
@@ -56,6 +56,7 @@ var es2 = {
                 $("#specf").val(rs.DELV_SPEC);
                 $("#sumry").val(rs.DELV_SUMR);
                 $("#delvTest").val(rs.DELV_TEST);
+                $("#delvIssu").val(rs.DELV_ISSU);
                 $("#delvUnit").val(rs.DELV_UNIT);
                 $("#empName").val(rs.PM_EMP_NM);
                 $("#empSeq").val(rs.PM_EMP_SEQ);
@@ -111,6 +112,7 @@ var es2 = {
             delvLoc : $("#delvLoc").val(),
             delvAssu : $("#delvAssu").val(),
             delvTest : $("#delvTest").val(),
+            delvIssu : $("#delvIssu").val(),
             delvMean : $("input[name='delvMeans']:checked").val(),
             delvAmt : es1.uncomma($("#delvAmt").val()),
             delvDept : $("input[name='delvDept']:checked").val(),

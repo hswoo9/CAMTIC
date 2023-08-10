@@ -322,14 +322,8 @@ var camPrj = {
 
     popSetStep: function (i, key){
         switch (i){
-            case 1 :
+            case 1, 2, 3 :
                 camPrj.fn_step(i, key);
-                break;
-            case 2 :
-                camPrj.fn_step(i, key);
-                break;
-            case 3 :
-                alert("개발계획")
                 break;
             case 4 :
                 alert("공정")
