@@ -64,17 +64,20 @@
 				</div>--%>
 				<div style="margin-top: 35px;">
 					<ul style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px; padding:0px;">
-						<li style="list-style: none; display: inline; margin-right: 40px;">
-							<img class="leftEmail" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px;">
+						<li style="list-style: none; display: inline; margin-right: 28px;">
+							<img class="leftEmail" src="/images/mail-2x.png" alt="#" style="width: 32px; height: 30px;">
 						</li>
-						<li style="list-style: none; display: inline;">
-							<img class="rightCalendar" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px;">
+						<li style="list-style: none; display: inline; margin-left: 5px;">
+							<img class="rightCalendar" src="/images/mail-2x.png" alt="#" style="width: 32px; height: 30px;">
 						</li>
+						<br>
+						<li style="list-style: none; display: inline; /*margin-right: 15px;*/"><a style="font-size: 8px; color: white">@</a>이메일</li>
+						<li style="list-style: none; display: inline; margin-left: 25px;">일정 보기</li>
 					</ul>
-					<ul style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px; padding:0px;">
-						<li style="list-style: none; display: inline; margin-right: 35px;">이메일</li>
-						<li style="list-style: none; display: inline;">일정 보기</li>
-					</ul>
+<%--					<ul style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px; padding:0px;">
+						<li style="list-style: none; display: inline; /*margin-right: 15px;*/">이메일</li>
+						<li style="list-style: none; display: inline; margin-left: 20px;">일정 보기</li>
+					</ul>--%>
 				</div>
 
 			</div>

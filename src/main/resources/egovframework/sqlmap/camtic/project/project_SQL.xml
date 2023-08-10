@@ -34,7 +34,8 @@
             PJT_STEP,
             PJT_STEP_NM,
             CONSULT_DT,
-            CRM_CD
+            CRM_CD,
+            CRM_NM
         ) VALUES (
             #{pjtNm},
             #{empSeq},
@@ -46,7 +47,8 @@
             #{pjtStep},
             #{pjtStepNm},
             #{contDt},
-            #{crmCd}
+            #{crmCd},
+            #{crmNm}
         )
         <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
@@ -254,10 +256,30 @@
             PJT_AMT = #{delvAmt},
             STR_DT = #{estDe},
             END_EXP_DT = #{delvDe},
-            PM = #{pmEmpNm}
+            PM = #{pmEmpNm},
+            PJT_TMP_CD = #{pjtTmpCd}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <update id="updProjectDelvFn" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_CD = #{pjtCd}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="checkProjectCode" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            PJT_CD IS NOT NULL
+    </select>
 
     <select id="getStep2DelvData" parameterType="map" resultType="map">
         SELECT
@@ -265,7 +287,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_DELV
         WHERE
-            PJT_SN = #{pjtSn}
+            PJT_SN = #{pjtSn} ORDER BY DELV_SN DESC LIMIT 1
     </select>
 
     <select id="groupCodeList" parameterType="map" resultType="map">
@@ -298,6 +320,34 @@
             LG_CD IS NOT NULL
         AND
             PJT_CD IS NULL
+    </select>
+
+    <select id="selLgCode" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            GRP_SN = #{grpSn}
+        AND
+            LG_CD is not null
+        AND
+            PJT_CD is null
+    </select>
+
+    <select id="selSmCode" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD is not null
+          AND
+            LG_CD = #{lgCd}
+          AND
+            PJT_CD is not null
     </select>
 
     <insert id="insSetLgCode" parameterType="map">
@@ -350,5 +400,32 @@
             #{pjtCdNm}
         )
     </insert>
+
+    <select id="cntProjectCode" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_TMP_CD = #{pjtTmpCd}
+    </select>
+
+    <select id="checkModStep1" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="checkModStep2" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DELV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 
 </mapper>

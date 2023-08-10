@@ -48,7 +48,7 @@ var es2 = {
                 });
                 $("#delvItem").val(rs.DELV_ITEM);
                 $("#delvLoc").val(rs.DELV_LOC);
-                $("input[name='delvMean']").each(function(){
+                $("input[name='delvMeans']").each(function(){
                     if(this.value == rs.DELV_MEAN){
                         $(this).prop("checked", true);
                     }
@@ -60,20 +60,48 @@ var es2 = {
                 $("#empName").val(rs.PM_EMP_NM);
                 $("#empSeq").val(rs.PM_EMP_SEQ);
 
-
-                console.log(rs);
+                if(rs.DELV_AMT != null && rs.DELV_AMT != ''){
+                    $("#modBtn").css("display", "");
+                    $("#saveBtn").css("display", "none");
+                }
             }
         })
     },
 
     fn_save : function (){
+        var pjCode = $("#pjCode").val();
+        var supDep = $("#supDep").val();
+        var supDepSub = $("#supDepSub").val();
+        var pjtStat = $("#pjtStat").val();
+        var pjtStatSub = $("#pjtStatSub").val();
+
+        if(supDep == ""){
+            alert("지원부처를 선택해주세요.");
+            return;
+        }
+        if(supDepSub == ""){
+            alert("전담기관을 선택해주세요.");
+            return;
+        }
+        if(pjtStat == ""){
+            alert("사업성격을 선택해주세요.");
+            return;
+        }
+        if(pjtStatSub == ""){
+            alert("사업성격1을 선택해주세요.");
+            return;
+        }
+
         if(es1.uncomma($("#delvAmt").val()) != $("#expAmt").val()){
             if(!confirm("예상 견적가와 금액이 일치하지 않습니다. 저장하시겠습니까?")){
                 return false;
             }
         }
+        var date = new Date();
+        var year = date.getFullYear().toString().substring(2,4);
 
         var data = {
+            pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
             delvSumr : $("#sumry").val(),
             delvDe : $("#delvDe").val(),
             delvSpec : $("#specf").val(),

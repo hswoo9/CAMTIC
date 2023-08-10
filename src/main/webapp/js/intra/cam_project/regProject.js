@@ -62,7 +62,8 @@ var regPrj = {
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
             hrBizReqResultId : $("#hrBizReqResultId").val(),
-            crmCd : $("#crmCd").val()
+            crmCd : $("#crmCd").val(),
+            crmNm : $("#crmNm").val()
         }
 
         if(data.busnNm == "D"){
@@ -85,6 +86,7 @@ var regPrj = {
         formData.append("pjtStepNm", data.pjtStepNm);
         formData.append("menuCd", data.menuCd);
         formData.append("crmCd", data.crmCd);
+        formData.append("crmNm", data.crmNm);
 
 
         // 캠CRM 데이터 INSERT 처리 해줘야함(캠CRM 미개발)

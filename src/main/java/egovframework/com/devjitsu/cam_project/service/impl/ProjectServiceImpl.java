@@ -98,8 +98,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void insStep1(Map<String, Object> params) {
         projectRepository.insStep1(params);
-        projectRepository.updProjectStep(params);
-        projectRepository.updProjectEngnStep(params);
+        int modCheck = projectRepository.checkModStep1(params);
+
+        // 버전관리 (Step)
+        if(modCheck == 0){
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
     }
 
     @Override
@@ -141,14 +146,25 @@ public class ProjectServiceImpl implements ProjectService {
     public void insStep2(Map<String, Object> params) {
         projectRepository.insStep2(params);
 
-        // 전자결재 개발 완료 시 결재완료 시점으로 이동
-        projectRepository.updProjectStep(params);
-        projectRepository.updProjectEngnStep(params);
-    }
+        int modCheck = projectRepository.checkModStep2(params);
 
+        if(modCheck != 0) {
+            // 전자결재 개발 완료 시 결재완료 시점으로 이동
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
+    }
     @Override
     public void updProjectDelv(Map<String, Object> params) {
+        int pjtCdCnt = projectRepository.cntProjectCode(params);
+        params.put("pjtCd", params.get("pjtTmpCd") + String.format("%02d", pjtCdCnt));
         projectRepository.updProjectDelv(params);
+
+        int checkProjectCnt = projectRepository.checkProjectCode(params);
+
+        if(checkProjectCnt == 0){
+            projectRepository.updProjectDelvFn(params);
+        }
     }
 
     @Override
@@ -185,5 +201,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void insPjtCode(Map<String, Object> params) {
         projectRepository.insPjtCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selLgCode(Map<String, Object> params) {
+        return projectRepository.selLgCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
+        return projectRepository.selSmCode(params);
     }
 }

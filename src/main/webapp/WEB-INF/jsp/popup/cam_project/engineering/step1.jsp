@@ -38,7 +38,7 @@
 
             <div class="btn-st popButton">
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="es1.fn_save()">저장</button>
-                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="es1.fn_mod()">수정</button>
+                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="es1.fn_save()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -56,7 +56,7 @@
                         <span class="red-star"></span>상담코드
                     </th>
                     <td>
-                        <input type="text" id="contCd" style="width: 90%;" disabled>
+                        <input type="text" id="contCd" style="width: 90%;" value="${hashMap.PJT_CD}" disabled>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>견적일자
@@ -209,7 +209,6 @@
 
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>

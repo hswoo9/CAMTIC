@@ -97,4 +97,32 @@ public class ProjectRepository extends AbstractDAO {
     public void insPjtCode(Map<String, Object> params) {
         insert("project.insPjtCode", params);
     }
+
+    public int checkModStep1(Map<String, Object> params) {
+        return (int) selectOne("project.checkModStep1", params);
+    }
+
+    public int checkModStep2(Map<String, Object> params) {
+        return (int) selectOne("project.checkModStep2", params);
+    }
+
+    public List<Map<String, Object>> selLgCode(Map<String, Object> params) {
+        return selectList("project.selLgCode", params);
+    }
+
+    public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
+        return selectList("project.selSmCode", params);
+    }
+
+    public int cntProjectCode(Map<String, Object> params) {
+        return (int) selectOne("project.cntProjectCode", params);
+    }
+
+    public int checkProjectCode(Map<String, Object> params) {
+        return (int) selectOne("project.checkProjectCode", params);
+    }
+
+    public void updProjectDelvFn(Map<String, Object> params) {
+        update("project.updProjectDelvFn", params);
+    }
 }
