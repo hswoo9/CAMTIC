@@ -18,8 +18,8 @@
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">학습조관리</h4>
-            <div class="title-road">학습관리 &gt; 학습조관리</div>
+            <h4 class="panel-title">내부학습 관리</h4>
+            <div class="title-road">학습관리 &gt; 내부학습 관리</div>
         </div>
 
         <div class="panel-body">
@@ -35,8 +35,12 @@
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회년도</th>
-                        <td colspan="3">
-                            <input type="text" id="eduYear" style="width: 140px;">
+                        <td>
+                            <input type="text" id="applyYear" style="width: 140px;">
+                        </td>
+                        <th class="text-center th-color">학습구분</th>
+                        <td>
+                            <input type="text" id="studyClass" style="width: 140px;">
                         </td>
                     </tr>
                 </table>

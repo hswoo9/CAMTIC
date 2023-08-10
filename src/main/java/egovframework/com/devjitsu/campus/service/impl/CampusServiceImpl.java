@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.campus.service.CampusService;
+import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ import java.util.Map;
 @Service
 public class CampusServiceImpl implements CampusService {
 
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private CampusRepository campusRepository;
 
@@ -93,6 +96,21 @@ public class CampusServiceImpl implements CampusService {
         return campusRepository.getEduStat(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params){
+        return campusRepository.getStudyInfoList(params);
+    }
+
+    @Override
+    public Map<String, Object> getStudyInfoOne(Map<String, Object> params){
+        return campusRepository.getStudyInfoOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getStudyUserList(Map<String, Object> params){
+        return campusRepository.getStudyUserList(params);
+    }
+
 
 
 
@@ -110,6 +128,23 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setStudyInfoInsert(Map<String, Object> params) {
         campusRepository.setStudyInfoInsert(params);
+
+        if(params.get("studyUserSeq") != null && !params.get("studyUserSeq").equals("")){
+            String studyUserSeq = params.get("studyUserSeq").toString();
+            String[] studyUserSeqArr = studyUserSeq.split(",");
+
+            for(String str: studyUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+
+                campusRepository.setStudyUserInsert(params);
+            }
+        }
     }
 
     @Override

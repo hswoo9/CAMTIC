@@ -18,26 +18,31 @@
     <select id="getUserInfo" resultType="map" parameterType="map">
         /* getUserInfo */
         SELECT
-            VEI.EMP_SEQ,
-            VEI.EMP_NAME_KR,
-            VEI.LOGIN_ID,
-            VEI.DEPT_SEQ,
-            VEI.DEPT_NAME,
-            VEI.POSITION_CODE,
-            VEI.POSITION_NAME,
-            VEI.POSITION_NAME AS POSITION_NAME,
-            VEI.DUTY_CODE,
-            VEI.DUTY_NAME
+            HEI.EMP_SEQ,
+            HEI.EMP_NAME_KR,
+            HEI.LOGIN_ID,
+            HEI.DEPT_SEQ,
+            HEI.DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS deptId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS teamId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            HEI.POSITION_CODE,
+            HEI.POSITION_NAME,
+            HEI.DUTY_CODE,
+            HEI.DUTY_NAME
         FROM
-            CAM_HR.DJ_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE 1=1
         <choose>
             <when test='active != null and !"".equals(active)'></when>
             <otherwise>
-        AND VEI.ACTIVE = 'Y'
+        AND HEI.ACTIVE = 'Y'
             </otherwise>
         </choose>
-        AND VEI.EMP_SEQ = #{empSeq}
+        AND HEI.EMP_SEQ = #{empSeq}
     </select>
 
     <select id="getIdCheck" parameterType="map" resultType="map">
