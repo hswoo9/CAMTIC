@@ -97,8 +97,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void insStep1(Map<String, Object> params) {
-        projectRepository.insStep1(params);
         int modCheck = projectRepository.checkModStep1(params);
+        projectRepository.insStep1(params);
 
         // 버전관리 (Step)
         if(modCheck == 0){
@@ -144,16 +144,44 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void insStep2(Map<String, Object> params) {
-        projectRepository.insStep2(params);
 
         int modCheck = projectRepository.checkModStep2(params);
+        projectRepository.insStep2(params);
 
-        if(modCheck != 0) {
+        // 전자결재 개발 완료 시 결재완료 시점으로 이동
+        if(modCheck == 0) {
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
+    }
+
+    @Override
+    public void insStep3(Map<String, Object> params) {
+
+        int modCheck = projectRepository.checkModStep3(params);
+
+        projectRepository.insStep3(params);
+        if(modCheck == 0) {
             // 전자결재 개발 완료 시 결재완료 시점으로 이동
             projectRepository.updProjectStep(params);
             projectRepository.updProjectEngnStep(params);
         }
     }
+
+
+    @Override
+    public void insStep4(Map<String, Object> params) {
+        int modCheck = projectRepository.checkModStep4(params);
+
+        projectRepository.insStep4(params);
+
+        if(modCheck == 0) {
+            // 전자결재 개발 완료 시 결재완료 시점으로 이동
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
+    }
+
     @Override
     public void updProjectDelv(Map<String, Object> params) {
         int pjtCdCnt = projectRepository.cntProjectCode(params);
@@ -212,4 +240,68 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
         return projectRepository.selSmCode(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getDevPjtVerList(Map<String, Object> params) {
+        return projectRepository.getDevPjtVerList(params);
+    }
+
+    @Override
+    public Map<String, Object> getStep3PmInfo(Map<String, Object> params) {
+        Map<String, Object> map = projectRepository.getStep2DelvData(params);
+
+
+        return projectRepository.getStep3PmInfo(map);
+    }
+
+    @Override
+    public void insPjtPs(Map<String, Object> params) {
+        projectRepository.insPjtPs(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getProcessList(Map<String, Object> params) {
+        return projectRepository.getProcessList(params);
+    }
+
+    @Override
+    public void updProcess(Map<String, Object> params) {
+        projectRepository.updProcess(params);
+    }
+
+    @Override
+    public void delProcess(Map<String, Object> params) {
+        projectRepository.delProcess(params);
+    }
+
+    @Override
+    public void insInvData(Map<String, Object> params) {
+        projectRepository.insInvData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getInvList(Map<String, Object> params) {
+        return projectRepository.getInvList(params);
+    }
+
+    @Override
+    public void updInvest(Map<String, Object> params) {
+        projectRepository.updInvest(params);
+    }
+
+    @Override
+    public void delInvest(Map<String, Object> params) {
+        projectRepository.delInvest(params);
+    }
+
+    @Override
+    public Map<String, Object> getDevelopPlan(Map<String, Object> params) {
+        return projectRepository.getDevelopPlan(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPsList(Map<String, Object> params) {
+        return projectRepository.getPsList(params);
+    }
+
 }

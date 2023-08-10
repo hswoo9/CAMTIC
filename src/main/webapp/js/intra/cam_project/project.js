@@ -301,6 +301,11 @@ var camPrj = {
 
         var name = "_blank";
         var option = "width = 900, height = 850, top = 100, left = 200, location = no"
+
+        if((i-1) == 3){
+            option = "width = 1160, height = 820, top = 100, left = 200, location = no";
+        }
+
         var popup = window.open(url, name, option);
     },
 
@@ -322,11 +327,8 @@ var camPrj = {
 
     popSetStep: function (i, key){
         switch (i){
-            case 1, 2, 3 :
+            case 1, 2, 3, 4 :
                 camPrj.fn_step(i, key);
-                break;
-            case 4 :
-                alert("공정")
                 break;
             case 5 :
                 alert("납품")
@@ -347,6 +349,10 @@ var camPrj = {
         var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
         var name = "_blank";
         var option = "width = 900, height = 820, top = 100, left = 200, location = no"
+
+        if(i == 3){
+            option = "width = 1160, height = 820, top = 100, left = 200, location = no";
+        }
 
         var popup = window.open(url, name, option);
     },
