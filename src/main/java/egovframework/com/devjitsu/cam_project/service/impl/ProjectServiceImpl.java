@@ -98,8 +98,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void insStep1(Map<String, Object> params) {
         projectRepository.insStep1(params);
-        projectRepository.updProjectStep(params);
-        projectRepository.updProjectEngnStep(params);
+        int modCheck = projectRepository.checkModStep1(params);
+
+        // 버전관리 (Step)
+        if(modCheck == 0){
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
     }
 
     @Override
@@ -185,5 +190,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void insPjtCode(Map<String, Object> params) {
         projectRepository.insPjtCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selLgCode(Map<String, Object> params) {
+        return projectRepository.selLgCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
+        return projectRepository.selSmCode(params);
     }
 }

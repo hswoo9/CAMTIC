@@ -252,4 +252,20 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/selLgCode")
+    public String selLgCode(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", projectService.selLgCode(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/selSmCode")
+    public String selSmCode(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", projectService.selSmCode(params));
+
+        return "jsonView";
+    }
+
 }

@@ -45,4 +45,8 @@ public interface ProjectService {
     List<Map<String, Object>> smCodeList(Map<String, Object> params);
 
     void insPjtCode(Map<String, Object> params);
+
+    List<Map<String, Object>> selLgCode(Map<String, Object> params);
+
+    List<Map<String, Object>> selSmCode(Map<String, Object> params);
 }

@@ -194,11 +194,6 @@ var es1 = {
         })
     },
 
-    fn_mod : function() {
-        alert("개발중")
-    },
-
-
     inputNumberFormat : function (obj){
         obj.value = es1.comma(es1.uncomma(obj.value));
     },
@@ -220,11 +215,6 @@ var es1 = {
 
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
 
-        console.log(rs);
-
-
-
-
         var html = "";
         for(var i = 0 ; i < rs.result.estList.length ; i++){
 
@@ -244,6 +234,11 @@ var es1 = {
             html += "   <td style='text-align: right'>"+sdfDate+"</td>";
             html += "   <td style='text-align: right'>"+rs.result.estList[i].EMP_NAME+"</td>";
             html += "</tr>";
+        }
+
+        if(rs.result.estList.length != 0){
+            $("#modBtn").css("display", "");
+            $("#saveBtn").css("display", "none");
         }
 
         $("#productTb2").append(html);
