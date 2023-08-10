@@ -270,7 +270,7 @@
             PJT_SN = #{pjtSn}
     </update>
 
-    <select id="checkProjectCode" parameterType="map" resultType="map">
+    <select id="checkProjectCode" parameterType="map" resultType="int">
         SELECT
             COUNT(*)
         FROM
@@ -401,7 +401,7 @@
         )
     </insert>
 
-    <select id="cntProjectCode" parameterType="map" resultType="map">
+    <select id="cntProjectCode" parameterType="map" resultType="int">
         SELECT
             COUNT(*)
         FROM
@@ -410,7 +410,7 @@
             PJT_TMP_CD = #{pjtTmpCd}
     </select>
 
-    <select id="checkModStep1" parameterType="map" resultType="map">
+    <select id="checkModStep1" parameterType="map" resultType="int">
         SELECT
             COUNT(*)
         FROM
@@ -419,7 +419,7 @@
             PJT_SN = #{pjtSn}
     </select>
 
-    <select id="checkModStep2" parameterType="map" resultType="map">
+    <select id="checkModStep2" parameterType="map" resultType="int">
         SELECT
             COUNT(*)
         FROM
