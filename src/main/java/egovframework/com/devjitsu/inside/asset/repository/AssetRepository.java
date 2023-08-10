@@ -170,4 +170,10 @@ public class AssetRepository extends AbstractDAO {
     /** 지식재산권 일괄 변경 */
     public void updRprAllChange(Map<String, Object> params) { update("asset.updRprAllChange", params);}
 
+    public List<Map<String, Object>> getEquipApprovalData(Map<String, Object> params) { return selectList("asset.getEquipApprovalData", params); }
+    public List<Map<String, Object>> getEquipApprovalInfo(Map<String, Object> params) { return selectList("asset.getEquipApprovalInfo", params); }
+    public void setEquipApprovalInfo(Map<String, Object> params) { insert("asset.setEquipApprovalInfo", params); }
+    public void updateEquipApprStat(Map<String, Object> params) { update("asset.updateEquipApprStat", params); }
+    public void updateEquipFinalApprStat(Map<String, Object> params) { update("asset.updateEquipFinalApprStat", params); }
+
 }

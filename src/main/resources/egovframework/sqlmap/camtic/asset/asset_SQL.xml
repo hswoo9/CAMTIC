@@ -1609,31 +1609,6 @@
         ) VALUES (#{INSIDE_MD_CODE}, #{INSIDE_MD_CODE_NM}, #{INSIDE_DT_CODE}, #{INSIDE_DT_CODE_NM}, #{REG_EMP_SEQ}, NOW())
     </insert>
 
-    <select id="getLGCategoryMonthly" resultType="map">
-        /* getMainCategoryMonthly */
-        SELECT
-            EQIPMN_GBN_NAME,
-            COUNT(EQIPMN_USE_SN) AS COUNT
-        FROM
-            (
-                SELECT
-                    EQIPMN_GBN_NAME,
-                    EQIPMN_USE_SN
-                FROM
-                    CAM_INSIDE.DJ_EQIPMN_USE A
-                LEFT JOIN
-                    CAM_INSIDE.DJ_EQIPMN_MST B ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
-                WHERE
-                    1=1
-                <![CDATA[
-                AND (DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m') AND DATE_FORMAT(USE_PD_END_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m'))
-                ]]>
-                AND A.ACTVT_YN = 'Y'
-                GROUP BY EQIPMN_GBN_NAME, EQIPMN_NAME
-            ) A
-        GROUP BY EQIPMN_GBN_NAME
-    </select>
-
     <select id="getMDCategoryMonthly" resultType="map">
         /* getMDCategoryMonthly */
         SELECT
@@ -1841,6 +1816,133 @@
             RPR_CLASS = 2
         AND
             ACTIVE = 'Y'
+    </update>
+
+    <select id="getLGCategoryMonthly" resultType="map">
+        /* getMainCategoryMonthly */
+        SELECT
+            C.*,
+            CASE WHEN C.BEF_USE_TIME > C.USE_TIME THEN '감' ELSE '증' END AS STATUS,
+            CASE WHEN C.BEF_USE_TIME > C.USE_TIME THEN C.BEF_USE_TIME - C.USE_TIME ELSE C.USE_TIME - C.BEF_USE_TIME END AS DIFF
+        FROM (
+            SELECT
+                B.EQIPMN_GBN_NAME,
+                B.REGTR_NAME,
+                (
+                    SELECT
+                        IFNULL(SUM(SA.USE_TIME), 0)
+                    FROM
+                        CAM_INSIDE.DJ_EQIPMN_USE SA
+                    LEFT JOIN
+                        CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                    WHERE
+                        (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                      AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_GBN_NAME = SB.EQIPMN_GBN_NAME
+                ) AS BEF_USE_TIME,
+                SUM(A.USE_TIME) AS USE_TIME
+            FROM
+                CAM_INSIDE.DJ_EQIPMN_USE A
+            LEFT JOIN
+                CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+            WHERE
+                1=1
+            AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{searchDe})
+            AND A.ACTVT_YN = 'Y'
+            GROUP BY B.EQIPMN_GBN_NAME
+            ORDER BY B.EQIPMN_GBN_NAME DESC
+        ) C
+    </select>
+
+    <select id="getEquipApprovalData" resultType="map">
+        /* getEquipApprovalData */
+        SELECT
+            B.EQIPMN_GBN_NAME,
+            B.EQIPMN_NAME,
+            B.REGTR_NAME,
+            (
+                SELECT
+                    IFNULL(SUM(SA.USE_TIME), 0)
+                FROM
+                    CAM_INSIDE.DJ_EQIPMN_USE SA
+                LEFT JOIN
+                    CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                WHERE
+                    (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+            ) AS BEF_USE_TIME,
+            SUM(A.USE_TIME) AS USE_TIME,
+            COUNT(A.EQIPMN_USE_SN) AS EP_COUNT,
+            COUNT(CASE WHEN PRTPCO_GBN_NAME IS NOT NULL THEN 1 END) AS PRTPCO_GBN_NAME,
+            COUNT(CASE WHEN PRTPCO_GBN_SN = 4 THEN 1 END) AS PRTPCO_GBN_SN_A,
+            COUNT(CASE WHEN PRTPCO_GBN_SN = 5 THEN 1 END) AS PRTPCO_GBN_SN_B,
+            COUNT(CASE WHEN PRTPCO_GBN_SN = 6 THEN 1 END) AS PRTPCO_GBN_SN_C,
+            ROW_NUMBER()OVER(ORDER BY B.EQIPMN_GBN_NAME) AS ROW_NUM,
+            COUNT(*)OVER(PARTITION BY B.EQIPMN_GBN_NAME DESC) AS PART_CNT
+        FROM
+            CAM_INSIDE.DJ_EQIPMN_USE A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+        WHERE
+            1=1
+        AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{searchDe})
+        AND A.ACTVT_YN = 'Y'
+        GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+        ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+    </select>
+
+    <select id="getEquipApprovalInfo" parameterType="map" resultType="map">
+        /* getEquipApprovalInfo */
+            SELECT
+                *
+            FROM
+                CAM_INSIDE.DJ_EQIPNM_APPROVAL
+            WHERE
+                APPLY_MONTH = #{searchDe}
+    </select>
+
+    <insert id="setEquipApprovalInfo" parameterType="map">
+        /* setEquipApprovalInfo */
+        INSERT INTO CAM_INSIDE.DJ_EQIPNM_APPROVAL
+            (
+                APPLY_MONTH,
+                STATUS,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{searchDe},
+                '0',
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+
+        <selectKey keyProperty="eqipnmApprovalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EQIPNM_APPROVAL'
+        </selectKey>
+    </insert>
+
+    <update id="updateEquipApprStat" parameterType="map">
+        /* updateEquipApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPNM_APPROVAL
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            EQIPNM_APPROVAL_SN = #{eqipnmApprovalSn}
+    </update>
+
+    <update id="updateEquipFinalApprStat" parameterType="map">
+        /* updateEquipFinalApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPNM_APPROVAL
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            EQIPNM_APPROVAL_SN = #{eqipnmApprovalSn}
     </update>
 
 </mapper>

@@ -147,7 +147,7 @@ var equipmentListAdminView = {
                     name: '',
                     text: '결재',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.equipApprovalPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.equipAppPop();">' +
                             '   <span class="k-button-text">결재</span>' +
                             '</button>';
                     }
@@ -208,10 +208,10 @@ var equipmentListAdminView = {
         var popup = window.open(url, name, option);
     },
 
-    equipApprovalPopup : function (){
-        var url = "/Inside/pop/equipApprovalPop.do";
+    equipAppPop : function (){
+        var url = "/Inside/pop/equipAppPop.do";
         var name = "equipApprovalPop";
-        var option = "width = 400, height = 200, top = 100, left = 200, location = no"
+        var option = "width = 540, height = 260, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 

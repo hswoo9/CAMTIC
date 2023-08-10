@@ -550,7 +550,6 @@ public class AssetController {
     /**
      * 자산관리 > PDA 연동목록 - 재물조사 업로드
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/asset/setAssetInspectionUpload.do")
@@ -865,14 +864,15 @@ public class AssetController {
     }
 
     //장비관리 (관리자) 결재창
-    @RequestMapping("/Inside/pop/equipApprovalPop.do")
-    public String equipApprovalPop(HttpServletRequest request, Model model) {
+    @RequestMapping("/Inside/pop/equipAppPop.do")
+    public String equipAppPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/asset/equipApprovalPop";
+        return "popup/inside/asset/equipAppPop";
     }
+
     //장비관리 전자결재
     @RequestMapping("/popup/inside/approvalFormPopup/equipApprovalPop.do")
     public String equipApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -882,6 +882,8 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         Map<String, Object> data = assetService.getCategoryMonthly(params);
         model.addAttribute("data", data);
+        List<Map<String, Object>> list = assetService.getEquipApprovalData(params);
+        model.addAttribute("list", list);
         return "/popup/inside/asset/approvalFormPopup/equipApprovalPop";
     }
 
@@ -981,6 +983,50 @@ public class AssetController {
     @RequestMapping("/inside/updRprAllChange")
     public String updRprAllChange(@RequestParam Map<String, Object> params, Model model) {
         assetService.updRprAllChange(params);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 데이터 */
+    @RequestMapping("/inside/getEquipApprovalData")
+    public String getEquipApprovalData(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> List = assetService.getEquipApprovalData(params);
+        model.addAttribute("list", List);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 중복조회 */
+    @RequestMapping("/inside/getEquipApprovalInfo")
+    public String getEquipApprovalInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getEquipApprovalInfo(params);
+        model.addAttribute("flag", list.size() == 0 ? "true" : "false");
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 저장 */
+    @RequestMapping("/inside/setEquipApprovalInfo")
+    public String setEquipApprovalInfo(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setEquipApprovalInfo(params);
+        model.addAttribute("data", params);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/inside/equipReqApp")
+    public String equipReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            assetService.updateEquipDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
 }
