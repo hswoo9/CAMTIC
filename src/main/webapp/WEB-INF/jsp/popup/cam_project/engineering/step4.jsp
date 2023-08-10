@@ -47,11 +47,11 @@
                     <h3 class="card-title">설계관리</h3>
                     <div class="card-options">
                         <div class="filebox">
-                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList1').click()">
                                 <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                                 <span class="k-button-text">파일첨부</span>
                             </button>
-                            <input type="file" id="fileList" name="fileList" onchange="addFileInfoTable(1);" multiple style="display: none"/>
+                            <input type="file" id="fileList1" name="fileList1" onchange="addFileInfoTable(1);" multiple style="display: none"/>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             <th>기타</th>
                         </tr>
                         </thead>
-                        <tbody id="fileGrid">
+                        <tbody id="fileGrid1">
                         <tr class="defultTr">
                             <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
                         </tr>
