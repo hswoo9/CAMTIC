@@ -262,6 +262,25 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <update id="updProjectDelvFn" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_CD = #{pjtCd}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="checkProjectCode" parameterType="map" resultType="map">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            PJT_CD IS NOT NULL
+    </select>
+
     <select id="getStep2DelvData" parameterType="map" resultType="map">
         SELECT
             *

@@ -117,4 +117,12 @@ public class ProjectRepository extends AbstractDAO {
     public int cntProjectCode(Map<String, Object> params) {
         return (int) selectOne("project.cntProjectCode", params);
     }
+
+    public int checkProjectCode(Map<String, Object> params) {
+        return (int) selectOne("project.checkProjectCode", params);
+    }
+
+    public void updProjectDelvFn(Map<String, Object> params) {
+        update("project.updProjectDelvFn", params);
+    }
 }
