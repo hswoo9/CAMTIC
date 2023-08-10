@@ -117,4 +117,10 @@ public interface AssetService {
 
     /** 지식재산권 일괄변경 */
     void updRprAllChange(Map<String, Object> params);
+
+    /** 장비 전자결재 */
+    List<Map<String,Object>> getEquipApprovalData(Map<String, Object> params);
+    List<Map<String, Object>> getEquipApprovalInfo(Map<String, Object> params);
+    void setEquipApprovalInfo(Map<String, Object> params);
+    void updateEquipDocState(Map<String, Object> bodyMap) throws Exception;
 }
