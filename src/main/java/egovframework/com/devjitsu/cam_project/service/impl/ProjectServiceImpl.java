@@ -146,13 +146,20 @@ public class ProjectServiceImpl implements ProjectService {
     public void insStep2(Map<String, Object> params) {
         projectRepository.insStep2(params);
 
-        // 전자결재 개발 완료 시 결재완료 시점으로 이동
-        projectRepository.updProjectStep(params);
-        projectRepository.updProjectEngnStep(params);
-    }
+        int modCheck = projectRepository.checkModStep2(params);
 
+        if(modCheck != 0) {
+            // 전자결재 개발 완료 시 결재완료 시점으로 이동
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
+    }
     @Override
     public void updProjectDelv(Map<String, Object> params) {
+        int pjtCdCnt = projectRepository.cntProjectCode(params);
+
+        params.put("pjtCd", params.get("pjtTmpCd") + String.format("%02d", pjtCdCnt));
+
         projectRepository.updProjectDelv(params);
     }
 

@@ -256,7 +256,8 @@
             PJT_AMT = #{delvAmt},
             STR_DT = #{estDe},
             END_EXP_DT = #{delvDe},
-            PM = #{pmEmpNm}
+            PM = #{pmEmpNm},
+            PJT_TMP_CD = #{pjtTmpCd}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -381,11 +382,29 @@
         )
     </insert>
 
+    <select id="cntProjectCode" parameterType="map" resultType="map">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_TMP_CD = #{pjtTmpCd}
+    </select>
+
     <select id="checkModStep1" parameterType="map" resultType="map">
         SELECT
             COUNT(*)
         FROM
             CAM_PJT_MNG.DJ_PJT_EST
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="checkModStep2" parameterType="map" resultType="map">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DELV
         WHERE
             PJT_SN = #{pjtSn}
     </select>

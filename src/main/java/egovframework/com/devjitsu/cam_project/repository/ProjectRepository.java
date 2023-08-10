@@ -102,11 +102,19 @@ public class ProjectRepository extends AbstractDAO {
         return (int) selectOne("project.checkModStep1", params);
     }
 
+    public int checkModStep2(Map<String, Object> params) {
+        return (int) selectOne("project.checkModStep2", params);
+    }
+
     public List<Map<String, Object>> selLgCode(Map<String, Object> params) {
         return selectList("project.selLgCode", params);
     }
 
     public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
         return selectList("project.selSmCode", params);
+    }
+
+    public int cntProjectCode(Map<String, Object> params) {
+        return (int) selectOne("project.cntProjectCode", params);
     }
 }
