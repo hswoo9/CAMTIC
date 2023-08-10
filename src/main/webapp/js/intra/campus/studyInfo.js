@@ -1,34 +1,32 @@
-var now = new Date();
-
 var studyInfo = {
-
-    init : function(){
-        studyInfo.dataSet();
+    init: function(){
+        studyInfo.pageSet();
         studyInfo.mainGrid();
     },
 
-    dataSet() {
-        $("#eduYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
+    pageSet: function(){
+        customKendo.fn_datePicker("applyYear", "decade", "yyyy", new Date());
+        let studyDataSource = [
+            { text: "학습조", value: "1" },
+            { text: "전파학습", value: "2" },
+            { text: "OJT", value: "3" }
+        ]
+        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
+        $("#applyYear").attr("readonly", true);
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
+    mainGrid: function(){
+        let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/campus/getStudyInfoList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.empSeq = $("#empSeq").val();
-                    data.eduYear = $("#eduYear").val();
+                    data.studyClass = $("#studyClass").val();
+                    data.applyYear = $("#applyYear").val();
                     return data;
                 }
             },
@@ -67,30 +65,33 @@ var studyInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: studyInfo.onDataBound,
             columns: [
                 {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "순번",
                     width: 50
                 }, {
-                    field: "",
+                    field: "STUDY_CLASS_TEXT",
                     title: "구분",
-                    width: 50
+                    width: 250
                 }, {
-                    field: "",
+                    field: "STUDY_NAME",
                     title: "학습명"
                 }, {
-                    field: "",
                     title: "학습기간",
-                    width: 200
+                    width: 200,
+                    template: function(row){
+                        return row.START_DT+" ~ "+row.END_DT;
+                    }
                 }, {
                     field: "",
                     title: "교육시간",
-                    width: 100
+                    width: 150
                 }, {
-                    field: "",
+                    field: "STUDY_LOCATION",
                     title: "장소",
-                    width: 250
+                    width: 300
                 }, {
                     field: "",
                     title: "진행현황",
@@ -100,10 +101,31 @@ var studyInfo = {
         }).data("kendoGrid")
     },
 
-     studyReqPop : function() {
-        var url = "/Campus/pop/studyReqPop.do";
-        var name = "studyReqPop";
-        var option = "width = 1170, height = 800, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
+    onDataBound: function(){
+        let grid = this;
+        grid.element.off('dblclick');
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            studyInfo.studyViewPop(dataItem.STUDY_INFO_SN);
+        });
+    },
+
+    studyReqPop: function(){
+        let url = "/Campus/pop/studyReqPop.do";
+        let name = "studyReqPop";
+        let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    studyViewPop: function(pk){
+        let url = "";
+        if(pk == null || pk == "" || pk == undefined){
+            url = "/Campus/pop/studyViewPop.do";
+        } else {
+            url = "/Campus/pop/studyViewPop.do?studyInfoSn="+pk;
+        }
+        let name = "studyReqPop";
+        let option = "width = 920, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

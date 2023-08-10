@@ -525,7 +525,7 @@ public class CampusController {
         return "popup/campus/eduResultViewPop";
     }
 
-    //학습조관리
+    /** 학습조 리스트 페이지 */
     @RequestMapping("/Campus/studyInfo.do")
     public String studyInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -535,6 +535,31 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         return "campus/studyInfo";
     }
+
+    /** 학습조 신청 팝업 */
+    @RequestMapping("/Campus/pop/studyReqPop.do")
+    public String studyReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/campus/studyReqPop";
+    }
+
+    /** 학습조 신청 팝업 */
+    @RequestMapping("/Campus/pop/studyViewPop.do")
+    public String studyViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
+        List<Map<String, Object>> list = campusService.getStudyUserList(params);
+        model.addAttribute("list", list);
+        return "popup/campus/studyViewPop";
+    }
+
 
     //전파학습관리
     @RequestMapping("/Campus/propagInfo.do")
@@ -578,16 +603,6 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "campus/eduManagement";
-    }
-
-    //개인학습관리 - 학습결과보고서조회팝업
-    @RequestMapping("/Campus/pop/studyReqPop.do")
-    public String studyReqPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/campus/studyReqPop";
     }
 
     //학습통계
@@ -883,6 +898,30 @@ public class CampusController {
         Map<String, Object> result = new HashMap<>();
         result.put("list", list);
         return result;
+    }
+
+    /** 학습조 리스트 */
+    @RequestMapping("/campus/getStudyInfoList")
+    public String getStudyInfoList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyInfoList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 학습조 단일 데이터  */
+    @RequestMapping("/campus/getStudyInfoOne")
+    public String getStudyInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 학습조 유저 리스트 */
+    @RequestMapping("/campus/getStudyUserList")
+    public String getStudyUserList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyUserList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
 

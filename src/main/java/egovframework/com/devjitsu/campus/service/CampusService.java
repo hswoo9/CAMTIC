@@ -109,6 +109,12 @@ public interface CampusService {
      */
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
 
+    List<Map<String, Object>> getStudyInfoList(Map<String, Object> params);
+
+    Map<String, Object> getStudyInfoOne(Map<String, Object> params);
+
+    List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
+
 
 
 
