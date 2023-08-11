@@ -53,108 +53,38 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>프로젝트코드
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="pjtCd" disabled value="${hashMap.PJT_CD}" style="width: 90%; text-align: left" />
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>견적명
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="pjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>의뢰일자
+                        <span class="red-star"></span>상담코드
                     </th>
                     <td>
-                        <input type="text" id="estDe" style="width: 90%;" disabled>
-                        <input type="hidden" id="befEstDe" value="${estMap.EST_DE}" />
+                        <input type="text" id="pjtCd" disabled value="${hashMap.PJT_CD}" style="width: 90%; text-align: left" />
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>납기일
+                        <span class="red-star"></span>납품일자
                     </th>
                     <td>
                         <input type="text" id="delvDe" style="width: 90%;">
                     </td>
                 </tr>
-                <tr style="display: none;">
+                <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>개요
+                        <span class="red-star"></span>수신
                     </th>
-                    <td colspan="3">
-                        <textarea type="text" id="sumry" style="width: 100%;"></textarea>
+                    <td>
+                        <input type="text" id="crmNm" disabled value="${hashMap.CRM_NM}" style="width: 90%; text-align: left" />
                     </td>
-                </tr>
-                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>사양
+                        <span class="red-star"></span>참고
                     </th>
-                    <td colspan="3">
-                        <textarea type="text" id="specf" style="width: 100%;"></textarea>
+                    <td>
+                        <input type="text" id="crmMem" disabled value="${hashMap.PM}" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>납품품목
-                    </th>
-                    <td>
-                        <input type="text" id="delvItem" style="width: 90%;">
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>납품수량
-                    </th>
-                    <td>
-                        <input type="text" id="delvCnt" style="width: 90%;" onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>납품단위
-                    </th>
-                    <td>
-                        <input type="text" id="delvUnit" style="width: 90%;">
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>납품장소
-                    </th>
-                    <td>
-                        <input type="text" id="delvLoc" style="width: 90%;">
-                    </td>
-                </tr>
-                <tr style="display: none;">
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>납품수단
+                        <span class="red-star"></span>품명
                     </th>
                     <td colspan="3">
-                        <span style="position: relative; top: 5px;">
-                            <input type="radio" id="vatN" name="delvMeans" value="고객수령" checked>
-                            <label for="vatN">고객수령</label>
-                            <input type="radio" id="vatY" name="delvMeans" value="법인차량" style="margin-left:10px;">
-                            <label for="vatY">법인차량</label>
-                            <input type="radio" id="vatC" name="delvMeans" value="외부업체" style="margin-left:10px;">
-                            <label for="vatC">외부업체</label>
-                        </span>
-                    </td>
-                </tr>
-                <tr style="display: none;">
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>품질보증
-                    </th>
-                    <td colspan="3">
-                        <textarea type="text" id="delvAssu" style="width: 100%;"></textarea>
-                    </td>
-                </tr>
-                <tr style="display: none;">
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>검수
-                    </th>
-                    <td colspan="3">
-                        <textarea type="text" id="delvTest" style="width: 100%;"></textarea>
+                        <input type="text" id="pjtNm" disabled value="${hashMap.PJT_NM}" style="width: 100%;" />
                     </td>
                 </tr>
                 <tr>
@@ -162,44 +92,72 @@
                         <span class="red-star"></span>특이사항
                     </th>
                     <td colspan="3">
-                        <textarea type="text" id="delvIssu" style="width: 100%;"></textarea>
+                        <textarea type="text" id="estIss" style="width: 100%;">${estMap.EST_ISS}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>수주금액
+                        <span class="red-star"></span>납품가 합계
                     </th>
                     <td colspan="3">
-                        <input type="text" id="delvAmt" style="text-align: right; width: 40%;" onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
-                        <input type="hidden" id="expAmt" value="${hashMap.EXP_AMT}" />
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>참여부서
-                    </th>
-                    <td colspan="3">
-                        <span style="position: relative; top: 5px;">
-                            <input type="radio" id="A" name="delvDept" value="0">
-                            <label for="A">부서내 진행</label>
-                            <input type="radio" id="B" name="delvDept" value="1" style="margin-left:10px;">
-                            <label for="B">부서간 협업</label>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>PM
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="empName" style="width: 25%;" disabled />
-                        <input type="hidden" id="empSeq" style="width: 25%;" />
-                        <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch()">
-                            조회
-                        </button>
+                        <input type="text" id="expAmt" onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 40%; text-align: right"> 원
                     </td>
                 </tr>
                 </thead>
+            </table>
+
+            <span style="float: right; margin-top:10px;font-size: 12px; font-weight: bold"> * 품목이 1개인 경우에도 반드시 추가 버튼을 이용하여 저장하시기 바랍니다.</span>
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="7%">
+                    <col width="20%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                    <col width="8%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>번호
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>품명 및 규격
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>수량
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>단위
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>단가
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>공급가액
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>비고
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="productTb">
+                <tr>
+                    <td style="text-align: center"><span style="position: relative; top:5px">추가</span></td>
+                    <td><input type="text" class="prodNm" alias="prodNm" id="prodNm" /></td>
+                    <td><input type="text" class="prodCnt" alias="prodCnt" id="prodCnt" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                    <td><input type="text" class="unit" alias="unit" id="unit" /></td>
+                    <td><input type="text" class="unitAmt" alias="unitAmt" id="unitAmt" style="text-align: right;" onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                    <td><input type="text" class="supAmt" alias="supAmt" id="supAmt" disabled style="text-align: right;" /></td>
+                    <td><input type="text" class="prodEtc" alias="prodEtc" id="prodEtc" /></td>
+                    <td style="text-align: center"><button type="button" id="addBtn" class="k-button k-button-solid-base">추가</button> </td>
+                </tr>
+                </tbody>
             </table>
         </div>
 
@@ -215,10 +173,12 @@
 
     var idx = 0;
     es5.fn_defaultScript(inParameters);
+
     function fn_userMultiSelectPop(i) {
         idx = i;
         window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
+    es1.fn_setData();
 
 </script>
 </body>

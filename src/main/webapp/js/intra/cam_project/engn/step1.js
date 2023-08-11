@@ -241,8 +241,11 @@ var es1 = {
         }
 
         if(rs.result.estList.length != 0){
-            $("#modBtn").css("display", "");
-            $("#saveBtn").css("display", "none");
+            if($("#pjtStep").val() != "E5"){
+                $("#modBtn").css("display", "");
+                $("#saveBtn").css("display", "none");
+            }
+
         }
 
         $("#productTb2").append(html);
@@ -291,17 +294,11 @@ var es1 = {
             });
         });
 
-
-
-
-
         $("#estDe").val(estList.EST_DE);
         $("#etc").val(estList.EST_ISS);
         $("#expAmt").val(es1.comma(estList.EST_TOT_AMT));
         es1.global.totAmt = Number(es1.uncomma($("#expAmt").val()));
         $("#vat" + estList.VAT).prop("checked", true);
-
-
     },
 
     fn_versionClick: function (k){
