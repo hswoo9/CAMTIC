@@ -988,4 +988,12 @@ public class AssetServiceImpl implements AssetService {
             assetRepository.updateEquipFinalApprStat(params);
         }
     }
+
+    @Override
+    public Map<String, Object> getEquipStat(Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("type", assetRepository.getEquipStatType(params));
+        result.put("total", assetRepository.getEquipStat(params));
+        return result;
+    }
 }

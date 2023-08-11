@@ -1945,4 +1945,68 @@
             EQIPNM_APPROVAL_SN = #{eqipnmApprovalSn}
     </update>
 
+    <select id="getEquipStatType" resultType="map" parameterType="map">
+        /* getEquipStatType */
+        SELECT
+            C.EQIPMN_NAME AS type
+        FROM (
+            SELECT
+                B.EQIPMN_NAME,
+                (
+                    SELECT
+                        IFNULL(SUM(SA.USE_TIME), 0)
+                    FROM
+                        CAM_INSIDE.DJ_EQIPMN_USE SA
+                    LEFT JOIN
+                        CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                    WHERE
+                        (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                    AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                ) AS BEF_USE_TIME,
+                SUM(A.USE_TIME) AS USE_TIME
+            FROM
+                    CAM_INSIDE.DJ_EQIPMN_USE A
+            LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+            WHERE
+                1=1
+            AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{applyMonth})
+            AND A.ACTVT_YN = 'Y'
+            GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+            ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+        ) C
+    </select>
+
+    <select id="getEquipStat" resultType="map" parameterType="map">
+        /* getEquipStat */
+        SELECT
+            TRUNCATE(IFNULL(((C.USE_TIME - C.BEF_USE_TIME) / C.BEF_USE_TIME) * 100, 0), 0) AS value
+        FROM (
+             SELECT
+                 B.EQIPMN_NAME,
+                 (
+                     SELECT
+                         IFNULL(SUM(SA.USE_TIME), 0)
+                     FROM
+                         CAM_INSIDE.DJ_EQIPMN_USE SA
+                             LEFT JOIN
+                         CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                     WHERE
+                         (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                       AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                 ) AS BEF_USE_TIME,
+                 SUM(A.USE_TIME) AS USE_TIME
+             FROM
+                 CAM_INSIDE.DJ_EQIPMN_USE A
+                     LEFT JOIN
+                 CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+             WHERE
+                 1=1
+               AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{applyMonth})
+               AND A.ACTVT_YN = 'Y'
+             GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+             ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+        ) C
+    </select>
+
 </mapper>

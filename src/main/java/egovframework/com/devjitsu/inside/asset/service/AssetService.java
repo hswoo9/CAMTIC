@@ -123,4 +123,7 @@ public interface AssetService {
     List<Map<String, Object>> getEquipApprovalInfo(Map<String, Object> params);
     void setEquipApprovalInfo(Map<String, Object> params);
     void updateEquipDocState(Map<String, Object> bodyMap) throws Exception;
+
+    /** 장비 통계 */
+    Map<String, Object> getEquipStat(Map<String, Object> params);
 }

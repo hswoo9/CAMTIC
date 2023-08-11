@@ -1029,4 +1029,25 @@ public class AssetController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    /** 장비 증감률 통계 팝업*/
+    @RequestMapping("/Inside/pop/equipStatPop.do")
+    public String equipStatPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/equipStatPop";
+    }
+
+    /** 장비 증감률 통계 데이터*/
+    @RequestMapping("/inside/getEquipStat")
+    public String getEquipStat(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = assetService.getEquipStat(params);
+        model.addAttribute("type", data.get("type"));
+        model.addAttribute("total", data.get("total"));
+        return "jsonView";
+    }
+
+    /** 장비 증감률 통계 */
 }
