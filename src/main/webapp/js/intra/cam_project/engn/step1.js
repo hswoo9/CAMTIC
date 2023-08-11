@@ -215,6 +215,7 @@ var es1 = {
 
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
 
+        console.log(rs);
         var html = "";
         for(var i = 0 ; i < rs.result.estList.length ; i++){
 
@@ -225,20 +226,26 @@ var es1 = {
             var dd = date.getDate();
             dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
             var sdfDate = yyyy+'-'+mm+'-'+dd;
-
+            var sumAmt = rs.result.estList[i].SUM_AMT;
+            if(rs.result.estList[i].SUM_AMT == null || rs.result.estList[i].SUM_AMT == ""){
+                sumAmt = 0;
+            }
             html += "<tr id='tr2"+ rs.result.estList[i].EST_SN+"' onclick='es1.fn_versionClick("+rs.result.estList[i].EST_SN+")'>";
             html += "   <td style='text-align: right'>"+ (i+1) +"</td>";
             html += "   <td>"+ rs.result.estList[i].EST_NM +"</td>";
-            html += "   <td style='text-align: right'>"+ es1.comma(rs.result.estList[i].EST_TOT_AMT) +"</td>";
-            html += "   <td style='text-align: right'>"+rs.result.estSubList.length+"</td>";
+            html += "   <td style='text-align: right'>"+ es1.comma(sumAmt) +"</td>";
+            html += "   <td style='text-align: right'>"+rs.result.estList[i].CNT+"</td>";
             html += "   <td style='text-align: right'>"+sdfDate+"</td>";
             html += "   <td style='text-align: right'>"+rs.result.estList[i].EMP_NAME+"</td>";
             html += "</tr>";
         }
 
         if(rs.result.estList.length != 0){
-            $("#modBtn").css("display", "");
-            $("#saveBtn").css("display", "none");
+            if($("#pjtStep").val() != "E5"){
+                $("#modBtn").css("display", "");
+                $("#saveBtn").css("display", "none");
+            }
+
         }
 
         $("#productTb2").append(html);
@@ -254,7 +261,6 @@ var es1 = {
                 etc = estSubList[idx].ETC;
             }
 
-            console.log('tr'+(idx+1));
             html += '<tr id="tr'+(idx+1)+'">';
             html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+(idx+1)+'</span></td>';
             html += '   <td><input type="text" class="prodNm" id="prodNm'+(idx+1)+'" value="'+estSubList[idx].PROD_NM+'"/></td>';
@@ -288,21 +294,16 @@ var es1 = {
             });
         });
 
-
-
-
-
         $("#estDe").val(estList.EST_DE);
         $("#etc").val(estList.EST_ISS);
         $("#expAmt").val(es1.comma(estList.EST_TOT_AMT));
         es1.global.totAmt = Number(es1.uncomma($("#expAmt").val()));
         $("#vat" + estList.VAT).prop("checked", true);
-
-
     },
 
     fn_versionClick: function (k){
 
+        console.log(k)
         $("#productTb2 > tr").each(function(){
             $(this).css("background-color", "#ffffff");
         });
@@ -335,6 +336,8 @@ var es1 = {
             $("#supAmt").val(es1.comma(es1.uncomma($("#unitAmt").val()) * es1.uncomma($("#prodCnt").val())))
         });
 
+        var totAmt = 0;
+
         for(var idx = 0 ; idx < estSubList.length ; idx++){
             var html = "";
             var etc = ""
@@ -358,8 +361,10 @@ var es1 = {
             $("#productTb").append(html);
 
             $("#prodNm" + (idx+1) + ", #prodCnt" + (idx+1) + ", #unit" + (idx+1) + ", #unitAmt" + (idx+1) + ", #supAmt" + (idx+1) + ", #prodEtc" + (idx+1) + "").kendoTextBox();
-
+            totAmt += estSubList[idx].SUP_AMT;
         }
+
+        $("#expAmt").val(es1.comma(totAmt));
 
         $("#productTb > tr").each(function(e){
             $("#prodCnt" + e + ", #unitAmt" + e).on("keyup", function(){
