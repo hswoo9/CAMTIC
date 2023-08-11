@@ -370,8 +370,8 @@ var docuContractReq = {
 
             var surt_amt = "일금" + docuContractReq.fn_convertToKoreanNumber(data.contractAmount / data.surtInsr) + "원정(\\" + docuContractReq.comma(data.contractAmount / data.surtInsr) + ")";
             var sub_amt = "일금" + docuContractReq.fn_convertToKoreanNumber(data.contractAmount) + "원정(\\" + docuContractReq.comma(data.contractAmount) + ")";
-            docuContractReq.global.hwpCtrl.putFieldText("surt_amt", surt_amt);
-            docuContractReq.global.hwpCtrl.putFieldText("sub_amt", sub_amt);
+            docuContractReq.global.hwpCtrl.PutFieldText("surt_amt", surt_amt);
+            docuContractReq.global.hwpCtrl.PutFieldText("sub_amt", sub_amt);
 
 
             if(data.areaArr != null){
