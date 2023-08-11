@@ -125,4 +125,69 @@ public class ProjectRepository extends AbstractDAO {
     public void updProjectDelvFn(Map<String, Object> params) {
         update("project.updProjectDelvFn", params);
     }
+
+    public List<Map<String, Object>> getDevPjtVerList(Map<String, Object> params) {
+        return selectList("project.getDevPjtVerList", params);
+    }
+
+
+    public Map<String, Object> getStep3PmInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getStep3PmInfo", params);
+    }
+
+    public void insPjtPs(Map<String, Object> params) {
+        insert("project.insPjtPs", params);
+    }
+
+    public List<Map<String, Object>> getProcessList(Map<String, Object> params) {
+        return selectList("project.getProcessList", params);
+    }
+
+    public void updProcess(Map<String, Object> params) {
+        update("project.updProcess", params);
+    }
+
+    public void delProcess(Map<String, Object> params) {
+        delete("project.delProcess", params);
+    }
+
+    public void insInvData(Map<String, Object> params) {
+        insert("project.insInvData", params);
+    }
+
+    public List<Map<String, Object>> getInvList(Map<String, Object> params) {
+        return selectList("project.getInvList", params);
+    }
+
+    public void updInvest(Map<String, Object> params) {
+        update("project.updInvest", params);
+    }
+
+    public void delInvest(Map<String, Object> params) {
+        delete("project.delInvest", params);
+    }
+
+    public void insStep3(Map<String, Object> params) {
+        insert("project.insStep3", params);
+    }
+
+    public int checkModStep3(Map<String, Object> params) {
+        return (int) selectOne("project.checkModStep3", params);
+    }
+
+    public Map<String, Object> getDevelopPlan(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDevelopPlan", params);
+    }
+
+    public List<Map<String, Object>> getPsList(Map<String, Object> params) {
+        return selectList("project.getPsList", params);
+    }
+
+    public int checkModStep4(Map<String, Object> params) {
+        return (int) selectOne("project.checkModStep4", params);
+    }
+
+    public void insStep4(Map<String, Object> params) {
+        insert("project.insStep4", params);
+    }
 }

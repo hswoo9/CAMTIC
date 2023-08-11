@@ -98,12 +98,23 @@ public class ProjectController {
 
         Map<String, Object> map = projectService.getProjectData(params);
         Map<String, Object> estMap = projectService.getStep1EstData(params);
+        Map<String, Object> pmInfo = projectService.getStep3PmInfo(params);
+
         model.addAttribute("loginVO", loginVO)
                 .addAttribute("menuCd", "ES" + params.get("step"))
-                .addAttribute(map).addAttribute("estMap", estMap);
+                .addAttribute(map).addAttribute("estMap", estMap).addAttribute("pmInfo", pmInfo);
 
 
         return "popup/cam_project/engineering/step" + params.get("step");
+    }
+
+    @RequestMapping("/project/getPsList")
+    public String getPsList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> psList = projectService.getPsList(params);
+
+        model.addAttribute("psList", psList);
+
+        return "jsonView";
     }
 
     @RequestMapping("/project/getStep2DelvData")
@@ -268,4 +279,144 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getDevPjtVerList")
+    public String getDevPjtVerList(@RequestParam Map<String, Object> params ,Model model){
+
+
+        model.addAttribute("list", projectService.getDevPjtVerList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insPjtPs")
+    public String insPjtPs(@RequestParam Map<String, Object> params ,Model model){
+
+        try{
+            projectService.insPjtPs(params);
+            model.addAttribute("rep", params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getProcessList")
+    public String getProcessList(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("list", projectService.getProcessList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/updProcess")
+    public String updProcess(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.updProcess(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/delProcess")
+    public String delProcess(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.delProcess(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insInvData")
+    public String insInvData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.insInvData(params);
+            model.addAttribute("rep", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getInvList")
+    public String getInvList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getInvList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/updInvest")
+    public String updInvest(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.updInvest(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/delInvest")
+    public String delInvest(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.delInvest(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insStep3")
+    public String insStep3(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.insStep3(params);
+            model.addAttribute("code", 200);
+        } catch( Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getDevelopPlan")
+    public String getDevelopPlan(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = projectService.getDevelopPlan(params);
+
+        model.addAttribute("rs", map);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/insStep4")
+    public String insStep4(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.insStep4(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

@@ -49,4 +49,32 @@ public interface ProjectService {
     List<Map<String, Object>> selLgCode(Map<String, Object> params);
 
     List<Map<String, Object>> selSmCode(Map<String, Object> params);
+
+    List<Map<String, Object>> getDevPjtVerList(Map<String, Object> params);
+
+    Map<String, Object> getStep3PmInfo(Map<String, Object> params);
+
+    void insPjtPs(Map<String, Object> params);
+
+    List<Map<String, Object>> getProcessList(Map<String, Object> params);
+
+    void updProcess(Map<String, Object> params);
+
+    void delProcess(Map<String, Object> params);
+
+    void insInvData(Map<String, Object> params);
+
+    List<Map<String, Object>> getInvList(Map<String, Object> params);
+
+    void updInvest(Map<String, Object> params);
+
+    void delInvest(Map<String, Object> params);
+
+    void insStep3(Map<String, Object> params);
+
+    Map<String, Object> getDevelopPlan(Map<String, Object> params);
+
+    List<Map<String, Object>> getPsList(Map<String, Object> params);
+
+    void insStep4(Map<String, Object> params);
 }

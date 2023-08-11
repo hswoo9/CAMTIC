@@ -250,6 +250,42 @@
         </selectKey>
     </insert>
 
+    <insert id="insStep3" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
+        (
+            PJT_SN,
+            INV_AMT,
+            INV_PER,
+            DEP_OBJ,
+            ETC,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{invAmt},
+            #{invPer},
+            #{depObj},
+            #{etc},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <insert id="insStep4" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PS_FILE
+        (
+            PJT_SN
+        )
+        VALUES
+        (
+            #{pjtSn}
+        )
+    </insert>
+
+    <select id="checkModStep4" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM CAM_PJT_MNG.DJ_PJT_PS_FILE
+        WHERE PJT_SN = #{pjtSn}
+    </select>
+
     <update id="updProjectDelv" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
@@ -428,4 +464,176 @@
             PJT_SN = #{pjtSn}
     </select>
 
+    <select id="checkModStep3" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getDevPjtVerList" parameterType="map" resultType="map">
+        selECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            (SELECT *
+             FROM
+                 CAM_PJT_MNG.DJ_PJT_EST
+             WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1) B
+            ON
+                A.PJT_SN = B.PJT_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getStep3PmInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            EMP_SEQ = #{PM_EMP_SEQ}
+    </select>
+
+    <insert id="insPjtPs" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
+        (
+            PJT_SN,
+            PS_ROW,
+            PS_PREP,
+            PS_PREP_NM,
+            PS_NM,
+            PS_STR_DE,
+            PS_END_DE,
+            PS_EMP_SEQ,
+            PS_EMP_NM,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{psRow},
+            #{psPrep},
+            #{psPrepNm},
+            #{psNm},
+            #{psStrDe},
+            #{psEndDe},
+            #{psEmpSeq},
+            #{psEmpNm},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="PS_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS'
+        </selectKey>
+    </insert>
+
+    <select id="getProcessList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="updProcess" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            PS_ROW = #{psRow},
+            PS_PREP = #{psPrep},
+            PS_PREP_NM = #{psPrepNm},
+            PS_NM = #{psNm},
+            PS_STR_DE = #{psStrDe},
+            PS_END_DE = #{psEndDe},
+            PS_EMP_SEQ = #{psEmpSeq},
+            PS_EMP_NM = #{psEmpNm}
+        WHERE
+            PS_SN = #{psSn}
+    </update>
+
+    <delete id="delProcess" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PS_SN = #{psSn}
+    </delete>
+
+    <insert id="insInvData" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_INV
+        (
+            PJT_SN,
+            INV_ROW,
+            DIV_CD,
+            DIV_NM,
+            INV_NM,
+            INV_CNT,
+            INV_UNIT,
+            EST_TOT_AMT,
+            EST_OFC,
+            INV_ETC,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{invRow},
+            #{divCd},
+            #{divNm},
+            #{invNm},
+            #{invCnt},
+            #{invUnit},
+            #{estTotAmt},
+            #{estOfc},
+            #{invEtc},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="INV_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_INV'
+        </selectKey>
+    </insert>
+
+    <select id="getInvList" parameterType="map" resultType="map">
+        SELECT * FROM
+            CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="updInvest" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_INV
+        SET
+            PJT_SN = #{pjtSn},
+            INV_ROW = #{invRow},
+            DIV_CD = #{divCd},
+            DIV_NM = #{divNm},
+            INV_NM = #{invNm},
+            INV_CNT = #{invCnt},
+            INV_UNIT = #{invUnit},
+            EST_TOT_AMT = #{estTotAmt},
+            EST_OFC = #{estOfc},
+            INV_ETC = #{invEtc}
+        WHERE
+            INV_SN = #{invSn}
+    </update>
+
+    <delete id="delInvest" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            INV_SN = #{invSn}
+    </delete>
+
+    <select id="getDevelopPlan" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE PJT_SN = #{pjtSn}
+        ORDER BY DEV_SN DESC LIMIT 1
+    </select>
+
+    <select id="getPsList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>
