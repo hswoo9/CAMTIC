@@ -91,8 +91,8 @@
         </table>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="studyReq.saveBtn();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+        <input type="button" class="k-button k-button-solid-info" value="수정" onclick="studyView.studyUpdatePop();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="결재요청" onclick="studyView.fn_studyCertReq();"/>
       </div>
     </div>
   </div>
@@ -125,8 +125,8 @@
                 <td>${list.STUDY_POSITION_NAME}</td>
                 <td style="text-align: center">${list.STUDY_EMP_NAME}</td>
                 <td style="text-align: center">
-                  <input type="button" class="k-button k-button-solid-base" value="조장" onclick=""/>
-                  <input type="button" class="k-button k-button-solid-base" value="간사" onclick=""/>
+                  <input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn('${list.STUDY_USER_SN}', '${list.STUDY_INFO_SN}', '1', '조장')"/>
+                  <input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn('${list.STUDY_USER_SN}', '${list.STUDY_INFO_SN}', '2', '간사')"/>
                 </td>
               </tr>
             </c:forEach>
@@ -137,6 +137,6 @@
   </div>
 </div>
 <script>
-  studyReq.init();
+  studyView.init();
 </script>
 </body>
