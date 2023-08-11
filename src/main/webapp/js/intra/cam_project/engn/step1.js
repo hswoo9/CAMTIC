@@ -215,6 +215,7 @@ var es1 = {
 
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
 
+        console.log(rs);
         var html = "";
         for(var i = 0 ; i < rs.result.estList.length ; i++){
 
@@ -230,7 +231,7 @@ var es1 = {
             html += "   <td style='text-align: right'>"+ (i+1) +"</td>";
             html += "   <td>"+ rs.result.estList[i].EST_NM +"</td>";
             html += "   <td style='text-align: right'>"+ es1.comma(rs.result.estList[i].EST_TOT_AMT) +"</td>";
-            html += "   <td style='text-align: right'>"+rs.result.estSubList.length+"</td>";
+            html += "   <td style='text-align: right'>"+rs.result.estList[i].CNT+"</td>";
             html += "   <td style='text-align: right'>"+sdfDate+"</td>";
             html += "   <td style='text-align: right'>"+rs.result.estList[i].EMP_NAME+"</td>";
             html += "</tr>";
@@ -254,7 +255,6 @@ var es1 = {
                 etc = estSubList[idx].ETC;
             }
 
-            console.log('tr'+(idx+1));
             html += '<tr id="tr'+(idx+1)+'">';
             html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+(idx+1)+'</span></td>';
             html += '   <td><input type="text" class="prodNm" id="prodNm'+(idx+1)+'" value="'+estSubList[idx].PROD_NM+'"/></td>';
