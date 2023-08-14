@@ -12,7 +12,27 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-
+<style>
+  #vis .rig .nimg:after {
+    content: '';
+    position: absolute;
+    background-color: #0000002e;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  #vis .cont{background-color: #ffffff52;}
+ #vis .lef .swiper-slide:after {
+   content: '';
+   position: absolute;
+   background-color: #0000002e;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+ }
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
