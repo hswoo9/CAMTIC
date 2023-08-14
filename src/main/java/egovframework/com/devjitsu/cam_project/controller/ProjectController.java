@@ -419,4 +419,17 @@ public class ProjectController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/project/updStep5")
+    public String updStep5(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.updStep5(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

@@ -638,4 +638,36 @@
         WHERE
             PJT_SN = #{pjtSn}
     </select>
+
+    <update id="updStep5" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_DE = #{delvDe},
+            PJT_AMT = #{estTotAmt}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updStepEst5" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_EST
+        SET
+            EST_ISS = #{estIss},
+            EST_TOT_AMT = #{estTotAmt}
+        WHERE
+            EST_SN = #{estSn}
+    </update>
+
+    <delete id="delStepEstSub5" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_EST_SUB
+        WHERE EST_SN = #{estSn}
+    </delete>
+
+    <select id="checkDelvStat" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_SN = #{pjtSn} AND DELV_STAT = 'Y'
+    </select>
 </mapper>

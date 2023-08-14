@@ -304,4 +304,16 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.getPsList(params);
     }
 
+    @Override
+    public void updStep5(Map<String, Object> params) {
+        projectRepository.updStep5(params);
+        projectRepository.updStepEst5(params);
+        projectRepository.delStepEstSub5(params);
+
+        int checkDelvStat = projectRepository.checkDelvStat(params);
+        if(checkDelvStat == 0){
+            projectRepository.updProjectStep(params);
+            projectRepository.updProjectEngnStep(params);
+        }
+    }
 }
