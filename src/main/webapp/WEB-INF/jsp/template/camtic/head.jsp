@@ -46,8 +46,8 @@
           <ul>
             <li class="region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
             <li class="region_jvalley"><a href="/camtic/region/jvalley.do">제조창업 플랫폼(J-valley)</a></li>
-            <li class="region_list"><a href="http://www.jhitech.or.kr/web/page.php?pcode=BA" target='_blank'>입주기업 및 입주안내</a></li>
-            <%--<li class="region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>--%>
+            <%--<li class="region_list"><a href="http://www.jhitech.or.kr/web/page.php?pcode=BA" target='_blank'>입주기업 및 입주안내</a></li>--%>
+            <li class="region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>
             <li style="display: none" class="region_view"><a href="/camtic/region/view.do">게시판</a></li>
           </ul>
         </li>
