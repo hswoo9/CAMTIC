@@ -883,7 +883,8 @@ img {max-width:100%;}
 	.__history .area .box:nth-child(1) .top:after {display:none;}
 }
 
-.__organization {background:#f2fcfe;padding:60px 20px 100px;text-align:center;border-bottom:1px solid #ccc;}
+/*조직.연락처 좌우 마진 값 0으로 변경 타이틀 위치 네비위치와 비슷하게 수정- */
+.__organization {background:#f2fcfe;padding:60px 0px 100px;text-align:center;border-bottom:1px solid #ccc;}
 .__organization .tit dt {font-size:46px;color:#111;font-weight:300;letter-spacing:-0.05em;}
 .__organization .tit dd {font-size:28px;color:#155996;font-weight:300;letter-spacing:-0.05em;margin-top:10px;}
 .__organization .img {margin-top:100px;}
