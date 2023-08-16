@@ -32,6 +32,13 @@
    top: 0;
    left: 0;
  }
+ .mainTitle{
+   background : linear-gradient(to right,#00529c, #4bc1be);
+   background-clip:text;
+   -webkit-background-clip:text;
+   -webkit-text-fill-color:transparent;
+ }
+
 </style>
 <body>
 <div id="wrap">
@@ -45,49 +52,49 @@
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>지역과 함께 성장</dt>
-                  <dd>
+                  <dt><span class="mainTitle">지역</span>과 함께 성장</dt>
+                  <dd style="word-spacing: 24px;">
                     창업 - 혁신 - 성장<br>
-                    제조창업플랫폼
+                    제조창업플랫폼 구축
                   </dd>
                 </dl>
-                <p><span>J - Valley 1</span></p>
+                <%--<p><span>J - Valley 1</span></p>--%>
               </div>
             </div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>기업과 함께 성장</dt>
-                  <dd>
-                    기업수요 및 성장주기 연계<br>
-                    H/W, S/W 지원
+                  <dt><span class="mainTitle">기업</span>과 함께 성장</dt>
+                  <dd style="word-spacing: 24px;">
+                    기업수요 및 성장주기 <br>
+                    연계 H/W, S/W 지원
                   </dd>
                 </dl>
-                <p><span>J - Valley 2</span></p>
+                <%--<p><span>J - Valley 2</span></p>--%>
               </div>
             </div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>기술과 함께 성장</dt>
-                  <dd>
-                    시장기반<br>
-                    신기술 · 신산업 육성 지원
+                  <dt><span class="mainTitle">기술</span>과 함께 성장</dt>
+                  <dd style="word-spacing: 24px;">
+                    시장기반 신기술  <br>
+                    신산업 육성 지원
                   </dd>
                 </dl>
-                <p><span>J - Valley 3</span></p>
+                <%--<p><span>J - Valley 3</span></p>--%>
               </div>
             </div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
               <div class="tit">
                 <dl>
-                  <dt>직원과 함께 성장</dt>
-                  <dd>
+                  <dt><span class="mainTitle">직원</span>과 함께 성장</dt>
+                  <dd style="word-spacing: 24px;">
                     행복한 일터<br>
                     캠틱 클러스터 구축
                   </dd>
                 </dl>
-                <p><span>J - Valley 4</span></p>
+                <%--<p><span>J - Valley 4</span></p>--%>
               </div>
             </div>
           </div>
