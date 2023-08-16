@@ -213,7 +213,8 @@ img {max-width:100%;}
 #aside .aside5 {background:#7cbd4c;}
 #aside .aside6 {background:#1b1b1b;font-size:18px;}
 
-#vis {height:803px;display:flex;position:relative;}
+/* 슬라이드 사이즈 수정 */
+#vis {height:600px;display:flex;position:relative;}
 #vis > div {position:relative;}
 #vis .lef {background:url(/images/camtic/vis-bg.jpg) no-repeat 50% 50% / cover;width:36.979166%;}
 #vis .lef .tit dl {color:#333;}
@@ -226,8 +227,9 @@ img {max-width:100%;}
 #vis .lef .roll2 {position:absolute;right:0;bottom:0;z-index:10;overflow:hidden;}
 #vis .lef .roll2 .box {background-repeat:no-repeat;background-position:50% 50%;background-size:cover;padding:140px 40px 0 85px;}
 #vis .rig {width:0;flex-grow:1;}
+/* 슬라이드 사이즈 수정 */
 #vis .rig .roll,
-#vis .rig .vis {height:803px;position:relative;overflow:hidden;}
+#vis .rig .vis {height:600px;position:relative;overflow:hidden;}
 #vis .rig .vis {padding:0 15px;background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;}
 #vis .rig .vis1 {background:url(/images/camtic/vis1.jpg) no-repeat 50% 50% / cover;text-align:center;padding-top:195px;}
 #vis .rig .tit dt {font-size:14px;color:rgba(255,255,255,0.54);margin-bottom:13px;}
