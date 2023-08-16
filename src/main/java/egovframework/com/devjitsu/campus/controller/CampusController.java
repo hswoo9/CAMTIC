@@ -557,7 +557,7 @@ public class CampusController {
         return "popup/campus/studyReqPop";
     }
 
-    /** 학습조 신청 팝업 */
+    /** 학습조 조회 팝업 */
     @RequestMapping("/Campus/pop/studyViewPop.do")
     public String studyViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -570,6 +570,16 @@ public class CampusController {
         model.addAttribute("params", params);
         model.addAttribute("list", list);
         return "popup/campus/studyViewPop";
+    }
+
+    /** 학습조 학습일지 작성 팝업 */
+    @RequestMapping("/Campus/pop/studyJournalPop.do")
+    public String studyJournalPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/campus/studyJournalPop";
     }
 
 

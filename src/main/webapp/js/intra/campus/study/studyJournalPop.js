@@ -1,13 +1,12 @@
-const studyReq = {
+const studyJournal = {
     init : function(){
-        studyReq.pageSet();
+        studyJournal.pageSet();
     },
 
     pageSet : function() {
-        customKendo.fn_textBox(["studyName", "studyUserName", "dateVal", "studyLocation", "studyMoney", "attach"]);
+        customKendo.fn_textBox(["studyTitle", "studyUserName", "dateVal", "studyLocation", "studyMoney", "attach"]);
         customKendo.fn_textArea(["studyObject", "studyContent", "studyMoneyVal"]);
-        customKendo.fn_datePicker("startDt", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDt", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("journalDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", new Date());
         let studyDataSource = [
             { text: "학습조", value: "1" },
@@ -15,16 +14,12 @@ const studyReq = {
             { text: "OJT", value: "3" }
         ]
         customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
-        $("#studyUserName, #startDt, #endDt, #regDate").attr("readonly", true);
+        $("#studyUserName, #startDt, #regDate").attr("readonly", true);
     },
 
     saveBtn: function(){
-        let studyClassSn = $("#studyClass").val();
-        let studyClassText = $("#studyClass").data("kendoDropDownList").text();
-        let empSeq = $("#empSeq").val();
-        let studyName = $("#studyName").val();
-        let studyUserSeq = $("#studyUserSeq").val();
-        let startDt = $("#startDt").val();
+        let studyTitle = $("#studyTitle").val();
+        let startDt = $("#journalDt").val();
         let endDt = $("#endDt").val();
         let dateVal = $("#dateVal").val();
         let studyLocation = $("#studyLocation").val();
@@ -35,8 +30,7 @@ const studyReq = {
         let attach = $("#attach").val();
         let regDate = $("#regDate").val();
 
-        if(studyClassSn == ""){ alert("내부학습 구분이 선택되지 않았습니다."); return; }
-        if(studyName == ""){ alert("학습조명이 작성되지 않았습니다."); return; }
+        if(studyTitle == ""){ alert("학습조명이 작성되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(startDt == "" || endDt == ""){ alert("학습기간이 작성되지 않았습니다."); return; }
         if(studyObject == ""){ alert("학습목표가 작성되지 않았습니다."); return; }
@@ -66,7 +60,7 @@ const studyReq = {
         if(!confirm("학습조 신청서를 저장하시겠습니까?")){
             return;
         }
-        studyReq.setStudyInfoInsert(data);
+        studyJournal.setStudyInfoInsert(data);
     },
 
     setStudyInfoInsert: function(data) {

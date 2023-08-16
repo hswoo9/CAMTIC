@@ -5,8 +5,8 @@ const studyView = {
     },
 
     init : function(){
-        studyView.dataSet();
         studyView.mainGrid();
+        studyView.dataSet();
     },
 
     dataSet: function(){
@@ -56,11 +56,13 @@ const studyView = {
     studyBtnSetting: function(){
 
         if($("#mode").val() == "mng"){
-            /** 관리자일때 승인 및 반려 가능*/
+            /** 관리자일때 승인 및 반려 가능 */
             if($("#status").val() == 10) {
                 $("#studyAppBtn").show();
                 $("#studyComBtn").show();
             }
+            /** 학습일지 추가 버튼은 안보임 */
+            $("#journalPopBtn").hide();
 
         }else if(studyView.global.mngEmpSeq == $("#regEmpSeq").val()){
             /** 학습자 중에 조장만 수정 및 승인요청, 승인취소 가능 */
@@ -109,10 +111,20 @@ const studyView = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop();">' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: studyMng.onDataBound,
+            dataBound: studyView.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -120,7 +132,7 @@ const studyView = {
                     width: 50
                 }, {
                     title: "일시",
-                    width: 250
+                    width: 200
                 }, {
                     field: "AREA",
                     title: "장소"
@@ -203,7 +215,15 @@ const studyView = {
         });
     },
 
-    studyJournalPop: function(){
-        alert(22);
+    studyJournalPop: function(pk){
+        let url = "";
+        if(pk == null || pk == "" || pk == undefined){
+            url = "/Campus/pop/studyJournalPop.do";
+        } else {
+            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+pk;
+        }
+        let name = "studyJournalPop";
+        let option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

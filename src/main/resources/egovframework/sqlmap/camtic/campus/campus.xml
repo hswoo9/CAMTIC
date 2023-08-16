@@ -387,9 +387,8 @@
         SELECT
             *
         FROM
-            CAMPUS.DJ_STUDY_JOURNAL CSU
+            CAMPUS.DJ_STUDY_JOURNAL CSJ
         WHERE STUDY_INFO_SN = #{studyInfoSn}
-        ORDER BY STUDY_CLASS_SN, STUDY_USER_SN
     </select>
 
     <insert id="setEduInfoInsert" parameterType="map">
