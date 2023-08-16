@@ -190,4 +190,20 @@ public class ProjectRepository extends AbstractDAO {
     public void insStep4(Map<String, Object> params) {
         insert("project.insStep4", params);
     }
+
+    public void updStep5(Map<String, Object> params) {
+        update("project.updStep5", params);
+    }
+
+    public void updStepEst5(Map<String, Object> params) {
+        update("project.updStepEst5", params);
+    }
+
+    public void delStepEstSub5(Map<String, Object> params) {
+        delete("project.delStepEstSub5", params);
+    }
+
+    public int checkDelvStat(Map<String, Object> params) {
+        return (int) selectOne("project.checkDelvStat", params);
+    }
 }

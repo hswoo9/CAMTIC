@@ -24,6 +24,7 @@
 <input type="hidden" id="deptName" style="width: 40%" value="${loginVO.orgnztNm}" disabled>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}" disabled>
 <input type="hidden" id="befExpAmt" value="${hashMap.EXP_AMT}" />
+<input type="hidden" id="estSn" value="${estMap.EST_SN}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -100,7 +101,7 @@
                         <span class="red-star"></span>납품가 합계
                     </th>
                     <td colspan="3">
-                        <input type="text" id="expAmt" onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 40%; text-align: right"> 원
+                        <input type="text" id="expAmt" disabled onkeyup="es1.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 40%; text-align: right"> 원
                     </td>
                 </tr>
                 </thead>

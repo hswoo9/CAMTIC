@@ -155,7 +155,6 @@ var es1 = {
             url : "/project/insStep1",
             data : data,
             type : "post",
-
             dataType : "json",
             success :function (rs){
                 var rs2;

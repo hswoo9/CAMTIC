@@ -77,4 +77,6 @@ public interface ProjectService {
     List<Map<String, Object>> getPsList(Map<String, Object> params);
 
     void insStep4(Map<String, Object> params);
+
+    void updStep5(Map<String, Object> params);
 }
