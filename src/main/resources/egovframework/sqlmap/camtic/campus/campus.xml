@@ -379,6 +379,17 @@
         FROM
             CAMPUS.DJ_STUDY_USER CSU
         WHERE STUDY_INFO_SN = #{studyInfoSn}
+        ORDER BY STUDY_CLASS_SN, STUDY_USER_SN
+    </select>
+
+    <select id="getStudyJournalList" resultType="map" parameterType="map">
+        /* getStudyJournalList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSU
+        WHERE STUDY_INFO_SN = #{studyInfoSn}
+        ORDER BY STUDY_CLASS_SN, STUDY_USER_SN
     </select>
 
     <insert id="setEduInfoInsert" parameterType="map">
@@ -603,6 +614,39 @@
                 #{studyDutyName}
             )
     </insert>
+
+    <update id="setStudyUserMngReset" parameterType="map">
+        /* setStudyUserMngReset */
+        UPDATE
+            CAMPUS.DJ_STUDY_USER
+        SET
+            STUDY_CLASS_SN = '3',
+            STUDY_CLASS_TEXT = '조원'
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+        AND STUDY_CLASS_SN = #{studyClassSn}
+    </update>
+
+    <update id="setStudyUserMngUpdate" parameterType="map">
+        /* setStudyUserMngUpdate */
+        UPDATE
+            CAMPUS.DJ_STUDY_USER
+        SET
+            STUDY_CLASS_SN = #{studyClassSn},
+            STUDY_CLASS_TEXT = #{studyClassText}
+        WHERE
+            STUDY_USER_SN = #{studyUserSn}
+    </update>
+
+    <update id="studyReq" parameterType="map">
+        /* studyReq */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+            STATUS = #{status}
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
 
     <insert id="setTargetInsert" parameterType="map">
         /* setTargetInsert */

@@ -111,6 +111,11 @@ public class CampusServiceImpl implements CampusService {
         return campusRepository.getStudyUserList(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params){
+        return campusRepository.getStudyJournalList(params);
+    }
+
 
 
 
@@ -145,6 +150,16 @@ public class CampusServiceImpl implements CampusService {
                 campusRepository.setStudyUserInsert(params);
             }
         }
+    }
+
+    @Override
+    public void setStudyUserMngUpdate(Map<String, Object> params) {
+        campusRepository.setStudyUserMngUpdate(params);
+    }
+
+    @Override
+    public void studyReq(Map<String, Object> params) {
+        campusRepository.studyReq(params);
     }
 
     @Override

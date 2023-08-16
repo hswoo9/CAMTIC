@@ -108,12 +108,10 @@ public interface CampusService {
      * @return
      */
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
-
     List<Map<String, Object>> getStudyInfoList(Map<String, Object> params);
-
     Map<String, Object> getStudyInfoOne(Map<String, Object> params);
-
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
+    List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
 
 
 
@@ -132,12 +130,9 @@ public interface CampusService {
      */
     void setEduResultInsert(Map<String, Object> params);
 
-    /**
-     * 학습관리 학습조관리 저장
-     * @param params
-     * @return
-     */
     void setStudyInfoInsert(Map<String, Object> params);
+    void setStudyUserMngUpdate(Map<String, Object> params);
+    void studyReq(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

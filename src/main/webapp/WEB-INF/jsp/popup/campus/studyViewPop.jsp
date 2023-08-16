@@ -9,10 +9,21 @@
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/study/studyViewPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="empName" value="${loginVO.name}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="studyInfoSn" value="${params.studyInfoSn}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
+<input type="hidden" id="status" value="${data.STATUS}"/>
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
@@ -82,8 +93,17 @@
             <th>상태</th>
             <td>
               <c:choose>
-                <c:when test="${data.STATUS eq 'A'}">
+                <c:when test="${data.STATUS eq '0'}">
                   신청서 작성중
+                </c:when>
+                <c:when test="${data.STATUS eq '10'}">
+                  신청서 승인요청중
+                </c:when>
+                <c:when test="${data.STATUS eq '100'}">
+                  신청서 제출
+                </c:when>
+                <c:when test="${data.STATUS eq '110'}">
+                  이수완료
                 </c:when>
               </c:choose>
             </td>
@@ -91,8 +111,11 @@
         </table>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info" value="수정" onclick="studyView.studyUpdatePop();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="결재요청" onclick="studyView.fn_studyCertReq();"/>
+        <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="studyView.studyUpdatePop();"/>
+        <input type="button" id="studyReqBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청" onclick="studyView.studyReq(10);"/>
+        <input type="button" id="studyCancelBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청취소" onclick="studyView.studyReq(0);"/>
+        <input type="button" id="studyAppBtn" style="display: none" class="k-button k-button-solid-info" value="승인" onclick="studyView.studyReq(100);"/>
+        <input type="button" id="studyComBtn" style="display: none" class="k-button k-button-solid-error" value="반려" onclick="studyView.studyReq(30);"/>
       </div>
     </div>
   </div>
@@ -103,35 +126,17 @@
         <div class="popupTitleSt">학습자</div>
         <form id="studyReqForm">
           <table class="table table-bordered mt20" id="studyUserTable" style="width: 1000px;">
-            <colgroup>
-              <col width="10%">
-              <col width="30%">
-              <col width="20%">
-              <col width="20%">
-              <col width="20%">
-            </colgroup>
-            <thead>
-            <tr>
-              <th>구분</th>
-              <th>부서명</th>
-              <th>직위</th>
-              <th>성명</th>
-              <th>조장/간사</th>
-            </tr>
-            <c:forEach var="list" items="${list}" varStatus="status">
-              <tr>
-                <td style="text-align: center">${list.STUDY_CLASS_TEXT}</td>
-                <td>${list.STUDY_DEPT_NAME} ${list.STUDY_TEAM_NAME}</td>
-                <td>${list.STUDY_POSITION_NAME}</td>
-                <td style="text-align: center">${list.STUDY_EMP_NAME}</td>
-                <td style="text-align: center">
-                  <input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn('${list.STUDY_USER_SN}', '${list.STUDY_INFO_SN}', '1', '조장')"/>
-                  <input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn('${list.STUDY_USER_SN}', '${list.STUDY_INFO_SN}', '2', '간사')"/>
-                </td>
-              </tr>
-            </c:forEach>
           </table>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-header" style="padding-top:45px;">
+    <div class="col-lg-11" style="margin:0 auto;">
+      <div class="table-responsive">
+        <div class="popupTitleSt">학습일지</div>
+        <div id="mainGrid"></div>
       </div>
     </div>
   </div>

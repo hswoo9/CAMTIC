@@ -536,6 +536,17 @@ public class CampusController {
         return "campus/studyInfo";
     }
 
+    /** 학습조 리스트 관리자 페이지 */
+    @RequestMapping("/Campus/studyInfoMng.do")
+    public String studyInfoMng(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/studyInfoMng";
+    }
+
     /** 학습조 신청 팝업 */
     @RequestMapping("/Campus/pop/studyReqPop.do")
     public String studyReqPop(HttpServletRequest request, Model model) {
@@ -556,6 +567,7 @@ public class CampusController {
         Map<String, Object> data = campusService.getStudyInfoOne(params);
         model.addAttribute("data", data);
         List<Map<String, Object>> list = campusService.getStudyUserList(params);
+        model.addAttribute("params", params);
         model.addAttribute("list", list);
         return "popup/campus/studyViewPop";
     }
@@ -924,6 +936,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 학습조 학습일지 리스트 */
+    @RequestMapping("/campus/getStudyJournalList")
+    public String getStudyJournalList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyJournalList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
 
 
 
@@ -941,10 +961,24 @@ public class CampusController {
         return "jsonView";
     }
 
-    //학습관리 - 학습조신청 - 저장
+    /** 학습조 저장 */
     @RequestMapping("/campus/setStudyInfoInsert")
     public String setStudyInfoInsert(@RequestParam Map<String, Object> params) {
         campusService.setStudyInfoInsert(params);
+        return "jsonView";
+    }
+
+    /** 학습조 조장, 간사 지정 */
+    @RequestMapping("/campus/setStudyUserMngUpdate")
+    public String setStudyUserMngUpdate(@RequestParam Map<String, Object> params) {
+        campusService.setStudyUserMngUpdate(params);
+        return "jsonView";
+    }
+
+    /** 학습조 승인 프로세스 */
+    @RequestMapping("/campus/studyReq")
+    public String studyReq(@RequestParam Map<String, Object> params) {
+        campusService.studyReq(params);
         return "jsonView";
     }
 

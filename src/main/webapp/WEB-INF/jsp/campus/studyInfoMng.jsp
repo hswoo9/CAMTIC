@@ -4,15 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
-<script type="text/javascript" src="/js/intra/campus/studyInfo.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/campus/study/studyInfoMng.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">내부학습 관리</h4>
-            <div class="title-road">학습관리 &gt; 내부학습 관리</div>
+            <h4 class="panel-title">내부학습 관리 (관리자)</h4>
+            <div class="title-road">학습관리 &gt; 내부학습 관리 (관리자)</div>
         </div>
 
         <div class="panel-body">
@@ -45,5 +45,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    studyInfo.init();
+    studyMng.init();
 </script>

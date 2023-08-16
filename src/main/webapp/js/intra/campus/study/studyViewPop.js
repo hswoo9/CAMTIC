@@ -1,5 +1,172 @@
 const studyView = {
+    global: {
+        studyUserList: {},
+        mngEmpSeq: ""
+    },
+
     init : function(){
+        studyView.dataSet();
+        studyView.mainGrid();
+    },
+
+    dataSet: function(){
+        studyView.studyUserSetting();
+        studyView.studyBtnSetting();
+    },
+
+    studyUserSetting:function(){
+        let data = {
+            studyInfoSn: $("#studyInfoSn").val()
+        }
+        const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
+        studyView.global.studyUserList = result.list;
+        let list = studyView.global.studyUserList;
+
+        let html = '';
+        html += '<colgroup>';
+        html += '<col width="10%"><col width="30%"><col width="20%"><col width="20%"><col width="20%">';
+        html += '</colgroup>';
+
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>구분</th>';
+        html += '<th>부서명</th>';
+        html += '<th>직위</th>';
+        html += '<th>성명</th>';
+        html += '<th>조장/간사</th>';
+        html += '</tr>';
+
+        for(let i=0; i<list.length; i++){
+            html += '<tr>';
+            html += '<td style="text-align: center">'+list[i].STUDY_CLASS_TEXT+'</td>';
+            html += '<td>'+list[i].STUDY_DEPT_NAME+' '+list[i].STUDY_TEAM_NAME+'</td>';
+            html += '<td>'+list[i].STUDY_POSITION_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_EMP_NAME+'</td>';
+            html += '<td style="text-align: center">';
+            html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> <input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            html += '</td>';
+            html += '</tr>';
+            if(list[i].STUDY_CLASS_TEXT == "조장"){
+                studyView.global.mngEmpSeq = list[i].STUDY_EMP_SEQ;
+            }
+        }
+        $("#studyUserTable").html(html);
+    },
+
+    studyBtnSetting: function(){
+
+        if($("#mode").val() == "mng"){
+            /** 관리자일때 승인 및 반려 가능*/
+            if($("#status").val() == 10) {
+                $("#studyAppBtn").show();
+                $("#studyComBtn").show();
+            }
+
+        }else if(studyView.global.mngEmpSeq == $("#regEmpSeq").val()){
+            /** 학습자 중에 조장만 수정 및 승인요청, 승인취소 가능 */
+            if($("#status").val() == 0 || $("#status").val() == 30){
+                $("#studyReqBtn").show();
+                $("#studyModBtn").show();
+            }else if($("#status").val() == 10) {
+                $("#studyCancelBtn").show();
+            }
+        }
+    },
+
+    mainGrid: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/campus/getStudyJournalList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.studyInfoSn = $("#studyInfoSn").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: studyMng.onDataBound,
+            columns: [
+                {
+                    field: "ROW_NUM",
+                    title: "순번",
+                    width: 50
+                }, {
+                    title: "일시",
+                    width: 250
+                }, {
+                    field: "AREA",
+                    title: "장소"
+                }, {
+                    title: "조장검토",
+                    width: 150
+                }, {
+                    title: "간사검토",
+                    width: 150
+                }, {
+                    width: 150
+                }
+            ]
+        }).data("kendoGrid")
+    },
+
+    onDataBound: function(){
+        let grid = this;
+        grid.element.off('dblclick');
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            studyView.studyJournalPop(dataItem.STUDY_JOURNAL_SN);
+        });
+    },
+
+    studyReq: function(status){
+        var data = {
+            studyInfoSn : $("#studyInfoSn").val(),
+            status : status
+        }
+
+        var result = customKendo.fn_customAjax("/campus/studyReq", data);
+
+        if(result.flag){
+            if(status == 10){
+                alert("승인 요청이 완료되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
+            }else if(status == 30){
+                alert("반려되었습니다.");
+            }else if(status == 100){
+                alert("승인이 완료되었습니다.");
+            }
+            window.close();
+            opener.gridReload();
+        }
     },
 
     updBtn: function(pk, fk, studyClass, studyText){
@@ -27,12 +194,16 @@ const studyView = {
             async : false,
             success : function(result){
                 console.log(result);
-
+                studyView.dataSet();
             },
             error : function(e) {
                 alert("데이터 저장 중 에러가 발생했습니다.");
                 console.log(e);
             }
         });
+    },
+
+    studyJournalPop: function(){
+        alert(22);
     }
 }
