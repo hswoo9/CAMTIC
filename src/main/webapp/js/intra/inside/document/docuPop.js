@@ -376,10 +376,14 @@ var docuContractReq = {
 
             if(data.areaArr != null){
                 for(var i = 0 ; i < data.areaArr.length; i++){
+                    var productCount = docuContractReq.comma(data.areaArr[i].productCount) + "개 ";
+                    var productOneMoney = docuContractReq.comma(data.areaArr[i].productOneMoney) + "원";
+                    var productTotalMoney = docuContractReq.comma(data.areaArr[i].productTotalMoney) + "원 ";
+
                     docuContractReq.global.hwpCtrl.PutFieldText("product_name" + i, data.areaArr[i].productName);
-                    docuContractReq.global.hwpCtrl.PutFieldText("product_count" + i, data.areaArr[i].productCount);
-                    docuContractReq.global.hwpCtrl.PutFieldText("product_one_money" + i, data.areaArr[i].productOneMoney);
-                    docuContractReq.global.hwpCtrl.PutFieldText("product_total_money" + i, data.areaArr[i].productTotalMoney);
+                    docuContractReq.global.hwpCtrl.PutFieldText("product_count" + i, productCount);
+                    docuContractReq.global.hwpCtrl.PutFieldText("product_one_money" + i, productOneMoney);
+                    docuContractReq.global.hwpCtrl.PutFieldText("product_total_money" + i, productTotalMoney);
                     docuContractReq.global.hwpCtrl.PutFieldText("bmk" + i, data.areaArr[i].bmk);
                 }
             }
