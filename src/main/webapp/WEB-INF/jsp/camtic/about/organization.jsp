@@ -6,7 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
 <style>
-  .img{width:1250px; height:1000px;}
+  /*타이틀 위치 네비위치와 비슷하게 수정 width 수정*/
+  .img{width:1230px; height:1000px;}
   .imgMobile {display: none;}
   .imgMobileList{display:none;}
   @media screen and (max-width: 1024px) {
