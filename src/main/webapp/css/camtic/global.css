@@ -536,6 +536,8 @@ img {max-width:100%;}
 	#title {margin-bottom:30px;}
 	#title h3 {font-size:28px;height:auto;padding-bottom:10px;}
 	#content .m0 {margin-top:-30px;}
+	/*글 타이틀 위치 네비위치와 비슷하게 수정 반응형에 맞게 margin-left*/
+	#sub #content {margin-left: 0px;}
 }
 
 .__vidWrap {max-width:1028px;margin:0 auto;}
