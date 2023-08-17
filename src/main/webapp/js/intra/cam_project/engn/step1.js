@@ -244,7 +244,6 @@ var es1 = {
                 $("#modBtn").css("display", "");
                 $("#saveBtn").css("display", "none");
             }
-
         }
 
         $("#productTb2").append(html);
