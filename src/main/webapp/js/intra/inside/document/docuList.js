@@ -106,7 +106,15 @@ var docuContractList = {
                 }, {
                     field: "PROJECT_MONEY",
                     title: "계약 금액",
-                    width: "10%"
+                    width: "10%",
+                    attributes: { style: "text-align: right" },
+                    template : function(e) {
+                        if(e.PROJECT_MONEY != null){
+                           return e.PROJECT_MONEY.toString().toMoney() + "원";
+                        }else{
+                            return "";
+                        }
+                    }
                 }, {
                     title: "계약 기간",
                     width: "15%",
