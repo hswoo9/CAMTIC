@@ -21,12 +21,18 @@
             e.preventDefault();
 
             var $this = $(this);
+            var $notThis = $('.toggleMain').not($this);
+            $this.addClass('toggled');
+            $notThis.removeClass('toggled');
+
+
+            /*var $this = $(this);
 
             if ($this.hasClass('toggled')) {
                 $this.removeClass('toggled');
             } else {
                 $this.addClass('toggled');
-            }
+            }*/
 
             if($this.attr("children") == "Y"){
                 if ($this.next().hasClass('show')) {
@@ -43,12 +49,15 @@
         $('.toggleMain1').click(function() {
 
             var $this = $(this);
+            var $notThis = $('.toggleMain1').not($this);
+            $this.addClass('toggled');
+            $notThis.removeClass('toggled');
 
-            if ($this.hasClass('toggled')) {
+            /*if ($this.hasClass('toggled')) {
                 $this.removeClass('toggled');
             } else {
                 $this.addClass('toggled');
-            }
+            }*/
 
             if ($this.next().hasClass('show')) {
                 $this.next().slideToggle();
