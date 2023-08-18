@@ -16,9 +16,10 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__vision1 m0">
+          <div style="color: #666666; font-size: 45px; font-weight: bold;">Since 1999</div><br>
           <dl class="head">
-            <dt>직원과 함께 성장하는 행복한 일터</dt>
-            <dd>캠틱 클러스터 비전 2030</dd>
+            <dt style="color: #155996;"><%--직원과 --%>함께 성장하는 행복한 일터</dt>
+            <%--<dd>캠틱 클러스터 비전 2030</dd>--%>
           </dl>
           <div class="area">
             <dl class="box box1">
@@ -93,7 +94,7 @@
           </div>
         </div>
 
-        <div class="__tit1 __mt100">
+        <%--<div class="__tit1 __mt100">
           <h3><strong>캠-퍼스</strong>(Camtic+campus) <strong>추진</strong></h3>
           <p>캠틱 + 캠퍼스의 약칭으로 학습하고, 만나며, 나누고, 성장하는 “학습과 소통의 장” 의미</p>
         </div>
@@ -354,7 +355,7 @@
               </dl>
             </div>
           </div>
-        </div>
+        </div>--%>
 
       </div>
     </div>

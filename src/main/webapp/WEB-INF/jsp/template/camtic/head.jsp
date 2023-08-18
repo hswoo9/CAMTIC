@@ -35,9 +35,9 @@
           <ul>
             <li class="about_greeting"><a href="/camtic/about/greeting.do">원장 인사말</a></li>
             <li class="about_business"><a href="/camtic/about/business.do">주요사업</a></li>
-            <li class="about_vision"><a href="/camtic/about/vision.do">미션.비젼</a></li>
+            <li class="about_vision"><a href="/camtic/about/vision.do">미션ㆍ비젼</a></li>
             <li class="about_history"><a href="/camtic/about/history.do">연혁</a></li>
-            <li class="about_organization"><a href="/camtic/about/organization.do">조직.연락처</a></li>
+            <li class="about_organization"><a href="/camtic/about/organization.do">조직ㆍ연락처</a></li>
             <li class="about_location"><a href="/camtic/about/location.do">오시는 길</a></li>
           </ul>
         </li>

@@ -37,7 +37,7 @@
             <li><img src="/images/camtic/img-space1-3.jpg" alt=""></li>
           </ul>
 
-          <div class="__tit2 __mt60">
+<%--          <div class="__tit2 __mt60">
             <h3><strong>사업개요</strong></h3>
           </div>
           <table class="__tblList tdfz14 bd1 bg2 respond2 __mt20">
@@ -139,10 +139,10 @@
               </td>
             </tr>
             </tbody>
-          </table>
+          </table>--%>
         </div>
 
-        <div class="__tit1 __mt100 __mb20">
+        <%--<div class="__tit1 __mt100 __mb20">
           <h3><strong>전주드론제작소 윙윙 - 스테이션</strong> ( Wing-Wing Station )</h3>
         </div>
         <div class="__space2">
@@ -176,7 +176,7 @@
             <li><img src="/images/camtic/img-space3-1.jpg" alt=""></li>
             <li><img src="/images/camtic/img-space3-2.jpg" alt=""></li>
           </ul>
-        </div>
+        </div>--%>
 
         <div class="__tit1 __mt100 __mb20">
           <h3><strong>윙윙스테이션의 운영전략</strong></h3>

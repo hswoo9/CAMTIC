@@ -13,9 +13,9 @@
   <ul class="lnb">
     <li class="about about_greeting"><a href="/camtic/about/greeting.do">원장 인사말</a></li>
     <li class="about about_business"><a href="/camtic/about/business.do">주요사업</a></li>
-    <li class="about about_vision"><a href="/camtic/about/vision.do">미션.비젼</a></li>
+    <li class="about about_vision"><a href="/camtic/about/vision.do">미션ㆍ비젼</a></li>
     <li class="about about_history"><a href="/camtic/about/history.do">연혁</a></li>
-    <li class="about about_organization"><a href="/camtic/about/organization.do">조직.연락처</a></li>
+    <li class="about about_organization"><a href="/camtic/about/organization.do">조직ㆍ연락처</a></li>
     <li class="about about_location"><a href="/camtic/about/location.do">오시는 길</a></li>
 
     <li class="region region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
