@@ -43,6 +43,30 @@ public class ProjectController {
         return "cam_project/viewProject";
     }
 
+    @RequestMapping("/project/projectManagement.do")
+    private String projectManagement(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        return "cam_project/projectManagement";
+    }
+
+    @RequestMapping("/project/projectView.do")
+    public String projectView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep1(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+
+        return "cam_project/projectView";
+    }
+
     @RequestMapping("/project/getProjectList")
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 

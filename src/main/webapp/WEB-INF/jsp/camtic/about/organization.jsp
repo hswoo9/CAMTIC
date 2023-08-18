@@ -185,7 +185,7 @@
                         transform="matrix(1.3333333,0,0,-1.3333333,0,1431.56)">
                   <path
                           d="M 0,0 H 1293.556 V 1073.667 H 0 Z"
-                          style="fill:#f2fcfe;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                          style="/*fill:#f2fcfe;*/fill:#fff;fill-opacity:1;fill-rule:nonzero;stroke:none" <%--배경색 흰색으로 변경--%>
                           id="path10" />
                   <text
                           xml:space="preserve"

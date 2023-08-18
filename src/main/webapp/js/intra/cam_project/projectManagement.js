@@ -114,61 +114,11 @@ var camPrj = {
             dataBound : function (e){
                 var self = e.sender;
                 self.tbody.find("tr").click(function(e) {
-                    $(".container").css("display", "");
-                    $(".circle").each(function(){
-                        self.tbody.find("tr").css("background-color", "");
-                        $(this).removeClass("active")
-                        $(this).removeClass("ready")
-                        $(this).removeAttr("check");
-                        $(this).removeAttr("onClick");
-                    });
+                    var data = self.dataItem(this);
 
-                    switch (self.dataItem(this).PJT_STEP) {
-                        case "E0":
-                            $("#ps0").attr("check", "Y");
-                            break;
-                        case "E1":
-                            $("#ps1").attr("check", "Y");
-                            break;
-                        case "E2":
-                            $("#ps2").attr("check", "Y");
-                            break;
-                        case "E3":
-                            $("#ps3").attr("check", "Y");
-                            break;
-                        case "E4":
-                            $("#ps4").attr("check", "Y");
-                            break;
-                        case "E5":
-                            $("#ps5").attr("check", "Y");
-                            break;
-                        case "E6":
-                            $("#ps6").attr("check", "Y");
-                            break;
-                        case "E7":
-                            $("#ps7").attr("check", "Y");
-                            break;
-                        default:
-                            break;
-                    }
-
-                    var index = -1;
-
-                    $(".circle").each(function(e){
-                        if($(this).attr("check") == "Y"){
-                            index = e;
-                        }
-                    });
-
-                    for(var i = 0 ; i <= index ; i++){
-                        $("#ps" + i).addClass("active");
-                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
-                    }
-                    $("#ps" + (index + 1)).addClass("ready");
-                    $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
-
-                    $(this).css("background-color", "#a7e1fc");
-
+                    $("#approveModal").remove();
+                    $("#tilesBody").children().remove();
+                    $("#tilesBody").load("/project/projectView.do", {pjtSn : data.PJT_SN});
                 });
             },
             columns: [
@@ -309,23 +259,6 @@ var camPrj = {
         var popup = window.open(url, name, option);
     },
 
-    setPrjView: function (i, key){
-        var url = "";
-
-        if(i == 1){
-            url = "/project/pop/viewRegProject.do?pjtSn=" + key;
-        } else {
-            url = "/project/pop/engnStep.do?step=" + (i-1) + "&pjtSn=" + key;
-        }
-        if(key == null || key == ""){
-            url = "/project/pop/viewRegProject.do";
-        }
-
-
-        $("#rightMain").empty();
-        $("#rightMain").load(url);
-    },
-
     fn_delPjt : function(t){
         $("input[name='pjtCheck']").each(function(e){
             if($(this).is(":checked")){
@@ -362,26 +295,6 @@ var camPrj = {
         }
     },
 
-    viewSetStep: function (i, key){
-        switch (i){
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                camPrj.fn_viewStep(i, key);
-                break;
-            case 6 :
-                alert("결과보고")
-                break;
-            case 7 :
-                alert("원가보고")
-                break;
-            default:
-                break;
-        }
-    },
-
 
     fn_step: function (i, key){
         var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
@@ -394,14 +307,6 @@ var camPrj = {
 
         var popup = window.open(url, name, option);
     },
-
-    fn_viewStep : function (i, key){
-        var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
-
-        $("#rightMain").children().remove();
-        $("#rightMain").load(url);
-
-    }
 
 
 

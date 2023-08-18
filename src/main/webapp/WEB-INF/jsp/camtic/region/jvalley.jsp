@@ -207,7 +207,7 @@
         </div>
 
 
-        <div class="__tit1 line __mt100 mb0">
+        <%--<div class="__tit1 line __mt100 mb0">
           <h3><strong>전주첨단벤처단지</strong></h3>
         </div>
 
@@ -575,7 +575,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>--%>
 
       </div>
     </div>
