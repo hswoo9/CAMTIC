@@ -9,10 +9,21 @@
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/study/studyJournalPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="empName" value="${loginVO.name}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="studyInfoSn" value="${params.studyInfoSn}"/>
+<input type="hidden" id="studyJournalSn" value="${params.studyJournalSn}"/>
+<input type="hidden" id="mode" value=""/>
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
@@ -27,14 +38,12 @@
             <thead>
             <tr>
               <th>학습조명</th>
-              <td>
-                ${data.STUDY_NAME}
-              </td>
+              <td id="studyNameTd">${data.STUDY_NAME}</td>
             </tr>
             <tr>
               <th>학습일시</th>
               <td>
-                <input type="text" id="journalDt" style="width: 150px">
+                <input type="text" id="journalDt" style="width: 150px"> <input type="text" id="journalStartTime" style="width: 100px"> ~ <input type="text" id="journalEndTime" style="width: 100px">
               </td>
             </tr>
             <tr>
@@ -60,7 +69,7 @@
             <tr>
               <th>소요비용</th>
               <td>
-                <input type="text" id="studyMoney" style="width: 150px" value="0"> 원
+                <input type="text" id="studyMoney" oninput="onlyNumber(this)" style="width: 150px; text-align: right" value="0"> 원 <input type="text" id="journalAmtClass" style="width: 150px"> <input type="text" id="journalAmtEtc" style="width: 150px;">
               </td>
             </tr>
             <tr>
@@ -68,13 +77,15 @@
         </form>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="studyJournal.saveBtn();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+        <input type="button" id="appBtn" style="display:none; margin-right:5px;" class="k-button k-button-solid-info" value="검토완료" onclick="studyJournal.appBtn();"/>
+        <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="studyJournal.saveBtn();"/>
+        <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
       </div>
     </div>
   </div>
 </div>
 <script>
+  let info = JSON.parse('${info}');
   studyJournal.init();
 </script>
 </body>

@@ -84,6 +84,10 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getStudyJournalList", params);
     }
 
+    public Map<String, Object> getStudyJournalOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params);
+    }
+
 
 
 
@@ -103,9 +107,9 @@ public class CampusRepository extends AbstractDAO  {
 
     public void setStudyUserInsert(Map<String, Object> params) { insert("campus.setStudyUserInsert", params); }
     public void setStudyUserMngUpdate(Map<String, Object> params) { update("campus.setStudyUserMngReset", params); update("campus.setStudyUserMngUpdate", params); }
-    public void studyReq(Map<String, Object> params) {
-        update("campus.studyReq", params);
-    }
+    public void studyReq(Map<String, Object> params) { update("campus.studyReq", params); }
+    public void setStudyJournalInsert(Map<String, Object> params) { insert("campus.setStudyJournalInsert", params); }
+    public void setStudyJournalApp(Map<String, Object> params) { update("campus.setStudyJournalApp", params); }
 
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);

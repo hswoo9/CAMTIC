@@ -115,7 +115,7 @@ const studyView = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop();">' +
+                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop(1, '+$("#studyInfoSn").val()+');">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -132,18 +132,39 @@ const studyView = {
                     width: 50
                 }, {
                     title: "일시",
-                    width: 200
+                    width: 250,
+                    template: function(row){
+                        return row.JOURNAL_DT + " (" + row.JOURNAL_START_TIME +"~"+row.JOURNAL_END_TIME+" / "+row.EDU_TIME+")";
+                    }
                 }, {
-                    field: "AREA",
+                    field: "JOURNAL_LOCATE",
                     title: "장소"
                 }, {
                     title: "조장검토",
-                    width: 150
+                    width: 100,
+                    template: function(row){
+                        if(row.CAPTAIN_APPOVAL_YN == 'Y'){
+                            return "검토완료";
+                        }else{
+                            return "검토미완료";
+                        }
+                    }
                 }, {
                     title: "간사검토",
-                    width: 150
+                    width: 100,
+                    template: function(row){
+                        if(row.ASSISTANT_APPOVAL_YN == 'Y'){
+                            return "검토완료";
+                        }else{
+                            return "검토미완료";
+                        }
+                    }
                 }, {
-                    width: 150
+                    width: 150,
+                    template: function(row){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
+                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">삭제</button>';
+                    }
                 }
             ]
         }).data("kendoGrid")
@@ -154,7 +175,7 @@ const studyView = {
         grid.element.off('dblclick');
         grid.tbody.find("tr").dblclick(function(){
             const dataItem = grid.dataItem($(this).closest("tr"));
-            studyView.studyJournalPop(dataItem.STUDY_JOURNAL_SN);
+            studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
         });
     },
 
@@ -197,6 +218,10 @@ const studyView = {
         studyView.setStudyUserMngUpdate(data);
     },
 
+    tmp: function(pk){
+        console.log(pk);
+    },
+
     setStudyUserMngUpdate: function(data){
         $.ajax({
             url : "/campus/setStudyUserMngUpdate",
@@ -215,12 +240,14 @@ const studyView = {
         });
     },
 
-    studyJournalPop: function(pk){
+    studyJournalPop: function(type, fk, pk){
         let url = "";
-        if(pk == null || pk == "" || pk == undefined){
+        if(fk == null || fk == "" || fk == undefined){
             url = "/Campus/pop/studyJournalPop.do";
-        } else {
-            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+pk;
+        }else if(type == 1){
+            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+fk;
+        }else if(type == 2){
+            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+fk+"&studyJournalSn="+pk;
         }
         let name = "studyJournalPop";
         let option = "width = 800, height = 600, top = 100, left = 200, location = no";

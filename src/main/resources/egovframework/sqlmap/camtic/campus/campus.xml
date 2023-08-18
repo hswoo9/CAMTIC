@@ -347,7 +347,8 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    CSI.*
+                    CSI.*,
+                    IFNULL((SELECT SUM(CAST((SELECT DATE_FORMAT(TIMEDIFF(SCSJ.JOURNAL_END_TIME, SCSJ.JOURNAL_START_TIME), '%H')) AS UNSIGNED)) FROM CAMPUS.DJ_STUDY_JOURNAL SCSJ WHERE CSI.STUDY_INFO_SN = SCSJ.STUDY_INFO_SN AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS EDU_TIME_TOTAL
                 FROM
                     CAMPUS.DJ_STUDY_INFO CSI,
                     (SELECT @ROWNUM := 0) TMP
@@ -364,7 +365,7 @@
     </select>
 
     <select id="getStudyInfoOne" resultType="map" parameterType="map">
-        /* getStudyInfoList */
+        /* getStudyInfoOne */
         SELECT
             *
         FROM
@@ -385,10 +386,32 @@
     <select id="getStudyJournalList" resultType="map" parameterType="map">
         /* getStudyJournalList */
         SELECT
-            *
+            @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+            CSJ.*,
+            CAST((SELECT DATE_FORMAT(TIMEDIFF(JOURNAL_END_TIME, JOURNAL_START_TIME), '%H:%m')) AS UNSIGNED) AS EDU_TIME
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ,
+            (SELECT @ROWNUM := 0) TMP
+        WHERE CSJ.STUDY_INFO_SN = #{studyInfoSn}
+        ORDER BY CSJ.JOURNAL_DT DESC
+    </select>
+
+    <select id="getStudyJournalOne" resultType="map" parameterType="map">
+        /* getStudyJournalOne */
+        SELECT
+            JOURNAL_DT,
+            JOURNAL_START_TIME,
+            JOURNAL_END_TIME,
+            JOURNAL_LOCATE,
+            JOURNAL_CONTENT,
+            JOURNAL_AMT,
+            JOURNAL_AMT_CLASS,
+            JOURNAL_AMT_ETC,
+            CAPTAIN_APPOVAL_YN,
+            ASSISTANT_APPOVAL_YN
         FROM
             CAMPUS.DJ_STUDY_JOURNAL CSJ
-        WHERE STUDY_INFO_SN = #{studyInfoSn}
+        WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
     <insert id="setEduInfoInsert" parameterType="map">
@@ -645,6 +668,55 @@
             STATUS = #{status}
         WHERE
             STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <insert id="setStudyJournalInsert" parameterType="map">
+        /* setStudyJournalInsert */
+        INSERT INTO CAMPUS.DJ_STUDY_JOURNAL
+            (
+                STUDY_INFO_SN,
+                STUDY_NAME,
+                JOURNAL_DT,
+                JOURNAL_START_TIME,
+                JOURNAL_END_TIME,
+                JOURNAL_LOCATE,
+                JOURNAL_CONTENT,
+                JOURNAL_AMT,
+                JOURNAL_AMT_CLASS,
+                JOURNAL_AMT_CLASS_TEXT,
+                JOURNAL_AMT_ETC,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{studyName},
+                #{journalDt},
+                #{journalStartTime},
+                #{journalEndTime},
+                #{studyLocation},
+                #{studyContent},
+                #{studyMoney},
+                #{journalAmtClass},
+                #{journalAmtClassText},
+                #{journalAmtEtc},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setStudyJournalApp" parameterType="map">
+        /* setStudyJournalApp */
+        UPDATE
+            CAMPUS.DJ_STUDY_JOURNAL
+        SET
+            <if test='studyClassSn == 1'>
+                CAPTAIN_APPOVAL_YN = #{status}
+            </if>
+            <if test='studyClassSn == 2'>
+                ASSISTANT_APPOVAL_YN = #{status}
+            </if>
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
     </update>
 
     <insert id="setTargetInsert" parameterType="map">

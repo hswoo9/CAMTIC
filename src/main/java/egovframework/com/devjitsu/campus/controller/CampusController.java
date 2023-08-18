@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.campus.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.campus.service.CampusService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
@@ -574,11 +575,18 @@ public class CampusController {
 
     /** 학습조 학습일지 작성 팝업 */
     @RequestMapping("/Campus/pop/studyJournalPop.do")
-    public String studyJournalPop(HttpServletRequest request, Model model) {
+    public String studyJournalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
+        if(params.containsKey("studyJournalSn")){
+            Map<String, Object> info = campusService.getStudyJournalOne(params);
+            model.addAttribute("info", new Gson().toJson(info));
+        }
+        model.addAttribute("params", params);
         return "popup/campus/studyJournalPop";
     }
 
@@ -954,6 +962,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 학습조 학습일지 단일 데이터  */
+    @RequestMapping("/campus/getStudyJournalOne")
+    public String getStudyJournalOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getStudyJournalOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
 
 
 
@@ -989,6 +1005,20 @@ public class CampusController {
     @RequestMapping("/campus/studyReq")
     public String studyReq(@RequestParam Map<String, Object> params) {
         campusService.studyReq(params);
+        return "jsonView";
+    }
+
+    /** 학습조 학습일지 저장 */
+    @RequestMapping("/campus/setStudyJournalInsert")
+    public String setStudyJournalInsert(@RequestParam Map<String, Object> params) {
+        campusService.setStudyJournalInsert(params);
+        return "jsonView";
+    }
+
+    /** 학습조 조장, 간사 검토완료 처리 */
+    @RequestMapping("/campus/setStudyJournalApp")
+    public String setStudyJournalApp(@RequestParam Map<String, Object> params) {
+        campusService.setStudyJournalApp(params);
         return "jsonView";
     }
 

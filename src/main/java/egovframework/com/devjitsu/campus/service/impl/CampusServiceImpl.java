@@ -116,6 +116,11 @@ public class CampusServiceImpl implements CampusService {
         return campusRepository.getStudyJournalList(params);
     }
 
+    @Override
+    public Map<String, Object> getStudyJournalOne(Map<String, Object> params){
+        return campusRepository.getStudyJournalOne(params);
+    }
+
 
 
 
@@ -160,6 +165,16 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void studyReq(Map<String, Object> params) {
         campusRepository.studyReq(params);
+    }
+
+    @Override
+    public void setStudyJournalInsert(Map<String, Object> params) {
+        campusRepository.setStudyJournalInsert(params);
+    }
+
+    @Override
+    public void setStudyJournalApp(Map<String, Object> params) {
+        campusRepository.setStudyJournalApp(params);
     }
 
     @Override

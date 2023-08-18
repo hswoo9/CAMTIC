@@ -112,6 +112,7 @@ public interface CampusService {
     Map<String, Object> getStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
+    Map<String, Object> getStudyJournalOne(Map<String, Object> params);
 
 
 
@@ -133,6 +134,8 @@ public interface CampusService {
     void setStudyInfoInsert(Map<String, Object> params);
     void setStudyUserMngUpdate(Map<String, Object> params);
     void studyReq(Map<String, Object> params);
+    void setStudyJournalInsert(Map<String, Object> params);
+    void setStudyJournalApp(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

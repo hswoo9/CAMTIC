@@ -79,32 +79,9 @@ const studyReq = {
             success : function(result){
                 console.log(result);
                 alert("학습조 신청서 저장이 완료되었습니다.");
-                opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                opener.gridReload();
                 window.close();
 
-            },
-            error : function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
-                window.close();
-            }
-        });
-    },
-
-    setEduInfoUpdate: function() {
-        $.ajax({
-            url : "/campus/setEduPlanUpdate",
-            data : {
-                eduPlanId : $("#eduPlanId").val(),
-                eduPlan : $("#eduPlan").val()
-            },
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
-                console.log(result);
-                alert("학습계획 저장이 완료되었습니다.");
-                window.close();
-                opener.targetInfo.tableSet();
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");

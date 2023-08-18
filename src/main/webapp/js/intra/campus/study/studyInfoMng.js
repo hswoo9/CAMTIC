@@ -75,7 +75,7 @@ var studyMng = {
                         return row.START_DT+" ~ "+row.END_DT;
                     }
                 }, {
-                    field: "",
+                    field: "EDU_TIME_TOTAL",
                     title: "교육시간",
                     width: 150
                 }, {
@@ -83,9 +83,17 @@ var studyMng = {
                     title: "장소",
                     width: 300
                 }, {
-                    field: "",
                     title: "진행현황",
-                    width: 80
+                    width: 120,
+                    template: function(row){
+                        if(row.STATUS == 0){
+                            return "신청서 작성중"
+                        }else if(row.STATUS == 10) {
+                            return "신청서 승인요청중"
+                        }else if(row.STATUS == 100){
+                            return "신청서 제출"
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid")

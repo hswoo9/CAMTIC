@@ -1,108 +1,168 @@
 const studyJournal = {
-    init : function(){
+    global: {
+        studyUserList: {},
+        studyClassSn: 0
+    },
+
+    init: function(){
         studyJournal.pageSet();
     },
 
-    pageSet : function() {
-        customKendo.fn_textBox(["studyTitle", "studyUserName", "dateVal", "studyLocation", "studyMoney", "attach"]);
-        customKendo.fn_textArea(["studyObject", "studyContent", "studyMoneyVal"]);
+    pageSet: function(){
+        if($("#studyJournalSn").val() == ""){
+            $("#mode").val("Req");
+        }else{
+            $("#mode").val("Upd");
+        }
+        customKendo.fn_textBox(["studyLocation", "studyUserName", "studyMoney", "journalAmtEtc"]);
+        customKendo.fn_textArea(["studyContent"]);
         customKendo.fn_datePicker("journalDt", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", new Date());
-        let studyDataSource = [
-            { text: "학습조", value: "1" },
-            { text: "전파학습", value: "2" },
-            { text: "OJT", value: "3" }
+        customKendo.fn_timePicker("journalStartTime", '10', "HH:mm", "09:00");
+        customKendo.fn_timePicker("journalEndTime", '10', "HH:mm", "18:00");
+        let journalAmtDataSource = [
+            { text: "교재비", value: "1" },
+            { text: "기타", value: "2" }
         ]
-        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
-        $("#studyUserName, #startDt, #regDate").attr("readonly", true);
+        customKendo.fn_dropDownList("journalAmtClass", journalAmtDataSource, "text", "value", 2);
+        $("#journalAmtClass").data("kendoDropDownList").bind("change", function(){
+            if($("#journalAmtClass").val() == "2"){
+                $("#journalAmtEtc").parent().show();
+            }else{
+                $("#journalAmtEtc").parent().hide();
+            }
+        });
+        if($("#journalAmtClass").val() == "2"){
+            $("#journalAmtEtc").parent().show();
+        }else{
+            $("#journalAmtEtc").parent().hide();
+        }
+        $("#studyUserName, #journalDt, #journalStartTime, #journalEndTime").attr("readonly", true);
+
+        let data = {
+            studyInfoSn: $("#studyInfoSn").val()
+        }
+        const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
+        studyJournal.global.studyUserList = result.list;
+
+        if($("#mode").val() == "Upd"){
+            let list = studyJournal.global.studyUserList;
+            for(let i=0; i<list.length; i++){
+                /** 조장이거나 조원이 로그인 한 사용자면 승인버튼 오픈 */
+                if(list[i].STUDY_CLASS_SN == 1 || list[i].STUDY_CLASS_SN == 2) {
+                    if($("#regEmpSeq").val() == list[i].STUDY_EMP_SEQ){
+                        studyJournal.global.studyClassSn = list[i].STUDY_CLASS_SN;
+                        $("#appBtn").show();
+                    }
+                }
+            }
+            studyJournal.dataSet(info);
+        }
+    },
+
+    dataSet: function(info){
+        $("#journalDt").val(info.JOURNAL_DT);
+        $("#journalStartTime").val(info.JOURNAL_START_TIME);
+        $("#journalEndTime").val(info.JOURNAL_END_TIME);
+        $("#studyLocation").val(info.JOURNAL_LOCATE);
+        $("#studyContent").val(info.JOURNAL_CONTENT);
+        $("#studyMoney").val(info.JOURNAL_AMT);
+        $("#journalAmtClass").data("kendoDropDownList").value(info.JOURNAL_AMT_CLASS);
+        if($("#journalAmtClass").val() == "2"){
+            $("#journalAmtEtc").parent().show();
+        }else{
+            $("#journalAmtEtc").parent().hide();
+        }
+        $("#journalAmtEtc").val(info.JOURNAL_AMT_ETC);
     },
 
     saveBtn: function(){
-        let studyTitle = $("#studyTitle").val();
-        let startDt = $("#journalDt").val();
-        let endDt = $("#endDt").val();
-        let dateVal = $("#dateVal").val();
+        let studyInfoSn = $("#studyInfoSn").val();
+        let studyNameTd = $("#studyNameTd").text();
+        let journalDt = $("#journalDt").val();
+        let journalStartTime = $("#journalStartTime").val();
+        let journalEndTime = $("#journalEndTime").val();
         let studyLocation = $("#studyLocation").val();
-        let studyObject = $("#studyObject").val();
+        let studyUserSeq = $("#studyUserSeq").val();
         let studyContent = $("#studyContent").val();
         let studyMoney = $("#studyMoney").val();
-        let studyMoneyVal = $("#studyMoneyVal").val();
-        let attach = $("#attach").val();
-        let regDate = $("#regDate").val();
+        let journalAmtClass = $("#journalAmtClass").val();
+        let journalAmtClassText = $("#journalAmtClass").data("kendoDropDownList").text();
+        let journalAmtEtc = $("#journalAmtEtc").val();
+        let regEmpName = $("#regEmpName").val();
 
-        if(studyTitle == ""){ alert("학습조명이 작성되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
-        if(startDt == "" || endDt == ""){ alert("학습기간이 작성되지 않았습니다."); return; }
-        if(studyObject == ""){ alert("학습목표가 작성되지 않았습니다."); return; }
+        if(journalDt == "" || journalStartTime == "" || journalEndTime == ""){ alert("학습일시가 작성되지 않았습니다."); return; }
+        if(studyLocation == ""){ alert("학습장소가 작성되지 않았습니다."); return; }
+        if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
         if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
-        if(studyMoneyVal == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
-        if(regDate == ""){ alert("신청날짜가 작성되지 않았습니다."); return; }
+        if(journalAmtClass == ""){ alert("소요비용구분이 선택되지 않았습니다."); return; }
 
         let data = {
-            studyClassSn: studyClassSn,
-            studyClassText: studyClassText,
-            studyName: studyName,
-            studyUserSeq: studyUserSeq,
-            startDt: startDt,
-            endDt: endDt,
-            dateVal: dateVal,
+            studyInfoSn: studyInfoSn,
+            studyName: studyNameTd,
+            journalDt: journalDt,
+            journalStartTime: journalStartTime,
+            journalEndTime: journalEndTime,
             studyLocation: studyLocation,
-            studyObject: studyObject,
             studyContent: studyContent,
             studyMoney: studyMoney,
-            studyMoneyVal: studyMoneyVal,
-            attach: attach,
-            empSeq: empSeq,
-            regDate: regDate
+            journalAmtClass: journalAmtClass,
+            journalAmtClassText: journalAmtClassText,
+            journalAmtEtc: journalAmtEtc,
+            regEmpName: regEmpName
         }
 
-        if(!confirm("학습조 신청서를 저장하시겠습니까?")){
+        if(!confirm("운영일지를 저장하시겠습니까?")){
             return;
         }
-        studyJournal.setStudyInfoInsert(data);
+        studyJournal.setStudyJournalInsert(data);
     },
 
-    setStudyInfoInsert: function(data) {
+    setStudyJournalInsert: function(data){
         $.ajax({
-            url : "/campus/setStudyInfoInsert",
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
+            url: "/campus/setStudyJournalInsert",
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(result){
                 console.log(result);
-                alert("학습조 신청서 저장이 완료되었습니다.");
-                opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                alert("운영일지 저장이 완료되었습니다.");
+                opener.gridReload();
                 window.close();
 
             },
-            error : function() {
+            error: function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
-                window.close();
             }
         });
     },
 
-    setEduInfoUpdate: function() {
+    appBtn: function(){
+        let studyClassSn = studyJournal.global.studyClassSn;
+        let data = {
+            studyJournalSn: $("#studyJournalSn").val(),
+            studyClassSn: studyClassSn,
+            status: "Y"
+        }
+        if(studyClassSn != 1 && studyClassSn != 2){ alert("데이터 확인 중 에러가 발생했습니다."); return; }
+
         $.ajax({
-            url : "/campus/setEduPlanUpdate",
-            data : {
-                eduPlanId : $("#eduPlanId").val(),
-                eduPlan : $("#eduPlan").val()
-            },
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
+            url: "/campus/setStudyJournalApp",
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(result){
                 console.log(result);
-                alert("학습계획 저장이 완료되었습니다.");
+                alert("검토완료 되었습니다.");
+                opener.gridReload();
                 window.close();
-                opener.targetInfo.tableSet();
+
             },
-            error : function() {
+            error: function(){
                 alert("데이터 저장 중 에러가 발생했습니다.");
-                window.close();
             }
         });
     }
