@@ -646,6 +646,17 @@ public class CampusController {
         return "campus/eduStat";
     }
 
+    /** 전체 학습통계 */
+    @RequestMapping("/Campus/eduAllStat.do")
+    public String eduAllStat(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/eduAllStat";
+    }
+
     //목표기술서 작성페이지
     @RequestMapping("/Campus/targetInfo.do")
     public String targetInfo(HttpServletRequest request, Model model) {
@@ -920,16 +931,6 @@ public class CampusController {
         return result;
     }
 
-    //학습통계 리스트
-    @RequestMapping("/campus/getEduStat")
-    @ResponseBody
-    public Map<String, Object> getEduStat(@RequestParam Map<String, Object> params) {
-        List<Map<String, Object>> list = campusService.getEduStat(params);
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        return result;
-    }
-
     /** 학습조 리스트 */
     @RequestMapping("/campus/getStudyInfoList")
     public String getStudyInfoList(@RequestParam Map<String, Object> params, Model model) {
@@ -967,6 +968,24 @@ public class CampusController {
     public String getStudyJournalOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getStudyJournalOne(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 개인학습 통계 리스트  */
+    @RequestMapping("/campus/getEduStat")
+    @ResponseBody
+    public Map<String, Object> getEduStat(@RequestParam Map<String, Object> params) {
+        List<Map<String, Object>> list = campusService.getEduStat(params);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        return result;
+    }
+
+    /** 전체학습 통계 리스트 */
+    @RequestMapping("/campus/getEduAllStatList")
+    public String getEduAllStatList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getEduAllStatList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 

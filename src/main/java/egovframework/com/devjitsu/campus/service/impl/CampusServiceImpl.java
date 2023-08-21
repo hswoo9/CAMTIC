@@ -92,11 +92,6 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public List<Map<String, Object>> getEduStat(Map<String, Object> params){
-        return campusRepository.getEduStat(params);
-    }
-
-    @Override
     public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params){
         return campusRepository.getStudyInfoList(params);
     }
@@ -119,6 +114,16 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getStudyJournalOne(Map<String, Object> params){
         return campusRepository.getStudyJournalOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduStat(Map<String, Object> params){
+        return campusRepository.getEduStat(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduAllStatList(Map<String, Object> params){
+        return campusRepository.getEduAllStatList(params);
     }
 
 

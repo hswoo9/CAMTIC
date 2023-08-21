@@ -102,17 +102,14 @@ public interface CampusService {
      */
     List<Map<String, Object>> getEduPlanOne(Map<String, Object> params);
 
-    /**
-     * 학습통계 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getStudyInfoList(Map<String, Object> params);
     Map<String, Object> getStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
     Map<String, Object> getStudyJournalOne(Map<String, Object> params);
+
+    List<Map<String, Object>> getEduStat(Map<String, Object> params);
+    List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
 
 
 
