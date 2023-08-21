@@ -893,4 +893,135 @@ public class UserManageController {
         model.addAttribute("rs", userManageService.setUserReqDetailUpdate(params));
         return "jsonView";
     }
+
+    /**
+     * 인사통계현황 - 입/퇴사 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/joinLeaveView.do")
+    public String joinLeaveView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/joinLeaveView";
+    }
+
+    /**
+     * 인사통계현황 - 소속 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/depView.do")
+    public String depView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/depView";
+    }
+
+    /**
+     * 인사통계현황 - 직급 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/dutyView.do")
+    public String dutyView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/dutyView";
+    }
+    /**
+     * 인사통계현황 - 년도별 직급 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/yearDutyView.do")
+    public String yearDutyView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/yearDutyView";
+    }
+    /**
+     * 인사통계현황 - 년도별 발령 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/yearHistoryView.do")
+    public String yearHistoryView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/yearHistoryView";
+    }
+    /**
+     * 인사통계현황 - 성별/연령별 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/genderAgeView.do")
+    public String genderAgeView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/genderAgeView";
+    }
+    /**
+     * 인사통계현황 - 학위별 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/degreeView.do")
+    public String degreeView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/degreeView";
+    }
+
+    /**
+     * 인사통계현황 - 입/퇴사 현황 - 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/joinLeaveViewPop.do")
+    public String joinLeaveViewPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/joinLeaveViewPop";
+    }
+
 }

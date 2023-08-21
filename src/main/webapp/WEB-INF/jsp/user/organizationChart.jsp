@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/organizationChart.js?v=${toDate}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList.js?v=${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList2.js?v=${toDate}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
