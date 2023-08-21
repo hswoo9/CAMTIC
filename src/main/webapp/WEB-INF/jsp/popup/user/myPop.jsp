@@ -13,6 +13,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList.js?v=${toDate}'/>"></script>
 <style>
 	div.left {
+		margin-top: 30px;
 		width: 30%;
 		float: left;
 		box-sizing: border-box;
@@ -20,7 +21,7 @@
 	}
 	div.right {
 		width: 60%;
-		height: 300px;
+		height: 350px;
 		float: right;
 		box-sizing: border-box;
 		/*background: #dee4ed;*/
@@ -52,7 +53,19 @@
 					</c:otherwise>
 				</c:choose>
 				<h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">${uprinfList.EMP_NAME_KR} ${uprinfList.POSITION_NAME}</h4>
-				<span style="color:#919191; font-size:13px;line-height:20px;">${uprinfList.DEPT_NAME} ${uprinfList.DEPT_TEAM_NAME} ${uprinfList.DUTY_NAME}</span><br>
+				<span style="color:#919191; font-size:13px;line-height:20px;">
+					<%--${uprinfList.DEPT_NAME} ${uprinfList.DEPT_TEAM_NAME} ${uprinfList.DUTY_NAME}--%>
+					<c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+						${uprinfList.DEPT_NAME}
+					</c:if>
+					<c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+						${uprinfList.PARENT_DEPT_NAME}
+					</c:if>
+					<c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+						${uprinfList.DEPT_TEAM_NAME}
+					</c:if>
+					${uprinfList.DUTY_NAME}
+				</span><br>
 				<span style="color:#919191; font-size:13px;line-height:20px;">${uprinfList.EMAIL_ADDR}</span>
 				<%--<div style="margin-top: 30px;">
 					<img class="leftEmail" src="/images/mail-2x.png" alt="#" style="width: 30px; height: 30px; margin-right: 40px;">
@@ -82,29 +95,46 @@
 
 			</div>
 			<div class="right">
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 45px;">
-					<li style="list-style: none; color:#919191; display: inline; margin-right: 50px;">회사명</li>
-					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">캠틱종합기술원</li>
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 45px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 46px;">회사명</li>
+					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">캠틱종합기술원</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
-					<li style="list-style: none; color:#919191; display: inline; margin-right: 34px;">직책/부서</li>
-					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.DEPT_NAME} ${uprinfList.DEPT_TEAM_NAME} ${uprinfList.DUTY_NAME}</li>
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">부서</li>
+					<li style="word-spacing:5px; list-style: none; color:#333333; font-weight: bold; display: inline;">
+						<c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+							${uprinfList.DEPT_NAME}
+						</c:if>
+						<c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+							${uprinfList.PARENT_DEPT_NAME}
+						</c:if>
+						<c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+						</c:if>
+						<c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+							${uprinfList.DEPT_TEAM_NAME}
+						</c:if>
+
+					</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직책</li>
+					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.DUTY_NAME}</li>
+				</ul>
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직무</li>
-					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.JOB_DETAIL}</li>
+					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.JOB_DETAIL}</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
-					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">휴대전화</li>
-					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.MOBILE_TEL_NUM}</li>
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 35px;">휴대전화</li>
+					<li style="letter-spacing:0.5px; list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.MOBILE_TEL_NUM}</li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">내선번호</li>
-					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;"></li>
+					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;"></li>
 				</ul>
-				<ul class="media-heading" style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
-					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">사원번호</li>
-					<li style="list-style: none; color:#0a0a0a; font-weight: bold; display: inline;">${uprinfList.ERP_EMP_SEQ}</li>
+				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 35px;">사원번호</li>
+					<li style="letter-spacing:0.5px; list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.ERP_EMP_SEQ}</li>
 				</ul>
 			</div>
 		</div>

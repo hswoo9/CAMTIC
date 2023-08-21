@@ -124,7 +124,7 @@ var orgChart = {
         console.log(data);
         var url = "/user/pop/myPop.do?pk="+data;
         var name = "myPop";
-        var option = "width = 650, height = 450, top = 100, left = 200, location = no"
+        var option = "width = 900, height = 480, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 
