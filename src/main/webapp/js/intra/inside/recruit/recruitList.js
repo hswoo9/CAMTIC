@@ -113,8 +113,10 @@ var recruitList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='' name='' value=''/>",
-                    width: 50
+                    width: 50,
+                    template : function (e){
+                        return "<input type='checkbox' id='' name='' value='"+e.RECRUIT_INFO_SN+"'/>";
+                    }
                 }, {
                     field: "ROW_NUM",
                     title: "순번"
@@ -123,13 +125,18 @@ var recruitList = {
                     title: "공고번호"
                 }, {
                     field: "RECRUIT_TITLE",
-                    title: "공고명"
+                    title: "공고명",
+                    width: 350,
+                    template : function (e){
+
+                        return '<a href="javascript:void(0);" onclick="recruitList.recruitDetailPop(\''+e.RECRUIT_INFO_SN+'\');">'+e.RECRUIT_TITLE+'</a>';
+                    }
                 }, {
                     title: "모집기간",
                     template: function(row) {
                         return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
                     },
-                    width: 350
+                    width: 300
                 }, {
                     field: "JOB_POSITION_ETC",
                     title: "모집분야"
@@ -228,7 +235,13 @@ var recruitList = {
                 }
             ]
         });
+    },
 
-
+    recruitDetailPop : function (e) {
+        var url = "/inside/pop/recruitDetailPop.do?recruitInfoSn="+e;
+        var name = "recruitDetailPop";
+        var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
+
 }

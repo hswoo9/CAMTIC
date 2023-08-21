@@ -124,6 +124,12 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/pop/recruitDetailPop")
+    public String recruitDetailPop(@RequestParam Map<String, Object> params, Model model){
+
+        return "popup/inside/recruit/recruitDetailPop";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();
