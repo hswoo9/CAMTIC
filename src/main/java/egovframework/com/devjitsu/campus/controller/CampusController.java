@@ -744,7 +744,7 @@ public class CampusController {
         return "campus/systemManagement";
     }
 
-    //학습체계도설정
+    /** 학습체게도 코드 조회 팝업 */
     @RequestMapping("/Campus/pop/systemAdminPop.do")
     public String systemAdminPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -752,6 +752,17 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/campus/systemAdminPop";
+    }
+
+    /** 학습체게도 코드 관리 팝업 */
+    @RequestMapping("/Campus/pop/systemAdminReqPop.do")
+    public String systemAdminReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/systemAdminReqPop";
     }
 
     //직무기술서관리
@@ -1088,6 +1099,27 @@ public class CampusController {
     @ResponseBody
     public Map<String, Object> updateApprStat(@RequestParam Map<String, Object> params) {
         return campusService.updateApprStat(params);
+    }
+
+    /** 캠퍼스 코드 저장 */
+    @RequestMapping("/campus/setEduCode")
+    public String setEduCode(@RequestParam Map<String, Object> params) {
+        campusService.setEduCode(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 학습체계도 구분명 저장 */
+    @RequestMapping("/campus/setEduCategory")
+    public String setEduCategory(@RequestParam Map<String, Object> params) {
+        campusService.setEduCategory(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 학습체계도 항목명 저장 */
+    @RequestMapping("/campus/setEduCategoryDetail")
+    public String setEduCategoryDetail(@RequestParam Map<String, Object> params) {
+        campusService.setEduCategoryDetail(params);
+        return "jsonView";
     }
 
     /**

@@ -158,4 +158,8 @@ public class CampusRepository extends AbstractDAO  {
     public void updateApprStat(Map<String, Object> params) {
         update("campus.updateApprStat", params);
     }
+
+    public void setEduCode(Map<String, Object> params) { insert("campus.setEduCode", params); }
+    public void setEduCategory(Map<String, Object> params) { insert("campus.setEduCategory", params); }
+    public void setEduCategoryDetail(Map<String, Object> params) { insert("campus.setEduCategoryDetail", params); }
 }

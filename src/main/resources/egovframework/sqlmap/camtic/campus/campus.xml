@@ -10,6 +10,9 @@
             CAMPUS.DJ_CAMPUS_CODE CC
         WHERE
             ACTIVE = 'Y'
+        <if test='campusGroupCodeId != null and campusGroupCodeId != ""'>
+            AND CAMPUS_GROUP_CODE_ID = #{campusGroupCodeId}
+        </if>
     </select>
 
     <select id="getEduInfoList" resultType="map" parameterType="map">
@@ -255,7 +258,7 @@
         FROM
             CAMPUS.DJ_EDU_CATEGORY EC
         WHERE
-        EC.ACTIVE = 'Y'
+            EC.ACTIVE = 'Y'
         <if test='largeCategoryId != null and largeCategoryId != ""'>
             AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
         </if>
@@ -276,7 +279,10 @@
         WHERE
             ECD.ACTIVE = 'Y'
         <if test='levelId != null and levelId != ""'>
-        AND ECD.LEVEL_ID = #{levelId}
+            AND ECD.LEVEL_ID = #{levelId}
+        </if>
+        <if test='eduCategoryId != null and eduCategoryId != ""'>
+            AND ECD.EDU_CATEGORY_ID in (${eduCategoryId})
         </if>
         ORDER BY ECD.ORDER
     </select>
@@ -900,4 +906,66 @@
             TARGET_YEAR = #{targetYear}
         AND REG_EMP_SEQ = #{empSeq}
     </update>
+
+    <insert id="setEduCode" parameterType="map">
+        /* setEduCode */
+        INSERT INTO CAMPUS.DJ_CAMPUS_CODE
+            (
+                CAMPUS_GROUP_CODE_ID,
+                CAMPUS_MD_CODE,
+                CAMPUS_MD_CODE_NM,
+                CAMPUS_DT_CODE,
+                CAMPUS_DT_CODE_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{groupCode},
+                #{midleCode},
+                #{midleCodeName},
+                (SELECT IFNULL(MAX(SCCC.CAMPUS_DT_CODE), 0)+1 FROM CAMPUS.DJ_CAMPUS_CODE SCCC WHERE SCCC.CAMPUS_MD_CODE = #{midleCode}),
+                #{reqText},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="setEduCategory" parameterType="map">
+        /* setEduCategory */
+        INSERT INTO CAMPUS.DJ_EDU_CATEGORY
+            (
+                EDU_CATEGORY_NAME,
+                LARGE_CATEGORY_ID,
+                LARGE_CATEGORY_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{reqText},
+                #{largeCategoryId},
+                #{largeCategoryName},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="setEduCategoryDetail" parameterType="map">
+        /* setEduCategoryDetail */
+        INSERT INTO CAMPUS.DJ_EDU_CATEGORY_DETAIL
+            (
+                EDU_CATEGORY_DETAIL_NAME,
+                EDU_CATEGORY_ID,
+                EDU_CATEGORY_NAME,
+                LEVEL_ID,
+                LEVEL_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{reqText},
+                #{eduCategoryId},
+                #{eduCategoryName},
+                #{level},
+                #{levelName},
+                #{regEmpSeq}
+            )
+    </insert>
 </mapper>

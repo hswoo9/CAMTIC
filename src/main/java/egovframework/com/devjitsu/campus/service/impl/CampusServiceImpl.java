@@ -298,6 +298,21 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setEduCode(Map<String, Object> params) {
+        campusRepository.setEduCode(params);
+    }
+
+    @Override
+    public void setEduCategory(Map<String, Object> params) {
+        campusRepository.setEduCategory(params);
+    }
+
+    @Override
+    public void setEduCategoryDetail(Map<String, Object> params) {
+        campusRepository.setEduCategoryDetail(params);
+    }
+
+    @Override
     public void updateDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));

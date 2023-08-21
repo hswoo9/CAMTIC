@@ -183,6 +183,10 @@ public interface CampusService {
      */
     Map<String, Object> updateApprStat(Map<String, Object> params);
 
+    void setEduCode(Map<String, Object> params);
+    void setEduCategory(Map<String, Object> params);
+    void setEduCategoryDetail(Map<String, Object> params);
+
     /**
      * 학습신청서 전자결재 상태값 업데이트
      * @param params
