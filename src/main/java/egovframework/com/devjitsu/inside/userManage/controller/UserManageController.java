@@ -1009,4 +1009,19 @@ public class UserManageController {
         return "inside/userManage/degreeView";
     }
 
+    /**
+     * 인사통계현황 - 입/퇴사 현황 - 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/joinLeaveViewPop.do")
+    public String joinLeaveViewPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/joinLeaveViewPop";
+    }
+
 }

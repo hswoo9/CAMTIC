@@ -142,3 +142,6 @@ input[type=file]::file-selector-button {
 
 /* 전자결재 HTML 양식 숨김 */
 .approval_div {display: none;}
+
+/*인사통계현황 테이블 텍스트 중앙 정렬*/
+.centerTable {text-align: center;}

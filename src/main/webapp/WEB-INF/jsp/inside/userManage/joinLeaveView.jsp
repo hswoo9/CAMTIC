@@ -3,13 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<%--<script type="text/javascript" src="/js/intra/inside/userManage/joinLeaveView.js?v=${today}"/></script>--%>
+<script type="text/javascript" src="/js/intra/inside/userManage/joinLeaveView.js?v=${today}"/></script>
 <style>
-    .table > tbody > tr {
-        text-align: center;
-    }
+    a{color: #696C74;}
 </style>
-
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -55,7 +52,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <table class="table table-bordered">
+                        <table class="centerTable table table-bordered">
                             <colgroup>
                                 <col width="35%" >
                                 <col width="35%" >
@@ -74,7 +71,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <table class="table table-bordered">
+                        <table class="centerTable table table-bordered">
                             <tbody>
                             <tr style="background-color: #d8dce3;">
                                 <td>년 도</td>
@@ -88,23 +85,23 @@
                             </tr>
                             <tr style="background-color: #e1ecff;">
                                 <td> 입 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                             </tr>
                             <tr style="background-color: #ffddd8;">
                                 <td> 퇴 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                             </tr>
                             <tr style="background-color: #d8dce3;">
                                 <td>년 도</td>
@@ -118,23 +115,23 @@
                             </tr>
                             <tr style="background-color: #e1ecff;">
                                 <td> 입 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                             </tr>
                             <tr style="background-color: #ffddd8;">
                                 <td> 퇴 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                             </tr>
                             <tr style="background-color: #d8dce3;">
                                 <td>년 도</td>
@@ -148,23 +145,23 @@
                             </tr>
                             <tr style="background-color: #e1ecff;">
                                 <td> 입 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                             </tr>
                             <tr style="background-color: #ffddd8;">
                                 <td> 퇴 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                             </tr>
                             <tr style="background-color: #d8dce3;">
                                 <td>년 도</td>
@@ -178,20 +175,20 @@
                             </tr>
                             <tr style="background-color: #e1ecff;">
                                 <td> 입 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
                             </tr>
                             <tr style="background-color: #ffddd8;">
                                 <td> 퇴 사</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
-                                <td> 명</td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
+                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
