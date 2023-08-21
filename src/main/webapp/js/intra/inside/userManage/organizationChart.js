@@ -104,7 +104,7 @@ var orgChart = {
                 {
                     title : "이름",
                     template : function (e){
-                        return "<a href='#' onclick='userPersonList.userReqPop("+e.EMP_SEQ+");'>"+e.EMP_NAME_KR+"</a>";
+                        return "<a href='#' onclick='userPersonList2.userViewPop("+e.EMP_SEQ+");'>"+e.EMP_NAME_KR+"</a>";
                     }
                 }, {
                     field : 'DEPT_NAME',
