@@ -190,4 +190,23 @@ public class AssetRepository extends AbstractDAO {
         insert("asset.setBookDelete", params);
     }
 
+    public void setBookCode(Map<String, Object> params) {
+        insert("asset.setBookCode", params);
+    }
+
+    public int getMaxBookCode(Map<String, Object> params) {
+        return (int) selectOne("asset.getMaxBookCode", params);
+    }
+
+    public int getMaxBookCode2(Map<String, Object> params) {
+        return (int) selectOne("asset.getMaxBookCode2", params);
+    }
+
+    public List<Map<String, Object>> getMdCode(Map<String, Object> params) {
+        return selectList("asset.getMdCode", params);
+    }
+
+    public List<Map<String, Object>> getCode(Map<String, Object> params) {
+        return selectList("asset.getCode", params);
+    }
 }

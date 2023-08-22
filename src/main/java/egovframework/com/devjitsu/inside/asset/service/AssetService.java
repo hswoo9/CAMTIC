@@ -130,4 +130,10 @@ public interface AssetService {
     Map<String, Object> getData(Map<String, Object> params);
 
     void setBookDelete(Map<String, Object> params);
+
+    void setBookCode(Map<String, Object> params);
+
+    List<Map<String, Object>> getMdCode(Map<String, Object> params);
+
+    List<Map<String, Object>> getCode(Map<String, Object> params);
 }

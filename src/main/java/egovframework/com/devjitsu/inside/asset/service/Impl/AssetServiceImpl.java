@@ -1010,4 +1010,27 @@ public class AssetServiceImpl implements AssetService {
     public void setBookDelete(Map<String, Object> params) {
         assetRepository.setBookDelete(params);
     }
+
+    @Override
+    public void setBookCode(Map<String, Object> params) {
+        if("".equals(params.get("bkMdCd"))) {
+            int maxCode = assetRepository.getMaxBookCode(params);
+            params.put("bkMdCd", maxCode + 1);
+            params.put("bkCd", null);
+        } else {
+            int maxCode = assetRepository.getMaxBookCode2(params);
+            params.put("bkCd", maxCode + 1);
+        }
+        assetRepository.setBookCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMdCode(Map<String, Object> params) {
+        return assetRepository.getMdCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCode(Map<String, Object> params) {
+        return assetRepository.getCode(params);
+    }
 }

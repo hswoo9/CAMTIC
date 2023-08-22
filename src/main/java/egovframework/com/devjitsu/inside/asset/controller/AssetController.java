@@ -908,6 +908,32 @@ public class AssetController {
         return "popup/inside/asset/bookManagePop";
     }
 
+    @RequestMapping("/bookCode/setBookCode")
+    public String setBookCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            assetService.setBookCode(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/bookCode/getMdCode")
+    public String getMdCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", assetService.getMdCode(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bookCode/getCode")
+    public String getCode(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getCode(params));
+
+        return "jsonView";
+    }
+
     //도서등록 팝업창
     @RequestMapping("/Inside/Pop/bookRegisPop.do")
     public String bookRegisPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {

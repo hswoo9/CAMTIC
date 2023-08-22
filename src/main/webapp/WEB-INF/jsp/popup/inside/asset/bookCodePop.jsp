@@ -49,7 +49,7 @@
 <%--                            <input type="text" id="cdType" style="width: 15%;">--%>
 <%--                            <input type="text" id="addType" style="display: none;">--%>
                             <input type="text" id="cdValue" style="width: 40%;">
-                            <button type="button" class="k-button k-button-solid-info">추가</button>
+                            <button type="button" class="k-button k-button-solid-info" onclick="bookCdPop.addCode()">추가</button>
                         </td>
                     </tr>
                 </thead>

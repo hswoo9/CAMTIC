@@ -2058,4 +2058,50 @@
         DELETE FROM CAM_INSIDE.DJ_BOOK_INFO
         WHERE BK_SN = #{bkSn}
     </delete>
+
+    <insert id="setBookCode" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_BOOK_CODE
+            (
+                BK_LG_CD,
+                BK_MD_CD,
+                BK_CD,
+                BK_CD_NM
+            )
+        VALUES
+            (
+                #{bkLgCd},
+                #{bkMdCd},
+                #{bkCd},
+                #{bkCdNm}
+            )
+
+    </insert>
+
+    <select id="getMaxBookCode" parameterType="map" resultType="int">
+        SELECT BK_MD_CD FROM CAM_INSIDE.DJ_BOOK_CODE WHERE BK_LG_CD = #{bkLgCd} ORDER BY BK_MD_CD DESC LIMIT 1;
+    </select>
+
+    <select id="getMaxBookCode2" parameterType="map" resultType="int">
+        SELECT IFNULL(BK_CD, 0) FROM CAM_INSIDE.DJ_BOOK_CODE WHERE BK_LG_CD = #{bkLgCd} AND BK_MD_CD = #{bkMdCd} ORDER BY BK_CD DESC LIMIT 1;
+    </select>
+
+    <select id="getMdCode" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_CODE
+        WHERE
+            BK_LG_CD = #{bkLgCd} AND BK_CD IS NULL AND BK_MD_CD IS NOT NULL
+    </select>
+
+    <select id="getCode" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_CODE
+        WHERE
+            BK_LG_CD = #{bkLgCd}
+        AND
+            BK_MD_CD = #{bkMdCd} AND BK_CD IS NOT NULL
+    </select>
 </mapper>
