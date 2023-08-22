@@ -66,7 +66,7 @@ var bustripResList = {
             height: 525,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
             toolbar : [
