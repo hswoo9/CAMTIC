@@ -147,7 +147,8 @@ var equipmentUsePop = {
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
                 sortSn : $("#sortSn").val(), //정렬순번
                 crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
-                clientPprtpcoName : $("#clientPprtpcoName").val() //의뢰업체명
+                prtpcoSn : $("#crmCd").val(),
+                clientPrtpcoName : $("#clientPrtpcoName").val() //의뢰업체명
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -200,6 +201,13 @@ var equipmentUsePop = {
             opener.gridReload();
             window.close()
         }
+    },
+
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

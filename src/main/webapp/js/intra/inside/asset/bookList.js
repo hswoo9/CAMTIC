@@ -60,8 +60,16 @@ var bookList = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
+            },
+            dataBound : function(){
+                var grid = this;
+                grid.tbody.find("tr").dblclick(function (e) {
+                    var dataItem = grid.dataItem($(this));
+                    console.log(dataItem)
+                    bookList.bookRegisPopup(dataItem.BK_SN);
+                });
             },
             toolbar : [
                 /*{
@@ -89,8 +97,8 @@ var bookList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">수정</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookCodePopup();">' +
+                            '	<span class="k-button-text">분류코드</span>' +
                             '</button>';
                     }
                 }
@@ -140,11 +148,21 @@ var bookList = {
         var popup = window.open(url, name, option);
     },
 
-    bookRegisPopup : function() {
+    bookRegisPopup : function(key) {
         var url = "/Inside/Pop/bookRegisPop.do";
+        if(key != null && key != ""){
+            url = "/Inside/Pop/bookRegisPop.do?bkSn="+key;
+        }
         var name = "bookRegisPop";
         var option = "width = 1000, height = 590, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
+
+    bookCodePopup: function() {
+        var url = "/inside/Pop/bookCodePop.do";
+        var name = "bookCodePop";
+        var option = "width = 800, height = 400, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    }
 
 }

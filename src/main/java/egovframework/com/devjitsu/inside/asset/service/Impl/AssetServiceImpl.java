@@ -566,7 +566,11 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setBookInsert(Map<String, Object> params) {
-        assetRepository.setBookInsert(params);
+        if(params.containsKey("bkSn")){
+            assetRepository.setBookUpdate(params);
+        } else {
+            assetRepository.setBookInsert(params);
+        }
     }
 
     private void setAssetInfoModHistory(Map<String, Object> assetInfo, Map<String, Object> params){
@@ -995,5 +999,15 @@ public class AssetServiceImpl implements AssetService {
         result.put("type", assetRepository.getEquipStatType(params));
         result.put("total", assetRepository.getEquipStat(params));
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getData(Map<String, Object> params) {
+        return assetRepository.getData(params);
+    }
+
+    @Override
+    public void setBookDelete(Map<String, Object> params) {
+        assetRepository.setBookDelete(params);
     }
 }

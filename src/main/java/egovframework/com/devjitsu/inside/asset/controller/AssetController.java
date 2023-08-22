@@ -910,13 +910,26 @@ public class AssetController {
 
     //도서등록 팝업창
     @RequestMapping("/Inside/Pop/bookRegisPop.do")
-    public String bookRegisPop(HttpServletRequest request, Model model) {
+    public String bookRegisPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("params", params);
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/bookRegisPop";
     }
+
+    @RequestMapping("/inside/Pop/bookCodePop.do")
+    public String bookCodePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookCodePop";
+    }
+
+
 
     //도서 리스트 조회
     @RequestMapping("/inside/getBookList")
@@ -1046,6 +1059,20 @@ public class AssetController {
         Map<String, Object> data = assetService.getEquipStat(params);
         model.addAttribute("type", data.get("type"));
         model.addAttribute("total", data.get("total"));
+        return "jsonView";
+    }
+
+    @RequestMapping("/bookRegisPop/getData")
+    public String getData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getData(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/setBookDelete")
+    public String setBookDelete(@RequestParam Map<String, Object> params, Model model){
+        assetService.setBookDelete(params);
+        model.addAttribute("code", 200);
         return "jsonView";
     }
 

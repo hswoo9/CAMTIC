@@ -126,4 +126,8 @@ public interface AssetService {
 
     /** 장비 통계 */
     Map<String, Object> getEquipStat(Map<String, Object> params);
+
+    Map<String, Object> getData(Map<String, Object> params);
+
+    void setBookDelete(Map<String, Object> params);
 }

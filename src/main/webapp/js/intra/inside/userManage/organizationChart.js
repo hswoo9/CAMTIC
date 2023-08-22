@@ -67,7 +67,7 @@ var orgChart = {
                     return data.length;
                 },
             },
-            pageSize: 15,
+            pageSize: 10,
         });
 
         $("#deptUserGrid").kendoGrid({
@@ -77,8 +77,8 @@ var orgChart = {
             persistSelection: true,
             pageable: {
                 refresh: true,
-                pageSize : 15,
-                pageSizes: [15, 20, 50, "ALL"],
+                pageSize : 10,
+                pageSizes: [10, 20, "ALL"],
                 buttonCount: 5,
                 messages: {
                     display: "{0} - {1} of {2}",

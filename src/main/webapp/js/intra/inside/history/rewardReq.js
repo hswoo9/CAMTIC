@@ -46,7 +46,7 @@ var rewardReq = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
             toolbar : [
@@ -167,7 +167,7 @@ var rewardReq = {
     rewardReqBatchPop : function() {
         var url = "/Inside/pop/rewardReqBatchPop.do";
         var name = "rewardReqBatchPop";
-        var option = "width=1800, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1800, height=695, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
