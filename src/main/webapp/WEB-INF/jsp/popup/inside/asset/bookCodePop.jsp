@@ -35,7 +35,7 @@
                         <td colspan="3">
                             <input type="text" id="bkLgCd" style="width: 30%;">
                             <input type="text" id="bkMdCd" style="width: 30%;">
-                            <input type="text" id="bkCd" style="width: 30%;">
+<%--                            <input type="text" id="bkCd" style="width: 30%;">--%>
                         </td>
                     </tr>
                     <tr>
@@ -43,8 +43,8 @@
                             <span class="red-star">*</span>등록
                         </th>
                         <td colspan="3">
-                            <input type="text" id="cdType" style="width: 15%;">
-                            <input type="text" id="addType" style="display: none;">
+<%--                            <input type="text" id="cdType" style="width: 15%;">--%>
+<%--                            <input type="text" id="addType" style="display: none;">--%>
                             <input type="text" id="cdValue" style="width: 40%;">
                             <button type="button" class="k-button k-button-solid-info">추가</button>
                         </td>

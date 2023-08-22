@@ -22,36 +22,24 @@ var bookCdPop = {
             }
         });
 
+        $("#bkLgCd").data("kendoDropDownList").bind("change", function(){
+            if($("#bkLgCd").val() == ""){
+                $("#bkMdCd").kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: [
+                        {text: "중분류를 선택하세요", value: ""}
+                    ],
+                    index: 0
+                });
+            }
+        })
+
         $("#bkMdCd").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 {text: "중분류를 선택하세요", value: ""}
-            ],
-            select: function (){
-                if($("#bkMdCd").val() == 0){
-                    bookCdPop.fn_changeBkMdCd();
-                }
-            },
-            index: 0
-        });
-
-        $("#bkCd").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "소분류를 선택하세요", value: ""}
-            ],
-            index: 0
-        });
-
-        $("#cdType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "대분류", value: "0"},
-                {text: "중분류", value: "1"},
-                {text: "소분류", value: "2"}
             ],
             index: 0
         });
@@ -82,10 +70,6 @@ var bookCdPop = {
         ];
         var bkMdCd = $("#bkMdCd").data("kendoDropDownList");
         bkMdCd.setDataSource(dataSource);
-        bkMdCd.bind("change", function(){
-            var value = $("#bkMdCd").val();
-            bookCdPop.fn_changeBkMdCd(value);
-        });
     },
 
     fn_changeBkMdCd : function (e){
