@@ -9,6 +9,17 @@
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentUsePop.js?v=${today}"/></script>
 <html>
 <body class="font-opensans" style="background-color:#fff;">
+
+<input type="hidden" id="crmCd" />
+<input type="hidden" id="crmLoc" />
+<input type="hidden" id="crmNm" />
+<input type="hidden" id="crmProd" />
+<input type="hidden" id="crmCeo" />
+<input type="hidden" id="crmPost" />
+<input type="hidden" id="crmAddr" />
+<input type="hidden" id="crmCallNum" />
+<input type="hidden" id="crmReqMem" />
+<input type="hidden" id="crmPhNum" />
     <div style="padding:0;">
         <div class="table-responsive">
             <div class="card-header pop-header">
@@ -84,7 +95,7 @@
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>의뢰업체</th>
                         <td colspan="3"><input type="text" id="clientPrtpcoName" disabled style="width: 30%;">
-                            <button type="button" id="search1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled style="width:10%; height:27px; line-height:0;" onclick="">
+                            <button type="button" id="search1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="equipmentUsePop.fn_popCamCrmList()">
                                 검색
                             </button>
                         </td>

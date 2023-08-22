@@ -1413,13 +1413,13 @@
         INSERT INTO CAM_INSIDE.DJ_EQIPMN_USE
         (
             eqipmn_mst_sn, use_pd_str_de, use_pd_end_de, user_name, user_sn,
-            oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn,
+            oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn, prtpco_sn, client_prtpco_name,
             reg_de, sort_sn, actvt_yn, create_dt, crtr_sn
         )
         VALUES
             (
                 #{eqipmnMstSn}, #{usePdStrDe}, #{usePdEndDe}, #{userName}, #{userSn},
-                #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn},
+                #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn}, #{prtpcoSn}, #{clientPrtpcoName},
                 #{regDe}, #{sortSn},'Y', NOW(), #{crtrSn}
             )
     </insert>
