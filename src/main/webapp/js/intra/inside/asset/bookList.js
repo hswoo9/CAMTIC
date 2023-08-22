@@ -97,8 +97,8 @@ var bookList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">수정</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookCodePopup();">' +
+                            '	<span class="k-button-text">분류코드</span>' +
                             '</button>';
                     }
                 }
@@ -157,5 +157,12 @@ var bookList = {
         var option = "width = 1000, height = 590, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
+
+    bookCodePopup: function() {
+        var url = "/inside/Pop/bookCodePop.do";
+        var name = "bookCodePop";
+        var option = "width = 800, height = 400, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    }
 
 }

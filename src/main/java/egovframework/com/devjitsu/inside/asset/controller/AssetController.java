@@ -919,6 +919,18 @@ public class AssetController {
         return "popup/inside/asset/bookRegisPop";
     }
 
+    @RequestMapping("/inside/Pop/bookCodePop.do")
+    public String bookCodePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookCodePop";
+    }
+
+
+
     //도서 리스트 조회
     @RequestMapping("/inside/getBookList")
     public String getBookList(@RequestParam Map<String, Object> params, Model model) {
