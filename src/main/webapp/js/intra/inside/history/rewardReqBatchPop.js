@@ -274,7 +274,7 @@ var rewardReqBatchPop = {
                 return;
             }
             let data = {
-                empSeq            : empSeq,
+                empSeq            : String(empSeq),
                 erpEmpSeq         : dataItem.ERP_EMP_SEQ,
                 empName           : dataItem.EMP_NAME_KR,
                 deptSeq           : dataItem.DEPT_SEQ,
@@ -288,6 +288,7 @@ var rewardReqBatchPop = {
                 rwdStComp         : $(v).find('#rwdStComp'+empSeq).val(),
                 rwdEtc            : $(v).find('#rwdEtc'+empSeq).val()
             }
+
             arr.push(data);
         });
 

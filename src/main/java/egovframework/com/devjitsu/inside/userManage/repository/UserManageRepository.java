@@ -143,4 +143,9 @@ public class UserManageRepository extends AbstractDAO {
     public Object setUserReqDetailUpdate(Map<String, Object> params) {
         return update("userManage.setUserReqDetailUpdate", params);
     }
+
+    /** 인사기록카드 포상 관리 추가*/
+    public List<Map<String,Object>> getReward2InfoList (Map<String,Object> map) {
+        return selectList("userManage.getReward2InfoList", map);
+    }
 }

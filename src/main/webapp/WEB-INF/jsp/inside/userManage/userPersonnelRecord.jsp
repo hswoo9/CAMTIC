@@ -575,11 +575,25 @@
                                             <tr>
                                                 <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' class='k-checkbox checkbox'></td>
                                                 <td>${status.index + 1}</td>
-                                                <td></td>
-                                                <td>${l.REWORD_TYPE_NAME}</td>
+                                                <td>${l.SIDE_NAME}</td>
+                                                <td>${l.REWORD_TYPE_NAME1}</td>
                                                 <td>${l.REWORD_DAY}</td>
-                                                <td>${l.REWORD_REASON}</td>
-                                                <td>${l.REWORD_AGENCY_NAME}</td>
+                                                <td>${l.RWD_OFM}</td>
+                                                <td>${l.RWD_ST_COMP}</td>
+                                                <td></td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:forEach var="l" items="${RewordList}" varStatus="status">
+                                        <c:if test="${l.REWORD_ID ne null}">
+                                            <tr>
+                                                <td><input type='checkbox' name='rewordChk2' id='rewordChk2${l.REWORD_ID}' class='k-checkbox checkbox'></td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.SIDE_NAME}</td>
+                                                <td>${l.REWORD_TYPE_NAME1}</td>
+                                                <td>${l.REWORD_DAY}</td>
+                                                <td>${l.RWD_OFM}</td>
+                                                <td>${l.RWD_ST_COMP}</td>
                                                 <td></td>
                                             </tr>
                                         </c:if>
