@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 public class PostResponse {
 
+
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ARTICLE_TITLE;                  // 제목
     private String REG_EMP_NAME;                 // 작성자
+    private String BOARD_ARTICLE_CONTENT;                 // 작성 내용
     private int BOARD_ARTICLE_VIEW_COUNT;                   // 조회 수
     private String PUBLIC_YN;              // 공개유무
     private String FILE_YN;              // 파일유무
@@ -14,6 +16,10 @@ public class PostResponse {
     private String BOARD_ARTICLE_GROUP;    // 게시글 그룹
 
     private String EMP_SEQ;    // 작성자 사원번호
+
+    private String FILE_PATH;
+    private String BOARD_ARTICLE_CONTENT_URL;
+    private String BOARD_ARTICLE_HASHTAG;
 
 
     public Long getBOARD_ARTICLE_ID() {
@@ -23,6 +29,10 @@ public class PostResponse {
     public String getBOARD_ARTICLE_TITLE() {
         return BOARD_ARTICLE_TITLE;
     }
+    public String getBOARD_ARTICLE_CONTENT() { return BOARD_ARTICLE_CONTENT; }
+
+    public String getBOARD_ARTICLE_CONTENT_URL() { return BOARD_ARTICLE_CONTENT_URL; }
+    public String getBOARD_ARTICLE_HASHTAG() { return BOARD_ARTICLE_HASHTAG; }
 
     public String getREG_EMP_NAME() {
         return REG_EMP_NAME;
@@ -50,5 +60,9 @@ public class PostResponse {
 
     public String getEMP_SEQ() {
         return EMP_SEQ;
+    }
+
+    public String getFIle_PATH() {
+        return FILE_PATH;
     }
 }

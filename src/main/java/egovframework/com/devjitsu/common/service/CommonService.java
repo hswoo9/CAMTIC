@@ -38,4 +38,6 @@ public interface CommonService {
     String getMenuFullJsonString(LoginVO loginVO);
 
     Map<String, Object> getContentFileOne(Map<String, Object> params);
+
+    List<Map<String, Object>> commonCodeList(Map<String, Object> params);
 }

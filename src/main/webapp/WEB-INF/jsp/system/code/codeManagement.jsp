@@ -19,7 +19,7 @@
 
 <body class="font-opensans">
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="mainCard">
 	<div class="panel">
 		<div class="panel-heading">
 		</div>
@@ -30,8 +30,27 @@
 		</div>
 
 		<div class="panel-body">
-
-			<div class="table-responsive" style="margin-bottom:10px;">
+			<div style="margin-bottom:10px;">
+				<table class="searchTable table table-bordered mb-0">
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<tr>
+						<th class="text-center th-color">그룹코드</th>
+						<td>
+							<input type="text" id="cmGroupCode" style="width:200px;">
+						</td>
+						<th class="text-center th-color">그룹코드명</th>
+						<td>
+							<input type="text" id="cmGroupCodeNm" onkeypress="if(window.event.keyCode==13){codeM.gridReload('mainGrid')}" style="width: 200px;">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<%--<div class="table-responsive" style="margin-bottom:10px;">
 				<table class="table table-bordered mb-0" style="border: 0px;">
 					<tbody>
 					<tr>
@@ -47,7 +66,7 @@
 					</tr>
 					</tbody>
 				</table>
-			</div>
+			</div>--%>
 			<div id="mainGrid">
 
 			</div>

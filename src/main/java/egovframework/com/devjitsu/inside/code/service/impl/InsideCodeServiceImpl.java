@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.inside.code.service.InsideCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,22 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     @Override
     public List<Map<String, Object>> searchDuplicateCar(Map<String, Object> params) {
         return insideCodeRepository.searchDuplicateCar(params);
+    }
+
+    @Override
+    public Map<String, Object> getCarStat(Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("type", insideCodeRepository.getCarStatType(params));
+        result.put("total", insideCodeRepository.getCarStat(params));
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getRoomStat(Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("type", insideCodeRepository.getRoomStatType(params));
+        result.put("total", insideCodeRepository.getRoomStat(params));
+        return result;
     }
 
     @Override

@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="/js/intra/approval/draftFormList.js?${toDate}"/></script>
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading"></div>
         <div style="padding-left : 20px; padding-right: 20px;">

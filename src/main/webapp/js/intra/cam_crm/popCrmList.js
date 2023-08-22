@@ -1,0 +1,127 @@
+var popCrmList = {
+
+
+    global : {
+
+    },
+
+
+    fn_deafultScript: function (){
+
+        popCrmList.popMainGrid();
+
+    },
+
+
+    popGridReload: function (){
+        $("#popMainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    popMainGrid : function () {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/crm/getPopCrmList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#popMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 480,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="popCrmList.popGridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }],
+            columns: [
+                {
+                    title: "업태",
+                    field: "CRM_OCC",
+                    width: 100,
+                }, {
+                    field: "CRM_NM",
+                    title: "업체명",
+                    width: 80
+                }, {
+                    title: "사업자번호",
+                    field: "CRM_NO",
+                    width: 100
+                }, {
+                    title: "주종목",
+                    field: "CRM_EVENT",
+                    width: 180
+                }, {
+                    title: "주요생산품",
+                    field: "CRM_PROD",
+                    width: 180
+                }, {
+                    title: "대표자",
+                    field: "CRM_CEO",
+                    width: 80
+                }, {
+                    title: "",
+                    template: function(row){
+                        var data = JSON.stringify(row);
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popCrmList.fn_selCrm('+row.CRM_SN+')">선택</button>';
+                    },
+                    width: 60
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
+    fn_selCrm: function (e){
+        var data= {
+            crmSn : e
+        }
+        var rs = customKendo.fn_customAjax("/crm/getCrmData", data);
+
+        var rs = rs.rs;
+
+        opener.parent.$("#crmCd").val(rs.CRM_SN);
+        opener.parent.$("#crmLoc").val(rs.CRM_LOC);
+        opener.parent.$("#crmNm").val(rs.CRM_NM);
+        opener.parent.$("#crmProd").val(rs.CRM_PROD);
+        opener.parent.$("#crmCeo").val(rs.CRM_CEO);
+        opener.parent.$("#crmPost").val(rs.POST);
+        opener.parent.$("#crmAddr").val(rs.ADDR);
+        opener.parent.$("#crmCallNum").val(rs.TEL_NUM);
+        opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
+        opener.parent.$("#crmPhNum").val(rs.PH_NUM);
+
+        window.close();
+    }
+
+}

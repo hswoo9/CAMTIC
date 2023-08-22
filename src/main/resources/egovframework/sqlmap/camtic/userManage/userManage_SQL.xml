@@ -172,6 +172,7 @@
             RES_REGIS_NUM,
             CAPS_NUM,
             DUTY_CODE,
+            DUTY_NAME,
             POSITION_CODE,
             DEPT_NAME,
             DEPT_SEQ,
@@ -181,6 +182,7 @@
             ACCOUNT_HOLDER,
             BANK_NAME,
             ACCOUNT_NUM,
+            ZIP_CODE,
             ADDR,
             ADDR_DETAIL,
             OFFICE_TEL_NUM,
@@ -200,13 +202,24 @@
             VISIONR,
             HOME_PAGE_ACTIVE,
             WEDDING_ACTIVE,
+            <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+            WEDDING_DAY,
+            </if>
+            <if test="GRADE_NAME != null and GRADE_NAME != ''">
+                GRADE_NAME,
+            </if>
+            <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+                DEGREE_CODE,
+            </if>
             BLOOD_TYPE,
             DIVISION,
             DIVISION_SUB,
             REG_EMP_SEQ,
             ACTIVE,
             CAR_ACTIVE,
-            JOIN_DAY
+            OCCUPATION_CODE,
+            JOIN_DAY,
+            WORK_STATUS_CODE
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -215,7 +228,9 @@
             #{RES_REGIS_NUM},
             #{CAPS_NUM},
             #{DUTY_CODE},
+            #{DUTY_NAME},
             #{POSITION_CODE},
+            #{POSITION_NAME},
             #{DEPT_NAME},
             #{DEPT_SEQ},
             #{DEPT_TEAM_NAME},
@@ -224,6 +239,7 @@
             #{ACCOUNT_HOLDER},
             #{BANK_NAME},
             #{ACCOUNT_NUM},
+            #{ZIP_CODE},
             #{ADDR},
             #{ADDR_DETAIL},
             #{OFFICE_TEL_NUM},
@@ -243,13 +259,24 @@
             #{VISIONR},
             #{HOME_PAGE_ACTIVE},
             #{WEDDING_ACTIVE},
+            <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+                #{WEDDING_DAY},
+            </if>
+            <if test="GRADE_NAME != null and GRADE_NAME != ''">
+                #{GRADE_NAME},
+            </if>
+            <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+                #{DEGREE_CODE},
+            </if>
             #{BLOOD_TYPE},
             #{division},
             #{divisionSub},
             #{regEmpSeq},
             #{ACTIVE},
             #{CAR_ACTIVE},
-            #{JOIN_DAY}
+            #{OCCUPATION_CODE},
+            #{JOIN_DAY},
+            'Y'
         )
     </insert>
 
@@ -270,6 +297,7 @@
             CAM_HR.DJ_DEPT_INFO DI
         WHERE
             DI.DEPT_LEVEL = 1
+        ORDER BY DI.DEPT_LEVEL, DI.ORDER_SN
     </select>
 
     <select id="getDeptCodeList" parameterType="map" resultType="map">
@@ -281,6 +309,7 @@
             CAM_HR.DJ_DEPT_INFO
         WHERE
             PARENT_DEPT_SEQ = #{deptSeq}
+        ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
     <select id="getEmpInfoList" parameterType="map" resultType="map">
         SELECT
@@ -1211,6 +1240,17 @@
     <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
         /* getUserPersonnelinformList */
         SELECT
+            <![CDATA[
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                  THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) ELSE 0
+            END) AS prev_hire,
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                  THEN CONCAT(CAST(a.BEFOR_CAREER AS UNSIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) * 12))
+                  ELSE a.BEFOR_CAREER
+            END) AS prev_hire_mon,
+            ]]>
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
+            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.EMP_SEQ,
             a.ERP_EMP_SEQ,
             a.LOGIN_ID,
@@ -1224,12 +1264,10 @@
             a.DEPT_TEAM_NAME,
             (select dept_name from cam_hr.dj_dept_info where dept_seq = (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ)) PARENT_DEPT_NAME,
             (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ) AS DEPT_PARENT_SEQ,
-            a.JOB_CODE,
-            a.JOB_NAME,
             a.POSITION_CODE,
             a.POSITION_NAME,
             a.DUTY_CODE,
-            a.DUTY_NAME,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = '3' AND CM_CODE = a.DUTY_CODE AND ACTIVE = 'Y') AS DUTY_NAME,
             a.GRADE_CODE,
             a.GRADE_NAME,
             a.POSITION_OR_DUTY,
@@ -1275,8 +1313,8 @@
             a.ACTIVE,
             a.REG_EMP_SEQ,
             a.REG_DATE,
-            a.MOD_EMP_SEQ,
-            a.MOD_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = a.MOD_EMP_SEQ GROUP BY EMP_SEQ) AS MOD_EMP_NAME,
+            DATE_FORMAT(a.MOD_DATE, '%Y-%m-%d %H:%i:%s') AS MOD_DATE,
             a.RES_REGIS_NUM,
             a.CHECK_PASSWD,
             a.CAPS_NUM,
@@ -1300,7 +1338,8 @@
             a.VISIONL,
             a.VISIONR,
             a.DIVISION,
-            a.DIVISION_SUB
+            a.DIVISION_SUB,
+            a.DUZON_CODE
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -1354,4 +1393,130 @@
         where
             a.${key} = #{id}
     </select>
+
+    <update id="setUserReqDetailUpdate" parameterType="map">
+            /*setUserReqDetailUpdate*/
+            UPDATE CAM_HR.DJ_EMP_INFO
+            SET EMP_NAME_KR = #{EMP_NAME_KR},
+            <if test="PASSCHANGE != null and PASSCHANGE != ''">
+                LOGIN_PASSWD = #{LOGIN_PASSWD},
+            </if>
+            <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+            WEDDING_DAY = #{WEDDING_DAY},
+            </if>
+            <if test="GRADE_NAME != null and GRADE_NAME != ''">
+                GRADE_NAME = #{GRADE_NAME},
+            </if>
+            <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+                DEGREE_CODE = #{DEGREE_CODE},
+            </if>
+            RES_REGIS_NUM = #{RES_REGIS_NUM},
+            CAPS_NUM = #{CAPS_NUM},
+            DUTY_CODE = #{DUTY_CODE},
+            DUTY_NAME = #{DUTY_NAME},
+            POSITION_CODE = #{POSITION_CODE},
+            POSITION_NAME = #{POSITION_NAME},
+            DEPT_NAME = #{DEPT_NAME},
+            DEPT_SEQ = #{DEPT_SEQ},
+            DEPT_TEAM_NAME = #{DEPT_TEAM_NAME},
+            JOB_DETAIL = #{JOB_DETAIL},
+            BEFOR_CAREER = #{BEFOR_CAREER},
+            ACCOUNT_HOLDER = #{ACCOUNT_HOLDER},
+            BANK_NAME = #{BANK_NAME},
+            ACCOUNT_NUM = #{ACCOUNT_NUM},
+            ZIP_CODE = #{ZIP_CODE},
+            ADDR = #{ADDR},
+            ADDR_DETAIL = #{ADDR_DETAIL},
+            OFFICE_TEL_NUM = #{OFFICE_TEL_NUM},
+            MOBILE_TEL_NUM = #{MOBILE_TEL_NUM},
+            EMAIL_ADDR = #{EMAIL_ADDR},
+            CAR_NUM = #{CAR_NUM},
+            EMP_NAME_CN = #{EMP_NAME_CN},
+            EMP_NAME_EN = #{EMP_NAME_EN},
+            EMG_TEL_NUM = #{EMG_TEL_NUM},
+            LEGAL_DOMICILE = #{LEGAL_DOMICILE},
+            HOBBY = #{HOBBY},
+            RELIGION = #{RELIGION},
+            SPECIALITY = #{SPECIALITY},
+            WEIGHT = #{WEIGHT},
+            HEIGHT = #{HEIGHT},
+            VISIONL = #{VISIONL},
+            VISIONR = #{VISIONR},
+            HOME_PAGE_ACTIVE = #{HOME_PAGE_ACTIVE},
+            WEDDING_ACTIVE = #{WEDDING_ACTIVE},
+            BLOOD_TYPE = #{BLOOD_TYPE},
+            DIVISION = #{division},
+            DIVISION_SUB = #{divisionSub},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW(),
+            CAR_ACTIVE = #{CAR_ACTIVE},
+            JOIN_DAY = #{JOIN_DAY},
+            OCCUPATION_CODE = #{OCCUPATION_CODE}
+        WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
+    </update>
+
+    <select id="getUserImageInfo" resultType="map" parameterType="map">
+        /* getUserImageInfo */
+        SELECT
+            IM.IMAGE_ID,
+            IM.EMP_SEQ,
+            IM.SIGN_IMAGE_PK,
+            IM.ID_IMAGE_PK,
+            IM.PERSONAL_IMAGE_PK
+        FROM
+            CAM_INSIDE.DJ_IMAGE_MANAGE IM
+        WHERE
+            IM.EMP_SEQ = #{empSeq}
+    </select>
+
+    <insert id="setUserImageReq" parameterType="map">
+        /* setUserImageReq */
+        INSERT INTO CAM_INSIDE.DJ_IMAGE_MANAGE(
+            EMP_SEQ,
+        <if test='signImg != 0'>
+            SIGN_IMAGE_PK,
+        </if>
+        <if test='idImg != 0'>
+            ID_IMAGE_PK,
+        </if>
+        <if test='personalImg != 0'>
+            PERSONAL_IMAGE_PK,
+        </if>
+            REG_EMP_SEQ,
+            REG_DATE
+        ) VALUES (
+            #{empSeq},
+        <if test='signImg != 0'>
+            #{signImg},
+        </if>
+        <if test='idImg != 0'>
+            #{idImg},
+        </if>
+        <if test='personalImg != 0'>
+            #{personalImg},
+        </if>
+            #{loginEmpSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="setUserImageUpd" parameterType="map">
+        /* setUserImageUpd */
+        UPDATE
+            CAM_INSIDE.DJ_IMAGE_MANAGE
+        SET
+            <if test='signImg != 0'>
+                SIGN_IMAGE_PK = #{signImg},
+            </if>
+            <if test='idImg != 0'>
+                ID_IMAGE_PK = #{idImg},
+            </if>
+            <if test='personalImg != 0'>
+                PERSONAL_IMAGE_PK = #{personalImg},
+            </if>
+            MOD_EMP_SEQ = #{loginEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </update>
 </mapper>

@@ -61,7 +61,18 @@ public interface AssetService {
     Map<String, Object> getAstPdaInfo(Map<String, Object> params);
     void setAstPdaOptInspection(Map<String, Object> params);
     void setAssetInspectionUpload(Map<String, Object> params);
-    /** */
+
+
+    /** 지식재산권 */
+    Map<String, Object> getInventionInfo(Map<String, Object> params);
+    List<Map<String, Object>> getInventionShareList(Map<String, Object> params);
+    List<Map<String, Object>> getRprReceiptList(Map<String, Object> params);
+    void setInventionInsert(Map<String, Object> params);
+    void setRprResultInsert(Map<String, Object> params);
+    void setRprReceiptInsert(Map<String, Object> params);
+    void updateDocState(Map<String, Object> bodyMap) throws Exception;
+
+
     //장비사용 목록 조회
     List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
 
@@ -84,6 +95,9 @@ public interface AssetService {
     Map<String, Object> getAssetPlace(Map<String, Object> params);
     void setAssetPlace(Map<String,Object> map);
     void setAssetPlaceDel(Map<String,Object> map);
+    Map<String,Object> getCategoryMonthly(Map<String, Object> params);
+    List<Map<String,Object>> getLGCategoryMonthly(Map<String, Object> params);
+    List<Map<String,Object>> getMDCategoryMonthly(Map<String, Object> params);
 
 
     //
@@ -91,4 +105,25 @@ public interface AssetService {
 
     //도서등록
     void setBookInsert(Map<String, Object> params);
+
+    //지식재산권 리스트 삭제
+    Map<String, Object> setRprListDelete(List<String> rprPk);
+
+    //지식재산권 리스트 수정 창 조회
+    List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params);
+
+    /** 지식재산권 수정 */
+    void updRprReceipt(Map<String, Object> params);
+
+    /** 지식재산권 일괄변경 */
+    void updRprAllChange(Map<String, Object> params);
+
+    /** 장비 전자결재 */
+    List<Map<String,Object>> getEquipApprovalData(Map<String, Object> params);
+    List<Map<String, Object>> getEquipApprovalInfo(Map<String, Object> params);
+    void setEquipApprovalInfo(Map<String, Object> params);
+    void updateEquipDocState(Map<String, Object> bodyMap) throws Exception;
+
+    /** 장비 통계 */
+    Map<String, Object> getEquipStat(Map<String, Object> params);
 }

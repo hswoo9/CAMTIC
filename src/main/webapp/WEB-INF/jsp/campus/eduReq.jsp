@@ -16,7 +16,7 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
-<div class="col-md-10 col-lg-10 dash-left">
+<div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">개인학습신청</h4>

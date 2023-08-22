@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.userManage.controller;
 
+import com.google.gson.Gson;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -146,10 +147,36 @@ public class UserManageController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
 
         System.out.println("parmas값 --------" + params);
         System.out.println("dfdf --------" + userPersonnelinformList);
         return "popup/inside/userManage/userViewPop";
+    }
+
+    /**
+     * 인사관리 직원 정보 조회 팝업2 - 인사관리(사용자)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewPop2.do")
+    public String userViewPop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewPop2";
     }
 
     /**
@@ -240,11 +267,16 @@ public class UserManageController {
 
     //직원조회목록 페이지
     @RequestMapping("/Inside/pop/userReqPopImage.do")
-    public String userReqPopImage(HttpServletRequest request, Model model){
+    public String userReqPopImage(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("data", userManageService.getUserImageList(params));
+
         return "popup/inside/userManage/userReqPopImage";
     }
 
@@ -313,15 +345,135 @@ public class UserManageController {
         return "jsonView";
     }
 
-    //근로계약서 페이지
+    /**
+     * 연봉근로계약서(사용자)
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/employmentReq.do")
     public String employmentReq(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        return "inside/userManage/employmentReq";
+    }
+
+    /**
+     * 연봉근로계약서(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/employmentManage.do")
+    public String employmentManage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/employmentManage";
+    }
+
+    /**
+     * 연봉근로계약서 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/getEmploymentContList.do")
+    public String getEmploymentContList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", userManageService.getEmploymentContList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 연봉근로계약서 작성(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/employmentReqPop.do")
+    public String employmentReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/userManage/employmentReq";
+        return "popup/inside/employ/employmentReqPop";
     }
+
+    /**
+     * 연봉근로계약서 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/setEmploymentContract.do")
+    public String setEmploymentContract(@RequestParam Map<String, Object> params, Model model){
+        userManageService.setEmploymentContract(params);
+        return "jsonView";
+    }
+
+    /**
+     * 연봉근로계약서 발송
+     * @param params
+     * @return
+     */
+    @RequestMapping("/userManage/sendSalaryWorkerReq.do")
+    public String sendSalaryRWorkerReq(@RequestParam(value = "sendArr[]") List<String> params){
+        userManageService.sendSalaryWorkerReq(params);
+        return "jsonView";
+    }
+
+    /**
+     * 연봉근로계약서 보기 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/employmentPop.do")
+    public String employmentPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", new Gson().toJson((LoginVO) session.getAttribute("LoginVO")));
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+        params.put("menuCd", "employment");
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+
+        return "popup/inside/employ/employmentPop";
+    }
+
+    /**
+     * 연봉근로계약서 데이터 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/userManage/getEmploymentInfo.do")
+    public String getEmploymentInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", userManageService.getEmploymentInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/setEmploymentInfoFlag.do")
+    public String setEmploymentInfoFlag(@RequestParam Map<String, Object> params){
+        userManageService.setEmploymentInfoFlag(params);
+        return "jsonView";
+    }
+
 
     //연봉계약서 페이지
     @RequestMapping("/Inside/agreementReq.do")
@@ -339,8 +491,13 @@ public class UserManageController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String, Object> params = new HashMap<>();
+        params.put("empSeq", login.getUniqId());
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", userManageService.getUserImageList(params));
         return "inside/userManage/imageManage";
     }
 
@@ -646,7 +803,7 @@ public class UserManageController {
 
     //이미지관리 파일 추가
     @RequestMapping("/userManage/setempInfoFileSave.do")
-    public String setempInfoFileSave(@RequestParam Map<String, Object> params, @RequestParam("idPhotoFile") MultipartFile[] idPhotoFile, MultipartHttpServletRequest request, Model model) throws Exception {
+    public String setempInfoFileSave(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
@@ -658,13 +815,23 @@ public class UserManageController {
         String base_path = BASE_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         MainLib mainLib = new MainLib();
-        List<Map<String, Object>> list = new ArrayList<>();
-        list = mainLib.multiFileUpload(idPhotoFile, server_path);
+        List<Map<String, Object>> idPhotoFile = new ArrayList<>();
+        List<Map<String, Object>> signPhotoFile = new ArrayList<>();
+        List<Map<String, Object>> myPhotoFile = new ArrayList<>();
 
-        int photoFileId = userManageService.setThumbnailUpload(list, params, base_path);
+        idPhotoFile = mainLib.multiFileUpload(request.getFiles("idPhotoFile").toArray(new MultipartFile[0]), server_path);
+        signPhotoFile = mainLib.multiFileUpload(request.getFiles("signPhotoFile").toArray(new MultipartFile[0]), server_path);
+        myPhotoFile = mainLib.multiFileUpload(request.getFiles("myPhotoFile").toArray(new MultipartFile[0]), server_path);
+
+        int photoFileId = userManageService.setThumbnailUpload(idPhotoFile, params, base_path);     //증명사진
+        int signPhotoFileId = userManageService.setThumbnailUpload(signPhotoFile, params, base_path);   //결재사진
+        int myPhotoFileId = userManageService.setThumbnailUpload(myPhotoFile, params, base_path);   //개인사진
 
         params.put("loginEmpSeq", loginVO.getUniqId());
-        params.put("photoFileId", photoFileId);
+        params.put("idImg", photoFileId);
+        params.put("signImg", signPhotoFileId);
+        params.put("personalImg", myPhotoFileId);
+
         userManageService.setUserInfoReqUpd(params);
 
         return "jsonView";
@@ -696,4 +863,165 @@ public class UserManageController {
 
         return viewName;
     }
+
+
+    /**
+     * 직원 계좌 정보 수정
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/updateUserBankInfo")
+    public String updateUserBankInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+            model.addAttribute("rs", userManageService.updateUserBankInfo(params));
+        return "jsonView";
+    }
+
+    /**
+     * 직원 정보 수정
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/userManage/setUserReqDetailUpdate")
+    public String setUserReqDetailUpdate(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("regEmpSeq", loginVO.getUniqId());
+        model.addAttribute("rs", userManageService.setUserReqDetailUpdate(params));
+        return "jsonView";
+    }
+
+    /**
+     * 인사통계현황 - 입/퇴사 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/joinLeaveView.do")
+    public String joinLeaveView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/joinLeaveView";
+    }
+
+    /**
+     * 인사통계현황 - 소속 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/depView.do")
+    public String depView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/depView";
+    }
+
+    /**
+     * 인사통계현황 - 직급 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/dutyView.do")
+    public String dutyView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/dutyView";
+    }
+    /**
+     * 인사통계현황 - 년도별 직급 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/yearDutyView.do")
+    public String yearDutyView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/yearDutyView";
+    }
+    /**
+     * 인사통계현황 - 년도별 발령 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/yearHistoryView.do")
+    public String yearHistoryView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/yearHistoryView";
+    }
+    /**
+     * 인사통계현황 - 성별/연령별 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/genderAgeView.do")
+    public String genderAgeView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/genderAgeView";
+    }
+    /**
+     * 인사통계현황 - 학위별 현황 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/degreeView.do")
+    public String degreeView(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        menuSession(request, session);
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/userManage/degreeView";
+    }
+
+    /**
+     * 인사통계현황 - 입/퇴사 현황 - 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/joinLeaveViewPop.do")
+    public String joinLeaveViewPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/joinLeaveViewPop";
+    }
+
 }

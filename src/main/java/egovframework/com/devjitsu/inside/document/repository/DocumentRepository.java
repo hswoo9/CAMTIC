@@ -57,9 +57,9 @@ public class DocumentRepository extends AbstractDAO {
         insert("document.setDocuContractInsert", params);
     }
 
-    public void setSnackInsert(Map<String, Object> params) {
-        insert("document.setSnackInsert", params);
-    }
+    public int setSnackInsert(Map<String, Object> params) { int result = (int)insert("document.setSnackInsert", params); return result;}
+
+    public void setSnackCompanionInsert(Map<String, Object> params) { insert("document.setSnackCompanionInsert", params); }
 
     public void setSnackReqCert(Map<String, Object> params) {
         update("document.setSnackReqCert", params);
@@ -68,4 +68,36 @@ public class DocumentRepository extends AbstractDAO {
     public void setArchiveInsert(Map<String, Object> params) {
         insert("document.setArchiveInsert", params);
     }
+
+    //문서고 등록 - 문서위치 조회
+    public List<Map<String, Object>> getDocumentPlaceList(Map<String, Object> params) {
+        return selectList("document.getDocumentPlaceList", params);
+    }
+
+    public void setProductInsert(Map<String, Object> params){
+        insert("document.setProductInsert", params);
+    }
+
+    public void insOneFileInfo(Map<String, Object> params){
+        insert("document.insOneFileInfo", params);
+    }
+
+    public void setDocuContractFileKey(Map<String, Object> params){
+        update("document.setDocuContractFileKey", params);
+    }
+
+    //문서고 삭제
+    public void setAchiveDelete(List<String> archivePk) { update("document.setAchiveDelete", archivePk);}
+
+    //문서고 폐기
+    public void setAchiveScrap(List<String> archivePk) { update("document.setAchiveScrap", archivePk);}
+
+    //문서고 업데이트
+    public void setArchiveUpdate(Map<String, Object> params) { update("document.setArchiveUpdate", params);}
+
+    //문서고 수정에 들어갈 항목 조회
+    public Map<String,Object> getArchiveinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("document.getArchiveinfoList", params);
+    }
+
 }

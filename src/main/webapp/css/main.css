@@ -2150,10 +2150,10 @@ body.rtl.email_page .inbox_body .inbox_list {
     }
 }
 
-body ::-webkit-scrollbar {
-    width:0;
+/*body ::-webkit-scrollbar {
+    width:0px;
     height:3px;
-    transition:.3s background
+    transition:.3s background;
 }
 
 body ::-webkit-scrollbar-thumb {
@@ -2161,8 +2161,37 @@ body ::-webkit-scrollbar-thumb {
 }
 
 body :hover::-webkit-scrollbar-thumb {
+    background: #f8f9fa
+}*/
+
+.popTable(body ::-webkit-scrollbar) {
+    width:0px;
+    height:3px;
+    transition:.3s background;
+}
+
+.popTable(body ::-webkit-scrollbar-thumb) {
     background:#f8f9fa
 }
+
+.popTable(body :hover::-webkit-scrollbar-thumb) {
+    background: #f8f9fa
+}
+
+.popTable ::-webkit-scrollbar {
+    width:11px;
+    height:5px;
+    transition:.3s background;
+}
+
+.popTable ::-webkit-scrollbar-thumb {
+    background:#bfbfc0
+}
+
+.popTable :hover::-webkit-scrollbar-thumb {
+    background: #777778
+}
+
 
 a:hover {
     text-decoration:none

@@ -46,12 +46,12 @@
                     DEPT_SEQ,
                     DEPT_NAME,
                     POSITION_CODE,
-                    POSITION_CODE AS POSITION_NAME,
+                    POSITION_NAME,
                     DUTY_CODE,
                     DUTY_NAME,
                     ACTIVE
                 FROM
-                    DJ_CAMTIC.V_EMP_INFO
+                    CAM_HR.DJ_EMP_INFO
             )VUI
         WHERE
             VUI.ACTIVE = 'Y'

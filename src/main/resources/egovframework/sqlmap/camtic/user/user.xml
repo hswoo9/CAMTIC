@@ -10,7 +10,7 @@
             DUTY_NAME,
             BDAY
 
-        FROM  DJ_CAMTIC.V_EMP_INFO VEI
+        FROM  CAM_HR.DJ_EMP_INFO VEI
 
         WHERE VEI.ACTIVE = 'Y' and VEI.DEPT_NAME = #{deptNm}
     </select>
@@ -18,26 +18,31 @@
     <select id="getUserInfo" resultType="map" parameterType="map">
         /* getUserInfo */
         SELECT
-            VEI.EMP_SEQ,
-            VEI.EMP_NAME_KR,
-            VEI.LOGIN_ID,
-            VEI.DEPT_SEQ,
-            VEI.DEPT_NAME,
-            VEI.POSITION_CODE,
-            VEI.POSITION_NAME,
-            VEI.POSITION_CODE AS POSITION_NAME,
-            VEI.DUTY_CODE,
-            VEI.DUTY_NAME
+            HEI.EMP_SEQ,
+            HEI.EMP_NAME_KR,
+            HEI.LOGIN_ID,
+            HEI.DEPT_SEQ,
+            HEI.DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS deptId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS teamId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            HEI.POSITION_CODE,
+            HEI.POSITION_NAME,
+            HEI.DUTY_CODE,
+            HEI.DUTY_NAME
         FROM
-            CAM_HR.DJ_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE 1=1
         <choose>
             <when test='active != null and !"".equals(active)'></when>
             <otherwise>
-        AND VEI.ACTIVE = 'Y'
+        AND HEI.ACTIVE = 'Y'
             </otherwise>
         </choose>
-        AND VEI.EMP_SEQ = #{empSeq}
+        AND HEI.EMP_SEQ = #{empSeq}
     </select>
 
     <select id="getIdCheck" parameterType="map" resultType="map">
@@ -89,7 +94,9 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
             HEI.EMP_NAME_KR,
+            HEI.POSITION_CODE,
             HEI.POSITION_NAME,
+            HEI.DUTY_CODE,
             HEI.DUTY_NAME,
             HEI.JOB_DETAIL
         FROM
@@ -107,20 +114,132 @@
 
     <update id="setUserInfoUpdate" parameterType="list">
         /* setUserInfoUpdate */
-        <foreach collection="historyList" item="item" index="index" separator=";">
-            UPDATE
-                CAM_HR.DJ_EMP_INFO
-            SET
-                DEPT_SEQ = #{item.deptSeq},
-                DEPT_NAME = #{item.afDeptName},
-                DEPT_TEAM_NAME = #{item.afTeamName},
-                POSITION_CODE = #{item.afPositionCode},
-                POSITION_NAME = #{item.position},
-                DUTY_CODE = #{item.afDutyCode},
-                DUTY_NAME = #{item.afDutyName},
-                JOB_DETAIL = #{item.afJobDetail}
-            WHERE
-                EMP_SEQ = #{item.empSeq}
-        </foreach>
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = (CASE WHEN #{afTeamName} = '' THEN #{afDeptName} ELSE #{afTeamName} END),
+            DEPT_TEAM_NAME = #{afTeamName},
+            POSITION_CODE = #{afPositionCode},
+            POSITION_NAME = IFNULL(#{position}, ""),
+            GRADE_NAME = #{afGradeName},
+            DUTY_CODE = #{afDutyCode},
+            DUTY_NAME = IFNULL(#{afDutyName}, ""),
+            JOB_DETAIL = #{afJobDetail}
+        WHERE
+            EMP_SEQ = #{hisEmpSeq}
     </update>
+
+    <select id="getUserPersonnelOne" parameterType="map" resultType="map">
+        /* getUserPersonnelOne */
+        SELECT
+            a.EMP_SEQ,
+            a.ERP_EMP_SEQ,
+            a.LOGIN_ID,
+            a.LOGIN_PASSWD,
+            a.EMP_NAME_KR,
+            a.EMP_NAME_EN,
+            a.EMP_NAME_CN,
+            a.ATT_CARD_NUM,
+            a.DEPT_SEQ,
+            a.DEPT_NAME,
+            a.DEPT_TEAM_NAME,
+            a.OCCUPATION_CODE,
+            a.POSITION_CODE,
+            a.POSITION_NAME,
+            a.DUTY_CODE,
+            a.DUTY_NAME,
+            a.GRADE_CODE,
+            a.GRADE_NAME,
+            a.POSITION_OR_DUTY,
+            a.EMPLOY_GUBUN,
+            a.JOIN_DAY,
+            a.APPOINT_DAY,
+            a.APPOINT_GUBUN,
+            a.APPOINT_GUBUN_DETAIL,
+            a.CTR_ST_DAY,
+            a.CTR_EN_DAY,
+            a.WEEK_WORK_TIME_TYPE,
+            a.WEEK_WORK_TIME,
+            a.BF_APPOINT_DAY,
+            a.LOCAL_TALENT,
+            a.WORK_FIELD_NAME,
+            a.ZIP_CODE,
+            a.ADDR,
+            a.OLD_ADDR,
+            a.ADDR_DETAIL,
+            a.ADDR_REFERENCES,
+            a.LEGAL_DOMICILE,
+            a.HOME_TEL_NUM,
+            a.MOBILE_TEL_NUM,
+            a.OFFICE_TEL_NUM,
+            a.EMAIL_ADDR,
+            a.BDAY,
+            a.GENDER_CODE,
+            a.WEDDING_ACTIVE,
+            a.IMPAIR_LEVEL_CODE,
+            a.DEGREE_CODE,
+            a.JOB_DETAIL,
+            a.SPEC_CODE,
+            a.DIV_FACTION,
+            a.WORK_STATUS_CODE,
+            a.RESIGN_DAY,
+            a.RESIGN_REASON,
+            a.PHOTO_FILE_ID,
+            a.DEPT_MG_YN,
+            a.ADMIN_APPROVE_YN,
+            a.SECRET_YN,
+            a.SEC_AUTHORIZE_DATE,
+            a.SEC_RELEASE_DATE,
+            a.ACTIVE,
+            a.REG_EMP_SEQ,
+            a.REG_DATE,
+            a.MOD_EMP_SEQ,
+            a.MOD_DATE,
+            a.RES_REGIS_NUM,
+            a.CHECK_PASSWD,
+            a.CAPS_NUM,
+            a.HOME_PAGE_ACTIVE,
+            a.BEFOR_CAREER,
+            a.BS_ELAPSED_YEAR,
+            a.ELAPSED_YEAR,
+            a.ACCOUNT_HOLDER,
+            a.BANK_NAME,
+            a.ACCOUNT_NUM,
+            a.DUZON_CODE,
+            a.CAR_ACTIVE,
+            a.CAR_NUM,
+            a.EMG_TEL_NUM,
+            a.BLOOD_TYPE,
+            a.WEDDING_DAY,
+            a.HOBBY,
+            a.SPECIALITY,
+            a.RELIGION,
+            a.HEIGHT,
+            a.WEIGHT,
+            a.VISIONL,
+            a.VISIONR,
+            a.DIVISION,
+            a.DIVISION_SUB,
+            (select dept_name from cam_hr.dj_dept_info where dept_seq = (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ)) PARENT_DEPT_NAME,
+            (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ) AS DEPT_PARENT_SEQ
+        FROM
+            cam_hr.dj_emp_info AS a
+        WHERE
+            a.EMP_SEQ = #{pk};
+    </select>
+
+    <select id="getUserImageInfo" resultType="map" parameterType="map">
+        /* getUserImageInfo */
+        SELECT
+            IM.IMAGE_ID,
+            IM.EMP_SEQ,
+            IM.SIGN_IMAGE_PK,
+            IM.ID_IMAGE_PK,
+            IM.PERSONAL_IMAGE_PK
+        FROM
+            CAM_INSIDE.DJ_IMAGE_MANAGE IM
+        WHERE
+            IM.EMP_SEQ = #{pk}
+    </select>
 </mapper>

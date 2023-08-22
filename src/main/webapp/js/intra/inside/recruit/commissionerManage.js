@@ -27,20 +27,20 @@ var commissionerManage = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : "/inside/getCommissionerList",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -107,25 +107,36 @@ var commissionerManage = {
                     template : "<input type='checkbox' id='' name='' value=''/>",
                     width: 50
                 }, {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "연번"
                 }, {
-                    field: "",
+                    field: "NAME",
                     title: "성명"
                 }, {
-                    field: "",
-                    title: "성별"
+                    field: "GENDER",
+                    title: "성별",
+                    template: function(e){
+                        if(e.GENDER != null){
+                            if(e.GENDER == "M"){
+                                return "남";
+                            }else if(e.GENDER == "F"){
+                                return "여";
+                            }
+                        }else{
+                            return "-";
+                        }
+                    }
                 }, {
-                    field: "",
+                    field: "BELONG",
                     title: "기관(소속)"
                 }, {
-                    field: "",
+                    field: "DUTY_POSITION",
                     title: "직급(직책)"
                 }, {
-                    field: "",
+                    field: "TEL_NUM",
                     title: "휴대폰"
                 }, {
-                    field: "",
+                    field: "BMK",
                     title: "비고"
                 }
             ]

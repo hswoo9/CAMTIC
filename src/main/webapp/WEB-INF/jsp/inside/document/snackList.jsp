@@ -5,7 +5,6 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="/js/intra/inside/document/snackList.js?v=${today}"/></script>
-
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
@@ -29,58 +28,44 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="15%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
+                        <col width="%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
-                        <td colspan="3">
-                            <input type="text" id="startDt" style="width: 150px;">
+                        <td>
+                            <input type="text" id="startDt" class="searchInput" style="width: 110px;">
                             ~
-                            <input type="text" id="endDt" style="width: 150px;">
+                            <input type="text" id="endDt" class="searchInput" style="width: 110px;">
                         </td>
-                        <th class="text-center th-color">부서</th>
-                        <td>
-                            <input type="text" id="dept" style="width: 200px;">
-                        </td>
-                        <th class="text-center th-color">팀</th>
-                        <td>
-                            <input type="text" id="team" style="width: 200px;">
-                        </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">식대 구분</th>
                         <td>
-                            <input type="text" id="mealsDivision" style="width: 100px;">
-                        </td>
-                        <th class="text-center th-color">거래처</th>
-                        <td>
-                            <input type="text" id="account" style="width: 150px;">
+                            <input type="text" id="mealsDivision" class="searchInput" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">결제 구분</th>
                         <td>
-                            <input type="text" id="payDivision" style="width: 100px;">
+                            <input type="text" id="payDivision" class="searchInput" style="width: 70px;">
                         </td>
                         <th class="text-center th-color">결재</th>
                         <td>
-                            <input type="text" id="approval" style="width: 100px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                <span>검색</span>
-                            </button>
+                            <input type="text" id="approval" class="searchInput" style="width: 80px;">
                         </td>
                     </tr>
                 </table>
+                <div id="mainGrid"></div>
             </div>
-        </div>
-
-        <div class="panel-body">
-            <div id="mainGrid"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->

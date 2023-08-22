@@ -218,6 +218,7 @@ public class AssetController {
     @RequestMapping("/Inside/proposalList.do")
     public String proposalList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -549,7 +550,6 @@ public class AssetController {
     /**
      * 자산관리 > PDA 연동목록 - 재물조사 업로드
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/asset/setAssetInspectionUpload.do")
@@ -563,6 +563,7 @@ public class AssetController {
     @RequestMapping("/Inside/rprList.do")
     public String rprList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -579,30 +580,142 @@ public class AssetController {
         return "popup/inside/asset/rprChangePop";
     }
 
-    //지식재산권 리스트 - 직무발명 신고 팝업
-    @RequestMapping("/Inside/Pop/jobInvenReportPop.do")
-    public String jobInvenReportPop(HttpServletRequest request, Model model) {
+
+
+
+
+
+    //캠도큐먼트 - 직무발명신고서 전자결재 신청폼 팝업
+    @RequestMapping("/Inside/pop/inventionReqPop.do")
+    public String inventionReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/asset/jobInvenReportPop";
+        return "popup/inside/asset/inventionReqPop";
     }
-
-    //접수내역
+    //캠도큐먼트 - 직무발명신고서 전자결재 페이지
+    @RequestMapping("/popup/inside/approvalFormPopup/inventionApprovalPop.do")
+    public String inventionApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/asset/approvalFormPopup/inventionApprovalPop";
+    }
+    //캠도큐먼트 - 포상급지급신청서 전자결재 신청폼 팝업
+    @RequestMapping("/Inside/pop/rprResultPop.do")
+    public String rprResultPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/rprResultPop";
+    }
+    //캠도큐먼트 - 포상급지급신청서 전자결재 페이지
+    @RequestMapping("/popup/inside/approvalFormPopup/rprResApprovalPop.do")
+    public String rprResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/asset/approvalFormPopup/rprResApprovalPop";
+    }
+    //캠도큐먼트 - 지식재산권 선택 팝업
+    @RequestMapping("/Inside/pop/searchRprPop.do")
+    public String searchRprPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/searchRprPop";
+    }
+    //접수내역 패아자
     @RequestMapping("/Inside/rprReceiptList.do")
     public String rprReceiptList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/asset/rprReceiptList";
+    }
+    //지식재산권 등록 팝업
+    @RequestMapping("/Inside/pop/rprReceiptReqPop.do")
+    public String rprReceiptReqPop(@RequestParam Map<String, Object> params,HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/inside/asset/rprReceiptReqPop";
+    }
+
+    //직무발명신고서 데이터
+    @RequestMapping("/inside/getInventionInfo")
+    public String getInventionInfo(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = assetService.getInventionInfo(params);
+        model.addAttribute("rs", data);
+        return "jsonView";
+    }
+    //직무발명신고서 지분 리스트
+    @RequestMapping("/inside/getInventionShareList")
+    public String getInventionShareList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getInventionShareList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+    //접수내역 리스트
+    @RequestMapping("/inside/getRprReceiptList")
+    public String getRprReceiptList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getRprReceiptList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+    //캠도큐먼트 - 직무발명신고서 신청폼 등록
+    @RequestMapping("/inside/setInventionInsert")
+    public String setInventionInsert(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setInventionInsert(params);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        return "jsonView";
+    }
+    //캠도큐먼트 - 포상급지급신청서 신청폼 등록
+    @RequestMapping("/inside/setRprResultInsert")
+    public String setRprResultInsert(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setRprResultInsert(params);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        return "jsonView";
+    }
+    //지식재산권 등록
+    @RequestMapping("/inside/setRprReceiptInsert")
+    public String setRprReceiptInsert(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setRprReceiptInsert(params);
+        return "jsonView";
+    }
+    //직무발명신고서, 포상급지급신청서 결재 상태값에 따른 UPDATE 메서드
+    @RequestMapping(value = "/inside/inventionReqApp")
+    public String certificateReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            assetService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
     }
 
     //장비관리
     @RequestMapping("/Inside/equipmentList.do")
     public String equipmentList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -623,6 +736,7 @@ public class AssetController {
     @RequestMapping("/Inside/equipmentListAdminView.do")
     public String equipmentListAdminView(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -643,37 +757,6 @@ public class AssetController {
     @RequestMapping("/asset/setEquipmentInsert")
     public void setEquipmentInsert(@RequestParam Map<String, Object> params) {
         assetService.setEquipmentInsert(params);
-    }
-
-    //도서리스트
-    @RequestMapping("/Inside/bookList.do")
-    public String bookList(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/asset/bookList";
-    }
-
-    //도서 분류관리 팝업창
-    @RequestMapping("/Inside/Pop/bookManagePop.do")
-    public String bookManagePop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/asset/bookManagePop";
-    }
-
-    //도서등록 팝업창
-    @RequestMapping("/Inside/Pop/bookRegisPop.do")
-    public String bookRegisPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/asset/bookRegisPop";
     }
 
     //공통코드 - 장비관리구분 조회
@@ -781,13 +864,58 @@ public class AssetController {
     }
 
     //장비관리 (관리자) 결재창
-    @RequestMapping("/Inside/Pop/equipApprovalPop.do")
-    public String equipApprovalPop(HttpServletRequest request, Model model) {
+    @RequestMapping("/Inside/pop/equipAppPop.do")
+    public String equipAppPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/asset/equipApprovalPop";
+        return "popup/inside/asset/equipAppPop";
+    }
+
+    //장비관리 전자결재
+    @RequestMapping("/popup/inside/approvalFormPopup/equipApprovalPop.do")
+    public String equipApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        Map<String, Object> data = assetService.getCategoryMonthly(params);
+        model.addAttribute("data", data);
+        List<Map<String, Object>> list = assetService.getEquipApprovalData(params);
+        model.addAttribute("list", list);
+        return "/popup/inside/asset/approvalFormPopup/equipApprovalPop";
+    }
+
+    //도서리스트
+    @RequestMapping("/Inside/bookList.do")
+    public String bookList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/asset/bookList";
+    }
+
+    //도서 분류관리 팝업창
+    @RequestMapping("/Inside/Pop/bookManagePop.do")
+    public String bookManagePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookManagePop";
+    }
+
+    //도서등록 팝업창
+    @RequestMapping("/Inside/Pop/bookRegisPop.do")
+    public String bookRegisPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookRegisPop";
     }
 
     //도서 리스트 조회
@@ -813,4 +941,113 @@ public class AssetController {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
     }
+
+    //지식재산권 리스트 삭제
+    @RequestMapping("/inside/setRprListDelete")
+    public String setRprListDelete(@RequestParam(value = "rprPk[]") List<String> rprPk, Model model){
+        model.addAttribute("rs", assetService.setRprListDelete(rprPk));
+        return "jsonView";
+    }
+
+    //지식재산권 리스트 수정 팝업창
+    @RequestMapping("/Inside/pop/rprReceiptUpdatePop.do")
+    public String rprReceiptUpdatePop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("inventionInfoSn", params.get("pk"));
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("pk", params.get("pk"));
+        model.addAttribute("data", assetService.getInventionInfo(params));
+
+        return "popup/inside/asset/rprReceiptUpdatePop";
+    }
+
+    //지식재산권 리스트 수정 창 조회
+    @RequestMapping("/asset/getRprReceiptUpdateList")
+    public String getRprReceiptUpdateList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", assetService.getRprReceiptUpdateList(map));
+        return "jsonView";
+    }
+
+    /** 지식재산권 수정 */
+    @RequestMapping("/inside/updRprReceipt")
+    public String updRprReceipt(@RequestParam Map<String, Object> params, Model model) {
+        assetService.updRprReceipt(params);
+        return "jsonView";
+    }
+
+    /** 지식재산권 일괄변경 */
+    @RequestMapping("/inside/updRprAllChange")
+    public String updRprAllChange(@RequestParam Map<String, Object> params, Model model) {
+        assetService.updRprAllChange(params);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 데이터 */
+    @RequestMapping("/inside/getEquipApprovalData")
+    public String getEquipApprovalData(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> List = assetService.getEquipApprovalData(params);
+        model.addAttribute("list", List);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 중복조회 */
+    @RequestMapping("/inside/getEquipApprovalInfo")
+    public String getEquipApprovalInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getEquipApprovalInfo(params);
+        model.addAttribute("flag", list.size() == 0 ? "true" : "false");
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 저장 */
+    @RequestMapping("/inside/setEquipApprovalInfo")
+    public String setEquipApprovalInfo(@RequestParam Map<String, Object> params, Model model) {
+        assetService.setEquipApprovalInfo(params);
+        model.addAttribute("data", params);
+        return "jsonView";
+    }
+
+    /** 장비 전자결재 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/inside/equipReqApp")
+    public String equipReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            assetService.updateEquipDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 장비 증감률 통계 팝업*/
+    @RequestMapping("/Inside/pop/equipStatPop.do")
+    public String equipStatPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/equipStatPop";
+    }
+
+    /** 장비 증감률 통계 데이터*/
+    @RequestMapping("/inside/getEquipStat")
+    public String getEquipStat(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = assetService.getEquipStat(params);
+        model.addAttribute("type", data.get("type"));
+        model.addAttribute("total", data.get("total"));
+        return "jsonView";
+    }
+
+    /** 장비 증감률 통계 */
 }

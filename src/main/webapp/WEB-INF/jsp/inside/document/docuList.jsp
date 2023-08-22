@@ -18,25 +18,19 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col width="40%">
                         <col width="10%">
-                        <col width="60%">
+                        <col width="40%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="classType" style="width:150px;">
+                            <input type="text" id="classType" style="width:130px;">
                         </td>
                         <th class="text-center th-color">검색구분</th>
                         <td>
-                            <input type="text" id="searchType" style="width:200px;">
-                            <input type="text" id="searchText" style="width: 200px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">
-                                <span>검색</span>
-                            </button>
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:100px; height:27px; line-height:0;" onclick="docuContractList.docuPopup();">
-                                문서등록
-                            </button>
+                            <input type="text" id="searchType" style="width:130px;">
+                            <input type="text" id="searchText" style="width:150px;">
                         </td>
                     </tr>
                 </table>

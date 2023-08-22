@@ -11,6 +11,7 @@
         AND
             PARENT_DEPT_SEQ = #{parentDeptSeq}
         </if>
+        ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
 
 

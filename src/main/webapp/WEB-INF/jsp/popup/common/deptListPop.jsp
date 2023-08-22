@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/deptListPop.js?v="${toDate}"'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/popup/deptMultiPop.js?v="${toDate}"'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/deptListPop.js?v=3'/>"></script>
+<%--<script type="text/javascript" src="<c:url value='/js/intra/common/popup/deptMultiPop.js?v="${toDate}"'/>"></script>--%>
 <link rel="stylesheet" href="/css/intra/popup/approvalLineSettingPop.css">
 
 <html>
@@ -14,6 +14,7 @@
 </div>
 <div style="padding: 20px">
 	<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+	<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 	<table style="padding: 20px;">
 		<colgroup>
 			<col width="272px">
@@ -42,6 +43,8 @@
 						</li>
 					</ul>
 					<div style="height:447px;width: 410px;">
+						<span>성명</span>
+						<input type="text" id="sEmpName" style="width: 180px; margin-bottom: 5px;" class="k-input" onkeypress="if(window.event.keyCode==13){deptListPop.treeViewReload();}">
 						<div id="userList">
 						</div>
 					</div>
@@ -63,7 +66,7 @@
     var deptSeq = '${loginVO.orgnztId}';
     var deptName = '${loginVO.orgnztNm}';
 
-    deptListPop.fnDefaultScript();
+    deptListPop.fnDefaultScript(deptSeq);
 	deptListPop.gridChoose();
 </script>
 </body>

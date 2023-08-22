@@ -17,7 +17,7 @@
   <div class="top">
     <ul class="link">
       <li><a href="#"><span>통합페이지</span></a></li>
-      <li><a href="#"><span>잡매칭센터</span></a></li>
+      <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>
       <li><a href="#"><span>전주첨단벤처단지</span></a></li>
     </ul>
     <div class="sns">
@@ -35,9 +35,9 @@
           <ul>
             <li class="about_greeting"><a href="/camtic/about/greeting.do">원장 인사말</a></li>
             <li class="about_business"><a href="/camtic/about/business.do">주요사업</a></li>
-            <li class="about_vision"><a href="/camtic/about/vision.do">미션.비젼</a></li>
+            <li class="about_vision"><a href="/camtic/about/vision.do">미션ㆍ비젼</a></li>
             <li class="about_history"><a href="/camtic/about/history.do">연혁</a></li>
-            <li class="about_organization"><a href="/camtic/about/organization.do">조직.연락처</a></li>
+            <li class="about_organization"><a href="/camtic/about/organization.do">조직ㆍ연락처</a></li>
             <li class="about_location"><a href="/camtic/about/location.do">오시는 길</a></li>
           </ul>
         </li>
@@ -46,6 +46,7 @@
           <ul>
             <li class="region_about"><a href="/camtic/region/about.do">전주첨단벤처단지</a></li>
             <li class="region_jvalley"><a href="/camtic/region/jvalley.do">제조창업 플랫폼(J-valley)</a></li>
+            <%--<li class="region_list"><a href="http://www.jhitech.or.kr/web/page.php?pcode=BA" target='_blank'>입주기업 및 입주안내</a></li>--%>
             <li class="region_list"><a href="/camtic/region/list.do">입주기업 및 입주안내</a></li>
             <li style="display: none" class="region_view"><a href="/camtic/region/view.do">게시판</a></li>
           </ul>
@@ -54,11 +55,11 @@
           <a href="/camtic/company/root.do"><span>기업과 함께</span><i aria-hidden="true"></i></a>
           <ul>
             <li class="company_root"><a href="/camtic/company/root.do">복합소재뿌리기술센터</a></li>
-            <li class="company_drone"><a href="/camtic/company/drone.do">드론산업혁신지원센터</a></li>
+            <li class="company_drone"><a href="/camtic/company/drone.do">드론기술개발지원센터</a></li>
             <li class="company_space"><a href="/camtic/company/space.do">메이커스페이스</a></li>
-            <li class="company_support"><a href="/camtic/company/support.do">기업육성지원</a></li>
-            <li class="company_talent"><a href="/camtic/company/talent.do">인재개발센터</a></li>
-            <li class="company_job"><a href="/camtic/company/job.do">일자리창업지원</a></li>
+            <li class="company_support"><a href="/camtic/company/support.do">창업/기업 성장지원</a></li>
+            <li class="company_talent"><a href="/camtic/company/talent.do">인재개발지원</a></li>
+            <li class="company_job"><a href="/camtic/company/job.do">일자리혁신지원</a></li>
           </ul>
         </li>
         <li class="tech">
@@ -88,12 +89,12 @@
           </ul>
         </li>
         <li class="news">
-          <a href="/camtic/news/notice.do"><span>캠틱소식</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/news/commonBoard.do?categoryKey=notice"><span>캠틱소식</span><i aria-hidden="true"></i></a>
           <ul>
-            <li class="news_notice"><a href="/camtic/news/notice.do">공지사항</a></li>
-            <li class="news_business"><a href="/camtic/news/business.do">사업공고</a></li>
-            <li class="news_study"><a href="/camtic/news/study.do">교육/행사</a></li>
-            <li class="news_partner"><a href="/camtic/news/partner.do">유관기관소식</a></li>
+            <li class="news_notice"><a href="/camtic/news/commonBoard.do?categoryKey=notice">공지사항</a></li>
+            <li class="news_business"><a href="/camtic/news/commonBoard.do?categoryKey=business">사업공고</a></li>
+            <li class="news_study"><a href="/camtic/news/commonBoard.do?categoryKey=study">교육/행사</a></li>
+            <li class="news_partner"><a href="/camtic/news/commonBoard.do?categoryKey=partner">유관기관소식</a></li>
             <li style="display: none" class="news_view"><a href="/camtic/news/view.do">게시판</a></li>
           </ul>
         </li>
@@ -114,19 +115,16 @@
   </div>
 </header>
 
-<a href="#" id="alarm">주요 알림 맞춤서비스</a>
-<aside id="aside">
-  <a href="/camtic" class="aside1">첫화면</a>
-  <a href="/camtic/news/notice.do" class="aside2">공지</a>
-  <%--<a href="#" class="aside3">SNS</a>--%>
-  <a href="#" class="aside4">채용<br>공고</a>
-  <a href="#" class="aside5">장비<br>사용</a>
-  <a href="#wrap" class="aside6 _gotop">TOP</a>
-</aside>
+<jsp:include page="/WEB-INF/jsp/template/camtic/alarm.jsp" flush="false"/>
+<jsp:include page="/WEB-INF/jsp/template/camtic/aside.jsp" flush="false"/>
+
 
 <script>
   const pathname = $(location).attr('pathname');
   const middleCategory = pathname.split("/")[2];
-  const smallCategory = pathname.split("/")[3].split(".")[0];
+  let smallCategory = pathname.split("/")[3];
+  if(smallCategory != undefined){
+    smallCategory = smallCategory.split(".")[0];
+  };
   $("."+middleCategory+"_"+smallCategory).addClass('active');
 </script>

@@ -463,7 +463,7 @@ var userPersonList2 = {
     },
 
     userViewPop : function(e) {
-        var url = "/Inside/pop/userViewPop.do";
+        var url = "/Inside/pop/userViewPop2.do";
 
         if(e != null && e != ""){
             url += "?empSeq=" + e;
@@ -596,6 +596,6 @@ var userPersonList2 = {
     },
 
     userPersonnelRecord : function(empSeq){
-        open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq + '&admin=Y')
+        open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq)
     }
 }

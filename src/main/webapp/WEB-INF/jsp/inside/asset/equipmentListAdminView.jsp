@@ -56,19 +56,6 @@
                         </td>
                     </tr>
                 </table>
-                <div id="" style="margin:20px 0;">
-                    <h5>[2023년 5월 장비사용현황]</h5>
-                    <table class="searchTable table table-bordered" style="width: 200px; height: 40px;">
-                        <colgroup>
-                            <col width="" >
-                            <col width="" >
-                        </colgroup>
-                        <tr>
-                            <th>진행상황</th>
-                            <td>승인</td>
-                        </tr>
-                    </table>
-                </div>
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>

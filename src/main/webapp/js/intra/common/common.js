@@ -122,10 +122,34 @@ function fn_userMultiSelectPop() {
     window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 }
 
-//숫자에 콤마 찍기
+//숫자에 콤마 찍기 number
 function fn_numberWithCommas(num) {
     if (!num || num=="" || num==undefined) {
         return 0;
     }
     return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//숫자에 콤마찍기 string
+function fn_comma(str){
+    if (!str || str=="" || str==undefined) {
+        return "0";
+    }
+    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
+}
+
+function fn_inputNumberFormat(obj){
+    obj.value = fn_comma(obj.value);
+}
+
+function fileDown(filePath, fileName){
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
+}
+
+function fn_searchBind(){
+    $(".searchInput").bind("change", function(){
+        gridReload();
+    });
 }

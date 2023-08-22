@@ -19,7 +19,7 @@
   <meta property="og:description" content=""/>
   <meta name="description" content=""/>
   <meta name="keywords" content=""/>
-  <title>-</title>
+  <title>캠틱종합기술원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap">

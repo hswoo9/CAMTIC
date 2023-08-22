@@ -9,6 +9,8 @@ public class ArticlePage {
 
     private String searchCategory;
 
+    private String searchInput;
+
     private String searchColumn;
 
     private String SearchContent;
@@ -24,7 +26,7 @@ public class ArticlePage {
 
     public ArticlePage() {
         this.page = 1;
-        this.recordSize = 20;
+        this.recordSize = 10;
         this.pageSize = 10;
     }
 
@@ -68,9 +70,13 @@ public class ArticlePage {
     public String getSearchCategory() {
         return searchCategory;
     }
+    public String getSearchInput() { return searchInput; }
 
     public void setSearchCategory(String searchCategory) {
         this.searchCategory = searchCategory;
+    }
+    public void setSearchInput(String searchInput) {
+        this.searchInput = searchInput;
     }
 
     public String getSearchColumn() {

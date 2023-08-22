@@ -70,6 +70,20 @@ public class AssetRepository extends AbstractDAO {
     public void setAstPdaOptInspection(Map<String, Object> params) { update("asset.setAstPdaOptInspection", params);}
     public void setAssetInspectionUpload(Map<String, Object> params) { update("asset.setAssetInspectionUpload", params);}
     public void setAssetPdaActiveDtUpd(Map<String, Object> params) { update("asset.setAssetPdaActiveDtUpd", params);}
+
+    /** 지식재산권 관리 */
+    public Map<String, Object> getInventionInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getInventionInfo", params);}
+    public List<Map<String,Object>> getInventionShareList(Map<String,Object> params) { return selectList("asset.getInventionShareList", params);}
+    public List<Map<String, Object>> getRprReceiptList(Map<String, Object> params) { return selectList("asset.getRprReceiptList", params); }
+    public int setInventionInsert(Map<String, Object> params) { int result = (int)insert("asset.setInventionInsert", params); return result;}
+    public int setRprResultInsert(Map<String, Object> params) { int result = (int)insert("asset.setRprResultInsert", params); return result;}
+    public int setRprReceiptInsert(Map<String, Object> params) { int result = (int)insert("asset.setRprReceiptInsert", params); return result;}
+    public void setInventionShareInsert(Map<String, Object> params) { insert("asset.setInventionShareInsert", params);}
+    public void updateApprStat(Map<String, Object> params) { update("asset.updateApprStat", params);}
+    public void updateBefApprStat(Map<String, Object> params) { update("asset.updateBefApprStat", params);}
+    public void updateFinalApprStat(Map<String, Object> params) { update("asset.updateFinalApprStat", params); }
+    /** 지식재산권 관리 끝 */
+
     //장비관리 팝업창 (관리자) - 장비등록
     public void setEquipmentInsert(Map<String, Object> params) {
         insert("asset.setEquipmentInsert", params);
@@ -126,6 +140,10 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
         return selectList("asset.getEqipmnUseUpdateList", params);
     }
+    
+    //장비 전자결재
+    public List<Map<String, Object>> getLGCategoryMonthly(Map<String, Object> params) { return selectList("asset.getLGCategoryMonthly", params);}
+    public List<Map<String, Object>> getMDCategoryMonthly(Map<String, Object> params) { return selectList("asset.getMDCategoryMonthly", params);}
 
 
     public List<Map<String,Object>> getBookList(Map<String, Object> params) {
@@ -135,5 +153,29 @@ public class AssetRepository extends AbstractDAO {
     public void setBookInsert(Map<String, Object> params) {
         insert("asset.setBookInsert", params);
     }
+
+    //지식재산권 리스트 삭제
+    public void setRprListDelete(List<String> rprPk) { update("asset.setRprListDelete", rprPk);}
+
+    //지식재산권 리스트 수정 창 조회
+    public List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params) {
+        return selectList("asset.getRprReceiptUpdateList", params);
+    }
+
+    public int updRprReceipt(Map<String, Object> params) { int result = (int)update("asset.updRprReceipt", params); return result;}
+
+    /** 지식재산권 지분 비활성화 */
+    public void updInventionShare(Map<String, Object> params) { update("asset.updInventionShare", params);}
+
+    /** 지식재산권 일괄 변경 */
+    public void updRprAllChange(Map<String, Object> params) { update("asset.updRprAllChange", params);}
+
+    public List<Map<String, Object>> getEquipApprovalData(Map<String, Object> params) { return selectList("asset.getEquipApprovalData", params); }
+    public List<Map<String, Object>> getEquipApprovalInfo(Map<String, Object> params) { return selectList("asset.getEquipApprovalInfo", params); }
+    public void setEquipApprovalInfo(Map<String, Object> params) { insert("asset.setEquipApprovalInfo", params); }
+    public void updateEquipApprStat(Map<String, Object> params) { update("asset.updateEquipApprStat", params); }
+    public void updateEquipFinalApprStat(Map<String, Object> params) { update("asset.updateEquipFinalApprStat", params); }
+    public List<Map<String, Object>> getEquipStatType(Map<String, Object> params) { return selectList("asset.getEquipStatType", params); }
+    public List<Map<String, Object>> getEquipStat(Map<String, Object> params) { return selectList("asset.getEquipStat", params); }
 
 }

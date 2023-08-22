@@ -192,7 +192,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('eduContent', true, true, false);
                     hwpDocCtrl.putFieldText('eduContent', ResultData.EDU_CONTENT);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('eduMoney', true, true, false);
-                    hwpDocCtrl.putFieldText('eduMoney', numberWithCommas(ResultData.EDU_MONEY)+" 원");
+                    hwpDocCtrl.putFieldText('eduMoney', fn_numberWithCommas(ResultData.EDU_MONEY)+" 원");
                     hwpDocCtrl.global.HwpCtrl.MoveToField('attachDocName', true, true, false);
                     hwpDocCtrl.putFieldText('attachDocName', ResultData.ATTACH_DOC_NAME);
 
@@ -214,7 +214,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('travelMoneyType', true, true, false);
                     hwpDocCtrl.putFieldText('travelMoneyType', travelText);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
-                    hwpDocCtrl.putFieldText('returnMoney', numberWithCommas(ResultData.RETURN_MONEY)+" 원");
+                    hwpDocCtrl.putFieldText('returnMoney', fn_numberWithCommas(ResultData.RETURN_MONEY)+" 원");
                     hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
                     hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('bookWriterName', true, true, false);
@@ -427,11 +427,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 
-                    let regSign = busInfo.emp_name+" (인)";
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
-                    hwpDocCtrl.putFieldText('regSign', regSign);
-
-                    let tripCode = busInfo.trip_code;
+                    let tripCode = busInfo.TRIP_CODE;
                     let tripCodeText = "";
                     if (tripCode == 1) {
                         tripCodeText = "도내(시내)";
@@ -445,18 +441,18 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
                     hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
-                    let tripDate = busInfo.trip_day_fr.split("-")[0]+"년"+busInfo.trip_day_fr.split("-")[1]+"월"+busInfo.trip_day_fr.split("-")[2]+"일 "+busInfo.trip_time_fr
+                    let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.TRIP_TIME_FR
                         +" ~ "
-                        +busInfo.trip_day_to.split("-")[0]+"년"+busInfo.trip_day_to.split("-")[1]+"월"+busInfo.trip_day_to.split("-")[2]+"일 "+busInfo.trip_time_to;
+                        +busInfo.TRIP_DAY_TO.split("-")[0]+"년"+busInfo.TRIP_DAY_TO.split("-")[1]+"월"+busInfo.TRIP_DAY_TO.split("-")[2]+"일 "+busInfo.TRIP_TIME_TO;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tripDate', true, true, false);
                     hwpDocCtrl.putFieldText('tripDate', tripDate);
 
-                    let visit = busInfo.visit_loc + " "+ busInfo.visit_loc_sub;
+                    let visit = busInfo.VISIT_LOC + " "+ busInfo.VISIT_LOC_SUB;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('visit', true, true, false);
                     hwpDocCtrl.putFieldText('visit', visit);
 
                     let carText = "";
-                    const carList = busInfo.use_trspt;
+                    const carList = busInfo.USE_TRSPT;
                     if (carList == 1) {
                         carText = "카니발";
                     }else if (carList == 5) {
@@ -476,43 +472,46 @@ var hwpDocCtrl = {
                     }else if (carList == 11) {
                         carText = "기타";
                     }
-                    let car = busInfo.use_car == "Y" ? "미사용" : "사용 ("+carText+")"
+                    let car = carText;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('car', true, true, false);
                     hwpDocCtrl.putFieldText('car', car);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
-                    hwpDocCtrl.putFieldText('empName', busInfo.emp_name);
+                    hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('dept', true, true, false);
-                    hwpDocCtrl.putFieldText('dept', busInfo.deptNm+" "+busInfo.teamNm);
+                    hwpDocCtrl.putFieldText('dept', busInfo.DEPT_NAME+" "+busInfo.TEAM_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('position', true, true, false);
-                    hwpDocCtrl.putFieldText('position', busInfo.positionNm);
+                    hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
-                    hwpDocCtrl.putFieldText('title', busInfo.title);
+                    hwpDocCtrl.putFieldText('title', busInfo.TITLE);
+
+                    let regSign = busInfo.EMP_NAME+" (인)";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
+                    hwpDocCtrl.putFieldText('regSign', regSign);
                 }
             });
         }else if(data.menuCd == "bustripRes") {
-            const hrBizReqId = data.approKey.split("_")[1];
+            const hrBizReqResultId = data.approKey.split("_")[1];
 
-            if(hrBizReqId == null || hrBizReqId == undefined || hrBizReqId == "") {
+            if(hrBizReqResultId == null || hrBizReqResultId == undefined || hrBizReqResultId == "") {
                 alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
             }
 
             $.ajax({
-                url: "/bustrip/getBustripReqInfo",
+                url: "/bustrip/getBustripOne",
                 data: {
-                    hrBizReqId: hrBizReqId
+                    hrBizReqResultId: hrBizReqResultId
                 },
                 type: "post",
                 dataType: "json",
                 async: false,
                 success: function (result) {
                     console.log(result);
-                    const busInfo = result.rs.rs;
-                    const companionInfo = result.rs.list;
-                    const busResInfo = result.rs.rsRes;
+                    const busInfo = result.map;
+                    console.log(busInfo);
 
                     let today = new Date();
                     let year = today.getFullYear(); // 년도
@@ -524,75 +523,139 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 
-                    let regSign = busInfo.emp_name+" (인)";
+                    let regSign = busInfo.EMP_NAME+" (인)";
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                     hwpDocCtrl.putFieldText('regSign', regSign);
 
-                    let tripCode = busInfo.trip_code;
-                    let tripCodeText = "";
-                    if (tripCode == 1) {
-                        tripCodeText = "도내(시내)";
-                    }else if (tripCode == 2) {
-                        tripCodeText = "도내(시외)";
-                    }else if (tripCode == 3) {
-                        tripCodeText = "도외";
-                    }else if (tripCode == 4) {
-                        tripCodeText = "해외";
-                    }
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
-                    hwpDocCtrl.putFieldText('tripCode', tripCodeText);
-
-                    let tripDate = busInfo.trip_day_fr.split("-")[0]+"년"+busInfo.trip_day_fr.split("-")[1]+"월"+busInfo.trip_day_fr.split("-")[2]+"일 "+busInfo.trip_time_fr
-                        +" ~ "
-                        +busInfo.trip_day_to.split("-")[0]+"년"+busInfo.trip_day_to.split("-")[1]+"월"+busInfo.trip_day_to.split("-")[2]+"일 "+busInfo.trip_time_to;
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('tripDate', true, true, false);
-                    hwpDocCtrl.putFieldText('tripDate', tripDate);
-
-                    let visit = busInfo.visit_loc + " "+ busInfo.visit_loc_sub;
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('visit', true, true, false);
-                    hwpDocCtrl.putFieldText('visit', visit);
-
-                    let carText = "";
-                    const carList = busInfo.use_trspt;
-                    if (carList == 1) {
-                        carText = "카니발";
-                    }else if (carList == 5) {
-                        carText = "아반떼";
-                    }else if (carList == 3) {
-                        carText = "트럭";
-                    }else if (carList == 10) {
-                        carText = "자가";
-                    }else if (carList == 0) {
-                        carText = "대중교통";
-                    }else if (carList == 12) {
-                        carText = "모하비";
-                    }else if (carList == 13) {
-                        carText = "솔라티";
-                    }else if (carList == 14) {
-                        carText = "드론관제차량";
-                    }else if (carList == 11) {
-                        carText = "기타";
-                    }
-                    let car = busInfo.use_car == "Y" ? "미사용" : "사용 ("+carText+")"
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('car', true, true, false);
-                    hwpDocCtrl.putFieldText('car', car);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
-                    hwpDocCtrl.putFieldText('empName', busInfo.emp_name);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('empName2', true, true, false);
-                    hwpDocCtrl.putFieldText('empName2', busInfo.emp_name);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('dept', true, true, false);
-                    hwpDocCtrl.putFieldText('dept', busInfo.deptNm+" "+busInfo.teamNm);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('position', true, true, false);
-                    hwpDocCtrl.putFieldText('position', busInfo.positionNm);
-
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
-                    hwpDocCtrl.putFieldText('title', busResInfo.result);
                 }
             });
+        }else if(data.menuCd == "invention") {
+            const inventionInfoSn = data.approKey.split("_")[1];
+
+            if(inventionInfoSn == null || inventionInfoSn == undefined || inventionInfoSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url: "/inside/getInventionInfo",
+                data: {
+                    inventionInfoSn: inventionInfoSn
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    console.log(result);
+                    const invenInfo = result.rs.info;
+                    const shareList = result.rs.shareList;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('iprClass', true, true, false);
+                    hwpDocCtrl.putFieldText('iprClass', "✓ "+invenInfo.IPR_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
+                    hwpDocCtrl.putFieldText('title', invenInfo.TITLE);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('detail', true, true, false);
+                    hwpDocCtrl.putFieldText('detail', invenInfo.DETAIL_CN);
+
+                    let toDate = year+"년 "+month+"월 "+date+"일";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                    hwpDocCtrl.putFieldText('toDate', toDate);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regEmpName', true, true, false);
+                    hwpDocCtrl.putFieldText('regEmpName', invenInfo.REG_EMP_NAME);
+
+                    let field = "";
+                    for(let i=1; i<shareList.length+1; i++){
+                        field = "empName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].EMP_NAME);
+
+                        field = "deptName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].DEPT_NAME);
+
+                        field = "share"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].SHARE);
+                    }
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('manager', true, true, false);
+                    hwpDocCtrl.putFieldText('manager', invenInfo.MANAGER_NAME);
+                }
+            });
+        }else if(data.menuCd == "rprRes") {
+            const inventionInfoSn = data.approKey.split("_")[1];
+
+            if(inventionInfoSn == null || inventionInfoSn == undefined || inventionInfoSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url: "/inside/getInventionInfo",
+                data: {
+                    inventionInfoSn: inventionInfoSn
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    console.log(result);
+                    const invenInfo = result.rs.info;
+                    const shareList = result.rs.shareList;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('iprClass', true, true, false);
+                    hwpDocCtrl.putFieldText('iprClass', "✓ "+invenInfo.IPR_NAME);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
+                    hwpDocCtrl.putFieldText('title', invenInfo.TITLE);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('detail', true, true, false);
+                    hwpDocCtrl.putFieldText('detail', invenInfo.DETAIL_CN);
+
+                    let toDate = year+"년 "+month+"월 "+date+"일";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                    hwpDocCtrl.putFieldText('toDate', toDate);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regEmpName', true, true, false);
+                    hwpDocCtrl.putFieldText('regEmpName', invenInfo.REG_EMP_NAME);
+
+                    let field = "";
+                    for(let i=1; i<shareList.length+1; i++){
+                        field = "empName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].EMP_NAME);
+
+                        field = "deptName"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].DEPT_NAME);
+
+                        field = "share"+i;
+                        hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
+                        hwpDocCtrl.putFieldText(field, shareList[i-1].SHARE);
+                    }
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regNum', true, true, false);
+                    hwpDocCtrl.putFieldText('regNum', invenInfo.REG_NUM);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('regNum', true, true, false);
+                    hwpDocCtrl.putFieldText('regDate', invenInfo.REG_DATE);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('manager', true, true, false);
+                    hwpDocCtrl.putFieldText('manager', invenInfo.MANAGER_NAME);
+                }
+            });
+        }else if(data.menuCd == "equipment"){
         }
     },
 
@@ -630,7 +693,6 @@ var hwpDocCtrl = {
                 if(res.result){
                     if(hwpDocCtrl.global.mod == "W"){
                         hwpDocCtrl.openCallBack();
-                        hwpDocCtrl.dataSet();
                     }else if (hwpDocCtrl.global.mod == "RW"){
                         hwpDocCtrl.modOpenCallBack();
                     }else if (hwpDocCtrl.global.mod == "V"){
@@ -674,6 +736,8 @@ var hwpDocCtrl = {
         hwpDocCtrl.global.HwpCtrl.ShowCaret(true);
         hwpDocCtrl.global.HwpCtrl.ShowStatusBar(true);
         hwpDocCtrl.global.HwpCtrl.SetFieldViewOption(2);
+
+        hwpDocCtrl.dataSet();
 
         if(hwpDocCtrl.global.HwpCtrl.FieldExist("header_campaign")){
             hwpDocCtrl.global.HwpCtrl.MoveToField('header_campaign', true, true, false);
@@ -737,7 +801,7 @@ var hwpDocCtrl = {
 
         if(hwpDocCtrl.global.HwpCtrl.FieldExist("doc_content")){
             hwpDocCtrl.global.HwpCtrl.MoveToField('doc_content', true, true, false);
-            hwpDocCtrl.global.HwpCtrl.SetTextFile(draft.global.templateFormOpt.doc_contents, "HTML", "insertfile")
+            hwpDocCtrl.global.HwpCtrl.SetTextFile(draft.global.templateFormOpt.doc_contents, "HTML", "insertfile");
         }
 
         for(var i = 0; i < hwpDocCtrl.global.templateCustomField.length; i ++){
@@ -751,8 +815,6 @@ var hwpDocCtrl = {
                 }
             }
         }
-
-        hwpDocCtrl.global.HwpCtrl.MoveToField('doc_content', true, true, false);
     },
 
     /**
@@ -1335,12 +1397,4 @@ var hwpDocCtrl = {
         vp.SetItem("ZoomRatio", zoomRatio);		// 	화면 확대 비율
         hwpDocCtrl.global.HwpCtrl.ViewProperties = vp;
     }
-}
-
-//숫자에 콤마 찍기
-function numberWithCommas(num) {
-    if (!num || num=="" || num==undefined) {
-        return 0;
-    }
-    return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

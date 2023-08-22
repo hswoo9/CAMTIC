@@ -1,36 +1,9 @@
-var now = new Date();
-
+let sum=0;
 var snackList = {
 
     init: function() {
         snackList.dataSet();
         snackList.mainGrid();
-    },
-
-    fn_snackCertAllReq: function(status){
-        const ch = $('input[name=\'sanckPk\']:checked');
-        let snackInfoSnArr = [];
-        $.each(ch, function(){
-            snackInfoSnArr.push(this.value);
-        });
-
-        if(snackInfoSnArr.length == 0){
-            alert('결재 할 항목을 선택해 주세요.');
-            return;
-        }
-
-        let data = {
-            snackInfoSnArr : snackInfoSnArr.join(),
-            empSeq : $("#empSeq").val(),
-            status : status
-        }
-
-        const result = customKendo.fn_customAjax("/inside/setSnackReqCert", data);
-
-        if(result.flag){
-            alert("결재가 완료되었습니다.");
-            gridReload();
-        }
     },
 
     mainGrid: function() {
@@ -45,6 +18,10 @@ var snackList = {
                 parameterMap: function(data) {
                     data.startDt = $("#startDt").val();
                     data.endDt = $("#endDt").val();
+                    data.empSeq = $("#regEmpSeq").val();
+                    data.mealsDivision = $("#mealsDivision").val();
+                    data.payDivision = $("#payDivision").val();
+                    data.approval = $("#approval").val();
                     return data;
                 }
             },
@@ -54,7 +31,7 @@ var snackList = {
                 },
                 total: function (data) {
                     return data.list.length;
-                },
+                }
             },
             pageSize: 10,
         });
@@ -63,7 +40,7 @@ var snackList = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 489,
+            height: 551,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -73,28 +50,18 @@ var snackList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-info" onclick="snackList.fn_snackCertAllReq(100)">' +
-                            '	<span class="k-button-text">결재</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     },
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackList.snackPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.snackPopup();">' +
                             '	<span class="k-button-text">식대 등록하기</span>' +
                             '</button>';
                     }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackList.snackStatPopup();">' +
-                        '	<span class="k-button-text">통계 조회</span>' +
-                        '</button>';
-                    }
-                }, {
-                    name: 'excel',
-                    text: '엑셀다운로드'
-                },
+                }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -102,14 +69,6 @@ var snackList = {
             dataBound : snackList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" onclick="fn_checkAll(\'checkAll\', \'sanckPk\');" name="checkAll"/>',
-                    template : "<input type='checkbox' id='sanckPk#=SNACK_INFO_SN#' name='sanckPk' value='#=SNACK_INFO_SN#'/>",
-                    width: 50
-                }, {
-                    field: "ROW_NUM",
-                    title: "순번",
-                    width: "50"
-                }, {
                     field: "SNACK_TYPE_TEXT",
                     title: "식대 구분",
                     width: "10%"
@@ -140,17 +99,54 @@ var snackList = {
                 }, {
                     field: "AMOUNT_SN",
                     title: "이용금액(원)",
-                    width: "10%"
+                    width: "10%",
+                    template: function(row){
+                        sum += Number(row.AMOUNT_SN);
+                        return fn_numberWithCommas(row.AMOUNT_SN);
+                    },
+                    footerTemplate: function(){
+                        return "총계 : "+fn_numberWithCommas(sum)+" 원";
+                    }
                 }, {
-                    field: "CARD_TEXT",
-                    title: "결재 구분",
+                    field: "PAY_TYPE_TEXT",
+                    title: "결제 구분",
                     width: "10%"
                 }, {
                     field: "RECIPIENT_EMP_NAME",
                     title: "증빙 수령자",
                     width: "10%"
-                }]
+                }, {
+                    title: "영수증",
+                    width: "10%",
+                    template: function(row){
+                        if(row.file_no > 0){
+                            return '<span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
+                        }else{
+                            return '-';
+                        }
+
+                    }
+                }, {
+                    title: "처리 상태",
+                    template : function(row){
+                        if(row.STATUS == "10") {
+                            return "대기";
+                        }else if(row.STATUS == "100") {
+                            return "승인";
+                        }else if(row.STATUS == "30") {
+                            return "반려";
+                        }else {
+                            return "데이터 오류"
+                        }
+                    },
+                    width: 100
+                }
+            ]
         }).data("kendoGrid");
+    },
+
+    calc: function(){
+
     },
 
     onDataBound: function(){
@@ -172,9 +168,9 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "야간 간식", value: "야간 간식"},
-                {text: "휴일 식대", value: "휴일 식대"},
-                {text: "평일 식대", value: "평일 식대"}
+                {text: "야간 식대", value: "1"},
+                {text: "휴일 식대", value: "2"},
+                {text: "평일 식대", value: "3"}
             ],
             index: 0
         });
@@ -184,9 +180,9 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "개인", value: "개인"},
-                {text: "법인", value: "법인"},
-                {text: "외상", value: "외상"}
+                {text: "개인", value: "1"},
+                {text: "법인", value: "2"},
+                {text: "외상", value: "3"}
             ],
             index: 0
         });
@@ -212,12 +208,13 @@ var snackList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: "" },
-                {text: "결재", value: "결재"},
-                {text: "미결재", value: "미결재"}
+                {text: "결재", value: "100"},
+                {text: "미결재", value: "0"},
+                {text: "반려", value: "30"}
             ],
             index: 0
         });
-        fn_deptSetting();
+        fn_searchBind();
     },
 
     snackPopup: function(snackInfoSn, mode){
@@ -240,7 +237,7 @@ var snackList = {
         }
         const url = "/Inside/pop/snackPop.do"+urlParams;
         const name = "popup test";
-        const option = "width = 1000, height = 360, top = 100, left = 200, location = no";
+        const option = "width = 1000, height = 700, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 
@@ -252,3 +249,7 @@ var snackList = {
     }
 }
 
+function gridReload(){
+    sum = 0;
+    $("#mainGrid").data("kendoGrid").dataSource.read();
+}

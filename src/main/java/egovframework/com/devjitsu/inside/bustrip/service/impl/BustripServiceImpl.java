@@ -29,8 +29,8 @@ public class BustripServiceImpl implements BustripService {
 
 
     @Override
-    public List<Map<String, Object>> getUserList(Map<String, Object> params) {
-        return bustripRepository.getUserList(params);
+    public List<Map<String, Object>> getBustripList(Map<String, Object> params) {
+        return bustripRepository.getBustripList(params);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BustripServiceImpl implements BustripService {
 
         String compEmpSeq = "";
         String[] compEmpSeqArr;
-        if(params.get("compEmpSeq") != null && params.get("compEmpSeq") != ""){
+        if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
             compEmpSeq = params.get("compEmpSeq").toString();
 
             compEmpSeqArr = compEmpSeq.split(",");
@@ -89,16 +89,12 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
-    public List<Map<String, Object>> getBustripReq(Map<String, Object> params) {
-        return bustripRepository.getBustripReq(params);
-    }
-
-    @Override
     public Map<String, Object> getBustripReqInfo(Map<String, Object> params) {
         params.put("fileCd", "bustripReq");
         Map<String, Object> result = new HashMap<>();
         result.put("rs", bustripRepository.getBustripReqInfo(params));
         result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
@@ -112,7 +108,7 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public Map<String, Object> getBustripOne(Map<String, Object> params) {
-        return bustripRepository.getBustripReqInfo(params);
+        return bustripRepository.getBustripResultInfoR(params);
     }
 
     @Override
@@ -128,6 +124,11 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params) {
         return bustripRepository.getBustripTotInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripResTotInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripResTotInfo(params);
     }
 
     @Override
@@ -175,7 +176,7 @@ public class BustripServiceImpl implements BustripService {
         bodyMap.put("approKey", approKey);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("hrBizReqId", approKey);
+        params.put("hrBizReqResultId", approKey);
         params.put("docName", bodyMap.get("formName"));
         params.put("docId", docId);
         params.put("docTitle", bodyMap.get("docTitle"));
@@ -193,7 +194,32 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void saveBustripResult(Map<String, Object> params) {
-        bustripRepository.saveBustripResult(params);
+        if(params.containsKey("hrBizReqResultId")){
+            bustripRepository.updBustripResult(params);
+        } else {
+            bustripRepository.saveBustripResult(params);
+        }
+
+        String compEmpSeq = "";
+        String[] compEmpSeqArr;
+        if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+            compEmpSeq = params.get("compEmpSeq").toString();
+
+            compEmpSeqArr = compEmpSeq.split(",");
+
+            for(String str : compEmpSeqArr){
+                params.put("compEmpSeq", str);
+                params.put("empSeq", params.get("compEmpSeq"));
+                Map<String, Object> map = userRepository.getUserInfo(params);
+                params.put("compEmpName", map.get("EMP_NAME_KR"));
+                params.put("compDeptName", map.get("DEPT_NAME"));
+                params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                params.put("compDutyName", map.get("DUTY_NAME"));
+                params.put("compPositionName", map.get("POSITION_NAME"));
+
+                bustripRepository.insBustripResCompanion(params);
+            }
+        }
     }
 
     @Override
@@ -211,5 +237,61 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void insBustripExnpResult(Map<String, Object> params) {
          bustripRepository.insBustripExnpResult(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustripMaxDayCost(Map<String, Object> params) {
+        return bustripRepository.getBustripMaxDayCost(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripCostList(Map<String, Object> params) {
+        return bustripRepository.getBustripCostList(params);
+    }
+
+    @Override
+    public void setBustripCostInsert(Map<String, Object> params) {
+        bustripRepository.setBustripCostInsert(params);
+    }
+
+    @Override
+    public void setBustripFuelCostInsert(Map<String, Object> params) {
+        bustripRepository.setBustripFuelCostUpdate(params);
+        bustripRepository.setBustripFuelCostInsert(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getWaypointCostList(Map<String, Object> params) {
+        return bustripRepository.getWaypointCostList(params);
+    }
+
+    @Override
+    public void setWaypointCostInsert(Map<String, Object> params) {
+        bustripRepository.setWaypointCostInsert(params);
+    }
+
+    @Override
+    public void setReqCert(Map<String, Object> params) {
+        bustripRepository.setReqCert(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params) {
+        return bustripRepository.getBustripFuelCostList(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripFuelCostInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPopBustripList(Map<String, Object> params) {
+        return bustripRepository.getPopBustripList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripSettleList(Map<String, Object> params) {
+        return bustripRepository.getBustripSettleList(params);
     }
 }

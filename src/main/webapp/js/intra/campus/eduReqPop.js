@@ -1,11 +1,9 @@
-var now = new Date();
-
-var eduReqPop = {
+const eduReq = {
     global : {
     },
 
     init : function(){
-        eduReqPop.dataSet();
+        eduReq.dataSet();
     },
 
     saveEduInfo : function() {
@@ -176,9 +174,9 @@ var eduReqPop = {
         }
 
         if($("#eduInfoId").val() == "") {
-            eduReqPop.setEduInfoInsert(data);
+            eduReq.setEduInfoInsert(data);
         }else {
-            eduReqPop.setEduInfoUpdate(data);
+            eduReq.setEduInfoUpdate(data);
         }
     },
 

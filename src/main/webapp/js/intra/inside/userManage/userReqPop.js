@@ -15,7 +15,7 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #addr, #addrDetail, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
 
         var detDs = [
             {text: "선택", value: ""},
@@ -187,7 +187,7 @@ var userReqPop = {
 
 
         userReqPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "9"});
-        customKendo.fn_dropDownList("jobCode", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
+        customKendo.fn_dropDownList("occupationCode", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
 
         userReqPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
         customKendo.fn_dropDownList("duty", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
@@ -600,6 +600,7 @@ var userReqPop = {
             ACCOUNT_HOLDER : $("#accountHolder").val(), //예금주
             BANK_NAME : $("#bankName").val(), //은행명
             ACCOUNT_NUM : $("#accountNum").val(), //계좌번호
+            ZIP_CODE : $("#zipCode").val(), //우편번호 현주소(주소)
             ADDR : $("#addr").val(), //우편번호 현주소(주소)
             ADDR_DETAIL : $("#addrDetail").val(), //거주지 지번주소
             OFFICE_TEL_NUM : $("#officeTelNum").val(), //전화번호
@@ -608,7 +609,8 @@ var userReqPop = {
             JOIN_DAY : $("#regDate").val(), // 입사일자
             POSITION_CODE : $("#position").val(), // 직급 / 등급
             DUTY_CODE : $("#duty").val(), // 직책
-            CAR_NUM : $("#carNum1").val()+$("#carNum2").val()+$("#carNum3").val(), //차량번호
+            DUTY_NAME : $("#duty").val() == "" ? "" : $("#duty").data("kendoDropDownList").text(), // 직책
+
             EMP_NAME_CN : $("#empNameCn").val(), //한자 이름
             EMP_NAME_EN : $("#empNameEn").val(), //영문 이름
 
@@ -625,7 +627,19 @@ var userReqPop = {
 
             HOME_PAGE_ACTIVE : $("#homePageActive").getKendoRadioGroup().value(), //홈페이지 게시
             WEDDING_ACTIVE : $("#weddingActive").getKendoRadioGroup().value(), //결혼 관계
-            BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value() //혈액형
+            BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value(), //혈액형
+            OCCUPATION_CODE : $("#occupationCode").val(),
+
+            DEGREE_CODE : $("#degreeCode").val(),
+        }
+
+
+        if($("#weddingActive").getKendoRadioGroup().value() == "Y"){
+            data.WEDDING_DAY = $("#weddingDay").val();
+        }
+
+        if($("#targetEmpSeq").val() != ""){
+            data.TARGET_EMP_SEQ = $("#targetEmpSeq").val();
         }
 
         if($("#deptTeamName").val() != '' && $("#deptTeamName").val() != null){
@@ -633,9 +647,11 @@ var userReqPop = {
         }
 
         if($("#carActive").is(":checked")){
-            data.CAR_ACTIVE = "1"
+            data.CAR_ACTIVE = "Y"
+            data.CAR_NUM = $("#carNum1").val();
         } else {
-            data.CAR_ACTIVE = "0"
+            data.CAR_ACTIVE = "N"
+            data.CAR_NUM = "";
         }
 
         if($("#check3").is(":checked")){
@@ -655,26 +671,28 @@ var userReqPop = {
             return;
         }
 
-        if(!idFlag){
-            alert("중복확인을 해주세요.")
-            return;
-        }
+
 
         if(data.division == "" || data.division == null) {
             alert("직원구분을 선택해주세요.");
             return;
         }
 
-        if(data.LOGIN_PASSWD == "" || data.LOGIN_PASSWD == null){
-            alert("비밀번호를 입력해주세요.");
+        if($("#targetEmpSeq").val() != ""){
+            if(data.LOGIN_PASSWD != "" || data.LOGIN_PASSWD != null){
+                data.PASSCHANGE = "true";
+            }
+        }else{
 
-            return;
-        }
+            if(!idFlag){
+                alert("중복확인을 해주세요.")
+                return;
+            }
 
-        if(data.LOGIN_ID == "" || data.LOGIN_ID == null){
-            alert("비밀번호를 입력해주세요.");
-
-            return;
+            if(data.LOGIN_PASSWD == "" || data.LOGIN_PASSWD == null){
+                alert("비밀번호를 입력해주세요.");
+                return;
+            }
         }
 
         if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 7){
@@ -688,9 +706,30 @@ var userReqPop = {
             return;
         }
 
-        console.log(data);
+        if($("#position").val() != ""){
+            var positionName = "";
+            var gradeName = $("#position").data("kendoDropDownList").text();
+            if($("#position").data("kendoDropDownList").text().indexOf("/") > -1){
+                positionName = $("#position").data("kendoDropDownList").text().split("/")[0].trim();
+                gradeName = $("#position").data("kendoDropDownList").text().split("/")[1].trim();
+
+            }else{
+                positionName = gradeName;
+            }
+            data.GRADE_NAME = gradeName;
+            data.POSITION_NAME = positionName;
+        }
+
+        var urlType = "";
+
+        if($("#targetEmpSeq").val() != ""){
+            urlType = "/userManage/setUserReqDetailUpdate";
+        }else{
+            urlType = "/userManage/setUserReqDetailInsert";
+        }
+
         $.ajax({
-            url : '/userManage/setUserReqDetailInsert',
+            url : urlType,
             data : data,
             dataType : "application/json",
             type : "POST",
@@ -700,9 +739,14 @@ var userReqPop = {
                 opener.userPersonList.gridReload();
             },
             complete : function (){
-                window.close();
+                if($("#targetEmpSeq").val() != ""){
+                    location.href = "/Inside/pop/userViewPop.do?empSeq=" + $("#targetEmpSeq").val();
+                }else{
+                    window.close();
+                }
                 opener.userPersonList.gridReload();
-            }
+            },
+
         })
     },
 
@@ -738,17 +782,81 @@ var userReqPop = {
                 return value;
         }
     },
+
+    addrSearch : function(){
+        daum.postcode.load(function(){
+            new daum.Postcode({
+                oncomplete: function(data){
+
+                    var roadAddr = data.roadAddress; // 도로명 주소 변수
+                    var extraRoadAddr = ''; // 참고 항목 변수
+
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraRoadAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우
+                    if(extraRoadAddr !== ''){
+                        extraRoadAddr = ' (' + extraRoadAddr + ')';
+                    }
+
+                    $("#zipCode").val(data.zonecode);
+                    $("#addr").val(roadAddr);
+                    $("#addrDetail").val(roadAddr);
+
+                    // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                    if(roadAddr !== ''){
+                        //$("#subAddr").val(extraRoadAddr);
+                    } else {
+                        //$("#subAddr").val("");
+                    }
+
+                    var guideTextBox = document.getElementById("guide");
+                    // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시
+                    if(data.autoRoadAddress) {
+                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                        guideTextBox.style.display = 'block';
+
+                    } else if(data.autoJibunAddress) {
+                        var expJibunAddr = data.autoJibunAddress;
+                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                        guideTextBox.style.display = 'block';
+                    } else {
+                        guideTextBox.innerHTML = '';
+                        guideTextBox.style.display = 'none';
+                    }
+
+                    $("#addrDetail").focus();
+                }
+            }).open();
+        });
+    },
 }
 
 function empInfoFileSave(){
 
     var formData = new FormData();
-    if($("#idPhotoFile")[0].files.length == 1){
+    formData.append("menuCd", $("#menuCd").val());
+    formData.append("empSeq", $("#empSeq").val());
+
+    if($("#idPhotoFile")[0].files.length == 1){ //증명사진
         formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
+    }
+    if($("#signPhotoFile")[0].files.length == 1){   //결재사인
+        formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
+    }
+    if($("#myPhotoFile")[0].files.length == 1){ //개인사진
+        formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
     }
 
     $.ajax({
-        url: "<c:url value='/userManage/setempInfoFileSave.do'/>",
+        url: '/userManage/setempInfoFileSave.do',
         data: formData,
         type: "post",
         async : false,
@@ -757,7 +865,7 @@ function empInfoFileSave(){
         processData: false,
         success: function () {
             alert("정보 등록이 완료되었습니다.");
-            open_in_frame("/appointment/userInfoReq.do");
+            open_in_frame('/Inside/imageManage.do');
         },
         error : function(){
             alert("정보 등록 중 에러가 발생했습니다.");
@@ -765,7 +873,43 @@ function empInfoFileSave(){
     });
 }
 
-//첨부 이미지 미리보기
+//이미지관리 팝업창에서 저장
+function empInfoFileSavePop(){
+
+    var formData = new FormData();
+    formData.append("menuCd", $("#menuCd").val());
+    formData.append("empSeq", $("#empSeq").val());
+
+    if($("#idPhotoFile")[0].files.length == 1){ //증명사진
+        formData.append("idPhotoFile", $("#idPhotoFile")[0].files[0]);
+    }
+    if($("#signPhotoFile")[0].files.length == 1){   //결재사인
+        formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
+    }
+    if($("#myPhotoFile")[0].files.length == 1){ //개인사진
+        formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
+    }
+
+    $.ajax({
+        url: '/userManage/setempInfoFileSave.do',
+        data: formData,
+        type: "post",
+        async : false,
+        datatype: "json",
+        contentType: false,
+        processData: false,
+        success: function () {
+            alert("정보 등록이 완료되었습니다.");
+            window.opener.location.reload();
+            window.close();
+        },
+        error : function(){
+            alert("정보 등록 중 에러가 발생했습니다.");
+        }
+    });
+}
+
+//증명사진 첨부 이미지 미리보기
 function viewPhoto(input){
     if(input.files[0].size > 10000000){
         alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
@@ -776,6 +920,44 @@ function viewPhoto(input){
         var reader = new FileReader();
         reader.onload = function (e) {
             $('#photoView').attr('src', e.target.result);
+            $('#photoView').css('display', 'block');
+            $('#photoViewText').css('display', 'none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+//결재사인 첨부 이미지 미리보기
+function viewSignPhoto(input) {
+    if(input.files[0].size > 10000000){
+        alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+        return;
+    }
+
+    if(input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#signPhotoView').attr('src', e.target.result);
+            $('#signPhotoView').css('display', 'block');
+            $('#signPhotoViewText').css('display', 'none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+//개인사진 첨부 이미지 미리보기
+ function viewMyPhoto(input) {
+    if(input.files[0].size > 10000000){
+        alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+        return;
+    }
+
+    if(input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#myPhotoView').attr('src', e.target.result);
+            $('#myPhotoView').css('display', 'block');
+            $('#myPhotoViewText').css('display', 'none');
         }
         reader.readAsDataURL(input.files[0]);
     }

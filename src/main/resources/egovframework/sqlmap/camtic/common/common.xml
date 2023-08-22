@@ -5,7 +5,7 @@
 
     <select id="ctDept" parameterType="map" resultType="map">
         /* ctDept */
-        SELECT * FROM DJ_CAMTIC.V_DEPT_INFO
+        SELECT * FROM CAM_HR.DJ_DEPT_INFO
     </select>
 
     <select id="getUserList" parameterType="map" resultType="map">
@@ -20,6 +20,7 @@
             VEI.POSITION_NAME,
             VEI.DUTY_CODE,
             VEI.DUTY_NAME,
+            VEI.JOB_DETAIL,
             CASE WHEN VEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = VEI.DUTY_CODE)
             WHEN VEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VEI.POSITION_CODE)
             ELSE 999 END SORT
@@ -37,6 +38,9 @@
         <if test="deptName != null and deptName != ''">
             AND VEI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
         </if>
+        <if test="sEmpName != null and sEmpName != ''">
+            AND VEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
+        </if>
         ORDER BY SORT
     </select>
 
@@ -45,7 +49,7 @@
         SELECT
             COUNT(1)
         FROM
-            DJ_CAMTIC.V_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO VEI
         WHERE
             1 = 1
         AND VEI.ACTIVE = 'Y'
@@ -60,27 +64,33 @@
     <insert id="insOneFileInfo" parameterType="map" >
         /* insOneFileInfo */
         INSERT INTO CAM_COMMON.DJ_FILE_INFO
-        (
-        FILE_CD,
-        FILE_UUID,
-        FILE_ORG_NAME,
-        FILE_PATH,
-        FILE_SIZE,
-        FILE_EXT,
-        EMP_SEQ,
-        REG_EMP_SEQ
-        )
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                EMP_SEQ,
+                REG_EMP_SEQ
+                <if test="contentId != null and contentId != ''">
+                    , CONTENT_ID
+                </if>
+            )
         VALUES
-        (
-        #{fileCd},
-        #{fileUUID},
-        #{fileOrgName},
-        #{filePath},
-        #{fileSize},
-        #{fileExt},
-        #{empSeq},
-        #{empSeq}
-        )
+            (
+                #{fileCd},
+                #{fileUUID},
+                #{fileOrgName},
+                #{filePath},
+                #{fileSize},
+                #{fileExt},
+                #{empSeq},
+                #{empSeq}
+                <if test="contentId != null and contentId != ''">
+                    , #{contentId}
+                </if>
+            )
 
         <selectKey keyProperty="file_no" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_FILE_INFO'
@@ -179,4 +189,17 @@
         /* getContentFileDelOne */
         DELETE FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_NO = #{fileNo}
     </delete>
+
+    <select id="commonCodeList" parameterType="map" resultType="map">
+        /* commonCodeList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_COM_CODE A
+        LEFT JOIN
+            CAM_COMMON.DJ_COM_GROUP_CODE B
+        ON A.CM_GROUP_CODE_ID = B.CM_GROUP_CODE_ID
+        WHERE
+            B.CM_GROUP_CODE = #{cmGroupCode}
+    </select>
 </mapper>

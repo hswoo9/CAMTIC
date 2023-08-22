@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/popup/deptMultiPop.js?v="${toDate}"'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/popup/deptMultiPop.js?v="${today}"'/>"></script>
 <link rel="stylesheet" href="/css/intra/popup/approvalLineSettingPop.css">
 
 <html>
@@ -33,23 +34,13 @@
                     </div>
                 </div>
             </td>
-            <td>
-                <div id="apprLineUserInfoTabStrip" style="width: 420px;">
-                    <ul>
-                        <li class="k-state-active">
-                            직원 정보
-                        </li>
-                    </ul>
-                    <div style="height:447px;width: 410px;">
-                        <div id="userList">
-                        </div>
-                    </div>
-                </div>
-            </td>
         </tr>
     </table>
     <div class="mt-10" style="text-align: right">
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
+        <button type="button" class="k-grid-button k-button k-button-solid k-button-solid-info" onclick="deptMultiPop.gridChoose()" style="vertical-align: middle;">
+            <span class="k-button-text">선택</span>
+        </button>
+        <button type="button" class="k-grid-button k-button k-button-solid k-button-solid-base" onclick="window.close()" style="vertical-align: middle;">
             <span class="k-button-text">닫기</span>
         </button>
     </div>
@@ -63,7 +54,7 @@
     var deptName = '${loginVO.orgnztNm}';
 
     deptMultiPop.fnDefaultScript();
-    deptMultiPop.gridChoose();
+    // deptMultiPop.gridChoose();
 </script>
 </body>
 </html>

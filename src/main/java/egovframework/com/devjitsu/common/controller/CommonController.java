@@ -73,6 +73,7 @@ public class CommonController {
         return "popup/common/deptListPop";
     }
 
+
     @RequestMapping("/common/deptMultiPop.do")
     public String deptMultiLine(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -89,6 +90,22 @@ public class CommonController {
         model.addAttribute("rs", commonService.getContentFileOne(params));
         return "jsonView";
     }
+
+    /**
+     * 코드 가져오기
+     * @param params
+     *        cmGroupCode
+     * @return table
+     *        DJ_COM_CODE JOIN DJ_COM_GROUP_CODE
+     */
+    @RequestMapping("/common/commonCodeList")
+    public String commonCodeList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", commonService.commonCodeList(params));
+
+        return "jsonView";
+    }
+
 
 
 

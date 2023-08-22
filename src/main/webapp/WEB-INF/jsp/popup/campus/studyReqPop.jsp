@@ -6,11 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-  .k-radio-list-horizontal, .k-radio-list.k-list-horizontal {
-    gap: 0px;
-  }
-</style>
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/studyReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
@@ -22,7 +17,7 @@
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
       <div class="table-responsive">
-        <div class="popupTitleSt">학습조 신청서 작성</div>
+        <div class="popupTitleSt">내부학습 신청서 작성</div>
         <form id="studyReqForm">
           <table class="table table-bordered mt20" id="studyReqTable" style="width: 1000px;">
             <colgroup>
@@ -31,7 +26,13 @@
             </colgroup>
             <thead>
             <tr>
-              <th>학습조명</th>
+              <th>구분</th>
+              <td>
+                <input type="text" id="studyClass" style="width: 800px">
+              </td>
+            </tr>
+            <tr>
+              <th>내부학습명</th>
               <td>
                 <input type="text" id="studyName" style="width: 800px">
               </td>
@@ -39,8 +40,9 @@
             <tr>
               <th>학 습 자</th>
               <td>
-                <input type="text" id="studyUser" style="width: 600px">
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick=""/>
+                <input type="text" id="studyUserName" style="width: 600px">
+                <input type="hidden" id="studyUserSeq">
+                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="fn_userMultiSelectPop()"/>
               </td>
             </tr>
             <tr>
@@ -95,13 +97,13 @@
         </form>
       </div>
       <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="studyReqPop.saveStudyInfo();"/>
+        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="studyReq.saveBtn();"/>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
       </div>
     </div>
   </div>
 </div>
 <script>
-  studyReqPop.init();
+  studyReq.init();
 </script>
 </body>

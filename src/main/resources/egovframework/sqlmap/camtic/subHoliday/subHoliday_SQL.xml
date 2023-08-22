@@ -62,52 +62,48 @@
 
     <insert id="setVacUseHist" parameterType="map">
         /* setVacUseHist */
-
-        INSERT INTO
-        CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
-        (
-        SUBHOLIDAY_CODE_ID,
-        APPLY_SEQ,
-        APPLY_DATE,
-        SAVE_SEQ,
-        SUBHOLIDAY_ST_DT,
-        SUBHOLIDAY_ST_TIME,
-        SUBHOLIDAY_EN_DT,
-        SUBHOLIDAY_EN_TIME,
-        RMK,
-        SUBHOLIDAY_TARGET_SEQ,
-        RMK_OTHER,
-        REG_EMP_SEQ,
-        SUBHOLIDAY_WORK_DAY,
-        SUBHOLIDAY_ALTERNATIVE_DAY,
-        SUBHOLIDAY_USE_DAY
-        <if test="approvalReason != null and approvalReason != ''">
-            , APPROVAL_REASON
-        </if>
-
-        )
+        INSERT INTO CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+            (
+                SUBHOLIDAY_CODE_ID,
+                APPLY_SEQ,
+                APPLY_DATE,
+                SAVE_SEQ,
+                SUBHOLIDAY_ST_DT,
+                SUBHOLIDAY_ST_TIME,
+                SUBHOLIDAY_EN_DT,
+                SUBHOLIDAY_EN_TIME,
+                RMK,
+                SUBHOLIDAY_TARGET_SEQ,
+                RMK_OTHER,
+                REG_EMP_SEQ,
+                SUBHOLIDAY_WORK_DAY,
+                SUBHOLIDAY_ALTERNATIVE_DAY,
+                SUBHOLIDAY_USE_DAY
+                <if test="approvalReason != null and approvalReason != ''">
+                    , APPROVAL_REASON
+                </if>
+            )
         VALUES
-        (
-        #{vacCodeId},
-        #{applySeq},
-        #{applyDate},
-        #{saveSeq},
-        #{vacUseStDt},
-        #{vacUseStTime},
-        #{vacUseEnDt},
-        #{vacUseEnTime},
-        #{rmk},
-        #{vacTargetSeq},
-        #{rmkOther},
-        #{saveSeq},
-        #{vacWorkDt},
-        #{vacUseAlDt},
-        #{useDay}
-        <if test="approvalReason != null and approvalReason != ''">
-            , #{approvalReason}
-        </if>
-        )
-
+            (
+                #{vacCodeId},
+                #{applySeq},
+                #{applyDate},
+                #{saveSeq},
+                #{vacUseStDt},
+                #{vacUseStTime},
+                #{vacUseEnDt},
+                #{vacUseEnTime},
+                #{rmk},
+                #{vacTargetSeq},
+                #{rmkOther},
+                #{saveSeq},
+                #{vacWorkDt},
+                #{vacUseAlDt},
+                #{useDay}
+                <if test="approvalReason != null and approvalReason != ''">
+                    , #{approvalReason}
+                </if>
+            )
         <selectKey keyProperty="vacUseHistId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SUBHOLIDAY_USE_HIST'
         </selectKey>

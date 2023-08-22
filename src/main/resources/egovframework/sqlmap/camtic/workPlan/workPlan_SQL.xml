@@ -32,7 +32,7 @@
         CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL WPCD
         ON WPC.WORK_PLAN_CHANGE_ID = WPCD.WORK_PLAN_CHANGE_ID
         JOIN
-        DJ_CAMTIC.V_EMP_INFO EI
+        CAM_HR.DJ_EMP_INFO EI
         ON WPC.REQUEST_EMP_SEQ = EI.EMP_SEQ
         WHERE
         WPC.ACTIVE = 'Y'
@@ -184,7 +184,7 @@
             ON
                 VWPD.WORK_PLAN_ID = VWP.WORK_PLAN_ID
                 JOIN
-            DJ_CAMTIC.V_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO VEI
             ON VWP.REQUEST_EMP_SEQ = VEI.EMP_SEQ
         WHERE
             VEI.ACTIVE = 'Y'
@@ -213,7 +213,7 @@
             ON
                 VWPD.WORK_PLAN_CHANGE_ID = VWP.WORK_PLAN_CHANGE_ID
                 JOIN
-            DJ_CAMTIC.V_EMP_INFO VEI
+            CAM_HR.DJ_EMP_INFO VEI
             ON VWP.REQUEST_EMP_SEQ = VEI.EMP_SEQ
         WHERE
             VEI.ACTIVE = 'Y'
@@ -237,7 +237,7 @@
         FROM
             CAM_INSIDE.DJ_WORK_PLAN_CHANGE WPC JOIN CAM_INSIDE.DJ_WORK_PLAN_CHANGE_DETAIL WPCD ON WPC.WORK_PLAN_CHANGE_ID = WPCD.WORK_PLAN_CHANGE_ID
                                                JOIN
-            DJ_CAMTIC.V_EMP_INFO EI ON WPC.REQUEST_EMP_SEQ = EI.EMP_SEQ
+            CAM_HR.DJ_EMP_INFO EI ON WPC.REQUEST_EMP_SEQ = EI.EMP_SEQ
         WHERE
             WPC.ACTIVE = 'Y'
           AND

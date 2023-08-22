@@ -15,13 +15,20 @@
             <c:if test="${params.empSeq != null && params.empSeq != ''}">
                 <h3 class="card-title title_NM">직원 기본정보</h3>
                 <div class="btn-st popButton">
-                    <c:if test="${params.admin != null && params.admin == 'Y'}">
+                    <c:if test="${isAdmin}">
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
                             <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.userResignation('${params.empSeq}')">퇴사처리</button>
                             <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
                         </c:if>
+                    </c:if>
+                    <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>
+                        <button type="button" class="k-button k-button-solid-error" onclick="userViewPop.setUserDel('${params.empSeq}')">삭제</button>
                     </c:if>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                 </div>
@@ -46,7 +53,14 @@
                     </td>
                     <th rowspan="5"><span class="red-star"></span>증명사진</th>
                     <td rowspan="5" style="text-align: center">
-                        이미지
+                        <c:choose>
+                            <c:when test="${idPhoto.file_path ne null}">
+                                <img id="preview" style="width: 150px; height: 180px;" src="${idPhoto.file_path}${idPhoto.file_uuid}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <span>등록된 증명사진이 없습니다.</span>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>
@@ -64,7 +78,7 @@
                 <tr>
                     <th>주민등록번호</th>
                     <td>
-                        ${uprinfList.RES_REGIS_NUM}
+                        ${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}-*******<span id="resRegisNum"></span>
                     </td>
                 </tr>
                 <tr>
@@ -100,13 +114,23 @@
                     </td>
                     <th>부서(실)</th>
                     <td>
-                        ${uprinfList.PARENT_DEPT_NAME}
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+                            ${uprinfList.DEPT_NAME}
+                        </c:if>
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+                            ${uprinfList.PARENT_DEPT_NAME}
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
                     <th>부서(팀)</th>
                     <td>
-                        ${uprinfList.DEPT_TEAM_NAME}
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ == '1000'}">
+                            없음
+                        </c:if>
+                        <c:if test="${uprinfList.DEPT_PARENT_SEQ != '1000'}">
+                            ${uprinfList.DEPT_TEAM_NAME}
+                        </c:if>
                     </td>
                     <th>직책</th>
                     <td>
@@ -196,7 +220,7 @@
                 <tr>
                     <th>경력사항</th>
                     <td>
-                        ??
+                        <span id="hire"></span>
                     </td>
                     <th></th>
                     <td></td>
@@ -204,7 +228,7 @@
                 <tr>
                     <th>계좌정보</th>
                     <td colspan="3">
-                        더존코드 : | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 :
+                        더존코드 : ${uprinfList.DUZON_CODE} | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 : ${uprinfList.ATT_CARD_NUM}
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userAccountPop('${params.empSeq}')">수정</button>
                         </c:if>
@@ -267,7 +291,7 @@
                         ${uprinfList.LEGAL_DOMICILE}
                     </td>
                 </tr>
-                    <c:if test="${uprinfList.CAR_ACTIVE == 1}">
+                    <c:if test="${uprinfList.CAR_ACTIVE == Y}">
                     <th>차량소유</th>
                     <td>
                         <%--<input type="checkbox" checked id="carActive2">--%>소유
@@ -281,10 +305,10 @@
                 <tr>
                     <th>결혼관계</th>
                     <td>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
                             기혼
                         </c:if>
-                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
                             미혼
                         </c:if>
                     </td>
@@ -330,19 +354,13 @@
                         ${uprinfList.WEIGHT}
                     </td>
                     <th>시력</th>
-                <c:if test="${uprinfList.VISIONL == null || uprinfList.VISIONR == ''}">
-                    <td>
-                        ${uprinfList.VISIONL}
-                        ${uprinfList.VISIONR}
-                    </td>
+                    <c:if test="${uprinfList.VISIONL != null || uprinfList.VISIONR != null}">
+                        <td>
+                            좌 : ${uprinfList.VISIONL} /
+                            우 : ${uprinfList.VISIONR}
+                        </td>
+                    </c:if>
                 </tr>
-                </c:if>
-                <c:if test="${uprinfList.VISIONL != null || uprinfList.VISIONR != null}">
-                    <td>
-                        좌 : ${uprinfList.VISIONL} /
-                        우 : ${uprinfList.VISIONR}
-                    </td>
-                </c:if>
                 <tr>
                     <th>최근수정일</th>
                     <td>
@@ -350,7 +368,7 @@
                     </td>
                     <th>최근수정자</th>
                     <td>
-                        ${uprinfList.MOD_EMP_SEQ}
+                        ${uprinfList.MOD_EMP_NAME}
                     </td>
                 </tr>
                 </thead>
@@ -361,4 +379,7 @@
 </body>
 <script>
     userViewPop.defaultScript();
+    $("#resRegisNum").text(" (" + userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
+    $("#hire").text(userViewPop.fn_sethire('${uprinfList.prev_hire}','${uprinfList.prev_hire_mon}','${uprinfList.hire}','${uprinfList.hire_mon}'));
+
 </script>

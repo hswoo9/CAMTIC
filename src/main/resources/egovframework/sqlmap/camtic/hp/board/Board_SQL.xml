@@ -2,31 +2,89 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardCt">
-
-
     <select id="selectBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
-            *
+            *,
+            (CASE WHEN (SELECT COUNT(FR_KEY) FROM CAM_COMMON.DJ_FILE_INFO WHERE FR_KEY = DBA.BOARD_ARTICLE_ID) != 0 THEN 'Y'
+                  ELSE 'N' END) AS FILE_YN
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
+        WHERE
+            BOARD_CATEGORY_ID = #{searchCategory}
+        AND
+            ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+        AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
+        ORDER BY REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="selectPrBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        SELECT
+            *,
+            (SELECT CONCAT(FILE_PATH,FILE_UUID) FROM CAM_COMMON.DJ_FILE_INFO WHERE FR_KEY = DBA.BOARD_ARTICLE_ID) AS FILE_PATH
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
+        WHERE
+            BOARD_CATEGORY_ID = #{searchCategory}
+        AND
+            ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
+        ORDER BY REG_DATE DESC
+            LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        SELECT
+            COUNT(*)
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
             BOARD_CATEGORY_ID = #{searchCategory}
         AND
             ACTIVE = 'Y'
-        LIMIT #{pagination.limitStart}, #{recordSize}
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
     </select>
 
     <select id="selectBoard" resultType="map" parameterType="map">
         SELECT
-            *
+            *,
+            (SELECT BOARD_ARTICLE_ID FROM CAM_COMMON.DJ_BOARD_ARTICLE
+            WHERE <![CDATA[BOARD_ARTICLE_ID <  #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID DESC LIMIT 1) as 'beforeKey',
+            (SELECT BOARD_ARTICLE_TITLE FROM CAM_COMMON.DJ_BOARD_ARTICLE
+            WHERE <![CDATA[BOARD_ARTICLE_ID <  #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID DESC LIMIT 1) as 'beforeName',
+            (SELECT BOARD_ARTICLE_ID FROM CAM_COMMON.DJ_BOARD_ARTICLE
+            WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterKey',
+            (SELECT BOARD_ARTICLE_TITLE FROM CAM_COMMON.DJ_BOARD_ARTICLE
+            WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterName'
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
-            BOARD_CATEGORY_ID = #{boardCategoryId}
+            BOARD_CATEGORY_ID = #{category}
         AND
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND
             ACTIVE = 'Y'
+    </select>
+
+    <select id="selectBoardFile" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = #{category}
+        AND
+            FR_KEY = #{boardArticleId}
+
     </select>
 
     <update id="setBoardArticleViewCount" parameterType="map">
@@ -38,35 +96,30 @@
             BOARD_ARTICLE_ID = #{boardArticleId}
     </update>
 
-    <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
-        SELECT
-            COUNT(*)
-        FROM
-            CAM_COMMON.DJ_BOARD_ARTICLE
-        WHERE
-            BOARD_CATEGORY_ID = #{searchCategory}
-        AND
-            ACTIVE = 'Y'
-    </select>
-
     <insert id="insertBoard" parameterType="map">
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
-            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, REG_EMP_NAME)
+            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, BOARD_ARTICLE_HASHTAG, REG_EMP_NAME)
         VALUE
-            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{writer})
+            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{hashText}, #{writer})
+
+        <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_BOARD_ARTICLE'
+        </selectKey>
     </insert>
 
     <update id="updateBoard" parameterType="map">
         UPDATE CAM_COMMON.DJ_BOARD_ARTICLE
         SET
             BOARD_ARTICLE_TITLE = #{noticeTitle},
-            BOARD_ARTICLE_CONTENT = #{content}
+            BOARD_ARTICLE_CONTENT_URL = #{urlText},
+            BOARD_ARTICLE_CONTENT = #{content},
+            BOARD_ARTICLE_HASHTAG = #{hashText}
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND
             BOARD_ID = #{boardId}
         AND
-            BOARD_CATEGORY_ID = #{boardCategoryId}
+            BOARD_CATEGORY_ID = #{category}
     </update>
 
     <update id="deleteBoard" parameterType="map">
@@ -78,6 +131,6 @@
           AND
             BOARD_ID = #{boardId}
           AND
-            BOARD_CATEGORY_ID = #{boardCategoryId}
+            BOARD_CATEGORY_ID = #{category}
     </update>
 </mapper>

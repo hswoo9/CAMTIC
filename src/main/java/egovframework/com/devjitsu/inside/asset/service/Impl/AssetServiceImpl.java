@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.asset.service.Impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
@@ -310,6 +312,107 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.getClassDivisionList(params);
     }
 
+    @Override
+    public Map<String, Object> getInventionInfo(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("info", assetRepository.getInventionInfo(params));
+        result.put("shareList", assetRepository.getInventionShareList(params));
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getInventionShareList(Map<String, Object> params) {
+        return assetRepository.getInventionShareList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRprReceiptList(Map<String, Object> params) {
+        return assetRepository.getRprReceiptList(params);
+    }
+
+    @Override
+    public void setInventionInsert(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 직무발명신고서 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.setInventionInsert(params);
+            if(!share.isEmpty()) {
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void setRprResultInsert(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 직무발명신고서 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.setRprResultInsert(params);
+            if(!share.isEmpty()) {
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void setRprReceiptInsert(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 지식재산권 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.setRprReceiptInsert(params);
+            if(!share.isEmpty()) {
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void updateDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("inventionInfoSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            assetRepository.updateApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            assetRepository.updateApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            params.put("approveStatCode", 100);
+            assetRepository.updateBefApprStat(params);
+            assetRepository.updateFinalApprStat(params);
+        }
+    }
+
     //장비사용 목록 조회
     @Override
     public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {
@@ -438,6 +541,22 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void getAstCategoryDel(Map<String, Object> params) {
         assetRepository.setCategoryCodeDel(params);
+    }
+
+    @Override
+    public Map<String, Object> getCategoryMonthly(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("LGCategory", assetRepository.getLGCategoryMonthly(params));
+        result.put("MDCategory", assetRepository.getMDCategoryMonthly(params));
+        return result;
+    }
+    @Override
+    public List<Map<String,Object>> getLGCategoryMonthly(Map<String, Object> params) {
+        return assetRepository.getLGCategoryMonthly(params);
+    }
+    @Override
+    public List<Map<String,Object>> getMDCategoryMonthly(Map<String, Object> params) {
+        return assetRepository.getMDCategoryMonthly(params);
     }
 
     @Override
@@ -774,5 +893,107 @@ public class AssetServiceImpl implements AssetService {
         String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         return path;
+    }
+
+    //지식재산권 리스트 삭제
+    @Override
+    public Map<String, Object> setRprListDelete(List<String> rprPk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setRprListDelete(rprPk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //지식재산권 리스트 수정 창 조회
+    @Override
+    public List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params) {
+        return assetRepository.getRprReceiptUpdateList(params);
+    }
+
+    @Override
+    public void updRprReceipt(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        // 1. 지식재산권 등록 2. 발명자+지분 등록
+        try {
+            assetRepository.updRprReceipt(params);
+            if(!share.isEmpty()) {
+                assetRepository.updInventionShare(params);  //이전 데이터 비활성화 후 다시 insert
+                params.put("share", share);
+                assetRepository.setInventionShareInsert(params);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void updRprAllChange(Map<String, Object> params){
+        assetRepository.updRprAllChange(params);
+    }
+
+    //지식재산권 리스트 수정 창 조회
+    @Override
+    public List<Map<String, Object>> getEquipApprovalData(Map<String, Object> params) {
+        return assetRepository.getEquipApprovalData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEquipApprovalInfo(Map<String, Object> params) {
+        return assetRepository.getEquipApprovalInfo(params);
+    }
+
+    @Override
+    public void setEquipApprovalInfo(Map<String, Object> params) {
+        assetRepository.setEquipApprovalInfo(params);
+    }
+
+    @Override
+    public void updateEquipDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("eqipnmApprovalSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            assetRepository.updateEquipApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            assetRepository.updateEquipApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            params.put("approveStatCode", 100);
+            assetRepository.updateEquipFinalApprStat(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getEquipStat(Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("type", assetRepository.getEquipStatType(params));
+        result.put("total", assetRepository.getEquipStat(params));
+        return result;
     }
 }

@@ -10,6 +10,9 @@
             CAMPUS.DJ_CAMPUS_CODE CC
         WHERE
             ACTIVE = 'Y'
+        <if test='campusGroupCodeId != null and campusGroupCodeId != ""'>
+            AND CAMPUS_GROUP_CODE_ID = #{campusGroupCodeId}
+        </if>
     </select>
 
     <select id="getEduInfoList" resultType="map" parameterType="map">
@@ -255,7 +258,7 @@
         FROM
             CAMPUS.DJ_EDU_CATEGORY EC
         WHERE
-        EC.ACTIVE = 'Y'
+            EC.ACTIVE = 'Y'
         <if test='largeCategoryId != null and largeCategoryId != ""'>
             AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
         </if>
@@ -276,7 +279,10 @@
         WHERE
             ECD.ACTIVE = 'Y'
         <if test='levelId != null and levelId != ""'>
-        AND ECD.LEVEL_ID = #{levelId}
+            AND ECD.LEVEL_ID = #{levelId}
+        </if>
+        <if test='eduCategoryId != null and eduCategoryId != ""'>
+            AND ECD.EDU_CATEGORY_ID in (${eduCategoryId})
         </if>
         ORDER BY ECD.ORDER
     </select>
@@ -309,6 +315,80 @@
         AND REG_EMP_SEQ = #{empSeq}
     </select>
 
+    <select id="getStudyInfoList" resultType="map" parameterType="map">
+        /* getStudyInfoList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    CSI.*,
+                    IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL SCSJ WHERE CSI.STUDY_INFO_SN = SCSJ.STUDY_INFO_SN AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS EDU_TIME_TOTAL
+                FROM
+                    CAMPUS.DJ_STUDY_INFO CSI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                <if test='applyYear != null and !"".equals(applyYear)'>
+                    AND DATE_FORMAT(START_DT, '%Y') = #{applyYear} OR  DATE_FORMAT(END_DT, '%Y') = #{applyYear}
+                </if>
+                <if test='studyClass != null and !"".equals(studyClass)'>
+                    AND STUDY_CLASS_SN = #{studyClass}
+                </if>
+            ) RE
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getStudyInfoOne" resultType="map" parameterType="map">
+        /* getStudyInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_INFO CSI
+        WHERE STUDY_INFO_SN = #{studyInfoSn}
+    </select>
+
+    <select id="getStudyUserList" resultType="map" parameterType="map">
+        /* getStudyUserList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_USER CSU
+        WHERE STUDY_INFO_SN = #{studyInfoSn}
+        ORDER BY STUDY_CLASS_SN, STUDY_USER_SN
+    </select>
+
+    <select id="getStudyJournalList" resultType="map" parameterType="map">
+        /* getStudyJournalList */
+        SELECT
+            @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+            CSJ.*
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ,
+            (SELECT @ROWNUM := 0) TMP
+        WHERE CSJ.STUDY_INFO_SN = #{studyInfoSn}
+        ORDER BY CSJ.JOURNAL_DT DESC
+    </select>
+
+    <select id="getStudyJournalOne" resultType="map" parameterType="map">
+        /* getStudyJournalOne */
+        SELECT
+            JOURNAL_DT,
+            JOURNAL_START_TIME,
+            JOURNAL_END_TIME,
+            JOURNAL_LOCATE,
+            JOURNAL_CONTENT,
+            JOURNAL_AMT,
+            JOURNAL_AMT_CLASS,
+            JOURNAL_AMT_ETC,
+            CAPTAIN_APPOVAL_YN,
+            ASSISTANT_APPOVAL_YN
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ
+        WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
+    </select>
+
     <select id="getEduStat" resultType="map" parameterType="map">
         /* getEduStat */
         SELECT
@@ -325,18 +405,38 @@
             (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ) AS SUM_ALL
         FROM
             CAMPUS.DJ_EDU_INFO CEI
-        LEFT JOIN
+                LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON CEI.REG_EMP_SEQ = HEI.EMP_SEQ
-        LEFT JOIN
+                LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY_DETAIL CECD ON CEI.EDU_CATEGORY_DETAIL_ID = CECD.EDU_CATEGORY_DETAIL_ID
-        LEFT JOIN
+                LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY CEC ON CEC.EDU_CATEGORY_ID = CECD.EDU_CATEGORY_ID
-        LEFT JOIN
+                LEFT JOIN
             CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID
         WHERE
             1=1
-        AND CER.STATUS = 100
+          AND CER.STATUS = 100
         GROUP BY HEI.EMP_NAME_KR, DUTY_CLASS, EDU_CATEGORY_DETAIL_NAME
+    </select>
+
+    <select id="getEduAllStatList" resultType="map" parameterType="map">
+        /* getEduAllStatList */
+        SELECT
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ), " ",HEI.DEPT_NAME) ELSE HEI.DEPT_NAME END AS DEPT,
+            CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION,
+            HEI.EMP_NAME_KR AS EMP_NAME,
+            IFNULL((SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO WHERE REG_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND STATUS = 100), 0) AS PERSONAL_TIME,
+            (SELECT COUNT(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO WHERE REG_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND STATUS = 100) AS PERSONAL_COUNT,
+            IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS STUDY_TIME,
+            (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y') AS STUDY_COUNT
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+                LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+        AND WORK_STATUS_CODE = 'Y'
+        ORDER BY EMP_NAME_KR
     </select>
 
     <insert id="setEduInfoInsert" parameterType="map">
@@ -503,6 +603,8 @@
         /* setStudyInfoInsert */
         INSERT INTO CAMPUS.DJ_STUDY_INFO
             (
+                STUDY_CLASS_SN,
+                STUDY_CLASS_TEXT,
                 STUDY_NAME,
                 START_DT,
                 END_DT,
@@ -517,6 +619,8 @@
             )
         VALUES
             (
+                #{studyClassSn},
+                #{studyClassText},
                 #{studyName},
                 #{startDt},
                 #{endDt},
@@ -529,7 +633,118 @@
                 #{empSeq},
                 #{regDate}
             )
+        <selectKey keyProperty="studyUserSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_USER'
+        </selectKey>
     </insert>
+
+    <insert id="setStudyUserInsert" parameterType="map">
+        /* setStudyUserInsert */
+        INSERT INTO CAMPUS.DJ_STUDY_USER
+            (
+                STUDY_INFO_SN,
+                STUDY_EMP_SEQ,
+                STUDY_EMP_NAME,
+                STUDY_DEPT_NAME,
+                STUDY_TEAM_NAME,
+                STUDY_POSITION_NAME,
+                STUDY_DUTY_NAME
+            )
+        VALUES
+            (
+                #{studyUserSn},
+                #{empSeq},
+                #{studyEmpName},
+                #{studyDeptName},
+                #{studyTeamName},
+                #{studyPositionName},
+                #{studyDutyName}
+            )
+    </insert>
+
+    <update id="setStudyUserMngReset" parameterType="map">
+        /* setStudyUserMngReset */
+        UPDATE
+            CAMPUS.DJ_STUDY_USER
+        SET
+            STUDY_CLASS_SN = '3',
+            STUDY_CLASS_TEXT = '조원'
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+        AND STUDY_CLASS_SN = #{studyClassSn}
+    </update>
+
+    <update id="setStudyUserMngUpdate" parameterType="map">
+        /* setStudyUserMngUpdate */
+        UPDATE
+            CAMPUS.DJ_STUDY_USER
+        SET
+            STUDY_CLASS_SN = #{studyClassSn},
+            STUDY_CLASS_TEXT = #{studyClassText}
+        WHERE
+            STUDY_USER_SN = #{studyUserSn}
+    </update>
+
+    <update id="studyReq" parameterType="map">
+        /* studyReq */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+            STATUS = #{status}
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <insert id="setStudyJournalInsert" parameterType="map">
+        /* setStudyJournalInsert */
+        INSERT INTO CAMPUS.DJ_STUDY_JOURNAL
+            (
+                STUDY_INFO_SN,
+                STUDY_NAME,
+                JOURNAL_DT,
+                JOURNAL_START_TIME,
+                JOURNAL_END_TIME,
+                JOURNAL_TIME,
+                JOURNAL_LOCATE,
+                JOURNAL_CONTENT,
+                JOURNAL_AMT,
+                JOURNAL_AMT_CLASS,
+                JOURNAL_AMT_CLASS_TEXT,
+                JOURNAL_AMT_ETC,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{studyName},
+                #{journalDt},
+                #{journalStartTime},
+                #{journalEndTime},
+                CAST((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m')) AS UNSIGNED),
+                #{studyLocation},
+                #{studyContent},
+                #{studyMoney},
+                #{journalAmtClass},
+                #{journalAmtClassText},
+                #{journalAmtEtc},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setStudyJournalApp" parameterType="map">
+        /* setStudyJournalApp */
+        UPDATE
+            CAMPUS.DJ_STUDY_JOURNAL
+        SET
+            <if test='studyClassSn == 1'>
+                CAPTAIN_APPOVAL_YN = #{status}
+            </if>
+            <if test='studyClassSn == 2'>
+                ASSISTANT_APPOVAL_YN = #{status}
+            </if>
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </update>
 
     <insert id="setTargetInsert" parameterType="map">
         /* setTargetInsert */
@@ -691,4 +906,66 @@
             TARGET_YEAR = #{targetYear}
         AND REG_EMP_SEQ = #{empSeq}
     </update>
+
+    <insert id="setEduCode" parameterType="map">
+        /* setEduCode */
+        INSERT INTO CAMPUS.DJ_CAMPUS_CODE
+            (
+                CAMPUS_GROUP_CODE_ID,
+                CAMPUS_MD_CODE,
+                CAMPUS_MD_CODE_NM,
+                CAMPUS_DT_CODE,
+                CAMPUS_DT_CODE_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{groupCode},
+                #{midleCode},
+                #{midleCodeName},
+                (SELECT IFNULL(MAX(SCCC.CAMPUS_DT_CODE), 0)+1 FROM CAMPUS.DJ_CAMPUS_CODE SCCC WHERE SCCC.CAMPUS_MD_CODE = #{midleCode}),
+                #{reqText},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="setEduCategory" parameterType="map">
+        /* setEduCategory */
+        INSERT INTO CAMPUS.DJ_EDU_CATEGORY
+            (
+                EDU_CATEGORY_NAME,
+                LARGE_CATEGORY_ID,
+                LARGE_CATEGORY_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{reqText},
+                #{largeCategoryId},
+                #{largeCategoryName},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="setEduCategoryDetail" parameterType="map">
+        /* setEduCategoryDetail */
+        INSERT INTO CAMPUS.DJ_EDU_CATEGORY_DETAIL
+            (
+                EDU_CATEGORY_DETAIL_NAME,
+                EDU_CATEGORY_ID,
+                EDU_CATEGORY_NAME,
+                LEVEL_ID,
+                LEVEL_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{reqText},
+                #{eduCategoryId},
+                #{eduCategoryName},
+                #{level},
+                #{levelName},
+                #{regEmpSeq}
+            )
+    </insert>
 </mapper>

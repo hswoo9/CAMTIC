@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project">
+
+    <select id="getProjectList" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+        ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+    </select>
+
+    <select id="getProjectStep1" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+        ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
+        ON A.PJT_SN = C.PJT_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO D
+        ON A.CRM_CD = D.CRM_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insProject" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT
+        (
+            PJT_NM,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            BUSN_CLASS,
+            BUSN_NM,
+            PJT_STEP,
+            PJT_STEP_NM,
+            CONSULT_DT,
+            CRM_CD,
+            CRM_NM
+        ) VALUES (
+            #{pjtNm},
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{busnClass},
+            #{busnNm},
+            #{pjtStep},
+            #{pjtStepNm},
+            #{contDt},
+            #{crmCd},
+            #{crmNm}
+        )
+        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        </selectKey>
+    </insert>
+
+    <insert id="insPjtEngn" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_ENGN
+        (
+            PJT_SN,
+            CONT_DT,
+            EXP_AMT,
+            CONT_LOC,
+            CRM_CD,
+            CONT_ETC,
+            STEP1,
+            STEP2,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{PJT_SN},
+            #{contDt},
+            #{expAmt},
+            #{contLoc},
+            #{crmCd},
+            #{contEtc},
+            'Y',
+            'R',
+            #{empSeq}
+        )
+    </insert>
+
+    <delete id="delProject" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn}
+    </delete>
+
+    <select id="getProjectData" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+            ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
+            ON A.PJT_SN = C.PJT_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO D
+            ON A.CRM_CD = D.CRM_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insStep1" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_EST
+        (
+            PJT_SN,
+            EST_DE,
+            EST_NM,
+            CRM_NM,
+            CRM_MEM,
+            VAT,
+            EST_TOT_AMT,
+            EST_ISS,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{estDe},
+            #{estNm},
+            #{crmNm},
+            #{crmMem},
+            #{vat},
+            #{estTotAmt},
+            #{estIss},
+            #{regEmpSeq}
+        )
+
+        <selectKey keyProperty="EST_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_EST'
+        </selectKey>
+    </insert>
+
+    <insert id="insStep1Sub" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_EST_SUB
+        (
+            EST_SN,
+            PROD_NM,
+            PROD_CNT,
+            UNIT,
+            UNIT_AMT,
+            SUP_AMT,
+            ETC
+        ) VALUES
+        (
+            #{estSn},
+            #{prodNm},
+            #{prodCnt},
+            #{unit},
+            #{unitAmt},
+            #{supAmt},
+            #{etc}
+        )
+    </insert>
+
+    <update id="updProjectStep" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = #{pjtStep},
+            PJT_STEP_NM = #{pjtStepNm}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updProjectEngnStep" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            MOD_DT = sysdate(),
+            MOD_EMP_SEQ = #{regEmpSeq},
+            <choose>
+                <when test="step == 2">STEP2 = 'Y', STEP3 = 'R'</when>
+                <when test="step == 3">STEP3 = 'Y', STEP4 = 'R'</when>
+                <when test="step == 4">STEP4 = 'Y', STEP5 = 'R'</when>
+                <when test="step == 5">STEP5 = 'Y', STEP6 = 'R'</when>
+                <when test="step == 6">STEP6 = 'Y', STEP7 = 'R'</when>
+                <when test="step == 7">STEP7 = 'Y', STEP8 = 'R'</when>
+                <when test="step == 8">STEP8 = 'Y'</when>
+                <otherwise>PJT_SN = #{pjtSn}</otherwise>
+            </choose>
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getStep1EstList" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME,
+            (SELECT COUNT(*) FROM CAM_PJT_MNG.DJ_PJT_EST_SUB WHERE EST_SN = A.EST_SN) AS CNT,
+            (SELECT SUM(SUP_AMT) FROM CAM_PJT_MNG.DJ_PJT_EST_SUB WHERE EST_SN = A.EST_SN) AS SUM_AMT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST A
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getStep1EstSubList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST_SUB
+        WHERE
+            EST_SN = #{estSn}
+    </select>
+
+    <select id="getStep1EstData" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST A
+        WHERE
+            PJT_SN = #{pjtSn}
+        ORDER BY EST_SN DESC LIMIT 1
+    </select>
+
+    <insert id="insStep2" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
+        (
+            PJT_SN,
+            DELV_DE,
+            DELV_SUMR,
+            DELV_SPEC,
+            DELV_ITEM,
+            DELV_CNT,
+            DELV_UNIT,
+            DELV_LOC,
+            DELV_MEAN,
+            DELV_ASSU,
+            DELV_TEST,
+            DELV_AMT,
+            DELV_DEPT,
+            PM_EMP_SEQ,
+            PM_EMP_NM,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{delvDe},
+            #{delvSumr},
+            #{delvSpec},
+            #{delvItem},
+            #{delvCnt},
+            #{delvUnit},
+            #{delvLoc},
+            #{delvMean},
+            #{delvAssu},
+            #{delvTest},
+            #{delvAmt},
+            #{delvDept},
+            #{pmEmpSeq},
+            #{pmEmpNm},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="DELV_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
+        </selectKey>
+    </insert>
+
+    <insert id="insStep3" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
+        (
+            PJT_SN,
+            INV_AMT,
+            INV_PER,
+            DEP_OBJ,
+            ETC,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{invAmt},
+            #{invPer},
+            #{depObj},
+            #{etc},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <insert id="insStep4" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PS_FILE
+        (
+            PJT_SN
+        )
+        VALUES
+        (
+            #{pjtSn}
+        )
+    </insert>
+
+    <select id="checkModStep4" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM CAM_PJT_MNG.DJ_PJT_PS_FILE
+        WHERE PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="updProjectDelv" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_AMT = #{delvAmt},
+            STR_DT = #{estDe},
+            END_EXP_DT = #{delvDe},
+            PM = #{pmEmpNm},
+            PJT_TMP_CD = #{pjtTmpCd}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updProjectDelvFn" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_CD = #{pjtCd}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="checkProjectCode" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            PJT_CD IS NOT NULL
+    </select>
+
+    <select id="getStep2DelvData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DELV
+        WHERE
+            PJT_SN = #{pjtSn} ORDER BY DELV_SN DESC LIMIT 1
+    </select>
+
+    <select id="groupCodeList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        GROUP BY GRP_SN
+    </select>
+
+    <insert id="insGroupCode" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CD
+        (
+            GRP_SN,
+            GRP_NM
+        )
+        VALUES
+        (
+            #{grpSn},
+            #{grpNm}
+        )
+    </insert>
+
+    <select id="codeList" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            LG_CD IS NOT NULL
+        AND
+            PJT_CD IS NULL
+    </select>
+
+    <select id="selLgCode" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            GRP_SN = #{grpSn}
+        AND
+            LG_CD is not null
+        AND
+            PJT_CD is null
+    </select>
+
+    <select id="selSmCode" resultType="map" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD is not null
+          AND
+            LG_CD = #{lgCd}
+          AND
+            PJT_CD is not null
+    </select>
+
+    <insert id="insSetLgCode" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM
+        )
+        VALUES
+        (
+            #{grpSn},
+            #{grpNm},
+            #{lgCode},
+            #{lgCodeNm}
+        )
+    </insert>
+
+    <select id="smCodeList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CD
+        WHERE
+            GRP_SN = #{grpSn}
+        AND
+            LG_CD = #{lgCd}
+        AND
+            PJT_CD IS NOT NULL
+    </select>
+
+    <insert id="insPjtCode" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM,
+            PJT_CD,
+            PJT_CD_NM
+        )
+        VALUES
+        (
+            #{grpSn},
+            #{grpNm},
+            #{lgCd},
+            #{lgCdNm},
+            #{pjtCd},
+            #{pjtCdNm}
+        )
+    </insert>
+
+    <select id="cntProjectCode" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_TMP_CD = #{pjtTmpCd}
+    </select>
+
+    <select id="checkModStep1" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_EST
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="checkModStep2" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DELV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="checkModStep3" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getDevPjtVerList" parameterType="map" resultType="map">
+        selECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            (SELECT *
+             FROM
+                 CAM_PJT_MNG.DJ_PJT_EST
+             WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1) B
+            ON
+                A.PJT_SN = B.PJT_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getStep3PmInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            EMP_SEQ = #{PM_EMP_SEQ}
+    </select>
+
+    <insert id="insPjtPs" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
+        (
+            PJT_SN,
+            PS_ROW,
+            PS_PREP,
+            PS_PREP_NM,
+            PS_NM,
+            PS_STR_DE,
+            PS_END_DE,
+            PS_EMP_SEQ,
+            PS_EMP_NM,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{psRow},
+            #{psPrep},
+            #{psPrepNm},
+            #{psNm},
+            #{psStrDe},
+            #{psEndDe},
+            #{psEmpSeq},
+            #{psEmpNm},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="PS_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS'
+        </selectKey>
+    </insert>
+
+    <select id="getProcessList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="updProcess" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            PS_ROW = #{psRow},
+            PS_PREP = #{psPrep},
+            PS_PREP_NM = #{psPrepNm},
+            PS_NM = #{psNm},
+            PS_STR_DE = #{psStrDe},
+            PS_END_DE = #{psEndDe},
+            PS_EMP_SEQ = #{psEmpSeq},
+            PS_EMP_NM = #{psEmpNm}
+        WHERE
+            PS_SN = #{psSn}
+    </update>
+
+    <delete id="delProcess" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PS_SN = #{psSn}
+    </delete>
+
+    <insert id="insInvData" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_INV
+        (
+            PJT_SN,
+            INV_ROW,
+            DIV_CD,
+            DIV_NM,
+            INV_NM,
+            INV_CNT,
+            INV_UNIT,
+            EST_TOT_AMT,
+            EST_OFC,
+            INV_ETC,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{pjtSn},
+            #{invRow},
+            #{divCd},
+            #{divNm},
+            #{invNm},
+            #{invCnt},
+            #{invUnit},
+            #{estTotAmt},
+            #{estOfc},
+            #{invEtc},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="INV_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_INV'
+        </selectKey>
+    </insert>
+
+    <select id="getInvList" parameterType="map" resultType="map">
+        SELECT * FROM
+            CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="updInvest" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_INV
+        SET
+            PJT_SN = #{pjtSn},
+            INV_ROW = #{invRow},
+            DIV_CD = #{divCd},
+            DIV_NM = #{divNm},
+            INV_NM = #{invNm},
+            INV_CNT = #{invCnt},
+            INV_UNIT = #{invUnit},
+            EST_TOT_AMT = #{estTotAmt},
+            EST_OFC = #{estOfc},
+            INV_ETC = #{invEtc}
+        WHERE
+            INV_SN = #{invSn}
+    </update>
+
+    <delete id="delInvest" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            INV_SN = #{invSn}
+    </delete>
+
+    <select id="getDevelopPlan" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE PJT_SN = #{pjtSn}
+        ORDER BY DEV_SN DESC LIMIT 1
+    </select>
+
+    <select id="getPsList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="updStep5" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_DE = #{delvDe},
+            PJT_AMT = #{estTotAmt}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updStepEst5" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_EST
+        SET
+            EST_ISS = #{estIss},
+            EST_TOT_AMT = #{estTotAmt}
+        WHERE
+            EST_SN = #{estSn}
+    </update>
+
+    <delete id="delStepEstSub5" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_EST_SUB
+        WHERE EST_SN = #{estSn}
+    </delete>
+
+    <select id="checkDelvStat" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_SN = #{pjtSn} AND DELV_STAT = 'Y'
+    </select>
+</mapper>

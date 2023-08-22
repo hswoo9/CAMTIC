@@ -87,3 +87,17 @@ li.k-item.k-treeview-item:last-child .k-treeview-mid{padding-top:2px;}
     font-size: 14px;
     vertical-align: bottom;
 }
+
+body ::-webkit-scrollbar {
+    width:0px !important;
+    height:3px !important;
+    transition:.3s background !important;
+}
+
+body ::-webkit-scrollbar-thumb {
+    background:#f8f9fa !important;
+}
+
+body :hover::-webkit-scrollbar-thumb {
+    background: #f8f9fa !important;
+}

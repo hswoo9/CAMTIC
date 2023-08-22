@@ -68,6 +68,26 @@ public class InsideCodeController {
         return "popup/inside/bustrip/carPop";
     }
 
+    //차량 통계조회 팝업창
+    @RequestMapping("/Inside/pop/carStatPop.do")
+    public String carStatPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/carStatPop";
+    }
+
+    //회의실 통계조회 팝업창
+    @RequestMapping("/Inside/pop/roomStatPop.do")
+    public String roomStatPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/roomStatPop";
+    }
+
     //차량관리 팝업창
     @RequestMapping("/Inside/pop/carManagePop.do")
     public String carManagePop(HttpServletRequest request, Model model) {
@@ -205,6 +225,24 @@ public class InsideCodeController {
         List<Map<String, Object>> list = insideCodeService.searchDuplicateRoom(params);
         model.addAttribute("flag", list.size() == 0 ? "false" : "true");
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //차량사용신청 통계 조회
+    @RequestMapping("/inside/getCarStat")
+    public String getCarStat(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = insideCodeService.getCarStat(params);
+        model.addAttribute("type", data.get("type"));
+        model.addAttribute("total", data.get("total"));
+        return "jsonView";
+    }
+
+    //회의실사용신청 통계 조회
+    @RequestMapping("/inside/getRoomStat")
+    public String getRoomStat(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = insideCodeService.getRoomStat(params);
+        model.addAttribute("type", data.get("type"));
+        model.addAttribute("total", data.get("total"));
         return "jsonView";
     }
 

@@ -31,8 +31,8 @@
             본질로 설명하고 캠틱의 무한한 가능성을 보여 주고자 한다. 대표색상인 다크블루는 기술의 미래 도약, 스카이블루는 인력 성장, 그린은 자연과의 융화를 상징한다.
           </div>
           <div class="__mt40 tar">
-            <a href="#" class="__btn1 blue"><span>가이드라인 다운로드</span></a>
-            <a href="#" class="__btn1 grayLine"><span>로고 다운로드</span></a>
+            <a href="/downloadFile/GuideLogoCAMTIC.pdf" download="GuideLogoCAMTIC.pdf" class="__btn1 blue"><span>가이드라인 다운로드</span></a>
+            <a href="/downloadFile/GuideLogoCAMTIC.zip" download="GuideLogoCAMTIC.zip" class="__btn1 grayLine"><span>로고 다운로드</span></a>
           </div>
         </div>
 

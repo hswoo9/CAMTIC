@@ -61,19 +61,19 @@ public class HomepageController {
     //복합소재뿌리기술센터
     @RequestMapping("/camtic/company/root.do")
     public String Croot(){ return "camtic/company/root"; }
-    //드론산업혁신지원센터
+    //드론기술개발지원센터
     @RequestMapping("/camtic/company/drone.do")
     public String Cdrone(){ return "camtic/company/drone"; }
     //메이커스페이스
     @RequestMapping("/camtic/company/space.do")
     public String Cspace(){ return "camtic/company/space"; }
-    //기업육성지원
+    //창업/기업 성장지원
     @RequestMapping("/camtic/company/support.do")
     public String Csupport(){ return "camtic/company/support"; }
-    //인재개발센터
+    //인재개발지원
     @RequestMapping("/camtic/company/talent.do")
     public String Ctalent(){ return "camtic/company/talent"; }
-    //일자리창업지원
+    //일자리혁신지원
     @RequestMapping("/camtic/company/job.do")
     public String Cjob(){ return "camtic/company/job"; }
 

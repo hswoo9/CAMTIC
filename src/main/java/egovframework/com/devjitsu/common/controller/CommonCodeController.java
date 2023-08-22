@@ -87,4 +87,5 @@ public class CommonCodeController {
         result.put("codeList", commonCodeService.getCustomCodeList(params));
         return result;
     }
+
 }

@@ -46,7 +46,8 @@ public class CommonServiceImpl implements CommonService {
         fileNm = URLDecoder.decode(fileNm, "utf-8");
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("121.186.165.80")){
-            path = "http://121.186.165.80:8010" + path;
+            //path = "http://218.158.231.186:8080" + path;
+        }else if(request.getServerName().contains("218.158.231.186")){
         }else{
             path = "http://10.10.10.114:80" + path;
         }
@@ -240,5 +241,10 @@ public class CommonServiceImpl implements CommonService {
         } catch (KeyManagementException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> commonCodeList(Map<String, Object> params) {
+        return commonRepository.commonCodeList(params);
     }
 }

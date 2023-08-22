@@ -118,4 +118,24 @@ public class UserController {
         return formatter.format(today);
     }
 
+    //사용자 기본정보 팝업용
+    @RequestMapping("/user/pop/myPop.do")
+    public String myPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelOne = userService.getUserPersonnelOne(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("uprinfList", userPersonnelOne);
+        model.addAttribute("pk", params.get("pk"));
+        model.addAttribute("idPhoto", userService.getUserIdPhotoInfo(params));
+
+        System.out.println("사용자 기본정보 --------" + userPersonnelOne);
+
+        return "popup/user/myPop";
+    }
+
 }

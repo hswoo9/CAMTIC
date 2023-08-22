@@ -38,7 +38,7 @@
             <div>
               <p>- 법인 홈페이지 (www.camtic.or.kr)</p>
               <p class="mt5">- 상품화지원센터 홈페이지 (www.camtic.co.kr)</p>
-              <p class="mt5">- 인재개발센터 홈페이지 (edu.camtic.or.kr)</p>
+              <p class="mt5">- 인재개발지원 홈페이지 (edu.camtic.or.kr)</p>
               <p class="mt5">- 전주벤처기업육성촉진지구발전협의회 홈페이지 (www.jvada.or.kr)</p>
             </div>
           </div>
@@ -175,7 +175,7 @@
             </thead>
             <tbody>
             <tr>
-              <th scope="row">네비게이션</th>
+              <th scope="row">관리책임자</th>
               <td>노상흡</td>
               <td>본부장</td>
               <td>캠틱종합기술원</td>

@@ -8,11 +8,9 @@ import java.util.Map;
 public interface BustripService {
 
 
-    List<Map<String, Object>> getUserList(Map<String, Object> params);
+    List<Map<String, Object>> getBustripList(Map<String, Object> params);
 
     void setBustripReq(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
-
-    List<Map<String, Object>> getBustripReq(Map<String, Object> params);
 
     void delBustripReq(Map<String, Object> params);
 
@@ -21,6 +19,8 @@ public interface BustripService {
     List<Map<String, Object>> getBustripReqCheck(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripTotInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripResTotInfo(Map<String, Object> params);
 
     /**
      * 출장신청서 전자결재 상태값 업데이트
@@ -45,4 +45,26 @@ public interface BustripService {
     void insBustripExnpResult(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params);
+
+    Map<String, Object> getBustripMaxDayCost(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripCostList(Map<String, Object> params);
+
+    void setBustripCostInsert(Map<String, Object> params);
+
+    void setBustripFuelCostInsert(Map<String, Object> params);
+
+    List<Map<String, Object>> getWaypointCostList(Map<String, Object> params);
+
+    void setWaypointCostInsert(Map<String, Object> params);
+
+    void setReqCert(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params);
+
+    Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getPopBustripList(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripSettleList(Map<String, Object> params);
 }

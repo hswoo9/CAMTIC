@@ -21,13 +21,16 @@
                     IFNULL(HAI.AF_POSITION_NAME, '') AS AF_POSITION_NAME,
                     IFNULL(HAI.AF_DUTY_NAME, '') AS AF_DUTY_NAME,
                     HAI.ETC,
-                    AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME
+                    AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME,
+                    CFI.*
                 FROM
                     CAM_HR.DJ_APNT_INFO HAI
                 LEFT JOIN
                     CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
                 LEFT JOIN
-                    CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ,
+                    CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ
+                LEFT JOIN
+                    CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history',
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
@@ -37,12 +40,20 @@
                 <if test='deptSeq != null and !"".equals(deptSeq)'>
                     AND HEI.DEPT_SEQ = #{deptSeq}
                 </if>
-                AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+                <if test='start_date != null and !"".equals(start_date)'>
+                    AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+                </if>
                 <if test='gender != null and !"".equals(gender)'>
                     AND HEI.GENDER_CODE = #{gender}
                 </if>
                 <if test='searchText != null and !"".equals(searchText)'>
                     AND 1 = 1
+                </if>
+                <if test='applyDt != null and !"".equals(applyDt)'>
+                    AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m') = #{applyDt}
+                </if>
+                <if test='empSeq != null and !"".equals(empSeq)'>
+                    AND HAI.EMP_SEQ = #{empSeq}
                 </if>
                 ORDER BY HAI.REG_DT
             ) RE
@@ -56,6 +67,8 @@
             DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
             HEI.ERP_EMP_SEQ,
             HAI.EMP_NAME,
+            HAI.REG_EMP_NAME,
+            DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT,
 
             IFNULL(HAI.BF_DEPT_NAME, '-') AS BF_DEPT_NAME,
             IFNULL(HAI.BF_TEAM_NAME, '-') AS BF_TEAM_NAME,
@@ -69,11 +82,15 @@
             IFNULL(HAI.AF_DUTY_NAME, '-') AS AF_DUTY_NAME,
             IFNULL(HAI.AF_JOB_DETAIL, '-') AS AF_JOB_DETAIL,
 
-            HAI.ETC
+            HAI.ETC,
+
+            CFI.*
         FROM
             CAM_HR.DJ_APNT_INFO HAI
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history'
         WHERE
             HAI.APNT_SN = #{apntSn}
     </select>
@@ -128,6 +145,75 @@
             ) RE
         ORDER BY RE.ROW_NUM DESC
     </select>
+
+    <insert id="setHistoryInsertTest" parameterType="map">
+        /* setHistoryInsertTest */
+        INSERT INTO CAM_HR.DJ_APNT_INFO
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                APNT_CD,
+                APNT_NAME,
+                BF_DEPT_NAME,
+                BF_DEPT_SEQ,
+                BF_TEAM_NAME,
+                BF_TEAM_SEQ,
+                BF_POSITION_CODE,
+                BF_POSITION_NAME,
+                BF_DUTY_CODE,
+                BF_DUTY_NAME,
+                BF_JOB_DETAIL,
+                AF_DEPT_NAME,
+                AF_DEPT_SEQ,
+                AF_TEAM_NAME,
+                AF_TEAM_SEQ,
+                AF_POSITION_CODE,
+                AF_POSITION_NAME,
+                AF_DUTY_CODE,
+                AF_DUTY_NAME,
+                AF_JOB_DETAIL,
+                ETC,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                NUMBER_NAME,
+                RELEVANT_NAME,
+                HISTORY_DT
+            )
+        VALUES
+            (
+                #{hisEmpSeq},
+                #{empName},
+                #{apntCd},
+                #{apntName},
+                #{bfDeptName},
+                #{bfDeptSeq},
+                #{bfTeamName},
+                #{bfTeamSeq},
+                #{bfPositionCode},
+                #{bfPositionName},
+                #{bfDutyCode},
+                #{bfDutyName},
+                #{bfJobDetail},
+                #{afDeptName},
+                #{afDeptSeq},
+                #{afTeamName},
+                #{afTeamSeq},
+                #{afPositionCode},
+                #{afPositionName},
+                #{afDutyCode},
+                #{afDutyName},
+                #{afJobDetail},
+                #{afEtc},
+                #{empSeq},
+                #{regEmpName},
+                #{numberName},
+                #{relevantName},
+                #{historyDate}
+            )
+        <selectKey keyProperty="apntSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_APNT_INFO'
+        </selectKey>
+    </insert>
 
     <insert id="setHistoryInsert" parameterType="map">
         /* setHistoryInsert */

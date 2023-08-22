@@ -3,10 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-
-
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"/></script>
-
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -30,18 +27,17 @@
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 45%;">
+                            <input type="text" id="start_date" style="width: 110px;">
                             ~
-                            <input type="text" id="end_date" style="width: 45%;">
+                            <input type="text" id="end_date" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">프로젝트</th>
                         <td>
-                            <input type="text" id="pjt_cd" style="width: 200px;">
+                            <input type="text" id="pjt_cd" style="width: 120px;">
                         </td>
                         <th class="text-center th-color">사업명</th>
                         <td>
-                            <input type="text" id="busnName" style="width: 140px;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResult.mainGrid()">검색</button>
+                            <input type="text" id="busnName" style="width: 150px;">
                         </td>
                     </tr>
                 </table>
@@ -55,9 +51,9 @@
     <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="hrBizReqId" name="hrBizReqId"/>
+    <input type="hidden" id="hrBizReqResultId" name="hrBizReqResultId"/>
 </form>
 
 <script type="text/javascript">
-    bustripResult.init();
+    bustripResList.init();
 </script>

@@ -40,9 +40,6 @@ var userMultiSel = {
             select: userMultiSel.treeClick,
         });
 
-
-        userMultiSel.treeViewReload(deptSeq);
-
         $("#addSubHLineGrid, #addCooperationLineGrid, #addReaderListGrid").kendoGrid({
             resizable: true,
             columns: [
@@ -76,7 +73,11 @@ var userMultiSel = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.DEPT_SEQ = dept;
+                    if($("#sEmpName").val() == '' || $("#sEmpName").val() == null){
+                        data.DEPT_SEQ = $("#deptSeq").val();
+                    } else {
+                        data.sEmpName = $("#sEmpName").val();
+                    }
                     return data;
                 }
             },
@@ -93,7 +94,7 @@ var userMultiSel = {
 
         $("#userList").kendoGrid({
             dataSource: deptUserDataSource,
-            height: 415,
+            height: 395,
             sortable: true,
             scrollable: true,
             pageable: {
@@ -107,6 +108,20 @@ var userMultiSel = {
                     empty: "데이터가 없습니다.",
                 }
             },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar : [
+                {
+                    name: '',
+                    text: '조회',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userMultiSel.treeViewReload();">' +
+                            '   <span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
+            ],
             columns: [
                 {
                     field: "DEPT_NAME",
@@ -137,7 +152,9 @@ var userMultiSel = {
         var item = $("#treeview").data("kendoTreeView").dataItem(e.node);
         deptSeq = item.dept_seq;
         deptName = item.dept_name;
-        userMultiSel.treeViewReload(deptSeq);
+        // userMultiSel.treeViewReload(deptSeq);
+        $("#deptSeq").val(item.dept_seq);
+        $("#sEmpName").val('');
         $("#userList").data("kendoGrid").dataSource.read();
     },
 
@@ -190,8 +207,11 @@ var userMultiSel = {
                                 "		<td>" +
                                 "			<input type='hidden' id='approveEmpSeq' name='approveEmpSeq' value='"+result.EMP_SEQ+"'>" +
                                 "			<input type='hidden' id='approveEmpName' name='approveEmpName' value='"+result.EMP_NAME_KR+"'>" +
+                                "			<input type='hidden' id='approveDeptSeq' name='approveDeptSeq' value='"+result.DEPT_SEQ+"'>" +
                                 "			<input type='hidden' id='approveDeptName' name='approveDeptName' value='"+result.DEPT_NAME+"'>" +
+                                "			<input type='hidden' id='approvePositionCode' name='approvePositionCode' value='"+result.POSITION_CODE+"'>" +
                                 "			<input type='hidden' id='approvePositionName' name='approvePositionName' value='"+result.POSITION_NAME+"'>" +
+                                "			<input type='hidden' id='approveDutyCode' name='approveDutyCode' value='"+result.DUTY_CODE+"'>" +
                                 "			<input type='hidden' id='approveDutyName' name='approveDutyName' value='"+result.DUTY_NAME+"'>" +
                                 "			<span id='approveOrder'>"+($("#approvalLineDataTb tbody tr").length+1)+"</span>"+
                                 "		</td>" +

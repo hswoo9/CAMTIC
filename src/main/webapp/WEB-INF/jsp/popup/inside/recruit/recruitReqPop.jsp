@@ -7,20 +7,25 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/recruitReqPop.js?v=${today}"></script>
-<%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-<input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-<input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
       <div class="card-header pop-header">
         <h3 class="card-title title_NM">채용 등록</h3>
         <div class="btn-st popButton">
-          <button type="button" class="k-button k-button-solid-info" onclick="">임시저장</button>
-          <button type="button" class="k-button k-button-solid-info" onclick="">등록</button>
+          <button type="button" class="k-button k-button-solid-info" onclick="recruitReq.saveBtn()">등록</button>
           <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
         </div>
       </div>
@@ -52,7 +57,7 @@
           <tr>
             <th style="text-align: center">공고내용</th>
             <td colspan="3">
-              <input type="text" id="recruitDetail" style="width: 70%">
+              <textarea id="recruitDetail" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -70,38 +75,12 @@
               <input type="text" id="endTime" style="width: 10%">
             </td>
           </tr>
-          <tr>
-            <th rowspan="3" style="text-align: center">모집분야<br><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mt10" value="추가" onclick="" disabled/></th>
-            <td>
-              <div style="display:flex; justify-content: space-between; align-items: center">
-                부서<input type="text" class="dept" style="width: 70%">
-              </div>
-            </td>
-            <td>
-              <div style="display:flex; justify-content: space-between; align-items: center">
-                팀 <input type="text" class="team" style="width: 70%">
-              </div>
-            </td>
-            <td>
-              <div style="display:flex; justify-content: space-between; align-items: center">
-                직무(모집분야) <input type="text" class="job" style="width: 70%">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              채용인원 <input type="text" class="recruitment" oninput="onlyNumber(this)" style="width: 20%"> 명
-            </td>
-            <td>
-              경력 <input type="text" class="careerType" style="width: 20%"> 직급 <input type="text" class="duty" style="width: 40%">
-            </td>
-            <td>
-              필요경력 <input type="text" class="career" oninput="onlyNumber(this)" style="width: 20%"> 년 근무형태 <input type="text" class="workType" style="width: 20%">
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              자격요건 <input type="text" class="qualification" style="width: 80%">
+          <tr id="areaTr">
+            <th style="text-align: center">
+              모집분야<br>
+              <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mt10" value="추가" onclick="recruitReq.fn_areaTrAdd();" />
+            </th>
+            <td colspan="3" id="areaTd">
             </td>
           </tr>
           <tr>
@@ -109,7 +88,7 @@
               모집분야 기타
             </th>
             <td colspan="3">
-              <input type="text" id="jobPositionEtc" style="width: 80%">
+              <input type="text" id="jobPositionEtc" style="width: 70%">
             </td>
           </tr>
           <tr>
@@ -117,7 +96,7 @@
               응시자격 기타
             </th>
             <td colspan="3">
-              <input type="text" id="eligibilityEtc" style="width: 80%">
+              <textarea id="eligibilityEtc" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -125,7 +104,7 @@
               근무형태
             </th>
             <td colspan="3">
-              <input type="text" id="workType" style="width: 80%">
+              <textarea id="workType" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -133,10 +112,10 @@
               전형방법
             </th>
             <td colspan="3">
-              <input type="text" id="admission" style="width: 80%">
+              <textarea id="admission" style="width: 70%"></textarea>
             </td>
           </tr>
-          <tr>
+          <%--<tr>
             <th>
               지원서류
             </th>
@@ -151,13 +130,13 @@
             <td colspan="3">
               <input type="file" disabled>
             </td>
-          </tr>
+          </tr>--%>
           <tr>
             <th>
               원서접수
             </th>
             <td colspan="3">
-              <input type="text" id="receiptDocu" style="width: 80%">
+              <textarea id="receiptDocu" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -165,7 +144,7 @@
               기타사항
             </th>
             <td colspan="3">
-              <input type="text" id="remark" style="width: 80%">
+                <textarea id="remark" style="width: 70%"></textarea>
             </td>
           </tr>
           <tr>
@@ -173,7 +152,7 @@
               상태(값 자동변경)
             </th>
             <td colspan="3">
-              <input type="text" id="recruitStatus">
+              <input type="text" id="recruitStatus" style="width: 20%;">
             </td>
           </tr>
         </table>

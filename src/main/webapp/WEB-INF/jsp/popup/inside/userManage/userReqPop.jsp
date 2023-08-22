@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <%--<style>
     table { background-color: #00000008; }
 </style>--%>
@@ -16,8 +17,11 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">직원등록</h3>
             <div>
-                <button type="button" class="k-button k-button-solid-base" style="margin-top: 8px;" onclick="history.back();">뒤로가기</button>
-                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="">저장</button>
+                <input type="hidden" id="targetEmpSeq" value="${params.empSeq}" />
+                <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                    <button type="button" class="k-button k-button-solid-base" style="margin-top: 8px;" onclick="history.back();">뒤로가기</button>
+                </c:if>
+                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="userReqPop.userReqSave();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
         </div>
@@ -40,7 +44,7 @@
                             <input type="text" id="empNameKr" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="empNameKr" style="width: 50%;" value="${uprinfList.EMP_NAME_KR}" disabled="disabled">
+                            <input type="text" id="empNameKr" style="width: 50%;" value="${uprinfList.EMP_NAME_KR}">
                         </c:if>
                     </td>
                     <th><span class="red-star">*</span>직원구분</th>
@@ -64,38 +68,19 @@
                     </td>
                     <th><span class="red-star">*</span>주민등록번호</th>
                     <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="resRegisNum1" style="width: 30%;" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6"> - <input type="text" id="resRegisNum2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="resRegisNum1" style="width: 30%;" value="${uprinfList.RES_REGIS_NUM}" disabled="disabled">
-                        </c:if>
+                        <input type="text" id="resRegisNum1" style="width: 30%;" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6"> - <input type="text" id="resRegisNum2" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[1]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;">
                     </td>
                 </tr>
-                <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                    <tr>
-                        <th><span class="red-star">*</span>비밀번호</th>
-                        <td>
-                            <input type="password" id="loginPasswd" style="width: 50%;"> 미입력시 변경 안됨
-                        </td>
-                        <th><span class="red-star">*</span>비밀번호 확인</th>
-                        <td>
-                            <input type="password" id="checkPasswd" style="width: 50%;">
-                        </td>
-                    </tr>
-                </c:if>
-                <%--                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                                    <tr>
-                                        <th><span class="red-star">*</span>비밀번호</th>
-                                        <td>
-                                            <input type="text" id="loginPasswd" style="width: 50%;" value="${uprinfList.LOGIN_PASSWD}" disabled="disabled">
-                                        </td>
-                                        <th><span class="red-star">*</span>비밀번호 확인</th>
-                                        <td>
-                                            <input type="password" id="checkPasswd" style="width: 50%;" disabled>
-                                        </td>
-                                    </tr>
-                                </c:if>--%>
+                <tr>
+                    <th><span class="red-star">*</span>비밀번호</th>
+                    <td>
+                        <input type="password" id="loginPasswd" style="width: 50%;"> 미입력시 변경 안됨
+                    </td>
+                    <th><span class="red-star">*</span>비밀번호 확인</th>
+                    <td>
+                        <input type="password" id="checkPasswd" style="width: 50%;">
+                    </td>
+                </tr>
                 <tr>
                     <th>부서</th>
                     <td>
@@ -117,14 +102,14 @@
                             <input type="text" id="capsNum" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="capsNum" style="width: 50%;" value="${uprinfList.CAPS_NUM}" disabled="disabled">
+                            <input type="text" id="capsNum" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
                         </c:if>
                     </td>
                 </tr>
                 <tr>
                     <th>직군</th>
                     <td>
-                        <input type="text" id="jobCode" style="width: 50%;">
+                        <input type="text" id="occupationCode" style="width: 50%;">
                     </td>
                     <th>직책</th>
                     <td>
@@ -138,7 +123,7 @@
                             <input type="text" id="jobDetail" style="width: 95%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="jobDetail" style="width: 95%;" value="${uprinfList.JOB_DETAIL}" disabled="disabled">
+                            <input type="text" id="jobDetail" style="width: 95%;" value="${uprinfList.JOB_DETAIL}">
                         </c:if>
                     </td>
                     <th>학위</th>
@@ -163,7 +148,7 @@
                             <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" > 개월
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BEFOR_CAREER}" disabled="disabled"> 개월
+                            <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BEFOR_CAREER}"> 개월
                         </c:if>
                     </td>
                     <th>경과년차</th>
@@ -173,8 +158,8 @@
                             <input type="text" id="elapsedYear2" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right"> 년차
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="elapsedYear1" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BS_ELAPSED_YEAR}" disabled="disabled"> 년도기준
-                            <input type="text" id="elapsedYear2" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.ELAPSED_YEAR}" disabled="disabled"> 년차
+                            <input type="text" id="elapsedYear1" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BS_ELAPSED_YEAR}"> 년도기준
+                            <input type="text" id="elapsedYear2" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.ELAPSED_YEAR}"> 년차
                         </c:if>
                     </td>
                 </tr>
@@ -185,7 +170,7 @@
                             예금주 <input type="text" id="accountHolder" style="width: 20%; margin-right:10px;"> 은행명 <input type="text" id="bankName" style="width: 20%; margin-right:10px;"> 계좌번호  <input type="text" id="accountNum" style="width: 30%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            예금주 <input type="text" id="accountHolder" style="width: 20%; margin-right:10px;" value="${uprinfList.ACCOUNT_HOLDER}" disabled="disabled"> 은행명 <input type="text" id="bankName" style="width: 20%; margin-right:10px;" value="${uprinfList.BANK_NAME}" disabled="disabled"> 계좌번호  <input type="text" id="accountNum" style="width: 30%;" value="${uprinfList.ACCOUNT_NUM}" disabled="disabled">
+                            예금주 <input type="text" id="accountHolder" style="width: 20%; margin-right:10px;" value="${uprinfList.ACCOUNT_HOLDER}"> 은행명 <input type="text" id="bankName" style="width: 20%; margin-right:10px;" value="${uprinfList.BANK_NAME}"> 계좌번호  <input type="text" id="accountNum" style="width: 30%;" value="${uprinfList.ACCOUNT_NUM}">
                         </c:if>
                     </td>
                 </tr>
@@ -204,33 +189,20 @@
                     <th>거주지</th>
                     <td colspan="3">
                         <div style="display: flex">
-                            <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                                <input type="text" id="addr" style="width: 15%; margin-right:10px;">
-                                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick=""/>
-                            </c:if>
-                            <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                                <input type="text" id="addr" style="width: 15%; margin-right:10px;" value="${uprinfList.ZIP_CODE}" disabled="disabled">
-                            </c:if>
+                            <input type="text" id="zipCode" style="width: 15%; margin-right:10px;" value="${uprinfList.ZIP_CODE}">
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="userReqPop.addrSearch();"/>
                         </div>
                         <div style="display: flex" class="mt5">
-                            <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                                <input type="text" id="addrDetail" style="width: 95%;">
-                            </c:if>
-                            <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                                <input type="text" id="addrDetail" style="width: 95%;" value="${uprinfList.ADDR}" disabled="disabled">
-                            </c:if>
+                            <input id="addr" style="width: 95%;" value="${uprinfList.ADDR}">
+                            <span id="guide" style="color:#999;display:none"></span>
+                            <input type="hidden" id="addrDetail">
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <th>전화번호</th>
                     <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="officeTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="officeTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.OFFICE_TEL_NUM}" disabled="disabled">
-                        </c:if>
+                        <input type="text" id="officeTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.OFFICE_TEL_NUM}">
                     </td>
                     <th>휴대폰</th>
                     <td>
@@ -238,7 +210,7 @@
                             <input type="text" id="mobileTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="mobileTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.MOBILE_TEL_NUM}" disabled="disabled">
+                            <input type="text" id="mobileTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.MOBILE_TEL_NUM}">
                         </c:if>
                     </td>
                 </tr>
@@ -249,35 +221,22 @@
                             <input type="text" id="emailAddr" style="width: 30%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="emailAddr" style="width: 30%;" value="${uprinfList.EMAIL_ADDR}" disabled="disabled">
+                            <input type="text" id="emailAddr" style="width: 30%;" value="${uprinfList.EMAIL_ADDR}">
                         </c:if>
                     </td>
                 </tr>
                 <tr>
-                    <c:if test="${params.empSeq == null || params.empSeq == ''}">
+
                     <th>차량소유</th>
                     <td colspan="3">
-                        <input type="checkbox" id="carActive" onclick="onDisplay();"> 차량을 소유하고 있음
-                    </td>
-                </tr>
-                <tr style="display: none;" id="noneTr">
-                    <th>차량번호</th>
-                    <td colspan="3">
-                        <input type="text" id="carNum1" style="width: 10%;"><input type="text" id="carNum2" style="margin-left:5px;width: 10%;"><input type="text" id="carNum3" style="margin-left:5px;width: 10%;">
-                        ex) 22 가 1111
-                        </c:if>
-                        <c:if test="${uprinfList.CAR_ACTIVE == 1}">
-                    <th>차량소유</th>
-                    <td colspan="3">
-                        <input type="checkbox" checked id="carActive2"> 차량을 소유하고 있음
+                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
                     </td>
                 </tr>
                 <tr>
                     <th>차량번호</th>
                     <td colspan="3">
-                        <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}" disabled="disabled">
+                        <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}">
                         ex) 22 가 1111
-                        </c:if>
                     </td>
                 </tr>
                 </thead>
@@ -303,7 +262,7 @@
                             <input type="text" id="empNameCn" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="empNameCn" style="width: 50%;" value="${uprinfList.EMP_NAME_CN}" disabled="disabled">
+                            <input type="text" id="empNameCn" style="width: 50%;" value="${uprinfList.EMP_NAME_CN}">
                         </c:if>
                     </td>
                     <th>영문 이름</th>
@@ -312,7 +271,7 @@
                             <input type="text" id="empNameEn" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="empNameEn" style="width: 50%;" value="${uprinfList.EMP_NAME_EN}" disabled="disabled">
+                            <input type="text" id="empNameEn" style="width: 50%;" value="${uprinfList.EMP_NAME_EN}">
                         </c:if>
                     </td>
                 </tr>
@@ -327,7 +286,7 @@
                             <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.EMG_TEL_NUM}" disabled="disabled">
+                            <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.EMG_TEL_NUM}">
                         </c:if>
                     </td>
                 </tr>
@@ -338,7 +297,7 @@
                             <input type="text" id="legalDomicile" style="width: 95%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="legalDomicile" style="width: 95%;" value="${uprinfList.LEGAL_DOMICILE}" disabled="disabled">
+                            <input type="text" id="legalDomicile" style="width: 95%;" value="${uprinfList.LEGAL_DOMICILE}">
                         </c:if>
                     </td>
                 </tr>
@@ -366,7 +325,7 @@
                             <input type="text" id="hobby" style="width: 95%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="hobby" style="width: 95%;" value="${uprinfList.HOBBY}" disabled="disabled">
+                            <input type="text" id="hobby" style="width: 95%;" value="${uprinfList.HOBBY}">
                         </c:if>
                     </td>
                     <div style="display: none;" id="noneDiv">
@@ -376,7 +335,7 @@
                                 <input type="text" id="specialty" style="width: 95%;">
                             </c:if>
                             <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                                <input type="text" id="specialty" style="width: 95%;" value="${uprinfList.SPECIALITY}" disabled="disabled">
+                                <input type="text" id="specialty" style="width: 95%;" value="${uprinfList.SPECIALITY}">
                             </c:if>
                         </td>
                     </div>
@@ -388,7 +347,7 @@
                             <input type="text" id="religion" style="width: 50%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="religion" style="width: 50%;" value="${uprinfList.RELIGION}" disabled="disabled">
+                            <input type="text" id="religion" style="width: 50%;" value="${uprinfList.RELIGION}">
                         </c:if>
                     </td>
                     <th>신장</th>
@@ -397,7 +356,7 @@
                             <input type="text" id="height" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%;text-align: right"> cm
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="height" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%;text-align: right" value="${uprinfList.HEIGHT}" disabled="disabled"> cm
+                            <input type="text" id="height" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%;text-align: right" value="${uprinfList.HEIGHT}"> cm
                         </c:if>
                     </td>
                 </tr>
@@ -408,7 +367,7 @@
                             <input type="text" id="weight" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%;text-align: right"> kg
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="weight" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%;text-align: right" value="${uprinfList.WEIGHT}" disabled="disabled"> kg
+                            <input type="text" id="weight" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%;text-align: right" value="${uprinfList.WEIGHT}"> kg
                         </c:if>
                     </td>
                     <th>시력</th>
@@ -418,8 +377,8 @@
                             우 <input type="text" id="vision2" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right"> (안경 착용 시력)
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            좌 <input type="text" id="vision1" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right" value="${uprinfList.VISIONL}" disabled="disabled">
-                            우 <input type="text" id="vision2" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right" value="${uprinfList.VISIONR}" disabled="disabled"> (안경 착용 시력)
+                            좌 <input type="text" id="vision1" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right" value="${uprinfList.VISIONL}">
+                            우 <input type="text" id="vision2" onKeyup="this.value=this.value.replace(/[^-\.0-9]/g,'');" style="width: 20%; text-align: right" value="${uprinfList.VISIONR}"> (안경 착용 시력)
                         </c:if>
                     </td>
                 </tr>
@@ -495,7 +454,7 @@
             $("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
         }
 
-        $("#position").data("kendoDropDownList").enable(false);
+        //$("#position").data("kendoDropDownList").enable(false);
         /*$("#divis").data("kendoDropDownList").enable(false);*/
         /*        $("#deptName").data("kendoDropDownList").enable(false);
                 $("#deptTeamName").data("kendoDropDownList").enable(false);
@@ -550,7 +509,7 @@
         //직급/등급 ---insert
         $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
         //직군 ---insert
-        $("#jobCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
+        $("#occupationCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
         //직책
         $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_CODE}");
         //학위 ---insert

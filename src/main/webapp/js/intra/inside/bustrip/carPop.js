@@ -1,4 +1,5 @@
 var flag = false;
+let carType = "A";
 var carReq = {
     init: function(){
         carReq.dataSet(carData);
@@ -124,14 +125,26 @@ var carReq = {
                 console.log(result);
                 if(result.flag == "true") {
                     let duplicateText = "";
+                    let realCount = 0;
                     for(let i = 0; i < result.list.length; i++) {
-                        if(i != 0) {
-                            duplicateText += ", ";
+                        if(data.type == "bustripReq" && data.regEmpSeq == result.list[i].EMP_SEQ){
+                        }else {
+                            if(i != 0) {
+                                duplicateText += ", ";
+                            }
+                            duplicateText += result.list[i].EMP_NAME;
+                            realCount += 1;
                         }
-                        duplicateText += result.list[i].EMP_NAME;
                     }
-                    alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
-                    flag = false;
+                    if(realCount == 0){
+                        carType = "B";
+                    }
+                    if(!flag && data.type != "bustripReq"){
+                        alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
+                    }
+                    if(!flag && carType == "A" && data.type == "bustripReq"){
+                        alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
+                    }
                 }else {
                     flag = true;
                 }
@@ -153,7 +166,9 @@ var carReq = {
             async : false,
             success : function(result){
                 console.log(result);
-                alert("차량 사용 신청이 완료되었습니다.");
+                if(data.type != "bustripReq") {
+                    alert("차량 사용 신청이 완료되었습니다.");
+                }
                 opener.gridReload();
                 window.close();
             },

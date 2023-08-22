@@ -12,6 +12,7 @@
             CAM_INSIDE.DJ_HR_CAR_CODE IHCC
         WHERE
             IHCC.ACTIVE = 'Y'
+        AND IHCC.VISIBLE = 'Y'
     </select>
 
     <select id="getRoomCode" parameterType="map" resultType="map">
@@ -23,6 +24,7 @@
             CAM_INSIDE.DJ_ROOM_CODE IRC
         WHERE
             IRC.ACTIVE = 'Y'
+        AND IRC.VISIBLE = 'Y'
     </select>
 
 
@@ -69,7 +71,8 @@
         /* searchDuplicateCar */
         <![CDATA[
             SELECT
-                IHCR.EMP_NAME
+                IHCR.EMP_NAME,
+                IHCR.EMP_SEQ
             FROM
                 CAM_INSIDE.DJ_HR_CAR_REQ IHCR
             WHERE
@@ -80,6 +83,54 @@
         <if test='carReqSn != null and !"".equals(carReqSn)'>
             AND !CAR_REQ_SN = #{carReqSn}
         </if>
+    </select>
+
+    <select id="getCarStatType" resultType="map" parameterType="map">
+        /* getCarStatType */
+        SELECT
+            CAR_CLASS_TEXT AS type
+        FROM
+            CAM_INSIDE.DJ_HR_CAR_REQ
+        WHERE
+            1=1
+        AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY CAR_CLASS_TEXT
+    </select>
+
+    <select id="getCarStat" resultType="map" parameterType="map">
+        /* getCarStat */
+        SELECT
+            COUNT(CAR_CLASS_SN) AS value
+        FROM
+            CAM_INSIDE.DJ_HR_CAR_REQ
+        WHERE
+            1=1
+        AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY CAR_CLASS_TEXT
+    </select>
+
+    <select id="getRoomStatType" resultType="map" parameterType="map">
+        /* getRoomStatType */
+        SELECT
+            ROOM_CLASS_TEXT AS type
+        FROM
+            CAM_INSIDE.DJ_ROOM_REQ
+        WHERE
+            1=1
+          AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY ROOM_CLASS_TEXT
+    </select>
+
+    <select id="getRoomStat" resultType="map" parameterType="map">
+        /* getRoomStat */
+        SELECT
+            COUNT(ROOM_REQ_SN) AS value
+        FROM
+            CAM_INSIDE.DJ_ROOM_REQ
+        WHERE
+            1=1
+          AND DATE_FORMAT(START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        GROUP BY ROOM_CLASS_TEXT
     </select>
 
     <select id="getCarCodeInfo" parameterType="map" resultType="map">

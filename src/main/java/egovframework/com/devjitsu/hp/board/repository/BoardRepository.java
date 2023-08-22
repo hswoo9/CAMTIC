@@ -16,13 +16,18 @@ public class BoardRepository extends AbstractDAO {
     public List<PostResponse> selectBoardList(ArticlePage articlePage) {
         return selectList("boardCt.selectBoardList", articlePage);
     }
-
+    public List<PostResponse> selectPrBoardList(ArticlePage articlePage) {
+        return selectList("boardCt.selectPrBoardList", articlePage);
+    }
     public Object selectBoardListCount(ArticlePage articlePage) {
         return (int) selectOne("boardCt.selectBoardListCount", articlePage);
     }
 
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("boardCt.selectBoard", params);
+    }
+    public List<Map<String, Object>> selectBoardFile(Map<String, Object> params) {
+        return selectList("boardCt.selectBoardFile", params);
     }
 
     public void insertBoard(Map<String, Object> params) {

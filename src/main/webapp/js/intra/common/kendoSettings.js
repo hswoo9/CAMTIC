@@ -2,11 +2,13 @@
  * Kendo Setting
  * @type {{
  *         global: {},
- *         fn_textBox: customKendo.fn_textBox,
- *         fn_customAjax: (function(*, *): *),
- *         fn_dropDownList: customKendo.fn_dropDownList,
  *         fn_gridDataSource: (function(*, *): *),
  *         fn_gridDataSource2: (function(*, *): *),
+ *         fn_textBox: customKendo.fn_textBox,
+ *         fn_textArea: customKendo.fn_textArea,
+ *         fn_customAjax: (function(*, *): *),
+ *         fn_dropDownList: customKendo.fn_dropDownList,
+ *         fn_dropDownTree: customKendo.fn_dropDownList,
  *         fn_datePicker: customKendo.fn_datePicker
  *        }}
  */
@@ -151,12 +153,39 @@ var customKendo = {
     },
 
     /**
+     * Custom kendoTimePicker
+     * culture : ko-KR
+     * @param id
+     * @param opt
+     * @param format
+     * @param value
+     */
+    fn_timePicker : function (id, opt, format, value) {
+        $("#" + id).kendoTimePicker({
+            culture : "ko-KR",
+            interval : opt,
+            format : format,
+            value : value
+        });
+    },
+
+    /**
      * Custom KendoTextBox
      * @param idArray[]
      */
     fn_textBox : function(idArray){
         for(var i = 0; i < idArray.length; i++){
             $("#"+idArray[i]).kendoTextBox();
+        }
+    },
+
+    /**
+     * Custom KendoTextArea
+     * @param idArray[]
+     */
+    fn_textArea : function(idArray){
+        for(var i = 0; i < idArray.length; i++){
+            $("#"+idArray[i]).kendoTextArea();
         }
     },
 
@@ -231,16 +260,16 @@ var customKendo = {
     fn_customAjax : function(url, data){
         var result;
         $.ajax({
-            url : url,
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(rs) {
+            url: url,
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(rs) {
                 result = rs;
                 result.flag = true;
             },
-            error :function (e) {
+            error: function (e) {
                 result.flag = false;
                 console.log('error : ', e);
             }

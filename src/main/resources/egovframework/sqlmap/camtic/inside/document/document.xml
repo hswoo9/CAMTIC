@@ -92,7 +92,8 @@
     <select id="getDocuContractList" resultType="map" parameterType="map">
         /* getDocuContractList */
         SELECT
-            RE.*
+            RE.*,
+            DFI.*
         FROM
             (
                 SELECT
@@ -119,6 +120,8 @@
                     </choose>
                 ORDER BY IDC.REG_DT
             ) RE
+            LEFT JOIN CAM_COMMON.DJ_FILE_INFO DFI
+            ON RE.FILE_SN = DFI.FILE_NO
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -130,12 +133,32 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    ISI.*
+                    ISI.*,
+                    CFI.file_org_name,
+                    CFI.file_ext,
+                    CFI.file_size,
+                    IFNULL(CFI.file_no, 0) AS file_no,
+                    CFI.file_path,
+                    CFI.file_uuid
                 FROM
-                    CAM_INSIDE.DJ_SNACK_INFO ISI,
+                    CAM_INSIDE.DJ_SNACK_INFO ISI
+                LEFT JOIN
+                    CAM_COMMON.DJ_FILE_INFO CFI ON ISI.SNACK_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'snack',
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                <if test="empSeq != null and empSeq != ''">
+                    AND ISI.REG_EMP_SEQ = #{empSeq}
+                </if>
+                <if test="mealsDivision != null and mealsDivision != ''">
+                    AND ISI.SNACK_TYPE = #{mealsDivision}
+                </if>
+                <if test="payDivision != null and payDivision != ''">
+                    AND ISI.PAY_TYPE = #{payDivision}
+                </if>
+                <if test="approval != null and approval != ''">
+                    AND ISI.STATUS = #{approval}
+                </if>
                 AND DATE_FORMAT(USE_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
                 ORDER BY ISI.REG_DT
             ) RE
@@ -167,11 +190,19 @@
             HEI.EMP_NAME_KR,
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
-            CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
         FROM
             CAM_INSIDE.DJ_SNACK_INFO ISI
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON ISI.REG_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON ISI.SNACK_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'snack'
         WHERE
             SNACK_INFO_SN = #{snackInfoSn}
     </select>
@@ -238,9 +269,21 @@
     <select id="getSnackExcelList" resultType="map" parameterType="map">
         /* getSnackExcelList */
         SELECT
-            ISI.*
+            ISI.USE_DT,
+            ISI.SNACK_TYPE,
+            ISI.SNACK_TYPE_TEXT,
+            IFNULL(CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END, "") AS REG_DEPT_NAME,
+            IFNULL(CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END, "") AS REG_TEAM_NAME,
+            IFNULL(HEI.EMP_NAME_KR, "") AS EMP_NAME,
+            ISI.AMOUNT_SN
         FROM
             CAM_INSIDE.DJ_SNACK_INFO ISI
+        LEFT JOIN
+            CAM_INSIDE.DJ_SNACK_COMPANION ISC ON ISI.SNACK_INFO_SN = ISC.SNACK_INFO_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON ISC.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             1=1
         AND DATE_FORMAT(USE_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
@@ -258,15 +301,58 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    IAI.*
+                    IAI.*,
+                    <![CDATA[
+                        case
+                        when (DISPOSAL_YEAR >= DATE_FORMAT(NOW(), '%Y'))
+                    then 'N'
+                    ELSE 'Y'
+                    END AS DISPOSE_YN,
+                    CFI.file_org_name,
+                    CFI.file_ext,
+                    CFI.file_size,
+                    IFNULL(CFI.file_no, 0) AS file_no,
+                    CFI.file_path,
+                    CFI.file_uuid
+                    ]]>
                 FROM
-                    CAM_INSIDE.DJ_ARCHIVE_INFO IAI,
+                    CAM_INSIDE.DJ_ARCHIVE_INFO IAI
+                LEFT JOIN
+                    CAM_COMMON.DJ_FILE_INFO CFI ON IAI.ARCHIVE_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'archive',
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                AND DOC_YEAR = #{searchDate}
+                <choose>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND DOC_NUM like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND DEPT_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                        AND VISIT like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                        AND DOC_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
+                        AND MANAGER_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                </choose>
+                AND ACTIVE != 'N'
                 ORDER BY IAI.REG_DT
             ) RE
-        ORDER BY RE.ROW_NUM DESC
+        <if test='"1".equals(doclistState)'>
+            WHERE RE.DISPOSE_YN = 'N'
+        </if>
+        <if test='"2".equals(doclistState)'>
+            WHERE RE.DISPOSE_YN = 'Y'
+        </if>
+        <if test='"3".equals(doclistState)'>
+            WHERE ACTIVE = 'D'
+        </if>
+        ORDER BY ARCHIVE_INFO_SN
     </select>
 
     <insert id="setDocumentInsert" parameterType="map">
@@ -391,7 +477,21 @@
                 REMARK_CN,
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
-                REG_DT
+                REG_DT,
+
+                PROJECT_NUMBER,
+                REPRESENTATIVE,
+                BUSINESS_NUMBER,
+                ZIP_CODE,
+                ADDR,
+                ADDR_DETAIL,
+                RENTAL_EA,
+                RENTAL_INFO,
+                TOTAL_MONTH,
+                PAYMENT,
+                SURT_INSR,
+                DLV_LOC
+
             )
         VALUES
             (
@@ -400,10 +500,10 @@
                 #{classSn},
                 #{className},
                 CONCAT(#{docuName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
-                (SELECT IFNULL(MAX(SIDC.DOCU_NO), 0)+1 FROM CAM_INSIDE.DJ_DOCUMENT_CONTRACT SIDC WHERE DOCU_YEAR_SN = CONCAT(#{docuName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+                #{projectNumber},
                 #{docuDe},
                 #{projectName},
-                #{projectMoney},
+                #{contractAmount},
                 #{startDe},
                 #{endDe},
                 #{coSn},
@@ -411,8 +511,23 @@
                 #{remarkCn},
                 #{regEmpSeq},
                 #{regEmpName},
-                NOW()
+                NOW(),
+                #{projectNumber},
+                #{representative},
+                #{businessNumber},
+                #{zipCode},
+                #{addr},
+                #{addrDetail},
+                #{rentalEa},
+                #{rentalInfo},
+                #{totalMonth},
+                #{payment},
+                #{surtInsr},
+                #{dlvLoc}
             )
+        <selectKey keyProperty="documentContractSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_DOCUMENT_CONTRACT'
+        </selectKey>
     </insert>
 
     <insert id="setSnackInsert" parameterType="map">
@@ -434,7 +549,10 @@
                 AMOUNT_SN,
                 USE_REASON,
                 REG_EMP_SEQ,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                REG_DEPT_NAME,
+                REG_TEAM_NAME,
+                STATUS,
             )
         VALUES
             (
@@ -453,8 +571,34 @@
                 #{usAmount},
                 #{useReason},
                 #{empSeq},
-                #{empName}
+                #{empName},
+                #{regDeptName},
+                #{regTeamName},
+                '10'
             )
+        <selectKey keyProperty="snackInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SNACK_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setSnackCompanionInsert" parameterType="map">
+        /* setSnackCompanionInsert */
+        INSERT INTO CAM_INSIDE.DJ_SNACK_COMPANION
+            (
+                SNACK_INFO_SN,
+                EMP_SEQ,
+                EMP_NAME,
+                AMT
+            )
+        VALUES
+        <foreach collection="amt" item="item" separator=" , ">
+            (
+                #{snackInfoSn},
+                #{item.amtEmpSeq},
+                #{item.amtEmpName},
+                #{item.amt}
+            )
+        </foreach>
     </insert>
 
     <update id="setSnackReqCert" parameterType="map">
@@ -488,7 +632,11 @@
                 TEAM_NAME,
                 VISIT,
                 MANAGER_SN,
-                MANAGER_NAME
+                MANAGER_NAME,
+                PRESERVATION_PERIOD,
+                DISPOSAL_YEAR,
+                DOC_NAME,
+                UPDT_DT
             )
         VALUES
             (
@@ -500,8 +648,166 @@
                 #{teamName},
                 #{visit},
                 #{managerSn},
-                #{managerName}
+                #{managerName},
+                #{prePeriod},
+                #{disYear},
+                #{docName},
+                NULL
             )
+        <selectKey keyProperty="archiveInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_ARCHIVE_INFO'
+        </selectKey>
     </insert>
+
+    <!--문서고 등록 - 문서위치 조회-->
+    <select id="getDocumentPlaceList" parameterType="map" resultType="map">
+        /*getDocumentPlaceList*/
+        SELECT
+            CM_CODE_NM AS TEXT,
+            CM_CODE_ID AS VALUE
+        FROM
+            CAM_COMMON.DJ_COM_CODE
+        WHERE
+            CM_GROUP_CODE_ID = 10
+    </select>
+
+    <insert id="setProductInsert" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_DOCUMENT_PRODUCT
+        (
+            DOCUMENT_CONTRACT_SN,
+            PRODUCT_NAME,
+            PRODUCT_COUNT,
+            PRODUCT_ONE_MONEY,
+            PRODUCT_TOTAL_MONEY,
+            BMK
+        )
+        VALUES
+        <foreach collection="area" item="item" separator=" , ">
+        (
+            #{documentContractSn},
+            #{item.productName},
+            #{item.productCount},
+            #{item.productOneMoney},
+            #{item.productTotalMoney},
+            #{item.bmk}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="insOneFileInfo" parameterType="map" >
+        /* insOneFileInfo */
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+        FILE_CD,
+        FILE_UUID,
+        FILE_ORG_NAME,
+        FILE_PATH,
+        FILE_SIZE,
+        FILE_EXT,
+        EMP_SEQ,
+        REG_EMP_SEQ
+         <if test="frKey != null and frKey != ''">
+             , FR_KEY
+         </if>
+        )
+        VALUES
+        (
+        #{fileCd},
+        #{fileUUID},
+        #{fileOrgName},
+        #{filePath},
+        #{fileSize},
+        #{fileExt},
+        #{empSeq},
+        #{empSeq}
+        <if test="frKey != null and frKey != ''">
+            , #{frKey}
+        </if>
+        )
+
+        <selectKey keyProperty="fileNo" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_FILE_INFO'
+        </selectKey>
+    </insert>
+
+    <update id="setDocuContractFileKey" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+        SET FILE_SN = #{fileNo}
+        WHERE DOCUMENT_CONTRACT_SN = #{documentContractSn}
+    </update>
+
+    <!--문서고 삭제-->
+    <update id="setAchiveDelete" parameterType="java.util.List">
+        /* setAchiveDelete */
+        UPDATE
+        CAM_INSIDE.DJ_ARCHIVE_INFO
+        SET
+        ACTIVE = 'N', UPDT_DT = NOW()
+        WHERE
+        ARCHIVE_INFO_SN IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--문서고 폐기-->
+    <update id="setAchiveScrap" parameterType="java.util.List">
+        /* setAchiveScrap */
+        UPDATE
+        CAM_INSIDE.DJ_ARCHIVE_INFO
+        SET
+        ACTIVE = 'D', UPDT_DT = NOW()
+        WHERE
+        ARCHIVE_INFO_SN IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--문서고 업데이트-->
+    <update id="setArchiveUpdate" parameterType="map">
+        /* setArchiveUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_ARCHIVE_INFO
+        SET
+            DOC_YEAR = #{docYear},
+            DOC_NUM = #{docNum},
+            DEPT_SEQ = #{deptSn},
+            DEPT_NAME = #{deptName},
+            TEAM_SEQ = #{teamSn},
+            TEAM_NAME = #{teamName},
+            VISIT = #{visit},
+            MANAGER_SN = #{managerSn},
+            MANAGER_NAME = #{managerName},
+            PRESERVATION_PERIOD = #{prePeriod},
+            DISPOSAL_YEAR = #{disYear},
+            DOC_NAME = #{docName},
+            UPDT_DT = NOW(),
+            UPDUSR_SN = #{empSeq}
+        WHERE
+            ARCHIVE_INFO_SN = #{pk}
+    </update>
+
+    <select id="getArchiveinfoList" parameterType="map" resultType="map">
+        /* getArchiveinfoList */
+        SELECT
+            a.*,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
+        FROM
+            CAM_INSIDE.DJ_ARCHIVE_INFO as a
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON a.ARCHIVE_INFO_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'archive'
+        WHERE
+            ARCHIVE_INFO_SN = #{pk}
+    </select>
 
 </mapper>

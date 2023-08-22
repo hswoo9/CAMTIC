@@ -1,0 +1,256 @@
+const studyView = {
+    global: {
+        studyUserList: {},
+        mngEmpSeq: ""
+    },
+
+    init : function(){
+        studyView.mainGrid();
+        studyView.dataSet();
+    },
+
+    dataSet: function(){
+        studyView.studyUserSetting();
+        studyView.studyBtnSetting();
+    },
+
+    studyUserSetting:function(){
+        let data = {
+            studyInfoSn: $("#studyInfoSn").val()
+        }
+        const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
+        studyView.global.studyUserList = result.list;
+        let list = studyView.global.studyUserList;
+
+        let html = '';
+        html += '<colgroup>';
+        html += '<col width="10%"><col width="30%"><col width="20%"><col width="20%"><col width="20%">';
+        html += '</colgroup>';
+
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>구분</th>';
+        html += '<th>부서명</th>';
+        html += '<th>직위</th>';
+        html += '<th>성명</th>';
+        html += '<th>조장/간사</th>';
+        html += '</tr>';
+
+        for(let i=0; i<list.length; i++){
+            html += '<tr>';
+            html += '<td style="text-align: center">'+list[i].STUDY_CLASS_TEXT+'</td>';
+            html += '<td>'+list[i].STUDY_DEPT_NAME+' '+list[i].STUDY_TEAM_NAME+'</td>';
+            html += '<td>'+list[i].STUDY_POSITION_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_EMP_NAME+'</td>';
+            html += '<td style="text-align: center">';
+            html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> <input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            html += '</td>';
+            html += '</tr>';
+            if(list[i].STUDY_CLASS_TEXT == "조장"){
+                studyView.global.mngEmpSeq = list[i].STUDY_EMP_SEQ;
+            }
+        }
+        $("#studyUserTable").html(html);
+    },
+
+    studyBtnSetting: function(){
+
+        if($("#mode").val() == "mng"){
+            /** 관리자일때 승인 및 반려 가능 */
+            if($("#status").val() == 10) {
+                $("#studyAppBtn").show();
+                $("#studyComBtn").show();
+            }
+            /** 학습일지 추가 버튼은 안보임 */
+            $("#journalPopBtn").hide();
+
+        }else if(studyView.global.mngEmpSeq == $("#regEmpSeq").val()){
+            /** 학습자 중에 조장만 수정 및 승인요청, 승인취소 가능 */
+            if($("#status").val() == 0 || $("#status").val() == 30){
+                $("#studyReqBtn").show();
+                $("#studyModBtn").show();
+            }else if($("#status").val() == 10) {
+                $("#studyCancelBtn").show();
+            }
+        }
+    },
+
+    mainGrid: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/campus/getStudyJournalList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.studyInfoSn = $("#studyInfoSn").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop(1, '+$("#studyInfoSn").val()+');">' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: studyView.onDataBound,
+            columns: [
+                {
+                    field: "ROW_NUM",
+                    title: "순번",
+                    width: 50
+                }, {
+                    title: "일시",
+                    width: 250,
+                    template: function(row){
+                        return row.JOURNAL_DT + " (" + row.JOURNAL_START_TIME +"~"+row.JOURNAL_END_TIME+" / "+row.JOURNAL_TIME+")";
+                    }
+                }, {
+                    field: "JOURNAL_LOCATE",
+                    title: "장소"
+                }, {
+                    title: "조장검토",
+                    width: 100,
+                    template: function(row){
+                        if(row.CAPTAIN_APPOVAL_YN == 'Y'){
+                            return "검토완료";
+                        }else{
+                            return "검토미완료";
+                        }
+                    }
+                }, {
+                    title: "간사검토",
+                    width: 100,
+                    template: function(row){
+                        if(row.ASSISTANT_APPOVAL_YN == 'Y'){
+                            return "검토완료";
+                        }else{
+                            return "검토미완료";
+                        }
+                    }
+                }, {
+                    width: 150,
+                    template: function(row){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
+                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">삭제</button>';
+                    }
+                }
+            ]
+        }).data("kendoGrid")
+    },
+
+    onDataBound: function(){
+        let grid = this;
+        grid.element.off('dblclick');
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
+        });
+    },
+
+    studyReq: function(status){
+        var data = {
+            studyInfoSn : $("#studyInfoSn").val(),
+            status : status
+        }
+
+        var result = customKendo.fn_customAjax("/campus/studyReq", data);
+
+        if(result.flag){
+            if(status == 10){
+                alert("승인 요청이 완료되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
+            }else if(status == 30){
+                alert("반려되었습니다.");
+            }else if(status == 100){
+                alert("승인이 완료되었습니다.");
+            }
+            window.close();
+            opener.gridReload();
+        }
+    },
+
+    updBtn: function(pk, fk, studyClass, studyText){
+        if(pk == "" || pk == undefined || pk == null){
+            alert("잘못된 접근입니다. 로그아웃 후 재시도 바랍니다.");
+            return;
+        }
+        console.log(pk+", "+fk+", "+studyClass+", "+studyText);
+
+        let data = {
+            studyUserSn: pk,
+            studyInfoSn: fk,
+            studyClassSn: studyClass,
+            studyClassText: studyText
+        }
+        studyView.setStudyUserMngUpdate(data);
+    },
+
+    tmp: function(pk){
+        console.log(pk);
+    },
+
+    setStudyUserMngUpdate: function(data){
+        $.ajax({
+            url : "/campus/setStudyUserMngUpdate",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result);
+                studyView.dataSet();
+            },
+            error : function(e) {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                console.log(e);
+            }
+        });
+    },
+
+    studyJournalPop: function(type, fk, pk){
+        let url = "";
+        if(fk == null || fk == "" || fk == undefined){
+            url = "/Campus/pop/studyJournalPop.do";
+        }else if(type == 1){
+            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+fk;
+        }else if(type == 2){
+            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+fk+"&studyJournalSn="+pk;
+        }
+        let name = "studyJournalPop";
+        let option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    }
+}

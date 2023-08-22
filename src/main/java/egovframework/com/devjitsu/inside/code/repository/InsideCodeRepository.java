@@ -29,6 +29,22 @@ public class InsideCodeRepository extends AbstractDAO {
         return selectList("insideCode.searchDuplicateCar", params);
     }
 
+    public List<Map<String, Object>> getCarStatType(Map<String, Object> params) {
+        return selectList("insideCode.getCarStatType", params);
+    }
+
+    public List<Map<String, Object>> getCarStat(Map<String, Object> params) {
+        return selectList("insideCode.getCarStat", params);
+    }
+
+    public List<Map<String, Object>> getRoomStatType(Map<String, Object> params) {
+        return selectList("insideCode.getRoomStatType", params);
+    }
+
+    public List<Map<String, Object>> getRoomStat(Map<String, Object> params) {
+        return selectList("insideCode.getRoomStat", params);
+    }
+
     public Map<String, Object> getCarCodeInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("insideCode.getCarCodeInfo", params);
     }

@@ -1029,8 +1029,303 @@
         WHERE
             AST_INFO_SN = #{astInfoSn}
     </update>
-
     <!-- PDA 연동목록 종료 -->
+
+    <!-- 지식재산권관리 -->
+    <select id="getInventionInfo" resultType="map">
+        /* getInventionInfo */
+        SELECT
+            III.*,
+            IFNULL((SELECT SHEI.EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO SHEI WHERE SHEI.DEPT_SEQ = (SELECT SSHDI.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO SSHDI WHERE (SSHDI.DEPT_SEQ = HEI.DEPT_SEQ OR SSHDI.PARENT_DEPT_SEQ = HEI.DEPT_SEQ) AND DEPT_LEVEL = 1) AND DUTY_CODE IN (1, 2, 3) AND ACTIVE = 'Y'), "공석") AS MANAGER_NAME
+        FROM
+            CAM_INSIDE.DJ_INVENTION_INFO III
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON III.REG_EMP_SEQ = HEI.EMP_SEQ
+        WHERE INVENTION_INFO_SN = #{inventionInfoSn}
+    </select>
+
+    <select id="getInventionShareList" resultType="map">
+        /* getInventionShareList */
+        SELECT
+            IISI.*,
+            HEI.DEPT_NAME
+        FROM
+            CAM_INSIDE.DJ_INVENTION_SHARE_INFO IISI
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            IISI.INVENTION_INFO_SN = #{inventionInfoSn}
+        AND
+            IISI.ACTIVE = 'Y'
+    </select>
+
+    <select id="getRprReceiptList" parameterType="map" resultType="map">
+        /*getRprReceiptList*/
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    III.*
+                FROM
+                    CAM_INSIDE.DJ_INVENTION_INFO III,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                <if test="rprClass != null and rprClass != ''">
+                    AND RPR_CLASS = #{rprClass}
+                </if>
+                <if test="'receipt'.equals(mod)">
+                    AND RPR_CLASS != 2
+                </if>
+                <if test="resYn != null and resYn != ''">
+                    AND RES_YN = #{resYn}
+                </if>
+
+                <if test="dateType != null and dateType != ''">
+                    <if test='dateType == 1'>
+                    <![CDATA[
+                        AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') >= DATE_FORMAT(#{stDt}, '%Y-%m-%d')
+                        AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') <= DATE_FORMAT(#{enDt}, '%Y-%m-%d')
+                    ]]>
+                    </if>
+                    <if test='dateType == 2'>
+                        <![CDATA[
+                        AND DATE_FORMAT(III.EXPIRATION_DT, '%Y-%m-%d') >= DATE_FORMAT(#{stDt}, '%Y-%m-%d')
+                        AND DATE_FORMAT(III.EXPIRATION_DT, '%Y-%m-%d') <= DATE_FORMAT(#{enDt}, '%Y-%m-%d')
+                    ]]>
+                    </if>
+                </if>
+                <if test="iprClass != null and iprClass !=''">
+                    AND IPR_CLASS = #{iprClass}
+                </if>
+                <if test="stateType != null and stateType !=''">
+                    AND STATE_SN = #{stateType}
+                </if>
+                <if test="tainType != null and tainType !=''">
+                    AND TAIN_SN = #{tainType}
+                </if>
+                <if test="singleType != null and singleType !=''">
+                    AND SINGLE_SN = #{singleType}
+                </if>
+                <if test="techType != null and techType !=''">
+                    AND TECH_SN = #{techType}
+                </if>
+                <if test="searchType != null and searchType !=''">
+                    <if test="searchType == 1">
+                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
+                    <if test="searchType == 2">
+                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
+                    <if test="searchType == 3">
+                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
+                </if>
+                <if test="beforeYn != null and beforeYn !=''">
+                    AND STATUS != 100
+                </if>
+                    AND ACTIVE = 'Y'
+                ORDER BY III.REG_DATE, III.REG_DT
+            ) RE
+        ORDER BY RE.REG_DATE DESC
+    </select>
+
+    <insert id="setInventionInsert" parameterType="map">
+        /* setInventionInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
+            (
+                SHARE_SN,
+                SHARE_NAME,
+                IPR_CLASS,
+                IPR_NAME,
+                TITLE,
+                DETAIL_CN,
+                REG_DATE,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{shareSn},
+                #{shareName},
+                #{iprClass},
+                #{iprName},
+                #{title},
+                #{detailCn},
+                #{regDate},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setRprResultInsert" parameterType="map">
+        /* setRprResultInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
+            (
+                RPR_CLASS,
+                RPR_NAME,
+                SHARE_SN,
+                SHARE_NAME,
+                IPR_CLASS,
+                IPR_NAME,
+                TITLE,
+                DETAIL_CN,
+                REG_DATE,
+                REG_NUM,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                BEFORE_SN
+            )
+        VALUE
+            (
+                #{rprClass},
+                #{rprName},
+                #{shareSn},
+                #{shareName},
+                #{iprClass},
+                #{iprName},
+                #{title},
+                #{detailCn},
+                #{regDate},
+                #{regNum},
+                #{regEmpSeq},
+                #{regEmpName},
+                #{befSn}
+            )
+        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setRprReceiptInsert" parameterType="map">
+        /* setRprReceiptInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
+            (
+                RPR_CLASS,
+                RPR_NAME,
+                SHARE_SN,
+                SHARE_NAME,
+                IPR_CLASS,
+                IPR_NAME,
+                STATE_SN,
+                STATE_NAME,
+                TAIN_SN,
+                TAIN_NAME,
+                TECH_SN,
+                TECH_NAME,
+                CONFIDENTIALITY_SN,
+                CONFIDENTIALITY_NAME,
+                TITLE,
+                SINGLE_SN,
+                SINGLE_NAME,
+                APPLICANT_NAME,
+                DETAIL_CN,
+                APPLICANT_NUM,
+                APPLICANT_DT,
+                APPLICANT_NATION,
+                REG_NUM,
+                REG_DATE,
+                EXPIRATION_DT,
+                REMARK_CN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUE
+            (
+                #{rprClass},
+                #{rprName},
+                #{shareSn},
+                #{shareName},
+                #{iprClass},
+                #{iprName},
+                #{stateSn},
+                #{stateName},
+                #{tainSn},
+                #{tainName},
+                #{techSn},
+                #{techName},
+                #{confidentialitySn},
+                #{confidentialityName},
+                #{title},
+                #{singleSn},
+                #{singleName},
+                #{applicantName},
+                #{detailCn},
+                #{applicantNum},
+                #{applicantDt},
+                #{applicantNation},
+                #{regNum},
+                #{regDate},
+                #{expirationDt},
+                #{remarkCn},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="setInventionShareInsert" parameterType="map">
+        /* setInventionShareInsert */
+        INSERT INTO CAM_INSIDE.DJ_INVENTION_SHARE_INFO
+        (
+            INVENTION_INFO_SN,
+            EMP_SEQ,
+            EMP_NAME,
+            SHARE
+        )
+        VALUES
+        <foreach collection="share" item="item" separator=" , ">
+            (
+                #{inventionInfoSn},
+                #{item.shareEmpSeq},
+                #{item.shareEmpName},
+                #{item.share}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateApprStat" parameterType="map">
+        /* updateApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            DOC_ID = #{docId}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="updateBefApprStat" parameterType="map">
+        /* updateBefApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            DOC_ID = #{docId}
+        WHERE
+            INVENTION_INFO_SN = (SELECT BEFORE_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE INVENTION_INFO_SN = #{inventionInfoSn})
+    </update>
+
+    <update id="updateFinalApprStat" parameterType="map">
+        /* updateApprFinalStat */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            STATUS = #{approveStatCode}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+    <!-- 지식재산권관리 종료-->
+
     <!--장비관리 팝업창 (관리자) - 장비등록-->
     <insert id="setEquipmentInsert" parameterType="map">
         /*setEquipmentInsert*/
@@ -1314,6 +1609,26 @@
         ) VALUES (#{INSIDE_MD_CODE}, #{INSIDE_MD_CODE_NM}, #{INSIDE_DT_CODE}, #{INSIDE_DT_CODE_NM}, #{REG_EMP_SEQ}, NOW())
     </insert>
 
+    <select id="getMDCategoryMonthly" resultType="map">
+        /* getMDCategoryMonthly */
+        SELECT
+            EQIPMN_GBN_NAME,
+            EQIPMN_NAME,
+            COUNT(EQIPMN_USE_SN) AS COUNT,
+            SUM(USE_TIME) AS USE_TIME
+        FROM
+            CAM_INSIDE.DJ_EQIPMN_USE A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
+        WHERE
+            1=1
+        <![CDATA[
+        AND (DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m') AND DATE_FORMAT(USE_PD_END_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m'))
+        ]]>
+        AND A.ACTVT_YN = 'Y'
+        GROUP BY EQIPMN_GBN_NAME, EQIPMN_NAME
+    </select>
+
     <select id="getBookList" resultType="map">
         /* getBookList */
         SELECT
@@ -1405,5 +1720,293 @@
                 #{bkRepl}
             )
     </insert>
+
+    <!--지식재산권 리스트 삭제-->
+    <update id="setRprListDelete" parameterType="java.util.List">
+        /* setRprListDelete */
+        UPDATE
+        CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+        ACTIVE = 'N', UP_DT = NOW()
+        WHERE
+        INVENTION_INFO_SN IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+    <!--지식재산권 리스트 수정 창 조회-->
+    <select id="getRprReceiptUpdateList" parameterType="map" resultType="map">
+        /*getRprReceiptUpdateList*/
+
+    </select>
+
+    <update id="updRprReceipt" parameterType="map">
+        /* updRprReceipt */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            RPR_CLASS = #{rprClass},
+            RPR_NAME = #{rprName},
+            SHARE_SN = #{shareSn},
+            SHARE_NAME = #{shareName},
+            IPR_CLASS = #{iprClass},
+            IPR_NAME = #{iprName},
+            STATE_SN = #{stateSn},
+            STATE_NAME = #{stateName},
+            TAIN_SN = #{tainSn},
+            TAIN_NAME = #{tainName},
+            TECH_SN = #{techSn},
+            TECH_NAME = #{techName},
+            CONFIDENTIALITY_SN = #{confidentialitySn},
+            CONFIDENTIALITY_NAME = #{confidentialityName},
+            TITLE = #{title},
+            SINGLE_SN = #{singleSn},
+            SINGLE_NAME = #{singleName},
+            APPLICANT_NAME = #{applicantName},
+            DETAIL_CN = #{detailCn},
+            APPLICANT_NUM = #{applicantNum},
+            APPLICANT_DT = #{applicantDt},
+            APPLICANT_NATION = #{applicantNation},
+            REG_NUM = #{regNum},
+            REG_DATE = #{regDate},
+            EXPIRATION_DT = #{expirationDt},
+            REMARK_CN = #{remarkCn},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName}
+        WHERE
+            INVENTION_INFO_SN  = #{inventionInfoSn}
+    </update>
+
+    <update id="updInventionShare" parameterType="map">
+        /* updInventionShare */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_SHARE_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="updRprAllChange" parameterType="map">
+        /* updRprAllChange */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            <if test='"Y".equals(statChkYN)'>
+                STATE_SN = #{stateSn},
+                STATE_NAME = #{stateName},
+            </if>
+            <if test='"Y".equals(tainChkYN)'>
+                TAIN_SN = #{tainSn},
+                TAIN_NAME = #{tainName},
+            </if>
+            <if test='"Y".equals(techChkYN)'>
+                TECH_SN = #{techSn},
+                TECH_NAME = #{techName},
+            </if>
+            <if test='"Y".equals(conftChkYN)'>
+                CONFIDENTIALITY_SN = #{confidentialitySn},
+                CONFIDENTIALITY_NAME = #{confidentialityName},
+            </if>
+            UP_DT = NOW()
+        WHERE
+            RPR_CLASS = 2
+        AND
+            ACTIVE = 'Y'
+    </update>
+
+    <select id="getLGCategoryMonthly" resultType="map">
+        /* getMainCategoryMonthly */
+        SELECT
+            C.*,
+            CASE WHEN C.BEF_USE_TIME > C.USE_TIME THEN '감' ELSE '증' END AS STATUS,
+            CASE WHEN C.BEF_USE_TIME > C.USE_TIME THEN C.BEF_USE_TIME - C.USE_TIME ELSE C.USE_TIME - C.BEF_USE_TIME END AS DIFF
+        FROM (
+            SELECT
+                B.EQIPMN_GBN_NAME,
+                B.REGTR_NAME,
+                (
+                    SELECT
+                        IFNULL(SUM(SA.USE_TIME), 0)
+                    FROM
+                        CAM_INSIDE.DJ_EQIPMN_USE SA
+                    LEFT JOIN
+                        CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                    WHERE
+                        (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                      AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_GBN_NAME = SB.EQIPMN_GBN_NAME
+                ) AS BEF_USE_TIME,
+                SUM(A.USE_TIME) AS USE_TIME
+            FROM
+                CAM_INSIDE.DJ_EQIPMN_USE A
+            LEFT JOIN
+                CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+            WHERE
+                1=1
+            AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{searchDe})
+            AND A.ACTVT_YN = 'Y'
+            GROUP BY B.EQIPMN_GBN_NAME
+            ORDER BY B.EQIPMN_GBN_NAME DESC
+        ) C
+    </select>
+
+    <select id="getEquipApprovalData" resultType="map">
+        /* getEquipApprovalData */
+        SELECT
+            B.EQIPMN_GBN_NAME,
+            B.EQIPMN_NAME,
+            B.REGTR_NAME,
+            (
+                SELECT
+                    IFNULL(SUM(SA.USE_TIME), 0)
+                FROM
+                    CAM_INSIDE.DJ_EQIPMN_USE SA
+                LEFT JOIN
+                    CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                WHERE
+                    (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+            ) AS BEF_USE_TIME,
+            SUM(A.USE_TIME) AS USE_TIME,
+            COUNT(A.EQIPMN_USE_SN) AS EP_COUNT,
+            COUNT(CASE WHEN PRTPCO_GBN_NAME IS NOT NULL THEN 1 END) AS PRTPCO_GBN_NAME,
+            COUNT(CASE WHEN PRTPCO_GBN_SN = 4 THEN 1 END) AS PRTPCO_GBN_SN_A,
+            COUNT(CASE WHEN PRTPCO_GBN_SN = 5 THEN 1 END) AS PRTPCO_GBN_SN_B,
+            COUNT(CASE WHEN PRTPCO_GBN_SN = 6 THEN 1 END) AS PRTPCO_GBN_SN_C,
+            ROW_NUMBER()OVER(ORDER BY B.EQIPMN_GBN_NAME) AS ROW_NUM,
+            COUNT(*)OVER(PARTITION BY B.EQIPMN_GBN_NAME DESC) AS PART_CNT
+        FROM
+            CAM_INSIDE.DJ_EQIPMN_USE A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+        WHERE
+            1=1
+        AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{searchDe})
+        AND A.ACTVT_YN = 'Y'
+        GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+        ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+    </select>
+
+    <select id="getEquipApprovalInfo" parameterType="map" resultType="map">
+        /* getEquipApprovalInfo */
+            SELECT
+                *
+            FROM
+                CAM_INSIDE.DJ_EQIPNM_APPROVAL
+            WHERE
+                APPLY_MONTH = #{searchDe}
+    </select>
+
+    <insert id="setEquipApprovalInfo" parameterType="map">
+        /* setEquipApprovalInfo */
+        INSERT INTO CAM_INSIDE.DJ_EQIPNM_APPROVAL
+            (
+                APPLY_MONTH,
+                STATUS,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{searchDe},
+                '0',
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+
+        <selectKey keyProperty="eqipnmApprovalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EQIPNM_APPROVAL'
+        </selectKey>
+    </insert>
+
+    <update id="updateEquipApprStat" parameterType="map">
+        /* updateEquipApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPNM_APPROVAL
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            EQIPNM_APPROVAL_SN = #{eqipnmApprovalSn}
+    </update>
+
+    <update id="updateEquipFinalApprStat" parameterType="map">
+        /* updateEquipFinalApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_EQIPNM_APPROVAL
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            EQIPNM_APPROVAL_SN = #{eqipnmApprovalSn}
+    </update>
+
+    <select id="getEquipStatType" resultType="map" parameterType="map">
+        /* getEquipStatType */
+        SELECT
+            C.EQIPMN_NAME AS type
+        FROM (
+            SELECT
+                B.EQIPMN_NAME,
+                (
+                    SELECT
+                        IFNULL(SUM(SA.USE_TIME), 0)
+                    FROM
+                        CAM_INSIDE.DJ_EQIPMN_USE SA
+                    LEFT JOIN
+                        CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                    WHERE
+                        (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                    AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                ) AS BEF_USE_TIME,
+                SUM(A.USE_TIME) AS USE_TIME
+            FROM
+                    CAM_INSIDE.DJ_EQIPMN_USE A
+            LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+            WHERE
+                1=1
+            AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{applyMonth})
+            AND A.ACTVT_YN = 'Y'
+            GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+            ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+        ) C
+    </select>
+
+    <select id="getEquipStat" resultType="map" parameterType="map">
+        /* getEquipStat */
+        SELECT
+            TRUNCATE(IFNULL(((C.USE_TIME - C.BEF_USE_TIME) / C.BEF_USE_TIME) * 100, 0), 0) AS value
+        FROM (
+             SELECT
+                 B.EQIPMN_NAME,
+                 (
+                     SELECT
+                         IFNULL(SUM(SA.USE_TIME), 0)
+                     FROM
+                         CAM_INSIDE.DJ_EQIPMN_USE SA
+                             LEFT JOIN
+                         CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                     WHERE
+                         (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
+                       AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                 ) AS BEF_USE_TIME,
+                 SUM(A.USE_TIME) AS USE_TIME
+             FROM
+                 CAM_INSIDE.DJ_EQIPMN_USE A
+                     LEFT JOIN
+                 CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+             WHERE
+                 1=1
+               AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{applyMonth})
+               AND A.ACTVT_YN = 'Y'
+             GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+             ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+        ) C
+    </select>
 
 </mapper>
