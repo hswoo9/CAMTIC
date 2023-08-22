@@ -18,6 +18,7 @@
     <!--<link rel="shortcut icon" href="/images/favicon.png" type="image/png">-->
 
     <title>CAM's Pot - CAMTIC</title>
+    <script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
 
     <link rel="stylesheet" href="/lib/Hover/hover.css">
     <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
