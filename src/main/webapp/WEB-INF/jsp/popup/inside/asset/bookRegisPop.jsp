@@ -26,7 +26,7 @@
                     <button type="button" class="k-button k-button-solid-primary" onclick="bookRegisPop.fn_bkSave(${params.bkSn});">수정</button>
                     <button type="button" class="k-button k-button-solid-error" onclick="bookRegisPop.fn_bkDel(${params.bkSn});">삭제</button>
                 </c:if>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">
