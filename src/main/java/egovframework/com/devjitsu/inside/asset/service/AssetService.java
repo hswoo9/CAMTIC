@@ -136,4 +136,8 @@ public interface AssetService {
     List<Map<String, Object>> getMdCode(Map<String, Object> params);
 
     List<Map<String, Object>> getCode(Map<String, Object> params);
+
+    Map<String, Object> getBookInfoOne(Map<String, Object> params);
+
+    void setBookImg(Map<String, Object> params);
 }

@@ -1723,6 +1723,9 @@
                 #{bkDeptSeq},
                 #{bkDeptName}
             )
+        <selectKey keyProperty="bkSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_BOOK_INFO'
+        </selectKey>
     </insert>
 
     <update id="setBookUpdate" parameterType="map">
@@ -2104,4 +2107,14 @@
         AND
             BK_MD_CD = #{bkMdCd} AND BK_CD IS NOT NULL
     </select>
+
+    <update id="setBookImg" parameterType="map">
+        UPDATE
+            CAM_INSIDE.DJ_BOOK_INFO
+        SET
+            BK_FILE_SN = #{idImg}
+        WHERE
+            BK_SN = #{bkSn}
+    </update>
+
 </mapper>

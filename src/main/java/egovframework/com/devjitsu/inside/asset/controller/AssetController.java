@@ -1,8 +1,10 @@
 package egovframework.com.devjitsu.inside.asset.controller;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -37,6 +41,9 @@ public class AssetController {
 
     @Autowired
     private AssetService assetService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     /**
      * 자산관리 > 자산리스트 페이지
@@ -939,10 +946,40 @@ public class AssetController {
     public String bookRegisPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("params", params);
+        model.addAttribute("img", assetService.getBookInfoOne(params));
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/bookRegisPop";
+    }
+
+    @RequestMapping("/inside/setBookImgFile")
+    public String setBookImgFile(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String server_path = SERVER_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
+        String base_path = BASE_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        MainLib mainLib = new MainLib();
+        List<Map<String, Object>> imgFile = new ArrayList<>();
+
+        imgFile = mainLib.multiFileUpload(request.getFiles("imgFile").toArray(new MultipartFile[0]), server_path);
+
+        int imgFileId = userManageService.setThumbnailUpload(imgFile, params, base_path);     //증명사진
+
+        params.put("loginEmpSeq", loginVO.getUniqId());
+        params.put("idImg", imgFileId);
+
+        assetService.setBookImg(params);
+
+        return "jsonView";
     }
 
     @RequestMapping("/inside/Pop/bookCodePop.do")
@@ -967,8 +1004,14 @@ public class AssetController {
 
     //도서저장
     @RequestMapping("/inside/setBookInsert")
-    public String setBookInsert(@RequestParam Map<String, Object> params) {
-        assetService.setBookInsert(params);
+    public String setBookInsert(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            assetService.setBookInsert(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 

@@ -1033,4 +1033,18 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String, Object>> getCode(Map<String, Object> params) {
         return assetRepository.getCode(params);
     }
+
+    @Override
+    public Map<String, Object> getBookInfoOne(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result = assetRepository.getData(params);
+        result.put("fileNo", result.get("BK_FILE_SN"));
+
+        return commonRepository.getContentFileOne(result);
+    }
+
+    @Override
+    public void setBookImg(Map<String, Object> params) {
+        assetRepository.setBookImg(params);
+    }
 }
