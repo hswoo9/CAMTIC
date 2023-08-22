@@ -1692,7 +1692,9 @@
                 BK_MNG_SUB_SEQ,
                 BK_MNG_SUB_NAME,
                 BK_SMRY,
-                BK_REPL
+                BK_REPL,
+                BK_DEPT_SEQ,
+                BK_DEPT_NAME
             )
         VALUES
             (
@@ -1717,9 +1719,43 @@
                 #{bkMngSubSeq},
                 #{bkMngSubName},
                 #{bkSmry},
-                #{bkRepl}
+                #{bkRepl},
+                #{bkDeptSeq},
+                #{bkDeptName}
             )
     </insert>
+
+    <update id="setBookUpdate" parameterType="map">
+        /* setBookUpdate */
+        UPDATE CAM_INSIDE.DJ_BOOK_INFO
+        SET
+            BK_LG_CD = #{bkLgCd},
+            BK_LG_CD_NAME = #{bkLgCdName},
+            BK_MD_CD = #{bkMdCd},
+            BK_MD_CD_NAME = #{bkMdCdName},
+            BK_CD = #{bkCd},
+            BK_CD_NAME = #{bkCdName},
+            BK_NAME = #{bkName},
+            BK_WRITER = #{bkWriter},
+            BK_PUBL = #{bkPubl},
+            BK_BUY_COST = #{bkCost},
+            BK_BUY_CNT = #{bkCnt},
+            BK_BUY_DT = #{bkBuyDt},
+            BK_BUYER = #{bkBuyer},
+            BK_BUYER_NAME = #{bkBuyerName},
+            BK_USER = #{bkUser},
+            BK_USER_NAME = #{bkUserName},
+            BK_MNG_SEQ = #{bkMngSeq},
+            BK_MNG_NAME = #{bkMngName},
+            BK_MNG_SUB_SEQ = #{bkMngSubSeq},
+            BK_MNG_SUB_NAME = #{bkMngSubName},
+            BK_SMRY = #{bkSmry},
+            BK_REPL = #{bkRepl},
+            BK_DEPT_SEQ = #{bkDeptSeq},
+            BK_DEPT_NAME = #{bkDeptName}
+        WHERE
+            BK_SN = #{bkSn}
+    </update>
 
     <!--지식재산권 리스트 삭제-->
     <update id="setRprListDelete" parameterType="java.util.List">
@@ -2009,4 +2045,17 @@
         ) C
     </select>
 
+    <select id="getData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_INFO
+        WHERE
+            BK_SN = #{bkSn}
+    </select>
+
+    <delete id="setBookDelete" parameterType="map">
+        DELETE FROM CAM_INSIDE.DJ_BOOK_INFO
+        WHERE BK_SN = #{bkSn}
+    </delete>
 </mapper>

@@ -36,6 +36,11 @@ var bookRegisPop = {
             dataSource: [
                 {text: "중분류를 선택하세요", value: ""}
             ],
+            select: function (){
+                if($("#bkMdCd").val() == 0){
+                    bookRegisPop.fn_changeBkMdCd();
+                }
+            },
             index: 0
         });
 
@@ -104,7 +109,44 @@ var bookRegisPop = {
 
         $("#bkCost, #bkCnt").bind("keyup keydown", function() {
             bookRegisPop.inputNumberFormat(this)
-        })
+        });
+
+        var getData = {
+            bkSn : $("#bkSn").val()
+        }
+        if(getData.bkSn != "" && getData.bkSn != null){
+            var sd = customKendo.fn_customAjax("/bookRegisPop/getData", getData);
+            result = sd.rs;
+            bookRegisPop.fn_setData(result);
+        }
+
+    },
+
+    fn_setData : function(e){
+        console.log(e)
+        $("#bkLgCd").data("kendoDropDownList").value(e.BK_LG_CD);
+        if($("#bkLgCd").val() == 0){
+            bookRegisPop.fn_changeBkLgCd();
+        }
+
+        $("#bkMdCd").data("kendoDropDownList").value(e.BK_MD_CD);
+        if($("#bkMdCd").val() != ''){
+            bookRegisPop.fn_changeBkMdCd($("#bkMdCd").val());
+        }
+        $("#bkCd").data("kendoDropDownList").value(e.BK_CD);
+        $("#bkName").val(e.BK_NAME);
+        $("#bkWriter").val(e.BK_WRITER);
+        $("#bkPubl").val(e.BK_PUBL);
+        $("#bkCost").val(e.BK_BUY_COST);
+        $("#bkCnt").val(e.BK_BUY_CNT);
+        $("#bkDept").data("kendoDropDownList").value(e.BK_DEPT_SEQ);
+        $("#bkBuyer").data("kendoDropDownList").value(e.BK_BUYER);
+        $("#bkUser").data("kendoDropDownList").value(e.BK_USER);
+        $("#bkRepl").val(e.BK_REPL);
+        $("#bkMng").data("kendoDropDownList").value(e.BK_MNG_SEQ);
+        $("#bkMngSub").data("kendoDropDownList").value(e.BK_MNG_SUB_SEQ);
+        $("#bkBuyDt").val(e.BK_BUY_DT);
+
     },
 
     inputNumberFormat: function (obj){
@@ -115,7 +157,7 @@ var bookRegisPop = {
         return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
     },
 
-    fn_bkSave: function (){
+    fn_bkSave: function (key){
         if($("#bkCdName").val() == "") {
             alert("도서분류를 선택하지 않았습니다");
             return;
@@ -188,6 +230,10 @@ var bookRegisPop = {
             bkSmry : $("#bkSmry").val()
         }
 
+        if(key != null && key != ""){
+            data.bkSn = key;
+        }
+
         $.ajax({
             url : "/inside/setBookInsert",
             data : data,
@@ -236,7 +282,7 @@ var bookRegisPop = {
         ];
         var bkMdCd = $("#bkMdCd").data("kendoDropDownList");
         bkMdCd.setDataSource(dataSource);
-        bkMdCd.bind("change", function(){
+        bkMdCd.bind("select", function(){
             var value = $("#bkMdCd").val();
             bookRegisPop.fn_changeBkMdCd(value);
         });
@@ -429,6 +475,27 @@ var bookRegisPop = {
 
         dataSource.unshift({text: "소분류를 선택하세요", value: ""})
         bkCd.setDataSource(dataSource);
+    },
+
+    fn_bkDel: function(e){
+        if( !confirm("삭제하시겠습니까?")){
+            return false;
+        }
+        var data = {
+            bkSn : e
+        }
+
+        $.ajax({
+            url : "/inside/setBookDelete",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success: function(e){
+                alert("삭제되었습니다.");
+                opener.parent.bookList.mainGrid();
+                window.close();
+            }
+        })
     }
 }
 

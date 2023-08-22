@@ -63,6 +63,14 @@ var bookList = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            dataBound : function(){
+                var grid = this;
+                grid.tbody.find("tr").dblclick(function (e) {
+                    var dataItem = grid.dataItem($(this));
+                    console.log(dataItem)
+                    bookList.bookRegisPopup(dataItem.BK_SN);
+                });
+            },
             toolbar : [
                 /*{
                     name : 'button',
@@ -140,8 +148,11 @@ var bookList = {
         var popup = window.open(url, name, option);
     },
 
-    bookRegisPopup : function() {
+    bookRegisPopup : function(key) {
         var url = "/Inside/Pop/bookRegisPop.do";
+        if(key != null && key != ""){
+            url = "/Inside/Pop/bookRegisPop.do?bkSn="+key;
+        }
         var name = "bookRegisPop";
         var option = "width = 1000, height = 590, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);

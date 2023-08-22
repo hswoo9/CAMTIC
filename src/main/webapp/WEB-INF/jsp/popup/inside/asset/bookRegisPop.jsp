@@ -12,12 +12,20 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="bkSn" value="${params.bkSn}"/>
+
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">도서 등록</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="bookRegisPop.fn_bkSave();">저장</button>
+                <c:if test="${empty params.bkSn}">
+                    <button type="button" class="k-button k-button-solid-info" onclick="bookRegisPop.fn_bkSave();">저장</button>
+                </c:if>
+                <c:if test="${!empty params.bkSn}">
+                    <button type="button" class="k-button k-button-solid-primary" onclick="bookRegisPop.fn_bkSave(${params.bkSn});">수정</button>
+                    <button type="button" class="k-button k-button-solid-error" onclick="bookRegisPop.fn_bkDel(${params.bkSn});">삭제</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>
         </div>
