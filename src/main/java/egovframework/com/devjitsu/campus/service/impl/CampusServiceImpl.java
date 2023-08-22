@@ -92,11 +92,6 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public List<Map<String, Object>> getEduStat(Map<String, Object> params){
-        return campusRepository.getEduStat(params);
-    }
-
-    @Override
     public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params){
         return campusRepository.getStudyInfoList(params);
     }
@@ -119,6 +114,16 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getStudyJournalOne(Map<String, Object> params){
         return campusRepository.getStudyJournalOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduStat(Map<String, Object> params){
+        return campusRepository.getEduStat(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduAllStatList(Map<String, Object> params){
+        return campusRepository.getEduAllStatList(params);
     }
 
 
@@ -290,6 +295,21 @@ public class CampusServiceImpl implements CampusService {
             result.put("message", "데이터 저장 중 에러가 발생했습니다.");
         }
         return result;
+    }
+
+    @Override
+    public void setEduCode(Map<String, Object> params) {
+        campusRepository.setEduCode(params);
+    }
+
+    @Override
+    public void setEduCategory(Map<String, Object> params) {
+        campusRepository.setEduCategory(params);
+    }
+
+    @Override
+    public void setEduCategoryDetail(Map<String, Object> params) {
+        campusRepository.setEduCategoryDetail(params);
     }
 
     @Override

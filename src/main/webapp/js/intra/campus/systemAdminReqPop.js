@@ -1,25 +1,18 @@
-const systemAdmin = {
-    global: {
-        largeCategoryId: "",
-        largeCategoryName: "",
-        eduCategoryId: "",
-        eduCategoryName: ""
-    },
+const systemAdminReq = {
     init: function(){
-        systemAdmin.dataSet();
-        systemAdmin.mainGrid();
+        systemAdminReq.dataSet();
+        systemAdminReq.mainGrid();
     },
 
     dataSet: function(){
-        customKendo.fn_textBox(["searchText"])
-        customKendo.fn_datePicker("recruitYear", "decade", "yyyy", new Date());
-        let searchTypeDataSource = [
-            {text: "모집분야", value: "1"},
-            {text: "공고명", value: "2"},
-            {text: "공고번호", value: "3"},
-            {text: "지원자", value: "4"}
+        customKendo.fn_textBox(["reqText"])
+        let levelDataSource = [
+            {text: "LEVEL 0", value: "0"},
+            {text: "LEVEL 1", value: "1"},
+            {text: "LEVEL 2", value: "2"},
+            {text: "LEVEL 3", value: "3"}
         ]
-        customKendo.fn_dropDownList("searchType", searchTypeDataSource, "text", "value", 3);
+        customKendo.fn_dropDownList("level", levelDataSource, "text", "value", 2);
     },
 
     mainGrid: function(){
@@ -62,7 +55,7 @@ const systemAdmin = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.systemAdminReqPop(\'req\', \'A\');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionManagePop();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -89,10 +82,10 @@ const systemAdmin = {
                 const grid = this;
                 grid.tbody.find("tr").dblclick(function (e) {
                     const dataItem = grid.dataItem($(this));
-                    systemAdmin.global.largeCategoryId = dataItem.CAMPUS_DT_CODE;
-                    systemAdmin.global.largeCategoryName = dataItem.CAMPUS_DT_CODE_NM;
-                    console.log(systemAdmin.global.largeCategoryId);
-                    console.log(systemAdmin.global.largeCategoryName);
+                    systemAdminReq.global.largeCategoryId = dataItem.CAMPUS_DT_CODE;
+                    systemAdminReq.global.largeCategoryName = dataItem.CAMPUS_DT_CODE_NM;
+                    console.log(systemAdminReq.global.largeCategoryId);
+                    console.log(systemAdminReq.global.largeCategoryName);
                     gridReload("categoryGridB");
                 });
             },
@@ -124,7 +117,7 @@ const systemAdmin = {
                     type: "post"
                 },
                 parameterMap: function(data){
-                    data.largeCategoryId = systemAdmin.global.largeCategoryId == "" ? -1 : systemAdmin.global.largeCategoryId;
+                    data.largeCategoryId = systemAdminReq.global.largeCategoryId == "" ? -1 : systemAdminReq.global.largeCategoryId;
                     return data;
                 }
             },
@@ -154,7 +147,7 @@ const systemAdmin = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.systemAdminReqPop(\'req\', \'B\');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionManagePop();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -181,10 +174,10 @@ const systemAdmin = {
                 const grid = this;
                 grid.tbody.find("tr").dblclick(function (e) {
                     const dataItem = grid.dataItem($(this));
-                    systemAdmin.global.eduCategoryId = dataItem.EDU_CATEGORY_ID;
-                    systemAdmin.global.eduCategoryName = dataItem.EDU_CATEGORY_NAME;
-                    console.log(systemAdmin.global.eduCategoryId);
-                    console.log(systemAdmin.global.eduCategoryName);
+                    systemAdminReq.global.eduCategoryId = dataItem.EDU_CATEGORY_ID;
+                    systemAdminReq.global.eduCategoryName = dataItem.EDU_CATEGORY_NAME;
+                    console.log(systemAdminReq.global.eduCategoryId);
+                    console.log(systemAdminReq.global.eduCategoryName);
                     gridReload("categoryGridC");
                 });
             },
@@ -216,7 +209,7 @@ const systemAdmin = {
                     type: "post"
                 },
                 parameterMap: function(data){
-                    data.eduCategoryId = systemAdmin.global.eduCategoryId == "" ? -1 : systemAdmin.global.eduCategoryId;
+                    data.eduCategoryId = systemAdminReq.global.eduCategoryId == "" ? -1 : systemAdminReq.global.eduCategoryId;
                     return data;
                 }
             },
@@ -246,7 +239,7 @@ const systemAdmin = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.systemAdminReqPop(\'req\', \'C\');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionManagePop();">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -293,19 +286,110 @@ const systemAdmin = {
         }).data("kendoGrid");
     },
 
-    systemAdminReqPop: function(mode, type){
-        let url = "/Campus/pop/systemAdminReqPop.do?mode="+mode+"&type="+type;
-        if(type == "B"){
-            url += "&largeCategoryId="+systemAdmin.global.largeCategoryId;
-            url += "&largeCategoryName="+systemAdmin.global.largeCategoryName;
+    saveBtn: function(){
+        let level = $("#level").val();
+        let levelName = "";
+        let reqText = $("#reqText").val();
+        let regEmpSeq = $("#regEmpSeq").val();
+        let regEmpName = $("#regEmpName").val();
+
+        if($("#type").val() == "C" && level == ""){ alert("레벨이 선택되지 않았습니다."); return; }
+        if(reqText == ""){ alert("분류명이 작성되지 않았습니다."); return; }
+
+        let data = {
+            reqText: reqText,
+            regEmpSeq: regEmpSeq,
+            regEmpName: regEmpName
         }
-        if(type == "C"){
-            url += "&eduCategoryId="+systemAdmin.global.eduCategoryId;
-            url += "&eduCategoryName="+systemAdmin.global.eduCategoryName;
+
+        if($("#type").val() == "A"){
+            data.groupCode = 1;
+            data.midleCode = "01";
+            data.midleCodeName = "학습체계도_대분류";
         }
-        const name = "systemAdminReqPop";
-        const option = "width = 800, height = 262, top = 200, left = 400, location = no";
-        window.open(url, name, option);
+        if($("#type").val() == "B"){
+            data.largeCategoryId = $("#largeCategoryId").val();
+            data.largeCategoryName = $("#largeCategoryName").val();
+        }
+        if($("#type").val() == "C"){
+            levelName = $("#level").data("kendoDropDownList").text();
+            data.eduCategoryId = $("#eduCategoryId").val();
+            data.eduCategoryName = $("#eduCategoryName").val();
+            data.level = level;
+            data.levelName = levelName;
+        }
+
+        if(!confirm("학습체계도를 저장하시겠습니까?")){
+            return;
+        }
+
+        if($("#type").val() == "A"){
+            systemAdminReq.setEduCode(data);
+        }else if($("#type").val() == "B"){
+            systemAdminReq.setEduCategory(data);
+        }else if($("#type").val() == "C"){
+            systemAdminReq.setEduCategoryDetail(data);
+        }
+    },
+
+    setEduCode: function(data){
+        $.ajax({
+            url: "/campus/setEduCode",
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(result){
+                console.log(result);
+                alert("학습체계도 저장이 완료되었습니다.");
+                opener.gridReload("categoryGridA");
+                window.close();
+
+            },
+            error: function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
+        });
+    },
+
+    setEduCategory: function(data){
+        $.ajax({
+            url: "/campus/setEduCategory",
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(result){
+                console.log(result);
+                alert("학습체계도 저장이 완료되었습니다.");
+                opener.gridReload("categoryGridB");
+                window.close();
+
+            },
+            error: function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
+        });
+    },
+
+    setEduCategoryDetail: function(data){
+        $.ajax({
+            url: "/campus/setEduCategoryDetail",
+            data: data,
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(result){
+                console.log(result);
+                alert("학습체계도 저장이 완료되었습니다.");
+                opener.gridReload("categoryGridC");
+                window.close();
+
+            },
+            error: function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
+        });
     }
 }
 

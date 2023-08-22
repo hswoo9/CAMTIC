@@ -134,7 +134,7 @@ const studyView = {
                     title: "일시",
                     width: 250,
                     template: function(row){
-                        return row.JOURNAL_DT + " (" + row.JOURNAL_START_TIME +"~"+row.JOURNAL_END_TIME+" / "+row.EDU_TIME+")";
+                        return row.JOURNAL_DT + " (" + row.JOURNAL_START_TIME +"~"+row.JOURNAL_END_TIME+" / "+row.JOURNAL_TIME+")";
                     }
                 }, {
                     field: "JOURNAL_LOCATE",

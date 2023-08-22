@@ -63,7 +63,7 @@
                 <tr>
                     <th>주민등록번호</th>
                     <td>
-                        ${uprinfList.RES_REGIS_NUM}
+                        ${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}-*******<span id="resRegisNum"></span>
                     </td>
                 </tr>
                 <tr>
@@ -153,18 +153,6 @@
                 <tr>
                     <th>겸직</th>
                     <td colspan="3">
-                        <input type="text" id="deptComp" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
-                        <input type="text" id="deptTeam" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
-                        <input type="text" id="duty" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
-                        <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
-                            <button type="button" class="k-button k-button-solid-info" onclick="">추가</button>
-                        </c:if>
-                    </td>
-                </tr>
-                <tr>
-                    <th>[우편번호] 거주지</th>
-                    <td colspan="3">
-                        [${uprinfList.ZIP_CODE}] ${uprinfList.ADDR}
                     </td>
                 </tr>
                 <tr>
@@ -199,23 +187,6 @@
                         </c:if>
                         <c:if test="${uprinfList.HOME_PAGE_ACTIVE == 'N'}">
                             미게시
-                        </c:if>
-                    </td>
-                </tr>
-                <tr>
-                    <th>경력사항</th>
-                    <td>
-                        ??
-                    </td>
-                    <th></th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>계좌정보</th>
-                    <td colspan="3">
-                        더존코드 : | [${uprinfList.BANK_NAME}] ${uprinfList.ACCOUNT_NUM} | 예금주 : ${uprinfList.ACCOUNT_HOLDER} | 개인카드 :
-                        <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
-                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop2.userAccountPop('${params.empSeq}')">수정</button>
                         </c:if>
                     </td>
                 </tr>
@@ -287,6 +258,18 @@
                     </td>
                     </c:if>
                 </tr>
+                <c:if test="${uprinfList.CAR_ACTIVE == 'Y'}">
+                <tr>
+                    <th>차량소유</th>
+                    <td>
+                        소유
+                    </td>
+                    <th>차량번호</th>
+                    <td>
+                        ${uprinfList.CAR_NUM}
+                    </td>
+                </tr>
+                </c:if>
                 <tr>
                     <th>결혼관계</th>
                     <td>
@@ -297,69 +280,9 @@
                             미혼
                         </c:if>
                     </td>
-                    </td>
                     <th>결혼기념일</th>
                     <td>
                         ${uprinfList.WEDDING_DAY}
-                    </td>
-                </tr>
-                <tr>
-                    <th>혈액형</th>
-                    <td>
-                        ${uprinfList.BLOOD_TYPE}
-                    </td>
-                    <th>긴급 연락처</th>
-                    <td>
-                        ${uprinfList.EMG_TEL_NUM}
-                    </td>
-                </tr>
-                <tr>
-                    <th>취미</th>
-                    <td>
-                        ${uprinfList.HOBBY}
-                    </td>
-                    <th>특기</th>
-                    <td>
-                        ${uprinfList.SPECIALITY}
-                    </td>
-                </tr>
-                <tr>
-                    <th>종교</th>
-                    <td>
-                        ${uprinfList.RELIGION}
-                    </td>
-                    <th>신장</th>
-                    <td>
-                        ${uprinfList.HEIGHT}
-                    </td>
-                </tr>
-                <tr>
-                    <th>체중</th>
-                    <td>
-                        ${uprinfList.WEIGHT}
-                    </td>
-                    <th>시력</th>
-                <c:if test="${uprinfList.VISIONL == null || uprinfList.VISIONR == ''}">
-                    <td>
-                        ${uprinfList.VISIONL}
-                        ${uprinfList.VISIONR}
-                    </td>
-                </tr>
-                </c:if>
-                <c:if test="${uprinfList.VISIONL != null || uprinfList.VISIONR != null}">
-                    <td>
-                        좌 : ${uprinfList.VISIONL} /
-                        우 : ${uprinfList.VISIONR}
-                    </td>
-                </c:if>
-                <tr>
-                    <th>최근수정일</th>
-                    <td>
-                        ${uprinfList.MOD_DATE}
-                    </td>
-                    <th>최근수정자</th>
-                    <td>
-                        ${uprinfList.MOD_EMP_SEQ}
                     </td>
                 </tr>
                 </thead>
@@ -370,4 +293,5 @@
 </body>
 <script>
     userViewPop2.defaultScript();
+    $("#resRegisNum").text(" (" + userViewPop2.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
 </script>
