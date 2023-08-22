@@ -12,8 +12,7 @@ var bookList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
-                { text: "분류별", value: "1" },
+                // { text: "분류별", value: "1" },
                 { text: "도서명", value: "2" },
                 { text: "저자", value: "3" },
                 { text: "요청자", value: "4" },
@@ -24,6 +23,12 @@ var bookList = {
 
         $("#searchVal").kendoTextBox();
         $("#searchText").kendoTextBox();
+
+        $("#searchText").on("keyup", function(key){
+            if(key.keyCode == 13){
+                bookList.mainGrid();
+            }
+        })
     },
 
     mainGrid : function() {
@@ -115,11 +120,11 @@ var bookList = {
                     title: "코드",
                     template : function(row){
                         return row.BK_LG_CD_NAME+"-"+row.BK_MD_CD + row.BK_CD
-                    }
+                    },
+                    width: 150
                 }, {
                     field: "BK_NAME",
                     title: "도서명",
-                    width: 250
                 }, {
                     field: "BK_WRITER",
                     title: "저자",
