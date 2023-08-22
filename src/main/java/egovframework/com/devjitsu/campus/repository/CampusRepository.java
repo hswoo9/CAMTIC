@@ -8,9 +8,9 @@ import java.util.Map;
 
 @Repository
 public class CampusRepository extends AbstractDAO  {
-    public List<Map<String, Object>> getCodeList(Map<String, Object> params) {
-        return selectList("campus.getCodeList", params);
-    }
+
+    public List<Map<String, Object>> getCodeList(Map<String, Object> params) { return selectList("campus.getCodeList", params); }
+    public Map<String, Object> getCodeOne(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getCodeOne", params); }
 
     public List<Map<String, Object>> getEduInfoList(Map<String, Object> params) {
         return selectList("campus.getEduInfoList", params);
@@ -36,9 +36,10 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getTargetList", params);
     }
 
-    public Map<String, Object> getCategoryOne(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("campus.getCategoryOne", params);
-    }
+    public Map<String, Object> getEduCategoryOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getEduCategoryOne", params); }
+    public List<Map<String, Object>> getEduCategoryList(Map<String, Object> params) { return selectList("campus.getEduCategoryList", params); }
+    public Map<String, Object> getEduCategoryDetailOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getEduCategoryDetailOne", params); }
+    public List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params) { return selectList("campus.getEduCategoryDetailList", params); }
 
     public List<Map<String, Object>> getTargetCategoryList(Map<String, Object> params) {
         return selectList("campus.getTargetCategoryList", params);
@@ -46,14 +47,6 @@ public class CampusRepository extends AbstractDAO  {
 
     public List<Map<String, Object>> getTargetCategoryDetailList(Map<String, Object> params) {
         return selectList("campus.getTargetCategoryDetailList", params);
-    }
-
-    public List<Map<String, Object>> getEduCategoryList(Map<String, Object> params) {
-        return selectList("campus.getEduCategoryList", params);
-    }
-
-    public List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params) {
-        return selectList("campus.getEduCategoryDetailList", params);
     }
 
     public List<Map<String, Object>> getEduPlanList(Map<String, Object> params) {
@@ -90,6 +83,14 @@ public class CampusRepository extends AbstractDAO  {
 
     public List<Map<String, Object>> getEduAllStatList(Map<String, Object> params) {
         return selectList("campus.getEduAllStatList", params);
+    }
+
+    public List<Map<String, Object>> getDutyInfoList(Map<String, Object> params) {
+        return selectList("campus.getDutyInfoList", params);
+    }
+
+    public Map<String, Object> getDutyInfoOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getDutyInfoOne", params);
     }
 
 
@@ -162,4 +163,14 @@ public class CampusRepository extends AbstractDAO  {
     public void setEduCode(Map<String, Object> params) { insert("campus.setEduCode", params); }
     public void setEduCategory(Map<String, Object> params) { insert("campus.setEduCategory", params); }
     public void setEduCategoryDetail(Map<String, Object> params) { insert("campus.setEduCategoryDetail", params); }
+    public void setEduCodeUpd(Map<String, Object> params) { update("campus.setEduCodeUpd", params); }
+    public void setEduCategoryUpd(Map<String, Object> params) { update("campus.setEduCategoryUpd", params); }
+    public void setEduCategoryDetailUpd(Map<String, Object> params) { update("campus.setEduCategoryDetailUpd", params); }
+    public void setEduCodeDel(Map<String, Object> params) { update("campus.setEduCodeDel", params); }
+    public void setEduCategoryDel(Map<String, Object> params) { update("campus.setEduCategoryDel", params); }
+    public void setEduCategoryDetailDel(Map<String, Object> params) { update("campus.setEduCategoryDetailDel", params); }
+
+    public void setDutyInfoIns(Map<String, Object> params) { insert("campus.setDutyInfoIns", params); }
+    public void setDutyInfoUpd(Map<String, Object> params) { update("campus.setDutyInfoUpd", params); }
+    public void setDutyCertReq(Map<String, Object> params) { update("campus.setDutyCertReq", params); }
 }

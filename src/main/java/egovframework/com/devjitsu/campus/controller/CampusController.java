@@ -744,7 +744,7 @@ public class CampusController {
         return "campus/systemManagement";
     }
 
-    /** 학습체게도 코드 조회 팝업 */
+    /** 학습체계도 코드 조회 팝업 */
     @RequestMapping("/Campus/pop/systemAdminPop.do")
     public String systemAdminPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -754,7 +754,7 @@ public class CampusController {
         return "popup/campus/systemAdminPop";
     }
 
-    /** 학습체게도 코드 관리 팝업 */
+    /** 학습체계도 코드 관리 팝업 */
     @RequestMapping("/Campus/pop/systemAdminReqPop.do")
     public String systemAdminReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -762,10 +762,20 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+        if(params.get("mode").equals("upd") && params.get("type").equals("A")){
+            Map<String, Object> data = campusService.getCodeOne(params);
+            model.addAttribute("data", data);
+        }else if(params.get("mode").equals("upd") && params.get("type").equals("B")){
+            Map<String, Object> data = campusService.getEduCategoryOne(params);
+            model.addAttribute("data", data);
+        }else if(params.get("mode").equals("upd") && params.get("type").equals("C")){
+            Map<String, Object> data = campusService.getEduCategoryDetailOne(params);
+            model.addAttribute("data", data);
+        }
         return "popup/campus/systemAdminReqPop";
     }
 
-    //직무기술서관리
+    /** 직무기술서 관리 페이지 */
     @RequestMapping("/Campus/dutyInfo.do")
     public String dutyInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -774,6 +784,17 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "campus/dutyInfo";
+    }
+
+    /** 직무기술서 등록 팝업 */
+    @RequestMapping("/Campus/pop/dutyInfoReqPop.do")
+    public String dutyInfoReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/dutyInfoReqPop";
     }
 
     //캠퍼스 - 학습신청서 전자결재
@@ -800,14 +821,20 @@ public class CampusController {
 
 
 
-    //캠퍼스 코드 리스트
+    /** 캠퍼스 코드 리스트 조회 */
     @RequestMapping("/campus/getCodeList")
-    @ResponseBody
-    public Map<String, Object> getCodeList(@RequestParam Map<String, Object> params) {
+    public String getCodeList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getCodeList(params);
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        return result;
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 코드 단일 데이터 조회 */
+    @RequestMapping("/campus/getCodeOne")
+    public String getCodeOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getCodeOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
     }
 
     //개인학습관리 - 개인학습리스트 조회
@@ -871,11 +898,36 @@ public class CampusController {
         return result;
     }
 
-    //목표기술서작성 - 해당연도 중복 조회
-    @RequestMapping("/campus/getCategoryOne")
-    @ResponseBody
-    public Map<String, Object> getCategoryOne(@RequestParam Map<String, Object> params) {
-        return campusService.getCategoryOne(params);
+    /** 목표기술서 구분명 단일 데이터 조회 */
+    @RequestMapping("/campus/getEduCategoryOne")
+    public String getEduCategoryOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getEduCategoryOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 목표기술서 구분명 리스트 조회 */
+    @RequestMapping("/campus/getEduCategoryList")
+    public String getEduCategoryList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getEduCategoryList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 목표기술서 항목명 단일데이터 조회 */
+    @RequestMapping("/campus/getEduCategoryDetailOne")
+    public String getEduCategoryDetailOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getEduCategoryDetailOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 목표기술서 항목명 리스트 조회 */
+    @RequestMapping("/campus/getEduCategoryDetailList")
+    public String getEduCategoryDetailList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getEduCategoryDetailList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
     //목표기술서작성 - 유저별 선택 구분 리스트
@@ -893,26 +945,6 @@ public class CampusController {
     @ResponseBody
     public Map<String, Object> getTargetCategoryDetailList(@RequestParam Map<String, Object> params) {
         List<Map<String, Object>> list = campusService.getTargetCategoryDetailList(params);
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        return result;
-    }
-
-    //학습체계도설정 - 구분리스트
-    @RequestMapping("/campus/getEduCategoryList")
-    @ResponseBody
-    public Map<String, Object> getEduCategoryList(@RequestParam Map<String, Object> params) {
-        List<Map<String, Object>> list = campusService.getEduCategoryList(params);
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        return result;
-    }
-
-    //학습체계도설정 - 레벨리스트
-    @RequestMapping("/campus/getEduCategoryDetailList")
-    @ResponseBody
-    public Map<String, Object> getEduCategoryDetailList(@RequestParam Map<String, Object> params) {
-        List<Map<String, Object>> list = campusService.getEduCategoryDetailList(params);
         Map<String, Object> result = new HashMap<>();
         result.put("list", list);
         return result;
@@ -997,6 +1029,22 @@ public class CampusController {
     public String getEduAllStatList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getEduAllStatList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 직무기술서 리스트 조회 */
+    @RequestMapping("/campus/getDutyInfoList")
+    public String getDutyInfoList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getDutyInfoList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 직무기술서 단일 데이터 조회 */
+    @RequestMapping("/campus/getDutyInfoOne")
+    public String getDutyInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getDutyInfoOne(params);
+        model.addAttribute("data", data);
         return "jsonView";
     }
 
@@ -1119,6 +1167,69 @@ public class CampusController {
     @RequestMapping("/campus/setEduCategoryDetail")
     public String setEduCategoryDetail(@RequestParam Map<String, Object> params) {
         campusService.setEduCategoryDetail(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 코드 수정 */
+    @RequestMapping("/campus/setEduCodeUpd")
+    public String setEduCodeUpd(@RequestParam Map<String, Object> params) {
+        campusService.setEduCodeUpd(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 학습체계도 구분명 수정 */
+    @RequestMapping("/campus/setEduCategoryUpd")
+    public String setEduCategoryUpd(@RequestParam Map<String, Object> params) {
+        campusService.setEduCategoryUpd(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 학습체계도 항목명 수정 */
+    @RequestMapping("/campus/setEduCategoryDetailUpd")
+    public String setEduCategoryDetailUpd(@RequestParam Map<String, Object> params) {
+        campusService.setEduCategoryDetailUpd(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 코드 삭제 */
+    @RequestMapping("/campus/setEduCodeDel")
+    public String setEduCodeDel(@RequestParam Map<String, Object> params) {
+        campusService.setEduCodeDel(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 학습체계도 구분명 삭제 */
+    @RequestMapping("/campus/setEduCategoryDel")
+    public String setEduCategoryDel(@RequestParam Map<String, Object> params) {
+        campusService.setEduCategoryDel(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 학습체계도 항목명 삭제 */
+    @RequestMapping("/campus/setEduCategoryDetailDel")
+    public String setEduCategoryDetailDel(@RequestParam Map<String, Object> params) {
+        campusService.setEduCategoryDetailDel(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 직무기술서 등록 */
+    @RequestMapping("/campus/setDutyInfoIns")
+    public String setDutyInfoIns(@RequestParam Map<String, Object> params) {
+        campusService.setDutyInfoIns(params);
+        return "jsonView";
+    }
+
+    /** 캠퍼스 직무기술서 수정 */
+    @RequestMapping("/campus/setDutyInfoUpd")
+    public String setDutyInfoUpd(@RequestParam Map<String, Object> params) {
+        campusService.setDutyInfoUpd(params);
+        return "jsonView";
+    }
+
+    /** 직무기술서 승인프로세스 */
+    @RequestMapping("/campus/setDutyCertReq")
+    public String setDutyCertReq(@RequestParam Map<String, Object> params, Model model) {
+        campusService.setDutyCertReq(params);
         return "jsonView";
     }
 

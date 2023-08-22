@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface CampusService {
-    /**
-     * 캠퍼스 코드 리스트
-     * @param params
-     * @return
-     */
+
+    /** 코드 조회 시작 */
     List<Map<String, Object>> getCodeList(Map<String, Object> params);
+    Map<String, Object> getCodeOne(Map<String, Object> params);
+    /** 코드 조회 끝 */
 
     /**
      * 개인학습관리 개인학습 리스트 조회
@@ -53,12 +52,10 @@ public interface CampusService {
      */
     List<Map<String, Object>> getTargetList(Map<String, Object> params);
 
-    /**
-     * 학습체계도 구분명
-     * @param params
-     * @return
-     */
-    Map<String, Object> getCategoryOne(Map<String, Object> params);
+    Map<String, Object> getEduCategoryOne(Map<String, Object> params);
+    List<Map<String, Object>> getEduCategoryList(Map<String, Object> params);
+    Map<String, Object> getEduCategoryDetailOne(Map<String, Object> params);
+    List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params);
 
     /**
      * 목표기술서 작성 유저별 구분 리스트
@@ -73,20 +70,6 @@ public interface CampusService {
      * @return
      */
     List<Map<String, Object>> getTargetCategoryDetailList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 설정 구분 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduCategoryList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 설정 LEVEL 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params);
 
     /**
      * 학습체계도 학습계획 리스트
@@ -110,6 +93,12 @@ public interface CampusService {
 
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
+
+    /** 직무기술서 시작 */
+    List<Map<String, Object>> getDutyInfoList(Map<String, Object> params);
+    Map<String, Object> getDutyInfoOne(Map<String, Object> params);
+    /** 직무기술서 끝 */
+
 
 
 
@@ -186,17 +175,29 @@ public interface CampusService {
     void setEduCode(Map<String, Object> params);
     void setEduCategory(Map<String, Object> params);
     void setEduCategoryDetail(Map<String, Object> params);
+    void setEduCodeUpd(Map<String, Object> params);
+    void setEduCategoryUpd(Map<String, Object> params);
+    void setEduCategoryDetailUpd(Map<String, Object> params);
+    void setEduCodeDel(Map<String, Object> params);
+    void setEduCategoryDel(Map<String, Object> params);
+    void setEduCategoryDetailDel(Map<String, Object> params);
+    
+    /** 직무기술서 시작 */
+    void setDutyInfoIns(Map<String, Object> params);
+    void setDutyInfoUpd(Map<String, Object> params);
+    void setDutyCertReq(Map<String, Object> params);
+    /** 직무기술서 끝 */
 
     /**
      * 학습신청서 전자결재 상태값 업데이트
-     * @param params
+     * @param bodyMap
      * @throws Exception
      */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
     /**
      * 학습결과보고서 전자결재 상태값 업데이트
-     * @param params
+     * @param bodyMap
      * @throws Exception
      */
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;

@@ -25,6 +25,7 @@
 <input type="hidden" id="largeCategoryName" value="${params.largeCategoryName}"/>
 <input type="hidden" id="eduCategoryId" value="${params.eduCategoryId}"/>
 <input type="hidden" id="eduCategoryName" value="${params.eduCategoryName}"/>
+<input type="hidden" id="pk" value="${params.pk}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
   <div class="table-responsive">
@@ -60,16 +61,18 @@
           <c:if test="${params.type eq 'C'}">
             <input type="text" id="level" style="width: 150px;"/>
           </c:if>
-          <input type="text" id="reqText" style="
+
           <c:choose>
-            <c:when test="${params.type eq 'C'}">
-                  width:350px
+            <c:when test="${params.type eq 'A'}">
+              <input type="text" id="reqText" style="width:500px" value="${data.CAMPUS_DT_CODE_NM}"/>
             </c:when>
-            <c:otherwise>
-                  width:500px
-            </c:otherwise>
+            <c:when test="${params.type eq 'B'}">
+              <input type="text" id="reqText" style="width:500px" value="${data.EDU_CATEGORY_NAME}"/>
+            </c:when>
+            <c:when test="${params.type eq 'C'}">
+              <input type="text" id="reqText" style="width:350px" value="${data.EDU_CATEGORY_DETAIL_NAME}"/>
+            </c:when>
           </c:choose>
-          "/>
         </td>
       </tr>
       </thead>

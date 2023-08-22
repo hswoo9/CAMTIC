@@ -3,7 +3,7 @@
 
 <mapper namespace="campus">
     <select id="getCodeList" resultType="map" parameterType="map">
-        /* getCodeList */
+        /* campus.getCodeList */
         SELECT
             *
         FROM
@@ -13,6 +13,22 @@
         <if test='campusGroupCodeId != null and campusGroupCodeId != ""'>
             AND CAMPUS_GROUP_CODE_ID = #{campusGroupCodeId}
         </if>
+    </select>
+
+    <select id="getCodeOne" resultType="map" parameterType="map">
+        /* campus.getCodeOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_CAMPUS_CODE CC
+        WHERE
+            ACTIVE = 'Y'
+            <if test='campusCodeId != null and campusCodeId != ""'>
+                AND CAMPUS_CODE_ID = #{campusCodeId}
+            </if>
+            <if test='campusGroupCodeId != null and campusGroupCodeId != ""'>
+                AND CAMPUS_GROUP_CODE_ID = #{campusGroupCodeId} AND CAMPUS_DT_CODE = #{pk}
+            </if>
     </select>
 
     <select id="getEduInfoList" resultType="map" parameterType="map">
@@ -185,16 +201,65 @@
         </if>
     </select>
 
-    <select id="getCategoryOne" resultType="map" parameterType="map">
-        /* getCategoryOne */
+    <select id="getEduCategoryOne" resultType="map" parameterType="map">
+        /* getEduCategoryOne */
         SELECT
+            EC.EDU_CATEGORY_ID,
             EC.EDU_CATEGORY_NAME
         FROM
             CAMPUS.DJ_EDU_CATEGORY EC
-                LEFT JOIN
-            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON EC.EDU_CATEGORY_ID = ECD.EDU_CATEGORY_ID
-        WHERE ECD.EDU_CATEGORY_ID = #{eduCategoryId}
-        GROUP BY EC.EDU_CATEGORY_NAME
+        WHERE
+            EC.EDU_CATEGORY_ID = #{pk}
+    </select>
+
+    <select id="getEduCategoryList" resultType="map" parameterType="map">
+        /* getEduCategoryList */
+        SELECT
+            EC.EDU_CATEGORY_ID,
+            EC.EDU_CATEGORY_NAME,
+            EC.LARGE_CATEGORY_ID,
+            EC.LARGE_CATEGORY_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY EC
+        WHERE
+            EC.ACTIVE = 'Y'
+        <if test='largeCategoryId != null and largeCategoryId != ""'>
+            AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
+        </if>
+        ORDER BY EC.ORDER
+    </select>
+
+    <select id="getEduCategoryDetailOne" resultType="map" parameterType="map">
+        /* getEduCategoryDetailOne */
+        SELECT
+            ECD.EDU_CATEGORY_DETAIL_ID,
+            ECD.EDU_CATEGORY_DETAIL_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
+        WHERE
+            ECD.EDU_CATEGORY_DETAIL_ID = #{pk}
+    </select>
+
+    <select id="getEduCategoryDetailList" resultType="map" parameterType="map">
+        /* getEduCategoryDetailList */
+        SELECT
+            ECD.EDU_CATEGORY_DETAIL_ID,
+            ECD.EDU_CATEGORY_DETAIL_NAME,
+            ECD.EDU_CATEGORY_ID,
+            ECD.EDU_CATEGORY_NAME,
+            ECD.LEVEL_ID,
+            ECD.LEVEL_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
+        WHERE
+            ECD.ACTIVE = 'Y'
+        <if test='levelId != null and levelId != ""'>
+            AND ECD.LEVEL_ID = #{levelId}
+        </if>
+        <if test='eduCategoryId != null and eduCategoryId != ""'>
+            AND ECD.EDU_CATEGORY_ID in (${eduCategoryId})
+        </if>
+        ORDER BY ECD.ORDER
     </select>
 
     <select id="getTargetCategoryList" resultType="map" parameterType="map">
@@ -246,45 +311,6 @@
         <if test='dutyClass != null and dutyClass != ""'>
             AND ETD.DUTY_CLASS = #{dutyClass}
         </if>
-    </select>
-
-    <select id="getEduCategoryList" resultType="map" parameterType="map">
-        /* getEduCategoryList */
-        SELECT
-            EC.EDU_CATEGORY_ID,
-            EC.EDU_CATEGORY_NAME,
-            EC.LARGE_CATEGORY_ID,
-            EC.LARGE_CATEGORY_NAME
-        FROM
-            CAMPUS.DJ_EDU_CATEGORY EC
-        WHERE
-            EC.ACTIVE = 'Y'
-        <if test='largeCategoryId != null and largeCategoryId != ""'>
-            AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
-        </if>
-        ORDER BY EC.ORDER
-    </select>
-
-    <select id="getEduCategoryDetailList" resultType="map" parameterType="map">
-        /* getEduCategoryDetailList */
-        SELECT
-            ECD.EDU_CATEGORY_DETAIL_ID,
-            ECD.EDU_CATEGORY_DETAIL_NAME,
-            ECD.EDU_CATEGORY_ID,
-            ECD.EDU_CATEGORY_NAME,
-            ECD.LEVEL_ID,
-            ECD.LEVEL_NAME
-        FROM
-            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
-        WHERE
-            ECD.ACTIVE = 'Y'
-        <if test='levelId != null and levelId != ""'>
-            AND ECD.LEVEL_ID = #{levelId}
-        </if>
-        <if test='eduCategoryId != null and eduCategoryId != ""'>
-            AND ECD.EDU_CATEGORY_ID in (${eduCategoryId})
-        </if>
-        ORDER BY ECD.ORDER
     </select>
 
     <select id="getEduPlanList" resultType="map" parameterType="map">
@@ -437,6 +463,29 @@
             (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
         AND WORK_STATUS_CODE = 'Y'
         ORDER BY EMP_NAME_KR
+    </select>
+
+    <select id="getDutyInfoList" resultType="map" parameterType="map">
+        /* getDutyInfoList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_DUTY_INFO CDI
+        WHERE
+            1=1
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+    </select>
+
+    <select id="getDutyInfoOne" resultType="map" parameterType="map">
+        /* getDutyInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_DUTY_INFO CDI
+        WHERE
+            DUTY_INFO_SN = #{pk}
     </select>
 
     <insert id="setEduInfoInsert" parameterType="map">
@@ -968,4 +1017,145 @@
                 #{regEmpSeq}
             )
     </insert>
+
+    <update id="setEduCodeUpd" parameterType="map">
+        /* setEduCodeUpd */
+        UPDATE
+            CAMPUS.DJ_CAMPUS_CODE
+        SET
+            CAMPUS_DT_CODE_NM = #{reqText}
+        WHERE
+            CAMPUS_GROUP_CODE_ID = #{groupCode}
+        AND CAMPUS_DT_CODE = #{pk}
+    </update>
+
+    <update id="setEduCategoryUpd" parameterType="map">
+        /* setEduCategoryUpd */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY
+        SET
+            EDU_CATEGORY_NAME = #{reqText}
+        WHERE
+            EDU_CATEGORY_ID = #{pk}
+    </update>
+
+    <update id="setEduCategoryDetailUpd" parameterType="map">
+        /* setEduCategoryDetailUpd */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL
+        SET
+            EDU_CATEGORY_DETAIL_NAME = #{reqText},
+            LEVEL_ID = #{level},
+            LEVEL_NAME = #{levelName}
+        WHERE
+            EDU_CATEGORY_DETAIL_ID = #{pk}
+    </update>
+
+    <update id="setEduCodeDel" parameterType="map">
+        /* setEduCodeDel */
+        UPDATE
+            CAMPUS.DJ_CAMPUS_CODE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            CAMPUS_GROUP_CODE_ID = #{groupCode}
+        AND CAMPUS_DT_CODE IN (${pk})
+    </update>
+
+    <update id="setEduCategoryDel" parameterType="map">
+        /* setEduCategoryDel */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY
+        SET
+            ACTIVE = 'N'
+        WHERE
+            EDU_CATEGORY_ID IN (#{pk})
+    </update>
+
+    <update id="setEduCategoryDetailDel" parameterType="map">
+        /* setEduCategoryDetailDel */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL
+        SET
+            ACTIVE = 'N'
+        WHERE
+            EDU_CATEGORY_DETAIL_ID IN (#{pk})
+    </update>
+
+    <insert id="setDutyInfoIns" parameterType="map">
+        /* setDutyInfoIns */
+        INSERT INTO CAMPUS.DJ_DUTY_INFO
+            (
+                DUTY_MONTH,
+                DUTY_NAME,
+                OUTLINE_NAME,
+                OUTLINE_DETAIL,
+                INTERNAL,
+                EXTERNAL,
+                APP_LINE,
+                ABILITY_A,
+                ABILITY_B,
+                ABILITY_C,
+                ABILITY_D,
+                ABILITY_E,
+                RESPONSIBILITY,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{dutyMonth},
+                #{dutyName},
+                #{outlineName},
+                #{outlineDetail},
+                #{internal},
+                #{external},
+                #{appLine},
+                #{abilityA},
+                #{abilityB},
+                #{abilityC},
+                #{abilityD},
+                #{abilityE},
+                #{responsibility},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <insert id="setDutyInfoUpd" parameterType="map">
+        /* setDutyInfoUpd */
+        UPDATE
+            CAMPUS.DJ_DUTY_INFO
+        SET
+            DUTY_MONTH = #{dutyMonth},
+            DUTY_NAME = #{dutyName},
+            OUTLINE_NAME = #{outlineName},
+            OUTLINE_DETAIL = #{outlineDetail},
+            INTERNAL = #{internal},
+            EXTERNAL = #{external},
+            APP_LINE = #{appLine},
+            ABILITY_A = #{abilityA},
+            ABILITY_B = #{abilityB},
+            ABILITY_C = #{abilityC},
+            ABILITY_D = #{abilityD},
+            ABILITY_E = #{abilityE},
+            RESPONSIBILITY = #{responsibility}
+        WHERE
+            DUTY_INFO_SN = #{pk}
+    </insert>
+
+    <update id="setDutyCertReq" parameterType="map">
+        /* setDutyCertReq */
+        UPDATE
+            CAMPUS.DJ_DUTY_INFO
+        SET
+            STATUS = #{status}
+            <if test='"100".equals(status)'>
+                , APPROVAL_EMP_SEQ = #{regEmpSeq}
+                , APPROVAL_EMP_NAME = #{regEmpName}
+                , REG_DT = NOW()
+            </if>
+        WHERE
+            DUTY_INFO_SN = #{pk}
+    </update>
 </mapper>
