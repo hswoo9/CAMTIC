@@ -142,4 +142,6 @@ public interface AssetService {
     void setBookImg(Map<String, Object> params);
 
     Map<String, Object> getApprovalData(Map<String, Object> params);
+
+    void delBookCode(Map<String, Object> params);
 }

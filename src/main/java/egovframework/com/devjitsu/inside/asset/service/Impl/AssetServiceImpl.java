@@ -1052,4 +1052,9 @@ public class AssetServiceImpl implements AssetService {
     public Map<String, Object> getApprovalData(Map<String, Object> params) {
         return assetRepository.getApprovalData(params);
     }
+
+    @Override
+    public void delBookCode(Map<String, Object> params) {
+        assetRepository.delBookCode(params);
+    }
 }

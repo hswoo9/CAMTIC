@@ -36,9 +36,10 @@
                             <span class="red-star">*</span>도서분류
                         </th>
                         <td colspan="3">
-                            <input type="text" id="bkLgCd" style="width: 30%;">
-                            <input type="text" id="bkMdCd" style="width: 30%;">
-<%--                            <input type="text" id="bkCd" style="width: 30%;">--%>
+                            <input type="text" id="bkLgCd" style="width: 25%;">
+                            <input type="text" id="bkMdCd" style="width: 25%;">
+                            <input type="text" id="bkCd" style="width: 30%;">
+                            <button type="button" class="k-button k-button-solid-primary" style="margin-right:5px;" onclick="bookCdPop.delCode()">삭제</button>
                         </td>
                     </tr>
                     <tr>

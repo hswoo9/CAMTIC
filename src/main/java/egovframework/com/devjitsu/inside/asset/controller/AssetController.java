@@ -894,6 +894,18 @@ public class AssetController {
         return "/popup/inside/asset/approvalFormPopup/equipApprovalPop";
     }
 
+    @RequestMapping("/bookCode/delBookCode")
+    public String delBookCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            assetService.delBookCode(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     //도서리스트
     @RequestMapping("/Inside/bookList.do")
     public String bookList(HttpServletRequest request, Model model) {

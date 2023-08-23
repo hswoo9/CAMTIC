@@ -217,4 +217,8 @@ public class AssetRepository extends AbstractDAO {
     public Map<String, Object> getApprovalData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("asset.getApprovalData", params);
     }
+
+    public void delBookCode(Map<String, Object> params) {
+        update("asset.delBookCode", params);
+    }
 }

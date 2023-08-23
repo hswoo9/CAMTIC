@@ -173,7 +173,7 @@ var bookList = {
     bookCodePopup: function() {
         var url = "/inside/Pop/bookCodePop.do";
         var name = "bookCodePop";
-        var option = "width = 800, height = 400, top = 100, left = 200, location = no, _blank"
+        var option = "width = 985, height = 400, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     }
 
