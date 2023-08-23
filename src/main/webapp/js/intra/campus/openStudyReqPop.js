@@ -1,6 +1,7 @@
 const openStudyReq = {
     global: {
-        openStudyInfo: {}
+        openStudyInfo: {},
+        openStudyUser: []
     },
 
     init: function(){
@@ -16,6 +17,11 @@ const openStudyReq = {
         customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");
         $("#openStudyDt, #startTime, #endTime").attr("readonly", true);
+
+        let mode = $("#mode").val();
+        if(mode == "upd" || mode == "mng"){
+            window.resizeTo(990, 900);
+        }
     },
 
     dataSet: function(){
@@ -32,10 +38,28 @@ const openStudyReq = {
             $("#endTime").val(openStudyInfo.END_TIME);
             $("#openStudyDetail").val(openStudyInfo.OPEN_STUDY_DETAIL);
             $("#openStudyLocation").val(openStudyInfo.OPEN_STUDY_LOCATION);
+            $("#stepTr").show();
+            let stepText = "";
+            if(openStudyInfo.STEP == "A"){
+                stepText = "작성중";
+            }else if(openStudyInfo.STEP == "B"){
+                stepText = "참여자 모집";
+            }else if(openStudyInfo.STEP == "C"){
+                stepText = "모임확정";
+            }else if(openStudyInfo.STEP == "D"){
+                stepText = "모임완료";
+            }else if(openStudyInfo.STEP == "N"){
+                stepText = "모임취소";
+            }else{
+                stepText = "데이터오류";
+            }
+            $("#stepTd").text(stepText);
+
+            openStudyReq.openStudyUserSetting();
         }
 
-        let status = openStudyReq.global.openStudyInfo.STATUS;
-        if((mode == "upd" && status == 10) || (mode == "upd" && status == 100) || mode == "mng"){
+        let step = openStudyReq.global.openStudyInfo.STEP;
+        if(mode == "upd" && step != "A"){
             $("#openStudyDt").data("kendoDatePicker").enable(false);
             $("#startTime").data("kendoTimePicker").enable(false);
             $("#endTime").data("kendoTimePicker").enable(false);
@@ -46,63 +70,75 @@ const openStudyReq = {
     buttonSet: function(){
         let mode = $("#mode").val();
         let studyInfo = openStudyReq.global.openStudyInfo;
-        let status = openStudyReq.global.openStudyInfo.STATUS;
         let step = openStudyReq.global.openStudyInfo.STEP;
         let regEmpSeq = $("#regEmpSeq").val();
         if(mode == "upd"){
-            if(step == "B"){
-                $("#stepBBtn").show();
+            /** 작성단계 */
+            if(step == "A"){
+                if(studyInfo.REG_EMP_SEQ == regEmpSeq){
+                    $("#stepBBtn").show();
+                }
+            }else{
+                $("#saveBtn").hide();
             }
-            if(step == "C"){
+
+            /** 참여자모집중 */
+            if(step == "B"){
                 if(studyInfo.REG_EMP_SEQ == regEmpSeq){
                     $("#stepCBtn").show();
                 }else{
                     $("#stepBReqBtn").show();
                 }
             }
-        }
 
-        if(mode == "upd"){
-            if(status == 0 || status == 30){
-                $("#appBtn").show();
-            }
-        }
-        if(mode == "mng"){
-            $("#saveBtn").hide();
-            if(status == 10){
-                $("#recBtn").show();
-                $("#comBtn").show();
+            /** 모임확정 */
+            if(step == "C"){
+                if(studyInfo.REG_EMP_SEQ == regEmpSeq){
+                    $("#stepDBtn").show();
+                    $("#stepNBtn").show();
+                }else{
+                    $("#stepBReqBtn").show();
+                }
             }
         }
     },
 
-    setOpenStudyUser: function(){
-        if(!confirm("참여신청을 하시겠습니까?")){
-            return;
-        }
-
-        let regEmpSeq = $("#regEmpSeq").val();
-        let regEmpName = $("#regEmpName").val();
-        let regDeptName = $("#regDeptName").val();
-        let regTeamSeq = $("#regTeamSeq").val();
-        let regPositionName = $("#regPositionName").val();
-        let regDutyName = $("#regDutyName").val();
-
+    openStudyUserSetting: function(){
         let data = {
-            regEmpSeq: regEmpSeq,
-            regEmpName: regEmpName,
-            regDeptName: regDeptName,
-            regTeamSeq: regTeamSeq,
-            regPositionName: regPositionName,
-            regDutyName: regDutyName,
             pk: $("#pk").val()
         }
+        const result = customKendo.fn_customAjax("/campus/getOpenStudyUserList", data);
+        openStudyReq.global.openStudyUser = result.list;
+        let list = openStudyReq.global.openStudyUser;
 
-        let url = "/campus/setOpenStudyUser";
-        const result = customKendo.fn_customAjax(url, data);
-        if(result.flag){
-            alert("오픈스터디 저장이 완료되었습니다.");
+        let html = '';
+        html += '<colgroup>';
+        html += '<col width="10%"><col width="18%"><col width="18%"><col width="18%"><col width="18%"><col width="18%">';
+        html += '</colgroup>';
+
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>순번</th>';
+        html += '<th>성명</th>';
+        html += '<th>직위</th>';
+        html += '<th>부서/팀</th>';
+        html += '<th>신청일시</th>';
+        html += '<th>신청상태</th>';
+        html += '</tr>';
+
+        for(let i=0; i<list.length; i++){
+            html += '<tr class="addData">';
+            html += '<td style="text-align: center">'+(i+1)+'</td>';
+            html += '<td style="text-align: center">'+list[i].REG_EMP_NAME+'</td>';
+            let position = list[i].REG_DUTY_NAME == "" ? list[i].REG_POSITION_NAME : list[i].REG_DUTY_NAME;
+            html += '<td style="text-align: center">'+position+'</td>';
+            html += '<td style="text-align: center">'+list[i].REG_DEPT_NAME+" "+list[i].REG_TEAM_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].REG_DATE+'</td>';
+            html += '<td style="text-align: center">신청완료</td>';
+            html += '</tr>';
         }
+        $("#openStudyUserTable").html(html);
+        $("#openStudyUserDiv").show();
     },
 
     saveBtn: function(){
@@ -151,6 +187,24 @@ const openStudyReq = {
     },
 
     fn_openNextStep: function(step){
+        if(step == "B"){
+            if(!confirm("참여자를 모집하시겠습니까? \n 모집중에는 내용을 변경할 수 없습니다.")){
+                return;
+            }
+        }else if(step == "C"){
+            if(!confirm("모임을 확정 하시겠습니까?")){
+                return;
+            }
+            if($("#openStudyUserTable .addData").length < 5){
+                alert("오픈스터디는 최소 5인 이상되어야 모임을 확정할 수 있습니다.");
+                return;
+            }
+        }else if(step == "N"){
+            if(!confirm("모임을 취소하시겠습니까?")){
+                return;
+            }
+        }
+
         let data = {
             pk : $("#pk").val(),
             regEmpSeq : $("#regEmpSeq").val(),
@@ -164,31 +218,50 @@ const openStudyReq = {
             if(step == "B"){
                 alert("모집을 진행합니다.");
             }
+            if(step == "C"){
+                alert("모임이 확정되었습니다.");
+            }
+            if(step == "N"){
+                alert("모임이 취소되었습니다.");
+            }
             opener.gridReload();
             window.close();
         }
     },
 
-    fn_dutyCertReq: function(status){
+    setOpenStudyUser: function(){
+        if(!confirm("참여신청을 하시겠습니까?")){
+            return;
+        }
+
+        let regEmpSeq = $("#regEmpSeq").val();
+        let regEmpName = $("#regEmpName").val();
+        let regDeptName = $("#regDeptName").val();
+        let regTeamSeq = $("#regTeamSeq").val();
+        let regPositionName = $("#regPositionName").val();
+        let regDutyName = $("#regDutyName").val();
+
         let data = {
-            pk : $("#pk").val(),
-            regEmpSeq : $("#regEmpSeq").val(),
-            regEmpName : $("#regEmpName").val(),
-            status : status
+            regEmpSeq: regEmpSeq,
+            regEmpName: regEmpName,
+            regDeptName: regDeptName,
+            regTeamSeq: regTeamSeq,
+            regPositionName: regPositionName,
+            regDutyName: regDutyName,
+            pk: $("#pk").val()
         }
 
-        var result = customKendo.fn_customAjax("/campus/setDutyCertReq", data);
-
+        let url = "/campus/setOpenStudyUser";
+        const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
-            if(status == 10){
-                alert("승인 요청이 완료되었습니다.");
-            }else if(status == 100){
-                alert("승인되었습니다.");
-            }else if(status == 30){
-                alert("반려되었습니다.");
-            }
-            opener.gridReload();
-            window.close();
+            alert("참여신청이 완료되었습니다.");
+            openStudyReq.openStudyUserSetting();
         }
+    },
+
+    openStudyResultPop: function(){
+        let url = "/Campus/pop/openStudyResultPop.do?pk="+$("#pk").val();
+        const name = "_self";
+        window.open(url, name);
     }
 }

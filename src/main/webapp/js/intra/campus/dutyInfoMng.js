@@ -7,8 +7,7 @@ var dutyInfoMng = {
 
     dataSet: function(){
         fn_deptSetting();
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("dutyYear", 'decade', "yyyy", new Date());
         $("#startDay, #endDay").attr("readonly", true);
         let activeDataSource = [
             { text: "미포함", value: "Y" },

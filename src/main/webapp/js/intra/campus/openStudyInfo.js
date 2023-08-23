@@ -62,7 +62,7 @@ var openStudy = {
             },
             columns: [
                 {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "순번",
                     width: 50
                 }, {
@@ -73,9 +73,15 @@ var openStudy = {
                     title: "지도자",
                     width: 80
                 }, {
-                    field: "",
                     title: "구성원",
-                    width: 150
+                    width: 150,
+                    template: function(row){
+                        let text = row.MEMBER;
+                        if(row.MEMBER_COUNT != 0){
+                            text += " 외 "+row.MEMBER_COUNT+"명";
+                        }
+                        return text;
+                    }
                 }, {
                     title: "학습기간",
                     width: 300,
@@ -91,8 +97,18 @@ var openStudy = {
                     title: "진행현황",
                     width: 100,
                     template: function(row){
-                        if(row.STATUS == 0){
+                        if(row.STEP == "A"){
                             return "작성중";
+                        }else if(row.STEP == "B"){
+                            return "참여자 모집";
+                        }else if(row.STEP == "C"){
+                            return "모임확정";
+                        }else if(row.STEP == "D"){
+                            return "모임완료";
+                        }else if(row.STEP == "N"){
+                            return "모임취소";
+                        }else{
+                            return "데이터오류";
                         }
                     }
                 }
@@ -115,7 +131,7 @@ var openStudy = {
             url += "&pk="+pk;
         }
         const name = "openStudyReqPop";
-        const option = "width = 700, height = 548, top = 100, left = 400, location = no";
+        const option = "width = 990, height = 548, top = 100, left = 400, location = no";
         window.open(url, name, option);
     }
 }

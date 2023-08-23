@@ -92,6 +92,7 @@ public interface CampusService {
     Map<String, Object> getStudyJournalOne(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params);
     Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params);
+    List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params);
 
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
@@ -129,6 +130,7 @@ public interface CampusService {
     void setOpenStudyInfoUpd(Map<String, Object> params);
     void setOpenNextStep(Map<String, Object> params);
     void setOpenStudyUser(Map<String, Object> params);
+    void setOpenStudyResultUpd(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

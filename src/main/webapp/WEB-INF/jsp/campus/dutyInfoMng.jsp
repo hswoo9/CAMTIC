@@ -38,9 +38,7 @@
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="startDt" class="searchInput" style="width: 110px;">
-                            ~
-                            <input type="text" id="endDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="dutyYear" class="searchInput" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>

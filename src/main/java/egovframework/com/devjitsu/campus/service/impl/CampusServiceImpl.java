@@ -137,6 +137,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params){
+        return campusRepository.getOpenStudyUserList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEduStat(Map<String, Object> params){
         return campusRepository.getEduStat(params);
     }
@@ -235,6 +240,31 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setOpenStudyUser(Map<String, Object> params) {
         campusRepository.setOpenStudyUser(params);
+        List<Map<String, Object>> list = campusRepository.getOpenStudyUserList(params);
+        /** 참여자가 5명 이상일시 자동으로 모임확정단계로 넘어감 */
+        if(list.size() > 4){
+            Map<String, Object> data = campusRepository.getOpenStudyInfoOne(params);
+            if(data.get("STEP").equals("B")){
+                params.put("step", "C");
+                campusRepository.setOpenNextStep(params);
+            }
+        }
+    }
+
+    @Override
+    public void setOpenStudyResultUpd(Map<String, Object> params) {
+        campusRepository.setOpenStudyResultUpd(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> userList = gson.fromJson((String) params.get("userData"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(int i = 0 ; i < userList.size() ; i++){
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("userClass", userList.get(i).get("userClass"));
+            userData.put("userClassText", userList.get(i).get("userClassText"));
+            userData.put("pk", userList.get(i).get("pk"));
+            userData.put("partYN", userList.get(i).get("partYN"));
+            campusRepository.setOpenStudyUserResultUpd(userData);
+        }
     }
 
     @Override

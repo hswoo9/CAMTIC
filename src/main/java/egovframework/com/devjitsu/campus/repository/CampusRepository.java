@@ -85,6 +85,10 @@ public class CampusRepository extends AbstractDAO  {
         return (Map<String, Object>) selectOne("campus.getOpenStudyInfoOne", params);
     }
 
+    public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params) {
+        return selectList("campus.getOpenStudyUserList", params);
+    }
+
     public List<Map<String, Object>> getEduStat(Map<String, Object> params) {
         return selectList("campus.getEduStat", params);
     }
@@ -130,7 +134,9 @@ public class CampusRepository extends AbstractDAO  {
     public void setOpenStudyInfoIns(Map<String, Object> params) { insert("campus.setOpenStudyInfoIns", params); }
     public void setOpenStudyInfoUpd(Map<String, Object> params) { update("campus.setOpenStudyInfoUpd", params); }
     public void setOpenNextStep(Map<String, Object> params) { update("campus.setOpenNextStep", params); }
-    public void setOpenStudyUser(Map<String, Object> params) { update("campus.setOpenStudyUser", params); }
+    public void setOpenStudyUser(Map<String, Object> params) { insert("campus.setOpenStudyUser", params); }
+    public void setOpenStudyResultUpd(Map<String, Object> params) { update("campus.setOpenStudyResultUpd", params); }
+    public void setOpenStudyUserResultUpd(Map<String, Object> params) { update("campus.setOpenStudyUserResultUpd", params); }
 
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);

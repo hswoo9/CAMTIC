@@ -423,9 +423,12 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    COSI.*
+                    COSI.*,
+                    IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
+                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT
                 FROM
-                    CAMPUS.DJ_OPENSTUDY_INFO COSI
+                    CAMPUS.DJ_OPENSTUDY_INFO COSI,
+                    (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
                 ORDER BY COSI.REG_DT
@@ -439,6 +442,17 @@
             *
         FROM
             CAMPUS.DJ_OPENSTUDY_INFO COSI
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </select>
+
+    <select id="getOpenStudyUserList" resultType="map" parameterType="map">
+        /* getOpenStudyUserList */
+        SELECT
+            COSU.*,
+            DATE_FORMAT(COSU.REG_DT, '%Y-%m-%d %H:%i:%s') AS REG_DATE
+        FROM
+            CAMPUS.DJ_OPENSTUDY_USER COSU
         WHERE
             OPEN_STUDY_INFO_SN = #{pk}
     </select>
@@ -921,6 +935,30 @@
                 #{regDutyName}
             )
     </insert>
+
+    <update id="setOpenStudyResultUpd" parameterType="map">
+        /* setOpenStudyResultUpd */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            OPEN_STUDY_AMT = #{openStudyAmt},
+            OPEN_STUDY_AMT_TEXT = #{openStudyAmtText},
+            STEP = #{step}
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <update id="setOpenStudyUserResultUpd" parameterType="map">
+        /* setOpenStudyUserResultUpd */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_USER
+        SET
+            USER_CLASS = #{userClass},
+            USER_CLASS_TEXT = #{userClassText},
+            PART_YN = #{partYN}
+        WHERE
+            OPEN_STUDY_USER_SN = #{pk}
+    </update>
 
     <insert id="setTargetInsert" parameterType="map">
         /* setTargetInsert */
