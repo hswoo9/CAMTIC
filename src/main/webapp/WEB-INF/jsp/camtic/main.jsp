@@ -51,7 +51,7 @@
         <div class="roll2">
           <div class="swiper-wrapper">
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
-              <div class="tit" style="margin-left: 10px;">
+              <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">지역</span>과 함께 성장</dt>
                   <dd style="word-spacing: 15px;">
@@ -63,7 +63,7 @@
               </div>
             </div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
-              <div class="tit" style="margin-left: 10px;">
+              <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">기업</span>과 함께 성장</dt>
                   <dd style="word-spacing: 15px;">
@@ -75,7 +75,7 @@
               </div>
             </div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
-              <div class="tit" style="margin-left: 10px;">
+              <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">기술</span>과 함께 성장</dt>
                   <dd style="word-spacing: 15px;">
@@ -87,7 +87,7 @@
               </div>
             </div>
             <div class="box swiper-slide" style="background-image:url(/images/camtic/vis-bg.jpg);">
-              <div class="tit" style="margin-left: 10px;">
+              <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">직원</span>과 함께 성장</dt>
                   <dd style="word-spacing: 15px;">
