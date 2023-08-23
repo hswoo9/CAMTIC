@@ -94,10 +94,11 @@ public interface CampusService {
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
 
-    /** 직무기술서 시작 */
+    /** 직무관리 시작 */
     List<Map<String, Object>> getDutyInfoList(Map<String, Object> params);
     Map<String, Object> getDutyInfoOne(Map<String, Object> params);
-    /** 직무기술서 끝 */
+    List<Map<String, Object>> getDutyInfoMngList(Map<String, Object> params);
+    /** 직무관리 끝 */
 
 
 

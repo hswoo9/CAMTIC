@@ -797,6 +797,18 @@ public class CampusController {
         return "popup/campus/dutyInfoReqPop";
     }
 
+    /** 직무기술서 관리자 페이지 */
+    @RequestMapping("/Campus/dutyInfoMng.do")
+    public String dutyInfoMng(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/dutyInfoMng";
+    }
+
+
     //캠퍼스 - 학습신청서 전자결재
     @RequestMapping("/Campus/pop/campusApprovalPop.do")
     public String workHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -1045,6 +1057,14 @@ public class CampusController {
     public String getDutyInfoOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getDutyInfoOne(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 목표/직무기술서 리스트 */
+    @RequestMapping("/campus/getDutyInfoMngList")
+    public String getDutyInfoMngList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getDutyInfoMngList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 

@@ -146,6 +146,11 @@ public class CampusServiceImpl implements CampusService {
         return campusRepository.getDutyInfoOne(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getDutyInfoMngList(Map<String, Object> params){
+        return campusRepository.getDutyInfoMngList(params);
+    }
+
 
 
 

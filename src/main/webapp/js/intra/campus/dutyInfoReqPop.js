@@ -17,7 +17,8 @@ const dutyInfoReq = {
     },
 
     dataSet: function(){
-        if($("#mode").val() == "upd"){
+        let mode = $("#mode").val();
+        if(mode == "upd" || mode == "mng"){
             let dutyInfo = customKendo.fn_customAjax("/campus/getDutyInfoOne", {
                 pk: $("#pk").val()
             }).data;
@@ -37,13 +38,27 @@ const dutyInfoReq = {
             $("#abilityE").val(dutyInfo.ABILITY_E);
             $("#responsibility").val(dutyInfo.RESPONSIBILITY);
         }
+
+        let status = dutyInfoReq.global.dutyInfo.STATUS;
+        if((mode == "upd" && status == 10) || (mode == "upd" && status == 100) || mode == "mng"){
+            $("#dutyMonth").data("kendoDatePicker").enable(false);
+            $("#dutyName, #appLine, #outlineName, #outlineDetail, #internal, #external, #abilityA, #abilityB, #abilityC, #abilityD, #abilityE, #responsibility").attr("readonly", true);
+        }
     },
 
     buttonSet: function(){
-        let dutyInfo = dutyInfoReq.global.dutyInfo;
-        if($("#mode").val() == "upd"){
-            if(dutyInfo.STATUS == 0 || dutyInfo.STATUS == 30){
+        let mode = $("#mode").val();
+        let status = dutyInfoReq.global.dutyInfo.STATUS;
+        if(mode == "upd"){
+            if(status == 0 || status == 30){
                 $("#appBtn").show();
+            }
+        }
+        if(mode == "mng"){
+            $("#saveBtn").hide();
+            if(status == 10){
+                $("#recBtn").show();
+                $("#comBtn").show();
             }
         }
     },

@@ -57,7 +57,7 @@
   <div class="panel">
     <div class="panel-heading">
       <h4 class="panel-title">학습 목표기술서 설정</h4>
-      <div class="title-road">목표기술서관리 &gt; 학습체계도설정</div>
+      <div class="title-road">직무관리 &gt; 학습체계도설정</div>
     </div>
 
     <div class="panel-body">
