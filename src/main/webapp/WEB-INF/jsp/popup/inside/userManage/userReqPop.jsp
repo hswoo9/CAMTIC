@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
+
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <%--<style>
     table { background-color: #00000008; }
@@ -279,6 +281,9 @@
                     <th>생년월일</th>
                     <td>
                         <input type="text" id="bday" style="width: 50%;">
+                        <input type="checkbox" id="lunarYn" style="position : relative ; top: 3px; margin-left: 5px;"/>
+                        <label for="lunarYn" style="position : relative ; top: 1px;">음력</label>
+                        <span id="lunarBday"></span>
                     </td>
                     <th>긴급 연락처</th>
                     <td>
