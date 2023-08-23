@@ -645,6 +645,12 @@ var userReqPop = {
             DEGREE_CODE : $("#degreeCode").val(),
         }
 
+        if($("#lunarYn").is(":checked")){
+            data.LUNAR_CAL = "Y"
+        }else {
+            data.LUNAR_CAL = "N"
+        }
+
 
         if($("#weddingActive").getKendoRadioGroup().value() == "Y"){
             data.WEDDING_DAY = $("#weddingDay").val();

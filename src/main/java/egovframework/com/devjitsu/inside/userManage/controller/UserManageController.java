@@ -125,7 +125,7 @@ public class UserManageController {
         model.addAttribute("rList", userManageService.getRewardInfoList(map));
         model.addAttribute("dList", userManageService.getDutyInfoList(map));
         model.addAttribute("pList", userManageService.getProposalInfoList(map));
-        model.addAttribute("RewordList", userManageService.getReward2InfoList(map));
+        /*model.addAttribute("RewordList", userManageService.getReward2InfoList(map));*/
 
         return "inside/userManage/userPersonnelRecord";
     }
@@ -522,10 +522,12 @@ public class UserManageController {
     }
 
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
-    public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model) {
+    public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         String viewName = "";
 
         model.addAttribute("params", params);
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         switch(params.get("popName").toString()) {
             case "degree":
@@ -568,6 +570,13 @@ public class UserManageController {
         Map<String,Object> params = new HashMap<>();
         params.put("EMP_SEQ", login.getUniqId());
         params.put("EMP_NAME", login.getName());
+
+        params.put("regErpEmpCd", login.getErpEmpCd());
+        params.put("regDeptSeq", login.getDeptId());
+        params.put("regDeptName", login.getDeptNm());
+        params.put("regTeamSeq", login.getTeamId());
+        params.put("regTeamName", login.getTeamNm());
+
         params.putAll(map);
         switch(params.get("type").toString()) {
             case "degree":

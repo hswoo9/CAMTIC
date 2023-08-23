@@ -221,8 +221,8 @@
                 <tr>
                     <th>생년월일</th>
                     <td>
-                        ${uprinfList.BDAY}
-                        <span id="lunarBday"></span>
+                        <c:if test="${uprinfList.LUNAR_CAL eq 'N'}">${uprinfList.BDAY}</c:if>
+                        <c:if test="${uprinfList.LUNAR_CAL eq 'Y'}"><span id="lunarBday"></span></c:if>
                     </td>
                     <th>재직여부</th>
                     <td>
@@ -304,7 +304,7 @@
         if(birthday != null && birthday != ""){
             var lunarDay = solarToLunar(birthday.split("-")[0], birthday.split("-")[1], birthday.split("-")[2]);
 
-            $("#lunarBday").text("(음력 " + lunarDay + ")");
+            $("#lunarBday").text("음력 " + lunarDay);
         }
     })
 </script>

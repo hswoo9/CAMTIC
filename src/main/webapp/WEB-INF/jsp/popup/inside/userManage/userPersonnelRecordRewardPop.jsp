@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <%--<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>--%>
@@ -17,12 +18,13 @@
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
-      <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-      <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-      <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-      <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-      <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">--%>
+      <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+      <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+      <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+      <input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+      <input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+      <input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+      <input type="hidden" id="regErpEmpCd" value="${loginVO.erpEmpCd}"/>
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -33,6 +35,14 @@
         <%--<tr>
           <th colspan="3">상벌 사항</th>
         </tr>--%>
+        <tr>
+          <th>
+            <span class="red-star"></span>구분(내부/외부)
+          </th>
+          <td colspan="2">
+            <input type="text" id="rGubunOutIn" style="width: 50%;">
+          </td>
+        </tr>
         <tr>
           <th>
             <span class="red-star"></span>구분(표창/징계)
@@ -70,7 +80,7 @@
             <span class="red-star"></span>증명서
           </th>
           <td colspan="2">
-            <input type="file">
+            <input type="file" disabled>
           </td>
         </tr>
       </table>
@@ -86,17 +96,33 @@
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
+    /*customKendo.fn_textBox("rGubunOutIn");*/
     customKendo.fn_textBox("gubun");
     customKendo.fn_textBox("rIssue");
     customKendo.fn_textBox("agency");
 
+    /*$("#rGubunOutIn").kendoTextBox();*/
     $("#rGubun").kendoTextBox();
     $("#rIssue").kendoTextBox();
     $("#agency").kendoTextBox();
+
+    $("#rGubunOutIn").kendoDropDownList({
+      dataTextField: "text",
+      dataValueField: "value",
+      dataSource: [
+        { text: "선택하세요", value: "" },
+        { text: "[내부표창] ", value: "22" },
+        { text: "[외부표창] ", value: "33" }
+      ],
+      index: 0
+    });
   }
   function fu_addInfo() {
     var data = {
+      rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
+      rGubunOutInName : $("#rGubunOutIn").data("kendoDropDownList").text(),
       rGubun : $("#rGubun").val(),
+      rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
       sDate : $("#sDate").val(),
       rIssue : $("#rIssue").val(),
       agency : $("#agency").val(),
@@ -116,5 +142,6 @@
   }
   function fn_windowClose() {
     window.close();
+    /*opener.window.location.reload();*/
   }
 </script>
