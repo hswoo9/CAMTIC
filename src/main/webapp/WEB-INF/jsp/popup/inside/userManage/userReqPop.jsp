@@ -422,6 +422,19 @@
 <script>
     userReqPop.defaultScript();
     var idFlag = false;
+
+    $(function(){
+       var lunarCal = '${uprinfList.LUNAR_CAL}';
+       var bday = $("#bday").val();
+       if(lunarCal == "Y"){
+           $("#lunarYn").prop("checked", true);
+           var lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+           $("#lunarBday").text(lunarDay);
+       } else {
+           $("#lunarYn").val("N");
+           $("#lunarBday").text("");
+       }
+    });
     function onDisplay() {
 
         if($("#carActive").is(":checked")){
