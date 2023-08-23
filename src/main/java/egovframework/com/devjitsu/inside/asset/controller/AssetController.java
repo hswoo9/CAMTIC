@@ -1168,4 +1168,32 @@ public class AssetController {
     }
 
     /** 장비 증감률 통계 */
+
+
+    /** 직무발명신고서 조회 팝업*/
+    @RequestMapping("/Inside/pop/inventionPop.do")
+    public String inventionPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> map = new HashMap<>();
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        model.addAttribute("resultMap", assetService.getInventionInfo(params));
+
+        return "popup/inside/asset/inventionPop";
+    }
+
+    /** 포상금지급 신청서 조회 팝업*/
+    @RequestMapping("/Inside/pop/rprPop.do")
+    public String rprPop(HttpServletRequest request, Model model,  @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        model.addAttribute("resultMap", assetService.getInventionInfo(params));
+
+        return "popup/inside/asset/rprPop";
+    }
 }
