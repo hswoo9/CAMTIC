@@ -176,7 +176,7 @@
                         </c:if>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <th>증명사진</th>
                     <td colspan="3">
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
