@@ -338,6 +338,18 @@ var userReqPop = {
             labelPosition : "after",
         });
 
+        $("#lunarYn").on("click", function(){
+            var bday = $("#bday").val()
+
+            if($("#lunarYn").is(":checked")) {
+                var lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+                $("#lunarBday").text(lunarDay);
+            } else {
+                $("#lunarYn").val("N");
+                $("#lunarBday").text("");
+            }
+        });
+
     },
 
 

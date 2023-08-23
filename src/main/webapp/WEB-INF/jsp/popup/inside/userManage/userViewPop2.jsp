@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userViewPop2.js?v=1"></script>
+<script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
+
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -220,6 +222,7 @@
                     <th>생년월일</th>
                     <td>
                         ${uprinfList.BDAY}
+                        <span id="lunarBday"></span>
                     </td>
                     <th>재직여부</th>
                     <td>
@@ -294,4 +297,14 @@
 <script>
     userViewPop2.defaultScript();
     $("#resRegisNum").text(" (" + userViewPop2.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
+
+    $(function(){
+        var birthday = '${uprinfList.BDAY}';
+
+        if(birthday != null && birthday != ""){
+            var lunarDay = solarToLunar(birthday.split("-")[0], birthday.split("-")[1], birthday.split("-")[2]);
+
+            $("#lunarBday").text("(음력 " + lunarDay + ")");
+        }
+    })
 </script>
