@@ -488,6 +488,27 @@
             DUTY_INFO_SN = #{pk}
     </select>
 
+    <select id="getDutyInfoMngList" resultType="map" parameterType="map">
+        /* getDutyInfoMngList */
+        SELECT
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ), " ",HEI.DEPT_NAME) ELSE HEI.DEPT_NAME END AS DEPT,
+            CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION,
+            HEI.EMP_NAME_KR AS EMP_NAME,
+            HEI.OFFICE_TEL_NUM,
+            IFNULL(NULL, 'N') AS TARGET_CHECK,
+            IFNULL((SELECT SCDI.DUTY_INFO_SN FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{dutyYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_CHECK,
+            IFNULL((SELECT SCDI.STATUS FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{dutyYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_STATUS,
+            IFNULL((SELECT DATE_FORMAT(APPROVAL_RESULT_DATE, '%Y-%m-%d') FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = 2023 AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_APPROVAL_DATE
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+        AND WORK_STATUS_CODE = 'Y'
+        ORDER BY EMP_NAME_KR
+    </select>
+
     <insert id="setEduInfoInsert" parameterType="map">
         /* setEduInfoInsert */
         INSERT INTO CAMPUS.DJ_EDU_INFO
@@ -1086,6 +1107,7 @@
         /* setDutyInfoIns */
         INSERT INTO CAMPUS.DJ_DUTY_INFO
             (
+                DYTY_YEAR,
                 DUTY_MONTH,
                 DUTY_NAME,
                 OUTLINE_NAME,
@@ -1104,6 +1126,7 @@
             )
         VALUES
             (
+                LEFT(#{dutyMonth}, 4),
                 #{dutyMonth},
                 #{dutyName},
                 #{outlineName},
@@ -1153,7 +1176,7 @@
             <if test='"100".equals(status)'>
                 , APPROVAL_EMP_SEQ = #{regEmpSeq}
                 , APPROVAL_EMP_NAME = #{regEmpName}
-                , REG_DT = NOW()
+                , APPROVAL_RESULT_DATE = NOW()
             </if>
         WHERE
             DUTY_INFO_SN = #{pk}

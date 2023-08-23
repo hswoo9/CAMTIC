@@ -19,7 +19,7 @@
     <div class="panel">
         <div class="panel-heading">
             <h4 class="panel-title">목표기술서 작성</h4>
-            <div class="title-road">목표기술서관리 &gt; 목표기술서작성</div>
+            <div class="title-road">직무관리 &gt; 목표기술서작성</div>
         </div>
 
         <div class="panel-body">

@@ -103,7 +103,7 @@ var dutyInfo = {
 
     dutyInfoReqPop: function(mode, pk){
         let url = "/Campus/pop/dutyInfoReqPop.do?mode="+mode;
-        if(mode == "upd"){
+        if(mode == "upd" || mode == "mng"){
             url += "&pk="+pk;
         }
         const name = "dutyInfoReqPop";
