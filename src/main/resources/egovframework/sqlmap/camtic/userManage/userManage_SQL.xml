@@ -416,6 +416,7 @@
             SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon
         from
         (SELECT
+            ROUND((TO_DAYS(NOW()) - (TO_DAYS(REPLACE(STR_TO_DATE(a.BDAY, '%Y-%m-%d'), "-", "")))) / 365) AS age,
             a.*,
             (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =1) as dept_lv1,
             (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as parent_dept_seq,
@@ -450,48 +451,73 @@
                 A.GENDER_CODE in (${searchDetail2})
             </if>
             <if test='searchDetail3 != null and !"".equals(searchDetail3)'>
+                and
+                (A.DEPT_SEQ in (${searchDetail3})
                 <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
-                    and
-                    (A.parent_dept_seq in (${searchDetail3})
-                    or
-                    A.dept_lv2 in (${searchDetail4})
-                    or
-                    A.dept_lv1 in (${searchDetail3}))
+                    or A.DEPT_SEQ in (${searchDetail4})
                 </if>
-                <if test='searchDetail4 == null or "".equals(searchDetail4)'>
-                    and
-                    A.dept_lv1 in (${searchDetail3})
-                </if>
+                )
             </if>
-            <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
-                <if test='searchDetail3 != null and !"".equals(searchDetail3)'>
-                    and
-                    (A.parent_dept_seq in (${searchDetail3})
-                    or
-                    A.dept_lv2 in (${searchDetail4})
-                    or
-                    A.dept_lv1 in (${searchDetail3}))
-                </if>
-                <if test='searchDetail3 == null or "".equals(searchDetail3)'>
-                    and
-                    A.dept_lv2 in (${searchDetail4})
-                </if>
+
+        <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
+            <if test='searchDetail3 == null or "".equals(searchDetail3)'>
+                and
+                    A.DEPT_SEQ in (${searchDetail4})
             </if>
+        </if>
+<!--            <if test='searchDetail3 != null and !"".equals(searchDetail3)'>-->
+<!--                <if test='searchDetail4 != null and !"".equals(searchDetail4)'>-->
+<!--                    and-->
+<!--                    (A.parent_dept_seq in (${searchDetail3})-->
+<!--                    or-->
+<!--                    A.dept_lv2 in (${searchDetail4})-->
+<!--                    or-->
+<!--                    A.dept_lv1 in (${searchDetail3}))-->
+<!--                </if>-->
+<!--                <if test='searchDetail4 == null or "".equals(searchDetail4)'>-->
+<!--                    and-->
+<!--                    A.dept_lv1 in (${searchDetail3})-->
+<!--                </if>-->
+<!--            </if>-->
+<!--            <if test='searchDetail4 != null and !"".equals(searchDetail4)'>-->
+<!--                <if test='searchDetail3 != null and !"".equals(searchDetail3)'>-->
+<!--                    and-->
+<!--                    (A.parent_dept_seq in (${searchDetail3})-->
+<!--                    or-->
+<!--                    A.dept_lv2 in (${searchDetail4})-->
+<!--                    or-->
+<!--                    A.dept_lv1 in (${searchDetail3}))-->
+<!--                </if>-->
+<!--                <if test='searchDetail3 == null or "".equals(searchDetail3)'>-->
+<!--                    and-->
+<!--                    A.dept_lv2 in (${searchDetail4})-->
+<!--                </if>-->
+<!--            </if>-->
             <if test='searchDetail5 != null and !"".equals(searchDetail5)'>
                 and
-                A.DIVISION in (${searchDetail1})
+                A.DUTY_NAME in (${searchDetail5})
             </if>
             <if test='searchDetail6 != null and !"".equals(searchDetail6)'>
-                and
-                A.DIVISION in (${searchDetail1})
+                <if test="sd6_flag > 1">
+                    and
+                    <![CDATA[
+                        (A.age >= #{searchDetail6_1} AND A.age <= #{searchDetail6_2})
+                   ]]>
+                </if>
+                <if test="sd6_flag == 1">
+                    and
+                    <![CDATA[
+                        A.age >= #{searchDetail6}
+                    ]]>
+                </if>
             </if>
             <if test='searchDetail7 != null and !"".equals(searchDetail7)'>
                 and
-                A.DIVISION in (${searchDetail1})
+                SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) in (${searchDetail7})
             </if>
             <if test='searchDetail8 != null and !"".equals(searchDetail8)'>
                 and
-                A.DIVISION in (${searchDetail1})
+                A.DEGREE_CODE in (${searchDetail8})
             </if>
     </select>
     <insert id="setEducationalInfo" parameterType="map">
