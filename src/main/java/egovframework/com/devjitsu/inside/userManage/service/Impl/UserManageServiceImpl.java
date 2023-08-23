@@ -353,9 +353,9 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     /** 인사기록카드 포상 관리 추가*/
-    @Override
+    /*@Override
     public List<Map<String,Object>> getReward2InfoList (Map<String,Object> map) {
         return userManageRepository.getReward2InfoList(map);
-    }
+    }*/
 
 }

@@ -64,7 +64,7 @@ public interface UserManageService{
     Object setUserReqDetailUpdate(Map<String, Object> params);
 
     /** 인사기록카드 포상 관리 추가*/
-    List<Map<String,Object>> getReward2InfoList (Map<String,Object> map);
+    /*List<Map<String,Object>> getReward2InfoList (Map<String,Object> map);*/
 
 
 }

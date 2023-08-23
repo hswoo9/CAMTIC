@@ -415,6 +415,34 @@
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
+    <select id="getOpenStudyInfoList" resultType="map" parameterType="map">
+        /* getOpenStudyInfoList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    COSI.*
+                FROM
+                    CAMPUS.DJ_OPENSTUDY_INFO COSI
+                WHERE
+                    1=1
+                ORDER BY COSI.REG_DT
+            ) RE
+        ORDER BY RE.OPEN_STUDY_INFO_SN DESC
+    </select>
+
+    <select id="getOpenStudyInfoOne" resultType="map" parameterType="map">
+        /* getOpenStudyInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_OPENSTUDY_INFO COSI
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </select>
+
     <select id="getEduStat" resultType="map" parameterType="map">
         /* getEduStat */
         SELECT
@@ -790,7 +818,7 @@
                 #{journalDt},
                 #{journalStartTime},
                 #{journalEndTime},
-                CAST((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m')) AS UNSIGNED),
+                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m'))) / 3600),
                 #{studyLocation},
                 #{studyContent},
                 #{studyMoney},
@@ -815,6 +843,84 @@
         WHERE
             STUDY_JOURNAL_SN = #{studyJournalSn}
     </update>
+
+    <insert id="setOpenStudyInfoIns" parameterType="map">
+        /* setOpenStudyInfoIns */
+        INSERT INTO CAMPUS.DJ_OPENSTUDY_INFO
+            (
+                OPEN_STUDY_NAME,
+                OPEN_STUDY_DT,
+                START_TIME,
+                END_TIME,
+                EDU_TIME,
+                OPEN_STUDY_DETAIL,
+                OPEN_STUDY_LOCATION,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{openStudyName},
+                #{openStudyDt},
+                #{startTime},
+                #{endTime},
+                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                #{openStudyDetail},
+                #{openStudyLocation},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setOpenStudyInfoUpd" parameterType="map">
+        /* setOpenStudyInfoUpd */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            OPEN_STUDY_NAME = #{openStudyName},
+            OPEN_STUDY_DT = #{openStudyDt},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            EDU_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+            OPEN_STUDY_DETAIL = #{openStudyDetail},
+            OPEN_STUDY_LOCATION = #{openStudyLocation}
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <update id="setOpenNextStep" parameterType="map">
+        /* setOpenNextStep */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            STEP = #{step}
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <insert id="setOpenStudyUser" parameterType="map">
+        /* setOpenStudyUser */
+        INSERT INTO CAMPUS.DJ_OPENSTUDY_USER
+            (
+                OPEN_STUDY_INFO_SN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REG_DEPT_NAME,
+                REG_TEAM_NAME,
+                REG_POSITION_NAME,
+                REG_DUTY_NAME
+            )
+        VALUES
+            (
+                #{pk},
+                #{regEmpSeq},
+                #{regEmpName},
+                #{regDeptName},
+                #{regTeamSeq},
+                #{regPositionName},
+                #{regDutyName}
+            )
+    </insert>
 
     <insert id="setTargetInsert" parameterType="map">
         /* setTargetInsert */
@@ -1107,7 +1213,7 @@
         /* setDutyInfoIns */
         INSERT INTO CAMPUS.DJ_DUTY_INFO
             (
-                DYTY_YEAR,
+                DUTY_YEAR,
                 DUTY_MONTH,
                 DUTY_NAME,
                 OUTLINE_NAME,

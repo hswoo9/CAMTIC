@@ -613,7 +613,7 @@ public class CampusController {
         return "campus/ojtInfo";
     }
 
-    //오픈스터디관리
+    /** 오픈스터디 페이지 */
     @RequestMapping("/Campus/openStudyInfo.do")
     public String openStudyInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -622,6 +622,17 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "campus/openStudyInfo";
+    }
+
+    /** 오픈스터디 작성 팝업 */
+    @RequestMapping("/Campus/pop/openStudyReqPop.do")
+    public String openStudyReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/openStudyReqPop";
     }
 
     //공통학습관리(캠화지등)
@@ -1026,6 +1037,22 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 오픈스터디 리스트 */
+    @RequestMapping("/campus/getOpenStudyInfoList")
+    public String getOpenStudyInfoList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getOpenStudyInfoList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 단일 데이터  */
+    @RequestMapping("/campus/getOpenStudyInfoOne")
+    public String getOpenStudyInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getOpenStudyInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 개인학습 통계 리스트  */
     @RequestMapping("/campus/getEduStat")
     @ResponseBody
@@ -1117,6 +1144,34 @@ public class CampusController {
     @RequestMapping("/campus/setStudyJournalApp")
     public String setStudyJournalApp(@RequestParam Map<String, Object> params) {
         campusService.setStudyJournalApp(params);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 등록 */
+    @RequestMapping("/campus/setOpenStudyInfoIns")
+    public String setOpenStudyInfoIns(@RequestParam Map<String, Object> params) {
+        campusService.setOpenStudyInfoIns(params);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 수정 */
+    @RequestMapping("/campus/setOpenStudyInfoUpd")
+    public String setOpenStudyInfoUpd(@RequestParam Map<String, Object> params) {
+        campusService.setOpenStudyInfoUpd(params);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 단계 진행 프로세스 */
+    @RequestMapping("/campus/setOpenNextStep")
+    public String setOpenNextStep(@RequestParam Map<String, Object> params) {
+        campusService.setOpenNextStep(params);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 참여자 등록 */
+    @RequestMapping("/campus/setOpenStudyUser")
+    public String setOpenStudyUser(@RequestParam Map<String, Object> params) {
+        campusService.setOpenStudyInfoIns(params);
         return "jsonView";
     }
 

@@ -125,7 +125,7 @@ const dutyInfoReq = {
         }
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
-            alert("직무기술서이 완료되었습니다.");
+            alert("직무기술서 저장이 완료되었습니다.");
             opener.gridReload();
             window.close();
         }

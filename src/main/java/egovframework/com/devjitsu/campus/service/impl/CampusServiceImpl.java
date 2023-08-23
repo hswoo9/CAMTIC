@@ -127,6 +127,16 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params){
+        return campusRepository.getOpenStudyInfoList(params);
+    }
+
+    @Override
+    public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params){
+        return campusRepository.getOpenStudyInfoOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEduStat(Map<String, Object> params){
         return campusRepository.getEduStat(params);
     }
@@ -205,6 +215,26 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setStudyJournalApp(Map<String, Object> params) {
         campusRepository.setStudyJournalApp(params);
+    }
+
+    @Override
+    public void setOpenStudyInfoIns(Map<String, Object> params) {
+        campusRepository.setOpenStudyInfoIns(params);
+    }
+
+    @Override
+    public void setOpenStudyInfoUpd(Map<String, Object> params) {
+        campusRepository.setOpenStudyInfoUpd(params);
+    }
+
+    @Override
+    public void setOpenNextStep(Map<String, Object> params) {
+        campusRepository.setOpenNextStep(params);
+    }
+
+    @Override
+    public void setOpenStudyUser(Map<String, Object> params) {
+        campusRepository.setOpenStudyUser(params);
     }
 
     @Override
