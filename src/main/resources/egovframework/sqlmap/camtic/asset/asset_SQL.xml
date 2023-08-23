@@ -1632,7 +1632,7 @@
     <select id="getBookList" resultType="map">
         /* getBookList */
         SELECT
-            RE.*
+            *
         FROM
             (
                 SELECT

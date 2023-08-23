@@ -117,7 +117,12 @@ var bookList = {
                     title: "순번",
                     width: 200,
                     template: function(e){
-
+                        console.log(e)
+                        if(e.file_path != null && e.file_path != ""){
+                            return  "<div class='customer-photo' style='background-size: cover; height : 200px;background-image: url("+e.file_path + e.file_uuid +");'></div>";
+                        } else {
+                            return "<div class='customer-photo' style='background-size: cover; height : 200px;background-image: url(/upload/Inside/undefined.png);'></div>";
+                        }
                     }
                 }, {
                     title: "코드",
