@@ -145,7 +145,7 @@ public class UserManageRepository extends AbstractDAO {
     }
 
     /** 인사기록카드 포상 관리 추가*/
-    public List<Map<String,Object>> getReward2InfoList (Map<String,Object> map) {
+    /*public List<Map<String,Object>> getReward2InfoList (Map<String,Object> map) {
         return selectList("userManage.getReward2InfoList", map);
-    }
+    }*/
 }

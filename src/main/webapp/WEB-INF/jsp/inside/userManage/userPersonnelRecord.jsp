@@ -584,7 +584,7 @@
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                    <c:forEach var="l" items="${RewordList}" varStatus="status">
+                                    <%--<c:forEach var="l" items="${RewordList}" varStatus="status">
                                         <c:if test="${l.REWORD_ID ne null}">
                                             <tr>
                                                 <td><input type='checkbox' name='rewordChk2' id='rewordChk2${l.REWORD_ID}' class='k-checkbox checkbox'></td>
@@ -597,7 +597,7 @@
                                                 <td></td>
                                             </tr>
                                         </c:if>
-                                    </c:forEach>
+                                    </c:forEach>--%>
                                     </thead>
                                 </table>
                             </div>
