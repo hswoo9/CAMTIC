@@ -21,7 +21,8 @@ var equipmentListAdminView = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : new Date(now.setMonth(now.getMonth() + 2))
+
         });
 
         $("#searchType").kendoDropDownList({
@@ -169,9 +170,6 @@ var equipmentListAdminView = {
             dataBound : equipmentListAdminView.onDataBound,
             columns: [
                 {
-                    field: "SORT_SN",
-                    title: "순번"
-                }, {
                     field: "EQIPMN_GBN_NAME",
                     title: "구분"
                 }, {

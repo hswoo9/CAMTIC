@@ -21,7 +21,7 @@ var equipmentList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : new Date(now.setMonth(now.getMonth() + 2))
         });
 
         $("#searchType").kendoDropDownList({
@@ -165,9 +165,6 @@ var equipmentList = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="equipmentList.fn_checkAll();" style="position : relative; top : 2px;"/>',
                     template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#'/>",
                     width: 50
-                }, {
-                    field: "SORT_SN",
-                    title: "순번"
                 }, {
                     field: "EQIPMN_GBN_NAME",
                     title: "구분"
