@@ -166,7 +166,7 @@ var bookList = {
             url = "/Inside/Pop/bookRegisPop.do?bkSn="+key;
         }
         var name = "bookRegisPop";
-        var option = "width = 1000, height = 590, top = 100, left = 200, location = no, _blank"
+        var option = "width = 1000, height = 720, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
 

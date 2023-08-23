@@ -146,6 +146,7 @@ var bookRegisPop = {
         $("#bkMng").data("kendoDropDownList").value(e.BK_MNG_SEQ);
         $("#bkMngSub").data("kendoDropDownList").value(e.BK_MNG_SUB_SEQ);
         $("#bkBuyDt").val(e.BK_BUY_DT);
+        $("#bkSmry").val(e.BK_SMRY);
 
     },
 
@@ -246,27 +247,31 @@ var bookRegisPop = {
                     formData.append("menuCd", $("#menuCd").val());
                     formData.append("empSeq", $("#empSeq").val());
                     formData.append("bkSn", result.params.bkSn);
-                    if($("#imgFile")[0].files.length == 1){ //개인사진
+                    if($("#imgFile")[0].files.length == 1) { //개인사진
                         formData.append("imgFile", $("#imgFile")[0].files[0]);
-                    }
 
-                    $.ajax({
-                        url: '/inside/setBookImgFile',
-                        data: formData,
-                        type: "post",
-                        async : false,
-                        datatype: "json",
-                        contentType: false,
-                        processData: false,
-                        success: function () {
-                            alert("저장이 완료되었습니다.");
-                            opener.gridReload();
-                            window.close();
-                        },
-                        error : function(){
-                            alert("정보 등록 중 에러가 발생했습니다.");
-                        }
-                    });
+                        $.ajax({
+                            url: '/inside/setBookImgFile',
+                            data: formData,
+                            type: "post",
+                            async: false,
+                            datatype: "json",
+                            contentType: false,
+                            processData: false,
+                            success: function () {
+                                alert("저장이 완료되었습니다.");
+                                opener.gridReload();
+                                window.close();
+                            },
+                            error: function () {
+                                alert("정보 등록 중 에러가 발생했습니다.");
+                            }
+                        });
+                    } else {
+                        alert("저장이 완료되었습니다.");
+                        opener.gridReload();
+                        window.close();
+                    }
                 }
             },
             error : function() {
