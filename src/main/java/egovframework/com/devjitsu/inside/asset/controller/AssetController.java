@@ -950,7 +950,9 @@ public class AssetController {
         model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("params", params);
-        model.addAttribute("img", assetService.getBookInfoOne(params));
+        if(params.containsKey("bkSn")){
+            model.addAttribute("img", assetService.getBookInfoOne(params));
+        }
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/bookRegisPop";
     }

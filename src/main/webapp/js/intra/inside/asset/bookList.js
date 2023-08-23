@@ -115,7 +115,10 @@ var bookList = {
                 {
                     field: "ROW_NUM",
                     title: "순번",
-                    width: 40
+                    width: 200,
+                    template: function(e){
+
+                    }
                 }, {
                     title: "코드",
                     template : function(row){

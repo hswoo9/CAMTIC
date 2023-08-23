@@ -1664,6 +1664,8 @@
                 </choose>
                 ORDER BY IBI.REG_DT
             ) RE
+        LEFT JOIN (SELECT * FROM CAM_COMMON.dj_file_info ORDER BY FILE_NO DESC LIMIT 1) FI
+        ON RE.BK_FILE_SN = FI.FILE_NO
         ORDER BY RE.ROW_NUM DESC
     </select>
 
