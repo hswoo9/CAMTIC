@@ -180,15 +180,15 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {name: "15세~25세", value: ""},
-                {name: "26세~30세", value: ""},
-                {name: "31세~35세", value: ""},
-                {name: "36세~40세", value: ""},
-                {name: "41세~45세", value: ""},
-                {name: "46세~50세", value: ""},
-                {name: "51세~55세", value: ""},
-                {name: "56세~60세", value: ""},
-                {name: "61세~", value: ""}
+                {name: "15세~25세", value: "15,25"},
+                {name: "26세~30세", value: "26,30"},
+                {name: "31세~35세", value: "31,35"},
+                {name: "36세~40세", value: "36,40"},
+                {name: "41세~45세", value: "41,45"},
+                {name: "46세~50세", value: "46,50"},
+                {name: "51세~55세", value: "51,55"},
+                {name: "56세~60세", value: "56,60"},
+                {name: "61세~", value: "61"}
             ],
             dataTextField: "name",
             dataValueField: "value"
