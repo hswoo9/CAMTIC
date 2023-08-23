@@ -137,7 +137,7 @@ var bookRegisPop = {
         $("#bkName").val(e.BK_NAME);
         $("#bkWriter").val(e.BK_WRITER);
         $("#bkPubl").val(e.BK_PUBL);
-        $("#bkCost").val(e.BK_BUY_COST);
+        $("#bkCost").val(bookRegisPop.fn_comma(e.BK_BUY_COST));
         $("#bkCnt").val(e.BK_BUY_CNT);
         $("#bkDept").data("kendoDropDownList").value(e.BK_DEPT_SEQ);
         $("#bkBuyer").data("kendoDropDownList").value(e.BK_BUYER);

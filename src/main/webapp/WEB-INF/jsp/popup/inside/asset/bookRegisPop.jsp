@@ -142,6 +142,24 @@
 
 <script>
     bookRegisPop.fn_defaultScript();
+
+    //개인사진 첨부 이미지 미리보기
+    function viewMyPhoto(input) {
+        if(input.files[0].size > 10000000){
+            alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
+            return;
+        }
+
+        if(input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#myPhotoView').attr('src', e.target.result);
+                $('#myPhotoView').css('display', 'block');
+                $('#myPhotoViewText').css('display', 'none');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 </body>
 </html>
