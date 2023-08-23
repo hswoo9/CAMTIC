@@ -1095,6 +1095,14 @@ public class AssetController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getApprovalData")
+    public String getApprovalData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getApprovalData(params));
+
+        return "jsonView";
+    }
+
     /** 장비 전자결재 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/inside/equipReqApp")
     public String equipReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {

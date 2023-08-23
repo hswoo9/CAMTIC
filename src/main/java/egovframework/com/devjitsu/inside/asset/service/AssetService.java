@@ -140,4 +140,6 @@ public interface AssetService {
     Map<String, Object> getBookInfoOne(Map<String, Object> params);
 
     void setBookImg(Map<String, Object> params);
+
+    Map<String, Object> getApprovalData(Map<String, Object> params);
 }

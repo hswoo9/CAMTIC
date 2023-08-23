@@ -1,4 +1,10 @@
 const equipApp = {
+
+    global: {
+        flag : true,
+        data : ""
+    },
+
     init: function () {
         equipApp.pageSet();
         equipApp.dataSet();
@@ -29,14 +35,22 @@ const equipApp = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 data = result.list[0];
+
+                equipApp.global.flag = result.flag;
+                equipApp.global.data = data;
+                if(!result.flag){
+                    $("#eqipnmApprovalSn").val(data.eqipnmApprovalSn);
+                }
                 //신청가능(중복없음) true
-                if(result.flag == "true") {
+                if(data.STATUS == "0") {
                     $("#approvalBtn").show();
+                    $("#approvalViewBtn").hide();
+
                     $("#statusText").text("신청가능");
                 }else{
                     $("#approvalBtn").hide();
+                    $("#approvalViewBtn").show();
                     if(data.STATUS == "0"){
                         $("#statusText").text("미결재");
                     }else if(data.STATUS == "10"){
@@ -65,7 +79,28 @@ const equipApp = {
             regEmpSeq: $("#searchDe").val(),
             regEmpName: $("#regEmpName").val()
         }
-        equipApp.setEquipApprovalInfo(data);
+
+
+        if(equipApp.global.flag == "true"){
+            equipApp.setEquipApprovalInfo(data);
+        } else {
+            equipApp.equipDrafting();
+        }
+    },
+
+    viewBtn:function (){
+        console.log(equipApp.global.data)
+
+        $.ajax({
+            url : "/inside/getApprovalData",
+            data : equipApp.global.data,
+            type :"post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs)
+                // approveDocView(equipApp.global.data.DOC_ID)
+            }
+        });
     },
 
     setEquipApprovalInfo: function(data){

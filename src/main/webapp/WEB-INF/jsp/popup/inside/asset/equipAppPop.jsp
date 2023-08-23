@@ -65,6 +65,7 @@
             </div>
             <div class="btn-st" style="text-align:center; margin-top: 5px;">
                 <input type="button" id="approvalBtn" style="" class="k-button k-button-solid k-button-solid-info" value="결재" onclick="equipApp.saveBtn()"/>
+                <input type="button" id="approvalViewBtn" style="" class="k-button k-button-solid k-button-solid-info" value="결재문서" onclick="equipApp.viewBtn()"/>
             </div>
         </div>
     </div>

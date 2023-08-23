@@ -1047,4 +1047,9 @@ public class AssetServiceImpl implements AssetService {
     public void setBookImg(Map<String, Object> params) {
         assetRepository.setBookImg(params);
     }
+
+    @Override
+    public Map<String, Object> getApprovalData(Map<String, Object> params) {
+        return assetRepository.getApprovalData(params);
+    }
 }

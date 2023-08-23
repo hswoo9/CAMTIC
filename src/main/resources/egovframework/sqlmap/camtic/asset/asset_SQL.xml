@@ -2119,4 +2119,12 @@
             BK_SN = #{bkSn}
     </update>
 
+    <select id="getApprovalData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_APPROVAL.DJ_DOC_INFO
+        WHERE
+            DOC_ID = #{DOC_ID}
+    </select>
 </mapper>
