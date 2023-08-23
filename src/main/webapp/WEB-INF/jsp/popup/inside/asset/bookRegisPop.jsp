@@ -117,7 +117,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <img id="myPhotoView" width="150px;" height="180px;" style="cursor:pointer; display: none;">
-                                        <span id="myPhotoViewText">등록된 개인사진이 없습니다.</span>
+                                        <span id="myPhotoViewText">등록된 사진이 없습니다.</span>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
