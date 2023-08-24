@@ -128,6 +128,24 @@
       agency : $("#agency").val(),
       type : "reward",
     }
+
+    if(data.rGubunOutInType == null || data.rGubunOutInType == ''){
+      alert("구분(내부/외부)를 선택하세요.")
+      return false;
+    }else if(data.rGubun == null || data.rGubun == '') {
+      alert("구분(표창/징계)를 입력하세요.")
+      return false;
+    }else if(data.sDate == null || data.sDate == '') {
+      alert("포상/징계 일자를 입력하세요.")
+      return false;
+    }else if(data.rIssue == null || data.rIssue == '') {
+      alert("공적(징계) 사항을 입력하세요.")
+      return false;
+    }else if(data.agency == null || data.agency == '') {
+      alert("시행처를 입력하세요.")
+      return false;
+    }
+
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
     if(result.flag){
       if(result.rs == "SUCCESS") {

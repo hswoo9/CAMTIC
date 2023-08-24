@@ -34,31 +34,31 @@
             <span class="red-star"></span>구분(내부/외부)
           </th>
           <td colspan="2">
-            <input type="text" id="rGubunOutIn" style="width: 50%;" readonly>
+            <input type="text" id="rGubunOutIn" style="width: 50%;" disabled>
           </td>
         </tr>
         <tr>
           <th>구분(표창/징계)</th>
           <td colspan="2">
-            <input type="text" id="rGubun" style="width: 50%;" readonly>
+            <input type="text" id="rGubun" style="width: 50%;" disabled>
           </td>
         </tr>
         <tr>
           <th>포상/징계 일자</th>
           <td colspan="2">
-            <input type="text" id="sDate" style="width: 50%;" readonly>
+            <input type="text" id="sDate" style="width: 50%;" disabled>
           </td>
         </tr>
         <tr>
           <th>공적(징계) 사항</th>
           <td colspan="2">
-            <input type="text" id="rIssue" style="width: 90%;" readonly>
+            <input type="text" id="rIssue" style="width: 90%;" disabled>
           </td>
         </tr>
         <tr>
           <th>시행처</th>
           <td colspan="2">
-            <input type="text" id="agency" style="width: 90%;" readonly>
+            <input type="text" id="agency" style="width: 90%;" disabled>
           </td>
         </tr>
         <tr>
