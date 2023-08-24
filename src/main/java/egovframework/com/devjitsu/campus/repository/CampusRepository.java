@@ -57,37 +57,19 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduPlanOne", params);
     }
 
-    public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params) {
-        return selectList("campus.getStudyInfoList", params);
-    }
+    public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params) {return selectList("campus.getStudyInfoList", params); }
+    public Map<String, Object> getStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyInfoOne", params); }
+    public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) { return selectList("campus.getStudyUserList", params); }
+    public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params) { return selectList("campus.getStudyJournalList", params); }
+    public Map<String, Object> getStudyJournalOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params); }
 
-    public Map<String, Object> getStudyInfoOne(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("campus.getStudyInfoOne", params);
-    }
+    public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoList", params); }
+    public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOpenStudyInfoOne", params); }
+    public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params) { return selectList("campus.getOpenStudyUserList", params); }
 
-    public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) {
-        return selectList("campus.getStudyUserList", params);
-    }
-
-    public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params) {
-        return selectList("campus.getStudyJournalList", params);
-    }
-
-    public Map<String, Object> getStudyJournalOne(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params);
-    }
-
-    public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params) {
-        return selectList("campus.getOpenStudyInfoList", params);
-    }
-
-    public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("campus.getOpenStudyInfoOne", params);
-    }
-
-    public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params) {
-        return selectList("campus.getOpenStudyUserList", params);
-    }
+    public List<Map<String, Object>> getCommonEduList(Map<String, Object> params) { return selectList("campus.getCommonEduList", params); }
+    public Map<String, Object> getCommonEduOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getCommonEduOne", params); }
+    public List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params) { return selectList("campus.getCommonEduUserList", params); }
 
     public List<Map<String, Object>> getEduStat(Map<String, Object> params) {
         return selectList("campus.getEduStat", params);
@@ -138,6 +120,8 @@ public class CampusRepository extends AbstractDAO  {
     public void setOpenStudyResultUpd(Map<String, Object> params) { update("campus.setOpenStudyResultUpd", params); }
     public void setOpenStudyUserResultUpd(Map<String, Object> params) { update("campus.setOpenStudyUserResultUpd", params); }
     public void setOpenStudyCertReq(Map<String, Object> params) { update("campus.setOpenStudyCertReq", params); }
+    public void setCommonEduIns(Map<String, Object> params) { insert("campus.setCommonEduIns", params); }
+    public void setCommonEduUpd(Map<String, Object> params) { update("campus.setCommonEduUpd", params); }
 
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);

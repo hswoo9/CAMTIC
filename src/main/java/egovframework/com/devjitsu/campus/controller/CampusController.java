@@ -679,7 +679,7 @@ public class CampusController {
         return "campus/openStudyResMng";
     }
 
-    //공통학습관리(캠화지등)
+    /** 공통학습관리 관리자 페이지 */
     @RequestMapping("/Campus/eduManagement.do")
     public String eduManagement(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -688,6 +688,17 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "campus/eduManagement";
+    }
+
+    /** 공통학습관리 등록 팝업 */
+    @RequestMapping("/Campus/pop/commonEduReqPop.do")
+    public String commonEduReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/commonEduReqPop";
     }
 
     //학습통계
@@ -1105,6 +1116,30 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 공통학습 리스트 */
+    @RequestMapping("/campus/getCommonEduList")
+    public String getCommonEduList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getCommonEduList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 공통학습 단일 데이터  */
+    @RequestMapping("/campus/getCommonEduOne")
+    public String getCommonEduOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getCommonEduOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 공통학습 참여자 리스트 */
+    @RequestMapping("/campus/getCommonEduUserList")
+    public String getCommonEduUserList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getCommonEduUserList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 개인학습 통계 리스트  */
     @RequestMapping("/campus/getEduStat")
     @ResponseBody
@@ -1238,6 +1273,20 @@ public class CampusController {
     @RequestMapping("/campus/setOpenStudyCertReq")
     public String setOpenStudyCertReq(@RequestParam Map<String, Object> params, Model model) {
         campusService.setOpenStudyCertReq(params);
+        return "jsonView";
+    }
+
+    /** 공통학습 등록 */
+    @RequestMapping("/campus/setCommonEduIns")
+    public String setCommonEduIns(@RequestParam Map<String, Object> params) {
+        campusService.setCommonEduIns(params);
+        return "jsonView";
+    }
+
+    /** 공통학습 수정 */
+    @RequestMapping("/campus/setCommonEduUpd")
+    public String setCommonEduUpd(@RequestParam Map<String, Object> params) {
+        campusService.setCommonEduUpd(params);
         return "jsonView";
     }
 

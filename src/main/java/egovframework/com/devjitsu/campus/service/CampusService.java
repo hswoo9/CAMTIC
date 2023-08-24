@@ -93,6 +93,9 @@ public interface CampusService {
     List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params);
     Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params);
+    List<Map<String, Object>> getCommonEduList(Map<String, Object> params);
+    Map<String, Object> getCommonEduOne(Map<String, Object> params);
+    List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params);
 
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
@@ -132,6 +135,8 @@ public interface CampusService {
     void setOpenStudyUser(Map<String, Object> params);
     void setOpenStudyResultUpd(Map<String, Object> params);
     void setOpenStudyCertReq(Map<String, Object> params);
+    void setCommonEduIns(Map<String, Object> params);
+    void setCommonEduUpd(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

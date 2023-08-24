@@ -18,8 +18,8 @@
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">공통학습관리(캠화지등)</h4>
-            <div class="title-road">학습관리 &gt; 공통학습관리</div>
+            <h4 class="panel-title">공통학습관리 (관리자)</h4>
+            <div class="title-road">학습관리 &gt; 공통학습관리 (관리자)</div>
         </div>
 
         <div class="panel-body">

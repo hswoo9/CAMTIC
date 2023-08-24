@@ -22,7 +22,7 @@ var eduManagement = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/campus/getCommonEduList',
                     dataType : "json",
                     type : "post"
                 },
@@ -58,7 +58,7 @@ var eduManagement = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="eduManagement.commonEduReqPop(\'ins\');">' +
                             '	<span class="k-button-text">공통학습 추가</span>' +
                             '</button>';
                     }
@@ -67,44 +67,67 @@ var eduManagement = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : eduManagement.onDataBound,
             columns: [
                 {
-                    field: "",
+                    field: "ROW_NUM",
                     title: "순번",
                     width: 50
                 }, {
-                    field: "",
+                    field: "COMMON_CLASS_TEXT",
                     title: "구분",
                     width: 50
                 }, {
-                    field: "",
                     title: "학습기간",
-                    width: 150
+                    width: 150,
+                    template: function(row){
+                        return row.START_DT+" ~ "+row.END_DT;
+                    }
                 }, {
-                    field: "",
+                    field: "EDU_TIME",
                     title: "교육시간",
                     width: 80
                 }, {
-                    field: "",
+                    field: "EDU_LOCATION",
                     title: "장소",
                     width: 150
                 }, {
-                    field: "",
                     title: "수료/미수료",
-                    width: 80
+                    width: 80,
+                    template: function(row){
+                        return "0/0";
+                    }
                 }, {
-                    field: "",
                     title: "진행현황",
-                    width: 80
+                    width: 80,
+                    template: function(row){
+                        if(row.STATUS == 0){
+                            return "계획";
+                        }else{
+                            return "수료";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid")
     },
 
-    popup : function() {
-        var url = "/Campus/pop/popup.do";
-        var name = "popup";
-        var option = "width = 340, height = 390, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this));
+            const pk = dataItem.COMMON_EDU_SN;
+            eduManagement.commonEduReqPop("upd", pk);
+        });
+    },
+
+    commonEduReqPop: function(mode, pk){
+        let url = "/Campus/pop/commonEduReqPop.do?mode="+mode;
+        if(mode == "upd"){
+            url += "&pk="+pk;
+        }
+        const name = "commonEduReqPop";
+        const option = "width = 1000, height = 489, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

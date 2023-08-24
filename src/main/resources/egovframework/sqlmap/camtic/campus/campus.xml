@@ -469,6 +469,45 @@
         </if>
     </select>
 
+    <select id="getCommonEduList" resultType="map" parameterType="map">
+        /* getCommonEduList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    CCE.*
+                FROM
+                    CAMPUS.DJ_COMMON_EDU CCE,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                ORDER BY CCE.REG_DT
+            ) RE
+        ORDER BY RE.COMMON_EDU_SN DESC
+    </select>
+
+    <select id="getCommonEduOne" resultType="map" parameterType="map">
+        /* getCommonEduOne */
+        SELECT
+            CCE.*
+        FROM
+            CAMPUS.DJ_COMMON_EDU CCE
+        WHERE
+            COMMON_EDU_SN = #{pk}
+    </select>
+
+    <select id="getCommonEduUserList" resultType="map" parameterType="map">
+        /* getCommonEduUserList */
+        SELECT
+            CCEU.*
+        FROM
+            CAMPUS.DJ_COMMON_EDU_USER CCEU
+        WHERE
+            COMMON_EDU_SN = #{pk}
+    </select>
+
     <select id="getEduStat" resultType="map" parameterType="map">
         /* getEduStat */
         SELECT
@@ -987,6 +1026,59 @@
             </if>
         WHERE
             OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <insert id="setCommonEduIns" parameterType="map">
+        /* setCommonEduIns */
+        INSERT INTO CAMPUS.DJ_COMMON_EDU
+            (
+                COMMON_CLASS,
+                COMMON_CLASS_TEXT,
+                START_DT,
+                END_DT,
+                EDU_NAME,
+                EDU_TIME,
+                EDU_LOCATION,
+                EDU_TITLE,
+                EDU_DETAIL,
+                STATUS,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{commonClass},
+                #{commonClassText},
+                #{startDt},
+                #{endDt},
+                #{eduName},
+                #{eduTime},
+                #{eduLocation},
+                #{eduTitle},
+                #{eduDetail},
+                #{status},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setCommonEduUpd" parameterType="map">
+        /* setCommonEduUpd */
+        UPDATE
+            CAMPUS.DJ_COMMON_EDU
+        SET
+            COMMON_CLASS = #{commonClass},
+            COMMON_CLASS_TEXT = #{commonClassText},
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            EDU_NAME = #{eduName},
+            EDU_TIME = #{eduTime},
+            EDU_LOCATION = #{eduLocation},
+            EDU_TITLE = #{eduTitle},
+            EDU_DETAIL = #{eduDetail},
+            STATUS = #{status}
+        WHERE
+            COMMON_EDU_SN = #{pk}
     </update>
 
     <insert id="setTargetInsert" parameterType="map">
