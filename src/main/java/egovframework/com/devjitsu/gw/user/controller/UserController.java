@@ -138,4 +138,73 @@ public class UserController {
         return "popup/user/myPop";
     }
 
+
+    /**
+     * 인사관리 > 조직도 관리 > 직급/등급 관리 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/user/pop/userSetGradePop.do")
+    public String userSetGradePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/user/userSetGradePop";
+    }
+
+    /**
+     * 인사관리 > 조직도 관리 > 직책관리 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/user/pop/userSetDutyPop.do")
+    public String userSetDutyPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/user/userSetDutyPop";
+    }
+
+    /**
+     * 인사관리 > 조직도 관리 > 직책/직급 서열관리 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/user/pop/userSetRankPop.do")
+    public String userSetRankPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/user/userSetRankPop";
+    }
+
+    /**
+     * 인사관리 > 조직도 관리 > 조직도 직제 관리 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/user/pop/userSetOrganizationPop.do")
+    public String userSetOrganizationPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/user/userSetOrganizationPop";
+    }
+
 }
