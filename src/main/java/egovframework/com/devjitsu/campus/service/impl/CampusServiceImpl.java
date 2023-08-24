@@ -268,6 +268,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setOpenStudyCertReq(Map<String, Object> params) {
+        campusRepository.setOpenStudyCertReq(params);
+    }
+
+    @Override
     public Map<String, Object> setTargetInsert(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 

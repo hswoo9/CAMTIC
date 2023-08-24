@@ -137,6 +137,7 @@ public class CampusRepository extends AbstractDAO  {
     public void setOpenStudyUser(Map<String, Object> params) { insert("campus.setOpenStudyUser", params); }
     public void setOpenStudyResultUpd(Map<String, Object> params) { update("campus.setOpenStudyResultUpd", params); }
     public void setOpenStudyUserResultUpd(Map<String, Object> params) { update("campus.setOpenStudyUserResultUpd", params); }
+    public void setOpenStudyCertReq(Map<String, Object> params) { update("campus.setOpenStudyCertReq", params); }
 
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);

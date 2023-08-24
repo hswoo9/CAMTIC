@@ -131,6 +131,7 @@ public interface CampusService {
     void setOpenNextStep(Map<String, Object> params);
     void setOpenStudyUser(Map<String, Object> params);
     void setOpenStudyResultUpd(Map<String, Object> params);
+    void setOpenStudyCertReq(Map<String, Object> params);
 
     /**
      * 연도등록팝업 연도 등록

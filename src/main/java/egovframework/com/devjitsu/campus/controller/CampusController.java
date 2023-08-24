@@ -635,7 +635,7 @@ public class CampusController {
         return "popup/campus/openStudyReqPop";
     }
 
-    /** 오픈스터디 결과보고서 작성 팝업 */
+    /** 오픈스터디 모임 -> 결과보고서 작성 팝업 */
     @RequestMapping("/Campus/pop/openStudyResultPop.do")
     public String openStudyResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -644,6 +644,39 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         return "popup/campus/openStudyResultPop";
+    }
+
+    /** 오픈스터디 결과보고 페이지 */
+    @RequestMapping("/Campus/openStudyRes.do")
+    public String openStudyRes(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/openStudyRes";
+    }
+
+    /** 오픈스터디 결과보고서 조회 팝업 */
+    @RequestMapping("/Campus/pop/openStudyResPop.do")
+    public String openStudyResPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/openStudyResPop";
+    }
+
+    /** 오픈스터디 결과보고 관리자 페이지 */
+    @RequestMapping("/Campus/openStudyResMng.do")
+    public String openStudyResMng(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/openStudyResMng";
     }
 
     //공통학습관리(캠화지등)
@@ -1198,6 +1231,13 @@ public class CampusController {
     @RequestMapping("/campus/setOpenStudyResultUpd")
     public String setOpenStudyResultUpd(@RequestParam Map<String, Object> params) {
         campusService.setOpenStudyResultUpd(params);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 결과보고서 승인프로세스 */
+    @RequestMapping("/campus/setOpenStudyCertReq")
+    public String setOpenStudyCertReq(@RequestParam Map<String, Object> params, Model model) {
+        campusService.setOpenStudyCertReq(params);
         return "jsonView";
     }
 
