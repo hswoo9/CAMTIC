@@ -98,13 +98,6 @@
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
-                <div style="display: flex; justify-content: end">
-                    <div class="mr10">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">직급/등급 관리</button>
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">직책관리</button>
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">서열관리</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
