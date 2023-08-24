@@ -116,7 +116,7 @@ const rprReceiptReq = {
 
         let data = {
             rprClass: 2,
-            rprName: "포상급지급 신청서",
+            rprName: "포상금지급 신청서",
             shareSn: userSn,
             shareName: userText,
             iprClass: iprClass,

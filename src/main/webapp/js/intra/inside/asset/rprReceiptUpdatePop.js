@@ -115,7 +115,7 @@ const rprReceiptUpdate = {
 
         let data = {
             rprClass: 2,
-            rprName: "포상급지급 신청서",
+            rprName: "포상금지급 신청서",
             inventionInfoSn: inventionInfoSn,
             shareSn: userSn,
             shareName: userText,
