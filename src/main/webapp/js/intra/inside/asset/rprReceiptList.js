@@ -8,7 +8,7 @@ var rprReceiptList = {
         customKendo.fn_textBox(["searchText"]);
         let rprClassSource = [
             { text: "직무발명 신고서", value: "1" },
-            { text: "포상급지급 신청서", value: "3" }
+            { text: "포상금지급 신청서", value: "3" }
         ]
         customKendo.fn_dropDownList("rprClass", rprClassSource, "text", "value", 2);
         let iprClassSource = [

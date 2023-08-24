@@ -90,7 +90,7 @@ const searchRprPop = {
 
     fn_selectChkUse: function(){
         if($("input[name='invPk']:checked").length == 0){
-            alert("포상급지급 신청을 진행하실 지식재산권을 선택해주세요.");
+            alert("포상금지급 신청을 진행하실 지식재산권을 선택해주세요.");
         }
 
         $("input[name='invPk']:checked").each(function(){

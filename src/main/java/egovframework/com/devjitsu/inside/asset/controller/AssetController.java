@@ -610,7 +610,7 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         return "/popup/inside/asset/approvalFormPopup/inventionApprovalPop";
     }
-    //캠도큐먼트 - 포상급지급신청서 전자결재 신청폼 팝업
+    //캠도큐먼트 - 포상금지급신청서 전자결재 신청폼 팝업
     @RequestMapping("/Inside/pop/rprResultPop.do")
     public String rprResultPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -619,7 +619,7 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/rprResultPop";
     }
-    //캠도큐먼트 - 포상급지급신청서 전자결재 페이지
+    //캠도큐먼트 - 포상금지급신청서 전자결재 페이지
     @RequestMapping("/popup/inside/approvalFormPopup/rprResApprovalPop.do")
     public String rprResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -686,7 +686,7 @@ public class AssetController {
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }
-    //캠도큐먼트 - 포상급지급신청서 신청폼 등록
+    //캠도큐먼트 - 포상금지급신청서 신청폼 등록
     @RequestMapping("/inside/setRprResultInsert")
     public String setRprResultInsert(@RequestParam Map<String, Object> params, Model model) {
         assetService.setRprResultInsert(params);
@@ -699,7 +699,7 @@ public class AssetController {
         assetService.setRprReceiptInsert(params);
         return "jsonView";
     }
-    //직무발명신고서, 포상급지급신청서 결재 상태값에 따른 UPDATE 메서드
+    //직무발명신고서, 포상금지급신청서 결재 상태값에 따른 UPDATE 메서드
     @RequestMapping(value = "/inside/inventionReqApp")
     public String certificateReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println("bodyMap");

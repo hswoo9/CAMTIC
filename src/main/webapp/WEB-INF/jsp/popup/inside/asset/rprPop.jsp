@@ -38,7 +38,7 @@
             <tr>
                 <th>지식재산권 선택</th>
                 <td>
-                    <input id="title" style="width:100%;" value="${resultMap.info.TITLE}" readonly>
+                    <input id="title" style="width:100%;" value="${resultMap.info.TITLE}" disabled>
                 </td>
             </tr>
             <tr>
@@ -46,7 +46,7 @@
                     <span class="red-star"></span>발명자 / 저자
                 </th>
                 <td>
-                    <input type="text" id="userText" style="width: 100%;" value="${resultMap.info.SHARE_NAME}" readonly>
+                    <input type="text" id="userText" style="width: 100%;" value="${resultMap.info.SHARE_NAME}" disabled>
                 </td>
             </tr>
             <tr>
@@ -57,7 +57,7 @@
                             <tr class='addData'>
                                 <input type='hidden' class='shareEmpSeq' value='${item.EMP_SEQ}'/>
                                 <th class='shareEmpName'>${item.EMP_NAME}</th>
-                                <td><input type='text' id='share${item.EMP_SEQ}' style='width: 80%; text-align: right' class='share' value='${item.SHARE}' readonly/> %</td>
+                                <td><input type='text' id='share${item.EMP_SEQ}' style='width: 80%; text-align: right' class='share' value='${item.SHARE}' disabled/> %</td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -68,7 +68,7 @@
                     <span class="red-star"></span>지식재산권 종류
                 </th>
                 <td>
-                    <input type="text" id="iprClass" style="width: 100%;" value="${resultMap.info.IPR_NAME}" readonly>
+                    <input type="text" id="iprClass" style="width: 100%;" value="${resultMap.info.IPR_NAME}" disabled>
                 </td>
             </tr>
             <tr>
@@ -76,7 +76,7 @@
                     <span class="red-star"></span>주요내용
                 </th>
                 <td>
-                    <textarea type="text" id="detailCn" style="width: 100%; height: 60px" readonly></textarea>
+                    <textarea type="text" id="detailCn" style="width: 100%; height: 60px" disabled></textarea>
                 </td>
             </tr>
             <tr>
@@ -84,7 +84,7 @@
                     <span class="red-star"></span>등 록 번 호<br>학술지명,페이지<br>ISBN 등록번호
                 </th>
                 <td>
-                    <textarea type="text" id="regNum" style="width: 100%; height: 60px" readonly></textarea>
+                    <textarea type="text" id="regNum" style="width: 100%; height: 60px" disabled></textarea>
                 </td>
             </tr>
             <tr>
@@ -92,7 +92,7 @@
                     <span class="red-star"></span>신청일
                 </th>
                 <td>
-                    <input type="text" id="regDate" style="width: 100%;" value="${resultMap.info.REG_DATE}" readonly>
+                    <input type="text" id="regDate" style="width: 100%;" value="${resultMap.info.REG_DATE}" disabled>
                 </td>
             </tr>
             </thead>
