@@ -30,27 +30,35 @@
           <th colspan="3">상벌 사항</th>
         </tr>--%>
         <tr>
+          <th>
+            <span class="red-star"></span>구분(내부/외부)
+          </th>
+          <td colspan="2">
+            <input type="text" id="rGubunOutIn" style="width: 50%;" readonly>
+          </td>
+        </tr>
+        <tr>
           <th>구분(표창/징계)</th>
           <td colspan="2">
-            <input type="text" id="rGubun" style="width: 50%;">
+            <input type="text" id="rGubun" style="width: 50%;" readonly>
           </td>
         </tr>
         <tr>
           <th>포상/징계 일자</th>
           <td colspan="2">
-            <input type="text" id="sDate" style="width: 50%;" disabled>
+            <input type="text" id="sDate" style="width: 50%;" readonly>
           </td>
         </tr>
         <tr>
           <th>공적(징계) 사항</th>
           <td colspan="2">
-            <input type="text" id="rIssue" style="width: 90%;">
+            <input type="text" id="rIssue" style="width: 90%;" readonly>
           </td>
         </tr>
         <tr>
           <th>시행처</th>
           <td colspan="2">
-            <input type="text" id="agency" style="width: 90%;">
+            <input type="text" id="agency" style="width: 90%;" readonly>
           </td>
         </tr>
         <tr>
@@ -69,12 +77,15 @@
     fn_dataSet();
   });
   function fn_default() {
-    customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
-    customKendo.fn_textBox("gubun");
+    customKendo.fn_textBox("rGubunOutIn");
+    customKendo.fn_textBox("rGubun");
+    customKendo.fn_textBox("sDate");
     customKendo.fn_textBox("rIssue");
     customKendo.fn_textBox("agency");
 
+    $("#rGubunOutIn").kendoTextBox();
     $("#rGubun").kendoTextBox();
+    $("#sDate").kendoTextBox();
     $("#rIssue").kendoTextBox();
     $("#agency").kendoTextBox();
   }
@@ -89,16 +100,22 @@
     if(result.flag) {
       var e = result.rs;
 
-      $("#rGubun").val(e.REWORD_PUNISHMENT_TYPE_NAME); //구분(표창/징계)
-      $("#sDate").val(e.REWORD_PUNISHMENT_DAY); //포상/징계 일자
-      $("#rIssue").val(e.RPWD_OFM); //공적(징계) 사항
-      $("#agency").val(e.RPWD_ST_COMP); //시행처
+      var sideName = (e.REWORD_TYPE_NAME);
+      var SIDE_NAME = sideName.substring(0,6)
+      var str = (e.REWORD_TYPE_NAME);
+      var REWORD_TYPE_NAME1 = str.substring(7)
+
+      $("#rGubunOutIn").val(SIDE_NAME); //구분(내부/외부)
+      $("#rGubun").val(REWORD_TYPE_NAME1); //구분(표창/징계)
+      $("#sDate").val(e.REWORD_DAY); //포상/징계 일자
+      $("#rIssue").val(e.RWD_OFM); //공적(징계) 사항
+      $("#agency").val(e.RWD_ST_COMP); //시행처
     }
 
     /*수정 안되게 disabled*/
-    $("#rGubun").data("kendoTextBox").enable(false);
+    /*$("#rGubun").data("kendoTextBox").enable(false);
     $("#rIssue").data("kendoTextBox").enable(false);
-    $("#agency").data("kendoTextBox").enable(false);
+    $("#agency").data("kendoTextBox").enable(false);*/
   }
 
   function fn_windowClose() {
