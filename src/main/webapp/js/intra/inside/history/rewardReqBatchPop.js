@@ -33,7 +33,7 @@ var rewardReqBatchPop = {
                     name : 'text',
                     template : function (e){
                         return  '<span>이름</span>' +
-                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;">' ;
+                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){rewardReqBatchPop.mainGrid();}">' ;
                     }
                 }, {
                     name : 'button',
