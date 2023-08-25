@@ -67,6 +67,8 @@
     <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
     <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
+    <script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
+
 
     <script type="text/javascript" src="<c:url value='/js/intra/common/common.js?${toDate}'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js?${toDate}'/>"></script>

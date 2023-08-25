@@ -23,7 +23,8 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
 <style>
-    input[type="checkbox"]{height: 10px;}
+    input[type="checkbox"]{margin-top: 2px; float:left; margin-right: 10px;}
+    .dept {margin-top: 0px;}
 </style>
 <div style="padding:0;">
     <div class="table-responsive">
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div style="padding: 20px 30px;">
-                <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 610px;">
+                <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 620px;">
                     <div class="mt10"></div>
                     <span style="font-weight: bold;">* 직제 목록</span>
                     <div style="float:right;">
@@ -62,11 +63,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">경영지원실</div>
+                                <div class="dept">경영지원실</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">사업지원팀</div>
+                                <div class="dept">사업지원팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -76,7 +77,7 @@
                             <td ></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">경영지원팀</div>
+                                <div class="dept">경영지원팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -85,11 +86,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">미래전략기획본부</div>
+                                <div class="dept">미래전략기획본부</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">미래전략기획팀</div>
+                                <div class="dept">미래전략기획팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -99,7 +100,7 @@
                             <td ></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">J-밸리혁신팀</div>
+                                <div class="dept">J-밸리혁신팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -108,11 +109,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">R&BD사업본부</div>
+                                <div class="dept">R&BD사업본부</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">복합뿌리기술센터</div>
+                                <div class="dept">복합뿌리기술센터</div>
                             </td>
                         </tr>
                         <tr>
@@ -122,7 +123,7 @@
                             <td></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">신기술융합팀</div>
+                                <div class="dept">신기술융합팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -132,7 +133,7 @@
                             <td ></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">제조혁신팀</div>
+                                <div class="dept">제조혁신팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -141,11 +142,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">기업성장지원본부</div>
+                                <div class="dept">기업성장지원본부</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">창업/기업성장지원팀</div>
+                                <div class="dept">창업/기업성장지원팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -155,7 +156,7 @@
                             <td></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">인재개발팀</div>
+                                <div class="dept">인재개발팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -164,11 +165,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">일자리혁신지원센터</div>
+                                <div class="dept">일자리혁신지원센터</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">일자리사업팀</div>
+                                <div class="dept">일자리사업팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -178,7 +179,7 @@
                             <td></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">전북조선업도약팀</div>
+                                <div class="dept">전북조선업도약팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -188,7 +189,7 @@
                             <td></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">익산고용안정팀</div>
+                                <div class="dept">익산고용안정팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -197,11 +198,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">우주항공사업부</div>
+                                <div class="dept">우주항공사업부</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">우주개발팀</div>
+                                <div class="dept">우주개발팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -211,7 +212,7 @@
                             <td></td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">항공개발팀</div>
+                                <div class="dept">항공개발팀</div>
                             </td>
                         </tr>
                         <tr>
@@ -220,11 +221,11 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">드론사업부</div>
+                                <div class="dept">드론사업부</div>
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">드론기술개발지원센터</div>
+                                <div class="dept">드론기술개발지원센터</div>
                             </td>
                         </tr>
                         <tr>
@@ -233,7 +234,7 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">스마트제조사업부</div>
+                                <div class="dept">스마트제조사업부</div>
                             </td>
                             <td></td>
                         </tr>
@@ -243,14 +244,14 @@
                             </td>
                             <td>
                                 <input type='checkbox'>
-                                <div style="float:right;">시설관리환경미화</div>
+                                <div class="dept">시설관리환경미화</div>
                             </td>
                             <td></td>
                         </tr>
                         </thead>
                     </table>
                 </div>
-                <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 610px;">
+                <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 620px;">
                     <div class="mt10"></div>
                     <span style="font-weight: bold;">* 직제 등록</span>
                     <div style="float:right;">
