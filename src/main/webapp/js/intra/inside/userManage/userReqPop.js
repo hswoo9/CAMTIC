@@ -15,8 +15,10 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #nickname, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
 
+        userReqPop.fn_setRegDateForm("regDateCaseA");
+        userReqPop.fn_setRegDateForm("birthDay");
         var detDs = [
             {text: "선택", value: ""},
         ];
@@ -24,8 +26,26 @@ var userReqPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: detDs,
-            index: 0
+            index: 0,
+            change: function(){
+                var divisDet = $("#divisDet").val();
+                if($("#divis").val() != '1'){
+                    if(divisDet == '3' && $("#divis").val() == '4'){
+                        $(".defaultCase").each(function(){
+                            $(this).css("display", "none");
+                        });
+
+                        $(".caseA").each(function(){
+                            $(this).css("display", "");
+                        });
+                    } else {
+                        userReqPop.fn_caseARollBack();
+                    }
+                }
+
+            }
         });
+
 
         $("#divisDet").data("kendoDropDownList").wrapper.hide()
 
@@ -53,28 +73,53 @@ var userReqPop = {
                         {text: "인턴사원", value : "2"},
                         {text: "경비/환경", value : "3"},
                     ];
-                    $("#divisDet").kendoDropDownList({
-                        dataTextField: "text",
-                        dataValueField: "value",
-                        dataSource: detDs,
-                        index: 0
+
+                    $("#divisDet").data("kendoDropDownList").setDataSource(detDs);
+                    $("#divisDet").data("kendoDropDownList").select(0);
+
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                } else if (divis == '3'){
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseCRollBack();
+
+                    $(".defaultCaseA").each(function(){
+                        $(this).css("display", "none");
                     });
-                } else if(divis == "1") {
+
+                    $(".caseB").each(function(){
+                        $(this).css("display", "");
+                    });
+
+
+                } else if(divis == '1'){
                     $("#divisDet").data("kendoDropDownList").wrapper.show()
 
                     detDs = [
                         {text: "위촉직원", value: "6"},
                         {text: "위촉연구원", value : "4"},
                     ];
-                    $("#divisDet").kendoDropDownList({
-                        dataTextField: "text",
-                        dataValueField: "value",
-                        dataSource: detDs,
-                        index: 0
+
+                    $("#divisDet").data("kendoDropDownList").setDataSource(detDs);
+                    $("#divisDet").data("kendoDropDownList").select(0);
+
+                    userReqPop.fn_caseBRollBack();
+                    $(".defaultCaseB").each(function(){
+                        $(this).css("display", "none");
+                    });
+
+                    $(".caseC").each(function(){
+                        $(this).css("display", "");
+                    });
+                    $(".caseB").each(function(){
+                        $(this).css("display", "");
                     });
                 } else {
-                    $("#divisDet").val("");
-                    $("#divisDet").data("kendoDropDownList").wrapper.hide()
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+
                 }
             }
         });
@@ -209,13 +254,7 @@ var userReqPop = {
             index: 0
         });
 
-        $("#regDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
+        userReqPop.fn_setRegDateForm("regDate");
 
         $("#bday").kendoDatePicker({
             depth: "month",
@@ -352,6 +391,50 @@ var userReqPop = {
 
     },
 
+    fn_showDivisDet: function (){
+        $("#divisDet").val("");
+        $("#divisDet").data("kendoDropDownList").wrapper.hide();
+    },
+
+    fn_setRegDateForm: function(id){
+        $("#" + id).kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+    },
+
+    fn_caseARollBack : function (){
+        $(".defaultCase").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseA").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseBRollBack : function (){
+        $(".defaultCaseA").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseB").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseCRollBack: function (){
+        $(".defaultCaseB").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseC").each(function(){
+            $(this).css("display", "none");
+        });
+    },
 
 
     dataSetChange : function() {
@@ -644,6 +727,13 @@ var userReqPop = {
 
             DEGREE_CODE : $("#degreeCode").val(),
         }
+
+        if($("#divisDet").val() == '3'){
+            data.JOIN_DAY = $("#regDateCaseA").val();
+            data.CAPS_NUM = $("#capsNumCaseA").val();
+        }
+
+
 
         if($("#lunarYn").is(":checked")){
             data.LUNAR_CAL = "Y"
