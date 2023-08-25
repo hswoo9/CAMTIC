@@ -699,7 +699,9 @@
                 ,now()
                 )
     </insert>
+    <!--인사기록카드 상벌 사항 추가-->
     <insert id="setRewardInfo" parameterType="map">
+        /*setRewardInfo*/
         INSERT INTO cam_hr.dj_emp_reword(
                   EMP_SEQ
                  ,ERP_EMP_SEQ
@@ -1597,44 +1599,4 @@
             EMP_SEQ = #{empSeq}
     </update>
 
-    <!--<select id="getReward2InfoList" parameterType="map" resultType="map">
-        /* getReward2InfoList */
-        SELECT
-            SUBSTRING(HER.REWORD_TYPE_NAME, 2, 4) AS SIDE_NAME,
-            SUBSTRING(HER.REWORD_TYPE_NAME, 8) AS REWORD_TYPE_NAME1,
-            REWORD_ID,
-            EMP_SEQ,
-            ERP_EMP_SEQ,
-            EMP_NAME,
-            DEPT_SEQ,
-            DEPT_NAME,
-            TEAM_SEQ,
-            TEAM_NAME,
-            POSITION_CODE,
-            DUTY_CODE,
-            REWORD_TYPE,
-            REWORD_TYPE_NAME,
-            RWD_SN,
-            REWORD_DAY,
-            REWORD_NAME,
-            RWD_OFM,
-            RWD_ST_COMP,
-            RWD_FILE_SN,
-            RWD_ETC,
-            REWORD_AGENCY_NAME,
-            REWORD_REASON,
-            ACTIVE,
-            ADMIN_APPROVAL,
-            RETURNYN,
-            ADMIN_APPROVAL_DATE,
-            RETURNYN_DATE,
-            REG_EMP_SEQ,
-            REG_DATE,
-            MOD_EMP_SEQ,
-            MOD_DATE
-        FROM
-            CAM_HR.DJ_EMP_REWORD HER
-        WHERE
-            EMP_SEQ = #{empSeq};
-    </select>-->
 </mapper>

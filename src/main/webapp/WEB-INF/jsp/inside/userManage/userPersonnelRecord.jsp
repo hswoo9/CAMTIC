@@ -1148,4 +1148,37 @@
         var popup = window.open(url, name, option);
     }
 
+    /*상벌 사항*/
+    function delRewardBtn(){
+        if($("input[name='rewordAllChk']:checked").length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 삭제하시겠습니까?")){
+            return;
+        }
+
+        var rewordAllChk = new Array();
+        $("input[name='rewordAllChk']").each(function(){
+            if(this.checked){
+                rewordAllChk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/useManage/setRewordDelete',
+            data : {
+                REWORD_ID : rewordAllChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
+    }
 </script>
