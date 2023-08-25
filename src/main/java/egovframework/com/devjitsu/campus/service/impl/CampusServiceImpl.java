@@ -157,6 +157,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getCommonEduUserAddList(Map<String, Object> params){
+        return campusRepository.getCommonEduUserAddList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEduStat(Map<String, Object> params){
         return campusRepository.getEduStat(params);
     }
@@ -295,6 +300,29 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setCommonEduUpd(Map<String, Object> params) {
         campusRepository.setCommonEduUpd(params);
+    }
+
+    @Override
+    public void setCommonEduAddUserAll(Map<String, Object> params) {
+        campusRepository.setCommonEduAddUserAll(params);
+    }
+
+    @Override
+    public void setCommonEduUserUpd(Map<String, Object> params) {
+        campusRepository.setCommonEduUserUpd(params);
+    }
+
+    @Override
+    public void setCommonEduUserTimeUpd(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> userList = gson.fromJson((String) params.get("userData"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(int i = 0 ; i < userList.size() ; i++){
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("pk", userList.get(i).get("pk"));
+            userData.put("eduTime", userList.get(i).get("eduTime"));
+            campusRepository.setCommonEduUserTimeUpd(userData);
+        }
     }
 
     @Override

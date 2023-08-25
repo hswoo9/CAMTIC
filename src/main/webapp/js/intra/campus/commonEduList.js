@@ -1,10 +1,8 @@
-var now = new Date();
-
-var eduManagement = {
+var commonEdu = {
 
     init : function(){
-        eduManagement.dataSet();
-        eduManagement.mainGrid();
+        commonEdu.dataSet();
+        commonEdu.mainGrid();
     },
 
     dataSet() {
@@ -54,20 +52,10 @@ var eduManagement = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
-            toolbar : [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="eduManagement.commonEduReqPop(\'ins\');">' +
-                            '	<span class="k-button-text">공통학습 추가</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : eduManagement.onDataBound,
+            dataBound : commonEdu.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -117,13 +105,13 @@ var eduManagement = {
         grid.tbody.find("tr").dblclick(function(){
             const dataItem = grid.dataItem($(this));
             const pk = dataItem.COMMON_EDU_SN;
-            eduManagement.commonEduReqPop("upd", pk);
+            commonEdu.commonEduReqPop("view", pk);
         });
     },
 
     commonEduReqPop: function(mode, pk){
         let url = "/Campus/pop/commonEduReqPop.do?mode="+mode;
-        if(mode == "upd"){
+        if(mode == "view"){
             url += "&pk="+pk;
         }
         const name = "commonEduReqPop";

@@ -70,6 +70,7 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getCommonEduList(Map<String, Object> params) { return selectList("campus.getCommonEduList", params); }
     public Map<String, Object> getCommonEduOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getCommonEduOne", params); }
     public List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params) { return selectList("campus.getCommonEduUserList", params); }
+    public List<Map<String, Object>> getCommonEduUserAddList(Map<String, Object> params) { return selectList("campus.getCommonEduUserAddList", params); }
 
     public List<Map<String, Object>> getEduStat(Map<String, Object> params) {
         return selectList("campus.getEduStat", params);
@@ -122,6 +123,9 @@ public class CampusRepository extends AbstractDAO  {
     public void setOpenStudyCertReq(Map<String, Object> params) { update("campus.setOpenStudyCertReq", params); }
     public void setCommonEduIns(Map<String, Object> params) { insert("campus.setCommonEduIns", params); }
     public void setCommonEduUpd(Map<String, Object> params) { update("campus.setCommonEduUpd", params); }
+    public void setCommonEduAddUserAll(Map<String, Object> params) { insert("campus.setCommonEduAddUserAll", params); }
+    public void setCommonEduUserUpd(Map<String, Object> params) { update("campus.setCommonEduUserUpd", params); }
+    public void setCommonEduUserTimeUpd(Map<String, Object> params) { update("campus.setCommonEduUserTimeUpd", params); }
 
     public void setTargetInsert(Map<String, Object> params) {
         insert("campus.setTargetInsert", params);

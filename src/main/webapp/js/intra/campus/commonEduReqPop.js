@@ -24,7 +24,7 @@ const commonEduReq = {
         customKendo.fn_dropDownList("commonClass", commonDataSource, "text", "value", 2);
         let statusDataSource = [
             { text: "계획", value: "0" },
-            { text: "종료", value: "1" }
+            { text: "종료", value: "100" }
         ]
         customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
         $("#startDt, #endDt").attr("readonly", true);
@@ -32,7 +32,7 @@ const commonEduReq = {
 
     dataSet: function(){
         let mode = $("#mode").val();
-        if(mode == "upd"){
+        if(mode == "upd" || mode == "view"){
             let commonInfo = customKendo.fn_customAjax("/campus/getCommonEduOne", {
                 pk: $("#pk").val()
             }).data;
@@ -49,17 +49,25 @@ const commonEduReq = {
             $("#eduDetail").val(commonInfo.EDU_DETAIL);
             $("#status").data("kendoDropDownList").value(commonInfo.STATUS);
         }
+
+        if(mode == "view"){
+            $("#startDt").data("kendoDatePicker").enable(false);
+            $("#endDt").data("kendoDatePicker").enable(false);
+            $("#commonClass").data("kendoDropDownList").enable(false);
+            $("#status").data("kendoDropDownList").enable(false);
+            $("#eduName, #outlineDetail, #eduTime, #eduLocation, #eduTitle, #eduDetail").attr("readOnly", true);
+        }
     },
 
     buttonSet: function(){
         let mode = $("#mode").val();
-        let status = commonEduReq.global.commonInfo.STATUS;
         if(mode == "upd"){
-            if(status == 0) {
-                $("#allBtn").show();
-                $("#userMngBtn").show();
-                $("#selBtn").show();
-            }
+            $("#allBtn").show();
+            $("#userMngBtn").show();
+            $("#selBtn").show();
+        }
+        if(mode == "view"){
+            $("#saveBtn").hide();
         }
     },
 
@@ -120,14 +128,32 @@ const commonEduReq = {
     },
 
     addUserAllBtn: function(){
+        if(!confirm("전 직원을 추가 하시겠습니까?")){
+            return;
+        }
 
+        let data = {
+            pk: $("#pk").val()
+        }
+        let url = "/campus/setCommonEduAddUserAll";
+        const result = customKendo.fn_customAjax(url, data);
+        if(result.flag){
+            alert("전 직원 추가 완료되었습니다.");
+            opener.gridReload();
+        }
     },
 
-    commonEduMngPop: function(){
-
+    commonEduUserListPop: function(){
+        let url = "/Campus/pop/commonEduUserListPop.do?pk="+$("#pk").val();
+        const name = "commonEduUserListPop";
+        const option = "width = 800, height = 875, top = 50, left = 300, location = no";
+        window.open(url, name, option);
     },
 
-    addSelectUserBtn: function(){
-
+    commonEduUserAddPop: function(){
+        let url = "/Campus/pop/commonEduUserAddPop.do?pk="+$("#pk").val();
+        const name = "commonEduUserAddPop";
+        const option = "width = 800, height = 875, top = 50, left = 300, location = no";
+        window.open(url, name, option);
     }
 }

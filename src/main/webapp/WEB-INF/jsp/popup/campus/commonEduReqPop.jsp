@@ -27,8 +27,8 @@
             <h3 class="card-title title_NM">공통학습 등록</h3>
             <div class="btn-st popButton">
                 <button type="button" id="allBtn" style="display: none" class="k-button k-button-solid-info" onclick="commonEduReq.addUserAllBtn();">전직원 추가</button>
-                <button type="button" id="userMngBtn" style="display: none" class="k-button k-button-solid-info" onclick="commonEduReq.commonEduMngPop();">학습참여 관리</button>
-                <button type="button" id="selBtn" style="display: none" class="k-button k-button-solid-info" onclick="commonEduReq.addSelectUserBtn();">선택직원 추가</button>
+                <button type="button" id="userMngBtn" style="display: none" class="k-button k-button-solid-info" onclick="commonEduReq.commonEduUserListPop();">학습참여 관리</button>
+                <button type="button" id="selBtn" style="display: none" class="k-button k-button-solid-info" onclick="commonEduReq.commonEduUserAddPop();">선택직원 추가</button>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="commonEduReq.saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>

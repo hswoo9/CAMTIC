@@ -3,16 +3,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
-<script type="text/javascript" src="/js/intra/campus/eduManagement.js?v=${today}"/></script>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${todate}"/></script>
+<script type="text/javascript" src="/js/intra/campus/commonEduList.js?v=${todate}"/></script>
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">공통학습관리 (관리자)</h4>
-            <div class="title-road">학습관리 &gt; 공통학습관리 (관리자)</div>
+            <h4 class="panel-title">공통학습현황</h4>
+            <div class="title-road">학습관리 &gt; 공통학습현황</div>
         </div>
 
         <div class="panel-body">
@@ -41,5 +38,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    eduManagement.init();
+    commonEdu.init();
 </script>
