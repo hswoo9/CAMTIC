@@ -1034,4 +1034,29 @@ public class UserManageController {
         return "popup/inside/userManage/joinLeaveViewPop";
     }
 
+    /**
+     * 인사관리 계약직원-경비/환경 직원 정보 조회 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewContractPop.do")
+    public String userViewContractPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewContractPop";
+    }
+
 }
