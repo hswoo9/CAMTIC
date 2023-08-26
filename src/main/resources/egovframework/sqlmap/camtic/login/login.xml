@@ -27,7 +27,10 @@
 
             /* 등급 ex 1급 */
             HEI.GRADE_CODE AS gradeCode,
-            HEI.GRADE_NAME AS gradeNm
+            HEI.GRADE_NAME AS gradeNm,
+
+            /* 담당직무 ex 설계전담 강사 */
+            HEI.JOB_DETAIL AS jobDetailNm
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN
