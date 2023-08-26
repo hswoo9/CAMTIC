@@ -99,7 +99,7 @@ var openStudy = {
                     }
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
     onDataBound: function(){

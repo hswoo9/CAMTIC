@@ -97,7 +97,7 @@ var commonEdu = {
                     }
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
     onDataBound: function(){

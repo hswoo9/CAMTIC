@@ -97,7 +97,7 @@ var ojtInfo = {
                     width: 80
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
     popup : function() {

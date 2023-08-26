@@ -96,7 +96,7 @@ var studyMng = {
                     }
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
     onDataBound: function(){

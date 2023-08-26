@@ -101,7 +101,7 @@ var openStudyResMng = {
                     }
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
     onDataBound: function(){

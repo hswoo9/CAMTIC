@@ -1,13 +1,10 @@
-var now = new Date();
-
 var eduStat = {
-
-    init : function(){
+    init: function(){
         eduStat.dataSet();
         eduStat.mainGrid();
     },
 
-    dataSet: function() {
+    dataSet: function(){
         $("#eduYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
@@ -27,7 +24,7 @@ var eduStat = {
         });
     },
 
-    mainGrid : function() {
+    mainGrid: function(){
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -37,7 +34,7 @@ var eduStat = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.empSeq = $("#empSeq").val();
+                    data.empSeq = $("#regEmpSeq").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }
@@ -111,12 +108,8 @@ var eduStat = {
                     template : function (row){
                         return row.SUM_TIME+'.0 시간 / '+row.COUNT_BY+'건';
                     }
-                }, {
-                    field: "",
-                    title: "합계",
-                    width: 150
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     }
 }

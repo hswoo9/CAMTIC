@@ -3,21 +3,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
-<script type="text/javascript" src="/js/intra/campus/eduStat.js?v=${today}"/></script>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-
-<div class="col-md-12 col-lg-12 dash-left">
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/campus/eduStat.js?v=${toDate}"/></script>
+<div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">학습통계</h4>
-            <div class="title-road">학습통계 &gt; 학습통계</div>
         </div>
-
-        <div class="panel-body">
+        <div style="padding-left: 20px; padding-right: 20px;">
+            <h4 class="panel-title">개인학습통계</h4>
+            <div class="title-road">학습통계 &gt; 개인학습통계</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
-
+        </div>
+        <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <colgroup>
@@ -60,7 +57,6 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-
 <script type="text/javascript">
     eduStat.init();
 </script>

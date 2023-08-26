@@ -106,7 +106,7 @@ var studyInfo = {
                     }
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
     onDataBound: function(){
