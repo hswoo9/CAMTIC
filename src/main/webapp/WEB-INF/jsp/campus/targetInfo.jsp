@@ -60,7 +60,6 @@
                     </div><!-- table-responsive -->
                 </div>
                 <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="승인요청" onclick="targetInfo.updateApprStat('10');"/>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="승인" onclick="targetInfo.updateApprStat('100');"/>
             </div>
         </div>
 

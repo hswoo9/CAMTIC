@@ -1,18 +1,13 @@
-var now = new Date();
-
-var eduPlanReqPop = {
-    global : {
+const eduPlanReq = {
+    init: function(){
+        eduPlanReq.dataSet();
     },
 
-    init : function(){
-        eduPlanReqPop.dataSet();
-    },
-
-    dataSet : function() {
+    dataSet: function(){
         $.ajax({
             url : "/campus/getEduCategoryOne",
             data : {
-                eduCategoryId : $("#eduCategoryId").val()
+                pk : $("#eduCategoryId").val()
             },
             type : "post",
             dataType : "json",
@@ -26,7 +21,6 @@ var eduPlanReqPop = {
                     console.log(e);
                     $("#categoryRange").text("데이터 조회중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
                 }
-
             }
         });
 
@@ -64,9 +58,9 @@ var eduPlanReqPop = {
         }
 
         if($("#eduPlanId").val() == "") {
-            eduPlanReqPop.setEduPlanInsert();
+            eduPlanReq.setEduPlanInsert();
         }else {
-            eduPlanReqPop.setEduPlanUpdate();
+            eduPlanReq.setEduPlanUpdate();
         }
     },
 

@@ -1,5 +1,3 @@
-var now = new Date();
-
 var targetInfo = {
     global: {
         targetCategoryMainList: [],
@@ -11,13 +9,13 @@ var targetInfo = {
         yearDropDown: []
     },
 
-    init : function(){
+    init: function(){
         targetInfo.dataSet();
         targetInfo.tableSet();
         targetInfo.StatSet();
     },
 
-    dataSet() {
+    dataSet: function(){
         $.ajax({
             url : "/campus/getTargetYearList",
             data : {
