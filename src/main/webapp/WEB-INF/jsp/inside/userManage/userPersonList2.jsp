@@ -73,7 +73,7 @@
                                 <label for="dsA">전담직원</label>
                                 <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
                                 <label for="dsB">단기직원</label>
-                                <input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsC">
+                                <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsC">
                                 <label for="dsC">위촉직원</label>
                                 <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsD">
                                 <label for="dsD">연수생/학생연구원</label>
