@@ -28,6 +28,7 @@
             <div class="btn-st popButton">
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="dutyInfoReq.fn_dutyCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="dutyInfoReq.fn_dutyCertReq(30);">반려</button>
+                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-error" onclick="dutyInfoReq.fn_dutyCertReq(0);">승인요청취소</button>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="dutyInfoReq.fn_dutyCertReq(10);">승인요청</button>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="dutyInfoReq.saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>

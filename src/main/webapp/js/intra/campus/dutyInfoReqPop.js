@@ -50,8 +50,12 @@ const dutyInfoReq = {
         let mode = $("#mode").val();
         let status = dutyInfoReq.global.dutyInfo.STATUS;
         if(mode == "upd"){
-            if(status == 0 || status == 30){
+            if(status == 0 || status == 30) {
                 $("#appBtn").show();
+            }else if(status == 10){
+                $("#canBtn").show();
+            }else if(status == 100){
+                $("#saveBtn").hide();
             }
         }
         if(mode == "mng"){
@@ -148,6 +152,8 @@ const dutyInfoReq = {
                 alert("승인되었습니다.");
             }else if(status == 30){
                 alert("반려되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
             }
             opener.gridReload();
             window.close();
