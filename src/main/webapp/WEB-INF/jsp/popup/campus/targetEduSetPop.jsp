@@ -16,7 +16,7 @@
   <div class="panel">
     <div class="panel-heading">
       <h4 class="panel-title">학습 목표기술서 선택</h4>
-      <div class="title-road">학습관리 &gt; 개인학습신청</div>
+      <div class="title-road">학습관리 &gt; 학습 목표기술서 선택</div>
     </div>
 
     <div class="panel-body">

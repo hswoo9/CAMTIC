@@ -6,11 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-  .k-radio-list-horizontal, .k-radio-list.k-list-horizontal {
-    gap: 0px;
-  }
-</style>
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/eduReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
