@@ -1,4 +1,4 @@
-var targetInfo = {
+const targetEduMng = {
     global: {
         targetInfo: {},
         targetCategoryMainList: [],
@@ -6,74 +6,45 @@ var targetInfo = {
         targetCategoryMainDetailList: [],
         targetCategorySubDetailList: [],
         eduPlanList: [],
-        subEduPlanList: [],
-        yearDropDown: []
+        subEduPlanList: []
     },
 
     init: function(){
-        targetInfo.pageSet();
-        targetInfo.dataSet();
-        targetInfo.tableSet();
-    },
-
-    pageSet: function(){
-        $.ajax({
-            url : "/campus/getTargetYearList",
-            data : {
-                empSeq : $("#empSeq").val()
-            },
-            type : "post",
-            dataType : "json",
-            async: false,
-            success : function(result){
-                console.log("result");
-                console.log(result);
-                targetInfo.global.yearDropDown = result.list;
-            }
-        });
-
-        $("#targetYear").kendoDropDownList({
-            dataTextField: "TEXT",
-            dataValueField: "VALUE",
-            dataSource: targetInfo.global.yearDropDown,
-            index: 0,
-            change: function(e) {
-                targetInfo.dataSet();
-                targetInfo.tableSet();
-            }
-        });
+        targetEduMng.dataSet();
+        targetEduMng.buttonSet();
+        targetEduMng.tableSet();
     },
 
     dataSet: function(){
-        if($("#targetYear").val() != undefined && $("#targetYear").val() != ""){
-            let dutyInfo = customKendo.fn_customAjax("/campus/getTargetOne", {
+        let mode = $("#mode").val();
+        if(mode == "upd" || mode == "mng"){
+            let targetInfo = customKendo.fn_customAjax("/campus/getTargetOne", {
                 targetYear : $("#targetYear").val(),
                 empSeq : $("#empSeq").val()
             }).list[0];
-            targetInfo.global.targetInfo = dutyInfo;
-            let status = targetInfo.global.targetInfo.STATUS;
-            console.log(status);
+            targetEduMng.global.targetInfo = targetInfo;
+        }
 
-            if(status == 10){
-                $("#stat").text("승인요청 중");
-                $(".appBtn").hide();
-                $(".stepBtn").hide();
-                $(".canBtn").show();
-            }else if(status == 30){
-                $("#stat").text("반려");
-                $(".appBtn").show();
-                $(".stepBtn").show();
-                $(".canBtn").hide();
+        let status = targetEduMng.global.targetInfo.STATUS;
+    },
+
+    buttonSet: function(){
+        let mode = $("#mode").val();
+        let status = targetEduMng.global.targetInfo.STATUS;
+        if(mode == "upd"){
+            if(status == 0 || status == 30) {
+                $("#appBtn").show();
+            }else if(status == 10){
+                $("#canBtn").show();
             }else if(status == 100){
-                $("#stat").text("승인완료");
-                $(".appBtn").hide();
-                $(".stepBtn").hide();
-                $(".canBtn").hide();
-            }else{
-                $("#stat").text("작성중");
-                $(".appBtn").hide();
-                $(".stepBtn").hide();
-                $(".canBtn").hide();
+                $("#saveBtn").hide();
+            }
+        }
+        if(mode == "mng"){
+            $("#saveBtn").hide();
+            if(status == 10){
+                $("#recBtn").show();
+                $("#comBtn").show();
             }
         }
     },
@@ -90,7 +61,7 @@ var targetInfo = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetInfo.global.targetCategoryMainList = Result.list;
+                targetEduMng.global.targetCategoryMainList = Result.list;
             }
         });
 
@@ -105,7 +76,7 @@ var targetInfo = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetInfo.global.targetCategorySubList = Result.list;
+                targetEduMng.global.targetCategorySubList = Result.list;
             }
         });
 
@@ -120,7 +91,7 @@ var targetInfo = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetInfo.global.targetCategoryMainDetailList = Result.list;
+                targetEduMng.global.targetCategoryMainDetailList = Result.list;
             }
         });
 
@@ -135,7 +106,7 @@ var targetInfo = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetInfo.global.targetCategorySubDetailList = Result.list;
+                targetEduMng.global.targetCategorySubDetailList = Result.list;
             }
         });
 
@@ -150,7 +121,7 @@ var targetInfo = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetInfo.global.eduPlanList = Result.list;
+                targetEduMng.global.eduPlanList = Result.list;
             }
         });
 
@@ -165,28 +136,20 @@ var targetInfo = {
             dataType: "json",
             async: false,
             success: function (Result) {
-                targetInfo.global.subEduPlanList = Result.list;
+                targetEduMng.global.subEduPlanList = Result.list;
             }
         });
     },
 
     tableSet: function () {
-        targetInfo.tableDetailSet();
-        console.log("데이터 확인");
-        console.log(targetInfo.global.targetCategoryMainList);
-        console.log(targetInfo.global.targetCategorySubList);
-        console.log(targetInfo.global.targetCategoryMainDetailList);
-        console.log(targetInfo.global.targetCategorySubDetailList);
-        console.log(targetInfo.global.eduPlanList);
-        console.log(targetInfo.global.subEduPlanList);
-        console.log("끝");
+        targetEduMng.tableDetailSet();
 
-        const list = targetInfo.global.targetCategoryMainList;
-        const subList = targetInfo.global.targetCategorySubList;
-        const detailList = targetInfo.global.targetCategoryMainDetailList;
-        const subDetailList = targetInfo.global.targetCategorySubDetailList;
-        const planList = targetInfo.global.eduPlanList;
-        const subPlanList = targetInfo.global.subEduPlanList;
+        const list = targetEduMng.global.targetCategoryMainList;
+        const subList = targetEduMng.global.targetCategorySubList;
+        const detailList = targetEduMng.global.targetCategoryMainDetailList;
+        const subDetailList = targetEduMng.global.targetCategorySubDetailList;
+        const planList = targetEduMng.global.eduPlanList;
+        const subPlanList = targetEduMng.global.subEduPlanList;
 
         let color = "#ffffff";
         let eduCategoryIdArr = [];
@@ -285,8 +248,6 @@ var targetInfo = {
                                 html += brText+"<br><br>";
                             }
                         }
-
-                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+list[i].EDU_CATEGORY_ID+", 1);'/>";
                         html += "   </td>";
                     }
                 }
@@ -301,8 +262,6 @@ var targetInfo = {
                                 html += brText+"<br><br>";
                             }
                         }
-
-                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+subList[i].EDU_CATEGORY_ID+", 2);'/>";
                         html += "   </td>";
                     }
                 }
@@ -316,88 +275,29 @@ var targetInfo = {
         $("#tableData").html(html);
     },
 
-    targetAddYearPop: function() {
-        var url = "/Campus/pop/targetAddYearPop.do";
-        var name = "targetAddYearPop";
-        var option = "width = 520, height = 300, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
-    },
-
-    targetInfoPop: function() {
-        if($("#targetYear").val() == "") {
-            alert("목표기술서를 등록해주세요.");
-            return;
-        }
-        var url = "/Campus/pop/targetInfoPop.do?targetYear="+$("#targetYear").val();
-        var name = "targetInfoPop";
-        var option = "width = 1250, height = 800, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
-    },
-
-    targetMainSetPop: function() {
-        if($("#targetYear").val() == "") {
-            alert("목표기술서를 등록해주세요.");
-            return;
-        }
-        var url = "/Campus/pop/targetMainSetPop.do?targetYear="+$("#targetYear").val();
-        var name = "targetMainSetPop";
-        var option = "width = 1250, height = 800, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
-    },
-
-    targetSubInfoPop: function() {
-        if($("#targetYear").val() == "") {
-            alert("목표기술서를 등록해주세요.");
-            return;
-        }
-        var url = "/Campus/pop/targetSubInfoPop.do?targetYear="+$("#targetYear").val();
-        var name = "targetSubInfoPop";
-        var option = "width = 1250, height = 800, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
-    },
-
-    targetSubSetPop: function() {
-        if($("#targetYear").val() == "") {
-            alert("목표기술서를 등록해주세요.");
-            return;
-        }
-        var url = "/Campus/pop/targetSubSetPop.do?targetYear="+$("#targetYear").val();
-        var name = "targetSubSetPop";
-        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
-    },
-
-    eduPlanReqPop: function(eduCategoryId, dutyClass) {
-        var url = "/Campus/pop/eduPlanReqPop.do?targetYear="+$("#targetYear").val()+"&eduCategoryId="+eduCategoryId+"&dutyClass="+dutyClass;
-        var name = "eduPlanReqPop";
-        var option = "width = 860, height = 500, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
-    },
-
-    updateApprStat: function(status) {
-        if($("#targetYear").val() == "") {
-            alert("목표기술서를 등록해주세요.");
-            return;
+    fn_targetCertReq: function(status){
+        let data = {
+            targetYear : $("#targetYear").val(),
+            empSeq : $("#empSeq").val(),
+            regEmpSeq : $("#regEmpSeq").val(),
+            regEmpName : $("#regEmpName").val(),
+            status : status
         }
 
-        $.ajax({
-            url: "/campus/updateApprStat",
-            data: {
-                status : status,
-                targetYear : $("#targetYear").val(),
-                empSeq : $("#empSeq").val()
-            },
-            type: "post",
-            dataType: "json",
-            async: false,
-            success: function(Result){
-                if(status == "10") {
-                    alert("승인요청이 완료되었습니다.");
-                }else if(status == "0"){
-                    alert("승인 요청이 취소되었습니다.");
-                }
-                targetInfo.dataSet();
+        var result = customKendo.fn_customAjax("/campus/setTargetCertReq", data);
+
+        if(result.flag){
+            if(status == 10){
+                alert("승인 요청이 완료되었습니다.");
+            }else if(status == 100){
+                alert("승인되었습니다.");
+            }else if(status == 30){
+                alert("반려되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
             }
-        });
+            opener.gridReload();
+            window.close();
+        }
     }
 }

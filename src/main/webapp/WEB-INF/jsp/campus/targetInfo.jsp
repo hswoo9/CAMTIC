@@ -42,11 +42,11 @@
                         </tr>
                     </thead>
                 </table>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1 : 목표기술서 등록" onclick="targetInfo.targetAddYearPop();"/>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-1 : 주업무 선택" onclick="targetInfo.targetInfoPop();"/>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-2 : 주업무 현황 및 목표 설정" onclick="targetInfo.targetMainSetPop();"/>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-2 : 연계업무 현황 및 목표 설정" onclick="targetInfo.targetSubSetPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1 : 목표기술서 등록" onclick="targetInfo.targetAddYearPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-1 : 주업무 선택" onclick="targetInfo.targetInfoPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-2 : 주업무 현황 및 목표 설정" onclick="targetInfo.targetMainSetPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-2 : 연계업무 현황 및 목표 설정" onclick="targetInfo.targetSubSetPop();"/>
 
                 <div class="non" style="text-align: center; margin: auto; margin-top: 10px">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
 
@@ -59,7 +59,8 @@
                         </table>
                     </div><!-- table-responsive -->
                 </div>
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="승인요청" onclick="targetInfo.updateApprStat('10');"/>
+                <input type="button" class="appBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="승인요청" onclick="targetInfo.updateApprStat('10');"/>
+                <input type="button" class="canBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="승인요청 취소" onclick="targetInfo.updateApprStat('0');"/>
             </div>
         </div>
 

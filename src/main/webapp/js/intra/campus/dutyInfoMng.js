@@ -1,13 +1,12 @@
 var dutyInfoMng = {
-
-    init: function() {
+    init: function(){
         dutyInfoMng.dataSet();
         dutyInfoMng.mainGrid();
     },
 
     dataSet: function(){
         fn_deptSetting();
-        customKendo.fn_datePicker("dutyYear", 'decade', "yyyy", new Date());
+        customKendo.fn_datePicker("requestYear", 'decade', "yyyy", new Date());
         $("#startDay, #endDay").attr("readonly", true);
         let activeDataSource = [
             { text: "미포함", value: "Y" },
@@ -17,21 +16,21 @@ var dutyInfoMng = {
         fn_searchBind();
     },
 
-    mainGrid: function() {
-        var dataSource = new kendo.data.DataSource({
+    mainGrid: function(){
+        let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
-                read : {
-                    url : '/campus/getDutyInfoMngList',
-                    dataType : "json",
-                    type : "post"
+                read: {
+                    url: '/campus/getDutyInfoMngList',
+                    dataType: "json",
+                    type: "post"
                 },
                 parameterMap: function(data) {
-                    data.dutyYear = 2023;
+                    data.requestYear = $("#requestYear").val();
                     return data;
                 }
             },
-            schema : {
+            schema: {
                 data: function (data) {
                     return data.list;
                 },
@@ -47,9 +46,9 @@ var dutyInfoMng = {
             sortable: true,
             scrollable: true,
             height: 508,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
             toolbar: [
@@ -85,7 +84,17 @@ var dutyInfoMng = {
                     title: "목표기술서",
                     width: "10%",
                     template: function(row){
-                        return "-";
+                        if(row.TARGET_STATUS == 0){
+                            return "<span class='hover' onclick='dutyInfoMng.targetEduMngPop(\"mng\", "+row.EMP_SEQ+");'>작성중</span>";
+                        }else if(row.TARGET_STATUS == 10){
+                            return "<span class='hover' onclick='dutyInfoMng.targetEduMngPop(\"mng\", "+row.EMP_SEQ+");'>승인요청중</span>";
+                        }else if(row.TARGET_STATUS == 30){
+                            return "<span class='hover' onclick='dutyInfoMng.targetEduMngPop(\"mng\", "+row.EMP_SEQ+");'>반려</span>";
+                        }else if(row.TARGET_STATUS == 100){
+                            return "<span style='font-weight: bold' class='hover' onclick='dutyInfoMng.targetEduMngPop(\"mng\", "+row.EMP_SEQ+");'>승인 ("+row.TARGET_APPROVAL_DATE+")</span>";
+                        }else{
+                            return "작성안함";
+                        }
                     }
                 }, {
                     title: "직무기술서",
@@ -106,5 +115,12 @@ var dutyInfoMng = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    targetEduMngPop: function(mode, empSeq){
+        let url = "/Campus/pop/targetEduMngPop.do?mode="+mode+"&empSeq="+empSeq+"&targetYear="+$("#requestYear").val().substring(0, 4);
+        const name = "targetEduMngPop";
+        const option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

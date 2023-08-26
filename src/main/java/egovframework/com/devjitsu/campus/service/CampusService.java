@@ -119,6 +119,7 @@ public interface CampusService {
     /** 직무기술서 시작 */
     void setDutyInfoIns(Map<String, Object> params);
     void setDutyInfoUpd(Map<String, Object> params);
+    void setTargetCertReq(Map<String, Object> params);
     void setDutyCertReq(Map<String, Object> params);
     /** 직무기술서 끝 */
 

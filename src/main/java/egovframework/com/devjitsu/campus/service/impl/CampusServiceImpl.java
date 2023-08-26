@@ -502,6 +502,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setTargetCertReq(Map<String, Object> params) {
+        campusRepository.setTargetCertReq(params);
+    }
+
+    @Override
     public void setDutyCertReq(Map<String, Object> params) {
         campusRepository.setDutyCertReq(params);
     }

@@ -918,6 +918,17 @@ public class CampusController {
         return "campus/dutyInfoMng";
     }
 
+    /** 목표기술서 관리자 팝업 */
+    @RequestMapping("/Campus/pop/targetEduMngPop.do")
+    public String targetEduMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/targetEduMngPop";
+    }
+
 
     //캠퍼스 - 학습신청서 전자결재
     @RequestMapping("/Campus/pop/campusApprovalPop.do")
@@ -1493,6 +1504,13 @@ public class CampusController {
     @RequestMapping("/campus/setDutyInfoUpd")
     public String setDutyInfoUpd(@RequestParam Map<String, Object> params) {
         campusService.setDutyInfoUpd(params);
+        return "jsonView";
+    }
+
+    /** 목표기술서 승인프로세스 */
+    @RequestMapping("/campus/setTargetCertReq")
+    public String setTargetCertReq(@RequestParam Map<String, Object> params, Model model) {
+        campusService.setTargetCertReq(params);
         return "jsonView";
     }
 
