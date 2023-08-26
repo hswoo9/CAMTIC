@@ -122,6 +122,12 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">
+                            학습결과
+                        </th>
+                        <td id="openStudyResultTd" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">
                             소요비용
                         </th>
                         <td id="openStudyAmtTd"></td>

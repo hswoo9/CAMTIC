@@ -10,7 +10,7 @@ const openStudyRes = {
     },
 
     pageSet: function(){
-        customKendo.fn_textBox(["openStudyAmt", "openStudyAmtText"]);
+        customKendo.fn_textBox(["openStudyAmt", "openStudyAmtText", "openStudyResult"]);
     },
 
     dataSet: function(){
@@ -80,13 +80,16 @@ const openStudyRes = {
 
         let openStudyAmt = $("#openStudyAmt").val().replace(",", "");
         let openStudyAmtText = $("#openStudyAmtText").val();
+        let openStudyResult = $("#openStudyResult").val();
 
         if(openStudyAmt == ""){ alert("소요비용이 작성되지 않았습니다."); return;}
         if(openStudyAmtText == ""){ alert("소요비용 내역이 작성되지 않았습니다."); return;}
+        if(openStudyResult == ""){ alert("학습결과가 작성되지 않았습니다."); return;}
 
         let data = {
             openStudyAmt: openStudyAmt,
             openStudyAmtText: openStudyAmtText,
+            openStudyResult: openStudyResult,
             pk: $("#pk").val(),
             step: "D"
         }

@@ -56,6 +56,14 @@
                         <input type="text" id="openStudyAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px;"> ( <input type="text" id="openStudyAmtText" style="width: 500px;"> )
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>학습결과
+                    </th>
+                    <td>
+                        <input type="text" id="openStudyResult" style="width: 600px;">
+                    </td>
+                </tr>
                 </thead>
             </table>
         </form>

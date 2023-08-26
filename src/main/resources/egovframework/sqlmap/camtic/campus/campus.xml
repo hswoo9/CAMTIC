@@ -434,6 +434,9 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                <if test='step != null and !"".equals(step)'>
+                    AND STEP = #{step}
+                </if>
                 ORDER BY COSI.REG_DT
             ) RE
         ORDER BY RE.OPEN_STUDY_INFO_SN DESC
@@ -1035,6 +1038,7 @@
         SET
             OPEN_STUDY_AMT = #{openStudyAmt},
             OPEN_STUDY_AMT_TEXT = #{openStudyAmtText},
+            OPEN_STUDY_RESULT = #{openStudyResult},
             STEP = #{step}
         WHERE
             OPEN_STUDY_INFO_SN = #{pk}

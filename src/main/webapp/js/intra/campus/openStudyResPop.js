@@ -25,10 +25,10 @@ const openStudyRes = {
         $("#openStudyDtTd").text(openStudyInfo.OPEN_STUDY_DT+" "+openStudyInfo.START_TIME+" ~ "+openStudyInfo.END_TIME);
         $("#openStudyLocationTd").text(openStudyInfo.OPEN_STUDY_LOCATION);
         $("#openStudyDetailTd").text(openStudyInfo.OPEN_STUDY_DETAIL);
+        $("#openStudyResultTd").text(openStudyInfo.OPEN_STUDY_RESULT);
         $("#openStudyAmtTd").text(openStudyInfo.OPEN_STUDY_AMT);
         $("#openStudyAmtTextTd").text(openStudyInfo.OPEN_STUDY_AMT_TEXT);
         $("#regDateTd").text(openStudyInfo.REG_DATE);
-
         $("#regDeptTd").text(openStudyInfo.deptNm + " " + openStudyInfo.teamNm);
         if(openStudyInfo.dutyNm == ""){
             $("#regPositionTd").text(openStudyInfo.positionNm);
