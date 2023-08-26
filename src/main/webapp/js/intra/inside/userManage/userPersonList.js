@@ -325,9 +325,11 @@ var userPersonList = {
                         }else {
                             if(e.DIVISION == '4' && e.DIVISION_SUB == '3'){ /*경비/환경*/
                                 return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
-                            }else if(e.DIVISION == '3' || e.DIVISION == '1' /*|| e.DIVISION == '2'*/){ /*단기직원, 위촉직원,  연수생/학생연구원*/
+                            }else if(e.DIVISION == '3' || e.DIVISION == '1'){ /*단기직원, 위촉직원*/
                                 return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
-                            } else{
+                            }else if(e.DIVISION == '3' || e.DIVISION == '2'){ /*연수생/학생연구원*/
+                                return "<a href='#' onclick='userPersonList.userViewTraineePop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }  else{
                                 return "<a href='#' onclick='userPersonList.userViewPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
                             }
                         }
@@ -515,7 +517,7 @@ var userPersonList = {
         var popup = window.open(url, name, option);
     },
 
-    /*계약직원 - 경비/환경*/
+    /*계약직원 - 경비/환경, 단기직원, 위촉직원*/
     userViewContractPop : function(e) {
         var url = "/Inside/pop/userViewContractPop.do";
 
@@ -524,6 +526,19 @@ var userPersonList = {
         }
 
         var name = "userViewContractPop";
+        var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    /*연수생/학생연구원*/
+    userViewTraineePop : function(e) {
+        var url = "/Inside/pop/userViewTraineePop.do";
+
+        if(e != null && e != ""){
+            url += "?empSeq=" + e;
+        }
+
+        var name = "userViewTraineePop";
         var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
