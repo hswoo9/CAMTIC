@@ -15,10 +15,17 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #nickname, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+        $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
+            rows : 5
+        });
 
         userReqPop.fn_setRegDateForm("regDateCaseA");
+        userReqPop.fn_setRegDateForm("regDateCaseB");
         userReqPop.fn_setRegDateForm("birthDay");
+        userReqPop.fn_setRegDateForm("sDate");
+        userReqPop.fn_setRegDateForm("eDate");
+
         var detDs = [
             {text: "선택", value: ""},
         ];
@@ -79,11 +86,15 @@ var userReqPop = {
 
                     userReqPop.fn_caseBRollBack();
                     userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+                    userReqPop.fn_caseERollBack();
                 } else if (divis == '3'){
                     userReqPop.fn_showDivisDet();
-                    userReqPop.fn_caseARollBack();
                     userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+                    userReqPop.fn_caseERollBack();
 
+                    userReqPop.fn_caseARollBack();
                     $(".defaultCaseA").each(function(){
                         $(this).css("display", "none");
                     });
@@ -91,10 +102,19 @@ var userReqPop = {
                     $(".caseB").each(function(){
                         $(this).css("display", "");
                     });
+                    $(".caseF").each(function(){
+                        $(this).css("display", "");
+                    });
 
 
                 } else if(divis == '1'){
                     $("#divisDet").data("kendoDropDownList").wrapper.show()
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseERollBack();
+                    userReqPop.fn_caseDRollBack();
 
                     detDs = [
                         {text: "위촉직원", value: "6"},
@@ -115,11 +135,45 @@ var userReqPop = {
                     $(".caseB").each(function(){
                         $(this).css("display", "");
                     });
-                } else {
+                } else if(divis == '2'){
                     userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
                     userReqPop.fn_caseBRollBack();
                     userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseERollBack();
 
+                    userReqPop.fn_caseDRollBack();
+                    $(".defaultCaseC").each(function(){
+                        $(this).css("display", "none");
+                    });
+
+                    $(".caseD").each(function(){
+                        $(this).css("display", "");
+                    });
+
+                } else if(divis == '10'){
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+
+                    userReqPop.fn_caseERollBack();
+                    $(".defaultCaseD").each(function(){
+                        $(this).css("display", "none");
+                    });
+
+                    $(".caseE").each(function(){
+                        $(this).css("display", "");
+                    });
+
+                } else {
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+                    userReqPop.fn_caseERollBack();
                 }
             }
         });
@@ -389,6 +443,46 @@ var userReqPop = {
             }
         });
 
+        /*위촉직원 호칭*/
+        $("#nickname").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "수석연구원", value: "수석연구원"},
+                {text: "책임연구원", value: "책임연구원"},
+                {text: "선임연구원", value: "선임연구원"},
+                {text: "주임연구원", value: "주임연구원"},
+                {text: "연구원", value: "연구원"},
+                {text: "기타", value: "기타"},
+            ],
+            index: 0
+        });
+
+        $("#nicknameCaseA").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "연수생", value: "연수생"},
+                {text: "학생연구원", value: "학생연구원"}
+            ],
+            index: 0
+        });
+
+        /*연수생/학생연구원 학위*/
+        $("#degree").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "고교 재학", value: "고교 재학"},
+                {text: "석사 재학", value: "석사 재학"},
+                {text: "박사 재학", value: "박사 재학"}
+            ],
+            index: 0
+        });
+
     },
 
     fn_showDivisDet: function (){
@@ -420,7 +514,9 @@ var userReqPop = {
         $(".defaultCaseA").each(function(){
             $(this).css("display", "");
         });
-
+        $(".caseC").each(function(){
+            $(this).css("display", "");
+        });
         $(".caseB").each(function(){
             $(this).css("display", "none");
         });
@@ -432,6 +528,26 @@ var userReqPop = {
         });
 
         $(".caseC").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseDRollBack: function (){
+        $(".defaultCaseC").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseD").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseERollBack: function (){
+        $(".defaultCaseD").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseE").each(function(){
             $(this).css("display", "none");
         });
     },
