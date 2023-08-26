@@ -36,7 +36,7 @@
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>
-    <form id="table-responsive" style="padding: 20px 30px;">
+    <form id="table-responsive" style="padding: 20px 30px;" onsubmit="return false;">
     <table class="popTable table table-bordered mb-0">
       <colgroup>
         <col width="20%">
@@ -59,7 +59,7 @@
         </th>
         <td>
           <c:if test="${params.type eq 'C'}">
-            <input type="text" id="level" style="width: 150px;"/>
+            <input type="text" id="level" style="width: 150px;" value="${data.LEVEL_ID}"/>
           </c:if>
 
           <c:choose>

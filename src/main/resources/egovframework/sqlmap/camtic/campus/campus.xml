@@ -236,7 +236,9 @@
         /* getEduCategoryDetailOne */
         SELECT
             ECD.EDU_CATEGORY_DETAIL_ID,
-            ECD.EDU_CATEGORY_DETAIL_NAME
+            ECD.EDU_CATEGORY_DETAIL_NAME,
+            ECD.LEVEL_ID,
+            ECD.LEVEL_NAME
         FROM
             CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
         WHERE
