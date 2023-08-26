@@ -164,7 +164,7 @@ public class CampusController {
         return "popup/campus/targetEduSetPop";
     }
 
-    //개인학습관리
+    /** 개인학습관리 페이지 */
     @RequestMapping("/Campus/eduInfo.do")
     public String eduInfo(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -524,6 +524,17 @@ public class CampusController {
                 break;
         }
         return "popup/campus/eduResultViewPop";
+    }
+
+    /** 직원학습관리 페이지 */
+    @RequestMapping("/Campus/eduInfoMng.do")
+    public String eduInfoMng(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/eduInfoMng";
     }
 
     /** 학습조 리스트 페이지 */
@@ -948,7 +959,7 @@ public class CampusController {
         return "jsonView";
     }
 
-    //개인학습관리 - 개인학습리스트 조회
+    /** 개인학습 리스트 */
     @RequestMapping("/campus/getEduInfoList")
     public String getEduInfoList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getEduInfoList(params);
@@ -1226,17 +1237,24 @@ public class CampusController {
 
 
 
-    //학습신청 - 교육수강신청서 - 저장
+    /** 교육수강신청서 저장 */
     @RequestMapping("/campus/setEduInfoInsert")
     public String setEduInfoInsert(@RequestParam Map<String, Object> params) {
         campusService.setEduInfoInsert(params);
         return "jsonView";
     }
 
-    //학습관리 - 학습결과보고서 - 저장
+    /** 학습결과보고서 저장 */
     @RequestMapping("/campus/setEduResultInsert")
     public String setEduResultInsert(@RequestParam Map<String, Object> params) {
         campusService.setEduResultInsert(params);
+        return "jsonView";
+    }
+
+    /** 개인학습 이수완료/이수취소 처리 */
+    @RequestMapping("/campus/setMngCheckUpd")
+    public String setMngCheckUpd(@RequestParam Map<String, Object> params) {
+        campusService.setMngCheckUpd(params);
         return "jsonView";
     }
 

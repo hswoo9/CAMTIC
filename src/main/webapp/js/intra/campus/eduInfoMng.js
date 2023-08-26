@@ -1,7 +1,7 @@
-var eduInfo = {
+var eduInfoMng = {
     init: function(){
-        eduInfo.dataSet();
-        eduInfo.mainGrid();
+        eduInfoMng.dataSet();
+        eduInfoMng.mainGrid();
     },
 
     dataSet: function(){
@@ -53,10 +53,17 @@ var eduInfo = {
             },
             toolbar: [
                 {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=" eduInfo.goEduInfoReq();">' +
-                            '	<span class="k-button-text">학습신청</span>' +
+                    name: 'button',
+                    template: function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="eduInfoMng.setMngCheck(\'Y\');">' +
+                            '	<span class="k-button-text">이수완료</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="eduInfoMng.setMngCheck(\'N\');">' +
+                            '	<span class="k-button-text">이수취소</span>' +
                             '</button>';
                     }
                 }
@@ -64,27 +71,12 @@ var eduInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: eduInfo.onDataBound,
+            dataBound: eduInfoMng.onDataBound,
             columns: [
                 {
-                    field: "EDU_INFO_ID",
-                    title: "연번",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'eduPk\');"/>',
+                    template : "<input type='checkbox' id='eduPk#=EDU_INFO_ID#' name='eduPk' class='eduPk' value='#=EDU_INFO_ID#'/>",
                     width: 50
-                }, {
-                    field: "EDU_NAME",
-                    title: "학습명"
-                }, {
-                    title: "학습기간",
-                    template: "<span>#=START_DT# ~ #=END_DT#</span>",
-                    width: 200
-                }, {
-                    field: "CARE_LOCATION",
-                    title: "교육장소",
-                    width: 200
-                }, {
-                    field: "LEVEL_ID",
-                    title: "목표레벨",
-                    width: 100
                 }, {
                     title: "학습방법",
                     width: 200,
@@ -115,6 +107,24 @@ var eduInfo = {
                             return "데이터 오류"
                         }
                     }
+                }, {
+                    field: "REG_EMP_NAME",
+                    title: "성명"
+                }, {
+                    field: "EDU_NAME",
+                    title: "학습명"
+                }, {
+                    title: "학습기간",
+                    template: "<span>#=START_DT# ~ #=END_DT#</span>",
+                    width: 200
+                }, {
+                    field: "CARE_LOCATION",
+                    title: "학습장소",
+                    width: 200
+                }, {
+                    field: "TERM_TIME",
+                    title: "인정시간",
+                    width: 100
                 }, {
                     title: "이수상태",
                     width: 180,
@@ -147,7 +157,7 @@ var eduInfo = {
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
             const eduInfoId = dataItem.EDU_INFO_ID;
-            eduInfo.eduInfoViewPop(eduInfoId);
+            eduInfoMng.eduInfoViewPop(eduInfoId);
         });
     },
 
@@ -158,7 +168,28 @@ var eduInfo = {
         window.open(url, name, option);
     },
 
-    goEduInfoReq: function(){
-        open_in_frame('/Campus/eduReq.do');
+    setMngCheck: function(value){
+        if(!confirm("교육완료 상태만 처리 가능합니다. 진행하시겠습니까?")) {return false;}
+
+        let eduArr = [];
+        $("input[name=eduPk]:checked").each(function(){
+            if(1==1){
+                eduArr.push($(this).val());
+            }
+        })
+        let data = {
+            mngCheck: value,
+            eduList: eduArr.join()
+        }
+        let url = "/campus/setMngCheckUpd";
+        const result = customKendo.fn_customAjax(url, data);
+        if(result.flag){
+            if(value == "Y"){
+                alert("이수처리 되었습니다.");
+            }else if(value == "N"){
+                alert("이수취소 되었습니다.");
+            }
+            gridReload();
+        }
     }
 }
