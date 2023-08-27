@@ -601,27 +601,15 @@ public class CampusController {
         return "popup/campus/studyJournalPop";
     }
 
-
-    //전파학습관리
-    @RequestMapping("/Campus/propagInfo.do")
-    public String propagInfo(HttpServletRequest request, Model model) {
+    /** 전파학습 조회 팝업 */
+    @RequestMapping("/Campus/pop/propagViewPop.do")
+    public String propagViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "campus/propagInfo";
-    }
-
-    //OJT관리
-    @RequestMapping("/Campus/ojtInfo.do")
-    public String ojtInfo(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "campus/ojtInfo";
+        model.addAttribute("params", params);
+        return "popup/campus/propagViewPop";
     }
 
     /** 오픈스터디 페이지 */

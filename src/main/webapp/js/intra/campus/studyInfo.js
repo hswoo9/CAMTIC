@@ -114,7 +114,12 @@ var studyInfo = {
         grid.element.off('dblclick');
         grid.tbody.find("tr").dblclick(function(){
             const dataItem = grid.dataItem($(this).closest("tr"));
-            studyInfo.studyViewPop(dataItem.STUDY_INFO_SN);
+            let studyClass = dataItem.STUDY_CLASS_SN;
+            if(studyClass == 1){
+                studyInfo.studyViewPop("upd", dataItem.STUDY_INFO_SN);
+            }else if(studyClass == 2){
+                studyInfo.propagViewPop("upd", dataItem.STUDY_INFO_SN);
+            }
         });
     },
 
@@ -125,15 +130,17 @@ var studyInfo = {
         window.open(url, name, option);
     },
 
-    studyViewPop: function(pk){
-        let url = "";
-        if(pk == null || pk == "" || pk == undefined){
-            url = "/Campus/pop/studyViewPop.do";
-        } else {
-            url = "/Campus/pop/studyViewPop.do?studyInfoSn="+pk;
-        }
-        let name = "studyReqPop";
-        let option = "width = 920, height = 900, top = 100, left = 200, location = no";
+    studyViewPop: function(mode, pk){
+        let url = "/Campus/pop/studyViewPop.do?mode="+mode+"&pk="+pk;
+        const name = "studyReqPop";
+        const option = "width = 920, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    propagViewPop: function(mode, pk){
+        let url = "/Campus/pop/propagViewPop.do?mode="+mode+"&pk="+pk;
+        const name = "studyReqPop";
+        const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
 }

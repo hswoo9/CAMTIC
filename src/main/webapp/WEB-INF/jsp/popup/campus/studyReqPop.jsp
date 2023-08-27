@@ -9,10 +9,9 @@
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/studyReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="suerSelType" value="0">
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header" style="padding-top:45px;">
     <div class="col-lg-11" style="margin:0 auto;">
@@ -37,18 +36,34 @@
                 <input type="text" id="studyName" style="width: 800px">
               </td>
             </tr>
+            <tr class="propag" style="display: none">
+              <th>지 도 자</th>
+              <td>
+                <input type="text" id="readerUserName" style="width: 600px">
+                <input type="hidden" id="readerUserSeq">
+                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="지도자 선택" onclick="$('#suerSelType').val('2'); fn_userMultiSelectPop()"/>
+              </td>
+            </tr>
             <tr>
               <th>학 습 자</th>
               <td>
                 <input type="text" id="studyUserName" style="width: 600px">
                 <input type="hidden" id="studyUserSeq">
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="fn_userMultiSelectPop()"/>
+                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="$('#suerSelType').val('1'); fn_userMultiSelectPop()"/>
               </td>
             </tr>
             <tr>
               <th>학습기간</th>
               <td>
-                <input type="text" id="startDt" style="width: 150px"> ~ <input type="text" id="endDt" style="width: 150px"> <input type="text" id="dateVal" style="width: 200px"> ex)매주 목요일 오후5시
+                <div style="float: left"><input type="text" id="startDt" style="width: 150px"> ~ <input type="text" id="endDt" style="width: 150px"></div>
+
+                <div class="study" style="float: left; display: none">
+                  &nbsp<input type="text" id="dateVal" style="width: 200px"> ex)매주 목요일 오후5시
+                </div>
+
+                <div class="propag" style="float: left; display: none">
+                  &nbsp매회 학습시간 <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px"> (총 <input type="text" id="eduTerm" style="width: 50px" oninput="onlyNumber(this)">회 <input type="text" id="eduTime" style="width: 50px" oninput="onlyNumber()">시간)
+                </div>
               </td>
             </tr>
             <tr>
@@ -72,7 +87,7 @@
             <tr>
               <th>소요비용</th>
               <td>
-                <input type="text" id="studyMoney" style="width: 150px" value="0"> 원
+                <input type="text" id="studyMoney" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 150px" value="0"> 원
               </td>
             </tr>
             <tr>
@@ -81,7 +96,7 @@
                 <textarea id="studyMoneyVal" style="width: 800px; height: 100px"></textarea>
               </td>
             </tr>
-            <tr>
+            <tr class="study" style="display: none">
               <th>첨부서류</th>
               <td>
                 <input type="text" id="attach" style="width: 800px">
