@@ -230,36 +230,50 @@
                 <tr>
                     <th>협약기간</th>
                     <td>
-
+                        ${uprinfList.CTR_ST_DAY} ~ ${uprinfList.CTR_EN_DAY}
                     </td>
                     <th>근무시간 /일</th>
                     <td>
-                        시간
+                        ${uprinfList.WEEK_WORK_TIME} 시간
                     </td>
                 </tr>
                 <tr>
                     <th>협약 조건</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.CONTRACT}
+                    </td>
                 </tr>
                 <tr>
                     <th>학교</th>
-                    <td></td>
+                    <td>
+                        ${uprinfList.SCHOOL}
+                    </td>
                     <th>학위</th>
-                    <td></td>
+                    <td>
+                        ${uprinfList.DEGREE}
+                    </td>
                 </tr>
                 <tr>
                     <th>학과</th>
-                    <td></td>
+                    <td>
+                        ${uprinfList.DEPARTMENT}
+                    </td>
                     <th>학년/학번</th>
-                    <td></td>
+                    <td>
+                        ${uprinfList.GRADE} / ${uprinfList.STUDENT_ID}
+                    </td>
                 </tr>
                 <tr>
                     <th>기능 및 자격</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.QUALIFICATION}
+                    </td>
                 </tr>
                 <tr>
                     <th>특이사항</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.SIGNIFICANT}
+                    </td>
                 </tr>
                 </thead>
             </table>
