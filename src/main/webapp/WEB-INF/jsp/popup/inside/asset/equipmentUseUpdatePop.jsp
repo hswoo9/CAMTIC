@@ -84,9 +84,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star"></span>작성 일자</th>
-                    <td><input id="regDe" type="date" style="width: 100%;"></td>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>정렬순번</th>
-                    <td><input type="text" id="sortSn" style="width: 100%;"></td>
+                    <td colspan="3"><input id="regDe" type="date" style="width: 35%;"></td>
                 </tr>
                 </thead>
             </table>

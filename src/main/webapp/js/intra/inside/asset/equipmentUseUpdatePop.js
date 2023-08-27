@@ -41,7 +41,6 @@ var equipmentUseUpdatePop = {
         $("#useTime").kendoTextBox();
         $("#useAmt").kendoTextBox();
         $("#clientPrtpcoName").kendoTextBox();
-        $("#sortSn").kendoTextBox();
 
         $("#regDe").kendoDatePicker({
             depth: "month",
@@ -158,7 +157,6 @@ var equipmentUseUpdatePop = {
                 $("#useAmt").val(equipmentUseUpdatePop.fn_comma(rs.USE_AMT)); //사용대금
                 $("#prtpcoGbnName").data("kendoDropDownList").value(rs.PRTPCO_GBN_SN); //업체구분 공통코드sn
                 $("#regDe").val(rs.REG_DE); //작성일자
-                $("#sortSn").val(rs.SORT_SN); //정렬순번
             }
         });
 
@@ -198,7 +196,6 @@ var equipmentUseUpdatePop = {
                 prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
                 prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
-                sortSn : $("#sortSn").val(), //정렬순번
                 crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
                 clientPprtpcoName : $("#clientPprtpcoName").val(), //의뢰업체명
                 updusrSn : $("#empSeq").val() //수정자sn - 로그인한 계정
@@ -237,11 +234,7 @@ var equipmentUseUpdatePop = {
             }else if(data.regDe == null || data.regDe == '') {
                 alert("작성일자를 입력하세요.")
                 return false;
-            }else if(data.sortSn == null || data.sortSn == '') {
-                alert("정렬순번을 입력하세요.")
-                return false;
             }
-            console.log(data);
 
             $.ajax({
                 url : '/asset/setEquipmenUseUpdate',
