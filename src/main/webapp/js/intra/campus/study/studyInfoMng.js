@@ -86,12 +86,25 @@ var studyMng = {
                     title: "진행현황",
                     width: 120,
                     template: function(row){
-                        if(row.STATUS == 0){
-                            return "신청서 작성중"
-                        }else if(row.STATUS == 10) {
-                            return "신청서 승인요청중"
-                        }else if(row.STATUS == 100){
-                            return "신청서 제출"
+                        let studyClass = row.STUDY_CLASS_SN;
+                        if(studyClass == 1){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중"
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중"
+                            }else if(row.STATUS == 100){
+                                return "신청서 제출"
+                            }
+                        }else if(studyClass == 2){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중"
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중"
+                            }else if(row.STATUS == 30) {
+                                return "신청서 반려됨"
+                            }else if(row.STATUS == 100){
+                                return "학습종료"
+                            }
                         }
                     }
                 }
@@ -104,19 +117,26 @@ var studyMng = {
         grid.element.off('dblclick');
         grid.tbody.find("tr").dblclick(function(){
             const dataItem = grid.dataItem($(this).closest("tr"));
-            studyMng.studyViewPop(dataItem.STUDY_INFO_SN);
+            let studyClass = dataItem.STUDY_CLASS_SN;
+            if(studyClass == 1){
+                studyMng.studyViewPop("mng", dataItem.STUDY_INFO_SN);
+            }else if(studyClass == 2){
+                studyMng.propagViewPop("mng", dataItem.STUDY_INFO_SN);
+            }
         });
     },
 
-    studyViewPop: function(pk){
-        let url = "";
-        if(pk == null || pk == "" || pk == undefined){
-            url = "/Campus/pop/studyViewPop.do";
-        } else {
-            url = "/Campus/pop/studyViewPop.do?mode=mng&studyInfoSn="+pk;
-        }
-        let name = "studyReqPop";
-        let option = "width = 920, height = 900, top = 100, left = 200, location = no";
+    studyViewPop: function(mode, pk){
+        let url = "/Campus/pop/studyViewPop.do?mode="+mode+"&pk="+pk;
+        const name = "studyReqPop";
+        const option = "width = 920, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    propagViewPop: function(mode, pk){
+        let url = "/Campus/pop/propagViewPop.do?mode="+mode+"&pk="+pk;
+        const name = "studyReqPop";
+        const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
 }

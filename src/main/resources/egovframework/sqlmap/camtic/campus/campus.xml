@@ -374,19 +374,30 @@
     <select id="getStudyInfoOne" resultType="map" parameterType="map">
         /* getStudyInfoOne */
         SELECT
-            *
+            CSI.*,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            HEI.POSITION_NAME AS positionNm,
+            HEI.DUTY_NAME AS dutyNm
         FROM
             CAMPUS.DJ_STUDY_INFO CSI
-        WHERE STUDY_INFO_SN = #{studyInfoSn}
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON CSI.REG_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE STUDY_INFO_SN = #{pk}
     </select>
 
     <select id="getStudyUserList" resultType="map" parameterType="map">
         /* getStudyUserList */
         SELECT
-            *
+            CSU.*
         FROM
             CAMPUS.DJ_STUDY_USER CSU
         WHERE STUDY_INFO_SN = #{studyInfoSn}
+        <if test='studyClassSn != null and !"".equals(studyClassSn)'>
+            AND STUDY_CLASS_SN = #{studyClassSn}
+        </if>
         ORDER BY STUDY_CLASS_SN, STUDY_USER_SN
     </select>
 
@@ -827,7 +838,20 @@
                 STUDY_CONTENT,
                 STUDY_MONEY,
                 STUDY_MONEY_VAL,
+                <if test='startTime != null and startTime != ""'>
+                    START_TIME,
+                </if>
+                <if test='endTime != null and endTime != ""'>
+                    END_TIME,
+                </if>
+                <if test='eduTerm != null and eduTerm != ""'>
+                    EDU_TERM,
+                </if>
+                <if test='eduTime != null and eduTime != ""'>
+                    EDU_TIME,
+                </if>
                 REG_EMP_SEQ,
+                REG_EMP_NAME,
                 REG_DT
             )
         VALUES
@@ -843,11 +867,24 @@
                 #{studyContent},
                 #{studyMoney},
                 #{studyMoneyVal},
+                <if test='startTime != null and startTime != ""'>
+                    #{startTime},
+                </if>
+                <if test='endTime != null and endTime != ""'>
+                    #{endTime},
+                </if>
+                <if test='eduTerm != null and eduTerm != ""'>
+                    #{eduTerm},
+                </if>
+                <if test='eduTime != null and eduTime != ""'>
+                    #{eduTime},
+                </if>
                 #{empSeq},
+                #{empName},
                 #{regDate}
             )
         <selectKey keyProperty="studyUserSn" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_USER'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_INFO'
         </selectKey>
     </insert>
 
@@ -856,6 +893,12 @@
         INSERT INTO CAMPUS.DJ_STUDY_USER
             (
                 STUDY_INFO_SN,
+                <if test='studyClassSn != null and studyClassSn != ""'>
+                    STUDY_CLASS_SN,
+                </if>
+                <if test='studyClassText != null and studyClassText != ""'>
+                    STUDY_CLASS_TEXT,
+                </if>
                 STUDY_EMP_SEQ,
                 STUDY_EMP_NAME,
                 STUDY_DEPT_NAME,
@@ -866,6 +909,12 @@
         VALUES
             (
                 #{studyUserSn},
+                <if test='studyClassSn != null and studyClassSn != ""'>
+                    #{studyClassSn},
+                </if>
+                <if test='studyClassText != null and studyClassText != ""'>
+                    #{studyClassText},
+                </if>
                 #{empSeq},
                 #{studyEmpName},
                 #{studyDeptName},

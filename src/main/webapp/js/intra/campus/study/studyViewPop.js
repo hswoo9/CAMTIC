@@ -14,9 +14,9 @@ const studyView = {
         studyView.studyBtnSetting();
     },
 
-    studyUserSetting:function(){
+    studyUserSetting: function(){
         let data = {
-            studyInfoSn: $("#studyInfoSn").val()
+            studyInfoSn: $("#pk").val()
         }
         const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
         studyView.global.studyUserList = result.list;
@@ -85,7 +85,7 @@ const studyView = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.studyInfoSn = $("#studyInfoSn").val();
+                    data.studyInfoSn = $("#pk").val();
                     return data;
                 }
             },
@@ -115,7 +115,7 @@ const studyView = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop(1, '+$("#studyInfoSn").val()+');">' +
+                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop(1, '+$("#pk").val()+');">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -181,7 +181,7 @@ const studyView = {
 
     studyReq: function(status){
         var data = {
-            studyInfoSn : $("#studyInfoSn").val(),
+            studyInfoSn : $("#pk").val(),
             status : status
         }
 
