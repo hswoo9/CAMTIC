@@ -450,6 +450,18 @@ var userReqPop = {
             }
         });
 
+        $("#lunarYn1").on("click", function(){
+            var bday = $("#birthDay").val()
+
+            if($("#lunarYn1").is(":checked")) {
+                var lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+                $("#lunarBirthDay").text(lunarDay);
+            } else {
+                $("#lunarYn1").val("N");
+                $("#lunarBirthDay").text("");
+            }
+        });
+
         /*위촉직원 호칭*/
         $("#nickname").kendoDropDownList({
             dataTextField: "text",
@@ -907,6 +919,7 @@ var userReqPop = {
             data.CAPS_NUM = $("#capsNumCaseB").val(); //CAPS 번호
             data.BDAY = $("#birthDay").val(); //생년월일
             data.DEGREE_CODE = $("#degreeCodeA").val(); //학위
+            data.JOB_DETAIL = $("#jobDetailCaseB").val(); //직무사항
         }
         if($("#divis").val() == '2'){ /*연수생/학생연구원*/
             data.JOB_DETAIL = $("#jobDetailCaseA").val(); //직무사항
@@ -920,12 +933,24 @@ var userReqPop = {
             data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
         }
         
-        if($("#lunarYn").is(":checked")){
-            data.LUNAR_CAL = "Y"
-        }else {
-            data.LUNAR_CAL = "N"
-        }
 
+
+        if($("#targetEmpSeq").val() != ""){
+            //업데이트
+            if($("#lunarYn1").is(":checked")){
+                data.LUNAR_CAL = "Y"
+            }else {
+                data.LUNAR_CAL = "N"
+            }
+        }else{
+            //신규
+            if($("#lunarYn").is(":checked")){
+                data.LUNAR_CAL = "Y"
+            }else {
+                data.LUNAR_CAL = "N"
+            }
+            data.BDAY = $("#bday").val(); //생년월일
+        }
 
         if($("#weddingActive").getKendoRadioGroup().value() == "Y"){
             data.WEDDING_DAY = $("#weddingDay").val();

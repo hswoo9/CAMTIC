@@ -10,7 +10,7 @@ var userViewContractPop = {
 
     },
     dataSet : function() {
-        var data = {
+        /*var data = {
 
         }
         data.deptLevel = 1;
@@ -18,9 +18,9 @@ var userViewContractPop = {
 
         customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq", "6");
 
-        $("#deptComp").data("kendoDropDownList").bind("change", userViewContractPop.fn_chngDeptComp)
+        $("#deptComp").data("kendoDropDownList").bind("change", userViewContractPop.fn_chngDeptComp);
         $("#deptComp").data("kendoDropDownList").select(0);
-        $("#deptComp").data("kendoDropDownList").trigger("change");
+        $("#deptComp").data("kendoDropDownList").trigger("change");*/
 
         userViewContractPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
         customKendo.fn_dropDownList("duty", userViewContractPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", "4");

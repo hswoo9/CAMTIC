@@ -125,6 +125,11 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public void setBasicInfo(Map<String, Object> params) {
+        userManageRepository.setBasicInfo(params);
+    }
+
+    @Override
     public void setUserReqDetailInsert(Map<String, Object> params) {
         userManageRepository.setUserReqDetailInsert(params);
     }

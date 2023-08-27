@@ -131,6 +131,17 @@ public class UserManageController {
     }
 
     /**
+     * 직원 개인 기본정보 수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setBasicInfo.do")
+    public String setBasicInfo(@RequestParam Map<String,Object> params) {
+        userManageService.setBasicInfo(params);
+        return "jsonView";
+    }
+
+    /**
      * 인사관리 직원 정보 조회 팝업
      * @param params
      * @param request
@@ -1082,6 +1093,56 @@ public class UserManageController {
         System.out.println("parmas값 --------" + params);
         System.out.println("dfdf --------" + userPersonnelinformList);
         return "popup/inside/userManage/userViewTraineePop";
+    }
+
+    /**
+     * 인사관리 계약직원-경비/환경, 단기직원, 위촉직원 직원 정보 조회 팝업 (사용자)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewContractPop2.do")
+    public String userViewContractPop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewContractPop2";
+    }
+
+    /**
+     * 인사관리 연수생/학생연구원 직원 정보 조회 팝업 (사용자)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewTraineePop2.do")
+    public String userViewTraineePop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewTraineePop2";
     }
 
 }

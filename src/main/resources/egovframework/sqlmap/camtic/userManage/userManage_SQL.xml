@@ -13,11 +13,14 @@
             a.BDAY as 'bDay',
             a.ZIP_CODE AS 'zipCode',
             a.ADDR AS 'addr',
-            a.OLD_ADDR AS 'oldAdrr',
+            a.OLD_ADDR AS 'oldAddr',
             a.ADDR_DETAIL AS 'addrDetail',
             a.ADDR_REFERENCES AS 'addrReferences',
             a.OFFICE_TEL_NUM AS 'officeTelNum',
             a.MOBILE_TEL_NUM AS 'mobileTelNum',
+            a.EMG_TEL_NUM as 'emgTelNum',
+            a.CAR_ACTIVE AS 'carActive',
+            a.CAR_NUM AS 'carNum',
             a.JOIN_DAY AS 'joinDay',
             a.RESIGN_DAY AS 'resignDay'
         FROM
@@ -267,7 +270,8 @@
             LAST_DEGREE,
             CAREER,
             MILITARY,
-            SIGNIFICANT
+            SIGNIFICANT,
+            BDAY
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -340,7 +344,8 @@
             #{LAST_DEGREE},
             #{CAREER},
             #{MILITARY},
-            #{SIGNIFICANT}
+            #{SIGNIFICANT},
+            #{BDAY}
         )
     </insert>
 
@@ -1452,6 +1457,7 @@
             a.CTR_ST_DAY,
             a.CTR_EN_DAY,
             a.WEEK_WORK_TIME,
+            a.NICK_NAME,
             a.CONTRACT,
             a.SCHOOL,
             a.DEGREE,
@@ -1575,7 +1581,23 @@
             CAR_ACTIVE = #{CAR_ACTIVE},
             JOIN_DAY = #{JOIN_DAY},
             OCCUPATION_CODE = #{OCCUPATION_CODE},
-            LUNAR_CAL = #{LUNAR_CAL}
+            LUNAR_CAL = #{LUNAR_CAL},
+            CTR_ST_DAY = #{CTR_ST_DAY},
+            CTR_EN_DAY = #{CTR_EN_DAY},
+            WEEK_WORK_TIME = #{WEEK_WORK_TIME},
+            NICK_NAME = #{NICK_NAME},
+            CONTRACT = #{CONTRACT},
+            SCHOOL = #{SCHOOL},
+            DEGREE = #{DEGREE},
+            DEPARTMENT = #{DEPARTMENT},
+            GRADE = #{GRADE},
+            STUDENT_ID = #{STUDENT_ID},
+            QUALIFICATION = #{QUALIFICATION},
+            LAST_DEGREE = #{LAST_DEGREE},
+            CAREER = #{CAREER},
+            MILITARY = #{MILITARY},
+            SIGNIFICANT = #{SIGNIFICANT},
+            BDAY = #{BDAY}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
     </update>
 
@@ -1644,4 +1666,24 @@
             EMP_SEQ = #{empSeq}
     </update>
 
+    <update id="setBasicInfo" parameterType="map">
+        /* setBasicInfo */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            EMP_NAME_CN = #{empNameCn},
+            BDAY = #{bDay},
+            ZIP_CODE = #{zipCode},
+            ADDR = #{addr},
+            OLD_ADDR = #{oldAddr},
+            ADDR_DETAIL = #{addrDetail},
+            OFFICE_TEL_NUM = #{officeTelNum},
+            EMG_TEL_NUM = #{emgTelNum},
+            CAR_ACTIVE = #{carActive},
+            CAR_NUM = #{carNum},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </update>
 </mapper>
