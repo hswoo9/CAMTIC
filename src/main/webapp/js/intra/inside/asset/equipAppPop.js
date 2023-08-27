@@ -39,11 +39,12 @@ const equipApp = {
 
                 equipApp.global.flag = result.flag;
                 equipApp.global.data = data;
-                if(!result.flag){
+                //데이터 있음
+                if(result.flag == "false"){
                     $("#eqipnmApprovalSn").val(data.eqipnmApprovalSn);
                 }
                 //신청가능(중복없음) true
-                if(data.STATUS == "0") {
+                if(result.flag == "true") {
                     $("#approvalBtn").show();
                     $("#approvalViewBtn").hide();
 

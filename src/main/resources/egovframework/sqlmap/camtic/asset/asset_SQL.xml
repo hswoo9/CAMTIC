@@ -1899,6 +1899,7 @@
                 CAM_INSIDE.DJ_EQIPNM_APPROVAL
             WHERE
                 APPLY_MONTH = #{searchDe}
+            AND STATUS != 0
     </select>
 
     <insert id="setEquipApprovalInfo" parameterType="map">
