@@ -318,6 +318,7 @@ var userPersonList2 = {
                             } else {
                                 return "<a href='#' onclick='userPersonList2.userViewPop(" + e.EMP_SEQ + ")' style='color: rgb(0, 51, 255);'>" + e.EMP_NAME_KR + "</a>";
                             }
+                            /*return "<a href='#' onclick='userPersonList2.userViewPop(" + e.EMP_SEQ + ")' style='color: rgb(0, 51, 255);'>" + e.EMP_NAME_KR + "</a>";*/
                         }
                     },
                     width : 100
@@ -483,26 +484,26 @@ var userPersonList2 = {
 
     /*계약직원 - 경비/환경, 단기직원, 위촉직원*/
     userViewContractPop : function(e) {
-        var url = "/Inside/pop/userViewContractPop.do";
+        var url = "/Inside/pop/userViewContractPop2.do";
 
         if(e != null && e != ""){
             url += "?empSeq=" + e;
         }
 
-        var name = "userViewContractPop";
+        var name = "userViewContractPop2";
         var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
     /*연수생/학생연구원*/
     userViewTraineePop : function(e) {
-        var url = "/Inside/pop/userViewTraineePop.do";
+        var url = "/Inside/pop/userViewTraineePop2.do";
 
         if(e != null && e != ""){
             url += "?empSeq=" + e;
         }
 
-        var name = "userViewTraineePop";
+        var name = "userViewTraineePop2";
         var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
