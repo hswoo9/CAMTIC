@@ -15,7 +15,16 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #jobDetail, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+        $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
+            rows : 5
+        });
+
+        userReqPop.fn_setRegDateForm("regDateCaseA");
+        userReqPop.fn_setRegDateForm("regDateCaseB");
+        userReqPop.fn_setRegDateForm("birthDay");
+        userReqPop.fn_setRegDateForm("sDate");
+        userReqPop.fn_setRegDateForm("eDate");
 
         var detDs = [
             {text: "선택", value: ""},
@@ -24,8 +33,26 @@ var userReqPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: detDs,
-            index: 0
+            index: 0,
+            change: function(){
+                var divisDet = $("#divisDet").val();
+                if($("#divis").val() != '1'){
+                    if(divisDet == '3' && $("#divis").val() == '4'){
+                        $(".defaultCase").each(function(){
+                            $(this).css("display", "none");
+                        });
+
+                        $(".caseA").each(function(){
+                            $(this).css("display", "");
+                        });
+                    } else {
+                        userReqPop.fn_caseARollBack();
+                    }
+                }
+
+            }
         });
+
 
         $("#divisDet").data("kendoDropDownList").wrapper.hide()
 
@@ -53,28 +80,100 @@ var userReqPop = {
                         {text: "인턴사원", value : "2"},
                         {text: "경비/환경", value : "3"},
                     ];
-                    $("#divisDet").kendoDropDownList({
-                        dataTextField: "text",
-                        dataValueField: "value",
-                        dataSource: detDs,
-                        index: 0
+
+                    $("#divisDet").data("kendoDropDownList").setDataSource(detDs);
+                    $("#divisDet").data("kendoDropDownList").select(0);
+
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+                    userReqPop.fn_caseERollBack();
+                } else if (divis == '3'){
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+                    userReqPop.fn_caseERollBack();
+
+                    userReqPop.fn_caseARollBack();
+                    $(".defaultCaseA").each(function(){
+                        $(this).css("display", "none");
                     });
-                } else if(divis == "1") {
+
+                    $(".caseB").each(function(){
+                        $(this).css("display", "");
+                    });
+                    $(".caseF").each(function(){
+                        $(this).css("display", "");
+                    });
+
+
+                } else if(divis == '1'){
                     $("#divisDet").data("kendoDropDownList").wrapper.show()
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseERollBack();
+                    userReqPop.fn_caseDRollBack();
 
                     detDs = [
                         {text: "위촉직원", value: "6"},
                         {text: "위촉연구원", value : "4"},
                     ];
-                    $("#divisDet").kendoDropDownList({
-                        dataTextField: "text",
-                        dataValueField: "value",
-                        dataSource: detDs,
-                        index: 0
+
+                    $("#divisDet").data("kendoDropDownList").setDataSource(detDs);
+                    $("#divisDet").data("kendoDropDownList").select(0);
+
+                    userReqPop.fn_caseBRollBack();
+                    $(".defaultCaseB").each(function(){
+                        $(this).css("display", "none");
                     });
+
+                    $(".caseC").each(function(){
+                        $(this).css("display", "");
+                    });
+                    $(".caseB").each(function(){
+                        $(this).css("display", "");
+                    });
+                } else if(divis == '2'){
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseERollBack();
+
+                    userReqPop.fn_caseDRollBack();
+                    $(".defaultCaseC").each(function(){
+                        $(this).css("display", "none");
+                    });
+
+                    $(".caseD").each(function(){
+                        $(this).css("display", "");
+                    });
+
+                } else if(divis == '10'){
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+
+                    userReqPop.fn_caseERollBack();
+                    $(".defaultCaseD").each(function(){
+                        $(this).css("display", "none");
+                    });
+
+                    $(".caseE").each(function(){
+                        $(this).css("display", "");
+                    });
+
                 } else {
-                    $("#divisDet").val("");
-                    $("#divisDet").data("kendoDropDownList").wrapper.hide()
+                    userReqPop.fn_showDivisDet();
+                    userReqPop.fn_caseARollBack();
+                    userReqPop.fn_caseBRollBack();
+                    userReqPop.fn_caseCRollBack();
+                    userReqPop.fn_caseDRollBack();
+                    userReqPop.fn_caseERollBack();
                 }
             }
         });
@@ -209,13 +308,7 @@ var userReqPop = {
             index: 0
         });
 
-        $("#regDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
+        userReqPop.fn_setRegDateForm("regDate");
 
         $("#bday").kendoDatePicker({
             depth: "month",
@@ -338,8 +431,126 @@ var userReqPop = {
             labelPosition : "after",
         });
 
+        $("#lunarYn").on("click", function(){
+            var bday = $("#bday").val()
+
+            if($("#lunarYn").is(":checked")) {
+                var lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+                $("#lunarBday").text(lunarDay);
+            } else {
+                $("#lunarYn").val("N");
+                $("#lunarBday").text("");
+            }
+        });
+
+        /*위촉직원 호칭*/
+        $("#nickname").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "수석연구원", value: "수석연구원"},
+                {text: "책임연구원", value: "책임연구원"},
+                {text: "선임연구원", value: "선임연구원"},
+                {text: "주임연구원", value: "주임연구원"},
+                {text: "연구원", value: "연구원"},
+                {text: "기타", value: "기타"},
+            ],
+            index: 0
+        });
+
+        $("#nicknameCaseA").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "연수생", value: "연수생"},
+                {text: "학생연구원", value: "학생연구원"}
+            ],
+            index: 0
+        });
+
+        /*연수생/학생연구원 학위*/
+        $("#degree").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "고교 재학", value: "고교 재학"},
+                {text: "석사 재학", value: "석사 재학"},
+                {text: "박사 재학", value: "박사 재학"}
+            ],
+            index: 0
+        });
+
     },
 
+    fn_showDivisDet: function (){
+        $("#divisDet").val("");
+        $("#divisDet").data("kendoDropDownList").wrapper.hide();
+    },
+
+    fn_setRegDateForm: function(id){
+        $("#" + id).kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+    },
+
+    fn_caseARollBack : function (){
+        $(".defaultCase").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseA").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseBRollBack : function (){
+        $(".defaultCaseA").each(function(){
+            $(this).css("display", "");
+        });
+        $(".caseC").each(function(){
+            $(this).css("display", "");
+        });
+        $(".caseB").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseCRollBack: function (){
+        $(".defaultCaseB").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseC").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseDRollBack: function (){
+        $(".defaultCaseC").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseD").each(function(){
+            $(this).css("display", "none");
+        });
+    },
+
+    fn_caseERollBack: function (){
+        $(".defaultCaseD").each(function(){
+            $(this).css("display", "");
+        });
+
+        $(".caseE").each(function(){
+            $(this).css("display", "none");
+        });
+    },
 
 
     dataSetChange : function() {
@@ -631,6 +842,19 @@ var userReqPop = {
             OCCUPATION_CODE : $("#occupationCode").val(),
 
             DEGREE_CODE : $("#degreeCode").val(),
+        }
+
+        if($("#divisDet").val() == '3'){
+            data.JOIN_DAY = $("#regDateCaseA").val();
+            data.CAPS_NUM = $("#capsNumCaseA").val();
+        }
+
+
+
+        if($("#lunarYn").is(":checked")){
+            data.LUNAR_CAL = "Y"
+        }else {
+            data.LUNAR_CAL = "N"
         }
 
 

@@ -50,7 +50,7 @@ var snackList = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            height: 551,
+            height: 508,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -83,39 +83,47 @@ var snackList = {
                 }, {
                     field: "POSITION",
                     title: "직위",
-                    width: "10%"
+                    width: "8%"
                 }, {
                     field: "EMP_NAME",
                     title: "성명",
-                    width: "10%"
+                    width: "6%"
                 }, {
                     title: "개인학습",
-                    width: "10%",
+                    width: "8%",
                     template: function(row){
                         return row.PERSONAL_TIME+"시간 / "+row.PERSONAL_COUNT+"건"
                     }
                 }, {
-                    title: "공통학습",
-                    width: "10%",
+                    title: "학습조",
+                    width: "8%",
                     template: function(row){
                         return row.STUDY_TIME+"시간 / "+row.STUDY_COUNT+"건"
                     }
                 }, {
                     field: "C",
                     title: "전파학습",
-                    width: "10%"
+                    width: "8%"
                 }, {
                     field: "D",
                     title: "OJT",
-                    width: "10%"
+                    width: "8%"
                 }, {
-                    field: "E",
                     title: "오픈스터디",
-                    width: "10%"
+                    width: "8%",
+                    template: function(row){
+                        return row.OPEN_STUDY_TIME+"시간 / "+row.OPEN_STUDY_COUNT+"건"
+                    }
+                }, {
+                    title: "공통학습",
+                    width: "8%",
+                    template: function(row){
+                        return row.COMMON_EDU_TIME+"시간 / "+row.COMMON_EDU_COUNT+"건"
+                    }
                 }, {
                     field: "TOTAL_STAT",
                     title: "합계",
-                    width: "10%"
+                    width: "8%"
                 }
             ]
         }).data("kendoGrid");

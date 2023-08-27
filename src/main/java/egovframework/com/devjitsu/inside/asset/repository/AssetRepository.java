@@ -178,4 +178,47 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String, Object>> getEquipStatType(Map<String, Object> params) { return selectList("asset.getEquipStatType", params); }
     public List<Map<String, Object>> getEquipStat(Map<String, Object> params) { return selectList("asset.getEquipStat", params); }
 
+    public void setBookUpdate(Map<String, Object> params) {
+        insert("asset.setBookUpdate", params);
+    }
+
+    public Map<String, Object> getData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("asset.getData", params);
+    }
+
+    public void setBookDelete(Map<String, Object> params) {
+        insert("asset.setBookDelete", params);
+    }
+
+    public void setBookCode(Map<String, Object> params) {
+        insert("asset.setBookCode", params);
+    }
+
+    public int getMaxBookCode(Map<String, Object> params) {
+        return (int) selectOne("asset.getMaxBookCode", params);
+    }
+
+    public int getMaxBookCode2(Map<String, Object> params) {
+        return (int) selectOne("asset.getMaxBookCode2", params);
+    }
+
+    public List<Map<String, Object>> getMdCode(Map<String, Object> params) {
+        return selectList("asset.getMdCode", params);
+    }
+
+    public List<Map<String, Object>> getCode(Map<String, Object> params) {
+        return selectList("asset.getCode", params);
+    }
+
+    public void setBookImg(Map<String, Object> params) {
+        update("asset.setBookImg", params);
+    }
+
+    public Map<String, Object> getApprovalData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("asset.getApprovalData", params);
+    }
+
+    public void delBookCode(Map<String, Object> params) {
+        update("asset.delBookCode", params);
+    }
 }

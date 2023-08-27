@@ -18,4 +18,26 @@
         WHERE
             CRM_SN = #{crmSn}
     </select>
+
+    <select id="getCrmList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INFO
+        WHERE
+            1 = 1
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND
+                ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+        </if>
+        <if test="ctmType != null and ctmType != ''">
+
+        </if>
+        <if test="ctmGrade != null and ctmGrade != ''">
+
+        </if>
+        <if test="ctmCare != null and ctmCare != ''">
+
+        </if>
+    </select>
 </mapper>

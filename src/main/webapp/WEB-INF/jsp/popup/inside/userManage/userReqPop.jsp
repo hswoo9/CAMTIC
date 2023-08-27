@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
+
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <%--<style>
     table { background-color: #00000008; }
@@ -91,7 +93,7 @@
                         <input type="text" id="deptTeamName" style="width: 50%;">
                     </td>
                 </tr>
-                <tr>
+                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
                     <th>직급/등급</th>
                     <td>
                         <input type="text" id="position" style="width: 50%;">
@@ -106,7 +108,18 @@
                         </c:if>
                     </td>
                 </tr>
-                <tr>
+                <tr class="caseB" style="display: none">
+                    <th>CAPS 번호</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="capsNumCaseB" style="width: 50%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="capsNumCaseB" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
+                        </c:if>
+                    </td>
+                </tr>
+                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
                     <th>직군</th>
                     <td>
                         <input type="text" id="occupationCode" style="width: 50%;">
@@ -116,7 +129,7 @@
                         <input type="text" id="duty" style="width: 50%;">
                     </td>
                 </tr>
-                <tr>
+                <tr class="defaultCaseC defaultCaseD">
                     <th>직무사항</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
@@ -131,17 +144,62 @@
                         <input type="text" id="degreeCode" style="width: 50%;">
                     </td>
                 </tr>
-                <tr>
+                <tr  class="caseD caseE" style="display: none">
+                    <th>직무사항</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="jobDetailCaseA" style="width: 95%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="jobDetailCaseA" style="width: 95%;" value="${uprinfList.JOB_DETAIL}">
+                        </c:if>
+                    </td>
+                    <th>CAPS 번호</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="capsNumCaseC" style="width: 50%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="capsNumCaseC" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
+                        </c:if>
+                    </td>
+                </tr>
+                <tr class="defaultCase defaultCaseC defaultCaseD">
                     <th>입사 일자</th>
                     <td>
                         <input type="text" id="regDate" style="width: 50%;">
                     </td>
-                    <th>홈페이지 게시</th>
+                    <th id="homePageActiveTh">홈페이지 게시</th>
                     <td>
                         <span type="text" id="homePageActive" name="homePageActive" style="width: 100%;"></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="caseA" style="display: none">
+                    <th>입사 일자</th>
+                    <td>
+                        <input type="text" id="regDateCaseA" style="width: 50%;">
+                    </td>
+                    <th>CAPS 번호</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="capsNumCaseA" style="width: 50%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="capsNumCaseA" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
+                        </c:if>
+                    </td>
+                </tr>
+                <tr class="caseD" style="display: none">
+                    <th>입사 일자</th>
+                    <td>
+                        <input type="text" id="regDateCaseB" style="width: 50%;">
+                    </td>
+                    <th>호칭</th>
+                    <td>
+                        <input type="text" id="nicknameCaseA" style="width: 50%;"/>
+                    </td>
+                </tr>
+                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
                     <th>전직경력</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
@@ -163,6 +221,19 @@
                         </c:if>
                     </td>
                 </tr>
+                <tr class="caseC" style="display: none">
+                    <th>호칭</th>
+                    <td>
+                        <input type="text" id="nickname" style="width: 50%;"/>
+                    </td>
+                    <th>생년월일</th>
+                    <td>
+                        <input type="text" id="birthDay" style="width: 50%;"/>
+                        <input type="checkbox" id="lunarYn1" style="position : relative ; top: 3px; margin-left: 5px;"/>
+                        <label for="lunarYn1" style="position : relative ; top: 1px;">음력</label>
+                        <span id="lunarBirthDay"></span>
+                    </td>
+                </tr>
                 <tr>
                     <th>계좌정보</th>
                     <td colspan="3">
@@ -174,7 +245,7 @@
                         </c:if>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <th>증명사진</th>
                     <td colspan="3">
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
@@ -226,7 +297,6 @@
                     </td>
                 </tr>
                 <tr>
-
                     <th>차량소유</th>
                     <td colspan="3">
                         <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
@@ -241,7 +311,7 @@
                 </tr>
                 </thead>
             </table>
-            <table class="popTable table table-bordered mb-0" id="userReqPopDetail" style="border-left:none;">
+            <table class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD popTable table table-bordered mb-0" id="userReqPopDetail" style="border-left:none;">
                 <colgroup>
                     <col width="13%">
                     <col width="37%">
@@ -279,6 +349,9 @@
                     <th>생년월일</th>
                     <td>
                         <input type="text" id="bday" style="width: 50%;">
+                        <input type="checkbox" id="lunarYn" style="position : relative ; top: 3px; margin-left: 5px;"/>
+                        <label for="lunarYn" style="position : relative ; top: 1px;">음력</label>
+                        <span id="lunarBday"></span>
                     </td>
                     <th>긴급 연락처</th>
                     <td>
@@ -411,12 +484,119 @@
                 </c:if>
                 </thead>
             </table>
+            <table class="caseA caseB caseD caseE popTable table table-bordered mb-0" style="border-left:none; display: none;">
+                <colgroup>
+                    <col width="13%">
+                    <col width="37%">
+                    <col width="13%">
+                    <col width="37%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">직원 부가정보</th>
+                </tr>
+                <tr>
+                    <th>계약/협약 기간</th>
+                    <td>
+                        <input type="text" id="sDate" style="width: 40%;"> ~
+                        <input type="text" id="eDate" style="width: 40%;">
+                    </td>
+                    <th>근무시간 /일</th>
+                    <td>
+                        <input type="text" id="workTime" style="width: 15%;"> 시간
+                    </td>
+                </tr>
+                <tr>
+                    <th>근로계약/협약 조건</th>
+                    <td colspan="3">
+                       <textarea type="text" id="contract" style="width: 95%; height: 100px;"></textarea>
+                    </td>
+                </tr>
+                <tr class="caseD" style="display: none">
+                    <th>학교</th>
+                    <td>
+                        <input type="text" id="school" style="width: 50%;">
+                    </td>
+                    <th>학위</th>
+                    <td>
+                        <input type="text" id="degree" style="width: 50%;">
+                    </td>
+                </tr>
+                <tr class="caseD" style="display: none">
+                    <th>학과</th>
+                    <td>
+                        <input type="text" id="department" style="width: 50%;">
+                    </td>
+                    <th>학년/학번</th>
+                    <td>
+                        <input type="text" id="grade" style="width: 10%;">학년 / <input type="text" id="studentId" style="width: 40%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th>기능 및 자격</th>
+                    <td colspan="3">
+                        <textarea type="text" id="qualification" style="width: 95%; height: 100px;"></textarea>
+                    </td>
+                </tr>
+                <tr class="defaultCaseC defaultCaseD">
+                    <th>최종학력</th>
+                    <td colspan="3">
+                        <textarea type="text" id="degreeT" style="width: 95%; height: 100px;"></textarea>
+                    </td>
+                </tr>
+                <tr class="defaultCaseC defaultCaseD">
+                    <th>경력</th>
+                    <td colspan="3">
+                        <textarea type="text" id="career" style="width: 95%; height: 100px;"></textarea>
+                    </td>
+                </tr>
+                <tr class="caseF defaultCaseB defaultCaseC defaultCaseD" style="display: none;">
+                    <th>병역</th>
+                    <td colspan="3">
+                        <textarea type="text" id="military" style="width: 95%; height: 100px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>특이사항</th>
+                    <td colspan="3">
+                        <textarea type="text" id="significant" style="width: 95%; height: 100px;"></textarea>
+                    </td>
+                </tr>
+                </thead>
+            </table>
         </form>
     </div>
 </div>
 <script>
     userReqPop.defaultScript();
     var idFlag = false;
+
+    $(function(){
+       var lunarCal = '${uprinfList.LUNAR_CAL}';
+       var bday = $("#bday").val();
+       if(lunarCal == "Y"){
+           $("#lunarYn").prop("checked", true);
+           var lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+           $("#lunarBday").text(lunarDay);
+       } else {
+           $("#lunarYn").val("N");
+           $("#lunarBday").text("");
+       }
+    });
+
+    $(function(){
+        var lunarCal = '${uprinfList.LUNAR_CAL}';
+        var birthDay = $("#birthDay").val();
+        if(lunarCal == "Y"){
+            $("#lunarYn1").prop("checked", true);
+            var lunarDay = solarToLunar(birthDay.split("-")[0], birthDay.split("-")[1], birthDay.split("-")[2]);
+            $("#lunarBirthDay").text(lunarDay);
+        } else {
+            $("#lunarYn1").val("N");
+            $("#lunarBirthDay").text("");
+        }
+    });
+
     function onDisplay() {
 
         if($("#carActive").is(":checked")){
@@ -454,22 +634,6 @@
             $("#deptTeamName").data("kendoDropDownList").value("${uprinfList.DEPT_SEQ}");
         }
 
-        //$("#position").data("kendoDropDownList").enable(false);
-        /*$("#divis").data("kendoDropDownList").enable(false);*/
-        /*        $("#deptName").data("kendoDropDownList").enable(false);
-                $("#deptTeamName").data("kendoDropDownList").enable(false);
-                $("#positionOrNum").data("kendoDropDownList").enable(false);
-                $("#jobCode").data("kendoDropDownList").enable(false);
-                $("#positionName").data("kendoDropDownList").enable(false);
-                $("#degreeCode").data("kendoDropDownList").enable(false);
-                $("#regDate").data("kendoDatePicker").enable(false);*/
-        /*        $("#homePageActive").data("kendoRadioGroup").enable(false);
-                $("#bday").data("kendoDatePicker").enable(false);
-                $("#weddingActive").data("kendoRadioGroup").enable(false);
-                $("#weddingDay").data("kendoDatePicker").enable(false);
-                $("#bloodType").data("kendoRadioGroup").enable(false);
-                $("#resignDay").data("kendoDatePicker").enable(false);*/
-
         //직원구분
         $("#divis").data("kendoDropDownList").value("${uprinfList.DIVISION}");
         var divis = $("#divis").val();
@@ -505,6 +669,12 @@
         }
 
         $("#divisDet").data("kendoDropDownList").value("${uprinfList.DIVISION_SUB}");
+        var divisDet = $("#divisDet").val();
+        if(divisDet == "3"){
+            $('#positionTr').hide();
+        }else {
+            $('#positionTr').show();
+        }
 
         //직급/등급 ---insert
         $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
@@ -522,6 +692,9 @@
         $("#regDate").val("${uprinfList.JOIN_DAY}");
         //생년월일
         $("#bday").val("${uprinfList.BDAY}");
+
+        $("#birthDay").val("${uprinfList.BDAY}");
+
         //결혼 관계
         $("#weddingActive").data("kendoRadioGroup").value("${uprinfList.WEDDING_ACTIVE}");
         //결혼기념일

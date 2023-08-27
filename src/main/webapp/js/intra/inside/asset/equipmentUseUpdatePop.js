@@ -154,11 +154,28 @@ var equipmentUseUpdatePop = {
                 $("#userName").val(rs.USER_NAME); //사용자명
                 $("#operCn").val(rs.OPER_CN); //작업내용
                 $("#useTime").val(rs.USE_TIME); //사용시간
-                $("#useAmt").val(rs.USE_AMT); //사용대금
+                $("#useAmt").val(equipmentUseUpdatePop.fn_comma(rs.USE_AMT)); //사용대금
                 $("#prtpcoGbnName").data("kendoDropDownList").value(rs.PRTPCO_GBN_SN); //업체구분 공통코드sn
                 $("#regDe").val(rs.REG_DE); //작성일자
             }
         });
+
+        $("#useAmt").bind("keyup keydown", function() {
+            equipmentUseUpdatePop.inputNumberFormat(this)
+        })
+    },
+
+    fn_comma: function(str){
+        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
+    },
+
+    inputNumberFormat: function (obj){
+        obj.value = equipmentUseUpdatePop.fn_comma(obj.value);
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
     },
 
     equipUpdate : function(){
@@ -175,7 +192,7 @@ var equipmentUseUpdatePop = {
                 userSn : $("#empSeq").val(), //사용자 사원번호
                 operCn : $("#operCn").val(), //작업내용
                 useTime : $("#useTime").val(), //사용시간
-                useAmt : $("#useAmt").val(), //사용대금
+                useAmt : equipmentUseUpdatePop.uncomma($("#useAmt").val()), //사용대금
                 prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
                 prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자

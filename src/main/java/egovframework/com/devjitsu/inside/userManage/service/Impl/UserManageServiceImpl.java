@@ -102,6 +102,17 @@ public class UserManageServiceImpl implements UserManageService {
     }
     @Override
     public List<Map<String,Object>> getEmpInfoDetailList(Map<String,Object> map) {
+
+        if(map.get("searchDetail6") != null){
+            String[] ar = map.get("searchDetail6").toString().replace("'", "").split(",");
+            map.put("sd6_flag", ar.length);
+
+            if(ar.length > 1){
+                map.put("searchDetail6_1", ar[0]);
+                map.put("searchDetail6_2", ar[1]);
+            }
+        }
+
         return userManageRepository.getEmpInfoDetailList(map);
     }
     @Override
@@ -340,6 +351,5 @@ public class UserManageServiceImpl implements UserManageService {
     public Object setUserReqDetailUpdate(Map<String, Object> params) {
         return userManageRepository.setUserReqDetailUpdate(params);
     }
-
 
 }

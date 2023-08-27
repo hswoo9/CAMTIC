@@ -1,13 +1,9 @@
-var now = new Date();
-
 var eduReq = {
-
-    init : function(){
+    init: function(){
         eduReq.dataSet();
-        eduReq.mainGrid();
     },
 
-    dataSet() {
+    dataSet: function(){
         $("#eduFormType").kendoRadioGroup({
             items: [
                 { label : "교육기관 참가교육", value : "1" },
@@ -28,19 +24,38 @@ var eduReq = {
         });
     },
 
-    mainGrid : function() {
-    },
+    eduReqPop: function(){
+        let year = $("#toDate").val().substring(0, 4);
+        let empSeq = $("#regEmpSeq").val();
+        let data = {
+            targetYear : year,
+            empSeq : empSeq
+        }
+        /** 목표기술서 주업무 등록 체크 */
+        let checkMainUrl = "/campus/getTargetCategoryList";
+        data.dutyClass = 1;
+        const mainResult = customKendo.fn_customAjax(checkMainUrl, data).list;
 
-    eduReqPop : function() {
+        /** 목표기술서 연계업무 등록 체크 */
+        let checkSubUrl = "/campus/getTargetCategoryList";
+        data.dutyClass = 2;
+        const subResult = customKendo.fn_customAjax(checkSubUrl, data).list;
+
+        if(mainResult.length == 0 && subResult.length == 0){
+            alert("목표기술서 작성 후 학습신청이 가능합니다.");
+            return;
+        }
+
+
         const eduFromType = $("#eduFormType").data("kendoRadioGroup").value();
         if(eduFromType == "") {
             alert("학습종류를 선택하기시 바랍니다.");
             return;
         }
 
-        var url = "/Campus/pop/eduReqPop.do?eduFormType="+eduFromType;
-        var name = "eduReqPop";
-        var option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
+        let url = "/Campus/pop/eduReqPop.do?eduFormType="+eduFromType;
+        const name = "eduReqPop";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

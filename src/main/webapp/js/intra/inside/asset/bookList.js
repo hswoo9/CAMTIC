@@ -12,8 +12,7 @@ var bookList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
-                { text: "분류별", value: "1" },
+                // { text: "분류별", value: "1" },
                 { text: "도서명", value: "2" },
                 { text: "저자", value: "3" },
                 { text: "요청자", value: "4" },
@@ -24,6 +23,12 @@ var bookList = {
 
         $("#searchVal").kendoTextBox();
         $("#searchText").kendoTextBox();
+
+        $("#searchText").on("keyup", function(key){
+            if(key.keyCode == 13){
+                bookList.mainGrid();
+            }
+        })
     },
 
     mainGrid : function() {
@@ -60,8 +65,16 @@ var bookList = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
+            },
+            dataBound : function(){
+                var grid = this;
+                grid.tbody.find("tr").dblclick(function (e) {
+                    var dataItem = grid.dataItem($(this));
+                    console.log(dataItem)
+                    bookList.bookRegisPopup(dataItem.BK_SN);
+                });
             },
             toolbar : [
                 /*{
@@ -89,8 +102,8 @@ var bookList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">수정</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookCodePopup();">' +
+                            '	<span class="k-button-text">분류코드</span>' +
                             '</button>';
                     }
                 }
@@ -100,18 +113,25 @@ var bookList = {
             },
             columns: [
                 {
-                    field: "ROW_NUM",
-                    title: "순번",
-                    width: 40
+                    title: "이미지",
+                    width: 200,
+                    template: function(e){
+                        console.log(e)
+                        if(e.file_path != null && e.file_path != ""){
+                            return  "<div class='customer-photo' style='background-size: cover; height : 200px;background-image: url("+e.file_path + e.file_uuid +");'></div>";
+                        } else {
+                            return "<div class='customer-photo' style='background-size: cover; height : 200px;background-image: url(/upload/Inside/undefined.png);'></div>";
+                        }
+                    }
                 }, {
                     title: "코드",
                     template : function(row){
                         return row.BK_LG_CD_NAME+"-"+row.BK_MD_CD + row.BK_CD
-                    }
+                    },
+                    width: 150
                 }, {
                     field: "BK_NAME",
                     title: "도서명",
-                    width: 250
                 }, {
                     field: "BK_WRITER",
                     title: "저자",
@@ -140,11 +160,21 @@ var bookList = {
         var popup = window.open(url, name, option);
     },
 
-    bookRegisPopup : function() {
+    bookRegisPopup : function(key) {
         var url = "/Inside/Pop/bookRegisPop.do";
+        if(key != null && key != ""){
+            url = "/Inside/Pop/bookRegisPop.do?bkSn="+key;
+        }
         var name = "bookRegisPop";
-        var option = "width = 1000, height = 590, top = 100, left = 200, location = no, _blank"
+        var option = "width = 1000, height = 720, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
     },
+
+    bookCodePopup: function() {
+        var url = "/inside/Pop/bookCodePop.do";
+        var name = "bookCodePop";
+        var option = "width = 985, height = 400, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
+    }
 
 }

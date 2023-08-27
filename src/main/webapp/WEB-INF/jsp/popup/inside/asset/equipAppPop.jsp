@@ -6,6 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
 <script type="text/javascript" src="/js/intra/inside/asset/equipAppPop.js?v=${today}"/></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -64,6 +65,7 @@
             </div>
             <div class="btn-st" style="text-align:center; margin-top: 5px;">
                 <input type="button" id="approvalBtn" style="" class="k-button k-button-solid k-button-solid-info" value="결재" onclick="equipApp.saveBtn()"/>
+                <input type="button" id="approvalViewBtn" style="" class="k-button k-button-solid k-button-solid-info" value="결재문서" onclick="equipApp.viewBtn()"/>
             </div>
         </div>
     </div>

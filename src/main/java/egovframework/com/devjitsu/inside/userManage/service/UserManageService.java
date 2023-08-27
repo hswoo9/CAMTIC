@@ -63,6 +63,4 @@ public interface UserManageService{
 
     Object setUserReqDetailUpdate(Map<String, Object> params);
 
-
-
 }

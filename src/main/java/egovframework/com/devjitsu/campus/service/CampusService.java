@@ -4,201 +4,127 @@ import java.util.List;
 import java.util.Map;
 
 public interface CampusService {
-    /**
-     * 캠퍼스 코드 리스트
-     * @param params
-     * @return
-     */
+
+    /** 코드 조회 시작 */
     List<Map<String, Object>> getCodeList(Map<String, Object> params);
+    Map<String, Object> getCodeOne(Map<String, Object> params);
+    /** 코드 조회 끝 */
 
-    /**
-     * 개인학습관리 개인학습 리스트 조회
-     * @param params
-     * @return
-     */
+    /** 개인학습관리 시작 */
     List<Map<String, Object>> getEduInfoList(Map<String, Object> params);
-
-    /**
-     * 개인학습관리 개인학습조회팝업 단일데이터 조회
-     * @param params
-     * @return
-     */
     Map<String, Object> getEduInfoOne(Map<String, Object> params);
-
-    /**
-     * 개인학습관리 결과보고서조회팝업 단일데이터 조회
-     * @param params
-     * @return
-     */
     Map<String, Object> getEduResultOne(Map<String, Object> params);
+    /** 개인학습관리 끝 */
 
-    /**
-     * 목표기술서 등록된 연도 조회
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getTargetYearList(Map<String, Object> params);
-
-    /**
-     * 연도등록팝업 해당연도 중복 조회
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getTargetOne(Map<String, Object> params);
-
-    /**
-     * 목표기술서 직무조회
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getTargetList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 구분명
-     * @param params
-     * @return
-     */
-    Map<String, Object> getCategoryOne(Map<String, Object> params);
-
-    /**
-     * 목표기술서 작성 유저별 구분 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getTargetCategoryList(Map<String, Object> params);
-
-    /**
-     * 목표기술서 작성 유저별 레벨 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getTargetCategoryDetailList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 설정 구분 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduCategoryList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 설정 LEVEL 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 학습계획 리스트
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduPlanList(Map<String, Object> params);
-
-    /**
-     * 학습체계도 학습계획 데이터
-     * @param params
-     * @return
-     */
-    List<Map<String, Object>> getEduPlanOne(Map<String, Object> params);
-
+    /** 학습조 시작 */
     List<Map<String, Object>> getStudyInfoList(Map<String, Object> params);
     Map<String, Object> getStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
     Map<String, Object> getStudyJournalOne(Map<String, Object> params);
+    /** 학습조 끝 */
 
+    /** 오픈스터디 시작 */
+    List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params);
+    Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params);
+    List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params);
+    /** 오픈스터디 끝 */
+
+    /** 공통학습 시작 */
+    List<Map<String, Object>> getCommonEduList(Map<String, Object> params);
+    Map<String, Object> getCommonEduOne(Map<String, Object> params);
+    List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params);
+    List<Map<String, Object>> getCommonEduUserAddList(Map<String, Object> params);
+    /** 공통학습 끝 */
+
+    /** 학습통계 시작 */
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
+    /** 학습통계 끝 */
+
+    /** 목표기술서 시작 */
+    List<Map<String, Object>> getTargetYearList(Map<String, Object> params);
+    List<Map<String, Object>> getTargetOne(Map<String, Object> params);
+    List<Map<String, Object>> getTargetList(Map<String, Object> params);
+    Map<String, Object> getEduCategoryOne(Map<String, Object> params);
+    List<Map<String, Object>> getEduCategoryList(Map<String, Object> params);
+    Map<String, Object> getEduCategoryDetailOne(Map<String, Object> params);
+    List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params);
+    List<Map<String, Object>> getTargetCategoryList(Map<String, Object> params);
+    List<Map<String, Object>> getTargetCategoryDetailList(Map<String, Object> params);
+    List<Map<String, Object>> getEduPlanList(Map<String, Object> params);
+    List<Map<String, Object>> getEduPlanOne(Map<String, Object> params);
+    /** 목표기술서 끝 */
+
+    /** 직무기술서 시작 */
+    List<Map<String, Object>> getDutyInfoList(Map<String, Object> params);
+    Map<String, Object> getDutyInfoOne(Map<String, Object> params);
+    List<Map<String, Object>> getDutyInfoMngList(Map<String, Object> params);
+    /** 직무기술서 끝 */
 
 
 
 
-    /**
-     * 학습신청 교육수강신청서 저장
-     * @param params
-     * @return
-     */
+
+    /** 개인학습 시작 */
     void setEduInfoInsert(Map<String, Object> params);
-
-    /**
-     * 학습관리 학습결과보고서 저장
-     * @param params
-     * @return
-     */
     void setEduResultInsert(Map<String, Object> params);
+    void setMngCheckUpd(Map<String, Object> params);
+    /** 개인학습 끝 */
 
+    /** 학습조 시작 */
     void setStudyInfoInsert(Map<String, Object> params);
     void setStudyUserMngUpdate(Map<String, Object> params);
     void studyReq(Map<String, Object> params);
     void setStudyJournalInsert(Map<String, Object> params);
     void setStudyJournalApp(Map<String, Object> params);
+    /** 학습조 끝 */
 
-    /**
-     * 연도등록팝업 연도 등록
-     * @param params
-     * @return
-     */
+    /** 오픈스터디 시작 */
+    void setOpenStudyInfoIns(Map<String, Object> params);
+    void setOpenStudyInfoUpd(Map<String, Object> params);
+    void setOpenNextStep(Map<String, Object> params);
+    void setOpenStudyUser(Map<String, Object> params);
+    void setOpenStudyResultUpd(Map<String, Object> params);
+    void setOpenStudyCertReq(Map<String, Object> params);
+    /** 오픈스터디 끝 */
+
+    /** 공통학습 시작 */
+    void setCommonEduIns(Map<String, Object> params);
+    void setCommonEduUpd(Map<String, Object> params);
+    void setCommonEduAddUserAll(Map<String, Object> params);
+    void setCommonEduUserUpd(Map<String, Object> params);
+    void setCommonEduUserTimeUpd(Map<String, Object> params);
+    /** 공통학습 끝 */
+
+    /** 목표기술서 시작 */
     Map<String, Object> setTargetInsert(Map<String, Object> params);
-
-    /**
-     * 주업무등록팝업 직무 등록
-     * @param params
-     * @return
-     */
     Map<String, Object> setTargetDetailInsert(Map<String, Object> params);
-
-    /**
-     * 현황/목표설정팝업 현황/목표 설정
-     * @param params
-     * @return
-     */
     Map<String, Object> setEduTargetDetailUpdate(Map<String, Object> params);
-
-    /**
-     * 학습계획 등록
-     * @param params
-     * @return
-     */
     Map<String, Object> setEduPlanInsert(Map<String, Object> params);
-
-    /**
-     * 학습계획 수정
-     * @param params
-     * @return
-     */
     Map<String, Object> setEduPlanUpdate(Map<String, Object> params);
-
-    /**
-     * 개인학습관리 - 승인프로세스(임시)
-     * @param params
-     * @return
-     */
     Map<String, Object> updateEduInfoApprStat(Map<String, Object> params);
-
-    /**
-     * 목표기술서작성 - 승인프로세스(임시)
-     * @param params
-     * @return
-     */
     Map<String, Object> updateApprStat(Map<String, Object> params);
-
     void setEduCode(Map<String, Object> params);
     void setEduCategory(Map<String, Object> params);
     void setEduCategoryDetail(Map<String, Object> params);
+    void setEduCodeUpd(Map<String, Object> params);
+    void setEduCategoryUpd(Map<String, Object> params);
+    void setEduCategoryDetailUpd(Map<String, Object> params);
+    void setEduCodeDel(Map<String, Object> params);
+    void setEduCategoryDel(Map<String, Object> params);
+    void setEduCategoryDetailDel(Map<String, Object> params);
+    /** 목표기술서 끝 */
+    
+    /** 직무기술서 시작 */
+    void setDutyInfoIns(Map<String, Object> params);
+    void setDutyInfoUpd(Map<String, Object> params);
+    void setTargetCertReq(Map<String, Object> params);
+    void setDutyCertReq(Map<String, Object> params);
+    /** 직무기술서 끝 */
 
-    /**
-     * 학습신청서 전자결재 상태값 업데이트
-     * @param params
-     * @throws Exception
-     */
+    /** 전자결재 시작 */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
-
-    /**
-     * 학습결과보고서 전자결재 상태값 업데이트
-     * @param params
-     * @throws Exception
-     */
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;
-
+    /** 전자결재 끝 */
 }

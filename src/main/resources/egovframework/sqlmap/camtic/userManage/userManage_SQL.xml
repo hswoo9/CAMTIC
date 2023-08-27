@@ -124,9 +124,40 @@
     <select id="getRewardInfoList" parameterType="map" resultType="map">
         /* getRewardInfoList */
         SELECT
-            *
+            SUBSTRING(HER.REWORD_TYPE_NAME, 2, 4) AS SIDE_NAME,
+            SUBSTRING(HER.REWORD_TYPE_NAME, 8) AS REWORD_TYPE_NAME1,
+            REWORD_ID,
+            EMP_SEQ,
+            ERP_EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            TEAM_SEQ,
+            TEAM_NAME,
+            POSITION_CODE,
+            DUTY_CODE,
+            REWORD_TYPE,
+            REWORD_TYPE_NAME,
+            RWD_SN,
+            REWORD_DAY,
+            REWORD_NAME,
+            RWD_OFM,
+            RWD_ST_COMP,
+            RWD_FILE_SN,
+            RWD_ETC,
+            REWORD_AGENCY_NAME,
+            REWORD_REASON,
+            ACTIVE,
+            ADMIN_APPROVAL,
+            RETURNYN,
+            ADMIN_APPROVAL_DATE,
+            RETURNYN_DATE,
+            REG_EMP_SEQ,
+            REG_DATE,
+            MOD_EMP_SEQ,
+            MOD_DATE
         FROM
-            CAM_HR.DJ_EMP_REWORD
+            CAM_HR.DJ_EMP_REWORD HER
         WHERE
             EMP_SEQ = #{empSeq}
         AND
@@ -219,7 +250,8 @@
             CAR_ACTIVE,
             OCCUPATION_CODE,
             JOIN_DAY,
-            WORK_STATUS_CODE
+            WORK_STATUS_CODE,
+            LUNAR_CAL
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -276,7 +308,8 @@
             #{CAR_ACTIVE},
             #{OCCUPATION_CODE},
             #{JOIN_DAY},
-            'Y'
+            'Y',
+            #{LUNAR_CAL}
         )
     </insert>
 
@@ -383,6 +416,7 @@
             SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon
         from
         (SELECT
+            ROUND((TO_DAYS(NOW()) - (TO_DAYS(REPLACE(STR_TO_DATE(a.BDAY, '%Y-%m-%d'), "-", "")))) / 365) AS age,
             a.*,
             (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =1) as dept_lv1,
             (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as parent_dept_seq,
@@ -417,48 +451,73 @@
                 A.GENDER_CODE in (${searchDetail2})
             </if>
             <if test='searchDetail3 != null and !"".equals(searchDetail3)'>
+                and
+                (A.DEPT_SEQ in (${searchDetail3})
                 <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
-                    and
-                    (A.parent_dept_seq in (${searchDetail3})
-                    or
-                    A.dept_lv2 in (${searchDetail4})
-                    or
-                    A.dept_lv1 in (${searchDetail3}))
+                    or A.DEPT_SEQ in (${searchDetail4})
                 </if>
-                <if test='searchDetail4 == null or "".equals(searchDetail4)'>
-                    and
-                    A.dept_lv1 in (${searchDetail3})
-                </if>
+                )
             </if>
-            <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
-                <if test='searchDetail3 != null and !"".equals(searchDetail3)'>
-                    and
-                    (A.parent_dept_seq in (${searchDetail3})
-                    or
-                    A.dept_lv2 in (${searchDetail4})
-                    or
-                    A.dept_lv1 in (${searchDetail3}))
-                </if>
-                <if test='searchDetail3 == null or "".equals(searchDetail3)'>
-                    and
-                    A.dept_lv2 in (${searchDetail4})
-                </if>
+
+        <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
+            <if test='searchDetail3 == null or "".equals(searchDetail3)'>
+                and
+                    A.DEPT_SEQ in (${searchDetail4})
             </if>
+        </if>
+<!--            <if test='searchDetail3 != null and !"".equals(searchDetail3)'>-->
+<!--                <if test='searchDetail4 != null and !"".equals(searchDetail4)'>-->
+<!--                    and-->
+<!--                    (A.parent_dept_seq in (${searchDetail3})-->
+<!--                    or-->
+<!--                    A.dept_lv2 in (${searchDetail4})-->
+<!--                    or-->
+<!--                    A.dept_lv1 in (${searchDetail3}))-->
+<!--                </if>-->
+<!--                <if test='searchDetail4 == null or "".equals(searchDetail4)'>-->
+<!--                    and-->
+<!--                    A.dept_lv1 in (${searchDetail3})-->
+<!--                </if>-->
+<!--            </if>-->
+<!--            <if test='searchDetail4 != null and !"".equals(searchDetail4)'>-->
+<!--                <if test='searchDetail3 != null and !"".equals(searchDetail3)'>-->
+<!--                    and-->
+<!--                    (A.parent_dept_seq in (${searchDetail3})-->
+<!--                    or-->
+<!--                    A.dept_lv2 in (${searchDetail4})-->
+<!--                    or-->
+<!--                    A.dept_lv1 in (${searchDetail3}))-->
+<!--                </if>-->
+<!--                <if test='searchDetail3 == null or "".equals(searchDetail3)'>-->
+<!--                    and-->
+<!--                    A.dept_lv2 in (${searchDetail4})-->
+<!--                </if>-->
+<!--            </if>-->
             <if test='searchDetail5 != null and !"".equals(searchDetail5)'>
                 and
-                A.DIVISION in (${searchDetail1})
+                A.DUTY_NAME in (${searchDetail5})
             </if>
             <if test='searchDetail6 != null and !"".equals(searchDetail6)'>
-                and
-                A.DIVISION in (${searchDetail1})
+                <if test="sd6_flag > 1">
+                    and
+                    <![CDATA[
+                        (A.age >= #{searchDetail6_1} AND A.age <= #{searchDetail6_2})
+                   ]]>
+                </if>
+                <if test="sd6_flag == 1">
+                    and
+                    <![CDATA[
+                        A.age >= #{searchDetail6}
+                    ]]>
+                </if>
             </if>
             <if test='searchDetail7 != null and !"".equals(searchDetail7)'>
                 and
-                A.DIVISION in (${searchDetail1})
+                SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) in (${searchDetail7})
             </if>
             <if test='searchDetail8 != null and !"".equals(searchDetail8)'>
                 and
-                A.DIVISION in (${searchDetail1})
+                A.DEGREE_CODE in (${searchDetail8})
             </if>
     </select>
     <insert id="setEducationalInfo" parameterType="map">
@@ -640,25 +699,41 @@
                 ,now()
                 )
     </insert>
+    <!--인사기록카드 상벌 사항 추가-->
     <insert id="setRewardInfo" parameterType="map">
-        INSERT INTO cam_hr.dj_emp_reword_punishment(
+        /*setRewardInfo*/
+        INSERT INTO cam_hr.dj_emp_reword(
                   EMP_SEQ
+                 ,ERP_EMP_SEQ
                  ,EMP_NAME
-                 ,REWORD_PUNISHMENT_DAY
-                 ,REWORD_PUNISHMENT_TYPE_NAME
-                 ,RPWD_ST_COMP
-                 ,RPWD_OFM
+                 ,DEPT_SEQ
+                 ,DEPT_NAME
+                 ,TEAM_SEQ
+                 ,TEAM_NAME
+                 ,REWORD_DAY
+                 ,REWORD_TYPE
+                 ,REWORD_TYPE_NAME
+                 ,RWD_ST_COMP
+                 ,RWD_OFM
                  ,REG_EMP_SEQ
                  ,REG_DATE
+                 ,RWD_ETC
         )VALUES (
                 #{EMP_SEQ}
+                ,#{regErpEmpCd}
                 ,#{EMP_NAME}
+                ,#{regDeptSeq}
+                ,#{regDeptName}
+                ,#{regTeamSeq}
+                ,#{regTeamName}
                 ,#{sDate}
-                ,#{rGubun}
+                ,#{rGubunOutInType}
+                ,#{rGubunAll}
                 ,#{agency}
                 ,#{rIssue}
                 ,#{EMP_SEQ}
                 ,now()
+                ,''
                 )
     </insert>
     <insert id="setJobInfo" parameterType="map">
@@ -817,7 +892,7 @@
         a.emp_seq = b.emp_seq
         UNION
         SELECT
-        a.REWORD_PUNISHMENT_ID AS 'ID',
+        a.REWORD_ID AS 'ID',
         b.EMP_SEQ,
         b.DEPT_NAME,
         b.DEPT_TEAM_NAME,
@@ -827,15 +902,16 @@
         a.REG_DATE as 'REG_DATE2',
         a.admin_approval,
         a.returnyn,
-        'dj_emp_reword_punishment' AS 'type',
+        'dj_emp_reword' AS 'type',
         '상벌사항' AS 'typeName',
-        'REWORD_PUNISHMENT_ID' AS 'key'
+        'REWORD_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_reword_punishment AS a
+        cam_hr.dj_emp_reword AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
         a.emp_seq = b.emp_seq
+        WHERE a.RWD_ETC = ''
         UNION
         SELECT
         a.DUTY_ID AS 'ID',
@@ -1067,7 +1143,7 @@
             a.emp_seq = b.emp_seq
             UNION
             SELECT
-            a.REWORD_PUNISHMENT_ID AS 'ID',
+            a.REWORD_ID AS 'ID',
             b.EMP_SEQ,
             b.DEPT_NAME,
             b.DEPT_TEAM_NAME,
@@ -1077,15 +1153,16 @@
             a.REG_DATE as 'REG_DATE2',
             a.admin_approval,
             a.returnyn,
-            'dj_emp_reword_punishment' AS 'type',
+            'dj_emp_reword' AS 'type',
             '상벌사항' AS 'typeName',
-            'REWORD_PUNISHMENT_ID' AS 'key'
+            'REWORD_ID' AS 'key'
             FROM
-            cam_hr.dj_emp_reword_punishment AS a
+            cam_hr.dj_emp_reword AS a
             LEFT join
             cam_hr.dj_emp_info AS b
             on
             a.emp_seq = b.emp_seq
+            WHERE a.RWD_ETC = ''
             UNION
             SELECT
             a.DUTY_ID AS 'ID',
@@ -1339,7 +1416,8 @@
             a.VISIONR,
             a.DIVISION,
             a.DIVISION_SUB,
-            a.DUZON_CODE
+            a.DUZON_CODE,
+            a.LUNAR_CAL
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -1451,7 +1529,8 @@
             MOD_DATE = NOW(),
             CAR_ACTIVE = #{CAR_ACTIVE},
             JOIN_DAY = #{JOIN_DAY},
-            OCCUPATION_CODE = #{OCCUPATION_CODE}
+            OCCUPATION_CODE = #{OCCUPATION_CODE},
+            LUNAR_CAL = #{LUNAR_CAL}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
     </update>
 
@@ -1519,4 +1598,5 @@
         WHERE
             EMP_SEQ = #{empSeq}
     </update>
+
 </mapper>

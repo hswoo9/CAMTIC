@@ -117,6 +117,8 @@ public class LoginVO {
     private String gradeCode;
     private String gradeNm;
 
+    private String jobDetailNm;
+
     public LoginVO() {
     }
 
@@ -400,7 +402,7 @@ public class LoginVO {
     }
 
     public String toString() {
-        return "id          : " + this.id + " / " + "name        : " + this.name + " / " + "ihidNum     : " + this.ihidNum + " / " + "email       : " + this.email + " / " + "password    : " + this.password + " / " + "passwordHint: " + this.passwordHint + " / " + "passwordCnsr: " + this.passwordCnsr + " / " + "userSe      : " + this.userSe + " / " + "orgnztId    : " + this.orgnztId + " / " + "orgnztNm    : " + this.orgnztNm + " / " + "uniqId      : " + this.uniqId + " / " + "url         : " + this.url + " / " + "ip          : " + this.ip + " / " + "dn          : " + this.dn + " / " + "organId     : " + this.organId + " / " + "organNm     : " + this.organNm + " / " + "classCode   : " + this.classCode + " / " + "classNm     : " + this.classNm + " / " + "positionCode: " + this.positionCode + " / " + "positionNm  : " + this.positionNm + " / " + "dutyCode: " + this.dutyCode + " / " + "dutyNm  : " + this.dutyNm + " / " + "authorCode  : " + this.authorCode + " / " + "erpEmpCd    : " + this.erpEmpCd + " / " + "erpEmpNm    : " + this.erpEmpNm + " / " + "erpCoCd     : " + this.erpCoCd + " / " + "empl_no     : " + this.empl_no + " / " + "session_id  : " + this.session_id + " / " + "langCode    : " + this.langCode + " / " + "groupSeq    : " + this.groupSeq + " / " + "bizSeq      : " + this.bizSeq + " / " + "compSeq     : " + this.compSeq + " / " + "picFileId   : " + this.picFileId + " / " + "eaType      : " + this.eaType + " / " + "emailDomain : " + this.emailDomain + " / " + "deptId : " + this.deptId + " / " + "deptNm : " + this.deptNm + " / " + "teamId : " + this.teamId + " / " + "teamNm : " + this.teamNm + " / " + "gradeCode : " + this.gradeCode + " / " + "gradeNm : " + this.gradeNm + " / ";
+        return "id          : " + this.id + " / " + "name        : " + this.name + " / " + "ihidNum     : " + this.ihidNum + " / " + "email       : " + this.email + " / " + "password    : " + this.password + " / " + "passwordHint: " + this.passwordHint + " / " + "passwordCnsr: " + this.passwordCnsr + " / " + "userSe      : " + this.userSe + " / " + "orgnztId    : " + this.orgnztId + " / " + "orgnztNm    : " + this.orgnztNm + " / " + "uniqId      : " + this.uniqId + " / " + "url         : " + this.url + " / " + "ip          : " + this.ip + " / " + "dn          : " + this.dn + " / " + "organId     : " + this.organId + " / " + "organNm     : " + this.organNm + " / " + "classCode   : " + this.classCode + " / " + "classNm     : " + this.classNm + " / " + "positionCode: " + this.positionCode + " / " + "positionNm  : " + this.positionNm + " / " + "dutyCode: " + this.dutyCode + " / " + "dutyNm  : " + this.dutyNm + " / " + "authorCode  : " + this.authorCode + " / " + "erpEmpCd    : " + this.erpEmpCd + " / " + "erpEmpNm    : " + this.erpEmpNm + " / " + "erpCoCd     : " + this.erpCoCd + " / " + "empl_no     : " + this.empl_no + " / " + "session_id  : " + this.session_id + " / " + "langCode    : " + this.langCode + " / " + "groupSeq    : " + this.groupSeq + " / " + "bizSeq      : " + this.bizSeq + " / " + "compSeq     : " + this.compSeq + " / " + "picFileId   : " + this.picFileId + " / " + "eaType      : " + this.eaType + " / " + "emailDomain : " + this.emailDomain + " / " + "deptId : " + this.deptId + " / " + "deptNm : " + this.deptNm + " / " + "teamId : " + this.teamId + " / " + "teamNm : " + this.teamNm + " / " + "gradeCode : " + this.gradeCode + " / " + "gradeNm : " + this.gradeNm + " / " + "jobDetailNm : " + this.jobDetailNm + " / ";
     }
 
     public String getEmpid() {
@@ -1018,5 +1020,13 @@ public class LoginVO {
 
     public void setGradeNm(String gradeNm) {
         this.gradeNm = gradeNm;
+    }
+
+    public String getJobDetailNm() {
+        return this.jobDetailNm;
+    }
+
+    public void setJobDetailNm(String jobDetailNm) {
+        this.jobDetailNm = jobDetailNm;
     }
 }

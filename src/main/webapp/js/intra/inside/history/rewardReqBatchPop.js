@@ -3,9 +3,9 @@ var now = new Date();
 var rewardReqBatchPop = {
 
     init : function(){
+        rewardReqBatchPop.mainGrid();
         rewardReqBatchPop.fn_selEmp()
         rewardReqBatchPop.dataSet();
-        rewardReqBatchPop.mainGrid();
     },
 
     dataSet() {
@@ -30,6 +30,19 @@ var rewardReqBatchPop = {
             },
             toolbar : [
                 {
+                    name : 'text',
+                    template : function (e){
+                        return  '<span>이름</span>' +
+                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){rewardReqBatchPop.mainGrid();}">' ;
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReqBatchPop.mainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReqBatchPop.fn_selEmp()">' +
@@ -43,9 +56,9 @@ var rewardReqBatchPop = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkEmpAll" name="checkEmpAll" onclick="fn_checkAll(\'checkEmpAll\', \'checkEmp\')" style="position : relative; top : 2px;" />',
                     template : function (e){
-                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkEmp' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
                     width: 30,
                     attribute : {
@@ -80,7 +93,7 @@ var rewardReqBatchPop = {
 
     fn_selEmp: function(){
         var empArr = [];
-        $("input[name='checkUser']").each(function(){
+        $("input[name='checkEmp']").each(function(){
             if(this.checked){
                 empArr.push(this.value);
             }
@@ -143,7 +156,14 @@ var rewardReqBatchPop = {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="rewardReqBatchPop.fn_delApnt()">' +
-                            '	<span class="k-button-text">취소<span>' +
+                            '	<span class="k-button-text">삭제<span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="rewardReqBatchPop.fn_delApntAll()">' +
+                            '	<span class="k-button-text">초기화<span>' +
                             '</button>';
                     }
                 }
@@ -153,7 +173,7 @@ var rewardReqBatchPop = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="rewardReqBatchPop.fn_checkAll()" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
                     template : function (e){
                         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
                     },
@@ -254,7 +274,7 @@ var rewardReqBatchPop = {
                 return;
             }
             let data = {
-                empSeq            : empSeq,
+                empSeq            : String(empSeq),
                 erpEmpSeq         : dataItem.ERP_EMP_SEQ,
                 empName           : dataItem.EMP_NAME_KR,
                 deptSeq           : dataItem.DEPT_SEQ,
@@ -268,6 +288,7 @@ var rewardReqBatchPop = {
                 rwdStComp         : $(v).find('#rwdStComp'+empSeq).val(),
                 rwdEtc            : $(v).find('#rwdEtc'+empSeq).val()
             }
+
             arr.push(data);
         });
 
@@ -314,5 +335,16 @@ var rewardReqBatchPop = {
         });
 
         rewardReqBatchPop.fn_popGridSetting();
+    },
+
+    fn_delApntAll : function(){
+        if(!confirm("선택하신 데이터가 전부 삭제됩니다. 초기화 하시겠습니까?")){
+            return;
+        }
+        const grid = $("#popMainGrid").data("kendoGrid");
+        $("#popMainGrid").find("input[name='checkUser']").each(function(){
+            grid.removeRow($(this).closest('tr'));
+        });
+        rewardReqBatchPop.global.userArr = [];
     }
 }

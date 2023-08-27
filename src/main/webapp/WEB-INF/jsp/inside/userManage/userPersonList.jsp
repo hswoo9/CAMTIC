@@ -82,7 +82,8 @@
                                 <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
                                 <label for="dsE">단기직원</label>
 
-                                <input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">
+                                <%--<input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">--%>
+                                <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsF">
                                 <label for="dsF">위촉직원</label>
                                 <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
                                 <label for="dsG">연수생/학생연구원</label>
@@ -98,13 +99,6 @@
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
-                <div style="display: flex; justify-content: end">
-                    <div class="mr10">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">직급/등급 관리</button>
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">직책관리</button>
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">서열관리</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -25,6 +25,7 @@
 <input type="hidden" id="largeCategoryName" value="${params.largeCategoryName}"/>
 <input type="hidden" id="eduCategoryId" value="${params.eduCategoryId}"/>
 <input type="hidden" id="eduCategoryName" value="${params.eduCategoryName}"/>
+<input type="hidden" id="pk" value="${params.pk}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
   <div class="table-responsive">
@@ -35,7 +36,7 @@
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>
-    <form id="table-responsive" style="padding: 20px 30px;">
+    <form id="table-responsive" style="padding: 20px 30px;" onsubmit="return false;">
     <table class="popTable table table-bordered mb-0">
       <colgroup>
         <col width="20%">
@@ -58,18 +59,20 @@
         </th>
         <td>
           <c:if test="${params.type eq 'C'}">
-            <input type="text" id="level" style="width: 150px;"/>
+            <input type="text" id="level" style="width: 150px;" value="${data.LEVEL_ID}"/>
           </c:if>
-          <input type="text" id="reqText" style="
+
           <c:choose>
-            <c:when test="${params.type eq 'C'}">
-                  width:350px
+            <c:when test="${params.type eq 'A'}">
+              <input type="text" id="reqText" style="width:500px" value="${data.CAMPUS_DT_CODE_NM}"/>
             </c:when>
-            <c:otherwise>
-                  width:500px
-            </c:otherwise>
+            <c:when test="${params.type eq 'B'}">
+              <input type="text" id="reqText" style="width:500px" value="${data.EDU_CATEGORY_NAME}"/>
+            </c:when>
+            <c:when test="${params.type eq 'C'}">
+              <input type="text" id="reqText" style="width:350px" value="${data.EDU_CATEGORY_DETAIL_NAME}"/>
+            </c:when>
           </c:choose>
-          "/>
         </td>
       </tr>
       </thead>

@@ -1,7 +1,6 @@
-var now = new Date();
-
 var targetInfo = {
     global: {
+        targetInfo: {},
         targetCategoryMainList: [],
         targetCategorySubList: [],
         targetCategoryMainDetailList: [],
@@ -11,13 +10,13 @@ var targetInfo = {
         yearDropDown: []
     },
 
-    init : function(){
+    init: function(){
+        targetInfo.pageSet();
         targetInfo.dataSet();
         targetInfo.tableSet();
-        targetInfo.StatSet();
     },
 
-    dataSet() {
+    pageSet: function(){
         $.ajax({
             url : "/campus/getTargetYearList",
             data : {
@@ -39,9 +38,44 @@ var targetInfo = {
             dataSource: targetInfo.global.yearDropDown,
             index: 0,
             change: function(e) {
+                targetInfo.dataSet();
                 targetInfo.tableSet();
             }
         });
+    },
+
+    dataSet: function(){
+        if($("#targetYear").val() != undefined && $("#targetYear").val() != ""){
+            let dutyInfo = customKendo.fn_customAjax("/campus/getTargetOne", {
+                targetYear : $("#targetYear").val(),
+                empSeq : $("#empSeq").val()
+            }).list[0];
+            targetInfo.global.targetInfo = dutyInfo;
+            let status = targetInfo.global.targetInfo.STATUS;
+            console.log(status);
+
+            if(status == 10){
+                $("#stat").text("승인요청 중");
+                $(".appBtn").hide();
+                $(".stepBtn").hide();
+                $(".canBtn").show();
+            }else if(status == 30){
+                $("#stat").text("반려");
+                $(".appBtn").show();
+                $(".stepBtn").show();
+                $(".canBtn").hide();
+            }else if(status == 100){
+                $("#stat").text("승인완료");
+                $(".appBtn").hide();
+                $(".stepBtn").hide();
+                $(".canBtn").hide();
+            }else{
+                $("#stat").text("작성중");
+                $(".appBtn").hide();
+                $(".stepBtn").hide();
+                $(".canBtn").hide();
+            }
+        }
     },
 
     tableDetailSet: function () {
@@ -356,20 +390,14 @@ var targetInfo = {
             type: "post",
             dataType: "json",
             async: false,
-            success: function (Result) {
+            success: function(Result){
                 if(status == "10") {
                     alert("승인요청이 완료되었습니다.");
-                    $("#stat").text("승인요청 중");
-                }else {
-                    alert("승인이 완료되었습니다.");
-                    $("#stat").text("승인완료");
+                }else if(status == "0"){
+                    alert("승인 요청이 취소되었습니다.");
                 }
-                targetInfo.global.targetCategoryMainList = Result.list;
+                targetInfo.dataSet();
             }
         });
-    },
-
-    StatSet: function() {
-        const detailList = targetInfo.global.targetCategoryMainDetailList;
     }
 }

@@ -27,6 +27,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public Map<String, Object> getCodeOne(Map<String, Object> params){
+        return campusRepository.getCodeOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEduInfoList(Map<String, Object> params){
         return campusRepository.getEduInfoList(params);
     }
@@ -39,56 +44,6 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getEduResultOne(Map<String, Object> params){
         return campusRepository.getEduResultOne(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getTargetYearList(Map<String, Object> params){
-        return campusRepository.getTargetYearList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getTargetOne(Map<String, Object> params){
-        return campusRepository.getTargetOne(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getTargetList(Map<String, Object> params){
-        return campusRepository.getTargetList(params);
-    }
-
-    @Override
-    public Map<String, Object> getCategoryOne(Map<String, Object> params){
-        return campusRepository.getCategoryOne(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getTargetCategoryList(Map<String, Object> params){
-        return campusRepository.getTargetCategoryList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getTargetCategoryDetailList(Map<String, Object> params){
-        return campusRepository.getTargetCategoryDetailList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getEduCategoryList(Map<String, Object> params){
-        return campusRepository.getEduCategoryList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params){
-        return campusRepository.getEduCategoryDetailList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getEduPlanList(Map<String, Object> params){
-        return campusRepository.getEduPlanList(params);
-    }
-
-    @Override
-    public List<Map<String, Object>> getEduPlanOne(Map<String, Object> params){
-        return campusRepository.getEduPlanOne(params);
     }
 
     @Override
@@ -117,6 +72,41 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params){
+        return campusRepository.getOpenStudyInfoList(params);
+    }
+
+    @Override
+    public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params){
+        return campusRepository.getOpenStudyInfoOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params){
+        return campusRepository.getOpenStudyUserList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommonEduList(Map<String, Object> params){
+        return campusRepository.getCommonEduList(params);
+    }
+
+    @Override
+    public Map<String, Object> getCommonEduOne(Map<String, Object> params){
+        return campusRepository.getCommonEduOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params){
+        return campusRepository.getCommonEduUserList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommonEduUserAddList(Map<String, Object> params){
+        return campusRepository.getCommonEduUserAddList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEduStat(Map<String, Object> params){
         return campusRepository.getEduStat(params);
     }
@@ -125,6 +115,77 @@ public class CampusServiceImpl implements CampusService {
     public List<Map<String, Object>> getEduAllStatList(Map<String, Object> params){
         return campusRepository.getEduAllStatList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getTargetYearList(Map<String, Object> params){
+        return campusRepository.getTargetYearList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTargetOne(Map<String, Object> params){
+        return campusRepository.getTargetOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTargetList(Map<String, Object> params){
+        return campusRepository.getTargetList(params);
+    }
+
+    @Override
+    public Map<String, Object> getEduCategoryOne(Map<String, Object> params){
+        return campusRepository.getEduCategoryOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduCategoryList(Map<String, Object> params){
+        return campusRepository.getEduCategoryList(params);
+    }
+
+    @Override
+    public Map<String, Object> getEduCategoryDetailOne(Map<String, Object> params){
+        return campusRepository.getEduCategoryDetailOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduCategoryDetailList(Map<String, Object> params){
+        return campusRepository.getEduCategoryDetailList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTargetCategoryList(Map<String, Object> params){
+        return campusRepository.getTargetCategoryList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTargetCategoryDetailList(Map<String, Object> params){
+        return campusRepository.getTargetCategoryDetailList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduPlanList(Map<String, Object> params){
+        return campusRepository.getEduPlanList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduPlanOne(Map<String, Object> params){
+        return campusRepository.getEduPlanOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDutyInfoList(Map<String, Object> params){
+        return campusRepository.getDutyInfoList(params);
+    }
+
+    @Override
+    public Map<String, Object> getDutyInfoOne(Map<String, Object> params){
+        return campusRepository.getDutyInfoOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDutyInfoMngList(Map<String, Object> params){
+        return campusRepository.getDutyInfoMngList(params);
+    }
+
 
 
 
@@ -138,6 +199,11 @@ public class CampusServiceImpl implements CampusService {
     public void setEduResultInsert(Map<String, Object> params) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
+    }
+
+    @Override
+    public void setMngCheckUpd(Map<String, Object> params) {
+        campusRepository.setMngCheckUpd(params);
     }
 
     @Override
@@ -180,6 +246,89 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setStudyJournalApp(Map<String, Object> params) {
         campusRepository.setStudyJournalApp(params);
+    }
+
+    @Override
+    public void setOpenStudyInfoIns(Map<String, Object> params) {
+        campusRepository.setOpenStudyInfoIns(params);
+    }
+
+    @Override
+    public void setOpenStudyInfoUpd(Map<String, Object> params) {
+        campusRepository.setOpenStudyInfoUpd(params);
+    }
+
+    @Override
+    public void setOpenNextStep(Map<String, Object> params) {
+        campusRepository.setOpenNextStep(params);
+    }
+
+    @Override
+    public void setOpenStudyUser(Map<String, Object> params) {
+        campusRepository.setOpenStudyUser(params);
+        List<Map<String, Object>> list = campusRepository.getOpenStudyUserList(params);
+        /** 참여자가 5명 이상일시 자동으로 모임확정단계로 넘어감 */
+        if(list.size() > 4){
+            Map<String, Object> data = campusRepository.getOpenStudyInfoOne(params);
+            if(data.get("STEP").equals("B")){
+                params.put("step", "C");
+                campusRepository.setOpenNextStep(params);
+            }
+        }
+    }
+
+    @Override
+    public void setOpenStudyResultUpd(Map<String, Object> params) {
+        campusRepository.setOpenStudyResultUpd(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> userList = gson.fromJson((String) params.get("userData"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(int i = 0 ; i < userList.size() ; i++){
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("userClass", userList.get(i).get("userClass"));
+            userData.put("userClassText", userList.get(i).get("userClassText"));
+            userData.put("pk", userList.get(i).get("pk"));
+            userData.put("partYN", userList.get(i).get("partYN"));
+            campusRepository.setOpenStudyUserResultUpd(userData);
+        }
+    }
+
+    @Override
+    public void setOpenStudyCertReq(Map<String, Object> params) {
+        campusRepository.setOpenStudyCertReq(params);
+    }
+
+    @Override
+    public void setCommonEduIns(Map<String, Object> params) {
+        campusRepository.setCommonEduIns(params);
+    }
+
+    @Override
+    public void setCommonEduUpd(Map<String, Object> params) {
+        campusRepository.setCommonEduUpd(params);
+    }
+
+    @Override
+    public void setCommonEduAddUserAll(Map<String, Object> params) {
+        campusRepository.setCommonEduAddUserAll(params);
+    }
+
+    @Override
+    public void setCommonEduUserUpd(Map<String, Object> params) {
+        campusRepository.setCommonEduUserUpd(params);
+    }
+
+    @Override
+    public void setCommonEduUserTimeUpd(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> userList = gson.fromJson((String) params.get("userData"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(int i = 0 ; i < userList.size() ; i++){
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("pk", userList.get(i).get("pk"));
+            userData.put("eduTime", userList.get(i).get("eduTime"));
+            campusRepository.setCommonEduUserTimeUpd(userData);
+        }
     }
 
     @Override
@@ -310,6 +459,56 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setEduCategoryDetail(Map<String, Object> params) {
         campusRepository.setEduCategoryDetail(params);
+    }
+
+    @Override
+    public void setEduCodeUpd(Map<String, Object> params) {
+        campusRepository.setEduCodeUpd(params);
+    }
+
+    @Override
+    public void setEduCategoryUpd(Map<String, Object> params) {
+        campusRepository.setEduCategoryUpd(params);
+    }
+
+    @Override
+    public void setEduCategoryDetailUpd(Map<String, Object> params) {
+        campusRepository.setEduCategoryDetailUpd(params);
+    }
+
+    @Override
+    public void setEduCodeDel(Map<String, Object> params) {
+        campusRepository.setEduCodeDel(params);
+    }
+
+    @Override
+    public void setEduCategoryDel(Map<String, Object> params) {
+        campusRepository.setEduCategoryDel(params);
+    }
+
+    @Override
+    public void setEduCategoryDetailDel(Map<String, Object> params) {
+        campusRepository.setEduCategoryDetailDel(params);
+    }
+
+    @Override
+    public void setDutyInfoIns(Map<String, Object> params) {
+        campusRepository.setDutyInfoIns(params);
+    }
+
+    @Override
+    public void setDutyInfoUpd(Map<String, Object> params) {
+        campusRepository.setDutyInfoUpd(params);
+    }
+
+    @Override
+    public void setTargetCertReq(Map<String, Object> params) {
+        campusRepository.setTargetCertReq(params);
+    }
+
+    @Override
+    public void setDutyCertReq(Map<String, Object> params) {
+        campusRepository.setDutyCertReq(params);
     }
 
     @Override

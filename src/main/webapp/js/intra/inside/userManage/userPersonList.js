@@ -180,15 +180,15 @@ var userPersonList = {
             checkAll: true,
             autoClose: false,
             dataSource: [
-                {name: "15세~25세", value: ""},
-                {name: "26세~30세", value: ""},
-                {name: "31세~35세", value: ""},
-                {name: "36세~40세", value: ""},
-                {name: "41세~45세", value: ""},
-                {name: "46세~50세", value: ""},
-                {name: "51세~55세", value: ""},
-                {name: "56세~60세", value: ""},
-                {name: "61세~", value: ""}
+                {name: "15세~25세", value: "15,25"},
+                {name: "26세~30세", value: "26,30"},
+                {name: "31세~35세", value: "31,35"},
+                {name: "36세~40세", value: "36,40"},
+                {name: "41세~45세", value: "41,45"},
+                {name: "46세~50세", value: "46,50"},
+                {name: "51세~55세", value: "51,55"},
+                {name: "56세~60세", value: "56,60"},
+                {name: "61세~", value: "61"}
             ],
             dataTextField: "name",
             dataValueField: "value"
@@ -270,7 +270,7 @@ var userPersonList = {
             height: 508,
             pageable: {
                 refresh: true,
-                pageSizes: [10, 20, 30, 50, 100],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount: 5
             },
             toolbar: [
@@ -323,8 +323,15 @@ var userPersonList = {
                         if(e.EMP_NAME_KR == null || +e.EMP_NAME_KR == ""){
                             return "";
                         }else {
-                            return "<a href='#' onclick='userPersonList.userViewPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
-                            /*return "<a href='#' onclick='userPersonList.userReqPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";*/
+                            if(e.DIVISION == '4' && e.DIVISION_SUB == '3'){ /*경비/환경*/
+                                return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }else if(e.DIVISION == '3' || e.DIVISION == '1'){ /*단기직원, 위촉직원*/
+                                return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }else if(e.DIVISION == '3' || e.DIVISION == '2'){ /*연수생/학생연구원*/
+                                return "<a href='#' onclick='userPersonList.userViewTraineePop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }  else{
+                                return "<a href='#' onclick='userPersonList.userViewPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }
                         }
                     },
                     width : 100
@@ -379,7 +386,7 @@ var userPersonList = {
             selectable: "row",
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
             noRecords: {
@@ -510,6 +517,32 @@ var userPersonList = {
         var popup = window.open(url, name, option);
     },
 
+    /*계약직원 - 경비/환경, 단기직원, 위촉직원*/
+    userViewContractPop : function(e) {
+        var url = "/Inside/pop/userViewContractPop.do";
+
+        if(e != null && e != ""){
+            url += "?empSeq=" + e;
+        }
+
+        var name = "userViewContractPop";
+        var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    /*연수생/학생연구원*/
+    userViewTraineePop : function(e) {
+        var url = "/Inside/pop/userViewTraineePop.do";
+
+        if(e != null && e != ""){
+            url += "?empSeq=" + e;
+        }
+
+        var name = "userViewTraineePop";
+        var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+    
     gridReload : function() {
         userPersonList.global.searchAjaxData = {
             userKind : $('#userKind').val(),

@@ -125,6 +125,7 @@ public class UserManageController {
         model.addAttribute("rList", userManageService.getRewardInfoList(map));
         model.addAttribute("dList", userManageService.getDutyInfoList(map));
         model.addAttribute("pList", userManageService.getProposalInfoList(map));
+        /*model.addAttribute("RewordList", userManageService.getReward2InfoList(map));*/
 
         return "inside/userManage/userPersonnelRecord";
     }
@@ -521,10 +522,12 @@ public class UserManageController {
     }
 
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
-    public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model) {
+    public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         String viewName = "";
 
         model.addAttribute("params", params);
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         switch(params.get("popName").toString()) {
             case "degree":
@@ -567,6 +570,13 @@ public class UserManageController {
         Map<String,Object> params = new HashMap<>();
         params.put("EMP_SEQ", login.getUniqId());
         params.put("EMP_NAME", login.getName());
+
+        params.put("regErpEmpCd", login.getErpEmpCd());
+        params.put("regDeptSeq", login.getDeptId());
+        params.put("regDeptName", login.getDeptNm());
+        params.put("regTeamSeq", login.getTeamId());
+        params.put("regTeamName", login.getTeamNm());
+
         params.putAll(map);
         switch(params.get("type").toString()) {
             case "degree":
@@ -1022,6 +1032,56 @@ public class UserManageController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/userManage/joinLeaveViewPop";
+    }
+
+    /**
+     * 인사관리 계약직원-경비/환경, 단기직원, 위촉직원 직원 정보 조회 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewContractPop.do")
+    public String userViewContractPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewContractPop";
+    }
+
+    /**
+     * 인사관리 연수생/학생연구원 직원 정보 조회 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/userViewTraineePop.do")
+    public String userViewTraineePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+        model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
+
+        System.out.println("parmas값 --------" + params);
+        System.out.println("dfdf --------" + userPersonnelinformList);
+        return "popup/inside/userManage/userViewTraineePop";
     }
 
 }

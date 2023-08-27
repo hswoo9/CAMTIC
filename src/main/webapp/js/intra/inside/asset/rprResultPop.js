@@ -86,7 +86,7 @@ var rprResReq = {
 
         let data = {
             rprClass: 3,
-            rprName: "포상급지급 신청서",
+            rprName: "포상금지급 신청서",
             shareSn: userSn,
             shareName: userText,
             iprClass: iprClass,
@@ -105,7 +105,7 @@ var rprResReq = {
         if(iprClass == "") { alert("지식재산권 종류가 선택되지 않았습니다."); return; }
         if(title == "") { alert("지식재산권 명칭이 작성되지 않았습니다."); return; }
         if(detailCn == "") { alert("주요내용이 작성되지 않았습니다."); return; }
-        if(!confirm("포상급지급 신청을 진행하시겠습니까?")){
+        if(!confirm("포상금지급 신청을 진행하시겠습니까?")){
             return;
         }
         rprResReq.setRprResultInsert(data);

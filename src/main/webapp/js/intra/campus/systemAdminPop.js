@@ -59,28 +59,28 @@ const systemAdmin = {
                 buttonCount: 5
             },
             toolbar : [
-                {
+                /*{
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.systemAdminReqPop(\'req\', \'A\');">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
-                }, {
+                }, */{
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionModChk()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.modBtn(\'A\')">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
-                }, {
+                }/*, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(1)">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                }
+                }*/
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -99,7 +99,7 @@ const systemAdmin = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllA" name="checkAllA" onclick="fn_checkAll(\'checkAllA\', \'largeCategoryPk\');"/>',
-                    template : "<input type='checkbox' name='largeCategoryPk' class='largeCategoryPk'/>",
+                    template : "<input type='checkbox' name='largeCategoryPk' class='largeCategoryPk' value='#=CAMPUS_DT_CODE#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -161,14 +161,14 @@ const systemAdmin = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionModChk()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.modBtn(\'B\')">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(1)">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'B\')">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -191,7 +191,7 @@ const systemAdmin = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllB" name="checkAllB" onclick="fn_checkAll(\'checkAllB\', \'categoryPk\');"/>',
-                    template : "<input type='checkbox' name='categoryPk' class='categoryPk'/>",
+                    template : "<input type='checkbox' name='categoryPk' class='categoryPk' value='#=EDU_CATEGORY_ID#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -253,14 +253,14 @@ const systemAdmin = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.assetCodePositionModChk()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.modBtn(\'C\')">' +
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(1)">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'C\')"">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -272,7 +272,7 @@ const systemAdmin = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC" onclick="fn_checkAll(\'checkAllC\', \'categoryDetailPk\');"/>',
-                    template : "<input type='checkbox' name='categoryDetailPk' class='categoryDetailPk'/>",
+                    template : "<input type='checkbox' name='categoryDetailPk' class='categoryDetailPk' value='#=EDU_CATEGORY_DETAIL_ID#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -293,8 +293,64 @@ const systemAdmin = {
         }).data("kendoGrid");
     },
 
-    systemAdminReqPop: function(mode, type){
+    modBtn: function(type){
+        let checkbox;
+
+        if(type == "A"){
+            checkbox = $("input[name=largeCategoryPk]:checked");
+        }else if(type == "B"){
+            checkbox = $("input[name=categoryPk]:checked");
+        }else if(type == "C"){
+            checkbox = $("input[name=categoryDetailPk]:checked");
+        }
+
+        if(checkbox.length == 0){ alert("수정할 코드를 선택해주세요."); return; }
+        if(checkbox.length > 1){ alert("수정은 단건만 가능합니다."); return; }
+
+        systemAdmin.systemAdminReqPop("upd", type, checkbox.val())
+    },
+
+    delBtn: function(type){
+        let checkbox;
+        let url;
+        let gridId;
+        let data = {};
+
+        if(type == "A"){
+            checkbox = $("input[name=largeCategoryPk]:checked");
+            url = "/campus/setEduCodeDel";
+            gridId = "categoryGridA";
+            data.groupCode = 1;
+        }else if(type == "B"){
+            checkbox = $("input[name=categoryPk]:checked");
+            url = "/campus/setEduCategoryDel";
+            gridId = "categoryGridB";
+        }else if(type == "C"){
+            checkbox = $("input[name=categoryDetailPk]:checked");
+            url = "/campus/setEduCategoryDetailDel";
+            gridId = "categoryGridC";
+        }
+
+        if(checkbox.length == 0){ alert("삭제할 코드를 선택해주세요."); return; }
+        let checked = "";
+        if(confirm("선택한 코드를 삭제하시겠습니까?")) {
+            $.each(checkbox, function(){
+                checked += "," + $(this).val();
+            });
+        }
+        data.pk = checked.substring(1);
+        const result = customKendo.fn_customAjax(url, data);
+        if(result.flag){
+            alert("삭제가 완료되었습니다.");
+            gridReload(gridId);
+        }
+    },
+
+    systemAdminReqPop: function(mode, type, pk){
         let url = "/Campus/pop/systemAdminReqPop.do?mode="+mode+"&type="+type;
+        if(type == "A"){
+            url += "&campusGroupCodeId=1";
+        }
         if(type == "B"){
             url += "&largeCategoryId="+systemAdmin.global.largeCategoryId;
             url += "&largeCategoryName="+systemAdmin.global.largeCategoryName;
@@ -302,6 +358,9 @@ const systemAdmin = {
         if(type == "C"){
             url += "&eduCategoryId="+systemAdmin.global.eduCategoryId;
             url += "&eduCategoryName="+systemAdmin.global.eduCategoryName;
+        }
+        if(mode == "upd"){
+            url += "&pk="+pk;
         }
         const name = "systemAdminReqPop";
         const option = "width = 800, height = 262, top = 200, left = 400, location = no";

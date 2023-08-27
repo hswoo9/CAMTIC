@@ -1,32 +1,26 @@
-var now = new Date();
-
-var eduPlanReqPop = {
-    global : {
+const eduPlanReq = {
+    init: function(){
+        eduPlanReq.dataSet();
     },
 
-    init : function(){
-        eduPlanReqPop.dataSet();
-    },
-
-    dataSet : function() {
+    dataSet: function(){
         $.ajax({
-            url : "/campus/getCategoryOne",
+            url : "/campus/getEduCategoryOne",
             data : {
-                eduCategoryId : $("#eduCategoryId").val()
+                pk : $("#eduCategoryId").val()
             },
             type : "post",
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.EDU_CATEGORY_NAME);
+                console.log(result.data.EDU_CATEGORY_NAME);
                 try {
                     let dutyClass = $("#dutyClass").val() == 2 ? "연계업무" : "주업무";
-                    $("#categoryRange").text(dutyClass+" > "+result.EDU_CATEGORY_NAME);
+                    $("#categoryRange").text(dutyClass+" > "+result.data.EDU_CATEGORY_NAME);
                 }catch (e) {
                     console.log(e);
                     $("#categoryRange").text("데이터 조회중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
                 }
-
             }
         });
 
@@ -64,9 +58,9 @@ var eduPlanReqPop = {
         }
 
         if($("#eduPlanId").val() == "") {
-            eduPlanReqPop.setEduPlanInsert();
+            eduPlanReq.setEduPlanInsert();
         }else {
-            eduPlanReqPop.setEduPlanUpdate();
+            eduPlanReq.setEduPlanUpdate();
         }
     },
 

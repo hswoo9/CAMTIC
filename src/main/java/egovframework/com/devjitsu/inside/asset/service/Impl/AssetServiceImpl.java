@@ -566,7 +566,11 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setBookInsert(Map<String, Object> params) {
-        assetRepository.setBookInsert(params);
+        if(params.containsKey("bkSn")){
+            assetRepository.setBookUpdate(params);
+        } else {
+            assetRepository.setBookInsert(params);
+        }
     }
 
     private void setAssetInfoModHistory(Map<String, Object> assetInfo, Map<String, Object> params){
@@ -995,5 +999,62 @@ public class AssetServiceImpl implements AssetService {
         result.put("type", assetRepository.getEquipStatType(params));
         result.put("total", assetRepository.getEquipStat(params));
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getData(Map<String, Object> params) {
+        return assetRepository.getData(params);
+    }
+
+    @Override
+    public void setBookDelete(Map<String, Object> params) {
+        assetRepository.setBookDelete(params);
+    }
+
+    @Override
+    public void setBookCode(Map<String, Object> params) {
+        if("".equals(params.get("bkMdCd"))) {
+            int maxCode = assetRepository.getMaxBookCode(params);
+            params.put("bkMdCd", maxCode + 1);
+            params.put("bkCd", null);
+        } else {
+            int maxCode = assetRepository.getMaxBookCode2(params);
+            params.put("bkCd", maxCode + 1);
+        }
+        assetRepository.setBookCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMdCode(Map<String, Object> params) {
+        return assetRepository.getMdCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCode(Map<String, Object> params) {
+        return assetRepository.getCode(params);
+    }
+
+    @Override
+    public Map<String, Object> getBookInfoOne(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result = assetRepository.getData(params);
+        result.put("fileNo", result.get("BK_FILE_SN"));
+
+        return commonRepository.getContentFileOne(result);
+    }
+
+    @Override
+    public void setBookImg(Map<String, Object> params) {
+        assetRepository.setBookImg(params);
+    }
+
+    @Override
+    public Map<String, Object> getApprovalData(Map<String, Object> params) {
+        return assetRepository.getApprovalData(params);
+    }
+
+    @Override
+    public void delBookCode(Map<String, Object> params) {
+        assetRepository.delBookCode(params);
     }
 }

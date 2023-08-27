@@ -6,11 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<style>
-  .k-radio-list-horizontal, .k-radio-list.k-list-horizontal {
-    gap: 0px;
-  }
-</style>
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/eduReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
@@ -44,6 +39,12 @@
               <th>성 명</th>
               <td id="userName">${loginVO.name}</td>
             </tr>
+            <c:if test="${eduFormType == 1}">
+            <tr>
+              <th>담당직무</th>
+              <td colspan="5">${loginVO.jobDetailNm}</td>
+            </tr>
+            </c:if>
           </table>
           <table class="table table-bordered mt20" id="eduReqTable" style="width: 1000px;">
             <colgroup>

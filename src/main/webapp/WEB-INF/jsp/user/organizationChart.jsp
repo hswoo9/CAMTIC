@@ -15,6 +15,10 @@
 <script type="text/javascript" src="/js/intra/user/user.js?${toDate}"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/organizationChart.js?v=${toDate}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userPersonList2.js?v=${toDate}'/>"></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userSetGradePop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userSetDutyPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userSetRankPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userSetOrganizationPop.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -25,8 +29,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">조직도 관리</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 조직도 관리</div>
+            <h4 class="panel-title">직제관리</h4>
+            <div class="title-road">캠인사이드 > 인사관리 > 직제관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -44,6 +48,12 @@
                             <div style="margin: 10px 0 5px 5px;">
                                 <span>성명</span>
                                 <input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){orgChart.mainGrid();}">
+                                <div style="float:right;">
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetGrade.userSetGradePop();">직급/등급 관리</button>
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetDuty.userSetDutyPop();">직책관리</button>
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetRank.userSetRankPop();">서열관리</button>
+                                    <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetOrganization.userSetOrganizationPop();">조직도관리</button>
+                                </div>
                             </div>
                             <div id="deptUserGrid">
 

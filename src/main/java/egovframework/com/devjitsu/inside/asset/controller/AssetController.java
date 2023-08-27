@@ -1,8 +1,10 @@
 package egovframework.com.devjitsu.inside.asset.controller;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -37,6 +41,9 @@ public class AssetController {
 
     @Autowired
     private AssetService assetService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     /**
      * 자산관리 > 자산리스트 페이지
@@ -603,7 +610,7 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         return "/popup/inside/asset/approvalFormPopup/inventionApprovalPop";
     }
-    //캠도큐먼트 - 포상급지급신청서 전자결재 신청폼 팝업
+    //캠도큐먼트 - 포상금지급신청서 전자결재 신청폼 팝업
     @RequestMapping("/Inside/pop/rprResultPop.do")
     public String rprResultPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -612,7 +619,7 @@ public class AssetController {
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/rprResultPop";
     }
-    //캠도큐먼트 - 포상급지급신청서 전자결재 페이지
+    //캠도큐먼트 - 포상금지급신청서 전자결재 페이지
     @RequestMapping("/popup/inside/approvalFormPopup/rprResApprovalPop.do")
     public String rprResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -679,7 +686,7 @@ public class AssetController {
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }
-    //캠도큐먼트 - 포상급지급신청서 신청폼 등록
+    //캠도큐먼트 - 포상금지급신청서 신청폼 등록
     @RequestMapping("/inside/setRprResultInsert")
     public String setRprResultInsert(@RequestParam Map<String, Object> params, Model model) {
         assetService.setRprResultInsert(params);
@@ -692,7 +699,7 @@ public class AssetController {
         assetService.setRprReceiptInsert(params);
         return "jsonView";
     }
-    //직무발명신고서, 포상급지급신청서 결재 상태값에 따른 UPDATE 메서드
+    //직무발명신고서, 포상금지급신청서 결재 상태값에 따른 UPDATE 메서드
     @RequestMapping(value = "/inside/inventionReqApp")
     public String certificateReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println("bodyMap");
@@ -887,6 +894,18 @@ public class AssetController {
         return "/popup/inside/asset/approvalFormPopup/equipApprovalPop";
     }
 
+    @RequestMapping("/bookCode/delBookCode")
+    public String delBookCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            assetService.delBookCode(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     //도서리스트
     @RequestMapping("/Inside/bookList.do")
     public String bookList(HttpServletRequest request, Model model) {
@@ -908,15 +927,86 @@ public class AssetController {
         return "popup/inside/asset/bookManagePop";
     }
 
+    @RequestMapping("/bookCode/setBookCode")
+    public String setBookCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            assetService.setBookCode(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/bookCode/getMdCode")
+    public String getMdCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", assetService.getMdCode(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bookCode/getCode")
+    public String getCode(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getCode(params));
+
+        return "jsonView";
+    }
+
     //도서등록 팝업창
     @RequestMapping("/Inside/Pop/bookRegisPop.do")
-    public String bookRegisPop(HttpServletRequest request, Model model) {
+    public String bookRegisPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("params", params);
+        if(params.containsKey("bkSn")){
+            model.addAttribute("img", assetService.getBookInfoOne(params));
+        }
         model.addAttribute("loginVO", login);
         return "popup/inside/asset/bookRegisPop";
     }
+
+    @RequestMapping("/inside/setBookImgFile")
+    public String setBookImgFile(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String server_path = SERVER_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
+        String base_path = BASE_DIR + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        MainLib mainLib = new MainLib();
+        List<Map<String, Object>> imgFile = new ArrayList<>();
+
+        imgFile = mainLib.multiFileUpload(request.getFiles("imgFile").toArray(new MultipartFile[0]), server_path);
+
+        int imgFileId = userManageService.setThumbnailUpload(imgFile, params, base_path);     //증명사진
+
+        params.put("loginEmpSeq", loginVO.getUniqId());
+        params.put("idImg", imgFileId);
+
+        assetService.setBookImg(params);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/Pop/bookCodePop.do")
+    public String bookCodePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/asset/bookCodePop";
+    }
+
+
 
     //도서 리스트 조회
     @RequestMapping("/inside/getBookList")
@@ -928,8 +1018,14 @@ public class AssetController {
 
     //도서저장
     @RequestMapping("/inside/setBookInsert")
-    public String setBookInsert(@RequestParam Map<String, Object> params) {
-        assetService.setBookInsert(params);
+    public String setBookInsert(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            assetService.setBookInsert(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 
@@ -1011,6 +1107,14 @@ public class AssetController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getApprovalData")
+    public String getApprovalData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getApprovalData(params));
+
+        return "jsonView";
+    }
+
     /** 장비 전자결재 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/inside/equipReqApp")
     public String equipReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -1049,5 +1153,47 @@ public class AssetController {
         return "jsonView";
     }
 
+    @RequestMapping("/bookRegisPop/getData")
+    public String getData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getData(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/setBookDelete")
+    public String setBookDelete(@RequestParam Map<String, Object> params, Model model){
+        assetService.setBookDelete(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
     /** 장비 증감률 통계 */
+
+
+    /** 직무발명신고서 조회 팝업*/
+    @RequestMapping("/Inside/pop/inventionPop.do")
+    public String inventionPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> map = new HashMap<>();
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        model.addAttribute("resultMap", assetService.getInventionInfo(params));
+
+        return "popup/inside/asset/inventionPop";
+    }
+
+    /** 포상금지급 신청서 조회 팝업*/
+    @RequestMapping("/Inside/pop/rprPop.do")
+    public String rprPop(HttpServletRequest request, Model model,  @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
+        model.addAttribute("resultMap", assetService.getInventionInfo(params));
+
+        return "popup/inside/asset/rprPop";
+    }
 }

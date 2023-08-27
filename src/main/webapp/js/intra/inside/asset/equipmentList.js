@@ -21,14 +21,13 @@ var equipmentList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : new Date(now.setMonth(now.getMonth() + 2))
         });
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
                 { text: "사용자", value: "1" },
                 { text: "작업내용", value: "2" },
                 { text: "의뢰업체", value: "3" }
@@ -37,7 +36,11 @@ var equipmentList = {
         });
 
         $("#searchVal").kendoTextBox();
-
+        $("#searchVal").on("keyup", function(key){
+            if(key.keyCode == 13){
+                equipmentList.mainGrid();
+            }
+        })
         $.ajax({
             url : "/asset/getEqipmnList",
             type : "post",
@@ -123,7 +126,7 @@ var equipmentList = {
             height: 538,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
             toolbar : [
@@ -163,9 +166,6 @@ var equipmentList = {
                     template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#'/>",
                     width: 50
                 }, {
-                    field: "SORT_SN",
-                    title: "순번"
-                }, {
                     field: "EQIPMN_GBN_NAME",
                     title: "구분"
                 }, {
@@ -177,9 +177,15 @@ var equipmentList = {
                         {
                             field : "USE_PD_STR_DE",
                             title : "시작일자",
+                            template : function(e){
+                                return e.USE_PD_STR_DE.substring(0,4) + "년 " + e.USE_PD_STR_DE.substring(4,6) + "월 " + e.USE_PD_STR_DE.substring(6,8) + "일";
+                            }
                         }, {
                             field: "USE_PD_END_DE",
-                            title: "종료일자"
+                            title: "종료일자",
+                            template : function(e){
+                                return e.USE_PD_END_DE.substring(0,4) + "년 " + e.USE_PD_END_DE.substring(4,6) + "월 " + e.USE_PD_END_DE.substring(6,8) + "일";
+                            }
                         }
                     ]
                 }, {
@@ -193,7 +199,10 @@ var equipmentList = {
                     title: "총 사용시간"
                 }, {
                     field: "USE_AMT",
-                    title: "사용대금"
+                    title: "사용대금",
+                    template :function(e){
+                        return equipmentList.fn_comma(e.USE_AMT);
+                    }
                 }, {
                     field: "CLIENT_PRTPCO_NAME",
                     title: "의뢰업체"
@@ -275,6 +284,14 @@ var equipmentList = {
         var name = "equipmentUseUpdatePop";
         var option = "width = 1000, height = 450, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+
+    fn_comma : function (str){
+        if (!str || str=="" || str==undefined) {
+            return "0";
+        }
+        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
     }
 
 }

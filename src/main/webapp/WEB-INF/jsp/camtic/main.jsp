@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jsy
-  Date: 2023-04-17
-  Time: 오후 6:03
-  캠틱홈페이지A
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -13,7 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
 <style>
-  #vis .rig .nimg:after {
+  /*블랙 스크린 취소*/
+/*  #vis .rig .nimg:after {
     content: '';
     position: absolute;
     background-color: #0000002e;
@@ -31,7 +25,7 @@
    height: 100%;
    top: 0;
    left: 0;
- }
+ }*/
  .mainTitle{
    background : linear-gradient(to right,#00529c, #4bc1be);
    background-clip:text;
@@ -53,7 +47,7 @@
               <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">지역</span>과 함께 성장</dt>
-                  <dd style="word-spacing: 24px;">
+                  <dd style="word-spacing: 15px;">
                     창업 - 혁신 - 성장<br>
                     제조창업플랫폼 구축
                   </dd>
@@ -65,7 +59,7 @@
               <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">기업</span>과 함께 성장</dt>
-                  <dd style="word-spacing: 24px;">
+                  <dd style="word-spacing: 15px;">
                     기업수요 및 성장주기 <br>
                     연계 H/W, S/W 지원
                   </dd>
@@ -77,7 +71,7 @@
               <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">기술</span>과 함께 성장</dt>
-                  <dd style="word-spacing: 24px;">
+                  <dd style="word-spacing: 15px;">
                     시장기반 신기술  <br>
                     신산업 육성 지원
                   </dd>
@@ -89,7 +83,7 @@
               <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">직원</span>과 함께 성장</dt>
-                  <dd style="word-spacing: 24px;">
+                  <dd style="word-spacing: 15px;">
                     행복한 일터<br>
                     캠틱 클러스터 구축
                   </dd>

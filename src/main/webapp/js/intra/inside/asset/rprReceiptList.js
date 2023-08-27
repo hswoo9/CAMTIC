@@ -8,7 +8,7 @@ var rprReceiptList = {
         customKendo.fn_textBox(["searchText"]);
         let rprClassSource = [
             { text: "직무발명 신고서", value: "1" },
-            { text: "포상급지급 신청서", value: "3" }
+            { text: "포상금지급 신청서", value: "3" }
         ]
         customKendo.fn_dropDownList("rprClass", rprClassSource, "text", "value", 2);
         let iprClassSource = [
@@ -65,7 +65,7 @@ var rprReceiptList = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
             toolbar : [
@@ -81,25 +81,32 @@ var rprReceiptList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : rprReceiptList.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
-                    title: "순번"
+                    title: "순번",
+                    width: 3
                 }, {
                     field: "RPR_NAME",
-                    title: "구분"
+                    title: "구분",
+                    width: 10
                 }, {
                     field: "IPR_NAME",
-                    title: "종류"
+                    title: "종류",
+                    width: 5
                 }, {
                     field: "TITLE",
-                    title: "지식재산 명칭"
+                    title: "지식재산 명칭",
+                    width: 50
                 }, {
                     field: "REG_EMP_NAME",
-                    title: "신고자"
+                    title: "신고자",
+                    width: 5
                 }, {
                     field: "SHARE_NAME",
-                    title: "발명자"
+                    title: "발명자",
+                    width: 13
                 }, {
                     title: "상태",
                     template: function(row){
@@ -116,9 +123,11 @@ var rprReceiptList = {
                         }else{
                             return "-";
                         }
-                    }
+                    },
+                    width: 5
                 }, {
-                    field: "작성",
+                    field: "등록",
+                    width: 9,
                     template: function(row){
                         if(row.RPR_CLASS == "1" && row.STATUS == 100) {
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='rprReceiptList.rprReceiptReqPop("+row.INVENTION_INFO_SN+");'>지식재산권 등록</button>";
@@ -129,6 +138,15 @@ var rprReceiptList = {
                 }
             ]
         }).data("kendoGrid");
+
+        //접수내역 리스트 더블 클릭시 수정 팝업창
+        $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
+            var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
+            console.log(selectedItem);
+            console.log(selectedItem.INVENTION_INFO_SN);
+            console.log(selectedItem.RPR_CLASS);
+            rprReceiptList.inventionReqPop(selectedItem.INVENTION_INFO_SN, selectedItem.RPR_CLASS);
+        });
     },
 
     rprReceiptReqPop(inventionInfoSn) {
@@ -139,5 +157,26 @@ var rprReceiptList = {
         const name = "rprReceiptReqPop";
         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
+    },
+
+    inventionReqPop(inventionInfoSn, rprClass){
+        if(rprClass == "1"){
+            let url = "/Inside/pop/inventionPop.do";
+            if(!isNaN(inventionInfoSn)) {
+                url = "/Inside/pop/inventionPop.do?inventionInfoSn=" + inventionInfoSn;
+            }
+            const name = "inventionPop";
+            const option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            window.open(url, name, option);
+            console.log(rprClass);
+        }if(rprClass == "3"){
+            let url = "/Inside/pop/rprPop.do";
+            if(!isNaN(inventionInfoSn)) {
+                url = "/Inside/pop/rprPop.do?inventionInfoSn=" + inventionInfoSn;
+            }
+            const name = "rprPop";
+            const option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            window.open(url, name, option);
+        }
     }
 }

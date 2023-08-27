@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentmangePop.js?v=${today}"/></script>
@@ -47,10 +48,12 @@
         <div class="col-md-6 col-lg-6 dash-left mt-10" style="border: 1px solid #d5d5d5; height: 543px;">
             <div class="mt10"></div>
             <span style="font-weight: bold;">· 장비등록</span>
-            <button type="button" id="save" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="width:10%; height:27px; line-height:0; margin-left: 520px;" onclick="equipmentmangePop.equipSave()">
-                저장
-            </button>
-            <table class="popTable table table-bordered mb-0 mt10" id="">
+            <div style="float:right;">
+                <button type="button" id="save" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="equipmentmangePop.equipSave()">
+                    저장
+                </button>
+            </div>
+            <table class="popTable table table-bordered mb-0 mt10" id="" style="margin-top: 20px;">
                 <colgroup>
                     <col width="25%">
                     <col width="25%">

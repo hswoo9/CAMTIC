@@ -1,13 +1,10 @@
-var now = new Date();
-
 var eduInfo = {
-
-    init : function(){
+    init: function(){
         eduInfo.dataSet();
         eduInfo.mainGrid();
     },
 
-    dataSet() {
+    dataSet: function(){
         $("#eduYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
@@ -17,8 +14,8 @@ var eduInfo = {
         });
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
+    mainGrid: function(){
+        let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
@@ -27,7 +24,7 @@ var eduInfo = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.empSeq = $("#empSeq").val();
+                    data.empSeq = $("#regEmpSeq").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }
@@ -48,13 +45,13 @@ var eduInfo = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
-            pageable : {
+            height: 508,
+            pageable: {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
-            toolbar : [
+            toolbar: [
                 {
                     name : 'button',
                     template : function (e){
@@ -67,7 +64,7 @@ var eduInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : eduInfo.onDataBound,
+            dataBound: eduInfo.onDataBound,
             columns: [
                 {
                     field: "EDU_INFO_ID",
@@ -78,7 +75,7 @@ var eduInfo = {
                     title: "학습명"
                 }, {
                     title: "학습기간",
-                    template : "<span>#=START_DT# ~ #=END_DT#</span>",
+                    template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 200
                 }, {
                     field: "CARE_LOCATION",
@@ -91,7 +88,7 @@ var eduInfo = {
                 }, {
                     title: "학습방법",
                     width: 200,
-                    template : function(row){
+                    template: function(row){
                         if(row.EDU_FORM_TYPE == "1") {
                             return "교육기관 참가교육";
                         }else if(row.EDU_FORM_TYPE == "2") {
@@ -121,7 +118,7 @@ var eduInfo = {
                 }, {
                     title: "이수상태",
                     width: 180,
-                    template : function(row){
+                    template: function(row){
                         if(row.STATUS == "0") {
                             return "계획";
                         }else if(row.STATUS == "10") {
@@ -132,7 +129,9 @@ var eduInfo = {
                             return "결과보고서 작성완료";
                         }else if(row.STATUS == "100" && row.RES_STATUS == "10") {
                             return "결과보고서 승인요청중";
-                        }else if(row.STATUS == "100" && row.RES_STATUS == "100") {
+                        }else if(row.STATUS == "100" && row.RES_STATUS == "100" && row.MNG_CHECK == "N") {
+                            return "교육완료";
+                        }else if(row.STATUS == "100" && row.RES_STATUS == "100" && row.MNG_CHECK == "Y") {
                             return "이수완료";
                         }else {
                             return "교육취소"
@@ -140,10 +139,10 @@ var eduInfo = {
                     }
                 }
             ]
-        }).data("kendoGrid")
+        }).data("kendoGrid");
     },
 
-    onDataBound : function(){
+    onDataBound: function(){
         const grid = this;
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
@@ -152,18 +151,14 @@ var eduInfo = {
         });
     },
 
-    eduInfoViewPop : function(eduInfoId) {
-        var url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
-        var name = "popup";
-        var option = "width = 965, height = 900, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
+    eduInfoViewPop: function(eduInfoId){
+        let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
+        const name = "popup";
+        const option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     },
 
-    goEduInfoReq : function () {
-        location.href = "/Campus/eduReq.do?menu=d_a";
+    goEduInfoReq: function(){
+        open_in_frame('/Campus/eduReq.do');
     }
-}
-
-function gridReload() {
-    $("#mainGrid").data("kendoGrid").dataSource.read();
 }

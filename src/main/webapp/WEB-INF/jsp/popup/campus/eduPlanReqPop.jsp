@@ -8,48 +8,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/eduPlanReqPop.js?v=${today}"></script>
-<style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-  .k-grid-norecords{
-    justify-content: space-around;
-  }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .k-grid-header th.k-header .k-checkbox {
-    margin: 0;
-  }
-
-  .k-grid td {
-    padding: 0;
-    padding-left: 8px;
-  }
-</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="loginId" value="${loginVO.id}"/>
@@ -61,7 +19,7 @@
   <div class="panel">
     <div class="panel-heading">
       <h4 class="panel-title">학습 목표기술서 설정</h4>
-      <div class="title-road">목표기술서관리 &gt; 학습체계도설정</div>
+      <div class="title-road">직무관리 &gt; 학습체계도설정</div>
     </div>
 
     <div class="panel-body">
@@ -105,13 +63,13 @@
         </table>
       </div>
       <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="eduPlanReqPop.savePlan();"/>
+        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="eduPlanReq.savePlan();"/>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
       </div>
     </div>
   </div>
 </div><!-- col-md-9 -->
 <script>
-  eduPlanReqPop.init();
+  eduPlanReq.init();
 </script>
 </body>

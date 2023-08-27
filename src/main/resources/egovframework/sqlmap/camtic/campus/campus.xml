@@ -3,7 +3,7 @@
 
 <mapper namespace="campus">
     <select id="getCodeList" resultType="map" parameterType="map">
-        /* getCodeList */
+        /* campus.getCodeList */
         SELECT
             *
         FROM
@@ -15,6 +15,22 @@
         </if>
     </select>
 
+    <select id="getCodeOne" resultType="map" parameterType="map">
+        /* campus.getCodeOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_CAMPUS_CODE CC
+        WHERE
+            ACTIVE = 'Y'
+            <if test='campusCodeId != null and campusCodeId != ""'>
+                AND CAMPUS_CODE_ID = #{campusCodeId}
+            </if>
+            <if test='campusGroupCodeId != null and campusGroupCodeId != ""'>
+                AND CAMPUS_GROUP_CODE_ID = #{campusGroupCodeId} AND CAMPUS_DT_CODE = #{pk}
+            </if>
+    </select>
+
     <select id="getEduInfoList" resultType="map" parameterType="map">
         /* getEduInfoList */
         SELECT
@@ -24,6 +40,7 @@
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
                     EI.EDU_INFO_ID,
+                    EI.REG_EMP_NAME,
                     EI.EDU_NAME,
                     EI.START_DT,
                     EI.END_DT,
@@ -35,11 +52,13 @@
                     CONCAT('Level. ', EI.LEVEL_ID) AS LEVEL_ID,
                     EI.EDU_FORM_TYPE,
                     EI.STATUS,
-                    IFNULL(ER.STATUS, 1) AS RES_STATUS
+                    EI.TERM_TIME,
+                    IFNULL(ER.STATUS, 1) AS RES_STATUS,
+                    ER.MNG_CHECK
                 FROM
                     CAMPUS.DJ_EDU_INFO EI
                 LEFT JOIN
-                CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID,
+                    CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID,
                 (SELECT @ROWNUM := 0) TMP
                 WHERE
                     EI.REG_EMP_SEQ = #{empSeq}
@@ -185,16 +204,67 @@
         </if>
     </select>
 
-    <select id="getCategoryOne" resultType="map" parameterType="map">
-        /* getCategoryOne */
+    <select id="getEduCategoryOne" resultType="map" parameterType="map">
+        /* getEduCategoryOne */
         SELECT
+            EC.EDU_CATEGORY_ID,
             EC.EDU_CATEGORY_NAME
         FROM
             CAMPUS.DJ_EDU_CATEGORY EC
-                LEFT JOIN
-            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD ON EC.EDU_CATEGORY_ID = ECD.EDU_CATEGORY_ID
-        WHERE ECD.EDU_CATEGORY_ID = #{eduCategoryId}
-        GROUP BY EC.EDU_CATEGORY_NAME
+        WHERE
+            EC.EDU_CATEGORY_ID = #{pk}
+    </select>
+
+    <select id="getEduCategoryList" resultType="map" parameterType="map">
+        /* getEduCategoryList */
+        SELECT
+            EC.EDU_CATEGORY_ID,
+            EC.EDU_CATEGORY_NAME,
+            EC.LARGE_CATEGORY_ID,
+            EC.LARGE_CATEGORY_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY EC
+        WHERE
+            EC.ACTIVE = 'Y'
+        <if test='largeCategoryId != null and largeCategoryId != ""'>
+            AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
+        </if>
+        ORDER BY EC.ORDER
+    </select>
+
+    <select id="getEduCategoryDetailOne" resultType="map" parameterType="map">
+        /* getEduCategoryDetailOne */
+        SELECT
+            ECD.EDU_CATEGORY_DETAIL_ID,
+            ECD.EDU_CATEGORY_DETAIL_NAME,
+            ECD.LEVEL_ID,
+            ECD.LEVEL_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
+        WHERE
+            ECD.EDU_CATEGORY_DETAIL_ID = #{pk}
+    </select>
+
+    <select id="getEduCategoryDetailList" resultType="map" parameterType="map">
+        /* getEduCategoryDetailList */
+        SELECT
+            ECD.EDU_CATEGORY_DETAIL_ID,
+            ECD.EDU_CATEGORY_DETAIL_NAME,
+            ECD.EDU_CATEGORY_ID,
+            ECD.EDU_CATEGORY_NAME,
+            ECD.LEVEL_ID,
+            ECD.LEVEL_NAME
+        FROM
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
+        WHERE
+            ECD.ACTIVE = 'Y'
+        <if test='levelId != null and levelId != ""'>
+            AND ECD.LEVEL_ID = #{levelId}
+        </if>
+        <if test='eduCategoryId != null and eduCategoryId != ""'>
+            AND ECD.EDU_CATEGORY_ID in (${eduCategoryId})
+        </if>
+        ORDER BY ECD.ORDER
     </select>
 
     <select id="getTargetCategoryList" resultType="map" parameterType="map">
@@ -246,45 +316,6 @@
         <if test='dutyClass != null and dutyClass != ""'>
             AND ETD.DUTY_CLASS = #{dutyClass}
         </if>
-    </select>
-
-    <select id="getEduCategoryList" resultType="map" parameterType="map">
-        /* getEduCategoryList */
-        SELECT
-            EC.EDU_CATEGORY_ID,
-            EC.EDU_CATEGORY_NAME,
-            EC.LARGE_CATEGORY_ID,
-            EC.LARGE_CATEGORY_NAME
-        FROM
-            CAMPUS.DJ_EDU_CATEGORY EC
-        WHERE
-            EC.ACTIVE = 'Y'
-        <if test='largeCategoryId != null and largeCategoryId != ""'>
-            AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
-        </if>
-        ORDER BY EC.ORDER
-    </select>
-
-    <select id="getEduCategoryDetailList" resultType="map" parameterType="map">
-        /* getEduCategoryDetailList */
-        SELECT
-            ECD.EDU_CATEGORY_DETAIL_ID,
-            ECD.EDU_CATEGORY_DETAIL_NAME,
-            ECD.EDU_CATEGORY_ID,
-            ECD.EDU_CATEGORY_NAME,
-            ECD.LEVEL_ID,
-            ECD.LEVEL_NAME
-        FROM
-            CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
-        WHERE
-            ECD.ACTIVE = 'Y'
-        <if test='levelId != null and levelId != ""'>
-            AND ECD.LEVEL_ID = #{levelId}
-        </if>
-        <if test='eduCategoryId != null and eduCategoryId != ""'>
-            AND ECD.EDU_CATEGORY_ID in (${eduCategoryId})
-        </if>
-        ORDER BY ECD.ORDER
     </select>
 
     <select id="getEduPlanList" resultType="map" parameterType="map">
@@ -389,33 +420,153 @@
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
+    <select id="getOpenStudyInfoList" resultType="map" parameterType="map">
+        /* getOpenStudyInfoList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    COSI.*,
+                    IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
+                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT
+                FROM
+                    CAMPUS.DJ_OPENSTUDY_INFO COSI,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                <if test='step != null and !"".equals(step)'>
+                    AND STEP = #{step}
+                </if>
+                ORDER BY COSI.REG_DT
+            ) RE
+        ORDER BY RE.OPEN_STUDY_INFO_SN DESC
+    </select>
+
+    <select id="getOpenStudyInfoOne" resultType="map" parameterType="map">
+        /* getOpenStudyInfoOne */
+        SELECT
+            COSI.*,
+            DATE_FORMAT(COSI.REG_DT, '%Y-%m-%d') AS REG_DATE,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+            HEI.POSITION_NAME AS positionNm,
+            HEI.DUTY_NAME AS dutyNm
+        FROM
+            CAMPUS.DJ_OPENSTUDY_INFO COSI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON COSI.REG_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </select>
+
+    <select id="getOpenStudyUserList" resultType="map" parameterType="map">
+        /* getOpenStudyUserList */
+        SELECT
+            COSU.*,
+            DATE_FORMAT(COSU.REG_DT, '%Y-%m-%d %H:%i:%s') AS REG_DATE
+        FROM
+            CAMPUS.DJ_OPENSTUDY_USER COSU
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+        <if test='userClass != null and !"".equals(userClass)'>
+            AND USER_CLASS = #{userClass}
+        </if>
+    </select>
+
+    <select id="getCommonEduList" resultType="map" parameterType="map">
+        /* getCommonEduList */
+        SELECT
+            RE.*
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    CCE.*,
+                    (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
+                    (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'N' AND ACTIVE = 'Y') AS NO_PART_COUNT
+                FROM
+                    CAMPUS.DJ_COMMON_EDU CCE,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                ORDER BY CCE.REG_DT
+            ) RE
+        ORDER BY RE.COMMON_EDU_SN DESC
+    </select>
+
+    <select id="getCommonEduOne" resultType="map" parameterType="map">
+        /* getCommonEduOne */
+        SELECT
+            CCE.*
+        FROM
+            CAMPUS.DJ_COMMON_EDU CCE
+        WHERE
+            COMMON_EDU_SN = #{pk}
+    </select>
+
+    <select id="getCommonEduUserList" resultType="map" parameterType="map">
+        /* getCommonEduUserList */
+        SELECT
+            CCEU.*
+        FROM
+            CAMPUS.DJ_COMMON_EDU_USER CCEU
+        WHERE
+            COMMON_EDU_SN = #{pk}
+        AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getCommonEduUserAddList" resultType="map" parameterType="map">
+        /* getCommonEduUserAddList */
+        SELECT
+            HEI.EMP_SEQ AS REG_EMP_SEQ,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+            HEI.POSITION_NAME AS REG_POSITION_NAME,
+            HEI.DUTY_NAME AS REG_DUTY_NAME
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+        AND WORK_STATUS_CODE = 'Y'
+        AND EMP_SEQ NOT IN (SELECT REG_EMP_SEQ AS EMP_SEQ FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE COMMON_EDU_SN = #{pk} AND ACTIVE = 'Y')
+        ORDER BY EMP_NAME_KR
+    </select>
+
     <select id="getEduStat" resultType="map" parameterType="map">
         /* getEduStat */
         SELECT
             CONCAT(HEI.DEPT_NAME, ' ', HEI.DEPT_TEAM_NAME) AS TEAM,
             HEI.DUTY_NAME,
             HEI.EMP_NAME_KR AS EMP_NAME,
-            '주업무' AS DUTY_CLASS,
+            (CASE WHEN CEI.DUTY_CLASS = '1' THEN '주업무' ELSE '보조업무' END) AS DUTY_CLASS,
             CEC.LARGE_CATEGORY_NAME,
             CEC.EDU_CATEGORY_NAME,
             CONCAT('Level ', CECD.LEVEL_ID) AS LEVEL,
             CECD.EDU_CATEGORY_DETAIL_NAME,
-            (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME) AS SUM_TIME,
-            (SELECT COUNT(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME) AS COUNT_BY,
+            (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME AND CEI.DUTY_CLASS = SEI.DUTY_CLASS) AS SUM_TIME,
+            (SELECT COUNT(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME AND CEI.DUTY_CLASS = SEI.DUTY_CLASS) AS COUNT_BY,
             (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ) AS SUM_ALL
         FROM
             CAMPUS.DJ_EDU_INFO CEI
-                LEFT JOIN
+        LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON CEI.REG_EMP_SEQ = HEI.EMP_SEQ
-                LEFT JOIN
+        LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY_DETAIL CECD ON CEI.EDU_CATEGORY_DETAIL_ID = CECD.EDU_CATEGORY_DETAIL_ID
-                LEFT JOIN
+        LEFT JOIN
             CAMPUS.DJ_EDU_CATEGORY CEC ON CEC.EDU_CATEGORY_ID = CECD.EDU_CATEGORY_ID
-                LEFT JOIN
+        LEFT JOIN
             CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID
         WHERE
             1=1
-          AND CER.STATUS = 100
+        AND CER.STATUS = 100
+        AND CER.MNG_CHECK = "Y"
         GROUP BY HEI.EMP_NAME_KR, DUTY_CLASS, EDU_CATEGORY_DETAIL_NAME
     </select>
 
@@ -425,13 +576,65 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ), " ",HEI.DEPT_NAME) ELSE HEI.DEPT_NAME END AS DEPT,
             CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION,
             HEI.EMP_NAME_KR AS EMP_NAME,
-            IFNULL((SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO WHERE REG_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND STATUS = 100), 0) AS PERSONAL_TIME,
-            (SELECT COUNT(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO WHERE REG_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND STATUS = 100) AS PERSONAL_COUNT,
+            IFNULL((SELECT SUM(CEI.TERM_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = "Y"), 0) AS PERSONAL_TIME,
+            (SELECT COUNT(CEI.TERM_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = "Y") AS PERSONAL_COUNT,
             IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS STUDY_TIME,
-            (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y') AS STUDY_COUNT
+            (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y') AS STUDY_COUNT,
+            IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.DJ_OPENSTUDY_INFO COI LEFT JOIN CAMPUS.DJ_OPENSTUDY_USER COU ON COI.OPEN_STUDY_INFO_SN = COU.OPEN_STUDY_INFO_SN WHERE COU.REG_EMP_SEQ = HEI.EMP_SEQ AND COI.STATUS = 100 AND COU.PART_YN = 'Y'), 0) AS OPEN_STUDY_TIME,
+            (SELECT COUNT(EDU_TIME) FROM CAMPUS.DJ_OPENSTUDY_INFO COI LEFT JOIN CAMPUS.DJ_OPENSTUDY_USER COU ON COI.OPEN_STUDY_INFO_SN = COU.OPEN_STUDY_INFO_SN WHERE COU.REG_EMP_SEQ = HEI.EMP_SEQ AND COI.STATUS = 100 AND COU.PART_YN = 'Y') AS OPEN_STUDY_COUNT,
+            IFNULL((SELECT SUM(CCEU.REAR_EDU_TIME) FROM CAMPUS.DJ_COMMON_EDU CCE LEFT JOIN CAMPUS.DJ_COMMON_EDU_USER CCEU ON CCE.COMMON_EDU_SN = CCEU.COMMON_EDU_SN WHERE CCEU.REG_EMP_SEQ = HEI.EMP_SEQ AND CCE.STATUS = 100 AND CCEU.PART_YN = 'Y' AND CCEU.ACTIVE = 'Y'), 0) AS COMMON_EDU_TIME,
+            (SELECT COUNT(CCEU.REAR_EDU_TIME) FROM CAMPUS.DJ_COMMON_EDU CCE LEFT JOIN CAMPUS.DJ_COMMON_EDU_USER CCEU ON CCE.COMMON_EDU_SN = CCEU.COMMON_EDU_SN WHERE CCEU.REG_EMP_SEQ = HEI.EMP_SEQ AND CCE.STATUS = 100 AND CCEU.PART_YN = 'Y' AND CCEU.ACTIVE = 'Y') AS COMMON_EDU_COUNT
         FROM
             CAM_HR.DJ_EMP_INFO HEI
-                LEFT JOIN
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+        AND WORK_STATUS_CODE = 'Y'
+        ORDER BY EMP_NAME_KR
+    </select>
+
+    <select id="getDutyInfoList" resultType="map" parameterType="map">
+        /* getDutyInfoList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_DUTY_INFO CDI
+        WHERE
+            1=1
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+    </select>
+
+    <select id="getDutyInfoOne" resultType="map" parameterType="map">
+        /* getDutyInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_DUTY_INFO CDI
+        WHERE
+            DUTY_INFO_SN = #{pk}
+    </select>
+
+    <select id="getDutyInfoMngList" resultType="map" parameterType="map">
+        /* getDutyInfoMngList */
+        SELECT
+            HEI.EMP_SEQ AS EMP_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ), " ",HEI.DEPT_NAME) ELSE HEI.DEPT_NAME END AS DEPT,
+            CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION,
+            HEI.EMP_NAME_KR AS EMP_NAME,
+            HEI.OFFICE_TEL_NUM,
+            IFNULL(NULL, 'N') AS TARGET_CHECK,
+            IFNULL((SELECT SCET.EDU_TARGET_ID FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), 'N') AS TARGET_CHECK,
+            IFNULL((SELECT SCET.STATUS FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), 'N') AS TARGET_STATUS,
+            IFNULL((SELECT DATE_FORMAT(SCET.APPROVAL_RESULT_DATE, '%Y-%m-%d') FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), '-') AS TARGET_APPROVAL_DATE,
+            IFNULL((SELECT SCDI.DUTY_INFO_SN FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_CHECK,
+            IFNULL((SELECT SCDI.STATUS FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_STATUS,
+            IFNULL((SELECT DATE_FORMAT(APPROVAL_RESULT_DATE, '%Y-%m-%d') FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), '-') AS DUTY_APPROVAL_DATE
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
@@ -599,6 +802,16 @@
             )
     </insert>
 
+    <update id="setMngCheckUpd" parameterType="map">
+        /* setMngCheckUpd */
+        UPDATE
+            CAMPUS.DJ_EDU_RESULT
+        SET
+            MNG_CHECK = #{mngCheck}
+        WHERE
+            EDU_INFO_ID IN (SELECT SER.EDU_INFO_ID FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON SEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SER.STATUS = 100 AND SER.EDU_INFO_ID IN (${eduList}))
+    </update>
+
     <insert id="setStudyInfoInsert" parameterType="map">
         /* setStudyInfoInsert */
         INSERT INTO CAMPUS.DJ_STUDY_INFO
@@ -720,7 +933,7 @@
                 #{journalDt},
                 #{journalStartTime},
                 #{journalEndTime},
-                CAST((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m')) AS UNSIGNED),
+                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m'))) / 3600),
                 #{studyLocation},
                 #{studyContent},
                 #{studyMoney},
@@ -744,6 +957,232 @@
             </if>
         WHERE
             STUDY_JOURNAL_SN = #{studyJournalSn}
+    </update>
+
+    <insert id="setOpenStudyInfoIns" parameterType="map">
+        /* setOpenStudyInfoIns */
+        INSERT INTO CAMPUS.DJ_OPENSTUDY_INFO
+            (
+                OPEN_STUDY_NAME,
+                OPEN_STUDY_DT,
+                START_TIME,
+                END_TIME,
+                EDU_TIME,
+                OPEN_STUDY_DETAIL,
+                OPEN_STUDY_LOCATION,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{openStudyName},
+                #{openStudyDt},
+                #{startTime},
+                #{endTime},
+                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                #{openStudyDetail},
+                #{openStudyLocation},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setOpenStudyInfoUpd" parameterType="map">
+        /* setOpenStudyInfoUpd */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            OPEN_STUDY_NAME = #{openStudyName},
+            OPEN_STUDY_DT = #{openStudyDt},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            EDU_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+            OPEN_STUDY_DETAIL = #{openStudyDetail},
+            OPEN_STUDY_LOCATION = #{openStudyLocation}
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <update id="setOpenNextStep" parameterType="map">
+        /* setOpenNextStep */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            STEP = #{step}
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <insert id="setOpenStudyUser" parameterType="map">
+        /* setOpenStudyUser */
+        INSERT INTO CAMPUS.DJ_OPENSTUDY_USER
+            (
+                OPEN_STUDY_INFO_SN,
+                REG_EMP_SEQ,
+                REG_EMP_NAME,
+                REG_DEPT_NAME,
+                REG_TEAM_NAME,
+                REG_POSITION_NAME,
+                REG_DUTY_NAME
+            )
+        VALUES
+            (
+                #{pk},
+                #{regEmpSeq},
+                #{regEmpName},
+                #{regDeptName},
+                #{regTeamSeq},
+                #{regPositionName},
+                #{regDutyName}
+            )
+    </insert>
+
+    <update id="setOpenStudyResultUpd" parameterType="map">
+        /* setOpenStudyResultUpd */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            OPEN_STUDY_AMT = #{openStudyAmt},
+            OPEN_STUDY_AMT_TEXT = #{openStudyAmtText},
+            OPEN_STUDY_RESULT = #{openStudyResult},
+            STEP = #{step}
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <update id="setOpenStudyUserResultUpd" parameterType="map">
+        /* setOpenStudyUserResultUpd */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_USER
+        SET
+            USER_CLASS = #{userClass},
+            USER_CLASS_TEXT = #{userClassText},
+            PART_YN = #{partYN}
+        WHERE
+            OPEN_STUDY_USER_SN = #{pk}
+    </update>
+
+    <update id="setOpenStudyCertReq" parameterType="map">
+        /* setOpenStudyCertReq */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            STATUS = #{status}
+            <if test='"100".equals(status)'>
+                , APPROVAL_EMP_SEQ = #{regEmpSeq}
+                , APPROVAL_EMP_NAME = #{regEmpName}
+                , APPROVAL_RESULT_DATE = NOW()
+            </if>
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
+    <insert id="setCommonEduIns" parameterType="map">
+        /* setCommonEduIns */
+        INSERT INTO CAMPUS.DJ_COMMON_EDU
+            (
+                COMMON_CLASS,
+                COMMON_CLASS_TEXT,
+                START_DT,
+                END_DT,
+                EDU_NAME,
+                EDU_TIME,
+                EDU_LOCATION,
+                EDU_TITLE,
+                EDU_DETAIL,
+                STATUS,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{commonClass},
+                #{commonClassText},
+                #{startDt},
+                #{endDt},
+                #{eduName},
+                #{eduTime},
+                #{eduLocation},
+                #{eduTitle},
+                #{eduDetail},
+                #{status},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setCommonEduUpd" parameterType="map">
+        /* setCommonEduUpd */
+        UPDATE
+            CAMPUS.DJ_COMMON_EDU
+        SET
+            COMMON_CLASS = #{commonClass},
+            COMMON_CLASS_TEXT = #{commonClassText},
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            EDU_NAME = #{eduName},
+            EDU_TIME = #{eduTime},
+            EDU_LOCATION = #{eduLocation},
+            EDU_TITLE = #{eduTitle},
+            EDU_DETAIL = #{eduDetail},
+            STATUS = #{status}
+        WHERE
+            COMMON_EDU_SN = #{pk}
+    </update>
+
+    <insert id="setCommonEduAddUserAll" parameterType="map">
+        /* setCommonEduAddUserAll */
+        INSERT INTO CAMPUS.DJ_COMMON_EDU_USER
+            (COMMON_EDU_SN, REG_EMP_SEQ, REG_EMP_NAME, REG_DEPT_NAME, REG_TEAM_NAME, REG_POSITION_NAME, REG_DUTY_NAME, REAR_EDU_TIME)
+        SELECT
+            #{pk} AS COMMON_EDU_SN,
+            HEI.EMP_SEQ AS REG_EMP_SEQ,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+            HEI.POSITION_NAME AS REG_POSITION_NAME,
+            HEI.DUTY_NAME AS REG_DUTY_NAME,
+            (SELECT EDU_TIME FROM CAMPUS.DJ_COMMON_EDU SCCEU WHERE COMMON_EDU_SN = #{pk}) AS REAR_EDU_TIME
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+        AND WORK_STATUS_CODE = 'Y'
+        AND EMP_SEQ NOT IN (SELECT REG_EMP_SEQ AS EMP_SEQ FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE COMMON_EDU_SN = #{pk} AND ACTIVE = 'Y')
+        <if test='userList != null and !"".equals(userList)'>
+            AND EMP_SEQ IN (${userList})
+        </if>
+        ORDER BY EMP_NAME_KR
+    </insert>
+
+    <update id="setCommonEduUserUpd" parameterType="map">
+        /* setCommonEduUserUpd */
+        UPDATE
+            CAMPUS.DJ_COMMON_EDU_USER
+        SET
+            <choose>
+                <when test="partYn != null and !''.equals(partYn)">
+                    PART_YN = #{partYn}
+                </when>
+                <when test="active != null and !''.equals(active)">
+                    ACTIVE = #{active}
+                </when>
+            </choose>
+        WHERE
+            COMMON_EDU_SN = #{pk}
+        AND COMMON_EDU_USER_SN in (${userList})
+    </update>
+
+    <update id="setCommonEduUserTimeUpd" parameterType="map">
+        /* setCommonEduUserTimeUpd */
+        UPDATE
+            CAMPUS.DJ_COMMON_EDU_USER
+        SET
+            REAR_EDU_TIME = #{eduTime}
+        WHERE
+            COMMON_EDU_USER_SN = #{pk}
     </update>
 
     <insert id="setTargetInsert" parameterType="map">
@@ -968,4 +1407,163 @@
                 #{regEmpSeq}
             )
     </insert>
+
+    <update id="setEduCodeUpd" parameterType="map">
+        /* setEduCodeUpd */
+        UPDATE
+            CAMPUS.DJ_CAMPUS_CODE
+        SET
+            CAMPUS_DT_CODE_NM = #{reqText}
+        WHERE
+            CAMPUS_GROUP_CODE_ID = #{groupCode}
+        AND CAMPUS_DT_CODE = #{pk}
+    </update>
+
+    <update id="setEduCategoryUpd" parameterType="map">
+        /* setEduCategoryUpd */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY
+        SET
+            EDU_CATEGORY_NAME = #{reqText}
+        WHERE
+            EDU_CATEGORY_ID = #{pk}
+    </update>
+
+    <update id="setEduCategoryDetailUpd" parameterType="map">
+        /* setEduCategoryDetailUpd */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL
+        SET
+            EDU_CATEGORY_DETAIL_NAME = #{reqText},
+            LEVEL_ID = #{level},
+            LEVEL_NAME = #{levelName}
+        WHERE
+            EDU_CATEGORY_DETAIL_ID = #{pk}
+    </update>
+
+    <update id="setEduCodeDel" parameterType="map">
+        /* setEduCodeDel */
+        UPDATE
+            CAMPUS.DJ_CAMPUS_CODE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            CAMPUS_GROUP_CODE_ID = #{groupCode}
+        AND CAMPUS_DT_CODE IN (${pk})
+    </update>
+
+    <update id="setEduCategoryDel" parameterType="map">
+        /* setEduCategoryDel */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY
+        SET
+            ACTIVE = 'N'
+        WHERE
+            EDU_CATEGORY_ID IN (#{pk})
+    </update>
+
+    <update id="setEduCategoryDetailDel" parameterType="map">
+        /* setEduCategoryDetailDel */
+        UPDATE
+            CAMPUS.DJ_EDU_CATEGORY_DETAIL
+        SET
+            ACTIVE = 'N'
+        WHERE
+            EDU_CATEGORY_DETAIL_ID IN (#{pk})
+    </update>
+
+    <insert id="setDutyInfoIns" parameterType="map">
+        /* setDutyInfoIns */
+        INSERT INTO CAMPUS.DJ_DUTY_INFO
+            (
+                DUTY_YEAR,
+                DUTY_MONTH,
+                DUTY_NAME,
+                OUTLINE_NAME,
+                OUTLINE_DETAIL,
+                INTERNAL,
+                EXTERNAL,
+                APP_LINE,
+                ABILITY_A,
+                ABILITY_B,
+                ABILITY_C,
+                ABILITY_D,
+                ABILITY_E,
+                RESPONSIBILITY,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                LEFT(#{dutyMonth}, 4),
+                #{dutyMonth},
+                #{dutyName},
+                #{outlineName},
+                #{outlineDetail},
+                #{internal},
+                #{external},
+                #{appLine},
+                #{abilityA},
+                #{abilityB},
+                #{abilityC},
+                #{abilityD},
+                #{abilityE},
+                #{responsibility},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <insert id="setDutyInfoUpd" parameterType="map">
+        /* setDutyInfoUpd */
+        UPDATE
+            CAMPUS.DJ_DUTY_INFO
+        SET
+            DUTY_MONTH = #{dutyMonth},
+            DUTY_NAME = #{dutyName},
+            OUTLINE_NAME = #{outlineName},
+            OUTLINE_DETAIL = #{outlineDetail},
+            INTERNAL = #{internal},
+            EXTERNAL = #{external},
+            APP_LINE = #{appLine},
+            ABILITY_A = #{abilityA},
+            ABILITY_B = #{abilityB},
+            ABILITY_C = #{abilityC},
+            ABILITY_D = #{abilityD},
+            ABILITY_E = #{abilityE},
+            RESPONSIBILITY = #{responsibility}
+        WHERE
+            DUTY_INFO_SN = #{pk}
+    </insert>
+
+    <update id="setTargetCertReq" parameterType="map">
+        /* setTargetCertReq */
+        UPDATE
+            CAMPUS.DJ_EDU_TARGET
+        SET
+            STATUS = #{status}
+        <if test='"100".equals(status)'>
+            , APPROVAL_EMP_SEQ = #{regEmpSeq}
+            , APPROVAL_EMP_NAME = #{regEmpName}
+            , APPROVAL_RESULT_DATE = NOW()
+        </if>
+        WHERE
+            TARGET_YEAR = #{targetYear}
+        AND REG_EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="setDutyCertReq" parameterType="map">
+        /* setDutyCertReq */
+        UPDATE
+            CAMPUS.DJ_DUTY_INFO
+        SET
+            STATUS = #{status}
+            <if test='"100".equals(status)'>
+                , APPROVAL_EMP_SEQ = #{regEmpSeq}
+                , APPROVAL_EMP_NAME = #{regEmpName}
+                , APPROVAL_RESULT_DATE = NOW()
+            </if>
+        WHERE
+            DUTY_INFO_SN = #{pk}
+    </update>
 </mapper>

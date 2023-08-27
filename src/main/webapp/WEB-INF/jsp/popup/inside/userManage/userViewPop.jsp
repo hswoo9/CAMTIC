@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userViewPop.js?v=1"></script>
+<script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
+
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -263,7 +265,8 @@
                 <tr>
                     <th>생년월일</th>
                     <td>
-                        ${uprinfList.BDAY}
+                        <c:if test="${uprinfList.LUNAR_CAL eq 'N'}">${uprinfList.BDAY}</c:if>
+                        <c:if test="${uprinfList.LUNAR_CAL eq 'Y'}"><span id="lunarBday"></span></c:if>
                     </td>
                     <th>재직여부</th>
                     <td>
@@ -382,4 +385,13 @@
     $("#resRegisNum").text(" (" + userViewPop.fn_setCalcAge('${uprinfList.RES_REGIS_NUM}') + "세)");
     $("#hire").text(userViewPop.fn_sethire('${uprinfList.prev_hire}','${uprinfList.prev_hire_mon}','${uprinfList.hire}','${uprinfList.hire_mon}'));
 
+    $(function(){
+        var birthday = '${uprinfList.BDAY}';
+
+        if(birthday != null && birthday != ""){
+            var lunarDay = solarToLunar(birthday.split("-")[0], birthday.split("-")[1], birthday.split("-")[2]);
+
+            $("#lunarBday").text("음력 " + lunarDay);
+        }
+    })
 </script>

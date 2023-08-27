@@ -178,7 +178,7 @@
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addDegreeBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -198,7 +198,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='eduAllChk' id="eduAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'eduChk')"></th>
+                                        <th><input type='checkbox' name='eduAllChk' id="eduAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'eduChk')"></th>
                                         <th>번호</th>
                                         <th>구분</th>
                                         <th>기간</th>
@@ -213,7 +213,7 @@
                                         <c:if test="${l.EDUCATIONAL_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>
-                                                    <input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' class='k-checkbox checkbox eduCheckBox'>
+                                                    <input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' <%--class='k-checkbox checkbox eduCheckBox'--%>>
                                                 </td>
                                                 <td>${status.index + 1}</td>
                                                 <td>${l.GUBUN_CODE_NM}</td>
@@ -238,7 +238,7 @@
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addCareerBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -258,7 +258,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <input type='checkbox' name='employAllChk' id="employAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'employChk')">
+                                            <input type='checkbox' name='employAllChk' id="employAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'employChk')">
                                         </th>
                                         <th>번호</th>
                                         <th>기간</th>
@@ -272,7 +272,7 @@
                                     <c:forEach var="l" items="${cList}" varStatus="status">
                                         <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='employChk' id='employ${l.CAREER_ID}' class='k-checkbox checkbox'></td>
+                                                <td><input type='checkbox' name='employChk' id='employ${l.CAREER_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${status.index + 1}</td>
                                                 <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
                                                 <td>${l.EMPLOY_DEPT_NAME}</td>
@@ -350,7 +350,7 @@
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addFamilyBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -368,7 +368,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <input type='checkbox' name='familyAllChk' id="familyAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'familyChk')">
+                                            <input type='checkbox' name='familyAllChk' id="familyAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'familyChk')">
                                         </th>
                                         <th>번호</th>
                                         <th>관계</th>
@@ -381,7 +381,7 @@
                                         <c:if test="${l.FAMILY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>
-                                                    <input type='checkbox' name='familyChk' id='familyChk${l.FAMILY_ID}' class='k-checkbox checkbox'>
+                                                    <input type='checkbox' name='familyChk' id='familyChk${l.FAMILY_ID}' <%--class='k-checkbox checkbox'--%>>
                                                 </td>
                                                 <td>${status.index + 1}</td>
                                                 <td>${l.FAMILY_CODE_TYPE_NM}</td>
@@ -403,7 +403,7 @@
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -422,7 +422,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <input type='checkbox' name='certAllChk' id="certAllChk" class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'certChk')">
+                                            <input type='checkbox' name='certAllChk' id="certAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'certChk')">
                                         </th>
                                         <th>번호</th>
                                         <th>종류</th>
@@ -435,7 +435,7 @@
                                     <c:forEach var="l" items="${lList}" varStatus="status">
                                         <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='certChk' id='certChk${l.CERTIFICATE_ID}' class='k-checkbox checkbox'></td>
+                                                <td><input type='checkbox' name='certChk' id='certChk${l.CERTIFICATE_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${status.index + 1}</td>
                                                 <td>${l.CERTIFICATE_NAME}</td>
                                                 <td>${l.ACQUISITION_DAY}</td>
@@ -457,7 +457,7 @@
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addJobBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -472,7 +472,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='dutyInfoAllChk' id='dutyInfoAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'dutyInfoChk')"></th>
+                                        <th><input type='checkbox' name='dutyInfoAllChk' id='dutyInfoAllChk' <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'dutyInfoChk')"></th>
                                         <th>번호</th>
                                         <th>근무 기간</th>
                                         <th>주요 직무</th>
@@ -481,7 +481,7 @@
                                     <c:forEach var="l" items="${dList}" varStatus="status">
                                         <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='dutyInfoChk' id='dutyInfoChk${l.DUTY_ID}' class='k-checkbox checkbox'></td>
+                                                <td><input type='checkbox' name='dutyInfoChk' id='dutyInfoChk${l.DUTY_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${status.index + 1}</td>
                                                 <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
                                                 <td>${l.DUTY_DETAIL}</td>
@@ -541,7 +541,7 @@
                             <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addRewardBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delRewardBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -560,7 +560,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <input type='checkbox' name='rewordAllChk' id='rewordAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'rewordChk')">
+                                            <input type='checkbox' name='rewordAllChk' id='rewordAllChk#=REWORD_ID#' name='rewordAllChk' value='#=REWORD_ID#' <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'rewordChk')">
                                         </th>
                                         <th>번호</th>
                                         <th>내/외부</th>
@@ -573,17 +573,31 @@
                                     <c:forEach var="l" items="${rList}" varStatus="status">
                                         <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' class='k-checkbox checkbox'></td>
+                                                <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${status.index + 1}</td>
-                                                <td></td>
-                                                <td>${l.REWORD_TYPE_NAME}</td>
+                                                <td>${l.SIDE_NAME}</td>
+                                                <td>${l.REWORD_TYPE_NAME1}</td>
                                                 <td>${l.REWORD_DAY}</td>
-                                                <td>${l.REWORD_REASON}</td>
-                                                <td>${l.REWORD_AGENCY_NAME}</td>
+                                                <td>${l.RWD_OFM}</td>
+                                                <td>${l.RWD_ST_COMP}</td>
                                                 <td></td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
+                                    <%--<c:forEach var="l" items="${RewordList}" varStatus="status">
+                                        <c:if test="${l.REWORD_ID ne null}">
+                                            <tr>
+                                                <td><input type='checkbox' name='rewordChk2' id='rewordChk2${l.REWORD_ID}' class='k-checkbox checkbox'></td>
+                                                <td>${status.index + 1}</td>
+                                                <td>${l.SIDE_NAME}</td>
+                                                <td>${l.REWORD_TYPE_NAME1}</td>
+                                                <td>${l.REWORD_DAY}</td>
+                                                <td>${l.RWD_OFM}</td>
+                                                <td>${l.RWD_ST_COMP}</td>
+                                                <td></td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>--%>
                                     </thead>
                                 </table>
                             </div>
@@ -723,6 +737,50 @@
                                 </table>
                             </div>
                         </div>
+                        <div style="display:flex;justify-content: space-between;">
+                            <div class="subTitSt">· 직원 면담 카드</div>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <table class="searchTable table" style="text-align:center;">
+                                    <colgroup>
+                                        <col width="6%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="11%">
+                                        <col width="18%">
+                                        <col width="13%">
+                                        <col width="9%">
+                                        <col width="9%">
+                                        <col width="8%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>순번</th>
+                                        <th>부서명</th>
+                                        <th>팀명</th>
+                                        <th>피면담자</th>
+                                        <th>면담일시</th>
+                                        <th>면담자</th>
+                                        <th>차상급자</th>
+                                        <th>차차상급자</th>
+                                        <th>상태</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="proposalInfo">
                         <div style="display:flex;justify-content: space-between;">
@@ -730,7 +788,7 @@
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addProposalBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -747,7 +805,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <input type='checkbox' name='propAllChk' id='propAllChk' class='k-checkbox checkbox' onclick="chkBoxAllChk(this, 'propChk')">
+                                            <input type='checkbox' name='propAllChk' id='propAllChk' <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'propChk')">
                                         </th>
                                         <th>번호</th>
                                         <th>구분</th>
@@ -763,7 +821,7 @@
                                             <c:otherwise>
                                                 <tr>
                                                     <td>
-                                                        <input type='checkbox' name='propChk' id='propChk${l.PROPOSAL_ID}' class='k-checkbox checkbox' >
+                                                        <input type='checkbox' name='propChk' id='propChk${l.PROPOSAL_ID}' <%--class='k-checkbox checkbox'--%> >
                                                     </td>
                                                     <td>${status.index + 1}</td>
                                                     <td>${l.PROPOSAL_GUBUN}</td>

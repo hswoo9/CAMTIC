@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jsy
-  Date: 2023-03-06
-  Time: 오전 10:54
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -67,6 +60,8 @@
     <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
     <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
+    <script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
+
 
     <script type="text/javascript" src="<c:url value='/js/intra/common/common.js?${toDate}'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js?${toDate}'/>"></script>
