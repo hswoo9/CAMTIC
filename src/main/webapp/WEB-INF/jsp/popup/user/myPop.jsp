@@ -130,7 +130,7 @@
 				</ul>
 				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 37px;">내선번호</li>
-					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;"></li>
+					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.OFFICE_TEL_NUM}</li>
 				</ul>
 				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 35px;">사원번호</li>

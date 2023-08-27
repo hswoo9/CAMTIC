@@ -104,7 +104,7 @@ var orgChart = {
                 {
                     title : "이름",
                     template : function (e){
-                        return "<a href='#' onclick='userPersonList2.userViewPop("+e.EMP_SEQ+");'>"+e.EMP_NAME_KR+"</a>";
+                        return "<a href='#' onclick='orgChart.myPop("+e.EMP_SEQ+");'>"+e.EMP_NAME_KR+"</a>";
                     }
                 }, {
                     field : 'DEPT_NAME',
@@ -115,8 +115,21 @@ var orgChart = {
                 }, {
                     field : 'DUTY_NAME',
                     title : "직책"
+                }, {
+                    field : 'OFFICE_TEL_NUM',
+                    title : "내선번호"
+                }, {
+                    field : 'MOBILE_TEL_NUM',
+                    title : "핸드폰번호"
                 }
             ],
         }).data("kendoGrid");
+    },
+
+    myPop: function(data){
+        var url = "/user/pop/myPop.do?pk="+data;
+        var name = "myPop";
+        var option = "width = 900, height = 480, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
 }

@@ -16,6 +16,8 @@
             VEI.LOGIN_ID,
             VEI.DEPT_SEQ,
             VEI.DEPT_NAME,
+            VEI.MOBILE_TEL_NUM,
+            VEI.OFFICE_TEL_NUM,
             VEI.POSITION_CODE,
             VEI.POSITION_NAME,
             VEI.DUTY_CODE,
