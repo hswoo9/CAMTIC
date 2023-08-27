@@ -1067,7 +1067,8 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    III.*
+                    III.*,
+                    (SELECT COUNT(*) FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND ACTIVE = 'Y' AND DOC_ID IS NOT NULL AND STATUS = '100' AND RPR_CLASS = '3') AS PAYMENTS
                 FROM
                     CAM_INSIDE.DJ_INVENTION_INFO III,
                     (SELECT @ROWNUM := 0) TMP

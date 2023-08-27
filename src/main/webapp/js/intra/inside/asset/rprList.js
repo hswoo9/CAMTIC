@@ -249,6 +249,16 @@ var rprList = {
                 }, {
                     field: "",
                     title: "등록증"
+                }, {
+                    field: "",
+                    title: "포상금",
+                    template : function(e){
+                        if(e.PAYMENTS > 0) {
+                            return "지급"
+                        }else{
+                            return "미지급"
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
