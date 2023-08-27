@@ -18,6 +18,9 @@
             a.ADDR_REFERENCES AS 'addrReferences',
             a.OFFICE_TEL_NUM AS 'officeTelNum',
             a.MOBILE_TEL_NUM AS 'mobileTelNum',
+            a.EMG_TEL_NUM as 'emgTelNum',
+            a.CAR_ACTIVE AS 'carActive',
+            a.CAR_NUM AS 'carNum',
             a.JOIN_DAY AS 'joinDay',
             a.RESIGN_DAY AS 'resignDay'
         FROM
@@ -1644,4 +1647,23 @@
             EMP_SEQ = #{empSeq}
     </update>
 
+    <update id="setBasicInfo" parameterType="map">
+        /* setBasicInfo */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            EMP_NAME_CN = #{empNameCn},
+            BDAY = #{bDay},
+            ZIP_CODE = #{zipCode},
+            ADDR = #{addr},
+            OLD_ADDR = #{oldAddr},
+            OFFICE_TEL_NUM = #{officeTelNum},
+            EMG_TEL_NUM = #{emgTelNum},
+            CAR_ACTIVE = #{carActive},
+            CAR_NUM = #{carNum},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </update>
 </mapper>

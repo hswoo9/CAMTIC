@@ -56,9 +56,11 @@
                     <div class="empInfo">
                         <div style="display:flex; justify-content: space-between;">
                             <div class="subTitSt">· 직원 기본 정보</div>
-                            <div id="empInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
-                            </div>
+                            <c:if test="${uprList.empSeq eq loginVO.uniqId}">
+                                <div id="empInfoBtn" class="btn-st" style="margin-top:5px;">
+                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="setBasicInfo()"/>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -100,13 +102,13 @@
                                         </td>
                                         <th>한자</th>
                                         <td>
-                                            <input type="text" id="empNameCn" name="empNameCn" class="userInfoTextBox" placeholder="(한자)" style="width: 50%" value="${uprList.empNameCn}">
+                                            <input type="text" id="empNameCn" name="empNameCn" class="userInfoTextBox notDisabled" placeholder="(한자)" style="width: 50%" value="${uprList.empNameCn}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>생년월일</th>
                                         <td>
-                                            <input type="text" id="bDay" name="bDay" class="userInfoDatePicker" value="${uprList.bDay}" style="width: 40%;">
+                                            <input type="text" id="bDay" name="bDay" class="userInfoDatePicker notDisabled" value="${uprList.bDay}" style="width: 40%;">
                                         </td>
                                         <th>주민등록번호</th>
                                         <td>
@@ -128,27 +130,27 @@
                                     <tr>
                                         <th>전화번호</th>
                                         <td>
-                                            <input type="text" id="officeTelNum" name="officeTelNum" placeholder="숫자만 입력" value="${uprList.officeTelNum}" style="width: 50%;">
+                                            <input type="text" id="officeTelNum" name="officeTelNum" class="userInfoTextBox notDisabled" placeholder="숫자만 입력" value="${uprList.officeTelNum}" style="width: 50%;">
                                         </td>
                                         <th>긴급 연락처</th>
                                         <td>
-                                            <input type="text" id="mobileTelNum" name="mobileTelNum" placeholder="숫자만 입력" value="${uprList.mobileTelNum}" style="width: 50%;">
+                                            <input type="text" id="emgTelNum" name="emgTelNum" class="userInfoTextBox notDisabled" placeholder="숫자만 입력" value="${uprList.emgTelNum}" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>차량 소유</th>
                                         <td>
-                                            <input type="text" id="" name="" value="" style="width: 50%;">
+                                            <span id="carActive"/>
                                         </td>
                                         <th>차량 번호</th>
                                         <td>
-                                            <input type="text" id="" name="" value="" style="width: 50%;">
+                                            <input type="text" id="carNum" name="carNum" value="${uprList.carNum}" class="userInfoTextBox notDisabled" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>계좌정보</th>
                                         <td colspan="3">
-                                            <input type="text" id="" name="" placeholder="" value="" style="width: 100%;">
+                                            <input type="text" id="" name="" placeholder="" class="userInfoTextBox" value="" style="width: 100%;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -926,10 +928,22 @@
         });
 
         $(".userInfoTextBox").kendoTextBox();
-        $("#addrDetail, #addrReferences, #mobileTelNum, #officeTelNum").kendoTextBox();
+        // $("#addrDetail, #addrReferences, #mobileTelNum, #officeTelNum").kendoTextBox();
+
+        $("#carActive").kendoRadioGroup({
+            items: [
+                { label : "예", value : "Y" },
+                { label : "아니오", value : "N" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : '${uprList.carActive}'
+        });
 
         $.each($(".userInfoTextBox input"), function(){
-            $(this).data("kendoTextBox").enable(false);
+            if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){
+                $(this).data("kendoTextBox").enable(false);
+            }
         })
 
         userInfoDatePickerSetting();
@@ -962,7 +976,9 @@
         });
 
         $.each($(".userInfoDatePicker input"), function(){
-            $(this).data("kendoDatePicker").enable(false);
+            if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){
+                $(this).data("kendoDatePicker").enable(false);
+            }
         })
     }
 
@@ -1024,34 +1040,29 @@
         });
     }
 
-    function empInfoSave(){
 
-        var formData = new FormData();
-        formData.append("addr", $("#addr").val());
-        formData.append("oldAddr", $("#oldAddr").val());
-        formData.append("addrDetail", $("#addrDetail").val());
-        formData.append("addrReferences", $("#addrReferences").val());
-        formData.append("mobileTelNum", $("#mobileTelNum").val());
-        formData.append("officeTelNum", $("#officeTelNum").val());
-        formData.append("loginEmpSeq", $("#empSeq").val());
-        formData.append("empSeq", $("#empSeq").val());
-
-        $.ajax({
-            url: "<c:url value=''/>",
-            data: formData,
-            type: "post",
-            async : false,
-            datatype: "json",
-            contentType: false,
-            processData: false,
-            success: function () {
-                alert("정보 등록이 완료되었습니다.");
-                open_in_frame("/appointment/userInfoReq.do");
-            },
-            error : function(){
-                alert("정보 등록 중 에러가 발생했습니다.");
+    function setBasicInfo(){
+        if(confirm("저장하시겠습니까?")){
+            var data = {
+                empNameCn : $("#empNameCn").val(),
+                bDay : $("#bDay").val(),
+                zipCode : $("#zipCode").val(),
+                addr : $("#addr").val(),
+                oldAddr : $("#oldAddr").val(),
+                officeTelNum : $("#officeTelNum").val(),
+                emgTelNum : $("#emgTelNum").val(),
+                carActive : $("#carActive").data("kendoRadioGroup").value() != null ? $("#carActive").data("kendoRadioGroup").value() : "N",
+                carNum : $("#carNum").val(),
+                empSeq : $("#empSeq").val(),
+                regEmpSeq : $("#regEmpSeq").val(),
             }
-        });
+
+            var result = customKendo.fn_customAjax("/inside/setBasicInfo.do", data);
+            if(result.flag){
+                alert("저장되었습니다.");
+                open_in_frame('/Inside/userPersonnelRecord.do');
+            }
+        }
     }
     //학력 degree
     //경력 careerInfo
@@ -1147,5 +1158,6 @@
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
+
 
 </script>

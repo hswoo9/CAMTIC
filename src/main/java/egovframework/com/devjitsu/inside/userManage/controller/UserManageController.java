@@ -131,6 +131,17 @@ public class UserManageController {
     }
 
     /**
+     * 직원 개인 기본정보 수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setBasicInfo.do")
+    public String setBasicInfo(@RequestParam Map<String,Object> params) {
+        userManageService.setBasicInfo(params);
+        return "jsonView";
+    }
+
+    /**
      * 인사관리 직원 정보 조회 팝업
      * @param params
      * @param request
