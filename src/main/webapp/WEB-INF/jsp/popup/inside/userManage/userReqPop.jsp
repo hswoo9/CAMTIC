@@ -518,7 +518,8 @@
                     </td>
                     <th>근무시간 /일</th>
                     <td>
-                        <input type="text" id="workTime" style="width: 15%;"> 시간
+                        <input type="text" id="workTime" style="width: 15%;" value="${uprinfList.WEEK_WORK_TIME}">
+                         시간
                     </td>
                 </tr>
                 <tr>
@@ -582,9 +583,13 @@
         </form>
     </div>
 </div>
+<input type="hidden" id="gub_code" value="${uprinfList.DIVISION}" />
+<input type="hidden" id="gub_sub_code" value="${uprinfList.DIVISION_SUB}" />
 <script>
     userReqPop.defaultScript();
     var idFlag = false;
+    var code = $("#gub_code").val();
+    var subCode = $("#gub_sub_code").val();
 
     $(function(){
        var lunarCal = '${uprinfList.LUNAR_CAL}';
@@ -609,6 +614,16 @@
         } else {
             $("#lunarYn1").val("N");
             $("#lunarBirthDay").text("");
+        }
+
+
+        if(code != "" || code != null){
+            $("#divis").data("kendoDropDownList").value(code);
+            $("#divis").data("kendoDropDownList").trigger("change");
+        }
+        if(subCode != "" && subCode != null){
+            $("#divisDet").data("kendoDropDownList").value(subCode);
+            $("#divisDet").data("kendoDropDownList").trigger("change");
         }
     });
 
@@ -650,7 +665,7 @@
         }
 
         //직원구분
-        $("#divis").data("kendoDropDownList").value("${uprinfList.DIVISION}");
+        /*$("#divis").data("kendoDropDownList").value("${uprinfList.DIVISION}");
         var divis = $("#divis").val();
         var detDs = "";
         if(divis == "4"){
@@ -664,7 +679,23 @@
             $("#divisDet").kendoDropDownList({
                 dataTextField: "text",
                 dataValueField: "value",
-                dataSource: detDs
+                dataSource: detDs,
+                change: function(){
+                    var divisDet = $("#divisDet").val();
+                    if($("#divis").val() != '1'){
+                        if(divisDet == '3' && $("#divis").val() == '4'){
+                            $(".defaultCase").each(function(){
+                                $(this).css("display", "none");
+                            });
+
+                            $(".caseA").each(function(){
+                                $(this).css("display", "");
+                            });
+                        } else {
+                            userReqPop.fn_caseARollBack();
+                        }
+                    }
+                }
             });
         } else if(divis == "1") {
             $("#divisDet").data("kendoDropDownList").wrapper.show()
@@ -676,7 +707,24 @@
             $("#divisDet").kendoDropDownList({
                 dataTextField: "text",
                 dataValueField: "value",
-                dataSource: detDs
+                dataSource: detDs,
+                change: function(){
+                    var divisDet = $("#divisDet").val();
+                    if($("#divis").val() != '1'){
+                        if(divisDet == '3' && $("#divis").val() == '4'){
+                            $(".defaultCase").each(function(){
+                                $(this).css("display", "none");
+                            });
+
+                            $(".caseA").each(function(){
+                                $(this).css("display", "");
+                            });
+                        } else {
+                            userReqPop.fn_caseARollBack();
+                        }
+                    }
+
+                }
             });
         } else {
             $("#divisDet").val("");
@@ -689,7 +737,7 @@
             $('#positionTr').hide();
         }else {
             $('#positionTr').show();
-        }
+        }*/
 
         //직급/등급 ---insert
         $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
@@ -699,15 +747,16 @@
         $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_CODE}");
         //학위 ---insert
         $("#degreeCode").data("kendoDropDownList").value("${uprinfList.DEGREE_CODE}");
-
+        $("#degreeCodeA").data("kendoDropDownList").value("${uprinfList.DEGREE_CODE}");
 
         //홈페이지 게시
         $("#homePageActive").data("kendoRadioGroup").value("${uprinfList.HOME_PAGE_ACTIVE}");
         //입사 일자
         $("#regDate").val("${uprinfList.JOIN_DAY}");
+        $("#regDateCaseA").val("${uprinfList.JOIN_DAY}"); /*계약직원 - 경비/환경*/
+        $("#regDateCaseB").val("${uprinfList.JOIN_DAY}");  /*연수생/학생연구원*/
         //생년월일
         $("#bday").val("${uprinfList.BDAY}");
-
         $("#birthDay").val("${uprinfList.BDAY}");
 
         //결혼 관계
@@ -716,6 +765,40 @@
         $("#weddingDay").val("${uprinfList.WEDDING_DAY}");
         //혈액형
         $("#bloodType").data("kendoRadioGroup").value("${uprinfList.BLOOD_TYPE}");
+
+        //호칭
+        $("#nickname").data("kendoDropDownList").value("${uprinfList.NICK_NAME}");
+        $("#nicknameCaseA").data("kendoDropDownList").value("${uprinfList.NICK_NAME}");
+
+        //근로계약/협약 조건
+        $("#contract").val("${uprinfList.CONTRACT}");
+        //학교
+        $("#school").val("${uprinfList.SCHOOL}");
+        //학위
+        $("#degree").data("kendoDropDownList").value("${uprinfList.DEGREE}");
+
+        //계약/협약 기간
+        $("#sDate").val("${uprinfList.CTR_ST_DAY}");
+        $("#eDate").val("${uprinfList.CTR_EN_DAY}");
+
+        //학과
+        $("#department").val("${uprinfList.DEPARTMENT}");
+        //학년
+        $("#grade").val("${uprinfList.GRADE}");
+        //학번
+        $("#studentId").val("${uprinfList.STUDENT_ID}");
+        //기능 및 자격
+        $("#qualification").val("${uprinfList.QUALIFICATION}");
+        //최종학력
+        $("#degreeT").val("${uprinfList.LAST_DEGREE}");
+        //경력
+        $("#career").val("${uprinfList.CAREER}");
+        //병역
+        $("#military").val("${uprinfList.MILITARY}");
+        //특이사항
+        $("#significant").val("${uprinfList.SIGNIFICANT}");
+        //직무사항
+        $("#jobDetailCaseB").val("${uprinfList.JOB_DETAIL}");
     }
 
 </script>
