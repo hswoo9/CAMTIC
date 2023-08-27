@@ -13,6 +13,7 @@
 <script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 
 <style>
     .likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
@@ -122,9 +123,8 @@
                                             <input type="button" class="k-button-solid-info k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
                                             <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
                                             <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
+                                            <input type="text" id="addrDetail" name="addrDetail" class="k-input k-textbox k-input-solid k-input-md" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
                                             <span id="guide" style="color:#999;display:none"></span>
-                                            <%--<input type="text" id="addrDetail" name="addrDetail" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
-                                            <input type="text" id="addrReferences" name="addrReferences" style="width: 10%;margin-top: 3px;" value="${uprList.addrReferences}" placeholder="참고항목">--%>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1049,6 +1049,7 @@
                 zipCode : $("#zipCode").val(),
                 addr : $("#addr").val(),
                 oldAddr : $("#oldAddr").val(),
+                addrDetail : $("#addrDetail").val(),
                 officeTelNum : $("#officeTelNum").val(),
                 emgTelNum : $("#emgTelNum").val(),
                 carActive : $("#carActive").data("kendoRadioGroup").value() != null ? $("#carActive").data("kendoRadioGroup").value() : "N",
