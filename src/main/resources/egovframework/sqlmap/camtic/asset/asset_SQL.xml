@@ -1075,7 +1075,7 @@
                 WHERE
                     1=1
                 <if test="rprClass != null and rprClass != ''">
-                    AND RPR_CLASS = #{rprClass}
+                    AND RPR_CLASS = #{rprClass} AND STATUS != 0
                 </if>
                 <if test="'receipt'.equals(mod)">
                     AND RPR_CLASS != 2
