@@ -325,7 +325,7 @@ var userPersonList = {
                         }else {
                             if(e.DIVISION == '4' && e.DIVISION_SUB == '3'){ /*경비/환경*/
                                 return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
-                            }else if(e.DIVISION == '3' || e.DIVISION == '1'){ /*단기직원, 위촉직원*/
+                            }else if(e.DIVISION == '3' || e.DIVISION == '1' || e.DIVISION == '10'){ /*단기직원, 위촉직원, 기타*/
                                 return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
                             }else if(e.DIVISION == '3' || e.DIVISION == '2'){ /*연수생/학생연구원*/
                                 return "<a href='#' onclick='userPersonList.userViewTraineePop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";

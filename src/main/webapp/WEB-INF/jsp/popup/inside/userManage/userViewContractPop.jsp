@@ -228,36 +228,48 @@
                 <tr>
                     <th>계약기간</th>
                     <td>
-
+                        ${uprinfList.CTR_ST_DAY} ~ ${uprinfList.CTR_EN_DAY}
                     </td>
                     <th>근무시간 /일</th>
                     <td>
-                        시간
+                        ${uprinfList.WEEK_WORK_TIME} 시간
                     </td>
                 </tr>
                 <tr>
                     <th>근로계약 조건</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.CONTRACT}
+                    </td>
                 </tr>
                 <tr>
                     <th>기능 및 자격</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.QUALIFICATION}
+                    </td>
                 </tr>
                 <tr>
                     <th>최종학력</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.LAST_DEGREE}
+                    </td>
                 </tr>
                 <tr>
                     <th>경력</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.CAREER}
+                    </td>
                 </tr>
                 <tr>
                     <th>병역</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.MILITARY}
+                    </td>
                 </tr>
                 <tr>
                     <th>특이사항</th>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        ${uprinfList.SIGNIFICANT}
+                    </td>
                 </tr>
                 </thead>
             </table>

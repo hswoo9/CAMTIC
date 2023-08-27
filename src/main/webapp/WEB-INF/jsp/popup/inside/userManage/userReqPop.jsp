@@ -129,7 +129,7 @@
                         <input type="text" id="duty" style="width: 50%;">
                     </td>
                 </tr>
-                <tr class="defaultCaseC defaultCaseD">
+                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
                     <th>직무사항</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
@@ -142,6 +142,21 @@
                     <th>학위</th>
                     <td>
                         <input type="text" id="degreeCode" style="width: 50%;">
+                    </td>
+                </tr>
+                <tr class="caseA caseB" style="display: none">
+                    <th>직무사항</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="jobDetailCaseB" style="width: 95%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="jobDetailCaseB" style="width: 95%;" value="${uprinfList.JOB_DETAIL}">
+                        </c:if>
+                    </td>
+                    <th>학위</th>
+                    <td>
+                        <input type="text" id="degreeCodeA" style="width: 50%;">
                     </td>
                 </tr>
                 <tr  class="caseD caseE" style="display: none">
@@ -550,7 +565,7 @@
                         <textarea type="text" id="career" style="width: 95%; height: 100px;"></textarea>
                     </td>
                 </tr>
-                <tr class="caseF defaultCaseB defaultCaseC defaultCaseD" style="display: none;">
+                <tr class="defaultCase caseF defaultCaseB defaultCaseC defaultCaseD" style="display: none;">
                     <th>병역</th>
                     <td colspan="3">
                         <textarea type="text" id="military" style="width: 95%; height: 100px;"></textarea>

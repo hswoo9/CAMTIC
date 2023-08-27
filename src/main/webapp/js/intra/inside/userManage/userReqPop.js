@@ -15,7 +15,7 @@ var userReqPop = {
     },
 
     dataSet : function() {
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
         $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
             rows : 5
         });
@@ -107,7 +107,7 @@ var userReqPop = {
                     });
 
 
-                } else if(divis == '1'){
+                } else if(divis == "1"){
                     $("#divisDet").data("kendoDropDownList").wrapper.show()
                     userReqPop.fn_showDivisDet();
                     userReqPop.fn_caseARollBack();
@@ -120,6 +120,13 @@ var userReqPop = {
                         {text: "위촉직원", value: "6"},
                         {text: "위촉연구원", value : "4"},
                     ];
+
+                    $("#divisDet").kendoDropDownList({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        dataSource: detDs,
+                        index: 0
+                    });
 
                     $("#divisDet").data("kendoDropDownList").setDataSource(detDs);
                     $("#divisDet").data("kendoDropDownList").select(0);
@@ -290,7 +297,7 @@ var userReqPop = {
 
         userReqPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
         customKendo.fn_dropDownList("duty", userReqPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
-
+        
         $("#degreeCode").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -479,6 +486,23 @@ var userReqPop = {
                 {text: "고교 재학", value: "고교 재학"},
                 {text: "석사 재학", value: "석사 재학"},
                 {text: "박사 재학", value: "박사 재학"}
+            ],
+            index: 0
+        });
+
+        $("#degreeCodeA").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "선택하세요", value: ""},
+                {text: "국졸", value: "국졸"},
+                {text: "중졸", value: "중졸"},
+                {text: "고졸", value: "고졸"},
+                {text: "전문학사", value: "전문학사"},
+                {text: "학사", value: "학사"},
+                {text: "석사", value: "석사"},
+                {text: "박사", value: "박사"},
+                {text: "기타", value: "기타"},
             ],
             index: 0
         });
@@ -842,15 +866,60 @@ var userReqPop = {
             OCCUPATION_CODE : $("#occupationCode").val(),
 
             DEGREE_CODE : $("#degreeCode").val(),
+
+            /*직원구분 추가*/
+            CTR_ST_DAY : $("#sDate").val(), //계약시작일
+            CTR_EN_DAY : $("#eDate").val(), //계약종료일
+            WEEK_WORK_TIME : $("#workTime").val(), //근무시간/일
+            CONTRACT : $("#contract").val(), //근로계약/협약 조건
+
+            /*연수생/학생연구원*/
+            SCHOOL : $("#school").val(), //학교
+            DEGREE : $("#degree").val(), //학위
+            DEPARTMENT : $("#department").val(), //학과
+            GRADE : $("#grade").val(), //학년
+            STUDENT_ID : $("#studentId").val(), //학번
+
+            QUALIFICATION : $("#qualification").val(), //기능 및 자격
+            LAST_DEGREE : $("#degreeT").val(), //최종학력
+            CAREER : $("#career").val(), //경력
+            MILITARY : $("#military").val(), //병역
+            SIGNIFICANT : $("#significant").val(), //특이사항
+
+            /*위촉직원*/
+            NICK_NAME : $("#nickname").val(), //호칭
         }
 
-        if($("#divisDet").val() == '3'){
-            data.JOIN_DAY = $("#regDateCaseA").val();
-            data.CAPS_NUM = $("#capsNumCaseA").val();
+        if($("#divisDet").val() == '3' && $("#divis").val() == '4'){ /*계약직원 - 경비/환경*/
+            data.JOIN_DAY = $("#regDateCaseA").val(); //입사일자
+            data.CAPS_NUM = $("#capsNumCaseA").val(); //CAPS 번호
+            data.DEGREE_CODE = $("#degreeCodeA").val(); //학위
+            data.JOB_DETAIL = $("#jobDetailCaseB").val(); //직무사항
         }
 
+        if($("#divis").val() == '3'){ /*단기직원*/
+            data.CAPS_NUM = $("#capsNumCaseB").val(); //CAPS 번호
+            data.DEGREE_CODE = $("#degreeCodeA").val(); //학위
+            data.JOB_DETAIL = $("#jobDetailCaseB").val(); //직무사항
+        }
 
+        if($("#divis").val() == '1'){ /*위촉직원*/
+            data.CAPS_NUM = $("#capsNumCaseB").val(); //CAPS 번호
+            data.BDAY = $("#birthDay").val(); //생년월일
+            data.DEGREE_CODE = $("#degreeCodeA").val(); //학위
+        }
+        if($("#divis").val() == '2'){ /*연수생/학생연구원*/
+            data.JOB_DETAIL = $("#jobDetailCaseA").val(); //직무사항
+            data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
+            data.JOIN_DAY = $("#regDateCaseB").val(); //입사일자
+            data.NICK_NAME = $("#nicknameCaseA").val(); //호칭
+        }
 
+        if($("#divis").val() == '10'){ /*기타*/
+            data.JOB_DETAIL = $("#jobDetailCaseA").val(); //직무사항
+            data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
+        }
+        
         if($("#lunarYn").is(":checked")){
             data.LUNAR_CAL = "Y"
         }else {
@@ -965,6 +1034,13 @@ var userReqPop = {
             complete : function (){
                 if($("#targetEmpSeq").val() != ""){
                     location.href = "/Inside/pop/userViewPop.do?empSeq=" + $("#targetEmpSeq").val();
+                    if($("#divisDet").val() == '3' && $("#divis").val() == '4'){ /*계약직원 - 경비/환경*/
+                        location.href = "/Inside/pop/userViewContractPop.do?empSeq=" + $("#targetEmpSeq").val();
+                    }else if($("#divis").val() == '3' || $("#divis").val() == '1' || $("#divis").val() == '10'){ /*단기직원*/ /*위촉직원*/ /*기타*/
+                        location.href = "/Inside/pop/userViewContractPop.do?empSeq=" + $("#targetEmpSeq").val();
+                    }else if($("#divis").val() == '2') { /*연수생/학생연구원*/
+                        location.href = "/Inside/pop/userViewTraineePop.do?empSeq=" + $("#targetEmpSeq").val();
+                    }
                 }else{
                     window.close();
                 }

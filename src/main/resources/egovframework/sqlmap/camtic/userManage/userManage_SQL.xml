@@ -205,6 +205,7 @@
             DUTY_CODE,
             DUTY_NAME,
             POSITION_CODE,
+            POSITION_NAME,
             DEPT_NAME,
             DEPT_SEQ,
             DEPT_TEAM_NAME,
@@ -251,7 +252,22 @@
             OCCUPATION_CODE,
             JOIN_DAY,
             WORK_STATUS_CODE,
-            LUNAR_CAL
+            LUNAR_CAL,
+            CTR_ST_DAY,
+            CTR_EN_DAY,
+            WEEK_WORK_TIME,
+            NICK_NAME,
+            CONTRACT,
+            SCHOOL,
+            DEGREE,
+            DEPARTMENT,
+            GRADE,
+            STUDENT_ID,
+            QUALIFICATION,
+            LAST_DEGREE,
+            CAREER,
+            MILITARY,
+            SIGNIFICANT
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -309,7 +325,22 @@
             #{OCCUPATION_CODE},
             #{JOIN_DAY},
             'Y',
-            #{LUNAR_CAL}
+            #{LUNAR_CAL},
+            #{CTR_ST_DAY},
+            #{CTR_EN_DAY},
+            #{WEEK_WORK_TIME},
+            #{NICK_NAME},
+            #{CONTRACT},
+            #{SCHOOL},
+            #{DEGREE},
+            #{DEPARTMENT},
+            #{GRADE},
+            #{STUDENT_ID},
+            #{QUALIFICATION},
+            #{LAST_DEGREE},
+            #{CAREER},
+            #{MILITARY},
+            #{SIGNIFICANT}
         )
     </insert>
 
@@ -1417,7 +1448,21 @@
             a.DIVISION,
             a.DIVISION_SUB,
             a.DUZON_CODE,
-            a.LUNAR_CAL
+            a.LUNAR_CAL,
+            a.CTR_ST_DAY,
+            a.CTR_EN_DAY,
+            a.WEEK_WORK_TIME,
+            a.CONTRACT,
+            a.SCHOOL,
+            a.DEGREE,
+            a.DEPARTMENT,
+            a.GRADE,
+            a.STUDENT_ID,
+            a.QUALIFICATION,
+            a.LAST_DEGREE,
+            a.CAREER,
+            a.MILITARY,
+            a.SIGNIFICANT
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
