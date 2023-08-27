@@ -43,7 +43,6 @@ var equipmentUsePop = {
         $("#useTime").kendoTextBox();
         $("#useAmt").kendoTextBox();
         $("#clientPrtpcoName").kendoTextBox();
-        $("#sortSn").kendoTextBox();
 
         $("#regDe").kendoDatePicker({
             depth: "month",
@@ -145,7 +144,6 @@ var equipmentUsePop = {
                 prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
                 prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
-                sortSn : $("#sortSn").val(), //정렬순번
                 crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
                 clientPprtpcoName : $("#clientPprtpcoName").val() //의뢰업체명
             }
@@ -183,11 +181,7 @@ var equipmentUsePop = {
             }else if(data.regDe == null || data.regDe == '') {
                 alert("작성일자를 입력하세요.")
                 return false;
-            }else if(data.sortSn == null || data.sortSn == '') {
-                alert("정렬순번을 입력하세요.")
-                return false;
             }
-            console.log(data);
 
             $.ajax({
                 url : '/asset/setEquipmentUseInsert',

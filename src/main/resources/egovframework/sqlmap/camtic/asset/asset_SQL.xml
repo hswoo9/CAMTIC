@@ -1414,13 +1414,13 @@
         (
             eqipmn_mst_sn, use_pd_str_de, use_pd_end_de, user_name, user_sn,
             oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn,
-            reg_de, sort_sn, actvt_yn, create_dt, crtr_sn
+            reg_de, actvt_yn, create_dt, crtr_sn
         )
         VALUES
             (
                 #{eqipmnMstSn}, #{usePdStrDe}, #{usePdEndDe}, #{userName}, #{userSn},
                 #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn},
-                #{regDe}, #{sortSn},'Y', NOW(), #{crtrSn}
+                #{regDe},'Y', NOW(), #{crtrSn}
             )
     </insert>
 
@@ -1568,7 +1568,7 @@
             use_pd_end_de = #{usePdEndDe}, user_name = #{userName}, user_sn = #{userSn},
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
-            reg_de = #{regDe}, sort_sn = #{sortSn}, updt_dt = NOW(), updusr_sn = #{updusrSn}
+            reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn}
         WHERE
             eqipmn_use_sn = #{pk}
     </update>
@@ -1645,8 +1645,7 @@
                     1=1
                 <choose>
                     <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
-                        AND (IBI.BK_LG_CD_NAME like CONCAT('%', #{searchText}, '%')
-                        OR IBI.BK_MD_CD_NAME like CONCAT('%', #{searchText}, '%')
+                        AND (IBI.BK_MD_CD_NAME like CONCAT('%', #{searchText}, '%')
                         OR IBI.BK_CD_NAME like CONCAT('%', #{searchText}, '%'))
                     </when>
                     <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
@@ -1661,6 +1660,16 @@
                     <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
                         AND IBI.BK_REPL like CONCAT('%', #{searchText}, '%')
                     </when>
+                    <otherwise>
+                        AND (
+                            IBI.BK_MD_CD_NAME like CONCAT('%', #{searchText}, '%') OR
+                            IBI.BK_CD_NAME like CONCAT('%', #{searchText}, '%') OR
+                            IBI.BK_NAME like CONCAT('%', #{searchText}, '%') OR
+                            IBI.BK_WRITER like CONCAT('%', #{searchText}, '%') OR
+                            IBI.BK_BUYER_NAME like CONCAT('%', #{searchText}, '%') OR
+                            IBI.BK_REPL like CONCAT('%', #{searchText}, '%')
+                        )
+                    </otherwise>
                 </choose>
                 ORDER BY IBI.REG_DT
             ) RE

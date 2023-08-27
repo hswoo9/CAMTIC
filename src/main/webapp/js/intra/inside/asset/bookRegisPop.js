@@ -19,15 +19,9 @@ var bookRegisPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "대분류를 선택하세요.", value: ""},
                 {text: "CAMTIC", value: "0"}
             ],
             index: 0,
-            select: function (){
-                if($("#bkLgCd").val() == 0){
-                    bookRegisPop.fn_changeBkLgCd();
-                }
-            }
         });
 
         $("#bkMdCd").kendoDropDownList({
@@ -48,6 +42,7 @@ var bookRegisPop = {
             index: 0
         });
 
+        bookRegisPop.fn_changeBkLgCd();
         customKendo.fn_textBox(["bkName", "bkWriter", "bkPubl", "bkCost", "bkCnt", "bkRepl", "bkSmry"]);
 
         var rsEmpList = customKendo.fn_customAjax("/user/getEmpList");
