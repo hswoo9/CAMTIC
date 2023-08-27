@@ -62,6 +62,10 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) { return selectList("campus.getStudyUserList", params); }
     public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params) { return selectList("campus.getStudyJournalList", params); }
     public Map<String, Object> getStudyJournalOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params); }
+    public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params) { return selectList("campus.getOjtPlanList", params); }
+    public Map<String, Object> getOjtPlanOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtPlanOne", params); }
+    public List<Map<String, Object>> getOjtResultList(Map<String, Object> params) { return selectList("campus.getOjtResultList", params); }
+    public Map<String, Object> getOjtResultOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtResultOne", params); }
 
     public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoList", params); }
     public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOpenStudyInfoOne", params); }
@@ -108,6 +112,11 @@ public class CampusRepository extends AbstractDAO  {
     public void studyReq(Map<String, Object> params) { update("campus.studyReq", params); }
     public void setStudyJournalInsert(Map<String, Object> params) { insert("campus.setStudyJournalInsert", params); }
     public void setStudyJournalApp(Map<String, Object> params) { update("campus.setStudyJournalApp", params); }
+    public void setOjtPlanInsert(Map<String, Object> params) { insert("campus.setOjtPlanInsert", params); }
+    public void setOjtPlanUpdate(Map<String, Object> params) { update("campus.setOjtPlanUpdate", params); }
+    public void setOjtPlanDelete(Map<String, Object> params) { update("campus.setOjtPlanDelete", params); }
+    public void setOjtResultInsert(Map<String, Object> params) { insert("campus.setOjtResultInsert", params); }
+    public void setOjtUserInsert(Map<String, Object> params) { insert("campus.setOjtUserInsert", params); }
     public void setOpenStudyInfoIns(Map<String, Object> params) { insert("campus.setOpenStudyInfoIns", params); }
     public void setOpenStudyInfoUpd(Map<String, Object> params) { update("campus.setOpenStudyInfoUpd", params); }
     public void setOpenNextStep(Map<String, Object> params) { update("campus.setOpenNextStep", params); }

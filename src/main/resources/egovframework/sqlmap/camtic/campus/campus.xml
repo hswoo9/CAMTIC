@@ -378,7 +378,8 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
             HEI.POSITION_NAME AS positionNm,
-            HEI.DUTY_NAME AS dutyNm
+            HEI.DUTY_NAME AS dutyNm,
+            HEI.JOB_DETAIL AS jobDetailNm
         FROM
             CAMPUS.DJ_STUDY_INFO CSI
         LEFT JOIN
@@ -394,7 +395,7 @@
             CSU.*
         FROM
             CAMPUS.DJ_STUDY_USER CSU
-        WHERE STUDY_INFO_SN = #{studyInfoSn}
+        WHERE STUDY_INFO_SN = #{pk}
         <if test='studyClassSn != null and !"".equals(studyClassSn)'>
             AND STUDY_CLASS_SN = #{studyClassSn}
         </if>
@@ -429,6 +430,46 @@
         FROM
             CAMPUS.DJ_STUDY_JOURNAL CSJ
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
+    </select>
+
+    <select id="getOjtPlanList" resultType="map" parameterType="map">
+        /* getOjtPlanList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_OJT_PLAN COP
+        WHERE
+            COP.STUDY_INFO_SN = #{pk}
+        AND COP.ACTIVE = 'Y'
+    </select>
+
+    <select id="getOjtPlanOne" resultType="map" parameterType="map">
+        /* getOjtPlanOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_OJT_PLAN COP
+        WHERE COP.OJT_PLAN_SN = #{ojtPlanSn}
+    </select>
+
+    <select id="getOjtResultList" resultType="map" parameterType="map">
+        /* getOjtResultList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_OJT_RESULT COR
+        WHERE
+            COR.STUDY_INFO_SN = #{pk}
+          AND COR.ACTIVE = 'Y'
+    </select>
+
+    <select id="getOjtResultOne" resultType="map" parameterType="map">
+        /* getOjtResultOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_OJT_RESULT COR
+        WHERE COR.OJT_RESULT_SN = #{ojtPlanSn}
     </select>
 
     <select id="getOpenStudyInfoList" resultType="map" parameterType="map">
@@ -591,6 +632,10 @@
             (SELECT COUNT(CEI.TERM_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = "Y") AS PERSONAL_COUNT,
             IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS STUDY_TIME,
             (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y') AS STUDY_COUNT,
+            IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.dj_study_info CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 group by CSI.REG_DATE), 0) AS PROPAG_TIME,
+            IFNULL((SELECT COUNT(EDU_TIME) FROM CAMPUS.dj_study_info CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 group by CSI.REG_DATE), 0) AS PROPAG_COUNT,
+            IFNULL((SELECT SUM(COR.EDU_TIME) FROM CAMPUS.dj_study_info CSI LEFT JOIN CAMPUS.dj_ojt_result COR ON COR.STUDY_INFO_SN = CSI.STUDY_INFO_SN LEFT JOIN CAMPUS.DJ_OJT_USER COU ON COR.OJT_RESULT_SN = COU.OJT_RESULT_SN WHERE COU.OJT_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '101' AND ACTIVE = 'Y'), 0) AS OJT_TIME,
+            IFNULL((SELECT COUNT(COR.EDU_TIME) FROM CAMPUS.dj_study_info CSI LEFT JOIN CAMPUS.dj_ojt_result COR ON COR.STUDY_INFO_SN = CSI.STUDY_INFO_SN LEFT JOIN CAMPUS.DJ_OJT_USER COU ON COR.OJT_RESULT_SN = COU.OJT_RESULT_SN WHERE COU.OJT_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '101' AND ACTIVE = 'Y'), 0) AS OJT_COUNT,
             IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.DJ_OPENSTUDY_INFO COI LEFT JOIN CAMPUS.DJ_OPENSTUDY_USER COU ON COI.OPEN_STUDY_INFO_SN = COU.OPEN_STUDY_INFO_SN WHERE COU.REG_EMP_SEQ = HEI.EMP_SEQ AND COI.STATUS = 100 AND COU.PART_YN = 'Y'), 0) AS OPEN_STUDY_TIME,
             (SELECT COUNT(EDU_TIME) FROM CAMPUS.DJ_OPENSTUDY_INFO COI LEFT JOIN CAMPUS.DJ_OPENSTUDY_USER COU ON COI.OPEN_STUDY_INFO_SN = COU.OPEN_STUDY_INFO_SN WHERE COU.REG_EMP_SEQ = HEI.EMP_SEQ AND COI.STATUS = 100 AND COU.PART_YN = 'Y') AS OPEN_STUDY_COUNT,
             IFNULL((SELECT SUM(CCEU.REAR_EDU_TIME) FROM CAMPUS.DJ_COMMON_EDU CCE LEFT JOIN CAMPUS.DJ_COMMON_EDU_USER CCEU ON CCE.COMMON_EDU_SN = CCEU.COMMON_EDU_SN WHERE CCEU.REG_EMP_SEQ = HEI.EMP_SEQ AND CCE.STATUS = 100 AND CCEU.PART_YN = 'Y' AND CCEU.ACTIVE = 'Y'), 0) AS COMMON_EDU_TIME,
@@ -1007,6 +1052,120 @@
         WHERE
             STUDY_JOURNAL_SN = #{studyJournalSn}
     </update>
+
+    <insert id="setOjtPlanInsert" parameterType="map">
+        /* setOjtPlanInsert */
+        INSERT INTO CAMPUS.DJ_OJT_PLAN
+            (
+                STUDY_INFO_SN,
+                START_DT,
+                END_DT,
+                TITLE,
+                ETC,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{startDt},
+                #{endDt},
+                #{title},
+                #{etc},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <update id="setOjtPlanUpdate" parameterType="map">
+        /* setOjtPlanUpdate */
+        UPDATE
+            CAMPUS.DJ_OJT_PLAN
+        SET
+            TITLE = #{title},
+            ETC = #{etc}
+        WHERE
+            OJT_PLAN_SN = #{ojtPlanSn}
+    </update>
+
+    <update id="setOjtPlanDelete" parameterType="map">
+        /* setOjtPlanDelete */
+        UPDATE
+            CAMPUS.DJ_OJT_PLAN
+        SET
+            ACTIVE = 'N'
+        WHERE
+            OJT_PLAN_SN = #{ojtPlanSn}
+    </update>
+
+    <insert id="setOjtResultInsert" parameterType="map">
+        /* setOjtResultInsert */
+        INSERT INTO CAMPUS.DJ_OJT_RESULT
+            (
+                STUDY_INFO_SN,
+                OJT_DT,
+                START_TIME,
+                END_TIME,
+                EDU_TIME,
+                LOCATION,
+                SAVE_TYPE,
+                SAVE_TYPE_TEXT,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{ojtDt},
+                #{startTime},
+                #{endTime},
+                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                #{location},
+                #{saveType},
+                #{saveTypeText},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="ojtResultSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_OJT_RESULT'
+        </selectKey>
+    </insert>
+
+    <insert id="setOjtUserInsert" parameterType="map">
+        /* setOjtUserInsert */
+        INSERT INTO CAMPUS.DJ_OJT_USER
+            (
+                OJT_RESULT_SN,
+                <if test='studyClassSn != null and studyClassSn != ""'>
+                    OJT_CLASS_SN,
+                </if>
+                <if test='studyClassText != null and studyClassText != ""'>
+                    OJT_CLASS_TEXT,
+                </if>
+                OJT_EMP_SEQ,
+                OJT_EMP_NAME,
+                OJT_DEPT_NAME,
+                OJT_TEAM_NAME,
+                OJT_POSITION_NAME,
+                OJT_DUTY_NAME
+            )
+        VALUES
+            (
+                #{ojtResultSn},
+                <if test='studyClassSn != null and studyClassSn != ""'>
+                    #{studyClassSn},
+                </if>
+                <if test='studyClassText != null and studyClassText != ""'>
+                    #{studyClassText},
+                </if>
+                #{empSeq},
+                #{studyEmpName},
+                #{studyDeptName},
+                #{studyTeamName},
+                #{studyPositionName},
+                #{studyDutyName}
+            )
+    </insert>
 
     <insert id="setOpenStudyInfoIns" parameterType="map">
         /* setOpenStudyInfoIns */

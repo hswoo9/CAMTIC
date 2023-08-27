@@ -593,10 +593,6 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         Map<String, Object> data = campusService.getStudyInfoOne(params);
         model.addAttribute("data", data);
-        if(params.containsKey("studyJournalSn")){
-            Map<String, Object> info = campusService.getStudyJournalOne(params);
-            model.addAttribute("info", new Gson().toJson(info));
-        }
         model.addAttribute("params", params);
         return "popup/campus/studyJournalPop";
     }
@@ -610,6 +606,41 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         return "popup/campus/propagViewPop";
+    }
+
+    /** OJT 조회 팝업 */
+    @RequestMapping("/Campus/pop/ojtViewPop.do")
+    public String ojtViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/ojtViewPop";
+    }
+
+    /** OJT 학습계획 팝업 */
+    @RequestMapping("/Campus/pop/ojtPlanPop.do")
+    public String ojtPlanPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        List<Map<String, Object>> list = campusService.getOjtPlanList(params);
+        model.addAttribute("list", list);
+        return "popup/campus/ojtPlanPop";
+    }
+
+    /** OJT 학습일지 팝업 */
+    @RequestMapping("/Campus/pop/ojtResultPop.do")
+    public String ojtResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/ojtResultPop";
     }
 
     /** 오픈스터디 페이지 */
@@ -1135,6 +1166,38 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** OJT 학습계획 리스트 */
+    @RequestMapping("/campus/getOjtPlanList")
+    public String getOjtPlanList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getOjtPlanList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** OJT 학습계획 단일 데이터  */
+    @RequestMapping("/campus/getOjtPlanOne")
+    public String getOjtPlanOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getOjtPlanOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** OJT 학습일지 리스트 */
+    @RequestMapping("/campus/getOjtResultList")
+    public String getOjtResultList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getOjtResultList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** OJT 학습계획 단일 데이터  */
+    @RequestMapping("/campus/getOjtResultOne")
+    public String getOjtResultOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getOjtResultOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 오픈스터디 리스트 */
     @RequestMapping("/campus/getOpenStudyInfoList")
     public String getOpenStudyInfoList(@RequestParam Map<String, Object> params, Model model) {
@@ -1289,6 +1352,34 @@ public class CampusController {
     @RequestMapping("/campus/setStudyJournalApp")
     public String setStudyJournalApp(@RequestParam Map<String, Object> params) {
         campusService.setStudyJournalApp(params);
+        return "jsonView";
+    }
+
+    /** OJT 학습계획 저장 */
+    @RequestMapping("/campus/setOjtPlanInsert")
+    public String setOjtPlanInsert(@RequestParam Map<String, Object> params) {
+        campusService.setOjtPlanInsert(params);
+        return "jsonView";
+    }
+
+    /** OJT 학습계획 수정 */
+    @RequestMapping("/campus/setOjtPlanUpdate")
+    public String setOjtPlanUpdate(@RequestParam Map<String, Object> params) {
+        campusService.setOjtPlanUpdate(params);
+        return "jsonView";
+    }
+
+    /** OJT 학습계획 삭제 */
+    @RequestMapping("/campus/setOjtPlanDelete")
+    public String setOjtPlanDelete(@RequestParam Map<String, Object> params) {
+        campusService.setOjtPlanDelete(params);
+        return "jsonView";
+    }
+
+    /** OJT 학습일지 저장 */
+    @RequestMapping("/campus/setOjtResultInsert")
+    public String setOjtResultInsert(@RequestParam Map<String, Object> params) {
+        campusService.setOjtResultInsert(params);
         return "jsonView";
     }
 

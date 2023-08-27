@@ -22,6 +22,10 @@ public interface CampusService {
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
     Map<String, Object> getStudyJournalOne(Map<String, Object> params);
+    List<Map<String, Object>> getOjtPlanList(Map<String, Object> params);
+    Map<String, Object> getOjtPlanOne(Map<String, Object> params);
+    List<Map<String, Object>> getOjtResultList(Map<String, Object> params);
+    Map<String, Object> getOjtResultOne(Map<String, Object> params);
     /** 학습조 끝 */
 
     /** 오픈스터디 시작 */
@@ -78,6 +82,10 @@ public interface CampusService {
     void studyReq(Map<String, Object> params);
     void setStudyJournalInsert(Map<String, Object> params);
     void setStudyJournalApp(Map<String, Object> params);
+    void setOjtPlanInsert(Map<String, Object> params);
+    void setOjtPlanUpdate(Map<String, Object> params);
+    void setOjtPlanDelete(Map<String, Object> params);
+    void setOjtResultInsert(Map<String, Object> params);
     /** 학습조 끝 */
 
     /** 오픈스터디 시작 */

@@ -21,7 +21,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="studyInfoSn" value="${params.studyInfoSn}"/>
+<input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="studyJournalSn" value="${params.studyJournalSn}"/>
 <input type="hidden" id="mode" value=""/>
 <div class="col-lg-12" style="padding:0;">
@@ -85,7 +85,6 @@
   </div>
 </div>
 <script>
-  let info = JSON.parse('${info}');
   studyJournal.init();
 </script>
 </body>

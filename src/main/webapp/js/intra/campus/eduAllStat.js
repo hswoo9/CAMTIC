@@ -101,13 +101,17 @@ var snackList = {
                         return row.STUDY_TIME+"시간 / "+row.STUDY_COUNT+"건"
                     }
                 }, {
-                    field: "C",
                     title: "전파학습",
-                    width: "8%"
+                    width: "8%",
+                    template: function(row){
+                        return row.PROPAG_TIME+"시간 / "+row.PROPAG_COUNT+"건"
+                    }
                 }, {
-                    field: "D",
                     title: "OJT",
-                    width: "8%"
+                    width: "8%",
+                    template: function(row){
+                        return row.OJT_TIME+"시간 / "+row.OJT_COUNT+"건"
+                    }
                 }, {
                     title: "오픈스터디",
                     width: "8%",
@@ -123,7 +127,12 @@ var snackList = {
                 }, {
                     field: "TOTAL_STAT",
                     title: "합계",
-                    width: "8%"
+                    width: "8%",
+                    template: function(row){
+                        var totNum = Number(row.PERSONAL_TIME) + Number(row.STUDY_TIME) + Number(row.PROPAG_TIME) + Number(row.OJT_TIME) + Number(row.OPEN_STUDY_TIME) + Number(row.COMMON_EDU_TIME);
+                        var totCount = Number(row.PERSONAL_COUNT) + Number(row.STUDY_COUNT) + Number(row.PROPAG_COUNT) + Number(row.OJT_COUNT) + Number(row.OPEN_STUDY_COUNT) + Number(row.COMMON_EDU_COUNT);
+                        return totNum+"시간 / "+totCount+"건"
+                    }
                 }
             ]
         }).data("kendoGrid");

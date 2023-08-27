@@ -105,6 +105,18 @@ var studyMng = {
                             }else if(row.STATUS == 100){
                                 return "학습종료"
                             }
+                        }else if(studyClass == 3){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중"
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중"
+                            }else if(row.STATUS == 30) {
+                                return "신청서 반려됨"
+                            }else if(row.STATUS == 100){
+                                return "OJT 진행중(0회)"
+                            }else if(row.STATUS == 101){
+                                return "OJT완료"
+                            }
                         }
                     }
                 }
@@ -122,6 +134,8 @@ var studyMng = {
                 studyMng.studyViewPop("mng", dataItem.STUDY_INFO_SN);
             }else if(studyClass == 2){
                 studyMng.propagViewPop("mng", dataItem.STUDY_INFO_SN);
+            }else if(studyClass == 3){
+                studyMng.ojtViewPop("mng", dataItem.STUDY_INFO_SN);
             }
         });
     },
@@ -136,6 +150,13 @@ var studyMng = {
     propagViewPop: function(mode, pk){
         let url = "/Campus/pop/propagViewPop.do?mode="+mode+"&pk="+pk;
         const name = "studyReqPop";
+        const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    ojtViewPop: function(mode, pk){
+        let url = "/Campus/pop/ojtViewPop.do?mode="+mode+"&pk="+pk;
+        const name = "ojtViewPop";
         const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }

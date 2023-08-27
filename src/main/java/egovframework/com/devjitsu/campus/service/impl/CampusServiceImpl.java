@@ -72,6 +72,26 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params){
+        return campusRepository.getOjtPlanList(params);
+    }
+
+    @Override
+    public Map<String, Object> getOjtPlanOne(Map<String, Object> params){
+        return campusRepository.getOjtPlanOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getOjtResultList(Map<String, Object> params){
+        return campusRepository.getOjtResultList(params);
+    }
+
+    @Override
+    public Map<String, Object> getOjtResultOne(Map<String, Object> params){
+        return campusRepository.getOjtResultOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params){
         return campusRepository.getOpenStudyInfoList(params);
     }
@@ -223,7 +243,7 @@ public class CampusServiceImpl implements CampusService {
                 params.put("studyTeamName", userMap.get("teamNm"));
                 params.put("studyPositionName", userMap.get("POSITION_NAME"));
                 params.put("studyDutyName", userMap.get("DUTY_NAME"));
-                if(studyClass == 2){
+                if(studyClass == 2 || studyClass == 3){
                     params.put("studyClassSn", 5);
                     params.put("studyClassText", "학습자");
                 }
@@ -232,7 +252,7 @@ public class CampusServiceImpl implements CampusService {
             }
         }
 
-        if(studyClass == 2 && params.get("readerUserSeq") != null && !params.get("readerUserSeq").equals("")){
+        if((studyClass == 2 || studyClass == 3) && params.get("readerUserSeq") != null && !params.get("readerUserSeq").equals("")){
             String readerUserSeq = params.get("readerUserSeq").toString();
             String[] readerUserSeqArr = readerUserSeq.split(",");
 
@@ -270,6 +290,64 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setStudyJournalApp(Map<String, Object> params) {
         campusRepository.setStudyJournalApp(params);
+    }
+
+    @Override
+    public void setOjtPlanInsert(Map<String, Object> params) {
+        campusRepository.setOjtPlanInsert(params);
+    }
+
+    @Override
+    public void setOjtPlanUpdate(Map<String, Object> params) {
+        campusRepository.setOjtPlanUpdate(params);
+    }
+
+    @Override
+    public void setOjtPlanDelete(Map<String, Object> params) {
+        campusRepository.setOjtPlanDelete(params);
+    }
+
+    @Override
+    public void setOjtResultInsert(Map<String, Object> params) {
+        campusRepository.setOjtResultInsert(params);
+
+        if(params.get("studyUserSeq") != null && !params.get("studyUserSeq").equals("")){
+            String studyUserSeq = params.get("studyUserSeq").toString();
+            String[] studyUserSeqArr = studyUserSeq.split(",");
+
+            for(String str: studyUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+                params.put("studyClassSn", 5);
+                params.put("studyClassText", "학습자");
+
+                campusRepository.setOjtUserInsert(params);
+            }
+        }
+
+        if(params.get("readerUserSeq") != null && !params.get("readerUserSeq").equals("")){
+            String readerUserSeq = params.get("readerUserSeq").toString();
+            String[] readerUserSeqArr = readerUserSeq.split(",");
+
+            for(String str: readerUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+                params.put("studyClassSn", 4);
+                params.put("studyClassText", "지도자");
+
+                campusRepository.setOjtUserInsert(params);
+            }
+        }
     }
 
     @Override

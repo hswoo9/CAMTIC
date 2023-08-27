@@ -21,6 +21,7 @@ var openStudyRes = {
                 parameterMap: function(data) {
                     data.empSeq = $("#empSeq").val();
                     data.eduYear = $("#eduYear").val();
+                    data.step = "D";
                     return data;
                 }
             },

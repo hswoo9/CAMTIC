@@ -16,7 +16,7 @@ const studyView = {
 
     studyUserSetting: function(){
         let data = {
-            studyInfoSn: $("#pk").val()
+            pk: $("#pk").val()
         }
         const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
         studyView.global.studyUserList = result.list;
@@ -80,7 +80,7 @@ const studyView = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/campus/getStudyJournalList',
+                    url : "/campus/getStudyJournalList",
                     dataType : "json",
                     type : "post"
                 },
@@ -245,9 +245,9 @@ const studyView = {
         if(fk == null || fk == "" || fk == undefined){
             url = "/Campus/pop/studyJournalPop.do";
         }else if(type == 1){
-            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+fk;
+            url = "/Campus/pop/studyJournalPop.do?pk="+fk;
         }else if(type == 2){
-            url = "/Campus/pop/studyJournalPop.do?studyInfoSn="+fk+"&studyJournalSn="+pk;
+            url = "/Campus/pop/studyJournalPop.do?pk="+fk+"&studyJournalSn="+pk;
         }
         let name = "studyJournalPop";
         let option = "width = 800, height = 600, top = 100, left = 200, location = no";

@@ -30,14 +30,17 @@ const studyReq = {
         }else if(studyClass == 2){
             $(".study").hide();
             $(".propag").show();
+        }else if(studyClass == 3){
+            $(".study").hide();
+            $(".propag").hide();
+            $(".ojt").show();
+            $(".notOjt").hide();
         }
     },
 
     saveBtn: function(){
         let studyClassSn = $("#studyClass").val();
         let studyClassText = $("#studyClass").data("kendoDropDownList").text();
-        let empSeq = $("#regEmpSeq").val();
-        let empName = $("#regEmpName").val();
         let studyName = $("#studyName").val();
         let readerUserSeq = $("#readerUserSeq").val();
         let studyUserSeq = $("#studyUserSeq").val();
@@ -47,7 +50,7 @@ const studyReq = {
         let studyLocation = $("#studyLocation").val();
         let studyObject = $("#studyObject").val();
         let studyContent = $("#studyContent").val();
-        let studyMoney = $("#studyMoney").val().replace(",", "");
+        let studyMoney = $("#studyMoney").val().replace(/,/g, "");
         let studyMoneyVal = $("#studyMoneyVal").val();
         let attach = $("#attach").val();
         let regDate = $("#regDate").val();
@@ -57,24 +60,29 @@ const studyReq = {
         let eduTerm = $("#eduTerm").val();
         let eduTime = $("#eduTime").val();
 
+        let empSeq = $("#regEmpSeq").val();
+        let empName = $("#regEmpName").val();
+
         if(studyName == ""){ alert(studyClassText+"명이 작성되지 않았습니다."); return; }
         if(studyClassSn == ""){ alert("내부학습 구분이 선택되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(startDt == "" || endDt == ""){ alert("학습기간이 작성되지 않았습니다."); return; }
         if(studyObject == ""){ alert("학습목표가 작성되지 않았습니다."); return; }
-        if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
         if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
-        if(studyMoneyVal == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
+        if(studyMoneyVal == ""){ alert("산출내역이 작성되지 않았습니다."); return; }
         if(regDate == ""){ alert("신청날짜가 작성되지 않았습니다."); return; }
 
         if(studyClassSn == 1){
-
+            if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
         }else if(studyClassSn == 2){
+            if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
             if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
             if(startTime == ""){ alert("학습시간이 작성되지 않았습니다."); return; }
             if(endTime == ""){ alert("학습시간이 작성되지 않았습니다."); return; }
             if(eduTerm == ""){ alert("총 회차가 작성되지 않았습니다."); return; }
             if(eduTime == ""){ alert("총 시간이 작성되지 않았습니다."); return; }
+        }else if(studyClassSn == 3){
+            if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
         }
 
         let data = {
@@ -102,6 +110,10 @@ const studyReq = {
             data.endTime = endTime;
             data.eduTerm = eduTerm;
             data.eduTime = eduTime;
+        }
+
+        if(studyClassSn == 3){
+            data.readerUserSeq = readerUserSeq;
         }
 
         if(!confirm(studyClassText+" 신청서를 저장하시겠습니까?")){

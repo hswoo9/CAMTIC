@@ -96,12 +96,37 @@ var studyInfo = {
                     title: "진행현황",
                     width: 120,
                     template: function(row){
-                        if(row.STATUS == 0){
-                            return "신청서 작성중"
-                        }else if(row.STATUS == 10) {
-                            return "신청서 승인요청중"
-                        }else if(row.STATUS == 100){
-                            return "신청서 제출"
+                        let studyClass = row.STUDY_CLASS_SN;
+                        if(studyClass == 1){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중"
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중"
+                            }else if(row.STATUS == 100){
+                                return "신청서 제출"
+                            }
+                        }else if(studyClass == 2){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중"
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중"
+                            }else if(row.STATUS == 30) {
+                                return "신청서 반려됨"
+                            }else if(row.STATUS == 100){
+                                return "학습종료"
+                            }
+                        }else if(studyClass == 3){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중"
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중"
+                            }else if(row.STATUS == 30) {
+                                return "신청서 반려됨"
+                            }else if(row.STATUS == 100){
+                                return "OJT 진행중(0회)"
+                            }else if(row.STATUS == 101){
+                                return "OJT완료"
+                            }
                         }
                     }
                 }
@@ -119,6 +144,8 @@ var studyInfo = {
                 studyInfo.studyViewPop("upd", dataItem.STUDY_INFO_SN);
             }else if(studyClass == 2){
                 studyInfo.propagViewPop("upd", dataItem.STUDY_INFO_SN);
+            }else if(studyClass == 3){
+                studyInfo.ojtViewPop("upd", dataItem.STUDY_INFO_SN);
             }
         });
     },
@@ -140,6 +167,13 @@ var studyInfo = {
     propagViewPop: function(mode, pk){
         let url = "/Campus/pop/propagViewPop.do?mode="+mode+"&pk="+pk;
         const name = "studyReqPop";
+        const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    ojtViewPop: function(mode, pk){
+        let url = "/Campus/pop/ojtViewPop.do?mode="+mode+"&pk="+pk;
+        const name = "ojtViewPop";
         const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }

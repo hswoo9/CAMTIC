@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/campus/propagViewPop.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/campus/ojtViewPop.js?v=${toDate}"/></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -26,10 +26,11 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">전파학습 신청서 조회</h3>
             <div class="btn-st popButton">
-                <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(100);">승인</button>
-                <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(30);">반려</button>
-                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(0);">승인요청</button>
-                <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(10);">승인요청</button>
+                <button type="button" id="finBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(101);">지도완료</button>
+                <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>
+                <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="ojtView.fn_ojtCertReq(30);">반려</button>
+                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(0);">승인요청</button>
+                <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(10);">승인요청</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
@@ -62,6 +63,12 @@
                                 </th>
                                 <td id="regEmpNameTd"></td>
                             </tr>
+                            <tr>
+                                <th scope="row" class="text-center th-color">
+                                    담당직무
+                                </th>
+                                <td colspan="5" id="jobDetailNmTd"></td>
+                            </tr>
                             </thead>
                         </table>
                     </form>
@@ -86,7 +93,7 @@
         <div class="card-header" style="padding-top:15px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">학습계획</div>
+                    <div class="popupTitleSt">지도내용</div>
                 </div>
                 <form id="" style="";>
                 <table class="popTable table table-bordered mb-0">
@@ -96,32 +103,32 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>전파학습명</th>
-                        <td id="propagNameTd"></td>
+                        <th>지도명칭</th>
+                        <td id="ojtNameTd"></td>
                     </tr>
                     <tr>
                         <th>학습기간</th>
-                        <td id="propagDtTd"></td>
+                        <td id="ojtDtTd"></td>
                     </tr>
                     <tr>
                         <th>학습장소</th>
-                        <td id="propagLocationTd"></td>
+                        <td id="ojtLocationTd"></td>
                     </tr>
                     <tr>
                         <th>학습목표</th>
-                        <td id="propagObjectTd"></td>
+                        <td id="ojtObjectTd"></td>
                     </tr>
                     <tr>
                         <th>학습내용</th>
-                        <td id="propagContentTd"></td>
+                        <td id="ojtContentTd"></td>
                     </tr>
                     <tr>
                         <th>소요비용</th>
-                        <td id="propagAmtTd"></td>
+                        <td id="ojtAmtTd"></td>
                     </tr>
                     <tr>
                         <th>산출내역</th>
-                        <td id="propagAmtTextTd"></td>
+                        <td id="ojtAmtTextTd"></td>
                     </tr>
                     <tr>
                         <th>신청날짜</th>
@@ -136,11 +143,29 @@
                 </form>
             </div>
         </div>
+
+        <div class="card-header" style="padding-top:45px;">
+            <div class="col-lg-12" style="margin:0 auto;">
+                <div class="table-responsive">
+                    <div class="popupTitleSt">지도계획</div>
+                    <div id="ojtPlanGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ojtResult card-header" style="padding-top:45px; display: none">
+            <div class="col-lg-12" style="margin:0 auto;">
+                <div class="table-responsive">
+                    <div class="popupTitleSt">학습일지</div>
+                    <div id="ojtResultGrid"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    propagView.init();
+    ojtView.init();
 </script>
 </body>
 </html>

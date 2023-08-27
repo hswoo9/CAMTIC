@@ -78,7 +78,7 @@ const openStudyRes = {
             return;
         }
 
-        let openStudyAmt = $("#openStudyAmt").val().replace(",", "");
+        let openStudyAmt = $("#openStudyAmt").val().replace(/,/g, "");
         let openStudyAmtText = $("#openStudyAmtText").val();
         let openStudyResult = $("#openStudyResult").val();
 

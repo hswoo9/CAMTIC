@@ -9,8 +9,18 @@
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/studyReqPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="suerSelType" value="0">
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header" style="padding-top:45px;">
@@ -36,7 +46,7 @@
                 <input type="text" id="studyName" style="width: 800px">
               </td>
             </tr>
-            <tr class="propag" style="display: none">
+            <tr class="propag ojt" style="display: none">
               <th>지 도 자</th>
               <td>
                 <input type="text" id="readerUserName" style="width: 600px">
@@ -78,7 +88,7 @@
                 <textarea type="text" id="studyObject" style="width: 800px; height: 100px"></textarea>
               </td>
             </tr>
-            <tr>
+            <tr class="notOjt">
               <th>학습내용</th>
               <td>
                 <textarea type="text" id="studyContent" style="width: 800px; height: 100px"></textarea>

@@ -39,7 +39,7 @@ const studyJournal = {
         $("#studyUserName, #journalDt, #journalStartTime, #journalEndTime").attr("readonly", true);
 
         let data = {
-            studyInfoSn: $("#studyInfoSn").val()
+            pk: $("#pk").val()
         }
         const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
         studyJournal.global.studyUserList = result.list;
@@ -55,11 +55,15 @@ const studyJournal = {
                     }
                 }
             }
-            studyJournal.dataSet(info);
+            studyJournal.dataSet();
         }
     },
 
-    dataSet: function(info){
+    dataSet: function(){
+        let data = {
+            studyJournalSn: $("#studyJournalSn").val()
+        }
+        const info = customKendo.fn_customAjax("/campus/getStudyJournalOne", data).data;
         $("#journalDt").val(info.JOURNAL_DT);
         $("#journalStartTime").val(info.JOURNAL_START_TIME);
         $("#journalEndTime").val(info.JOURNAL_END_TIME);

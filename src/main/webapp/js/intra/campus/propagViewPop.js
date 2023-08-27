@@ -73,7 +73,7 @@ const propagView = {
                 },
                 parameterMap: function(data) {
                     data.studyClassSn = 4;
-                    data.studyInfoSn = $("#pk").val();
+                    data.pk = $("#pk").val();
                     return data;
                 }
             },
@@ -132,7 +132,7 @@ const propagView = {
                 },
                 parameterMap: function(data) {
                     data.studyClassSn = 5;
-                    data.studyInfoSn = $("#pk").val();
+                    data.pk = $("#pk").val();
                     return data;
                 }
             },
