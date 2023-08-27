@@ -145,8 +145,11 @@ var equipmentUsePop = {
                 prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
                 crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
-                prtpcoSn : $("#crmCd").val(),
                 clientPrtpcoName : $("#clientPrtpcoName").val() //의뢰업체명
+            }
+
+            if($("#crmCd").val()){
+                data.prtpcoSn = $("#crmCd").val()
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -176,7 +179,7 @@ var equipmentUsePop = {
             }/*else if(data.clientPprtpcoName == null || data.clientPprtpcoName == '') {
                 alert("의뢰업체를 입력하세요.")
                 return false;
-            }*/else if(data.prtpcoGbnName == null || data.prtpcoGbnName == '') {
+            }*/else if(data.prtpcoGbnSn == null || data.prtpcoGbnSn == '') {
                 alert("업체구분을 선택하세요.")
                 return false;
             }else if(data.regDe == null || data.regDe == '') {
