@@ -11,7 +11,6 @@ var bookCdPop = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "대분류를 선택하세요.", value: ""},
                 {text: "CAMTIC", value: "0"}
             ],
             index: 0,
@@ -61,6 +60,7 @@ var bookCdPop = {
                 bookCdPop.addCode();
             }
         });
+        bookCdPop.fn_changeBkLgCd();
     },
 
     fn_changeBkLgCd: function (){
