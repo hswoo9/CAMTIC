@@ -112,7 +112,7 @@ var bookList = {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
-                {
+                /*{
                     title: "이미지",
                     width: 200,
                     template: function(e){
@@ -123,7 +123,8 @@ var bookList = {
                             return "<div class='customer-photo' style='background-size: cover; height : 200px;background-image: url(/upload/Inside/undefined.png);'></div>";
                         }
                     }
-                }, {
+                }, */
+                {
                     title: "코드",
                     template : function(row){
                         return row.BK_LG_CD_NAME+"-"+row.BK_MD_CD + row.BK_CD
