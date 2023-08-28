@@ -169,7 +169,7 @@
     function orgPopup(){
       var url = "/user/pop/orgPop.do";
       var name = "popup test";
-      var option = "width = 955, height = 807, top = 100, left = 200, location = no"
+      var option = "width = 980, height = 807, top = 100, left = 200, location = no"
       var popup = window.open(url, name, option);
     }
 

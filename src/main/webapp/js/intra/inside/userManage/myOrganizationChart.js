@@ -115,6 +115,12 @@ var orgChart = {
                 }, {
                     field : 'DUTY_NAME',
                     title : "직책"
+                }, {
+                    field : 'OFFICE_TEL_NUM',
+                    title : "내선번호"
+                }, {
+                    field : 'MOBILE_TEL_NUM',
+                    title : "핸드폰번호"
                 }
             ],
         }).data("kendoGrid");
