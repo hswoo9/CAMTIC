@@ -110,11 +110,10 @@ var orgChart = {
                     field : 'DEPT_NAME',
                     title : "부서"
                 }, {
-                    field : 'POSITION_NAME',
-                    title : "직급"
-                }, {
-                    field : 'DUTY_NAME',
-                    title : "직책"
+                    title : "직위",
+                    template: function(e){
+                        return fn_getSpot(e.POSITION_NAME, e.DUTY_NAME);
+                    }
                 }, {
                     field : 'OFFICE_TEL_NUM',
                     title : "내선번호"

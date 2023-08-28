@@ -32,9 +32,11 @@ public class UserController {
     @Autowired
     private CommonService commonService;
 
+    /** 직제관리 페이지 */
     @RequestMapping("/user/organizationChart.do")
     public String openOrganizationChart(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("toDate", getCurrentDateTime());

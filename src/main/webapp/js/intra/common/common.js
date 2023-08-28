@@ -153,3 +153,11 @@ function fn_searchBind(){
         gridReload();
     });
 }
+
+function fn_getSpot(position, duty){
+    if(duty == "" || duty == undefined || duty == null){
+        return position;
+    }else{
+        return duty;
+    }
+}
