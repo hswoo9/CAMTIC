@@ -1067,15 +1067,14 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    III.*,
-                    (SELECT COUNT(*) FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND ACTIVE = 'Y' AND DOC_ID IS NOT NULL AND STATUS = '100' AND RPR_CLASS = '3') AS PAYMENTS
+                    III.*
                 FROM
                     CAM_INSIDE.DJ_INVENTION_INFO III,
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
                 <if test="rprClass != null and rprClass != ''">
-                    AND RPR_CLASS = #{rprClass} AND STATUS != 0
+                    AND RPR_CLASS = #{rprClass}
                 </if>
                 <if test="'receipt'.equals(mod)">
                     AND RPR_CLASS != 2
@@ -1410,18 +1409,18 @@
 
     <!--장비관리 팝업창 - 장비사용 등록-->
     <insert id="setEquipmentUseInsert" parameterType="map">
-        /*setEquipmentUseInsert*/
+        /*setEquipmentInsert*/
         INSERT INTO CAM_INSIDE.DJ_EQIPMN_USE
         (
             eqipmn_mst_sn, use_pd_str_de, use_pd_end_de, user_name, user_sn,
             oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn, prtpco_sn, client_prtpco_name,
-            reg_de, actvt_yn, create_dt, crtr_sn
+            reg_de, sort_sn, actvt_yn, create_dt, crtr_sn
         )
         VALUES
             (
                 #{eqipmnMstSn}, #{usePdStrDe}, #{usePdEndDe}, #{userName}, #{userSn},
                 #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn}, #{prtpcoSn}, #{clientPrtpcoName},
-                #{regDe},'Y', NOW(), #{crtrSn}
+                #{regDe}, #{sortSn},'Y', NOW(), #{crtrSn}
             )
     </insert>
 
@@ -1569,7 +1568,7 @@
             use_pd_end_de = #{usePdEndDe}, user_name = #{userName}, user_sn = #{userSn},
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
-            reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn}
+            reg_de = #{regDe}, sort_sn = #{sortSn}, updt_dt = NOW(), updusr_sn = #{updusrSn}
         WHERE
             eqipmn_use_sn = #{pk}
     </update>
@@ -1633,7 +1632,7 @@
     <select id="getBookList" resultType="map">
         /* getBookList */
         SELECT
-            RE.*
+            *
         FROM
             (
                 SELECT
@@ -1665,6 +1664,8 @@
                 </choose>
                 ORDER BY IBI.REG_DT
             ) RE
+        LEFT JOIN (SELECT * FROM CAM_COMMON.dj_file_info ORDER BY FILE_NO DESC) FI
+        ON RE.BK_FILE_SN = FI.FILE_NO
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -1693,7 +1694,9 @@
                 BK_MNG_SUB_SEQ,
                 BK_MNG_SUB_NAME,
                 BK_SMRY,
-                BK_REPL
+                BK_REPL,
+                BK_DEPT_SEQ,
+                BK_DEPT_NAME
             )
         VALUES
             (
@@ -1718,9 +1721,46 @@
                 #{bkMngSubSeq},
                 #{bkMngSubName},
                 #{bkSmry},
-                #{bkRepl}
+                #{bkRepl},
+                #{bkDeptSeq},
+                #{bkDeptName}
             )
+        <selectKey keyProperty="bkSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_BOOK_INFO'
+        </selectKey>
     </insert>
+
+    <update id="setBookUpdate" parameterType="map">
+        /* setBookUpdate */
+        UPDATE CAM_INSIDE.DJ_BOOK_INFO
+        SET
+            BK_LG_CD = #{bkLgCd},
+            BK_LG_CD_NAME = #{bkLgCdName},
+            BK_MD_CD = #{bkMdCd},
+            BK_MD_CD_NAME = #{bkMdCdName},
+            BK_CD = #{bkCd},
+            BK_CD_NAME = #{bkCdName},
+            BK_NAME = #{bkName},
+            BK_WRITER = #{bkWriter},
+            BK_PUBL = #{bkPubl},
+            BK_BUY_COST = #{bkCost},
+            BK_BUY_CNT = #{bkCnt},
+            BK_BUY_DT = #{bkBuyDt},
+            BK_BUYER = #{bkBuyer},
+            BK_BUYER_NAME = #{bkBuyerName},
+            BK_USER = #{bkUser},
+            BK_USER_NAME = #{bkUserName},
+            BK_MNG_SEQ = #{bkMngSeq},
+            BK_MNG_NAME = #{bkMngName},
+            BK_MNG_SUB_SEQ = #{bkMngSubSeq},
+            BK_MNG_SUB_NAME = #{bkMngSubName},
+            BK_SMRY = #{bkSmry},
+            BK_REPL = #{bkRepl},
+            BK_DEPT_SEQ = #{bkDeptSeq},
+            BK_DEPT_NAME = #{bkDeptName}
+        WHERE
+            BK_SN = #{bkSn}
+    </update>
 
     <!--지식재산권 리스트 삭제-->
     <update id="setRprListDelete" parameterType="java.util.List">
@@ -1899,7 +1939,6 @@
                 CAM_INSIDE.DJ_EQIPNM_APPROVAL
             WHERE
                 APPLY_MONTH = #{searchDe}
-            AND STATUS != 0
     </select>
 
     <insert id="setEquipApprovalInfo" parameterType="map">
@@ -2011,4 +2050,92 @@
         ) C
     </select>
 
+    <select id="getData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_INFO
+        WHERE
+            BK_SN = #{bkSn}
+    </select>
+
+    <delete id="setBookDelete" parameterType="map">
+        DELETE FROM CAM_INSIDE.DJ_BOOK_INFO
+        WHERE BK_SN = #{bkSn}
+    </delete>
+
+    <insert id="setBookCode" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_BOOK_CODE
+            (
+                BK_LG_CD,
+                BK_MD_CD,
+                BK_CD,
+                BK_CD_NM
+            )
+        VALUES
+            (
+                #{bkLgCd},
+                #{bkMdCd},
+                #{bkCd},
+                #{bkCdNm}
+            )
+
+    </insert>
+
+    <select id="getMaxBookCode" parameterType="map" resultType="int">
+        SELECT BK_MD_CD FROM CAM_INSIDE.DJ_BOOK_CODE WHERE BK_LG_CD = #{bkLgCd} ORDER BY BK_MD_CD DESC LIMIT 1;
+    </select>
+
+    <select id="getMaxBookCode2" parameterType="map" resultType="int">
+        SELECT IFNULL(BK_CD, 0) FROM CAM_INSIDE.DJ_BOOK_CODE WHERE BK_LG_CD = #{bkLgCd} AND BK_MD_CD = #{bkMdCd} ORDER BY BK_CD DESC LIMIT 1;
+    </select>
+
+    <select id="getMdCode" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_CODE
+        WHERE
+            BK_LG_CD = #{bkLgCd} AND BK_CD IS NULL AND BK_MD_CD IS NOT NULL
+    </select>
+
+    <select id="getCode" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_BOOK_CODE
+        WHERE
+            BK_LG_CD = #{bkLgCd}
+        AND
+            BK_MD_CD = #{bkMdCd} AND BK_CD IS NOT NULL
+    </select>
+
+    <update id="setBookImg" parameterType="map">
+        UPDATE
+            CAM_INSIDE.DJ_BOOK_INFO
+        SET
+            BK_FILE_SN = #{idImg}
+        WHERE
+            BK_SN = #{bkSn}
+    </update>
+
+    <select id="getApprovalData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_APPROVAL.DJ_DOC_INFO
+        WHERE
+            DOC_ID = #{DOC_ID}
+    </select>
+
+    <delete id="delBookCode" parameterType="map">
+        DELETE FROM CAM_INSIDE.DJ_BOOK_CODE
+        WHERE
+            1=1
+        AND BK_LG_CD = #{bkLgCd}
+        AND BK_MD_CD = #{bkMdCd}
+        <if test="bkCd != null and bkCd != ''">
+            AND BK_CD = #{bkCd}
+        </if>
+    </delete>
 </mapper>
