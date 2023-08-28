@@ -69,10 +69,10 @@ var targetInfo = {
                 $(".appBtn").hide();
                 $(".stepBtn").hide();
                 $(".canBtn").hide();
-            }else{
+            }else if(status == 0){
                 $("#stat").text("작성중");
-                $(".appBtn").hide();
-                $(".stepBtn").hide();
+                $(".appBtn").show();
+                $(".stepBtn").show();
                 $(".canBtn").hide();
             }
         }
