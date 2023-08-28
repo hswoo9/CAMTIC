@@ -1627,6 +1627,7 @@
         AND (DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m') AND DATE_FORMAT(USE_PD_END_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m'))
         ]]>
         AND A.ACTVT_YN = 'Y'
+        AND B.ACTVT_YN = 'Y'
         GROUP BY EQIPMN_GBN_NAME, EQIPMN_NAME
     </select>
 
@@ -1847,7 +1848,7 @@
                         CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
                     WHERE
                         (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
-                      AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_GBN_NAME = SB.EQIPMN_GBN_NAME
+                      AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_GBN_NAME = SB.EQIPMN_GBN_NAME
                 ) AS BEF_USE_TIME,
                 SUM(A.USE_TIME) AS USE_TIME
             FROM
@@ -1858,6 +1859,7 @@
                 1=1
             AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{searchDe})
             AND A.ACTVT_YN = 'Y'
+            AND B.ACTVT_YN = 'Y'
             GROUP BY B.EQIPMN_GBN_NAME
             ORDER BY B.EQIPMN_GBN_NAME DESC
         ) C
@@ -1878,7 +1880,7 @@
                     CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
                 WHERE
                     (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
-                AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
             ) AS BEF_USE_TIME,
             SUM(A.USE_TIME) AS USE_TIME,
             COUNT(A.EQIPMN_USE_SN) AS EP_COUNT,
@@ -1896,6 +1898,7 @@
             1=1
         AND (DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe} OR DATE_FORMAT(A.USE_PD_END_DE, '%Y-%m') = #{searchDe})
         AND A.ACTVT_YN = 'Y'
+        AND B.ACTVT_YN = 'Y'
         GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
         ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
     </select>
@@ -1972,7 +1975,7 @@
                         CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
                     WHERE
                         (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
-                    AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                    AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
                 ) AS BEF_USE_TIME,
                 SUM(A.USE_TIME) AS USE_TIME
             FROM
@@ -2004,7 +2007,7 @@
                          CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
                      WHERE
                          (DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')) OR DATE_FORMAT(SA.USE_PD_END_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')))
-                       AND SA.ACTVT_YN = 'Y' AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                    AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
                  ) AS BEF_USE_TIME,
                  SUM(A.USE_TIME) AS USE_TIME
              FROM
