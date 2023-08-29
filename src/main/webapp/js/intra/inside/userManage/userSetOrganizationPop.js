@@ -34,7 +34,6 @@ var userSetOrganization = {
         $("#newTeamChk").prop("checked", false);
 
         if(item.dept_seq != "1000"){
-            console.log(item);
             if(item.dept_level == '1'){
                 $("#deptSeq").val(item.dept_seq);
                 $("#deptName").val(item.dept_name);
@@ -142,6 +141,16 @@ var userSetOrganization = {
                 alert("삭제되었습니다.");
                 $("#deptTree").data("kendoTreeView").destroy();
                 userSetOrganization.makeTreeView();
+                $(".teamTr").show();
+                $("#deptSeq").val("");
+                $("#deptName").val("");
+                $("#deptSortSn").val("");
+                $("#teamSeq").val("");
+                $("#teamName").val("");
+                $("#teamSortSn").val("");
+
+                $("#newDeptChk").prop("checked", false);
+                $("#newTeamChk").prop("checked", false);
             }
         }
     },
