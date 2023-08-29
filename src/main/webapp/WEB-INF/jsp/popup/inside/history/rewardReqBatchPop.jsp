@@ -37,6 +37,6 @@
     </div>
 </div><!-- col-md-9 -->
 <script>
-    rewardReqBatchPop.init();
+    rewardBatch.init();
 </script>
 </body>

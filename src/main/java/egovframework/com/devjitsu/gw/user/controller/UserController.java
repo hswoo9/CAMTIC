@@ -102,7 +102,7 @@ public class UserController {
     }
 
     @RequestMapping("/user/getEmpSelList")
-    public String getEmpSelList(@RequestBody Map<String, Object> params, Model model){
+    public String getEmpSelList(@RequestParam Map<String, Object> params, Model model){
 
         List<Map<String, Object>> list = userService.getEmpSelList(params);
 

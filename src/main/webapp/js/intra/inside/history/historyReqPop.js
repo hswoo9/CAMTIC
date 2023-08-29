@@ -1,24 +1,23 @@
 const historyReq = {
-    global : {
+    global: {
         userArr : [],
-        hwpCtrl : "",
-        params : "",
+        nowUserArr: [],
+        hwpCtrl: "",
+        params: "",
+        editDataSource: {}
     },
 
-    init : function(){
+    init: function(){
         historyReq.mainGrid();
-        historyReq.editGrid();
         historyReq.dataSet();
     },
 
-    dataSet: function() {
+    dataSet: function(){
         historyReq.global.params = params;
         historyReq.fn_selEmp();
         customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         customKendo.fn_datePicker("historyDate", "month", "yyyy-MM-dd", new Date());
         $("#historyDate").data("kendoDatePicker").enable(false);
-
-
 
         $("#apntCdAll").kendoDropDownList({
             dataTextField: "text",
@@ -44,11 +43,11 @@ const historyReq = {
                 { text: "기타", value: "17" }
             ],
             index: 0,
-            change: historyReq.test
+            change: historyReq.changeApntCdAll
         });
     },
 
-    test: function(){
+    changeApntCdAll: function(){
         const grid = $("#popMainGrid").data("kendoGrid");
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
             const dataItem = grid.dataItem($(this).closest("tr"));
@@ -88,28 +87,28 @@ const historyReq = {
             scrollable: true,
             selectable: "row",
             height: 600,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
             },
-            toolbar : [
+            toolbar: [
                 {
-                    name : 'text',
-                    template : function (e){
-                        return  '<span>이름</span>' +
+                    name: 'text',
+                    template: function(){
+                        return '<span>이름</span>' +
                             '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){historyReq.mainGrid();}">' ;
                     }
                 }, {
-                    name : 'button',
-                    template : function (e){
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
-                    name : 'button',
-                    template : function (e){
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.fn_selEmp()">' +
                             '	<span class="k-button-text">선택완료</span>' +
                             '</button>';
@@ -121,13 +120,13 @@ const historyReq = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkEmpAll" name="checkEmpAll" onclick="fn_checkAll(\'checkEmpAll\', \'checkEmp\')" style="position : relative; top : 2px;" />',
-                    template : function (e){
-                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkEmp' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                    headerTemplate: '<input type="checkbox" id="checkEmpAll" name="checkEmpAll" onclick="fn_checkAll(\'checkEmpAll\', \'checkEmp\')" style="position: relative; top : 2px"/>',
+                    template: function(row){
+                        return "<input type='checkbox' id='chk"+row.EMP_SEQ+"' name='checkEmp' value='"+row.EMP_SEQ+"' style='position: relative; top: 2px;' />"
                     },
                     width: 30,
-                    attribute : {
-                        style : "text-align:center",
+                    attribute: {
+                        style: "text-align: center",
                     }
                 }, {
                     field: "DEPT_NAME",
@@ -143,10 +142,9 @@ const historyReq = {
                 }
             ]
         }).data("kendoGrid");
-    },
 
-    editGrid: function(){
         $("#popMainGrid").kendoGrid({
+            dataSource: historyReq.global.editDataSource,
             scrollable: true,
             height: 600,
             toolbar: [
@@ -154,7 +152,7 @@ const historyReq = {
                     name: 'text',
                     template: function(){
                         return '<span>호수</span>' +
-                            '	<input type="text" id="numberName" class="defaultVal" style="width: 150px;">' ;
+                            '	<input type="text" id="numberName" class="defaultVal" style="width: 150px;">';
                     }
                 }, {
                     name: 'text',
@@ -166,13 +164,13 @@ const historyReq = {
                     name: 'text',
                     template: function(){
                         return '<span>발령 일자</span>' +
-                            '	<input type="text" id="historyDate" class="defaultVal" style="width: 200px;">' ;
+                            '	<input type="text" id="historyDate" class="defaultVal" style="width: 200px;">';
                     }
                 }, {
                     name: 'text',
                     template: function(){
                         return '<span>발령구분 일괄변경</span>' +
-                            '	<input type="text" id="apntCdAll" style="width: 150px;">' ;
+                            '	<input type="text" id="apntCdAll" style="width: 150px;">';
                     }
                 }, {
                     name: 'button',
@@ -202,13 +200,13 @@ const historyReq = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position : relative; top : 2px;" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position: relative; top: 2px;" />',
                     template : function (e){
-                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style=\"position : relative; top : 2px;\" />"
+                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>"
                     },
                     width: 40,
-                    attribute : {
-                        style : "text-align:center",
+                    attribute: {
+                        style: "text-align:center",
                     }
                 }, {
                     field: "ERP_EMP_SEQ",
@@ -219,10 +217,16 @@ const historyReq = {
                     title: "성명",
                     width: 55
                 }, {
+                    field: "APNT_CD",
                     title: "발령구분",
                     width: 170,
-                    template : function (e){
-                        return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='apntCd' />";
+                    template: function (e){
+                        if(e.APNT_CD != null){
+                            return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='formData apntCd' value="+ e.APNT_CD + ">";
+                        }else{
+                            return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='formData apntCd' />";
+                        }
+
                     }
                 }, {
                     title: "발령전",
@@ -255,45 +259,74 @@ const historyReq = {
                         {
                             field: "DEPT_NAME",
                             title: "부서",
-                            template : function (e){
-                                return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
-                                    '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
-                                    '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="afDept" value="' + e.DEPT_SEQ + '">';
+                            template: function(e){
+                                if(e.AF_DEPT_SEQ != null){
+                                    return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
+                                        '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
+                                        '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="formData afDept" value="' + e.AF_DEPT_SEQ + '">';
+                                }else{
+                                    return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
+                                        '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
+                                        '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="formData afDept" value="' + e.DEPT_SEQ + '">';
+                                }
                             },
                             width: 170
                         }, {
                             field: "DEPT_TEAM_NAME",
                             title: "팀",
-                            template : function (e){
-                                return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
-                                    '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
-                                    '<input type="text" id="afTeam'+e.EMP_SEQ+'" name="afTeamSeq" class="afTeam" value="' + e.TEAM_SEQ + '">';
+                            template: function(e){
+                                if(e.AF_TEAM_SEQ != null) {
+                                    return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
+                                        '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
+                                        '<input type="text" id="afTeam' + e.EMP_SEQ + '" name="afTeamSeq" class="formData afTeam" value="' + e.AF_TEAM_SEQ + '">';
+                                }else{
+                                    return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
+                                        '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
+                                        '<input type="text" id="afTeam' + e.EMP_SEQ + '" name="afTeamSeq" class="formData afTeam" value="' + e.TEAM_SEQ + '">';
+                                }
                             },
                             width: 170
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
-                            template : function (e){
-                                return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
-                                    '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                    '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="afPosition" value="' + e.POSITION_SEQ + '">';
+                            template: function (e){
+                                if(e.AF_POSITION_SEQ != null) {
+                                    return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
+                                        '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
+                                        '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_SEQ + '">';
+                                }else{
+                                    return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
+                                        '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
+                                        '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="formData afPosition" value="' + e.POSITION_SEQ + '">';
+                                }
                             },
                             width: 160
                         }, {
                             field: "DUTY_NAME",
                             title: "직책",
-                            template : function (e){
-                                return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
-                                    '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                    '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="afDuty" value="' + e.DUTY_SEQ + '">';
+                            template: function (e){
+                                if(e.AF_DUTY_SEQ != null) {
+                                    return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
+                                        '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
+                                        '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="formData afDuty" value="' + e.AF_DUTY_SEQ + '">';
+                                }else{
+                                    return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
+                                        '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
+                                        '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="formData afDuty" value="' + e.DUTY_SEQ + '">';
+                                }
                             },
                             width: 120
                         }, {
                             field: "JOB_DETAIL",
                             title: "직무",
-                            template : function (e){
-                                return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
-                                    '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="afJobDetail" value="' + e.JOB_DETAIL + '">';
+                            template: function (e){
+                                if(e.AF_JOB_DETAIL != null) {
+                                    return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
+                                        '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="formData afJobDetail" value="' + e.AF_JOB_DETAIL + '">';
+                                }else{
+                                    return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
+                                        '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="formData afJobDetail" value="' + e.JOB_DETAIL + '">';
+                                }
                             },
                             width: 200
                         },
@@ -301,13 +334,44 @@ const historyReq = {
                 }, {
                     field: "ETC",
                     title: "비고",
-                    template : function(e){
-                        return "<input type='text' id='afEtc"+e.EMP_SEQ+"' name='afEtc' class='afEtc'>";
+                    template: function(e){
+                        if(e.AF_ETC != null) {
+                            return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc" value="' + e.AF_ETC + '">';
+                        }else{
+                            return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc">';
+                        }
                     },
                     width: 120
                 }
             ]
         }).data("kendoGrid");
+
+        historyReq.dataBinding();
+    },
+
+    dataBinding: function(){
+        $(document).on("focusout change", ".formData", function(){
+            var dataItem = $("#popMainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            var APNT_CD = $("#apntCd"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_DEPT_SEQ = $("#afDept"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_TEAM_SEQ = $("#afTeam"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_POSITION_SEQ = $("#afPosition"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_DUTY_SEQ = $("#afDuty"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_JOB_DETAIL = $("#afJobDetail"+dataItem.EMP_SEQ).val();
+            var AF_ETC = $("#afEtc"+dataItem.EMP_SEQ).val();
+
+            $.each(historyReq.global.editDataSource.data, function(i, v){
+                if(v.EMP_SEQ == dataItem.EMP_SEQ){
+                    v.APNT_CD = APNT_CD;
+                    v.AF_DEPT_SEQ = AF_DEPT_SEQ;
+                    v.AF_TEAM_SEQ = AF_TEAM_SEQ;
+                    v.AF_POSITION_SEQ = AF_POSITION_SEQ;
+                    v.AF_DUTY_SEQ = AF_DUTY_SEQ;
+                    v.AF_JOB_DETAIL = AF_JOB_DETAIL;
+                    v.AF_ETC = AF_ETC;
+                }
+            });
+        });
     },
 
     fn_selEmp: function(){
@@ -315,50 +379,35 @@ const historyReq = {
         let userArr = [];
         $("input[name='checkEmp']").each(function(){
             if(this.checked){
-                if(historyReq.global.userArr.indexOf(this.value) < 0) {
+                if(historyReq.global.userArr.indexOf(this.value) < 0){
                     userArr.push(this.value);
                     historyReq.global.userArr.push(this.value);
                     flag = true;
                 }
             }
         });
-
         if(!flag){
             return;
         }
+        historyReq.global.nowUserArr = userArr;
 
-        $.ajax({
-            url : "/user/getEmpSelList",
-            data : JSON.stringify({"empArr" : userArr}),
-            contentType:'application/json; charset=utf-8',
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
-                let grid = $("#popMainGrid").data("kendoGrid");
-                let list = result.list;
-                for(let i=0; i<list.length; i++){
-                    grid.dataSource.add(list[i]);
-                }
-            },
-            error : function(e) {
-                console.log(e);
-            }
-        });
+        let data = {
+            userList: userArr.join()
+        }
+
+        const result = customKendo.fn_customAjax("/user/getEmpSelList", data);
+        let grid = $("#popMainGrid").data("kendoGrid");
+
+        for(let i=0; i<result.list.length; i++){
+            historyReq.global.editDataSource.data.push(result.list[i]);
+            grid.dataSource.read();
+            //grid.dataSource.add(result.list[i]);
+        }
 
         historyReq.fn_popGridSetting();
-
-        $.each($("#popMainGrid tbody tr"), function(){
-            var dataItem = $("#popMainGrid").data("kendoGrid").dataItem($(this));
-            $(this).find("input[name='afDept']").data("kendoDropDownList").trigger("change");
-            $(this).find("input[name='afTeamSeq']").data("kendoDropDownList").value(dataItem.TEAM_SEQ);
-            $(this).find("input[name='afPosition']").data("kendoDropDownList").value(dataItem.POSITION_CODE);
-            $(this).find("input[name='afDuty']").data("kendoDropDownList").value(dataItem.DUTY_CODE);
-            $(this).find("input[name='afJobDetail']").val(dataItem.JOB_DETAIL);
-        })
     },
 
-    fn_popGridSetting : function() {
+    fn_popGridSetting: function() {
         $(".afJobDetail, .afEtc").kendoTextBox();
 
         var data = {}
@@ -369,7 +418,6 @@ const historyReq = {
             dataSource : deptDsA.rs,
             dataValueField : "dept_seq",
             dataTextField : "dept_name",
-            index : 0,
             change : function(){
                 var searchData = {
                     parentDeptSeq : this.value(),
@@ -379,8 +427,6 @@ const historyReq = {
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
                 ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
                 $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").dataSource.data(ds.rs);
-                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").select(0);
-                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").value($(this.element).closest("td").next().find("input[class=afTeam]").val());
             }
         });
 
@@ -392,8 +438,7 @@ const historyReq = {
         $(".afTeam").kendoDropDownList({
             dataSource : dataSource,
             dataValueField : "dept_seq",
-            dataTextField : "dept_name",
-            index : 0
+            dataTextField : "dept_name"
         });
 
         $(".apntCd").kendoDropDownList({
@@ -418,8 +463,7 @@ const historyReq = {
                 { text: "조직 개편", value: "15" },
                 { text: "호칭 변경", value: "16" },
                 { text: "기타", value: "17" }
-            ],
-            index: 0
+            ]
         });
 
         $(".afPosition").kendoDropDownList({
@@ -442,8 +486,7 @@ const historyReq = {
                 {text: "매니저 / 4급", value: "13"},
                 {text: "주임연구원 / 4급", value: "14"},
                 {text: "연구원 / 4급", value: "15"}
-            ],
-            index: 0
+            ]
         });
 
         $(".afDuty").kendoDropDownList({
@@ -456,10 +499,8 @@ const historyReq = {
                 {text: "사업부장", value: "사업부장"},
                 {text: "센터장", value: "센터장"},
                 {text: "팀장", value: "팀장"}
-            ],
-            index: 0
+            ]
         });
-
     },
 
     loading: function(){
@@ -655,8 +696,6 @@ const historyReq = {
                 return value != dataItem.EMP_SEQ;
             });
         });
-
-        historyReq.fn_popGridSetting();
     },
 
     fn_delApntAll : function(){

@@ -94,9 +94,9 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
             HEI.EMP_NAME_KR,
-            HEI.POSITION_CODE,
+            IFNULL(HEI.POSITION_CODE, "") AS POSITION_CODE,
             HEI.POSITION_NAME,
-            HEI.DUTY_CODE,
+            IFNULL(HEI.DUTY_CODE, "") AS DUTY_CODE,
             HEI.DUTY_NAME,
             HEI.JOB_DETAIL
         FROM
@@ -106,10 +106,7 @@
         WHERE
             1 = 1
         AND
-            HEI.EMP_SEQ IN
-            <foreach collection="empArr" item="item" separator="," open="(" close=")">
-                #{item}
-            </foreach>
+            HEI.EMP_SEQ IN (${userList})
     </select>
 
     <update id="setUserInfoUpdate" parameterType="list">

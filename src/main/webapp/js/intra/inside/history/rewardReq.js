@@ -17,7 +17,7 @@ var rewardReq = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.rewardType = $("#rewardType").val();
+                    data.rewardType = $("#rewardType").data("kendoDropDownList").value() == "" ? "" : $("#rewardType").data("kendoDropDownList").text();
                     data.deptSeq = $("#dept").val();
                     data.teamSeq = $("#team").val();
                     data.start_date = $("#start_date").val().replace(/-/g, "");
@@ -138,17 +138,8 @@ var rewardReq = {
             format : "yyyy-MM-dd",
             value : new Date()
         });
-
-        $("#rewardType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "내부표창", value: "내부" },
-                { text: "외부표창", value: "외부" }
-            ],
-            index: 0
-        });
+        let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+        customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
