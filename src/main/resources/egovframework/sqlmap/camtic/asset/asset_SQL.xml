@@ -1092,6 +1092,7 @@
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND  RPR_CLASS = 2) AS STAT,
                     III.*,
                     (SELECT COUNT(*) FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND ACTIVE = 'Y' AND DOC_ID IS NOT NULL AND STATUS = '100' AND RPR_CLASS = '3') AS PAYMENTS
                 FROM
@@ -1158,7 +1159,7 @@
                     AND ACTIVE = 'Y'
                 ORDER BY III.REG_DATE, III.REG_DT
             ) RE
-        ORDER BY RE.REG_DATE DESC
+        ORDER BY RE.REG_DT DESC
     </select>
 
     <insert id="setInventionInsert" parameterType="map">
