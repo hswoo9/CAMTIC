@@ -337,6 +337,18 @@
             AST_INFO_SN = #{astInfoSn}
     </update>
 
+    <update id="setAssetDel" parameterType="map">
+        /* setAssetDel */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_INFO_SN IN(${astInfoSn})
+    </update>
+
     <select id="getAstManage" resultType="map">
         /* getAstManage */
         SELECT

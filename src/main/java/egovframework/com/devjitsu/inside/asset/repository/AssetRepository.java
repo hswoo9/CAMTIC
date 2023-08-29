@@ -18,6 +18,7 @@ public class AssetRepository extends AbstractDAO {
     public void setAssetInfoUpd(Map<String, Object> params) { insert("asset.setAssetInfoUpd", params);}
     public void setAstFileNoUpd(Map<String, Object> params) { insert("asset.setAstFileNoUpd", params);}
     public void setAstRelatedFileNoUpd(Map<String, Object> params) { insert("asset.setAstRelatedFileNoUpd", params);}
+    public void setAssetDel(Map<String, Object> params) { insert("asset.setAssetDel", params);}
     public Map<String, Object> getAssetInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getAssetInfo", params);}
     public Map<String, Object> getAssetInfoAll(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getAssetInfoAll", params);}
     public Map<String, Object> getAstManage() { return (Map<String, Object>) selectOne("asset.getAstManage");}

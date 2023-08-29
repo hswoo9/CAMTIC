@@ -74,6 +74,13 @@ var assetList = {
                             '</button>';
                     }
                 }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="assetList.setAssetDel();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -166,6 +173,21 @@ var assetList = {
         var name = "addAssetPop";
         var option = "width = 1125, height = 700, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
+    },
+
+    setAssetDel : function(){
+        if(confirm("선택한 자산을 삭제하시겠습니까?")){
+            var astInfoSn = "";
+            $.each($("input[name='aiChk']:checked"), function(){
+                astInfoSn += "," + this.value;
+            })
+
+            var result = customKendo.fn_customAjax("/inside/setAssetDel.do", {astInfoSn : astInfoSn.substr(1), empSeq : $("#regEmpSeq").val()});
+            if(result.flag){
+                alert("삭제되었습니다.");
+                assetList.gridReload();
+            }
+        }
     },
 
     onDataBound : function(){

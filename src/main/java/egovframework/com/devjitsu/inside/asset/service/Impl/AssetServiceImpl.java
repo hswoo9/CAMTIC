@@ -94,6 +94,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public void setAssetDel(Map<String, Object> params) {
+        assetRepository.setAssetDel(params);
+    }
+
+    @Override
     public Map<String, Object> getAssetInfo(Map<String, Object> params) {
         Map<String, Object> returnMap = assetRepository.getAssetInfo(params);
 

@@ -12,6 +12,7 @@ public interface AssetService {
     List<Map<String, Object>> getAssetList(Map<String, Object> params);
     List<Map<String, Object>> getInsideCodeList(Map<String, Object> params);
     void setAssetInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
+    void setAssetDel(Map<String, Object> params);
     Map<String, Object> getAssetInfo(Map<String, Object> params);
     Map<String, Object> getAssetInfoAll(Map<String, Object> params);
     Map<String, Object> getAstManage();

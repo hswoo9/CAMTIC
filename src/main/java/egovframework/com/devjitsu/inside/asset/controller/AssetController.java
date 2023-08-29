@@ -87,6 +87,17 @@ public class AssetController {
     }
 
     /**
+     * 자산관리 > 자산 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setAssetDel.do")
+    public String setAssetDel(@RequestParam Map<String,Object> params) {
+        assetService.setAssetDel(params);
+        return "jsonView";
+    }
+
+    /**
      * 자산관리 > 자산리스트 - 자산등록 팝업
      * @param request
      * @param model
