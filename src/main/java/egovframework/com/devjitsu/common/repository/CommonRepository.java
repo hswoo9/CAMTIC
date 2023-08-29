@@ -39,4 +39,10 @@ public class CommonRepository extends AbstractDAO {
     public List<Map<String, Object>> commonCodeList(Map<String, Object> params) {
         return selectList("common.commonCodeList", params);
     }
+
+    public String getDeptSeqMax() { return (String) selectOne("common.getDeptSeqMax");}
+    public void setDeptInfo(Map<String, Object> params) { insert("common.setDeptInfo", params);}
+    public void setDeptInfoUpd(Map<String, Object> params) { update("common.setDeptInfoUpd", params);}
+    public void setTeamInfoUpd(Map<String, Object> params) { update("common.setTeamInfoUpd", params);}
+    public void setDeptInfoDel(Map<String, Object> params) { update("common.setDeptInfoDel", params);}
 }

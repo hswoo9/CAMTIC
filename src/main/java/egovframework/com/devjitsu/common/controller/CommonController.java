@@ -106,7 +106,39 @@ public class CommonController {
         return "jsonView";
     }
 
+    /**
+     * dept Tree view
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/common/organizationMakeTreeView.do")
+    public String makeTreeView(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", commonService.ctDept(""));
+        return "jsonView";
+    }
 
+    /**
+     * 부서 생성/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/common/setDeptInfo.do")
+    public String setDeptInfo(@RequestParam Map<String, Object> params, Model model){
+        commonService.setDeptInfo(params);
+        return "jsonView";
+    }
 
-
+    /**
+     * 부서 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/common/setDeptInfoDel.do")
+    public String setDeptInfoDel(@RequestParam Map<String, Object> params, Model model){
+        commonService.setDeptInfoDel(params);
+        return "jsonView";
+    }
 }

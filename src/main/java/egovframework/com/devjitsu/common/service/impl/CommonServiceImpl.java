@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.net.ssl.*;
 import javax.servlet.http.HttpServletRequest;
@@ -246,5 +247,48 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public List<Map<String, Object>> commonCodeList(Map<String, Object> params) {
         return commonRepository.commonCodeList(params);
+    }
+
+    @Override
+    public void setDeptInfo(Map<String, Object> params) {
+        Map<String, Object> saveMap = new HashMap<>();
+        if(params.get("newDeptChk").equals("Y")){
+            /** 부서 생성 */
+            saveMap.put("parentDeptSeq", "1000");
+            saveMap.put("deptSeq", commonRepository.getDeptSeqMax());
+            saveMap.put("deptName", params.get("deptName"));
+            saveMap.put("deptLevel", 1);
+            saveMap.put("path", "");
+            saveMap.put("pathName", "");
+            saveMap.put("empSeq", params.get("empSeq"));
+            saveMap.put("sortSn", params.get("sortSn"));
+
+            commonRepository.setDeptInfo(saveMap);
+        }else if(params.get("newTeamChk").equals("Y")){
+            /** 팀 생성 */
+            saveMap.put("parentDeptSeq", params.get("deptSeq"));
+            saveMap.put("deptSeq", commonRepository.getDeptSeqMax());
+            saveMap.put("deptName", params.get("teamName"));
+            saveMap.put("deptLevel", 2);
+            saveMap.put("path", "");
+            saveMap.put("pathName", "");
+            saveMap.put("empSeq", params.get("empSeq"));
+            saveMap.put("sortSn", params.get("sortSn"));
+
+            commonRepository.setDeptInfo(saveMap);
+        }
+
+        if(!StringUtils.isEmpty(params.get("deptSeq"))){
+            commonRepository.setDeptInfoUpd(params);
+        }
+
+        if(!StringUtils.isEmpty(params.get("teamSeq"))){
+            commonRepository.setTeamInfoUpd(params);
+        }
+    }
+
+    @Override
+    public void setDeptInfoDel(Map<String, Object> params) {
+        commonRepository.setDeptInfoDel(params);
     }
 }

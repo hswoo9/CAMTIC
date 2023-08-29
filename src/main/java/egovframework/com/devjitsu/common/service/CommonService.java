@@ -40,4 +40,7 @@ public interface CommonService {
     Map<String, Object> getContentFileOne(Map<String, Object> params);
 
     List<Map<String, Object>> commonCodeList(Map<String, Object> params);
+
+    void setDeptInfo(Map<String, Object> params);
+    void setDeptInfoDel(Map<String, Object> params);
 }

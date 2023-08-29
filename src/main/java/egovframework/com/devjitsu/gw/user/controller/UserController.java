@@ -204,9 +204,6 @@ public class UserController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", login);
-        model.addAttribute("params", params);
-
         return "popup/user/userSetOrganizationPop";
     }
-
 }

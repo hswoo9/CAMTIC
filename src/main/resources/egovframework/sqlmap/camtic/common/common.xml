@@ -5,7 +5,7 @@
 
     <select id="ctDept" parameterType="map" resultType="map">
         /* ctDept */
-        SELECT * FROM CAM_HR.DJ_DEPT_INFO
+        SELECT * FROM CAM_HR.DJ_DEPT_INFO WHERE USE_YN = 'Y' ORDER BY FIELD(PATH, '1000') DESC, ORDER_SN
     </select>
 
     <select id="getUserList" parameterType="map" resultType="map">
@@ -204,4 +204,89 @@
         WHERE
             B.CM_GROUP_CODE = #{cmGroupCode}
     </select>
+
+    <select id="getDeptSeqMax" resultType="string">
+        /* getDeptSeqMax */
+        SELECT MAX(CAST(DEPT_SEQ AS SIGNED INTEGER) + 1) FROM CAM_HR.DJ_DEPT_INFO
+    </select>
+    <insert id="setDeptInfo" parameterType="map">
+        /* setDeptInfo */
+        INSERT INTO CAM_HR.DJ_DEPT_INFO
+        (
+            DEPT_SEQ,
+            LANG_CODE,
+            GROUP_SEQ,
+            COMP_SEQ,
+            BIZ_SEQ,
+            DEPT_NAME,
+            PARENT_DEPT_SEQ,
+            DEPT_LEVEL,
+            ADDR,
+            DETAIL_ADDR,
+            PATH,
+            PATH_NAME,
+            USE_YN,
+            CREATE_SEQ,
+            CREATE_DATE,
+            ORG_TYPE,
+            ORDER_SN
+        )
+        VALUES
+        (
+            #{deptSeq},
+            'kr',
+            'camtic_new',
+            '1212',
+            '1000',
+            #{deptName},
+            #{parentDeptSeq},
+            #{deptLevel},
+            '전주시 덕진구',
+            '유상로 67',
+            #{path},
+            #{pathName},
+            'Y',
+            #{empSeq},
+            NOW(),
+            'D',
+            #{sortSn}
+        )
+    </insert>
+
+    <update id="setDeptInfoUpd" parameterType="map">
+        /* setDeptInfoUpd */
+        UPDATE
+            CAM_HR.DJ_DEPT_INFO
+        SET
+            DEPT_NAME = #{deptName},
+            ORDER_SN = #{deptSortSn},
+            MODIFY_SEQ = #{empSeq},
+            MODIFY_DATE = NOW()
+        WHERE
+            DEPT_SEQ = #{deptSeq}
+    </update>
+
+    <update id="setTeamInfoUpd" parameterType="map">
+        /* setTeamInfoUpd */
+        UPDATE
+            CAM_HR.DJ_DEPT_INFO
+        SET
+            DEPT_NAME = #{teamName},
+            ORDER_SN = #{teamSortSn},
+            MODIFY_SEQ = #{empSeq},
+            MODIFY_DATE = NOW()
+        WHERE
+            DEPT_SEQ = #{teamSeq}
+    </update>
+
+    <update id="setDeptInfoDel" parameterType="map">
+        UPDATE
+            CAM_HR.DJ_DEPT_INFO
+        SET
+            USE_YN = 'N',
+            MODIFY_SEQ = #{empSeq},
+            MODIFY_DATE = NOW()
+        WHERE
+            DEPT_SEQ = #{deptSeq}
+    </update>
 </mapper>
