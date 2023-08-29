@@ -64,13 +64,6 @@ var rewardReq = {
                             '	<span class="k-button-text">포상 일괄등록</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReq.rewardGubunPop();">' +
-                            '	<span class="k-button-text">포상 구분 관리</span>' +
-                            '</button>';
-                    }
                 }
             ],
             noRecords: {
@@ -78,8 +71,8 @@ var rewardReq = {
             },
             columns: [
                 {
-                    field: "ROW_NUM",
                     title: "순번",
+                    template: "#= --record #",
                     width: 50
                 }, {
                     field: "EMP_NAME",
@@ -105,9 +98,16 @@ var rewardReq = {
                     title: "시행처",
                     width: 200
                 }, {
-                    field: "",
                     title: "관련파일",
-                    width: 150
+                    width: 150,
+                    template: function(row){
+                        if(row.file_no > 0){
+                            return '<span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
+                        }else{
+                            return '-';
+                        }
+
+                    }
                 }, {
                     field: "RWD_ETC",
                     title: "비고",
@@ -117,7 +117,10 @@ var rewardReq = {
                     title: "기록인",
                     width: 100
                 }
-            ]
+            ],
+            dataBinding: function() {
+                record = this.dataSource._data.length+1 - ((this.dataSource.page() -1) * this.dataSource.pageSize());
+            }
         }).data("kendoGrid");
     },
 

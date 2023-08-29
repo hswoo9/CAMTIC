@@ -234,7 +234,7 @@ const rewardBatch = {
                 }, {
                     title: "스캔파일",
                     template : function(row){
-                        return "<input type='file' id='rwdFile"+row.EMP_SEQ+"' name='fileList' class='formData rwdFile'>";
+                        return "<input type='file' id='fileList"+row.EMP_SEQ+"' name='fileList' multiple/>";
                     },
                     width: 180
                 }, {
@@ -352,9 +352,9 @@ const rewardBatch = {
         if(!flag){ alert("포상구분을 선택해주세요."); return; }
         if($("#numberName").val() == "") { alert("포상번호가 작성되지 않았습니다."); return; }
 
-        /** 첨부파일 업로드 때문에 AJAX를 포문 돌림 */
+        /** 첨부파일 업로드 때문에 AJAX를 each문으로 진행 */
         $.each($('#popMainGrid .k-master-row'), function(i, v){
-            let dataItem = grid.dataItem($(this).closest("tr"));
+            const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
             let formData = new FormData();
             formData.append("menuCd", "reward");
@@ -372,26 +372,26 @@ const rewardBatch = {
             formData.append("rwdEtc", $(v).find('#rwdEtc'+empSeq).val());
 
             /** 첨부파일 체크 1:1 */
-            if($(v).find("input[name='fileList']")[0].files.length = 1){
-                formData.append("rewardFile", $(v).find("input[name='fileList']").files);
+            if($("#fileList"+empSeq)[0].files[0] != null){
+                formData.append("rewardFile", $("#fileList"+empSeq)[0].files[0]);
             }
 
             formData.append("regEmpSeq", $("#empSeq").val());
             formData.append("numberName", $("#numberName").val());
 
-            console.log(formData);
-
-            var result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
+            const result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
 
             if(result.flag) {
                 console.log(result);
             }else{
                 alert("결재 중 에러가 발생했습니다.");
             }
+
+            fCommon.global.attFiles = [];
         });
         alert("포상 등록이 완료되었습니다.");
         opener.gridReload();
-        window.close();
+        //window.close();
     },
 
     fn_delApnt : function(){
