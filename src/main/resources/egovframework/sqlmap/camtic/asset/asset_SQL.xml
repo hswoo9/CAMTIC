@@ -813,6 +813,19 @@
         </if>
     </select>
 
+    <update id="setAstPdaInfoBatch" parameterType="map">
+        /* setAstPdaInfoBatch */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_PDA_OPT
+        SET
+            PLACE_MOD_TYPE = '1',
+            NEW_AST_PLACE_SN = #{newAssetPlaceSn},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_PDA_INFO_SN IN(${astPdaInfoSn})
+    </update>
+
     <update id="setAstPdaActiveUpd" parameterType="map">
         /* setAstPdaActiveUpd */
         UPDATE

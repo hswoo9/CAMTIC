@@ -62,6 +62,7 @@ public class AssetRepository extends AbstractDAO {
 
     /** PDA 연동 */
     public List<Map<String,Object>> getAstPdaInfoList(Map<String,Object> params) { return selectList("asset.getAstPdaInfoList", params);}
+    public void setAstPdaInfoBatch(Map<String, Object> params) { update("asset.setAstPdaInfoBatch", params);};
     public void setAstPdaActiveUpd(Map<String, Object> params) { update("asset.setAstPdaActiveUpd", params);};
     public void setAstPdaInfo(Map<String, Object> params) {
         insert("asset.setAstPdaInfo", params);

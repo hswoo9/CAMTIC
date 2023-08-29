@@ -58,6 +58,7 @@ public interface AssetService {
 
     /** PDA 연동 */
     List<Map<String, Object>> getAstPdaInfoList(Map<String, Object> params);
+    void setAstPdaInfoBatch(Map<String, Object> params);
     void getAssetListToPdaList(Map<String, Object> params);
     Map<String, Object> getAstPdaInfo(Map<String, Object> params);
     void setAstPdaOptInspection(Map<String, Object> params);

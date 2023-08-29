@@ -243,6 +243,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public void setAstPdaInfoBatch(Map<String, Object> params) {
+        assetRepository.setAstPdaInfoBatch(params);
+    }
+
+    @Override
     @Transactional
     public void getAssetListToPdaList(Map<String, Object> params) {
         assetRepository.setAstPdaActiveUpd(params);

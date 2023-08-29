@@ -542,6 +542,36 @@ public class AssetController {
     }
 
     /**
+     * 자산관리 > PDA연동목록 - 위치 일괄변경 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/placeChangePop.do")
+    public String placeChangePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/asset/placeChangePop";
+    }
+
+    /**
+     * 자산관리 > PDA 리스트 위치 일괄변경
+     * @param params
+     * @return
+     */
+    @RequestMapping("/asset/setAstPdaInfoBatch.do")
+    public String setAstPdaInfoBatch(@RequestParam Map<String,Object> params) {
+        assetService.setAstPdaInfoBatch(params);
+        return "jsonView";
+    }
+
+
+    /**
      * 자산관리 > PDA 연동목록 자산리스트에서 가져오기
      * @param params
      * @param model

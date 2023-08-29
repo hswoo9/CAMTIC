@@ -57,7 +57,7 @@ var astPdaInfoList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setPlaceChkAll()">' +
                             '	<span class="k-button-text">위치이동</span>' +
                             '</button>';
                     }
@@ -135,6 +135,23 @@ var astPdaInfoList = {
             if($(this).is(":checked")) $("input[name=apiChk]").prop("checked", true);
             else $("input[name=apiChk]").prop("checked", false);
         });
+    },
+
+    setPlaceChkAll : function(){
+        if($("input[name='apiChk']:checked").length == 0){
+            alert("변경할 자산을 선택해주세요.");
+            return
+        }
+
+        var astPdaInfoSn = "";
+        $.each($("input[name='apiChk']:checked"), function(e, i){
+            astPdaInfoSn += ',' + $(this).val()
+        })
+
+        var url = "/inside/placeChangePop.do?astPdaInfoSn=" + astPdaInfoSn.substring(1);
+        var name = "placeChangePop";
+        var option = "width = 650, height = 335, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
     },
 
     onDataBound : function(){
