@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.inside.history.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.ConvertUtil;
 import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
@@ -9,10 +10,13 @@ import egovframework.com.devjitsu.inside.history.repository.HistoryRepository;
 import egovframework.com.devjitsu.inside.history.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static egovframework.com.devjitsu.common.utiles.CommonUtil.filePath;
 
 @Service
 public class HistoryServiceImpl implements HistoryService {
@@ -53,11 +57,21 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public void setRewardInsert(Map<String, Object> params) {
-
-        Gson gson = new Gson();
-        List<Map<String, Object>> rewardList = gson.fromJson((String) params.get("rewardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-        params.put("rewardList", rewardList);
+    public void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         historyRepository.setRewardInsert(params);
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("rewordId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
     }
 }

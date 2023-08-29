@@ -234,7 +234,7 @@ const rewardBatch = {
                 }, {
                     title: "스캔파일",
                     template : function(row){
-                        return "<input type='file' id='rwdFile"+row.EMP_SEQ+"' name='rwdFile' class='formData rwdFile'>";
+                        return "<input type='file' id='rwdFile"+row.EMP_SEQ+"' name='fileList' class='formData rwdFile'>";
                     },
                     width: 180
                 }, {
@@ -314,7 +314,7 @@ const rewardBatch = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "포상구분", value: ""},
+                {text: "선택", value: ""},
                 {text: "[내부표창] 공로상", value: "9"},
                 {text: "[내부표창] 기타", value: "10"},
                 {text: "[내부표창] 우수사원(개인)", value: "4"},
@@ -338,74 +338,71 @@ const rewardBatch = {
     },
 
     fn_saveApnt : function(){
-        let arr = new Array();
         const grid = $("#popMainGrid").data("kendoGrid");
+
+        let flag = true;
+        /** 포문 돌려서 포상구분 체크 */
         $.each($('#popMainGrid .k-master-row'), function(i, v){
-            const dataItem = grid.dataItem($(this).closest("tr"));
+            let dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
             if($(v).find('#rewardTp'+empSeq).data("kendoDropDownList").value() == "") {
-                alert("포상구분 선택해주세요.");
-                return;
+                flag = false;
             }
-            let data = {
-                empSeq            : String(empSeq),
-                erpEmpSeq         : dataItem.ERP_EMP_SEQ,
-                empName           : dataItem.EMP_NAME_KR,
-                deptSeq           : dataItem.DEPT_SEQ,
-                deptName          : dataItem.DEPT_NAME,
-                teamSeq           : dataItem.TEAM_SEQ,
-                teamName          : dataItem.TEAM_NAME,
-                rewordType		  : $(v).find('#rewardTp'+empSeq).data("kendoDropDownList").value(),
-                rewordName		  : $(v).find('#rewardTp'+empSeq).data("kendoDropDownList").text(),
-                rewordDay         : $(v).find('#rewardDay'+empSeq).val(),
-                rwdOfm            : $(v).find('#rwdOfm'+empSeq).val(),
-                rwdStComp         : $(v).find('#rwdStComp'+empSeq).val(),
-                rwdEtc            : $(v).find('#rwdEtc'+empSeq).val()
+        })
+        if(!flag){ alert("포상구분을 선택해주세요."); return; }
+        if($("#numberName").val() == "") { alert("포상번호가 작성되지 않았습니다."); return; }
+
+        /** 첨부파일 업로드 때문에 AJAX를 포문 돌림 */
+        $.each($('#popMainGrid .k-master-row'), function(i, v){
+            let dataItem = grid.dataItem($(this).closest("tr"));
+            let empSeq = dataItem.EMP_SEQ;
+            let formData = new FormData();
+            formData.append("menuCd", "reward");
+            formData.append("empSeq", String(empSeq));
+            formData.append("empName", dataItem.EMP_NAME_KR);
+            formData.append("deptSeq", dataItem.DEPT_SEQ);
+            formData.append("deptName", dataItem.DEPT_NAME);
+            formData.append("teamSeq", dataItem.TEAM_SEQ);
+            formData.append("teamName", dataItem.TEAM_NAME);
+            formData.append("rewordType", $(v).find('#rewardTp'+empSeq).data("kendoDropDownList").value());
+            formData.append("rewordName", $(v).find('#rewardTp'+empSeq).data("kendoDropDownList").text());
+            formData.append("rewordDay", $(v).find('#rewardDay'+empSeq).val());
+            formData.append("rwdOfm", $(v).find('#rwdOfm'+empSeq).val());
+            formData.append("rwdStComp", $(v).find('#rwdStComp'+empSeq).val());
+            formData.append("rwdEtc", $(v).find('#rwdEtc'+empSeq).val());
+
+            /** 첨부파일 체크 1:1 */
+            if($(v).find("input[name='fileList']")[0].files.length = 1){
+                formData.append("rewardFile", $(v).find("input[name='fileList']").files);
             }
 
-            arr.push(data);
-        });
+            formData.append("regEmpSeq", $("#empSeq").val());
+            formData.append("numberName", $("#numberName").val());
 
-        let empSeq = $("#empSeq").val();
-        let numberName = $("#numberName").val();
+            console.log(formData);
 
-        if(numberName == "") {
-            alert("포상번호가 작성되지 않았습니다.");
-            return;
-        }
+            var result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
 
-        let data = {
-            rewardArr: JSON.stringify(arr),
-            empSeq: empSeq,
-            numberName: numberName
-        };
-        console.log("set reward DATA");
-        console.log(arr);
-
-        $.ajax({
-            url : "/inside/setRewardInsert",
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
+            if(result.flag) {
                 console.log(result);
-                alert("포상 등록이 완료되었습니다.");
-                opener.gridReload();
-                window.close();
-
-            },
-            error : function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
-                //window.close();
+            }else{
+                alert("결재 중 에러가 발생했습니다.");
             }
         });
+        alert("포상 등록이 완료되었습니다.");
+        opener.gridReload();
+        window.close();
     },
 
     fn_delApnt : function(){
-        var grid = $("#popMainGrid").data("kendoGrid");
+        const grid = $("#popMainGrid").data("kendoGrid");
+        let dataItem = {};
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+            dataItem = grid.dataItem($(this).closest("tr"));
             grid.removeRow($(this).closest('tr'));
+            rewardBatch.global.userArr = rewardBatch.global.userArr.filter((value, index, arr) => {
+                return value != dataItem.EMP_SEQ;
+            });
         });
 
         rewardBatch.fn_popGridSetting();

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -215,14 +217,11 @@ public class HistoryController {
         return "jsonView";
     }
 
-    /**
-     * 포상등록
-     * @param params
-     * @return
-     */
+    /** 포상등록 */
     @RequestMapping("/inside/setRewardInsert")
-    public String setRewardInsert(@RequestParam Map<String, Object> params) {
-        historyService.setRewardInsert(params);
+    public String setRewardInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
+        MultipartFile[] file = request.getFiles("rewardFile").toArray(new MultipartFile[0]);
+        historyService.setRewardInsert(params, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 

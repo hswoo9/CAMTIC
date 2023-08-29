@@ -696,6 +696,8 @@ const historyReq = {
                 return value != dataItem.EMP_SEQ;
             });
         });
+
+        historyReq.fn_popGridSetting();
     },
 
     fn_delApntAll : function(){

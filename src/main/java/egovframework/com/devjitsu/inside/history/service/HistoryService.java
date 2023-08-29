@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.history.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Map;
 
@@ -36,5 +38,5 @@ public interface HistoryService {
      * 포상등록
      * @param params
      */
-    void setRewardInsert(Map<String, Object> params);
+    void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 }
