@@ -1102,6 +1102,9 @@
                 <if test="rprClass != null and rprClass != ''">
                     AND RPR_CLASS = #{rprClass} AND STATUS != 0
                 </if>
+                <if test="rprClassNotStatus != null and rprClassNotStatus != ''">
+                    AND RPR_CLASS = #{rprClassNotStatus}
+                </if>
                 <if test="'receipt'.equals(mod)">
                     AND RPR_CLASS != 2
                 </if>
@@ -1259,7 +1262,8 @@
                 EXPIRATION_DT,
                 REMARK_CN,
                 REG_EMP_SEQ,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                BEFORE_SN
             )
         VALUE
             (
@@ -1290,7 +1294,8 @@
                 #{expirationDt},
                 #{remarkCn},
                 #{regEmpSeq},
-                #{regEmpName}
+                #{regEmpName},
+                #{befSn}
             )
         <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
