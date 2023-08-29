@@ -552,7 +552,7 @@
                 REG_EMP_NAME,
                 REG_DEPT_NAME,
                 REG_TEAM_NAME,
-                STATUS,
+                STATUS
             )
         VALUES
             (
