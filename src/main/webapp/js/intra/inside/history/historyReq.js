@@ -107,7 +107,6 @@ var historyList = {
                     data.gender = $("#gender").val();
                     data.searchType = $("#searchType").val();
                     data.searchText = $("#searchText").val();
-
                     return data;
                 }
             },
@@ -157,13 +156,15 @@ var historyList = {
             dataBound : historyList.onDataBound,
             columns: [
                 {
-                    field: "ROW_NUM",
                     title: "순번",
-                    width: 40
+                    template: "#= --record #",
+                    width: 50
                 }, {
-                    field: "EMP_NAME",
                     title: "성명",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        return "<span style='font-weight: bold' class='hover' onclick='historyList.historyReqPop(\"upd\", "+row.APNT_SN+");'>"+row.EMP_NAME+"</span>";
+                    }
                 }, {
                     field: "APNT_NAME",
                     title: "발령 구분",
@@ -203,7 +204,10 @@ var historyList = {
                     title: "기록인",
                     width: 100
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = this.dataSource._data.length+1 - ((this.dataSource.page() -1) * this.dataSource.pageSize());
+            }
         }).data("kendoGrid");
     },
 
@@ -216,8 +220,11 @@ var historyList = {
         });
     },
 
-    historyReqPop: function(){
+    historyReqPop: function(mode, pk){
         var url = "/Inside/pop/historyReqPop.do";
+        if(mode == "upd"){
+            url += "?mode="+mode+"&pk="+pk;
+        }
         var name = "historyReqPop";
         var option = "width=1800, height=695, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

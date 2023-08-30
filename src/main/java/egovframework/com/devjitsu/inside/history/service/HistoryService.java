@@ -15,6 +15,13 @@ public interface HistoryService {
     List<Map<String, Object>> getHistoryList(Map<String, Object> params);
 
     /**
+     * 발령조회(수정팝업)
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getUpdHistoryList(Map<String, Object> params);
+
+    /**
      * 발령 단일조회
      * @param params
      * @return
@@ -33,6 +40,12 @@ public interface HistoryService {
      * @param params
      */
     void setHistoryInsert(Map<String, Object> params, String base_dir);
+
+    /**
+     * 발령수정
+     * @param params
+     */
+    void setHistoryUpdate(Map<String, Object> params);
 
     /**
      * 포상등록

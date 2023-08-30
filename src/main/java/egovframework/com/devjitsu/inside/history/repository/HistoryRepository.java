@@ -13,6 +13,10 @@ public class HistoryRepository extends AbstractDAO {
         return selectList("history.getHistoryList", params);
     }
 
+    public List<Map<String, Object>> getUpdHistoryList(Map<String, Object> params) {
+        return selectList("history.getUpdHistoryList", params);
+    }
+
     public Map<String, Object> getHistoryOne(Map<String, Object> params) {
         return (Map<String,Object>)selectOne("history.getHistoryOne", params);
     }
@@ -27,6 +31,10 @@ public class HistoryRepository extends AbstractDAO {
 
     public void setHistoryInsertTest(Map<String, Object> params) {
         insert("history.setHistoryInsertTest", params);
+    }
+
+    public void setHistoryUpdate(Map<String, Object> params) {
+        update("history.setHistoryUpdate", params);
     }
 
     public void setRewardInsert(Map<String, Object> params) {

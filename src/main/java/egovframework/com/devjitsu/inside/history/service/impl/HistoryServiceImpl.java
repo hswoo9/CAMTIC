@@ -33,6 +33,11 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public List<Map<String, Object>> getUpdHistoryList(Map<String, Object> params) {
+        return historyRepository.getUpdHistoryList(params);
+    }
+
+    @Override
     public Map<String, Object> getHistoryOne(Map<String, Object> params) {
         return historyRepository.getHistoryOne(params);
     }
@@ -49,11 +54,16 @@ public class HistoryServiceImpl implements HistoryService {
         //params.put("historyList", historyList);
         historyRepository.setHistoryInsertTest(params);
 
-        ConvertUtil convertUtil = new ConvertUtil();
-        Map<String, Object> fileSaveMap = new HashMap<>();
-        fileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docFileStr")), "hwp", params, base_dir, "");
-        fileSaveMap.put("contentId", params.get("apntSn"));
-        commonRepository.insOneFileInfo(fileSaveMap);
+        //ConvertUtil convertUtil = new ConvertUtil();
+        //Map<String, Object> fileSaveMap = new HashMap<>();
+        ///fileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docFileStr")), "hwp", params, base_dir, "");
+        //fileSaveMap.put("contentId", params.get("apntSn"));
+        ///commonRepository.insOneFileInfo(fileSaveMap);
+    }
+
+    @Override
+    public void setHistoryUpdate(Map<String, Object> params) {
+        historyRepository.setHistoryUpdate(params);
     }
 
     @Override

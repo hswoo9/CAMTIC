@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/history/historyReq.js?v=${today}"/></script>
 <style>
+    .hover:hover {text-decoration: underline; cursor: pointer}
     .dash-left .table > tbody > tr > th {
     padding-left: 5px;
     padding-right: 5px;
