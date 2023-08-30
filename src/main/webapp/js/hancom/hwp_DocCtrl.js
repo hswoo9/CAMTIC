@@ -582,7 +582,7 @@ var hwpDocCtrl = {
 
                         field = "share"+i;
                         hwpDocCtrl.global.HwpCtrl.MoveToField(field, true, true, false);
-                        hwpDocCtrl.putFieldText(field, shareList[i-1].SHARE);
+                        hwpDocCtrl.putFieldText(field, String(shareList[i-1].SHARE));
                     }
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('manager', true, true, false);
