@@ -17,7 +17,7 @@ var rewardReq = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.rewardType = $("#rewardType").data("kendoDropDownList").value() == "" ? "" : $("#rewardType").data("kendoDropDownList").text();
+                    data.rewardType = $("#rewardType").data("kendoDropDownList").value();
                     data.deptSeq = $("#dept").val();
                     data.teamSeq = $("#team").val();
                     data.start_date = $("#start_date").val().replace(/-/g, "");

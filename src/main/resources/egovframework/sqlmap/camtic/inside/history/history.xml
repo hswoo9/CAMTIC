@@ -138,7 +138,7 @@
         WHERE
             DATE_FORMAT(HER.REWORD_DAY, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
             <if test='rewardType != null and !"".equals(rewardType)'>
-                AND HER.REWORD_TYPE_NAME like CONCAT('%', #{rewardType}, '%')
+                AND HER.REWORD_TYPE = #{rewardType}
             </if>
             <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND HER.DEPT_SEQ = #{deptSeq}
