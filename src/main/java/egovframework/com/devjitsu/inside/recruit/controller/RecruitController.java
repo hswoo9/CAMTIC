@@ -40,15 +40,41 @@ public class RecruitController {
         return "inside/recruit/recruitList";
     }
 
+    /**
+     * 채용공고 상세보기
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/recruitDetailPop.do")
+    public String recruitDetailPop(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/inside/recruit/recruitDetailPop";
+    }
+
+    /**
+     * 채용공고 단일 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getRecruit.do")
+    public String getRecruit(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("recruit", recruitService.getRecruit(params));
+        return "jsonView";
+    }
+
     //채용관리 채용등록 팝업
     @RequestMapping("/Inside/pop/recruitReqPop.do")
-    public String recruitReqPop(HttpServletRequest request, Model model) {
+    public String recruitReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         Map<String, Object> data = recruitService.getRecruitNum();
         model.addAttribute("recruitNum", data.get("RECRUIT_NUM"));
+        model.addAttribute("params", params);
+
         return "popup/inside/recruit/recruitReqPop";
     }
 
@@ -122,12 +148,6 @@ public class RecruitController {
     public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) {
         recruitService.setCommissionerInsert(params);
         return "jsonView";
-    }
-
-    @RequestMapping("/inside/pop/recruitDetailPop")
-    public String recruitDetailPop(@RequestParam Map<String, Object> params, Model model){
-
-        return "popup/inside/recruit/recruitDetailPop";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

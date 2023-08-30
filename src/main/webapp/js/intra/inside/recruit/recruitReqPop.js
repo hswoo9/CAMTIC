@@ -2,6 +2,10 @@ var recruitReq = {
 
     init: function(){
         recruitReq.dataSet();
+
+        if($("#recruitInfoSn").val()){
+           recruitReq.dataAdd();
+        }
     },
 
     dataSet: function(){
@@ -33,10 +37,10 @@ var recruitReq = {
         let html = "";
         for(let i=0; i<1; i++){
             html = ""
-            html += '<table class="addData" style="width: 80%; margin-top: 20px;" rowIndexNumber="'+i+'">';
-            html += '<col width="25%">';
+            html += '<table class="addData" style="margin-top: 20px;" rowIndexNumber="'+i+'">';
+            html += '<col width="32%">';
+            html += '<col width="32%">';
             html += '<col width="35%">';
-            html += '<col width="40%">';
             html += '<tr>';
             html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
             html += '       부서<input type="text" id="dept'+i+'" class="dept" style="width: 70%">';
@@ -45,12 +49,12 @@ var recruitReq = {
             html += '       팀<input type="text" id="team'+i+'" class="team" style="width: 70%">';
             html += '   </div></td>';
             html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-            html += '       직무(모집분야)<input type="text" id="job'+i+'" class="job" style="width: 70%">';
+            html += '       직무(모집분야)<input type="text" id="job'+i+'" class="job" style="width: 60%">';
             html += '   </div></td>';
             html += '</tr>';
             html += '<tr>';
             html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-            html += '       채용인원<div style="text-align: right"><input type="text" id="recruitment'+i+'" class="recruitment" oninput="onlyNumber(this)" style="width: 30%">명</div>';
+            html += '       채용인원<div style="text-align: right;width: 153px"><input type="text" id="recruitment'+i+'" class="recruitment" oninput="onlyNumber(this)" style="width: 30%">명</div>';
             html += '   </div></td>';
             html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
             html += '       경력<input type="text" id="careerType'+i+'" class="careerType" style="width: 30%"> 직급 <input type="text" id="duty'+i+'" class="duty" style="width: 40%">';
@@ -81,16 +85,25 @@ var recruitReq = {
                 customKendo.fn_dropDownList("team"+i, ds.rs, "dept_name", "dept_seq", 2);
             });
             customKendo.fn_dropDownList("team"+i, [], "dept_name", "dept_seq", 2);
-            let careerTypeDataSource = [
-                { text: "경력", value: "1" },
-                { text: "신입", value: "2" }
-            ]
-            customKendo.fn_dropDownList("careerType"+i, careerTypeDataSource, "text", "value", 2);
+
+            $("#careerType"+i).kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    { text: "선택", value: "" },
+                    { text: "경력", value: "1" },
+                    { text: "신입", value: "2" }
+                ],
+                index: 0
+            });
+
+
             customKendo.fn_textBox(["job"+i, "recruitment"+i, "career"+i, "qualification"+i, "duty"+i, "workType"+i]);
         }
     },
 
     saveBtn: function(){
+        let recruitInfoSn = $("#recruitInfoSn").val();
         let recruitNum = $("#recruitNum").val();
         let recruitTitle = $("#recruitTitle").val();
         let recruitDetail = $("#recruitDetail").val();
@@ -120,8 +133,7 @@ var recruitReq = {
                 teamName   					: $(v).find('#team'+i).data("kendoDropDownList").text(),
                 job         				: $(v).find('#job'+i).val(),
                 recruitment   				: $(v).find('#recruitment'+i).val(),
-                careerTypeSn                : $(v).find('#dept'+i).val(),
-                careerTypeName              : $(v).find('#dept'+i).data("kendoDropDownList").text(),
+                careerType                  : $(v).find('#careerType'+i).val(),
                 duty   		        		: $(v).find('#duty'+i).val(),
                 career   		        	: $(v).find('#career'+i).val(),
                 workType   		        	: $(v).find('#workType'+i).val(),
@@ -131,6 +143,7 @@ var recruitReq = {
         });
 
         let data = {
+            recruitInfoSn : recruitInfoSn,
             recruitNum: recruitNum,
             recruitTitle: recruitTitle,
             recruitDetail: recruitDetail,
@@ -201,10 +214,10 @@ var recruitReq = {
         });
         rowNumber++;
         var html = ""
-        html += '<table class="addData" style="width: 80%; margin-top: 20px;" rowIndexNumber="'+rowNumber+'">';
-        html += '<col width="25%">';
+        html += '<table class="addData" style="margin-top: 20px;" rowIndexNumber="'+rowNumber+'">';
+        html += '<col width="32%">';
+        html += '<col width="32%">';
         html += '<col width="35%">';
-        html += '<col width="40%">';
         html += '<tr><td colspan="100%" style="text-align: right;">';
         html += '<input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mt10" value="삭제" onclick="recruitReq.fn_areaTrRemove('+ rowNumber +');" />';
         html += '</td></tr>';
@@ -216,18 +229,18 @@ var recruitReq = {
         html += '       팀<input type="text" id="team'+rowNumber+'" class="team" style="width: 70%">';
         html += '   </div></td>';
         html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-        html += '       직무(모집분야)<input type="text" id="job'+rowNumber+'" class="job" style="width: 70%">';
+        html += '       직무(모집분야)<input type="text" id="job'+rowNumber+'" class="job" style="width: 60%">';
         html += '   </div></td>';
         html += '</tr>';
         html += '<tr>';
         html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-        html += '       채용인원<div style="text-align: right"><input type="text" id="recruitment'+rowNumber+'" class="recruitment" oninput="onlyNumber(this)" style="width: 30%">명</div>';
+        html += '       채용인원<div style="text-align: right;width: 153px"><input type="text" id="recruitment'+rowNumber+'" class="recruitment" oninput="onlyNumber(this)" style="width: 30%">명</div>';
         html += '   </div></td>';
         html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
         html += '       경력<input type="text" id="careerType'+rowNumber+'" class="careerType" style="width: 30%"> 직급 <input type="text" id="duty'+rowNumber+'" class="duty" style="width: 40%">';
         html += '   </div></td>';
         html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-        html += '       필요경력<input type="text" id="career'+rowNumber+'" class="career" oninput="onlyNumber(this)" style="width: 20%"> 년 근무형태 <input type="text" id="workType'+rowNumber+'" class="workType" style="width: 20%">';
+        html += '       필요경력<input type="text" id="career'+rowNumber+'" class="career" oninput="onlyNumber(this)" style="width: 15%"> 년 근무형태 <input type="text" id="workType'+rowNumber+'" class="workType" style="width: 30%">';
         html += '   </div></td>';
         html += '</tr>';
         html += '<tr>';
@@ -251,11 +264,61 @@ var recruitReq = {
             customKendo.fn_dropDownList("team"+rowNumber, ds.rs, "dept_name", "dept_seq", 2);
         });
         customKendo.fn_dropDownList("team"+rowNumber, [], "dept_name", "dept_seq", 2);
-        let careerTypeDataSource = [
-            { text: "경력", value: "1" },
-            { text: "신입", value: "2" }
-        ]
-        customKendo.fn_dropDownList("careerType"+rowNumber, careerTypeDataSource, "text", "value", 2);
+
+        $("#careerType"+rowNumber).kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "경력", value: "1" },
+                { text: "신입", value: "2" }
+            ],
+            index: 0
+        });
+
         customKendo.fn_textBox(["job"+rowNumber, "recruitment"+rowNumber, "career"+rowNumber, "qualification"+rowNumber, "duty"+rowNumber, "workType"+rowNumber]);
+    },
+
+    dataAdd : function(){
+        var result = customKendo.fn_customAjax("/inside/getRecruit.do", {recruitInfoSn : $("#recruitInfoSn").val()})
+        if(result.flag){
+            var recruit = result.recruit;
+            $("#recruitNum").val(recruit.RECRUIT_NUM);
+            $("#recruitTitle").val(recruit.RECRUIT_TITLE);
+            $("#recruitDetail").val(recruit.RECRUIT_DETAIL);
+            $("#uploadDt").val(recruit.UPLOAD_DT);
+            $("#uploadText").val(recruit.UPLOAD_TEXT);
+            $("#startDt").val(recruit.START_DT);
+            $("#startTime").val(recruit.START_TIME);
+            $("#endDt").val(recruit.END_DT);
+            $("#endTime").val(recruit.END_TIME);
+            recruitReq.recruitAreaSet(recruit.recruitArea);
+            $("#jobPositionEtc").val(recruit.JOB_POSITION_ETC);
+            $("#eligibilityEtc").val(recruit.ELIGIBILITY_ETC);
+            $("#workType").val(recruit.WORK_TYPE);
+            $("#admission").val(recruit.ADMISSION);
+            $("#receiptDocu").val(recruit.RECEIPT_DOCU);
+            $("#remark").val(recruit.REMARK);
+            $("#recruitStatus").data("kendoDropDownList").value(recruit.STATUS);
+        }
+    },
+
+    recruitAreaSet : function(e){
+        for(var i = 0; i < e.length; i++){
+            if(i > 0){
+                recruitReq.fn_areaTrAdd();
+            }
+
+            $("#dept" + i).data("kendoDropDownList").value(e[i].DEPT_SEQ);
+            $("#dept" + i).data("kendoDropDownList").trigger("change");
+            $("#team" + i).data("kendoDropDownList").value(e[i].TEAM_SEQ);
+            $("#job" + i).val(e[i].JOB);
+            $("#recruitment" + i).val(e[i].RECRUITMENT);
+            $("#careerType" + i).data("kendoDropDownList").value(e[i].CAREER_TYPE);
+            $("#duty" + i).val(e[i].DUTY);
+            $("#career" + i).val(e[i].CAREER);
+            $("#workType" + i).val(e[i].WORK_TYPE);
+            $("#qualification" + i).val(e[i].QUALIFICATION);
+        }
     }
 }
