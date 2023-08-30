@@ -2,6 +2,7 @@ let personSum = 0;
 let corpSum = 0;
 let carSum = 0;
 let totalSum = 0;
+var now = new Date();
 
 var bustripSettleList = {
 
@@ -11,8 +12,11 @@ var bustripSettleList = {
     },
 
     pageSet: function(){
-        customKendo.fn_datePicker("applyDt", 'year', "yyyy-MM", new Date());
-        fn_onlyDeptSetting();
+        // customKendo.fn_datePicker("applyDt", 'year', "yyyy-MM", new Date());
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() + 1)));
+        /*fn_onlyDeptSetting();*/
+        fn_deptSetting(2);
     },
 
     mainGrid: function(){
@@ -27,6 +31,9 @@ var bustripSettleList = {
                 parameterMap: function(data){
                     data.applyDt = $("#applyDt").val();
                     data.deptSeq = $("#dept").val();
+                    data.teamSeq = $("#team").val();
+                    data.startDate = $('#start_date').val();
+                    data.endDate = $("#end_date").val();
                     return data;
                 }
             },
@@ -178,7 +185,7 @@ var bustripSettleList = {
                         return "<div style='text-align: right'>"+fn_numberWithCommas(carSum)+"</div>";
                     }
                 }, {
-                    title: "",
+                    title: "합계",
                     template: function(row){
                         totalSum  += Number(row.PERSON_TOTAL) + Number(row.CORP_TOTAL);
                         return "<div style='text-align: right'>"+fn_comma(row.PERSON_TOTAL+row.CORP_TOTAL)+"</div>";
