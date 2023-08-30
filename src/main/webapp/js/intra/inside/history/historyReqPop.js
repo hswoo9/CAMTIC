@@ -119,7 +119,7 @@ const historyReq = {
                     name: 'text',
                     template: function(){
                         return '<span>이름</span>' +
-                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){historyReq.mainGrid();}">' ;
+                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){gridReload();}">' ;
                     }
                 }, {
                     name: 'button',
