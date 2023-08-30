@@ -1,3 +1,5 @@
+var now = new Date();
+
 var bustripResList = {
     init: function(){
         bustripResList.dataSet();
@@ -5,9 +7,8 @@ var bustripResList = {
     },
 
     dataSet: function(){
-        now = new Date();
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 6)));
-        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() + 1)));
 
         $("#pjt_cd").kendoDropDownList({
             dataTextField: "text",
