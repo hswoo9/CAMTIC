@@ -95,6 +95,7 @@ const rprReceiptReq = {
         let remarkCn = $("#remarkCn").val();
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
+        let befSn = $("#inventionInfoSn").val();
         let shareUserArr = new Array();
         $.each($('.addData'), function(i, v){
             let empSeq = $(v).find('.shareEmpSeq').val();
@@ -143,6 +144,7 @@ const rprReceiptReq = {
             remarkCn: remarkCn,
             regEmpSeq: regEmpSeq,
             regEmpName: regEmpName,
+            befSn: befSn,
             shareUser: JSON.stringify(shareUserArr)
         }
 

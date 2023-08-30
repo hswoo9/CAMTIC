@@ -74,12 +74,12 @@
                                             <c:choose>
                                                 <c:when test="${uprList.empSeq eq null or uprList.empSeq eq ''}">
                                                     <input type="hidden" id="empSeq" name="empSeq" value="${uprList.empSeq}">
-                                                    <input type="text" id="erpEmpSeq" name="erpEmpSeq" value="">
+                                                    <input type="text" id="erpEmpSeq" name="erpEmpSeq" value="" disabled="disabled">
                                                     <input id="erpEmpSeq" name="erpEmpSeq">
                                                 </c:when>
                                                 <c:otherwise>
                                                     <input type="hidden" id="empSeq" name="empSeq" value="${uprList.empSeq}">
-                                                    <input type="text" id="erpEmpSeq" name="erpEmpSeq" value="${uprList.erpEmpSeq}">
+                                                    <input type="text" id="erpEmpSeq" name="erpEmpSeq" value="${uprList.erpEmpSeq}" disabled="disabled">
                                                     <span>${data.ERP_EMP_SEQ}</span>
                                                 </c:otherwise>
                                             </c:choose>
@@ -171,9 +171,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 학력 사항</div>
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addDegreeBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addDegreeBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateDegreeBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delDegreeBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -231,9 +231,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 경력 사항</div>
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addCareerBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addCareerBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateCareerBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delCareerBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -343,9 +343,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 가족 사항</div>
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addFamilyBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addFamilyBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateFamilyBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delFamilyBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -396,9 +396,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 보유 면허</div>
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addLicenseBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addLicenseBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateLicenseBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delLicenseBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -450,9 +450,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 직무 사항</div>
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addJobBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addJobBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateJobBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delJobBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -534,8 +534,8 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 상벌 사항</div>
                             <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addRewardBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addRewardBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateRewardBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delRewardBtn()"/>
                             </div>
                         </div>
@@ -781,9 +781,9 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 제안 제도</div>
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="addProposalBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addProposalBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateProposalBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delProposalBtn()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -1153,5 +1153,312 @@
         var popup = window.open(url, name, option);
     }
 
+/*    //인사기록카드 - 학력 사항 수정
+    function updateDegreeBtn() {
+        if($('input[name=eduChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=eduChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=degree";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 학력 사항 삭제
+    function delDegreeBtn() {
+        if($('input[name=eduChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var eduChk = new Array();
+        $("input[name='eduChk']").each(function(){
+            if(this.checked){
+                eduChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setEduDelete',
+            data : {
+                eduChk : eduChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }
+
+    //인사기록카드 - 경력 사항 수정
+    function updateCareerBtn() {
+        if($('input[name=employChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=employChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=career";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 경력 사항 삭제
+    function delCareerBtn() {
+        if($('input[name=employChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var employChk = new Array();
+        $("input[name='employChk']").each(function(){
+            if(this.checked){
+                employChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setCareerDelete',
+            data : {
+                employChk : employChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }
+
+    //인사기록카드 - 가족 사항 수정
+    function updateFamilyBtn() {
+        if($('input[name=familyChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=familyChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=family";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 가족 사항 삭제
+    function delFamilyBtn() {
+        if($('input[name=familyChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var familyChk = new Array();
+        $("input[name='familyChk']").each(function(){
+            if(this.checked){
+                familyChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setFamilyDelete',
+            data : {
+                familyChk : familyChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }
+
+    //인사기록카드 - 보유 면허 수정
+    function updateLicenseBtn() {
+        if($('input[name=certChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=certChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=license";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 보유 면허 삭제
+    function delLicenseBtn() {
+        if($('input[name=certChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var certChk = new Array();
+        $("input[name='certChk']").each(function(){
+            if(this.checked){
+                certChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setLicenseDelete',
+            data : {
+                certChk : certChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }
+
+    //인사기록카드 - 직무 사항 수정
+    function updateJobBtn() {
+        if($('input[name=dutyInfoChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=dutyInfoChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=job";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 직무 사항 삭제
+    function delJobBtn() {
+        if($('input[name=dutyInfoChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var dutyInfoChk = new Array();
+        $("input[name='dutyInfoChk']").each(function(){
+            if(this.checked){
+                dutyInfoChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setJobDelete',
+            data : {
+                dutyInfoChk : dutyInfoChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }
+
+    //인사기록카드 - 상벌 사항 수정
+    function updateRewardBtn() {
+        if($('input[name=rewordChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=rewordChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=reward";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 상벌 사항 삭제
+    function delRewardBtn() {
+        if($('input[name=rewordChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var rewordChk = new Array();
+        $("input[name='rewordChk']").each(function(){
+            if(this.checked){
+                rewordChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setRewordDelete',
+            data : {
+                rewordChk : rewordChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }
+
+    //인사기록카드 - 제안 제도 수정
+    function updateProposalBtn() {
+        if($('input[name=propChk]:checked').length == 0){
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=propChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var url = "/useManage/userPersonnelRecordPop.do?popName=proposal";
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+    }
+
+    //인사기록카드 - 제안 제도 삭제
+    function delProposalBtn() {
+        if($('input[name=propChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var propChk = new Array();
+        $("input[name='propChk']").each(function(){
+            if(this.checked){
+                propChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+            }
+        })
+
+        $.ajax({
+            url : '/userManage/setProposalDelete',
+            data : {
+                propChk : propChk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+            }
+        });
+    }*/
 
 </script>

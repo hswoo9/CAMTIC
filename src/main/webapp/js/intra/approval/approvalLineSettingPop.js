@@ -96,6 +96,12 @@ var lineSettingPop = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+                    if($("#sEmpName").val() == '' || $("#sEmpName").val() == null){
+                        data.DEPT_SEQ = $("#deptSeq").val();
+                    } else {
+                        data.sEmpName = $("#sEmpName").val();
+                    }
+                    data.notDivision = "2";
                     data.DEPT_SEQ = dept;
                     return data;
                 }
@@ -108,7 +114,7 @@ var lineSettingPop = {
                     return data.length;
                 },
             },
-            pageSize: 10,
+            pageSize: 15,
         });
 
         $("#userList").kendoGrid({
@@ -126,6 +132,9 @@ var lineSettingPop = {
                     itemsPerPage: "",
                     empty: "데이터가 없습니다.",
                 }
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
             },
             columns: [
                 {
@@ -153,6 +162,7 @@ var lineSettingPop = {
         //alert(deptSeq);
         deptName = item.dept_name;
         lineSettingPop.treeViewReload(deptSeq);
+        $("#sEmpName").val('');
         $("#userList").data("kendoGrid").dataSource.read();
     },
 

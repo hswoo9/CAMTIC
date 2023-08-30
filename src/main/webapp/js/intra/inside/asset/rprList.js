@@ -123,7 +123,8 @@ var rprList = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.rprClass = 2;
+                    //data.rprClass = 2;
+                    data.rprClassNotStatus = 2;
                     data.mod = "view";
 
                     data.dateType = $("#drop1").val();

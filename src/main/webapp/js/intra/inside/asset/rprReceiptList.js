@@ -129,8 +129,10 @@ var rprReceiptList = {
                     field: "등록",
                     width: 9,
                     template: function(row){
-                        if(row.RPR_CLASS == "1" && row.STATUS == 100) {
+                        if(row.RPR_CLASS == "1" && row.STATUS == 100 && row.STAT == null) {
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='rprReceiptList.rprReceiptReqPop("+row.INVENTION_INFO_SN+");'>지식재산권 등록</button>";
+                        }else if(row.RPR_CLASS == "1" && row.STATUS == 100 && row.STAT != null){
+                            return "지식재산권 등록완료";
                         }else{
                             return "-";
                         }
