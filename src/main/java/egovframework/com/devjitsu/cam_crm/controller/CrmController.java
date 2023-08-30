@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.cam_crm.controller;
 
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +21,9 @@ public class CrmController {
     @Autowired
     private CrmService crmService;
 
+    @Autowired
+    private CommonCodeService commonCodeService;
+
     @RequestMapping("/crm/crmView.do")
     public String crmView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -25,7 +31,7 @@ public class CrmController {
 
         model.addAttribute("loginVO", session.getAttribute("loginVO"));
 
-        return "cam_crm/crmView";
+        return "/cam_crm/crmView";
     }
 
     @RequestMapping("/crm/getCrmList")
@@ -60,4 +66,17 @@ public class CrmController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/crm/pop/regCrmPop.do")
+    public String regCrmPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_crm/regCrmPop";
+    }
+
 }

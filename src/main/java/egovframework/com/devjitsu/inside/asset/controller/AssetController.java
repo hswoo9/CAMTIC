@@ -1237,4 +1237,16 @@ public class AssetController {
 
         return "popup/inside/asset/rprPop";
     }
+
+    @RequestMapping("/asset/qrCodeMakeView.do")
+    public String qrCodeMakeView(HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+
+        return "inside/asset/qrCodeMakeView";
+    }
 }
