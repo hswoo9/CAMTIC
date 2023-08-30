@@ -38,6 +38,10 @@
 						<li class="k-state-active">
 							직원 정보
 						</li>
+						<div style="margin-left: 100px;">
+							<span>성명</span>
+							<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){lineSettingPop.treeViewReload();}">
+						</div>
 					</ul>
 					<div style="height:447px;width: 410px;">
 						<div id="userList">
