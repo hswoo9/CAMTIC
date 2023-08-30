@@ -21,6 +21,8 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="mode" value="${data.mode}"/>
+<input type="hidden" id="pk" value="${data.pk}"/>
 <div class="card-header pop-header">
     <h3 class="card-title title_NM">인사발령 등록</h3>
     <div class="btn-st popButton">

@@ -6,58 +6,74 @@
     <select id="getHistoryList" resultType="map" parameterType="map">
         /* getHistoryList */
         SELECT
-            RE.*
+            HAI.APNT_SN,
+            HAI.EMP_NAME,
+            HAI.APNT_NAME,
+            DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
+            HAI.NUMBER_NAME,
+            IFNULL(HAI.AF_DEPT_NAME, '') AS AF_DEPT_NAME,
+            IFNULL(HAI.AF_TEAM_NAME, '') AS AF_TEAM_NAME,
+            IFNULL(HAI.AF_POSITION_NAME, '') AS AF_POSITION_NAME,
+            IFNULL(HAI.AF_DUTY_NAME, '') AS AF_DUTY_NAME,
+            HAI.ETC,
+            AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME,
+            CFI.*
         FROM
-            (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    HAI.APNT_SN,
-                    HAI.EMP_NAME,
-                    HAI.APNT_NAME,
-                    DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
-                    HAI.NUMBER_NAME,
-                    IFNULL(HAI.AF_DEPT_NAME, '') AS AF_DEPT_NAME,
-                    IFNULL(HAI.AF_TEAM_NAME, '') AS AF_TEAM_NAME,
-                    IFNULL(HAI.AF_POSITION_NAME, '') AS AF_POSITION_NAME,
-                    IFNULL(HAI.AF_DUTY_NAME, '') AS AF_DUTY_NAME,
-                    HAI.ETC,
-                    AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME,
-                    CFI.*
-                FROM
-                    CAM_HR.DJ_APNT_INFO HAI
-                LEFT JOIN
-                    CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
-                LEFT JOIN
-                    CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ
-                LEFT JOIN
-                    CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history',
-                    (SELECT @ROWNUM := 0) TMP
-                WHERE
-                    1=1
-                <if test='historyType != null and !"".equals(historyType)'>
-                    AND HAI.APNT_CD = #{historyType}
-                </if>
-                <if test='deptSeq != null and !"".equals(deptSeq)'>
-                    AND HEI.DEPT_SEQ = #{deptSeq}
-                </if>
-                <if test='start_date != null and !"".equals(start_date)'>
-                    AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
-                </if>
-                <if test='gender != null and !"".equals(gender)'>
-                    AND HEI.GENDER_CODE = #{gender}
-                </if>
-                <if test='searchText != null and !"".equals(searchText)'>
-                    AND 1 = 1
-                </if>
-                <if test='applyDt != null and !"".equals(applyDt)'>
-                    AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m') = #{applyDt}
-                </if>
-                <if test='empSeq != null and !"".equals(empSeq)'>
-                    AND HAI.EMP_SEQ = #{empSeq}
-                </if>
-                ORDER BY HAI.REG_DT
-            ) RE
-        ORDER BY RE.ROW_NUM DESC
+            CAM_HR.DJ_APNT_INFO HAI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history'
+        WHERE
+            1=1
+            <if test='historyType != null and !"".equals(historyType)'>
+                AND HAI.APNT_CD = #{historyType}
+            </if>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
+                AND HEI.DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test='start_date != null and !"".equals(start_date)'>
+                AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+            </if>
+            <if test='gender != null and !"".equals(gender)'>
+                AND HEI.GENDER_CODE = #{gender}
+            </if>
+            <if test='searchText != null and !"".equals(searchText)'>
+                AND 1 = 1
+            </if>
+            <if test='applyDt != null and !"".equals(applyDt)'>
+                AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m') = #{applyDt}
+            </if>
+            <if test='empSeq != null and !"".equals(empSeq)'>
+                AND HAI.EMP_SEQ = #{empSeq}
+            </if>
+        ORDER BY HAI.APNT_SN DESC
+    </select>
+
+    <select id="getUpdHistoryList" resultType="map" parameterType="map">
+        /* getUpdHistoryList */
+        SELECT
+            HAI.*,
+            DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DATE,
+            HEI.ERP_EMP_SEQ,
+            HEI.EMP_NAME_KR,
+            HAI.BF_DEPT_NAME AS DEPT_NAME,
+            HAI.BF_TEAM_NAME AS TEAM_NAME,
+            HAI.BF_POSITION_NAME AS POSITION_NAME,
+            HAI.BF_DUTY_NAME AS DUTY_NAME,
+            HAI.BF_JOB_DETAIL AS JOB_DETAIL
+        FROM
+            CAM_HR.DJ_APNT_INFO HAI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            1=1
+            <if test='pk != null and !"".equals(pk)'>
+                AND NUMBER_NAME = (SELECT SAI.NUMBER_NAME FROM CAM_HR.DJ_APNT_INFO SAI WHERE APNT_SN = #{pk})
+            </if>
+        ORDER BY HAI.APNT_SN DESC
     </select>
 
     <select id="getHistoryOne" resultType="map" parameterType="map">
@@ -122,7 +138,7 @@
         WHERE
             DATE_FORMAT(HER.REWORD_DAY, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
             <if test='rewardType != null and !"".equals(rewardType)'>
-                AND HER.REWORD_TYPE_NAME like CONCAT('%', #{rewardType}, '%')
+                AND HER.REWORD_TYPE = #{rewardType}
             </if>
             <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND HER.DEPT_SEQ = #{deptSeq}
@@ -281,6 +297,27 @@
             )
         </foreach>
     </insert>
+
+    <update id="setHistoryUpdate" parameterType="map">
+        /* setHistoryUpdate */
+        UPDATE
+            CAM_HR.DJ_APNT_INFO
+        SET
+            AF_DEPT_NAME = #{afDeptName},
+            AF_DEPT_SEQ = #{afDeptSeq},
+            AF_TEAM_NAME = #{afTeamName},
+            AF_TEAM_SEQ = #{afTeamSeq},
+            AF_POSITION_CODE = #{afPositionCode},
+            AF_POSITION_NAME = #{afPositionName},
+            AF_DUTY_CODE = #{afDutyCode},
+            AF_DUTY_NAME = #{afDutyName},
+            AF_JOB_DETAIL = #{afJobDetail},
+            ETC = #{afEtc},
+            NUMBER_NAME = #{numberName},
+            RELEVANT_NAME = #{relevantName}
+        WHERE
+            APNT_SN = #{apntSn}
+    </update>
 
     <insert id="setRewardInsert" parameterType="map">
         /* setRewardInsert */

@@ -45,6 +45,28 @@ const historyReq = {
             index: 0,
             change: historyReq.changeApntCdAll
         });
+
+        if($("#mode").val() == "upd"){
+            let data = {
+                pk: $("#pk").val()
+            }
+            const result = customKendo.fn_customAjax("/inside/getUpdHistoryList", data);
+            let grid = $("#popMainGrid").data("kendoGrid");
+            let userArr = result.list;
+
+            for(let i=0; i<userArr.length; i++){
+                historyReq.global.userArr.push(userArr[i].EMP_SEQ);
+                historyReq.global.editDataSource.data.push(userArr[i]);
+                grid.dataSource.read();
+            }
+            historyReq.global.nowUserArr = historyReq.global.userArr;
+
+
+            $("#numberName").val(userArr[0].NUMBER_NAME);
+            $("#relevantName").val(userArr[0].RELEVANT_NAME);
+            $("#historyDate").val(userArr[0].HISTORY_DATE);
+            historyReq.fn_popGridSetting();
+        }
     },
 
     changeApntCdAll: function(){
@@ -97,7 +119,7 @@ const historyReq = {
                     name: 'text',
                     template: function(){
                         return '<span>이름</span>' +
-                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){historyReq.mainGrid();}">' ;
+                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){gridReload();}">' ;
                     }
                 }, {
                     name: 'button',
@@ -142,6 +164,8 @@ const historyReq = {
                 }
             ]
         }).data("kendoGrid");
+
+        let mode = $("#mode").val();
 
         $("#popMainGrid").kendoGrid({
             dataSource: historyReq.global.editDataSource,
@@ -202,7 +226,13 @@ const historyReq = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position: relative; top: 2px;" />',
                     template : function (e){
-                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>"
+                        if(e.APNT_SN != null){
+                            return "<input type='hidden' id='apntSn"+e.EMP_SEQ+"' name='apntSn' value='"+e.APNT_SN+"'/>" +
+                                "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>";
+                        }else{
+                            return "<input type='hidden' id='apntSn"+e.EMP_SEQ+"' name='apntSn' value=''/>" +
+                                "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>";
+                        }
                     },
                     width: 40,
                     attribute: {
@@ -290,10 +320,10 @@ const historyReq = {
                             field: "POSITION_NAME",
                             title: "직급/등급",
                             template: function (e){
-                                if(e.AF_POSITION_SEQ != null) {
+                                if(e.AF_POSITION_CODE != null) {
                                     return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                        '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_SEQ + '">';
+                                        '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_CODE + '">';
                                 }else{
                                     return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
@@ -305,10 +335,10 @@ const historyReq = {
                             field: "DUTY_NAME",
                             title: "직책",
                             template: function (e){
-                                if(e.AF_DUTY_SEQ != null) {
+                                if(e.AF_DUTY_CODE != null) {
                                     return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
                                         '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                        '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="formData afDuty" value="' + e.AF_DUTY_SEQ + '">';
+                                        '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="formData afDuty" value="' + e.AF_DUTY_CODE + '">';
                                 }else{
                                     return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
                                         '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
@@ -335,8 +365,8 @@ const historyReq = {
                     field: "ETC",
                     title: "비고",
                     template: function(e){
-                        if(e.AF_ETC != null) {
-                            return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc" value="' + e.AF_ETC + '">';
+                        if(e.ETC != null) {
+                            return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc" value="' + e.ETC + '">';
                         }else{
                             return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc">';
                         }
@@ -355,20 +385,20 @@ const historyReq = {
             var APNT_CD = $("#apntCd"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
             var AF_DEPT_SEQ = $("#afDept"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
             var AF_TEAM_SEQ = $("#afTeam"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_POSITION_SEQ = $("#afPosition"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_DUTY_SEQ = $("#afDuty"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_POSITION_CODE = $("#afPosition"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
+            var AF_DUTY_CODE = $("#afDuty"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
             var AF_JOB_DETAIL = $("#afJobDetail"+dataItem.EMP_SEQ).val();
-            var AF_ETC = $("#afEtc"+dataItem.EMP_SEQ).val();
+            var ETC = $("#afEtc"+dataItem.EMP_SEQ).val();
 
             $.each(historyReq.global.editDataSource.data, function(i, v){
                 if(v.EMP_SEQ == dataItem.EMP_SEQ){
                     v.APNT_CD = APNT_CD;
                     v.AF_DEPT_SEQ = AF_DEPT_SEQ;
                     v.AF_TEAM_SEQ = AF_TEAM_SEQ;
-                    v.AF_POSITION_SEQ = AF_POSITION_SEQ;
-                    v.AF_DUTY_SEQ = AF_DUTY_SEQ;
+                    v.AF_POSITION_CODE = AF_POSITION_CODE;
+                    v.AF_DUTY_CODE = AF_DUTY_CODE;
                     v.AF_JOB_DETAIL = AF_JOB_DETAIL;
-                    v.AF_ETC = AF_ETC;
+                    v.ETC = ETC;
                 }
             });
         });
@@ -439,6 +469,18 @@ const historyReq = {
             dataSource : dataSource,
             dataValueField : "dept_seq",
             dataTextField : "dept_name"
+        });
+
+        $.each(historyReq.global.editDataSource.data, function(i, v){
+            let searchData = {
+                parentDeptSeq : v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
+                deptLevel : 2
+            }
+            console.log(searchData);
+            let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
+            ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+            $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").dataSource.data(ds.rs);
+            $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
         });
 
         $(".apntCd").kendoDropDownList({
@@ -593,13 +635,24 @@ const historyReq = {
                 regEmpName: regEmpName,
                 numberName: numberName,
                 relevantName: relevantName,
-                historyDate: historyDate
+                historyDate: historyDate,
+
+                apntSn: $(v).find('#apntSn'+empSeq).val()
             }
             arr.push(data);
+
+            if(data.apntSn == ""){
+                let url = "/inside/setHistoryInsert";
+                customKendo.fn_customAjax(url, data);
+            }else{
+                let url = "/inside/setHistoryUpdate";
+                customKendo.fn_customAjax(url, data);
+            }
         });
 
-        console.log(arr);
-        historyReq.fn_SetHtml(arr);
+        alert("인사발령이 완료됐습니다.");
+        opener.gridReload();
+        window.close();
     },
 
     fn_SetHtml : function(arr){

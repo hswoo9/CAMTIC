@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,13 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public Map<String, Object> getRecruit(Map<String, Object> params) {
+        Map<String, Object> returnMap = recruitRepository.getRecruit(params);
+        returnMap.put("recruitArea", recruitRepository.getRecruitAreaList(params));
+        return returnMap;
+    }
+
+    @Override
     public List<Map<String, Object>> getCommissionerList(Map<String, Object> params) {
         return recruitRepository.getCommissionerList(params);
     }
@@ -47,7 +55,13 @@ public class RecruitServiceImpl implements RecruitService {
 
         // 1. 채용공고 저장 2. 모집분야 저장
         try {
-            recruitRepository.setRecruitInsert(params);
+            if(StringUtils.isEmpty(params.get("recruitInfoSn"))){
+                recruitRepository.setRecruitInsert(params);
+            }else{
+                recruitRepository.setRecruitUpdate(params);
+                recruitRepository.setRecruitAreaDelete(params);
+            }
+
             if(!area.isEmpty()) {
                 params.put("area", area);
                 recruitRepository.setRecruitAreaInsert(params);

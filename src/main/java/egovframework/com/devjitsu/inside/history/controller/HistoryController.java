@@ -111,6 +111,7 @@ public class HistoryController {
 
         params.put("hwpUrl", hwpUrl);
         model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("data", params);
         model.addAttribute("params", new Gson().toJson(params));
         return "popup/inside/history/historyReqPop";
     }
@@ -182,6 +183,18 @@ public class HistoryController {
     }
 
     /**
+     * 발령조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getUpdHistoryList")
+    public String getUpdHistoryList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = historyService.getUpdHistoryList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
      * 발령 단일조회
      * @param params
      * @return
@@ -213,6 +226,18 @@ public class HistoryController {
     @RequestMapping("/inside/setHistoryInsert")
     public String setHistoryInsert(@RequestParam Map<String, Object> params) {
         historyService.setHistoryInsert(params, BASE_DIR);
+        userService.setUserInfoUpdate(params);
+        return "jsonView";
+    }
+
+    /**
+     * 발령수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setHistoryUpdate")
+    public String setHistoryUpdate(@RequestParam Map<String, Object> params) {
+        historyService.setHistoryUpdate(params);
         userService.setUserInfoUpdate(params);
         return "jsonView";
     }

@@ -13,23 +13,12 @@ const rewardBatch = {
     dataSet: function(){
         customKendo.fn_textBox(["searchVal", "numberName"]);
 
+        let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+        rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
         $("#rewardAll").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택", value: "" },
-                {text: "[내부표창] 공로상", value: "9"},
-                {text: "[내부표창] 기타", value: "10"},
-                {text: "[내부표창] 우수사원(개인)", value: "4"},
-                {text: "[내부표창] 우수사원(단체)", value: "3"},
-                {text: "[내부표창] 캠틱인(개인)", value: "2"},
-                {text: "[내부표창] 캠틱인(단체)", value: "1"},
-                {text: "[외부표창] 기타", value: "8"},
-                {text: "[외부표창] 유관기관", value: "7"},
-                {text: "[외부표창] 중앙정부", value: "5"},
-                {text: "[외부표창] 지자체", value: "6"},
-                {text: "[외부표창] 학교", value: "11"}
-            ],
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: rewardDataSource,
             index: 0,
             change: rewardBatch.changeRewardAll
         });
@@ -85,7 +74,7 @@ const rewardBatch = {
                     name : 'text',
                     template : function (){
                         return  '<span>이름</span>' +
-                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){rewardBatch.mainGrid();}">' ;
+                            '	<input type="text" id="searchVal" class="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){gridReload();}">' ;
                     }
                 }, {
                     name : 'button',
@@ -310,23 +299,12 @@ const rewardBatch = {
     fn_popGridSetting: function() {
         $(".rwdEtc, .rwdSn, .rwdStComp, .rwdOfm").kendoTextBox();
 
+        let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+        rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
         $(".rewardTp").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택", value: ""},
-                {text: "[내부표창] 공로상", value: "9"},
-                {text: "[내부표창] 기타", value: "10"},
-                {text: "[내부표창] 우수사원(개인)", value: "4"},
-                {text: "[내부표창] 우수사원(단체)", value: "3"},
-                {text: "[내부표창] 캠틱인(개인)", value: "2"},
-                {text: "[내부표창] 캠틱인(단체)", value: "1"},
-                {text: "[외부표창] 기타", value: "8"},
-                {text: "[외부표창] 유관기관", value: "7"},
-                {text: "[외부표창] 중앙정부", value: "5"},
-                {text: "[외부표창] 지자체", value: "6"},
-                {text: "[외부표창] 학교", value: "11"}
-            ]
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: rewardDataSource
         });
 
         $(".rewardDay").kendoDatePicker({

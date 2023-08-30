@@ -110,7 +110,7 @@ var docuContractList = {
                     attributes: { style: "text-align: right" },
                     template : function(e) {
                         if(e.PROJECT_MONEY != null){
-                           return e.PROJECT_MONEY.toString().toMoney() + "원";
+                           return e.PROJECT_MONEY.toString().toMoney() + " " +"원";
                         }else{
                             return "";
                         }

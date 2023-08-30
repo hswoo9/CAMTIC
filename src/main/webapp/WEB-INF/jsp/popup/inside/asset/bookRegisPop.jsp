@@ -82,7 +82,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매부서</th>
-                    <td colspan><input type="text" id="bkDept" style="width: 100%;"></td>
+                    <td colspan><input type="text" id="dept" style="width: 100%;"></td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>비치장소</th>
                     <td><input type="text" id="bkRepl" style="width: 100%;"></td>
                 </tr>
