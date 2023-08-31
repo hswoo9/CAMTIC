@@ -722,8 +722,9 @@ public class AssetController {
     }
     //캠도큐먼트 - 직무발명신고서 신청폼 등록
     @RequestMapping("/inside/setInventionInsert")
-    public String setInventionInsert(@RequestParam Map<String, Object> params, Model model) {
-        assetService.setInventionInsert(params);
+    public String setInventionInsert(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        /*assetService.setInventionInsert(params);*/
+        assetService.setInventionInsert(params, request, SERVER_DIR, BASE_DIR);
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }
@@ -1236,5 +1237,17 @@ public class AssetController {
         model.addAttribute("resultMap", assetService.getInventionInfo(params));
 
         return "popup/inside/asset/rprPop";
+    }
+
+    @RequestMapping("/asset/qrCodeMakeView.do")
+    public String qrCodeMakeView(HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+
+        return "inside/asset/qrCodeMakeView";
     }
 }

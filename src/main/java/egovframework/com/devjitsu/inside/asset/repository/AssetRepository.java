@@ -223,4 +223,11 @@ public class AssetRepository extends AbstractDAO {
     public void delBookCode(Map<String, Object> params) {
         update("asset.delBookCode", params);
     }
+
+    public void setRprFileNoUpd(Map<String, Object> params) { insert("asset.setRprFileNoUpd", params);}
+
+    public void setRprFileNoUpdA(Map<String, Object> params) { insert("asset.setRprFileNoUpdA", params);}
+
+    public void seQuoFileNoUpd(Map<String, Object> params) { insert("asset.seQuoFileNoUpd", params);}
+
 }

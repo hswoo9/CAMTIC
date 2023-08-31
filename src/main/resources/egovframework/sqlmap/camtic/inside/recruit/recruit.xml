@@ -27,6 +27,16 @@
         ORDER BY RE.REG_DT DESC
     </select>
 
+    <select id="getRecruit" parameterType="map" resultType="map">
+        /* getRecruit */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_INFO
+        WHERE
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+    </select>
+
     <select id="getCommissionerList" parameterType="map" resultType="map">
         /*getCommissionerList*/
         SELECT
@@ -97,6 +107,38 @@
         </selectKey>
     </insert>
 
+    <update id="setRecruitUpdate" parameterType="map">
+        /* setRecruitUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_RECRUIT_INFO
+        SET
+            RECRUIT_TITLE = #{recruitTitle},
+            RECRUIT_DETAIL = #{recruitDetail},
+            UPLOAD_DT = #{uploadDt},
+            UPLOAD_TEXT = #{uploadText},
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            JOB_POSITION_ETC = #{jobPositionEtc},
+            ELIGIBILITY_ETC = #{eligibilityEtc},
+            WORK_TYPE = #{workType},
+            ADMISSION = #{admission},
+            RECEIPT_DOCU = #{receiptDocu},
+            REMARK = #{remark},
+            RECRUIT_STATUS_SN = #{recruitStatusSn},
+            RECRUIT_STATUS_TEXT = #{recruitStatusText},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+    </update>
+
+    <delete id="setRecruitAreaDelete" parameterType="map">
+        /* setRecruitAreaDelete */
+        DELETE FROM CAM_INSIDE.DJ_RECRUIT_AREA_INFO WHERE RECRUIT_INFO_SN = #{recruitInfoSn}
+    </delete>
+
     <insert id="setRecruitAreaInsert" parameterType="map">
         /* setRecruitAreaInsert */
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_AREA_INFO
@@ -108,8 +150,7 @@
                 TEAM_NAME,
                 JOB,
                 RECRUITMENT,
-                CAREER_TYPE_SN,
-                CAREER_TYPE_NAME,
+                CAREER_TYPE,
                 DUTY,
                 CAREER,
                 WORK_TYPE,
@@ -125,8 +166,7 @@
                 #{item.teamName},
                 #{item.job},
                 #{item.recruitment},
-                #{item.careerTypeSn},
-                #{item.careerTypeName},
+                #{item.careerType},
                 #{item.duty},
                 #{item.career},
                 #{item.workType},
@@ -174,8 +214,16 @@
             *
         FROM
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO
-        WHERE
-            RECRUIT_INFO_SN = #{RECRUIT_INFO_SN}
+        WHERE 1=1
+        <choose>
+            <when test='RECRUIT_INFO_SN != null and !"".equals(RECRUIT_INFO_SN)'>
+                AND RECRUIT_INFO_SN = #{RECRUIT_INFO_SN}
+            </when>
+            <when test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
+                AND RECRUIT_INFO_SN = #{recruitInfoSn}
+            </when>
+        </choose>
+
         ORDER BY REG_DT DESC
     </select>
 </mapper>

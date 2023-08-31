@@ -856,8 +856,13 @@
                 CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
             WHERE
                 IHBRR.STATUS = 100
-            <if test="applyDt != null and applyDt != ''">
-                AND (DATE_FORMAT(IHBRR.TRIP_DAY_FR, '%Y-%m') = #{applyDt} OR (DATE_FORMAT(IHBRR.TRIP_DAY_TO, '%Y-%m') = #{applyDt}))
+            <if test='startDate != null and !"".equals(startDate)'>
+                <![CDATA[
+            AND
+            DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(IHBRR.TRIP_DAY_FR, '%Y-%m-%d')
+            AND
+            DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(IHBRR.TRIP_DAY_TO, '%Y-%m-%d')
+            ]]>
             </if>
             <if test="deptSeq != null and !''.equals(deptSeq)">
                 AND IHBRR.REG_EMP_SEQ IN (
@@ -870,6 +875,10 @@
                                             OR
                                                 PARENT_DEPT_SEQ = #{deptSeq}
                                         )
+            </if>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
+                AND
+                IHBRR.DEPT_SEQ = #{teamSeq}
             </if>
         ) A
         GROUP BY HR_BIZ_REQ_RESULT_ID

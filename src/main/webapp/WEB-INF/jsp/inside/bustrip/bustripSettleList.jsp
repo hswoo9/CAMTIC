@@ -38,18 +38,27 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="40%">
+                        <col width="20%">
                         <col width="10%">
-                        <col width="40%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">출장 년월</th>
+                        <th class="text-center th-color">출장 년월일</th>
                         <td>
-                            <input type="text" id="applyDt" style="width: 150px;">
+                            <%--<input type="text" id="applyDt" style="width: 150px;">--%>
+                            <input type="text" id="start_date" style="width: 110px;">
+                            ~
+                            <input type="text" id="end_date" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" style="width: 150px;">
+                            <input type="text" id="dept" style="width: 160px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="team" style="width: 150px;">
                         </td>
                     </tr>
                 </table>

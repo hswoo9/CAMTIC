@@ -58,4 +58,6 @@ public interface CommonCodeService {
      * @param params
      */
     Map<String, Object> setCmCodeSave(Map<String, Object> params);
+
+    List<Map<String, Object>> commonCodeList(Map<String, Object> params);
 }

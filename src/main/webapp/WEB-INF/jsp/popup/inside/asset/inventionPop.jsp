@@ -96,24 +96,36 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>첨부 서류1
                 </th>
-                <td style="padding:5px;">
-                    <input type="file" disabled>
+                <td colspan="3" style="padding:5px;">
+                    <c:if test="${resultMap.relatedFile ne null}">
+                        <span onclick="fileDown('${resultMap.relatedFile.file_path}${resultMap.relatedFile.file_uuid}', '${resultMap.relatedFile.file_org_name}.${resultMap.relatedFile.file_ext}')">
+                            ${resultMap.relatedFile.file_org_name}.${resultMap.relatedFile.file_ext}
+                        </span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>첨부 서류2
                 </th>
-                <td style="padding:5px;">
-                    <input type="file" disabled>
+                <td colspan="3" style="padding:5px;">
+                    <c:if test="${resultMap.relatedFile1 ne null}">
+                        <span onclick="fileDown('${resultMap.relatedFile1.file_path}${resultMap.relatedFile1.file_uuid}', '${resultMap.relatedFile1.file_org_name}.${resultMap.relatedFile1.file_ext}')">
+                            ${resultMap.relatedFile1.file_org_name}.${resultMap.relatedFile1.file_ext}
+                        </span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>출원관련 견적서
                 </th>
-                <td style="padding:5px;">
-                    <input type="file" disabled>
+                <td colspan="3" style="padding:5px;">
+                    <c:if test="${resultMap.quoFile ne null}">
+                        <span onclick="fileDown('${resultMap.quoFile.file_path}${resultMap.quoFile.file_uuid}', '${resultMap.quoFile.file_org_name}.${resultMap.quoFile.file_ext}')">
+                            ${resultMap.quoFile.file_org_name}.${resultMap.quoFile.file_ext}
+                        </span>
+                    </c:if>
                 </td>
             </tr>
             </thead>

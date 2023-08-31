@@ -20,6 +20,10 @@ const inventionReq = {
         $("#userText, #regDate").attr("readonly", true);
     },
 
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
+    },
+
     saveBtn: function(){
         let flag = true;
         let userSn = $("#userSn").val();
@@ -63,6 +67,32 @@ const inventionReq = {
             shareUser: JSON.stringify(shareUserArr)
         }
 
+        var formData = new FormData();
+        formData.append("shareSn", data.shareSn);
+        formData.append("shareName", data.shareName);
+        formData.append("iprClass", data.iprClass);
+        formData.append("iprName", data.iprName);
+        formData.append("title", data.title);
+        formData.append("detailCn", data.detailCn);
+        formData.append("regDate", data.regDate);
+        formData.append("regEmpSeq", data.regEmpSeq);
+        formData.append("regEmpName", data.regEmpName);
+        formData.append("shareUser", data.shareUser);
+        formData.append("menuCd", "normal");
+
+
+        if($("#relatedFile")[0].files.length == 1){
+            formData.append("relatedFile", $("#relatedFile")[0].files[0]);
+        }
+
+        if($("#relatedFile1")[0].files.length == 1){
+            formData.append("relatedFile1", $("#relatedFile1")[0].files[0]);
+        }
+
+        if($("#quoFile")[0].files.length == 1){
+            formData.append("quoFile", $("#quoFile")[0].files[0]);
+        }
+
         if(userSn == "") { alert("발명자(저자)가 선택되지 않았습니다."); return; }
         if(iprClass == "") { alert("지식재산권 종류가 선택되지 않았습니다."); return; }
         if(title == "") { alert("지식재산권 명칭이 작성되지 않았습니다."); return; }
@@ -72,12 +102,12 @@ const inventionReq = {
                 if(!confirm("직무발명을 신고하시겠습니까?")){
                     return;
                 }
-                inventionReq.setInventionInsert(data);
+                inventionReq.setInventionInsert(formData);
             }else {
                 if(!confirm("문서를 수정하시겠습니까?")){
                     return;
                 }
-                inventionReq.setInventionUpdate(data);
+                inventionReq.setInventionUpdate(formData);
             }
         }
 
@@ -89,6 +119,10 @@ const inventionReq = {
             data : data,
             type : "post",
             dataType : "json",
+            async : false,
+            processData: false,
+            contentType: false,
+            enctype : 'multipart/form-data',
             async : false,
             success : function(result){
                 $("#inventionInfoSn").val(result.inventionInfoSn);

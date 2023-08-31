@@ -69,7 +69,9 @@ public interface AssetService {
     Map<String, Object> getInventionInfo(Map<String, Object> params);
     List<Map<String, Object>> getInventionShareList(Map<String, Object> params);
     List<Map<String, Object>> getRprReceiptList(Map<String, Object> params);
-    void setInventionInsert(Map<String, Object> params);
+
+    void setInventionInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
+
     void setRprResultInsert(Map<String, Object> params);
     void setRprReceiptInsert(Map<String, Object> params);
     void updateDocState(Map<String, Object> bodyMap) throws Exception;

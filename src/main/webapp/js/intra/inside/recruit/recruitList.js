@@ -240,8 +240,7 @@ var recruitList = {
     recruitDetailPop : function (e) {
         var url = "/inside/pop/recruitDetailPop.do?recruitInfoSn="+e;
         var name = "recruitDetailPop";
-        var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
-
 }

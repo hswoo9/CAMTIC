@@ -102,4 +102,9 @@ public class CommonCodeServiceImpl implements CommonCodeService {
 
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> commonCodeList(Map<String, Object> params) {
+        return commonCommonCodeRepository.getCmCodeList(params);
+    }
 }

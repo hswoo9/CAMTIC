@@ -70,21 +70,7 @@ var bookRegisPop = {
             index: 0
         });
 
-        $("#bkDept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "구매부서 선택", value: ""},
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
-        });
+        fn_deptSetting();
 
         result.shift({EMP_NAME_KR: "구매자", EMP_SEQ: ""})
         result.unshift({EMP_NAME_KR: "사용자 선택", EMP_SEQ: ""})
@@ -134,7 +120,7 @@ var bookRegisPop = {
         $("#bkPubl").val(e.BK_PUBL);
         $("#bkCost").val(bookRegisPop.fn_comma(e.BK_BUY_COST));
         $("#bkCnt").val(e.BK_BUY_CNT);
-        $("#bkDept").data("kendoDropDownList").value(e.BK_DEPT_SEQ);
+        $("#dept").data("kendoDropDownList").value(e.BK_DEPT_SEQ);
         $("#bkBuyer").data("kendoDropDownList").value(e.BK_BUYER);
         $("#bkUser").data("kendoDropDownList").value(e.BK_USER);
         $("#bkRepl").val(e.BK_REPL);
@@ -216,8 +202,8 @@ var bookRegisPop = {
             bkBuyerName : $("#bkBuyer").data("kendoDropDownList").text(),
             bkUser : $("#bkUser").val(),
             bkUserName : $("#bkUser").data("kendoDropDownList").text(),
-            bkDeptSeq : $("#bkDept").val(),
-            bkDeptName : $("#bkDept").data("kendoDropDownList").text(),
+            bkDeptSeq : $("#dept").val(),
+            bkDeptName : $("#dept").data("kendoDropDownList").text(),
             bkRepl : $("#bkRepl").val(),
             bkMngSeq : $("#bkMng").val(),
             bkMngName : $("#bkMng").data("kendoDropDownList").text(),

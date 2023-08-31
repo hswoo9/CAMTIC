@@ -62,6 +62,7 @@ var docuContractReq = {
                 $("#productTable").css("display", "");
             } else {
                 $("#productTable").css("display", "none");
+                $("#productCount0, #productOneMoney0, #productTotalMoney0, #contractAmount").val("");
             }
 
             if(this.value == 4){
@@ -137,6 +138,10 @@ var docuContractReq = {
         $("#rentalInfo, #rentalEa").on("keyup", function(){
             docuContractReq.fn_rentalTotalAmt();
         });
+
+        $("#productCount0, #productOneMoney0").on("keyup", function(){
+            docuContractReq.fn_productTotalAmt();
+        });
     },
 
     fn_rentalTotalAmt : function(){
@@ -144,6 +149,15 @@ var docuContractReq = {
             var rentalInfo = docuContractReq.uncomma($("#rentalInfo").val());
             var rentalEa = docuContractReq.uncomma($("#rentalEa").val());
             $("#contractAmount").val(docuContractReq.comma(rentalInfo * rentalEa * $("#totalMonth").val()));
+        }
+    },
+
+    fn_productTotalAmt : function(){
+        if($("#class").val() == 3){
+            var productCount = docuContractReq.uncomma($("#productCount0").val());
+            var productOneMoney = docuContractReq.uncomma($("#productOneMoney0").val());
+            $("#productTotalMoney0").val(docuContractReq.comma(productCount * productOneMoney));
+            $("#contractAmount").val(docuContractReq.comma(productCount * productOneMoney));
         }
     },
 

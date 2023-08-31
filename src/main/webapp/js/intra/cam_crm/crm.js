@@ -8,9 +8,9 @@ var crm = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "관리고객", value: "" },
-                { text: "특별고객", value: "" },
-                { text: "블랙고객", value: "" },
+                { text: "관리고객", value: "1" },
+                { text: "특별고객", value: "2" },
+                { text: "블랙고객", value: "3" },
             ],
             index: 0
         });
@@ -20,11 +20,11 @@ var crm = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "우량고객", value: "" },
-                { text: "일반고객", value: "" },
-                { text: "휴면고객", value: "" },
-                { text: "잠재고객", value: "" },
-                { text: "신규고객", value: "" }
+                { text: "우량고객", value: "1" },
+                { text: "일반고객", value: "2" },
+                { text: "휴면고객", value: "3" },
+                { text: "잠재고객", value: "4" },
+                { text: "신규고객", value: "5" }
             ],
             index: 0
         });
@@ -34,8 +34,8 @@ var crm = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "기업", value: "" },
-                { text: "기관", value: "" }
+                { text: "기업", value: "1" },
+                { text: "기관", value: "2" }
             ],
             index: 0
         });
@@ -44,7 +44,6 @@ var crm = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
                 { text: "회사명", value: "CRM_NM" },
                 { text: "사업자번호", value: "CRM_NO" },
                 { text: "전화번호", value: "TEL_NUM" },
@@ -62,6 +61,12 @@ var crm = {
         });
         customKendo.fn_textBox(["searchValue"]);
 
+
+        $("#searchValue").on("keyup", function(key){
+            if(key.keyCode == 13){
+                crm.mainGrid();
+            }
+        });
         crm.mainGrid();
     },
 
@@ -115,6 +120,20 @@ var crm = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="crm.fn_crmRegPopup()">' +
+                            '	<span class="k-button-text">등록</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="crm.gridReload()">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="crm.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -122,6 +141,11 @@ var crm = {
                 }],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="crm.fn_checkAll()" style="top: 3px; position: relative" />',
+                    template : "<input type='checkbox' id='crm#=CRM_SN#' name='crmSn' value='#=CRM_SN#' style=\"top: 3px; position: relative\" />",
+                    title: "업태",
+                    width: 30,
+                }, {
                     title: "업태",
                     field: "CRM_OCC",
                     width: 100,
@@ -170,5 +194,25 @@ var crm = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    fn_checkAll : function (){
+        if($("#checkAll").is(":checked")){
+            $("input[name='crmSn']").each(function(){
+                $(this).prop("checked", true);
+            });
+        } else {
+            $("input[name='crmSn']").each(function(){
+                $(this).prop("checked", false);
+            });
+        }
+
+    },
+
+    fn_crmRegPopup : function (){
+        var url = "/crm/pop/regCrmPop.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
