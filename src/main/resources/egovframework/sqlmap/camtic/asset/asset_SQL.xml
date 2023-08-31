@@ -1057,7 +1057,7 @@
     <!-- PDA 연동목록 종료 -->
 
     <!-- 지식재산권관리 -->
-    <select id="getInventionInfo" resultType="map">
+    <select id="getInventionInfo" resultType="map" parameterType="map">
         /* getInventionInfo */
         SELECT
             III.*,
@@ -2177,4 +2177,43 @@
         </if>
     </delete>
 
+    <select id="getContentFileList" parameterType="map" resultType="map">
+        /* getContentFileList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{fileNo}
+    </select>
+
+    <update id="setRprFileNoUpd" parameterType="map">
+        /* setRprFileNoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            RELATED_FILE_NO = #{relatedFileNo}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="setRprFileNoUpdA" parameterType="map">
+        /* setRprFileNoUpdA */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            RELATED_AFILE_NO = #{relatedAfileNo}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="seQuoFileNoUpd" parameterType="map">
+        /* seQuoFileNoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            QUO_FILE_NO = #{quoFileNo}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
 </mapper>

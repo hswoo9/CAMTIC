@@ -30,7 +30,7 @@
             </div>
         </div>
         <div style="padding: 20px 30px;">
-        <table class="popTable table table-bordered mb-0">
+            <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="30%">
                 <col width="70%">
@@ -93,24 +93,30 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>첨부 서류1
                 </th>
-                <td style="padding:5px;">
-                    <input type="file">
+                <td colspan="3" style="padding:5px;">
+                    <label for="relatedFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="relatedFile" name="relatedFile" onchange="inventionReq.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="relatedFileName"></span>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>첨부 서류2
                 </th>
-                <td style="padding:5px;">
-                    <input type="file">
+                <td colspan="3" style="padding:5px;">
+                    <label for="relatedFile1" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="relatedFile1" name="relatedFile1" onchange="inventionReq.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="relatedFile1Name"></span>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>출원관련 견적서
                 </th>
-                <td style="padding:5px;">
-                    <input type="file">
+                <td colspan="3" style="padding:5px;">
+                    <label for="quoFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="quoFile" name="quoFile" onchange="inventionReq.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="quoFileName"></span>
                 </td>
             </tr>
             </thead>

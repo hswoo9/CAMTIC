@@ -722,8 +722,9 @@ public class AssetController {
     }
     //캠도큐먼트 - 직무발명신고서 신청폼 등록
     @RequestMapping("/inside/setInventionInsert")
-    public String setInventionInsert(@RequestParam Map<String, Object> params, Model model) {
-        assetService.setInventionInsert(params);
+    public String setInventionInsert(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        /*assetService.setInventionInsert(params);*/
+        assetService.setInventionInsert(params, request, SERVER_DIR, BASE_DIR);
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }

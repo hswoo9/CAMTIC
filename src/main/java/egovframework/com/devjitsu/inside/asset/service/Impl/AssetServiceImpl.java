@@ -325,6 +325,16 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Map<String, Object> getInventionInfo(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
+        Map<String, Object> returnMap = assetRepository.getInventionInfo(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileNo", returnMap.get("QUO_FILE_NO"));
+        result.put("quoFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("RELATED_AFILE_NO"));
+        result.put("relatedFile1", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
+        result.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+
         result.put("info", assetRepository.getInventionInfo(params));
         result.put("shareList", assetRepository.getInventionShareList(params));
         return result;
@@ -341,7 +351,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void setInventionInsert(Map<String, Object> params) {
+    public void setInventionInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
         Gson gson = new Gson();
         List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
@@ -354,6 +364,61 @@ public class AssetServiceImpl implements AssetService {
             }
         } catch (Exception e) {
             System.out.println(e);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile relatedFile = request.getFile("relatedFile");
+        MultipartFile relatedFile1 = request.getFile("relatedFile1");
+        MultipartFile quoFile = request.getFile("quoFile");
+
+        if(relatedFile != null){
+            if(!relatedFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(relatedFile, filePath(params, server_dir));
+                fileInsMap.put("inventionInfoSn", params.get("inventionInfoSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("relatedFileNo", fileInsMap.get("file_no"));
+                assetRepository.setRprFileNoUpd(fileInsMap);
+            }
+        }
+
+        if(relatedFile1 != null){
+            if(!relatedFile1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(relatedFile1, filePath(params, server_dir));
+                fileInsMap.put("inventionInfoSn", params.get("inventionInfoSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("relatedAfileNo", fileInsMap.get("file_no"));
+                assetRepository.setRprFileNoUpdA(fileInsMap);
+            }
+        }
+
+        if(quoFile != null){
+            if(!quoFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(quoFile, filePath(params, server_dir));
+                fileInsMap.put("inventionInfoSn", params.get("inventionInfoSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("quoFileNo", fileInsMap.get("file_no"));
+                assetRepository.seQuoFileNoUpd(fileInsMap);
+            }
         }
     }
 
