@@ -65,6 +65,10 @@ const rprReceiptUpdate = {
         }
     },
 
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
+    },
+
     saveBtn: function(){
         let flag = true;
         let inventionInfoSn = $("#inventionInfoSn").val();
@@ -146,6 +150,47 @@ const rprReceiptUpdate = {
             shareUser: JSON.stringify(shareUserArr)
         }
 
+        var formData = new FormData();
+        formData.append("rprClass", data.rprClass);
+        formData.append("rprName", data.rprName);
+        formData.append("inventionInfoSn", data.inventionInfoSn);
+        formData.append("shareSn", data.shareSn);
+        formData.append("shareName", data.shareName);
+        formData.append("iprClass", data.iprClass);
+        formData.append("iprName", data.iprName);
+        formData.append("stateSn", data.stateSn);
+        formData.append("stateName", data.stateName);
+        formData.append("tainSn", data.tainSn);
+        formData.append("tainName", data.tainName);
+        formData.append("techSn", data.techSn);
+        formData.append("techName", data.techName);
+        formData.append("confidentialitySn", data.confidentialitySn);
+        formData.append("confidentialityName", data.confidentialityName);
+        formData.append("title", data.title);
+        formData.append("singleSn", data.singleSn);
+        formData.append("singleName", data.singleName);
+        formData.append("applicantName", data.applicantName);
+        formData.append("detailCn", data.detailCn);
+        formData.append("applicantNum", data.applicantNum);
+        formData.append("applicantDt", data.applicantDt);
+        formData.append("applicantNation", data.applicantNation);
+        formData.append("regNum", data.regNum);
+        formData.append("regDate", data.regDate);
+        formData.append("expirationDt", data.expirationDt);
+        formData.append("remarkCn", data.remarkCn);
+        formData.append("regEmpSeq", data.regEmpSeq);
+        formData.append("regEmpName", data.regEmpName);
+        formData.append("shareUser", data.shareUser);
+        formData.append("menuCd", "rprNormalUp");
+
+        if($("#appliFile")[0].files.length == 1){
+            formData.append("appliFile", $("#appliFile")[0].files[0]);
+        }
+
+        if($("#regFile")[0].files.length == 1){
+            formData.append("regFile", $("#regFile")[0].files[0]);
+        }
+
         if(userSn == "") { alert("발명자(저자)가 선택되지 않았습니다."); return; }
         if(iprClass == "") { alert("지식재산권 종류가 선택되지 않았습니다."); return; }
         if(stateSn == "") { alert("상태가 선택되지 않았습니다."); return; }
@@ -162,7 +207,7 @@ const rprReceiptUpdate = {
             if(!confirm("지식재산권을 수정하시겠습니까?")){
                 return;
             }
-            rprReceiptUpdate.updRprReceipt(data);
+            rprReceiptUpdate.updRprReceipt(formData);
         }
 
     },
@@ -174,6 +219,9 @@ const rprReceiptUpdate = {
             type : "post",
             dataType : "json",
             async : false,
+            processData: false,
+            contentType: false,
+            enctype : 'multipart/form-data',
             success : function(){
                 alert("지식재산권 수정이 완료되었습니다.");
                 opener.open_in_frame('/Inside/rprList.do');

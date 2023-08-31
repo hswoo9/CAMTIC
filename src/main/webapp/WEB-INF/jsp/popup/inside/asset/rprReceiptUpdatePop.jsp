@@ -190,16 +190,30 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>증빙(출원)
                 </th>
-                <td style="padding:5px;">
-                    <input type="file" value="" />
+                <td colspan="3" style="padding:5px;">
+                    <label for="appliFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="appliFile" name="appliFile" onchange="rprReceiptUpdate.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="appliFileName"></span>
+                    <c:if test="${data.appliFile ne null}">
+                        <span onclick="fileDown('${data.appliFile.file_path}${data.appliFile.file_uuid}', '${data.appliFile.file_org_name}.${data.appliFile.file_ext}')">
+                            ${data.appliFile.file_org_name}.${data.appliFile.file_ext}
+                        </span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>증빙(등록)
                 </th>
-                <td style="padding:5px;">
-                    <input type="file" value="" />
+                <td colspan="3" style="padding:5px;">
+                    <label for="regFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="regFile" name="regFile" onchange="rprReceiptUpdate.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="regFileName"></span>
+                    <c:if test="${data.regFile ne null}">
+                        <span onclick="fileDown('${data.regFile.file_path}${data.regFile.file_uuid}', '${data.regFile.file_org_name}.${data.regFile.file_ext}')">
+                            ${data.regFile.file_org_name}.${data.regFile.file_ext}
+                        </span>
+                    </c:if>
                 </td>
             </tr>
             <tr>

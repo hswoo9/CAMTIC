@@ -2214,4 +2214,24 @@
         WHERE
             INVENTION_INFO_SN = #{inventionInfoSn}
     </update>
+
+    <update id="setInRprFileNoUpd" parameterType="map">
+        /* setInRprFileNoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            APP_FILE_NO = #{appliFileNo}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <update id="setInRprRegFileNoUpd" parameterType="map">
+        /* setInRprRegFileNoUpd */
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            REG_FILE_NO = #{regFileNo}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
 </mapper>

@@ -230,4 +230,8 @@ public class AssetRepository extends AbstractDAO {
 
     public void seQuoFileNoUpd(Map<String, Object> params) { insert("asset.seQuoFileNoUpd", params);}
 
+    public void setInRprFileNoUpd(Map<String, Object> params) { insert("asset.setInRprFileNoUpd", params);}
+
+    public void setInRprRegFileNoUpd(Map<String, Object> params) { insert("asset.setInRprRegFileNoUpd", params);}
+
 }

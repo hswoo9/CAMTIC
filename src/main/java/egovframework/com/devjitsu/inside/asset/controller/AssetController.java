@@ -737,8 +737,9 @@ public class AssetController {
     }
     //지식재산권 등록
     @RequestMapping("/inside/setRprReceiptInsert")
-    public String setRprReceiptInsert(@RequestParam Map<String, Object> params, Model model) {
-        assetService.setRprReceiptInsert(params);
+    public String setRprReceiptInsert(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        assetService.setRprReceiptInsert(params, request, SERVER_DIR, BASE_DIR);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }
     //직무발명신고서, 포상금지급신청서 결재 상태값에 따른 UPDATE 메서드
@@ -1112,8 +1113,9 @@ public class AssetController {
 
     /** 지식재산권 수정 */
     @RequestMapping("/inside/updRprReceipt")
-    public String updRprReceipt(@RequestParam Map<String, Object> params, Model model) {
-        assetService.updRprReceipt(params);
+    public String updRprReceipt(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        assetService.updRprReceipt(params, request, SERVER_DIR, BASE_DIR);
+        model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }
 

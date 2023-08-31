@@ -73,7 +73,7 @@ public interface AssetService {
     void setInventionInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
 
     void setRprResultInsert(Map<String, Object> params);
-    void setRprReceiptInsert(Map<String, Object> params);
+    void setRprReceiptInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
 
@@ -117,7 +117,7 @@ public interface AssetService {
     List<Map<String, Object>> getRprReceiptUpdateList(Map<String, Object> params);
 
     /** 지식재산권 수정 */
-    void updRprReceipt(Map<String, Object> params);
+    void updRprReceipt(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
 
     /** 지식재산권 일괄변경 */
     void updRprAllChange(Map<String, Object> params);
@@ -148,4 +148,5 @@ public interface AssetService {
     Map<String, Object> getApprovalData(Map<String, Object> params);
 
     void delBookCode(Map<String, Object> params);
+
 }

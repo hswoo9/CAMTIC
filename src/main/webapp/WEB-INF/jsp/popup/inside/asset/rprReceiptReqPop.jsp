@@ -182,16 +182,20 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>증빙(출원)
                 </th>
-                <td style="padding:5px;">
-                    <input type="file">
+                <td colspan="3" style="padding:5px;">
+                    <label for="appliFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="appliFile" name="appliFile" onchange="rprReceiptReq.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="appliFileName"></span>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>증빙(등록)
                 </th>
-                <td style="padding:5px;">
-                    <input type="file">
+                <td colspan="3" style="padding:5px;">
+                    <label for="regFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="regFile" name="regFile" onchange="rprReceiptReq.fileChange(this)" style="display: none" multiple="multiple">
+                    <span id="regFileName"></span>
                 </td>
             </tr>
             <tr>
