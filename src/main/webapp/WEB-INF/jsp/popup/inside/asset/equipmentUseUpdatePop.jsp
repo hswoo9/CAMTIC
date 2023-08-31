@@ -44,10 +44,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>사용기간</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>사용일자</th>
                     <td colspan="3">
-                        <input id="usePdStrDe" type="date" style="width: 34.4%;"> ~
-                        <input id="usePdEndDe" type="date" style="width: 34.4%;">
+                        <input id="usePdStrDe" type="date" style="width: 34.4%;">
                     </td>
                 </tr>
                 <tr>

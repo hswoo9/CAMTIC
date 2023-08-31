@@ -172,22 +172,11 @@ var equipmentList = {
                     field: "EQIPMN_NAME",
                     title: "장비명"
                 }, {
-                    title : "사용기간",
-                    columns : [
-                        {
-                            field : "USE_PD_STR_DE",
-                            title : "시작일자",
-                            template : function(e){
-                                return e.USE_PD_STR_DE.substring(0,4) + "년 " + e.USE_PD_STR_DE.substring(4,6) + "월 " + e.USE_PD_STR_DE.substring(6,8) + "일";
-                            }
-                        }, {
-                            field: "USE_PD_END_DE",
-                            title: "종료일자",
-                            template : function(e){
-                                return e.USE_PD_END_DE.substring(0,4) + "년 " + e.USE_PD_END_DE.substring(4,6) + "월 " + e.USE_PD_END_DE.substring(6,8) + "일";
-                            }
-                        }
-                    ]
+                    field : "USE_PD_STR_DE",
+                    title : "사용일자",
+                    template : function(e){
+                        return e.USE_PD_STR_DE.substring(0,4) + "년 " + e.USE_PD_STR_DE.substring(4,6) + "월 " + e.USE_PD_STR_DE.substring(6,8) + "일";
+                    }
                 }, {
                     field: "USER_NAME",
                     title: "사용자"

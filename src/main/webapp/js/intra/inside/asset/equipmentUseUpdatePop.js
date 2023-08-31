@@ -187,7 +187,7 @@ var equipmentUseUpdatePop = {
                 eqipmnName : $("#eqipmnName").data("kendoDropDownList").text(), //장비명
                 eqipmnMstSn : $("#eqipmnName").data("kendoDropDownList").value(), //장비마스터 순번
                 usePdStrDe : $("#usePdStrDe").val().replaceAll('-',''), //사용기간 시작일
-                usePdEndDe : $("#usePdEndDe").val().replaceAll('-',''), //사용기간 종료일
+                //usePdEndDe : $("#usePdEndDe").val().replaceAll('-',''), //사용기간 종료일
                 userName : $("#userName").val(), //사용자명
                 userSn : $("#empSeq").val(), //사용자 사원번호
                 operCn : $("#operCn").val(), //작업내용
@@ -210,9 +210,9 @@ var equipmentUseUpdatePop = {
             }else if(data.usePdStrDe == null || data.usePdStrDe == '') {
                 alert("사용기간 시작일을 입력하세요.")
                 return false;
-            }else if(data.usePdEndDe == null || data.usePdEndDe == '') {
-                alert("사용기간 종료일을 입력하세요.")
-                return false;
+            //}else if(data.usePdEndDe == null || data.usePdEndDe == '') {
+            //    alert("사용기간 종료일을 입력하세요.")
+            //    return false;
             }else if(data.userName == null || data.userName == '') {
                 alert("사용기간 사용자명을 입력하세요.")
                 return false;
