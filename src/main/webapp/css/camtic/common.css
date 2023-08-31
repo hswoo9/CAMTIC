@@ -456,6 +456,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 	.__tblList.respond1 [data-th]:before {content:""attr(data-th)" :";color:#999;}
 	.__tblList.respond1 .notice {background:#f6fcff;}
 
+	.__tblList.respond2.mauto {table-layout:auto;}
 	.__tblList.respond2 tr > * {font-size:14px !important;line-height:1.35 !important;padding:5px !important;}
 
 	.__tblKnow colgroup,
@@ -481,6 +482,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 
 .__nm {font-family:'Nanum Myeongjo',serif !important;}
 .__blue {color:#155996 !important;}
+.__blue2 {color:#2694ca !important;}
 .__black {color:#000 !important;}
 
 .__fz20 {font-size:20px;line-height:1.6;letter-spacing:-0.05em;}
