@@ -118,112 +118,116 @@ var applicationForm3 = {
     },
 
     setApplicationTempSave : function(type){
-        if(type == "next"){
-            var flag = true;
-            $.each($(".certInfo"), function(i, v){
-                if($(this).find("#certName" + i).val() != ""){
-                    if(!$(this).find("#certFileNo" + i).val() && $("#certFile" + i)[0].files.length == 0 && type == "next") {
-                        flag = false;
-                    }
-
-                    if(!flag){
-                        alert("자격/면허 증빙파일은 필수사항입니다.");
-                        return flag;
-                    }
-                }
-            })
-
-            if(!flag){
-                return;
-            }
-
-            $.each($(".langInfo"), function(i, v){
-                if($(this).find("#langName" + i).val() != ""){
-                    if(!$(this).find("#langFileNo" + i).val() && $("#langFile" + i)[0].files.length == 0 && type == "next") {
-                        flag = false;
-                    }
-
-                    if(!flag){
-                        alert("외국어 증빙파일은 필수사항입니다.");
-                        return flag;
-                    }
-                }
-            })
-
-            if(!flag){
-                return;
-            }
-        }
-
-        var confirmText = "";
-        if(type == "temp"){
-            confirmText = "임시저장 하시겠습니까?";
+        if(type == "prev"){
+            location.href = "/application/applicationForm2.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
         }else{
-            confirmText = "다음 단계로 이동 하시겠습니까?";
-        }
+            if(type == "next"){
+                var flag = true;
+                $.each($(".certInfo"), function(i, v){
+                    if($(this).find("#certName" + i).val() != ""){
+                        if(!$(this).find("#certFileNo" + i).val() && $("#certFile" + i)[0].files.length == 0 && type == "next") {
+                            flag = false;
+                        }
 
-        if(confirm(confirmText)){
-            var formData = new FormData();
-            var certArr = new Array();
-            $.each($(".certInfo"), function(i, v){
-                if($(this).find("#certName" + i).val() != ""){
-                    var arrData = {
-                        certBaseId : $(this).find("#certBaseId" + i).val(),
-                        applicationId : $("#applicationId").val(),
-                        certName : $(this).find("#certName" + i).val(),
-                        certClass : $(this).find("#certClass" + i).val(),
-                        certIssuer : $(this).find("#certIssuer" + i).val(),
-                        certContent : $("#certContent" + i).val(),
-                        userEmail : $("#userEmail").val(),
-                        certFileNo : $(this).find("#certFileNo" + i).val(),
+                        if(!flag){
+                            alert("자격/면허 증빙파일은 필수사항입니다.");
+                            return flag;
+                        }
                     }
+                })
 
-                    if($(this).find("#certFile" + i)[0].files.length != 0){
-                        formData.append("certFile" + i, $(this).find("#certFile" + i)[0].files[0]);
-                    }
-
-                    certArr.push(arrData);
+                if(!flag){
+                    return;
                 }
-            })
 
-            var langArr = new Array();
-            $.each($(".langInfo"), function(i, v){
-                if($(this).find("#langName" + i).val() != ""){
-                    var arrData = {
-                        langBaseId : $(this).find("#langBaseId" + i).val(),
-                        applicationId : $("#applicationId").val(),
-                        langName : $(this).find("#langName" + i).val(),
-                        acquisitionDate : $(this).find("#acquisitionDate" + i).val(),
-                        acquisitionScore : $(this).find("#acquisitionScore" + i).val(),
-                        langContent : $("#langContent" + i).val(),
-                        userEmail : $("#userEmail").val(),
-                        langFileNo : $(this).find("#langFileNo" + i).val(),
+                $.each($(".langInfo"), function(i, v){
+                    if($(this).find("#langName" + i).val() != ""){
+                        if(!$(this).find("#langFileNo" + i).val() && $("#langFile" + i)[0].files.length == 0 && type == "next") {
+                            flag = false;
+                        }
+
+                        if(!flag){
+                            alert("외국어 증빙파일은 필수사항입니다.");
+                            return flag;
+                        }
                     }
+                })
 
-                    if($(this).find("#langFile" + i)[0].files.length != 0){
-                        formData.append("langFile" + i, $(this).find("#langFile" + i)[0].files[0]);
-                    }
-
-                    langArr.push(arrData);
+                if(!flag){
+                    return;
                 }
-            })
-
-            formData.append("applicationId", $("#applicationId").val());
-            formData.append("certArr", JSON.stringify(certArr));
-            formData.append("langArr", JSON.stringify(langArr));
-            formData.append("otherYn", $("#otherYn").is(":checked") ? "Y" : "N");
-            if($("#otherYn").is(":checked")){
-                formData.append("otherLang", $("#otherLang").val());
             }
-            formData.append("userEmail", $("#userEmail").val());
 
-            var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm3.do", formData);
-            if(result.flag){
-                if(type == "temp"){
-                    alert("임시저장 되었습니다.");
-                    $("#applicationId").val(result.params.applicationId);
-                }else{
-                    location.href = "/application/applicationIntroduce.do?recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+            var confirmText = "";
+            if(type == "temp"){
+                confirmText = "임시저장 하시겠습니까?";
+            }else{
+                confirmText = "다음 단계로 이동 하시겠습니까?";
+            }
+
+            if(confirm(confirmText)){
+                var formData = new FormData();
+                var certArr = new Array();
+                $.each($(".certInfo"), function(i, v){
+                    if($(this).find("#certName" + i).val() != ""){
+                        var arrData = {
+                            certBaseId : $(this).find("#certBaseId" + i).val(),
+                            applicationId : $("#applicationId").val(),
+                            certName : $(this).find("#certName" + i).val(),
+                            certClass : $(this).find("#certClass" + i).val(),
+                            certIssuer : $(this).find("#certIssuer" + i).val(),
+                            certContent : $("#certContent" + i).val(),
+                            userEmail : $("#userEmail").val(),
+                            certFileNo : $(this).find("#certFileNo" + i).val(),
+                        }
+
+                        if($(this).find("#certFile" + i)[0].files.length != 0){
+                            formData.append("certFile" + i, $(this).find("#certFile" + i)[0].files[0]);
+                        }
+
+                        certArr.push(arrData);
+                    }
+                })
+
+                var langArr = new Array();
+                $.each($(".langInfo"), function(i, v){
+                    if($(this).find("#langName" + i).val() != ""){
+                        var arrData = {
+                            langBaseId : $(this).find("#langBaseId" + i).val(),
+                            applicationId : $("#applicationId").val(),
+                            langName : $(this).find("#langName" + i).val(),
+                            acquisitionDate : $(this).find("#acquisitionDate" + i).val(),
+                            acquisitionScore : $(this).find("#acquisitionScore" + i).val(),
+                            langContent : $("#langContent" + i).val(),
+                            userEmail : $("#userEmail").val(),
+                            langFileNo : $(this).find("#langFileNo" + i).val(),
+                        }
+
+                        if($(this).find("#langFile" + i)[0].files.length != 0){
+                            formData.append("langFile" + i, $(this).find("#langFile" + i)[0].files[0]);
+                        }
+
+                        langArr.push(arrData);
+                    }
+                })
+
+                formData.append("applicationId", $("#applicationId").val());
+                formData.append("certArr", JSON.stringify(certArr));
+                formData.append("langArr", JSON.stringify(langArr));
+                formData.append("otherYn", $("#otherYn").is(":checked") ? "Y" : "N");
+                if($("#otherYn").is(":checked")){
+                    formData.append("otherLang", $("#otherLang").val());
+                }
+                formData.append("userEmail", $("#userEmail").val());
+
+                var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm3.do", formData);
+                if(result.flag){
+                    if(type == "temp"){
+                        alert("임시저장 되었습니다.");
+                        location.reload();
+                    }else{
+                        location.href = "/application/applicationIntroduce.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+                    }
                 }
             }
         }

@@ -16,7 +16,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-md-12 col-lg-12 dash-left pop_sign_wrap" style="width:950px;padding: 50px;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
-    <input type="hidden" id="applicationId" name="applicationId" value="${applicationId}">
+    <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
     <div class="panel">
         <div class="panel-heading">

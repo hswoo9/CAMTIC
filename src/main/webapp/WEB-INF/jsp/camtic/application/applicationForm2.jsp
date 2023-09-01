@@ -15,7 +15,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-md-12 col-lg-12 dash-left pop_sign_wrap" style="width:1485px;padding: 50px;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
-    <input type="hidden" id="applicationId" name="applicationId" value="${applicationId}">
+    <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
     <input type="hidden" id="recruitAreaInfoSn" name="recruitAreaInfoSn" value="${params.recruitAreaInfoSn}">
     <div class="panel">
@@ -174,7 +174,7 @@
                 </table>
             </div>
             <div style="text-align: right">
-                <button class="__btn1 blue" onclick=""><span>이전단계</span></button>
+                <button class="__btn1 blue" onclick="applicationForm2.setApplicationTempSave('prev')"><span>이전단계</span></button>
                 <button class="__btn1 black" onclick="applicationForm2.setApplicationTempSave('temp')"><span>임시저장</span></button>
                 <button class="__btn1 blue" onclick="applicationForm2.setApplicationTempSave('next')"><span>다음단계</span></button>
                 <button class="__btn1 gray" onclick="window.close()"><span>취소</span></button>

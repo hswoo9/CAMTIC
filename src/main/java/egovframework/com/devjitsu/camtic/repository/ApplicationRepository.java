@@ -14,6 +14,7 @@ public class ApplicationRepository extends AbstractDAO {
     public boolean userAgreeChk(Map<String, Object> params) { return (boolean) selectOne("application.userAgreeChk", params);}
     public void setUserAgree(Map<String, Object> params) { insert("application.setUserAgree", params);}
     public String getUserApplicationId(Map<String, Object> params) { return (String) selectOne("application.getUserApplicationId", params);}
+    public boolean getApplicationChk(Map<String, Object> params) { return (boolean) selectOne("application.getApplicationChk", params);}
     public Map<String, Object> getApplicationForm1(Map<String, Object> params){ return (Map<String, Object>) selectOne("application.getApplicationForm1", params);}
     public Map<String, Object> getApplicationFileInfo(Map<String, Object> params){ return (Map<String, Object>) selectOne("application.getApplicationFileInfo", params);}
     public void setApplicationForm1(Map<String, Object> params) { insert("application.setApplicationForm1", params);}
@@ -37,4 +38,8 @@ public class ApplicationRepository extends AbstractDAO {
     public void setApplicationLangFileUpd(Map<String, Object> params) { update("application.setApplicationLangFileUpd", params);}
     public List<Map<String, Object>> getApplicationCert(Map<String, Object> params) { return selectList("application.getApplicationCert", params);}
     public List<Map<String, Object>> getApplicationLang(Map<String, Object> params) { return selectList("application.getApplicationLang", params);}
+    public void setApplicationIntroduce(Map<String, Object> params) { insert("application.setApplicationIntroduce", params);}
+    public void setApplicationIntroduceUpd(Map<String, Object> params) { update("application.setApplicationIntroduceUpd", params);}
+    public Map<String, Object> getApplicationIntroduce(Map<String, Object> params){ return (Map<String, Object>) selectOne("application.getApplicationIntroduce", params);}
+    public void setApplicationMainSaveType(Map<String, Object> params) { update("application.setApplicationMainSaveType", params);}
 }

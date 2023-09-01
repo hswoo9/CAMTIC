@@ -44,7 +44,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             returnMap.put("applicationId", applicationRepository.getUserApplicationId(params));
         }
 
-//        returnMap.put("applicationChk", applicationRepository.getApplicationChk(params));
+        returnMap.put("applicationChk", applicationRepository.getApplicationChk(params));
 
         return returnMap;
     }
@@ -365,6 +365,26 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
         return returnMap;
+    }
+
+    @Override
+    public void setApplicationIntroduce(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("introduceId"))){
+            applicationRepository.setApplicationIntroduce(params);
+        }else{
+            applicationRepository.setApplicationIntroduceUpd(params);
+        }
+
+        if(!StringUtils.isEmpty(params.get("saveType"))){
+            if(params.get("saveType").equals("S")){
+                applicationRepository.setApplicationMainSaveType(params);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getApplicationIntroduce(Map<String, Object> params) {
+        return applicationRepository.getApplicationIntroduce(params);
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

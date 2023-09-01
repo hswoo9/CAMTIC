@@ -152,123 +152,127 @@ var applicationForm2 = {
     },
 
     setApplicationTempSave : function(type){
-        if(type == "next"){
-            var flag = true;
-            $.each($(".schoolInfo"), function(i, v){
-                if($(this).find("#schoolType").val() != "" && $(this).find("#schoolType").val() != "1"){
-                    if(!$(this).find("#degreeFileNo" + i).val() && $("#degreeFile" + i)[0].files.length == 0 && type == "next") {
-                        flag = false;
-                    }else if(!$(this).find("#sexualFileNo" + i).val() && $("#sexualFile" + i)[0].files.length == 0 && type == "next") {
-                        flag = false;
-                    }
-
-                    if(!flag){
-                        alert("증빙파일은 필수사항입니다.");
-                        return flag;
-                    }
-                }
-            })
-
-            if(!flag){
-                return;
-            }
-
-            $.each($(".careerInfo"), function(i, v){
-                if($(this).find("#careerOrgName" + i).val() != ""){
-                    if(!$(this).find("#careerFileNo" + i).val() && $("#careerFile" + i)[0].files.length == 0 && type == "next") {
-                        flag = false;
-                    }
-
-                    if(!flag){
-                        alert("경력 증빙파일은 필수사항입니다.");
-                        return flag;
-                    }
-                }
-            })
-
-            if(!flag){
-                return;
-            }
-        }
-
-        var confirmText = "";
-        if(type == "temp"){
-            confirmText = "임시저장 하시겠습니까?";
+        if(type == "prev"){
+            location.href = "/application/applicationForm1.do?applicationId=" + $("#applicationId").val() ;
         }else{
-            confirmText = "다음 단계로 이동 하시겠습니까?";
-        }
+            if(type == "next"){
+                var flag = true;
+                $.each($(".schoolInfo"), function(i, v){
+                    if($(this).find("#schoolType").val() != "" && $(this).find("#schoolType").val() != "1"){
+                        if(!$(this).find("#degreeFileNo" + i).val() && $("#degreeFile" + i)[0].files.length == 0 && type == "next") {
+                            flag = false;
+                        }else if(!$(this).find("#sexualFileNo" + i).val() && $("#sexualFile" + i)[0].files.length == 0 && type == "next") {
+                            flag = false;
+                        }
 
-        if(confirm(confirmText)){
-            var formData = new FormData();
-            var schoolArr = new Array();
-            $.each($(".schoolInfo"), function(i, v){
-                if($(this).find("#schoolType").val() != ""){
-                    var arrData = {
-                        schoolBaseId : $(this).find("#schoolBaseId" + i).val(),
-                        applicationId : $("#applicationId").val(),
-                        schoolType : $(this).find("#schoolType").val(),
-                        admissionDt : $(this).find("#admissionDt" + i).val(),
-                        graduationDt : $(this).find("#graduationDt" + i).val(),
-                        schoolName : $(this).find("#schoolName" + i).val(),
-                        dept : $(this).find("#dept" + i).val(),
-                        major : $(this).find("#major" + i).val(),
-                        graduateType : $(this).find("#graduateType" + i).val(),
-                        grade : $(this).find("#grade" + i).val(),
-                        userEmail : $("#userEmail").val(),
-                        degreeFileNo : $(this).find("#degreeFileNo" + i).val(),
-                        sexualFileNo : $(this).find("#sexualFileNo" + i).val(),
+                        if(!flag){
+                            alert("증빙파일은 필수사항입니다.");
+                            return flag;
+                        }
                     }
+                })
 
-                    if($(this).find("#degreeFile" + i)[0].files.length != 0){
-                        formData.append("degreeFile" + i, $(this).find("#degreeFile" + i)[0].files[0]);
-                    }
-
-                    if($(this).find("#sexualFile" + i)[0].files.length != 0){
-                        formData.append("sexualFile" + i, $(this).find("#sexualFile" + i)[0].files[0]);
-                    }
-
-                    schoolArr.push(arrData);
+                if(!flag){
+                    return;
                 }
-            })
 
-            var careerArr = new Array();
-            $.each($(".careerInfo"), function(i, v){
-                if($(this).find("#careerOrgName" + i).val() != ""){
-                    var arrData = {
-                        careerBaseId : $(this).find("#careerBaseId" + i).val(),
-                        applicationId : $("#applicationId").val(),
-                        careerOrgName : $(this).find("#careerOrgName" + i).val(),
-                        workStDt : $(this).find("#workStDt" + i).val(),
-                        workEnDt : $(this).find("#workEnDt" + i).val(),
-                        position : $(this).find("#position" + i).val(),
-                        chargeWork : $(this).find("#chargeWork" + i).val(),
-                        retireSalary : $(this).find("#retireSalary" + i).val(),
-                        retireReason : $(this).find("#retireReason" + i).val(),
-                        careerContent : $("#careerContent" + i).val(),
-                        userEmail : $("#userEmail").val(),
-                        careerFileNo : $(this).find("#careerFileNo" + i).val(),
+                $.each($(".careerInfo"), function(i, v){
+                    if($(this).find("#careerOrgName" + i).val() != ""){
+                        if(!$(this).find("#careerFileNo" + i).val() && $("#careerFile" + i)[0].files.length == 0 && type == "next") {
+                            flag = false;
+                        }
+
+                        if(!flag){
+                            alert("경력 증빙파일은 필수사항입니다.");
+                            return flag;
+                        }
                     }
+                })
 
-                    if($(this).find("#careerFile" + i)[0].files.length != 0){
-                        formData.append("careerFile" + i, $(this).find("#careerFile" + i)[0].files[0]);
-                    }
-
-                    careerArr.push(arrData);
+                if(!flag){
+                    return;
                 }
-            })
+            }
 
-            formData.append("applicationId", $("#applicationId").val());
-            formData.append("schoolArr", JSON.stringify(schoolArr));
-            formData.append("careerArr", JSON.stringify(careerArr));
-            formData.append("userEmail", $("#userEmail").val());
+            var confirmText = "";
+            if(type == "temp"){
+                confirmText = "임시저장 하시겠습니까?";
+            }else{
+                confirmText = "다음 단계로 이동 하시겠습니까?";
+            }
 
-            var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm2.do", formData);
-            if(result.flag){
-                if(type == "temp"){
-                    alert("임시저장 되었습니다.");
-                    $("#applicationId").val(result.params.applicationId);
-                }else{
-                    location.href = "/application/applicationForm3.do?recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+            if(confirm(confirmText)){
+                var formData = new FormData();
+                var schoolArr = new Array();
+                $.each($(".schoolInfo"), function(i, v){
+                    if($(this).find("#schoolType").val() != ""){
+                        var arrData = {
+                            schoolBaseId : $(this).find("#schoolBaseId" + i).val(),
+                            applicationId : $("#applicationId").val(),
+                            schoolType : $(this).find("#schoolType").val(),
+                            admissionDt : $(this).find("#admissionDt" + i).val(),
+                            graduationDt : $(this).find("#graduationDt" + i).val(),
+                            schoolName : $(this).find("#schoolName" + i).val(),
+                            dept : $(this).find("#dept" + i).val(),
+                            major : $(this).find("#major" + i).val(),
+                            graduateType : $(this).find("#graduateType" + i).val(),
+                            grade : $(this).find("#grade" + i).val(),
+                            userEmail : $("#userEmail").val(),
+                            degreeFileNo : $(this).find("#degreeFileNo" + i).val(),
+                            sexualFileNo : $(this).find("#sexualFileNo" + i).val(),
+                        }
+
+                        if($(this).find("#degreeFile" + i)[0].files.length != 0){
+                            formData.append("degreeFile" + i, $(this).find("#degreeFile" + i)[0].files[0]);
+                        }
+
+                        if($(this).find("#sexualFile" + i)[0].files.length != 0){
+                            formData.append("sexualFile" + i, $(this).find("#sexualFile" + i)[0].files[0]);
+                        }
+
+                        schoolArr.push(arrData);
+                    }
+                })
+
+                var careerArr = new Array();
+                $.each($(".careerInfo"), function(i, v){
+                    if($(this).find("#careerOrgName" + i).val() != ""){
+                        var arrData = {
+                            careerBaseId : $(this).find("#careerBaseId" + i).val(),
+                            applicationId : $("#applicationId").val(),
+                            careerOrgName : $(this).find("#careerOrgName" + i).val(),
+                            workStDt : $(this).find("#workStDt" + i).val(),
+                            workEnDt : $(this).find("#workEnDt" + i).val(),
+                            position : $(this).find("#position" + i).val(),
+                            chargeWork : $(this).find("#chargeWork" + i).val(),
+                            retireSalary : $(this).find("#retireSalary" + i).val(),
+                            retireReason : $(this).find("#retireReason" + i).val(),
+                            careerContent : $("#careerContent" + i).val(),
+                            userEmail : $("#userEmail").val(),
+                            careerFileNo : $(this).find("#careerFileNo" + i).val(),
+                        }
+
+                        if($(this).find("#careerFile" + i)[0].files.length != 0){
+                            formData.append("careerFile" + i, $(this).find("#careerFile" + i)[0].files[0]);
+                        }
+
+                        careerArr.push(arrData);
+                    }
+                })
+
+                formData.append("applicationId", $("#applicationId").val());
+                formData.append("schoolArr", JSON.stringify(schoolArr));
+                formData.append("careerArr", JSON.stringify(careerArr));
+                formData.append("userEmail", $("#userEmail").val());
+
+                var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm2.do", formData);
+                if(result.flag){
+                    if(type == "temp"){
+                        alert("임시저장 되었습니다.");
+                        location.reload();
+                    }else{
+                        location.href = "/application/applicationForm3.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+                    }
                 }
             }
         }

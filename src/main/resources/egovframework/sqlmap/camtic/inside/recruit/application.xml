@@ -71,6 +71,28 @@
             USER_EMAIL = #{userEmail}
     </select>
 
+    <select id="getApplicationChk" parameterType="map" resultType="boolean">
+        /* getApplicationChk */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                ELSE 0
+            END
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        WHERE 1=1
+        AND
+            SAVE_TYPE = 'S'
+        <choose>
+            <when test='applicationId != null and !"".equals(applicationId)'>
+                AND APPLICATION_ID = #{applicationId}
+            </when>
+            <otherwise>
+                AND USER_EMAIL = #{userEmail} AND RECRUIT_INFO_SN = #{recruitInfoSn}
+            </otherwise>
+        </choose>
+
+    </select>
+
     <select id="getApplicationForm1" parameterType="map" resultType="map">
         /* getApplicationForm1 */
         SELECT
@@ -433,6 +455,64 @@
         WHERE
             APPLICATION_ID = #{applicationId}
     </select>
+
+    <select id="getApplicationIntroduce" parameterType="map" resultType="map">
+        /* getApplicationIntroduce */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_INTRODUCE
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </select>
+
+    <insert id="setApplicationIntroduce" parameterType="map">
+        /* setApplicationIntroduce */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_INTRODUCE
+            (
+                APPLICATION_ID,
+                INTRODUCE1,
+                INTRODUCE2,
+                INTRODUCE3,
+                USER_ID,
+                REG_ID
+            )
+        VALUES
+            (
+                #{applicationId},
+                #{introduce1},
+                #{introduce2},
+                #{introduce3},
+                #{userEmail},
+                #{userEmail}
+            )
+    </insert>
+
+    <update id="setApplicationIntroduceUpd" parameterType="map">
+        /* setApplicationIntroduceUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_INTRODUCE
+        SET
+            INTRODUCE1 = #{introduce1},
+            INTRODUCE2 = #{introduce2},
+            INTRODUCE3 = #{introduce3},
+            MOD_ID = #{userEmail},
+            MOD_DATE = NOW()
+        WHERE
+            INTRODUCE_ID = #{introduceId}
+    </update>
+    
+    <update id="setApplicationMainSaveType" parameterType="map">
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            SAVE_TYPE = #{saveType},
+            SAVE_DATE = NOW(),
+            MOD_ID = #{userEmail},
+            MOD_DATE = NOW()
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </update>
 </mapper>
 
 

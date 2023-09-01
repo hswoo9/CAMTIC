@@ -72,11 +72,20 @@ var applicationLogin = {
                         /** 비밀번호 오류 */
                         alert(chk.rs.message);
                     }else if(chk.rs.code == "200"){
-                        /** 이미 있는 사용자 */
-                        if(chk.rs.chk){
-                            location.href = "/application/applicationForm1.do";
+                        if(!chk.rs.applicationChk){
+                            /** 이미 있는 사용자 */
+                            if(chk.rs.chk){
+                                if(chk.rs.applicationId){
+                                    location.href = "/application/applicationForm1.do?applicationId=" + chk.rs.applicationId;
+                                }else{
+                                    location.href = "/application/applicationForm1.do";
+                                }
+                            }else{
+                                location.href = "/application/userAgree.do";
+                            }
                         }else{
-                            location.href = "/application/userAgree.do";
+                            alert("최종제출이 완료된 공고입니다.");
+                            window.close();
                         }
                     }
                 }

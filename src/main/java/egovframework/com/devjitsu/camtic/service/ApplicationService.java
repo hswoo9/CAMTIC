@@ -18,4 +18,6 @@ public interface ApplicationService {
     Map<String, Object> getApplicationForm2(Map<String, Object> params);
     void setApplicationForm3(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     Map<String, Object> getApplicationForm3(Map<String, Object> params);
+    void setApplicationIntroduce(Map<String, Object> params);
+    Map<String, Object> getApplicationIntroduce(Map<String, Object> params);
 }

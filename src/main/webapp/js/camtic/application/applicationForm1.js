@@ -211,9 +211,9 @@ var applicationForm = {
             if(result.flag){
                 if(type == "temp"){
                     alert("임시저장 되었습니다.");
-                    $("#applicationId").val(result.params.applicationId);
+                    location.href = "/application/applicationForm1.do?applicationId=" + result.params.applicationId;
                 }else{
-                    location.href = "/application/applicationForm2.do?recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+                    location.href = "/application/applicationForm2.do?applicationId=" + result.params.applicationId + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
                 }
             }
         }

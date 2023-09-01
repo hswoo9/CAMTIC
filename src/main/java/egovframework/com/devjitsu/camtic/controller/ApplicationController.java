@@ -65,9 +65,6 @@ public class ApplicationController {
                 HttpSession session = request.getSession();
                 session.setAttribute("userEmail", userMap.get("USER_EMAIL"));
                 session.setAttribute("recruitInfoSn", params.get("recruitInfoSn"));
-                if(!StringUtils.isEmpty(returnMap.get("applicationId"))){
-                    session.setAttribute("applicationId", returnMap.get("applicationId"));
-                }
             }
         }else{
             returnMap.put("code", "999");
@@ -238,6 +235,31 @@ public class ApplicationController {
         model.addAttribute("params", params);
         return "camtic/application/applicationIntroduce";
     }
+
+    /**
+     * 채용공고 - 응시원서 저장 (자기소개서)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/application/setApplicationIntroduce.do")
+    public String setApplicationIntroduce(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        applicationService.setApplicationIntroduce(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /**
+     * 재용공고 - 응시원서 (자기소개서) 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/application/getApplicationIntroduce.do")
+    public String getApplicationIntroduce(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", applicationService.getApplicationIntroduce(params));
+        return "jsonView";
+    }
+
 
     public static String passwordEncrypt(String userPassword) throws Exception {
         if(userPassword != null && !userPassword.equals("")){
