@@ -181,7 +181,7 @@ const rprReceiptUpdate = {
         formData.append("regEmpSeq", data.regEmpSeq);
         formData.append("regEmpName", data.regEmpName);
         formData.append("shareUser", data.shareUser);
-        formData.append("menuCd", "rprNormalUp");
+        formData.append("menuCd", "rprNormal");
 
         if($("#appliFile")[0].files.length == 1){
             formData.append("appliFile", $("#appliFile")[0].files[0]);

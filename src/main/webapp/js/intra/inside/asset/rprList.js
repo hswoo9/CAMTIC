@@ -242,14 +242,44 @@ var rprList = {
                     field: "REG_NUM",
                     title: "등록번호"
                 }, {
-                    field: "",
-                    title: "신고서"
+                    title: "신고서",
+                    template : function(row){
+                        if(row.INVENTION_INFO_SN != null){
+                            return '<span>' +
+                                '       <button type="button" class="k-button k-button-md k-button-solid-info" onclick="rprReceiptList.inventionReqPop('+ row.INVENTION_INFO_SN + row.RPR_CLASS +')\">버튼</button>' +
+                                '   </span>'
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
-                    field: "",
-                    title: "출원증"
+                    title: "출원증",
+                    template: function(row){
+                        if(row.APP_FILES_NO > 0){
+                            var fileName = row.APP_FILE_ORG_NAME;
+                            if (fileName.indexOf(".") > -1) {
+                            } else {
+                                fileName = row.APP_FILE_ORG_NAME + "." + row.APP_FILE_EXT;
+                            }
+                            return '<a href=\"javascript:rprList.fileDown(\''+ row.APP_FILE_PATH + row.APP_FILE_UUID +'\',\''+ fileName +'\');\">보기</a>';
+                        }else{
+                            return '-';
+                        }
+                    }
                 }, {
-                    field: "",
-                    title: "등록증"
+                    title: "등록증",
+                    template: function(row){
+                        if(row.REG_FILES_NO > 0){
+                            var fileName = row.REG_FILE_ORG_NAME;
+                            if (fileName.indexOf(".") > -1) {
+                            } else {
+                                fileName = row.REG_FILE_ORG_NAME + "." + row.REG_FILE_EXT;
+                            }
+                            return '<a href=\"javascript:rprList.fileDown(\''+ row.REG_FILE_PATH + row.REG_FILE_UUID +'\',\''+ fileName +'\');\">보기</a>';
+                        }else{
+                            return '-';
+                        }
+                    }
                 }, {
                     field: "",
                     title: "포상금",
@@ -335,5 +365,11 @@ var rprList = {
         const name = "rprReceiptUpdatePop";
         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
+    },
+
+    fileDown : function(filePath, fileName){
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
+        });
     }
 }
