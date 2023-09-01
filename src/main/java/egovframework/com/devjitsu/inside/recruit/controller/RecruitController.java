@@ -64,7 +64,25 @@ public class RecruitController {
         return "jsonView";
     }
 
-    //채용관리 채용등록 팝업
+    /**
+     * 채용공고 단일 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getRecruitArea.do")
+    public String getRecruitArea(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("recruitArea", recruitService.getRecruitArea(params));
+        return "jsonView";
+    }
+
+    /**
+     * 채용관리 채용등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/pop/recruitReqPop.do")
     public String recruitReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

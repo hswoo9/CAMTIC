@@ -226,6 +226,17 @@
 
         ORDER BY REG_DT DESC
     </select>
+
+    <select id="getRecruitArea" parameterType="map" resultType="map">
+        /* getRecruitArea */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO
+        WHERE 1=1
+            AND RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+    </select>
+
 </mapper>
 
 

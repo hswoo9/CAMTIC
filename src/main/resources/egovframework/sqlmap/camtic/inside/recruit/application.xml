@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="application">
+
+    <insert id="setJoinAccess" parameterType="map">
+        /* setJoinAccess */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_USER
+            (
+                USER_EMAIL,
+                USER_PASSWORD,
+                REG_ID
+            )
+        VALUES
+            (
+                #{userEmail},
+                #{userPassword},
+                #{userEmail}
+            )
+    </insert>
+
+    <select id="getApplicationUser" parameterType="map" resultType="map">
+        /* getApplicationUser */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_USER
+        WHERE
+            USER_EMAIL = #{userEmail}
+    </select>
+
+    <select id="userAgreeChk" parameterType="map" resultType="boolean">
+        /* userAgreeChk */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+            END
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_USER_AGREE
+        WHERE
+            USER_EMAIL = #{userEmail}
+        AND
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+    </select>
+
+    <insert id="setUserAgree" parameterType="map">
+        /* setUserAgree */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_USER_AGREE
+            (
+                RECRUIT_INFO_SN,
+                USER_EMAIL,
+                REG_ID
+            )
+        VALUES
+            (
+                #{recruitInfoSn},
+                #{userEmail},
+                #{userEmail}
+            )
+    </insert>
+
+    <select id="getUserApplicationId" parameterType="map" resultType="String">
+        /* getUserApplicationId */
+        SELECT
+            APPLICATION_ID
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        WHERE
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+          AND
+            USER_EMAIL = #{userEmail}
+    </select>
+
+    <select id="getApplicationForm1" parameterType="map" resultType="map">
+        /* getApplicationForm1 */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </select>
+
+    <select id="getApplicationFileInfo" parameterType="map" resultType="map">
+        /* getApplicationFileInfo */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{fileNo}
+    </select>
+
+    <insert id="setApplicationForm1" parameterType="map">
+        /* setApplicationForm1 */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_MAIN
+            (
+                RECRUIT_INFO_SN,
+                RECRUIT_AREA_INFO_SN,
+                USER_EMAIL,
+                USER_NAME,
+                USER_NAME_EN,
+                USER_NAME_CN,
+                BDAY,
+                LUNAR_YN,
+                GENDER,
+                TEL_NUM,
+                MOBILE_TEL_NUM,
+                ZIP_CODE,
+                ADDR,
+                ADDR_DETAIL,
+                HOBBY,
+                SPECIALTY,
+                VETERANS,
+                VETERANS_NUM,
+                ARMI_YN,
+                CLSFT_CODE,
+                MILITARY_SVC_TYPE,
+                M_ENLIST_DAY,
+                M_DISHARGE_DAY,
+                RANK,
+                ETC,
+                M_UNFUL_REASON,
+                REG_ID
+            )
+        VALUES
+            (
+                #{recruitInfoSn},
+                #{recruitAreaInfoSn},
+                #{userEmail},
+                #{userName},
+                #{userNameEn},
+                #{userNameCn},
+                #{bDay},
+                #{lunarYn},
+                #{gender},
+                #{telNum},
+                #{mobileTelNum},
+                #{zipCode},
+                #{addr},
+                #{addrDetail},
+                #{hobby},
+                #{specialty},
+                #{veterans},
+                #{veteransNum},
+                #{armiYn},
+                #{clsftCode},
+                #{militarySvcType},
+                #{mEnlistDay},
+                #{mDishargeDay},
+                #{rank},
+                #{etc},
+                #{mUnfulReason},
+                #{userEmail}
+            )
+
+        <selectKey keyProperty="applicationId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_APPLICATION_MAIN'
+        </selectKey>
+    </insert>
+
+    <update id="setApplicationForm1Upd" parameterType="map">
+        /* setApplicationForm1Upd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn},
+            USER_EMAIL = #{userEmail},
+            USER_NAME = #{userName},
+            USER_NAME_EN = #{userNameEn},
+            USER_NAME_CN = #{userNameCn},
+            BDAY = #{bDay},
+            LUNAR_YN = #{lunarYn},
+            GENDER = #{gender},
+            TEL_NUM = #{telNum},
+            MOBILE_TEL_NUM = #{mobileTelNum},
+            ZIP_CODE = #{zipCode},
+            ADDR = #{addr},
+            ADDR_DETAIL = #{addr},
+            HOBBY = #{hobby},
+            SPECIALTY = #{specialty},
+            VETERANS = #{veterans},
+            VETERANS_NUM = #{veteransNum},
+            ARMI_YN = #{armiYn},
+            CLSFT_CODE = #{clsftCode},
+            MILITARY_SVC_TYPE = #{militarySvcType},
+            M_ENLIST_DAY = #{mEnlistDay},
+            M_DISHARGE_DAY = #{mDishargeDay},
+            RANK = #{rank},
+            ETC = #{etc},
+            M_UNFUL_REASON = #{mUnfulReason},
+            MOD_ID = #{userEmail},
+            MOD_DATE = NOW()
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </update>
+
+    <update id="setApplicationFileUpd" parameterType="map">
+        /* setApplicationFileUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            ${column} = #{fileNo}
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </update>
+
+    <delete id="setApplicationSchoolDel" parameterType="map">
+        /* setApplicationSchoolDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_SCHOOL WHERE APPLICATION_ID = #{applicationId}
+    </delete>
+
+    <insert id="setApplicationSchool" parameterType="map">
+        /* setApplicationSchool */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_SCHOOL
+            (
+                APPLICATION_ID,
+                SCHOOL_TYPE,
+                ADMISSION_DT,
+                GRADUATION_DT,
+                SCHOOL_NAME,
+                DEPT,
+                MAJOR,
+                GRADUATE_TYPE,
+                GRADE,
+                REG_ID
+            )
+        VALUES
+            (
+                #{applicationId},
+                #{schoolType},
+                #{admissionDt},
+                #{graduationDt},
+                #{schoolName},
+                #{dept},
+                #{major},
+                #{graduateType},
+                #{grade},
+                #{userEmail}
+            )
+
+        <selectKey keyProperty="applicationSchoolId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_APPLICATION_SCHOOL'
+        </selectKey>
+    </insert>
+
+    <update id="setApplicationSchoolFileUpd" parameterType="map">
+        /* setApplicationSchoolFileUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_SCHOOL
+        SET
+            ${column} = #{fileNo}
+        WHERE
+            APPLICATION_SCHOOL_ID = #{applicationSchoolId}
+    </update>
+
+    <delete id="setApplicationCareerDel" parameterType="map">
+        /* setApplicationCareerDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_CAREER WHERE APPLICATION_ID = #{applicationId}
+    </delete>
+
+    <insert id="setApplicationCareer" parameterType="map">
+        /* setApplicationCareer */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_CAREER
+            (
+                APPLICATION_ID,
+                CAREER_ORG_NAME,
+                WORK_ST_DT,
+                WORK_EN_DT,
+                POSITION,
+                CHARGE_WORK,
+                RETIRE_SALARY,
+                RETIRE_REASON,
+                CAREER_CONTENT,
+                REG_ID
+            )
+        VALUES
+            (
+                #{applicationId},
+                #{careerOrgName},
+                #{workStDt},
+                #{workEnDt},
+                #{position},
+                #{chargeWork},
+                #{retireSalary},
+                #{retireReason},
+                #{careerContent},
+                #{userEmail}
+            )
+
+        <selectKey keyProperty="applicationCareerId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_APPLICATION_CAREER'
+        </selectKey>
+    </insert>
+
+    <update id="setApplicationCareerFileUpd" parameterType="map">
+        /* setApplicationCareerFileUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_CAREER
+        SET
+            ${column} = #{fileNo}
+        WHERE
+            APPLICATION_CAREER_ID = #{applicationCareerId}
+    </update>
+
+    <select id="getApplicationSchool" parameterType="map" resultType="map">
+        /* getApplicationSchool */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_SCHOOL
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </select>
+
+    <select id="getApplicationCareer" parameterType="map" resultType="map">
+        /* getApplicationCareer */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_CAREER
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </select>
+
+    <update id="setApplicationOtherLang" parameterType="map">
+        /* setApplicationOtherLang */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            OTHER_YN = #{otherYn},
+            OTHER_LANG = #{otherLang}
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </update>
+
+    <delete id="setApplicationCertDel" parameterType="map">
+        /* setApplicationCertDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_CERT WHERE APPLICATION_ID = #{applicationId}
+    </delete>
+
+    <insert id="setApplicationCert" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_CERT
+            (
+                APPLICATION_ID,
+                CERT_NAME,
+                CERT_CLASS,
+                CERT_ISSUER,
+                CERT_CONTENT,
+                REG_ID
+            )
+        VALUES
+            (
+                #{applicationId},
+                #{certName},
+                #{certClass},
+                #{certIssuer},
+                #{certContent},
+                #{userEmail}
+            )
+
+        <selectKey keyProperty="applicationCertId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_APPLICATION_CERT'
+        </selectKey>
+    </insert>
+
+    <update id="setApplicationCertFileUpd" parameterType="map">
+        /* setApplicationCertFileUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_CERT
+        SET
+            ${column} = #{fileNo}
+        WHERE
+            APPLICATION_CERT_ID = #{applicationCertId}
+    </update>
+
+    <delete id="setApplicationLangDel" parameterType="map">
+        /* setApplicationLangDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY WHERE APPLICATION_ID = #{applicationId}
+    </delete>
+
+    <insert id="setApplicationLang" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY
+            (
+                APPLICATION_ID,
+                LANG_NAME,
+                ACQUISITION_DATE,
+                ACQUISITION_SCORE,
+                LANG_CONTENT,
+                REG_ID
+            )
+        VALUES
+            (
+                #{applicationId},
+                #{langName},
+                #{acquisitionDate},
+                #{acquisitionScore},
+                #{langContent},
+                #{userEmail}
+            )
+
+        <selectKey keyProperty="applicationLangId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_APPLICATION_LANG_ABILITY'
+        </selectKey>
+    </insert>
+
+    <update id="setApplicationLangFileUpd" parameterType="map">
+        /* setApplicationLangFileUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY
+        SET
+            ${column} = #{fileNo}
+        WHERE
+            APPLICATION_LANG_ID = #{applicationLangId}
+    </update>
+
+    <select id="getApplicationCert" parameterType="map" resultType="map">
+        /* getApplicationCert */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_CERT
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </select>
+
+    <select id="getApplicationLang" parameterType="map" resultType="map">
+        /* getApplicationLang */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </select>
+</mapper>
+
+
+

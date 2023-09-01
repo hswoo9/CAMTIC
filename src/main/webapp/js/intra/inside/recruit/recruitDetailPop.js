@@ -95,5 +95,9 @@ var rcDetailPop = {
 
     moveToModPage : function(){
         location.href = "/Inside/pop/recruitReqPop.do?recruitInfoSn=" + $("#recruitInfoSn").val()
+    },
+
+    moveToLoginPage : function(){
+        window.open("/application/applicationLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val(),"applicationLogin","width=750,height=320")
     }
 }

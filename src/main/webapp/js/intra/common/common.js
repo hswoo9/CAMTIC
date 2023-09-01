@@ -63,6 +63,28 @@ function onlyNumber(e) {
     e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '').replace(/[.]/g, '');
 }
 
+function removeChar(event) {
+    event = event || window.event;
+    var keyID = (event.which) ? event.which : event.keyCode;
+    if(keyID != 9){
+        if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
+            return;
+        else
+            event.target.value = event.target.value.replace(/[^0-9]/g, "");
+    }
+}
+
+function telFilter(e) {
+    var text = $(e).val().replace(/-/gi, "");
+
+    if (text.length > 8) {
+        $(e).val(text.replace(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/, "$1-$2-$3"));
+    }
+    if (text.length > 10) {
+        $(e).val(text.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3"));
+    }
+}
+
 //yyyyMMdd 두 날짜의 차이 구하기 (개월수)
 function betweenDay(firstDate, secondDate) {
     var firstDateObj = new Date(firstDate.substring(0, 4), firstDate.substring(4, 6) - 1, firstDate.substring(6, 8));

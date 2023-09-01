@@ -289,4 +289,14 @@
         WHERE
             DEPT_SEQ = #{deptSeq}
     </update>
+
+    <update id="setContentIdUpd" parameterType="map">
+        /* setContentIdUpd */
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = #{newId}
+        WHERE
+            CONTENT_ID = #{originId}
+    </update>
 </mapper>

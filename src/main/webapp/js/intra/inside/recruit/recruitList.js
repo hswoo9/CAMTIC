@@ -119,7 +119,8 @@ var recruitList = {
                     }
                 }, {
                     field: "ROW_NUM",
-                    title: "순번"
+                    title: "순번",
+                    width : 50
                 }, {
                     field: "RECRUIT_NUM",
                     title: "공고번호"
@@ -136,10 +137,11 @@ var recruitList = {
                     template: function(row) {
                         return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
                     },
-                    width: 300
+                    width: 240
                 }, {
                     field: "JOB_POSITION_ETC",
-                    title: "모집분야"
+                    title: "모집분야",
+                    width: 240
                 }, {
                     title: "경력",
                     template: function(row) {
@@ -169,7 +171,8 @@ var recruitList = {
                     }
                 }, {
                     field: "RECRUIT_STATUS_TEXT",
-                    title: "상태"
+                    title: "상태",
+                    width : 60
                 }
             ]
         }).data("kendoGrid");
@@ -178,14 +181,14 @@ var recruitList = {
     recruitReqPop : function() {
         var url = "/Inside/pop/recruitReqPop.do";
         var name = "recruitReqPop";
-        var option = "width=1400, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
     recruitAdminPop : function() {
         var url = "/Inside/pop/recruitAdminPop.do";
         var name = "recruitAdminPop";
-        var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
