@@ -1274,7 +1274,10 @@
                 REMARK_CN,
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
-                BEFORE_SN
+                BEFORE_SN,
+                RELATED_FILE_NO,
+                RELATED_AFILE_NO,
+                QUO_FILE_NO
             )
         VALUE
             (
@@ -1306,7 +1309,10 @@
                 #{remarkCn},
                 #{regEmpSeq},
                 #{regEmpName},
-                #{befSn}
+                #{befSn},
+                #{relatedFileNo},
+                #{relatedAfileNo},
+                #{quoFileNo}
             )
         <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'

@@ -20,6 +20,9 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="inventionInfoSn" name="inventionInfoSn" value="${data.inventionInfoSn}"/>
+<input type="hidden" id="relatedFileNo" name="relatedFileNo" value="${data.relatedFileNo}"/>
+<input type="hidden" id="relatedAfileNo" name="relatedAfileNo" value="${data.relatedAfileNo}"/>
+<input type="hidden" id="quoFileNo" name="quoFileNo" value="${data.quoFileNo}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-11" style="padding:0;">
     <div class="table-responsive">

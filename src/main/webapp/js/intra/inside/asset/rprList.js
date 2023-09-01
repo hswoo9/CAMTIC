@@ -246,7 +246,7 @@ var rprList = {
                     template : function(row){
                         if(row.INVENTION_INFO_SN != null){
                             return '<span>' +
-                                '       <button type="button" class="k-button k-button-md k-button-solid-info" onclick="rprReceiptList.inventionReqPop('+ row.INVENTION_INFO_SN + row.RPR_CLASS +')\">버튼</button>' +
+                                '       <button type="button" class="k-button k-button-md k-button-solid-info" onclick="rprList.inventionReqPop('+ row.INVENTION_INFO_SN +')\">신고서</button>' +
                                 '   </span>'
                         } else {
                             return "";
@@ -371,5 +371,15 @@ var rprList = {
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
         });
+    },
+
+    inventionReqPop(inventionInfoSn){
+        let url = "/Inside/pop/inventionPop.do";
+        if(!isNaN(inventionInfoSn)) {
+            url = "/Inside/pop/inventionPop.do?inventionInfoSn=" + inventionInfoSn;
+        }
+        const name = "inventionPop";
+        const option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+        window.open(url, name, option);
     }
 }

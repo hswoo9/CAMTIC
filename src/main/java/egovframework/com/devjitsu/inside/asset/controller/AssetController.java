@@ -739,6 +739,9 @@ public class AssetController {
     @RequestMapping("/inside/setRprReceiptInsert")
     public String setRprReceiptInsert(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
         assetService.setRprReceiptInsert(params, request, SERVER_DIR, BASE_DIR);
+        model.addAttribute("relatedFileNo", params.get("relatedFileNo"));
+        model.addAttribute("relatedAfileNo", params.get("relatedAfileNo"));
+        model.addAttribute("quoFileNo", params.get("quoFileNo"));
         model.addAttribute("inventionInfoSn", params.get("inventionInfoSn"));
         return "jsonView";
     }

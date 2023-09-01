@@ -53,7 +53,10 @@ const rprReceiptReq = {
 
         if($("#inventionInfoSn").val() != ""){
             const result = customKendo.fn_customAjax("/inside/getInventionInfo", {
-                inventionInfoSn: $("#inventionInfoSn").val()
+                inventionInfoSn: $("#inventionInfoSn").val(),
+                relatedFileNo: $("#relatedFileNo").val(),
+                relatedAfileNo: $("#relatedAfileNo").val(),
+                quoFileNo: $("#quoFileNo").val()
             });
             const invenInfo = result.rs.info;
             const shareList = result.rs.shareList;
@@ -64,6 +67,10 @@ const rprReceiptReq = {
             $("#iprClass").data("kendoDropDownList").value(invenInfo.IPR_CLASS);
             $("#title").val(invenInfo.TITLE);
             $("#detailCn").val(invenInfo.DETAIL_CN);
+            $("#relatedFileNo").val(invenInfo.RELATED_FILE_NO);
+            $("#relatedAfileNo").val(invenInfo.RELATED_AFILE_NO);
+            $("#quoFileNo").val(invenInfo.QUO_FILE_NO);
+
         }
     },
 
@@ -100,6 +107,10 @@ const rprReceiptReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
         let befSn = $("#inventionInfoSn").val();
+        let relatedFileNo = $("#relatedFileNo").val();
+        let relatedAfileNo = $("#relatedAfileNo").val();
+        let quoFileNo = $("#quoFileNo").val();
+
         let shareUserArr = new Array();
         $.each($('.addData'), function(i, v){
             let empSeq = $(v).find('.shareEmpSeq').val();
@@ -149,7 +160,10 @@ const rprReceiptReq = {
             regEmpSeq: regEmpSeq,
             regEmpName: regEmpName,
             befSn: befSn,
-            shareUser: JSON.stringify(shareUserArr)
+            shareUser: JSON.stringify(shareUserArr),
+            relatedFileNo: relatedFileNo,
+            relatedAfileNo: relatedAfileNo,
+            quoFileNo: quoFileNo
         }
 
         var formData = new FormData();
@@ -183,6 +197,9 @@ const rprReceiptReq = {
         formData.append("regEmpName", data.regEmpName);
         formData.append("befSn", data.befSn);
         formData.append("shareUser", data.shareUser);
+        formData.append("relatedFileNo", data.relatedFileNo);
+        formData.append("relatedAfileNo", data.relatedAfileNo);
+        formData.append("quoFileNo", data.quoFileNo);
         formData.append("menuCd", "rprNormal");
 
 
