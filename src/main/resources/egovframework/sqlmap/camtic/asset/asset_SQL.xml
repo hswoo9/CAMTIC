@@ -63,8 +63,8 @@
 
         <if test='searchType != null and !"".equals(searchType)'>
             <choose>
-                <when test='"assetName".equals(searchType)'>AND AST_NAME LIKE CONCAT ('%', #{searchContent},'%')  </when>
-                <when test='"assetCode".equals(searchType)'>AND AST_NO LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"assetName".equals(searchType)'>AND AI.AST_NAME LIKE CONCAT ('%', #{searchContent},'%')  </when>
+                <when test='"assetCode".equals(searchType)'>AND AI.AST_NO LIKE CONCAT ('%', #{searchContent},'%')</when>
                 <when test='"modelSize".equals(searchType)'>AND MODEL_SIZE LIKE CONCAT ('%', #{searchContent},'%')</when>
                 <when test='"modelName".equals(searchType)'>AND MODEL_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
                 <when test='"empName".equals(searchType)'>AND EMP_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
@@ -2191,6 +2191,73 @@
         </if>
     </delete>
 
+    <select id="getClassCtgAList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ASSET_CODE
+        WHERE
+            AST_UPPER_CODE = 0
+        AND
+            ACTIVE = "Y"
+    </select>
+
+    <select id="getClassCtgBList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ASSET_CODE
+        WHERE
+            AST_UPPER_CODE = #{astUpperCode}
+        AND
+            ACTIVE = "Y"
+    </select>
+
+    <insert id="insQrCodeSet" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_QR_INFO
+        (
+            QR_NM,
+            QR_CD,
+            PROD_NM,
+            PROD_BUY_DT,
+            PJT_SN,
+            MODEL_NM,
+            REG_DT,
+            REG_EMP_SEQ
+        ) VALUES
+        (
+            #{prodName},
+            #{qrCd},
+            #{prodName},
+            #{prodBuyDt},
+            #{project},
+            #{modelNm},
+            NOW(),
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="qrSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_QR_INFO'
+        </selectKey>
+    </insert>
+
+    <select id="cntQrCodeGroup" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_INSIDE.DJ_QR_INFO
+        WHERE
+            QR_CD LIKE CONCAT('%', #{code}, '%');
+    </select>
+
+    <update id="updQrFileSn" parameterType="map">
+        UPDATE
+            CAM_INSIDE.DJ_QR_INFO
+        SET
+            FILE_SN = #{fileSn}
+        WHERE
+            QR_SN = #{qrSn}
+    </update>
     <select id="getContentFileList" parameterType="map" resultType="map">
         /* getContentFileList */
         SELECT

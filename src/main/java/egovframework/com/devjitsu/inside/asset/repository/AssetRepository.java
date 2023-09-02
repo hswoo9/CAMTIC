@@ -224,6 +224,26 @@ public class AssetRepository extends AbstractDAO {
         update("asset.delBookCode", params);
     }
 
+    public List<Map<String, Object>> getClassCtgAList(Map<String, Object> params) {
+        return selectList("asset.getClassCtgAList", params);
+    }
+
+    public List<Map<String, Object>> getClassCtgBList(Map<String, Object> params) {
+        return selectList("asset.getClassCtgBList", params);
+    }
+
+    public void insQrCodeSet(Map<String, Object> params) {
+        insert("asset.insQrCodeSet", params);
+    }
+
+    public int cntQrCodeGroup(Map<String, Object> params) {
+        return (int) selectOne("asset.cntQrCodeGroup", params);
+    }
+
+    public void updQrFileSn(Map<String, Object> params) {
+        update("asset.updQrFileSn", params);
+    }
+
     public void setRprFileNoUpd(Map<String, Object> params) { insert("asset.setRprFileNoUpd", params);}
 
     public void setRprFileNoUpdA(Map<String, Object> params) { insert("asset.setRprFileNoUpdA", params);}

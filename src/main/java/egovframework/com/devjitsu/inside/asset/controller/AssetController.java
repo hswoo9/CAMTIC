@@ -1,10 +1,16 @@
 package egovframework.com.devjitsu.inside.asset.controller;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -44,6 +56,9 @@ public class AssetController {
 
     @Autowired
     private UserManageService userManageService;
+
+    @Autowired
+    private CommonService commonService;
 
     /**
      * 자산관리 > 자산리스트 페이지
@@ -1254,5 +1269,93 @@ public class AssetController {
         model.addAttribute("loginVO", login);
 
         return "inside/asset/qrCodeMakeView";
+    }
+
+    @RequestMapping("/asset/qrCodeSetView.do")
+    public String qrCodeSetView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/inside/asset/qrCodeSetView";
+    }
+
+    @RequestMapping("/inside/getClassCtgAList")
+    public String getClassCtgAList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getClassCtgAList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/getClassCtgBList")
+    public String getClassCtgBList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", assetService.getClassCtgBList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/cntQrCodeGroup")
+    public String cntQrCodeGroup(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            model.addAttribute("rs", assetService.cntQrCodeGroup(params));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/qrCodeSet")
+    public String qrCodeSet(@RequestParam Map<String, Object> params, Model model){
+
+        try {
+            assetService.insQrCodeSet(params);
+
+            String savePath = "D:\\HJO\\5.프로젝트\\4.캠틱\\4.APP\\QR코드\\2023";
+//            String savePath = "/upload/qr/2023";
+            File file = new File(savePath);
+            String fileName = "";
+
+            if(!file.exists()){
+                file.mkdirs();
+            }
+
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            String data = (String) params.get("data");
+            data = new String(data.getBytes(StandardCharsets.UTF_8), "ISO-8859-1");
+            BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, 100, 100);
+            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+            fileName = params.get("qrCd").toString();
+            File temp = new File(savePath + "/" + fileName + ".png");
+
+            Map<String, Object> fileInfo = new HashMap<>();
+
+            fileInfo.put("fileCd", "qrCode");
+            fileInfo.put("fileUUID", fileName);
+            fileInfo.put("fileSize", 426);
+            fileInfo.put("fileOrgName", fileName);
+            fileInfo.put("filePath", savePath);
+            fileInfo.put("fileExt", "png");
+            fileInfo.put("empSeq", params.get("empSeq"));
+
+
+            ImageIO.write(bufferedImage, "png", temp);
+
+            assetService.insFileInfo(fileInfo);
+
+            params.put("fileSn", fileInfo.get("file_no"));
+
+            assetService.updQrFileSn(params);
+
+            model.addAttribute("code", 200);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
     }
 }

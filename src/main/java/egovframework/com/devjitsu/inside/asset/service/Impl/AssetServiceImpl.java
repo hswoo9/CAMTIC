@@ -1222,4 +1222,34 @@ public class AssetServiceImpl implements AssetService {
     public void delBookCode(Map<String, Object> params) {
         assetRepository.delBookCode(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getClassCtgAList(Map<String, Object> params) {
+        return assetRepository.getClassCtgAList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getClassCtgBList(Map<String, Object> params) {
+        return assetRepository.getClassCtgBList(params);
+    }
+
+    @Override
+    public void insQrCodeSet(Map<String, Object> params) {
+        assetRepository.insQrCodeSet(params);
+    }
+
+    @Override
+    public int cntQrCodeGroup(Map<String, Object> params) {
+        return assetRepository.cntQrCodeGroup(params);
+    }
+
+    @Override
+    public void insFileInfo(Map<String, Object> fileInfo) {
+        commonRepository.insOneFileInfo(fileInfo);
+    }
+
+    @Override
+    public void updQrFileSn(Map<String, Object> params) {
+        assetRepository.updQrFileSn(params);
+    }
 }

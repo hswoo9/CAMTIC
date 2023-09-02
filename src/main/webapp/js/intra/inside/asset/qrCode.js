@@ -4,8 +4,15 @@ var qrCode = {
 
     fn_defaultScript : function (){
 
-        qrCode.mainGrid();
 
+
+
+
+        qrCode.mainGrid();
+    },
+
+    gridReload : function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     mainGrid : function() {
@@ -65,22 +72,22 @@ var qrCode = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="qrCode.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookRegisPopup();">' +
-                            '	<span class="k-button-text">도서등록</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="qrCode.fn_setQrCode();">' +
+                            '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookCodePopup();">' +
-                            '	<span class="k-button-text">분류코드</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="qrCode.fn_delQrCode();">' +
+                            '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
                 }
@@ -130,5 +137,13 @@ var qrCode = {
             ]
         }).data("kendoGrid");
     },
+
+    fn_setQrCode : function (){
+        var url = "/asset/qrCodeSetView.do";
+        var name = "_blank";
+        var option = "width = 900, height = 850, top = 100, left = 200, location = no"
+
+        var popup = window.open(url, name, option);
+    }
 
 }
