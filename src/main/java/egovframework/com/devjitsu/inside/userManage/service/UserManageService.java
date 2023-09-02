@@ -25,6 +25,8 @@ public interface UserManageService{
     void setBasicInfo(Map<String, Object> params);
     void setUserReqDetailInsert(Map<String, Object> params);
     void setEducationalInfo (Map<String,Object> map);
+    /*인사기록카드 히스토리*/
+    void setRecordHisInfo (Map<String,Object> map);
     void setCareerInfo (Map<String,Object> map);
     void setMilitaryInfo (Map<String,Object> map);
     void setFmailyInfo (Map<String,Object> map);
@@ -63,5 +65,31 @@ public interface UserManageService{
     Object updateUserBankInfo(Map<String, Object> params);
 
     Object setUserReqDetailUpdate(Map<String, Object> params);
+
+    /** 인사기록카드 - 학력사항 삭제*/
+    Map<String, Object> setEduDelete(List<String> eduChk);
+
+    /** 인사기록카드 - 경력사항 삭제*/
+    Map<String, Object> setCareerDelete(List<String> employChk);
+
+    /** 인사기록카드 - 가족사항 삭제*/
+    Map<String, Object> setFamilyDelete(List<String> familyChk);
+
+    /** 인사기록카드 - 보유면허 삭제*/
+    Map<String, Object> setLicenseDelete(List<String> certChk);
+
+    /** 인사기록카드 - 직무사항 삭제*/
+    Map<String, Object> setJobDelete(List<String> dutyInfoChk);
+
+    /** 인사기록카드 - 상벌사항 삭제*/
+    Map<String, Object> setRewordDelete(List<String> rewordChk);
+
+    /** 인사기록카드 - 제안제도 삭제*/
+    Map<String, Object> setProposalDelete(List<String> propChk);
+
+    /**
+     * 인사기록카드 수정에 들어갈 항목 조회
+     * */
+    Map<String,Object> getEduinfoList (Map<String,Object> params);
 
 }

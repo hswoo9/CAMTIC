@@ -18,6 +18,7 @@
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <input type="hidden" id="pk" name="pk" value="${pk}">
       <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
       <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -120,6 +121,7 @@
 
   $(function(){
     fn_default();
+    fn_dataSet();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -148,6 +150,27 @@
     $("#score").kendoTextBox();
 
   }
+
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/getEduinfoList.do', {
+      pk : $("#pk").val()
+    });
+
+    if(result.flag){
+      var e = result.rs;
+
+      $("#gubun").data("kendoDropDownList").value(e.GUBUN_CODE); //구분
+      $("#sDate").val(e.ADMISSION_DAY); //입학일 '%Y-%m-%d'
+      $("#eDate").val(e.GRADUATION_DAY); //졸업일
+      $("#school").val(e.SCHOOL_NAME); //학교 및 학과
+      $("#degree").data("kendoDropDownList").value(e.DEGREE_CODE); //학위
+      $("#graduation").data("kendoDropDownList").value(e.GRADUATION_CODE); //졸업
+      $("#bmk").val(e.RMK); //비고
+      $("#score").val(e.SCORE); //성적
+    }
+
+  }
+
   function fu_addInfo() {
     var data = {
       gubun : $("#gubun").val(),
@@ -160,11 +183,26 @@
       bmk : $("#bmk").val(),
       type : "degree",
     }
+    JSON.stringify(data);
+    data: JSON.stringify(data)
+    console.log(data);
+
+    var insertData = {
+      type : "degree",
+      APPLI_TYPE : "I",
+      ADMIN_APPROVAL : "N",
+      JSON : JSON.stringify(data)
+    }
+
+    var data = {};
+
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
     console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");
+        alert(JSON.stringify(data));
+        console.log(data);
         fn_windowClose();
       }else{
         alert("등록에 실패하였습니다.");

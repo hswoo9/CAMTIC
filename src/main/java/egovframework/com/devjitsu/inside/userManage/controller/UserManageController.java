@@ -531,6 +531,12 @@ public class UserManageController {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
     }
+    //학력사항 수정 팝업 내용
+    @RequestMapping("/userManage/getEduinfoList.do")
+    public String getEduinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getEduinfoList(map));
+        return "jsonView";
+    }
 
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
     public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
@@ -564,6 +570,7 @@ public class UserManageController {
             case "proposal":
                 viewName = "popup/inside/userManage/userPersonnelRecordProposalPop"; break;
         }
+        model.addAttribute("pk", params.get("pk"));
 
         return viewName;
     }
@@ -593,6 +600,7 @@ public class UserManageController {
             case "degree":
                 try {
                     userManageService.setEducationalInfo(params);
+                    userManageService.setRecordHisInfo(params);
                     model.addAttribute("rs", "SUCCESS");
                 }catch (Exception e) {
                     model.addAttribute("rs", "FAILED");
@@ -1143,6 +1151,69 @@ public class UserManageController {
         System.out.println("parmas값 --------" + params);
         System.out.println("dfdf --------" + userPersonnelinformList);
         return "popup/inside/userManage/userViewTraineePop2";
+    }
+
+    /**
+     * 인사기록카드 - 학력 사항 삭제
+     */
+    @RequestMapping("/userManage/setEduDelete")
+    public String setEduDelete(@RequestParam(value = "eduChk[]") List<String> eduChk, Model model){
+        model.addAttribute("rs", userManageService.setEduDelete(eduChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 경력 사항 삭제
+     */
+    @RequestMapping("/userManage/setCareerDelete")
+    public String setCareerDelete(@RequestParam(value = "employChk[]") List<String> employChk, Model model){
+        model.addAttribute("rs", userManageService.setCareerDelete(employChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 가족 사항 삭제
+     */
+    @RequestMapping("/userManage/setFamilyDelete")
+    public String setFamilyDelete(@RequestParam(value = "familyChk[]") List<String> familyChk, Model model){
+        model.addAttribute("rs", userManageService.setFamilyDelete(familyChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 보유면허 삭제
+     */
+    @RequestMapping("/userManage/setLicenseDelete")
+    public String setLicenseDelete(@RequestParam(value = "certChk[]") List<String> certChk, Model model){
+        model.addAttribute("rs", userManageService.setLicenseDelete(certChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 직무사항 삭제
+     */
+    @RequestMapping("/userManage/setJobDelete")
+    public String setJobDelete(@RequestParam(value = "dutyInfoChk[]") List<String> dutyInfoChk, Model model){
+        model.addAttribute("rs", userManageService.setJobDelete(dutyInfoChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 상벌사항 삭제
+     */
+    @RequestMapping("/userManage/setRewordDelete")
+    public String setRewordDelete(@RequestParam(value = "rewordChk[]") List<String> rewordChk, Model model){
+        model.addAttribute("rs", userManageService.setRewordDelete(rewordChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 제안제도 삭제
+     */
+    @RequestMapping("/userManage/setProposalDelete")
+    public String setProposalDelete(@RequestParam(value = "propChk[]") List<String> propChk, Model model){
+        model.addAttribute("rs", userManageService.setProposalDelete(propChk));
+        return "jsonView";
     }
 
 }

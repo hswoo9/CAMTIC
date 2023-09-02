@@ -1153,14 +1153,23 @@
         var popup = window.open(url, name, option);
     }
 
-/*    //인사기록카드 - 학력 사항 수정
+    //인사기록카드 - 학력 사항 수정
     function updateDegreeBtn() {
         if($('input[name=eduChk]:checked').length == 0){
             alert("수정할 항목을 선택해주세요.");
         }else if($('input[name=eduChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=degree";
+            var eduChk = new Array();
+            $("input[name='eduChk']").each(function(){
+                if(this.checked){
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("edu", "");
+                    eduChk.push(id);
+                }
+            })
+
+            var url = "/useManage/userPersonnelRecordPop.do?popName=degree"+"&pk=" + eduChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
@@ -1459,6 +1468,6 @@
                 alert(rs.message);
             }
         });
-    }*/
+    }
 
 </script>
