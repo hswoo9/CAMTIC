@@ -262,11 +262,11 @@ var archiveList = {
                                 fileName = row.file_org_name + "." + row.file_ext;
                             }
                             if (row.ACTIVE == "D") {
-                                return '<a style=\'text-decoration: line-through; text-decoration-color: red; color : red;\' href=\"javascript:fileDown(\'http://218.158.231.186:8080/' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
+                                return '<a style=\'text-decoration: line-through; text-decoration-color: red; color : red;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
                             }else if(row.DISPOSE_YN == "Y"){
-                                return '<a style=\'text-decoration: line-through;\' href=\"javascript:fileDown(\'http://218.158.231.186:8080/' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
+                                return '<a style=\'text-decoration: line-through;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
                             }else{
-                                return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'http://218.158.231.186:8080/' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
+                                return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">있음</a>';
                             }
                         } else {
                             if (row.ACTIVE == "D") {

@@ -102,7 +102,7 @@ var rewardReq = {
                     width: 150,
                     template: function(row){
                         if(row.file_no > 0){
-                            return '<span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
+                            return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
                         }else{
                             return '-';
                         }

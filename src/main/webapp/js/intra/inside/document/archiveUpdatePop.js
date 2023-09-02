@@ -84,7 +84,7 @@ console.log(data);
             if(e.file_no > 0){
                 $(".resultTh").hide();
                 html += '<tr style="text-align: center">';
-                html += '   <td><span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
                 html += '</tr>';
@@ -98,7 +98,7 @@ console.log(data);
             if(e.file_no > 0){
                 $(".resultTh").show();
                 html += '<tr style="text-align: center"  class="addFile">';
-                html += '   <td><span style="cursor: pointer" onclick="fileDown(\'http://218.158.231.186:8080'+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
                 html += '   <td>';
