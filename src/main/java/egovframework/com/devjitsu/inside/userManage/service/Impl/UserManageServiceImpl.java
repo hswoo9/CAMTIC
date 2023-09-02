@@ -139,6 +139,12 @@ public class UserManageServiceImpl implements UserManageService {
         userManageRepository.setEducationalInfo(map);
     }
 
+    /*인사기록카드 히스토리*/
+    @Override
+    public void setRecordHisInfo(Map<String, Object> map) {
+        userManageRepository.setRecordHisInfo(map);
+    }
+
     @Override
     public void setCareerInfo(Map<String, Object> map) {
         userManageRepository.setCareerInfo(map);
@@ -355,6 +361,138 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public Object setUserReqDetailUpdate(Map<String, Object> params) {
         return userManageRepository.setUserReqDetailUpdate(params);
+    }
+
+    //인사기록카드 - 학력사항 삭제
+    @Override
+    public Map<String, Object> setEduDelete(List<String> eduChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setEduDelete(eduChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 - 경력사항 삭제
+    @Override
+    public Map<String, Object> setCareerDelete(List<String> employChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setCareerDelete(employChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 - 가족사항 삭제
+    @Override
+    public Map<String, Object> setFamilyDelete(List<String> familyChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setFamilyDelete(familyChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 - 보유면허 삭제
+    @Override
+    public Map<String, Object> setLicenseDelete(List<String> certChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setLicenseDelete(certChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 - 직무사항 삭제
+    @Override
+    public Map<String, Object> setJobDelete(List<String> dutyInfoChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setJobDelete(dutyInfoChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 - 상벌사항 삭제
+    @Override
+    public Map<String, Object> setRewordDelete(List<String> rewordChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setRewordDelete(rewordChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 - 제안제도 삭제
+    @Override
+    public Map<String, Object> setProposalDelete(List<String> propChk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            userManageRepository.setProposalDelete(propChk);
+
+            result.put("code", "200");
+            result.put("message", "삭제가 요청되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "삭제 요청 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+    //인사기록카드 수정에 들어갈 항목 조회
+    @Override
+    public Map<String, Object> getEduinfoList(Map<String, Object> params) {
+        return userManageRepository.getEduinfoList(params);
     }
 
 }

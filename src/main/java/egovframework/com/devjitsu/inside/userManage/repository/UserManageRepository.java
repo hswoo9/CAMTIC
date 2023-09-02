@@ -51,6 +51,10 @@ public class UserManageRepository extends AbstractDAO {
     public void setEducationalInfo (Map<String,Object> map) {
         insert("userManage.setEducationalInfo", map);
     }
+    /*인사기록카드 히스토리*/
+    public void setRecordHisInfo (Map<String,Object> map) {
+        insert("userManage.setRecordHisInfo", map);
+    }
     public void setCareerInfo (Map<String,Object> map) {
         insert("userManage.setCareerInfo", map);
     }
@@ -144,4 +148,30 @@ public class UserManageRepository extends AbstractDAO {
         return update("userManage.setUserReqDetailUpdate", params);
     }
     public void setBasicInfo(Map<String, Object> params) { update("userManage.setBasicInfo", params);}
+
+    //인사기록카드 - 학력사항 삭제
+    public void setEduDelete(List<String> eduChk) { update("userManage.setEduDelete", eduChk);}
+
+    //인사기록카드 - 경력사항 삭제
+    public void setCareerDelete(List<String> employChk) { update("userManage.setCareerDelete", employChk);}
+
+    //인사기록카드 - 가족사항 삭제
+    public void setFamilyDelete(List<String> familyChk) { update("userManage.setFamilyDelete", familyChk);}
+
+    //인사기록카드 - 보유면허 삭제
+    public void setLicenseDelete(List<String> certChk) { update("userManage.setLicenseDelete", certChk);}
+
+    //인사기록카드 - 직무사항 삭제
+    public void setJobDelete(List<String> dutyInfoChk) { update("userManage.setJobDelete", dutyInfoChk);}
+
+    //인사기록카드 - 상벌사항 삭제
+    public void setRewordDelete(List<String> rewordChk) { update("userManage.setRewordDelete", rewordChk);}
+
+    //인사기록카드 - 제안제도 삭제
+    public void setProposalDelete(List<String> propChk) { update("userManage.setProposalDelete", propChk);}
+
+    //인사기록카드 수정에 들어갈 항목 조회
+    public Map<String,Object> getEduinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getEduinfoList", params);
+    }
 }
