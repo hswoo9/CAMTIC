@@ -17,17 +17,7 @@
         <div class="panel-body">
             <div>
                 <table class="searchTable table table-bordered mb-0">
-<%--                    <colgroup>--%>
-<%--                        <col width="10%">--%>
-<%--                        <col width="90%">--%>
-<%--                    </colgroup>--%>
-<%--                    <tr>--%>
-<%--                        <th class="text-center th-color">구분</th>--%>
-<%--                        <td>--%>
-<%--                            <input type="text" id="searchType" style="width: 140px; margin-right: 6px;">--%>
-<%--                            <input type="text" id="searchText" style="width: 140px;" onkeypress="if(window.event.keyCode==13){gridReload()}">--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
+
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>

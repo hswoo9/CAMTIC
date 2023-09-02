@@ -149,4 +149,16 @@ public interface AssetService {
 
     void delBookCode(Map<String, Object> params);
 
+
+    List<Map<String, Object>> getClassCtgAList(Map<String, Object> params);
+
+    List<Map<String, Object>> getClassCtgBList(Map<String, Object> params);
+
+    void insQrCodeSet(Map<String, Object> params);
+
+    int cntQrCodeGroup(Map<String, Object> params);
+
+    void insFileInfo(Map<String, Object> fileInfo);
+
+    void updQrFileSn(Map<String, Object> params);
 }
