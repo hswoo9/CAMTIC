@@ -1167,6 +1167,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public List<Map<String, Object>> getEquipStatRear(Map<String, Object> params) {
+        return assetRepository.getEquipStatRear(params);
+    }
+
+    @Override
     public Map<String, Object> getData(Map<String, Object> params) {
         return assetRepository.getData(params);
     }

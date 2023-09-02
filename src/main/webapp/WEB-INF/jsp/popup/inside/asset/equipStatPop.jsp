@@ -31,8 +31,13 @@
             </colgroup>
             <tr>
                 <th class="text-center th-color">조회년월</th>
-                <td colspan="5">
-                    <input type="text" name="applyMonth" id="applyMonth" style="width: 120px;">
+                <td>
+                    <input type="text" name="applyYear" id="applyYear" style="width: 120px;">
+                </td>
+                <th class="text-center th-color">구분</th>
+                <td colspan="3">
+                    <input type="text" name="searchType" id="searchType" style="width: 570px;">
+                    <input type="hidden" name="searchTypeText" id="searchTypeText">
                 </td>
             </tr>
         </table>

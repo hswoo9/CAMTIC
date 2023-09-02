@@ -1405,13 +1405,13 @@
     <select id="getEqipmnRegList" parameterType="map" resultType="map">
         /*getEqipmnRegList*/
         SELECT
-        eqipmn_mst_sn as EQIPMN_MST_SN,
-        eqipmn_gbn_name AS EQIPMN_GBN_NAME,
-        eqipmn_name AS EQIPMN_NAME,
-        regtr_name AS REGTR_NAME,
-        reg_de AS REG_DE,
-        actvt_yn as ACTVT_YN,
-        sort_sn as SORT_SN
+            eqipmn_mst_sn as EQIPMN_MST_SN,
+            eqipmn_gbn_name AS EQIPMN_GBN_NAME,
+            eqipmn_name AS EQIPMN_NAME,
+            regtr_name AS REGTR_NAME,
+            DATE_FORMAT(reg_de, '%Y-%m-%d') AS REG_DE,
+            actvt_yn as ACTVT_YN,
+            sort_sn as SORT_SN
         FROM
         CAM_INSIDE.DJ_EQIPMN_MST
         WHERE
@@ -2066,6 +2066,51 @@
              GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
              ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
         ) C
+    </select>
+
+    <select id="getEquipStatRear" resultType="map" parameterType="map">
+        /* getEquipStatRear */
+        SELECT
+            R.EQIPMN_NAME AS EQIPMN_NAME,
+            TRUNCATE(IFNULL(((R.JAN - R.BEF) / R.BEF) * 100, 0), 0) AS JAN,
+            TRUNCATE(IFNULL(((R.FEB - R.JAN) / R.JAN) * 100, 0), 0) AS FEB,
+            TRUNCATE(IFNULL(((R.MAR - R.FEB) / R.FEB) * 100, 0), 0) AS MAR,
+            TRUNCATE(IFNULL(((R.APR - R.MAR) / R.MAR) * 100, 0), 0) AS APR,
+            TRUNCATE(IFNULL(((R.MAY - R.APR) / R.APR) * 100, 0), 0) AS MAY,
+            TRUNCATE(IFNULL(((R.JUN - R.MAY) / R.MAY) * 100, 0), 0) AS JUN,
+            TRUNCATE(IFNULL(((R.JUL - R.JUN) / R.JUN) * 100, 0), 0) AS JUL,
+            TRUNCATE(IFNULL(((R.AUG - R.JUL) / R.JUL) * 100, 0), 0) AS AUG,
+            TRUNCATE(IFNULL(((R.SEP - R.AUG) / R.AUG) * 100, 0), 0) AS SEP,
+            TRUNCATE(IFNULL(((R.OCT - R.SEP) / R.SEP) * 100, 0), 0) AS OCT,
+            TRUNCATE(IFNULL(((R.NOV - R.OCT) / R.OCT) * 100, 0), 0) AS NOV,
+            TRUNCATE(IFNULL(((R.DECE - R.NOV) / R.NOV) * 100, 0), 0) AS DECE
+
+        FROM
+            (
+                SELECT
+                    IEM.EQIPMN_NAME,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(${year}-1, '12') AND ACTVT_YN = 'Y') AS BEF,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '01') AND ACTVT_YN = 'Y') AS JAN,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '02') AND ACTVT_YN = 'Y') AS FEB,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '03') AND ACTVT_YN = 'Y') AS MAR,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '04') AND ACTVT_YN = 'Y') AS APR,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '05') AND ACTVT_YN = 'Y') AS MAY,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '06') AND ACTVT_YN = 'Y') AS JUN,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '07') AND ACTVT_YN = 'Y') AS JUL,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '08') AND ACTVT_YN = 'Y') AS AUG,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '09') AND ACTVT_YN = 'Y') AS SEP,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '10') AND ACTVT_YN = 'Y') AS OCT,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '11') AND ACTVT_YN = 'Y') AS NOV,
+                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '12') AND ACTVT_YN = 'Y') AS DECE
+                FROM
+                    CAM_INSIDE.DJ_EQIPMN_MST IEM
+                WHERE
+                    IEM.ACTVT_YN = 'Y'
+                    <if test='searchType != null and searchType != ""'>
+                        AND IEM.EQIPMN_GBN_CMMN_CD_SN in (${searchType})
+                    </if>
+                ORDER BY IEM.EQIPMN_GBN_CMMN_CD_SN
+            ) R
     </select>
 
 

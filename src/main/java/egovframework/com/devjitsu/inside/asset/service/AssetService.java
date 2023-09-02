@@ -130,6 +130,7 @@ public interface AssetService {
 
     /** 장비 통계 */
     Map<String, Object> getEquipStat(Map<String, Object> params);
+    List<Map<String, Object>> getEquipStatRear(Map<String, Object> params);
 
     Map<String, Object> getData(Map<String, Object> params);
 

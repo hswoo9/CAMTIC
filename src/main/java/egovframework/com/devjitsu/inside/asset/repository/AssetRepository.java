@@ -179,6 +179,7 @@ public class AssetRepository extends AbstractDAO {
     public void updateEquipFinalApprStat(Map<String, Object> params) { update("asset.updateEquipFinalApprStat", params); }
     public List<Map<String, Object>> getEquipStatType(Map<String, Object> params) { return selectList("asset.getEquipStatType", params); }
     public List<Map<String, Object>> getEquipStat(Map<String, Object> params) { return selectList("asset.getEquipStat", params); }
+    public List<Map<String, Object>> getEquipStatRear(Map<String, Object> params) { return selectList("asset.getEquipStatRear", params); }
 
     public void setBookUpdate(Map<String, Object> params) {
         insert("asset.setBookUpdate", params);

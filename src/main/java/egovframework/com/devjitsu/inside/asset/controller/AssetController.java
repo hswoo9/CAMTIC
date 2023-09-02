@@ -1215,6 +1215,15 @@ public class AssetController {
         return "jsonView";
     }
 
+    /** 장비 증감률 통계 데이터*/
+    @RequestMapping("/inside/getEquipStatRear")
+    public String getEquipStatRear(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getEquipStatRear(params);
+        model.addAttribute("list", list);;
+        return "jsonView";
+    }
+
+
     @RequestMapping("/bookRegisPop/getData")
     public String getData(@RequestParam Map<String, Object> params, Model model){
 
