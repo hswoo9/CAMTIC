@@ -162,10 +162,10 @@ var camPrj = {
 
                     for(var i = 0 ; i <= index ; i++){
                         $("#ps" + i).addClass("active");
-                        $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
+                        // $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
                     }
                     $("#ps" + (index + 1)).addClass("ready");
-                    $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
+                    // $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
 
                     $(this).css("background-color", "#a7e1fc");
 
@@ -197,7 +197,11 @@ var camPrj = {
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트 명",
-                    width: "20%"
+                    width: "20%",
+                    template: function(e){
+                        console.log(e);
+                        return "<a href='javascript:void(0);' onclick='camPrj.fn_projectPopView("+e.PJT_SN+")'>" + e.PJT_NM + "</a>";
+                    }
                 }, {
                     field: "COMP_NM",
                     title: "업체명",
@@ -300,7 +304,7 @@ var camPrj = {
         }
 
         var name = "_blank";
-        var option = "width = 900, height = 850, top = 100, left = 200, location = no"
+        var option = "width = 1250, height = 850, top = 100, left = 200, location = no"
 
         if((i-1) == 3){
             option = "width = 1160, height = 820, top = 100, left = 200, location = no";
@@ -400,7 +404,16 @@ var camPrj = {
 
         $("#rightMain").children().remove();
         $("#rightMain").load(url);
+    },
 
+
+    // project 상세페이지
+    fn_projectPopView : function (key){
+        var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+        var name = "_blank";
+        var option = "width = 1250, height = 850, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     }
 
 

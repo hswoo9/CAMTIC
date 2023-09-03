@@ -2,7 +2,47 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:useBean id="today" class="java.util.Date" />
+<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
+<style>
+    .k-tabstrip-top>.k-tabstrip-items-wrapper {
+        border-bottom-width: 0px;
+    }
+    .k-tabstrip>.k-content {
+        border-color: #fff;
+    }
+
+    #tabstrip h2 {
+        font-weight: lighter;
+        font-size: 5em;
+        line-height: 1;
+        padding: 0 0 0 30px;
+        margin: 0;
+    }
+
+    #tabstrip h2 span {
+        background: none;
+        padding-left: 5px;
+        font-size: .3em;
+        vertical-align: top;
+    }
+
+    #tabstrip p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-state-active {
+        border-color: rgb(18 19 35 / 50%) !important;
+    }
+
+    .k-tabstrip-content, .k-tabstrip>.k-content {
+        padding : 0;
+    }
+</style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -32,7 +72,7 @@
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
-        <div id="vEngi" style="padding: 20px 30px; display: none">
+        <div id="vEngi" style="padding: 20px 30px;display: none;">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="15%">
@@ -83,171 +123,218 @@
                         <input type="text" id="contLoc" style="width: 90%;">
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>업체코드
-                    </th>
-                    <td>
-                        <input type="text" id="crmCd" style="width: 80%;" disabled>
-                        <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popCamCrmList()">
-                            조회
-                        </button>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>소재지
-                    </th>
-                    <td>
-                        <input type="text" id="crmLoc" style="width: 90%;" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>업체명
-                    </th>
-                    <td>
-                        <input type="text" id="crmNm" style="width: 90%;" disabled>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>주요생산품
-                    </th>
-                    <td>
-                        <input type="text" id="crmProd" style="width: 90%;" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>대표자
-                    </th>
-                    <td>
-                        <input type="text" id="crmCeo" style="width: 90%;" disabled>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>우편번호
-                    </th>
-                    <td>
-                        <input type="text" id="crmPost" style="width: 90%;" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>주소
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="crmAddr" style="width: 90%;" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>전화번호
-                    </th>
-                    <td>
-                        <input type="text" id="crmCallNum" style="width: 90%;" disabled>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>팩스번호
-                    </th>
-                    <td>
-                        <input type="text" id="crmFax" style="width: 90%;" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>의뢰인
-                    </th>
-                    <td>
-                        <input type="text" id="crmReqMem" style="width: 80%;" disabled>
-                        <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">
-                            조회
-                        </button>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>핸드폰
-                    </th>
-                    <td>
-                        <input type="text" id="crmPhNum" style="width: 90%;" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>홈페이지
-                    </th>
-                    <td>
-                        <input type="text" id="crmHp" style="width: 90%;" disabled>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>메일주소
-                    </th>
-                    <td>
-                        <input type="text" id="crmMail" style="width: 90%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>상담내용
-                    </th>
-                    <td colspan="3">
-                        <textarea id="contEtc" style="width: 100%;"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>출장정보
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="bustripReq" style="width: 90%;">
-                        <input type="hidden" id="hrBizReqResultId" />
-                        <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popBustrip();">
-                            조회
-                        </button>
-                    </td>
-                </tr>
+
+
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>업체코드--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmCd" style="width: 80%;" disabled>--%>
+<%--                        <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popCamCrmList()">--%>
+<%--                            조회--%>
+<%--                        </button>--%>
+<%--                    </td>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>소재지--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmLoc" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>업체명--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmNm" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>주요생산품--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmProd" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>대표자--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmCeo" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>우편번호--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmPost" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>주소--%>
+<%--                    </th>--%>
+<%--                    <td colspan="3">--%>
+<%--                        <input type="text" id="crmAddr" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>전화번호--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmCallNum" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>팩스번호--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmFax" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>의뢰인--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmReqMem" style="width: 80%;" disabled>--%>
+<%--                        <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">--%>
+<%--                            조회--%>
+<%--                        </button>--%>
+<%--                    </td>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>핸드폰--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmPhNum" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>홈페이지--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmHp" style="width: 90%;" disabled>--%>
+<%--                    </td>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>메일주소--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="crmMail" style="width: 90%;">--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>상담내용--%>
+<%--                    </th>--%>
+<%--                    <td colspan="3">--%>
+<%--                        <textarea id="contEtc" style="width: 100%;"></textarea>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star"></span>출장정보--%>
+<%--                    </th>--%>
+<%--                    <td colspan="3">--%>
+<%--                        <input type="text" id="bustripReq" style="width: 90%;">--%>
+<%--                        <input type="hidden" id="hrBizReqResultId" />--%>
+<%--                        <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popBustrip();">--%>
+<%--                            조회--%>
+<%--                        </button>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
                 </thead>
             </table>
-        </div>
 
-        <div id="commFileHtml" style="display: none;">
-            <form style="padding: 0px 30px;">
-                <div class="card-header" style="padding: 5px;">
-                    <h3 class="card-title">첨부파일</h3>
-                    <div class="card-options">
-                        <div class="filebox">
-                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
-                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                <span class="k-button-text">파일첨부</span>
-                            </button>
-                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+            <div style="margin-top :15px;">
+                <div class="demo-section">
+                    <div id="tabstrip">
+                        <ul>
+                            <li class="k-active">
+                                업체정보
+                            </li>
+                            <li>
+                                출장정보
+                            </li>
+                            <li>
+                                TEST C
+                            </li>
+                            <li>
+                                TEST D
+                            </li>
+                        </ul>
+                        <div>
+                            <div>
+                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/crmInfo.jsp" flush="true"></jsp:include>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="weather">
+                                <h2>29<span>&ordm;C</span></h2>
+                                <p>Sunny weather in New York.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="weather">
+                                <h2>21<span>&ordm;C</span></h2>
+                                <p>Sunny weather in London.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="cloudy">&nbsp;</span>
+                            <div class="weather">
+                                <h2>16<span>&ordm;C</span></h2>
+                                <p>Cloudy weather in Moscow.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="popTable table table-bordered mb-0">
-                        <colgroup>
-                            <col width="50%">
-                            <col width="10%">
-                            <col width="30%">
-                            <col width="10%">
-                        </colgroup>
-                        <thead>
-                        <tr class="text-center th-color">
-                            <th>파일명</th>
-                            <th>확장자</th>
-                            <th>용량</th>
-                            <th>기타</th>
-                        </tr>
-                        </thead>
-                        <tbody id="fileGrid">
-                        <tr class="defultTr">
-                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+            </div>
         </div>
+
+
+
+<%--        <div id="commFileHtml" style="display: none;">--%>
+<%--            <form style="padding: 0px 30px;">--%>
+<%--                <div class="card-header" style="padding: 5px;">--%>
+<%--                    <h3 class="card-title">첨부파일</h3>--%>
+<%--                    <div class="card-options">--%>
+<%--                        <div class="filebox">--%>
+<%--                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">--%>
+<%--                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>--%>
+<%--                                <span class="k-button-text">파일첨부</span>--%>
+<%--                            </button>--%>
+<%--                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div class="table-responsive">--%>
+<%--                    <table class="popTable table table-bordered mb-0">--%>
+<%--                        <colgroup>--%>
+<%--                            <col width="50%">--%>
+<%--                            <col width="10%">--%>
+<%--                            <col width="30%">--%>
+<%--                            <col width="10%">--%>
+<%--                        </colgroup>--%>
+<%--                        <thead>--%>
+<%--                        <tr class="text-center th-color">--%>
+<%--                            <th>파일명</th>--%>
+<%--                            <th>확장자</th>--%>
+<%--                            <th>용량</th>--%>
+<%--                            <th>기타</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <tbody id="fileGrid">--%>
+<%--                        <tr class="defultTr">--%>
+<%--                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>--%>
+<%--                        </tr>--%>
+<%--                        </tbody>--%>
+<%--                    </table>--%>
+<%--                </div>--%>
+<%--            </form>--%>
+<%--        </div>--%>
     </div>
 </div>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 
 <script>
     var inParameters = JSON.parse('${map}');

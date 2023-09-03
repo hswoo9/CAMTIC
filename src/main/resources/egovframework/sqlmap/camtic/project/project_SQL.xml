@@ -33,9 +33,7 @@
             BUSN_NM,
             PJT_STEP,
             PJT_STEP_NM,
-            CONSULT_DT,
-            CRM_CD,
-            CRM_NM
+            CONSULT_DT
         ) VALUES (
             #{pjtNm},
             #{empSeq},
@@ -46,9 +44,7 @@
             #{busnNm},
             #{pjtStep},
             #{pjtStepNm},
-            #{contDt},
-            #{crmCd},
-            #{crmNm}
+            #{contDt}
         )
         <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
@@ -62,10 +58,7 @@
             CONT_DT,
             EXP_AMT,
             CONT_LOC,
-            CRM_CD,
-            CONT_ETC,
             STEP1,
-            STEP2,
             REG_EMP_SEQ
         ) VALUES
         (
@@ -73,12 +66,12 @@
             #{contDt},
             #{expAmt},
             #{contLoc},
-            #{crmCd},
-            #{contEtc},
-            'Y',
             'R',
             #{empSeq}
         )
+        <selectKey keyProperty="ENGN_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_ENGN'
+        </selectKey>
     </insert>
 
     <delete id="delProject" parameterType="map">

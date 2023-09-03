@@ -92,9 +92,15 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/setProject")
-    public String setProject(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
-        MultipartFile[] file = request.getFiles("projectFile").toArray(new MultipartFile[0]);
-        projectService.setProject(params, file, SERVER_DIR, BASE_DIR);
+    public String setProject(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setProject(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

@@ -10,27 +10,36 @@ var regPrj = {
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
         }
+
+        $("#tabstrip").kendoTabStrip({
+            animation:  {
+                open: {
+                    effects: "fadeIn"
+                }
+            }
+        });
+
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
         customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
         var busnDDL = $("#busnClass").data("kendoDropDownList");
         busnDDL.bind("change", regPrj.fn_busnDDLChange);
 
-        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "bustripReq", "crmCd", "crmProd",
-                                "crmCeo", "crmPost", "crmAddr", "crmPhNum", "crmLoc", "crmFax",
-                                "crmCallNum", "crmHp", "crmMail", "crmNm", "crmReqMem",
-                                "deptName", "empName"]);
+        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName"]);
 
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
-
-        $("#contEtc").kendoTextArea({
-            rows:5
-        });
-
 
         if(setParameters != null){
             regPrj.fn_setData(setParameters);
         }
+
+        var tabStrip = $("#tabstrip").data("kendoTabStrip");
+        tabStrip.disable(tabStrip.tabGroup.children());
+
+        // tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+
+
+
     },
 
     fn_busnDDLChange: function(e){
@@ -49,78 +58,45 @@ var regPrj = {
 
         var data = {
             pjtNm : $("#pjtNm").val(),
-            expAmt : camPrj.uncomma($("#expAmt").val()),
+            expAmt : regPrj.uncomma($("#expAmt").val()),
             contLoc : $("#contLoc").val(),
             deptName : $("#deptName").val(),
             empName : $("#empName").val(),
             deptSeq : $("#deptSeq").val(),
             empSeq : $("#empSeq").val(),
-            contDt : $("#consultDt").val(),
             busnClass : $("#busnClass").val(),
             busnNm : $("#busnClass").data("kendoDropDownList").text(),
-            contEtc : $("#contEtc").val(),
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
-            hrBizReqResultId : $("#hrBizReqResultId").val(),
-            crmCd : $("#crmCd").val(),
-            crmNm : $("#crmNm").val()
+            contDt : $("#consultDt").val()
         }
 
         if(data.busnNm == "D"){
             data.menuCd = "engn";
         }
 
-        var formData = new FormData();
-        formData.append("pjtNm", data.pjtNm);
-        formData.append("expAmt", data.expAmt);
-        formData.append("contLoc", data.contLoc);
-        formData.append("deptName", data.deptName);
-        formData.append("empName", data.empName);
-        formData.append("deptSeq", data.deptSeq);
-        formData.append("empSeq", data.empSeq);
-        formData.append("contDt", data.contDt);
-        formData.append("busnClass", data.busnClass);
-        formData.append("busnNm", data.busnNm);
-        formData.append("contEtc", data.contEtc);
-        formData.append("pjtStep", data.pjtStep);
-        formData.append("pjtStepNm", data.pjtStepNm);
-        formData.append("menuCd", data.menuCd);
-        formData.append("crmCd", data.crmCd);
-        formData.append("crmNm", data.crmNm);
-
-
-        // 캠CRM 데이터 INSERT 처리 해줘야함(캠CRM 미개발)
-
-        if(data.hrBizReqResultId != "" && data.hrBizReqResultId != null){
-            formData.append("hrBizReqResultId", data.hrBizReqResultId);
-
-            // 1. 출장 상태값 변경
-
-        }
-
-        //증빙파일 첨부파일
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("projectFile", fCommon.global.attFiles[i]);
-            }
-        }
-
 
         $.ajax({
             url : "/project/setProject",
             type : 'POST',
-            data : formData,
+            data : data,
             dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
             async : false,
-            success : function(){
-
+            success : function(rs){
                 opener.parent.camPrj.gridReload();
                 window.close();
             }
         });
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
 
     fn_mod : function(){
@@ -128,6 +104,8 @@ var regPrj = {
     },
 
     fn_setData : function (p) {
+
+        console.log(p)
         var busnClass = $("#busnClass").data("kendoDropDownList")
         busnClass.value(p.BUSN_CLASS);
         if(p.BUSN_CLASS == "D"){
@@ -145,7 +123,7 @@ var regPrj = {
         console.log(p);
         $("#pjtTitle").text("프로젝트 수정 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
-        $("#expAmt").val(camPrj.comma(p.EXP_AMT));
+        $("#expAmt").val(regPrj.comma(p.EXP_AMT));
         $("#contLoc").val(p.CONT_LOC);
         $("#deptName").val(p.DEPT_NAME);
         $("#empName").val(p.EMP_NAME);
@@ -212,7 +190,7 @@ var regPrj = {
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
 
 
 }
