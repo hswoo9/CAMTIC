@@ -9,6 +9,7 @@ const historyReq = {
 
     init: function(){
         historyReq.mainGrid();
+        historyReq.editGrid();
         historyReq.dataSet();
     },
 
@@ -164,9 +165,9 @@ const historyReq = {
                 }
             ]
         }).data("kendoGrid");
+    },
 
-        let mode = $("#mode").val();
-
+    editGrid: function(){
         $("#popMainGrid").kendoGrid({
             dataSource: historyReq.global.editDataSource,
             scrollable: true,
@@ -429,8 +430,10 @@ const historyReq = {
         let grid = $("#popMainGrid").data("kendoGrid");
 
         for(let i=0; i<result.list.length; i++){
+            historyReq.global.userArr.push(userArr[i].EMP_SEQ);
             historyReq.global.editDataSource.data.push(result.list[i]);
-            grid.dataSource.read();
+            //grid.dataSource._data = historyReq.global.editDataSource.data;
+            historyReq.editGrid();
             //grid.dataSource.add(result.list[i]);
         }
 
@@ -746,10 +749,13 @@ const historyReq = {
             dataItem = grid.dataItem($(this).closest("tr"));
             grid.removeRow($(this).closest('tr'));
             historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
-                return value != dataItem.EMP_SEQ;
+                return String(value) != String(dataItem.EMP_SEQ);
             });
+
+            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
         });
 
+        historyReq.editGrid();
         historyReq.fn_popGridSetting();
     },
 
@@ -762,5 +768,7 @@ const historyReq = {
             grid.removeRow($(this).closest('tr'));
         });
         historyReq.global.userArr = [];
+        historyReq.global.editDataSource.data = [];
+        historyReq.editGrid();
     }
 }
