@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_crm.controller;
 
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class CrmController {
 
     @Autowired
     private CommonCodeService commonCodeService;
+
+    @Autowired
+    private CommonService commonService;
 
     @RequestMapping("/crm/crmView.do")
     public String crmView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -71,9 +75,11 @@ public class CrmController {
     public String regCrmPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
 
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
 
+        params.put("cmGroupCode", "CRM_ITEM_VALUE");
+
+        model.addAttribute("data", commonService.commonCodeList(params));
         model.addAttribute("loginVO", loginVO);
 
         return "popup/cam_crm/regCrmPop";
