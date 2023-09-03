@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td style="height:15px;background-color:#D9E1F2; text-align:center; width: 50px"><p style="font-size:10px;"><b>전월</b></p></td>
-                        <td style="height:15px;background-color:#D9E1F2; text-align:center; width: 50px"><p style="font-size:10px;"><b>당일</b></p></td>
+                        <td style="height:15px;background-color:#D9E1F2; text-align:center; width: 50px"><p style="font-size:10px;"><b>당월</b></p></td>
                         <td style="height:15px;background-color:#D9E1F2; text-align:center; width: 42px"><p style="font-size:10px;"><b>단지</b></p></td>
                         <td style="height:15px;background-color:#D9E1F2; text-align:center; width: 52px"><p style="font-size:10px;"><b>단지외</b></p></td>
                     </tr>
@@ -60,13 +60,13 @@
                         <c:if test="${list.EQIPMN_GBN_NAME ne prev_row && status.index ne 0}">
                             <tr>
                                 <td style="height:30px; background-color:#FFF2CC; text-align:center;" colspan="2"><p style="font-size:10px;">소계</p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${befUseTimeSum}"/></p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${useTimeSum}"/></p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${epCountSum}"/></p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnNameSum}"/></p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnASum}"/></p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnBSum}"/></p></td>
-                                <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnCSum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${befUseTimeSum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${useTimeSum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${epCountSum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnNameSum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnASum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnBSum}"/></p></td>
+                                <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnCSum}"/></p></td>
                                 <td style="height:30px; text-align:center;"><p style="font-size:10px;"></p></td>
                                 <c:set var="befUseTimeSum" value="0"/>
                                 <c:set var="useTimeSum" value="0"/>
@@ -79,17 +79,28 @@
                         </c:if>
                         <tr>
                             <c:if test="${check_row == 0}">
-                                <td rowspan="<c:out value='${list.PART_CNT + 1}'/>" style="height:30px; background-color:#FFF2CC; text-align:center; writing-mode: vertical-rl;"><p style="font-size:14px;">${list.EQIPMN_GBN_NAME}</p></td>
+                                <td rowspan="<c:out value='${list.PART_CNT + 1}'/>" style="height:30px; background-color:#FFF2CC; text-align:center; writing-mode: vertical-rl;">
+                                    <c:if test="${list.EQIPMN_GBN_NAME eq '복합소재'}">
+                                        복<br>합<br>소<br>재<br>
+                                    </c:if>
+                                    <c:if test="${list.EQIPMN_GBN_NAME eq '드론산업'}">
+                                        드<br>론<br>산<br>업<br>
+                                    </c:if>
+                                    <c:if test="${list.EQIPMN_GBN_NAME eq '메이커스페이스'}">
+                                        메<br>이<br>커<br>스<br>페<br>이<br>스<br>
+                                    </c:if>
+                                    (${list.PART_CNT + 1}종)
+                                </td>
                             </c:if>
                             <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;">${list.EQIPMN_NAME}</p></td>
                             <td style="height:30px;text-align:center;"><p style="font-size:10px;">${list.REGTR_NAME}</p></td>
-                            <td style="height:30px;text-align:center;"><p style="font-size:10px;">${list.BEF_USE_TIME}</p></td>
-                            <td style="height:30px; background-color:#FCE4D6; text-align:center;"><p style="font-size:10px;">${list.USE_TIME}</p></td>
-                            <td style="height:30px; background-color:#FCE4D6; text-align:center;"><p style="font-size:10px;">${list.EP_COUNT}</p></td>
-                            <td style="height:30px; background-color:#FCE4D6; text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_NAME}</p></td>
-                            <td style="height:30px;  background-color:#EDEDED;text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_SN_A}</p></td>
-                            <td style="height:30px;  background-color:#EDEDED;text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_SN_B}</p></td>
-                            <td style="height:30px;  background-color:#EDEDED;text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_SN_C}</p></td>
+                            <td class="number" style="height:30px;text-align:center;"><p style="font-size:10px;">${list.BEF_USE_TIME}</p></td>
+                            <td class="number" style="height:30px; background-color:#FCE4D6; text-align:center;"><p style="font-size:10px;">${list.USE_TIME}</p></td>
+                            <td class="number" style="height:30px; background-color:#FCE4D6; text-align:center;"><p style="font-size:10px;">${list.EP_COUNT}</p></td>
+                            <td class="number" style="height:30px; background-color:#FCE4D6; text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_NAME}</p></td>
+                            <td class="number" style="height:30px;  background-color:#EDEDED;text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_SN_A}</p></td>
+                            <td class="number" style="height:30px;  background-color:#EDEDED;text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_SN_B}</p></td>
+                            <td class="number" style="height:30px;  background-color:#EDEDED;text-align:center;"><p style="font-size:10px;">${list.PRTPCO_GBN_SN_C}</p></td>
                             <td style="height:30px;text-align:center;"><p style="font-size:10px;"></p></td>
                         </tr>
                         <c:set var="befUseTimeSum" value="${befUseTimeSum + list.BEF_USE_TIME}"/>
@@ -111,13 +122,13 @@
                     </c:forEach>
                     <tr>
                         <td style="height:30px; background-color:#FFF2CC; text-align:center;" colspan="2"><p style="font-size:10px;">소계</p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${befUseTimeSum}"/></p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${useTimeSum}"/></p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${epCountSum}"/></p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnNameSum}"/></p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnASum}"/></p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnBSum}"/></p></td>
-                        <td style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnCSum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${befUseTimeSum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${useTimeSum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${epCountSum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnNameSum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnASum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnBSum}"/></p></td>
+                        <td class="number" style="height:30px; background-color:#FFF2CC; text-align:center;"><p style="font-size:10px;"><c:out value="${prtcoGbnSnCSum}"/></p></td>
                         <td style="height:30px; text-align:center;"><p style="font-size:10px;"></p></td>
                     </tr>
                     <tr>
@@ -142,20 +153,28 @@
                             </c:forEach>
                             <c:if test="${befTotal gt nowTotal}">
                                 <c:set var="totalStatus" value="감"/>
+                                <c:set var="totalColor" value="#FF0000"/>
                                 <c:set var="diffTotal" value="${befTotal - nowTotal}"/>
                             </c:if>
                             <c:if test="${befTotal lt nowTotal}">
                                 <c:set var="totalStatus" value="증"/>
+                                <c:set var="totalColor" value="#0080FF"/>
                                 <c:set var="diffTotal" value="${nowTotal - befTotal}"/>
                             </c:if>
-                            <p style="font-size:14px;">1. 가동시간 : 전월대비 총 <c:out value="${totalStatus}"/> <c:out value="${diffTotal}"/>H (
+                            <p style="font-size:14px;">1. 가동시간 : 전월대비 총 <font style="font-size: 14px; color: ${totalColor}"> <c:out value="${totalStatus}"/> <c:out value="${diffTotal}"/>H </font>(
                                     <c:forEach var="lcList" items="${data.LGCategory}" varStatus="status">
                                         <c:if test="${status.index ne 0}">
-                                            /
+                                            &nbsp/
                                         </c:if>
-                                        ${lcList.EQIPMN_GBN_NAME} ${lcList.STATUS}  ${lcList.DIFF}H
+                                        <c:if test="${lcList.STATUS eq '증'}">
+                                            <c:set var="totalColor" value="#0080FF"/>
+                                        </c:if>
+                                        <c:if test="${lcList.STATUS eq '감'}">
+                                            <c:set var="totalColor" value="#FF0000"/>
+                                        </c:if>
+                                        ${lcList.EQIPMN_GBN_NAME} <font style="font-size: 14px; color: ${totalColor}">${lcList.STATUS}  ${lcList.DIFF}H</font>
                                     </c:forEach>
-                                )</p>
+                                &nbsp)</p>
                             <p style="font-size:14px;">2. 특이사항 : </p>
                         </td>
                     </tr>
@@ -166,6 +185,12 @@
 </div>
 <script>
     window.resizeTo(965, 900);
+    $.each($('.number'), function(i, v){
+        let text = $(v).text();
+        if(text == "0"){
+            $(v).text("-");
+        }
+    });
     approvalDataInit();
 
     function approvalDataInit(){
