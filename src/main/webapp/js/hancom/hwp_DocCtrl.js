@@ -210,9 +210,6 @@ var hwpDocCtrl = {
                     let objectForum = ResultData.OBJECT_FORUM_TYPE == "주제발표" ? ResultData.OBJECT_FORUM_TYPE+" (발표주제 : "+ResultData.OBJECT_FORUM_VAL+")" : ResultData.OBJECT_FORUM_TYPE;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('objectForum', true, true, false);
                     hwpDocCtrl.putFieldText('objectForum', objectForum);
-                    let travelText = ResultData.TRAVEL_MONEY_TYPE == "Y" ? "신청" : "신청안함";
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('travelMoneyType', true, true, false);
-                    hwpDocCtrl.putFieldText('travelMoneyType', travelText);
                     hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
                     hwpDocCtrl.putFieldText('returnMoney', fn_numberWithCommas(ResultData.RETURN_MONEY)+" 원");
                     hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);

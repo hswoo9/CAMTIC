@@ -398,13 +398,6 @@ public class CampusController {
                 model.addAttribute("eduMoneyVar", "응시료");
                 model.addAttribute("eduDateVar", "취득종류(인정시간)");
                 break;
-            case 11 :
-                directory = "debate";
-                model.addAttribute("eduNameVar", "발표목적");
-                model.addAttribute("eduObjectVar", "발표목적");
-                model.addAttribute("eduContentVar", "발표내용");
-                model.addAttribute("eduDateVar", "발표일");
-                break;
         }
         return "popup/campus/eduResultReqPop";
     }
@@ -514,13 +507,6 @@ public class CampusController {
                 model.addAttribute("eduContentVar", "자격증내용");
                 model.addAttribute("eduMoneyVar", "응시료");
                 model.addAttribute("eduDateVar", "취득종류(인정시간)");
-                break;
-            case 11 :
-                directory = "debate";
-                model.addAttribute("eduNameVar", "발표목적");
-                model.addAttribute("eduObjectVar", "발표목적");
-                model.addAttribute("eduContentVar", "발표내용");
-                model.addAttribute("eduDateVar", "발표일");
                 break;
         }
         return "popup/campus/eduResultViewPop";

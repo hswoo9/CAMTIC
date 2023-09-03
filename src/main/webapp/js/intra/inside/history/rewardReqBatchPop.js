@@ -7,6 +7,7 @@ const rewardBatch = {
 
     init: function(){
         rewardBatch.mainGrid();
+        rewardBatch.editGrid();
         rewardBatch.dataSet();
     },
 
@@ -119,7 +120,9 @@ const rewardBatch = {
                 }
             ]
         }).data("kendoGrid");
+    },
 
+    editGrid: function(){
         $("#popMainGrid").kendoGrid({
             dataSource: rewardBatch.global.editDataSource,
             scrollable: true,
@@ -289,8 +292,10 @@ const rewardBatch = {
         let grid = $("#popMainGrid").data("kendoGrid");
 
         for(let i=0; i<result.list.length; i++){
+            rewardBatch.global.userArr.push(userArr[i].EMP_SEQ);
             rewardBatch.global.editDataSource.data.push(result.list[i]);
-            grid.dataSource.read();
+            rewardBatch.editGrid();
+            //grid.dataSource.read();
         }
 
         rewardBatch.fn_popGridSetting();
@@ -381,8 +386,11 @@ const rewardBatch = {
             rewardBatch.global.userArr = rewardBatch.global.userArr.filter((value, index, arr) => {
                 return value != dataItem.EMP_SEQ;
             });
+
+            rewardBatch.global.editDataSource.data = rewardBatch.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
         });
 
+        rewardBatch.editGrid();
         rewardBatch.fn_popGridSetting();
     },
 
@@ -395,5 +403,7 @@ const rewardBatch = {
             grid.removeRow($(this).closest('tr'));
         });
         rewardBatch.global.userArr = [];
+        rewardBatch.global.editDataSource.data = [];
+        rewardBatch.editGrid();
     }
 }

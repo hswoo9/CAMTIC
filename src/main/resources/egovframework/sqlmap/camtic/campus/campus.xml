@@ -97,7 +97,6 @@
             EI.CARE_TEL_NUM,
             EI.EDU_MONEY,
             EI.EDU_MONEY_TYPE,
-            EI.TRAVEL_MONEY_TYPE,
             EI.RETURN_MONEY,
             EI.RETURN_DOC,
             EI.STATUS,
@@ -780,7 +779,6 @@
                     #{eduMoney},
                 </if>
                 #{eduMoneyType},
-                #{travelMoneyType},
                 <if test='returnMoney != null and returnMoney != ""'>
                     #{returnMoney},
                 </if>
