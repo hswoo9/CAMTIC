@@ -32,7 +32,6 @@ const eduReq = {
         let thirdCareTelNum = $("#thirdCareTelNum").val();
         let eduMoney = $("#eduMoney").val();
         let eduMoneyType = "";
-        let travelMoneyType = "";
         let returnMoney = $("#returnMoney").val();
         let returnDoc = $("#returnDoc").val();
         let attachDocName = $("#attachDocName").val();
@@ -84,10 +83,7 @@ const eduReq = {
         if(eduFormType != "11") {
             eduMoneyType = $("label[for='"+$("input:radio[name=eduMoneyType]:checked").attr("id")+"']").text();
         }
-        if(eduFormType == "1") {
-            travelMoneyType = $("#travelMoneyType").data("kendoRadioGroup").value();
-        } else if(eduFormType == "3") {
-            travelMoneyType = $("#travelMoneyType").data("kendoRadioGroup").value();
+        if(eduFormType == "3") {
             objectForumType = $("label[for='"+$("input:radio[name=objectForumType]:checked").attr("id")+"']").text();
             objectForumText = $("label[for='"+$("input:radio[name=objectForumType]:checked").attr("id")+"']").text();
             objectForumVal = $("#objectForumVal").val();
@@ -95,8 +91,6 @@ const eduReq = {
                 alert("발표제목 작성되지 않았습니다.");
                 return;
             }
-        } else if(eduFormType == "4") {
-            travelMoneyType = $("#travelMoneyType").data("kendoRadioGroup").value();
         } else if(eduFormType == "5") {
             if (bookWriter == "") {
                 alert("작가명이 작성되지 않았습니다.");
@@ -153,7 +147,6 @@ const eduReq = {
             careTelNum : firstCareTelNum + secondCareTelNum + thirdCareTelNum,
             eduMoney : eduMoney,
             eduMoneyType : eduMoneyType,
-            travelMoneyType : travelMoneyType,
             objectForumText : objectForumText,
             returnMoney : returnMoney,
             returnDoc : returnDoc,
@@ -260,15 +253,6 @@ const eduReq = {
             layout : "horizontal",
             labelPosition : "after",
             value : "1"
-        });
-        $("#travelMoneyType").kendoRadioGroup({
-            items: [
-                { label : "신청", value : "Y" },
-                { label : "신청안함", value : "N" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "N"
         });
         $("#returnMoney").kendoTextBox();
         $("#returnDoc").kendoTextBox();

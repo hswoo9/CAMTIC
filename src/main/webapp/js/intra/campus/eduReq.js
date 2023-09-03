@@ -15,8 +15,7 @@ var eduReq = {
                 { label : "국내/외 논문 저술", value : "7" },
                 { label : "직무관련 저술", value : "8" },
                 { label : "국내외 현장견학", value : "9" },
-                { label : "자격증 취득", value : "10" },
-                { label : "금요토론", value : "11" }
+                { label : "자격증 취득", value : "10" }
             ],
             layout : "horizontal",
             labelPosition : "after",

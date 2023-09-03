@@ -228,16 +228,6 @@
               </c:when>
             </c:choose>
             <c:choose>
-              <c:when test="${eduFormType == 1 || eduFormType == 3 || eduFormType == 4}">
-                <tr>
-                  <th>여비신청여부</th>
-                  <td colspan="3">
-                    <span id="travelMoneyType"></span>
-                  </td>
-                </tr>
-              </c:when>
-            </c:choose>
-            <c:choose>
               <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4}">
                 <tr>
                   <th>환급 예상액</th>

@@ -183,13 +183,13 @@
               <td colspan="3">
                 ${data.START_DT} ~ ${data.END_DT}
                 <c:choose>
-                  <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9 || eduFormType == 11}">
+                  <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9}">
                     (총 ${data.TERM_DAY}  일 ${data.TERM_TIME} 시간)
                     <c:choose>
                       <c:when test="${eduFormType == 5 || eduFormType == 6}">
                         / 50페이지당 1시간
                       </c:when>
-                      <c:when test="${eduFormType == 9 || eduFormType == 10 || eduFormType == 11}">
+                      <c:when test="${eduFormType == 9 || eduFormType == 10 }">
                         / 1일 최대4시간
                       </c:when>
                     </c:choose>
@@ -211,8 +211,6 @@
             </tr>
             </c:when>
             </c:choose>
-            <c:choose>
-            <c:when test="${eduFormType != 11}">
             <tr>
               <th>${eduMoneyVar}</th>
               <td>
@@ -223,18 +221,6 @@
                   ${data.EDU_MONEY_TYPE}
               </td>
             </tr>
-            </c:when>
-            </c:choose>
-            <c:choose>
-            <c:when test="${eduFormType == 1 || eduFormType == 3 || eduFormType == 4}">
-            <tr>
-              <th>여비신청여부</th>
-              <td colspan="3">
-                  ${data.TRAVEL_MONEY_TYPE}
-              </td>
-            </tr>
-            </c:when>
-            </c:choose>
             <c:choose>
             <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4}">
             <tr>

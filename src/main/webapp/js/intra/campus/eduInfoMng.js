@@ -101,8 +101,6 @@ var eduInfoMng = {
                             return "국내외 현장견학";
                         }else if(row.EDU_FORM_TYPE == "10") {
                             return "자격증 취득";
-                        }else if(row.EDU_FORM_TYPE == "11") {
-                            return "금요토론";
                         }else {
                             return "데이터 오류"
                         }
