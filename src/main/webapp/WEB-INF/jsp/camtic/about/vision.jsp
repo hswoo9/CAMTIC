@@ -40,9 +40,9 @@
               <dt><span>인재상</span></dt>
               <dd>
                 <ul>
-                  <li><span>창의</span></li>
-                  <li><span>도전</span></li>
-                  <li><span>소통</span></li>
+                  <li><span>창 의</span></li>
+                  <li><span>도 전</span></li>
+                  <li><span>소 통</span></li>
                 </ul>
               </dd>
             </dl>
@@ -60,6 +60,9 @@
                       <dd>2020년</dd>
                     </dl>
                   </li>
+                  <a style="margin-top: 100px;">
+                  >>
+                  </a>
                   <li>
                     <h4>2단계</h4>
                     <dl>
@@ -70,6 +73,9 @@
                       <dd>2025년</dd>
                     </dl>
                   </li>
+                  <a style="margin-top: 100px;">
+                    >>
+                  </a>
                   <li>
                     <h4>3단계</h4>
                     <dl>
@@ -81,11 +87,11 @@
                     </dl>
                   </li>
                   <li>
-                    <p>
+                    <p style="word-spacing:1.5px;">
                       분사창업 10개 이상<br>
                       가족기업 100개 이상<br>
                       총 매출액 1조원 이상<br>
-                      고용인원: 5,000명 이상
+                      고용인원 : 5,000명 이상
                     </p>
                   </li>
                 </ul>
