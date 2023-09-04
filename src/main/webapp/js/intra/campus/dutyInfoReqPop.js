@@ -1,24 +1,21 @@
 const dutyInfoReq = {
     global: {
-        dutyInfo: {}
+        dutyInfo: {},
+        applyMonthDataSource: []
     },
 
     init: function(){
-        dutyInfoReq.pageSet();
-        dutyInfoReq.dataSet();
-        dutyInfoReq.buttonSet();
-    },
-
-    pageSet: function(){
         customKendo.fn_textBox(["dutyName", "appLine"]);
         customKendo.fn_textArea(["outlineName", "outlineDetail", "internal", "external", "abilityA", "abilityB", "abilityC", "abilityD", "abilityE", "responsibility"]);
-        customKendo.fn_datePicker("dutyMonth", 'year', "yyyy-MM", new Date());
-        $("#dutyMonth").attr("readonly", true);
+        dutyInfoReq.dataSet();
+        dutyInfoReq.pageSet();
+        dutyInfoReq.buttonSet();
     },
 
     dataSet: function(){
         let mode = $("#mode").val();
         if(mode == "upd" || mode == "mng"){
+            /** pk로 데이터 호출 */
             let dutyInfo = customKendo.fn_customAjax("/campus/getDutyInfoOne", {
                 pk: $("#pk").val()
             }).data;
@@ -39,21 +36,84 @@ const dutyInfoReq = {
             $("#responsibility").val(dutyInfo.RESPONSIBILITY);
         }
 
-        let status = dutyInfoReq.global.dutyInfo.STATUS;
+        if(mode == "mng"){
+            /** 불러온 데이터에서 작성자를 추출, 해당 작성자로 작성한 직무기술서 리스트 호출 */
+            let applyMonthDataSource = customKendo.fn_customAjax("/campus/getDutyInfoList", {
+                regEmpSeq: dutyInfoReq.global.dutyInfo.REG_EMP_SEQ
+            }).list;
+            dutyInfoReq.global.applyMonthDataSource = applyMonthDataSource;
+        }
+    },
+
+    pageSet: function(){
+        /** 변수 세팅 */
+        let mode = $("#mode").val();
+        let dutyInfo = dutyInfoReq.global.dutyInfo;
+        let applyMonthDataSource = dutyInfoReq.global.applyMonthDataSource;
+        let status = dutyInfo.STATUS;
+
+        /** 켄도 UI 세팅 */
+        if(mode == "mng"){
+            $(".mngTr").show();
+            $(".insTr").hide();
+
+            customKendo.fn_dropDownList("applyMonth", applyMonthDataSource, "DUTY_MONTH_TEXT","DUTY_INFO_SN", 3);
+            $("#applyMonth").data("kendoDropDownList").bind("change", function(e){
+                let pk = $("#applyMonth").data("kendoDropDownList").value();
+                $("#pk").val(pk);
+                dutyInfoReq.dataSet();
+                dutyInfoReq.pageSet();
+                dutyInfoReq.buttonSet();
+            });
+        }else {
+            $(".mngTr").hide();
+            $(".insTr").show();
+            customKendo.fn_datePicker("dutyMonth", 'year', "yyyy-MM", new Date());
+            $("#dutyMonth").attr("readonly", true);
+        }
+
+        /** 데이터 세팅 */
+        if(mode == "upd" || mode == "mng"){
+            $("#dutyMonth").val(dutyInfo.DUTY_MONTH);
+            $("#dutyName").val(dutyInfo.DUTY_NAME);
+            $("#outlineName").val(dutyInfo.OUTLINE_NAME);
+            $("#outlineDetail").val(dutyInfo.OUTLINE_DETAIL);
+            $("#internal").val(dutyInfo.INTERNAL);
+            $("#external").val(dutyInfo.EXTERNAL);
+            $("#appLine").val(dutyInfo.APP_LINE);
+            $("#abilityA").val(dutyInfo.ABILITY_A);
+            $("#abilityB").val(dutyInfo.ABILITY_B);
+            $("#abilityC").val(dutyInfo.ABILITY_C);
+            $("#abilityD").val(dutyInfo.ABILITY_D);
+            $("#abilityE").val(dutyInfo.ABILITY_E);
+            $("#responsibility").val(dutyInfo.RESPONSIBILITY);
+        }
+        if(mode == "mng"){
+            $("#userInfo").text(dutyInfo.REG_EMP_NAME+" "+dutyInfo.SPOT);
+        }
         if((mode == "upd" && status == 10) || (mode == "upd" && status == 100) || mode == "mng"){
-            $("#dutyMonth").data("kendoDatePicker").enable(false);
+            if(mode != "mng"){
+                $("#dutyMonth").data("kendoDatePicker").enable(false);
+            }
             $("#dutyName, #appLine, #outlineName, #outlineDetail, #internal, #external, #abilityA, #abilityB, #abilityC, #abilityD, #abilityE, #responsibility").attr("readonly", true);
         }
     },
 
     buttonSet: function(){
+        $("#appBtn").hide();
+        $("#canBtn").hide();
+        $("#recBtn").hide();
+        $("#comBtn").hide();
+
         let mode = $("#mode").val();
         let status = dutyInfoReq.global.dutyInfo.STATUS;
         if(mode == "upd"){
             if(status == 0 || status == 30) {
                 $("#appBtn").show();
+                $("#saveBtn").show();
             }else if(status == 10){
                 $("#canBtn").show();
+                $("#saveBtn").hide();
             }else if(status == 100){
                 $("#saveBtn").hide();
             }
