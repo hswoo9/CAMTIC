@@ -600,7 +600,7 @@
         )
     </insert>
 
-    <insert id="setRecordHisInfo" parameterType="map">
+    <!--<insert id="setRecordHisInfo" parameterType="map">
         /*setRecordHisInfo*/
         INSERT INTO CAM_HR.DJ_EMP_RECORD_HISTORY(
               GUBUN
@@ -619,7 +619,7 @@
             ,#{EMP_NAME}
             ,NOW()
         )
-    </insert>
+    </insert>-->
 
     <insert id="setCareerInfo" parameterType="map">
         INSERT INTO cam_hr.dj_emp_career(
@@ -1732,7 +1732,7 @@
             EMP_SEQ = #{empSeq}
     </update>
 
-    <!--&lt;!&ndash;인사기록카드 - 학력사항 삭제&ndash;&gt;
+    <!--인사기록카드 - 학력사항 삭제-->
     <update id="setEduDelete" parameterType="java.util.List">
         /* setEduDelete */
         UPDATE
@@ -1748,7 +1748,7 @@
         )
     </update>
 
-    &lt;!&ndash;인사기록카드 - 경력사항 삭제&ndash;&gt;
+    <!--인사기록카드 - 경력사항 삭제-->
     <update id="setCareerDelete" parameterType="java.util.List">
         /* setCareerDelete */
         UPDATE
@@ -1764,7 +1764,7 @@
         )
     </update>
 
-    &lt;!&ndash;인사기록카드 - 가족사항 삭제&ndash;&gt;
+    <!--인사기록카드 - 가족사항 삭제-->
     <update id="setFamilyDelete" parameterType="java.util.List">
         /* setFamilyDelete */
         UPDATE
@@ -1780,7 +1780,7 @@
         )
     </update>
 
-    &lt;!&ndash;인사기록카드 - 보유면허 삭제&ndash;&gt;
+    <!--인사기록카드 - 보유면허 삭제-->
     <update id="setLicenseDelete" parameterType="java.util.List">
         /* setLicenseDelete */
         UPDATE
@@ -1796,7 +1796,7 @@
         )
     </update>
 
-    &lt;!&ndash;인사기록카드 - 직무사항 삭제&ndash;&gt;
+    <!--인사기록카드 - 직무사항 삭제-->
     <update id="setJobDelete" parameterType="java.util.List">
         /* setJobDelete */
         UPDATE
@@ -1812,7 +1812,7 @@
         )
     </update>
 
-    &lt;!&ndash;인사기록카드 - 상벌사항 삭제&ndash;&gt;
+    <!--인사기록카드 - 상벌사항 삭제-->
     <update id="setRewordDelete" parameterType="java.util.List">
         /* setRewordDelete */
         UPDATE
@@ -1828,7 +1828,7 @@
         )
     </update>
 
-    &lt;!&ndash;인사기록카드 - 제안제도 삭제&ndash;&gt;
+    <!--인사기록카드 - 제안제도 삭제-->
     <update id="setProposalDelete" parameterType="java.util.List">
         /* setProposalDelete */
         UPDATE
@@ -1842,7 +1842,7 @@
             #{item}
         </foreach>
         )
-    </update>-->
+    </update>
 
     <select id="getEduinfoList" parameterType="map" resultType="map">
         /* getEduinfoList */

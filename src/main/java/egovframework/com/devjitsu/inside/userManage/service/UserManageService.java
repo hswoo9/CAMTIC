@@ -26,7 +26,7 @@ public interface UserManageService{
     void setUserReqDetailInsert(Map<String, Object> params);
     void setEducationalInfo (Map<String,Object> map);
     /*인사기록카드 히스토리*/
-    void setRecordHisInfo (Map<String,Object> map);
+    /*void setRecordHisInfo (Map<String,Object> map);*/
     void setCareerInfo (Map<String,Object> map);
     void setMilitaryInfo (Map<String,Object> map);
     void setFmailyInfo (Map<String,Object> map);

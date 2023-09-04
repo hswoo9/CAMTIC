@@ -183,7 +183,7 @@
       bmk : $("#bmk").val(),
       type : "degree",
     }
-    JSON.stringify(data);
+    /*JSON.stringify(data);
     data: JSON.stringify(data)
     console.log(data);
 
@@ -192,17 +192,17 @@
       APPLI_TYPE : "I",
       ADMIN_APPROVAL : "N",
       JSON : JSON.stringify(data)
-    }
+    }*/
 
-    var data = {};
+    /*var data = {};*/
 
     var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
     console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");
-        alert(JSON.stringify(data));
-        console.log(data);
+        /*alert(JSON.stringify(data));
+        console.log(data);*/
         fn_windowClose();
       }else{
         alert("등록에 실패하였습니다.");

@@ -600,7 +600,7 @@ public class UserManageController {
             case "degree":
                 try {
                     userManageService.setEducationalInfo(params);
-                    userManageService.setRecordHisInfo(params);
+                    /*userManageService.setRecordHisInfo(params);*/
                     model.addAttribute("rs", "SUCCESS");
                 }catch (Exception e) {
                     model.addAttribute("rs", "FAILED");

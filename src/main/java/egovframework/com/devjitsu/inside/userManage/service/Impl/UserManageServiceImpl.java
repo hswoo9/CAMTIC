@@ -140,10 +140,10 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     /*인사기록카드 히스토리*/
-    @Override
+    /*@Override
     public void setRecordHisInfo(Map<String, Object> map) {
         userManageRepository.setRecordHisInfo(map);
-    }
+    }*/
 
     @Override
     public void setCareerInfo(Map<String, Object> map) {
