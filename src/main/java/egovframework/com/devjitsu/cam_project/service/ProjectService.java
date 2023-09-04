@@ -12,7 +12,7 @@ public interface ProjectService {
 
     void setProject(Map<String, Object> params);
 
-    Map<String, Object> getProjectStep1(Map<String, Object> params);
+    Map<String, Object> getProjectStep(Map<String, Object> params);
 
     void delProject(Map<String, Object> params);
 
@@ -81,4 +81,6 @@ public interface ProjectService {
     void updStep5(Map<String, Object> params);
 
     void setEngnCrmInfo(Map<String, Object> params);
+
+    void setEngnBustInfo(Map<String, Object> params);
 }

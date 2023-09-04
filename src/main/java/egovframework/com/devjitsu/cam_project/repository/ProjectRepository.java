@@ -13,8 +13,8 @@ public class ProjectRepository extends AbstractDAO {
         return selectList("project.getProjectList", params);
     }
 
-    public Map<String, Object> getProjectStep1(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("project.getProjectStep1", params);
+    public Map<String, Object> getProjectStep(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProjectStep", params);
     }
 
     public void insProject(Map<String, Object> params) {
@@ -213,5 +213,10 @@ public class ProjectRepository extends AbstractDAO {
 
     public void updEngn(Map<String, Object> params) {
         update("project.updEngn", params);
+    }
+
+    public void updEngnBustInfo(Map<String, Object> params) {
+        update("project.updEngnBustInfo", params);
+        update("bustrip.updBustPjtSn", params);
     }
 }

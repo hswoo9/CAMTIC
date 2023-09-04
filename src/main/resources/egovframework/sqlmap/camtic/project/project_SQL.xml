@@ -9,14 +9,23 @@
         ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
     </select>
 
-    <select id="getProjectStep1" parameterType="map" resultType="map">
-        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
-        ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
-        ON A.PJT_SN = C.PJT_SN
-        LEFT JOIN CAM_CRM.DJ_CRM_INFO D
-        ON A.CRM_CD = D.CRM_SN
+    <select id="getProjectStep" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_ENGN B
+            ON
+                A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
+            ON
+                A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO D
+            ON
+                A.CRM_CD = D.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -683,6 +692,15 @@
             ${nextStepColumn} = #{nextStepValue},
             CRM_CD = #{crmCd},
             MOD_DT = now()
+        WHERE
+            ENGN_SN = #{engnSn}
+    </update>
+
+    <update id="updEngnBustInfo" parameterType="map">
+        /* updEngnBustInfo */
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            CONT_ETC = #{contEtc}
         WHERE
             ENGN_SN = #{engnSn}
     </update>

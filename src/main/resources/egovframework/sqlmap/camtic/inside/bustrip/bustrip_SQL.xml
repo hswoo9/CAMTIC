@@ -797,10 +797,10 @@
             PJT_SN IS NULL
     </select>
 
-    <update id="updBustripResult" parameterType="map">
+    <update id="updBustPjtSn" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET
-            PJT_SN = #{PJT_SN}
+            PJT_SN = #{pjtSn}
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>

@@ -60,8 +60,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> getProjectStep1(Map<String, Object> params) {
-        return projectRepository.getProjectStep1(params);
+    public Map<String, Object> getProjectStep(Map<String, Object> params) {
+        return projectRepository.getProjectStep(params);
     }
 
     @Override
@@ -301,5 +301,10 @@ public class ProjectServiceImpl implements ProjectService {
     public void setEngnCrmInfo(Map<String, Object> params) {
         projectRepository.updPjtCrmInfo(params);
         projectRepository.updEngn(params);
+    }
+
+    @Override
+    public void setEngnBustInfo(Map<String, Object> params) {
+        projectRepository.updEngnBustInfo(params);
     }
 }

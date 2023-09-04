@@ -59,7 +59,7 @@ public class ProjectController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        Map<String, Object> map = projectService.getProjectStep1(params);
+        Map<String, Object> map = projectService.getProjectStep(params);
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("map", new Gson().toJson(map));
@@ -84,7 +84,7 @@ public class ProjectController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        Map<String, Object> map = projectService.getProjectStep1(params);
+        Map<String, Object> map = projectService.getProjectStep(params);
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("map", new Gson().toJson(map));
@@ -465,12 +465,33 @@ public class ProjectController {
         return "jsonView";
     }
 
+
+    /**
+     * 엔지니어링 업체정보 저장
+     *
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/project/engn/setCrmInfo")
     public String setCrmInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectService.setEngnCrmInfo(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setBustInfo")
+    public String setBustInfo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.setEngnBustInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e) {
             e.printStackTrace();
         }
 

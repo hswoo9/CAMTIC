@@ -6,7 +6,8 @@ var bustInfo = {
 
         $("#contEtc").kendoTextArea({
             rows: 5,
-        })
+        });
+
     },
 
     fn_popBustrip : function (){
@@ -17,6 +18,25 @@ var bustInfo = {
     },
 
     fn_save : function (){
+        var data ={
+            contEtc : $("#contEtc").val(),
+            hrBizReqResultId : $("#hrBizReqResultId").val(),
+            bustripReq : $("#bustripReq").val(),
+            pjtSn : $("#pjtSn").val(),
+            engnSn : $("#engnSn").val()
+        }
+
+        $.ajax({
+            url : "/project/engn/setBustInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success: function(rs){
+                alert("저장되었습니다.");
+            }
+        });
+
+
         console.log("출장 정보");
     }
 }

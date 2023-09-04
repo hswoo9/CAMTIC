@@ -35,7 +35,7 @@
                     <span class="red-star"></span>상담내용
                 </th>
                 <td colspan="3">
-                    <textarea id="contEtc" style="width: 100%;"></textarea>
+                    <textarea id="contEtc" style="width: 100%;" disabled></textarea>
                 </td>
             </tr>
             <tr>
@@ -43,7 +43,7 @@
                     <span class="red-star"></span>출장정보
                 </th>
                 <td colspan="3">
-                    <input type="text" id="bustripReq" style="width: 90%;">
+                    <input type="text" id="bustripReq" disabled style="width: 90%;">
                     <input type="hidden" id="hrBizReqResultId" />
                     <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.fn_popBustrip();">
                         조회
