@@ -79,4 +79,6 @@ public interface ProjectService {
     void insStep4(Map<String, Object> params);
 
     void updStep5(Map<String, Object> params);
+
+    void setEngnCrmInfo(Map<String, Object> params);
 }

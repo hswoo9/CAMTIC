@@ -296,4 +296,10 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updProjectEngnStep(params);
         }
     }
+
+    @Override
+    public void setEngnCrmInfo(Map<String, Object> params) {
+        projectRepository.updPjtCrmInfo(params);
+        projectRepository.updEngn(params);
+    }
 }

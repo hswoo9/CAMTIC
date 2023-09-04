@@ -663,4 +663,27 @@
         WHERE
             PJT_SN = #{pjtSn} AND DELV_STAT = 'Y'
     </select>
+
+    <update id="updPjtCrmInfo" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            CRM_NM = #{crmNm},
+            CRM_MAIL = #{crmMail},
+            CRM_CD = #{crmCd},
+            CRM_SUB_CD = #{crmReqMem},
+            PJT_STEP = #{step}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updEngn" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            ${stepColumn} = #{stepValue},
+            ${nextStepColumn} = #{nextStepValue},
+            CRM_CD = #{crmCd},
+            MOD_DT = now()
+        WHERE
+            ENGN_SN = #{engnSn}
+    </update>
 </mapper>

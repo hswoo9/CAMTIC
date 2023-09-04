@@ -62,7 +62,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
                 <input type="text" id="busnClass" style="width: 200px" />
-                <input type="hidden" id="pjtStep" value="E0">
+                <input type="hidden" id="pjtStep" value="E">
                 <input type="hidden" id="pjtStepNm" value="상담">
             </h3>
 
@@ -83,7 +83,7 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>상담일자
+                        <span class="red-star">*</span>상담일자
                     </th>
                     <td>
                         <input type="text" id="consultDt" style="width: 90%;">
@@ -103,7 +103,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>제목
+                        <span class="red-star">*</span>제목
                     </th>
                     <td colspan="3">
                         <input type="text" id="pjtNm" style="width: 95%;">
@@ -111,13 +111,13 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>예상견적가
+                        <span class="red-star">*</span>예상견적가
                     </th>
                     <td>
                         <input type="text" id="expAmt" style="width: 90%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>장소
+                        <span class="red-star">*</span>장소
                     </th>
                     <td>
                         <input type="text" id="contLoc" style="width: 90%;">
@@ -249,7 +249,7 @@
             <div style="margin-top :15px;">
                 <div class="demo-section">
                     <div id="tabstrip">
-                        <ul>
+                        <ul style="font-size: 12px;">
                             <li class="k-active">
                                 업체정보
                             </li>
@@ -257,7 +257,7 @@
                                 출장정보
                             </li>
                             <li>
-                                TEST C
+                                견적관리
                             </li>
                             <li>
                                 TEST D
@@ -265,13 +265,18 @@
                         </ul>
                         <div>
                             <div>
-                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/crmInfo.jsp" flush="true"></jsp:include>
+                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/crmInfo.jsp" flush="true">
+                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
+                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
+                                </jsp:include>
                             </div>
                         </div>
                         <div>
-                            <div class="weather">
-                                <h2>29<span>&ordm;C</span></h2>
-                                <p>Sunny weather in New York.</p>
+                            <div>
+                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/bustInfo.jsp" flush="true">
+                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
+                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
+                                </jsp:include>
                             </div>
                         </div>
                         <div>
