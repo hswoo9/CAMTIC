@@ -56,6 +56,7 @@ var bustripResMngList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : bustripResMngList.onDataBound,
             columns: [
                 {
                     title: "사업명",
@@ -151,6 +152,16 @@ var bustripResMngList = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+            const dataItem = grid.dataItem($(this));
+            const hrBizReqId = dataItem.HR_BIZ_REQ_ID;
+            const hrBizReqResultId = dataItem.HR_BIZ_REQ_RESULT_ID;
+            bustripResMngList.popBustripRes(hrBizReqId, hrBizReqResultId);
+        });
     },
 
     popBustripRes : function(e, d) {
