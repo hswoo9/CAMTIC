@@ -101,7 +101,7 @@ var rprList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "명칭", value: "" },
+                { text: "명칭", value: "4" },
                 { text: "발명자", value: "1" },
                 { text: "출원번호", value: "2" },
                 { text: "등록번호", value: "3" }

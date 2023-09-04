@@ -52,9 +52,9 @@ public class UserManageRepository extends AbstractDAO {
         insert("userManage.setEducationalInfo", map);
     }
     /*인사기록카드 히스토리*/
-    public void setRecordHisInfo (Map<String,Object> map) {
+    /*public void setRecordHisInfo (Map<String,Object> map) {
         insert("userManage.setRecordHisInfo", map);
-    }
+    }*/
     public void setCareerInfo (Map<String,Object> map) {
         insert("userManage.setCareerInfo", map);
     }
