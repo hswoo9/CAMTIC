@@ -34,12 +34,12 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getProjectData", params);
     }
 
-    public void insStep1(Map<String, Object> params) {
-        insert("project.insStep1", params);
+    public void insEngnEstInfo(Map<String, Object> params) {
+        insert("project.insEngnEstInfo", params);
     }
 
-    public void insStep1Sub(Map<String, Object> params) {
-        insert("project.insStep1Sub", params);
+    public void insEngnEstSub(Map<String, Object> params) {
+        insert("project.insEngnEstSub", params);
     }
 
     public void updProjectStep(Map<String, Object> params) {
@@ -50,16 +50,16 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProjectEngnStep", params);
     }
 
-    public List<Map<String, Object>> getStep1EstList(Map<String, Object> params) {
+    public List<Map<String, Object>> getEstList(Map<String, Object> params) {
         return selectList("project.getStep1EstList", params);
     }
 
-    public List<Map<String, Object>> getStep1EstSubList(Map<String, Object> params) {
-        return selectList("project.getStep1EstSubList", params);
+    public List<Map<String, Object>> getEstSubList(Map<String, Object> params) {
+        return selectList("project.getEstSubList", params);
     }
 
     public Map<String, Object> getStep1EstData(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("project.getStep1EstData", params);
+        return (Map<String, Object>) selectOne("project.getEstData", params);
     }
 
     public void insStep2(Map<String, Object> params) {
@@ -207,8 +207,8 @@ public class ProjectRepository extends AbstractDAO {
         return (int) selectOne("project.checkDelvStat", params);
     }
 
-    public void updPjtCrmInfo(Map<String, Object> params) {
-        update("project.updPjtCrmInfo", params);
+    public void updEngnCrmInfo(Map<String, Object> params) {
+        update("project.updEngnCrmInfo", params);
     }
 
     public void updEngn(Map<String, Object> params) {
@@ -218,5 +218,9 @@ public class ProjectRepository extends AbstractDAO {
     public void updEngnBustInfo(Map<String, Object> params) {
         update("project.updEngnBustInfo", params);
         update("bustrip.updBustPjtSn", params);
+    }
+
+    public void updProject(Map<String, Object> params) {
+        update("project.updProject", params);
     }
 }

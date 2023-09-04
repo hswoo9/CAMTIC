@@ -18,11 +18,11 @@ public interface ProjectService {
 
     Map<String, Object> getProjectData(Map<String, Object> params);
 
-    void insStep1(Map<String, Object> params);
+    void setEstInfo(Map<String, Object> params);
 
-    void insStep1Sub(Map<String, Object> params);
+    void setEstSub(Map<String, Object> params);
 
-    Map<String, Object> getStep1Data(Map<String, Object> params);
+    Map<String, Object> getEstData(Map<String, Object> params);
 
     Map<String, Object> getStep1SubData(Map<String, Object> params);
 

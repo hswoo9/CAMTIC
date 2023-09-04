@@ -83,6 +83,16 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>상담코드
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="contCd" style="width: 30%;" value="${data.PJT_CD}" disabled>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>상담일자
                     </th>
                     <td>
@@ -123,126 +133,6 @@
                         <input type="text" id="contLoc" style="width: 90%;">
                     </td>
                 </tr>
-
-
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>업체코드--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmCd" style="width: 80%;" disabled>--%>
-<%--                        <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popCamCrmList()">--%>
-<%--                            조회--%>
-<%--                        </button>--%>
-<%--                    </td>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>소재지--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmLoc" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>업체명--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmNm" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>주요생산품--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmProd" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>대표자--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmCeo" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>우편번호--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmPost" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>주소--%>
-<%--                    </th>--%>
-<%--                    <td colspan="3">--%>
-<%--                        <input type="text" id="crmAddr" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>전화번호--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmCallNum" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>팩스번호--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmFax" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>의뢰인--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmReqMem" style="width: 80%;" disabled>--%>
-<%--                        <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">--%>
-<%--                            조회--%>
-<%--                        </button>--%>
-<%--                    </td>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>핸드폰--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmPhNum" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>홈페이지--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmHp" style="width: 90%;" disabled>--%>
-<%--                    </td>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>메일주소--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="crmMail" style="width: 90%;">--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>상담내용--%>
-<%--                    </th>--%>
-<%--                    <td colspan="3">--%>
-<%--                        <textarea id="contEtc" style="width: 100%;"></textarea>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star"></span>출장정보--%>
-<%--                    </th>--%>
-<%--                    <td colspan="3">--%>
-<%--                        <input type="text" id="bustripReq" style="width: 90%;">--%>
-<%--                        <input type="hidden" id="hrBizReqResultId" />--%>
-<%--                        <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popBustrip();">--%>
-<%--                            조회--%>
-<%--                        </button>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
                 </thead>
             </table>
 
@@ -260,7 +150,22 @@
                                 견적관리
                             </li>
                             <li>
-                                TEST D
+                                수주보고
+                            </li>
+                            <li>
+                                개발계획
+                            </li>
+                            <li>
+                                공정
+                            </li>
+                            <li>
+                                납품
+                            </li>
+                            <li>
+                                결과보고
+                            </li>
+                            <li>
+                                원가보고
                             </li>
                         </ul>
                         <div>
@@ -280,9 +185,12 @@
                             </div>
                         </div>
                         <div>
-                            <div class="weather">
-                                <h2>21<span>&ordm;C</span></h2>
-                                <p>Sunny weather in London.</p>
+                            <div>
+                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/estInfo.jsp" flush="true">
+                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
+                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
+                                    <jsp:param name="expAmt" value="${data.EXP_AMT}"/>
+                                </jsp:include>
                             </div>
                         </div>
                         <div>

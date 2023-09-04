@@ -48,8 +48,12 @@ var regPrj = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
-            if(setParameters.PJT_STEP == "E0"){
+            if(setParameters.PJT_STEP >= "E0"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+            }
+
+            if(setParameters.PJT_STEP >= "E1"){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(3));
             }
         }
 

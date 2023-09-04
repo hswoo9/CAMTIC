@@ -76,42 +76,38 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public void insStep1(Map<String, Object> params) {
-        int modCheck = projectRepository.checkModStep1(params);
-        projectRepository.insStep1(params);
+    public void setEstInfo(Map<String, Object> params) {
+        projectRepository.insEngnEstInfo(params);
 
-        // 버전관리 (Step)
-        if(modCheck == 0){
-            projectRepository.updProjectStep(params);
-            projectRepository.updProjectEngnStep(params);
-        }
+        projectRepository.updProject(params);
+        projectRepository.updEngn(params);
     }
 
     @Override
-    public Map<String, Object> getStep1Data(Map<String, Object> params) {
+    public Map<String, Object> getEstData(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 
-        List<Map<String, Object>> estList = projectRepository.getStep1EstList(params);
+        List<Map<String, Object>> estList = projectRepository.getEstList(params);
 
         if(estList.size() != 0){
             result.put("estList", estList);
             params.put("estSn", estList.get(estList.size() - 1).get("EST_SN"));
-            result.put("estSubList", projectRepository.getStep1EstSubList(params));
+            result.put("estSubList", projectRepository.getEstSubList(params));
         }
 
         return result;
     }
 
     @Override
-    public void insStep1Sub(Map<String, Object> params) {
-        projectRepository.insStep1Sub(params);
+    public void setEstSub(Map<String, Object> params) {
+        projectRepository.insEngnEstSub(params);
     }
 
     @Override
     public Map<String, Object> getStep1SubData(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 
-        result.put("estSubList", projectRepository.getStep1EstSubList(params));
+        result.put("estSubList", projectRepository.getEstSubList(params));
 
         return result;
     }
@@ -299,7 +295,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void setEngnCrmInfo(Map<String, Object> params) {
-        projectRepository.updPjtCrmInfo(params);
+
+        projectRepository.updEngnCrmInfo(params);
+
+        projectRepository.updProject(params);
         projectRepository.updEngn(params);
     }
 

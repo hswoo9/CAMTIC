@@ -88,18 +88,27 @@
     </delete>
 
     <select id="getProjectData" parameterType="map" resultType="map">
-        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
-            ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
-            ON A.PJT_SN = C.PJT_SN
-        LEFT JOIN CAM_CRM.DJ_CRM_INFO D
-            ON A.CRM_CD = D.CRM_SN
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_ENGN B
+            ON
+                A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
+            ON
+                A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO D
+            ON
+                A.CRM_CD = D.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
 
-    <insert id="insStep1" parameterType="map">
+    <insert id="insEngnEstInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST
         (
             PJT_SN,
@@ -129,7 +138,7 @@
         </selectKey>
     </insert>
 
-    <insert id="insStep1Sub" parameterType="map">
+    <insert id="insEngnEstSub" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST_SUB
         (
             EST_SN,
@@ -191,7 +200,7 @@
             PJT_SN = #{pjtSn}
     </select>
 
-    <select id="getStep1EstSubList" parameterType="map" resultType="map">
+    <select id="getEstSubList" parameterType="map" resultType="map">
         SELECT
             *
         FROM
@@ -200,7 +209,7 @@
             EST_SN = #{estSn}
     </select>
 
-    <select id="getStep1EstData" parameterType="map" resultType="map">
+    <select id="getEstData" parameterType="map" resultType="map">
         SELECT
             A.*,
             (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME
@@ -673,16 +682,28 @@
             PJT_SN = #{pjtSn} AND DELV_STAT = 'Y'
     </select>
 
-    <update id="updPjtCrmInfo" parameterType="map">
+    <update id="updEngnCrmInfo" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             CRM_NM = #{crmNm},
             CRM_MAIL = #{crmMail},
             CRM_CD = #{crmCd},
-            CRM_SUB_CD = #{crmReqMem},
+            CRM_SUB_CD = #{crmReqMem}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updProject" parameterType="map">
+        /* updProject */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
             PJT_STEP = #{step}
         WHERE
             PJT_SN = #{pjtSn}
+        AND
+        <![CDATA[
+            PJT_STEP < #{step}
+        ]]>
     </update>
 
     <update id="updEngn" parameterType="map">
@@ -693,7 +714,7 @@
             CRM_CD = #{crmCd},
             MOD_DT = now()
         WHERE
-            ENGN_SN = #{engnSn}
+            ENGN_SN = #{engnSn} AND ${stepColumn} = 'N'
     </update>
 
     <update id="updEngnBustInfo" parameterType="map">

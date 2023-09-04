@@ -304,10 +304,10 @@ var camPrj = {
         }
 
         var name = "_blank";
-        var option = "width = 1250, height = 850, top = 100, left = 200, location = no"
+        var option = "width = 1680, height = 850, top = 100, left = 200, location = no"
 
         if((i-1) == 3){
-            option = "width = 1160, height = 820, top = 100, left = 200, location = no";
+            option = "width = 1680, height = 820, top = 100, left = 200, location = no";
         }
 
         var popup = window.open(url, name, option);
@@ -411,7 +411,7 @@ var camPrj = {
     fn_projectPopView : function (key){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
         var name = "_blank";
-        var option = "width = 1250, height = 850, top = 100, left = 200, location = no";
+        var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
     }

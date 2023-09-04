@@ -122,6 +122,8 @@ public class ProjectController {
         return "jsonView";
     }
 
+
+    @Deprecated
     @RequestMapping("/project/pop/engnStep.do")
     public String engnStep(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
@@ -138,6 +140,20 @@ public class ProjectController {
 
 
         return "popup/cam_project/engineering/step" + params.get("step");
+    }
+
+    @RequestMapping("/project/engn/getEstData")
+    public String getEstData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectData(params);
+
+        model.addAttribute("result", projectService.getEstData(params));
+        model.addAttribute("loginVO", loginVO).addAttribute(map);
+
+        return "jsonView";
+
     }
 
     @RequestMapping("/project/getPsList")
@@ -157,11 +173,11 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/insStep1")
-    public String insStep1(@RequestParam Map<String, Object> params, Model model){
+    @RequestMapping("/project/engn/setEstInfo")
+    public String setEstInfo(@RequestParam Map<String, Object> params, Model model){
 
         try{
-            projectService.insStep1(params);
+            projectService.setEstInfo(params);
             model.addAttribute("code", 200);
             model.addAttribute("rep", params);
         } catch(Exception e){
@@ -171,11 +187,11 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/insStep1Sub")
-    public String insStep1Sub(@RequestParam Map<String, Object> params, Model model){
+    @RequestMapping("/project/engn/setEstSub")
+    public String setEstSub(@RequestParam Map<String, Object> params, Model model){
 
         try{
-            projectService.insStep1Sub(params);
+            projectService.setEstSub(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -187,7 +203,7 @@ public class ProjectController {
     @RequestMapping("/project/getStep1Data")
     public String getStep1Data(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("result", projectService.getStep1Data(params));
+        model.addAttribute("result", projectService.getEstData(params));
 
         return "jsonView";
     }
