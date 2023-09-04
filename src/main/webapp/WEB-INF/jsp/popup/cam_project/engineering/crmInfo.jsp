@@ -1,10 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/crmInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
+<%
+    String pjtSn = request.getParameter("pjtSn");
+    String engnSn = request.getParameter("engnSn");
+
+    if(pjtSn == null){
+        return ;
+    }
+
+    if(engnSn == null){
+        return ;
+    }
+%>
+<input type="hidden" id="pjtSn" value="<%=pjtSn%>" />
+<input type="hidden" id="engnSn" value="<%=engnSn%>" />
+
+<input type="hidden" id="step" value="E0" />
+<input type="hidden" id="stepColumn" value="STEP1" />
+<input type="hidden" id="nextStepColumn" value="STEP2" />
+<input type="hidden" id="stepValue" value="Y" />
+<input type="hidden" id="nextStepValue" value="R" />
 <div style="padding: 10px">
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="crmInfo.fn_save()">저장</button>
     <table class="popTable table table-bordered mb-0">
@@ -17,11 +37,11 @@
         <thead>
         <tr>
             <th scope="row" class="text-center th-color">
-                <span class="red-star"></span>업체코드
+                <span class="red-star">*</span>업체코드
             </th>
             <td>
                 <input type="text" id="crmCd" style="width: 80%;" disabled>
-                <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPrj.fn_popCamCrmList()">
+                <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="crmInfo.fn_popCamCrmList()">
                     조회
                 </button>
             </td>
@@ -87,10 +107,10 @@
                 <span class="red-star"></span>의뢰인
             </th>
             <td>
-                <input type="text" id="crmReqMem" style="width: 80%;" disabled>
-                <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">
-                    조회
-                </button>
+                <input type="text" id="crmReqMem" style="width: 90%;">
+<%--                <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">--%>
+<%--                    조회--%>
+<%--                </button>--%>
             </td>
             <th scope="row" class="text-center th-color">
                 <span class="red-star"></span>핸드폰

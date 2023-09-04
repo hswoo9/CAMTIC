@@ -29,12 +29,30 @@ var regPrj = {
 
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
 
-        if(setParameters != null){
-            regPrj.fn_setData(setParameters);
-        }
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
         tabStrip.disable(tabStrip.tabGroup.children());
+
+        if(setParameters.PJT_SN){
+            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+        }
+
+        if(setParameters != null){
+            setParameters.ENGN_SN;
+            regPrj.fn_setData(setParameters);
+
+            if(setParameters.PJT_STEP == "E"){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+            }
+
+            if(setParameters.PJT_STEP == "E0"){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+            }
+        }
+
+
 
         // tabStrip.enable(tabStrip.tabGroup.children().eq(0));
 
@@ -83,8 +101,9 @@ var regPrj = {
             dataType : "json",
             async : false,
             success : function(rs){
+                console.log(rs);
                 opener.parent.camPrj.gridReload();
-                window.close();
+                // location.reload();
             }
         });
     },
@@ -104,8 +123,6 @@ var regPrj = {
     },
 
     fn_setData : function (p) {
-
-        console.log(p)
         var busnClass = $("#busnClass").data("kendoDropDownList")
         busnClass.value(p.BUSN_CLASS);
         if(p.BUSN_CLASS == "D"){
@@ -120,7 +137,6 @@ var regPrj = {
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
         }
-        console.log(p);
         $("#pjtTitle").text("프로젝트 수정 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
         $("#expAmt").val(regPrj.comma(p.EXP_AMT));
@@ -141,11 +157,10 @@ var regPrj = {
         $("#crmCeo").val(p.CRM_CEO);
         $("#crmFax").val(p.CRM_FAX);
         $("#crmCallNum").val(p.TEL_NUM);
-        $("#crmReqMem").val(p.CRM_CEO);
         $("#crmPhNum").val(p.PH_NUM);
         $("#crmMail").val(p.EMAIL);
         $("#contEtc").val(p.CONT_ETC);
-
+        $("#crmReqMem").val(p.CRM_SUB_CD);
         $("#modBtn").css("display", "");
         $("#saveBtn").css("display", "none");
 
@@ -163,7 +178,6 @@ var regPrj = {
             $("#bustripReq").val(title);
             $("#hrBizReqResultId").val(p.HR_BIZ_REQ_RESULT_ID);
         }
-
     },
 
 
@@ -177,20 +191,10 @@ var regPrj = {
         return yyyy+'-'+mm+'-'+dd;
     },
 
-    fn_popBustrip : function (){
-        var url = "/bustrip/pop/viewBustripList.do";
-        var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    },
 
 
-    fn_popCamCrmList : function (){
-        var url = "/crm/pop/popCrmList.do";
-        var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    },
+
+
 
 
 }

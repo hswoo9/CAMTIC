@@ -8,7 +8,39 @@ var crmInfo = {
 
     fn_save : function (){
         var data = {
-
+            pjtSn : $("#pjtSn").val(),
+            engnSn : $("#engnSn").val(),
+            crmCd : $("#crmCd").val(),
+            crmNm : $("#crmNm").val(),
+            crmCeo : $("#crmCeo").val(),
+            crmMail : $("#crmMail").val(),
+            crmReqMem : $("#crmReqMem").val(),
+            step : $("#step").val(),
+            stepColumn : $("#stepColumn").val(),
+            nextStepColumn : $("#nextStepColumn").val(),
+            stepValue : $("#stepValue").val(),
+            nextStepValue : $("#nextStepValue").val()
         }
-    }
+
+
+        $.ajax({
+            url : "/project/engn/setCrmInfo",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                alert("저장되었습니다.");
+            }
+        });
+    },
+
+    // 업체정보 조회
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+
 }

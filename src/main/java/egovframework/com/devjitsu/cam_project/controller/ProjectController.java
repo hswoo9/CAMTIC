@@ -88,6 +88,8 @@ public class ProjectController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
         return "popup/cam_project/regProject";
     }
 
@@ -455,6 +457,18 @@ public class ProjectController {
 
         try{
             projectService.updStep5(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setCrmInfo")
+    public String setCrmInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setEngnCrmInfo(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
