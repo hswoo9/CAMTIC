@@ -183,3 +183,14 @@ function fn_getSpot(position, duty){
         return duty;
     }
 }
+
+function fn_getRowNum(e, type){
+    /** type이 1이면 정순, 2면 역순 */
+    if(type == 1){
+        return (e.dataSource.page() -1) * e.dataSource.pageSize();
+    }else if(type == 2){
+        return e.dataSource._data.length+1 - ((e.dataSource.page() -1) * e.dataSource.pageSize());
+    }else{
+        return 0;
+    }
+}

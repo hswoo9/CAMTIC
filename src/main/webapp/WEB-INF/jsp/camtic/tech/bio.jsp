@@ -15,85 +15,212 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__bio1 m0">
+        <div class="__bio4 m0">
+
           <dl class="head">
-            <dt>스마트 헬스케어 & 재활</dt>
+            <dt>인간 중심의 기술 연구를 위한 역량 강화</dt>
             <dd>
               <span class="__nm">“</span>
-              지능형 제조로봇, 스마트팜 & 에어로팜, 나노섬유
+              헬스케어, 전기방사장치, 시제품개발  분야 연구
               <span class="__nm">”</span>
             </dd>
           </dl>
 
-          <div class="__icoBox">
-            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
-            <h5>신기술융합 : 인력현황</h5>
-            <div class="__fz20 __black fwm">
-              헬스케어 융합연구 및 메카트로닉스 시스템 개발 담당 등 8명
+          <div class="bot">
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart1-1.png" alt=""></div>
+              <div class="txt">필터 방어복 <br class="__p">기능성 섬유</div>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart1-2.png" alt=""></div>
+              <div class="txt">전자종이 광학필름 <br class="__p">광케이블 </div>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart1-3.png" alt=""></div>
+              <div class="txt">액추에이터 <br class="__p">센서 촉매제</div>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart1-4.png" alt=""></div>
+              <div class="txt">태양,연료전지 <br class="__p">전해질막 수소저장</div>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart1-5.png" alt=""></div>
+              <div class="txt">흡착/분리시스템 세포배양 <br class="__p">약물전달체</div>
             </div>
           </div>
 
-          <div class="bot">
-            <div class="img"><img src="/images/camtic/img-bio2-1.jpg" alt=""></div>
-            <div class="txt">산업용 로봇팔</div>
-          </div>
         </div>
 
+
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>주요고객</strong></h3>
-          <div class="rig __fz16 __black fwl">
-            * ICT융합, 로봇, 헬스케어 산업 등 정출연 및 신산업 연구개발 기업 등
-          </div>
+          <h3><strong>나노섬유 생산을 위한 전기방사 장비</strong></h3>
         </div>
-        <div class="__bio2">
-          <ul class="__logos">
-            <li><img src="/images/camtic/img-bio3-1.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-2.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-3.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-4.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-5.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-6.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-7.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-8.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-9.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-10.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-11.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-12.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-13.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-14.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-15.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-16.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-17.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-18.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-19.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-20.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-21.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-22.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-23.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-24.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-25.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-bio3-26.jpg" alt=""></li>
+        <div class="__bio5">
+
+          <div class="__icoBox pt0">
+            <div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+            <div class="__fz18 __gray fwb">방사 조건에 따라 적층 두께, 필라멘트의 두께, pore의 크기 등 다양한 샘플 제작</div>
+            <div class="__fz18 __black">폭 1,000mm, 500mm, Lab type 장비를 통해 조건에 따른 다양한 나노 섬유 생산 가능</div>
+          </div>
+          <ul class="__flximg __mt40">
+            <li><img src="/images/camtic/img-nsmart2-1.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-nsmart2-2.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-nsmart2-3.jpg" alt=""></li>
           </ul>
+          <div class="__fz18 __mt10 __black tac">( 양산형 500mm, Lab Type, 500mm Lab Type 전기방사장치 )</div>
+          <ul class="__flximg mwrap __mt80">
+            <li><img src="/images/camtic/img-nsmart3-1.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">정면, 10k 배율</div></li>
+            <li><img src="/images/camtic/img-nsmart3-2.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">정면, 1k 배율</div></li>
+            <li><img src="/images/camtic/img-nsmart3-3.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">측면, 10k 배율</div></li>
+            <li><img src="/images/camtic/img-nsmart3-4.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">측면, 1k 배율</div></li>
+          </ul>
+          <div class="__fz18 __mt20 __black tac">( CTS-1000 실제 출력물 샘플 )</div>
+
+        </div>
+
+
+        <div class="__tit1 __mt100 __mb20">
+          <h3><strong>헬스케어</strong></h3>
+        </div>
+        <div class="__bio6">
+
+          <dl class="head">
+            <dt>
+              <span class="__nm">“</span>
+              기존의 치료 부문 의료서비스와 <strong>질방 예방 및 관리</strong>
+              <span class="__nm">”</span>
+            </dt>
+            <dd>
+              개념을 합친 전반적인 <strong>건강관리 시스템 개발</strong>
+            </dd>
+          </dl>
+
+          <div class="__fz18 __black fwb __mt70">재활로봇 및 개인 맞춤형 건강관리 플랫폼 기술</div>
+          <div class="area">
+
+            <div class="__icoBox pt0">
+              <div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+              <h5>레일 플랫폼 기반의 동적 하네스 시스템</h5>
+              <div class="__fz18 __black">고령자 및 뇌졸중 환자 등 보행 장애인의 조기재활 목적을 위한 하지관련일상 생활동작 및 재활 훈련 시스템 개발</div>
+            </div>
+          </div>
+
+          <ul class="__flximg mwrap __mt60">
+            <li><img src="/images/camtic/img-nsmart4-1.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-nsmart4-2.jpg" alt=""></li>
+          </ul>
+          <ul class="__flximg mwrap __mt20">
+            <li><img src="/images/camtic/img-nsmart4-3.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-nsmart4-4.jpg" alt=""></li>
+          </ul>
+          <ul class="__flximg mwrap __mt40">
+            <li><img src="/images/camtic/img-nsmart4-5.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-nsmart4-6.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-nsmart4-7.jpg" alt=""></li>
+          </ul>
+
+          <div class="__fz20 __black fwb __mt50">시제품 제작 지원 사례</div>
+          <ul class="__flximg mwrap __mt15">
+            <li><img src="/images/camtic/img-nsmart5-1.jpg" alt=""><div class="__fz16 __mt10 __black fwm">개인 맞춤형척추 건강관리 IoT서비스를 적용한 척추 이완 기기</div></li>
+            <li><img src="/images/camtic/img-nsmart5-2.jpg" alt=""><div class="__fz16 __mt10 __black fwm">척추 / 관절 진단 및 수술용 다기능 카본테이블</div></li>
+          </ul>
+
         </div>
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>지원사례</strong></h3>
+          <h3><strong>시제품제작</strong></h3>
         </div>
-        <div class="__bio3">
-          <div class="area">
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-1.jpg" alt=""></div><div class="txt">(사)캠틱종합기술원 – 장애인 실내이동 및 생활편의를위한 Room Covering 레일 시스템 개발</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-2.jpg" alt=""></div><div class="txt">㈜풍림파마텍 – 펜 디바이스 약액 측정 장치 시제품 제작</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-3.jpg" alt=""></div><div class="txt">㈜씨비에이치 – 척추관절 진단 및 수술용 다기능카본 테이블</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-4.jpg" alt=""></div><div class="txt">㈜엠프로스 – 수면무호흡측정 제품 개발</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-5.jpg" alt=""></div><div class="txt">케이뷰티솔루션㈜ – 반영구화장 온라인 실습교육을 위한양방향 콘텐츠 및 실습장비 개발</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-6.jpg" alt=""></div><div class="txt">㈜나노바이오이미징 – LED 비강부 구강부 치료기</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-7.jpg" alt=""></div><div class="txt">(사)캠틱종합기술원 – 나노 섬유 제작을 위한 전기방사시스템</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-8.jpg" alt=""></div><div class="txt">㈜티디엠 – 나노섬유 조직접합시트 제작을 위한 폭 500mm 전기방사장치 제작</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-9.jpg" alt=""></div><div class="txt">(사)캠틱종합기술원– 스마트팜 ICT기자재 국가표준 확산지원사업</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-10.jpg" alt=""></div><div class="txt">㈜프레시고– 2020년 제조로봇 선도보급 실증사업</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-11.jpg" alt=""></div><div class="txt">㈜다듬 – 2020년 제조로봇 선도보급 실증사업</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-bio4-12.jpg" alt=""></div><div class="txt">㈜정일품– 2020년 제조로봇 선도보급 실증사업</div></div>
+        <div class="__bio7">
+          <div class="tac __fz26 fwb __black">제품개발 프로세스</div>
+          <div class="area __mt40">
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart6-1.jpg" alt=""></div>
+              <dl>
+                <dt>프로젝트 시작</dt>
+                <dd>
+                  제품 컨셉 및 방향 설정<br>
+                  아이디어 미팅<br>
+                  일정 수립<br>
+                  개발 SPEC 확정
+                </dd>
+              </dl>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart6-2.jpg" alt=""></div>
+              <dl>
+                <dt>제품 디자인</dt>
+                <dd>
+                  아이디어 스케치<br>
+                  디자인 모델링<br>
+                  3D 렌더링
+                </dd>
+              </dl>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart6-3.jpg" alt=""></div>
+              <dl>
+                <dt>제품 설계</dt>
+                <dd>
+                  기구설계<br>
+                  2D 도면 제작<br>
+                  제품 조립성<br>
+                  생산성, 원가 검토
+                </dd>
+              </dl>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart6-4.jpg" alt=""></div>
+              <dl>
+                <dt>HW / SW 개발</dt>
+                <dd>
+                  회로 Drawing & S/W<br>
+                  Artwork & PCB<br>
+                  Deugging & Test
+                </dd>
+              </dl>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-nsmart6-5.jpg" alt=""></div>
+              <dl>
+                <dt>시제품개발</dt>
+                <dd>
+                  Design Mock-up<br>
+                  Working Mock-up
+                </dd>
+              </dl>
+            </div>
           </div>
+          <div class="tac __fz26 fwb __black __mt60">시제품 제작 지원 사례</div>
+          <ul class="flx __mt20">
+            <li>
+              <img src="/images/camtic/img-nsmart7-1.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">유아용 발열쿠션 컨트롤러</div>
+            </li>
+            <li>
+              <img src="/images/camtic/img-nsmart7-2.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">수면 무호흡 측정기</div>
+            </li>
+            <li>
+              <img src="/images/camtic/img-nsmart7-3.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">스마트 디퓨져</div>
+            </li>
+            <li>
+              <img src="/images/camtic/img-nsmart7-4.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">유아용 발열쿠션 컨트롤러</div>
+            </li>
+            <li>
+              <img src="/images/camtic/img-nsmart7-5.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">수면 무호흡 측정기</div>
+            </li>
+            <li>
+              <img src="/images/camtic/img-nsmart7-6.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">스마트 디퓨져</div>
+            </li>
+            <li>
+              <img src="/images/camtic/img-nsmart7-7.jpg" alt="">
+              <div class="__fz16 __mt10 __black fwm">스마트 환풍기</div>
+            </li>
+          </ul>
         </div>
 
       </div>

@@ -41,7 +41,12 @@
                     <col width="80%">
                 </colgroup>
                 <thead>
-                <tr>
+                <tr class="mngTr" style="display: none">
+                    <td colspan="2" scope="row" class="text-center th-color">
+                        <b id="userInfo" style="color: #0c9587">송은화 책임행정원</b> 님의 <input id="applyMonth" style="width: 120px"/> 직무기술서 입니다.
+                    </td>
+                </tr>
+                <tr class="insTr" style="display: none">
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>적용년도
                     </th>

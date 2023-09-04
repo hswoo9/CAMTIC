@@ -1162,6 +1162,9 @@
                     <if test="searchType == 3">
                         AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')
                     </if>
+                    <if test="searchType == 4">
+                        AND TITLE LIKE CONCAT('%', #{searchVal},'%')
+                    </if>
                 </if>
                 <if test="beforeYn != null and beforeYn !=''">
                     AND STATUS != 100

@@ -652,22 +652,27 @@
     <select id="getDutyInfoList" resultType="map" parameterType="map">
         /* getDutyInfoList */
         SELECT
-            *
+            CDI.*,
+            DATE_FORMAT(CONCAT(CDI.DUTY_MONTH, '-01'), '%Y년 %m월') AS DUTY_MONTH_TEXT
         FROM
             CAMPUS.DJ_DUTY_INFO CDI
         WHERE
             1=1
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
-            AND REG_EMP_SEQ = #{regEmpSeq}
+            AND CDI.REG_EMP_SEQ = #{regEmpSeq}
         </if>
+        ORDER BY CDI.DUTY_MONTH DESC, CDI.DUTY_INFO_SN DESC
     </select>
 
     <select id="getDutyInfoOne" resultType="map" parameterType="map">
         /* getDutyInfoOne */
         SELECT
-            *
+            CDI.*,
+            CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS SPOT
         FROM
             CAMPUS.DJ_DUTY_INFO CDI
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON CDI.REG_EMP_SEQ = HEI.EMP_SEQ
         WHERE
             DUTY_INFO_SN = #{pk}
     </select>

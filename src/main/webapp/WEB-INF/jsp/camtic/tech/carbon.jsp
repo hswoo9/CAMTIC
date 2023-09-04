@@ -15,83 +15,54 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__root2 type2 m0">
-          <dl class="head">
-            <dt>구축목적</dt>
-            <dd>
-              <span class="__nm">“</span>
-              기능성 융복합 소재·부품 전문 중소기업 <strong>기술경쟁력 강화</strong>를<br>
-              통한 전라북도 소재부품 <strong>산업 육성 및 경제적 성장</strong>
-              <span class="__nm">”</span>
-            </dd>
-          </dl>
-          <div class="area">
-            <div class="lef">
-              <div class="box">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-1.png" alt=""></span></div>
-                <div class="info">
-                  <dl>
-                    <dt>사업기간</dt>
-                    <dd>
-                      2020 ~ 2022
-                      <span class="__fz14">(3년)</span>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div class="box">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-2.png" alt=""></span></div>
-                <div class="info">
-                  <dl>
-                    <dt>주관</dt>
-                    <dd>전라북도, 전주시, 캠틱종합기술원</dd>
-                  </dl>
-                </div>
-              </div>
-              <div class="box">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-3.png" alt=""></span></div>
-                <div class="info">
-                  <dl>
-                    <dt>사업비</dt>
-                    <dd>
-                      38.5억원
-                      <span class="__fz14">(도비 11.55 / 시비 26.95)</span>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="rig">
-              <div class="box">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-4.png" alt=""></span></div>
-                <div class="info">
-                  <dl>
-                    <dt>사업내용</dt>
-                    <dd>
-                      중소기업 복합재 상용화 지원 중소형 범용 성형 / 금형장비 구축
-                      소재부품 제조 중소기업 기술력 강화 및 사업화 지원사업 수행
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div class="box">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-5.png" alt=""></span></div>
-                <div class="info">
-                  <dl>
-                    <dt>사업규모</dt>
-                    <dd>
-                      중소기업 수요 탄소 복합재 부품/금형 생산기술 지원 장비 13종
-                      <p class="__fz14">- 성형장비 (6종), 성형부대장비(3종), 금형제작 장비(4종)</p>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
+        <div class="__root3 m0">
+          <div class="__fz20 fwb __black">기술개발</div>
+
+          <div class="__icoBox pt0 __mt50">
+            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
+            <h5>탄소섬유 테이프 자동적층 장치 개발(ATL)</h5>
+            <ul class="__dotList bar __fz20 __black">
+              <li>탄소섬유 테이프를 평편상에 다양한 각도로 다층 적층하기 위한 생산시스템 개발</li>
+              <li>테이프 공급헤드개발을 통해 로봇에 적용 시 자유 곡면 형상 성형 가능
+            </ul>
           </div>
-          <ul class="bot">
-            <li><img src="/images/camtic/img-root3-1.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-root3-2.jpg" alt=""></li>
+          <ul class="__flximg __mt30">
+            <li><img src="/images/camtic/img-ncarbon1-1.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-ncarbon1-2.jpg" alt=""><div class="__fz18 __black __mt10">Automated Tape Laying system</div></li>
           </ul>
+
+          <div class="__icoBox pt0 __mt100">
+            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
+            <h5>탄소 복합재 고속 가열 및 Consolidation 시스템 개발</h5>
+            <ul class="__dotList bar __fz20 __black">
+              <li>NIR(근적외선 히터)를 이용하여 열가소성 및 열경화성 탄소섬유 프리프레그의 고속 가열하여 제품의 성형 및 고속경화하는 기술 연구</li>
+            </ul>
+          </div>
+          <ul class="__flximg __mt30">
+            <li><img src="/images/camtic/img-ncarbon1-3.jpg" alt=""><div class="__fz18 __black __mt10">CCFRTP 고속 가열 시스템</div></li>
+            <li><img src="/images/camtic/img-ncarbon1-4.jpg" alt=""><div class="__fz18 __black __mt10">CCFRTP 적층 Consolidation 사례</div></li>
+          </ul>
+
+        </div>
+
+        <div class="__tit1 __mt100 __mb20">
+          <h3><strong>익산고용안정일자리센터</strong> <span class="fwl" style="font-size:0.85em;">(www.jobiksan.or.kr)</span></h3>
+        </div>
+        <div class="__root4">
+
+          <div class="__icoBox pt0">
+            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
+            <h5>탄소 복합재를 활용하는 공정기술과 탄소 복합재 제조업의 미래 성장 발전에 핵심적인 차세대 공정기술로 사업을 영위하는 기업과의 연계 협력</h5>
+            <ul class="__dotList bar __fz20 __black">
+              <li>고강도 초경량 복합재 및 응용 부품 개발</li>
+              <li>성형, 가공, 설계, 해석에 이르는 토탈 솔루션 제공</li>
+              <li>기업과 연구소 공동으로 시제품 개발을 수행, 사업화 아이템 발굴 및 신기술 개발</li>
+            </ul>
+          </div>
+
+          <div class="img __mt50 tac"><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""></div>
+          <div class="__fz18 __black __mt10 tac">쿼터 필라 Reinf 탄소복합소재 개발</div>
+
         </div>
 
       </div>
