@@ -47,6 +47,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getStudyInfoStatList(Map<String, Object> params){
+        return campusRepository.getStudyInfoStatList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params){
         return campusRepository.getStudyInfoList(params);
     }
@@ -92,6 +97,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getOpenStudyInfoStatList(Map<String, Object> params){
+        return campusRepository.getOpenStudyInfoStatList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params){
         return campusRepository.getOpenStudyInfoList(params);
     }
@@ -104,6 +114,11 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params){
         return campusRepository.getOpenStudyUserList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommonEduStatList(Map<String, Object> params){
+        return campusRepository.getCommonEduStatList(params);
     }
 
     @Override

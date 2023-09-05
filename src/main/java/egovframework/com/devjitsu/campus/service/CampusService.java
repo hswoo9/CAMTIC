@@ -17,6 +17,7 @@ public interface CampusService {
     /** 개인학습관리 끝 */
 
     /** 학습조 시작 */
+    List<Map<String, Object>> getStudyInfoStatList(Map<String, Object> params);
     List<Map<String, Object>> getStudyInfoList(Map<String, Object> params);
     Map<String, Object> getStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
@@ -29,12 +30,14 @@ public interface CampusService {
     /** 학습조 끝 */
 
     /** 오픈스터디 시작 */
+    List<Map<String, Object>> getOpenStudyInfoStatList(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params);
     Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params);
     /** 오픈스터디 끝 */
 
     /** 공통학습 시작 */
+    List<Map<String, Object>> getCommonEduStatList(Map<String, Object> params);
     List<Map<String, Object>> getCommonEduList(Map<String, Object> params);
     Map<String, Object> getCommonEduOne(Map<String, Object> params);
     List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params);
