@@ -48,15 +48,38 @@ var delvInfo = {
                     });
                     $("#pmName").val(delvMap.PM_EMP_NM);
                     $("#pmSeq").val(delvMap.PM_EMP_SEQ);
+                    var buttonHtml = "";
+                    buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"estInfo.fn_save()\">저장</button>";
+                    if(delvMap.STATUS == "0"){
+                        buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.delvDrafting()\">상신</button>";
+                    }else if(delvMap.STATUS == "10"){
+                        buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                    }else if(delvMap.STATUS == "30" || delvMap.STATUS == "40"){
+                        buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                    }else if(delvMap.STATUS == "100"){
+                        buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">재상신</button>";
+                    }
                 } else {
                     $("#delvAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
                     $("#delvEstDe").val(rs.EST_DE);
+                    $("#btnDiv").html("<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"estInfo.fn_save()\">저장</button>");
                 }
                 $("#delvPjtNm").val(map.PJT_NM);
                 $("#pjtCd").val(map.PJT_CD);
-
             }
         });
+    },
+
+    delvDrafting: function() {
+        $("#delvDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
 

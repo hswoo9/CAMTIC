@@ -22,11 +22,18 @@
         return;
     }
 %>
-<input type="hidden" id="pjtSn" value="<%=pjtSn%>" />
 <input type="hidden" id="engnSn" value="<%=engnSn%>" />
 <input type="hidden" id="expAmt" value="<%=expAmt%>" />
-<input type="hidden" id="delvSn" value=""/>
 
+<form id="delvDraftFrm" method="post">
+    <input type="hidden" id="pjtSn" name="pjtSn" value="<%=pjtSn%>" />
+    <input type="hidden" id="menuCd" name="menuCd" value="delv">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
+
+<input type="hidden" id="delvSn" name="delvSn" value="">
 <input type="hidden" id="step" value="E1" />
 <input type="hidden" id="stepColumn" value="STEP2" />
 <input type="hidden" id="nextStepColumn" value="STEP3" />
@@ -35,7 +42,11 @@
 
 <div style="padding: 10px">
     <div class="table-responsive">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="estInfo.fn_save()">저장</button>
+        <div id="btnDiv">
+            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="estInfo.fn_save()">저장</button>
+            <button type="button" id="viewBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');">열람</button>
+            <button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');">회수</button>
+        </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="15%">

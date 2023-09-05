@@ -223,4 +223,7 @@ public class ProjectRepository extends AbstractDAO {
     public void updProject(Map<String, Object> params) {
         update("project.updProject", params);
     }
+
+    public void updateDelvApprStat(Map<String, Object> params) { update("project.updateDelvApprStat", params); }
+    public void updateDelvFinalApprStat(Map<String, Object> params) { update("project.updateDelvFinalApprStat", params); }
 }

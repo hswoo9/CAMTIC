@@ -653,6 +653,57 @@ var hwpDocCtrl = {
                 }
             });
         }else if(data.menuCd == "equipment"){
+        }else if(data.menuCd == "delv") {
+            const pjtSn = data.approKey.split("_")[1];
+
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            let result = customKendo.fn_customAjax("/project/engn/getDelvData", {
+                pjtSn: pjtSn
+            });
+
+            let delvMap = result.delvMap;
+            let map = result.map;
+            let rs = result.estMap.estList[result.estMap.estList.length - 1];
+
+            console.log(delvMap);
+            console.log(map);
+            console.log(rs);
+
+            hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+            hwpDocCtrl.putFieldText('PJT_DT', map.START_DT+" ~ "+map.END_DT);
+            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+            hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
+            hwpDocCtrl.putFieldText('PM', delvMap.PM_EMP_NM);
+
+            hwpDocCtrl.putFieldText('CRM_CD', map.CRM_CD);
+            hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
+            hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
+            hwpDocCtrl.putFieldText('ADDR', map.ADDR);
+            hwpDocCtrl.putFieldText('CRM_SUB_CD', map.CRM_SUB_CD);
+            hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
+            hwpDocCtrl.putFieldText('EMAIL', map.EMAIL);
+            hwpDocCtrl.putFieldText('HOMEPAGE', map.HOMEPAGE);
+            hwpDocCtrl.putFieldText('CONT_ETC', map.CONT_ETC);
+
+            hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
+            hwpDocCtrl.putFieldText('DELV_CNT', delvMap.DELV_CNT);
+            hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
+            hwpDocCtrl.putFieldText('DELV_AMT', delvMap.DELV_AMT);
+            hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
+            hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
+
+            let today = new Date();
+            let year = today.getFullYear(); // 년도
+            let month = today.getMonth() + 1;  // 월
+            let date = today.getDate();  // 날짜
+            let toDate = year+"년 "+month+"월 "+date+"일";
+            hwpDocCtrl.putFieldText('toDate', toDate);
+            hwpDocCtrl.putFieldText('EST_NAME', map.EST_NAME);
+
+            hwpDocCtrl.putFieldText('EST_TOT_AMT', map.EST_TOT_AMT);
         }
     },
 

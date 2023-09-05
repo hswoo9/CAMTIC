@@ -4,6 +4,9 @@ package egovframework.com.devjitsu.cam_project.controller;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.inside.bustrip.controller.BustripController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,8 @@ import java.util.Map;
 
 @Controller
 public class ProjectController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     @Autowired
     private ProjectService projectService;
@@ -528,6 +533,35 @@ public class ProjectController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    /** 수주관리 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/delvApprovalPop.do")
+    public String equipApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/cam_project/approvalFormPopup/delvApprovalPop";
+    }
+
+    /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/project/delvReqApp")
+    public String delvReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectService.updateDelvDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
 }
