@@ -5,7 +5,10 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-
+<style>
+  .__tblList tr td {font-size:16px;padding:5px 5px;border-bottom:1px solid #ccc;}
+  .__tblList tr > * {text-align:center;padding:10px 10px;line-height:1.6;}
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -140,8 +143,9 @@
 
         <div class="__support3">
           <div class="head">
-            <h4><span class="__nm">“</span><span class="m">지역산업과 구직자, 기업을 연결하는 훈련으로 도내 기업과 구직자의 수요에 맞춰 훈련과정을.</span><span class="__nm">”</span></h4>
+            <%--<h4><span class="__nm"></span><span class="m">지역산업과 구직자, 기업을 연결하는 훈련으로 도내 기업과 구직자의 수요에 맞춰 훈련과정을</span><span class="__nm"></span></h4>--%>
             <dl>
+              <dt>지역산업과 구직자, 기업을 연결하는 훈련으로 도내 기업과 구직자의 수요에 맞춰 훈련과정을</dt>
               <dt>개발하고 현장 실무형 인력을 양성하여 지역 내 기업에 연계를 목표로 함</dt>
               <dd>※ 주요 추진분야 : 기계/자동차, 스마트팩토리, 생산품질관리, 연구개발, 생산기술, 화학 등</dd>
             </dl>
