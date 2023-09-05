@@ -157,7 +157,6 @@ var estInfo = {
 
         var rs = customKendo.fn_customAjax("/project/engn/getEstData", data);
 
-        console.log(rs);
         $("#crmCompNm").val(rs.hashMap.CRM_NM);
         $("#crmMem").val(rs.hashMap.CRM_CEO);
         $("#estPjtNm").val(rs.hashMap.PJT_NM);

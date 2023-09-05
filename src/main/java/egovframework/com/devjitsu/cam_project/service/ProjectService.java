@@ -32,7 +32,7 @@ public interface ProjectService {
 
     void updProjectDelv(Map<String, Object> params);
 
-    Map<String, Object> getStep2DelvData(Map<String, Object> params);
+    Map<String, Object> getDelvData(Map<String, Object> params);
 
     List<Map<String, Object>> groupCodeList(Map<String, Object> params);
 

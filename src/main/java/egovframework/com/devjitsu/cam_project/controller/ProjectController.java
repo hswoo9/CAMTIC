@@ -142,6 +142,23 @@ public class ProjectController {
         return "popup/cam_project/engineering/step" + params.get("step");
     }
 
+    @RequestMapping("/project/engn/getDelvData")
+    public String getDelvData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> estMap = projectService.getEstData(params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        Map<String, Object> delvMap = projectService.getDelvData(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("estMap", estMap);
+        model.addAttribute("map", map);
+        model.addAttribute("delvMap", delvMap);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/engn/getEstData")
     public String getEstData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -168,7 +185,7 @@ public class ProjectController {
     @RequestMapping("/project/getStep2DelvData")
     public String getStep2DelvData(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("map", projectService.getStep2DelvData(params));
+        model.addAttribute("map", projectService.getDelvData(params));
 
         return "jsonView";
     }

@@ -330,7 +330,7 @@
             PJT_CD IS NOT NULL
     </select>
 
-    <select id="getStep2DelvData" parameterType="map" resultType="map">
+    <select id="getDelvData" parameterType="map" resultType="map">
         SELECT
             *
         FROM

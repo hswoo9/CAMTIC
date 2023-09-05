@@ -172,8 +172,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> getStep2DelvData(Map<String, Object> params) {
-        return projectRepository.getStep2DelvData(params);
+    public Map<String, Object> getDelvData(Map<String, Object> params) {
+        return projectRepository.getDelvData(params);
     }
 
     @Override
@@ -224,7 +224,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Map<String, Object> getStep3PmInfo(Map<String, Object> params) {
-        Map<String, Object> map = projectRepository.getStep2DelvData(params);
+        Map<String, Object> map = projectRepository.getDelvData(params);
 
 
         return projectRepository.getStep3PmInfo(map);

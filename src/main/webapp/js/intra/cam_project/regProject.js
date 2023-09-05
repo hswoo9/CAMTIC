@@ -22,7 +22,6 @@ var regPrj = {
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
         customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
-        console.log(bcDs.rs)
         var busnDDL = $("#busnClass").data("kendoDropDownList");
         busnDDL.bind("change", regPrj.fn_busnDDLChange);
 
@@ -178,7 +177,6 @@ var regPrj = {
         if(p.PROJECT_CD != "" && p.PROJECT_CD != null){
             project = "(엔지니어링) ";
         }
-        console.log(p);
         var title =  project + busnName + " 출장지 : " + p.VISIT_LOC_SUB;
         if(p.VISIT_LOC_SUB != null && p.VISIT_LOC_SUB != ''){
             $("#bustripReq").val(title);

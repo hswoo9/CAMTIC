@@ -70,8 +70,8 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProjectDelv", params);
     }
 
-    public Map<String, Object> getStep2DelvData(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("project.getStep2DelvData", params);
+    public Map<String, Object> getDelvData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDelvData", params);
     }
 
     public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {
