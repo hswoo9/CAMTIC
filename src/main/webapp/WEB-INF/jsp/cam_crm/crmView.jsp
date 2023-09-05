@@ -39,16 +39,10 @@
                         <td>
                             <input type="text" id="ctmGrade" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">고객관리</th>
-                        <td>
-                            <input type="text" id="ctmCare" style="width: 150px;">
-                        </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">대상부서</th>
-                        <td colspan="5">
-                            <input type="text" id="searchKeyword" style="width: 7%;"/>
-                            <input type="text" id="searchValue" style="width: 20%;"/>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 30%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;"/>
                         </td>
                     </tr>
                 </table>

@@ -3,18 +3,6 @@ var crm = {
 
     fn_defaultScript : function (){
 
-        $("#ctmCare").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "관리고객", value: "1" },
-                { text: "특별고객", value: "2" },
-                { text: "블랙고객", value: "3" },
-            ],
-            index: 0
-        });
-
         $("#ctmGrade").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -86,7 +74,6 @@ var crm = {
                 parameterMap: function(data){
                     data.ctmType = $("#ctmType").val();
                     data.ctmGrade = $("#ctmGrade").val();
-                    data.ctmCare = $("#ctmCare").val();
                     data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
 
@@ -152,7 +139,10 @@ var crm = {
                 }, {
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 120
+                    width: 120,
+                    template: function(e){
+                        return "<a href='javascript:void(0);' onclick='crm.fn_crmRegPopup(\"" + e.CRM_SN + "\")'>" + e.CRM_NM + "</a>";
+                    }
                 }, {
                     title: "사업자번호",
                     field: "CRM_NO",
@@ -173,6 +163,7 @@ var crm = {
                     title: "관계이력",
                     width: 100,
                     template : function (e){
+                        console.log(e);
                         return "0 건";
                     }
                 }, {
@@ -209,8 +200,11 @@ var crm = {
 
     },
 
-    fn_crmRegPopup : function (){
+    fn_crmRegPopup : function (key){
         var url = "/crm/pop/regCrmPop.do";
+        if(key != null && key != ""){
+            url = "/crm/pop/regCrmPop.do?crmSn=" + key;
+        }
         var name = "_blank";
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);

@@ -1130,6 +1130,7 @@ var userReqPop = {
                         extraRoadAddr = ' (' + extraRoadAddr + ')';
                     }
 
+                    $("#post").val(data.zonecode);
                     $("#zipCode").val(data.zonecode);
                     $("#addr").val(roadAddr);
                     $("#addrDetail").val(roadAddr);

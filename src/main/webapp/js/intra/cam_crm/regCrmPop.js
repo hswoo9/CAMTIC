@@ -30,6 +30,54 @@ var crmReg = {
                 }
             }
         });
+
+        crmReg.fn_setData()
+    },
+
+    fn_setData: function (){
+        var data = {
+            crmSn : $("#crmSn").val()
+        }
+
+        $.ajax({
+            url : "/crm/getCrmInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                var file = rs.fileInfo;
+                var rs = rs.data;
+
+                $("#crmAtt").data("kendoDropDownList").value(rs.CRM_ATT);
+                $("#crmCeo").val(rs.CRM_CEO);
+                $("#crmClass").data("kendoDropDownList").value(rs.CRM_CLASS);
+                $("#crmNm").val(rs.CRM_NM);
+                $("#crmNo").val(rs.CRM_NO);
+                $("#email").val(rs.CRM_EMAIL);
+                $("#telNum").val(rs.TEL_NUM);
+                $("#phNum").val(rs.PH_NUM);
+                $("#fax").val(rs.FAX);
+                $("#crmEstNo").val(rs.CRM_EST_NO);
+                $("#post").val(rs.POST);
+                $("#addr").val(rs.ADDR);
+                $("#crmOcc").val(rs.CRM_OCC);
+                $("#crmEvent").val(rs.CRM_EVENT);
+                $("#homepage").val(rs.HOMEPAGE);
+                $("#crmProd").val(rs.CRM_PROD);
+
+                if(rs.STAT == null || rs.CRM_STAT == ""){
+                    rs.CRM_STAT = 1;
+                }
+                $("#crmStat").data("kendoDropDownList").value(rs.CRM_STAT);
+                // file 정보 조회해서 뿌려줘야함
+                $("#crmFileText").text(file.crmFile[0].file_org_name + "." + file.crmFile[0].file_ext);
+                $("#bnCpText").text(file.bnCp[0].file_org_name + "." + file.bnCp[0].file_ext);
+                $("#crmLicsText").text(file.crmLics[0].file_org_name + "." + file.crmLics[0].file_ext);
+
+
+                console.log(file);
+            }
+        });
     },
 
     fn_save : function (){
