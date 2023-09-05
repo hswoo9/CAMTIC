@@ -40,4 +40,13 @@
 
         </if>
     </select>
+
+    <select id="getCrmInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INFO
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
 </mapper>

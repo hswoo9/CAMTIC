@@ -30,6 +30,24 @@ var crmReg = {
                 }
             }
         });
+
+        crmReg.fn_setData()
+    },
+
+    fn_setData: function (){
+        var data = {
+            crmSn : $("#crmSn").val()
+        }
+
+        $.ajax({
+            url : "/crm/getCrmInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                console.log(rs);
+            }
+        })
     },
 
     fn_save : function (){

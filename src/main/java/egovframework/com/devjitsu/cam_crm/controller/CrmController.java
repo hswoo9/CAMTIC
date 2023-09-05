@@ -81,8 +81,21 @@ public class CrmController {
 
         model.addAttribute("data", commonService.commonCodeList(params));
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
 
         return "popup/cam_crm/regCrmPop";
+    }
+
+    @RequestMapping("/crm/getCrmInfo")
+    public String getCrmInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("data", crmService.getCrmInfo(params));
+        model.addAttribute("loginVO", loginVO);
+
+
+        return "jsonView";
     }
 
 }

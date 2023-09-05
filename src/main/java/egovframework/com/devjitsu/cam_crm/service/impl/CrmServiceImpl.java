@@ -29,6 +29,11 @@ public class CrmServiceImpl implements CrmService {
 
 
     @Override
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return crmRepository.getCrmInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getCrmList(Map<String, Object> params) {
         return crmRepository.getCrmList(params);
     }

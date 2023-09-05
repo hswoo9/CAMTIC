@@ -40,6 +40,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 
+<input type="hidden" id="crmSn" value="${params.crmSn}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -60,34 +61,20 @@
                     <col width="30%">
                 </colgroup>
                 <thead>
-                <%--<tr>
-                    <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">도서 등록</th>
-                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>고객 유치경로
                     </th>
-                    <td>
-                        <input type="text" id="crmAtt" style="width: 90%;">
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>고객분류
-                    </th>
-                    <td>
-                        <input type="text" id="crmClass" style="width: 90%;">
+                    <td colspan="3">
+                        <input type="text" id="crmAtt" style="width: 35%;">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>특화아이템 해당 분야
+                        <span class="red-star">*</span>고객분류
                     </th>
                     <td colspan="3">
-                        <span style="position: relative; top: 3px;">
-                            <c:forEach var="item" items="${data}">
-                                <input type="checkbox" name="crmSpecItem" value="${item.CM_CODE}" id="crmSpecItem${item.CM_CODE}">
-                                <label for="crmSpecItem${item.CM_CODE}" style="margin-right: 15px;">${item.CM_CODE_NM}</label>
-                            </c:forEach>
-                        </span>
+                        <input type="text" id="crmClass" style="width: 15%;">
                     </td>
                 </tr>
                 <tr>
@@ -130,7 +117,7 @@
         <div id="crmSubInfo">
             <div class="demo-section">
                 <div id="tabstrip">
-                    <ul>
+                    <ul style="font-size: 12px;">
                         <li class="k-active">
                             부가정보
                         </li>
@@ -145,37 +132,10 @@
                         </li>
                     </ul>
                     <div>
-                        <span>&nbsp;</span>
                         <div>
-                            <div style="padding: 10px">
-                                <table class="popTable table table-bordered mb-0">
-                                    <colgroup>
-                                        <col width="20%">
-                                        <col width="30%">
-                                        <col width="20%">
-                                        <col width="30%">
-                                    </colgroup>
-                                    <thead>
-                                    <%--<tr>
-                                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">도서 등록</th>
-                                    </tr>--%>
-                                    <tr>
-                                        <th scope="row" class="text-center th-color">
-                                            <span class="red-star">*</span>고객 유치경로
-                                        </th>
-                                        <td>
-                                            <input type="text" id="crmAtt" style="width: 90%;">
-                                        </td>
-                                        <th scope="row" class="text-center th-color">
-                                            <span class="red-star">*</span>고객분류
-                                        </th>
-                                        <td>
-                                            <input type="text" id="crmClass" style="width: 90%;">
-                                        </td>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                            <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmSubInfo.jsp" flush="true">
+                                <jsp:param name="crmSn" value="${params.pjtSn}"/>
+                            </jsp:include>
                         </div>
                     </div>
                     <div>
