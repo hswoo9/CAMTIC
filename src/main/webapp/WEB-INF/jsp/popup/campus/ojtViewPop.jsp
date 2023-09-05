@@ -24,7 +24,7 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM">전파학습 신청서 조회</h3>
+            <h3 class="card-title title_NM">OJT 신청서 조회</h3>
             <div class="btn-st popButton">
                 <button type="button" id="finBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(101);">지도완료</button>
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>

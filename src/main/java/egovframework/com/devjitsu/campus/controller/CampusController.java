@@ -25,7 +25,18 @@ public class CampusController {
     @Autowired
     private CampusService campusService;
 
-    //개인학습신청
+    /** 나의학습현황 페이지 */
+    @RequestMapping("/Campus/myEduStatus.do")
+    public String myEduStatus(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/myEduStatus";
+    }
+
+    /** 개인학습신청 페이지 */
     @RequestMapping("/Campus/eduReq.do")
     public String eduReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -36,7 +47,7 @@ public class CampusController {
         return "campus/eduReq";
     }
 
-    //개인학습신청 - 학습신청팝업
+    /** 학습신청 팝업 */
     @RequestMapping("/Campus/pop/eduReqPop.do")
     public String eduReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -153,7 +164,7 @@ public class CampusController {
         return pageName;
     }
 
-    //개인학습신청 - 학습신청팝업 - 목표기술서선택팝업
+    /** 목표기술서선택 팝업 */
     @RequestMapping("/Campus/pop/targetEduSetPop.do")
     public String targetEduSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -175,7 +186,7 @@ public class CampusController {
         return "campus/eduInfo";
     }
 
-    //개인학습관리 - 개인학습조회팝업
+    /** 개인학습조회팝업 페이지 */
     @RequestMapping("/Campus/pop/eduInfoViewPop.do")
     public String eduInfoViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -292,7 +303,7 @@ public class CampusController {
         return "popup/campus/eduInfoViewPop";
     }
 
-    //개인학습관리 - 학습결과보고서작성팝업
+    /** 학습결과보고서작성 팝업 */
     @RequestMapping("/Campus/pop/eduResultReqPop.do")
     public String eduResultReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -402,7 +413,7 @@ public class CampusController {
         return "popup/campus/eduResultReqPop";
     }
 
-    //개인학습관리 - 학습결과보고서조회팝업
+    /** 학습결과보고서조회 팝업 */
     @RequestMapping("/Campus/pop/eduResultViewPop.do")
     public String eduResultViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -1112,6 +1123,14 @@ public class CampusController {
         return result;
     }
 
+    /** 나의학습계획 공통학습 리스트 */
+    @RequestMapping("/campus/getStudyInfoStatList")
+    public String getStudyInfoStatList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyInfoStatList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 학습조 리스트 */
     @RequestMapping("/campus/getStudyInfoList")
     public String getStudyInfoList(@RequestParam Map<String, Object> params, Model model) {
@@ -1176,11 +1195,20 @@ public class CampusController {
         return "jsonView";
     }
 
+
     /** OJT 학습계획 단일 데이터  */
     @RequestMapping("/campus/getOjtResultOne")
     public String getOjtResultOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getOjtResultOne(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 나의학습관리 오픈스터디 리스트 */
+    @RequestMapping("/campus/getOpenStudyInfoStatList")
+    public String getOpenStudyInfoStatList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getOpenStudyInfoStatList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 
@@ -1204,6 +1232,14 @@ public class CampusController {
     @RequestMapping("/campus/getOpenStudyUserList")
     public String getOpenStudyUserList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getOpenStudyUserList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 나의학습현황 공통학습 리스트 */
+    @RequestMapping("/campus/getCommonEduStatList")
+    public String getCommonEduStatList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getCommonEduStatList(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

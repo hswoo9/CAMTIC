@@ -43,7 +43,7 @@
                 <thead>
                 <tr class="mngTr" style="display: none">
                     <td colspan="2" scope="row" class="text-center th-color">
-                        <b id="userInfo" style="color: #0c9587">송은화 책임행정원</b> 님의 <input id="applyMonth" style="width: 120px"/> 직무기술서 입니다.
+                        <b id="userInfo" style="color: #0c9587"></b> 님의 <input id="applyMonth" style="width: 120px"/> 직무기술서 입니다.
                     </td>
                 </tr>
                 <tr class="insTr" style="display: none">

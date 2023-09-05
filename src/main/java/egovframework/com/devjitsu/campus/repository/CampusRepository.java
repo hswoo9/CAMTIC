@@ -57,6 +57,7 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduPlanOne", params);
     }
 
+    public List<Map<String, Object>> getStudyInfoStatList(Map<String, Object> params) {return selectList("campus.getStudyInfoStatList", params); }
     public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params) {return selectList("campus.getStudyInfoList", params); }
     public Map<String, Object> getStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyInfoOne", params); }
     public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) { return selectList("campus.getStudyUserList", params); }
@@ -67,10 +68,12 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getOjtResultList(Map<String, Object> params) { return selectList("campus.getOjtResultList", params); }
     public Map<String, Object> getOjtResultOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtResultOne", params); }
 
+    public List<Map<String, Object>> getOpenStudyInfoStatList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoStatList", params); }
     public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoList", params); }
     public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOpenStudyInfoOne", params); }
     public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params) { return selectList("campus.getOpenStudyUserList", params); }
 
+    public List<Map<String, Object>> getCommonEduStatList(Map<String, Object> params) { return selectList("campus.getCommonEduStatList", params); }
     public List<Map<String, Object>> getCommonEduList(Map<String, Object> params) { return selectList("campus.getCommonEduList", params); }
     public Map<String, Object> getCommonEduOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getCommonEduOne", params); }
     public List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params) { return selectList("campus.getCommonEduUserList", params); }
