@@ -25,7 +25,7 @@
           </div>
           <div class="foot">
             <div class="__icoBox">
-              <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+              <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
               <div class="__fz18 __black">
                 <p>
                   우수한 기술력을 보유한 드론 관련기업, 연구소 및<br class="__p">
@@ -71,7 +71,7 @@
         </div>
         <div class="__drone5">
           <div class="__icoBox pt0">
-            <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+            <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
             <ul class="__dotList bar __fz20 __black">
               <li>
                 국내 드론기업의 자체생산력 강화와 외산 의존도 감소를 위해 제품개발을 위한 기업  지원사업 및 개발과제 발굴
