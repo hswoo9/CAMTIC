@@ -15,11 +15,11 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__jvalley2 __mt100">
+        <div class="__jvalley2 __mt50">
           <div class="tit">
             <h3><strong>비전 및 목표</strong></h3>
             <p>
-              <strong>J-valley</strong>,첨단. 디지털산업 기업 <strong>100개</strong>사,고용 <strong>1,000명</strong>
+              <strong>J-valley</strong>,첨단ㆍ디지털산업 기업 <strong>100개</strong>사,고용 <strong>1,000명</strong>
             </p>
           </div>
           <div class="area">
@@ -75,7 +75,7 @@
           <div class="__tit1 line __mb20">
             <h3><strong>캠틱종합기술원 역할</strong></h3>
           </div>
-          <h4>청년.기술.디지털 <strong>창업 플랫폼</strong></h4>
+          <h4>청년ㆍ기술ㆍ디지털 <strong>창업 플랫폼</strong></h4>
           <h5><span>H/W</span></h5>
           <div class="hw">
             <div class="box">

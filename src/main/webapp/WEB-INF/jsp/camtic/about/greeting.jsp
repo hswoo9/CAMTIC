@@ -31,8 +31,8 @@
               </dl>
             </div>
             <%--<dt>꿈과 미래, 캠틱이 함께 합니다</dt>--%>
-            <dt style="color: #155996;">함께 성장하는 행복한 일터</dt>
-            <dd style="color: #111;">캠틱종합기술원 홈페이지 방문을 진심으로 환영합니다.</dd>
+            <dt style="color: #155996; font-size:45px;">함께 성장하는 행복한 일터</dt>
+            <dd style="color: #111; font-size:35px;">캠틱종합기술원 홈페이지 방문을 진심으로 환영합니다.</dd>
           </dl>
           <div class="area">
             <div class="txt">
