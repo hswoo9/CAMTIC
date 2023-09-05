@@ -1115,7 +1115,7 @@ img {max-width:100%;}
 .__jvalley3 .hw .box .info dt {font-size:20px;color:#000;font-weight:bold;letter-spacing:-0.06em;line-height:1.2;}
 .__jvalley3 .hw .box .info dd {font-size:14px;color:#000;line-height:1.43;letter-spacing:-0.05em;margin-top:20px;}
 
-<!-- 23.09.05 box 계단식으로 사진 변경 추가 -->
+/* 23.09.05 box 계단식으로 사진 변경 추가 */
 .__jvalley3 .hw .box:nth-child(1) {height:245px;}
 .__jvalley3 .hw .box:nth-child(2) {height:260px;}
 .__jvalley3 .hw .box:nth-child(3) {height:275px;}
