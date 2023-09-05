@@ -15,10 +15,17 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
+        <div class="__clu1 mo" style="padding: 30px 90px 30px">
+          <dl class="tit">
+            <dt>“디지털제조시대 성장 파트너”</dt>
+            <dd>스마트제조 분야의 R&D 및 사업화 추진</dd>
+          </dl>
+        </div>
+
         <div class="__smart1 m0">
           <dl class="head">
-            <dt>디지털제조시대 성장 파트너</dt>
-            <dd>인재양성 및 개발.보급</dd>
+            <%--<dt>디지털제조시대 성장 파트너</dt>--%>
+            <%--<dd>인재양성 및 개발.보급</dd>--%>
           </dl>
           <table class="__tblList tdfz14 auto bd1 bg3 respond2 __mt60">
             <caption>파트너 업무 및 인력 표</caption>

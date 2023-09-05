@@ -15,6 +15,13 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
+        <div class="__clu1 mo">
+          <dl class="tit">
+            <dt>“탄소 복합재 활용 공정기술 연구 및 개발 추진”</dt>
+            <dd>기업 연계 협력, 미래 핵심 차세대 공정기술 개발</dd>
+          </dl>
+        </div>
+
         <div class="__root3 m0">
           <div class="__fz20 fwb __black">기술개발</div>
 

@@ -182,11 +182,11 @@
           <h3><strong>윙윙스테이션의 운영전략</strong></h3>
         </div>
         <div class="__vision1 type2">
-          <dl class="head">
+          <%--<dl class="head">
             <dt>직원과 함께 성장하는 행복한 일터</dt>
             <dd>전주 드론제작소 윙윙 -스테이션</dd>
-          </dl>
-          <div class="area">
+          </dl>--%>
+          <div class="area" style="margin-top: 20px;">
             <dl class="box box1">
               <dt><span>미션</span></dt>
               <dd>드론분야 창의.주도적 메이커 활동 활성화</dd>

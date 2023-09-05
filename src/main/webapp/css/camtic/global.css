@@ -2612,8 +2612,8 @@ img {max-width:100%;}
 	#sau .area .box .cont .date i {font-size:16px;}
 }
 
-/*배경색 변경 통일*/
-.__clu1 {/*background:#f2fcfe;*/background:#fff;padding:75px 90px 130px;border-bottom:1px solid #ccc;text-align:center;}
+/*배경색 변경 통일*//*2023-09-05 카피문구 위치 변경*/
+.__clu1 {/*background:#f2fcfe;*/background:#fff;padding:30px 90px 130px;border-bottom:1px solid #ccc;text-align:center;}
 .__clu1 dt {font-size:42px;color:#111;font-weight:300;letter-spacing:-0.05em;}
 .__clu1 dd {font-size:36px;font-weight:300;color:#155996;margin-top:10px;}
 .__clu1 .img {margin-top:75px;}
