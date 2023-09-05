@@ -26,7 +26,7 @@ img {max-width:100%;}
 	#header .bot .gnb > li {position:relative;}
 	#header .bot .gnb > li > a {height:99px;display:flex;align-items:center;font-size:20px;color:#000;font-weight:500;padding:0 43px;}
 	#header .bot .gnb > li > a > span {display:block;letter-spacing:-0.075em;}
-	#header .bot .gnb > li > ul {position:absolute;left:0;top:100%;width:100%;text-align:center;padding-top:5px;}
+	#header .bot .gnb > li > ul {position:absolute;left:40px;top:100%;width:90%;text-align:left;padding-top:5px;} /*2023-09-05 서브메뉴바 죄측정렬*/
 	#header .bot .gnb > li > ul > li {padding:5px 0;}
 	#header .bot .gnb > li > ul > li > a {font-size:15px;color:#999;line-height:1.25;letter-spacing:-0.07em;}
 	#header .bot .gnb > li > ul > li > a span {white-space:nowrap;}
@@ -60,6 +60,7 @@ img {max-width:100%;}
 	#header .bot .gnb > li > a {padding:0 17px;font-size:18px;}
 	#header .bot .gnb > li > ul > li {padding:5px 0;}
 	#header .bot .gnb > li > ul > li > a {font-size:13px;}
+	#header .bot .gnb > li > ul {position:absolute;left:15px;top:100%;width:90%;text-align:left;padding-top:5px;} /*2023-09-05 서브메뉴바 죄측정렬*/
 }
 
 @media all and (max-width:1024px){

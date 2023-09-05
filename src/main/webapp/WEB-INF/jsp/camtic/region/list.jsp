@@ -381,7 +381,7 @@
 
         <div class="__tit2 __mt80">
           <h3>
-            <strong>입주기업 및 입주안내 :</strong>
+            <strong>시설 및 입주안내 :</strong>
             <a href="http://www.jhitech.or.kr/web/page.php?pcode=BA" target='_blank' class="__fz16 fwn">http://www.jhitech.or.kr/web/page.php?pcode=BA</a>
           </h3>
         </div>
