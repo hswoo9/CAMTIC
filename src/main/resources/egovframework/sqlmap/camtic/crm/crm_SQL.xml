@@ -49,4 +49,59 @@
         WHERE
             CRM_SN = #{crmSn}
     </select>
+
+    <update id="updCrmFile" parameterType="map">
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO
+        SET
+            CRM_FILE = #{crmFile}
+        WHERE
+            CRM_SN = #{crmSn}
+    </update>
+
+    <update id="updCrmLics" parameterType="map">
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO
+        SET
+            CRM_LICS = #{crmLics}
+        WHERE
+            CRM_SN = #{crmSn}
+    </update>
+
+    <update id="updBnCp" parameterType="map">
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO
+        SET
+            BN_CP = #{bnCp}
+        WHERE
+            CRM_SN = #{crmSn}
+    </update>
+
+    <select id="getCrmFileInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = (SELECT CRM_FILE FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = #{crmSn})
+    </select>
+
+    <select id="getCrmLicsInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = (SELECT CRM_LICS FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = #{crmSn})
+    </select>
+
+    <select id="getBnCpInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = (SELECT BN_CP FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = #{crmSn})
+    </select>
+
 </mapper>

@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_crm.service;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,4 +13,9 @@ public interface CrmService {
     List<Map<String, Object>> getCrmList(Map<String, Object> params);
 
     Map<String, Object> getCrmInfo(Map<String, Object> params);
+
+    void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+
+
+    Map<String, Object> getCrmFileInfo(Map<String, Object> params);
 }

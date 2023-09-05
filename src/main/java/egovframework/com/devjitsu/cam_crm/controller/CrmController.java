@@ -5,10 +5,12 @@ import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +29,12 @@ public class CrmController {
 
     @Autowired
     private CommonService commonService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     @RequestMapping("/crm/crmView.do")
     public String crmView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -92,8 +100,16 @@ public class CrmController {
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
 
         model.addAttribute("data", crmService.getCrmInfo(params));
+        model.addAttribute("fileInfo", crmService.getCrmFileInfo(params));
         model.addAttribute("loginVO", loginVO);
 
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/setCrmInfo")
+    public String setCrmInfo(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        crmService.setCrmInfo(params, request, SERVER_DIR, BASE_DIR);
 
         return "jsonView";
     }

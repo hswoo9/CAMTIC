@@ -135,6 +135,7 @@
                         <div>
                             <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmSubInfo.jsp" flush="true">
                                 <jsp:param name="crmSn" value="${params.pjtSn}"/>
+                                <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
                             </jsp:include>
                         </div>
                     </div>
