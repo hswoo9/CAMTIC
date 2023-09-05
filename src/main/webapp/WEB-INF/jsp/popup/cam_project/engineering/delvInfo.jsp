@@ -44,8 +44,6 @@
     <div class="table-responsive">
         <div id="btnDiv">
             <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="estInfo.fn_save()">저장</button>
-            <button type="button" id="viewBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');">열람</button>
-            <button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');">회수</button>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>

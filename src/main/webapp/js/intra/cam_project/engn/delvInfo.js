@@ -59,6 +59,7 @@ var delvInfo = {
                     }else if(delvMap.STATUS == "100"){
                         buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">재상신</button>";
                     }
+                    $("#btnDiv").html(buttonHtml);
                 } else {
                     $("#delvAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
                     $("#delvEstDe").val(rs.EST_DE);

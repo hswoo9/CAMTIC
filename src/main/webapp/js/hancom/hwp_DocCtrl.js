@@ -673,7 +673,7 @@ var hwpDocCtrl = {
             console.log(rs);
 
             hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-            hwpDocCtrl.putFieldText('PJT_DT', map.START_DT+" ~ "+map.END_DT);
+            hwpDocCtrl.putFieldText('PJT_DT', map.PJT_START_DT+" ~ "+map.PJT_END_DT);
             hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
             hwpDocCtrl.putFieldText('PM', delvMap.PM_EMP_NM);
@@ -689,9 +689,9 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('CONT_ETC', map.CONT_ETC);
 
             hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
-            hwpDocCtrl.putFieldText('DELV_CNT', delvMap.DELV_CNT);
+            hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT));
             hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
-            hwpDocCtrl.putFieldText('DELV_AMT', delvMap.DELV_AMT);
+            hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
             hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
             hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
@@ -699,11 +699,11 @@ var hwpDocCtrl = {
             let year = today.getFullYear(); // 년도
             let month = today.getMonth() + 1;  // 월
             let date = today.getDate();  // 날짜
-            let toDate = year+"년 "+month+"월 "+date+"일";
+            let toDate = year+"-"+month+"-"+date;
             hwpDocCtrl.putFieldText('toDate', toDate);
-            hwpDocCtrl.putFieldText('EST_NAME', map.EST_NAME);
+            hwpDocCtrl.putFieldText('EST_NAME', delvMap.PM_EMP_NM);
 
-            hwpDocCtrl.putFieldText('EST_TOT_AMT', map.EST_TOT_AMT);
+            hwpDocCtrl.putFieldText('EST_TOT_AMT', fn_numberWithCommas(map.PJT_AMT));
         }
     },
 
