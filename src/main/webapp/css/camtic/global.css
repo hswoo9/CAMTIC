@@ -41,7 +41,7 @@ img {max-width:100%;}
 	#header .bot .mnu:before {bottom:50%;margin-bottom:8px;}
 	#header .bot .mnu:after {top:50%;margin-top:8px;}
 
-	.navOn #header {height:380px; background-color: #fffbfb
+	.navOn #header {height:380px; background-color: #e8f2fc
 	} /*2023-09-05 서브메뉴바 배경색 변경*/
 	.navOn #header .bot .mnu i {width:0;opacity:0;}
 	.navOn #header .bot .mnu:before {margin-bottom:-1px;transform:rotate(225deg);}
