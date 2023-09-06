@@ -1,27 +1,9 @@
 var crmReg = {
 
     fn_defaultScript : function (){
-
-        var data = {
-            cmGroupCode : "CRM_ATTRACT_CD",
-        }
-        var crmAttCd = customKendo.fn_customAjax("/common/commonCodeList", data);
-        crmAttCd = crmAttCd.rs;
-
-        customKendo.fn_dropDownList("crmAtt", crmAttCd, "CM_CODE_NM", "CM_CODE", 2);
-
-        $("#crmClass").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text : "기업", value : "기업" },
-                {text : "기관", value : "기관" },
-                {text : "기타", value : "기타" }
-            ],
-            valuePrimitive: true
-        });
-
-        customKendo.fn_textBox(["crmNm", "crmCeo", "crmNo", "email"]);
+        customKendo.fn_textBox(["crmNm", "crmCeo", "crmNo", "email","telNum", "phNum"
+                                ,"fax", "crmEstNo", "post", "addr"
+                                ,"crmOcc", "crmEvent"]);
 
         $("#tabstrip").kendoTabStrip({
             animation:  {
@@ -31,7 +13,16 @@ var crmReg = {
             }
         });
 
-        crmReg.fn_setData()
+        var tabStrip = $("#tabstrip").data("kendoTabStrip");
+        tabStrip.disable(tabStrip.tabGroup.children());
+
+        if($("#crmSn").val() != null && $("#crmSn").val() != ""){
+            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+        }
+
+        if($("#crmSn").val() != null && $("#crmSn").val() != ""){
+            crmReg.fn_setData()
+        }
     },
 
     fn_setData: function (){
@@ -98,14 +89,18 @@ var crmReg = {
         }
 
         var parameters = {
-            crmAtt : $("#crmAtt").val(),
-            crmAttNm : $("#crmAtt").data("kendoDropDownList").text(),
-            crmClass : $("#crmClass").val(),
-            crmClassNm : $("#crmClass").data("kendoDropDownList").text(),
             crmNm : $("#crmNm").val(),
             crmCeo : $("#crmCeo").val(),
             crmNm : $("#crmNm").val(),
-            email : $("#email").val()
+            email : $("#email").val(),
+            telNum : $("#telNum").val(),
+            phNum : $("#phNum").val(),
+            fax : $("#fax").val(),
+            crmEstNo : $("#crmEstNo").val(),
+            post : $("#post").val(),
+            addr : $("#addr").val(),
+            crmOcc : $("#crmOcc").val(),
+            crmEvent : $("#crmEvent").val()
         }
 
         $.ajax({
@@ -115,7 +110,12 @@ var crmReg = {
             dataType : "json",
             success : function(rs){
                 console.log(rs);
+                var rs = rs.params;
+
+
                 alert("저장되었습니다.");
+
+                window.location.href="/crm/pop/regCrmPop.do?crmSn=2";
             }
         });
     }

@@ -1,11 +1,27 @@
 var crmSi = {
 
     fn_defaultScript : function(){
+        var data = {
+            cmGroupCode : "CRM_ATTRACT_CD",
+        }
+        var crmAttCd = customKendo.fn_customAjax("/common/commonCodeList", data);
+        crmAttCd = crmAttCd.rs;
 
-        customKendo.fn_textBox(["telNum", "phNum", "fax", "crmEstNo", "post", "addr"
-                                ,"crmOcc", "crmEvent", "homepage", "crmProd"
-                                ,"crmBn", "crmBnNum", "bnDepo", "acntNm", "acntEmail"
-                                ]);
+        customKendo.fn_dropDownList("crmAtt", crmAttCd, "CM_CODE_NM", "CM_CODE", 2);
+
+        $("#crmClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text : "기업", value : "기업" },
+                {text : "기관", value : "기관" },
+                {text : "기타", value : "기타" }
+            ],
+            valuePrimitive: true
+        });
+
+        customKendo.fn_textBox([ "homepage", "crmProd", "crmBn", "crmBnNum",
+                                "bnDepo", "acntNm", "acntEmail"]);
 
         $("#crmStat").kendoDropDownList({
             dataTextField: "text",
@@ -24,12 +40,26 @@ var crmSi = {
     },
 
     fn_save : function(){
+        var miCl = "N";
+        var buyCl = "N";
+        if($("#miCl").is(":checked")){
+            miCl = "Y";
+        }
+
+        if($("#buyCl").is(":checked")){
+            buyCl = "Y";
+        }
         var formData = new FormData();
+
+        formData.append("crmAtt", $("#crmAtt").val());
+        formData.append("crmAttNm", $("#crmAtt").data("kendoDropDownList").text());
+        formData.append("crmClass", $("#crmClass").val());
+        formData.append("crmClassNm", $("#crmClass").data("kendoDropDownList").text());
+
+        formData.append("miCl", miCl);
+        formData.append("buyCl", buyCl);
+
         formData.append("crmSn", $("#crmSn").val());
-        formData.append("telNum", $("#telNum").val());
-        formData.append("phNum", $("#phNum").val());
-        formData.append("fax", $("#fax").val());
-        formData.append("crmEstNo", $("#crmEstNo").val());
         formData.append("post", $("#post").val());
         formData.append("addr", $("#addr").val());
         formData.append("crmOcc", $("#crmOcc").val());

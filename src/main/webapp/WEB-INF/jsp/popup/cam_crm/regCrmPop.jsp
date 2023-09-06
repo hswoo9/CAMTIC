@@ -39,6 +39,8 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
+<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userReqPop.js?v=${today}'/>"></script>
 
 <input type="hidden" id="crmSn" value="${params.crmSn}" />
 <div style="padding:0;">
@@ -61,22 +63,6 @@
                     <col width="30%">
                 </colgroup>
                 <thead>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>고객 유치경로
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="crmAtt" style="width: 35%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>고객분류
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="crmClass" style="width: 15%;">
-                    </td>
-                </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>고객명
@@ -104,6 +90,66 @@
                     </th>
                     <td>
                         <input type="text" id="email" style="width: 90%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        전화번호
+                    </th>
+                    <td>
+                        <input type="text" id="telNum" style="width: 90%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        대표자 휴대폰
+                    </th>
+                    <td>
+                        <input type="text" id="phNum" style="width: 90%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        팩스번호
+                    </th>
+                    <td>
+                        <input type="text" id="fax" style="width: 90%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        설립일
+                    </th>
+                    <td>
+                        <input type="text" id="crmEstNo" style="width: 45%;">
+                        <span class="red-star" style="">ex) 2011-01-01</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        우편번호
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="post" style="width: 20%;">
+                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="userReqPop.addrSearch();"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        주소
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="addr" style="width: 90%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        업태
+                    </th>
+                    <td>
+                        <input type="text" id="crmOcc" style="width: 90%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        종목
+                    </th>
+                    <td>
+                        <input type="text" id="crmEvent" style="width: 90%;">
                     </td>
                 </tr>
                 </thead>

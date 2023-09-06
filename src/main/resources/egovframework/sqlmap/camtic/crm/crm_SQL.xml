@@ -109,21 +109,19 @@
         UPDATE
             CAM_CRM.DJ_CRM_INFO
         SET
-            CRM_EVENT = #{crmEvent},
+            CRM_ATT = #{crmAtt},
+            CRM_ATT_NM = #{crmAttNm},
+            CRM_CLASS = #{crmClass},
+            MI_CL = #{miCl},
+            BUY_CL = #{buyCl},
             CRM_PROD = #{crmProd},
             CRM_BN = #{crmBn},
             BN_DEPO = #{bnDepo},
             CRM_STAT = #{crmStat},
             ACNT_NM = #{acntNm},
             CRM_BN_NUM = #{crmBnNum},
-            PH_NUM = #{phNum},
-            CRM_EST_NO = #{crmEstNo},
-            POST = #{post},
             ACNT_EMAIL = #{acntEmail},
             ETC = #{etc},
-            TEL_NUM = #{telNum},
-            FAX = #{fax},
-            ADDR = #{addr},
             HOMEPAGE = #{homepage}
         WHERE
             CRM_SN = #{crmSn}
@@ -133,22 +131,38 @@
         /* insCrmInfo */
         INSERT INTO CAM_CRM.DJ_CRM_INFO
             (
-                CRM_ATT,
-                CRM_ATT_NM,
                 CRM_CEO,
-                CRM_CLASS,
                 CRM_NM,
-                EMAIL
+                EMAIL,
+                TEL_NUM,
+                PH_NUM,
+                FAX,
+                CRM_EST_NO,
+                POST,
+                ADDR,
+                CRM_OCC,
+                CRM_EVENT
             )
         VALUES
             (
-                #{crmAtt},
-                #{crmAttNm},
                 #{crmCeo},
-                #{crmClass},
                 #{crmNm},
-                #{email}
+                #{email},
+                #{telNum},
+                #{phNum},
+                #{fax},
+                #{crmEstNo},
+                #{post},
+                #{addr},
+                #{crmOcc},
+                #{crmEvent}
             )
+
+        <selectKey keyProperty="CRM_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_CRM' AND TABLE_NAME = 'DJ_CRM_INFO'
+        </selectKey>
     </insert>
+
+
 
 </mapper>
