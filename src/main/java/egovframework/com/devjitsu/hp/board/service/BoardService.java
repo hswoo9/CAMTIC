@@ -13,6 +13,8 @@ public interface BoardService {
     /** 게시글 전체조회 */
     PagingResponse<PostResponse> selectBoardList(ArticlePage params);
 
+    List<Map<String, Object>> selectMainList(Map<String, Object> param);
+
     Object selectBoardListCnt(ArticlePage params);
 
     /** 게시글 상세조회 */

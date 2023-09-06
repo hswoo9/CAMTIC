@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.gw.main.controller;
 
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.hp.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -17,6 +19,9 @@ public class MainController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private BoardService boardService;
 
     @RequestMapping("/")
     public String index(){
@@ -50,6 +55,15 @@ public class MainController {
     @RequestMapping("/intro.do")
     public String intro(){
         return "intro";
+    }
+
+    @RequestMapping("/main/getMainList.do")
+    public String getMainList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
+
+        List<Map<String, Object>> response = boardService.selectMainList(param);
+
+        model.addAttribute("list", response);
+        return "jsonView";
     }
 
     @RequestMapping("/subHoliday/subHolidayApplication.do")

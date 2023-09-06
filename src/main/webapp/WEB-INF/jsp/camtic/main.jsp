@@ -137,40 +137,18 @@
       <div class="inner">
         <div class="lef">
           <ul class="tab">
-            <li class="active"><button type="button" id="tab1" role="tab" aria-controls="tab-panel1" aria-selected="true">공지사항</button></li>
+            <li class="active"><button type="button" role="tab" id="tab1" onclick="goList('notice')" aria-controls="tab-panel1" aria-selected="true">공지사항</button></li>
             <li><button type="button" role="tab" id="tab2" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
-            <li><button type="button" role="tab" id="tab3" aria-controls="tab-panel3" aria-selected="false">보도자료</button></li>
+            <li><button type="button" role="tab" id="tab3" onclick="goList('report')" aria-controls="tab-panel3" aria-selected="false">보도자료</button></li>
           </ul>
           <div class="area">
-            <div class="item active" id="tab-panel1" role="tabpanel" aria-labelledby="tab1" aria-selected="true">
-              <div class="sec notice">
-                <a href="/camtic/news/view.do?boardArticleId=22&category=notice" class="box">
-                  <p class="subject">전주첨단벤처단지 정전에 따른 홈페이지 사용 중단 안내</p>
-                  <p class="sum">
-                    캠틱종합기술원 홈페이지를 이용하시는 고객님께 양해 말씀 드립니다.
-                    전기설비 정기점검에 따른 정전으로 아래의 점검기간 동안 홈페이지 서비스가 일시 중지할 예정이오니, 홈페이지 이용에 참고하시기 바랍니다.
-                  </p>
-                  <p class="date">2023-07-25</p>
-                </a>
-                <a href="/camtic/news/view.do?boardArticleId=13330&category=notice" class="box">
-                  <p class="subject">2023 지역주도형 청년일자리사업 '맛있는 군산' 청년선발인원 공고</p>
-                  <p class="sum">
-                    2023년 지역주도형 청년일자리사업 선발인원을 다음과 같이 안내드립니다.
-                    1. 합격자 명단
-                  </p>
-                  <p class="date">2023-01-31</p>
-                </a>
-                <a href="/camtic/news/view.do?boardArticleId=13321&category=notice" class="box">
-                  <p class="subject">드론기술개발지원센터 11월 드론활용 장비교육 안내</p>
-                  <p class="sum">
-                    드론기술개발지원센터 11월 드론활용 장비교육 안내
-                    |일시| 2022.11.25(금) 15:00 - 16:30 |장소| 전주혁신창업허브 드론기술개발지원센터 (전라북도 전주시 유상로 67)
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
+            <div class="item active" id="tab-panel" role="tabpanel" aria-labelledby="tab1" aria-selected="true">
+              <div class="sec">
+
               </div>
               <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="more">+ 더보기</a>
             </div>
+
             <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false">
               <div class="sec">
                 <a href="/camtic/member/view.do" class="box">
@@ -203,32 +181,10 @@
               </div>
               <a href="/camtic/member/job.do" class="more">+ 더보기</a>
             </div>
+
             <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false">
               <div class="sec">
-                <a href="/camtic/pr/pr_view.do?boardArticleId=41505&category=report" class="box">
-                  <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
-                  <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
-                <a href="/camtic/pr/pr_view.do?boardArticleId=41504&category=report" class="box">
-                  <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
-                  <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
-                <a href="/camtic/pr/pr_view.do?boardArticleId=41503&category=report" class="box">
-                  <p class="subject">333 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차 수요맞춤형 드론산업 육성지원 사업 사업화지원 4차</p>
-                  <p class="sum">
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                    전라북도에 소재한 기업을 대상으로 다음과 같이 『2022년 수요맞춤형 드론산업 육성 지원사업』 시행계획을
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
+
               </div>
               <a href="/camtic/pr/report.do" class="more">+ 더보기</a>
             </div>
@@ -537,6 +493,72 @@
   vis.init();
   snsMain.init();
   midMain.init();
+
+  var data = {
+    category : "notice"
+  }
+
+  var viewUrl = "";
+
+  var resultData;
+
+  $(function () {
+    fnDefaultScript();
+
+    drawTable();
+  });
+
+  function goList(e){
+    data.category = e;
+
+    fnDefaultScript();
+    drawTable();
+  }
+
+  function fnDefaultScript() {
+    $.ajax({
+      url : '/main/getMainList.do',
+      type : 'POST',
+      data: data,
+      dataType : "json",
+      async: false,
+      success: function(rs) {
+        console.log(rs.list);
+        resultData = rs.list;
+      }
+    });
+  }
+
+  //게시글 리스트 그리기
+  function drawTable() {
+
+    if(data && data.category == "notice") {
+      viewUrl = "/camtic/news/view.do?category=notice&boardArticleId=";
+    }else if(data && data.category == "report"){
+      viewUrl = "/camtic/pr/pr_view.do?category=report&boardArticleId=";
+    }
+
+    $(".sec").html('');
+
+    let html = "";
+
+    resultData.forEach((item, index) => {
+
+      html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";
+
+      html += '<p class="subject">'+ item.BOARD_ARTICLE_TITLE +'</p>';
+      let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
+      html += '<div><p class="sum">'+ contents +'</p></div>';
+      /*html += '<p class="sum">test</p>';*/
+
+      html += '<p class="date">'+ item.REG_DATE +'</p>';
+
+      html += '</a>';
+    });
+
+    /*tableBody.innerHTML = html;*/
+    $(".sec").append(html);
+  }
 </script>
 </body>
 </html>

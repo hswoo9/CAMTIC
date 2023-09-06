@@ -19,6 +19,9 @@ public class BoardRepository extends AbstractDAO {
     public List<PostResponse> selectPrBoardList(ArticlePage articlePage) {
         return selectList("boardCt.selectPrBoardList", articlePage);
     }
+    public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
+        return selectList("boardCt.selectMainList", params);
+    }
     public Object selectBoardListCount(ArticlePage articlePage) {
         return (int) selectOne("boardCt.selectBoardListCount", articlePage);
     }

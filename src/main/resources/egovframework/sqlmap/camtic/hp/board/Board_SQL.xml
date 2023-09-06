@@ -39,6 +39,26 @@
             LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
+    <select id="selectMainList" resultType="map" parameterType="map">
+        SELECT
+            BOARD_ARTICLE_ID
+             ,BOARD_ID
+             ,BOARD_CATEGORY_ID
+             ,BOARD_ARTICLE_TITLE
+             ,BOARD_ARTICLE_CONTENT
+             ,BOARD_ARTICLE_VIEW_COUNT
+             ,REG_EMP_NAME
+             ,DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID = #{category}
+        AND
+            ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+            LIMIT 3
+    </select>
+
     <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
             COUNT(*)
