@@ -27,13 +27,42 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__galListhead">
-
+        <div class="__topArea">
+          <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
+          <form class="__sch">
+            <div class="inp">
+              <label for="searchInput" class="hide">검색어 입력</label>
+              <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+              <button type="button">검색</button>
+            </div>
+          </form>
         </div>
-        <div class="__galList" style="margin-top:15px;">
 
-        </div>
+        <table class="__tblList respond1">
+          <caption>공지사항 게시판</caption>
+          <colgroup>
+            <col style="width:100px;"/>
+            <col/>
+            <col style="width:100px;"/>
+            <col style="width:100px;"/>
+            <col style="width:150px;"/>
+            <col style="width:100px;"/>
 
+          </colgroup>
+          <thead>
+          <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">첨부파일</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+            <th scope="col">조회수</th>
+          </tr>
+          </thead>
+
+          <tbody id="tableBody">
+          </tbody>
+        </table>
         <div class="__botArea">
           <div class="cen">
             <div class="__paging">
@@ -43,6 +72,8 @@
             <div class="rig">
               <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
+
+
           </div>
         </div>
 
@@ -53,10 +84,9 @@
 </div>
 
 <script>
-
   var categoryKey = "report";
 
-  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=5','');
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=10','');
   var flag = false;
 
   var paginationData;
@@ -116,7 +146,7 @@
       recordSize: 5,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=5", "");
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=10", "");
 
     flag = true;
 
@@ -127,47 +157,41 @@
 
   //게시글 리스트 그리기
   function drawTable(data) {
-    $(".__galListhead").html('');
-    $(".__galList").html('');
+    //const tableBody = document.getElementById("tableBody");
+    $("#tableBody").html('');
 
-    let htmlHead = "";
     let html = "";
 
+    let num = total + 1;
+
+    if(page != 1){
+      num = num - ((page - 1) * 10);
+    }
     data.forEach((item, index) => {
-      if(index == 0){
-        htmlHead += "<div class='boxHead' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
-        if(item.file_PATH) {
-          htmlHead += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto;"></i></div>';
-        }else {
-          htmlHead += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
-        }
-        htmlHead += '</div>';
-        htmlHead += '<div class="boxHead" style="cursor:pointer;" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')" >';
-        htmlHead += '<div class="info">';
-        htmlHead += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
-        htmlHead += '</div>';
-        htmlHead += '<div class="info">';
-        htmlHead += '<p class="content">'+ item.board_ARTICLE_CONTENT +'</p>';
-        htmlHead += '</div></div>';
+      num = num - 1;
+
+      html += "<tr>";
+      html += '<td>'+ (num) +'</td>';
+      html += '<td class="subject" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
+      if(item.file_PATH){
+        html += '<td><img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);"></td>';
       }else{
-        html += "<a class='box' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
-        if(item.file_PATH){
-          html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
-        }else{
-          html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
-        }
-        html += '<div class="info">';
-        html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
-        const formattedMonth = String(item.reg_DATE.monthValue).padStart(2, '0');
-        const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
-        html += '<p class="date">'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</p>';
-        html += '</div>';
-        html += "</a>";
+        html += '<td></td>';
       }
+      html += '<td>'+ item.reg_EMP_NAME +'</td>';
+
+      const formattedMonth = String(item.reg_DATE.monthValue).padStart(2, '0');
+      const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
+
+      html += '<td>'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</td>';
+
+      html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
+      /*html += '<td></td>';*/
+      html += "</tr>";
     });
 
-    $(".__galListhead").append(htmlHead);
-    $(".__galList").append(html);
+    /*tableBody.innerHTML = html;*/
+    $("#tableBody").append(html);
   }
 
   //페이징 그리기

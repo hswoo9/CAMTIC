@@ -5,8 +5,8 @@
     <select id="selectBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
             *,
-            (CASE WHEN (SELECT COUNT(FR_KEY) FROM CAM_COMMON.DJ_FILE_INFO WHERE FR_KEY = DBA.BOARD_ARTICLE_ID) != 0 THEN 'Y'
-                  ELSE 'N' END) AS FILE_YN
+            (case when (select count(fr_key) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{searchCategory}) != 0 then 'Y'
+                  else 'n' end) AS FILE_YN
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE
@@ -24,7 +24,7 @@
     <select id="selectPrBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
             *,
-            (SELECT CONCAT(FILE_PATH,FILE_UUID) FROM CAM_COMMON.DJ_FILE_INFO WHERE FR_KEY = DBA.BOARD_ARTICLE_ID) AS FILE_PATH
+            (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{searchCategory}) AS FILE_PATH
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE

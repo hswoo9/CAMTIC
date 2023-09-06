@@ -246,12 +246,12 @@
 
           var html = '';
           for (var i = 0; i < rs.fileMap.length; i++) {
-            html += '<tr style="text-align: center" class="addFile">';
+            html += '<tr style="text-align: center" class="beforeAddFile">';
             html += '   <td>' + rs.fileMap[i].file_org_name + '</td>';
             html += '   <td>' + rs.fileMap[i].file_ext + '</td>';
             html += '   <td>' + rs.fileMap[i].file_size + '</td>';
             html += '   <td>';
-            html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="commonFileDel(' + rs.fileMap[i].file_no + ')">'
+            html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="commonFileDel(' + rs.fileMap[i].file_no + ', this)">'
             html += '   </td>';
             html += '</tr>';
           }

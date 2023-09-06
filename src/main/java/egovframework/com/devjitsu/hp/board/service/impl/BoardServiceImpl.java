@@ -97,13 +97,13 @@ public class BoardServiceImpl implements BoardService {
 
         boardRepository.updateBoard(params);
 
-        List<Map<String, Object>> chkList = boardRepository.selectBoardFile(params);
+        /*List<Map<String, Object>> chkList = boardRepository.selectBoardFile(params);
         for(int x = 0; x< chkList.size(); x++){
             Map<String, Object> chkMap = new HashMap<>();
 
             chkMap.put("fileNo", chkList.get(x).get("file_no"));
             getContentFileOne(chkMap);
-        }
+        }*/
 
         if(file.length > 0){
             MainLib mainLib = new MainLib();
