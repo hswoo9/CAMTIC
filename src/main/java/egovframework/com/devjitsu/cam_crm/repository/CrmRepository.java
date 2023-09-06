@@ -49,4 +49,12 @@ public class CrmRepository extends AbstractDAO {
     public List<Map<String, Object>> getBnCpInfo(Map<String, Object> params) {
         return selectList("crm.getBnCpInfo", params);
     }
+
+    public void updCrmInfo(Map<String, Object> params) {
+        update("crm.updCrmInfo", params);
+    }
+
+    public void insCrmInfo(Map<String, Object> params) {
+        insert("crm.insCrmInfo", params);
+    }
 }

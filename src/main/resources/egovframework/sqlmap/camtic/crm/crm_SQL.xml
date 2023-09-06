@@ -104,4 +104,51 @@
             FILE_NO = (SELECT BN_CP FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = #{crmSn})
     </select>
 
+    <update id="updCrmInfo" parameterType="map">
+        /* updCrmInfo -- 부가정보 업데이트 */
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO
+        SET
+            CRM_EVENT = #{crmEvent},
+            CRM_PROD = #{crmProd},
+            CRM_BN = #{crmBn},
+            BN_DEPO = #{bnDepo},
+            CRM_STAT = #{crmStat},
+            ACNT_NM = #{acntNm},
+            CRM_BN_NUM = #{crmBnNum},
+            PH_NUM = #{phNum},
+            CRM_EST_NO = #{crmEstNo},
+            POST = #{post},
+            ACNT_EMAIL = #{acntEmail},
+            ETC = #{etc},
+            TEL_NUM = #{telNum},
+            FAX = #{fax},
+            ADDR = #{addr},
+            HOMEPAGE = #{homepage}
+        WHERE
+            CRM_SN = #{crmSn}
+    </update>
+
+    <insert id="insCrmInfo" parameterType="map">
+        /* insCrmInfo */
+        INSERT INTO CAM_CRM.DJ_CRM_INFO
+            (
+                CRM_ATT,
+                CRM_ATT_NM,
+                CRM_CEO,
+                CRM_CLASS,
+                CRM_NM,
+                EMAIL
+            )
+        VALUES
+            (
+                #{crmAtt},
+                #{crmAttNm},
+                #{crmCeo},
+                #{crmClass},
+                #{crmNm},
+                #{email}
+            )
+    </insert>
+
 </mapper>

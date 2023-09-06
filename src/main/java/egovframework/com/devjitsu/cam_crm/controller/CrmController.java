@@ -109,7 +109,13 @@ public class CrmController {
 
     @RequestMapping("/crm/setCrmInfo")
     public String setCrmInfo(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
-        crmService.setCrmInfo(params, request, SERVER_DIR, BASE_DIR);
+
+        try{
+            crmService.setCrmInfo(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("params", params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

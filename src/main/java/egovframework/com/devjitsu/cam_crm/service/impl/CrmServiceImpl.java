@@ -48,64 +48,76 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
 
-        MainLib mainLib = new MainLib();
-        Map<String, Object> fileInsMap = new HashMap<>();
+        try{
 
-        MultipartFile crmFile = request.getFile("crmFile");
-        MultipartFile crmLics = request.getFile("crmLics");
-        MultipartFile bnCp = request.getFile("bnCp");
+            if(params.containsKey("crmSn")){
 
-        if(crmFile != null){
-            if(!crmFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(crmFile, filePath(params, serverDir));
-                fileInsMap.put("contentId", "crmInfo_" + params.get("crmSn"));
-                fileInsMap.put("crmSn", params.get("crmSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+                crmRepository.updCrmInfo(params);
+                MainLib mainLib = new MainLib();
+                Map<String, Object> fileInsMap = new HashMap<>();
 
-                fileInsMap.put("crmFile", fileInsMap.get("file_no"));
-                crmRepository.updCrmFile(fileInsMap);
+                MultipartFile crmFile = request.getFile("crmFile");
+                MultipartFile crmLics = request.getFile("crmLics");
+                MultipartFile bnCp = request.getFile("bnCp");
+
+                if(crmFile != null){
+                    if(!crmFile.isEmpty()){
+                        fileInsMap = mainLib.fileUpload(crmFile, filePath(params, serverDir));
+                        fileInsMap.put("contentId", "crmInfo_" + params.get("crmSn"));
+                        fileInsMap.put("crmSn", params.get("crmSn"));
+                        fileInsMap.put("fileCd", params.get("menuCd"));
+                        fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                        fileInsMap.put("filePath", filePath(params, baseDir));
+                        fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                        fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                        commonRepository.insOneFileInfo(fileInsMap);
+
+                        fileInsMap.put("crmFile", fileInsMap.get("file_no"));
+                        crmRepository.updCrmFile(fileInsMap);
+                    }
+                }
+
+                if(crmLics != null){
+                    if(!crmLics.isEmpty()){
+                        fileInsMap = mainLib.fileUpload(crmLics, filePath(params, serverDir));
+                        fileInsMap.put("contentId", "crmInfo_" + params.get("crmSn"));
+                        fileInsMap.put("crmSn", params.get("crmSn"));
+                        fileInsMap.put("fileCd", params.get("menuCd"));
+                        fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                        fileInsMap.put("filePath", filePath(params, baseDir));
+                        fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                        fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                        commonRepository.insOneFileInfo(fileInsMap);
+
+                        fileInsMap.put("crmLics", fileInsMap.get("file_no"));
+                        crmRepository.updCrmLics(fileInsMap);
+                    }
+                }
+
+                if(bnCp != null){
+                    if(!bnCp.isEmpty()){
+                        fileInsMap = mainLib.fileUpload(bnCp, filePath(params, serverDir));
+                        fileInsMap.put("contentId", "crmInfo_" + params.get("crmSn"));
+                        fileInsMap.put("crmSn", params.get("crmSn"));
+                        fileInsMap.put("fileCd", params.get("menuCd"));
+                        fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                        fileInsMap.put("filePath", filePath(params, baseDir));
+                        fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                        fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                        commonRepository.insOneFileInfo(fileInsMap);
+
+                        fileInsMap.put("bnCp", fileInsMap.get("file_no"));
+                        crmRepository.updBnCp(fileInsMap);
+                    }
+                }
+            } else {
+                crmRepository.insCrmInfo(params);
             }
+
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
-        if(crmLics != null){
-            if(!crmLics.isEmpty()){
-                fileInsMap = mainLib.fileUpload(crmLics, filePath(params, serverDir));
-                fileInsMap.put("contentId", "crmInfo_" + params.get("crmSn"));
-                fileInsMap.put("crmSn", params.get("crmSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("crmLics", fileInsMap.get("file_no"));
-                crmRepository.updCrmLics(fileInsMap);
-            }
-        }
-
-        if(bnCp != null){
-            if(!bnCp.isEmpty()){
-                fileInsMap = mainLib.fileUpload(bnCp, filePath(params, serverDir));
-                fileInsMap.put("contentId", "crmInfo_" + params.get("crmSn"));
-                fileInsMap.put("crmSn", params.get("crmSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("bnCp", fileInsMap.get("file_no"));
-                crmRepository.updBnCp(fileInsMap);
-            }
-        }
-
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

@@ -87,18 +87,6 @@ var crmReg = {
             return false;
         }
 
-        var crmSpecItem = "";
-        $("input[name='crmSpecItem']").each(function(){
-            if($(this).is(":checked")){
-                crmSpecItem += $(this).val()+",";
-            }
-        });
-
-        if(crmSpecItem == ""){
-            alert("특화아이템 해당 분야를 선택해주세요.");
-            return false;
-        }
-
         if($("crmNo").val() == ""){
             alert("사업자 번호를 입력해주세요.");
             return false;
@@ -114,13 +102,21 @@ var crmReg = {
             crmAttNm : $("#crmAtt").data("kendoDropDownList").text(),
             crmClass : $("#crmClass").val(),
             crmClassNm : $("#crmClass").data("kendoDropDownList").text(),
-            crmSpecItem : crmSpecItem,
             crmNm : $("#crmNm").val(),
             crmCeo : $("#crmCeo").val(),
             crmNm : $("#crmNm").val(),
             email : $("#email").val()
         }
 
-        console.log(parameters);
+        $.ajax({
+            url : "/crm/setCrmInfo",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+                alert("저장되었습니다.");
+            }
+        });
     }
 }

@@ -174,7 +174,7 @@
             <th scope="row" class="text-center th-color">
                 통장사본
             </th>
-            <td>.
+            <td>
                 <label for="bnCp" class="k-button k-button-clear-info">파일 선택</label>
                 <span id="bnCpText">선택된 파일 없음</span>
                 <input type="file" id="bnCp" style="display: none" onchange="crmSi.fn_fileChange(this)">
