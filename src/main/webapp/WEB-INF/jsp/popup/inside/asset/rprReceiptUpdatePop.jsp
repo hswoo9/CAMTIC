@@ -190,7 +190,7 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>증빙(출원)
                 </th>
-                <td colspan="3" style="padding:5px;">
+                <td colspan="3" style="padding:5px; cursor: pointer">
                     <label for="appliFile" class="k-button k-button-solid-base">파일첨부</label>
                     <input type="file" id="appliFile" name="appliFile" onchange="rprReceiptUpdate.fileChange(this)" style="display: none" multiple="multiple">
                     <span id="appliFileName"></span>
@@ -205,7 +205,7 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>증빙(등록)
                 </th>
-                <td colspan="3" style="padding:5px;">
+                <td colspan="3" style="padding:5px; cursor: pointer">
                     <label for="regFile" class="k-button k-button-solid-base">파일첨부</label>
                     <input type="file" id="regFile" name="regFile" onchange="rprReceiptUpdate.fileChange(this)" style="display: none" multiple="multiple">
                     <span id="regFileName"></span>
