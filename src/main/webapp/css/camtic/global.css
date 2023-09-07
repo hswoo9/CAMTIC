@@ -354,7 +354,8 @@ img {max-width:100%;}
 #mid .lef .area .box .sum {letter-spacing:-0.05em;margin-top:20px;font-size:14px;color:#8b8b8b;line-height:1.7;height:5.1em;display:-webkit-box;word-wrap:break-word;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;}
 #mid .lef .area .box .date {margin-top:37px;color:#8b8b8b;}
 #mid .rig {width:38.6875%;padding:0 39px 0 0;position:relative;}
-#mid .rig:before {content:'';display:block;position:absolute;right:0;top:0;width:calc(100% - 44px);height:calc(100% - 20px);border:1px solid #e5e7ee;border-radius:30px;pointer-events:none;}
+/*캠틱포커스 테두리 사이즈 변경 2023-09-06*/
+#mid .rig:before {content:'';display:block;position:absolute;right:0;top:0;width:calc(100% - 44px);height:calc(100% - 1px);border:1px solid #e5e7ee;/*border-radius:30px;*/pointer-events:none;}
 #mid .rig .tit {padding:0 25px 0 80px;display:flex;justify-content:space-between;align-items:center;height:74px;}
 #mid .rig .tit h2 {font-size:28px;font-weight:500;color:#444;}
 #mid .rig .tit h2 span {color:#00a4db;}
@@ -364,8 +365,9 @@ img {max-width:100%;}
 #mid .rig .tit .cont .bt {display:flex;align-items:center;gap:8px;}
 #mid .rig .tit .cont .bt button {font-size:20px;color:#333;border:none;background:none;}
 #mid .rig .tit .cont .bt .pause i:before {content:'\e748';}
-#mid .rig .roll {overflow:hidden;border-radius:30px;}
-#mid .rig .swiper-slide i {display:block;text-indent:-9999px;height:370px;background-repeat:no-repeat;background-position:50% 50%;background-size:cover;}
+/*각지게 변경 및 사이즈 조정 2023-09-06*/
+#mid .rig .roll {overflow:hidden;/*border-radius:30px;*/}
+#mid .rig .swiper-slide i {display:block;text-indent:-9999px;height:285px;background-repeat:no-repeat;background-position:50% 50%;background-size:cover;}
 #mid .rig .swiper-slide i:before {content:'';display:block;width:84px;height:61px;background:url(/images/camtic/ico-play.svg) no-repeat 50% 50% / contain;position:absolute;left:50%;top:50%;z-index:10;transform:translate3d(-50%,-50%,0);opacity:0.7;}
 
 @media all and (max-width:1640px){
@@ -521,10 +523,12 @@ img {max-width:100%;}
 #navigation li ~ li:before {content:"";display:block;width:1px;height:12px;background:#c2c2c2;position:absolute;left:0;top:50%;margin-top:-6px;}
 #navigation li a {color:inherit;}
 
-#title {margin-bottom:50px;}
+/*타이틀 제목 높이 변경 2023-09-06*/
+#title {margin-bottom:55px;}
 #title h3 {font-size:36px;color:#111;font-weight:500;letter-spacing:-0.03em;border-bottom:2px solid #111;height:60px;display:flex;align-items:center;}
 
-#content .m0 {margin-top:-50px;}
+/*자간수정 2023-09-06*/
+#content .m0 {margin-top:-50px; word-spacing: 5px;}
 
 @media all and (max-width:1420px){
 	#lnb {display:none;}
@@ -552,7 +556,8 @@ img {max-width:100%;}
 .__vid iframe {display:block;width:100%;height:100%;border:none;position:absolute;left:0;top:0;}
 
 /*원장 인사말 이미지 위치 변경으로 padding-top 변경*/
-.__greeting {max-width:1080px;margin:0 auto;padding-top:2px;}
+.__greeting {max-width:1080px;margin:0 auto;}
+/*.__greeting {max-width:1080px;margin:0 auto;padding-top:30px;}*/
 .__greeting .head dt {font-size:56px;color:#111;font-weight:300;letter-spacing:-0.05em;}
 .__greeting .head dd {font-size:38px;font-weight:300;color:#155996;letter-spacing:-0.05em;margin-top:15px;}
 /*원장 인사말 수정*/
@@ -672,16 +677,18 @@ img {max-width:100%;}
 	.__jobStep .bot .box p {font-size:14px;line-height:1.4;margin-top:10px;}
 }
 
-/*배경색 변경 통일*/
-.__vision1 {/*background:#f2fcfe;*/background:#fff;padding:75px 52px 80px;border-bottom:1px solid #ccc;}
+/*배경색 변경 통일*//*2023-09-07 높이 통일*/
+.__vision1 {/*background:#f2fcfe;*/background:#fff;padding:50px 52px 80px;border-bottom:1px solid #ccc;}
 .__vision1 .head {padding-left:45px;}
 .__vision1 .head dt {font-size:56px;letter-spacing:-0.05em;font-weight:300;color:#111;}
 .__vision1 .head dd {font-size:50px;line-height:1.4;color:#155996;font-weight:300;margin-top:5px;letter-spacing:-0.05em;}
 .__vision1 .area {margin-top:50px;border-top:1px dashed #b7b7b7;}
 .__vision1 .area .box {display:flex;border-bottom:1px dashed #b7b7b7;}
-.__vision1 .area .box > dt {width:185px;padding-left:20px;font-size:16px;font-weight:600;color:#000;letter-spacing:-0.05em;line-height:86px;}
+/*폰트 사이즈 변경 2023-09-07*/
+.__vision1 .area .box > dt {width:185px;padding-left:20px;font-size:22px;font-weight:600;color:#000;letter-spacing:-0.05em;line-height:86px;}
 .__vision1 .area .box > dd {padding:12px 0;width:0;flex-grow:1;}
-.__vision1 .area .box1 > dd {text-align:center;font-size:22px;letter-spacing:-0.045em;color:#000;font-family:'Nanum Myeongjo',serif;display:flex;align-items:center;justify-content:center;}
+/*폰트 사이즈 변경 2023-09-07*/
+.__vision1 .area .box1 > dd {text-align:center;font-size:28px;letter-spacing:-0.045em;color:#000;font-family:'Nanum Myeongjo',serif;display:flex;align-items:center;justify-content:center;}
 .__vision1 .area .box2 > dd {}
 .__vision1 .area .box2 > dd ul {display:flex;gap:10px;}
 .__vision1 .area .box2 > dd ul li {width:0;flex-grow:1;height:62px;display:flex;align-items:center;justify-content:center;text-align:center;background:#41ace0;border-radius:10px;color:#fff;font-size:22px;font-weight:600;letter-spacing:-0.05em;}
@@ -692,7 +699,8 @@ img {max-width:100%;}
 .__vision1 .area .box4 > dd ul li {width:0;flex-grow:1;background:#24e1cd;border-radius:10px;color:#fff;font-size:22px;font-weight:600;letter-spacing:-0.05em;}
 .__vision1 .area .box4 > dd ul li h4 {text-align:center;padding:18px 0;}
 .__vision1 .area .box4 > dd ul li dl {background:#fff;border-radius:6px;padding:15px;margin:0 15px 15px;}
-.__vision1 .area .box4 > dd ul li dl dt {font-size:16px;line-height:1.4;color:#252525;font-weight:normal;}
+/*자간 변경 2023-09-07*/
+.__vision1 .area .box4 > dd ul li dl dt {font-size:16px;line-height:1.4;color:#252525;font-weight:normal; letter-spacing: 0.1px}
 .__vision1 .area .box4 > dd ul li dl dd {margin-top:35px;color:#24e1cd;font-size:16px;font-weight:bold;text-align:center;}
 .__vision1 .area .box4 > dd ul li:last-child {display:flex;align-items:center;justify-content:center;background:#13c6b3;}
 .__vision1 .area .box4 > dd ul li p {font-size:18px;line-height:1.45;color:#fff;font-weight:normal;}
@@ -1096,7 +1104,7 @@ img {max-width:100%;}
 .__jvalley1 .tbl .box:nth-child(4) > dd dl ~ dl {margin-top:10px;}
 
 /*2023-09-05 배경색 하얀색 변경, 패딩값 75->50px로 수정*/
-.__jvalley2 {background:#ffffff; padding:50px 100px;border-bottom:1px solid #ccc;}
+.__jvalley2 {background:#ffffff; padding:50px 100px;/*border-bottom:1px solid #ccc;*/}
 .__jvalley2 .tit {text-align:center;margin-bottom:45px;}
 .__jvalley2 .tit h3 {font-size:18px;color:#000;}
 .__jvalley2 .tit h3 strong {font-weight:normal;letter-spacing:-0.05em;}
@@ -1127,11 +1135,11 @@ img {max-width:100%;}
 .__jvalley3 .hw .box .info dd {font-size:14px;color:#000;line-height:1.43;letter-spacing:-0.05em;margin-top:20px;}
 
 /* 23.09.05 box 계단식으로 사진 변경 추가 */
-.__jvalley3 .hw .box:nth-child(1) {height:245px;}
-.__jvalley3 .hw .box:nth-child(2) {height:260px;}
-.__jvalley3 .hw .box:nth-child(3) {height:275px;}
-.__jvalley3 .hw .box:nth-child(4) {height:290px;}
-.__jvalley3 .hw .box:nth-child(5) {height:305px;}
+.__jvalley3 .hw .box:nth-child(5) {}
+.__jvalley3 .hw .box:nth-child(4) {margin-top: 30px;}
+.__jvalley3 .hw .box:nth-child(3) {margin-top: 60px;}
+.__jvalley3 .hw .box:nth-child(2) {margin-top: 90px;}
+.__jvalley3 .hw .box:nth-child(1) {margin-top: 120px;}
 
 .__jvalley3 .sw {display:flex;gap:12px;}
 .__jvalley3 .sw .box {display:block;width:calc(25% - (36px / 4));border-radius:10px;border:4px solid #0072bc;padding:25px 8px 15px;}
@@ -1152,7 +1160,7 @@ img {max-width:100%;}
 .__jvalley4 .area {background:/*#f3f1f1;*/#fff;padding:55px 15px;text-align:center;}
 
 /*배경색 변경 통일*/
-.__jvalley5 {background:/*#f3f1f1;*/#fff;padding:45px 70px;}
+.__jvalley5 {background:/*#f3f1f1;*/#fff;padding:0px 70px;}
 .__jvalley5 .one {display:flex;}
 .__jvalley5 .one .arr {width:0;flex-grow:1;display:flex;align-items:center;justify-content:center;}
 .__jvalley5 .one .arr i {width:51px;height:85px;display:block;background:url(/images/camtic/ico-arr.png) no-repeat 50% 50% / contain;}
@@ -1432,20 +1440,23 @@ img {max-width:100%;}
 }
 
 /*배경색 변경 통일*/
-.__root1 {/*background:#f2fcfe;*/background:#fff;padding:80px 100px 55px;border-bottom:1px solid #ccc;text-align:center;}
+/*2023-09-06 통일성 변경*/
+.__root1 {/*background:#f2fcfe;*/background:#fff;padding:55px 100px 55px;border-bottom:1px solid #ccc;text-align:center;}
 .__root1 .head dt {font-size:52px;font-weight:200;color:#111;letter-spacing:-0.05em;}
-.__root1 .head dd {font-size:20px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:20px;}
+/*2023-09-06 통일성 변경*/
+.__root1 .head dd {font-size:22.5px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:20px;}
 .__root1 .mid {margin-top:80px;}
 .__root1 .mid h3 {position:relative;text-align:center;padding-bottom:15px;}
 .__root1 .mid h3:before {content:"";display:block;position:absolute;top:10px;left:64px;width:calc(100% - 128px);border:1px solid #91accc;border-bottom:none;border-radius:15px 15px 0 0;height:15px;}
-.__root1 .mid h3 span {display:inline-block;position:relative;z-index:10;background:#f2fcfe;font-size:22px;color:#305c9a;letter-spacing:-0.05em;padding:0 12px;}
+/*2023-09-06 통일성 변경*/
+.__root1 .mid h3 span {display:inline-block;position:relative;z-index:10;background:#f2fcfe;font-size:22px;color:#305c9a;letter-spacing:0.05em;padding:0 12px;}
 .__root1 .mid .area {display:flex;gap:8px;}
 .__root1 .mid .area .box {width:0;flex-grow:1;}
 .__root1 .mid .area .box .ico {border:4px solid #fff;border-radius:10px;box-shadow:10px 10px 10px rgba(0,0,0,0.12);}
 .__root1 .mid .area .box .txt {font-size:18px;font-weight:500;color:#000;margin-top:17px;letter-spacing:-0.05em;}
 
-/*배경색 변경 통일*/
-.__root2 {border-top:2px solid #111;/*background:#f8f8f8;*/background:#fff;padding:35px 100px;}
+/*배경색 변경 통일*//*서브메뉴선 없애기*/
+.__root2 {/*border-top:2px solid #111;*//*background:#f8f8f8;*/background:#fff;padding:35px 100px;}
 .__root2 .head {text-align:center;}
 .__root2 .head dt {font-size:14px;font-weight:800;color:#333;margin-bottom:10px;}
 .__root2 .head dd {display:inline-block;position:relative;font-size:26px;line-height:1.27;font-weight:300;color:#000;padding:0 30px;}
@@ -1538,7 +1549,8 @@ img {max-width:100%;}
 .__drone3 .__icoBox .img {display:flex;gap:30px;margin-top:70px;}
 .__drone3 .foot {display:flex;justify-content:space-between;gap:30px;}
 
-.__drone4 {border-top:2px solid #111;background:#f8f8f8;padding:80px 100px;}
+/*배경색 변경 통일*/
+.__drone4 {border-top:2px solid #111;/*background:#f8f8f8;*/padding:80px 100px;}
 .__drone4 .head {display:flex;gap:9px;justify-content:space-between;}
 .__drone4 .head .box h4 {font-size:18px;font-weight:500;color:#000;margin-bottom:10px;}
 .__drone4 .foot {margin-top:80px;}
@@ -2628,7 +2640,8 @@ img {max-width:100%;}
 #sau {margin:0 auto 80px;padding:0 15px;overflow:hidden;}
 #sau .inner {max-width:1600px;margin:0 auto;}
 #sau .tit {position:relative;margin-bottom:20px;}
-#sau .tit h3 {color:#000;font-size:40px;}
+/*2023-09-06 공지사항 - 사업공고 간격 조절*/
+#sau .tit h3 {color:#000;font-size:40px; margin-top: 40px;}
 #sau .tit .bt {position:absolute;right:0;bottom:0;display:flex;}
 #sau .tit .bt button {display:flex;width:40px;height:40px;border:1px solid #ccc;align-items:center;justify-content:center;font-size:24px;color:#000;background:none;}
 #sau .tit .bt button ~ button {margin-left:-1px;}
@@ -2646,7 +2659,8 @@ img {max-width:100%;}
 @media all and (max-width:1024px){
 	#sau {margin:0 auto 40px;}
 	#sau .tit {margin-bottom:15px;}
-	#sau .tit h3 {font-size:30px;}
+	/*2023-09-06 공지사항 - 사업공고 간격 조절*/
+	#sau .tit h3 {font-size:30px; margin-top: 0px;}
 	#sau .tit .bt button {width:30px;height:30px;font-size:20px;}
 	#sau .area {overflow:visible;}
 	#sau .area .box {width:240px;}
@@ -2760,4 +2774,28 @@ img {max-width:100%;}
 }
 
 @media all and (max-width:1024px){
+}
+
+/*카피 메인 문구*/
+.mainCapyTitle {font-size:52px !important; color:#111 !important; font-weight:200 !important; letter-spacing:-0.05em !important;}
+.subCapyTitle {font-size:22.5px !important; line-height:1.3 !important; font-weight:600 !important; color:#155996 !important; letter-spacing:-0.05em !important; margin-top:20px !important;}
+
+/*미션비젼 since*/
+.since {color: #666666; font-size: 45px; font-weight: bold;}
+
+@media all and (max-width:1024px){
+	.mainCapyTitle {font-size:24px !important; line-height:1.2 !important;}
+	.subCapyTitle {font-size:14px !important; margin-top:10px !important;}
+	.mainAbou {display:block;margin-top:30px;}
+	.is-m {display: block !important;}
+	/*미션비젼 since*/
+	.since {color: #666666; font-size: 20px; font-weight: bold;}
+	/*주요연혁*/
+}
+
+.mainAbou {
+	display: flex;
+	gap: 30px;
+	justify-content: space-between;
+	margin-top: 50px;
 }

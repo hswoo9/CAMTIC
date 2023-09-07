@@ -15,11 +15,12 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__jvalley2 __mt50">
+        <div class="__jvalley2 __mt50" style="padding: 0px 100px;">
           <div class="tit">
-            <h3><strong>비전 및 목표</strong></h3>
+            <%--<h3 style="font-size: 40px;"><strong>비전 및 목표</strong></h3>--%>
+              <dt class="mainCapyTitle"><span class="__nm">“</span>J-valley<span class="__nm">”</span></dt>
             <p>
-              <strong>J-valley</strong>,첨단ㆍ디지털산업 기업 <strong>100개</strong>사,고용 <strong>1,000명</strong>
+              <span class="subCapyTitle">첨단ㆍ디지털산업 기업 100개사, 고용 1,000명</span>
             </p>
           </div>
           <div class="area">
@@ -79,7 +80,6 @@
           <h5><span>H/W</span></h5>
           <div class="hw">
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt=""></div>
               <dl class="info">
                 <dt>설계 디자인</dt>
                 <dd>
@@ -87,31 +87,31 @@
                   CATIA(3D) 등
                 </dd>
               </dl>
+              <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt=""></div>
             </div>
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt=""></div>
-              <dl class="info">
+              <dl class="info" style="margin-top:30px;">
                 <dt>시제품 제작</dt>
                 <dd>
                   3D프린터(소~대형)<br>
                   SMT 제조시설 등
                 </dd>
               </dl>
+              <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt=""></div>
             </div>
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt=""></div>
-              <dl class="info">
-                <dt>하드웨어 엑셀러레이터 공간</dt>
+              <dl class="info" style="margin-top:40px;">
+                <dt>H/W 엑셀러레이터 공간</dt>
                 <dd>
                   상품화지원동<br>
                   복합소재뿌리기술센터<br>
                   드론산업혁신지원센터
                 </dd>
               </dl>
+              <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt=""></div>
             </div>
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt=""></div>
-              <dl class="info">
+              <dl class="info" style="margin-top:50px;">
                 <dt>창업.성장공간</dt>
                 <dd>
                   메이커스페이스<br>
@@ -120,10 +120,10 @@
                   기술창업성장지원센터
                 </dd>
               </dl>
+              <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt=""></div>
             </div>
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley3-5.jpg" alt=""></div>
-              <dl class="info">
+              <dl class="info" style="margin-top:60px;">
                 <dt>시장출시제품 지원</dt>
                 <dd>
                   고속·대형 사출성형기<br>
@@ -133,6 +133,7 @@
                   목형·방전가공기 등
                 </dd>
               </dl>
+              <div class="img"><img src="/images/camtic/img-jvalley3-5.jpg" alt=""></div>
             </div>
           </div>
           <h5><span>S/W</span></h5>
