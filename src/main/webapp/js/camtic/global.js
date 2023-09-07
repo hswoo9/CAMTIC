@@ -217,6 +217,7 @@ const vis = {
 		const autoBtn2 = visEl.querySelector('.auto');
 		const autoBtnSpan2 = autoBtn2.querySelector('span');
 
+		/** 메인 페이지 슬라이드 일시정지 추가 */
 		let isAutoPaused = false;
 		let autoInterval;
 
@@ -244,6 +245,7 @@ const vis = {
 		autoBtn2.addEventListener('click', toggleAutoPlay);
 	},
 };
+
 var rowHeight = {
 	init : function(){
 		if($('._row').length > 0){

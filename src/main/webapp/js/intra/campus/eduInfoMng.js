@@ -18,10 +18,10 @@ var eduInfoMng = {
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
-                read : {
-                    url : '/campus/getEduInfoList',
-                    dataType : "json",
-                    type : "post"
+                read: {
+                    url: '/campus/getEduInfoList',
+                    dataType: "json",
+                    type: "post"
                 },
                 parameterMap: function(data) {
                     data.empSeq = $("#regEmpSeq").val();
@@ -29,7 +29,7 @@ var eduInfoMng = {
                     return data;
                 }
             },
-            schema : {
+            schema: {
                 data: function (data) {
                     return data.list;
                 },
