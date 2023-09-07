@@ -4,7 +4,8 @@ const historyReq = {
         nowUserArr: [],
         hwpCtrl: "",
         params: "",
-        editDataSource: {}
+        editDataSource: {},
+        test: []
     },
 
     init: function(){
@@ -452,6 +453,8 @@ const historyReq = {
             dataValueField : "dept_seq",
             dataTextField : "dept_name",
             change : function(){
+                historyReq.global.test = $(this);
+                let empSeq = historyReq.global.test[0].element[0].id.replace("afDept", "");
                 var searchData = {
                     parentDeptSeq : this.value(),
                     deptLevel : 2
@@ -459,7 +462,8 @@ const historyReq = {
 
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
                 ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
-                $(this.element).closest("td").next().find("input[class=afTeam]").data("kendoDropDownList").dataSource.data(ds.rs);
+                $("#afTeam"+empSeq).data("kendoDropDownList").dataSource.data(ds.rs);
+                $("#afTeam"+empSeq).data("kendoDropDownList").value("");
             }
         });
 
