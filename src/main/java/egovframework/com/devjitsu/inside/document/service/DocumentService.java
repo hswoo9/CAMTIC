@@ -127,4 +127,13 @@ public interface DocumentService {
      * */
     Map<String,Object> getArchiveinfoList (Map<String,Object> params);
 
+    /** 등록대장, 접수대장 임시 삭제*/
+    void delDocumentList(Map<String, Object> params);
+
+    /** 등록대장, 접수대장 삭제 복구*/
+    void delCancelDocumentList(Map<String, Object> params);
+
+    /** 등록대장, 접수대장 최종 삭제*/
+    void delFinalDocumentList(Map<String, Object> params);
+
 }

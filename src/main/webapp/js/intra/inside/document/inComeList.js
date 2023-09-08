@@ -117,9 +117,15 @@ var regisList = {
                         return row.DOCUMENT_FIRST_NUMBER+"-"+row.DOCUMENT_SECOND_NUMBER;
                     }
                 }, {
-                    field: "DOCUMENT_TITLE_NAME",
                     title: "제목",
-                    width: "20%"
+                    width: "20%",
+                    template : function(row) {
+                        if (row.DEL_STS == 1) {
+                            return "<span style='text-decoration: none;' >'"+row.DOCUMENT_TITLE_NAME+"'</span>";
+                        }else if(row.DEL_STS == 10){
+                            return "<span style='text-decoration: line-through;' onclick=\"regisList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">'"+row.DOCUMENT_TITLE_NAME+"'</span>";
+                        }
+                    }
                 }, {
                     field: "MANAGER_NAME",
                     title: "접수자",
@@ -142,6 +148,12 @@ var regisList = {
                     template: function(row){
                         return "";
                     }
+                }, {
+                    title: "삭제",
+                    width: "5%",
+                    template: function(row){
+                        return "<button type=\"button\" class=\"k-grid-button k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"regisList.tmpDel('" + row.DOCUMENT_SN + "', '" + row.DEL_STS + "','" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">삭제</button>";
+                    }
                 }]
         }).data("kendoGrid");
     },
@@ -151,5 +163,73 @@ var regisList = {
         var name = "popup test";
         var option = "width = 850, height = 400, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    tmpDel: function (docSn, delSts, docFirstNum, docSecondNum) {
+        if (delSts == 1) {
+            if (confirm("접수번호" + "[" + docFirstNum + "-" + docSecondNum + "]" + "(을)를 삭제하시겠습니까?\n삭제된 문서는 복원이 가능합니다.")) {
+                $.ajax({
+                    url: "/inside/delDocumentList",
+                    data: {
+                        DOCUMENT_SN: docSn,
+                        DEL_STS: delSts,
+                        DOCUMENT_FIRST_NUMBER: docFirstNum,
+                        DOCUMENT_SECOND_NUMBER: docSecondNum
+                    },
+                    type: "post",
+                    datatype: "json",
+                    success: function () {
+                        alert("삭제 완료 되었습니다.");
+                        regisList.gridReload();
+                    }
+                });
+            }
+        } else if (delSts == 10) {
+            if (confirm("접수번호" + "[" + docFirstNum + "-" + docSecondNum + "]" + "(을)를 완전히 삭제하시겠습니까?\n삭제된 문서는 복원이 불가능합니다.")) {
+                $.ajax({
+                    url: "/inside/delFinalDocumentList",
+                    data: {
+                        DOCUMENT_SN: docSn,
+                        DEL_STS: delSts,
+                        DOCUMENT_FIRST_NUMBER: docFirstNum,
+                        DOCUMENT_SECOND_NUMBER: docSecondNum
+                    },
+                    type: "post",
+                    datatype: "json",
+                    success: function () {
+                        alert("최종 삭제 완료 되었습니다.");
+                        regisList.gridReload();
+                    }
+                });
+            }
+        }
+    },
+
+    tmpDelCancel: function (docSn, delSts, docFirstNum, docSecondNum) {
+        if (confirm("접수번호" + "[" + docFirstNum + "-" + docSecondNum + "]" + "(을)를 복원 하시겠습니까?")) {
+            $.ajax({
+                url: "/inside/delCancelDocumentList",
+                data: {
+                    DOCUMENT_SN: docSn,
+                    DEL_STS: delSts,
+                    DOCUMENT_FIRST_NUMBER: docFirstNum,
+                    DOCUMENT_SECOND_NUMBER: docSecondNum
+                },
+                type: "post",
+                datatype: "json",
+                success: function () {
+                    alert("복구 완료 되었습니다.");
+                    regisList.gridReload();
+                }
+            })
+        }
     }
+
+
+
+
 }

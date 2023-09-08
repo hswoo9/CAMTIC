@@ -434,4 +434,27 @@ public class DocumentController {
         return "jsonView";
     }
 
+    /** 등록대장, 접수대장 임시 삭제*/
+    @RequestMapping("/inside/delDocumentList")
+    public String delDocumentList(@RequestParam Map<String, Object> params, Model model) {
+        documentService.delDocumentList(params);
+        return "jsonView";
+    }
+
+    /** 등록대장, 접수대장 삭제 복구*/
+    @RequestMapping("/inside/delCancelDocumentList")
+    public String delCancelDocumentList(@RequestParam Map<String, Object> params, Model model) {
+        documentService.delCancelDocumentList(params);
+        return "jsonView";
+    }
+
+    /** 등록대장, 접수대장 최종 삭제*/
+    @RequestMapping("/inside/delFinalDocumentList")
+    public String delFinalDocumentList(@RequestParam Map<String, Object> params, Model model) {
+        documentService.delFinalDocumentList(params);
+        return "jsonView";
+    }
+
+
+
 }

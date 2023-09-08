@@ -100,4 +100,13 @@ public class DocumentRepository extends AbstractDAO {
         return (Map<String,Object>)selectOne("document.getArchiveinfoList", params);
     }
 
+    //등록대장, 접수대장 임시 삭제
+    public void delDocumentList(Map<String, Object> params) { update("document.delDocumentList", params);}
+
+    //등록대장, 접수대장 삭제 복구
+    public void delCancelDocumentList(Map<String, Object> params) { update("document.delCancelDocumentList", params);}
+
+    //등록대장, 접수대장 최종 삭제
+    public void delFinalDocumentList(Map<String, Object> params) { update("document.delFinalDocumentList", params);}
+
 }

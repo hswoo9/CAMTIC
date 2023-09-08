@@ -362,5 +362,23 @@ public class DocumentServiceImpl implements DocumentService {
     public Map<String, Object> getArchiveinfoList(Map<String, Object> params) {
         return documentRepository.getArchiveinfoList(params);
     }
+    
+    //등록대장, 접수대장 임시 삭제
+    @Override
+    public void delDocumentList(Map<String, Object> params) {
+        documentRepository.delDocumentList(params);
+    }
+
+    //등록대장, 접수대장 삭제 복구
+    @Override
+    public void delCancelDocumentList(Map<String, Object> params) {
+        documentRepository.delCancelDocumentList(params);
+    }
+
+    //등록대장, 접수대장 최종 삭제
+    @Override
+    public void delFinalDocumentList(Map<String, Object> params) {
+        documentRepository.delFinalDocumentList(params);
+    }
 
 }

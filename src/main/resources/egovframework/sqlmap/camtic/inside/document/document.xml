@@ -18,7 +18,7 @@
                     CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD,
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
-                    1=1
+                CCD.DEL_STS != 999
                 <if test='docuType != null and !"".equals(docuType)'>
                     AND CCD.DOCU_TYPE = #{docuType}
                 </if>
@@ -28,6 +28,7 @@
                 <if test='deptPart != null and !"".equals(deptPart)'>
                     AND CCD.DEPT_PART_TYPE = #{documentPart}
                 </if>
+
                 <choose>
                     <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
                         AND CCD.DOCUMENT_TITLE_NAME like CONCAT('%', #{searchText}, '%')
@@ -809,5 +810,27 @@
         WHERE
             ARCHIVE_INFO_SN = #{pk}
     </select>
+
+    <update id="delDocumentList" parameterType="map">
+        /*등록대장, 접수대장 임시 삭제*/
+        UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET DEL_STS = 10
+        WHERE DOCUMENT_SN = #{DOCUMENT_SN}
+    </update>
+
+    <update id="delCancelDocumentList" parameterType="map">
+        /*등록대장, 접수대장 삭제 복구*/
+        UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET DEL_STS = 1
+        WHERE DOCUMENT_SN = #{DOCUMENT_SN}
+    </update>
+
+    <update id="delFinalDocumentList" parameterType="map">
+        /*등록대장, 접수대장 최종삭제*/
+        UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET DEL_STS = 999
+        WHERE DOCUMENT_SN = #{DOCUMENT_SN}
+    </update>
+
 
 </mapper>
