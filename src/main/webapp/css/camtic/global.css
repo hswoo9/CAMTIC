@@ -251,7 +251,8 @@ img {max-width:100%;}
 #vis .rig .area .box:last-child:before {display:none;}
 #vis .rig .area .box dl dt {font-size:18px;line-height:1.33;letter-spacing:-0.03em;}
 #vis .rig .area .box dl dd {margin-top:12px;font-size:14px;font-weight:300;line-height:1.5;letter-spacing:-0.03em;}
-#vis .cont {left:36.979166%;background:#fff;z-index:10;height:90px;display:flex;align-items:center;justify-content:center;gap:20px;position:absolute;bottom:0;width:300px;}
+/*2023-09-08 이미지와 겹치지 않도록 배경 제거*/
+#vis .cont {left:36.979166%;/*background:#fff;*/z-index:10;height:90px;display:flex;align-items:center;justify-content:center;gap:20px;position:absolute;bottom:0;width:300px;}
 #vis .cont span {font-size:18px;color:#848484;font-weight:bold;}
 #vis .cont .bar {width:100px;height:3px;background:#d1d1d1;display:block;position:relative;}
 #vis .cont .bar:before {content:"";display:block;width:100%;height:100%;position:absolute;left:0;top:0;background:#ff7e00;transform:scale(0,1);transform-origin:0 0;}
@@ -2788,6 +2789,7 @@ img {max-width:100%;}
 	.subCapyTitle {font-size:14px !important; margin-top:10px !important;}
 	.mainAbou {display:block;margin-top:30px;}
 	.is-m {display: block !important;}
+
 	/*미션비젼 since*/
 	.since {color: #666666; font-size: 20px; font-weight: bold;}
 	/*주요연혁*/
