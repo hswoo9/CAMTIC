@@ -47,6 +47,40 @@ var crmReg = {
                 $("#crmAtt").data("kendoDropDownList").value(rs.CRM_ATT);
                 $("#crmCeo").val(rs.CRM_CEO);
                 $("#crmClass").data("kendoDropDownList").value(rs.CRM_CLASS);
+
+                if(rs.CRM_CLASS == "기타"){
+                    $("#boxA").css("display", "none");
+                    $("#boxB").css("display", "");
+                    $("#crmSubClassText").val(rs.CRM_CLASS_SUB_TEXT);
+                } else {
+                    if(rs.CRM_CLASS == "기관"){
+                        var dataSource2 = [
+                            {text : "중앙부처", value : "중앙부처" },
+                            {text : "지자체", value : "지자체" },
+                            {text : "기술지원 및 진흥기관", value : "기술지원 및 진흥기관" },
+                            {text : "교육기관", value : "교육기관" },
+                            {text : "금융지원기관", value : "금융지원기관" },
+                            {text : "경제진흥기관", value : "경제진흥기관" },
+                            {text : "협회", value : "협회" },
+                            {text : "대학", value : "대학" },
+                            {text : "연구소(원)", value : "연구소(원)" },
+                            {text : "기타", value : "기타" }
+                        ]
+
+                        $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
+                    } else if(rs.CRM_CLASS == "기업"){
+
+                        var dataSource2= [
+                            {text : "고객사", value : "고객사" },
+                            {text : "협력사", value : "협력사" }
+                        ]
+                        $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
+                    }
+                    $("#boxA").css("display", "");
+                    $("#boxB").css("display", "none");
+                    $("#crmSubClass").data("kendoDropDownList").value(rs.CRM_CLASS_SUB);
+                }
+
                 $("#crmNm").val(rs.CRM_NM);
                 $("#crmNo").val(rs.CRM_NO);
                 $("#email").val(rs.EMAIL);
@@ -60,6 +94,12 @@ var crmReg = {
                 $("#crmEvent").val(rs.CRM_EVENT);
                 $("#homepage").val(rs.HOMEPAGE);
                 $("#crmProd").val(rs.CRM_PROD);
+                if(rs.BUY_CL == "Y"){
+                    $("#buyCl").prop("checked", true);
+                }
+                if (rs.MI_CL == "Y"){
+                    $("#miCl").prop("checked", true);
+                }
 
                 if(rs.STAT == null || rs.CRM_STAT == ""){
                     rs.CRM_STAT = 1;

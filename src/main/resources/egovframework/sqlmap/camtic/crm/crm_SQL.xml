@@ -113,6 +113,7 @@
             CRM_ATT_NM = #{crmAttNm},
             CRM_CLASS = #{crmClass},
             CRM_CLASS_SUB = #{crmSubClass},
+            CRM_CLASS_SUB_TEXT = #{crmSubClassText},
             MI_CL = #{miCl},
             BUY_CL = #{buyCl},
             CRM_PROD = #{crmProd},

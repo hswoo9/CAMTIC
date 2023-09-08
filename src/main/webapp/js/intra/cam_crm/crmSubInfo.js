@@ -112,6 +112,7 @@ var crmSi = {
         formData.append("crmClass", $("#crmClass").val());
         formData.append("crmClassNm", $("#crmClass").data("kendoDropDownList").text());
         formData.append("crmSubClass", $("#crmSubClass").val());
+        formData.append("crmSubClassText", $("#crmSubClassText").val());
         formData.append("miCl", miCl);
         formData.append("buyCl", buyCl);
 
