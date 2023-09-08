@@ -26,4 +26,6 @@ public interface CrmService {
     void delCrmMemInfo(Map<String, Object> params);
 
     Map<String, Object> getCrmMemInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getCrmHistList(Map<String, Object> params);
 }

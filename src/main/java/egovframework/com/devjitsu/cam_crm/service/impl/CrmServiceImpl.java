@@ -168,4 +168,9 @@ public class CrmServiceImpl implements CrmService {
     public Map<String, Object> getCrmMemInfo(Map<String, Object> params) {
         return crmRepository.getCrmMemInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
+        return crmRepository.getCrmHistList(params);
+    }
 }

@@ -267,4 +267,12 @@
         WHERE
             CRM_MEM_SN = #{crmMemSn}
     </select>
+
+    <select id="getCrmHistList" parameterType="map" resultType="map">
+        /*getCrmHistList ==> CRM 관리 > 고객 이력관리 데이터 조회 */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_HIST
+    </select>
 </mapper>

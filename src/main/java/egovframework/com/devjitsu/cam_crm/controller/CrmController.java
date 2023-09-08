@@ -157,4 +157,17 @@ public class CrmController {
         return "jsonView";
     }
 
+    @RequestMapping("/crm/crmHistView.do")
+    public String crmHistView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("list", crmService.getCrmHistList(params));
+
+        return "/cam_crm/crmHistView";
+    }
+
 }
