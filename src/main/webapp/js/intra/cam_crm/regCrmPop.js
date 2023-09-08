@@ -105,13 +105,17 @@ var crmReg = {
                     rs.CRM_STAT = 1;
                 }
                 $("#crmStat").data("kendoDropDownList").value(rs.CRM_STAT);
-                // file 정보 조회해서 뿌려줘야함
-                $("#crmFileText").text(file.crmFile[0].file_org_name + "." + file.crmFile[0].file_ext);
-                $("#bnCpText").text(file.bnCp[0].file_org_name + "." + file.bnCp[0].file_ext);
-                $("#crmLicsText").text(file.crmLics[0].file_org_name + "." + file.crmLics[0].file_ext);
 
+                if(file.bnCp[0] != null && file.bnCp[0] != ""){
+                    $("#bnCpText").text(file.bnCp[0].file_org_name + "." + file.bnCp[0].file_ext);
+                }
+                if(file.crmLics[0] != 0 && file.crmLics[0] != null){
+                    $("#crmLicsText").text(file.crmLics[0].file_org_name + "." + file.crmLics[0].file_ext);
 
-                console.log(file);
+                }
+                if (file.crmFile[0] != 0 && file.crmFile[0] != null){
+                    $("#crmFileText").text(file.crmFile[0].file_org_name + "." + file.crmFile[0].file_ext);
+                }
             }
         });
     },

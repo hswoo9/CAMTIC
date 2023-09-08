@@ -144,4 +144,28 @@ public class CrmServiceImpl implements CrmService {
         result.put("bnCp", crmRepository.getBnCpInfo(params));
         return result;
     }
+
+    @Override
+    public void setCrmMemInfo(Map<String, Object> params) {
+        if(!params.containsKey("crmMemSn")){
+            crmRepository.insCrmMemInfo(params);
+        } else {
+            crmRepository.updCrmMemInfo(params);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmMemList(Map<String, Object> params) {
+        return crmRepository.getCrmMemList(params);
+    }
+
+    @Override
+    public void delCrmMemInfo(Map<String, Object> params) {
+        crmRepository.delCrmMemInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getCrmMemInfo(Map<String, Object> params) {
+        return crmRepository.getCrmMemInfo(params);
+    }
 }
