@@ -13,9 +13,9 @@
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalUser.js?${toDate}'/>"></script>
 
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
+<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}" />
+<input type="hidden" id="deptName" value="${loginVO.orgnztNm}" />
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
