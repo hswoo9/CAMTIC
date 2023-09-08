@@ -38,13 +38,18 @@ var crmReg = {
             success : function (rs){
                 var file = rs.fileInfo;
                 var rs = rs.data;
+                var tabStrip = $("#tabstrip").data("kendoTabStrip");
+
+                if(rs.SAVE_STAT == "Y"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                }
 
                 $("#crmAtt").data("kendoDropDownList").value(rs.CRM_ATT);
                 $("#crmCeo").val(rs.CRM_CEO);
                 $("#crmClass").data("kendoDropDownList").value(rs.CRM_CLASS);
                 $("#crmNm").val(rs.CRM_NM);
                 $("#crmNo").val(rs.CRM_NO);
-                $("#email").val(rs.CRM_EMAIL);
+                $("#email").val(rs.EMAIL);
                 $("#telNum").val(rs.TEL_NUM);
                 $("#phNum").val(rs.PH_NUM);
                 $("#fax").val(rs.FAX);
@@ -73,11 +78,6 @@ var crmReg = {
 
     fn_save : function (){
 
-        if($("#crmAtt").val() == null || $("#crmAtt").val() == ""){
-            alert("고객 유치경로를 선택해주세요.");
-            return false;
-        }
-
         if($("crmNo").val() == ""){
             alert("사업자 번호를 입력해주세요.");
             return false;
@@ -91,7 +91,7 @@ var crmReg = {
         var parameters = {
             crmNm : $("#crmNm").val(),
             crmCeo : $("#crmCeo").val(),
-            crmNm : $("#crmNm").val(),
+            crmNo : $("#crmNo").val(),
             email : $("#email").val(),
             telNum : $("#telNum").val(),
             phNum : $("#phNum").val(),
@@ -100,14 +100,37 @@ var crmReg = {
             post : $("#post").val(),
             addr : $("#addr").val(),
             crmOcc : $("#crmOcc").val(),
-            crmEvent : $("#crmEvent").val()
+            crmEvent : $("#crmEvent").val(),
+            data : "main",
         }
+
+        var formData = new FormData();
+        if($("#crmSn").val() != null && $("#crmSn").val() != ""){
+            formData.append("crmSn", $("#crmSn").val());
+        }
+        formData.append("crmNm", parameters.crmNm);
+        formData.append("crmNo", parameters.crmNo);
+        formData.append("crmCeo", parameters.crmCeo);
+        formData.append("email", parameters.email);
+        formData.append("telNum", parameters.telNum);
+        formData.append("phNum", parameters.phNum);
+        formData.append("fax", parameters.fax);
+        formData.append("crmEstNo", parameters.crmEstNo);
+        formData.append("post", parameters.post);
+        formData.append("addr", parameters.addr);
+        formData.append("crmOcc", parameters.crmOcc);
+        formData.append("crmEvent", parameters.crmEvent);
+        formData.append("data", "main");
 
         $.ajax({
             url : "/crm/setCrmInfo",
-            data : parameters,
+            data : formData,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
             success : function(rs){
                 console.log(rs);
                 var rs = rs.params;
@@ -115,7 +138,7 @@ var crmReg = {
 
                 alert("저장되었습니다.");
 
-                window.location.href="/crm/pop/regCrmPop.do?crmSn=2";
+                window.location.href="/crm/pop/regCrmPop.do?crmSn=" + rs.crmSn;
             }
         });
     }

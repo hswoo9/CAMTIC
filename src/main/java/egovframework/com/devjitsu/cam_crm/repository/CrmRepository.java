@@ -57,4 +57,8 @@ public class CrmRepository extends AbstractDAO {
     public void insCrmInfo(Map<String, Object> params) {
         insert("crm.insCrmInfo", params);
     }
+
+    public void updCrmMainData(Map<String, Object> params) {
+        update("crm.updCrmMainData", params);
+    }
 }

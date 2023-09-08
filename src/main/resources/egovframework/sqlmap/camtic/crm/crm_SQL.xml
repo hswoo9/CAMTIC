@@ -112,6 +112,7 @@
             CRM_ATT = #{crmAtt},
             CRM_ATT_NM = #{crmAttNm},
             CRM_CLASS = #{crmClass},
+            CRM_CLASS_SUB = #{crmSubClass},
             MI_CL = #{miCl},
             BUY_CL = #{buyCl},
             CRM_PROD = #{crmProd},
@@ -121,8 +122,30 @@
             ACNT_NM = #{acntNm},
             CRM_BN_NUM = #{crmBnNum},
             ACNT_EMAIL = #{acntEmail},
+            SAVE_STAT = "Y",
             ETC = #{etc},
             HOMEPAGE = #{homepage}
+        WHERE
+            CRM_SN = #{crmSn}
+    </update>
+
+    <update id="updCrmMainData" parameterType="map">
+        /* updCrmMainData */
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO
+        SET
+            CRM_CEO = #{crmCeo},
+            CRM_NM = #{crmNm},
+            CRM_NO = #{crmNo},
+            EMAIL = #{email},
+            TEL_NUM = #{telNum},
+            PH_NUM = #{phNum},
+            FAX = #{fax},
+            CRM_EST_NO = #{crmEstNo},
+            POST = #{post},
+            ADDR = #{addr},
+            CRM_OCC = #{crmOcc},
+            CRM_EVENT = #{crmEvent}
         WHERE
             CRM_SN = #{crmSn}
     </update>
@@ -133,6 +156,7 @@
             (
                 CRM_CEO,
                 CRM_NM,
+                CRM_NO,
                 EMAIL,
                 TEL_NUM,
                 PH_NUM,
@@ -147,6 +171,7 @@
             (
                 #{crmCeo},
                 #{crmNm},
+                #{crmNo},
                 #{email},
                 #{telNum},
                 #{phNum},
@@ -158,7 +183,7 @@
                 #{crmEvent}
             )
 
-        <selectKey keyProperty="CRM_SN" resultType="Integer" order="BEFORE">
+        <selectKey keyProperty="crmSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_CRM' AND TABLE_NAME = 'DJ_CRM_INFO'
         </selectKey>
     </insert>
