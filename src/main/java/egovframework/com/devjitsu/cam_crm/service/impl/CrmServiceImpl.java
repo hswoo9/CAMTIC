@@ -52,7 +52,12 @@ public class CrmServiceImpl implements CrmService {
 
             if(params.containsKey("crmSn")){
 
-                crmRepository.updCrmInfo(params);
+                if(params.containsKey("data")){
+                    crmRepository.updCrmMainData(params);
+                } else {
+                    crmRepository.updCrmInfo(params);
+                }
+
                 MainLib mainLib = new MainLib();
                 Map<String, Object> fileInsMap = new HashMap<>();
 
