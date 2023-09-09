@@ -83,7 +83,7 @@ public class CrmController {
     public String regCrmPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
 
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         params.put("cmGroupCode", "CRM_ITEM_VALUE");
 
@@ -103,6 +103,12 @@ public class CrmController {
         model.addAttribute("fileInfo", crmService.getCrmFileInfo(params));
         model.addAttribute("loginVO", loginVO);
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/getCrmMemList")
+    public String getCrmMemList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getCrmMemList(params));
 
         return "jsonView";
     }
@@ -118,6 +124,50 @@ public class CrmController {
         }
 
         return "jsonView";
+    }
+
+    @RequestMapping("/crm/setCrmMemInfo")
+    public String setCrmMemInfo(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            crmService.setCrmMemInfo(params);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/delCrmMemInfo")
+    public String delCrmMemInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            crmService.delCrmMemInfo(params);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/getCrmMemInfo")
+    public String getCrmMemInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmMemInfo(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/crmHistView.do")
+    public String crmHistView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("list", crmService.getCrmHistList(params));
+
+        return "/cam_crm/crmHistView";
     }
 
 }

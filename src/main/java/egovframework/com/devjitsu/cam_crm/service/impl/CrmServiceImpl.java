@@ -52,7 +52,12 @@ public class CrmServiceImpl implements CrmService {
 
             if(params.containsKey("crmSn")){
 
-                crmRepository.updCrmInfo(params);
+                if(params.containsKey("data")){
+                    crmRepository.updCrmMainData(params);
+                } else {
+                    crmRepository.updCrmInfo(params);
+                }
+
                 MainLib mainLib = new MainLib();
                 Map<String, Object> fileInsMap = new HashMap<>();
 
@@ -138,5 +143,34 @@ public class CrmServiceImpl implements CrmService {
         result.put("crmLics", crmRepository.getCrmLicsInfo(params));
         result.put("bnCp", crmRepository.getBnCpInfo(params));
         return result;
+    }
+
+    @Override
+    public void setCrmMemInfo(Map<String, Object> params) {
+        if(!params.containsKey("crmMemSn")){
+            crmRepository.insCrmMemInfo(params);
+        } else {
+            crmRepository.updCrmMemInfo(params);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmMemList(Map<String, Object> params) {
+        return crmRepository.getCrmMemList(params);
+    }
+
+    @Override
+    public void delCrmMemInfo(Map<String, Object> params) {
+        crmRepository.delCrmMemInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getCrmMemInfo(Map<String, Object> params) {
+        return crmRepository.getCrmMemInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
+        return crmRepository.getCrmHistList(params);
     }
 }
