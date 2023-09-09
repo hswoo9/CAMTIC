@@ -67,7 +67,7 @@ var crmHist = {
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
-            selectable: "row",
+            height: "485",
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -141,6 +141,7 @@ var crmHist = {
                 return e.CRM_REL_CONT;
             }
         }).data("kendoGrid");
+
     },
 
     fn_crmHistRegPop: function (key){

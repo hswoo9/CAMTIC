@@ -6,7 +6,11 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <body class="font-opensans" style="background-color:#fff;">
+<style>
+    .ck-editor__editable { height: 200px; }
+</style>
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmHistPop.js?v=${today}"/></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
 <input type="hidden" id="crmSn" name="crmSn" />
 <input type="hidden" id="crmHistSn" value="${params.crmHistSn}" />

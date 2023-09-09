@@ -6,7 +6,11 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_crm/crmHist.js?v=${today}'/>"></script>
 
-
+<style>
+    .k-detail-row {
+        background-color : #ffffff !important;
+    }
+</style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
 

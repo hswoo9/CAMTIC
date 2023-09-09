@@ -1,5 +1,9 @@
 var regCrmHist = {
 
+    global : {
+        editor : ""
+    },
+
     fn_defaultScript : function (){
         customKendo.fn_textBox(["crmNm", "crmCeo", "crmNo", "crmEstNo", "addr", "telNum", "fax", "crmMemNm", "crmMemPhn",
                                 "crmShareEmpName"]);
@@ -41,9 +45,13 @@ var regCrmHist = {
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
         customKendo.fn_dropDownList("crmRelPjt", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
-        $("#crmRelCont").kendoTextArea({
-            rows: 5,
+
+        ClassicEditor.create( document.querySelector( '#crmRelCont' ), {
+            language : 'ko'
+        } ).then (newEditor => {
+            regCrmHist.global.editor = newEditor;
         });
+
 
     },
 
@@ -58,7 +66,7 @@ var regCrmHist = {
             crmRelEndDt : $("#crmRelEndDt").val(),
             crmRelPjt : $("#crmRelPjt").val(),
             crmRelPjtNm : $("#crmRelPjt").data("kendoDropDownList").text(),
-            crmRelCont : $("#crmRelCont").val(),
+            crmRelCont : regCrmHist.global.editor.getData(),
             crmShareEmp : $("#crmShareEmp").val(),
             empSeq : $("#empSeq").val()
         }
