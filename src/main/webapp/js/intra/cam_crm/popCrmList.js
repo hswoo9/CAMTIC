@@ -109,15 +109,26 @@ var popCrmList = {
         var rs = customKendo.fn_customAjax("/crm/getCrmData", data);
 
         var rs = rs.rs;
-
+        opener.parent.$("#crmSn").val(rs.CRM_SN);
         opener.parent.$("#crmCd").val(rs.CRM_SN);
         opener.parent.$("#crmLoc").val(rs.CRM_LOC);
         opener.parent.$("#crmNm").val(rs.CRM_NM);
+        opener.parent.$("#crmNo").val(rs.CRM_NO);
+        opener.parent.$("#crmEstNo").val(rs.CRM_EST_NO);
         opener.parent.$("#crmProd").val(rs.CRM_PROD);
         opener.parent.$("#crmCeo").val(rs.CRM_CEO);
         opener.parent.$("#crmPost").val(rs.POST);
         opener.parent.$("#crmAddr").val(rs.ADDR);
+        if(rs.POST != null && rs.POST != ""){
+            opener.parent.$("#addr").val("[" + rs.POST + "] " + rs.ADDR);
+        } else {
+            opener.parent.$("#addr").val("");
+        }
+
         opener.parent.$("#crmCallNum").val(rs.TEL_NUM);
+        opener.parent.$("#telNum").val(rs.TEL_NUM);
+        opener.parent.$("#fax").val(rs.FAX);
+
         opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
         opener.parent.$("#crmPhNum").val(rs.PH_NUM);
         opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);

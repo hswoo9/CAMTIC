@@ -86,4 +86,8 @@ public class CrmRepository extends AbstractDAO {
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return selectList("crm.getCrmHistList", params);
     }
+
+    public void insCrmHist(Map<String, Object> params) {
+        insert("crm.insCrmHist", params);
+    }
 }

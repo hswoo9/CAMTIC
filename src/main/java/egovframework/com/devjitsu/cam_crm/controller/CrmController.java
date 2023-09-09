@@ -60,6 +60,13 @@ public class CrmController {
         return "popup/cam_crm/popCrmList";
     }
 
+    @RequestMapping("/crm/pop/popCrmMemList.do")
+    public String popCrmMemList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+
+        return "popup/cam_crm/popCrmMemList";
+    }
+
 
     @RequestMapping("/crm/getPopCrmList")
     public String getPopCrmList(@RequestParam Map<String, Object> params, Model model){
@@ -158,16 +165,49 @@ public class CrmController {
     }
 
     @RequestMapping("/crm/crmHistView.do")
-    public String crmHistView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+    public String crmHistView(Model model, HttpServletRequest request){
 
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
-        model.addAttribute("list", crmService.getCrmHistList(params));
 
         return "/cam_crm/crmHistView";
+    }
+
+    @RequestMapping("/crm/getCrmHistList")
+    public String getCrmHistList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("list", crmService.getCrmHistList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/pop/regCrmHistPop.do")
+    public String regCrmHistPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_crm/regCrmHistPop";
+    }
+
+    @RequestMapping("/crm/setCrmHist")
+    public String setCrmHist(@RequestParam Map<String, Object> params, Model model){
+        try{
+            crmService.setCrmHist(params);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
     }
 
 }

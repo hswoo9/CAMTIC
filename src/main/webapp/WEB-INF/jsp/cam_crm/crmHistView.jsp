@@ -8,7 +8,7 @@
 
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
+<input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
 
 <div class="mainCard">
     <div class="panel">
@@ -23,26 +23,33 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="5%">
                         <col width="10%">
-                        <col width="25%">
+                        <col width="5%">
                         <col width="10%">
-                        <col width="20%">
                         <col width="10%">
-                        <col width="25%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">고객유형</th>
+                        <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="ctmType" style="width: 150px;">
+                            <input type="text" id="dept" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">고객등급</th>
+                        <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="ctmGrade" style="width: 150px;">
+                            <input type="text" id="team" style="width: 180px;">
                         </td>
-                        <th class="text-center th-color">대상부서</th>
+                        <th class="text-center th-color">상담일시</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;"/>
+                            <input type="text" id="strDate" style="width: 110px;">
+                            ~
+                            <input type="text" id="endDate" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">업체명</th>
+                        <td>
+                            <input type="text" id="crmNm" style="width: 90%;"/>
                         </td>
                     </tr>
                 </table>
