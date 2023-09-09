@@ -8,7 +8,8 @@ img {max-width:100%;}
 
 	#header {border-bottom:1px solid #e5e7ee;position:absolute;left:0;top:0;width:100%;z-index:200;background:#fff;transition:0.3s;height:150px;overflow:hidden;}
 	#header .top {background:linear-gradient(to right, #007bb0 0%,#1bb1de 100%);position:relative;height:50px;}
-	#header .top .link {display:flex;position:absolute;right:170px;top:50%;margin-top:-7px;}
+	/*#header .top .link {display:flex;position:absolute;right:170px;top:50%;margin-top:-7px;}20230907 카카오톡 이미지 삭제로 인한 수정 */
+	#header .top .link {display:flex;position:absolute;right:130px;top:50%;margin-top:-7px;}
 	#header .top .link li ~ li {margin-left:20px;}
 	#header .top .link li a {display:flex;align-items:center;gap:5px;color:#fff;}
 	#header .top .link li a span {display:block;}

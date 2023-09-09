@@ -221,6 +221,33 @@ const vis = {
 		let isAutoPaused = false;
 		let autoInterval;
 
+
+		/*function toggleAutoPlay() {
+			if (isAutoPaused) {
+				autoBtnSpan2.textContent = 'PAUSE';
+				autoBtn2.classList.remove('pause');
+
+
+				visEl.querySelector('.bar').classList.add('active');
+				visSwiper.autoplay.start();
+				visSwiper2.autoplay.start();
+
+				autoInterval = setInterval(function () {
+					visSwiper.slideNext();
+					visSwiper2.slideNext();
+				}, 5000);
+
+			} else {
+				autoBtnSpan2.textContent = 'PLAY';
+				autoBtn2.classList.add('pause');
+
+				clearInterval(autoInterval);
+				visSwiper2.autoplay.stop();
+				visSwiper.autoplay.stop();
+			}
+			isAutoPaused = !isAutoPaused;
+		}*/
+
 		function toggleAutoPlay() {
 
 			if (isAutoPaused) {

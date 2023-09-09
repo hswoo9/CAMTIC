@@ -125,9 +125,10 @@
     data.forEach((item, index) => {
       html += "<a class='box' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
       if(item.file_PATH){
-        html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
+        html += '<div class="img"><img src='+item.file_PATH+' width="400" height="200"></div>';
+
       }else{
-        html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
+        html += '<div class="img"><img src="https://fakeimg.pl/298x189/f3f3f3" width="400" height="200"></div>';
       }
       html += '<div class="info">';
       html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
