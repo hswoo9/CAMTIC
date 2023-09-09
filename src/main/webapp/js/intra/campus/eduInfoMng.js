@@ -168,26 +168,153 @@ var eduInfoMng = {
 
     setMngCheck: function(value){
         if(!confirm("교육완료 상태만 처리 가능합니다. 진행하시겠습니까?")) {return false;}
-
-        let eduArr = [];
         $("input[name=eduPk]:checked").each(function(){
-            if(1==1){
-                eduArr.push($(this).val());
+            let dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            let eduYear = $("#eduYear").val();
+            let eduFormType = Number(dataItem.EDU_FORM_TYPE);
+            let empSeq = dataItem.REG_EMP_SEQ;
+            let realEduTime = 0;
+            let eduTime = dataItem.TERM_TIME;
+            alert(eduTime);
+            let termDay = dataItem.TERM_DAY;
+
+            /** 학습별 이번년도 실제 인정시간 조회 */
+            let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeYear", {
+                eduYear: eduYear,
+                eduFormType: eduFormType,
+                empSeq: empSeq
+            }).data.REAL_EDU_TIME;
+
+            switch (eduFormType){
+                case 1:
+                    /** 교육기관 참가교육 : 교육시간 100% */
+                    realEduTime = eduTime;
+                    break;
+                case 2:
+                    /** 온라인 학습 : 교육시간 100%, 건당 최대 30시간 */
+                    if(eduTime > 30){
+                        realEduTime = 30;
+                    }else{
+                        realEduTime = eduTime;
+                    }
+                    break;
+                case 3:
+                    /** 세미나/포럼/학술대회 : 주제발표 100%, 단순참가 50%*/
+                    let objectForumType = dataItem.OBJECT_FORUM_TYPE;
+                    if(objectForumType == "주제발표" || objectForumType == 1){
+                        if(eduTime > 8){
+                            realEduTime = 8;
+                        }else {
+                            realEduTime = eduTime;
+                        }
+                    }else{
+                        if((eduTime/2) > 8){
+                            realEduTime = 8;
+                        }else {
+                            realEduTime = (eduTime/2);
+                        }
+                    }
+                    break;
+                case 4:
+                    /** 박람회/기술대전 참관 : 건당 최대 4시간 */
+                    if(eduTime > 4){
+                        realEduTime = 4;
+                    }else{
+                        realEduTime = eduTime;
+                    }
+                    break;
+                case 5:
+                    /** 도서학습 : 50페이지당 1시간, 건당 최대 10시간 */
+                    let bookPageVal = Number(dataItem.BOOK_PAGE_VAL);
+                    let bookTime = parseInt(bookPageVal / 50);
+                    if(bookTime > 8){
+                        realEduTime = 8;
+                    }else{
+                        realEduTime = bookTime;
+                    }
+                    break;
+                case 6:
+                    /** 논문/학술지 독서 : 2편당 1시간 */
+                    let treaUnit = Number(dataItem.TREA_UNIT);
+                    if(treaUnit > 1){
+                        realEduTime = 1;
+                    }else {
+                        realEduTime = 0;
+                    }
+                    break;
+                case 7:
+                    /** 국내/외 논문 저술 : 국제학술지 저자 20시간, 교신저자 10시간, 국내학술지 저자 10시간, 교신저자 5시간, 연간 최대 30시간 */
+                    let treaType = dataItem.TREA_TYPE;
+                    let treaUser = dataItem.TREA_USER;
+
+                    if(treaType == "국외"){
+                        if(treaUser == "저자"){
+                            realEduTime = 20;
+                        }else{
+                            realEduTime = 10;
+                        }
+                    }else{
+                        if(treaUser == "저자"){
+                            realEduTime = 10;
+                        }else{
+                            realEduTime = 5;
+                        }
+                    }
+                    if(realEduTimeYear + realEduTime > 30){
+                        realEduTime = 30 - realEduTimeYear;
+                    }
+                    break;
+                case 8:
+                    /** 직무관련 저술 : 권당 30시간, 연간 최대 50시간*/
+                    let bookUnit = Number(dataItem.BOOK_UNIT);
+                    let bookUnitTime = bookUnit * 30;
+                    realEduTime = bookUnitTime;
+                    if(realEduTimeYear + realEduTime > 50){
+                        realEduTime = 50 - realEduTimeYear;
+                    }
+                    break;
+                case 9:
+                    /** 국내외 현장견학 : 1일당 최대 4시간, 건당 최대 30시간 */
+                    if(termDay * 4 < eduTime){
+                        realEduTime = termDay * 4
+                    }else{
+                        realEduTime = eduTime
+                    }
+                    break;
+                case 10:
+                    /** 자격증 취득 : 기술사 30시간, 기사 20시간, 나머지 15시간, 연간 최대 30시간 */
+                    let compType = dataItem.COMP_TYPE;
+                    if(compType == "기술사"){
+                        realEduTime = 30;
+                    }else if(compType == "기사"){
+                        realEduTime = 20;
+                    }else{
+                        realEduTime = 15;
+                    }
+                    if(realEduTimeYear + realEduTime > 30){
+                        realEduTime = 30 - realEduTimeYear;
+                    }
+                    break;
             }
-        })
-        let data = {
-            mngCheck: value,
-            eduList: eduArr.join()
-        }
-        let url = "/campus/setMngCheckUpd";
-        const result = customKendo.fn_customAjax(url, data);
-        if(result.flag){
-            if(value == "Y"){
-                alert("이수처리 되었습니다.");
-            }else if(value == "N"){
-                alert("이수취소 되었습니다.");
+            if(value != "Y"){
+                realEduTime = 0;
             }
-            gridReload();
+
+            let data = {
+                mngCheck: value,
+                pk: $(this).val(),
+                realEduTime: realEduTime
+            }
+
+            let url = "/campus/setMngCheckUpd";
+            customKendo.fn_customAjax(url, data);
+        });
+
+        if(value == "Y"){
+            alert("이수처리 되었습니다.");
+        }else if(value == "N"){
+            alert("이수취소 되었습니다.");
         }
+        gridReload();
     }
 }
