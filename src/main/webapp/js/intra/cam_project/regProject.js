@@ -153,6 +153,7 @@ var regPrj = {
         $("#pjtStep").val(p.PJT_STEP);
         $("#pjtStepNm").val(p.PJT_STEP_NM);
         $("#crmCd").val(p.CRM_CD);
+        $("#crmSn").val(p.CRM_CD);
         $("#crmLoc").val(p.CRM_LOC);
         $("#crmNm").val(p.CRM_NM);
         $("#crmPost").val(p.POST);
@@ -161,8 +162,8 @@ var regPrj = {
         $("#crmCeo").val(p.CRM_CEO);
         $("#crmFax").val(p.CRM_FAX);
         $("#crmCallNum").val(p.TEL_NUM);
-        $("#crmPhNum").val(p.PH_NUM);
-        $("#crmMail").val(p.EMAIL);
+        $("#crmPhNum").val(p.CRM_MEM_PHN);
+        $("#crmMail").val(p.CRM_MEM_EMAIL);
         $("#contEtc").val(p.CONT_ETC);
         $("#crmReqMem").val(p.CRM_SUB_CD);
         $("#modBtn").css("display", "");

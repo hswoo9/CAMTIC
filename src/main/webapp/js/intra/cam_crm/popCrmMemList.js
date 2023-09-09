@@ -102,6 +102,9 @@ var popCrmMemList = {
         opener.parent.$("#crmMemNm").val(rs.CRM_MEM_NM);
         opener.parent.$("#crmMemPhn").val(rs.CRM_MEM_PHN);
 
+        opener.parent.$("#crmReqMem").val(rs.CRM_MEM_NM);
+        opener.parent.$("#crmPhNum").val(rs.CRM_MEM_PHN);
+
         window.close();
     }
 

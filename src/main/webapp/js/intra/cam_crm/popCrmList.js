@@ -129,8 +129,8 @@ var popCrmList = {
         opener.parent.$("#telNum").val(rs.TEL_NUM);
         opener.parent.$("#fax").val(rs.FAX);
 
-        opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
-        opener.parent.$("#crmPhNum").val(rs.PH_NUM);
+        // opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
+        // opener.parent.$("#crmPhNum").val(rs.PH_NUM);
         opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);
         window.close();
     }
