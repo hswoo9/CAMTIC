@@ -269,6 +269,9 @@ var userMultiSel = {
     apprLineSave : function(){
         let userArr = [];
 
+        let empNameArr = "";
+        let empSeqArr = "";
+
         /** 결재선 */
         $.each($("#approvalLineDataTb tbody tr"), function(){
             let data = {
@@ -279,10 +282,15 @@ var userMultiSel = {
                 deptSeq : $(this).find("#approveDeptSeq").val(),
                 deptName : $(this).find("#approveDeptName").val()
             }
+
+            empNameArr += data.empName + ",";
+            empSeqArr += data.empSeq + ",";
+
             userArr.push(data);
         });
 
-        opener.parent.userDataSet(userArr);
+        opener.parent.userDataSet(userArr, empNameArr, empSeqArr);
+
         window.close();
     }
 

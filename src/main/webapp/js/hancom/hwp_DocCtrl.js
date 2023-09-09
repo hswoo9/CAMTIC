@@ -664,19 +664,32 @@ var hwpDocCtrl = {
                 pjtSn: pjtSn
             });
 
+            let getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {
+                pjtSn: pjtSn
+            });
+
             let delvMap = result.delvMap;
             let map = result.map;
             let rs = result.estMap.estList[result.estMap.estList.length - 1];
+            let dev = getDevelopPlan.rs;
 
             console.log(delvMap);
             console.log(map);
             console.log(rs);
 
+            hwpDocCtrl.putFieldText('PJT_CD', map.PJT_CD);
             hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
             hwpDocCtrl.putFieldText('PJT_DT', map.PJT_START_DT+" ~ "+map.PJT_END_DT);
             hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
-            hwpDocCtrl.putFieldText('PM', delvMap.PM_EMP_NM);
+            hwpDocCtrl.putFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
+
+            if(Number(delvMap.DELV_DEPT) == 0){
+                hwpDocCtrl.putFieldText('DELV_DEPT', '부서내 진행');
+            }else{
+                hwpDocCtrl.putFieldText('DELV_DEPT', '부서간 협업');
+            }
+            hwpDocCtrl.putFieldText('ETC', dev == null ? "" : dev.ETC);
 
             hwpDocCtrl.putFieldText('CRM_CD', map.CRM_CD);
             hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);

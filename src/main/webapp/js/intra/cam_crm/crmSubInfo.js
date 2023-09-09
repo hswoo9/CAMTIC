@@ -9,19 +9,70 @@ var crmSi = {
 
         customKendo.fn_dropDownList("crmAtt", crmAttCd, "CM_CODE_NM", "CM_CODE", 2);
 
+
+        var dataSource = [
+            {text : "기업", value : "기업" },
+            {text : "기관", value : "기관" },
+            {text : "기타", value : "기타" }
+        ];
         $("#crmClass").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
+            dataSource: dataSource,
+            valuePrimitive: true,
+            change : function (e){
+                if(this.value() == "기타"){
+                    $("#boxA").css("display", "none");
+                    $("#boxB").css("display", "");
+                } else {
+                    $("#boxA").css("display", "");
+                    $("#boxB").css("display", "none");
+                }
+
+                if(this.value() == "기관"){
+                    var dataSource2 = [
+                        {text : "중앙부처", value : "중앙부처" },
+                        {text : "지자체", value : "지자체" },
+                        {text : "기술지원 및 진흥기관", value : "기술지원 및 진흥기관" },
+                        {text : "교육기관", value : "교육기관" },
+                        {text : "금융지원기관", value : "금융지원기관" },
+                        {text : "경제진흥기관", value : "경제진흥기관" },
+                        {text : "협회", value : "협회" },
+                        {text : "대학", value : "대학" },
+                        {text : "연구소(원)", value : "연구소(원)" },
+                        {text : "기타", value : "기타" }
+                    ]
+
+                    $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
+                    $("#crmSubClass").data("kendoDropDownList").select(0);
+                } else if(this.value() == "기업"){
+
+                    var dataSource2= [
+                        {text : "고객사", value : "고객사" },
+                        {text : "협력사", value : "협력사" }
+                    ]
+                    $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
+                    $("#crmSubClass").data("kendoDropDownList").select(1);
+                }
+            }
+        });
+
+        $("#crmSubClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
             dataSource: [
-                {text : "기업", value : "기업" },
-                {text : "기관", value : "기관" },
-                {text : "기타", value : "기타" }
+                {text : "고객사", value : "고객사" },
+                {text : "협력사", value : "협력사" }
             ],
             valuePrimitive: true
         });
 
+
+
+
+
         customKendo.fn_textBox([ "homepage", "crmProd", "crmBn", "crmBnNum",
-                                "bnDepo", "acntNm", "acntEmail"]);
+                                "bnDepo", "acntNm", "acntEmail", "crmSubClassText"]);
 
         $("#crmStat").kendoDropDownList({
             dataTextField: "text",
@@ -40,6 +91,11 @@ var crmSi = {
     },
 
     fn_save : function(){
+        if($("#crmAtt").val() == null || $("#crmAtt").val() == ""){
+            alert("고객 유치경로를 선택해주세요.");
+            return false;
+        }
+
         var miCl = "N";
         var buyCl = "N";
         if($("#miCl").is(":checked")){
@@ -55,7 +111,8 @@ var crmSi = {
         formData.append("crmAttNm", $("#crmAtt").data("kendoDropDownList").text());
         formData.append("crmClass", $("#crmClass").val());
         formData.append("crmClassNm", $("#crmClass").data("kendoDropDownList").text());
-
+        formData.append("crmSubClass", $("#crmSubClass").val());
+        formData.append("crmSubClassText", $("#crmSubClassText").val());
         formData.append("miCl", miCl);
         formData.append("buyCl", buyCl);
 
@@ -101,6 +158,7 @@ var crmSi = {
             async : false,
             success : function(){
                 alert("저장되었습니다.");
+                location.reload();
             }
         });
 

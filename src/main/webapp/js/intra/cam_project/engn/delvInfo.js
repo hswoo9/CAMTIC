@@ -13,6 +13,8 @@ var delvInfo = {
         });
 
         delvInfo.fn_setData();
+
+        delvInfo.fn_save();
     },
 
     fn_setData : function () {
@@ -27,7 +29,6 @@ var delvInfo = {
             type : "post",
             dataType : "json",
             success : function(rs){
-                console.log(rs);
                 var delvMap = rs.delvMap;
                 var map = rs.map;
                 var rs = rs.estMap.estList[rs.estMap.estList.length - 1];
@@ -49,16 +50,22 @@ var delvInfo = {
                     $("#pmName").val(delvMap.PM_EMP_NM);
                     $("#pmSeq").val(delvMap.PM_EMP_SEQ);
                     var buttonHtml = "";
-                    buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"estInfo.fn_save()\">저장</button>";
-                    if(delvMap.STATUS == "0"){
-                        buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.delvDrafting()\">상신</button>";
-                    }else if(delvMap.STATUS == "10"){
-                        buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
-                    }else if(delvMap.STATUS == "30" || delvMap.STATUS == "40"){
-                        buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
-                    }else if(delvMap.STATUS == "100"){
-                        buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">재상신</button>";
+
+                    if(map.DELV_STAT != "N"){
+                        buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.fn_save()\">저장</button>";
+                        if(delvMap.STATUS == "0"){
+                            buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.delvDrafting()\">상신</button>";
+                        }else if(delvMap.STATUS == "10"){
+                            buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                        }else if(delvMap.STATUS == "30" || delvMap.STATUS == "40"){
+                            buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                        }else if(delvMap.STATUS == "100"){
+                            buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">열람</button>";
+                        }
+                    } else {
+                        buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
                     }
+
                     $("#btnDiv").html(buttonHtml);
                 } else {
                     $("#delvAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
@@ -69,6 +76,16 @@ var delvInfo = {
                 $("#pjtCd").val(map.PJT_CD);
             }
         });
+    },
+
+    fn_save : function(){
+        var parameters = {
+            delvSn : $("#delvSn").val(),
+            pjtSn : $("#pjtSn").val(),
+
+        }
+
+        console.log(parameters);
     },
 
     delvDrafting: function() {
@@ -82,17 +99,6 @@ var delvInfo = {
             this.target = '_self';
         }).trigger("submit");
     },
-
-
-
-
-
-
-
-
-
-
-
 
     inputNumberFormat : function (obj){
         obj.value = delvInfo.comma(delvInfo.uncomma(obj.value));

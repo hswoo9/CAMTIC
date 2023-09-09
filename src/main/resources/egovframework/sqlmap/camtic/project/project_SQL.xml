@@ -26,6 +26,10 @@
             CAM_CRM.DJ_CRM_INFO D
             ON
                 A.CRM_CD = D.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM CM
+        ON
+            D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -695,7 +699,6 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             CRM_NM = #{crmNm},
-            CRM_MAIL = #{crmMail},
             CRM_CD = #{crmCd},
             CRM_SUB_CD = #{crmReqMem}
         WHERE
