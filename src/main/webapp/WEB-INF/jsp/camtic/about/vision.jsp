@@ -16,18 +16,18 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__vision1 m0">
-          <div style="color: #666666; font-size: 45px; font-weight: bold;">Since 1999</div><br>
-          <dl class="head">
-            <dt style="color: #155996;"><%--직원과 --%>함께 성장하는 행복한 일터</dt>
+          <div><span class="since">Since 1999</span></div><br>
+          <dl class="head" style="text-align: center">
+            <%--<dt><span class="__nm">“</span><span class="mainCapyTitle">함께 성장하는 행복한 일터</span><span class="__nm">”</span></dt>--%>
             <%--<dd>캠틱 클러스터 비전 2030</dd>--%>
           </dl>
-          <div class="area">
-            <dl class="box box1">
-              <dt><span>미션</span></dt>
-              <dd>함께 성장하는 행복한 일터</dd>
+          <div class="area" style="word-spacing: 0.1px;">
+            <dl class="box box1" style="letter-spacing: 0.1px">
+              <dt><span style="letter-spacing: 0.1px">미션</span></dt>
+              <dd style="letter-spacing: 0.1px">함께 성장하는 행복한 일터</dd>
             </dl>
             <dl class="box box2">
-              <dt><span>핵심가치</span></dt>
+              <dt><span style="letter-spacing: 0.1px">핵심가치</span></dt>
               <dd>
                 <ul>
                   <li><span>창의적 인재 양성</span></li>
@@ -37,7 +37,7 @@
               </dd>
             </dl>
             <dl class="box box3">
-              <dt><span>인재상</span></dt>
+              <dt><span style="letter-spacing: 0.1px">인재상</span></dt>
               <dd>
                 <ul>
                   <li><span>창 의</span></li>
@@ -47,50 +47,50 @@
               </dd>
             </dl>
             <dl class="box box4">
-              <dt><span>2030비젼</span></dt>
+              <dt><span style="letter-spacing: 0.1px">2030비젼</span></dt>
               <dd>
                 <ul>
                   <li>
-                    <h4>1단계</h4>
+                    <h4>1 단계</h4>
                     <dl>
-                      <dt>
-                        분사창업 3개<br>
-                        가족기업 20개
+                      <dt style="text-align: center">
+                        분사창업 : 3개<br>
+                        가족기업 : 20개
                       </dt>
-                      <dd>2020년</dd>
+                      <dd style="letter-spacing: 0.1px">2020년</dd>
                     </dl>
                   </li>
                   <a style="margin-top: 100px;">
                   >>
                   </a>
                   <li>
-                    <h4>2단계</h4>
+                    <h4>2 단계</h4>
                     <dl>
-                      <dt>
-                        분사창업 6개<br>
-                        가족기업 50개
+                      <dt style="text-align: center">
+                        분사창업 : 6개<br>
+                        가족기업 : 50개
                       </dt>
-                      <dd>2025년</dd>
+                      <dd style="letter-spacing: 0.1px">2025년</dd>
                     </dl>
                   </li>
                   <a style="margin-top: 100px;">
                     >>
                   </a>
                   <li>
-                    <h4>3단계</h4>
+                    <h4>3 단계</h4>
                     <dl>
-                      <dt>
-                        분사창업 10개<br>
-                        가족기업 100개
+                      <dt style="text-align: center">
+                        분사창업 : 10개<br>
+                        가족기업 : 100개
                       </dt>
-                      <dd>2030년</dd>
+                      <dd style="letter-spacing: 0.1px">2030년</dd>
                     </dl>
                   </li>
                   <li>
-                    <p style="word-spacing:1.5px;">
-                      분사창업 10개 이상<br>
-                      가족기업 100개 이상<br>
-                      총 매출액 1조원 이상<br>
+                    <p style="word-spacing:1.5px; letter-spacing: 0.1px;">
+                      분사창업 : 10개 이상<br>
+                      가족기업 : 100개 이상<br>
+                      총 매출액 : 1조원 이상<br>
                       고용인원 : 5,000명 이상
                     </p>
                   </li>

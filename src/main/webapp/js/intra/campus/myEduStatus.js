@@ -26,12 +26,12 @@ var myEdu = {
         let totalTime = Number(data.PERSONAL_TIME) + Number(data.STUDY_TIME) + Number(data.PROPAG_TIME)
                         + Number(data.OJT_TIME) + Number(data.OPEN_STUDY_TIME) + Number(data.COMMON_EDU_TIME);
 
-        alert(Number(data.PERSONAL_TIME));
-        alert(Number(data.STUDY_TIME));
-        alert(Number(data.PROPAG_TIME));
-        alert(Number(data.OJT_TIME));
-        alert(Number(data.OPEN_STUDY_TIME));
-        alert(Number(data.COMMON_EDU_TIME));
+        //alert(Number(data.PERSONAL_TIME));
+        //alert(Number(data.STUDY_TIME));
+        //alert(Number(data.PROPAG_TIME));
+        //alert(Number(data.OJT_TIME));
+        //alert(Number(data.OPEN_STUDY_TIME));
+        //alert(Number(data.COMMON_EDU_TIME));
         $("#totalTime").text("총 교육시간은 "+totalTime+"시간");
 
         myEdu.mainGrid();

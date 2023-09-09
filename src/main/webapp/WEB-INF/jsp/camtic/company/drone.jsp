@@ -42,20 +42,21 @@
         </div>
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>드론 첨단장비 공동활용 지원</strong></h3>
+          <%--캠틱 아이콘 이미지 추가--%>
+          <h3><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>드론 첨단장비 공동활용 지원</h3>
         </div>
         <div class="__drone4">
           <div class="head">
             <div class="box">
-              <h4>시제품제작 지원장비</h4>
+              <h4><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>시제품제작 지원장비</h4>
               <div class="img"><img src="/images/camtic/img-ndrone4-1.jpg" alt=""></div>
             </div>
             <div class="box">
-              <h4>성능평가 지원장비</h4>
+              <h4><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>성능평가 지원장비</h4>
               <div class="img"><img src="/images/camtic/img-ndrone4-2.jpg" alt=""></div>
             </div>
             <div class="box">
-              <h4>AI 항공관제 지원장비</h4>
+              <h4><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>AI 항공관제 지원장비</h4>
               <div class="img"><img src="/images/camtic/img-ndrone4-3.jpg" alt=""></div>
             </div>
           </div>

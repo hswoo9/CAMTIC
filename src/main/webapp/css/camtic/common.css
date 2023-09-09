@@ -206,7 +206,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__tit1 h3 {color:#000;font-weight:300;letter-spacing:-0.05em;font-size:30px;}
 .__tit1 h3 strong {font-weight:bold;}
 .__tit1 p {margin-top:10px;font-size:16px;color:#000;line-height:1.5;}
-.__tit1.line {border-bottom:2px solid #111;padding-bottom:15px;margin-bottom:30px;}
+.__tit1.line {/*border-bottom:2px solid #111;*/padding-bottom:15px;margin-bottom:30px;}/*서브메뉴 선 제거*/
 .__tit1 .rig {position:absolute;right:0;bottom:0;}
 
 .__tit2 {margin-bottom:15px;}
@@ -493,6 +493,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__blue2 {color:#2694ca !important;}
 .__black {color:#000 !important;}
 .__gray {color:#999 !important;}
+.__red {color:#ff0000 !important;}
 
 .__fz26 {font-size:26px;line-height:1.6;letter-spacing:-0.05em;}
 .__fz24 {font-size:24px;line-height:1.6;letter-spacing:-0.05em;}
@@ -546,6 +547,7 @@ textarea.__inp {padding:20px 25px;line-height:1.5;}
 	.__inp {height:34px;font-size:14px;padding-left:10px;}
 	textarea.__inp {padding:10px;line-height:1.45;}
 	textarea.__inp[style*='height:350px'] {height:150px !important;}
+	.__tit2 .head dt {font-size:24px;line-height:1.2;} /*2023-09-07*/
 
 }
 
