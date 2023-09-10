@@ -994,6 +994,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 이번년도 실제 교육 시간*/
+    @RequestMapping("/campus/getRealEduTimeStudyYear")
+    public String getRealEduTimeStudyYear(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getRealEduTimeStudyYear(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 개인학습 리스트 */
     @RequestMapping("/campus/getEduInfoList")
     public String getEduInfoList(@RequestParam Map<String, Object> params, Model model) {

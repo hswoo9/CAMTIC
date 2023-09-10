@@ -121,6 +121,10 @@ var eduInfoMng = {
                     width: 200
                 }, {
                     field: "TERM_TIME",
+                    title: "교육시간",
+                    width: 100
+                }, {
+                    field: "REAL_EDU_TIME",
                     title: "인정시간",
                     width: 100
                 }, {

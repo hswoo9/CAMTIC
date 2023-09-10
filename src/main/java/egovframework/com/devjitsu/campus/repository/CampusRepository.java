@@ -12,6 +12,7 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getCodeList(Map<String, Object> params) { return selectList("campus.getCodeList", params); }
     public Map<String, Object> getCodeOne(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getCodeOne", params); }
     public Map<String, Object> getRealEduTimeYear(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimeYear", params); }
+    public Map<String, Object> getRealEduTimeStudyYear(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimeStudyYear", params); }
 
     public List<Map<String, Object>> getEduInfoList(Map<String, Object> params) {
         return selectList("campus.getEduInfoList", params);

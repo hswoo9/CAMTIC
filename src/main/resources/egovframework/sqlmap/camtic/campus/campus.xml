@@ -46,6 +46,21 @@
         AND ER.MNG_CHECK = 'Y'
     </select>
 
+    <select id="getRealEduTimeStudyYear" resultType="map" parameterType="map">
+        /* getRealEduTimeStudyYear */
+        SELECT
+            IFNULL(SUM(JOURNAL_TIME), 0) AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ
+        LEFT JOIN
+            CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
+        WHERE
+            CSJ.STUDY_INFO_SN = #{studyInfoSn}
+        AND STUDY_EMP_SEQ = #{empSeq}
+        AND CSJ.ACTIVE = 'Y'
+        AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+    </select>
+
     <select id="getEduInfoList" resultType="map" parameterType="map">
         /* getEduInfoList */
         SELECT
@@ -77,7 +92,8 @@
                     EI.TREA_UNIT,
                     EI.TREA_TYPE,
                     EI.TREA_USER,
-                    EI.BOOK_UNIT
+                    EI.BOOK_UNIT,
+                    IFNULL(ER.REAL_EDU_TIME, 0) AS REAL_EDU_TIME
                 FROM
                     CAMPUS.DJ_EDU_INFO EI
                 LEFT JOIN
@@ -1112,7 +1128,7 @@
                 #{journalDt},
                 #{journalStartTime},
                 #{journalEndTime},
-                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m'))) / 3600),
+                #{realEduTime},
                 #{studyLocation},
                 #{studyContent},
                 #{studyMoney},

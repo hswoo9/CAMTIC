@@ -80,7 +80,7 @@ const studyJournal = {
     },
 
     saveBtn: function(){
-        let studyInfoSn = $("#studyInfoSn").val();
+        let studyInfoSn = $("#pk").val();
         let studyNameTd = $("#studyNameTd").text();
         let journalDt = $("#journalDt").val();
         let journalStartTime = $("#journalStartTime").val();
@@ -93,6 +93,8 @@ const studyJournal = {
         let journalAmtClassText = $("#journalAmtClass").data("kendoDropDownList").text();
         let journalAmtEtc = $("#journalAmtEtc").val();
         let regEmpName = $("#regEmpName").val();
+        let empSeq = $("#regEmpSeq").val();
+        let eduTime = 0;
 
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(journalDt == "" || journalStartTime == "" || journalEndTime == ""){ alert("학습일시가 작성되지 않았습니다."); return; }
@@ -101,6 +103,39 @@ const studyJournal = {
         if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
         if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
         if(journalAmtClass == ""){ alert("소요비용구분이 선택되지 않았습니다."); return; }
+
+        /** 학습조 학습주 실제 인정시간 조회 */
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth()+1;
+        var day = now.getDate();
+        var hour1 = journalStartTime.split(":")[0];
+        var hour2 = journalEndTime.split(":")[0];
+        var min1 = journalStartTime.split(":")[1];
+        var min2 = journalEndTime.split(":")[1];
+        var bfDate = new Date(year, month, day, hour1, min1);
+        var afDate = new Date(year, month, day, hour2, min2);
+        var diffSec = afDate.getTime() - bfDate.getTime();
+        var diffMin = diffSec / 1000 / 60 / 60;
+
+        /** 건당 최대 2시간 */
+        if(diffMin > 2){
+            eduTime = 2
+        }else{
+            eduTime = diffMin;
+        }
+
+        /** 주당 최대 2시간 체크 */
+        let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyYear", {
+            studyInfoSn: studyInfoSn,
+            empSeq: empSeq,
+            applyDt: journalDt,
+        }).data.REAL_EDU_TIME;
+
+        let realEduTime = eduTime;
+        if(realEduTimeYear + realEduTime > 2){
+            realEduTime = 2 - realEduTimeYear;
+        }
 
         let data = {
             studyInfoSn: studyInfoSn,
@@ -114,7 +149,8 @@ const studyJournal = {
             journalAmtClass: journalAmtClass,
             journalAmtClassText: journalAmtClassText,
             journalAmtEtc: journalAmtEtc,
-            regEmpName: regEmpName
+            regEmpName: regEmpName,
+            realEduTime: realEduTime
         }
 
         if(!confirm("운영일지를 저장하시겠습니까?")){

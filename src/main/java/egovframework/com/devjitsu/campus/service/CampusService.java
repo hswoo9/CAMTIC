@@ -12,6 +12,7 @@ public interface CampusService {
 
     /** 개인학습관리 시작 */
     Map<String, Object> getRealEduTimeYear(Map<String, Object> params);
+    Map<String, Object> getRealEduTimeStudyYear(Map<String, Object> params);
     List<Map<String, Object>> getEduInfoList(Map<String, Object> params);
     Map<String, Object> getEduInfoOne(Map<String, Object> params);
     Map<String, Object> getEduResultOne(Map<String, Object> params);
