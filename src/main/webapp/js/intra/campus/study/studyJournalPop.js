@@ -126,7 +126,7 @@ const studyJournal = {
         }
 
         /** 주당 최대 2시간 체크 */
-        let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyYear", {
+        let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
             studyInfoSn: studyInfoSn,
             empSeq: empSeq,
             applyDt: journalDt,

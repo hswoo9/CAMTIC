@@ -37,8 +37,13 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public Map<String, Object> getRealEduTimeStudyYear(Map<String, Object> params){
-        return campusRepository.getRealEduTimeStudyYear(params);
+    public Map<String, Object> getRealEduTimeStudyWeekly(Map<String, Object> params){
+        return campusRepository.getRealEduTimeStudyWeekly(params);
+    }
+
+    @Override
+    public Map<String, Object> getRealEduTimePropagWeekly(Map<String, Object> params){
+        return campusRepository.getRealEduTimePropagWeekly(params);
     }
 
     @Override

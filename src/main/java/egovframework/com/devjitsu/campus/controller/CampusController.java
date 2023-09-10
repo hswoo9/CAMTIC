@@ -994,10 +994,18 @@ public class CampusController {
         return "jsonView";
     }
 
-    /** 이번년도 실제 교육 시간*/
-    @RequestMapping("/campus/getRealEduTimeStudyYear")
-    public String getRealEduTimeStudyYear(@RequestParam Map<String, Object> params, Model model) {
-        Map<String, Object> data = campusService.getRealEduTimeStudyYear(params);
+    /** 학습조 이번주 실제 교육 시간*/
+    @RequestMapping("/campus/getRealEduTimeStudyWeekly")
+    public String getRealEduTimeStudyWeekly(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getRealEduTimeStudyWeekly(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 전파학습 이번주 실제 교육 시간*/
+    @RequestMapping("/campus/getRealEduTimePropagWeekly")
+    public String getRealEduTimePropagWeekly(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getRealEduTimePropagWeekly(params);
         model.addAttribute("data", data);
         return "jsonView";
     }
