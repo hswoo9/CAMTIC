@@ -23,20 +23,18 @@
         <table class="searchTable table table-bordered mb-0" style="border: 0; margin-left: 20px;  margin-top : 5px; border: 1px solid #dedfdf; width: 1500px">
             <colgroup>
                 <col width="10%">
-                <col width="20%">
-                <col width="10%">
-                <col width="10%">
-                <col width="10%">
-                <col width="35%">
+                <col width="90%">
             </colgroup>
             <tr>
-                <th class="text-center th-color">조회년월</th>
+                <th class="text-center th-color">조회년도</th>
                 <td>
-                    <input type="text" name="applyYear" id="applyYear" style="width: 120px;">
+                    <input type="text" name="applyYear" id="applyYear" style="width: 200px;">
                 </td>
+            </tr>
+            <tr>
                 <th class="text-center th-color">구분</th>
-                <td colspan="3">
-                    <input type="text" name="searchType" id="searchType" style="width: 570px;">
+                <td>
+                    <input type="text" name="searchType" id="searchType" style="width: 1300px;">
                     <input type="hidden" name="searchTypeText" id="searchTypeText">
                 </td>
             </tr>
