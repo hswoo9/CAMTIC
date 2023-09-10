@@ -179,7 +179,6 @@ var eduInfoMng = {
             let empSeq = dataItem.REG_EMP_SEQ;
             let realEduTime = 0;
             let eduTime = dataItem.TERM_TIME;
-            alert(eduTime);
             let termDay = dataItem.TERM_DAY;
 
             /** 학습별 이번년도 실제 인정시간 조회 */
