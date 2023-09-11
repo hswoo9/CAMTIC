@@ -176,6 +176,19 @@ public class ProjectController {
         return "popup/cam_project/engineering/delvInfo";
     }
 
+    @RequestMapping("/intra/cam_project/devInfo.do")
+    public String devInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/devInfo";
+    }
+
 
     /**
      * 프로젝트 등록 > 업체정보 Get Data
@@ -278,6 +291,32 @@ public class ProjectController {
             model.addAttribute("code", 200);
             model.addAttribute("rep", params);
         } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setDevInfo")
+    public String setDevInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setDevInfo(params);
+            model.addAttribute("code", 200);
+        } catch( Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/project/insStep3")
+    public String insStep3(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.insStep3(params);
+            model.addAttribute("code", 200);
+        } catch( Exception e){
             e.printStackTrace();
         }
 
@@ -529,18 +568,7 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/insStep3")
-    public String insStep3(@RequestParam Map<String, Object> params, Model model){
 
-        try{
-            projectService.insStep3(params);
-            model.addAttribute("code", 200);
-        } catch( Exception e){
-            e.printStackTrace();
-        }
-
-        return "jsonView";
-    }
 
     @RequestMapping("/project/getDevelopPlan")
     public String getDevelopPlan(@RequestParam Map<String, Object> params, Model model){

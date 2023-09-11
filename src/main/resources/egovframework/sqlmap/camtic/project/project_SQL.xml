@@ -35,6 +35,7 @@
     </select>
 
     <insert id="insProject" parameterType="map">
+        /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
         (
             PJT_NM,
@@ -93,7 +94,14 @@
 
     <select id="getProjectData" parameterType="map" resultType="map">
         SELECT
-            *,
+            A.*,
+            B.*,
+            C.*,
+            D.*,
+            CM.*,
+            EI.DEPT_NAME,
+            EI.EMP_NAME_KR,
+            EI.POSITION_NAME,
             DATE_FORMAT(STR_DT, '%Y-%m-%d') AS PJT_START_DT,
             DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS PJT_END_DT
         FROM
@@ -102,6 +110,14 @@
             CAM_PJT_MNG.DJ_PJT_ENGN B
         ON
             A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_DELV DE
+        ON
+            A.PJT_SN = DE.PJT_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON
+            DE.PM_EMP_SEQ = EI.EMP_SEQ
         LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
         ON
@@ -506,7 +522,7 @@
     </select>
 
     <select id="getDevPjtVerList" parameterType="map" resultType="map">
-        selECT
+        SELECT
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
@@ -846,13 +862,40 @@
             DELV_SN = #{delvSn}
     </update>
 
+    <insert id="insDevInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
+            (
+                PJT_SN,
+                INV_AMT,
+                INV_PER,
+                DEP_OBJ,
+                ETC,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{invAmt},
+                #{invPer},
+                #{depObj},
+                #{etc},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="devSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
+        </selectKey>
+    </insert>
+
     <update id="updProjectTmpCode" parameterType="map">
         /*updProjectTmpCode*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             PJT_AMT = #{delvAmt},
             PJT_TMP_CD = #{pjtTmpCd},
-            DELV_STAT = 'Y'
+            DELV_STAT = 'Y',
+            STR_DT = #{estDe},
+            END_EXP_DT = #{delvDe},
+            PM = #{pmEmpNm}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
