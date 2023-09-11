@@ -7,6 +7,7 @@ var regPrj = {
 
 
     fn_defaultScript : function (setParameters) {
+        console.log(setParameters.ENGN_SN);
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
         }
@@ -20,6 +21,12 @@ var regPrj = {
             tab1Url += "?pjtSn=" + setParameters.PJT_SN;
             tab2Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
+        }
+        if(setParameters != null && setParameters.ENGN_SN != null) {
+            tab0Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab1Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab2Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab3Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
 
