@@ -2,18 +2,22 @@ package egovframework.com.devjitsu.inside.attend.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.attend.service.AttendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class AttendController {
@@ -23,21 +27,35 @@ public class AttendController {
     @Autowired
     private UserService userService;
 
-    //개인근태현황
+    @Autowired
+    private AttendService attendService;
+
+    /** 개인근태현황 페이지 */
     @RequestMapping("/Inside/personAttendList.do")
     public String personAttendList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/personAttendList";
     }
+    /** 개인근태 리스트 조회 */
+    @RequestMapping("/inside/personAttendList")
+    public String personAttendList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.personAttendList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+
 
     //개인연차현황
     @RequestMapping("/Inside/personAnnvMain.do")
     public String personAnnvMain(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/personAnnvMain";
@@ -48,6 +66,7 @@ public class AttendController {
     public String personReqManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/personReqManage";
@@ -58,6 +77,7 @@ public class AttendController {
     public String attendStat(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/attendStat";
@@ -68,6 +88,7 @@ public class AttendController {
     public String personAttendStat(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/personAttendStat";
@@ -78,6 +99,7 @@ public class AttendController {
     public String personAttendStatPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/attend/personAttendStatPop";
@@ -88,6 +110,7 @@ public class AttendController {
     public String monthAttendStat(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/monthAttendStat";
@@ -98,6 +121,7 @@ public class AttendController {
     public String workChoiceReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/workChoiceReq";
@@ -108,6 +132,7 @@ public class AttendController {
     public String overWorkReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/overWorkReq";
@@ -118,6 +143,7 @@ public class AttendController {
     public String holidayWorkReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/holidayWorkReq";

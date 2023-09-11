@@ -3,18 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner>.k-link {
-        justify-content: center;
-    }
-</style>
 <script type="text/javascript" src="/js/intra/inside/attend/personAttendList.js?v=${toDate}"/></script>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -32,9 +21,9 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회 기간</span>
-                                    <input type="text" id="startDay" style="width: 130px;">
+                                    <input type="text" id="startDt" style="width: 130px;">
                                     ~
-                                    <input type="text" id="endDay" style="width: 130px;">
+                                    <input type="text" id="endDt" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <span>상태</span>
@@ -125,8 +114,6 @@
     </div>
 </div>
 </div><!-- col-md-9 -->
-
 <script type="text/javascript">
-    personAttendList.fn_defaultScript();
-    personAttendList.mainGrid();
+    personAttend.init();
 </script>
