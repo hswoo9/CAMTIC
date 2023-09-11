@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="attend">
+    <select id="personAttendList" parameterType="map" resultType="map">
+        /* personAttendList */
+        WITH RECURSIVE APPLY_DATE AS (
+            SELECT #{startDt} AS START_DATE
+
+            UNION ALL
+
+            SELECT START_DATE + INTERVAL 1 DAY
+              FROM APPLY_DATE
+            <![CDATA[
+             WHERE START_DATE < #{endDt}
+            ]]>
+        )
+        SELECT
+            AD.START_DATE,
+            CASE DAYOFWEEK(AD.START_DATE)
+                WHEN '1' THEN '일요일' WHEN '2' THEN '월요일' WHEN '3' THEN '화요일' WHEN '4' THEN '수요일' WHEN '5' THEN '목요일' WHEN '6' THEN '금요일' WHEN '7' THEN '토요일'
+            END AS WEEK,
+            IFNULL((
+                SELECT
+                    CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                FROM
+                    CAM_COMMON.CAPSDATA scc
+                WHERE
+                <![CDATA[
+                    SCC.INTIME >= '000000'
+                AND SCC.INTIME <= '235959'
+                ]]>
+                AND SCC.ISTYPE = '1'
+                AND SCC.USERUUID = #{empSeq}
+                AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
+            ), '기록 없음') AS START_TIME,
+            IFNULL((
+                SELECT
+                    CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                FROM
+                    CAM_COMMON.CAPSDATA SCC
+                WHERE
+                <![CDATA[
+                    SCC.INTIME >= '000000'
+                AND SCC.INTIME <= '235959'
+                ]]>
+                AND SCC.ISTYPE = '2'
+                AND SCC.USERUUID = #{empSeq}
+                AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
+        ), '기록 없음') AS END_TIME
+        FROM
+            APPLY_DATE AD
+    </select>
+
+    <select id="personAnnvMainList" parameterType="map" resultType="map">
+        /* personAnnvMainList */
+        SELECT
+            VH.SUBHOLIDAY_CODE_ID,
+            VH.SUBHOLIDAY_ST_DT,
+            VH.SUBHOLIDAY_ST_TIME,
+            VH.SUBHOLIDAY_EN_DT,
+            VH.SUBHOLIDAY_EN_TIME,
+            VH.SUBHOLIDAY_USE_DAY,
+            VH.RMK,
+            VCD.SUBHOLIDAY_DT_CODE_NM
+        FROM
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VH
+        JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD ON VH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+        WHERE
+            VH.APPR_STAT = 'Y' AND VH.APPLY_SEQ = #{empSeq} AND VCD.SUBHOLIDAY_MD_CODE = '01'
+    </select>
+</mapper>

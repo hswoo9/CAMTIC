@@ -2801,9 +2801,10 @@ img {max-width:100%;}
 	/*주요연혁*/
 }
 
+/*20230911 원장님 사진*/
 .mainAbou {
 	display: flex;
-	gap: 30px;
+	gap: 20px;
 	justify-content: space-between;
 	margin-top: 50px;
 }
