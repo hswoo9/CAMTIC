@@ -121,6 +121,17 @@ public class ProjectController {
         return "popup/cam_project/engineering/crmInfo";
     }
 
+    @RequestMapping("/intra/cam_project/bustInfo.do")
+    public String bustInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/engineering/bustInfo";
+    }
+
 
     /**
      * 프로젝트 등록 > 업체정보 Get Data
@@ -132,6 +143,13 @@ public class ProjectController {
     @RequestMapping("/project/engn/getCrmInfo")
     public String getCrmInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         model.addAttribute("rs", projectService.getCrmInfo(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/getBustInfo")
+    public String getBustInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("rs", projectService.getBustInfo(params));
 
         return "jsonView";
     }
@@ -495,11 +513,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    /**
+     * 프로젝트 등록 > 출장정보 저장(Insert, Update)
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/project/engn/setBustInfo")
     public String setBustInfo(@RequestParam Map<String, Object> params, Model model){
 
         try{
-            projectService.setEngnBustInfo(params);
+            projectService.setBustInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e) {
             e.printStackTrace();

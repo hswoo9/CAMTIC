@@ -24,9 +24,6 @@ var crmInfo = {
             success : function(rs){
                 var rs = rs.rs;
 
-                console.log(rs);
-
-
                 if(rs != null){
                     $("#crmSn").val(rs.CRM_SN);
                     $("#crmLoc").val(rs.ADDR);

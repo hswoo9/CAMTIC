@@ -728,15 +728,6 @@
             ENGN_SN = #{engnSn} AND ${stepColumn} = 'N'
     </update>
 
-    <update id="updEngnBustInfo" parameterType="map">
-        /* updEngnBustInfo */
-        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
-        SET
-            CONT_ETC = #{contEtc}
-        WHERE
-            ENGN_SN = #{engnSn}
-    </update>
-
     <update id="updateDelvApprStat" parameterType="map">
         /* updateDelvApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_DELV
@@ -778,5 +769,18 @@
             DP.CRM_MEM_SN = DM.CRM_MEM_SN
         WHERE
             DP.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getBustInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT HR
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ HRQ
+        ON
+            HR.HR_BIZ_REQ_ID = HRQ.HR_BIZ_REQ_ID
+        WHERE
+            PJT_SN = #{pjtSn}
     </select>
 </mapper>

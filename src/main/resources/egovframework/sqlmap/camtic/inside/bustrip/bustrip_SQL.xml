@@ -797,6 +797,14 @@
             PJT_SN IS NULL
     </select>
 
+    <update id="updBustPjtsnReset" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            PJT_SN = NULL
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <update id="updBustPjtSn" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET

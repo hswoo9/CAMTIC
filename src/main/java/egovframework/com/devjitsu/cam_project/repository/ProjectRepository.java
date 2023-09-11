@@ -215,8 +215,8 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updEngn", params);
     }
 
-    public void updEngnBustInfo(Map<String, Object> params) {
-        update("project.updEngnBustInfo", params);
+    public void updBustInfo(Map<String, Object> params) {
+        update("bustrip.updBustPjtsnReset", params);
         update("bustrip.updBustPjtSn", params);
     }
 
@@ -229,5 +229,9 @@ public class ProjectRepository extends AbstractDAO {
 
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getCrmInfo", params);
+    }
+
+    public Map<String, Object> getBustInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getBustInfo", params);
     }
 }

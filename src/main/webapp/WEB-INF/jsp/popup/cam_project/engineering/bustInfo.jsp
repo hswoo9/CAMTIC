@@ -5,20 +5,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/bustInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<%
-    String pjtSn = request.getParameter("pjtSn");
-    String engnSn = request.getParameter("engnSn");
 
-    if(pjtSn == null){
-        return ;
-    }
-
-    if(engnSn == null){
-        return ;
-    }
-%>
-<input type="hidden" id="pjtSn" value="<%=pjtSn%>" />
-<input type="hidden" id="engnSn" value="<%=engnSn%>" />
+<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="engnSn" value="${params.engnSn}" />
 
 <div style="padding: 10px">
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.fn_save()">저장</button>
