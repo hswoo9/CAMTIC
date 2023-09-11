@@ -11,12 +11,27 @@ var regPrj = {
             cmGroupCode : "BUSN_CLASS",
         }
 
+        var tab0Url = "/intra/cam_project/crmInfo.do";
+        var tab1Url = "/intra/cam_project/bustInfo.do";
+        if (setParameters != null && setParameters.PJT_SN != null) {
+            tab0Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab1Url += "?pjtSn=" + setParameters.PJT_SN;
+        }
+
+
+
         $("#tabstrip").kendoTabStrip({
             animation:  {
                 open: {
                     effects: "fadeIn"
                 }
-            }
+            },
+            dataTextField: "name",
+            dataContentUrlField: "url",
+            dataSource : [
+                {name: "업체정보", url: tab0Url},
+                {name: "출장정보", url: tab1Url},
+            ],
         });
 
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
@@ -64,6 +79,7 @@ var regPrj = {
 
     },
 
+
     fn_busnDDLChange: function(e){
         var value = this.value();
 
@@ -105,8 +121,9 @@ var regPrj = {
             dataType : "json",
             async : false,
             success : function(rs){
-                console.log(rs);
                 opener.parent.camPrj.gridReload();
+
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + rs.params.PJT_SN;
                 // location.reload();
             }
         });
@@ -152,37 +169,12 @@ var regPrj = {
         $("#consultDt").val(regPrj.fn_dateTimeToString(p.CONSULT_DT));
         $("#pjtStep").val(p.PJT_STEP);
         $("#pjtStepNm").val(p.PJT_STEP_NM);
-        $("#crmCd").val(p.CRM_CD);
         $("#crmSn").val(p.CRM_CD);
         $("#crmLoc").val(p.CRM_LOC);
-        $("#crmNm").val(p.CRM_NM);
-        $("#crmPost").val(p.POST);
-        $("#crmAddr").val(p.ADDR);
-        $("#crmProd").val(p.CRM_PROD);
-        $("#crmCeo").val(p.CRM_CEO);
-        $("#crmFax").val(p.CRM_FAX);
-        $("#crmCallNum").val(p.TEL_NUM);
-        $("#crmPhNum").val(p.CRM_MEM_PHN);
-        $("#crmMail").val(p.CRM_MEM_EMAIL);
-        $("#contEtc").val(p.CONT_ETC);
-        $("#crmReqMem").val(p.CRM_SUB_CD);
         $("#modBtn").css("display", "");
         $("#saveBtn").css("display", "none");
 
-        var busnName = "";
-        var project = "";
-        if(p.BUSN_NAME != "" && p.BUSN_NAME != null && p.BUSN_NAME != undefined){
-            busnName = p.BUSN_NAME;
-        }
 
-        if(p.PROJECT_CD != "" && p.PROJECT_CD != null){
-            project = "(엔지니어링) ";
-        }
-        var title =  project + busnName + " 출장지 : " + p.VISIT_LOC_SUB;
-        if(p.VISIT_LOC_SUB != null && p.VISIT_LOC_SUB != ''){
-            $("#bustripReq").val(title);
-            $("#hrBizReqResultId").val(p.HR_BIZ_REQ_RESULT_ID);
-        }
     },
 
 

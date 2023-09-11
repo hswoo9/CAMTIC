@@ -48,30 +48,6 @@ public class ProjectController {
         return "cam_project/viewProject";
     }
 
-    @RequestMapping("/project/projectManagement.do")
-    private String projectManagement(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
-
-        model.addAttribute("loginVO", loginVO);
-        return "cam_project/projectManagement";
-    }
-
-    @RequestMapping("/project/projectView.do")
-    public String projectView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
-
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-
-        Map<String, Object> map = projectService.getProjectStep(params);
-
-        model.addAttribute("loginVO", loginVO);
-        model.addAttribute("map", new Gson().toJson(map));
-
-        return "cam_project/projectView";
-    }
-
     @RequestMapping("/project/getProjectList")
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 
@@ -127,24 +103,55 @@ public class ProjectController {
         return "jsonView";
     }
 
-
-    @Deprecated
-    @RequestMapping("/project/pop/engnStep.do")
-    public String engnStep(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
-
+    /**
+     * 팝업 > 업체정보 Tab
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/intra/cam_project/crmInfo.do")
+    public String crmInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        Map<String, Object> map = projectService.getProjectData(params);
-        Map<String, Object> estMap = projectService.getStep1EstData(params);
-        Map<String, Object> pmInfo = projectService.getStep3PmInfo(params);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
 
-        model.addAttribute("loginVO", loginVO)
-                .addAttribute("menuCd", "ES" + params.get("step"))
-                .addAttribute(map).addAttribute("estMap", estMap).addAttribute("pmInfo", pmInfo);
+        return "popup/cam_project/engineering/crmInfo";
+    }
+
+    @RequestMapping("/intra/cam_project/bustInfo.do")
+    public String bustInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/engineering/bustInfo";
+    }
 
 
-        return "popup/cam_project/engineering/step" + params.get("step");
+    /**
+     * 프로젝트 등록 > 업체정보 Get Data
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/project/engn/getCrmInfo")
+    public String getCrmInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("rs", projectService.getCrmInfo(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/getBustInfo")
+    public String getBustInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("rs", projectService.getBustInfo(params));
+
+        return "jsonView";
     }
 
     @RequestMapping("/project/engn/getDelvData")
@@ -176,23 +183,6 @@ public class ProjectController {
 
         return "jsonView";
 
-    }
-
-    @RequestMapping("/project/getPsList")
-    public String getPsList(@RequestParam Map<String, Object> params, Model model){
-        List<Map<String, Object>> psList = projectService.getPsList(params);
-
-        model.addAttribute("psList", psList);
-
-        return "jsonView";
-    }
-
-    @RequestMapping("/project/getStep2DelvData")
-    public String getStep2DelvData(@RequestParam Map<String, Object> params, Model model){
-
-        model.addAttribute("map", projectService.getDelvData(params));
-
-        return "jsonView";
     }
 
     @RequestMapping("/project/engn/setEstInfo")
@@ -523,11 +513,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    /**
+     * 프로젝트 등록 > 출장정보 저장(Insert, Update)
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/project/engn/setBustInfo")
     public String setBustInfo(@RequestParam Map<String, Object> params, Model model){
 
         try{
-            projectService.setEngnBustInfo(params);
+            projectService.setBustInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e) {
             e.printStackTrace();
@@ -564,4 +560,6 @@ public class ProjectController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+
 }
