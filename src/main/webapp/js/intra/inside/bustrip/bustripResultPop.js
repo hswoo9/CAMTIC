@@ -29,6 +29,7 @@ var bustripResultPop = {
             let resList = result.rs.resList;
             var fileInfo = result.rs.fileInfo;
 
+
             $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
             $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
             if($("#project").val() == 0 || $("#project").val() == ""){
@@ -37,6 +38,7 @@ var bustripResultPop = {
                 $("#busnLine").css("display", "");
             }
 
+            $("#crmSn").val(resInfo.CRM_SN);
             $("#visitCrm").val(resInfo.VISIT_CRM);
             $("#visitLoc").val(resInfo.VISIT_LOC);
             $("#visitLocCode").data("kendoDropDownList").value(resInfo.VISIT_LOC_CODE);
@@ -258,6 +260,7 @@ var bustripResultPop = {
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
         formData.append("compDeptName", $("#popDeptName").val());
+        formData.append("crmSn", $("#crmSn").val());
         formData.append("visitCrm", $("#visitCrm").val());
         formData.append("visitLoc", $("#visitLoc").val());
         formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
@@ -342,6 +345,13 @@ var bustripResultPop = {
     fn_moveCheck: function(){
         alert("거리는 최단거리로 입력해야 합니다.");
         window.open('https://map.naver.com/');
-    }
+    },
+
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }
 
