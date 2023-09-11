@@ -104,19 +104,19 @@
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business_2.png);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis2--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/technology.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/technology_2.png);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis3--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/staff.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/staff_2.png);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis4--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트

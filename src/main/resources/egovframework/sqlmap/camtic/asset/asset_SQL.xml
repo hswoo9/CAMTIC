@@ -1617,7 +1617,7 @@
             CAM_INSIDE.DJ_EQIPMN_USE
         SET
             eqipmn_mst_sn = #{eqipmnMstSn}, use_pd_str_de = #{usePdStrDe},
-            /* use_pd_end_de = #{usePdEndDe},*/ user_name = #{userName}, user_sn = #{userSn},
+            user_name = #{userName}, user_sn = #{userSn},
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
             reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn}
