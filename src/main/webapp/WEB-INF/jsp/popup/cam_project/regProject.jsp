@@ -156,15 +156,6 @@
                                 원가보고
                             </li>
                         </ul>
-<%--                        <div>--%>
-<%--                            <div>--%>
-<%--                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/delvInfo.jsp" flush="true">--%>
-<%--                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>--%>
-<%--                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>--%>
-<%--                                    <jsp:param name="expAmt" value="${data.EXP_AMT}"/>--%>
-<%--                                </jsp:include>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
                     </div>
                 </div>
             </div>
@@ -216,6 +207,7 @@
 
 <script>
     var inParameters = JSON.parse('${map}');
+
 
     regPrj.fn_defaultScript(inParameters);
 

@@ -125,6 +125,7 @@ var delvInfo = {
             pmEmpNm : $("#pmName").val(),
             pmEmpSeq : $("#pmSeq").val(),
             empSeq : $("#empSeq").val(),
+            estDe : $("#delvEstDe").val(),
 
             step : $("#step").val(),
             stepColumn : $("#stepColumn").val(),

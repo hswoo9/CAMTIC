@@ -144,6 +144,20 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public void setDevInfo(Map<String, Object> params) {
+        int modCheck = projectRepository.checkModStep3(params);
+
+        projectRepository.insDevInfo(params);
+
+        projectRepository.updInvAndPs(params);
+
+        if(modCheck == 0) {
+            // 전자결재 개발 완료 시 결재완료 시점으로 이동
+            projectRepository.updProject(params);
+            projectRepository.updEngn(params);
+        }
+    }
 
     @Override
     public void insStep4(Map<String, Object> params) {
@@ -320,6 +334,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(params.containsKey("pjtTmpCd")){
             projectRepository.updProjectTmpCode(params);
         }
+
     }
 
     @Override

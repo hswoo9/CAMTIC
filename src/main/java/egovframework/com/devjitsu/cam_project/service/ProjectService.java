@@ -92,4 +92,6 @@ public interface ProjectService {
     Map<String, Object> getBustInfo(Map<String, Object> params);
 
     void setDelvInfo(Map<String, Object> params);
+
+    void setDevInfo(Map<String, Object> params);
 }
