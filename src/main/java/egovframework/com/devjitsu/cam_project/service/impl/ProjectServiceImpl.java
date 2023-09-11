@@ -149,6 +149,9 @@ public class ProjectServiceImpl implements ProjectService {
         int modCheck = projectRepository.checkModStep3(params);
 
         projectRepository.insDevInfo(params);
+
+        projectRepository.updInvAndPs(params);
+
         if(modCheck == 0) {
             // 전자결재 개발 완료 시 결재완료 시점으로 이동
             projectRepository.updProject(params);

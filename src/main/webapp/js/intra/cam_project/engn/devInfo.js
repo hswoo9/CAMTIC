@@ -8,6 +8,7 @@ var devInfo = {
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
 
+        console.log(rs.list);
         var html = "";
         for(var i = 0 ; i < rs.list.length ; i++){
             var date = new Date(rs.list[i].CONSULT_DT);
@@ -18,14 +19,34 @@ var devInfo = {
             dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
             var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
 
+
+            var pjtStepNm = "상담";
+            if(rs.list[i].PJT_STEP == "E0"){
+                pjtStepNm = "상담";
+            } else if(rs.list[i].PJT_STEP == "E1"){
+                pjtStepNm = "견적";
+            } else if(rs.list[i].PJT_STEP == "E2"){
+                pjtStepNm = "수주";
+            } else if(rs.list[i].PJT_STEP == "E3"){
+                pjtStepNm = "개발계획";
+            } else if(rs.list[i].PJT_STEP == "E4"){
+                pjtStepNm = "공정";
+            } else if(rs.list[i].PJT_STEP == "E5"){
+                pjtStepNm = "납품";
+            } else if(rs.list[i].PJT_STEP == "E6"){
+                pjtStepNm = "결과보고";
+            } else if(rs.list[i].PJT_STEP == "E7"){
+                pjtStepNm = "원가보고";
+            }
+
             html += "<tr style='text-align: center'>";
             html += "   <td>Ver."+(i+1)+"</td>";
-            html += "   <td>" + rs.list[i].PJT_CD + "</td>";
+            html += "   <td></td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td>0</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
-            html += "   <td></td>";
-            html += "   <td>"+rs.list[i].PJT_STEP_NM+" 완료</td>";
+            html += "   <td>"+devInfo.comma(rs.list[i].INV_AMT)+"</td>";
+            html += "   <td>"+pjtStepNm+" 완료</td>";
             html += "</tr>";
         }
 

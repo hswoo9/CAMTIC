@@ -182,8 +182,8 @@
                 <td>
                     <input type="text" id="divNm" class="divNm" />
                     <span>
-                            <input type="hidden" id="invSn" class="invSn" />
-                        </span>
+                        <input type="hidden" id="invSn" class="invSn" />
+                    </span>
                 </td>
                 <td><input type="text" id="invNm" class="invNm" /></td>
                 <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>

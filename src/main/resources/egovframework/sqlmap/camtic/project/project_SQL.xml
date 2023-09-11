@@ -533,6 +533,10 @@
              WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1) B
             ON
                 A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_DEV C
+        ON
+            A.PJT_SN = C.PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -907,5 +911,23 @@
             PJT_CD = PJT_TMP_CD
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updInv" parameterType="map">
+        /*updInv*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_INV
+        SET
+            DEV_SN = #{devSn}
+        WHERE
+            PJT_SN = #{pjtSn} AND DEV_SN IS NULL
+    </update>
+
+    <update id="updPs" parameterType="map">
+        /*updPs*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            DEV_SN = #{devSn}
+        WHERE
+            PJT_SN = #{pjtSn} AND DEV_SN IS NULL
     </update>
 </mapper>
