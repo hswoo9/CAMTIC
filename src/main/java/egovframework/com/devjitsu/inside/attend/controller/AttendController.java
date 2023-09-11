@@ -61,6 +61,14 @@ public class AttendController {
         return "inside/attend/personAnnvMain";
     }
 
+    /** 개인연차현황 리스트 조회 */
+    @RequestMapping("/inside/personAnnvMainList")
+    public String personAnnvMainList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.personAnnvMainList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //근태신청현황
     @RequestMapping("/Inside/personReqManage.do")
     public String personReqManage(HttpServletRequest request, Model model) {

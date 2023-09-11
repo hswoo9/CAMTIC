@@ -1,29 +1,32 @@
-/**
- * 2023.06.04
- * 작성자 : 김지혜
- * 내용 : 근태관리 - 개인연차현황
- */
-
 var personAnnvMain = {
+    global: {
+        now: new Date()
+    },
+
+    init: function(){
+        personAnnvMain.mainGrid();
+    },
+
     mainGrid: function () {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url: "/inside/personAnnvMainList",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.empSeq = $("#regEmpSeq").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -36,7 +39,7 @@ var personAnnvMain = {
             height: 489,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
             toolbar: [
@@ -55,40 +58,40 @@ var personAnnvMain = {
                     width: "10%",
                         columns:[
                             {
-                                field: "",
+                                field: "SUBHOLIDAY_ST_DT",
                                 title: "시작 일자",
                                 width: "10%"
                             },
                             {
-                                field: "",
+                                field: "SUBHOLIDAY_ST_TIME",
                                 title: "시작 시간",
                                 width: "10%"
                             },
                             {
-                                field: "",
+                                field: "SUBHOLIDAY_EN_DT",
                                 title: "종료 일자",
                                 width: "10%"
                             },
                             {
-                                field: "",
+                                field: "SUBHOLIDAY_EN_TIME",
                                 title: "종료 시간",
                                 width: "10%"
                             }
                         ]
                 }, {
-                    field: "",
+                    field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "근태 항목",
                     width: "10%"
                 }, {
-                    field: "",
+                    field: "SUBHOLIDAY_USE_DAY",
                     title: "사용 일수",
                     width: "10%"
-                }, {
-                    field: "",
+                }, /*{
+                    field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "사용 구분",
                     width: "10%"
-                }, {
-                    field: "",
+                },*/ {
+                    field: "RMK",
                     title: "신청 내역",
                     width: "10%"
                 }]

@@ -51,4 +51,23 @@
         FROM
             APPLY_DATE AD
     </select>
+
+    <select id="personAnnvMainList" parameterType="map" resultType="map">
+        /* personAnnvMainList */
+        SELECT
+            VH.SUBHOLIDAY_CODE_ID,
+            VH.SUBHOLIDAY_ST_DT,
+            VH.SUBHOLIDAY_ST_TIME,
+            VH.SUBHOLIDAY_EN_DT,
+            VH.SUBHOLIDAY_EN_TIME,
+            VH.SUBHOLIDAY_USE_DAY,
+            VH.RMK,
+            VCD.SUBHOLIDAY_DT_CODE_NM
+        FROM
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VH
+        JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD ON VH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+        WHERE
+            VH.APPR_STAT = 'Y' AND VH.APPLY_SEQ = #{empSeq} AND VCD.SUBHOLIDAY_MD_CODE = '01'
+    </select>
 </mapper>

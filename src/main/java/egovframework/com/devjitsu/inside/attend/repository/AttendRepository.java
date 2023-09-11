@@ -11,4 +11,8 @@ public class AttendRepository extends AbstractDAO {
     public List<Map<String, Object>> personAttendList(Map<String, Object> params) {
         return selectList("attend.personAttendList", params);
     }
+
+    public List<Map<String, Object>> personAnnvMainList(Map<String, Object> params) {
+        return selectList("attend.personAnnvMainList", params);
+    }
 }
