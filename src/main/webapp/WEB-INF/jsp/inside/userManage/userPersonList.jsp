@@ -89,7 +89,7 @@
                                 <label for="dsG">연수생/학생연구원</label>
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsH">
                                 <label for="dsH">기타</label>
-                                <input type="checkbox" class="detailSearch" value="9" style="margin-left: 10px;" id="dsI">
+                                <input type="checkbox" class="detailSearch" style="margin-left: 10px;" id="dsI">
                                 <label for="dsI">임시직원</label>
                                 <input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ">
                                 <label for="dsJ">퇴사직원</label>
