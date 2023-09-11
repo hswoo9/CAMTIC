@@ -16,7 +16,7 @@
     <div class="sns">
       <a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank' class="insta">인스타그램</a>
       <a href="https://www.facebook.com/CAMTIC4U" target='_blank' class="face">페이스북</a>
-      <a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao">카카오톡</a>
+      <%--<a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao">카카오톡</a>--%>
     </div>
   </div>
   <div class="bot">

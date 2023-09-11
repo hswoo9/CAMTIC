@@ -1170,6 +1170,7 @@
                     AND STATUS != 100
                 </if>
                     AND ACTIVE = 'Y'
+                    AND INVENTION_INFO_SN NOT IN (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE RPR_CLASS = 1 AND STATUS = 0)
                 ORDER BY III.REG_DATE, III.REG_DT
             ) RE
         ORDER BY RE.REG_DT DESC
@@ -2099,7 +2100,7 @@
                 WHERE
                     IEM.ACTVT_YN = 'Y'
                     <if test='searchType != null and searchType != ""'>
-                        AND IEM.EQIPMN_GBN_CMMN_CD_SN in (${searchType})
+                        AND IEM.eqipmn_mst_sn in (${searchType})
                     </if>
                 ORDER BY IEM.EQIPMN_GBN_CMMN_CD_SN
             ) R

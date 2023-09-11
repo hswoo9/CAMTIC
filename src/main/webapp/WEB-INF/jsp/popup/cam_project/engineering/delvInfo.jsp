@@ -43,7 +43,7 @@
 <div style="padding: 10px">
     <div class="table-responsive">
         <div id="btnDiv">
-            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="estInfo.fn_save()">저장</button>
+<%--            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="openModal()">저장</button>--%>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
@@ -205,6 +205,7 @@
         </table>
     </div>
 </div>
+<div id="dialog"></div>
 
 <script>
     delvInfo.fn_defaultScript();
@@ -219,13 +220,13 @@
         visible: false,
         modal: true,
         position : {
-            top : 100,
-            left : 70
+            top : 200,
+            left : 400
         },
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="es2.fn_save()">저장</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="delvInfo.fn_save()">저장</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +

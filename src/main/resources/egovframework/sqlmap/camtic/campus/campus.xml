@@ -31,6 +31,51 @@
             </if>
     </select>
 
+    <select id="getRealEduTimeYear" resultType="map" parameterType="map">
+        /* getRealEduTimeYear */
+        SELECT
+            IFNULL(SUM(ER.REAL_EDU_TIME), 0) AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_EDU_INFO EI
+        LEFT JOIN
+            CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID
+        WHERE
+            LEFT(EI.START_DT, 4) = #{eduYear}
+        AND EI.EDU_FORM_TYPE = #{eduFormType}
+        AND EI.REG_EMP_SEQ = #{empSeq}
+        AND ER.MNG_CHECK = 'Y'
+    </select>
+
+    <select id="getRealEduTimeStudyWeekly" resultType="map" parameterType="map">
+        /* getRealEduTimeStudyWeekly */
+        SELECT
+            IFNULL(SUM(JOURNAL_TIME), 0) AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ
+        LEFT JOIN
+            CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
+        WHERE
+            CSJ.STUDY_INFO_SN = #{studyInfoSn}
+        AND STUDY_EMP_SEQ = #{empSeq}
+        AND CSJ.ACTIVE = 'Y'
+        AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+    </select>
+
+    <select id="getRealEduTimePropagWeekly" resultType="map" parameterType="map">
+        /* getRealEduTimePropagWeekly */
+        SELECT
+            IFNULL(SUM(JOURNAL_TIME), 0) AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ
+        LEFT JOIN
+            CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
+        WHERE
+            CSJ.STUDY_INFO_SN = #{studyInfoSn}
+          AND STUDY_EMP_SEQ = #{empSeq}
+          AND CSJ.ACTIVE = 'Y'
+          AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+    </select>
+
     <select id="getEduInfoList" resultType="map" parameterType="map">
         /* getEduInfoList */
         SELECT
@@ -40,6 +85,7 @@
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
                     EI.EDU_INFO_ID,
+                    EI.REG_EMP_SEQ,
                     EI.REG_EMP_NAME,
                     EI.EDU_NAME,
                     EI.START_DT,
@@ -55,7 +101,14 @@
                     EI.STATUS,
                     EI.TERM_TIME,
                     IFNULL(ER.STATUS, 1) AS RES_STATUS,
-                    ER.MNG_CHECK
+                    ER.MNG_CHECK,
+                    EI.OBJECT_FORUM_TYPE,
+                    IFNULL(EI.BOOK_PAGE_VAL, 0) AS BOOK_PAGE_VAL,
+                    EI.TREA_UNIT,
+                    EI.TREA_TYPE,
+                    EI.TREA_USER,
+                    EI.BOOK_UNIT,
+                    IFNULL(ER.REAL_EDU_TIME, 0) AS REAL_EDU_TIME
                 FROM
                     CAMPUS.DJ_EDU_INFO EI
                 LEFT JOIN
@@ -657,9 +710,9 @@
             CEC.EDU_CATEGORY_NAME,
             CONCAT('Level ', CECD.LEVEL_ID) AS LEVEL,
             CECD.EDU_CATEGORY_DETAIL_NAME,
-            (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME AND CEI.DUTY_CLASS = SEI.DUTY_CLASS) AS SUM_TIME,
-            (SELECT COUNT(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME AND CEI.DUTY_CLASS = SEI.DUTY_CLASS) AS COUNT_BY,
-            (SELECT SUM(TERM_TIME) FROM CAMPUS.DJ_EDU_INFO SEI WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ) AS SUM_ALL
+            (SELECT SUM(SER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON CEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME AND CEI.DUTY_CLASS = SEI.DUTY_CLASS AND SEI.ACTIVE = 'Y' AND SER.STATUS = 100 AND SER.MNG_CHECK = 'Y') AS SUM_TIME,
+            (SELECT COUNT(SER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON CEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.EDU_CATEGORY_DETAIL_NAME = CECD.EDU_CATEGORY_DETAIL_NAME AND CEI.DUTY_CLASS = SEI.DUTY_CLASS AND SEI.ACTIVE = 'Y' AND SER.STATUS = 100 AND SER.MNG_CHECK = 'Y') AS COUNT_BY,
+            (SELECT SUM(SER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON CEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SEI.REG_EMP_SEQ = CEI.REG_EMP_SEQ AND SEI.ACTIVE = 'Y' AND SER.STATUS = 100 AND SER.MNG_CHECK = 'Y') AS SUM_ALL
         FROM
             CAMPUS.DJ_EDU_INFO CEI
         LEFT JOIN
@@ -673,7 +726,8 @@
         WHERE
             1=1
         AND CER.STATUS = 100
-        AND CER.MNG_CHECK = "Y"
+        AND CER.MNG_CHECK = 'Y'
+        AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = 'Y'
         GROUP BY HEI.EMP_NAME_KR, DUTY_CLASS, EDU_CATEGORY_DETAIL_NAME
     </select>
 
@@ -683,8 +737,8 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ), " ",HEI.DEPT_NAME) ELSE HEI.DEPT_NAME END AS DEPT,
             CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION,
             HEI.EMP_NAME_KR AS EMP_NAME,
-            IFNULL((SELECT SUM(CEI.TERM_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = "Y"), 0) AS PERSONAL_TIME,
-            (SELECT COUNT(CEI.TERM_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = "Y") AS PERSONAL_COUNT,
+            IFNULL((SELECT SUM(CER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = 'Y'), 0) AS PERSONAL_TIME,
+            (SELECT COUNT(CER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = 'Y') AS PERSONAL_COUNT,
             IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS STUDY_TIME,
             (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y') AS STUDY_COUNT,
             IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 GROUP BY CSI.REG_DATE), 0) AS PROPAG_TIME,
@@ -925,9 +979,10 @@
         UPDATE
             CAMPUS.DJ_EDU_RESULT
         SET
-            MNG_CHECK = #{mngCheck}
+            MNG_CHECK = #{mngCheck},
+            REAL_EDU_TIME = #{realEduTime}
         WHERE
-            EDU_INFO_ID IN (SELECT SER.EDU_INFO_ID FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON SEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SER.STATUS = 100 AND SER.EDU_INFO_ID IN (${eduList}))
+            EDU_INFO_ID = (SELECT SER.EDU_INFO_ID FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON SEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SER.STATUS = 100 AND SER.EDU_INFO_ID = #{pk})
     </update>
 
     <insert id="setStudyInfoInsert" parameterType="map">
@@ -1089,7 +1144,7 @@
                 #{journalDt},
                 #{journalStartTime},
                 #{journalEndTime},
-                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{journalEndTime}, #{journalStartTime}), '%H:%m'))) / 3600),
+                #{realEduTime},
                 #{studyLocation},
                 #{studyContent},
                 #{studyMoney},
@@ -1249,7 +1304,7 @@
                 #{openStudyDt},
                 #{startTime},
                 #{endTime},
-                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                #{realEduTime},
                 #{openStudyDetail},
                 #{openStudyLocation},
                 #{regEmpSeq},
@@ -1266,7 +1321,7 @@
             OPEN_STUDY_DT = #{openStudyDt},
             START_TIME = #{startTime},
             END_TIME = #{endTime},
-            EDU_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+            EDU_TIME = #{realEduTime},
             OPEN_STUDY_DETAIL = #{openStudyDetail},
             OPEN_STUDY_LOCATION = #{openStudyLocation}
         WHERE
