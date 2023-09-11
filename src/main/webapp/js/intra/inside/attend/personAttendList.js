@@ -9,9 +9,11 @@ var personAttend = {
     },
 
     pageSet: function(){
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
-        $("#startDay, #endDay").attr("readonly", true);
+        /* customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1))); */
+        /** 임시로 8월 한달치 데이터만 나오게 */
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date("2023-08-01"));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date("2023-08-31"));
+        $("#startDt, #endDt").attr("readonly", true);
 
         $("#situation").kendoDropDownList({
             dataTextField: "text",
@@ -53,7 +55,7 @@ var personAttend = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/inside/personAttendList",
+                    url: "/inside/getPersonAttendList",
                     dataType: "json",
                     type: "post"
                 },
@@ -108,9 +110,31 @@ var personAttend = {
                     field: "END_TIME",
                     title: "퇴근 시간",
                 }, {
-                    field: "",
                     title: "근태 항목",
-                }]
+                    template: function(row){
+                        console.log(row);
+                        let text = "";
+                        if(row.HOLIDAY != ""){
+                            text += row.HOLIDAY
+                        }
+                        if(row.BUSTRIP != ""){
+                            if(text != ""){
+                                text += ", ";
+                            }
+                            if (row.BUSTRIP == "1") {
+                                text += "도내(시내)";
+                            }else if (row.BUSTRIP == "2") {
+                                text += "도내(시외)";
+                            }else if (row.BUSTRIP == "3") {
+                                text += "도외";
+                            }else if (row.BUSTRIP == "4") {
+                                text += "해외";
+                            }
+                        }
+                        return text;
+                    }
+                }
+            ]
         }).data("kendoGrid");
     }
 }

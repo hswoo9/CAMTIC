@@ -15,8 +15,13 @@ public class AttendServiceImpl implements AttendService {
     private AttendRepository attendRepository;
 
     @Override
-    public List<Map<String, Object>> personAttendList(Map<String, Object> params) {
-        return attendRepository.personAttendList(params);
+    public List<Map<String, Object>> getPersonAttendList(Map<String, Object> params) {
+        return attendRepository.getPersonAttendList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPersonAttendStat(Map<String, Object> params) {
+        return attendRepository.getPersonAttendStat(params);
     }
 
     @Override
