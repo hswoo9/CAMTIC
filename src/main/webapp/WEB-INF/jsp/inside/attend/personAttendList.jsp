@@ -34,7 +34,7 @@
                                     <input type="text" id="attendanceItems" style="width: 200px;">
                                 </div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">
                                         <span>검색</span>
                                     </button>
                                 </div>
@@ -47,22 +47,22 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="12.5%" >
-                                <col width="10%" >
-                                <col width="12.5%" >
+                                <col width="9.5%" >
+                                <col width="8%" >
+                                <col width="9.5%" >
+                                <col width="6%" >
                                 <col width="5%" >
                                 <col width="5%" >
+                                <col width="6%" >
+                                <col width="6%" >
                                 <col width="5%" >
                                 <col width="5%" >
+                                <col width="6%" >
+                                <col width="6%" >
+                                <col width="6%" >
                                 <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
+                                <col width="6%" >
+                                <col width="6%" >
                             </colgroup>
                             <thead>
                             <tr>
@@ -86,9 +86,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td style="text-align: center;">경영지원실</td>
-                                <td style="text-align: center;">홍길동</td>
-                                <td style="text-align: center;">책임행정원</td>
+                                <td style="text-align: center;">${loginVO.teamNm}</td>
+                                <td style="text-align: center;">${loginVO.name}</td>
+                                <td style="text-align: center;">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
                                 <td style="text-align: center;">0일</td>
                                 <td style="text-align: center;">0일</td>
                                 <td style="text-align: center;">0일</td>

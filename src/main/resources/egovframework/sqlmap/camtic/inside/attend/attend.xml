@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="attend">
-    <select id="personAttendList" parameterType="map" resultType="map">
+    <select id="getPersonAttendList" parameterType="map" resultType="map">
         /* personAttendList */
         WITH RECURSIVE APPLY_DATE AS (
             SELECT #{startDt} AS START_DATE
@@ -47,9 +47,193 @@
                 AND SCC.ISTYPE = '2'
                 AND SCC.USERUUID = #{empSeq}
                 AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
-        ), '기록 없음') AS END_TIME
+            ), '기록 없음') AS END_TIME,
+
+                IFNULL((
+                SELECT SUBHOLIDAY_DT_CODE_NM FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
+                LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
+                WHERE AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                AND AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                AND SVUH.REG_EMP_SEQ = #{empSeq} AND SVUH.APPR_STAT = 'Y'
+                ORDER BY SVUH.REG_DATE DESC limit 1
+            ), '') AS HOLIDAY,
+
+            IFNULL((
+                SELECT IHRR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
+                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
+                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
+                WHERE AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                  AND AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                  AND IHE.EMP_SEQ = #{empSeq} AND IHRR.STATUS = '100'
+                ORDER BY IHRR.CREATE_DATE DESC limit 1
+                ), '') AS BUSTRIP
+            FROM
+                APPLY_DATE AD
+    </select>
+
+    <select id="getPersonLeaveStatus" parameterType="map" resultType="map">
+        WITH RECURSIVE REQUEST AS (
+            SELECT
+                #{startDt} AS START_DATE,
+                #{endDt} AS END_DATE,
+                #{empSeq} AS EMP_SEQ
+        )
+        SELECT
+            /** 1연차 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 1
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS ANNUAL,
+
+            /** 3오전반차 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 3
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS MORNING,
+
+            /** 4오후반차 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 4
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS AFTERNOON,
+
+            /** 5병가 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 5
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS SICK,
+
+            /** 6공가 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 6
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS SICK,
+
+            /** 7경조휴가 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 7
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS CONDOLENCES,
+
+            /** 8출산휴가 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 8
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS MATERNITY,
+
+            /** 9대체휴가 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 9
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS ALTERNATIVE,
+
+            /** 10근속포상휴가 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 10
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS LONGAWARD,
+
+            /** 11휴일근로 */
+            (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
+             FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
+             WHERE SUBHOLIDAY_CODE_ID = 11
+               AND REG_EMP_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y') AS HOLIDAYWORK
         FROM
+            REQUEST R
+    </select>
+
+    <select id="getPersonAttendStat" parameterType="map" resultType="map">
+        /* personAttendList */
+        WITH RECURSIVE APPLY_DATE AS (
+            SELECT #{startDt} AS START_DATE
+
+            UNION ALL
+
+            SELECT START_DATE + INTERVAL 1 DAY
+        FROM APPLY_DATE
+            <![CDATA[
+        WHERE START_DATE < #{endDt}
+            ]]>
+        )
+        SELECT
+            HEI.EMP_NAME_KR,
+            AD.START_DATE,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+            HEI.POSITION_NAME AS REG_POSITION_NAME,
+            HEI.DUTY_NAME AS REG_DUTY_NAME,
+            CASE DAYOFWEEK(AD.START_DATE)
+                WHEN '1' THEN '일요일' WHEN '2' THEN '월요일' WHEN '3' THEN '화요일' WHEN '4' THEN '수요일' WHEN '5' THEN '목요일' WHEN '6' THEN '금요일' WHEN '7' THEN '토요일'
+                END AS WEEK,
+            IFNULL((
+                       SELECT
+                           CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                       FROM
+                           CAM_COMMON.CAPSDATA scc
+                       WHERE
+                <![CDATA[
+                           SCC.INTIME >= '000000'
+                         AND SCC.INTIME <= '235959'
+                ]]>
+                AND SCC.ISTYPE = '1'
+                         AND SCC.USERUUID = HEI.EMP_SEQ
+                         AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
+                limit 1
+                   ), '기록 없음') AS START_TIME,
+            IFNULL((
+                       SELECT
+                           CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                       FROM
+                           CAM_COMMON.CAPSDATA SCC
+                       WHERE
+                <![CDATA[
+                           SCC.INTIME >= '000000'
+                         AND SCC.INTIME <= '235959'
+                ]]>
+                AND SCC.ISTYPE = '2'
+                         AND SCC.USERUUID = HEI.EMP_SEQ
+                         AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
+                limit 1
+                   ), '기록 없음') AS END_TIME,
+
+            IFNULL((
+                SELECT SUBHOLIDAY_DT_CODE_NM FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
+                                                      LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
+                WHERE AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                  AND AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                  AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
+                ORDER BY SVUH.REG_DATE DESC limit 1
+                ), '') AS HOLIDAY,
+
+            IFNULL((
+                SELECT IHRR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
+                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
+                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
+                WHERE AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                  AND AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                  AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
+                ORDER BY IHRR.CREATE_DATE DESC limit 1
+                ), '') AS BUSTRIP
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        JOIN
             APPLY_DATE AD
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+        AND WORK_STATUS_CODE = 'Y'
     </select>
 
     <select id="personAnnvMainList" parameterType="map" resultType="map">

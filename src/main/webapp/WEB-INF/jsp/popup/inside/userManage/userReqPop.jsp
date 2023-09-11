@@ -53,7 +53,12 @@
                     <td>
                         <input type="text" id="divis" style="width: 40%;">
                         <input type="text" id="divisDet" style="width: 35%; display: none">
-                        <input type="checkbox" id="check1"> 임시직원
+                        <c:if test="${uprinfList.TEMP_DIVISION == null || uprinfList.TEMP_DIVISION == 'N'}">
+                            <input type="checkbox" id="check1"> 임시직원
+                        </c:if>
+                        <c:if test="${uprinfList.TEMP_DIVISION != null && uprinfList.TEMP_DIVISION == 'Y'}">
+                            <input type="checkbox" id="check1" checked> 임시직원
+                        </c:if>
                     </td>
                 </tr>
                 <tr>

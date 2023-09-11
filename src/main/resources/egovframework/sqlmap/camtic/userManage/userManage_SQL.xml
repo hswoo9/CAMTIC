@@ -285,7 +285,8 @@
             CAREER,
             MILITARY,
             SIGNIFICANT,
-            BDAY
+            BDAY,
+            TEMP_DIVISION
         )VALUES(
             (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
             #{EMP_NAME_KR},
@@ -359,7 +360,8 @@
             #{CAREER},
             #{MILITARY},
             #{SIGNIFICANT},
-            #{BDAY}
+            #{BDAY},
+            #{TEMP_DIVISION}
         )
     </insert>
 
@@ -456,7 +458,10 @@
                 ${item}
             </foreach>
         </if>
-
+        <if test='dsI == "Y" or "Y".equals(dsI)'>
+            AND
+                TEMP_DIVISION = "Y"
+        </if>
         ORDER BY SORT
     </select>
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
@@ -599,27 +604,6 @@
             ,#{score}
         )
     </insert>
-
-    <!--<insert id="setRecordHisInfo" parameterType="map">
-        /*setRecordHisInfo*/
-        INSERT INTO CAM_HR.DJ_EMP_RECORD_HISTORY(
-              GUBUN
-             ,APPLI_TYPE
-             ,BASE_INFO
-             ,ADMIN_APPROVAL
-             ,REG_EMP_SEQ
-             ,REG_EMP_NAME
-             ,REG_DATE
-        )VALUES (
-            #{type}
-            ,#{APPLI_TYPE}
-            ,#{JSON}
-            ,#{ADMIN_APPROVAL}
-            ,#{EMP_SEQ}
-            ,#{EMP_NAME}
-            ,NOW()
-        )
-    </insert>-->
 
     <insert id="setCareerInfo" parameterType="map">
         INSERT INTO cam_hr.dj_emp_career(
@@ -1513,7 +1497,8 @@
             a.LAST_DEGREE,
             a.CAREER,
             a.MILITARY,
-            a.SIGNIFICANT
+            a.SIGNIFICANT,
+            a.TEMP_DIVISION
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -1642,7 +1627,8 @@
             CAREER = #{CAREER},
             MILITARY = #{MILITARY},
             SIGNIFICANT = #{SIGNIFICANT},
-            BDAY = #{BDAY}
+            BDAY = #{BDAY},
+            TEMP_DIVISION = #{TEMP_DIVISION}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
     </update>
 
@@ -1853,4 +1839,24 @@
         WHERE
             EDUCATIONAL_ID = #{pk}
     </select>
+
+    <update id="setInGradeFileNoUpd" parameterType="map">
+        /* setInGradeFileNoUpd */
+        UPDATE
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        SET
+            GRADE_NO = #{gradeFileNo}
+        WHERE
+            EDUCATIONAL_ID = #{educationalId}
+    </update>
+
+    <update id="setInScoreFileNoUpd" parameterType="map">
+        /* setInScoreFileNoUpd */
+        UPDATE
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        SET
+            SCORE_NO = #{socreFileNo}
+        WHERE
+            EDUCATIONAL_ID = #{educationalId}
+    </update>
 </mapper>

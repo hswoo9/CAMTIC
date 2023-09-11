@@ -942,6 +942,7 @@ var userReqPop = {
             }else {
                 data.LUNAR_CAL = "N"
             }
+            data.BDAY = $("#bday").val();
         }else{
             //신규
             if($("#lunarYn").is(":checked")){
@@ -970,6 +971,12 @@ var userReqPop = {
         } else {
             data.CAR_ACTIVE = "N"
             data.CAR_NUM = "";
+        }
+
+        if($("#check1").is(":checked")){
+            data.TEMP_DIVISION = "Y"
+        } else {
+            data.TEMP_DIVISION = "N"
         }
 
         if($("#check3").is(":checked")){

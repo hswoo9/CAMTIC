@@ -41,9 +41,16 @@ public class AttendController {
         return "inside/attend/personAttendList";
     }
     /** 개인근태 리스트 조회 */
-    @RequestMapping("/inside/personAttendList")
-    public String personAttendList(@RequestParam Map<String, Object> params, Model model) {
-        List<Map<String, Object>> list = attendService.personAttendList(params);
+    @RequestMapping("/inside/getPersonAttendList")
+    public String getPersonAttendList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.getPersonAttendList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+    /** 직원근태 리스트 조회 */
+    @RequestMapping("/inside/getPersonAttendStat")
+    public String getPersonAttendStat(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.getPersonAttendStat(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

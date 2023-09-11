@@ -8,8 +8,12 @@ import java.util.Map;
 
 @Repository
 public class AttendRepository extends AbstractDAO {
-    public List<Map<String, Object>> personAttendList(Map<String, Object> params) {
-        return selectList("attend.personAttendList", params);
+    public List<Map<String, Object>> getPersonAttendList(Map<String, Object> params) {
+        return selectList("attend.getPersonAttendList", params);
+    }
+
+    public List<Map<String, Object>> getPersonAttendStat(Map<String, Object> params) {
+        return selectList("attend.getPersonAttendStat", params);
     }
 
     public List<Map<String, Object>> personAnnvMainList(Map<String, Object> params) {
