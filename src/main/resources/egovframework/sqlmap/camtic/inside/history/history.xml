@@ -115,6 +115,7 @@
         /* getRewardList */
         SELECT
             @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+            HER.REWORD_ID,
             HER.EMP_NAME,
             SUBSTRING(HER.REWORD_TYPE_NAME, 2, 4) AS SIDE_NAME,
             SUBSTRING(HER.REWORD_TYPE_NAME, 8) AS REWORD_TYPE_NAME,
@@ -160,6 +161,34 @@
                     AND HER.RWD_SN like CONCAT('%', #{searchText}, '%')
                 </when>
             </choose>
+        ORDER BY HER.REWORD_ID DESC
+    </select>
+
+    <select id="getUpdRewardList" resultType="map" parameterType="map">
+        /* getUpdRewardList */
+        SELECT
+            HER.*,
+            AHEI.ERP_EMP_SEQ,
+            AHEI.EMP_NAME_KR,
+            HER.REWORD_TYPE AS REWARD_TP,
+            HER.REWORD_DAY AS REWARD_DAY,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
+        FROM
+            CAM_HR.DJ_EMP_REWORD HER
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO AHEI ON HER.EMP_SEQ = AHEI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON HER.REWORD_ID = CFI.CONTENT_ID AND CFI.FILE_CD = 'reward'
+        WHERE
+        1=1
+        <if test='pk != null and !"".equals(pk)'>
+            AND RWD_SN = (SELECT SER.RWD_SN FROM CAM_HR.DJ_EMP_REWORD SER WHERE SER.REWORD_ID = #{pk})
+        </if>
         ORDER BY HER.REWORD_ID DESC
     </select>
 

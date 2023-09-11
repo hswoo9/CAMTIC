@@ -23,6 +23,27 @@ const rewardBatch = {
             index: 0,
             change: rewardBatch.changeRewardAll
         });
+
+        if($("#mode").val() == "upd"){
+            let data = {
+                pk: $("#pk").val()
+            }
+            const result = customKendo.fn_customAjax("/inside/getUpdRewardList", data);
+            let grid = $("#popMainGrid").data("kendoGrid");
+            let userArr = result.list;
+            console.log(userArr);
+
+            for(let i=0; i<userArr.length; i++){
+                rewardBatch.global.userArr.push(userArr[i].EMP_SEQ);
+                rewardBatch.global.editDataSource.data.push(userArr[i]);
+                grid.dataSource.read();
+            }
+            rewardBatch.global.nowUserArr = rewardBatch.global.userArr;
+
+
+            $("#numberName").val(userArr);
+            rewardBatch.fn_popGridSetting();
+        }
     },
 
     changeRewardAll: function(){
@@ -170,7 +191,11 @@ const rewardBatch = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position: relative; top: 2px;" />',
                     template : function (e){
-                        return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>"
+                        if(e.REWORD_ID != null){
+                            return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.REWORD_ID+"' style='position: relative; top: 2px;'/>"
+                        }else{
+                            return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>"
+                        }
                     },
                     width: 40,
                     attribute: {
@@ -226,7 +251,11 @@ const rewardBatch = {
                 }, {
                     title: "스캔파일",
                     template : function(row){
-                        return "<input type='file' id='fileList"+row.EMP_SEQ+"' name='fileList' multiple/>";
+                        if(row.file_no > 0){
+                            return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
+                        }else{
+                            return "<input type='file' id='fileList"+row.EMP_SEQ+"' name='fileList' multiple/>";
+                        }
                     },
                     width: 180
                 }, {
@@ -362,19 +391,23 @@ const rewardBatch = {
             formData.append("regEmpSeq", $("#empSeq").val());
             formData.append("numberName", $("#numberName").val());
 
-            const result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
+            if($("#mode").val() != "upd") {
+                const result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
 
-            if(result.flag) {
-                console.log(result);
-            }else{
-                alert("결재 중 에러가 발생했습니다.");
+                if (result.flag) {
+                    console.log(result);
+                } else {
+                    alert("결재 중 에러가 발생했습니다.");
+                }
+                fCommon.global.attFiles = [];
             }
-
-            fCommon.global.attFiles = [];
         });
-        alert("포상 등록이 완료되었습니다.");
-        opener.gridReload();
-        //window.close();
+
+        if($("#mode").val() != "upd") {
+            alert("포상 등록이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }
     },
 
     fn_delApnt : function(){

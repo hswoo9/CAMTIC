@@ -22,6 +22,13 @@ public interface HistoryService {
     List<Map<String, Object>> getUpdHistoryList(Map<String, Object> params);
 
     /**
+     * 포상조회(수정팝업)
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getUpdRewardList(Map<String, Object> params);
+
+    /**
      * 발령 단일조회
      * @param params
      * @return

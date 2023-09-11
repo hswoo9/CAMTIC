@@ -17,6 +17,10 @@ public class HistoryRepository extends AbstractDAO {
         return selectList("history.getUpdHistoryList", params);
     }
 
+    public List<Map<String, Object>> getUpdRewardList(Map<String, Object> params) {
+        return selectList("history.getUpdRewardList", params);
+    }
+
     public Map<String, Object> getHistoryOne(Map<String, Object> params) {
         return (Map<String,Object>)selectOne("history.getHistoryOne", params);
     }
