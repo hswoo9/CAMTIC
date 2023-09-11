@@ -295,7 +295,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void setEngnCrmInfo(Map<String, Object> params) {
-
         projectRepository.updEngnCrmInfo(params);
 
         projectRepository.updProject(params);
@@ -336,5 +335,10 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("approveStatCode", 100);
             projectRepository.updateDelvFinalApprStat(params);
         }
+    }
+
+    @Override
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return projectRepository.getCrmInfo(params);
     }
 }

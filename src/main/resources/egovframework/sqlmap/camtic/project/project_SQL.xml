@@ -25,7 +25,7 @@
         LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
             ON
-                A.CRM_CD = D.CRM_SN
+                A.CRM_SN = D.CRM_SN
         LEFT JOIN
             CAM_CRM.DJ_CRM_MEM CM
         ON
@@ -109,7 +109,7 @@
         LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
             ON
-                A.CRM_CD = D.CRM_SN
+                A.CRM_SN = D.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -698,9 +698,8 @@
     <update id="updEngnCrmInfo" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            CRM_NM = #{crmNm},
-            CRM_CD = #{crmCd},
-            CRM_SUB_CD = #{crmReqMem}
+            CRM_SN = #{crmSn},
+            CRM_MEM_SN = #{crmMemSn}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -723,7 +722,7 @@
         SET
             ${stepColumn} = #{stepValue},
             ${nextStepColumn} = #{nextStepValue},
-            CRM_CD = #{crmCd},
+            CRM_SN = #{crmSn},
             MOD_DT = now()
         WHERE
             ENGN_SN = #{engnSn} AND ${stepColumn} = 'N'
@@ -758,4 +757,26 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <select id="getCrmInfo" parameterType="map" resultType="map">
+        /*getCrmInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT DP
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_ENGN PE
+        ON
+            DP.PJT_SN = PE.PJT_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON
+            DP.CRM_SN = CI.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM DM
+        ON
+            DP.CRM_MEM_SN = DM.CRM_MEM_SN
+        WHERE
+            DP.PJT_SN = #{pjtSn}
+    </select>
 </mapper>

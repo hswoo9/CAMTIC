@@ -11,12 +11,24 @@ var regPrj = {
             cmGroupCode : "BUSN_CLASS",
         }
 
+        var tab0Url = "/intra/cam_project/crmInfo.do";
+        if (setParameters != null && setParameters.PJT_SN != null) {
+            tab0Url += "?pjtSn=" + setParameters.PJT_SN;
+        }
+
+        
+
         $("#tabstrip").kendoTabStrip({
             animation:  {
                 open: {
                     effects: "fadeIn"
                 }
-            }
+            },
+            dataTextField: "name",
+            dataContentUrlField: "url",
+            dataSource : [
+                {name: "업체정보", url: tab0Url},
+            ],
         });
 
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
@@ -64,6 +76,7 @@ var regPrj = {
 
     },
 
+
     fn_busnDDLChange: function(e){
         var value = this.value();
 
@@ -105,8 +118,9 @@ var regPrj = {
             dataType : "json",
             async : false,
             success : function(rs){
-                console.log(rs);
                 opener.parent.camPrj.gridReload();
+
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + rs.params.PJT_SN;
                 // location.reload();
             }
         });
