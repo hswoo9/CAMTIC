@@ -152,11 +152,12 @@ public class HistoryController {
 
     //포상관리일괄등록 페이지
     @RequestMapping("/Inside/pop/rewardReqBatchPop.do")
-    public String rewardReqBatchPop(HttpServletRequest request, Model model) {
+    public String rewardReqBatchPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
         return "popup/inside/history/rewardReqBatchPop";
     }
 
@@ -190,6 +191,18 @@ public class HistoryController {
     @RequestMapping("/inside/getUpdHistoryList")
     public String getUpdHistoryList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = historyService.getUpdHistoryList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
+     * 포상조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getUpdRewardList")
+    public String getUpdRewardList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = historyService.getUpdRewardList(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

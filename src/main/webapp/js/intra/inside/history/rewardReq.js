@@ -77,7 +77,10 @@ var rewardReq = {
                 }, {
                     field: "EMP_NAME",
                     title: "성명",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        return "<span style='font-weight: bold' class='hover' onclick='rewardReq.rewardReqBatchPop(\"upd\", "+row.REWORD_ID+");'>"+row.EMP_NAME+"</span>";
+                    }
                 }, {
                     field: "SIDE_NAME",
                     title: "내/외부",
@@ -158,8 +161,11 @@ var rewardReq = {
         fn_deptSetting();
     },
 
-    rewardReqBatchPop : function() {
+    rewardReqBatchPop : function(mode, pk) {
         var url = "/Inside/pop/rewardReqBatchPop.do";
+        if(mode == "upd"){
+            url += "?mode="+mode+"&pk="+pk;
+        }
         var name = "rewardReqBatchPop";
         var option = "width=1800, height=695, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

@@ -4,6 +4,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/history/rewardReq.js?v=${today}"/></script>
+<style>
+    .hover:hover {text-decoration: underline; cursor: pointer}
+</style>
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
