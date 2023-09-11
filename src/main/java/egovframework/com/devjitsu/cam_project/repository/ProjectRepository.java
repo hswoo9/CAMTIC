@@ -224,8 +224,13 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProject", params);
     }
 
-    public void updateDelvApprStat(Map<String, Object> params) { update("project.updateDelvApprStat", params); }
-    public void updateDelvFinalApprStat(Map<String, Object> params) { update("project.updateDelvFinalApprStat", params); }
+    public void updateDelvApprStat(Map<String, Object> params) {
+        update("project.updateDelvApprStat", params);
+    }
+    public void updateDelvFinalApprStat(Map<String, Object> params) {
+        update("project.updateProjectCode", params);
+        update("project.updateDelvFinalApprStat", params);
+    }
 
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getCrmInfo", params);
@@ -233,5 +238,17 @@ public class ProjectRepository extends AbstractDAO {
 
     public Map<String, Object> getBustInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getBustInfo", params);
+    }
+
+    public void insDelvInfo(Map<String, Object> params) {
+        insert("project.insDelvInfo", params);
+    }
+
+    public void updDelvInfo(Map<String, Object> params) {
+        update("project.updDelvInfo", params);
+    }
+
+    public void updProjectTmpCode(Map<String, Object> params) {
+        update("project.updProjectTmpCode", params);
     }
 }

@@ -13,9 +13,13 @@ var regPrj = {
 
         var tab0Url = "/intra/cam_project/crmInfo.do";
         var tab1Url = "/intra/cam_project/bustInfo.do";
+        var tab2Url = "/intra/cam_project/estInfo.do";
+        var tab3Url = "/intra/cam_project/delvInfo.do";
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
             tab1Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab2Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab3Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
 
@@ -31,6 +35,8 @@ var regPrj = {
             dataSource : [
                 {name: "업체정보", url: tab0Url},
                 {name: "출장정보", url: tab1Url},
+                {name: "견적관리", url: tab2Url},
+                {name: "수주보고", url: tab3Url},
             ],
         });
 

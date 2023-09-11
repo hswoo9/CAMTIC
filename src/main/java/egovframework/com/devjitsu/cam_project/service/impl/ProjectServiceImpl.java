@@ -307,6 +307,22 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setDelvInfo(Map<String, Object> params) {
+
+        if(params.containsKey("delvSn")){
+            projectRepository.updDelvInfo(params);
+        } else {
+            projectRepository.insDelvInfo(params);
+            projectRepository.updProject(params);
+            projectRepository.updEngn(params);
+        }
+
+        if(params.containsKey("pjtTmpCd")){
+            projectRepository.updProjectTmpCode(params);
+        }
+    }
+
+    @Override
     public void updateDelvDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));

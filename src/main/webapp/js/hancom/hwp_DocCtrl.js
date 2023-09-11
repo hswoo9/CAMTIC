@@ -677,19 +677,19 @@ var hwpDocCtrl = {
             console.log(map);
             console.log(rs);
 
-            hwpDocCtrl.putFieldText('PJT_CD', map.PJT_CD);
+            hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
             hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-            hwpDocCtrl.putFieldText('PJT_DT', map.PJT_START_DT+" ~ "+map.PJT_END_DT);
+            // hwpDocCtrl.putFieldText('PJT_DT', map.PJT_START_DT+" ~ "+map.PJT_END_DT);
             hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
             hwpDocCtrl.putFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
-
+            hwpDocCtrl.moveToField('ETC', true, true, false);
+            hwpDocCtrl.setTextFile(delvMap.DELV_ISSU.replaceAll("\n", "<br>"), "html","insertfile");
             if(Number(delvMap.DELV_DEPT) == 0){
                 hwpDocCtrl.putFieldText('DELV_DEPT', '부서내 진행');
             }else{
                 hwpDocCtrl.putFieldText('DELV_DEPT', '부서간 협업');
             }
-            hwpDocCtrl.putFieldText('ETC', dev == null ? "" : dev.ETC);
 
             hwpDocCtrl.putFieldText('CRM_CD', map.CRM_CD);
             hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
@@ -700,10 +700,13 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('EMAIL', map.EMAIL);
             hwpDocCtrl.putFieldText('HOMEPAGE', map.HOMEPAGE);
             hwpDocCtrl.putFieldText('CONT_ETC', map.CONT_ETC);
+            hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
+            hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
 
             hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
             hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT));
             hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
+            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
             hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
             hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
             hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);

@@ -5,26 +5,10 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/estInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<%
-    String pjtSn = request.getParameter("pjtSn");
-    String engnSn = request.getParameter("engnSn");
-    String expAmt = request.getParameter("expAmt");
 
-    if(pjtSn == null){
-        return ;
-    }
-
-    if(engnSn == null){
-        return ;
-    }
-
-    if(expAmt == null){
-        return;
-    }
-%>
-<input type="hidden" id="pjtSn" value="<%=pjtSn%>" />
-<input type="hidden" id="engnSn" value="<%=engnSn%>" />
-<input type="hidden" id="expAmt" value="<%=expAmt%>" />
+<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="engnSn" value="${params.engnSn}" />
+<input type="hidden" id="expAmt" value="${params.expAmt}" />
 
 <input type="hidden" id="step" value="E1" />
 <input type="hidden" id="stepColumn" value="STEP2" />
