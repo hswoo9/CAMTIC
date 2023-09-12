@@ -112,6 +112,7 @@ public class DocumentRepository extends AbstractDAO {
     // 등록대장 문서 삭제
     public void setRlDelete(Map<String, Object> params) { update("document.setRlDelete", params);}
 
+
     public Map<String, Object> getDocViewOne(Map<String, Object> params) {
         return (Map<String,Object>)selectOne("document.getDocViewOne", params);
     }
