@@ -96,5 +96,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    personAnnvMain.mainGrid();
+    personAnnvMain.init();
 </script>

@@ -108,7 +108,17 @@ const studyReq = {
             data.readerUserSeq = readerUserSeq;
             data.startTime = startTime;
             data.endTime = endTime;
+
             data.eduTerm = eduTerm;
+
+            const date1 = new Date(startDt);
+            const date2 = new Date(endDt);
+            const diffDate = date1.getTime() - date2.getTime();
+            const getDateDiff = parseInt(Math.abs(diffDate / (1000 * 60 * 60 * 24))/7)+1;
+
+            if(getDateDiff * 2 < eduTime){
+                eduTime = getDateDiff * 2
+            }
             data.eduTime = eduTime;
         }
 

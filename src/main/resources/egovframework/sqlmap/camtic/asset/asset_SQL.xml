@@ -1170,6 +1170,7 @@
                     AND STATUS != 100
                 </if>
                     AND ACTIVE = 'Y'
+                    AND INVENTION_INFO_SN NOT IN (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE RPR_CLASS = 1 AND STATUS = 0)
                 ORDER BY III.REG_DATE, III.REG_DT
             ) RE
         ORDER BY RE.REG_DT DESC
@@ -1616,7 +1617,7 @@
             CAM_INSIDE.DJ_EQIPMN_USE
         SET
             eqipmn_mst_sn = #{eqipmnMstSn}, use_pd_str_de = #{usePdStrDe},
-            /* use_pd_end_de = #{usePdEndDe},*/ user_name = #{userName}, user_sn = #{userSn},
+            user_name = #{userName}, user_sn = #{userSn},
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
             reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn}
@@ -2099,7 +2100,7 @@
                 WHERE
                     IEM.ACTVT_YN = 'Y'
                     <if test='searchType != null and searchType != ""'>
-                        AND IEM.EQIPMN_GBN_CMMN_CD_SN in (${searchType})
+                        AND IEM.eqipmn_mst_sn in (${searchType})
                     </if>
                 ORDER BY IEM.EQIPMN_GBN_CMMN_CD_SN
             ) R

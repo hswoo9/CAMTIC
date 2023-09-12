@@ -14,8 +14,15 @@ var equipStat = {
             {text: "드론산업", value: "2"},
             {text: "메이커스페이스", value: "3"}
         ]
-        customKendo.fn_dropDownTree("searchType", searchTypeSource, "text", "value", 1);
-        $("#searchType").data("kendoDropDownTree").value(["1", "2", "3"]);
+        let url = "/asset/getEqipmnRegList";
+        let data = {};
+        const list = customKendo.fn_customAjax(url, data).rs;
+        customKendo.fn_dropDownTree("searchType", list, "EQIPMN_NAME", "EQIPMN_MST_SN", 1);
+        let arr = [];
+        for(let i=0; i<list.length; i++){
+            arr.push(String(list[i].EQIPMN_MST_SN));
+        }
+        $("#searchType").data("kendoDropDownTree").value(arr);
         $("#searchType").data("kendoDropDownTree").bind("change", equipStat.mainChart)
     },
 

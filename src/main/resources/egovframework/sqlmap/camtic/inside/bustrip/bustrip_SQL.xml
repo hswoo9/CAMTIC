@@ -37,6 +37,7 @@
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ
             (
                 EMP_SEQ,
+                CRM_SN,
                 EMP_NAME,
                 DEPT_SEQ,
                 DEPT_NAME,
@@ -64,6 +65,7 @@
         VALUES
             (
                 #{empSeq},
+                #{crmSn},
                 #{empName},
                 #{deptSeq},
                 #{deptName},
@@ -99,6 +101,7 @@
             (
                 HR_BIZ_REQ_ID,
                 EMP_SEQ,
+                CRM_SN,
                 EMP_NAME,
                 DEPT_SEQ,
                 DEPT_NAME,
@@ -131,6 +134,7 @@
             (
                 #{hrBizReqId},
                 #{empSeq},
+                #{crmSn},
                 #{empName},
                 #{deptSeq},
                 #{deptName},
@@ -291,6 +295,7 @@
     <update id="updBustripReq" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
+            CRM_SN = #{crmSn},
             TRIP_CODE = #{tripCode},
             VISIT_CRM = #{visitCrm},
             VISIT_LOC = #{visitLoc},
@@ -314,6 +319,7 @@
     <update id="updBustripResReq" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET
+            CRM_SN = #{crmSn},
             TRIP_CODE = #{tripCode},
             VISIT_CRM = #{visitCrm},
             VISIT_LOC = #{visitLoc},
@@ -796,6 +802,14 @@
         AND
             PJT_SN IS NULL
     </select>
+
+    <update id="updBustPjtsnReset" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            PJT_SN = NULL
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 
     <update id="updBustPjtSn" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT

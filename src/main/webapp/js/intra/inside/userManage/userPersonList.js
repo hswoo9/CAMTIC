@@ -559,9 +559,18 @@ var userPersonList = {
             arr += "|999&N"
         }else{
             $(".detailSearch:checked").each(function(){
-                arr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                if($(this).attr("id") != "dsI"){
+                    arr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                }
             })
         }
+
+        userPersonList.global.searchAjaxData.dsI = "";
+
+        if($("#dsI").is(":checked")){
+            userPersonList.global.searchAjaxData.dsI = "Y";
+        }
+
 
         userPersonList.global.searchAjaxData.arr = arr.substring(1);
 

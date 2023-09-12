@@ -8,7 +8,8 @@ img {max-width:100%;}
 
 	#header {border-bottom:1px solid #e5e7ee;position:absolute;left:0;top:0;width:100%;z-index:200;background:#fff;transition:0.3s;height:150px;overflow:hidden;}
 	#header .top {background:linear-gradient(to right, #007bb0 0%,#1bb1de 100%);position:relative;height:50px;}
-	#header .top .link {display:flex;position:absolute;right:170px;top:50%;margin-top:-7px;}
+	/*#header .top .link {display:flex;position:absolute;right:170px;top:50%;margin-top:-7px;}20230907 카카오톡 이미지 삭제로 인한 수정 */
+	#header .top .link {display:flex;position:absolute;right:130px;top:50%;margin-top:-7px;}
 	#header .top .link li ~ li {margin-left:20px;}
 	#header .top .link li a {display:flex;align-items:center;gap:5px;color:#fff;}
 	#header .top .link li a span {display:block;}
@@ -2784,20 +2785,26 @@ img {max-width:100%;}
 /*미션비젼 since*/
 .since {color: #666666; font-size: 45px; font-weight: bold;}
 
+/*20230911 원장님 사진*/
+.is-m1 {display: none !important;}
+
 @media all and (max-width:1024px){
 	.mainCapyTitle {font-size:24px !important; line-height:1.2 !important;}
 	.subCapyTitle {font-size:14px !important; margin-top:10px !important;}
 	.mainAbou {display:block;margin-top:30px;}
-	.is-m {display: block !important;}
-
+	.is-m {display: none !important;}
+	/*원장님 사진*/
+	.is-m1 {display: block !important;}
+	.mainAbou .rig {width: 0px !important;}
 	/*미션비젼 since*/
 	.since {color: #666666; font-size: 20px; font-weight: bold;}
 	/*주요연혁*/
 }
 
+/*20230911 원장님 사진*/
 .mainAbou {
 	display: flex;
-	gap: 30px;
+	gap: 20px;
 	justify-content: space-between;
 	margin-top: 50px;
 }

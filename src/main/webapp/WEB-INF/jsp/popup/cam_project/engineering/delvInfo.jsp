@@ -5,28 +5,11 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/delvInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<%
-    String pjtSn = request.getParameter("pjtSn");
-    String engnSn = request.getParameter("engnSn");
-    String expAmt = request.getParameter("expAmt");
-
-    if(pjtSn == null){
-        return ;
-    }
-
-    if(engnSn == null){
-        return ;
-    }
-
-    if(expAmt == null){
-        return;
-    }
-%>
-<input type="hidden" id="engnSn" value="<%=engnSn%>" />
-<input type="hidden" id="expAmt" value="<%=expAmt%>" />
-
+<input type="hidden" id="engnSn" value="${params.engnSn}" />
+<input type="hidden" id="expAmt" value="${params.expAmt}" />
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <form id="delvDraftFrm" method="post">
-    <input type="hidden" id="pjtSn" name="pjtSn" value="<%=pjtSn%>" />
+    <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
     <input type="hidden" id="menuCd" name="menuCd" value="delv">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
@@ -34,16 +17,16 @@
 
 
 <input type="hidden" id="delvSn" name="delvSn" value="">
-<input type="hidden" id="step" value="E1" />
-<input type="hidden" id="stepColumn" value="STEP2" />
-<input type="hidden" id="nextStepColumn" value="STEP3" />
+<input type="hidden" id="step" value="E2" />
+<input type="hidden" id="stepColumn" value="STEP3" />
+<input type="hidden" id="nextStepColumn" value="STEP4" />
 <input type="hidden" id="stepValue" value="Y" />
 <input type="hidden" id="nextStepValue" value="R" />
 
 <div style="padding: 10px">
     <div class="table-responsive">
         <div id="btnDiv">
-            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="estInfo.fn_save()">저장</button>
+<%--            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="openModal()">저장</button>--%>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
@@ -58,7 +41,7 @@
                     <span class="red-star"></span>프로젝트코드
                 </th>
                 <td colspan="3">
-                    <input type="text" id="pjtCd" disabled value="${hashMap.PJT_CD}" style="width: 90%; text-align: left" />
+                    <input type="text" id="pjtCd" disabled style="width: 90%; text-align: left" />
                 </td>
             </tr>
             <tr>
@@ -66,7 +49,7 @@
                     <span class="red-star"></span>견적명
                 </th>
                 <td colspan="3">
-                    <input type="text" id="delvPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
+                    <input type="text" id="delvPjtNm" disabled style="width: 90%; text-align: left" />
                 </td>
             </tr>
             <tr>
@@ -82,22 +65,6 @@
                 </th>
                 <td>
                     <input type="text" id="delvDe" style="width: 90%;">
-                </td>
-            </tr>
-            <tr style="display: none;">
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>개요
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="sumry" style="width: 100%;"></textarea>
-                </td>
-            </tr>
-            <tr style="display: none;">
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사양
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="specf" style="width: 100%;"></textarea>
                 </td>
             </tr>
             <tr>
@@ -133,30 +100,14 @@
                     <span class="red-star"></span>납품수단
                 </th>
                 <td colspan="3">
-                        <span style="position: relative; top: 5px;">
-                            <input type="radio" id="vatN" name="delvMeans" value="고객수령" checked>
-                            <label for="vatN">고객수령</label>
-                            <input type="radio" id="vatY" name="delvMeans" value="법인차량" style="margin-left:10px;">
-                            <label for="vatY">법인차량</label>
-                            <input type="radio" id="vatC" name="delvMeans" value="외부업체" style="margin-left:10px;">
-                            <label for="vatC">외부업체</label>
-                        </span>
-                </td>
-            </tr>
-            <tr style="display: none;">
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>품질보증
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="delvAssu" style="width: 100%;"></textarea>
-                </td>
-            </tr>
-            <tr style="display: none;">
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>검수
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="delvTest" style="width: 100%;"></textarea>
+                    <span style="position: relative; top: 5px;">
+                        <input type="radio" id="vatN" name="delvMeans" value="고객수령" checked>
+                        <label for="vatN">고객수령</label>
+                        <input type="radio" id="vatY" name="delvMeans" value="법인차량" style="margin-left:10px;">
+                        <label for="vatY">법인차량</label>
+                        <input type="radio" id="vatC" name="delvMeans" value="외부업체" style="margin-left:10px;">
+                        <label for="vatC">외부업체</label>
+                    </span>
                 </td>
             </tr>
             <tr>
@@ -205,6 +156,7 @@
         </table>
     </div>
 </div>
+<div id="dialog"></div>
 
 <script>
     delvInfo.fn_defaultScript();
@@ -219,13 +171,13 @@
         visible: false,
         modal: true,
         position : {
-            top : 100,
-            left : 70
+            top : 200,
+            left : 400
         },
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="es2.fn_save()">저장</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="delvInfo.fn_save()">저장</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +

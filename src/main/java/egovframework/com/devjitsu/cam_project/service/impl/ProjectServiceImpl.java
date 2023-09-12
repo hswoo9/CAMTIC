@@ -144,6 +144,20 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public void setDevInfo(Map<String, Object> params) {
+        int modCheck = projectRepository.checkModStep3(params);
+
+        projectRepository.insDevInfo(params);
+
+        projectRepository.updInvAndPs(params);
+
+        if(modCheck == 0) {
+            // 전자결재 개발 완료 시 결재완료 시점으로 이동
+            projectRepository.updProject(params);
+            projectRepository.updEngn(params);
+        }
+    }
 
     @Override
     public void insStep4(Map<String, Object> params) {
@@ -295,7 +309,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void setEngnCrmInfo(Map<String, Object> params) {
-
         projectRepository.updEngnCrmInfo(params);
 
         projectRepository.updProject(params);
@@ -303,8 +316,25 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void setEngnBustInfo(Map<String, Object> params) {
-        projectRepository.updEngnBustInfo(params);
+    public void setBustInfo(Map<String, Object> params) {
+        projectRepository.updBustInfo(params);
+    }
+
+    @Override
+    public void setDelvInfo(Map<String, Object> params) {
+
+        if(params.containsKey("delvSn")){
+            projectRepository.updDelvInfo(params);
+        } else {
+            projectRepository.insDelvInfo(params);
+            projectRepository.updProject(params);
+            projectRepository.updEngn(params);
+        }
+
+        if(params.containsKey("pjtTmpCd")){
+            projectRepository.updProjectTmpCode(params);
+        }
+
     }
 
     @Override
@@ -337,4 +367,16 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updateDelvFinalApprStat(params);
         }
     }
+
+    @Override
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return projectRepository.getCrmInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getBustInfo(Map<String, Object> params) {
+        return projectRepository.getBustInfo(params);
+    }
 }
+
+

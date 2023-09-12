@@ -82,8 +82,16 @@ public interface ProjectService {
 
     void setEngnCrmInfo(Map<String, Object> params);
 
-    void setEngnBustInfo(Map<String, Object> params);
+    void setBustInfo(Map<String, Object> params);
 
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     void updateDelvDocState(Map<String, Object> bodyMap) throws Exception;
+
+    Map<String, Object> getCrmInfo(Map<String, Object> params);
+
+    Map<String, Object> getBustInfo(Map<String, Object> params);
+
+    void setDelvInfo(Map<String, Object> params);
+
+    void setDevInfo(Map<String, Object> params);
 }

@@ -31,9 +31,9 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회 기간</span>
-                                    <input type="text" id="startDay" style="width: 130px;">
+                                    <input type="text" id="startDt" style="width: 130px;">
                                     ~
-                                    <input type="text" id="endDay" style="width: 130px;">
+                                    <input type="text" id="endDt" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <span>부서</span>
@@ -44,7 +44,7 @@
                                     <input type="text" id="team" style="width: 200px;">
                                 </div>
                                 <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">
                                         <span>검색</span>
                                     </button>
                                 </div>

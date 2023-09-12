@@ -25,12 +25,17 @@
         LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
             ON
-                A.CRM_CD = D.CRM_SN
+                A.CRM_SN = D.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM CM
+        ON
+            D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insProject" parameterType="map">
+        /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
         (
             PJT_NM,
@@ -89,23 +94,42 @@
 
     <select id="getProjectData" parameterType="map" resultType="map">
         SELECT
-            *,
+            A.*,
+            B.*,
+            C.*,
+            D.*,
+            CM.*,
+            EI.DEPT_NAME,
+            EI.EMP_NAME_KR,
+            EI.POSITION_NAME,
             DATE_FORMAT(STR_DT, '%Y-%m-%d') AS PJT_START_DT,
             DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS PJT_END_DT
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN B
-            ON
-                A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        ON
+            A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_DELV DE
+        ON
+            A.PJT_SN = DE.PJT_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON
+            DE.PM_EMP_SEQ = EI.EMP_SEQ
         LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
-            ON
-                A.PJT_SN = C.PJT_SN
+        ON
+            A.PJT_SN = C.PJT_SN
         LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
-            ON
-                A.CRM_CD = D.CRM_SN
+        ON
+            A.CRM_SN = D.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM CM
+        ON
+            A.CRM_MEM_SN = CM.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -301,6 +325,7 @@
         WHERE PJT_SN = #{pjtSn}
     </select>
 
+    <!--DUPLICATE-->
     <update id="updProjectDelv" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
@@ -313,6 +338,7 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <!-- DUPLICATE -->
     <update id="updProjectDelvFn" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
@@ -496,7 +522,7 @@
     </select>
 
     <select id="getDevPjtVerList" parameterType="map" resultType="map">
-        selECT
+        SELECT
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
@@ -507,6 +533,10 @@
              WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1) B
             ON
                 A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_DEV C
+        ON
+            A.PJT_SN = C.PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -694,10 +724,8 @@
     <update id="updEngnCrmInfo" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            CRM_NM = #{crmNm},
-            CRM_MAIL = #{crmMail},
-            CRM_CD = #{crmCd},
-            CRM_SUB_CD = #{crmReqMem}
+            CRM_SN = #{crmSn},
+            CRM_MEM_SN = #{crmMemSn}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -720,19 +748,9 @@
         SET
             ${stepColumn} = #{stepValue},
             ${nextStepColumn} = #{nextStepValue},
-            CRM_CD = #{crmCd},
             MOD_DT = now()
         WHERE
             ENGN_SN = #{engnSn} AND ${stepColumn} = 'N'
-    </update>
-
-    <update id="updEngnBustInfo" parameterType="map">
-        /* updEngnBustInfo */
-        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
-        SET
-            CONT_ETC = #{contEtc}
-        WHERE
-            ENGN_SN = #{engnSn}
     </update>
 
     <update id="updateDelvApprStat" parameterType="map">
@@ -754,5 +772,162 @@
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getCrmInfo" parameterType="map" resultType="map">
+        /*getCrmInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT DP
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_ENGN PE
+        ON
+            DP.PJT_SN = PE.PJT_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON
+            DP.CRM_SN = CI.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM DM
+        ON
+            DP.CRM_MEM_SN = DM.CRM_MEM_SN
+        WHERE
+            DP.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getBustInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT HR
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ HRQ
+        ON
+            HR.HR_BIZ_REQ_ID = HRQ.HR_BIZ_REQ_ID
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insDelvInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
+            (
+                PJT_SN,
+                DELV_DE,
+                DELV_ISSU,
+                DELV_ITEM,
+                DELV_CNT,
+                DELV_UNIT,
+                DELV_LOC,
+                DELV_AMT,
+                DELV_DEPT,
+                PM_EMP_SEQ,
+                PM_EMP_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{delvDe},
+                #{delvIssu},
+                #{delvItem},
+                #{delvCnt},
+                #{delvUnit},
+                #{delvLoc},
+                #{delvAmt},
+                #{delvDept},
+                #{pmEmpSeq},
+                #{pmEmpNm},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="delvSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
+        </selectKey>
+
+    </insert>
+
+    <update id="updDelvInfo" parameterType="map">
+        /*updDelvInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DELV
+        SET
+            DELV_DE = #{delvDe},
+            DELV_ISSU = #{delvIssu},
+            DELV_ITEM = #{delvItem},
+            DELV_CNT = #{delvCnt},
+            DELV_UNIT = #{delvUnit},
+            DELV_LOC = #{delvLoc},
+            DELV_AMT = #{delvAmt},
+            DELV_DEPT = #{delvDept},
+            PM_EMP_SEQ = #{pmEmpSeq},
+            PM_EMP_NM = #{pmEmpNm},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            DELV_SN = #{delvSn}
+    </update>
+
+    <insert id="insDevInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
+            (
+                PJT_SN,
+                INV_AMT,
+                INV_PER,
+                DEP_OBJ,
+                ETC,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{invAmt},
+                #{invPer},
+                #{depObj},
+                #{etc},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="devSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
+        </selectKey>
+    </insert>
+
+    <update id="updProjectTmpCode" parameterType="map">
+        /*updProjectTmpCode*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_AMT = #{delvAmt},
+            PJT_TMP_CD = #{pjtTmpCd},
+            DELV_STAT = 'Y',
+            STR_DT = #{estDe},
+            END_EXP_DT = #{delvDe},
+            PM = #{pmEmpNm}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateProjectCode" parameterType="map">
+        /*updateProjectCode*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_CD = PJT_TMP_CD
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updInv" parameterType="map">
+        /*updInv*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_INV
+        SET
+            DEV_SN = #{devSn}
+        WHERE
+            PJT_SN = #{pjtSn} AND DEV_SN IS NULL
+    </update>
+
+    <update id="updPs" parameterType="map">
+        /*updPs*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            DEV_SN = #{devSn}
+        WHERE
+            PJT_SN = #{pjtSn} AND DEV_SN IS NULL
     </update>
 </mapper>

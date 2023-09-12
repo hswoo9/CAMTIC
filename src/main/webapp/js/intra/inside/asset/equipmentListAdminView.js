@@ -224,7 +224,7 @@ var equipmentListAdminView = {
     equipStatPopup: function(){
         const url = "/Inside/pop/equipStatPop.do";
         const name = "equipStatPop";
-        const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
+        const option = "width = 1600, height = 640, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

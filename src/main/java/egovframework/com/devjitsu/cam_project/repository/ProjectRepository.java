@@ -215,8 +215,8 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updEngn", params);
     }
 
-    public void updEngnBustInfo(Map<String, Object> params) {
-        update("project.updEngnBustInfo", params);
+    public void updBustInfo(Map<String, Object> params) {
+        update("bustrip.updBustPjtsnReset", params);
         update("bustrip.updBustPjtSn", params);
     }
 
@@ -224,6 +224,40 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProject", params);
     }
 
-    public void updateDelvApprStat(Map<String, Object> params) { update("project.updateDelvApprStat", params); }
-    public void updateDelvFinalApprStat(Map<String, Object> params) { update("project.updateDelvFinalApprStat", params); }
+    public void updateDelvApprStat(Map<String, Object> params) {
+        update("project.updateDelvApprStat", params);
+    }
+    public void updateDelvFinalApprStat(Map<String, Object> params) {
+        update("project.updateProjectCode", params);
+        update("project.updateDelvFinalApprStat", params);
+    }
+
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getCrmInfo", params);
+    }
+
+    public Map<String, Object> getBustInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getBustInfo", params);
+    }
+
+    public void insDelvInfo(Map<String, Object> params) {
+        insert("project.insDelvInfo", params);
+    }
+
+    public void updDelvInfo(Map<String, Object> params) {
+        update("project.updDelvInfo", params);
+    }
+
+    public void updProjectTmpCode(Map<String, Object> params) {
+        update("project.updProjectTmpCode", params);
+    }
+
+    public void insDevInfo(Map<String, Object> params) {
+        insert("project.insDevInfo", params);
+    }
+
+    public void updInvAndPs(Map<String, Object> params) {
+        update("project.updInv", params);
+        update("project.updPs", params);
+    }
 }

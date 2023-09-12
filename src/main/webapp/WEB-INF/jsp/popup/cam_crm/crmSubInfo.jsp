@@ -46,6 +46,12 @@
             </th>
             <td colspan="3">
                 <input type="text" id="crmClass" style="width: 15%;">
+                <span id="boxA">
+                    <input type="text" id="crmSubClass" style="width: 20%;">
+                </span>
+                <span id="boxB" style="display: none">
+                    <input type="text" id="crmSubClassText" style="width: 20%;">
+                </span>
             </td>
         </tr>
         <tr>

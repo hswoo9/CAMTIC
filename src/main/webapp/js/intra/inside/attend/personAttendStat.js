@@ -1,19 +1,14 @@
-/**
- * 2023.06.04
- * 작성자 : 김지혜
- * 내용 : 근태관리 - 직원근태내역
- */
-
 var personAttendStat = {
     global : {
         now: new Date()
     },
 
     fn_defaultScript: function () {
-
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(personAttendStat.global.now.setMonth(personAttendStat.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
-        $("#startDay, #endDay").attr("readonly", true);
+        /* customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1))); */
+        /** 임시로 8월 한달치 데이터만 나오게 */
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date("2023-08-01"));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date("2023-08-31"));
+        $("#startDt, #endDt").attr("readonly", true);
 
         $("#dept").kendoDropDownList({
             dataTextField: "text",
@@ -110,20 +105,22 @@ var personAttendStat = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : "/inside/getPersonAttendStat",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -158,61 +155,65 @@ var personAttendStat = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='ehiPk#=DOCUMENT_ID#' name='ehiPk' value='#=DOCUMENT_ID#' class='k-checkbox checkbox'/>",
+                    template : "<input type='checkbox' id='ehiPk#=START_DATE#' name='ehiPk' value='#=START_DATE#' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
-                    field: "",
+                    field: "START_DATE",
                     title: "일자",
                     width: "7.5%"
                 }, {
-                    field: "",
-                    title: "부서",
+                    field: "WEEK",
+                    title: "요일",
                     width: "7.5%"
                 }, {
-                    field: "",
+                    field: "REG_DEPT_NAME",
+                    title: "부서"
+                }, {
+                    field: "REG_TEAM_NAME",
                     title: "팀",
                     width: "7.5%"
                 }, {
-                    field: "",
                     title: "직위",
-                    width: "7.5%"
+                    width: "7.5%",
+                    template: function(row){
+                        return row.REG_DUTY_NAME == "" ? row.REG_POSITION_NAME : row.REG_DUTY_NAME;
+                    }
                 }, {
-                    field: "",
+                    field: "REG_EMP_NAME",
                     title: "성명",
                     width: "7.5%"
                 }, {
-                    field: "",
+                    field: "START_TIME",
                     title: "출근 시간",
-                    width: "7.5%"
                 }, {
-                    field: "",
-                    title: "출근 등록 방식",
-                    width: "7.5%"
-                }, {
-                    field: "",
+                    field: "END_TIME",
                     title: "퇴근 시간",
-                    width: "7.5%"
                 }, {
-                    field: "",
-                    title: "퇴근 등록 방식",
-                    width: "7.5%"
-                }, {
-                    field: "",
                     title: "근태 항목",
-                    width: "7.5%"
-                }, {
-                    field: "",
-                    title: "상태",
-                    width: "7.5%"
-                }, {
-                    field: "",
-                    title: "신청 내역",
-                    width: "7.5%"
-                }, {
-                    field: "",
-                    title: "변경 사유",
-                    width: "10%"
-                }]
+                    template: function(row){
+                        console.log(row);
+                        let text = "";
+                        if(row.HOLIDAY != ""){
+                            text += row.HOLIDAY
+                        }
+                        if(row.BUSTRIP != ""){
+                            if(text != ""){
+                                text += ", ";
+                            }
+                            if (row.BUSTRIP == "1") {
+                                text += "도내(시내)";
+                            }else if (row.BUSTRIP == "2") {
+                                text += "도내(시외)";
+                            }else if (row.BUSTRIP == "3") {
+                                text += "도외";
+                            }else if (row.BUSTRIP == "4") {
+                                text += "해외";
+                            }
+                        }
+                        return text;
+                    }
+                }
+            ]
         }).data("kendoGrid");
     },
 

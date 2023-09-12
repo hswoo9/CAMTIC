@@ -3,18 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-    .k-grid .k-cell-inner>.k-link {
-        justify-content: center;
-    }
-</style>
 <script type="text/javascript" src="/js/intra/inside/attend/personAttendList.js?v=${toDate}"/></script>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -32,9 +21,9 @@
                             <div style="display:flex;">
                                 <div class="mr10">
                                     <span>조회 기간</span>
-                                    <input type="text" id="startDay" style="width: 130px;">
+                                    <input type="text" id="startDt" style="width: 130px;">
                                     ~
-                                    <input type="text" id="endDay" style="width: 130px;">
+                                    <input type="text" id="endDt" style="width: 130px;">
                                 </div>
                                 <div class="mr10">
                                     <span>상태</span>
@@ -45,7 +34,7 @@
                                     <input type="text" id="attendanceItems" style="width: 200px;">
                                 </div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">
                                         <span>검색</span>
                                     </button>
                                 </div>
@@ -58,22 +47,22 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="12.5%" >
-                                <col width="10%" >
-                                <col width="12.5%" >
+                                <col width="9.5%" >
+                                <col width="8%" >
+                                <col width="9.5%" >
+                                <col width="6%" >
                                 <col width="5%" >
                                 <col width="5%" >
+                                <col width="6%" >
+                                <col width="6%" >
                                 <col width="5%" >
                                 <col width="5%" >
+                                <col width="6%" >
+                                <col width="6%" >
+                                <col width="6%" >
                                 <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
-                                <col width="5%" >
+                                <col width="6%" >
+                                <col width="6%" >
                             </colgroup>
                             <thead>
                             <tr>
@@ -97,9 +86,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td style="text-align: center;">경영지원실</td>
-                                <td style="text-align: center;">홍길동</td>
-                                <td style="text-align: center;">책임행정원</td>
+                                <td style="text-align: center;">${loginVO.teamNm}</td>
+                                <td style="text-align: center;">${loginVO.name}</td>
+                                <td style="text-align: center;">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
                                 <td style="text-align: center;">0일</td>
                                 <td style="text-align: center;">0일</td>
                                 <td style="text-align: center;">0일</td>
@@ -125,8 +114,6 @@
     </div>
 </div>
 </div><!-- col-md-9 -->
-
 <script type="text/javascript">
-    personAttendList.fn_defaultScript();
-    personAttendList.mainGrid();
+    personAttend.init();
 </script>

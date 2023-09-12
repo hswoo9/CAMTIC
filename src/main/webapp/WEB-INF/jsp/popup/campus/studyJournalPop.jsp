@@ -6,8 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/campus/study/studyJournalPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/campus/study/studyJournalPop.js?v=${toDate}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>

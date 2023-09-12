@@ -12,6 +12,8 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="mode" value="${data.mode}"/>
+<input type="hidden" id="pk" value="${data.pk}"/>
 <div class="card-header pop-header">
     <h3 class="card-title title_NM">포상 일괄등록</h3>
     <div class="btn-st popButton">

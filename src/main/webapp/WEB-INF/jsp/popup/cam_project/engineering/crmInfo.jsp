@@ -5,20 +5,10 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/crmInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<%
-    String pjtSn = request.getParameter("pjtSn");
-    String engnSn = request.getParameter("engnSn");
 
-    if(pjtSn == null){
-        return ;
-    }
-
-    if(engnSn == null){
-        return ;
-    }
-%>
-<input type="hidden" id="pjtSn" value="<%=pjtSn%>" />
-<input type="hidden" id="engnSn" value="<%=engnSn%>" />
+<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="engnSn" value="${params.engnSn}" />
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
 
 <input type="hidden" id="step" value="E0" />
 <input type="hidden" id="stepColumn" value="STEP1" />
@@ -40,7 +30,7 @@
                 <span class="red-star">*</span>업체코드
             </th>
             <td>
-                <input type="text" id="crmCd" style="width: 80%;" disabled>
+                <input type="text" id="crmSn" style="width: 80%;" disabled>
                 <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="crmInfo.fn_popCamCrmList()">
                     조회
                 </button>
@@ -107,7 +97,9 @@
                 <span class="red-star"></span>의뢰인
             </th>
             <td>
-                <input type="text" id="crmReqMem" style="width: 90%;">
+                <input type="text" id="crmReqMem" style="width: 80%;">
+                <input type="hidden" id="crmMemSn" />
+                <button type="button" class="k-button k-button-solid-base" onclick="crmInfo.fn_popCamCrmMemList();">검색</button>
 <%--                <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">--%>
 <%--                    조회--%>
 <%--                </button>--%>
@@ -130,7 +122,7 @@
                 <span class="red-star"></span>메일주소
             </th>
             <td>
-                <input type="text" id="crmMail" style="width: 90%;">
+                <input type="text" id="crmMail" style="width: 90%;" disabled>
             </td>
         </tr>
         </thead>

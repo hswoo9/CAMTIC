@@ -1,19 +1,19 @@
-/**
- * 2023.06.04
- * 작성자 : 김지혜
- * 내용 : 근태관리 - 개인근태현황
- */
-
-var personAttendList = {
-    global : {
+var personAttend = {
+    global: {
         now: new Date()
     },
 
-    fn_defaultScript: function () {
+    init: function(){
+        personAttend.pageSet();
+        personAttend.mainGrid();
+    },
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(personAttendList.global.now.setMonth(personAttendList.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
-        $("#startDay, #endDay").attr("readonly", true);
+    pageSet: function(){
+        /* customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1))); */
+        /** 임시로 8월 한달치 데이터만 나오게 */
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date("2023-08-01"));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date("2023-08-31"));
+        $("#startDt, #endDt").attr("readonly", true);
 
         $("#situation").kendoDropDownList({
             dataTextField: "text",
@@ -49,25 +49,29 @@ var personAttendList = {
             index: 0
         });
     },
-    mainGrid: function () {
-        var dataSource = new kendo.data.DataSource({
+
+    mainGrid: function(){
+        let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
+                read: {
+                    url: "/inside/getPersonAttendList",
+                    dataType: "json",
+                    type: "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data){
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.empSeq = $("#regEmpSeq").val();
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
+                    return data.list.length;
                 },
             },
             pageSize: 10,
@@ -94,46 +98,43 @@ var personAttendList = {
             },
             columns: [
                 {
-                    field: "",
+                    field: "START_DATE",
                     title: "일자",
-                    width: "10%"
                 }, {
-                    field: "",
+                    field: "WEEK",
                     title: "요일",
-                    width: "10%"
                 }, {
-                    field: "",
+                    field: "START_TIME",
                     title: "출근 시간",
-                    width: "10%"
                 }, {
-                    field: "",
-                    title: "출근 등록 방식",
-                    width: "10%"
-                }, {
-                    field: "",
+                    field: "END_TIME",
                     title: "퇴근 시간",
-                    width: "10%"
                 }, {
-                    field: "",
-                    title: "퇴근 등록 방식",
-                    width: "10%"
-                }, {
-                    field: "",
-                    title: "근무형태",
-                    width: "10%"
-                }, {
-                    field: "",
                     title: "근태 항목",
-                    width: "10%"
-                }, {
-                    field: "",
-                    title: "상태",
-                    width: "10%"
-                }, {
-                    field: "",
-                    title: "신청 내역",
-                    width: "10%"
-                }]
+                    template: function(row){
+                        console.log(row);
+                        let text = "";
+                        if(row.HOLIDAY != ""){
+                            text += row.HOLIDAY
+                        }
+                        if(row.BUSTRIP != ""){
+                            if(text != ""){
+                                text += ", ";
+                            }
+                            if (row.BUSTRIP == "1") {
+                                text += "도내(시내)";
+                            }else if (row.BUSTRIP == "2") {
+                                text += "도내(시외)";
+                            }else if (row.BUSTRIP == "3") {
+                                text += "도외";
+                            }else if (row.BUSTRIP == "4") {
+                                text += "해외";
+                            }
+                        }
+                        return text;
+                    }
+                }
+            ]
         }).data("kendoGrid");
     }
 }

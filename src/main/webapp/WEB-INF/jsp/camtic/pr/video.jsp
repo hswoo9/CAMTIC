@@ -16,6 +16,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__vidWrap">
+          <div id="titleName" style="font-size:20px;color: #252525;text-align: center; margin:30px auto;font-weight:bold;" value=""></div>
           <div class="__vid __mb60">
             <div id="player"></div>
           </div>
@@ -114,9 +115,10 @@
     player.playVideo();
   }
 
-  function variableCon(e) {
+  function variableCon(e,title) {
     resultVideoId = e;
 
+    $("#titleName").text(title);
     onPlayerReady();
   }
 
@@ -172,13 +174,14 @@
       }
        if(index == 0) {
          resultVideoId = videoId.toString();
+         $("#titleName").text(item.board_ARTICLE_TITLE);
        }
 
         html += "<a class='box'>";
         if(item.file_PATH){
-          html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\')"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
+          html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\',\''+ item.board_ARTICLE_TITLE +'\')"><img src='+item.file_PATH+' width="400" height="200"></div>';
         }else{
-          html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\')"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
+          html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\',\''+ item.board_ARTICLE_TITLE +'\')"><img src="https://fakeimg.pl/298x189/f3f3f3" width="400" height="200"></div>';
         }
         html += '<div class="info">';
         html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';

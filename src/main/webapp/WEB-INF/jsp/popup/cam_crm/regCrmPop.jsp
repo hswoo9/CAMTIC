@@ -168,28 +168,38 @@
                             부가정보
                         </li>
                         <li>
-                            TEST B
+                            담당자
                         </li>
                         <li>
-                            TEST C
+                            산업분야
                         </li>
                         <li>
-                            TEST D
+                            인증정보
+                        </li>
+                        <li>
+                            회계정보
+                        </li>
+                        <li>
+                            최근 경영규모
+                        </li>
+                        <li>
+                            관심분야
                         </li>
                     </ul>
                     <div>
                         <div>
                             <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmSubInfo.jsp" flush="true">
-                                <jsp:param name="crmSn" value="${params.pjtSn}"/>
+                                <jsp:param name="crmSn" value="${params.crmSn}"/>
                                 <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
                             </jsp:include>
                         </div>
                     </div>
                     <div>
-                        <span class="sunny">&nbsp;</span>
-                        <div class="weather">
-                            <h2>29<span>&ordm;C</span></h2>
-                            <p>Sunny weather in New York.</p>
+                        <div>
+                            <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmMemInfo.jsp" flush="true">
+                                <jsp:param name="crmSn" value="${params.crmSn}"/>
+                                <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
+                            </jsp:include>
                         </div>
                     </div>
                     <div>

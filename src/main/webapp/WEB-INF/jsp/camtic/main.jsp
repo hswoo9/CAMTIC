@@ -104,19 +104,19 @@
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business_2.png);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis2--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/technology.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/technology_2.png);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis3--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/staff.png);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/staff_2.png);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis4--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
@@ -339,7 +339,7 @@
           <ul class="sns">
             <li><a href="https://www.facebook.com/CAMTIC4U" target='_blank'><span>페이스북</span></a></li>
             <li><a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank'><span>인스타그램</span></a></li>
-            <li><a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao"><span>카카오톡</span></a></li>
+            <%--<li><a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao"><span>카카오톡</span></a></li>--%>
           </ul>
           <dl class="tit">
             <dt>캠틱종합기술원</dt>
@@ -354,7 +354,7 @@
           <div class="roll">
             <div class="swiper-wrapper">
 
-              <a href="#" class="swiper-slide">
+              <%--<a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
                 <div class="info">
                   <p class="date">2023-01-20 오전 11:09</p>
@@ -365,7 +365,7 @@
                   </p>
                   <p class="sns"><span class="kakao">카카오톡</span></p>
                 </div>
-              </a>
+              </a>--%>
 
               <a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
@@ -393,7 +393,7 @@
                 </div>
               </a>
 
-              <a href="#" class="swiper-slide">
+              <%--<a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
                 <div class="info">
                   <p class="date">2023-01-20 오전 11:09</p>
@@ -404,7 +404,7 @@
                   </p>
                   <p class="sns"><span class="kakao">카카오톡</span></p>
                 </div>
-              </a>
+              </a>--%>
 
               <a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
@@ -432,7 +432,7 @@
                 </div>
               </a>
 
-              <a href="#" class="swiper-slide">
+              <%--<a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
                 <div class="info">
                   <p class="date">2023-01-20 오전 11:09</p>
@@ -443,7 +443,7 @@
                   </p>
                   <p class="sns"><span class="kakao">카카오톡</span></p>
                 </div>
-              </a>
+              </a>--%>
 
               <a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>

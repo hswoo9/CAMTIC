@@ -98,6 +98,7 @@ var es2 = {
                 return false;
             }
         }
+
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
 

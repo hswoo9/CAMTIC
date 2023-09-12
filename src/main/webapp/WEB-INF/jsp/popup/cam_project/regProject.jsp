@@ -140,18 +140,6 @@
                 <div class="demo-section">
                     <div id="tabstrip">
                         <ul style="font-size: 12px;">
-                            <li class="k-active">
-                                업체정보
-                            </li>
-                            <li>
-                                출장정보
-                            </li>
-                            <li>
-                                견적관리
-                            </li>
-                            <li>
-                                수주보고
-                            </li>
                             <li>
                                 개발계획
                             </li>
@@ -168,40 +156,6 @@
                                 원가보고
                             </li>
                         </ul>
-                        <div>
-                            <div>
-                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/crmInfo.jsp" flush="true">
-                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
-                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
-                                </jsp:include>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/bustInfo.jsp" flush="true">
-                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
-                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
-                                </jsp:include>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/estInfo.jsp" flush="true">
-                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
-                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
-                                    <jsp:param name="expAmt" value="${data.EXP_AMT}"/>
-                                </jsp:include>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <jsp:include page="/WEB-INF/jsp/popup/cam_project/engineering/delvInfo.jsp" flush="true">
-                                    <jsp:param name="pjtSn" value="${params.pjtSn}"/>
-                                    <jsp:param name="engnSn" value="${data.ENGN_SN}"/>
-                                    <jsp:param name="expAmt" value="${data.EXP_AMT}"/>
-                                </jsp:include>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -253,6 +207,7 @@
 
 <script>
     var inParameters = JSON.parse('${map}');
+
 
     regPrj.fn_defaultScript(inParameters);
 

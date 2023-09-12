@@ -13,6 +13,10 @@ const systemAdminReq = {
             {text: "LEVEL 3", value: "3"}
         ]
         customKendo.fn_dropDownList("level", levelDataSource, "text", "value", 2);
+
+        if($("#largeCategoryName").val() == "R"){
+            $("#largeCategoryName").val("R&D/엔지니어링");
+        }
     },
 
     saveBtn: function(){
