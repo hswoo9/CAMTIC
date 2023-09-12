@@ -92,6 +92,7 @@ var docuList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: docuList.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -227,5 +228,44 @@ var docuList = {
                 }
             })
         }
+    },
+
+    /* 등록대장 >> 수정Pop */
+    onDataBound: function(){
+        var grid = this;
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this));
+            console.log(dataItem);
+            console.log(dataItem.DOCUMENT_SN);
+
+            /*const DOCUMENT_SN = dataItem.DOCUMENT_SN;*/
+            docuList.documentInfoViewPop(dataItem.DOCUMENT_SN);
+        });
+    },
+
+    documentInfoViewPop : function(key) {
+        var url = "/Inside/pop/documentUpdatePop.do";
+        if(key != null && key != ""){
+            url = "/Inside/pop/documentUpdatePop.do?DOCUMENT_SN="+key;
+        }
+        var name = "documentInfoViewPop";
+        var option = "width = 850, height = 400, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
+
+
+/*
+    documentInfoViewPop: function(DOCUMENT_SN){
+        let url = "/Inside/pop/documentUpdatePop.do?DOCUMENT_SN="+DOCUMENT_SN;
+        const name = "popup";
+        const option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    }
+*/
+
+
+
+
+
 }

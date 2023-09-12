@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface DocumentService {
-
     /**
      * 등록대장 리스트 조회
      * @param params
@@ -135,5 +134,20 @@ public interface DocumentService {
 
     /** 등록대장, 접수대장 최종 삭제*/
     void delFinalDocumentList(Map<String, Object> params);
+
+    /**
+     * 등록대장 문서 삭제
+     */
+    void setRlDelete(Map<String, Object> params);
+
+    /**
+     * 등록대장 문서Pop
+     */
+    Map<String, Object> getDocViewOne(Map<String, Object> params);
+
+    /**
+     * 등록대장 문서 수정
+     */
+    void setDocumentUpdate(Map<String, Object> params);
 
 }
