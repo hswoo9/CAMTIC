@@ -858,6 +858,7 @@
     </select>
 
     <update id="setDocumentUpdate" parameterType="map">
+        /*setDocumentUpdate*/
         UPDATE
             cam_common.dj_camtic_document
         SET
