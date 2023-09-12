@@ -23,6 +23,7 @@ var docuReq = {
 
     saveBtn: function(){
         let docuType = 1;
+        let documentSn = $("#documentSn").val();
         let documentPartType = $("#documentPart").val();
         let documentPartName = $("#documentPart").data("kendoDropDownList").text();
         let effectiveDt = $("#effectiveDt").val().replace(/-/g, "");
@@ -37,6 +38,7 @@ var docuReq = {
 
         let data = {
             docuType : docuType,
+            documentSn : documentSn,
             documentPartType : documentPartType,
             documentPartName : documentPartName,
             effectiveDt : effectiveDt,
