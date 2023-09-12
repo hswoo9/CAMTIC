@@ -85,6 +85,13 @@ var docuReq = {
     },
 
     setDocumentUpdate: function(data){
-
+        let result = customKendo.fn_customAjax("/Inside/setDocumentUpdate", data);
+        if(result.flag) {
+            alert("문서 수정이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }else {
+            alert("데이터 저장 중 에러가 발생했습니다.");
+        }
     }
 }
