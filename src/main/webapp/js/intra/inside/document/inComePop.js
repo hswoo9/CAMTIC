@@ -121,8 +121,8 @@ var regisReq = {
 function userDataSet(userArr) {
     let userText = "";
     let userSn = "";
-    for(let i=0; i<userArr.length; i++) {
-        if(userText != "") {
+    for (let i = 0; i < userArr.length; i++) {
+        if (userText != "") {
             userText += ", ";
             userSn += ",";
         }

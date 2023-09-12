@@ -80,8 +80,8 @@
                         <span class="red-star"></span>접수자
                     </th>
                     <td>
-                        <input type="text" id="empName" value="${inComeList.REG_EMP_NAME}" style="width: 65%;">
-                        <input type="hidden" id="empSeq" value="${inComeList.REG_EMP_SEQ}">
+                        <input type="text" id="empName" value="${inComeList.MANAGER_NAME}" style="width: 65%;">
+                        <input type="hidden" id="empSeq" value="${inComeList.MANAGER_SN}">
                         <button type="button" id="staffSelect"
                                 class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"
                                 style="width:30%; height:27px;" onclick="userSearch();">

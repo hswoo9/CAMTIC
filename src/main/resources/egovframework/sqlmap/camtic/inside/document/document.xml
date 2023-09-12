@@ -908,7 +908,7 @@
         UPDATE
             CAM_COMMON.DJ_CAMTIC_DOCUMENT
         SET
-            DEPT_PART_TYPE = #{documentPartType},
+            DEPT_PART_TYPE = #{deptPartType},
             DEPT_PART_TEXT = #{deptPartText},
             REG_EMP_SEQ = #{regEmpSeq},
             REG_EMP_NAME = #{regEmpName},
@@ -917,7 +917,8 @@
             DOCUMENT_TITLE_NAME = #{documentTitleName},
             RECEIVE_NAME = #{receiveName},
             EFFECTIVE_DT = #{effectiveDt},
-            SHIPMENT_DT = #{shipmentDt}
+            SHIPMENT_DT = #{shipmentDt},
+            REMARK_CN = #{remarkCn}
         WHERE
             DOCUMENT_SN = #{documentSn}
     </update>
