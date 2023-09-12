@@ -60,13 +60,13 @@
                         <span class="red-star"></span>접수 일자
                     </th>
                     <td>
-                        <input type="text" id="shipmentDt" value="${inComeList.SHIPMENT_DT}" style="width: 100%;">
+                        <input type="text" id="shipmentDt" style="width: 100%;">
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>시행 일자
                     </th>
                     <td>
-                        <input type="text" id="effectiveDt" value="${inComeList.EFFECTIVE_DT}" style="width: 100%;">
+                        <input type="text" id="effectiveDt" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
@@ -145,8 +145,8 @@
 
 <script>
     regisReq.init();
-    $("#effectiveDt").val("${inComeList.EFFECTIVE_DT}");
-    $("#shipmentDt").val("${inComeList.SHIPMENT_DT}");
+    $("#effectiveDt").val("${inComeList.EFFECTIVE_DATE}");
+    $("#shipmentDt").val("${inComeList.SHIPMENT_DATE}");
 </script>
 
 </body>

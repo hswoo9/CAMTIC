@@ -467,7 +467,7 @@ public class DocumentController {
         return "popup/inside/document/documentUpdatePop";
     }
     
-    /** 등록대장 ,접수대장 수정 */
+    /** 등록대장 - 문서등록 수정  */
     @RequestMapping("/Inside/setDocumentUpdate")
     public String setDocumentUpdate(@RequestParam Map<String, Object> params, Model model) {
         documentService.setDocumentUpdate(params);

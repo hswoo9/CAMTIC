@@ -59,13 +59,13 @@
                             <span class="red-star">*</span>시행 일자
                         </th>
                         <td>
-                            <input type="text" id="effectiveDt"  style="width: 100%;">
+                            <input type="text" id="effectiveDt" style="width: 100%;">
                         </td>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star">*</span>발송 일자
                         </th>
                         <td>
-                            <input type="text" id="shipmentDt" value="${data.reg_dt}" style="width: 100%;">
+                            <input type="text" id="shipmentDt" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -110,7 +110,8 @@
 
 <script>
     docuReq.init();
-
+    $("#effectiveDt").val("${data.EFFECTIVE_DATE}");
+    $("#shipmentDt").val("${data.SHIPMENT_DATE}");
     $("#documentPart").data("kendoDropDownList").text("${data.DOCUMENT_PART_NAME}");
 </script>
 </body>

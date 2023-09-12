@@ -850,9 +850,11 @@
     <select id="getDocViewOne" resultType="map" parameterType="map">
         /*getDocViewOne*/
         SELECT
-            *
+            CCD.*,
+            DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
+            DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
         FROM
-            CAM_COMMON.DJ_CAMTIC_DOCUMENT
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
@@ -890,19 +892,19 @@
     </update>
 
     <select id="getInComeUpdateList" resultType="map" parameterType="map">
-    /*접수대장 팝업 조회*/
+        /*접수대장 팝업 조회*/
         SELECT
             CCD.*,
             DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
             DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
         FROM
-            CAM_COMMON.DJ_CAMTIC_DOCUMENT AS CCD
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
 
     <update id="setInComeUpdate" parameterType="map">
-    /*접수대장 팝업 수정*/
+        /*접수대장 팝업 수정*/
         UPDATE
             CAM_COMMON.DJ_CAMTIC_DOCUMENT
         SET
