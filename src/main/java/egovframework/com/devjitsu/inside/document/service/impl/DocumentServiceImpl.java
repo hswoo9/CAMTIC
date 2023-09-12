@@ -381,4 +381,19 @@ public class DocumentServiceImpl implements DocumentService {
         documentRepository.delFinalDocumentList(params);
     }
 
+    // 등록대장 문서 삭제
+    @Override
+    public void setRlDelete(Map<String, Object> params) {
+        documentRepository.setRlDelete(params);
+    }
+
+    // 등록대장 문서Pop
+    @Override
+    public Map<String, Object> getDocViewOne(Map<String, Object> params) {
+        return documentRepository.getDocViewOne(params);
+    }
+
+    // 등록대장 문서 수정
+    @Override
+    public void setDocumentUpdate(Map<String, Object> params) {documentRepository.setDocumentUpdate(params);}
 }

@@ -67,7 +67,6 @@ public class DocumentController {
         model.addAttribute("loginVO", login);
         return "popup/inside/document/documentPop";
     }
-    
 
     //접수대장
     @RequestMapping("/Inside/inComeList.do")
@@ -455,6 +454,27 @@ public class DocumentController {
         return "jsonView";
     }
 
+    /** 등록대장 - 문서등록 수정 팝업창 */
+    @RequestMapping("/Inside/pop/documentUpdatePop.do")
+    public String documentUpdatePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        Map<String, Object> data = documentService.getDocViewOne(params);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("documentSn", params.get("DOCUMENT_SN"));
+        model.addAttribute("data", data);
 
+        return "popup/inside/document/documentUpdatePop";
+    }
+
+    /** 등록대장 - 문서등록 수정 */
+    @RequestMapping("/Inside/setDocumentUpdate")
+    public String setDocumentUpdate(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("documentSn", params.get("DOCUMENT_SN"));
+        documentService.setDocumentUpdate(params);
+
+        return "jsonView";
+    }
 }

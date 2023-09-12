@@ -833,4 +833,59 @@
     </update>
 
 
+    <update id="setRlDelete" parameterType="map">
+        UPDATE
+            cam_common.dj_camtic_document
+        SET
+            <if test='DEL_STS != null and !"".equals(DEL_STS) and "1".equals(DEL_STS)'>
+                DEL_STS = "10"
+            </if>
+            <if test='DEL_STS != null and !"".equals(DEL_STS) and "10".equals(DEL_STS)'>
+                DEL_STS = "999"
+            </if>
+        WHERE
+            DOCUMENT_SN = #{DOCUMENT_SN}
+    </update>
+
+    <select id="getDocViewOne" resultType="map" parameterType="map">
+        /*getDocViewOne*/
+        SELECT
+            *
+        FROM
+            cam_common.dj_camtic_document
+        WHERE
+            DOCUMENT_SN = #{DOCUMENT_SN}
+    </select>
+
+    <update id="setDocumentUpdate" parameterType="map">
+        UPDATE
+            cam_common.dj_camtic_document
+        SET
+            docu_type=#{docuType},
+            document_part_type=#{documentPartType},
+            document_part_name=#{documentPartName},
+            effective_dt=#{effectiveDt},
+            shipment_dt=#{shipmentDt},
+            receive_name=#{receiveName},
+            manager_sn=#{managerSn},
+            manager_name=#{managerName},
+            document_title_name=#{documentTitleName},
+            <if test='"2".equals(docuType)'>
+                dept_part_type=#{deptPartType}
+                dept_part_text=#{deptPartText}
+                <if test='"6".equals(deptPartType)'>
+                    user_sn=#{userSn},
+                    user_text=#{userText},
+                </if>
+            </if>
+            remark_Cn=#{remarkCn},
+            document_first_number= CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
+            document_second_number=(SELECT IFNULL(MAX(SCCD.document_second_number), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.document_first_number = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+            reg_emp_seq=#{regEmpSeq},
+            reg_emp_name=#{regEmpName},
+            reg_dt = NOW()
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </update>
+
 </mapper>
