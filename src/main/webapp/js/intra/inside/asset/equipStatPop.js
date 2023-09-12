@@ -5,7 +5,7 @@ var equipStat = {
         equipStat.mainChart();
     },
 
-        dataSet: function(){
+    dataSet: function(){
         customKendo.fn_datePicker("applyYear", 'decade', "yyyy", new Date());
         $("#applyYear").attr("readonly", true);
         $("#applyYear").data("kendoDatePicker").bind("change", equipStat.mainChart);
@@ -20,10 +20,10 @@ var equipStat = {
         customKendo.fn_dropDownTree("searchType", list, "EQIPMN_NAME", "EQIPMN_MST_SN", 1);
         let arr = [];
         for(let i=0; i<list.length; i++){
-            arr.push(String(list[i].EQIPMN_MST_SN));
+            arr.push(list[i].EQIPMN_MST_SN);
         }
         $("#searchType").data("kendoDropDownTree").value(arr);
-        $("#searchType").data("kendoDropDownTree").bind("change", equipStat.mainChart)
+        $("#searchType").data("kendoDropDownTree").bind("change", equipStat.mainChart);
     },
 
     mainChart: function(){
