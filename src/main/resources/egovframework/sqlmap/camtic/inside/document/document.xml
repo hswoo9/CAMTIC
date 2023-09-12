@@ -890,7 +890,7 @@
     </update>
 
     <select id="getInComeUpdateList" resultType="map" parameterType="map">
-    /*접수대장 팝업*/
+    /*접수대장 팝업 조회*/
         SELECT
             CCD.*,
             DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
@@ -900,6 +900,25 @@
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
+
+    <update id="setInComeUpdate" parameterType="map">
+    /*접수대장 팝업 수정*/
+        UPDATE
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET
+            DEPT_PART_TYPE = #{documentPartType},
+            DEPT_PART_TEXT = #{deptPartText},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName},
+            MANAGER_SN = #{managerSn},
+            MANAGER_NAME = #{managerName},
+            DOCUMENT_TITLE_NAME = #{documentTitleName},
+            RECEIVE_NAME = #{receiveName},
+            EFFECTIVE_DT = #{effectiveDt},
+            SHIPMENT_DT = #{shipmentDt}
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </update>
 
 
 

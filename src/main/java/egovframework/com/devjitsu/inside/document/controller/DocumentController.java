@@ -466,8 +466,15 @@ public class DocumentController {
 
         return "popup/inside/document/documentUpdatePop";
     }
+    
+    /** 등록대장 ,접수대장 수정 */
+    @RequestMapping("/Inside/setDocumentUpdate")
+    public String setDocumentUpdate(@RequestParam Map<String, Object> params, Model model) {
+        documentService.setDocumentUpdate(params);
+        return "jsonView";
+    }
 
-    /** 접수대장 상세 조회 */
+    /** 접수대장 팝업 조회 */
     @RequestMapping("/Inside/Pop/inComeUpdatePop.do")
     public String inComeUpdatePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -482,10 +489,10 @@ public class DocumentController {
         return "popup/inside/document/inComeUpdatePop";
     }
 
-    /** 등록대장 ,접수대장 수정 */
-    @RequestMapping("/Inside/setDocumentUpdate")
-    public String setDocumentUpdate(@RequestParam Map<String, Object> params, Model model) {
-        documentService.setDocumentUpdate(params);
+    /** 접수대장 팝업 수정 */
+    @RequestMapping("/Inside/setInComeUpdate")
+    public String setInComeUpdate(@RequestParam Map<String, Object> params, Model model) {
+        documentService.setInComeUpdate(params);
         return "jsonView";
     }
 

@@ -396,12 +396,16 @@ public class DocumentServiceImpl implements DocumentService {
     // 등록대장 문서 수정
     @Override
     public void setDocumentUpdate(Map<String, Object> params) {documentRepository.setDocumentUpdate(params);}
-
-    // 접수대장 팝업
+    
+    // 접수대장 팝업 조회
     @Override
     public Map<String, Object> getInComeUpdateList(Map<String, Object> params) {
         return documentRepository.getInComeUpdateList(params);
     }
+    
+    // 접수대장 팝업 수정
+    @Override
+    public void setInComeUpdate(Map<String, Object> params) {documentRepository.setInComeUpdate(params);}
 
 
 }

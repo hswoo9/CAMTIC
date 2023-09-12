@@ -151,9 +151,14 @@ public interface DocumentService {
     void setDocumentUpdate(Map<String, Object> params);
 
     /**
-    * 접수대장 팝업 상세보기
+    * 접수대장 팝업 조회
     */
     Map<String, Object> getInComeUpdateList(Map<String, Object> params);
+
+    /**
+     * 접수대장 팝업 수정
+     */
+    void setInComeUpdate(Map<String, Object> params);
 
 
 
