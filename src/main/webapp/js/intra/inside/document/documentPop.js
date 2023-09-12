@@ -60,7 +60,7 @@ var docuReq = {
         if(documentTitleName == "") { alert("제목이 작성되지 않았습니다."); return; }
         if(receiveName == "") { alert("수신처가 작성되지 않았습니다."); return; }
 
-        if($("#documentSn").val() == "") {
+        if (documentSn === "") {
             if(!confirm("문서를 등록하시겠습니까?")){
                 return;
             }

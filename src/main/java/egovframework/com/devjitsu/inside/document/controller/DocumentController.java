@@ -463,7 +463,7 @@ public class DocumentController {
         Map<String, Object> data = documentService.getDocViewOne(params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        model.addAttribute("documentSn", params.get("DOCUMENT_SN"));
+        model.addAttribute("params", params);
         model.addAttribute("data", data);
 
         return "popup/inside/document/documentUpdatePop";
@@ -472,7 +472,6 @@ public class DocumentController {
     /** 등록대장 - 문서등록 수정 */
     @RequestMapping("/Inside/setDocumentUpdate")
     public String setDocumentUpdate(@RequestParam Map<String, Object> params, Model model) {
-        model.addAttribute("documentSn", params.get("DOCUMENT_SN"));
         documentService.setDocumentUpdate(params);
 
         return "jsonView";

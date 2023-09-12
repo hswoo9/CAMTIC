@@ -854,7 +854,7 @@
         FROM
             cam_common.dj_camtic_document
         WHERE
-            DOCUMENT_SN = #{DOCUMENT_SN}
+            DOCUMENT_SN = #{documentSn}
     </select>
 
     <update id="setDocumentUpdate" parameterType="map">
