@@ -852,7 +852,7 @@
         SELECT
             *
         FROM
-            cam_common.dj_camtic_document
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
@@ -896,7 +896,7 @@
             DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
             DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
         FROM
-            cam_common.dj_camtic_document AS CCD
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT AS CCD
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
