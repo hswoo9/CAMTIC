@@ -22,7 +22,6 @@ var docuReq = {
     },
 
     saveBtn: function(){
-        let documentSn = $("#documentSn").val();
         let docuType = 1;
         let documentSn = $("#documentSn").val();
         let documentPartType = $("#documentPart").val();
@@ -38,7 +37,6 @@ var docuReq = {
         let regEmpName = $("#regEmpName").val();
 
         let data = {
-            documentSn : documentSn,
             docuType : docuType,
             documentSn : documentSn,
             documentPartType : documentPartType,
