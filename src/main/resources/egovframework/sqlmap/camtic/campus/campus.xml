@@ -282,7 +282,7 @@
         <if test='largeCategoryId != null and largeCategoryId != ""'>
             AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
         </if>
-        ORDER BY EC.ORDER
+        ORDER BY EC.LARGE_CATEGORY_ID, EC.ORDER
     </select>
 
     <select id="getEduCategoryDetailOne" resultType="map" parameterType="map">
