@@ -81,12 +81,12 @@ var regisReq = {
             if(!confirm("문서를 수정하시겠습니까?")){
                 return;
             }
-            regisReq.setDocumentUpdate(data);
+            regisReq.setInComeUpdate(data);
         }
     },
 
     setDocumentInsert: function(data){
-        let result = customKendo.fn_customAjax("/inside/setDocumentInsert", data);
+        let result = customKendo.fn_customAjax("/Inside/setDocumentInsert", data);
         if(result.flag) {
             alert("문서 등록이 완료되었습니다.");
             opener.gridReload();
@@ -96,8 +96,8 @@ var regisReq = {
         }
     },
 
-    setDocumentUpdate: function(data){
-        let result = customKendo.fn_customAjax("/inside/setDocumentUpdate", data);
+    setInComeUpdate: function(data){
+        let result = customKendo.fn_customAjax("/Inside/setInComeUpdate", data);
         if(result.flag) {
             alert("문서 수정이 완료되었습니다.");
             opener.gridReload();

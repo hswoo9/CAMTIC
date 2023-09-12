@@ -116,14 +116,17 @@ public class DocumentRepository extends AbstractDAO {
     public Map<String, Object> getDocViewOne(Map<String, Object> params) {
         return (Map<String,Object>)selectOne("document.getDocViewOne", params);
     }
+    
+    // 등록대장 수정 업데이트
+    public void setDocumentUpdate(Map<String, Object> params) { update("document.setDocumentUpdate", params);}
 
-    //접수대장 상세조회
+    //접수대장 팝업 조회
     public Map<String, Object> getInComeUpdateList (Map<String, Object> params) {
         return (Map<String,Object>)selectOne("document.getInComeUpdateList", params);
     }
-
-    // 등록대장,접수대장 수정 업데이트
-    public void setDocumentUpdate(Map<String, Object> params) { update("document.setDocumentUpdate", params);}
+    
+    //접수대장 팝업 수정
+    public void setInComeUpdate(Map<String, Object> params) { update("document.setInComeUpdate", params);}
 
 
 
