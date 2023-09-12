@@ -161,7 +161,9 @@ function fn_comma(str){
 }
 
 function fn_inputNumberFormat(obj){
-    obj.value = fn_comma(obj.value);
+    if(obj.value !== "0"){
+        obj.value = fn_comma(obj.value);
+    }
 }
 
 function fileDown(filePath, fileName){

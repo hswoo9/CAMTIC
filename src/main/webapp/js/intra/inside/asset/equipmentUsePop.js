@@ -112,10 +112,6 @@ var equipmentUsePop = {
                 })
             }
         })
-
-        $("#useAmt").bind("keyup keydown", function() {
-            equipmentUsePop.inputNumberFormat(this)
-        })
     },
 
     inputNumberFormat: function (obj){
