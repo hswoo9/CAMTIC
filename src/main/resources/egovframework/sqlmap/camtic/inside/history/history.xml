@@ -332,6 +332,8 @@
         UPDATE
             CAM_HR.DJ_APNT_INFO
         SET
+            APNT_CD = #{apntCd},
+            APNT_NAME = #{apntName},
             AF_DEPT_NAME = #{afDeptName},
             AF_DEPT_SEQ = #{afDeptSeq},
             AF_TEAM_NAME = #{afTeamName},
