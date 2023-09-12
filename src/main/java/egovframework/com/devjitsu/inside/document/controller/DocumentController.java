@@ -312,8 +312,6 @@ public class DocumentController {
         return "jsonView";
     }
 
-
-
     //등록대장 문서등록
     @RequestMapping("/inside/setDocumentInsert")
     public String setDocumentInsert(@RequestParam Map<String, Object> params) {
@@ -469,11 +467,28 @@ public class DocumentController {
         return "popup/inside/document/documentUpdatePop";
     }
 
-    /** 등록대장 - 문서등록 수정 */
+    /** 접수대장 상세 조회 */
+    @RequestMapping("/Inside/Pop/inComeUpdatePop.do")
+    public String inComeUpdatePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> inComeList = documentService.getInComeUpdateList(params);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("inComeList", inComeList);
+
+        return "popup/inside/document/inComeUpdatePop";
+    }
+
+    /** 등록대장 ,접수대장 수정 */
     @RequestMapping("/Inside/setDocumentUpdate")
     public String setDocumentUpdate(@RequestParam Map<String, Object> params, Model model) {
         documentService.setDocumentUpdate(params);
-
         return "jsonView";
     }
+
+
+
 }

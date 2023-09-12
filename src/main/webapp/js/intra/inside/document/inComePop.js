@@ -22,6 +22,7 @@ var regisReq = {
 
     saveBtn: function(){
         let docuType = 2;
+        let documentSn = $("#documentSn").val();
         let documentPartType = $("#documentPartType").val();
         let documentPartName = $("#documentPartName").val();
         let effectiveDt = $("#effectiveDt").val().replace(/-/g, "");
@@ -43,6 +44,7 @@ var regisReq = {
 
         let data = {
             docuType : docuType,
+            documentSn : documentSn,
             documentPartType : documentPartType,
             documentPartName : documentPartName,
             effectiveDt : effectiveDt,
@@ -70,7 +72,7 @@ var regisReq = {
         if(deptPartType == 6 && userSn == "") { alert("담당자가 선택되지 않았습니다."); return; }
         if(receiveName == "") { alert("수신처가 작성되지 않았습니다."); return; }
 
-        if($("#documentSn").val() == "") {
+        if(documentSn === "") {
             if(!confirm("문서를 등록하시겠습니까?")){
                 return;
             }
@@ -87,6 +89,17 @@ var regisReq = {
         let result = customKendo.fn_customAjax("/inside/setDocumentInsert", data);
         if(result.flag) {
             alert("문서 등록이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }else {
+            alert("데이터 저장 중 에러가 발생했습니다.");
+        }
+    },
+
+    setDocumentUpdate: function(data){
+        let result = customKendo.fn_customAjax("/inside/setDocumentUpdate", data);
+        if(result.flag) {
+            alert("문서 수정이 완료되었습니다.");
             opener.gridReload();
             window.close();
         }else {

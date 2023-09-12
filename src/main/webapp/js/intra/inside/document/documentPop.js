@@ -22,7 +22,6 @@ var docuReq = {
     },
 
     saveBtn: function(){
-        let documentSn = $("#documentSn").val();
         let docuType = 1;
         let documentPartType = $("#documentPart").val();
         let documentPartName = $("#documentPart").data("kendoDropDownList").text();
@@ -37,7 +36,6 @@ var docuReq = {
         let regEmpName = $("#regEmpName").val();
 
         let data = {
-            documentSn : documentSn,
             docuType : docuType,
             documentPartType : documentPartType,
             documentPartName : documentPartName,
@@ -64,7 +62,7 @@ var docuReq = {
             if(!confirm("문서를 등록하시겠습니까?")){
                 return;
             }
-            docuReq.setDocumentInsert(data);  /*er*/
+            docuReq.setDocumentInsert(data);
         }else {
             if(!confirm("문서를 수정하시겠습니까?")){
                 return;
@@ -85,13 +83,6 @@ var docuReq = {
     },
 
     setDocumentUpdate: function(data){
-        let result = customKendo.fn_customAjax("/Inside/setDocumentUpdate", data);
-        if(result.flag) {
-            alert("문서 수정이 완료되었습니다.");
-            opener.gridReload();
-            window.close();
-        }else {
-            alert("데이터 저장 중 에러가 발생했습니다.");
-        }
+
     }
 }

@@ -889,4 +889,18 @@
             DOCUMENT_SN = #{documentSn}
     </update>
 
+    <select id="getInComeUpdateList" resultType="map" parameterType="map">
+    /*접수대장 팝업*/
+        SELECT
+            CCD.*,
+            DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
+            DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
+        FROM
+            cam_common.dj_camtic_document AS CCD
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </select>
+
+
+
 </mapper>

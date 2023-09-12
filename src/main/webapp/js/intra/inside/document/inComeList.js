@@ -70,6 +70,7 @@ var regisList = {
                 pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
+            dataBound: regisList.dblclick,
             toolbar: [
                 {
                     name : 'button',
@@ -227,7 +228,32 @@ var regisList = {
                 }
             })
         }
+    },
+
+
+    dblclick : function(){
+        var grid = this;
+        //접수대장 리스트 행 더블 클릭시 수정 팝업창
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var selectedItem = grid.dataItem($(this));
+            console.log(selectedItem);
+            console.log(selectedItem.DOCUMENT_SN);
+            //pk
+            regisList.inComeListPopup(selectedItem.DOCUMENT_SN);
+        });
+    },
+
+    inComeListPopup : function(key) {
+        var url = "/Inside/Pop/inComeUpdatePop.do";
+        if(key != null && key != ""){
+            url = "/Inside/Pop/inComeUpdatePop.do?documentSn="+key;
+        }
+        var name = "inComeUpdatePop";
+        var option = "width = 850, height = 400, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
     }
+
 
 
 
