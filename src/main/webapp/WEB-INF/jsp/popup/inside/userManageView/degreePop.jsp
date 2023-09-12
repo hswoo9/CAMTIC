@@ -67,7 +67,7 @@
         </tr>
         <tr>
           <th>학위증빙</th>
-          <td colspan="2">
+          <td colspan="2" <%--style="padding:5px; cursor: pointer"--%>>
             <input type="file" id="degreeFile" disabled>
           </td>
         </tr>
@@ -80,7 +80,7 @@
         <tr>
           <th>비고</th>
           <td colspan="2">
-            <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+            <textarea name="bmk" id="bmk" style="width: 100%;"></textarea>
           </td>
         </tr>
       </table>

@@ -582,7 +582,7 @@ public class UserManageController {
     }
 
     @RequestMapping("/useManage/setUserPersonnelRecordInfo")
-    public String setUserDegreeInfo(@RequestParam Map<String,Object> map, Model model,HttpServletRequest request) {
+    public String setUserDegreeInfo(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
@@ -599,8 +599,7 @@ public class UserManageController {
         switch(params.get("type").toString()) {
             case "degree":
                 try {
-                    userManageService.setEducationalInfo(params);
-                    /*userManageService.setRecordHisInfo(params);*/
+                    userManageService.setEducationalInfo(params, request, SERVER_DIR, BASE_DIR);
                     model.addAttribute("rs", "SUCCESS");
                 }catch (Exception e) {
                     model.addAttribute("rs", "FAILED");
@@ -609,7 +608,7 @@ public class UserManageController {
                 break;
             case "career":
                 try {
-                    userManageService.setCareerInfo(params);
+                    userManageService.setCareerInfo(params, request, SERVER_DIR, BASE_DIR);
                     model.addAttribute("rs", "SUCCESS");
                 }catch (Exception e) {
                     model.addAttribute("rs", "FAILED");
@@ -636,7 +635,7 @@ public class UserManageController {
                 break;
             case "license":
                 try {
-                    userManageService.setLicenceInfo(params);
+                    userManageService.setLicenceInfo(params, request, SERVER_DIR, BASE_DIR);
                     model.addAttribute("rs", "SUCCESS");
                 }catch (Exception e) {
                     model.addAttribute("rs", "FAILED");
@@ -663,7 +662,7 @@ public class UserManageController {
                 break;
             case "reward":
                 try {
-                    userManageService.setRewardInfo(params); //////
+                    userManageService.setRewardInfo(params, request, SERVER_DIR, BASE_DIR);
                     model.addAttribute("rs", "SUCCESS");
                 }catch (Exception e) {
                     model.addAttribute("rs", "FAILED");

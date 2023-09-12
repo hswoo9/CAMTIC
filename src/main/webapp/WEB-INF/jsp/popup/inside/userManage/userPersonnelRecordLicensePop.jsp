@@ -70,7 +70,9 @@
             <span class="red-star"></span>증명서
           </th>
           <td colspan="2">
-            <input type="file">
+            <label for="certificateAddFile" class="k-button k-button-solid-base">파일첨부</label>
+            <input type="file" id="certificateAddFile" name="certificateAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+            <span id="certificateAddFileName"></span>
           </td>
         </tr>
         <tr>
@@ -78,7 +80,7 @@
             <span class="red-star"></span>비고
           </th>
           <td colspan="2">
-            <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+            <textarea name="bmk" id="bmk" style="width: 100%;"></textarea>
           </td>
         </tr>
       </table>
@@ -93,6 +95,11 @@
   $(function(){
     fn_default();
   });
+
+  function fileChange(e){
+    $(e).next().text($(e)[0].files[0].name);
+  }
+
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
     customKendo.fn_textBox("licenseName");
@@ -116,7 +123,22 @@
       bmk : $("#bmk").val(),
       type : "license",
     }
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+
+    var formData = new FormData();
+    formData.append("licenseName", data.licenseName);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("licenseNum", data.licenseNum);
+    formData.append("agency", data.agency);
+    formData.append("bmk", data.bmk);
+    formData.append("menuCd", "license");
+    formData.append("type", "license");
+
+    if($("#certificateAddFile")[0].files.length == 1){
+      formData.append("certificateAddFile", $("#certificateAddFile")[0].files[0]);
+    }
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");
