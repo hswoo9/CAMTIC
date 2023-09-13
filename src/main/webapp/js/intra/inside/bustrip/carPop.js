@@ -115,45 +115,35 @@ var carReq = {
     },
 
     searchDuplicateCar: function(data){
-        $.ajax({
-            url : "/inside/searchDuplicateCar",
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
-                console.log(result);
-                if(result.flag == "true") {
-                    let duplicateText = "";
-                    let realCount = 0;
-                    for(let i = 0; i < result.list.length; i++) {
-                        if(data.type == "bustripReq" && data.regEmpSeq == result.list[i].EMP_SEQ){
-                        }else {
-                            if(i != 0) {
-                                duplicateText += ", ";
-                            }
-                            duplicateText += result.list[i].EMP_NAME;
-                            realCount += 1;
-                        }
-                    }
-                    if(realCount == 0){
-                        carType = "B";
-                    }
-                    if(!flag && data.type != "bustripReq"){
-                        alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
-                    }
-                    if(!flag && carType == "A" && data.type == "bustripReq"){
-                        alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
-                    }
+        let url = "/inside/searchDuplicateCar";
+        let result = customKendo.fn_customAjax(url, data);
+
+        /** true면 중복있음 false면 없음 */
+        if(result.check == "true") {
+            let duplicateText = "";
+            let realCount = 0;
+            for(let i = 0; i < result.list.length; i++) {
+                if(data.type == "bustripReq" && data.regEmpSeq == result.list[i].EMP_SEQ){
                 }else {
-                    flag = true;
+                    if(i != 0) {
+                        duplicateText += ", ";
+                    }
+                    duplicateText += result.list[i].EMP_NAME;
+                    realCount += 1;
                 }
-            },
-            error : function() {
-                alert("운행일시 중복 조회 중 오류가 발생했습니다. 관리자에게 문의 바랍니다.");
-                flag = false;
             }
-        });
+            if(realCount == 0){
+                carType = "B";
+            }
+            if(!flag && data.type != "bustripReq"){
+                alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
+            }
+            if(!flag && carType == "A" && data.type == "bustripReq"){
+                alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
+            }
+        }else {
+            flag = true;
+        }
     },
 
     setCarRequestInsert: function(data){

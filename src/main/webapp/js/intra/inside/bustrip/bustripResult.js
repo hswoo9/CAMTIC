@@ -1,14 +1,18 @@
-var now = new Date();
-
 var bustripResList = {
+    global: {
+        year: now.getFullYear(),
+        month: now.getMonth(),
+        afMonth: now.getMonth()+1
+    },
+
     init: function(){
         bustripResList.dataSet();
         bustripResList.mainGrid();
     },
 
     dataSet: function(){
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() + 1)));
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustripResList.global.year, bustripResList.global.month, 1));
+        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustripResList.global.year, bustripResList.global.afMonth, 0));
 
         $("#pjt_cd").kendoDropDownList({
             dataTextField: "text",
@@ -106,7 +110,11 @@ var bustripResList = {
                 }, {
                     title: "출장지 (경유지)",
                     template: function(row){
-                        return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        if(row.VISIT_LOC_SUB != ""){
+                            return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        }else{
+                            return row.VISIT_CRM;
+                        }
                     },
                     width: 160
                 }, {

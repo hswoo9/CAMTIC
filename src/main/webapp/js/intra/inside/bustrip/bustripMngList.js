@@ -1,14 +1,18 @@
-var now = new Date();
-
 var bustripMngList = {
+    global: {
+        year: now.getFullYear(),
+        month: now.getMonth(),
+        afMonth: now.getMonth()+1
+    },
+
     init: function(){
         bustripMngList.pageSet();
         bustripMngList.mainGrid();
     },
 
     pageSet: function(){
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() + 1)));
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustripMngList.global.year, bustripMngList.global.month, 1));
+        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustripMngList.global.year, bustripMngList.global.afMonth, 0));
         $("#pjt_cd").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",

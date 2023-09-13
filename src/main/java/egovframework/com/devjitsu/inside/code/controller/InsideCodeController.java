@@ -190,7 +190,7 @@ public class InsideCodeController {
     @RequestMapping("/inside/searchDuplicateCar")
     public String searchDuplicateCar(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = insideCodeService.searchDuplicateCar(params);
-        model.addAttribute("flag", list.size() == 0 ? "false" : "true");
+        model.addAttribute("check", list.size() == 0 ? "false" : "true");
         model.addAttribute("list", list);
         return "jsonView";
     }

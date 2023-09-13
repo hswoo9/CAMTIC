@@ -9,28 +9,39 @@ var equipStat = {
         customKendo.fn_datePicker("applyYear", 'decade', "yyyy", new Date());
         $("#applyYear").attr("readonly", true);
         $("#applyYear").data("kendoDatePicker").bind("change", equipStat.mainChart);
-        let searchTypeSource = [
+        /*let searchTypeSource = [
             {text: "복합소재", value: "1"},
             {text: "드론산업", value: "2"},
             {text: "메이커스페이스", value: "3"}
         ]
+        customKendo.fn_dropDownTree("searchType", searchTypeSource, "text", "value", 1);
+        let typeArr = [];
+        for(let i=0; i<searchTypeSource.length; i++){
+            typeArr.push(searchTypeSource[i].value);
+        }
+        $("#searchType").data("kendoDropDownTree").value(typeArr);
+        $("#searchType").data("kendoDropDownTree").bind("change", equipStat.mainChart);*/
+        equipStat.searchData();
+    },
+
+    searchData: function(){
         let url = "/asset/getEqipmnRegList";
         let data = {};
         const list = customKendo.fn_customAjax(url, data).rs;
-        customKendo.fn_dropDownTree("searchType", list, "EQIPMN_NAME", "EQIPMN_MST_SN", 1);
+        customKendo.fn_dropDownTree("searchEquip", list, "EQIPMN_NAME", "EQIPMN_MST_SN", 1);
         let arr = [];
         for(let i=0; i<list.length; i++){
             arr.push(list[i].EQIPMN_MST_SN);
         }
-        $("#searchType").data("kendoDropDownTree").value(arr);
-        $("#searchType").data("kendoDropDownTree").bind("change", equipStat.mainChart);
+        $("#searchEquip").data("kendoDropDownTree").value(arr);
+        $("#searchEquip").data("kendoDropDownTree").bind("change", equipStat.mainChart);
     },
 
     mainChart: function(){
         let year = $("#applyYear").val();
         let data = {
             year: year,
-            searchType: $("#searchType").data("kendoDropDownTree").value().toString()
+            searchType: $("#searchEquip").data("kendoDropDownTree").value().toString()
         }
         const result = customKendo.fn_customAjax('/inside/getEquipStatRear', data).list;
 
