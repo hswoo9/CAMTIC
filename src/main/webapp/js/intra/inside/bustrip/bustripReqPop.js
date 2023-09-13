@@ -60,7 +60,7 @@ const bustripReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
+                { text: "전체", value: "" },
                 { text: "정부사업", value: "1" },
                 { text: "민간사업", value: "2" }
             ],
@@ -70,11 +70,11 @@ const bustripReq = {
                 if(this.value() == "1"){
                     $("#project").css("display", "");
 
-                    customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE", 2);
+                    customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
                 }else if (this.value() == "2"){
                     $("#project").css("display", "");
 
-                    customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE", 2);
+                    customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
                 } else {
                     $("#project").data("kendoDropDownList").wrapper.hide();
                     $("#busnLine").css("display", "none");
@@ -138,6 +138,7 @@ const bustripReq = {
         var result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
             hrBizReqId: d
         });
+
         var busInfo = result.rs.rs;
         var list = result.rs.list;
         var fileInfo = result.rs.fileInfo;
@@ -149,7 +150,7 @@ const bustripReq = {
         } else {
             $("#busnLine").css("display", "");
         }
-
+        $("#crmSn").val(busInfo.CRM_SN);
         $("#visitCrm").val(busInfo.VISIT_CRM);
         $("#visitLoc").val(busInfo.VISIT_LOC);
         $("#visitLocCode").data("kendoDropDownList").value(busInfo.VISIT_LOC_CODE);
@@ -278,6 +279,7 @@ const bustripReq = {
         formData.append("compDeptSeq", $("#popDeptSeq").val());
         formData.append("compDeptName", $("#popDeptName").val());
         formData.append("visitCrm", $("#visitCrm").val());
+        formData.append("crmSn", $("#crmSn").val());
         formData.append("visitLoc", $("#visitLoc").val());
         formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
         formData.append("visitLocCode", $("#visitLocCode").val());
@@ -405,7 +407,15 @@ const bustripReq = {
     test: function(){
         window.open('/indexB.do', '123123');
         opener.parent.open_in_frame('/Inside/carReq.do');
-    }
+    },
+
+    // 업체정보 조회
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }
 
 function userDataSet(userArr){

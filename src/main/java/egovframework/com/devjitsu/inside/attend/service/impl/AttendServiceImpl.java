@@ -28,9 +28,4 @@ public class AttendServiceImpl implements AttendService {
     public List<Map<String, Object>> personAnnvMainList(Map<String, Object> params) {
         return attendRepository.personAnnvMainList(params);
     }
-
-    @Override
-    public List<Map<String, Object>> getPersonAnnvInfoList(Map<String, Object> params) {
-        return attendRepository.getPersonAnnvInfoList(params);
-    }
 }

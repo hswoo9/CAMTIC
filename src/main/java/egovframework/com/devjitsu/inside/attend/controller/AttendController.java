@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class AttendController {
@@ -62,13 +65,6 @@ public class AttendController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("empSeq", login.getUniqId());
-
-        List<Map<String,Object>> personAnnvInfoList = attendService.getPersonAnnvInfoList(params);
-        model.addAttribute("annvList", personAnnvInfoList);
-
         return "inside/attend/personAnnvMain";
     }
 

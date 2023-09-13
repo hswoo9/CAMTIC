@@ -88,6 +88,6 @@ public class CrmRepository extends AbstractDAO {
     }
 
     public void insCrmHist(Map<String, Object> params) {
-        insert("crm.insCrmHist", params);
+        insert("crm.insCrmBustHist", params);
     }
 }
