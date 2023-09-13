@@ -419,6 +419,7 @@
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             IHBC.HR_BIZ_REQ_ID = #{hrBizReqId}
+            AND IHBC.HR_BIZ_REQ_RESULT_ID IS NULL
     </select>
 
     <select id="getBustripResTotInfo" parameterType="map" resultType="map">

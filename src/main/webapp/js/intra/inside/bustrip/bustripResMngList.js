@@ -1,4 +1,10 @@
 var bustripResMngList = {
+    global: {
+        year: now.getFullYear(),
+        month: now.getMonth(),
+        afMonth: now.getMonth()+1
+    },
+
     init: function(){
         bustripResList.dataSet();
         bustripResMngList.mainGrid();
@@ -80,7 +86,11 @@ var bustripResMngList = {
                 }, {
                     title: "출장지 (경유지)",
                     template: function(row){
-                        return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        if(row.VISIT_LOC_SUB != ""){
+                            return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        }else{
+                            return row.VISIT_CRM;
+                        }
                     },
                     width: 160
                 }, {

@@ -117,6 +117,17 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/getBustripResTotInfo")
+    public String getBustripResTotInfo(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
+
+        model.addAttribute("list", list);
+
+
+        return "jsonView";
+    }
+
     /**
      * 출장신청 데이터 불러오기
      * @param params

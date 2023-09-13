@@ -30,11 +30,33 @@ public class UserManageServiceImpl implements UserManageService {
     }
     @Override
     public List<Map<String,Object>> getEducationalList (Map<String,Object> map) {
-        return userManageRepository.getEducationalList(map);
+
+        List<Map<String,Object>> resultList = userManageRepository.getEducationalList(map);
+        if(resultList.size() > 0){
+            for(int i = 0 ; i < resultList.size() ; i++){
+                Map<String, Object> searchMap = new HashMap<>();
+                searchMap.put("fileNo", resultList.get(i).get("GRADE_NO"));
+                resultList.get(i).put("gradeFile", commonRepository.getContentFileOne(searchMap));
+                searchMap.put("fileNo", resultList.get(i).get("SCORE_NO"));
+                resultList.get(i).put("socreFile", commonRepository.getContentFileOne(searchMap));
+            }
+        }
+
+        return resultList;
     }
     @Override
     public List<Map<String, Object>> getCareerInfoList(Map<String, Object> map) {
-        return userManageRepository.getCareerInfoList(map);
+
+        List<Map<String,Object>> resultList = userManageRepository.getCareerInfoList(map);
+        if(resultList.size() > 0){
+            for(int i = 0 ; i < resultList.size() ; i++){
+                Map<String, Object> searchMap = new HashMap<>();
+                searchMap.put("fileNo", resultList.get(i).get("ADD_NO"));
+                resultList.get(i).put("addFile", commonRepository.getContentFileOne(searchMap));
+            }
+        }
+
+        return resultList;
     }
     @Override
     public List<Map<String,Object>> getFamilyInfoList(Map<String,Object> map) {
@@ -42,7 +64,17 @@ public class UserManageServiceImpl implements UserManageService {
     }
     @Override
     public List<Map<String,Object>> getLicenceInfoList(Map<String,Object> map) {
-        return userManageRepository.getLicenceInfoList(map);
+
+        List<Map<String,Object>> resultList = userManageRepository.getLicenceInfoList(map);
+        if(resultList.size() > 0){
+            for(int i = 0 ; i < resultList.size() ; i++){
+                Map<String, Object> searchMap = new HashMap<>();
+                searchMap.put("fileNo", resultList.get(i).get("CERTIFICATE_ADD_NO"));
+                resultList.get(i).put("certificateAddFile", commonRepository.getContentFileOne(searchMap));
+            }
+        }
+
+        return resultList;
     }
     @Override
     public List<Map<String,Object>> getAppointInfoList (Map<String,Object> map) {
@@ -50,7 +82,17 @@ public class UserManageServiceImpl implements UserManageService {
     }
     @Override
     public List<Map<String,Object>> getRewardInfoList (Map<String,Object> map) {
-        return userManageRepository.getRewardInfoList(map);
+
+        List<Map<String,Object>> resultList = userManageRepository.getRewardInfoList(map);
+        if(resultList.size() > 0){
+            for(int i = 0 ; i < resultList.size() ; i++){
+                Map<String, Object> searchMap = new HashMap<>();
+                searchMap.put("fileNo", resultList.get(i).get("REWARD_ADD_NO"));
+                resultList.get(i).put("rewardAddFile", commonRepository.getContentFileOne(searchMap));
+            }
+        }
+
+        return resultList;
     }
     @Override
     public Map<String, Object> getMilitarySvcInfo(Map<String, Object> map) {

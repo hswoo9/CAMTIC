@@ -6,14 +6,20 @@ var bustripResultPop = {
     },
 
     pageSet: function(){
+        let url;
+        let data = {
+
+        }
         if(hrBizReqResultId == ""){
             bustripReq.init();
+            url = "/bustrip/getBustripTotInfo";
+            data.hrBizReqId = hrBizReqId;
         }else{
             bustripReq.pageSet();
+            url = "/bustrip/getBustripResTotInfo";
+            data.hrBizReqResultId = hrBizReqResultId;
         }
-        let ds = customKendo.fn_customAjax("/bustrip/getBustripTotInfo", {
-            hrBizReqId : hrBizReqId
-        });
+        let ds = customKendo.fn_customAjax(url, data);
         customKendo.fn_dropDownList("realDriver", ds.list, "EMP_NAME", "EMP_SEQ", "3");
         customKendo.fn_textArea(["result"]);
     },
