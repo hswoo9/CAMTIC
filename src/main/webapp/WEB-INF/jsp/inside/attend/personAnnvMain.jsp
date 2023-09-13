@@ -70,18 +70,20 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td style="text-align: center;">2023</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
+                                <c:forEach var="l" items="${annvList}" varStatus="status">
+                                <td style="text-align: center;">${l.APPLY_YEAR}</td>
+                                <td style="text-align: center;">${l.ST_APPLY_DATE}</td>
+                                <td style="text-align: center;">${l.EN_APPLY_DATE}</td>
+                                <td style="text-align: center;">${l.GRANT_DAY} 일</td>
+                                <td style="text-align: center;">${l.aefUseDay} 일</td>
+                                <td style="text-align: center;">${l.aef2UseDay} 일</td>
+                                <td style="text-align: center;">${l.GRANT_SUM} 일</td>
+                                <td style="text-align: center;">${l.USE_DAY} 일</td>
+                                <td style="text-align: center;">${l.befUseDay} 일</td>
+                                <td style="text-align: center;">${l.bef2UseDay} 일</td>
+                                <td style="text-align: center;">${l.USE_SUM} 일</td>
+                                <td style="text-align: center;">${l.REMAIN_VAC} 일</td>
+                                </c:forEach>
                             </tr>
                             </tbody>
                         </table>
