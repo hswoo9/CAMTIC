@@ -1570,6 +1570,16 @@
             a.${key} = #{id}
     </select>
 
+    <select id="getKeyInfo" resultType="map" parameterType="map">
+        /* getKeyInfo */
+        select
+            a.*
+        from
+            CAM_HR.${type} as a
+        where
+            a.${key} = #{id}
+    </select>
+
     <update id="setUserReqDetailUpdate" parameterType="map">
             /*setUserReqDetailUpdate*/
             UPDATE CAM_HR.DJ_EMP_INFO

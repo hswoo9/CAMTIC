@@ -875,6 +875,7 @@ public class UserManageController {
         String viewName = "";
 
         model.addAttribute("params", params);
+        model.addAttribute("resultMap", userManageService.getKeyInfo(params));
 
         switch(params.get("typeName").toString()) {
             default: break;

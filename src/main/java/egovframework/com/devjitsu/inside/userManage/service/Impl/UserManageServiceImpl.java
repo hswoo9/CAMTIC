@@ -418,6 +418,34 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public Map<String, Object> getKeyInfo(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> returnMap = userManageRepository.getKeyInfo(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+
+        /*학력사항 첨부파일*/
+        searchMap.put("fileNo", returnMap.get("GRADE_NO"));
+        result.put("gradeFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileNo", returnMap.get("SCORE_NO"));
+        result.put("socreFile", commonRepository.getContentFileOne(searchMap));
+
+        /*경력사항 첨부파일*/
+        searchMap.put("fileNo", returnMap.get("ADD_NO"));
+        result.put("addFile", commonRepository.getContentFileOne(searchMap));
+
+        /*보유면허 첨부파일*/
+        searchMap.put("fileNo", returnMap.get("CERTIFICATE_ADD_NO"));
+        result.put("certificateAddFile", commonRepository.getContentFileOne(searchMap));
+
+        /*상벌사항 첨부파일*/
+        searchMap.put("fileNo", returnMap.get("REWARD_ADD_NO"));
+        result.put("rewardAddFile", commonRepository.getContentFileOne(searchMap));
+
+        return result;
+    }
+
+    @Override
     public Map<String, Object> getUserImageList(Map<String, Object> params) {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> infoMap = userManageRepository.getUserImageInfo(params);

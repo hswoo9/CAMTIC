@@ -67,14 +67,22 @@
         </tr>
         <tr>
           <th>학위증빙</th>
-          <td colspan="2" <%--style="padding:5px; cursor: pointer"--%>>
-            <input type="file" id="degreeFile" disabled>
+          <td colspan="2" style="padding:20 0 0 0px; cursor: pointer">
+              <c:if test="${resultMap.gradeFile ne null}">
+                  <span onclick="fileDown('${resultMap.gradeFile.file_path}${resultMap.gradeFile.file_uuid}', '${resultMap.gradeFile.file_org_name}.${resultMap.gradeFile.file_ext}')">
+                      ${resultMap.gradeFile.file_org_name}.${resultMap.gradeFile.file_ext}
+                  </span>
+              </c:if>
           </td>
         </tr>
         <tr>
           <th>성적증빙</th>
-          <td colspan="2">
-            <input type="file" id="scoreFile" disabled>
+          <td colspan="2" style="padding:20 0 0 0px; cursor: pointer">
+            <c:if test="${resultMap.socreFile ne null}">
+                  <span onclick="fileDown('${resultMap.socreFile.file_path}${resultMap.socreFile.file_uuid}', '${resultMap.socreFile.file_org_name}.${resultMap.socreFile.file_ext}')">
+                      ${resultMap.socreFile.file_org_name}.${resultMap.socreFile.file_ext}
+                  </span>
+            </c:if>
           </td>
         </tr>
         <tr>
