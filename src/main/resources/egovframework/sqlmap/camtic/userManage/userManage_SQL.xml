@@ -52,7 +52,7 @@
             B.admin_approval = 'Y'
         AND
             B.ACTIVE = 'Y'
-        ORDER BY B.ADMIN_APPROVAL_DATE DESC
+        ORDER BY B.EDUCATIONAL_ID DESC;
     </select>
     <select id="getMilitarySvcInfo" parameterType="map" resultType="map">
         /* getMilitarySvcInfo */
@@ -70,6 +70,7 @@
             A.ADMIN_APPROVAL = 'Y'
     </select>
     <select id="getCareerInfoList" parameterType="map" resultType="map">
+        /* getCareerInfoList */
         SELECT
             *
         FROM
@@ -80,7 +81,7 @@
             A.admin_approval = 'Y'
         AND
             A.ACTIVE = 'Y'
-        ORDER BY ADMIN_APPROVAL_DATE DESC
+        ORDER BY A.CAREER_ID DESC;
     </select>
 
     <select id="getFamilyInfoList" parameterType="map" resultType="map">
@@ -102,6 +103,7 @@
             A.ADMIN_APPROVAL = 'Y'
         AND
             A.ACTIVE = 'Y'
+        ORDER BY A.FAMILY_ID DESC;
     </select>
 
     <select id="getLicenceInfoList" parameterType="map" resultType="map">
@@ -116,9 +118,10 @@
         WHERE
             a.EMP_SEQ = #{empSeq}
         AND
-            b.admin_approval = 'Y';
+            b.admin_approval = 'Y'
         AND
             b.ACTIVE = 'Y'
+        ORDER BY b.CERTIFICATE_ID DESC;
     </select>
 
     <select id="getAppointInfoList" parameterType="map" resultType="map">
@@ -130,6 +133,7 @@
             CAM_HR.DJ_APNT_INFO A
         WHERE
             A.EMP_SEQ = #{empSeq}
+        ORDER BY A.APNT_SN DESC;
     </select>
 
     <select id="getRewardInfoList" parameterType="map" resultType="map">
@@ -175,9 +179,11 @@
         AND
             ADMIN_APPROVAL = 'Y'
         AND
-            ACTIVE = 'Y';
+            ACTIVE = 'Y'
+        ORDER BY REWORD_ID DESC;
     </select>
     <select id="getDutyInfoList" parameterType="map" resultType="map">
+        /*getDutyInfoList*/
         SELECT
             *
         FROM
@@ -191,9 +197,11 @@
         and
             b.admin_approval = 'Y'
         AND
-            b.ACTIVE = 'Y';
+            b.ACTIVE = 'Y'
+        ORDER BY b.DUTY_ID DESC;
     </select>
     <select id="getProposalInfoList" parameterType="map" resultType="map">
+        /*getProposalInfoList*/
         SELECT
             *
         FROM
@@ -207,7 +215,8 @@
         AND
             b.admin_approval = 'Y'
         AND
-            b.ACTIVE = 'Y';
+            b.ACTIVE = 'Y'
+        ORDER BY PROPOSAL_ID DESC;
     </select>
 
 
