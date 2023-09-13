@@ -183,8 +183,92 @@ var camPrj = {
                     },
                     width: "3%"
                 }, {
+                    title: "연번",
+                    template: "#= --record #",
+                    width: "3%"
+                }, {
                     field: "BUSN_NM",
                     title: "사업구분",
+                    width: "5%"
+                }, {
+                    field: "PJT_CD",
+                    title: "프로젝트 코드",
+                    width: "7%"
+                }, {
+                    field: "PJT_NM",
+                    title: "프로젝트 명",
+                    width: "20%",
+                    template: function(e){
+                        return "<a href='javascript:void(0);' onclick='camPrj.fn_projectPopView("+e.PJT_SN+")'>" + e.PJT_NM + "</a>";
+                    }
+                }
+                // , {
+                //     field: "COMP_NM",
+                //     title: "업체명",
+                //     width: "10%"
+                // }
+                , {
+
+                    field: "STR_DT",
+                    title: "수주일",
+                    width: "7%",
+                    template: function(e){
+
+                        if(e.STR_DT == null || e.STR_DT == ""){
+                            return "";
+                        }
+                        var date = new Date(e.STR_DT);
+                        var yyyy = date.getFullYear();
+                        var mm = date.getMonth()+1;
+                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var dd = date.getDate();
+                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy+'-'+mm+'-'+dd;
+                    }
+                }
+                // , {
+                //     field: "END_EXP_DT",
+                //     title: "완료예정일",
+                //     width: "7%",
+                //     template: function(e){
+                //         if(e.END_EXP_DT == null || e.END_EXP_DT == ""){
+                //             return "";
+                //         }
+                //         var date = new Date(e.END_EXP_DT);
+                //         var yyyy = date.getFullYear();
+                //         var mm = date.getMonth()+1;
+                //         mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                //         var dd = date.getDate();
+                //         dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                //         return yyyy+'-'+mm+'-'+dd;
+                //     }
+                // }
+                , {
+                    field: "END_DT",
+                    title: "종료일자",
+                    width: "7%",
+                    template: function(e){
+                        if(e.END_DT == null || e.END_DT == ""){
+                            return "";
+                        }
+                        var date = new Date(e.END_DT);
+                        var yyyy = date.getFullYear();
+                        var mm = date.getMonth()+1;
+                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var dd = date.getDate();
+                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy+'-'+mm+'-'+dd;
+                    }
+                }, {
+                    field: "PJT_AMT",
+                    title: "수주금액",
+                    width: "7%",
+                    template: function(e){
+                        return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
+                    }
+                }, {
+                    field: "PM",
+                    title: "PM",
                     width: "5%"
                 }, {
                     field: "PJT_STEP_NM",
@@ -212,81 +296,16 @@ var camPrj = {
                         return pjtStepNm;
                     }
                 }, {
-                    field: "PJT_CD",
-                    title: "프로젝트 코드",
-                    width: "7%"
-                }, {
-                    field: "PJT_NM",
-                    title: "프로젝트 명",
-                    width: "20%",
-                    template: function(e){
-                        return "<a href='javascript:void(0);' onclick='camPrj.fn_projectPopView("+e.PJT_SN+")'>" + e.PJT_NM + "</a>";
+                    title : "조회",
+                    width: "5%",
+                    template : function (e){
+                        return "<button type='button' class='k-button k-button-solid-base'>조회</button>"
                     }
-                }, {
-                    field: "COMP_NM",
-                    title: "업체명",
-                    width: "10%"
-                }, {
-                    field: "STR_DT",
-                    title: "수주일",
-                    width: "7%",
-                    template: function(e){
-
-                        if(e.STR_DT == null || e.STR_DT == ""){
-                            return "";
-                        }
-                        var date = new Date(e.STR_DT);
-                        var yyyy = date.getFullYear();
-                        var mm = date.getMonth()+1;
-                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                        var dd = date.getDate();
-                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                        return yyyy+'-'+mm+'-'+dd;
-                    }
-                }, {
-                    field: "END_EXP_DT",
-                    title: "완료예정일",
-                    width: "7%",
-                    template: function(e){
-                        if(e.END_EXP_DT == null || e.END_EXP_DT == ""){
-                            return "";
-                        }
-                        var date = new Date(e.END_EXP_DT);
-                        var yyyy = date.getFullYear();
-                        var mm = date.getMonth()+1;
-                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                        var dd = date.getDate();
-                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                        return yyyy+'-'+mm+'-'+dd;
-                    }
-                }, {
-                    field: "END_DT",
-                    title: "완료일",
-                    width: "7%",
-                    template: function(e){
-                        if(e.END_DT == null || e.END_DT == ""){
-                            return "";
-                        }
-                        var date = new Date(e.END_DT);
-                        var yyyy = date.getFullYear();
-                        var mm = date.getMonth()+1;
-                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                        var dd = date.getDate();
-                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                        return yyyy+'-'+mm+'-'+dd;
-                    }
-                }, {
-                    field: "PJT_AMT",
-                    title: "수주금액",
-                    width: "7%",
-                    template: function(e){
-                        return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
-                    }
-                }, {
-                    field: "PM",
-                    title: "PM",
-                    width: "5%"
-                }]
+                }
+                ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#mainGrid").data("kendoGrid").setOptions({

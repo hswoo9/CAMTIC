@@ -7,10 +7,14 @@ var regPrj = {
 
 
     fn_defaultScript : function (setParameters) {
-        setParameters.pjtSn = setParameters.PJT_SN;
+        if(setParameters != null && setParameters.PJT_SN != null){
+            setParameters.pjtSn = setParameters.PJT_SN;
+        }
         var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
 
         var delvMap = delvMap.delvMap;
+
+
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
         }
@@ -60,11 +64,37 @@ var regPrj = {
             ],
         });
 
-        var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
-        customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
-        var busnDDL = $("#busnClass").data("kendoDropDownList");
-        busnDDL.bind("change", regPrj.fn_busnDDLChange);
+        $("#busnLgClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "정부사업", value: "1" },
+                { text: "민간사업", value: "2" }
+            ],
+            index: 0,
+            change: function(){
+                var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+                if(this.value() == "1"){
+                    $("#busnClass").css("display", "");
+
+                    customKendo.fn_dropDownList("busnClass", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE");
+                }else if (this.value() == "2"){
+                    $("#busnClass").css("display", "");
+
+                    customKendo.fn_dropDownList("busnClass", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE");
+                } else {
+                    $("#busnClass").css("display", "none");
+                }
+                var busnDDL = $("#busnClass").data("kendoDropDownList");
+                busnDDL.bind("change", regPrj.fn_busnDDLChange);
+
+            }
+        })
+
+
+
 
         customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName"]);
 
@@ -74,12 +104,16 @@ var regPrj = {
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
         tabStrip.disable(tabStrip.tabGroup.children());
 
-        if(setParameters.PJT_SN){
-            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-            tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-        }
+
 
         if(setParameters != null){
+
+            if(setParameters.PJT_SN){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+            }
+
             setParameters.ENGN_SN;
             regPrj.fn_setData(setParameters);
 
@@ -190,8 +224,16 @@ var regPrj = {
     },
 
     fn_setData : function (p) {
-        var busnClass = $("#busnClass").data("kendoDropDownList")
-        busnClass.value(p.BUSN_CLASS);
+        var busnLgClass = $("#busnLgClass").data("kendoDropDownList");
+        var busnClass;
+
+        if(p.BUSN_CLASS == "D"){
+            busnLgClass.value(2);
+            busnLgClass.trigger("change");
+            busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.value(p.BUSN_CLASS);
+        }
+
         if(p.BUSN_CLASS == "D"){
             $("#vEngi").css("display", "");
             $("#commFileHtml").css("display", "");
@@ -199,7 +241,10 @@ var regPrj = {
             $("#vEngi").css("display", "none");
             $("#commFileHtml").css("display", "none");
         }
+
         busnClass.wrapper.hide();
+        busnLgClass.wrapper.hide();
+
         var pjtCode = "";
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
