@@ -18,4 +18,5 @@ public interface RecruitService {
     void setInAvoidUpd(Map<String, Object> params);
     List<Map<String, Object>> getInApplicationList(Map<String, Object> params);
     void setApplicationInTime(Map<String, Object> params);
+    void setPrePassAppl(Map<String, Object> params);
 }

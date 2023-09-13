@@ -1,6 +1,7 @@
 var recruitAdminPop = {
     global : {
         searchAjaxData : "",
+        saveAjaxData : "",
     },
 
     init : function(){
@@ -115,6 +116,19 @@ var recruitAdminPop = {
                     title: "면접심사",
                     width : 80,
                     hidden : true,
+                }, {
+                    field: "PRELIMINARY_PASS",
+                    title: "예비합격",
+                    width : 80,
+                    hidden : true,
+                    template : function(e){
+                        var chk = "";
+                        if(e.PRELIMINARY_PASS == "Y"){
+                            chk = "checked";
+                        }
+
+                        return "<input type='checkbox' id='preliminaryPass_" + e.APPLICATION_ID + "' name='preliminaryPass' value='" + e.APPLICATION_ID + "' " + chk + " onclick='recruitAdminPop.setPrePassAppl(this)'/>"
+                    }
                 }
             ],
         }).data("kendoGrid");
@@ -124,6 +138,7 @@ var recruitAdminPop = {
             $("#mainGrid").data("kendoGrid").showColumn(13);
         }else if($("div.circle.active").attr("searchType") == "I"){
             $("#mainGrid").data("kendoGrid").showColumn(14);
+            $("#mainGrid").data("kendoGrid").showColumn(15);
         }
     },
 
@@ -189,6 +204,27 @@ var recruitAdminPop = {
                 alert("처리되었습니다.");
                 recruitAdminPop.gridReload();
             }
+        }
+    },
+
+    setPrePassAppl : function(e){
+        var preliminaryPass = "";
+        if($(e).is(":checked")){
+            preliminaryPass = "Y";
+        }else{
+            preliminaryPass = "N";
+        }
+
+        recruitAdminPop.global.saveAjaxData = {
+            preliminaryPass : preliminaryPass,
+            applicationId : $(e).closest("tr").find("input[name='aplChk']").val(),
+            empSeq : $("#empSeq").val()
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setPrePassAppl.do", recruitAdminPop.global.saveAjaxData);
+        if(result.flag){
+            alert("처리되었습니다.");
+            recruitAdminPop.gridReload();
         }
     },
 
