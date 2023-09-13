@@ -351,37 +351,4 @@
                 #{empSeq}
             )
     </insert>
-
-    <insert id="insCrmBustHist" parameterType="map">
-        INSERT INTO CAM_CRM.DJ_CRM_HIST
-            (
-                CRM_SN,
-                CRM_REL_TP,
-                CRM_HIST_OBJ,
-                CRM_REL_STR_DT,
-                CRM_REL_END_DT,
-                CRM_INTER_VAL,
-                CRM_INTER_LG,
-                CRM_INTER,
-                CRM_REL_PJT,
-                CRM_REL_PJT_NM,
-                CRM_REL_CONT,
-                REG_EMP_SEQ
-            )
-        VALUES
-            (
-                #{CRM_SN},
-                "업체방문",
-                "출장",
-                CONCAT(#{TRIP_DAY_FR}, " ", #{TRIP_TIME_FR}),
-                CONCAT(#{TRIP_DAY_TO}, " ", #{TRIP_TIME_TO}),
-                "",
-                "",
-                "",
-                #{PJT_SN},
-                NULL,
-                #{RESULT},
-                #{REG_EMP_SEQ}
-            )
-    </insert>
 </mapper>
