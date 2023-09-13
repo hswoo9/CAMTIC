@@ -7,10 +7,10 @@ var regPrj = {
 
 
     fn_defaultScript : function (setParameters) {
-
+        setParameters.pjtSn = setParameters.PJT_SN;
         var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
 
-        console.log(delvMap);
+        var delvMap = delvMap.delvMap;
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
         }
@@ -83,8 +83,6 @@ var regPrj = {
             setParameters.ENGN_SN;
             regPrj.fn_setData(setParameters);
 
-            console.log(setParameters);
-
             if(setParameters.PJT_STEP == "E"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
@@ -98,7 +96,7 @@ var regPrj = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(3));
             }
 
-            if(setParameters.PJT_STEP >= "E2" && setParameters.STATUS == "100"){
+            if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(4));
             }
 
