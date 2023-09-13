@@ -873,11 +873,20 @@
             manager_sn=#{managerSn},
             manager_name=#{managerName},
             document_title_name=#{documentTitleName},
+            <if test='"2".equals(docuType)'>
+                dept_part_type=#{deptPartType}
+                dept_part_text=#{deptPartText}
+                <if test='"6".equals(deptPartType)'>
+                    user_sn=#{userSn},
+                    user_text=#{userText},
+                </if>
+            </if>
             remark_Cn=#{remarkCn},
             document_first_number= CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
             document_second_number=(SELECT IFNULL(MAX(SCCD.document_second_number), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.document_first_number = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
             reg_emp_seq=#{regEmpSeq},
-            reg_emp_name=#{regEmpName}
+            reg_emp_name=#{regEmpName},
+            reg_dt = NOW()
         WHERE
             DOCUMENT_SN = #{documentSn}
     </update>
@@ -909,8 +918,13 @@
             RECEIVE_NAME = #{receiveName},
             EFFECTIVE_DT = #{effectiveDt},
             SHIPMENT_DT = #{shipmentDt},
-            REMARK_CN = #{remarkCn}
+            REMARK_CN = #{remarkCn},
+            USER_SN = #{userSn},
+            USER_TEXT = #{userText}
         WHERE
             DOCUMENT_SN = #{documentSn}
     </update>
+
+
+
 </mapper>

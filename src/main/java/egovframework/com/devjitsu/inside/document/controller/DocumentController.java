@@ -490,7 +490,7 @@ public class DocumentController {
     }
 
     /** 접수대장 팝업 수정 */
-    @RequestMapping("/Inside/setInComeUpdate")
+    @RequestMapping("/inside/setInComeUpdate")
     public String setInComeUpdate(@RequestParam Map<String, Object> params, Model model) {
         documentService.setInComeUpdate(params);
         return "jsonView";

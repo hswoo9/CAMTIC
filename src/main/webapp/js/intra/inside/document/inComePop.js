@@ -17,6 +17,7 @@ var regisReq = {
         ]
         customKendo.fn_dropDownList("deptPart", deptPartArr, "text", "value", 2);
         $("#deptPart").data("kendoDropDownList").bind("change", regisReq.fn_toggleManger)
+        $("#deptPart").data("kendoDropDownList").trigger("change");
         $("#documentPartName, #documentPart, #empName, #effectiveDt, #shipmentDt").attr("readonly", true);
     },
 
@@ -113,7 +114,7 @@ var regisReq = {
     },
 
     setDocumentInsert: function (data) {
-        let result = customKendo.fn_customAjax("/Inside/setDocumentInsert", data);
+        let result = customKendo.fn_customAjax("/inside/setDocumentInsert", data);
         if (result.flag) {
             alert("문서 등록이 완료되었습니다.");
             opener.gridReload();
@@ -124,7 +125,7 @@ var regisReq = {
     },
 
     setInComeUpdate: function (data) {
-        let result = customKendo.fn_customAjax("/Inside/setInComeUpdate", data);
+        let result = customKendo.fn_customAjax("/inside/setInComeUpdate", data);
         if (result.flag) {
             alert("문서 수정이 완료되었습니다.");
             opener.gridReload();

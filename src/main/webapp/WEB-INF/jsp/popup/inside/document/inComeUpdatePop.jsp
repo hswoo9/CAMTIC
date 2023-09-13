@@ -113,7 +113,7 @@
                     </th>
                     <td style="display: none" class="managerTd">
                         <input type="text" id="userText" value="${inComeList.USER_TEXT}" style="width: 65%;">
-                        <input type="hidden" id="userSn" style="width: 65%;">
+                        <input type="hidden" id="userSn" value="${inComeList.User_SN}" style="width: 65%;">
                         <button type="button" id="userMultiSelect"
                                 class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"
                                 style="width:30%; height:27px; line-height:0;" onclick="fn_userMultiSelectPop();">
