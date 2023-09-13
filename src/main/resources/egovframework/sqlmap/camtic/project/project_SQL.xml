@@ -363,7 +363,8 @@
             A.*,
             B.DEPT_NAME,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            A.STATUS AS DELV_STATUS
         FROM
             CAM_PJT_MNG.DJ_PJT_DELV A
         LEFT JOIN
