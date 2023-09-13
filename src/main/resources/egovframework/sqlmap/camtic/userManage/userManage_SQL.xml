@@ -166,7 +166,8 @@
             REG_EMP_SEQ,
             REG_DATE,
             MOD_EMP_SEQ,
-            MOD_DATE
+            MOD_DATE,
+            REWARD_ADD_NO
         FROM
             CAM_HR.DJ_EMP_REWORD HER
         WHERE
