@@ -31,6 +31,20 @@ public class RecruitServiceImpl implements RecruitService {
                 if(recruitAreaList.size() > 0){
                     recruitList.get(i).put("recruitAreaList", recruitAreaList);
                 }
+
+                String careerType = recruitList.get(i).get("CAREER_TYPE") == null ? "" : recruitList.get(i).get("CAREER_TYPE").toString();
+                if(!StringUtils.isEmpty(careerType)){
+                    if(careerType.indexOf("~") > -1){
+                        careerType = "신입~경력";
+                    }else{
+                        if(careerType == "1"){
+                            careerType = "경력";
+                        }else{
+                            careerType = "신입";
+                        }
+                    }
+                }
+                recruitList.get(i).put("careerType", careerType);
             }
         }
         return recruitList;
@@ -79,5 +93,35 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void setCommissionerInsert(Map<String, Object> params) {
         recruitRepository.setCommissionerInsert(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getApplicationList(Map<String, Object> params) {
+        List<Map<String, Object>> list = recruitRepository.getApplicationList(params);
+
+//        for(Map<String, Object> map : list){
+//
+//        }
+
+        return list;
+    }
+
+    @Override
+    public void setApplicationUpd(Map<String, Object> params) {
+        recruitRepository.setApplicationUpd(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getInApplicationList(Map<String, Object> params) {
+        return recruitRepository.getInApplicationList(params);
+    }
+
+    @Override
+    public void setApplicationInTime(Map<String, Object> params) {
+        recruitRepository.setApplicationInTimeDel(params);
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> inTimeArr = gson.fromJson((String) params.get("inTimeArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        recruitRepository.setApplicationInTime(inTimeArr);
     }
 }

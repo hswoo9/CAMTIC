@@ -99,7 +99,7 @@ var recruitList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="recruitList.recruitAdminPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop();">' +
                             '	<span class="k-button-text">채용공고관리</span>' +
                             '</button>';
                     }
@@ -115,7 +115,7 @@ var recruitList = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
                     width: 50,
                     template : function (e){
-                        return "<input type='checkbox' id='' name='' value='"+e.RECRUIT_INFO_SN+"'/>";
+                        return "<input type='checkbox' id='recChk" + e.RECRUIT_INFO_SN + "' name='recChk' value='"+e.RECRUIT_INFO_SN+"'/>";
                     }
                 }, {
                     field: "ROW_NUM",
@@ -143,20 +143,14 @@ var recruitList = {
                     title: "모집분야",
                     width: 240
                 }, {
+                    field: "careerType",
                     title: "경력",
-                    template: function(row) {
-                        return "-";
-                    }
                 }, {
+                    field : "RECRUITMENT",
                     title: "채용인원",
-                    template: function(row) {
-                        return "-";
-                    }
                 }, {
+                    field : "APPLICATION_CNT",
                     title: "접수인원",
-                    template: function(row) {
-                        return "-";
-                    }
                 }, {
                     field: "",
                     title: "서류심사",
@@ -186,9 +180,17 @@ var recruitList = {
     },
 
     recruitAdminPop : function() {
-        var url = "/Inside/pop/recruitAdminPop.do";
+        if($("input[name='recChk']:checked").length == 0){
+            alert("공고를 선택해주세요.");
+            return;
+        }else if($("input[name='recChk']:checked").length > 1){
+            alert("공고를 하나만 선택해주세요.");
+            return;
+        }
+
+        var url = "/inside/pop/recruitAdminPop.do?recruitInfoSn=" + $("input[name='recChk']:checked").val();
         var name = "recruitAdminPop";
-        var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1750, height=725, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 

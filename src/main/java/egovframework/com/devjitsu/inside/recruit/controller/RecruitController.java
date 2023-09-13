@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.recruit.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
@@ -96,14 +97,89 @@ public class RecruitController {
         return "popup/inside/recruit/recruitReqPop";
     }
 
-    //채용관리 페이지
-    @RequestMapping("/Inside/pop/recruitAdminPop.do")
-    public String recruitAdminPop(HttpServletRequest request, Model model) {
+    /**
+     * 채용공고관리 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/recruitAdminPop.do")
+    public String recruitAdminPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
         return "popup/inside/recruit/recruitAdminPop";
+    }
+
+    /**
+     * 채용공고 응시자 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getApplicationList")
+    public String getApplicationList(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("list", recruitService.getApplicationList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 응시원서 상태 업데이트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setApplicationUpd.do")
+    public String setApplicationUpd(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        recruitService.setApplicationUpd(params);
+        return "jsonView";
+    }
+
+    /**
+     * 응시원서 면접시간 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getInApplicationList.do")
+    public String getInApplicationList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        model.addAttribute("list", recruitService.getInApplicationList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 채용공고 면접시간 설정 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/inTimeSetPop.do")
+    public String inTimeSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("recruit", new Gson().toJson(recruitService.getRecruit(params)));
+
+        return "popup/inside/recruit/inTimeSetPop";
+    }
+
+    /**
+     * 면접시간 설정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setApplicationInTime.do")
+    public String setApplicationInTime(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        recruitService.setApplicationInTime(params);
+        return "jsonView";
     }
 
     //평가위원관리 페이지

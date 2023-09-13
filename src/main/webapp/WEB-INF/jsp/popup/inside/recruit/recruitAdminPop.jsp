@@ -8,77 +8,113 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/recruitAdminPop.js?v=${today}"></script>
 <style>
-  .removeDay{
-    text-decoration:line-through;
-    font-weight:700;
-    color:red
-  }
   .k-grid-toolbar{
     justify-content: flex-end !important;
   }
+
   .k-grid-norecords{
     justify-content: space-around;
   }
-  .k-grid tbody tr{
-    height: 38px;
-  }
-  #wptDiv{
-    margin: 0 auto;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around;
-  }
-  #wptDiv > label {
-    margin : 0
-  }
-  #timeDiff{
-    height: 255px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  :root {
+    --line-border-fill: #3498db;
+    --line-border-empty: #e0e0e0;
   }
 
-  .k-grid-header th.k-header .k-checkbox {
-    margin: 0;
+  .container {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .progress-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 100%;
+  }
+
+  .progress-container::before {
+    content: ""; /* Mandatory with ::before */
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 100%;
+    z-index: -1;
+  }
+
+  .circle {
+    background-color: #fff;
+    color: #999;
+    height: 30px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--line-border-empty);
+    transition: 0.4s ease;
+    margin-left: 15px;
+    cursor: pointer;
+  }
+
+  .circle.active {
+    border-color: var(--line-border-fill);
+    font-weight: bold;
+    color: black;
+  }
+  .circle.ready {
+    border-color: #FF772EFF;
+    font-weight: bold;
+    color: black;
   }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-md-12 col-lg-12 dash-left">
-  <div class="panel">
-    <div class="panel-heading">
-      <h4 class="panel-title">채용공고관리</h4>
-      <div class="title-road">채용관리 &gt; 채용공고관리</div>
+<div class="col-lg-12" style="padding:0;">
+  <div class="table-responsive">
+    <div class="card-header pop-header">
+      <h3 class="card-title title_NM">채용공고 관리</h3>
+      <div class="btn-st popButton">
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+      </div>
     </div>
 
     <div class="panel-body">
-      <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
+      <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+      <div class="container">
+        <div class="progress-container">
+          <div class="circle active" searchType="S" id="ps0">응시자</div>
+          <div class="circle" id="ps1" searchType="D">서류심사(합격자)</div>
+          <div class="circle" id="ps2" searchType="I">면접심사(합격자)</div>
+        </div>
+      </div>
+
+      <div id="docPassBtnDiv" style="text-align: right">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPass" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
+          <span>서류심사 합격</span>
+        </button>
+      </div>
+
+      <div id="inPassBtnDiv" style="display: none;text-align: right">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPassCancel" value="S" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
+          <span>서류심사 합격취소</span>
+        </button>
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"onclick="recruitAdminPop.inTimeSetPop()">
+          <span>면접시간 설정</span>
+        </button>
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
+          <span>면접심사 합격</span>
+        </button>
+      </div>
+
+      <div id="fPassBtnDiv" style="display: none;text-align: right">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inPassCancel" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
+          <span>면접심사 합격취소</span>
+        </button>
+      </div>
 
       <div>
-        <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-          <tr>
-            <td style="border-bottom:0; background-color: white">
-              <div style="display:flex;">
-                <div class="mr10">
-                  <span>연도</span>
-                  <input type="text" id="recruitYear" style="width: 140px;">
-                </div>
-                <div class="mr10">
-                  <span>구분</span>
-                  <input type="text" id="searchType" style="width: 140px;">
-                  <input type="text" id="searchVal" style="width: 140px;">
-                </div>
-                <div class="mr10">
-                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>
-                </div>
-                <div>
-                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="채용통계 조회" onclick=""/>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </table>
         <div id="mainGrid" style="margin:20px 0;"></div>
       </div>
     </div>

@@ -1,61 +1,36 @@
-var now = new Date();
-
 var recruitAdminPop = {
+    global : {
+        searchAjaxData : "",
+    },
 
     init : function(){
-        recruitAdminPop.dataSet();
-        recruitAdminPop.mainGrid();
+        recruitAdminPop.gridReload();
+
+        $("div.circle").click(function(){
+            $("div.circle").removeClass("active");
+            $(this).addClass("active");
+
+            $("#docPassBtnDiv").hide();
+            $("#inPassBtnDiv").hide();
+            $("#fPassBtnDiv").hide();
+
+            recruitAdminPop.gridReload();
+
+            if($(this).attr("searchType") == "S"){
+                $("#docPassBtnDiv").show();
+            }else if($(this).attr("searchType") == "D"){
+                $("#inPassBtnDiv").show();
+            }else if($(this).attr("searchType") == "I"){
+                $("#fPassBtnDiv").show();
+            }
+        })
     },
 
-    dataSet() {
-        $("#recruitYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "구분", value: "" },
-                { text: "모집분야", value: "1" },
-                { text: "공고명", value: "2" },
-                { text: "공고번호", value: "3" },
-                { text: "지원자", value: "4" }
-            ],
-            index: 0
-        });
-    },
-
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
+    mainGrid : function(url, params) {
+        var record = 0;
 
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -68,84 +43,121 @@ var recruitAdminPop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            toolbar : [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">결재상신</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitAdminPop.recruitReqPop();">' +
-                            '	<span class="k-button-text">채용공고등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitAdminPop.recruitAdminPop();">' +
-                            '	<span class="k-button-text">채용공고관리</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='' name='' value='' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='aplChk_#=APPLICATION_ID#' name='aplChk' value='#=APPLICATION_ID#'/>",
                     width: 50
                 }, {
-                    field: "",
-                    title: "순번"
+                    title: "순번",
+                    width: 50,
+                    template : function(e){
+                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
+                    }
+                }, {
+                    field: "USER_NAME",
+                    title: "성명",
+                    width : 80,
+                    template : function(e){
+                        return '<a onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
+                    }
+                }, {
+                    field: "AGE",
+                    title: "연령",
+                    template : function(e){
+                        return e.AGE + "세"
+                    },
+                    width : 50
+                }, {
+                    field: "GENDER",
+                    title: "성별",
+                    width : 50
+                }, {
+                    field: "SCHOOL_NAME",
+                    title: "최종학력"
                 }, {
                     field: "",
-                    title: "공고번호"
+                    title: "경력",
+                    width : 120
                 }, {
-                    field: "",
-                    title: "공고명"
+                    field: "ADDR",
+                    title: "지역",
+                    width : 120
                 }, {
-                    field: "",
-                    title: "모집기간"
+                    field: "LANG_NAME",
+                    title: "외국어"
                 }, {
-                    field: "",
-                    title: "모집분야"
+                    field: "JOB",
+                    title: "채용분야",
+                    width : 120
                 }, {
-                    field: "",
-                    title: "경력"
+                    field: "SAVE_DATE",
+                    title: "지원일시",
+                    width : 150
                 }, {
-                    field: "",
-                    title: "채용인원"
-                }, {
-                    field: "",
-                    title: "접수인원"
-                }, {
-                    field: "",
-                    title: "서류심사"
-                }, {
-                    field: "",
-                    title: "면접심사"
-                }, {
-                    field: "",
-                    title: "상태"
+                    field: "DUPLICATION_CNT",
+                    title: "중복지원",
+                    template : function(e){
+                        return e.DUPLICATION_CNT + "건"
+                    },
+                    width : 80
                 }
             ]
         }).data("kendoGrid");
     },
 
-    recruitReqPop : function() {
-        var url = "/Inside/pop/recruitReqPop.do";
-        var name = "recruitReqPop";
-        var option = "width=1400, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    gridReload : function() {
+        recruitAdminPop.global.searchAjaxData = {
+            recruitInfoSn : $("#recruitInfoSn").val(),
+            searchType : $("div.circle.active").attr("searchType")
+        }
+
+        recruitAdminPop.mainGrid("/inside/getApplicationList", recruitAdminPop.global.searchAjaxData);
+    },
+
+    setApplicationUpd : function(sts, type){
+        if($("input[name='aplChk']:checked").length == 0){
+            alert("지원자를 선택해주세요.");
+            return;
+        }
+
+        var applicationId = "";
+        var confirmTxt = "";
+        $.each($("input[name='aplChk']:checked"), function(i, e){
+            applicationId += "," + $(this).val()
+        })
+
+        if(type == "pass"){
+            confirmTxt = "합격 처리 하시겠습니까?";
+        }else{
+            confirmTxt = "합격 취소처리 하시겠습니까?";
+        }
+
+        if(confirm(confirmTxt)){
+            var data = {
+                applicationStat : sts,
+                empSeq : $("#empSeq").val(),
+                applicationId : applicationId.substring(1),
+            }
+            var result = customKendo.fn_customAjax("/inside/setApplicationUpd.do", data);
+            if(result.flag){
+                alert("처리되었습니다.");
+                recruitAdminPop.gridReload();
+            }
+        }
+    },
+
+    inTimeSetPop : function(){
+        var url = "/inside/pop/inTimeSetPop.do?recruitInfoSn=" + $("#recruitInfoSn").val();
+        var name = "inTimeSetPop";
+        var option = "width=1250, height=690, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
-    recruitAdminPop : function() {
-        var url = "/Inside/pop/recruitAdminPop.do";
-        var name = "recruitAdminPop";
-        var option = "width=1400, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    applicationInfo : function(e){
+        var url = "";
+        var name = "recruitReqPop";
+        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
-    }
+    },
 }
