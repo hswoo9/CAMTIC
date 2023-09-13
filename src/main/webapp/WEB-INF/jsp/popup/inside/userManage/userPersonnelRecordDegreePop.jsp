@@ -87,16 +87,20 @@
           <th>
             <span class="red-star"></span>학위증빙
           </th>
-          <td colspan="2">
-            <input type="file" disabled>
+          <td colspan="2" style="padding:20 0 0 0px;">
+            <label for="gradeFile" class="k-button k-button-solid-base">파일첨부</label>
+            <input type="file" id="gradeFile" name="gradeFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+            <span id="gradeFileName"></span>
           </td>
         </tr>
         <tr>
           <th>
             <span class="red-star"></span>성적증빙
           </th>
-          <td colspan="2">
-            <input type="file" disabled>
+          <td colspan="2" style="padding:20 0 0 0px;">
+            <label for="socreFile" class="k-button k-button-solid-base">파일첨부</label>
+            <input type="file" id="socreFile" name="socreFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+            <span id="socreFileName"></span>
           </td>
         </tr>
         <tr>
@@ -123,6 +127,11 @@
     fn_default();
     fn_dataSet();
   });
+
+  function fileChange(e){
+    $(e).next().text($(e)[0].files[0].name);
+  }
+
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
     customKendo.fn_datePicker("eDate", '', "yyyy-MM-dd", '');
@@ -183,26 +192,41 @@
       bmk : $("#bmk").val(),
       type : "degree",
     }
-    /*JSON.stringify(data);
-    data: JSON.stringify(data)
-    console.log(data);
 
-    var insertData = {
-      type : "degree",
-      APPLI_TYPE : "I",
-      ADMIN_APPROVAL : "N",
-      JSON : JSON.stringify(data)
-    }*/
+    var formData = new FormData();
+    formData.append("gubun", data.gubun);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("school", data.school);
+    formData.append("degree", data.degree);
+    formData.append("graduation", data.graduation);
+    formData.append("score", data.score);
+    formData.append("bmk", data.bmk);
+    formData.append("menuCd", "degree");
+    formData.append("type", "degree");
 
-    /*var data = {};*/
+    if($("#gradeFile")[0].files.length == 1){
+      formData.append("gradeFile", $("#gradeFile")[0].files[0]);
+    }
 
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+    if($("#socreFile")[0].files.length == 1){
+      formData.append("socreFile", $("#socreFile")[0].files[0]);
+    }
+
+    /*if(data.gubun == "") { alert("구분이 선택되지 않았습니다."); return; }
+    if(data.sDate == "") { alert("기간이 선택되지 않았습니다."); return; }
+    if(data.eDate == "") { alert("기간이 선택되지 않았습니다."); return; }
+    if(data.school == "") { alert("학교 및 학과가 선택되지 않았습니다."); return; }
+    if(data.degree == "") { alert("학위가 선택되지 않았습니다."); return; }
+    if(data.graduation == "") { alert("졸업이 선택되지 않았습니다."); return; }
+    if(data.score == "") { alert("성적이 선택되지 않았습니다."); return; }*/
+
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");
-        /*alert(JSON.stringify(data));
-        console.log(data);*/
         fn_windowClose();
       }else{
         alert("등록에 실패하였습니다.");

@@ -480,7 +480,7 @@ public class DocumentController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
-        Map<String,Object> inComeList = documentService.getInComeUpdateList(params);
+        Map<String, Object> inComeList = documentService.getInComeUpdateList(params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
@@ -490,7 +490,7 @@ public class DocumentController {
     }
 
     /** 접수대장 팝업 수정 */
-    @RequestMapping("/Inside/setInComeUpdate")
+    @RequestMapping("/inside/setInComeUpdate")
     public String setInComeUpdate(@RequestParam Map<String, Object> params, Model model) {
         documentService.setInComeUpdate(params);
         return "jsonView";

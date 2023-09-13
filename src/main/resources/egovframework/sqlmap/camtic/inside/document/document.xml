@@ -918,7 +918,9 @@
             RECEIVE_NAME = #{receiveName},
             EFFECTIVE_DT = #{effectiveDt},
             SHIPMENT_DT = #{shipmentDt},
-            REMARK_CN = #{remarkCn}
+            REMARK_CN = #{remarkCn},
+            USER_SN = #{userSn},
+            USER_TEXT = #{userText}
         WHERE
             DOCUMENT_SN = #{documentSn}
     </update>

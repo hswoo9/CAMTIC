@@ -99,7 +99,16 @@
       POSITON_NAME : $("#rank").val(),
       type : "job",
     }
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+
+    var formData = new FormData();
+    formData.append("WORK_PAY", data.WORK_PAY);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("DUTY_DETAIL", data.DUTY_DETAIL);
+    formData.append("POSITON_NAME", data.POSITON_NAME);
+    formData.append("type", "job");
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");

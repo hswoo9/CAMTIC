@@ -122,9 +122,9 @@ var regisList = {
                     width: "20%",
                     template : function(row) {
                         if (row.DEL_STS == 1) {
-                            return "<span style='text-decoration: none;' >'"+row.DOCUMENT_TITLE_NAME+"'</span>";
+                            return "<span style='text-decoration: none;' >"+row.DOCUMENT_TITLE_NAME+"</span>";
                         }else if(row.DEL_STS == 10){
-                            return "<span style='text-decoration: line-through;' onclick=\"regisList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">'"+row.DOCUMENT_TITLE_NAME+"'</span>";
+                            return "<span style='text-decoration: line-through; cursor: pointer;' onclick=\"regisList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">"+row.DOCUMENT_TITLE_NAME+"</span>";
                         }
                     }
                 }, {
@@ -231,7 +231,7 @@ var regisList = {
     },
 
 
-    dblclick : function(){
+    dblclick: function () {
         var grid = this;
         //접수대장 리스트 행 더블 클릭시 수정 팝업창
 
@@ -244,10 +244,10 @@ var regisList = {
         });
     },
 
-    inComeListPopup : function(key) {
+    inComeListPopup: function (key) {
         var url = "/Inside/Pop/inComeUpdatePop.do";
-        if(key != null && key != ""){
-            url = "/Inside/Pop/inComeUpdatePop.do?documentSn="+key;
+        if (key != null && key != "") {
+            url = "/Inside/Pop/inComeUpdatePop.do?documentSn=" + key;
         }
         var name = "inComeUpdatePop";
         var option = "width = 850, height = 400, top = 100, left = 200, location = no"

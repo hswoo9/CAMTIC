@@ -55,8 +55,12 @@
         </tr>
         <tr>
           <th>증명서</th>
-          <td colspan="2">
-            <input type="file" disabled>
+          <td colspan="2" style="padding:20 0 0 0px; cursor: pointer">
+            <c:if test="${resultMap.certificateAddFile ne null}">
+                  <span onclick="fileDown('${resultMap.certificateAddFile.file_path}${resultMap.certificateAddFile.file_uuid}', '${resultMap.certificateAddFile.file_org_name}.${resultMap.certificateAddFile.file_ext}')">
+                      ${resultMap.certificateAddFile.file_org_name}.${resultMap.certificateAddFile.file_ext}
+                  </span>
+            </c:if>
           </td>
         </tr>
         <tr>

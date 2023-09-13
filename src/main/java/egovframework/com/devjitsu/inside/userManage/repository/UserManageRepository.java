@@ -51,10 +51,6 @@ public class UserManageRepository extends AbstractDAO {
     public void setEducationalInfo (Map<String,Object> map) {
         insert("userManage.setEducationalInfo", map);
     }
-    /*인사기록카드 히스토리*/
-    /*public void setRecordHisInfo (Map<String,Object> map) {
-        insert("userManage.setRecordHisInfo", map);
-    }*/
     public void setCareerInfo (Map<String,Object> map) {
         insert("userManage.setCareerInfo", map);
     }
@@ -128,6 +124,8 @@ public class UserManageRepository extends AbstractDAO {
         return (Map<String,Object>) selectOne("userManage.getUserInfoModDetail", map);
     }
 
+    public Map<String, Object> getKeyInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("userManage.getKeyInfo", params);}
+
     /** 이미지 관리 */
     public Map<String, Object> getUserImageInfo(Map<String, Object> map){ return (Map<String, Object>) selectOne("userManage.getUserImageInfo", map); }
     public void setUserImageReq(Map<String, Object> params) { insert("userManage.setUserImageReq", params); }
@@ -174,4 +172,18 @@ public class UserManageRepository extends AbstractDAO {
     public Map<String,Object> getEduinfoList (Map<String,Object> params) {
         return (Map<String,Object>)selectOne("userManage.getEduinfoList", params);
     }
+    //학력 사항 첨부파일 등록
+    public void setInGradeFileNoUpd(Map<String, Object> params) { insert("userManage.setInGradeFileNoUpd", params);}
+
+    public void setInScoreFileNoUpd(Map<String, Object> params) { insert("userManage.setInScoreFileNoUpd", params);}
+
+    //경력 사항 첨부파일 등록
+    public void setInAddFileNoUpd(Map<String, Object> params) { insert("userManage.setInAddFileNoUpd", params);}
+
+    //보유 면허 첨부파일 등록
+    public void setInCertificateFileNoUpd(Map<String, Object> params) { insert("userManage.setInCertificateFileNoUpd", params);}
+    
+    //상벌 사항 첨부파일 등록
+    public void setInRewardAddFileNoUpd(Map<String, Object> params) { insert("userManage.setInRewardAddFileNoUpd", params);}
+
 }

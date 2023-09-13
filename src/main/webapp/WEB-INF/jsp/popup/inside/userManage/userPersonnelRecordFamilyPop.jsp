@@ -140,7 +140,22 @@
       /*cohab : $(".cohab:checked").val(),*/
       type : "family",
     }
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+
+    var formData = new FormData();
+    formData.append("relation", data.relation);
+    formData.append("bDay", data.bDay);
+    formData.append("job", data.job);
+    formData.append("fName", data.fName);
+    formData.append("includeType", data.includeType);
+    formData.append("type", "family");
+
+    if(data.relation == "") { alert("관계가 선택되지 않았습니다."); return; }
+    if(data.fName == "") { alert("성명이 선택되지 않았습니다."); return; }
+    if(data.bDay == "") { alert("생년월일이 선택되지 않았습니다."); return; }
+    if(data.job == "") { alert("직업이 선택되지 않았습니다."); return; }
+    if(data.includeType == "" || data.includeType == null) { alert("동거여부가 선택되지 않았습니다."); return; }
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");
