@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.recruit.controller;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.recruit.service.EvalManageService;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,19 @@ public class RecruitController {
 
     @Autowired
     private RecruitService recruitService;
+
+    @Autowired
+    private EvalManageService evalManageService;
+
     @Autowired
     private UserService userService;
 
-    //채용관리 페이지
+    /**
+     * 채용관리 리스트 페이지
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/recruitList.do")
     public String certificateReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -39,6 +49,19 @@ public class RecruitController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/recruit/recruitList";
+    }
+
+    /**
+     * 채용공고 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getRecruitList")
+    public String getRecruitList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = recruitService.getRecruitList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
     /**
@@ -66,7 +89,7 @@ public class RecruitController {
     }
 
     /**
-     * 채용공고 단일 데이터
+     * 채용공고 분야 단일 데이터
      * @param params
      * @param model
      * @return
@@ -95,6 +118,18 @@ public class RecruitController {
         model.addAttribute("params", params);
 
         return "popup/inside/recruit/recruitReqPop";
+    }
+
+    /**
+     * 채용공고 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setRecruitInsert")
+    public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
+        recruitService.setRecruitInsert(params);
+        return "jsonView";
     }
 
     /**
@@ -182,7 +217,42 @@ public class RecruitController {
         return "jsonView";
     }
 
-    //평가위원관리 페이지
+    /**
+     * 채용공고 면접평가표 설정 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/selInEvalItemPop.do")
+    public String selInEvalItemPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/recruit/selInEvalItemPop";
+    }
+
+    /**
+     * 공고별 평가지 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setRecruitEvalSelSheet.do")
+    public String setRecruitEvalSelSheet(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        evalManageService.setRecruitEvalSelSheet(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /**
+     * 평가위원관리 페이지
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/commissionerManage.do")
     public String commissionerManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -193,7 +263,25 @@ public class RecruitController {
         return "inside/recruit/commissionerManage";
     }
 
-    //평가위원등록 페이지
+    /**
+     * 평가위원 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getCommissionerList")
+    public String getCommissionerList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = recruitService.getCommissionerList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
+     * 평가위원등록 페이지
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/pop/commissionerReqPop.do")
     public String commissionerReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -203,7 +291,24 @@ public class RecruitController {
         return "popup/inside/recruit/commissionerReqPop";
     }
 
-    //외부의원 면접심사 페이지
+    /**
+     * 평가위원 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setCommissionerInsert")
+    public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) {
+        recruitService.setCommissionerInsert(params);
+        return "jsonView";
+    }
+
+    /**
+     * 외부의원 면접심사 페이지
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/externalInterview.do")
     public String externalInterview(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -214,37 +319,10 @@ public class RecruitController {
         return "inside/recruit/externalInterview";
     }
 
-    //채용공고 리스트
-    @RequestMapping("/inside/getRecruitList")
-    public String getRecruitList(@RequestParam Map<String,Object> params, Model model) {
-        List<Map<String, Object>> list = recruitService.getRecruitList(params);
-        model.addAttribute("list", list);
-        return "jsonView";
-    }
-
-    //평가위원 리스트
-    @RequestMapping("/inside/getCommissionerList")
-    public String getCommissionerList(@RequestParam Map<String,Object> params, Model model) {
-        List<Map<String, Object>> list = recruitService.getCommissionerList(params);
-        model.addAttribute("list", list);
-        return "jsonView";
-    }
-
-    //채용공고 저장
-    @RequestMapping("/inside/setRecruitInsert")
-    public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
-        recruitService.setRecruitInsert(params);
-        return "jsonView";
-    }
-
-    //평가위원 저장
-    @RequestMapping("/inside/setCommissionerInsert")
-    public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) {
-        recruitService.setCommissionerInsert(params);
-        return "jsonView";
-    }
-
-    //오늘날짜 구하기 yyyyMMddhhmmss
+    /**
+     * 오늘날짜 구하기 yyyyMMddhhmmss
+     * @return
+     */
     public static String getCurrentDateTime() {
         Date today = new Date();
         Locale currentLocale = new Locale("KOREAN", "KOREA");

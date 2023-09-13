@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="evalManage">
+
+    <insert id="setEvalItemMain" parameterType="map">
+        /* setEvalItemMain */
+        INSERT INTO CAM_INSIDE.DJ_EVAL_ITEM_MAIN
+            (
+                EVAL_MANAGE_TITLE,
+                EVAL_ITEM_CNT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{evalManageTitle},
+                #{evalItemCnt},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="evalItemMainId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVAL_ITEM_MAIN'
+        </selectKey>
+    </insert>
+
+    <update id="setEvalItemMainUpd" parameterType="map">
+        /* setEvalItemMainUpd */
+        UPDATE
+            CAM_INSIDE.DJ_EVAL_ITEM_MAIN
+        SET
+            EVAL_MANAGE_TITLE = #{evalManageTitle},
+            EVAL_ITEM_CNT = #{evalItemCnt},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EVAL_ITEM_MAIN_ID = #{evalItemMainId}
+    </update>
+
+    <delete id="setEvalItemDel" parameterType="map">
+        /* setEvalItemDel */
+        DELETE FROM CAM_INSIDE.DJ_EVAL_ITEM WHERE EVAL_ITEM_MAIN_ID = #{evalItemMainId}
+    </delete>
+
+    <insert id="setEvalItem" parameterType="map">
+        /* setEvalItem */
+        INSERT INTO CAM_INSIDE.DJ_EVAL_ITEM
+            (
+                EVAL_ITEM_MAIN_ID,
+                EVAL_ITEM_NUM,
+                EVAL_ITEM_TYPE,
+                EVAL_ITEM_TITLE,
+                EVAL_ITEM_VAL,
+                REG_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="evalItemArr" item="item" separator=",">
+            (
+                #{evalItemMainId},
+                #{item.evalItemNum},
+                #{item.evalItemType},
+                #{item.evalItemTitle},
+                #{item.evalItemVal},
+                #{empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getEvalItemMainList" parameterType="map" resultType="map">
+        /* getEvalItemMainList */
+        SELECT
+            EIM.EVAL_ITEM_MAIN_ID,
+            EIM.EVAL_MANAGE_TITLE,
+            EIM.EVAL_ITEM_CNT,
+            DATE_FORMAT(EIM.REG_DATE, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_INSIDE.DJ_EVAL_ITEM_MAIN EIM
+        WHERE
+            EIM.ACTIVE = 'Y'
+        <if test='evalManageTitle != null and !"".equals(evalManageTitle)'>
+        AND
+            EIM.EVAL_MANAGE_TITLE LIKE CONCAT('%', #{evalManageTitle}, '%')
+        </if>
+        ORDER BY EIM.REG_DATE DESC
+    </select>
+
+    <update id="setEvalItemActiveUpd" parameterType="map">
+        /* setEvalItemActiveUpd */
+        UPDATE
+            CAM_INSIDE.DJ_EVAL_ITEM_MAIN
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EVAL_ITEM_MAIN_ID IN (${evalItemMainId})
+    </update>
+
+    <select id="getEvalItemMain" parameterType="map" resultType="map">
+        /* getEvalItemMain */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVAL_ITEM_MAIN
+        WHERE
+            EVAL_ITEM_MAIN_ID = #{evalItemMainId}
+    </select>
+
+    <select id="getEvalItem" parameterType="map" resultType="map">
+        /* getEvalItem */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVAL_ITEM
+        WHERE
+            EVAL_ITEM_MAIN_ID = #{evalItemMainId}
+    </select>
+
+    <select id="getRecruitEvalSelSheet" parameterType="map" resultType="map">
+        /* getRecruitEvalSelSheet */
+        SELECT
+            RECRUIT_EVAL_SHEET_ID,
+            RECRUIT_INFO_SN,
+            INTERVIEW_EVAL_SHEET
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_EVAL_SHEET
+        WHERE 1=1
+        <if test='recruitEvalSheetId != null and !"".equals(recruitEvalSheetId)'>
+            AND RECRUIT_EVAL_SHEET_ID = #{recruitEvalSheetId}
+        </if>
+        <if test='recruitBoardId != null and !"".equals(recruitBoardId)'>
+            AND RECRUIT_BOARD_ID = #{recruitBoardId}
+        </if>
+    </select>
+
+    <insert id="setRecruitEvalSelSheet" parameterType="map">
+        /* setRecruitEvalSelSheet */
+        INSERT INTO CAM_INSIDE.DJ_RECRUIT_EVAL_SHEET
+            (
+                RECRUIT_INFO_SN,
+                INTERVIEW_EVAL_SHEET,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{recruitInfoSn},
+                #{interviewEvalSheet},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="recruitEvalSheetId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_RECRUIT_EVAL_SHEET'
+        </selectKey>
+    </insert>
+
+    <update id="setRecruitEvalSelSheetUpd" parameterType="map">
+        /* setRecruitEvalSelSheetUpd */
+        UPDATE
+            CAM_INSIDE.DJ_RECRUIT_EVAL_SHEET
+        SET
+            INTERVIEW_EVAL_SHEET = #{interviewEvalSheet},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            RECRUIT_EVAL_SHEET_ID = #{recruitEvalSheetId}
+    </update>
+</mapper>

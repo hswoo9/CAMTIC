@@ -117,7 +117,6 @@ public class UserManageController {
         model.addAttribute("mInfo", militarySvcInfo);
 
 
-
         model.addAttribute("cList", userManageService.getCareerInfoList(map));
         model.addAttribute("fList", userManageService.getFamilyInfoList(map));
         model.addAttribute("lList", userManageService.getLicenceInfoList(map));
