@@ -99,8 +99,7 @@
                 <th><span class="red-star">*</span>방문지</th>
                 <td>
                     <input type="text" id="visitCrm" style="width: 60%;">
-                    <input type="hidden" id="crmSn" />
-                    <button type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
+                    <button type="button" class="k-button-solid-base k-button" disabled>업체선택</button>
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>

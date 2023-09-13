@@ -1,7 +1,6 @@
 package egovframework.com.devjitsu.inside.bustrip.service.impl;
 
 import dev_jitsu.MainLib;
-import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
@@ -27,9 +26,6 @@ public class BustripServiceImpl implements BustripService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private CrmRepository crmRepository;
 
 
     @Override
@@ -168,7 +164,6 @@ public class BustripServiceImpl implements BustripService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
             bustripRepository.updateFinalApprStat(params);
-
         }
     }
 
@@ -201,9 +196,6 @@ public class BustripServiceImpl implements BustripService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
             bustripRepository.updateResFinalApprStat(params);
-
-            Map<String, Object> histMap = bustripRepository.getBustripResultInfoR(params);
-            crmRepository.insCrmHist(histMap);
         }
     }
 
