@@ -22,8 +22,9 @@
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">면접시간 설정</h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="inTimeSetPop.setInTimeSet();">저장</button>
         <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="inTimeSetPop.selInEvalItemPop();">면접평가표 설정</button>
+        <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="inTimeSetPop.selInEvalPop();">면접평가위원 설정</button>
+        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="inTimeSetPop.setInTimeSet();">저장</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>

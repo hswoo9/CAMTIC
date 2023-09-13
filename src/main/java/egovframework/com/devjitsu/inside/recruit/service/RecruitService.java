@@ -15,6 +15,7 @@ public interface RecruitService {
     void setCommissionerInsert(Map<String, Object> params);
     List<Map<String, Object>> getApplicationList(Map<String, Object> params);
     void setApplicationUpd(Map<String, Object> params);
+    void setInAvoidUpd(Map<String, Object> params);
     List<Map<String, Object>> getInApplicationList(Map<String, Object> params);
     void setApplicationInTime(Map<String, Object> params);
 }

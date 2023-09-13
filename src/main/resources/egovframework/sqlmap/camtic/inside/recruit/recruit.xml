@@ -44,6 +44,18 @@
         /*getCommissionerList*/
         SELECT
             RE.*
+            <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
+            ,(
+                SELECT
+                    COUNT(*)
+                FROM
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+                WHERE
+                    RECRUIT_COMMISSIONER_INFO_SN = RE.RECRUIT_COMMISSIONER_INFO_SN
+                AND
+                    RECRUIT_INFO_SN = #{recruitInfoSn}
+            ) AS CHK
+            </if>
         FROM
             (
                 SELECT
@@ -54,6 +66,12 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                <if test='searchName != null and !"".equals(searchName)'>
+                    AND IRCI.NAME LIKE CONCAT('%', #{searchName}, '%')
+                </if>
+                <if test='searchComp != null and !"".equals(searchComp)'>
+                    AND IRCI.BELONG LIKE CONCAT('%', #{searchComp}, '%')
+                </if>
                 ORDER BY IRCI.REG_DT
             ) RE
         ORDER BY RE.REG_DT DESC
@@ -258,7 +276,13 @@
             CASE WHEN INSTR(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM') > 0 THEN REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM', '오후')
                  ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전')
             END AS SAVE_DATE,
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE SAVE_TYPE = 'S' AND AM.APPLICATION_ID != APPLICATION_ID) AS DUPLICATION_CNT
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE SAVE_TYPE = 'S' AND AM.APPLICATION_ID != APPLICATION_ID) AS DUPLICATION_CNT,
+            CASE WHEN AM.IN_AVOID = 'Y' THEN '서류'
+                ELSE '참'
+            END IN_AVOID2,
+            CASE WHEN AM.IN_AVOID = 'Y' THEN '불참'
+                ELSE ''
+            END IN_AVOID
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN (
@@ -308,6 +332,18 @@
             CAM_INSIDE.DJ_APPLICATION_MAIN
         SET
             APPLICATION_STAT = #{applicationStat},
+            MOD_ID = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            APPLICATION_ID IN (${applicationId})
+    </update>
+
+    <update id="setInAvoidUpd" parameterType="map">
+        /* setInAvoidUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            IN_AVOID = 'Y',
             MOD_ID = #{empSeq},
             MOD_DATE = NOW()
         WHERE
@@ -396,6 +432,8 @@
         ON AM.APPLICATION_ID = IT.APPLICATION_ID
         WHERE
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        AND
+            AM.APPLICATION_STAT = 'D'
     </select>
 </mapper>
 

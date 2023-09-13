@@ -33,7 +33,6 @@ var recruitAdminPop = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
-            selectable: "row",
             height: 489,
             pageable : {
                 refresh : true,
@@ -101,9 +100,31 @@ var recruitAdminPop = {
                         return e.DUPLICATION_CNT + "건"
                     },
                     width : 80
+                }, {
+                    field: "IN_AVOID2",
+                    title: "서류심사",
+                    width : 80,
+                    hidden : true,
+                }, {
+                    field: "IN_AVOID",
+                    title: "면접불참",
+                    width : 80,
+                    hidden : true,
+                }, {
+                    field: "IN_AVOID",
+                    title: "면접심사",
+                    width : 80,
+                    hidden : true,
                 }
-            ]
+            ],
         }).data("kendoGrid");
+
+        if($("div.circle.active").attr("searchType") == "D"){
+            $("#mainGrid").data("kendoGrid").showColumn(12);
+            $("#mainGrid").data("kendoGrid").showColumn(13);
+        }else if($("div.circle.active").attr("searchType") == "I"){
+            $("#mainGrid").data("kendoGrid").showColumn(14);
+        }
     },
 
     gridReload : function() {
@@ -140,6 +161,30 @@ var recruitAdminPop = {
                 applicationId : applicationId.substring(1),
             }
             var result = customKendo.fn_customAjax("/inside/setApplicationUpd.do", data);
+            if(result.flag){
+                alert("처리되었습니다.");
+                recruitAdminPop.gridReload();
+            }
+        }
+    },
+
+    setInAvoidUpd : function(){
+        if($("input[name='aplChk']:checked").length == 0){
+            alert("면접 불참자를 선택해주세요.");
+            return;
+        }
+
+        var applicationId = "";
+        $.each($("input[name='aplChk']:checked"), function(i, e){
+            applicationId += "," + $(this).val()
+        })
+
+        if(confirm("선택한 응시자를 면접 불참처리 하시겠습니까?")){
+            var data = {
+                empSeq : $("#empSeq").val(),
+                applicationId : applicationId.substring(1),
+            }
+            var result = customKendo.fn_customAjax("/inside/setInAvoidUpd.do", data);
             if(result.flag){
                 alert("처리되었습니다.");
                 recruitAdminPop.gridReload();
