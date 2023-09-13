@@ -91,7 +91,7 @@
       </div>
 
       <div id="docPassBtnDiv" style="text-align: right">
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="recruitAdminPop.getEvalUrlSet('doc')">
           <span>서류심사 URL 생성</span>
         </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="docPass" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
@@ -106,7 +106,7 @@
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"onclick="recruitAdminPop.inTimeSetPop()">
           <span>면접정보 설정</span>
         </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inUrl" onclick="">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inUrl" onclick="recruitAdminPop.getEvalUrlSet('in')">
           <span>면접심사 URL 생성</span>
         </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">

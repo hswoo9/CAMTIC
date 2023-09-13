@@ -151,6 +151,24 @@ var recruitAdminPop = {
         recruitAdminPop.mainGrid("/inside/getApplicationList", recruitAdminPop.global.searchAjaxData);
     },
 
+    getEvalUrlSet : function(e){
+        if(e == "doc"){
+            if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
+                alert("http://localhost:8090/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+            }else if(location.host.indexOf("121.186.165.80") > -1){
+                alert("http://121.186.165.80:7075/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+            }else{
+                alert("https://withyou.jiat.re.kr/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+            }
+        }else{
+            if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
+                alert("http://localhost:9090/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+            }else{
+                alert("https://withyou.jiat.re.kr/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+            }
+        }
+    },
+
     setApplicationUpd : function(sts, type){
         if($("input[name='aplChk']:checked").length == 0){
             alert("지원자를 선택해주세요.");
