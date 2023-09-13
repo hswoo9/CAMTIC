@@ -197,6 +197,7 @@ public class BustripController {
 
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+        model.addAttribute("rs", bustripService.getBustripOne(params));
 
         if(exnpData.size() == 0){
             model.addAttribute("list", list);
@@ -205,6 +206,8 @@ public class BustripController {
             model.addAttribute("list", exnpData);
             model.addAttribute("type", "upd");
         }
+
+        model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);

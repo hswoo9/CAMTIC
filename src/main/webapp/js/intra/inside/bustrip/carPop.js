@@ -158,9 +158,9 @@ var carReq = {
                 console.log(result);
                 if(data.type != "bustripReq") {
                     alert("차량 사용 신청이 완료되었습니다.");
+                    opener.gridReload();
+                    window.close();
                 }
-                opener.gridReload();
-                window.close();
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
