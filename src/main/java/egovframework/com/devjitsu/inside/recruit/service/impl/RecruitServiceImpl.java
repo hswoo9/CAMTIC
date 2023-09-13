@@ -112,6 +112,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public void setInAvoidUpd(Map<String, Object> params) {
+        recruitRepository.setInAvoidUpd(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getInApplicationList(Map<String, Object> params) {
         return recruitRepository.getInApplicationList(params);
     }

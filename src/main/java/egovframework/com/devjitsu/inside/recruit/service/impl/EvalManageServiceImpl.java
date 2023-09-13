@@ -4,16 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.inside.recruit.repository.EvalManageRepository;
 import egovframework.com.devjitsu.inside.recruit.service.EvalManageService;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EvalManageServiceImpl implements EvalManageService {
@@ -60,6 +58,31 @@ public class EvalManageServiceImpl implements EvalManageService {
     @Override
     public Map<String, Object> getRecruitEvalSelSheet(Map<String, Object> params) {
         return evalManageRepository.getRecruitEvalSelSheet(params);
+    }
+
+    @Override
+    public String setEvalSelection(Map<String, Object> params) {
+        String[] recruitCommissionerInfoSn = params.get("recruitCommissionerInfoSn").toString().split(",");
+        String duplicationTxt = "";
+
+        for(int i = 0; i < recruitCommissionerInfoSn.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("recruitInfoSn", params.get("recruitInfoSn"));
+            map.put("recruitCommissionerInfoSn", recruitCommissionerInfoSn[i]);
+
+            Map<String, Object> checkedMap = evalManageRepository.evalLoginChk(map);
+            if(checkedMap == null){
+                map.put("recruitInfoSn", params.get("recruitInfoSn"));
+                map.put("empSeq", params.get("empSeq"));
+                map.put("recruitCommissionerInfoSn", recruitCommissionerInfoSn[i]);
+
+                evalManageRepository.setEvalSelection(map);
+            }else{
+                duplicationTxt += ", " + checkedMap.get("NAME");
+            }
+        }
+
+        return duplicationTxt != "" ? duplicationTxt.substring(2) : "";
     }
 
     @Override

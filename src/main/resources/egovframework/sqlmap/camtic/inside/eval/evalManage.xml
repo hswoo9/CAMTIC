@@ -162,4 +162,42 @@
         WHERE
             RECRUIT_EVAL_SHEET_ID = #{recruitEvalSheetId}
     </update>
+
+    <select id="evalLoginChk" parameterType="map" resultType="map">
+        /* evalLoginChk */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        WHERE
+            RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
+          AND
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+    </select>
+
+    <insert id="setEvalSelection" parameterType="map">
+        /* setEvalSelection */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        (
+            RECRUIT_COMMISSIONER_INFO_SN,
+            RECRUIT_INFO_SN,
+            BELONG,
+            ID,
+            PWD,
+            NAME,
+            REG_ID
+        )
+        SELECT
+            RECRUIT_COMMISSIONER_INFO_SN,
+            #{recruitInfoSn},
+            BELONG,
+            ID,
+            PWD,
+            NAME,
+            #{empSeq}
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
+        WHERE
+            RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
+    </insert>
 </mapper>

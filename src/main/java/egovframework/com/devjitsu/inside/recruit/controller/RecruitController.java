@@ -176,6 +176,19 @@ public class RecruitController {
     }
 
     /**
+     * 응시원서 면접 불참자 업데이트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setInAvoidUpd.do")
+    public String setInAvoidUpd(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        recruitService.setInAvoidUpd(params);
+        return "jsonView";
+    }
+
+
+    /**
      * 응시원서 면접시간 리스트
      * @param params
      * @param model
@@ -233,6 +246,34 @@ public class RecruitController {
         model.addAttribute("params", params);
 
         return "popup/inside/recruit/selInEvalItemPop";
+    }
+
+    /**
+     * 채용공고 면접평가위원 설정 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/selInEvalPop.do")
+    public String selInEvalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/recruit/selInEvalPop";
+    }
+
+    /**
+     * 채용관리 위원 선발 로그인 정보 저장
+     * @return
+     */
+    @RequestMapping("/inside/setEvalSelection.do")
+    public String setEvalSelection(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("duplicationTxt", evalManageService.setEvalSelection(params));
+        return "jsonView";
     }
 
     /**
