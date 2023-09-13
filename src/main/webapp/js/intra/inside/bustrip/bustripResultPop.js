@@ -306,10 +306,10 @@ var bustripResultPop = {
             success : function(result){
                 console.log(result);
                 if(hrBizReqResultId == ""){
-                    alert("출장 신청이 완료되었습니다.");
+                    alert("출장 결과보고 저장이 완료되었습니다.");
                     var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId;
                 }else{
-                    alert("출장 수정이 완료되었습니다.");
+                    alert("출장 결과보고 수정이 완료되었습니다.");
                     var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId;
                 }
                 var name = "_self";

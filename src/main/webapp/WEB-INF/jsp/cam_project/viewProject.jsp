@@ -81,6 +81,9 @@
         color: black;
     }
 
+    .totalTable td {
+        height: 38.14px;
+    }
 </style>
 <div class="mainCard">
     <div class="panel">
@@ -93,6 +96,128 @@
         </div>
         <div class="panel-body">
             <div>
+                <table class="totalTable table table-bordered mb-0">
+                    <thead>
+                        <colgroup>
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="11%">
+
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="11%">
+
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="11%">
+
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="11%">
+
+                            <col width="5%">
+                            <col width="11%">
+                        </colgroup>
+                        <tr>
+                            <td colspan="6" style="text-align: center; background-color: #FCF5E7">정부사업</td>
+                            <td colspan="6" style="text-align: center; background-color: #FCF5E7">민간사업</td>
+                            <td colspan="2" rowspan="3" style="text-align: center; background-color: #EFF6E7">합계</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">R&D</td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">비R&D</td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">엔지니어링</td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">용역/기타</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center; background-color: #FFFFFF">정부/지자체 R&D</td>
+                            <td colspan="3" style="text-align: center; background-color: #FFFFFF">기업지원/창업/교육/<br>민간위탁/기획･조사용역 등</td>
+                            <td colspan="3" style="text-align: center; background-color: #FFFFFF">엔지니어링</td>
+                            <td colspan="3" style="text-align: center; background-color: #FFFFFF">민간교육, 기획･조사용역, 기타 등</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #FFFFFF">예상</td>
+                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">360백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">예상</td>
+                            <td style="text-align: right; background-color: #FFFFFF">2건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">663백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">예상</td>
+                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">9,061백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">예상</td>
+                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">481백만원</td>
+
+                            <td style="text-align: right; background-color: #EFF6E7">11건</td>
+                            <td style="text-align: right; background-color: #EFF6E7">10,565백만원</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #FFFFFF">진행</td>
+                            <td style="text-align: right; background-color: #FFFFFF">34건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">6,461백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">진행</td>
+                            <td style="text-align: right; background-color: #FFFFFF">8건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">9,951백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">진행</td>
+                            <td style="text-align: right; background-color: #FFFFFF">26건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">557백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">진행</td>
+                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">1714백만원</td>
+
+                            <td style="text-align: right; background-color: #EFF6E7">71건</td>
+                            <td style="text-align: right; background-color: #EFF6E7">18,703백만원</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #FFFFFF">완료</td>
+                            <td style="text-align: right; background-color: #FFFFFF">6건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">1,026백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">완료</td>
+                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">520백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">완료</td>
+                            <td style="text-align: right; background-color: #FFFFFF">18건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">210백만원</td>
+
+                            <td style="text-align: center; background-color: #FFFFFF">완료</td>
+                            <td style="text-align: right; background-color: #FFFFFF">1건</td>
+                            <td style="text-align: right; background-color: #FFFFFF">58백만원</td>
+
+                            <td style="text-align: right; background-color: #EFF6E7">28건</td>
+                            <td style="text-align: right; background-color: #EFF6E7">1,814백만원</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #F4DDED">합계</td>
+                            <td style="text-align: right; background-color: #F4DDED">43건</td>
+                            <td style="text-align: right; background-color: #F4DDED">6,821백만원</td>
+
+                            <td style="text-align: center; background-color: #F4DDED">합계</td>
+                            <td style="text-align: right; background-color: #F4DDED">13건</td>
+                            <td style="text-align: right; background-color: #F4DDED">10,614백만원</td>
+
+                            <td style="text-align: center; background-color: #F4DDED">합계</td>
+                            <td style="text-align: right; background-color: #F4DDED">47건</td>
+                            <td style="text-align: right; background-color: #F4DDED">9,638백만원</td>
+
+                            <td style="text-align: center; background-color: #F4DDED">합계</td>
+                            <td style="text-align: right; background-color: #F4DDED">7건</td>
+                            <td style="text-align: right; background-color: #F4DDED">2,195백만원</td>
+
+                            <td style="text-align: right; background-color: #F4DDED">110건</td>
+                            <td style="text-align: right; background-color: #F4DDED">31,082백만원</td>
+                        </tr>
+                    </thead>
+                </table>
+
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
