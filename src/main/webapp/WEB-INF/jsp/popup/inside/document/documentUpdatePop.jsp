@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 <script type="text/javascript" src="/js/intra/inside/document/documentPop.js?v=${today}"/></script>
-<%--<script type="text/javascript" src="/js/intra/inside/document/documentUpdatePop.js?v=${today}"/></script>--%>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
