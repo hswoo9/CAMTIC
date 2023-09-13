@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.userManage.service;
 import egovframework.com.devjitsu.inside.userManage.service.Impl.UserManageServiceImpl;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -24,16 +25,14 @@ public interface UserManageService{
     List<Map<String,Object>> getProposalInfoList(Map<String,Object> map);
     void setBasicInfo(Map<String, Object> params);
     void setUserReqDetailInsert(Map<String, Object> params);
-    void setEducationalInfo (Map<String,Object> map);
-    /*인사기록카드 히스토리*/
-    /*void setRecordHisInfo (Map<String,Object> map);*/
-    void setCareerInfo (Map<String,Object> map);
+    void setEducationalInfo (Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
+    void setCareerInfo (Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
     void setMilitaryInfo (Map<String,Object> map);
     void setFmailyInfo (Map<String,Object> map);
-    void setLicenceInfo (Map<String,Object> map);
+    void setLicenceInfo (Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
     void setJobInfo (Map<String,Object> map);
     void setAppointingInfo (Map<String,Object> map);
-    void setRewardInfo (Map<String,Object> map);
+    void setRewardInfo (Map<String,Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
     void setEduInfo (Map<String,Object> map);
     void setWorkEvalInfo (Map<String,Object> map);
     void setProposalInfo (Map<String,Object> map);

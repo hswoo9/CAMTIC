@@ -94,7 +94,15 @@
         PROPOSAL_CHECK_CHOICE : $("#status").val(),
         type : "proposal",
     }
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+
+    var formData = new FormData();
+    formData.append("pGubun", data.pGubun);
+    formData.append("sDate", data.sDate);
+    formData.append("PROPOSAL_DETAIL", data.PROPOSAL_DETAIL);
+    formData.append("PROPOSAL_CHECK_CHOICE", data.PROPOSAL_CHECK_CHOICE);
+    formData.append("type", "proposal");
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");

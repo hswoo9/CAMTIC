@@ -1,12 +1,17 @@
 package egovframework.com.devjitsu.inside.userManage.service.Impl;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +83,7 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public List<Map<String, Object>> getEmpInfoList(Map<String, Object> map) {
 
-        if(map.containsKey("arr")){
+        if(map.containsKey("arr") && !"".equals(map.get("arr").toString())){
             String arrText = map.get("arr").toString();
 
             String[] arr = arrText.split("[|]");
@@ -135,19 +140,75 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public void setEducationalInfo(Map<String, Object> map) {
-        userManageRepository.setEducationalInfo(map);
+    public void setEducationalInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        userManageRepository.setEducationalInfo(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile gradeFile = request.getFile("gradeFile");
+        MultipartFile socreFile = request.getFile("socreFile");
+
+        if(gradeFile != null){
+            if(!gradeFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("educationalId"));
+                fileInsMap.put("educationalId", params.get("educationalId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInGradeFileNoUpd(fileInsMap);
+            }
+        }
+
+        if(socreFile != null){
+            if(!socreFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("educationalId"));
+                fileInsMap.put("educationalId", params.get("educationalId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+            }
+        }
     }
 
-    /*인사기록카드 히스토리*/
-    /*@Override
-    public void setRecordHisInfo(Map<String, Object> map) {
-        userManageRepository.setRecordHisInfo(map);
-    }*/
-
     @Override
-    public void setCareerInfo(Map<String, Object> map) {
-        userManageRepository.setCareerInfo(map);
+    public void setCareerInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        userManageRepository.setCareerInfo(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile addFile = request.getFile("addFile");
+
+        if(addFile != null){
+            if(!addFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(addFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("careerId"));
+                fileInsMap.put("careerId", params.get("careerId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("addFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInAddFileNoUpd(fileInsMap);
+            }
+        }
     }
 
     @Override
@@ -165,8 +226,30 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public void setLicenceInfo(Map<String, Object> map) {
-        userManageRepository.setLicenceInfo(map);
+    public void setLicenceInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        userManageRepository.setLicenceInfo(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile certificateAddFile = request.getFile("certificateAddFile");
+
+        if(certificateAddFile != null){
+            if(!certificateAddFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(certificateAddFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("certificateId"));
+                fileInsMap.put("certificateId", params.get("certificateId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("certificateFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInCertificateFileNoUpd(fileInsMap);
+            }
+        }
     }
 
     @Override
@@ -180,8 +263,30 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public void setRewardInfo(Map<String, Object> map) {
-        userManageRepository.setRewardInfo(map);
+    public void setRewardInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        userManageRepository.setRewardInfo(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile rewardAddFile = request.getFile("rewardAddFile");
+
+        if(rewardAddFile != null){
+            if(!rewardAddFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(rewardAddFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("rewordId"));
+                fileInsMap.put("rewordId", params.get("rewordId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rewardAddFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInRewardAddFileNoUpd(fileInsMap);
+            }
+        }
     }
 
     @Override
@@ -197,6 +302,16 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public void setProposalInfo(Map<String, Object> map) {
         userManageRepository.setProposalInfo(map);
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 
     @Override

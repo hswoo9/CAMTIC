@@ -480,7 +480,7 @@ public class DocumentController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
-        Map<String,Object> inComeList = documentService.getInComeUpdateList(params);
+        Map<String, Object> inComeList = documentService.getInComeUpdateList(params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);

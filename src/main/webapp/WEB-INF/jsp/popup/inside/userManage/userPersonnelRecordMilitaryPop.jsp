@@ -125,7 +125,20 @@
         mDept : $("#mDept").val(),
         type : "military",
     }
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+
+    var formData = new FormData();
+    formData.append("msiInfoId", data.msiInfoId);
+    formData.append("mGubun", data.mGubun);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("reason", data.reason);
+    formData.append("rank", data.rank);
+    formData.append("score", data.score);
+    formData.append("mType", data.mType);
+    formData.append("mDept", data.mDept);
+    formData.append("type", "military");
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");

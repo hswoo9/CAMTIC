@@ -118,9 +118,9 @@ var docuList = {
                     width: "20%",
                     template : function(row){
                         if (row.DEL_STS == 1) {
-                            return "<span style='text-decoration: none;' >'"+row.DOCUMENT_TITLE_NAME+"'</span>";
+                            return "<span style='text-decoration: none;' >"+row.DOCUMENT_TITLE_NAME+"</span>";
                         }else if(row.DEL_STS == 10){
-                            return "<span style='text-decoration: line-through;' onclick=\"docuList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">'"+row.DOCUMENT_TITLE_NAME+"'</span>";
+                            return "<span style='text-decoration: line-through; cursor: pointer; ' onclick=\"docuList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">"+row.DOCUMENT_TITLE_NAME+"</span>";
                         }
                     }
                 }, {

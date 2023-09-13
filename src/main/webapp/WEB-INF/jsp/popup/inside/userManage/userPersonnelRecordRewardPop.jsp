@@ -80,7 +80,9 @@
             <span class="red-star"></span>증명서
           </th>
           <td colspan="2">
-            <input type="file" disabled>
+            <label for="rewardAddFile" class="k-button k-button-solid-base">파일첨부</label>
+            <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+            <span id="rewardAddFileName"></span>
           </td>
         </tr>
       </table>
@@ -94,6 +96,11 @@
   $(function(){
     fn_default();
   });
+
+  function fileChange(e){
+    $(e).next().text($(e)[0].files[0].name);
+  }
+
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
     /*customKendo.fn_textBox("rGubunOutIn");*/
@@ -129,6 +136,21 @@
       type : "reward",
     }
 
+    var formData = new FormData();
+    formData.append("rGubunOutInType", data.rGubunOutInType);
+    formData.append("rGubunOutInName", data.rGubunOutInName);
+    formData.append("rGubun", data.rGubun);
+    formData.append("rGubunAll", data.rGubunAll);
+    formData.append("sDate", data.sDate);
+    formData.append("rIssue", data.rIssue);
+    formData.append("agency", data.agency);
+    formData.append("menuCd", "reward");
+    formData.append("type", "reward");
+
+    if($("#rewardAddFile")[0].files.length == 1){
+      formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
+    }
+
     if(data.rGubunOutInType == null || data.rGubunOutInType == ''){
       alert("구분(내부/외부)를 선택하세요.")
       return false;
@@ -146,7 +168,7 @@
       return false;
     }
 
-    var result = customKendo.fn_customAjax('/useManage/setUserPersonnelRecordInfo',data);
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록되었습니다.");

@@ -46,7 +46,7 @@
                                 </div>
                                 <div>
                                     <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                        <span>검색</span>
+                                        <span>조회</span>
                                     </button>
                                 </div>
                             </div>
