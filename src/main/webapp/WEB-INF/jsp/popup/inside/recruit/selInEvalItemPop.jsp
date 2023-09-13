@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/recruit/inTimeSetPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/selInEvalItemPop.js?v=${today}"></script>
 <style>
   .k-grid-toolbar{
     justify-content: flex-end !important;
@@ -20,42 +20,36 @@
 <div class="col-lg-12" style="padding:0;">
   <div class="table-responsive">
     <div class="card-header pop-header">
-      <h3 class="card-title title_NM">면접시간 설정</h3>
+      <h3 class="card-title title_NM">면접평가표 설정</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="inTimeSetPop.setInTimeSet();">저장</button>
-        <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="inTimeSetPop.selInEvalItemPop();">면접평가표 설정</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>
 
     <div class="panel-body">
-      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="">
-      <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="">
+      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
+      <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="${params.recruitEvalSheetId}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 
-      <table class="searchTable table table-bordered mb-0">
-        <colgroup>
-          <col style="width: 10%">
-        </colgroup>
-        <tr>
-          <th>공고명</th>
-          <td>
-            <span id="recruitTitle"></span>
-          </td>
-        </tr>
-        <tr>
-          <th>채용분야</th>
-          <td>
-            <input type="text" id="recruitAreaInfoSn">
-          </td>
-        </tr>
-      </table>
-
-      <div id="mainGrid" style="margin:20px 0;"></div>
+      <div style="margin-bottom:10px;">
+        <table class="searchTable table table-bordered mb-0">
+          <colgroup>
+            <col width="15%">
+          </colgroup>
+          <tr>
+            <th class="text-center th-color">관리명</th>
+            <td>
+              <input type="text" id="evalManageTitle" style="width: 150px;" onkeypress="if(window.event.keyCode==13){inEvalManage.gridReload()}">
+            </td>
+          </tr>
+        </table>
+        <div id="mainGrid" style="margin:20px 0;"></div>
+      </div>
     </div>
   </div>
 </div><!-- col-md-9 -->
 <script>
-  inTimeSetPop.init(JSON.parse('${recruit}'));
+  selInEvalItemPop.init();
 </script>
 </body>

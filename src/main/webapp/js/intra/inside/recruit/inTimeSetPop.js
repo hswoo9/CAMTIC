@@ -1,13 +1,16 @@
 var inTimeSetPop = {
     global : {
         searchAjaxData : "",
+        saveAjaxData : "",
     },
 
     init : function(recruit){
         inTimeSetPop.gridReload();
 
+        $("#recruitEvalSheetId").val(recruit.RECRUIT_EVAL_SHEET_ID);
+        $("#recruitInfoSn").val(recruit.RECRUIT_INFO_SN);
         $("#recruitTitle").text(recruit.RECRUIT_TITLE);
-            console.log(recruit.recruitArea)
+
         customKendo.fn_dropDownList("recruitAreaInfoSn", recruit.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", inTimeSetPop.gridReload);
     },
@@ -106,31 +109,43 @@ var inTimeSetPop = {
     },
 
     setInTimeSet : function(){
+        if($("#mainGrid tbody tr").length == 0){
+            alert("저장할 데이터가 없습니다.");
+            return;
+        }
+
         if(confirm("저장하시겠습니까?")){
-            var data = {
-                applicationStat : sts,
-                empSeq : $("#empSeq").val(),
-                applicationId : applicationId.substring(1),
+            var grid = $("#mainGrid").data("kendoGrid");
+            var arr = new Array();
+
+            $.each($("#mainGrid tbody tr"), function(){
+                var dataItem = grid.dataItem($(this));
+                var data = {
+                    recruitAreaInfoSn : dataItem.RECRUIT_AREA_INFO_SN.toString(),
+                    applicationId : dataItem.APPLICATION_ID.toString(),
+                    inTime : $("#inTime_" + dataItem.APPLICATION_ID).val(),
+                    rmk : $("#rmk_" + dataItem.APPLICATION_ID).val(),
+                    empSeq : $("#empSeq").val()
+                }
+                arr.push(data)
+            })
+
+            inTimeSetPop.global.saveAjaxData = {
+                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+                inTimeArr : JSON.stringify(arr)
             }
-            var result = customKendo.fn_customAjax("/inside/setApplicationUpd.do", data);
+
+            var result = customKendo.fn_customAjax("/inside/setApplicationInTime.do", inTimeSetPop.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
-                inTimeSetPop.gridReload();
             }
         }
     },
 
-    inTimeSetPop : function(){
-        var url = "/inside/pop/inTimeSetPop.do?recruitInfoSn=" + $("#recruitInfoSn").val();
-        var name = "inTimeSetPop";
-        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
-
-    applicationInfo : function(e){
-        var url = "";
-        var name = "recruitReqPop";
-        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    selInEvalItemPop : function(){
+        var url = "/inside/pop/selInEvalItemPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&recruitEvalSheetId=" + $("#recruitEvalSheetId").val();
+        var name = "selInEvalItemPop";
+        var option = "width=1000, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 }
