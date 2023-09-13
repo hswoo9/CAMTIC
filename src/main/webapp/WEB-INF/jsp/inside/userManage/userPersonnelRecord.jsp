@@ -2,6 +2,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/kendoui/kendo.all.min.js"></script>
 <script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
@@ -212,25 +213,31 @@
                                                 <td>
                                                     <input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' <%--class='k-checkbox checkbox eduCheckBox'--%>>
                                                 </td>
-                                                <td>${status.index + 1}</td>
+                                                <td>${fn:length (eList) - status.index}</td>
                                                 <td>${l.GUBUN_CODE_NM}</td>
                                                 <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
                                                 <td>${l.SCHOOL_NAME}</td>
                                                 <td>${l.DEGREE_CODE_NM}</td>
-                                                <td style="cursor: pointer">
+                                                <c:if test="${l.gradeFile == null}">
+                                                    <td></td>
+                                                </c:if>
                                                 <c:if test="${l.gradeFile ne null}">
+                                                <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
                                                       ${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}
                                                   </span>
-                                                </c:if>
                                                 </td>
-                                                <td style="cursor: pointer">
+                                                </c:if>
+                                                <c:if test="${l.socreFile == null}">
+                                                    <td></td>
+                                                </c:if>
                                                 <c:if test="${l.socreFile ne null}">
+                                                <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
                                                       ${l.socreFile.file_org_name}.${l.socreFile.file_ext}
                                                   </span>
-                                                </c:if>
                                                 </td>
+                                                </c:if>
                                                 <td>${l.GRADUATION_CODE_NM}</td>
                                                 <td>${l.SCORE}</td>
                                                 <td>${l.RMK}</td>
@@ -283,7 +290,7 @@
                                         <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='employChk' id='employ${l.CAREER_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${status.index + 1}</td>
+                                                <td>${fn:length (cList) - status.index}</td>
                                                 <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
                                                 <td>${l.EMPLOY_DEPT_NAME}</td>
                                                 <td>${l.POSITION_OR_DUTY}</td>
@@ -296,13 +303,16 @@
                                                         ${l.CAREER_MONTH}개월
                                                     </c:if>
                                                 </td>
-                                                <td style="cursor: pointer">
+                                                    <c:if test="${l.addFile == null}">
+                                                        <td></td>
+                                                    </c:if>
                                                     <c:if test="${l.addFile ne null}">
+                                                    <td style="cursor: pointer">
                                                       <span onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
                                                           ${l.addFile.file_org_name}.${l.addFile.file_ext}
                                                       </span>
+                                                    </td>
                                                     </c:if>
-                                                </td>
                                                 <td>${l.RMK}</td>
                                             </tr>
                                         </c:if>
@@ -399,7 +409,7 @@
                                                 <td>
                                                     <input type='checkbox' name='familyChk' id='familyChk${l.FAMILY_ID}' <%--class='k-checkbox checkbox'--%>>
                                                 </td>
-                                                <td>${status.index + 1}</td>
+                                                <td>${fn:length (fList) - status.index}</td>
                                                 <td>${l.FAMILY_CODE_TYPE_NM}</td>
                                                 <td>${l.FAMILY_NAME}</td>
                                                 <td>${l.FAMILY_BIRTH}</td>
@@ -452,18 +462,21 @@
                                         <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='certChk' id='certChk${l.CERTIFICATE_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${status.index + 1}</td>
+                                                <td>${fn:length (lList) - status.index}</td>
                                                 <td>${l.CERTIFICATE_NAME}</td>
                                                 <td>${l.ACQUISITION_DAY}</td>
                                                 <td>${l.CERTIFICATE_NUM}</td>
                                                 <td>${l.ISSUER}</td>
+                                                <c:if test="${l.certificateAddFile == null}">
+                                                    <td></td>
+                                                </c:if>
+                                                <c:if test="${l.certificateAddFile ne null}">
                                                 <td style="cursor: pointer">
-                                                    <c:if test="${l.certificateAddFile ne null}">
-                                                      <span onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
-                                                          ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
-                                                      </span>
-                                                    </c:if>
+                                                  <span onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
+                                                      ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
+                                                  </span>
                                                 </td>
+                                                </c:if>
                                                 <td>${l.RMK}</td>
                                             </tr>
                                         </c:if>
@@ -504,7 +517,7 @@
                                         <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='dutyInfoChk' id='dutyInfoChk${l.DUTY_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${status.index + 1}</td>
+                                                <td>${fn:length (dList) - status.index}</td>
                                                 <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
                                                 <td>${l.DUTY_DETAIL}</td>
                                                 <td>${l.POSITON_NAME}</td>
@@ -545,7 +558,7 @@
                                     </tr>
                                     <c:forEach var="l" items="${aList}" varStatus="status">
                                         <tr>
-                                            <td>${status.index + 1}</td>
+                                            <td>${fn:length (aList) - status.index}</td>
                                             <td>${l.APNT_NAME}</td>
                                             <td>${l.historyDt}</td>
                                             <td>${l.AF_DEPT_NAME} ${l.AF_DEPT_TEAM} ${l.AF_POSITION_NAME} ${l.AF_DUTY_NAME}</td>
@@ -596,19 +609,22 @@
                                         <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${status.index + 1}</td>
+                                                <td>${fn:length (rList) - status.index}</td>
                                                 <td>${l.SIDE_NAME}</td>
                                                 <td>${l.REWORD_TYPE_NAME1}</td>
                                                 <td>${l.REWORD_DAY}</td>
                                                 <td>${l.RWD_OFM}</td>
                                                 <td>${l.RWD_ST_COMP}</td>
+                                                <c:if test="${l.rewardAddFile == null}">
+                                                    <td></td>
+                                                </c:if>
+                                                <c:if test="${l.rewardAddFile ne null}">
                                                 <td style="cursor: pointer">
-                                                    <c:if test="${l.rewardAddFile ne null}">
-                                                      <span onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
-                                                          ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
-                                                      </span>
-                                                    </c:if>
+                                                  <span onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
+                                                      ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
+                                                  </span>
                                                 </td>
+                                                </c:if>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
@@ -851,7 +867,7 @@
                                                     <td>
                                                         <input type='checkbox' name='propChk' id='propChk${l.PROPOSAL_ID}' <%--class='k-checkbox checkbox'--%> >
                                                     </td>
-                                                    <td>${status.index + 1}</td>
+                                                    <td>${fn:length (pList) - status.index}</td>
                                                     <td>${l.PROPOSAL_GUBUN}</td>
                                                     <td>${l.PROPOSAL_DATE}</td>
                                                     <td>${l.PROPOSAL_DETAIL}</td>
