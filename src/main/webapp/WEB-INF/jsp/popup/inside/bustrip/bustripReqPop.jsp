@@ -72,7 +72,8 @@
                 </td>
                 <th><span class="red-star">*</span>관련사업</th>
                 <td>
-                    <input type="text" id="project" style="width: 80%;">
+                    <input type="text" id="busnLgClass" style="width: 45%"/>
+                    <input type="text" id="project" style="width: 45%; display:none;">
                 </td>
             </tr>
             <tr id="busnLine" style="display: none;">
