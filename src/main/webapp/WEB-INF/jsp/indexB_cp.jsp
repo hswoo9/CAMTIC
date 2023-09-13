@@ -263,28 +263,28 @@
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-user" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">구매</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">구매</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">식단표</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">식단표</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/bustrip/bustripList.do')"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">출장신청</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 25px;" onclick="open_in_frame('/bustrip/bustripList.do')"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px; ">출장신청</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">유지보수</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 40px;"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">유지보수</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>
@@ -309,24 +309,14 @@
             </div>
             <div class="panel-body" style="padding:5px;">
                 <div style="border:1px solid #eee; border-radius:10px; width:300px; height:230px; margin:10px auto; position:relative;">
-                    <div style="width:70px; position:absolute; top:-16px; right:20px; background-color:#505b72; color:#fff; border:1px solid #505b72; border-radius:20px; text-align:center; line-height:30px;">오늘마감</div>
-                    <div style="padding: 20px;">
-                        <div style="font-weight:600;">2023</div>
-                        <div style="font-size: 22px;font-weight: 600;line-height:35px;">07/11(화)</div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">일일업무일지</span><span>(제 865회차)</span></div>
-                    </div>
-                    <div style="margin-bottom:10px;">
-                        <div style="display: flex; margin: 0 20px; line-height: 30px;">
-                            <div style="width:70px;font-weight: 600;">부서</div>
-                            <div>마케팅1팀</div>
-                        </div>
-                        <div style="display: flex; margin: 0 20px; line-height: 30px;">
-                            <div style="width:70px;font-weight: 600;">보고현황</div>
-                            <div>보고자 0명 미 보고자...</div>
-                        </div>
+                    <div style="padding: 20px 0px 81px 20px;">
+                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· 휴가관리</span></div>
+                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 인사관리</span></div>
+                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 자산관리</span></div>
+                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 출장관리</span></div>
                     </div>
                     <div style="border-top:1px solid #eee; text-align:center;">
-                        <span style="font-size: 15px; line-height: 45px; font-weight: 600;">보고 작성</span>
+                        <span style="font-size: 15px; line-height: 45px; font-weight: 600;">즐겨찾기 설정</span>
                     </div>
                 </div>
             </div>
