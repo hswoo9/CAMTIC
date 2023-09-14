@@ -346,6 +346,19 @@ var bustripResultPop = {
                     html += "   <td>"+fn_comma(etcCostTotal)+"</td>";
                     html += "   <td>"+fn_comma(totalCostTotal)+"</td>";
                     html += "</tr>";
+
+                    html += "<tr style='text-align: right'>";
+                    html += "   <td style='text-align: center'>영수증</td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "</tr>";
                     $("#bustExnpBody").html(html);
                     $("#bustExnpTb").show();
                 }

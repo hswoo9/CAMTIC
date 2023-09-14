@@ -147,6 +147,49 @@
                 </tr>
             </thead>
         </table>
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+
+            </colgroup>
+            <thead>
+            <tr>
+                <th>유류비</th>
+                <th>교통비</th>
+                <th>교통일비</th>
+                <th>통행료</th>
+                <th>일비</th>
+                <th>식비</th>
+                <th>주차비</th>
+                <th>기타</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+                <td>
+                    <input type="file" style="width: 98%;" />
+                </td>
+            </tr>
+            </thead>
+        </table>
     </form>
 </div>
 <script>
