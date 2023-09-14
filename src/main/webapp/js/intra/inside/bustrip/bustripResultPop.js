@@ -294,7 +294,6 @@ var bustripResultPop = {
 
                         if(map[i].TOLL_CORP_YN != "Y"){
                             html += "   <td>"+map[i].TOT_COST+"</td>";
-                            html += "   <td></td>";
                         }else{
                             totalCorpCostTotal += Number(map[i].TOT_COST.replace(",", ""));
                             html += "   <td></td>";
@@ -460,7 +459,7 @@ var bustripResultPop = {
             if(p == 30){
                 alert("반려되었습니다.");
             }else{
-                alert("승인되었습니다..");
+                alert("승인되었습니다.");
             }
             opener.gridReload();
             window.close();
