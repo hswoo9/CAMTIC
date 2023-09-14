@@ -747,5 +747,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/stopProject")
+    public String stopProject(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.stopProject(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 
 }

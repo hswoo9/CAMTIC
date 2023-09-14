@@ -994,4 +994,13 @@
         WHERE
             PJT_SN = #{pjtSn}
     </select>
+
+    <update id="stopProject" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STOP = "Y",
+            PJT_STOP_RS = #{pjtStopRs}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

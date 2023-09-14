@@ -72,6 +72,7 @@
             </h3>
 
             <div class="btn-st popButton">
+                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regPrj.fn_stopModal()" /> 중단</button>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regPrj.fn_save()">저장</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regPrj.fn_mod()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
@@ -210,7 +211,57 @@
     </div>
 </div>
 
+
+<div id="pjtStopModal">
+    <input type="text" id="pjtStopRs" />
+</div>
 <script>
+
+    $("#pjtStopModal").kendoWindow({
+        title : "프로젝트 중단 사유",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="regPrj.fn_stop()">중단</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#pjtStopModal \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="80%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>중단사유</th>' +
+                '			<td>' +
+                '				<input type="text" id="pjtStopRs" name="pjtStopRs" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#pjtStopModal").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+
+            $("#pjtStopRs").kendoTextBox();
+        },
+        close: function () {
+            $("#pjtStopModal").empty();
+        }
+    });
+
+    function openModal(){
+        $("#pjtStopModal").data("kendoWindow").open();
+    }
+
     var inParameters = JSON.parse('${map}');
 
 

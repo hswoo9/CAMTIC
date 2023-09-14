@@ -426,6 +426,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getDevData(Map<String, Object> params) {
         return projectRepository.getDevData(params);
     }
+
+    @Override
+    public void stopProject(Map<String, Object> params) {
+        projectRepository.stopProject(params);
+    }
 }
 
 

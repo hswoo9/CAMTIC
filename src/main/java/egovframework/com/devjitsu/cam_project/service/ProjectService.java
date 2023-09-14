@@ -101,4 +101,6 @@ public interface ProjectService {
     void setDevInfo(Map<String, Object> params);
 
     Map<String, Object> getDevData(Map<String, Object> params);
+
+    void stopProject(Map<String, Object> params);
 }

@@ -10,6 +10,10 @@ var regPrj = {
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
         }
+
+        console.log(setParameters);
+
+
         var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
         var devMap = customKendo.fn_customAjax("/project/engn/getDevData", setParameters);
         var delvMap = delvMap.delvMap;
@@ -133,7 +137,7 @@ var regPrj = {
 
 
 
-        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName"]);
+        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName", "pjtStopRs"]);
 
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
 
@@ -158,33 +162,39 @@ var regPrj = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
-            if(setParameters.PJT_STEP >= "E0"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+            if(setParameters.PJT_STOP != "Y"){
+                if(setParameters.PJT_STEP >= "E0"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                }
+
+                if(setParameters.PJT_STEP >= "E1"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                }
+
+                if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                }
+
+                if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
+                }
+
+                if(setParameters.PJT_STEP >= "E4"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                }
+
+                if(setParameters.PJT_STEP >= "E5"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
+                }
+
+                if(setParameters.PJT_STEP >= "E6"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                }
+            } else {
+                $("#modBtn").css("display", "none");
+                alert("중단사유 : " + setParameters.PJT_STOP_RS);
             }
 
-            if(setParameters.PJT_STEP >= "E1"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(3));
-            }
-
-            if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-            }
-
-            if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(5));
-            }
-
-            if(setParameters.PJT_STEP >= "E4"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(6));
-            }
-
-            if(setParameters.PJT_STEP >= "E5"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(7));
-            }
-            
-            if(setParameters.PJT_STEP >= "E6"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
-            }
         }
 
 
@@ -315,7 +325,37 @@ var regPrj = {
         return yyyy+'-'+mm+'-'+dd;
     },
 
+    fn_stopModal : function (){
+        if(!confirm("진행중인 프로젝트를 중단하시겠습니까?")){
+            return false;
+        }
 
+        $("#pjtStopModal").data("kendoWindow").open();
+
+    },
+
+    fn_stop : function(){
+
+
+
+
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+            pjtStopRs : $("#pjtStopRs").val()
+        }
+
+        $.ajax({
+            url : "/project/stopProject",
+            type : 'POST',
+            data : data,
+            dataType : "json",
+            success : function (rs){
+                window.location.reload();
+            }
+        })
+
+
+    }
 
 
 
