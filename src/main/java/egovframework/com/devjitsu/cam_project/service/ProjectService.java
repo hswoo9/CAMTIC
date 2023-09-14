@@ -99,4 +99,6 @@ public interface ProjectService {
     void setDelvInfo(Map<String, Object> params);
 
     void setDevInfo(Map<String, Object> params);
+
+    Map<String, Object> getDevData(Map<String, Object> params);
 }

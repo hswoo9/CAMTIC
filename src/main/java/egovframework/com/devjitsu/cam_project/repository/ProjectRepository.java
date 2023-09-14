@@ -283,4 +283,8 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getDevSn(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getDevSn", params);
     }
+
+    public Map<String, Object> getDevData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDevData", params);
+    }
 }

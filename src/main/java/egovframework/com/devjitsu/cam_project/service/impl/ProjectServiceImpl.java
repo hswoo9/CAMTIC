@@ -421,6 +421,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getBustInfo(Map<String, Object> params) {
         return projectRepository.getBustInfo(params);
     }
+
+    @Override
+    public Map<String, Object> getDevData(Map<String, Object> params) {
+        return projectRepository.getDevData(params);
+    }
 }
 
 

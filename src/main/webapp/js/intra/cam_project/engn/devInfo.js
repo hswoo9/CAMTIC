@@ -43,9 +43,10 @@ var devInfo = {
             }
 
             var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
+            var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
             html += "<tr style='text-align: center'>";
             html += "   <td>Ver."+(i+1)+"</td>";
-            html += "   <td>"+ rs.list[i].DOC_NO +"</td>";
+            html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td>0</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
@@ -270,6 +271,84 @@ var devInfo = {
                 }
             }
         })
+    },
+
+    fn_delRow : function(i){
+
+        if(!confirm("삭제하시겠습니까?")){
+            return ;
+        }
+
+        var data = {
+            psSn : $("#psSn" + i).val()
+        }
+
+        $.ajax({
+            url : "/project/delProcess",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success:function (rs){
+                if(rs.code == 200){
+                    $("#tr" + i).remove();
+
+                    $("#psTable > tr").each(function (idx){
+                        if(idx != 0){
+                            $(this).removeAttr("id");
+                            $(this).attr("id", "tr" + idx);
+
+                            $(this).children("td").first().html('<span style=\"position: relative; top:5px\">'+(idx)+'</span>');
+                            $(this).children("td").each(function(){
+                                $("#tr"+idx+" > td > span > input").each(function(){
+                                    $(this).removeAttr("id");
+                                    $(this).attr("id", $(this).attr("class").split(" ")[0] + idx);
+                                });
+                            });
+
+                            $(this).children("td").last().children("button").each(function(x){
+                                if(x == 0){
+                                    $(this).removeAttr("onclick");
+                                    $(this).attr("onclick", "es3.fn_psSave("+idx+")");
+                                } else if (x == 1){
+                                    $(this).removeAttr("onclick");
+                                    $(this).attr("onclick", "fn_userMultiSelectPop("+idx+")");
+                                } else {
+                                    $(this).removeAttr("onclick");
+                                    $(this).attr("onclick", "es3.fn_delRow("+idx+")");
+                                }
+                            });
+
+                            var updData = {
+                                psSn : $("#psSn" + idx).val(),
+                                psRow : idx,
+                                psPrep : $("#prepList"+idx).val(),
+                                psPrepNm : $("#prepList"+idx).data("kendoDropDownList").text(),
+                                psNm : $("#psNm"+idx).val(),
+                                psStrDe : $("#psStrDe"+idx).val(),
+                                psEndDe : $("#psEndDe"+idx).val(),
+                                psEmpSeq : $("#psEmpSeq"+idx).val(),
+                                psEmpNm : $("#psEmpNm"+idx).val()
+                            }
+
+                            $.ajax({
+                                url : "/project/updProcess",
+                                data : updData,
+                                type : "post",
+                                dataType : "json",
+                                success : function(rs){
+                                    console.log(rs);
+                                    if(rs.code == 200){
+
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    alert("삭제하였습니다.");
+
+                }
+            }
+        });
     },
 
     delvDrafting: function() {

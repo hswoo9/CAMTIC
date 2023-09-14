@@ -189,6 +189,19 @@ public class ProjectController {
         return "popup/cam_project/engineering/devInfo";
     }
 
+    @RequestMapping("/intra/cam_project/processInfo.do")
+    public String processInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/processInfo";
+    }
+
 
     /**
      * 프로젝트 등록 > 업체정보 Get Data
@@ -472,6 +485,23 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getPsList")
+    public String getPsList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> psList = projectService.getPsList(params);
+
+        model.addAttribute("psList", psList);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/getDevData")
+    public String getDevData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        model.addAttribute("rs", projectService.getDevData(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/insPjtPs")
     public String insPjtPs(@RequestParam Map<String, Object> params ,Model model){
 
@@ -498,7 +528,7 @@ public class ProjectController {
     public String updProcess(@RequestParam Map<String, Object> params, Model model){
 
         try{
-            projectService.updProcess(params);
+              projectService.updProcess(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();

@@ -985,4 +985,13 @@
             PJT_SN = #{pjtSn} AND DEV_SN IS NULL
     </update>
 
+    <select id="getDevData" parameterType="map" resultType="map">
+        /*getDevData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>

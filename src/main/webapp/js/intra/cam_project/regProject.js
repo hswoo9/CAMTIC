@@ -11,9 +11,9 @@ var regPrj = {
             setParameters.pjtSn = setParameters.PJT_SN;
         }
         var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
-
+        var devMap = customKendo.fn_customAjax("/project/engn/getDevData", setParameters);
         var delvMap = delvMap.delvMap;
-
+        var devMap = devMap.rs;
 
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
@@ -24,6 +24,7 @@ var regPrj = {
         var tab2Url = "/intra/cam_project/estInfo.do";
         var tab3Url = "/intra/cam_project/delvInfo.do";
         var tab4Url = "/intra/cam_project/devInfo.do";
+        var tab5Url = "/intra/cam_project/processInfo.do";
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -31,7 +32,7 @@ var regPrj = {
             tab2Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
-
+            tab5Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -39,6 +40,7 @@ var regPrj = {
             tab2Url += "&engnSn=" + setParameters.ENGN_SN;
             tab3Url += "&engnSn=" + setParameters.ENGN_SN;
             tab4Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab5Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
 
@@ -92,7 +94,7 @@ var regPrj = {
                 {name: "견적관리", url: tab2Url},
                 {name: "수주보고", url: tab3Url},
                 {name: "개발계획", url: tab4Url},
-                // {name: "공정", url: "#"},
+                {name: "공정", url: tab5Url},
                 // {name: "납품", url: "#"},
                 // {name: "결과보고", url: "#"},
                 // {name: "원가보고", url: "#"},
@@ -168,7 +170,7 @@ var regPrj = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(4));
             }
 
-            if(setParameters.PJT_STEP >= "E3"){
+            if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(5));
             }
 
