@@ -522,7 +522,19 @@
             PJT_SN = #{pjtSn}
     </select>
 
+    <select id="checkAddVersion" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            STATUS = 0
+    </select>
+
     <select id="getDevPjtVerList" parameterType="map" resultType="map">
+        /*getDevPjtVerList*/
         SELECT
             *
         FROM
@@ -538,6 +550,8 @@
             CAM_PJT_MNG.DJ_PJT_DEV C
         ON
             A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON C.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -681,6 +695,11 @@
         ORDER BY DEV_SN DESC LIMIT 1
     </select>
 
+    <select id="getPjtSnToDev" parameterType="map" resultType="map">
+        SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE DEV_SN = #{devSn}
+    </select>
+
     <select id="getPsList" parameterType="map" resultType="map">
         SELECT
             *
@@ -773,6 +792,27 @@
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateDevApprStat" parameterType="map">
+        /* updateDevApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DEV_SN = #{pjtSn}
+    </update>
+
+    <update id="updateDevFinalApprStat" parameterType="map">
+        /* updateDevFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DEV_SN = #{pjtSn}
     </update>
 
     <select id="getCrmInfo" parameterType="map" resultType="map">
@@ -891,6 +931,19 @@
         </selectKey>
     </insert>
 
+    <update id="updDevInfo" parameterType="map">
+        /*updDevInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            INV_AMT = #{invAmt},
+            INV_PER = #{invPer},
+            DEP_OBJ = #{depObj},
+            ETC = #{etc},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <update id="updProjectTmpCode" parameterType="map">
         /*updProjectTmpCode*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
@@ -930,5 +983,24 @@
             DEV_SN = #{devSn}
         WHERE
             PJT_SN = #{pjtSn} AND DEV_SN IS NULL
+    </update>
+
+    <select id="getDevData" parameterType="map" resultType="map">
+        /*getDevData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <update id="stopProject" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STOP = "Y",
+            PJT_STOP_RS = #{pjtStopRs}
+        WHERE
+            PJT_SN = #{pjtSn}
     </update>
 </mapper>

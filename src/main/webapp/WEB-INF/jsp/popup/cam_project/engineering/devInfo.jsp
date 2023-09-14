@@ -10,15 +10,15 @@
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
-<form id="delvDraftFrm" method="post">
+<form id="devDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="devSn" name="devSn" value="">
     <input type="hidden" id="menuCd" name="menuCd" value="dev">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
 
-<input type="hidden" id="devSn" name="devSn" value="">
 <input type="hidden" id="step" value="E3" />
 <input type="hidden" id="stepColumn" value="STEP4" />
 <input type="hidden" id="nextStepColumn" value="STEP5" />
@@ -28,7 +28,7 @@
 <div style="padding: 10px">
     <div class="table-responsive">
         <div id="btnDiv">
-            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="devInfo.fn_save()">저장</button>
+            <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="devInfo.fn_save()">저장</button>--%>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
@@ -68,7 +68,7 @@
                     <span class="red-star"></span>프로젝트 명
                 </th>
                 <td colspan="3">
-                    <input type="text" id="pjtCd" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
+                    <input type="text" id="devPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
                 </td>
             </tr>
             <tr>
@@ -76,7 +76,7 @@
                     <span class="red-star"></span>업체명
                 </th>
                 <td>
-                    <input type="text" id="crmNm" disabled value="${hashMap.CRM_NM}" style="width: 90%; text-align: left" />
+                    <input type="text" id="devCrmInfo" disabled value="${hashMap.CRM_NM}" style="width: 90%; text-align: left" />
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>PM

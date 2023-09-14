@@ -14,12 +14,14 @@
 <fmt:formatDate value="${now}" var="nowCom" pattern="yyyy.MM.dd" />
 <fmt:formatDate value="${now}" var="nowHyphen" pattern="yyyy-MM-dd" />
 <fmt:formatDate value="${now}" var="nowSlash" pattern="yyyy/MM/dd" />
+<jsp:useBean id="today" class="java.util.Date" />
+
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=5'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=1'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
 <style>
     .pop_head{
         height: 40px;

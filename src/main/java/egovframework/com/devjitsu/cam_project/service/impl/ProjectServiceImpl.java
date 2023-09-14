@@ -148,9 +148,17 @@ public class ProjectServiceImpl implements ProjectService {
     public void setDevInfo(Map<String, Object> params) {
         int modCheck = projectRepository.checkModStep3(params);
 
-        projectRepository.insDevInfo(params);
+        int checkAddVersion = projectRepository.checkAddVersion(params);
+
+
+        if(checkAddVersion != 0){
+            projectRepository.updDevInfo(params);
+        } else {
+            projectRepository.insDevInfo(params);
+        }
 
         projectRepository.updInvAndPs(params);
+
 
         if(modCheck == 0) {
             // 전자결재 개발 완료 시 결재완료 시점으로 이동
@@ -290,6 +298,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getPjtSnToDev(Map<String, Object> params) {
+        return projectRepository.getPjtSnToDev(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPsList(Map<String, Object> params) {
         return projectRepository.getPsList(params);
     }
@@ -369,6 +382,37 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void updateDevDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pjtSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            projectRepository.updateDevApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            projectRepository.updateDevApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            projectRepository.updateDevFinalApprStat(params);
+        }
+    }
+
+    @Override
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return projectRepository.getCrmInfo(params);
     }
@@ -376,6 +420,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Map<String, Object> getBustInfo(Map<String, Object> params) {
         return projectRepository.getBustInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getDevData(Map<String, Object> params) {
+        return projectRepository.getDevData(params);
+    }
+
+    @Override
+    public void stopProject(Map<String, Object> params) {
+        projectRepository.stopProject(params);
     }
 }
 

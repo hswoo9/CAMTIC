@@ -140,8 +140,12 @@ function userSearch() {
     window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
 }
 
-function fn_userMultiSelectPop() {
-    window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+function fn_userMultiSelectPop(type) {
+    if(type == "bustrip"){
+        window.open("/user/pop/userMultiSelectPop.do?type="+type,"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    }else{
+        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    }
 }
 
 //숫자에 콤마 찍기 number

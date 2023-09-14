@@ -152,6 +152,9 @@ var draft = {
             "<input type='hidden' id='contentValue' name='contentValue' value=''>");
 
         draft.setKendoUpload();
+
+        draft.setFileForm(draft.global.params);
+
     },
 
     getDocFormTemplate : function(){
@@ -164,6 +167,7 @@ var draft = {
         if(result.flag){
             return result;
         }
+
     },
 
     getDocFormReqOpt : function(){
@@ -421,7 +425,7 @@ var draft = {
     },
 
     getDocFileSet : function (docFile){
-        console.log(docFile);
+        console.log("docFile", docFile);
         if(docFile.length > 0){
             for(var i = 0; i < docFile.length; i++){
                 var data = {
@@ -430,6 +434,7 @@ var draft = {
                     size: docFile[i].FILE_SIZE == null ? docFile[i].file_size : docFile[i].FILE_SIZE,
                     extension: docFile[i].FILE_EXT == null ? "." + docFile[i].file_ext : "." + docFile[i].FILE_EXT
                 }
+                console.log("docFile data", data);
                 draft.global.fileUploaded.push(data);
             }
         }
@@ -1039,5 +1044,27 @@ var draft = {
         draft.global.formData.append("approveOpin", $("#approveOpin").val());
 
         return draft.global.formData;
+    },
+
+
+    setFileForm : function (params){
+        console.log("params", params);
+        var data = {}
+        if(params.menuCd == "bustripRes"){
+            data.hrBizReqResultId = params.APPRO_KEY.split("_")[1];
+        }
+
+        console.log(data);
+
+        if(data.hrBizReqResultId != "") {
+            let result = customKendo.fn_customAjax("/bustrip/getResultFileList", {
+                hrBizReqResultId: data.hrBizReqResultId
+            });
+            console.log(result);
+            draft.getDocFileSet(result.fileInfo);
+
+
+            draft.setKendoUpload();
+        }
     }
 }

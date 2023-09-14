@@ -182,6 +182,12 @@ var userMultiSel = {
     },
 
     addTable : function(e, mode) {
+        if($("#type").val() == "bustrip"){
+            if(e == $("#empSeq").val()){
+                return;
+            }
+        }
+
         if(mode == "userClick"){
             $.ajax({
                 url: "/user/getUserInfo",

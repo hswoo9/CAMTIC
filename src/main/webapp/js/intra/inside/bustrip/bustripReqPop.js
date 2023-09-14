@@ -8,6 +8,7 @@ const bustripReq = {
         if(hrBizReqId != ""){
             bustripReq.dataSet(hrBizReqId);
         }
+        $("#visitCrm").attr("readonly", true);
     },
 
     pageSet: function(){
@@ -35,22 +36,58 @@ const bustripReq = {
                 $("#carLine").css("display", "");
             }
         })
-        let projectDataSource = [
-            { text: "해당없음", value: "0" },
-            { text: "연구개발", value: "1" },
-            { text: "개발사업", value: "2" },
-            { text: "교육사업", value: "3" },
-            { text: "일자리사업", value: "4" },
-            { text: "지원사업", value: "5" },
-            { text: "평생학습", value: "6" },
-            { text: "캠스타트업", value: "7" }
-        ]
-        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 2);
-        $("#project").data("kendoDropDownList").bind("change", function(){
-            if($("#project").val() == 0 || $("#project").val() == ""){
-                $("#busnLine").css("display", "none");
-            } else {
-                $("#busnLine").css("display", "");
+        // let projectDataSource = [
+        //     { text: "해당없음", value: "0" },
+        //     { text: "연구개발", value: "1" },
+        //     { text: "개발사업", value: "2" },
+        //     { text: "교육사업", value: "3" },
+        //     { text: "일자리사업", value: "4" },
+        //     { text: "지원사업", value: "5" },
+        //     { text: "평생학습", value: "6" },
+        //     { text: "캠스타트업", value: "7" }
+        // ]
+        // customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 2);
+        // $("#project").data("kendoDropDownList").bind("change", function(){
+        //     if($("#project").val() == 0 || $("#project").val() == ""){
+        //         $("#busnLine").css("display", "none");
+        //     } else {
+        //         $("#busnLine").css("display", "");
+        //     }
+        // })
+        var bcDsData = {
+            cmGroupCode : "BUSN_CLASS",
+        }
+        $("#busnLgClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "해당없음", value: "" },
+                { text: "정부사업", value: "1" },
+                { text: "민간사업", value: "2" }
+            ],
+            index: 0,
+            change: function(){
+                var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+                if(this.value() == "1"){
+                    $("#project").css("display", "");
+
+                    customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
+                }else if (this.value() == "2"){
+                    $("#project").css("display", "");
+
+                    customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
+                } else {
+                    $("#project").data("kendoDropDownList").wrapper.hide();
+                    $("#busnLine").css("display", "none");
+                }
+
+                $("#project").data("kendoDropDownList").bind("change", function(){
+                    if($("#project").val() == 0 || $("#project").val() == ""){
+                        $("#busnLine").css("display", "none");
+                    } else {
+                        $("#busnLine").css("display", "");
+                    }
+                });
             }
         })
         const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
@@ -108,7 +145,24 @@ const bustripReq = {
         var fileInfo = result.rs.fileInfo;
 
         $("#tripCode").data("kendoDropDownList").value(busInfo.TRIP_CODE);
-        $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
+        var prjCd = busInfo.PROJECT_CD;
+        var bcDsData = {
+            cmGroupCode : "BUSN_CLASS",
+        }
+        var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+        if(prjCd == "R" || prjCd == "S"){
+            $("#busnLgClass").data("kendoDropDownList").value(1);
+            $("#project").css("display", "");
+            customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
+            $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
+            $("#busnName").val(busInfo.BUSN_NAME);
+        }else if(prjCd == "R" || prjCd == "S" || prjCd == "S"){
+            $("#busnLgClass").data("kendoDropDownList").value(2);
+            $("#project").css("display", "");
+            customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
+            $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
+            $("#busnName").val(busInfo.BUSN_NAME);
+        }
         if($("#project").val() == 0 || $("#project").val() == ""){
             $("#busnLine").css("display", "none");
         } else {
@@ -155,6 +209,7 @@ const bustripReq = {
         $("#time1").val(busInfo.TRIP_TIME_FR);
         $("#time2").val(busInfo.TRIP_TIME_TO);
         $("#bustObj").val(busInfo.TITLE);
+        $("#crmSn").val(busInfo.CRM_SN);
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
         if(busInfo.USE_CAR == "Y"){
             $("#car2").prop("checked", true);
@@ -194,7 +249,6 @@ const bustripReq = {
         if((busInfo.STATUS != 0 && busInfo.STATUS != 30 && pageName == 'bustripReq') || $("#mod").val() == "mng"){
             $("#popEmpName").data("kendoTextBox").enable(false);
             $("#tripCode").data("kendoDropDownList").enable(false);
-            $("#project").data("kendoDropDownList").enable(false);
             $("#visitCrm").data("kendoTextBox").enable(false);
             $("#visitLoc").data("kendoTextBox").enable(false);
             $("#visitLocSub").data("kendoTextBox").enable(false);
@@ -216,12 +270,17 @@ const bustripReq = {
                 $("#result").data("kendoTextBox").enable(false);
                 $("#saveBtn").css("display", "none");
             }
+            $("#busnLgClass").data("kendoDropDownList").enable(false);
+            if(busInfo.PROJECT_CD != 0){
+                $("#busnName").data("kendoTextBox").enable(false);
+                $("#project").data("kendoDropDownList").enable(false);
+            }
         }
     },
 
     fn_saveBtn: function(){
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
+        if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
@@ -237,7 +296,9 @@ const bustripReq = {
         formData.append("deptName", $("#regDeptName").val());
         formData.append("tripCode", $("#tripCode").val());
         formData.append("projectCd", $("#project").val());
-        formData.append("project", $("#project").data("kendoDropDownList").text());
+        if($("#busnLgClass").val() != ""){
+            formData.append("project", $("#project").data("kendoDropDownList").text());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());

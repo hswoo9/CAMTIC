@@ -371,10 +371,17 @@ public class BustripController {
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         model.addAttribute("list", list);
         List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+
+        Map<String, Object> rs = bustripService.getBustripOne(params);
         model.addAttribute("exnpList", exnpData);
-        model.addAttribute("rs", bustripService.getBustripOne(params));
+        model.addAttribute("rs", rs);
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
+
+        params.put("hrBizReqId", rs.get("HR_BIZ_REQ_ID"));
+        params.put("fileCd", "bustripReq");
+        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfo(params));
+
         return "/popup/bustrip/approvalFormPopup/bustripResApprovalPop";
     }
 
@@ -433,6 +440,19 @@ public class BustripController {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/getResultFileList")
+    public String getResultFileList(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = bustripService.getBustripOne(params);
+        params.put("fileCd", "bustripReq");
+        params.put("hrBizReqId", map.get("HR_BIZ_REQ_ID"));
+
+        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfo(params));
 
 
         return "jsonView";

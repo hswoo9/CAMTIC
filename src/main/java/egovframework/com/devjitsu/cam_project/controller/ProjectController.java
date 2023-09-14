@@ -189,6 +189,19 @@ public class ProjectController {
         return "popup/cam_project/engineering/devInfo";
     }
 
+    @RequestMapping("/intra/cam_project/processInfo.do")
+    public String processInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/processInfo";
+    }
+
 
     /**
      * 프로젝트 등록 > 업체정보 Get Data
@@ -472,6 +485,23 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getPsList")
+    public String getPsList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> psList = projectService.getPsList(params);
+
+        model.addAttribute("psList", psList);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/getDevData")
+    public String getDevData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        model.addAttribute("rs", projectService.getDevData(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/insPjtPs")
     public String insPjtPs(@RequestParam Map<String, Object> params ,Model model){
 
@@ -498,7 +528,7 @@ public class ProjectController {
     public String updProcess(@RequestParam Map<String, Object> params, Model model){
 
         try{
-            projectService.updProcess(params);
+              projectService.updProcess(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
@@ -580,6 +610,16 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getPjtSnToDev")
+    public String getPjtSnToDev(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = projectService.getPjtSnToDev(params);
+
+        model.addAttribute("rs", map);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/insStep4")
     public String insStep4(@RequestParam Map<String, Object> params, Model model){
 
@@ -655,6 +695,20 @@ public class ProjectController {
         return "/popup/cam_project/approvalFormPopup/delvApprovalPop";
     }
 
+    /** 개발계획서 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/devApprovalPop.do")
+    public String devApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("processList", projectService.getProcessList(params));
+        model.addAttribute("invList", projectService.getInvList(params));
+        Map<String, Object> map = projectService.getPjtSnToDev(params);
+        params.put("pjtSn", map.get("PJT_SN"));
+        return "/popup/cam_project/approvalFormPopup/devApprovalPop";
+    }
+
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/project/delvReqApp")
     public String delvReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -674,5 +728,36 @@ public class ProjectController {
         return "jsonView";
     }
 
+    /** 개발계획서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/project/devReqApp")
+    public String devReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectService.updateDevDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/stopProject")
+    public String stopProject(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.stopProject(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 
 }

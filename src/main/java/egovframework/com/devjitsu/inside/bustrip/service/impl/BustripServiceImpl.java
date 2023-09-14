@@ -106,6 +106,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripReqFileInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
         return bustripRepository.getBustripExnpInfo(params);
     }
@@ -188,16 +193,22 @@ public class BustripServiceImpl implements BustripService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
+        Map<String, Object> histMap = bustripRepository.getBustripResultInfoR(params);
+        params.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID").toString());
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             bustripRepository.updateResApprStat(params);
+            /* 첨부파일 업데이트 */
+            bustripRepository.setBustripFileNum(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             bustripRepository.updateResApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
             bustripRepository.updateResFinalApprStat(params);
-
-            Map<String, Object> histMap = bustripRepository.getBustripResultInfoR(params);
             crmRepository.insCrmHist(histMap);
+            if("101".equals(docSts)) {
+                /* 첨부파일 업데이트 */
+                bustripRepository.setBustripFileNum(params);
+            }
         }
     }
 

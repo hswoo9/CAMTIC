@@ -179,6 +179,10 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getDevelopPlan", params);
     }
 
+    public Map<String, Object> getPjtSnToDev(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getPjtSnToDev", params);
+    }
+
     public List<Map<String, Object>> getPsList(Map<String, Object> params) {
         return selectList("project.getPsList", params);
     }
@@ -232,6 +236,13 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updateDelvFinalApprStat", params);
     }
 
+    public void updateDevApprStat(Map<String, Object> params) {
+        update("project.updateDevApprStat", params);
+    }
+    public void updateDevFinalApprStat(Map<String, Object> params) {
+        update("project.updateDevFinalApprStat", params);
+    }
+
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getCrmInfo", params);
     }
@@ -259,5 +270,25 @@ public class ProjectRepository extends AbstractDAO {
     public void updInvAndPs(Map<String, Object> params) {
         update("project.updInv", params);
         update("project.updPs", params);
+    }
+
+    public int checkAddVersion(Map<String, Object> params) {
+        return (int) selectOne("project.checkAddVersion", params);
+    }
+
+    public void updDevInfo(Map<String, Object> params) {
+        update("project.updDevInfo", params);
+    }
+
+    public Map<String, Object> getDevSn(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDevSn", params);
+    }
+
+    public Map<String, Object> getDevData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDevData", params);
+    }
+
+    public void stopProject(Map<String, Object> params) {
+        update("project.stopProject", params);
     }
 }

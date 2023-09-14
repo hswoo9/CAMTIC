@@ -45,8 +45,12 @@ public class DocumentRepository extends AbstractDAO {
         return selectList("document.getArchiveList", params);
     }
 
-    public void setDocumentInsert(Map<String, Object> params) {
+   public void setDocumentInsert(Map<String, Object> params) {
         insert("document.setDocumentInsert", params);
+    }
+
+    public void setInComeInsert(Map<String, Object> params) {
+        insert("document.setInComeInsert", params);
     }
 
     public void setDocuOrderInsert(Map<String, Object> params) {
@@ -124,11 +128,16 @@ public class DocumentRepository extends AbstractDAO {
     public Map<String, Object> getInComeUpdateList (Map<String, Object> params) {
         return (Map<String,Object>)selectOne("document.getInComeUpdateList", params);
     }
-    
+
     //접수대장 팝업 수정
-    public void setInComeUpdate(Map<String, Object> params) { update("document.setInComeUpdate", params);}
+    public void setInComeUpdate(Map<String, Object> params) {update("document.setInComeUpdate", params);
+    }
 
-
+/*
+    public List<Map<String, Object>> getInComeUpdateFileList(Map<String, Object> params) {
+        return selectList("document.getInComeUpdateFileList", params);
+    }
+*/
 
 
 

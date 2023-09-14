@@ -1,4 +1,9 @@
 var regisReq = {
+
+    global: {
+        documentSn: ""
+    },
+
     init: function () {
         regisReq.dataSet();
     },
@@ -17,8 +22,63 @@ var regisReq = {
         ]
         customKendo.fn_dropDownList("deptPart", deptPartArr, "text", "value", 2);
         $("#deptPart").data("kendoDropDownList").bind("change", regisReq.fn_toggleManger)
-        $("#deptPart").data("kendoDropDownList").trigger("change");
         $("#documentPartName, #documentPart, #empName, #effectiveDt, #shipmentDt").attr("readonly", true);
+
+            var data = {};
+            $.ajax({
+                /*url : '/inside/getInComeUpdateFileList',*/
+                url : '/inside/getInComeUpdateList',
+                data : {
+                    documentSn : $("#documentSn").val()
+                },
+                dataType: "json",
+                type : "POST",
+                async : false,
+                success : function (rs){
+                    data = rs.data;
+                }
+            });
+            console.log(data);
+            regisReq.settingTempFileDataInit(data);
+    },
+
+    settingTempFileDataInit : function(e, p){
+        var html = '';
+
+        if(p == "result"){
+            if(e.file_no > 0){
+                $(".resultTh").hide();
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td>'+ e.file_ext +'</td>';
+                html += '   <td>'+ e.file_size +'</td>';
+                html += '</tr>';
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        } else {
+            if(e.file_no > 0){
+                $(".resultTh").show();
+                html += '<tr style="text-align: center"  class="addFile">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td>'+ e.file_ext +'</td>';
+                html += '   <td>'+ e.file_size +'</td>';
+                html += '   <td>';
+                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e.file_no +', this)">' +
+                    '			<span class="k-button-text">삭제</span>' +
+                    '		</button>';
+                html += '   </td>';
+                html += '</tr>';
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
     },
 
     saveBtn: function () {
@@ -43,25 +103,26 @@ var regisReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
 
-        let data = {
-            docuType: docuType,
-            documentSn: documentSn,
-            documentPartType: documentPartType,
-            documentPartName: documentPartName,
-            effectiveDt: effectiveDt,
-            shipmentDt: shipmentDt,
-            receiveName: receiveName,
-            managerSn: managerSn,
-            managerName: managerName,
-            documentTitleName: documentTitleName,
-            deptPartType: deptPartType,
-            deptPartText: deptPartText,
-            userSn: userSn,
-            userText: userText,
-            remarkCn: remarkCn,
-            regEmpSeq: regEmpSeq,
-            regEmpName: regEmpName
-        }
+        var formData = new FormData();
+        formData.append("menuCd", "inCome");
+        formData.append("docuType", docuType);
+        formData.append("documentSn", documentSn);
+        formData.append("documentPartType", documentPartType);
+        formData.append("documentPartName", documentPartName);
+        formData.append("effectiveDt", effectiveDt);
+        formData.append("shipmentDt", shipmentDt);
+        formData.append("receiveName", receiveName);
+        formData.append("managerSn", managerSn);
+        formData.append("managerName", managerName);
+        formData.append("documentTitleName", documentTitleName);
+        formData.append("deptPartType", deptPartType);
+        formData.append("deptPartText", deptPartText);
+        formData.append("userSn", userSn);
+        formData.append("userText", userText);
+        formData.append("remarkCn", remarkCn);
+        formData.append("regEmpSeq", regEmpSeq);
+        formData.append("regEmpName", regEmpName);
+        formData.append("empSeq", empSeq);
 
         if (documentPartType == "") {
             alert("구분이 선택되지 않았습니다.");
@@ -100,39 +161,80 @@ var regisReq = {
             return;
         }
 
+        //증빙파일 첨부파일
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("inComeFile", fCommon.global.attFiles[i]);
+            }
+        }
+
+        console.log(fCommon.global.attFiles.length + "파일크기");
+        if(fCommon.global.attFiles.length != 0){
+            if(fCommon.global.attFiles.length > 1){
+                alert("첨부파일은 1개만 업로드 가능합니다.");
+                return false;
+            }
+            console.log(fCommon.global.attFiles);
+        }
+
+
         if (documentSn === "") {
             if (!confirm("문서를 등록하시겠습니까?")) {
                 return;
             }
-            regisReq.setDocumentInsert(data);
+            regisReq.setInComeInsert(formData);
         } else {
             if (!confirm("문서를 수정하시겠습니까?")) {
                 return;
             }
-            regisReq.setInComeUpdate(data);
+            regisReq.setInComeUpdate(formData);
         }
     },
 
-    setDocumentInsert: function (data) {
-        let result = customKendo.fn_customAjax("/inside/setDocumentInsert", data);
-        if (result.flag) {
-            alert("문서 등록이 완료되었습니다.");
-            opener.gridReload();
-            window.close();
-        } else {
-            alert("데이터 저장 중 에러가 발생했습니다.");
-        }
+    setInComeInsert: function(formData){
+        $.ajax({
+            url : "/inside/setInComeInsert",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("문서 등록이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
+        });
     },
 
-    setInComeUpdate: function (data) {
-        let result = customKendo.fn_customAjax("/inside/setInComeUpdate", data);
-        if (result.flag) {
-            alert("문서 수정이 완료되었습니다.");
-            opener.gridReload();
-            window.close();
-        } else {
-            alert("데이터 저장 중 에러가 발생했습니다.");
-        }
+    setInComeUpdate: function (formData) {
+        $.ajax({
+            url : "/inside/setInComeUpdate",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function(result){
+                console.log(result);
+                alert("문서 수정이 완료되었습니다.");
+                opener.gridReload();
+                window.close();
+
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
+        });
     },
 
     fn_toggleManger: function () {

@@ -156,6 +156,8 @@ var bustripResMngList = {
                             return "여비정산 반려";
                         }else if(row.EXP_STAT == 0){
                             return "결과보고서 작성중";
+                        }else{
+                            return "결과보고서 미작성";
                         }
                     },
                     width: 100

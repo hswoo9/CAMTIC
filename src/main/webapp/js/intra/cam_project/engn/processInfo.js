@@ -1,8 +1,7 @@
-var es4 = {
+var processInfo = {
 
-    global : {
 
-    },
+
 
     fn_defaultScript : function (){
 
@@ -16,6 +15,8 @@ var es4 = {
             dataType : "json",
             type : "post",
             success : function(rs){
+
+                console.log(rs);
                 var rs = rs.psList;
 
                 for(var i = 0 ; i < rs.length ; i++){
@@ -25,7 +26,7 @@ var es4 = {
                         var arr = rs[i].PS_EMP_SEQ.split(",");
                         var flag = false;
                         for(var j = 0 ; j < arr.length ; j++) {
-                            if(data.regEmpSeq == arr[j]){
+                            if(data.empSeq == arr[j]){
                                 flag = true;
                             }
                         }
@@ -37,7 +38,6 @@ var es4 = {
                     }
 
                 }
-
             }
         });
 
@@ -68,6 +68,4 @@ var es4 = {
             }
         });
     }
-
-
 }

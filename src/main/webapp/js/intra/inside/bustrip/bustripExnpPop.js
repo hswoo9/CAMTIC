@@ -16,7 +16,7 @@ const bustripExnpReq = {
             {text: "개인", value: "N"},
             {text: "법인", value: "Y"}
         ]
-        if(type == "upd" || $("#mod").val() == "mng"){
+        if($("#mod").val() == "mng"){
             $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox({
                 enable: false
             });
@@ -196,27 +196,29 @@ const bustripExnpReq = {
             var totalCost = 0;
 
 
+            let empSeq = $(row.cells[0]).find("input[name='empSeq']").val();
             var data = {
                 hrBizReqResultId : hrBizReqResultId,
                 hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
                 empName : $(row.cells[0]).find("input[type=text]").val(),
                 empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
                 oilCost : $(row.cells[1]).find("input[type=text]").val(),
-                oilCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 trafCost : $(row.cells[2]).find("input[type=text]").val(),
-                trafCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 trafDayCost : $(row.cells[3]).find("input[type=text]").val(),
-                trafDayCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 tollCost : $(row.cells[4]).find("input[type=text]").val(),
-                tollCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 dayCost : $(row.cells[5]).find("input[type=text]").val(),
                 eatCost : $(row.cells[6]).find("input[type=text]").val(),
-                eatCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 parkingCost : $(row.cells[7]).find("input[type=text]").val(),
-                parkingCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 etcCost : $(row.cells[8]).find("input[type=text]").val(),
-                etcCorpYn : $(row.cells[1]).find("input[name='corpYn']").val(),
                 totCost : $(row.cells[9]).find("input[type=text]").val(),
+
+                oilCorpYn : $(row.cells[1]).find("#oilCorpYn"+empSeq).data("kendoDropDownList").value(),
+                trafCorpYn : $(row.cells[2]).find("#trafCorpYn"+empSeq).data("kendoDropDownList").value(),
+                trafDayCorpYn : $(row.cells[3]).find("#trafDayCorpYn"+empSeq).data("kendoDropDownList").value(),
+                tollCorpYn : $(row.cells[4]).find("#tollCorpYn"+empSeq).data("kendoDropDownList").value(),
+                eatCorpYn : $(row.cells[6]).find("#eatCorpYn"+empSeq).data("kendoDropDownList").value(),
+                parkingCorpYn : $(row.cells[7]).find("#parkingCorpYn"+empSeq).data("kendoDropDownList").value(),
+                etcCorpYn : $(row.cells[8]).find("#etcCorpYn"+empSeq).data("kendoDropDownList").value(),
                 expStat : "Y",
                 type : type
             }
@@ -229,6 +231,7 @@ const bustripExnpReq = {
             empSeq : $("#regEmpSeq").val(),
             status : 10
         }
+
         var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
         alert("승인요청이 완료되었습니다.");
         parent.opener.gridReload();

@@ -11,6 +11,7 @@
 	<h1>사용자 선택(다수)</h1>
 	<a href="#n" class="clo"><img src="<c:url value='/images/btn/btn_pop_clo01.png'/>" alt=""></a>
 </div>
+<input type="hidden" id="type" name="type" value="${params.type}">
 <div style="padding: 20px">
 	<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 	<input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">

@@ -3,6 +3,7 @@ var bustripResultPop = {
     init : function(){
         bustripResultPop.pageSet();
         bustripResultPop.dataSet();
+        $("#visitCrm").attr("readonly", true);
     },
 
     pageSet: function(){
@@ -35,9 +36,26 @@ var bustripResultPop = {
             let resList = result.rs.resList;
             var fileInfo = result.rs.fileInfo;
 
-
             $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
-            $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
+            var prjCd = resInfo.PROJECT_CD;
+            var bcDsData = {
+                cmGroupCode : "BUSN_CLASS",
+            }
+            var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+            if(prjCd == "R" || prjCd == "S"){
+                $("#busnLgClass").data("kendoDropDownList").value(1);
+                $("#project").css("display", "");
+                customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
+                $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
+                $("#busnName").val(resInfo.BUSN_NAME);
+            }else if(prjCd == "R" || prjCd == "S" || prjCd == "S"){
+                $("#busnLgClass").data("kendoDropDownList").value(2);
+                $("#project").css("display", "");
+                customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
+                $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
+                $("#busnName").val(resInfo.BUSN_NAME);
+            }
+
             if($("#project").val() == 0 || $("#project").val() == ""){
                 $("#busnLine").css("display", "none");
             } else {
@@ -160,7 +178,6 @@ var bustripResultPop = {
             if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
                 $("#popEmpName").data("kendoTextBox").enable(false);
                 $("#tripCode").data("kendoDropDownList").enable(false);
-                $("#project").data("kendoDropDownList").enable(false);
                 $("#visitCrm").data("kendoTextBox").enable(false);
                 $("#visitLoc").data("kendoTextBox").enable(false);
                 $("#visitLocSub").data("kendoTextBox").enable(false);
@@ -182,6 +199,8 @@ var bustripResultPop = {
                 if($("#mod").val() == "mng"){
                     $("#saveBtn").css("display", "none");
                     var map = result.rs.map;
+                    console.log("여깁니다");
+                    console.log(map);
                     var html = "";
                     let oilCostTotal = 0;
                     let trafCostTotal = 0;
@@ -192,10 +211,25 @@ var bustripResultPop = {
                     let parkingCostTotal = 0;
                     let etcCostTotal = 0;
                     let totalCostTotal = 0;
+
+                    let oilCorpCostTotal = 0;
+                    let trafCorpCostTotal = 0;
+                    let trafDayCorpotal = 0;
+                    let tollCorpCostTotal = 0;
+                    let dayCorpCostTotal = 0;
+                    let eatCorpCostTotal = 0;
+                    let parkingCorpCostTotal = 0;
+                    let etcCorpCostTotal = 0;
+                    let totalCorpCostTotal = 0;
+
                     for(var i = 0 ; i < map.length ; i++){
+
                         if(map[i].DRIVER == "Y"){
                             $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
                         }
+
+                        var personTot = 0;
+
                         oilCostTotal += Number(map[i].OIL_COST.replace(",", ""));
                         trafCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
                         trafDayTotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
@@ -205,19 +239,101 @@ var bustripResultPop = {
                         parkingCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
                         etcCostTotal += Number(map[i].ETC_COST.replace(",", ""));
                         totalCostTotal += Number(map[i].TOT_COST.replace(",", ""));
+
+
                         html += "<tr style='text-align: right'>";
                         html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
-                        html += "   <td>"+map[i].OIL_COST+"</td>";
-                        html += "   <td>"+map[i].TRAF_COST+"</td>";
-                        html += "   <td>"+map[i].TRAF_DAY_COST+"</td>";
-                        html += "   <td>"+map[i].TOLL_COST+"</td>";
+                        if(map[i].OIL_CORP_YN != "Y"){
+                            personTot += Number(map[i].OIL_COST.replace(",", ""));
+                            html += "   <td>"+map[i].OIL_COST+"</td>";
+                        }else{
+                            oilCorpCostTotal += Number(map[i].OIL_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        if(map[i].TRAF_CORP_YN != "Y"){
+                            personTot += Number(map[i].TRAF_COST.replace(",", ""));
+                            html += "   <td>"+map[i].TRAF_COST+"</td>";
+                        }else{
+                            trafCorpCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        if(map[i].TRAF_DAY_CORP_YN != "Y"){
+                            personTot += Number(map[i].TRAF_DAY_COST.replace(",", ""));
+                            html += "   <td>"+map[i].TRAF_DAY_COST+"</td>"
+                        }else{
+                            trafDayCorpotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        if(map[i].TOLL_CORP_YN != "Y"){
+                            personTot += Number(map[i].TOLL_COST.replace(",", ""));
+                            html += "   <td>"+map[i].TOLL_COST+"</td>";
+                        }else{
+                            tollCorpCostTotal += Number(map[i].TOLL_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        personTot += Number(map[i].DAY_COST.replace(",", ""));
                         html += "   <td>"+map[i].DAY_COST+"</td>";
-                        html += "   <td>"+map[i].EAT_COST+"</td>";
-                        html += "   <td>"+map[i].PARKING_COST+"</td>";
-                        html += "   <td>"+map[i].ETC_COST+"</td>";
-                        html += "   <td>"+map[i].TOT_COST+"</td>";
+
+                        if(map[i].EAT_CORP_YN != "Y"){
+                            personTot += Number(map[i].EAT_COST.replace(",", ""));
+                            html += "   <td>"+map[i].EAT_COST+"</td>";
+                        }else{
+                            eatCorpCostTotal += Number(map[i].EAT_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        if(map[i].PARKING_CORP_YN != "Y"){
+                            personTot += Number(map[i].PARKING_COST.replace(",", ""));
+                            html += "   <td>"+map[i].PARKING_COST+"</td>";
+                        }else{
+                            parkingCorpCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        if(map[i].ETC_CORP_YN != "Y"){
+                            personTot += Number(map[i].ETC_COST.replace(",", ""));
+                            html += "   <td>"+map[i].ETC_COST+"</td>";
+                        }else{
+                            etcCorpCostTotal += Number(map[i].ETC_COST.replace(",", ""));
+                            html += "   <td>0</td>";
+                        }
+
+                        html += "   <td>"+fn_numberWithCommas(personTot)+"</td>";
+
+
                         html += "</tr>";
                     }
+                    
+                    html += "<tr style='text-align: right'>";
+                    html += "   <td style='text-align: center'>법인카드</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>"+fn_comma(trafCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(trafDayCorpotal)+"</td>";
+                    html += "   <td>"+fn_comma(tollCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(dayCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(eatCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(parkingCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(etcCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal)+"</td>";
+                    html += "</tr>";
+
+                    html += "<tr style='text-align: right'>";
+                    html += "   <td style='text-align: center'>법인차량</td>";
+                    html += "   <td>"+fn_comma(oilCorpCostTotal)+"</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>"+fn_comma(oilCorpCostTotal)+"</td>";
+                    html += "</tr>";
+
                     html += "<tr style='text-align: right'>";
                     html += "   <td style='text-align: center'>합계</td>";
                     html += "   <td>"+fn_comma(oilCostTotal)+"</td>";
@@ -230,18 +346,37 @@ var bustripResultPop = {
                     html += "   <td>"+fn_comma(etcCostTotal)+"</td>";
                     html += "   <td>"+fn_comma(totalCostTotal)+"</td>";
                     html += "</tr>";
+
+                    html += "<tr style='text-align: right'>";
+                    html += "   <td style='text-align: center'>영수증</td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
+                    html += "</tr>";
                     $("#bustExnpBody").html(html);
                     $("#bustExnpTb").show();
                 }
                 $("#realDriver").data("kendoDropDownList").enable(false);
                 $("#moveDst").data("kendoTextBox").enable(false);
             }
+            $("#busnLgClass").data("kendoDropDownList").enable(false);
+
+            if(resInfo.PROJECT_CD != 0){
+                $("#busnName").data("kendoTextBox").enable(false);
+                $("#project").data("kendoDropDownList").enable(false);
+            }
         }
     },
 
     fn_saveBtn : function(e){
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
+        if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
@@ -261,7 +396,9 @@ var bustripResultPop = {
         formData.append("deptName", $("#regDeptName").val());
         formData.append("tripCode", $("#tripCode").val());
         formData.append("projectCd", $("#project").val());
-        formData.append("project", $("#project").data("kendoDropDownList").text());
+        if($("#busnLgClass").val() != ""){
+            formData.append("project", $("#project").data("kendoDropDownList").text());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
@@ -340,7 +477,7 @@ var bustripResultPop = {
             if(p == 30){
                 alert("반려되었습니다.");
             }else{
-                alert("승인되었습니다..");
+                alert("승인되었습니다.");
             }
             opener.gridReload();
             window.close();

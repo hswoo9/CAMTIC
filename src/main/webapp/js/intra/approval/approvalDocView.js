@@ -225,7 +225,8 @@ var docView = {
             empSeq : docView.global.loginVO.uniqId,
         }
 
-        var result = customKendo.fn_customAjax("/approval/setDocApproveRouteReadDt", docView.global.searchAjaxData);
+        console.log("docView.global.searchAjaxData : " + JSON.stringify(docView.global.searchAjaxData));
+        var result = customKendo.fn_customAjax("/approval/setDocApproveRouteReadDt.do", docView.global.searchAjaxData);
 
         if(!result.flag){
             alert("시스템 오류가 발생했습니다.");
@@ -897,4 +898,20 @@ var docView = {
             $("#returnEmpName").val(docView.global.loginVO.name);
         }
     },
+}
+
+function fileImgTag(ext){
+    return "<img src=\'/images/ico/file_ico2/ico_file_" + ext + ".png\' width='20'>";
+}
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }

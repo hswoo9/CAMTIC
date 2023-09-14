@@ -7,10 +7,18 @@ var regPrj = {
 
 
     fn_defaultScript : function (setParameters) {
-        setParameters.pjtSn = setParameters.PJT_SN;
-        var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
+        if(setParameters != null && setParameters.PJT_SN != null){
+            setParameters.pjtSn = setParameters.PJT_SN;
+        }
 
+        console.log(setParameters);
+
+
+        var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
+        var devMap = customKendo.fn_customAjax("/project/engn/getDevData", setParameters);
         var delvMap = delvMap.delvMap;
+        var devMap = devMap.rs;
+
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
         }
@@ -20,6 +28,7 @@ var regPrj = {
         var tab2Url = "/intra/cam_project/estInfo.do";
         var tab3Url = "/intra/cam_project/delvInfo.do";
         var tab4Url = "/intra/cam_project/devInfo.do";
+        var tab5Url = "/intra/cam_project/processInfo.do";
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -27,7 +36,7 @@ var regPrj = {
             tab2Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
-
+            tab5Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -35,6 +44,7 @@ var regPrj = {
             tab2Url += "&engnSn=" + setParameters.ENGN_SN;
             tab3Url += "&engnSn=" + setParameters.ENGN_SN;
             tab4Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab5Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
 
@@ -45,6 +55,41 @@ var regPrj = {
                     effects: "fadeIn"
                 }
             },
+            select : function (e){
+                console.log($(e.item).attr("id").split("-")[2] - 1);
+                var tabName = $(e.item).find("> .k-link").text();
+                let step = "";
+                let stepColumn = "";
+                let nextStepColumn = "";
+                let stepValue = "";
+                let nextStepValue = "";
+
+                if(tabName == "업체정보"){
+                    step = "E0";
+                    stepColumn = "STEP1";
+                    nextStepColumn = "STEP2";
+                } else if (tabName == "견적관리"){
+                    step = "E1";
+                    stepColumn = "STEP2";
+                    nextStepColumn = "STEP3";
+                } else if (tabName == "수주보고"){
+                    step = "E2";
+                    stepColumn = "STEP3";
+                    nextStepColumn = "STEP4";
+                } else if (tabName == "개발계획"){
+                    step = "E3";
+                    stepColumn = "STEP4";
+                    nextStepColumn = "STEP5";
+                } else if (tabName == "공정"){
+                    step = "E4";
+                    stepColumn = "STEP5";
+                    nextStepColumn = "STEP6";
+                }
+
+                $("#step").val(step);
+                $("#stepColumn").val(stepColumn);
+                $("#nextStepColumn").val(nextStepColumn);
+            },
             dataTextField: "name",
             dataContentUrlField: "url",
             dataSource : [
@@ -53,33 +98,62 @@ var regPrj = {
                 {name: "견적관리", url: tab2Url},
                 {name: "수주보고", url: tab3Url},
                 {name: "개발계획", url: tab4Url},
-                {name: "공정", url: tab4Url},
-                {name: "납품", url: tab4Url},
-                {name: "결과보고", url: tab4Url},
-                {name: "원가보고", url: tab4Url},
+                {name: "공정", url: tab5Url},
+                // {name: "납품", url: "#"},
+                // {name: "결과보고", url: "#"},
+                // {name: "원가보고", url: "#"},
             ],
         });
 
-        var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
-        customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
-        var busnDDL = $("#busnClass").data("kendoDropDownList");
-        busnDDL.bind("change", regPrj.fn_busnDDLChange);
+        $("#busnLgClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "정부사업", value: "1" },
+                { text: "민간사업", value: "2" }
+            ],
+            index: 0,
+            change: function(){
+                var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+                if(this.value() == "1"){
+                    $("#busnClass").css("display", "");
 
-        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName"]);
+                    customKendo.fn_dropDownList("busnClass", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE");
+                }else if (this.value() == "2"){
+                    $("#busnClass").css("display", "");
+
+                    customKendo.fn_dropDownList("busnClass", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE");
+                } else {
+                    $("#busnClass").css("display", "none");
+                }
+                var busnDDL = $("#busnClass").data("kendoDropDownList");
+                busnDDL.bind("change", regPrj.fn_busnDDLChange);
+
+            }
+        })
+
+
+
+
+        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName", "pjtStopRs"]);
 
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
-
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
         tabStrip.disable(tabStrip.tabGroup.children());
 
-        if(setParameters.PJT_SN){
-            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-            tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-        }
+
 
         if(setParameters != null){
+
+            if(setParameters.PJT_SN){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+            }
+
             setParameters.ENGN_SN;
             regPrj.fn_setData(setParameters);
 
@@ -88,33 +162,39 @@ var regPrj = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
-            if(setParameters.PJT_STEP >= "E0"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+            if(setParameters.PJT_STOP != "Y"){
+                if(setParameters.PJT_STEP >= "E0"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                }
+
+                if(setParameters.PJT_STEP >= "E1"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                }
+
+                if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                }
+
+                if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
+                }
+
+                if(setParameters.PJT_STEP >= "E4"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                }
+
+                if(setParameters.PJT_STEP >= "E5"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
+                }
+
+                if(setParameters.PJT_STEP >= "E6"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                }
+            } else {
+                $("#modBtn").css("display", "none");
+                alert("중단사유 : " + setParameters.PJT_STOP_RS);
             }
 
-            if(setParameters.PJT_STEP >= "E1"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(3));
-            }
-
-            if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-            }
-
-            if(setParameters.PJT_STEP >= "E3"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(5));
-            }
-
-            if(setParameters.PJT_STEP >= "E4"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(6));
-            }
-
-            if(setParameters.PJT_STEP >= "E5"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(7));
-            }
-            
-            if(setParameters.PJT_STEP >= "E6"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
-            }
         }
 
 
@@ -190,8 +270,16 @@ var regPrj = {
     },
 
     fn_setData : function (p) {
-        var busnClass = $("#busnClass").data("kendoDropDownList")
-        busnClass.value(p.BUSN_CLASS);
+        var busnLgClass = $("#busnLgClass").data("kendoDropDownList");
+        var busnClass;
+
+        if(p.BUSN_CLASS == "D"){
+            busnLgClass.value(2);
+            busnLgClass.trigger("change");
+            busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.value(p.BUSN_CLASS);
+        }
+
         if(p.BUSN_CLASS == "D"){
             $("#vEngi").css("display", "");
             $("#commFileHtml").css("display", "");
@@ -199,7 +287,10 @@ var regPrj = {
             $("#vEngi").css("display", "none");
             $("#commFileHtml").css("display", "none");
         }
+
         busnClass.wrapper.hide();
+        busnLgClass.wrapper.hide();
+
         var pjtCode = "";
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
@@ -234,7 +325,37 @@ var regPrj = {
         return yyyy+'-'+mm+'-'+dd;
     },
 
+    fn_stopModal : function (){
+        if(!confirm("진행중인 프로젝트를 중단하시겠습니까?")){
+            return false;
+        }
 
+        $("#pjtStopModal").data("kendoWindow").open();
+
+    },
+
+    fn_stop : function(){
+
+
+
+
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+            pjtStopRs : $("#pjtStopRs").val()
+        }
+
+        $.ajax({
+            url : "/project/stopProject",
+            type : 'POST',
+            data : data,
+            dataType : "json",
+            success : function (rs){
+                window.location.reload();
+            }
+        })
+
+
+    }
 
 
 

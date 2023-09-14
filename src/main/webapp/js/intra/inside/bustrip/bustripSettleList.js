@@ -2,9 +2,13 @@ let personSum = 0;
 let corpSum = 0;
 let carSum = 0;
 let totalSum = 0;
-var now = new Date();
 
 var bustripSettleList = {
+    global: {
+        year: now.getFullYear(),
+        month: now.getMonth(),
+        afMonth: now.getMonth()+1
+    },
 
     init: function(){
         bustripSettleList.pageSet();
@@ -13,8 +17,8 @@ var bustripSettleList = {
 
     pageSet: function(){
         // customKendo.fn_datePicker("applyDt", 'year', "yyyy-MM", new Date());
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() + 1)));
+        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustripSettleList.global.year, bustripSettleList.global.month, 1));
+        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustripSettleList.global.year, bustripSettleList.global.afMonth, 0));
         /*fn_onlyDeptSetting();*/
         fn_deptSetting(2);
     },
@@ -178,7 +182,8 @@ var bustripSettleList = {
                 }, {
                     title: "법인차량",
                     template: function(row){
-                        return "<div style='text-align: right'>"+"0"+"</div>";
+                        corpSum  += Number(row.CAR_TOTAL);
+                        return "<div style='text-align: right'>"+fn_comma(row.CAR_TOTAL)+"</div>";
                     },
                     width: 50,
                     footerTemplate: function(){

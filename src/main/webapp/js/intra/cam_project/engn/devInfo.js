@@ -1,5 +1,7 @@
 var devInfo = {
-
+    global: {
+        devPjtVerList: []
+    },
 
     fn_defaultScript : function (){
 
@@ -7,6 +9,7 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
+        devInfo.global.devPjtVerList = rs;
 
         console.log(rs.list);
         var html = "";
@@ -39,13 +42,15 @@ var devInfo = {
                 pjtStepNm = "원가보고";
             }
 
+            var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
+            var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
             html += "<tr style='text-align: center'>";
             html += "   <td>Ver."+(i+1)+"</td>";
-            html += "   <td></td>";
+            html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td>0</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
-            html += "   <td>"+devInfo.comma(rs.list[i].INV_AMT)+"</td>";
+            html += "   <td>"+devInfo.comma(invAmt)+"</td>";
             html += "   <td>"+pjtStepNm+" 완료</td>";
             html += "</tr>";
         }
@@ -69,8 +74,8 @@ var devInfo = {
         customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
 
-        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc", "pjtCd",
-                                "crmNm", "pm", "estDe", "delvAmt", "invAmt", "invPer"]);
+        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc", "devPjtNm",
+                                "devCrmInfo", "pm", "estDe", "delvAmt", "invAmt", "invPer"]);
         $("#divNm").kendoDropDownList({
             dataSource : [
                 {text : "구매", value : "1"},
@@ -84,6 +89,27 @@ var devInfo = {
         });
 
         devInfo.fn_setData();
+
+        var rs = devInfo.global.devPjtVerList.list;
+        if(rs.length > 0){
+            var status = rs[0].STATUS;
+            var buttonHtml = "";
+            if(status == "0"){
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
+            }else if(status == "10"){
+                buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+rs[0].DOC_ID+"', '"+rs[0].DOC_MENU_CD+"', '"+rs[0].APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', '"+rs[0].DOC_MENU_CD+"');\">열람</button>";
+            } else {
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+            }
+            $("#btnDiv").html(buttonHtml);
+        }
     },
 
     fn_setData : function (){
@@ -245,6 +271,96 @@ var devInfo = {
                 }
             }
         })
+    },
+
+    fn_delRow : function(i){
+
+        if(!confirm("삭제하시겠습니까?")){
+            return ;
+        }
+
+        var data = {
+            psSn : $("#psSn" + i).val()
+        }
+
+        $.ajax({
+            url : "/project/delProcess",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success:function (rs){
+                if(rs.code == 200){
+                    $("#tr" + i).remove();
+
+                    $("#psTable > tr").each(function (idx){
+                        if(idx != 0){
+                            $(this).removeAttr("id");
+                            $(this).attr("id", "tr" + idx);
+
+                            $(this).children("td").first().html('<span style=\"position: relative; top:5px\">'+(idx)+'</span>');
+                            $(this).children("td").each(function(){
+                                $("#tr"+idx+" > td > span > input").each(function(){
+                                    $(this).removeAttr("id");
+                                    $(this).attr("id", $(this).attr("class").split(" ")[0] + idx);
+                                });
+                            });
+
+                            $(this).children("td").last().children("button").each(function(x){
+                                if(x == 0){
+                                    $(this).removeAttr("onclick");
+                                    $(this).attr("onclick", "es3.fn_psSave("+idx+")");
+                                } else if (x == 1){
+                                    $(this).removeAttr("onclick");
+                                    $(this).attr("onclick", "fn_userMultiSelectPop("+idx+")");
+                                } else {
+                                    $(this).removeAttr("onclick");
+                                    $(this).attr("onclick", "es3.fn_delRow("+idx+")");
+                                }
+                            });
+
+                            var updData = {
+                                psSn : $("#psSn" + idx).val(),
+                                psRow : idx,
+                                psPrep : $("#prepList"+idx).val(),
+                                psPrepNm : $("#prepList"+idx).data("kendoDropDownList").text(),
+                                psNm : $("#psNm"+idx).val(),
+                                psStrDe : $("#psStrDe"+idx).val(),
+                                psEndDe : $("#psEndDe"+idx).val(),
+                                psEmpSeq : $("#psEmpSeq"+idx).val(),
+                                psEmpNm : $("#psEmpNm"+idx).val()
+                            }
+
+                            $.ajax({
+                                url : "/project/updProcess",
+                                data : updData,
+                                type : "post",
+                                dataType : "json",
+                                success : function(rs){
+                                    console.log(rs);
+                                    if(rs.code == 200){
+
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    alert("삭제하였습니다.");
+
+                }
+            }
+        });
+    },
+
+    delvDrafting: function() {
+        $("#devDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/devApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/devApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
     fn_addProcess: function (){
