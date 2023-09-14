@@ -92,7 +92,7 @@ var regPrj = {
                     step = "E2";
                     stepColumn = "STEP3";
                     nextStepColumn = "STEP4";
-                } else if (tabName == "개발계획"){
+                } else if (tabName == "계획서"){
                     step = "E3";
                     stepColumn = "STEP4";
                     nextStepColumn = "STEP5";

@@ -168,12 +168,8 @@ var devInfo = {
 
                     $("#prepList" + idx).data("kendoDropDownList").value(list[i].PS_PREP);
                     $("#psNm" + idx).kendoTextBox();
-                    $("#psStrDe" + idx).kendoDatePicker({
-                        format : 'yyyy-MM-dd'
-                    });
-                    $("#psEndDe" + idx).kendoDatePicker({
-                        format : 'yyyy-MM-dd'
-                    });
+                    customKendo.fn_datePicker("psStrDe" + idx, "depth", "yyyy-MM-dd", new Date());
+                    customKendo.fn_datePicker("psEndDe" + idx, "depth", "yyyy-MM-dd", new Date());
                     $("#psEmpNm" + idx).kendoTextBox();
                     $("#psEmpNm" + idx).val(list[i].PS_EMP_NM);
                     $("#psEmpSeq" + idx).val(list[i].PS_EMP_SEQ);
@@ -437,8 +433,8 @@ var devInfo = {
 
         $("#prepList" + idx).data("kendoDropDownList").value($("#prepList").val());
         $("#psNm" + idx).kendoTextBox();
-        $("#psStrDe" + idx).kendoDatePicker();
-        $("#psEndDe" + idx).kendoDatePicker();
+        customKendo.fn_datePicker("psStrDe" + idx, "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("psEndDe" + idx, "depth", "yyyy-MM-dd", new Date());
         $("#psEmpNm" + idx).kendoTextBox();
 
         $("#psStrDe" + idx).val($("#psStrDe").val());
@@ -633,10 +629,8 @@ var devInfo = {
                         });
 
                         if(rs.code = 200){
-                            alert("저장되었습니다.")
                             $("#invAmt").val(devInfo.comma(totAmt));
 
-                            window.location.reload();
                         }
                     }
                 });
@@ -756,14 +750,18 @@ var devInfo = {
             data : data,
             type : "post",
             dataType : "json",
+            async : false,
             success : function (rs){
                 if(rs.code == 200){
                     opener.parent.camPrj.gridReload();
 
-                    window.location.reload();
+                    devInfo.fn_psSave();
                 }
             }
         });
+
+        alert("저장되었습니다.");
+
     },
 
     fn_psSave : function(row){
@@ -790,7 +788,8 @@ var devInfo = {
                     dataType : "json",
                     success : function (rs){
                         if(rs.code = 200){
-                            alert("저장되었습니다.")
+
+                            devInfo.fn_saveInv();
                         }
                     }
                 });
