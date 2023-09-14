@@ -74,6 +74,8 @@ public interface ProjectService {
 
     Map<String, Object> getDevelopPlan(Map<String, Object> params);
 
+    Map<String, Object> getPjtSnToDev(Map<String, Object> params);
+
     List<Map<String, Object>> getPsList(Map<String, Object> params);
 
     void insStep4(Map<String, Object> params);
@@ -86,6 +88,9 @@ public interface ProjectService {
 
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     void updateDelvDocState(Map<String, Object> bodyMap) throws Exception;
+
+    /** 개발계획서 결재 상태값에 따른 UPDATE 메서드 */
+    void updateDevDocState(Map<String, Object> bodyMap) throws Exception;
 
     Map<String, Object> getCrmInfo(Map<String, Object> params);
 

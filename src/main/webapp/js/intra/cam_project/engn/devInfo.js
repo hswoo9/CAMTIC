@@ -1,5 +1,7 @@
 var devInfo = {
-
+    global: {
+        devPjtVerList: []
+    },
 
     fn_defaultScript : function (){
 
@@ -7,6 +9,7 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
+        devInfo.global.devPjtVerList = rs;
 
         console.log(rs.list);
         var html = "";
@@ -84,6 +87,28 @@ var devInfo = {
         });
 
         devInfo.fn_setData();
+
+        var rs = devInfo.global.devPjtVerList.list;
+        if(rs.length > 0){
+            var status = rs[0].STATUS;
+            var buttonHtml = "";
+            if(status == "0"){
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
+            }else if(status == "10"){
+                buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+rs[0].DOC_ID+"', '"+rs[0].DOC_MENU_CD+"', '"+rs[0].APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', '"+rs[0].DOC_MENU_CD+"');\">열람</button>";
+            } else {
+                alert(23);
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"devInfo.fn_save()\">저장</button>";
+            }
+            $("#btnDiv").html(buttonHtml);
+        }
     },
 
     fn_setData : function (){
@@ -245,6 +270,18 @@ var devInfo = {
                 }
             }
         })
+    },
+
+    delvDrafting: function() {
+        $("#devDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/devApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/devApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
     fn_addProcess: function (){

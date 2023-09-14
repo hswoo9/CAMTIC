@@ -10,15 +10,15 @@
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
-<form id="delvDraftFrm" method="post">
+<form id="devDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="devSn" name="devSn" value="">
     <input type="hidden" id="menuCd" name="menuCd" value="dev">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
 
-<input type="hidden" id="devSn" name="devSn" value="">
 <input type="hidden" id="step" value="E3" />
 <input type="hidden" id="stepColumn" value="STEP4" />
 <input type="hidden" id="nextStepColumn" value="STEP5" />
@@ -28,7 +28,7 @@
 <div style="padding: 10px">
     <div class="table-responsive">
         <div id="btnDiv">
-            <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="devInfo.fn_save()">저장</button>
+            <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="devInfo.fn_save()">저장</button>--%>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>

@@ -179,6 +179,10 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getDevelopPlan", params);
     }
 
+    public Map<String, Object> getPjtSnToDev(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getPjtSnToDev", params);
+    }
+
     public List<Map<String, Object>> getPsList(Map<String, Object> params) {
         return selectList("project.getPsList", params);
     }
@@ -230,6 +234,13 @@ public class ProjectRepository extends AbstractDAO {
     public void updateDelvFinalApprStat(Map<String, Object> params) {
         update("project.updateProjectCode", params);
         update("project.updateDelvFinalApprStat", params);
+    }
+
+    public void updateDevApprStat(Map<String, Object> params) {
+        update("project.updateDevApprStat", params);
+    }
+    public void updateDevFinalApprStat(Map<String, Object> params) {
+        update("project.updateDevFinalApprStat", params);
     }
 
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
