@@ -228,6 +228,8 @@ var bustripResultPop = {
                             $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
                         }
 
+                        var personTot = 0;
+
                         oilCostTotal += Number(map[i].OIL_COST.replace(",", ""));
                         trafCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
                         trafDayTotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
@@ -242,62 +244,65 @@ var bustripResultPop = {
                         html += "<tr style='text-align: right'>";
                         html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
                         if(map[i].OIL_CORP_YN != "Y"){
+                            personTot += Number(map[i].OIL_COST.replace(",", ""));
                             html += "   <td>"+map[i].OIL_COST+"</td>";
                         }else{
                             oilCorpCostTotal += Number(map[i].OIL_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
                         if(map[i].TRAF_CORP_YN != "Y"){
+                            personTot += Number(map[i].TRAF_COST.replace(",", ""));
                             html += "   <td>"+map[i].TRAF_COST+"</td>";
                         }else{
                             trafCorpCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
-                        if(map[i].TRAF_CORP_YN != "Y"){
+                        if(map[i].TRAF_DAY_CORP_YN != "Y"){
+                            personTot += Number(map[i].TRAF_DAY_COST.replace(",", ""));
                             html += "   <td>"+map[i].TRAF_DAY_COST+"</td>"
                         }else{
                             trafDayCorpotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
                         if(map[i].TOLL_CORP_YN != "Y"){
+                            personTot += Number(map[i].TOLL_COST.replace(",", ""));
                             html += "   <td>"+map[i].TOLL_COST+"</td>";
                         }else{
                             tollCorpCostTotal += Number(map[i].TOLL_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
+                        personTot += Number(map[i].DAY_COST.replace(",", ""));
                         html += "   <td>"+map[i].DAY_COST+"</td>";
 
                         if(map[i].EAT_CORP_YN != "Y"){
+                            personTot += Number(map[i].EAT_COST.replace(",", ""));
                             html += "   <td>"+map[i].EAT_COST+"</td>";
                         }else{
                             eatCorpCostTotal += Number(map[i].EAT_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
                         if(map[i].PARKING_CORP_YN != "Y"){
+                            personTot += Number(map[i].PARKING_COST.replace(",", ""));
                             html += "   <td>"+map[i].PARKING_COST+"</td>";
                         }else{
                             parkingCorpCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
                         if(map[i].ETC_CORP_YN != "Y"){
+                            personTot += Number(map[i].ETC_COST.replace(",", ""));
                             html += "   <td>"+map[i].ETC_COST+"</td>";
                         }else{
                             etcCorpCostTotal += Number(map[i].ETC_COST.replace(",", ""));
-                            html += "   <td></td>";
+                            html += "   <td>0</td>";
                         }
 
-                        if(map[i].TOLL_CORP_YN != "Y"){
-                            html += "   <td>"+map[i].TOT_COST+"</td>";
-                        }else{
-                            totalCorpCostTotal += Number(map[i].TOT_COST.replace(",", ""));
-                            html += "   <td></td>";
-                        }
+                        html += "   <td>"+fn_numberWithCommas(personTot)+"</td>";
 
 
                         html += "</tr>";
