@@ -162,4 +162,8 @@ public class BustripRepository extends AbstractDAO {
     public List<Map<String, Object>> getBustripSettleList(Map<String, Object> params) {
         return selectList("bustrip.getBustripSettleList", params);
     }
+
+    public List<Map<String, Object>> setBustripFileNum(Map<String, Object> params) {
+        return selectList("bustrip.setBustripFileNum", params);
+    }
 }
