@@ -903,9 +903,9 @@
 
     <update id="setBustripFileNum" parameterType="map">
         /* setBustripFileNum */
-        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        UPDATE CAM_COMMON.DJ_FILE_INFO
         SET
-            PJT_SN = #{pjtSn}
+            DOC_ID = #{docId}
         WHERE
             CONTENT_ID = #{hrBizReqId}
         AND FILE_CD = 'bustripReq'
