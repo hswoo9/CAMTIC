@@ -192,7 +192,7 @@ var recruitAdminPop = {
             if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
                 alert("http://localhost:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
             }else if(location.host.indexOf("218.158.231.186") > -1){
-                alert("http://218.158.231.186:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
+                alert("http://218.158.231.186:8080/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
             }
         }
     },
