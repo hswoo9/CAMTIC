@@ -282,7 +282,8 @@
             END IN_AVOID2,
             CASE WHEN AM.IN_AVOID = 'Y' THEN '불참'
                 ELSE ''
-            END IN_AVOID
+            END IN_AVOID,
+            AM.PRELIMINARY_PASS
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN (
@@ -435,6 +436,18 @@
         AND
             AM.APPLICATION_STAT = 'D'
     </select>
+
+    <update id="setPrePassAppl" parameterType="map">
+        /* setPrePassAppl */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            PRELIMINARY_PASS = #{preliminaryPass},
+            MOD_ID = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            APPLICATION_ID = #{applicationId}
+    </update>
 </mapper>
 
 

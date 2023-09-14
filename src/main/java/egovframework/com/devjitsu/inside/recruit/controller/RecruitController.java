@@ -289,6 +289,17 @@ public class RecruitController {
     }
 
     /**
+     * 채용공고관리 응시원서 예비합격자 선정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setPrePassAppl.do")
+    public String setPrePassAppl(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        recruitService.setPrePassAppl(params);
+        return "jsonView";
+    }
+
+    /**
      * 평가위원관리 페이지
      * @param request
      * @param model

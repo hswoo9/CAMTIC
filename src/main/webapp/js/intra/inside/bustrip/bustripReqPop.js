@@ -35,22 +35,58 @@ const bustripReq = {
                 $("#carLine").css("display", "");
             }
         })
-        let projectDataSource = [
-            { text: "해당없음", value: "0" },
-            { text: "연구개발", value: "1" },
-            { text: "개발사업", value: "2" },
-            { text: "교육사업", value: "3" },
-            { text: "일자리사업", value: "4" },
-            { text: "지원사업", value: "5" },
-            { text: "평생학습", value: "6" },
-            { text: "캠스타트업", value: "7" }
-        ]
-        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 2);
-        $("#project").data("kendoDropDownList").bind("change", function(){
-            if($("#project").val() == 0 || $("#project").val() == ""){
-                $("#busnLine").css("display", "none");
-            } else {
-                $("#busnLine").css("display", "");
+        // let projectDataSource = [
+        //     { text: "해당없음", value: "0" },
+        //     { text: "연구개발", value: "1" },
+        //     { text: "개발사업", value: "2" },
+        //     { text: "교육사업", value: "3" },
+        //     { text: "일자리사업", value: "4" },
+        //     { text: "지원사업", value: "5" },
+        //     { text: "평생학습", value: "6" },
+        //     { text: "캠스타트업", value: "7" }
+        // ]
+        // customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 2);
+        // $("#project").data("kendoDropDownList").bind("change", function(){
+        //     if($("#project").val() == 0 || $("#project").val() == ""){
+        //         $("#busnLine").css("display", "none");
+        //     } else {
+        //         $("#busnLine").css("display", "");
+        //     }
+        // })
+        var bcDsData = {
+            cmGroupCode : "BUSN_CLASS",
+        }
+        $("#busnLgClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "정부사업", value: "1" },
+                { text: "민간사업", value: "2" }
+            ],
+            index: 0,
+            change: function(){
+                var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+                if(this.value() == "1"){
+                    $("#project").css("display", "");
+
+                    customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
+                }else if (this.value() == "2"){
+                    $("#project").css("display", "");
+
+                    customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
+                } else {
+                    $("#project").data("kendoDropDownList").wrapper.hide();
+                    $("#busnLine").css("display", "none");
+                }
+
+                $("#project").data("kendoDropDownList").bind("change", function(){
+                    if($("#project").val() == 0 || $("#project").val() == ""){
+                        $("#busnLine").css("display", "none");
+                    } else {
+                        $("#busnLine").css("display", "");
+                    }
+                });
             }
         })
         const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;

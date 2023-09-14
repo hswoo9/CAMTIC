@@ -129,4 +129,9 @@ public class RecruitServiceImpl implements RecruitService {
         List<Map<String, Object>> inTimeArr = gson.fromJson((String) params.get("inTimeArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
         recruitRepository.setApplicationInTime(inTimeArr);
     }
+
+    @Override
+    public void setPrePassAppl(Map<String, Object> params) {
+        recruitRepository.setPrePassAppl(params);
+    }
 }

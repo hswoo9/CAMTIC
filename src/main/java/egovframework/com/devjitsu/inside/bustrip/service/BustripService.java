@@ -67,4 +67,6 @@ public interface BustripService {
     List<Map<String, Object>> getPopBustripList(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripSettleList(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params);
 }

@@ -106,6 +106,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params) {
+        return bustripRepository.getBustripReqFileInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
         return bustripRepository.getBustripExnpInfo(params);
     }
@@ -190,6 +195,7 @@ public class BustripServiceImpl implements BustripService {
 
         if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
             bustripRepository.updateResApprStat(params);
+            Map<String, Object> map = bustripRepository.getBustripResultInfoR(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             bustripRepository.updateResApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결

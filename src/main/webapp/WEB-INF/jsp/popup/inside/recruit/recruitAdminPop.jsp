@@ -91,6 +91,9 @@
       </div>
 
       <div id="docPassBtnDiv" style="text-align: right">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="">
+          <span>서류심사 URL 생성</span>
+        </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="docPass" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
           <span>서류심사 합격</span>
         </button>
@@ -100,14 +103,17 @@
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="docPassCancel" value="S" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
           <span>서류심사 합격취소</span>
         </button>
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"onclick="recruitAdminPop.inTimeSetPop()">
+          <span>면접정보 설정</span>
+        </button>
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inUrl" onclick="">
+          <span>면접심사 URL 생성</span>
+        </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
           <span>면접심사 합격</span>
         </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inAvoid" value="I" onclick="recruitAdminPop.setInAvoidUpd()">
           <span>면접불참</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"onclick="recruitAdminPop.inTimeSetPop()">
-          <span>면접정보 설정</span>
         </button>
       </div>
 
