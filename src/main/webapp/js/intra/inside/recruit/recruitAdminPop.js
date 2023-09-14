@@ -98,7 +98,11 @@ var recruitAdminPop = {
                     field: "DUPLICATION_CNT",
                     title: "중복지원",
                     template : function(e){
-                        return e.DUPLICATION_CNT + "건"
+                        if(e.DUPLICATION_CNT == "0"){
+                            return e.DUPLICATION_CNT + "건"
+                        }else{
+                            return '<a onclick="recruitAdminPop.duplicationCntPop(this)">' + e.DUPLICATION_CNT + "건</a>"
+                        }
                     },
                     width : 80
                 }, {
@@ -261,6 +265,15 @@ var recruitAdminPop = {
         var url = "";
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        //var popup = window.open(url, name, option);
+    },
+
+    duplicationCntPop : function(e){
+        var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+
+        var url = "/inside/pop/duplicationPop.do?userName=" + dataItem.USER_NAME + "&userEmail=" + dataItem.USER_EMAIL + "&notRecruitInfoSn=" + dataItem.RECRUIT_INFO_SN;
+        var name = "duplicationCntPop";
+        var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 }

@@ -107,6 +107,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public List<Map<String, Object>> getUserDuplicationList(Map<String, Object> params) {
+        return recruitRepository.getUserDuplicationList(params);
+    }
+
+    @Override
     public void setApplicationUpd(Map<String, Object> params) {
         recruitRepository.setApplicationUpd(params);
     }

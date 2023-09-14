@@ -164,6 +164,37 @@ public class RecruitController {
     }
 
     /**
+     * 채용공고 응시자 중복지원 리스트 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/duplicationPop.do")
+    public String duplicationPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/recruit/duplicationPop";
+    }
+
+    /**
+     * 중복지원 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getUserDuplicationList.do")
+    public String getUserDuplicationList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", recruitService.getUserDuplicationList(params));
+        return "jsonView";
+    }
+
+    /**
      * 응시원서 상태 업데이트
      * @param params
      * @param model
