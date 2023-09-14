@@ -190,6 +190,14 @@
             )
     </insert>
 
+    <update id="updBustripResCompanion" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        SET
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
     <insert id="insBustripResCompanion" parameterType="map">
         /* insBustripResCompanion */
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_COMPANION
@@ -916,6 +924,23 @@
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </delete>
+
+    <delete id="delExnpData" parameterType="map">
+        /* bustrip.setReqCert */
+        DELETE FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </delete>
+
+    <select id="findCompanionKey" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
 </mapper>
 
 

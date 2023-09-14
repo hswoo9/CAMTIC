@@ -145,6 +145,10 @@ public class BustripRepository extends AbstractDAO {
 
     public void setReqCert(Map<String, Object> params) {
         update("bustrip.setReqCert", params);
+
+        if(params.get("status") == "30" || "30".equals(params.get("status"))){
+            delete("bustrip.delExnpData", params);
+        }
     }
 
     public List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params) {
@@ -169,5 +173,13 @@ public class BustripRepository extends AbstractDAO {
 
     public void delBustripCompanion(Map<String, Object> params) {
         delete("bustrip.delBustripCompanion", params);
+    }
+
+    public int findCompanionKey(Map<String, Object> params) {
+        return (int) selectOne("bustrip.findCompanionKey", params);
+    }
+
+    public void updBustripResCompanion(Map<String, Object> params) {
+        update("bustrip.updBustripResCompanion", params);
     }
 }
