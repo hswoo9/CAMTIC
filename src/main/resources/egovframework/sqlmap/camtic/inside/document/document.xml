@@ -919,11 +919,14 @@
             EFFECTIVE_DT = #{effectiveDt},
             SHIPMENT_DT = #{shipmentDt},
             REMARK_CN = #{remarkCn},
-            USER_SN = #{userSn},
-            USER_TEXT = #{userText}
+            USER_SN = CASE WHEN DEPT_PART_TYPE != 6 THEN NULL ELSE #{userSn} END,
+            USER_TEXT = CASE WHEN DEPT_PART_TYPE != 6 THEN NULL ELSE #{userText} END
         WHERE
             DOCUMENT_SN = #{documentSn}
     </update>
+
+
+
 
 
 
