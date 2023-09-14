@@ -98,7 +98,10 @@
         SELECT
             *
         FROM
-            CAM_INSIDE.DJ_APPLICATION_MAIN
+            CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        JOIN
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO RAI
+        ON AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN
         WHERE
             APPLICATION_ID = #{applicationId}
     </select>

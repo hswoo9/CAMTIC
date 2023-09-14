@@ -30,7 +30,13 @@
           <col style="width: 20%">
         </colgroup>
         <tr>
-          <th>구분</th>
+          <th>공고명</th>
+          <td>
+            <span id="recruitTitle" name="recruitTitle"></span>
+          </td>
+        </tr>
+        <tr>
+          <th>채용구분</th>
           <td>
             <input type="text" id="recruitAreaInfoSn" name="recruitAreaInfoSn"/>
           </td>

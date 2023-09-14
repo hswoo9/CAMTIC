@@ -55,7 +55,6 @@ var evalLogin = {
 
         var chk = customKendo.fn_customAjax("/evaluation/evalChk.do", data);
         if(chk.flag){
-            console.log(chk);
             if(chk.rs.code == "999"){
                 alert("등록되지 않은 사용자입니다.");
                 return;
@@ -67,9 +66,9 @@ var evalLogin = {
                     return;
                 }else{
                     if($("#evalType").val() == "doc"){
-                        location.href = "/evaluation/evalDocScreen.do?recruitInfoSn=" + $("#recruitInfoSn").val()
+                        location.href = "/evaluation/evalDocScreen.do?recruitInfoSn=" + $("#recruitInfoSn").val();
                     }else{
-
+                        location.href = "/evaluation/evalInApplicationList.do?recruitInfoSn=" + $("#recruitInfoSn").val();
                     }
                 }
             }

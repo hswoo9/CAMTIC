@@ -38,6 +38,9 @@ public class EvalController {
     private EvalManageService evalManageService;
 
     @Autowired
+    private ApplicationService applicationService;
+
+    @Autowired
     private RecruitService recruitService;
 
     @Autowired
@@ -63,6 +66,7 @@ public class EvalController {
         String inputLoginId = params.get("userId").toString() + params.get("userIdSub1").toString() + params.get("userIdSub2").toString();
         Boolean completeKeyFlag = false;
         params.put("uniqId", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
+        params.put("userId", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
         params.put("userPassword", AESCipher.AES128SCRIPT_Decode(params.get("userPassword").toString(), completeKeyFlag));
 
         Map<String, Object> userMap = new HashMap<>();
@@ -78,7 +82,8 @@ public class EvalController {
                 userMap.put("recruitInfoSn", params.get("recruitInfoSn"));
                 chkMap = evalManageService.setEvalSelectionEmpSeq(userMap);
             }else if(params.get("evalType").equals("in")){
-
+                chkMap = (Map<String, Object>) userMap.get("eval");
+                chkMap.put("flag", userMap.get("flag"));
             }
 
             if(!checkPassword(chkMap, params)){
@@ -90,7 +95,6 @@ public class EvalController {
                 if(Boolean.parseBoolean(chkMap.get("flag").toString())){
                     session.setAttribute("eval", chkMap);
                 }
-
             }
         }else{
             returnMap.put("code", "999");
@@ -108,6 +112,27 @@ public class EvalController {
     public String evalDocScreen(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("params", params);
         return "popup/inside/evaluation/evalDocScreen";
+    }
+
+
+    /**
+     * 면접심사 평가 대기 지원자 리스트 페이지
+     */
+    @RequestMapping("/evaluation/evalInApplicationList.do")
+    public String evalInApplicationList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evalInApplicationList";
+    }
+
+    /**
+     * 면접심사 평가페이지
+     */
+    @RequestMapping("/evaluation/evalInScreen.do")
+    public String evalInScreen(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("recruit", recruitService.getRecruit(params));
+        model.addAttribute("application", applicationService.getApplicationForm1(params));
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evalInScreen";
     }
 
     /**

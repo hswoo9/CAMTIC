@@ -30,7 +30,7 @@
         /* getRecruit */
         SELECT
             RI.*,
-            RES.RECRUIT_EVAL_SHEET_ID
+            RES.INTERVIEW_EVAL_SHEET
         FROM
             CAM_INSIDE.DJ_RECRUIT_INFO RI
         LEFT JOIN
@@ -273,6 +273,7 @@
                 ELSE '여자'
             END AS GENDER,
             DAS.SCHOOL_NAME,
+            GROUP_CONCAT(AC.WORK_ST_DT, '~', AC.WORK_EN_DT SEPARATOR '|') AS WORK_DATE,
             REPLACE(SUBSTRING_INDEX(REPLACE(AM.ADDR, ' ', '_'), '_', 2), '_', ' ') AS ADDR,
             GROUP_CONCAT(LA.LANG_NAME SEPARATOR ', ') AS LANG_NAME,
             AI.JOB,
@@ -292,8 +293,26 @@
                     APPLICATION_ID = AM.APPLICATION_ID
                 AND
                     EVAL_ITEM_ID != 'otherRmk'
+                AND
+                    EVAL_SCREEN_TYPE = 'doc'
                 GROUP BY APPLICATION_ID
             ) AS DOC_SCREEN_AVERAGE,
+            (
+                SELECT
+                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+                FROM
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+                LEFT JOIN
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
+                ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+                WHERE
+                    APPLICATION_ID = AM.APPLICATION_ID
+                AND
+                    EVAL_ITEM_ID != 'opinion'
+                AND
+                    EVAL_SCREEN_TYPE = 'in'
+                GROUP BY APPLICATION_ID
+            ) AS IN_SCREEN_AVERAGE,
             CASE WHEN AM.IN_AVOID = 'Y' THEN '불참'
                 ELSE ''
             END IN_AVOID,
@@ -329,6 +348,9 @@
         LEFT JOIN
             CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY LA
         ON AM.APPLICATION_ID = LA.APPLICATION_ID
+        LEFT JOIN
+            CAM_INSIDE.DJ_APPLICATION_CAREER AC
+        ON AM.APPLICATION_ID = AC.APPLICATION_ID
         JOIN
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
@@ -359,15 +381,31 @@
                     TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
                 FROM
                     CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
-                        JOIN
+                JOIN
                     CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
-                    ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+                ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
                 WHERE
                     APPLICATION_ID = AM.APPLICATION_ID
                 AND
                     EVAL_ITEM_ID != 'otherRmk'
                 GROUP BY APPLICATION_ID
-            ) AS DOC_SCREEN_AVERAGE
+            ) AS DOC_SCREEN_AVERAGE,
+            (
+                SELECT
+                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+                FROM
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+                    LEFT JOIN
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
+                ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+                WHERE
+                    APPLICATION_ID = AM.APPLICATION_ID
+                AND
+                    EVAL_ITEM_ID != 'opinion'
+                AND
+                    EVAL_SCREEN_TYPE = 'in'
+                GROUP BY APPLICATION_ID
+            ) AS IN_SCREEN_AVERAGE
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
@@ -387,6 +425,7 @@
             CAM_INSIDE.DJ_APPLICATION_MAIN
         SET
             APPLICATION_STAT = #{applicationStat},
+            IN_AVOID = 'N',
             MOD_ID = #{empSeq},
             MOD_DATE = NOW()
         WHERE
@@ -449,8 +488,12 @@
                 ')'
             ) AS AGE_GENDER,
             DAS.SCHOOL_NAME,
+            GROUP_CONCAT(AC.WORK_ST_DT, '~', AC.WORK_EN_DT SEPARATOR '|') AS WORK_DATE,
             REPLACE(SUBSTRING_INDEX(REPLACE(AM.ADDR, ' ', '_'), '_', 2), '_', ' ') AS ADDR,
             IT.RMK
+            <if test='evalType != null and !"".equals(evalType) and "in".equals(evalType)'>
+            ,(SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE EVAL_LOGIN_ID = #{evalLoginId} AND AM.APPLICATION_ID = APPLICATION_ID) AS INSCREEN_YN
+            </if>
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
@@ -483,12 +526,18 @@
         )DAS
         ON AM.APPLICATION_ID = DAS.APPLICATION_ID
         LEFT JOIN
+            CAM_INSIDE.DJ_APPLICATION_CAREER AC
+        ON AM.APPLICATION_ID = AC.APPLICATION_ID
+        LEFT JOIN
             CAM_INSIDE.DJ_APPLICATION_IN_TIME IT
         ON AM.APPLICATION_ID = IT.APPLICATION_ID
         WHERE
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         AND
             AM.APPLICATION_STAT = 'D'
+        AND
+            AM.IN_AVOID = 'N'
+        GROUP BY AM.APPLICATION_ID
     </select>
 
     <update id="setPrePassAppl" parameterType="map">

@@ -16,6 +16,7 @@ var evalDocScreen = {
 
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", evalDocScreen.global.saveAjaxData);
         if(result.flag){
+            $("#recruitTitle").text(result.recruit.RECRUIT_TITLE);
             customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "AREA_TITLE", "RECRUIT_AREA_INFO_SN", "2")
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", evalDocScreen.getApplicationList);
         }
@@ -198,6 +199,8 @@ var evalDocScreen = {
             evalDocScreen.global.saveAjaxData = {
                 evalLoginId : $("#evalLoginId").val(),
                 recruitInfoSn : $("#recruitInfoSn").val(),
+                applicationStat : "S",
+                evalScreenType : "doc"
             }
             var result = customKendo.fn_customAjax("/evaluation/setEvalEnd.do", evalDocScreen.global.saveAjaxData)
             if(result.flag){

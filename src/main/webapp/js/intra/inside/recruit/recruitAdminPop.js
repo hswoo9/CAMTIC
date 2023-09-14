@@ -10,7 +10,7 @@ var recruitAdminPop = {
         $("div.circle").click(function(){
             $("div.circle").removeClass("active");
             $(this).addClass("active");
-
+            $("#checkAll").prop("checked", false);
             $("#docPassBtnDiv").hide();
             $("#inPassBtnDiv").hide();
             $("#fPassBtnDiv").hide();
@@ -76,9 +76,16 @@ var recruitAdminPop = {
                     field: "SCHOOL_NAME",
                     title: "최종학력"
                 }, {
-                    field: "",
+                    field: "WORK_DATE",
                     title: "경력",
-                    width : 120
+                    width : 120,
+                    template : function(e){
+                        if(e.WORK_DATE != null){
+                            return recruitAdminPop.fn_calculate(e.WORK_DATE);
+                        }else{
+                            return "";
+                        }
+                    }
                 }, {
                     field: "ADDR",
                     title: "지역",
@@ -117,13 +124,20 @@ var recruitAdminPop = {
                         }
                     }
                 }, {
-                    field: "IN_AVOID",
-                    title: "면접불참",
+                    field: "IN_SCREEN_AVERAGE",
+                    title: "면접심사",
                     width : 80,
                     hidden : true,
+                    template : function(e){
+                        if(e.IN_SCREEN_AVERAGE != null){
+                            return e.IN_SCREEN_AVERAGE + "점";
+                        }else{
+                            return "심사전";
+                        }
+                    }
                 }, {
                     field: "IN_AVOID",
-                    title: "면접심사",
+                    title: "면접불참",
                     width : 80,
                     hidden : true,
                 }, {
@@ -146,11 +160,17 @@ var recruitAdminPop = {
         if($("div.circle.active").attr("searchType") == "D"){
             $("#mainGrid").data("kendoGrid").showColumn(12);
             $("#mainGrid").data("kendoGrid").showColumn(13);
-        }else if($("div.circle.active").attr("searchType") == "I"){
-            $("#mainGrid").data("kendoGrid").hideColumn(13);
             $("#mainGrid").data("kendoGrid").showColumn(14);
+        }else if($("div.circle.active").attr("searchType") == "I"){
+            $("#mainGrid").data("kendoGrid").showColumn(13);
+            $("#mainGrid").data("kendoGrid").hideColumn(14);
             $("#mainGrid").data("kendoGrid").showColumn(15);
         }
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=aplChk]").prop("checked", true);
+            else $("input[name=aplChk]").prop("checked", false);
+        });
     },
 
     gridReload : function() {
@@ -170,9 +190,9 @@ var recruitAdminPop = {
             var popup = window.open(url, name, option);
         }else{
             if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
-                alert("http://localhost:9090/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+                alert("http://localhost:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
             }else if(location.host.indexOf("218.158.231.186") > -1){
-                alert("http://218.158.231.186:8080/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+                alert("http://218.158.231.186:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
             }
         }
     },
@@ -200,6 +220,7 @@ var recruitAdminPop = {
                 applicationStat : sts,
                 empSeq : $("#empSeq").val(),
                 applicationId : applicationId.substring(1),
+
             }
             var result = customKendo.fn_customAjax("/inside/setApplicationUpd.do", data);
             if(result.flag){
@@ -276,4 +297,44 @@ var recruitAdminPop = {
         var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
+
+    fn_calculate : function(e) {
+        var ret_month = 0;
+        ret_month = recruitAdminPop.fn_chk_month(e);
+
+        return Math.floor(ret_month / 12) + "년" + parseInt(ret_month % 12) + "개월"
+    },
+
+    fn_chk_month : function(e) {
+        var workDate = e.split("|");
+
+        var ret_month = 0;
+        var st_year, st_month, ed_year, ed_month, bf_year, bf_month;
+        var bool = true;
+
+
+        for(var i = 0; i < workDate.length; i++){
+            var stDt = workDate[i].split("~")[0];
+            var enDt = workDate[i].split("~")[1];
+            /** 시작 */
+            st_year = parseInt(stDt.split("-")[0]);
+            st_month = parseInt(stDt.split("-")[1]);
+            /** 종료 */
+            ed_year = parseInt(enDt.split("-")[0]);
+            ed_month = parseInt(enDt.split("-")[1]);
+
+            ret_month += ((ed_year - st_year) * 12 + (ed_month - st_month));
+
+            if (ret_month < 0) {
+                alert('기간선택이 잘못되었습니다.');
+                bool = false;
+                return false;
+            }
+
+            bf_year = ed_year;
+            bf_month = ed_month;
+        }
+
+        return ret_month;
+    }
 }

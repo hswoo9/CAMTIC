@@ -36,20 +36,29 @@ public class EvalServiceImpl implements EvalService {
         Map<String, Object> eval = evalRepository.getEvalLogin(params);
         if(eval != null){
             if(eval.get("EVAL_STATUS").equals("P")){
-                returnMap.put("eval", eval);
                 flag = true;
             }else{
                 returnMap.put("message", "심사평가 종료된 평가위원입니다.");
             }
         }
+
+        returnMap.put("eval", eval);
         returnMap.put("flag", flag);
 
         return returnMap;
     }
 
     @Override
-    public List<Map<String, Object>> getApplicationScoreBoard(Map<String, Object> params) {
-        return evalRepository.getApplicationScoreBoard(params);
+    public Map<String, Object> getApplicationScoreBoard(Map<String, Object> params) {
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("evalScoreBoard", evalRepository.getApplicationScoreBoard(params));
+
+        if(params.get("evalScreenType").equals("in")){
+            returnMap.putAll(evalRepository.getInEvalItemMain(params));
+            returnMap.put("itemList", evalRepository.getInEvalItem(params));
+        }
+
+        return returnMap;
     }
 
     @Override

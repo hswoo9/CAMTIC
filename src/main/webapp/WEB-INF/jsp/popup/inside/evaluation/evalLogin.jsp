@@ -33,9 +33,18 @@
 
 
       <table class="searchTable table table-bordered mb-0">
-        <colgroup>
-          <col style="width: 20%">
-        </colgroup>
+        <c:choose>
+          <c:when test="${params.type eq 'doc'}">
+            <colgroup>
+              <col style="width: 20%">
+            </colgroup>
+          </c:when>
+          <c:otherwise>
+            <colgroup>
+              <col style="width: 10%">
+            </colgroup>
+          </c:otherwise>
+        </c:choose>
         <tr>
           <th>공고명</th>
           <td>
@@ -45,9 +54,18 @@
       </table>
 
       <table class="searchTable table table-bordered mb-0 mt-20">
-        <colgroup>
-          <col style="width: 20%">
-        </colgroup>
+        <c:choose>
+          <c:when test="${params.type eq 'doc'}">
+            <colgroup>
+              <col style="width: 20%">
+            </colgroup>
+          </c:when>
+          <c:otherwise>
+            <colgroup>
+              <col style="width: 10%">
+            </colgroup>
+          </c:otherwise>
+        </c:choose>
         <tr>
           <th>아이디</th>
           <td>
