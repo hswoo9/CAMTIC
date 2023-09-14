@@ -60,7 +60,7 @@ const bustripReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "선택", value: "" },
+                { text: "해당없음", value: "" },
                 { text: "정부사업", value: "1" },
                 { text: "민간사업", value: "2" }
             ],
@@ -279,7 +279,7 @@ const bustripReq = {
 
     fn_saveBtn: function(){
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
+        if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
