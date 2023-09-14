@@ -874,8 +874,7 @@
         /*등록대장, 접수대장 임시 삭제*/
         UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
         SET DEL_STS = 10
-        WHERE DOCUMENT_SN = #{DOCUMEN
-        T_SN}
+        WHERE DOCUMENT_SN = #{DOCUMENT_SN}
     </update>
 
     <update id="delCancelDocumentList" parameterType="map">
