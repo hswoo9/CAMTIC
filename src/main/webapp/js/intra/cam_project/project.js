@@ -276,7 +276,9 @@ var camPrj = {
                     width: "5%",
                     template: function(e){
                         var pjtStepNm = "상담";
-                        if(e.PJT_STEP == "E0"){
+                        if(e.PJT_STOP == "Y"){
+                            pjtStepNm = "미수주";
+                        } else if(e.PJT_STEP == "E0"){
                             pjtStepNm = "상담";
                         } else if(e.PJT_STEP == "E1"){
                             pjtStepNm = "견적";
