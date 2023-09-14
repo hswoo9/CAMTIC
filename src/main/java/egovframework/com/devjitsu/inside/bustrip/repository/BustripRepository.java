@@ -166,4 +166,8 @@ public class BustripRepository extends AbstractDAO {
     public List<Map<String, Object>> setBustripFileNum(Map<String, Object> params) {
         return selectList("bustrip.setBustripFileNum", params);
     }
+
+    public void delBustripCompanion(Map<String, Object> params) {
+        delete("bustrip.delBustripCompanion", params);
+    }
 }

@@ -42,6 +42,7 @@ public class BustripServiceImpl implements BustripService {
 
         if(params.containsKey("hrBizReqId")){
             bustripRepository.updBustripReq(params);
+            bustripRepository.delBustripCompanion(params);
         } else {
             bustripRepository.insBustripReq(params);
         }

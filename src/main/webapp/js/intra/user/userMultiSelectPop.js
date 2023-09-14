@@ -179,6 +179,26 @@ var userMultiSel = {
         $("#approvalLineDataTb tbody tr").remove();
     },
 
+    rowDblClick : function(e){
+        $(e).remove();
+
+        $.each($("#approvalLineDataTb tbody tr"), function(i, e){
+            $(e).find("#approveOrder").text(i+1);
+        })
+    },
+
+    rowsel : function(e){
+        // $(".apprLineTr").removeClass("active");
+        // $(e).addClass("active");
+        if($(e).is(":checked")){
+            $(e).prop("checked", false);
+            $(e).closest("tr").removeClass("active");
+        }else{
+            $(e).closest("tr").addClass("active");
+            $(e).prop("checked", true);
+        }
+    },
+
     addTable : function(e, mode) {
         if($("#type").val() == "bustrip"){
             if(e == $("#empSeq").val()){
@@ -207,7 +227,7 @@ var userMultiSel = {
 
                     if(flag){
                         if(result != null){
-                            htmlStr += "<tr ondblclick='appUser.rowDblClick(this)' onclick='appUser.rowsel(this)' style='cursor:pointer' class='apprLineTr newApprLine'>" +
+                            htmlStr += "<tr ondblclick='userMultiSel.rowDblClick(this)' onclick='userMultiSel.rowsel(this)' style='cursor:pointer' class='apprLineTr newApprLine'>" +
                                 "		<td>" +
                                 "			<input type='hidden' id='approveEmpSeq' name='approveEmpSeq' value='"+result.EMP_SEQ+"'>" +
                                 "			<input type='hidden' id='approveEmpName' name='approveEmpName' value='"+result.EMP_NAME_KR+"'>" +
