@@ -165,9 +165,7 @@ var userMultiSel = {
     gridChoose : function (e) {
         var tr = $(e).closest("tr");
         var row = $('#userList').data("kendoGrid").dataItem(tr);
-        console.log(row);
-        console.log(row.EMP_NAME_KR);
-        console.log(row.EMP_SEQ);
+
         opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
         opener.parent.$("#userName").val(row.EMP_NAME_KR);
         //emp_seq, dept_seq, dept_name

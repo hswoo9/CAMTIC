@@ -17,6 +17,25 @@ var camPrj = {
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
         customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
+
+        $("#busnSubClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "예상수주", value: "E" },
+                { text: "미수주", value: "Y" },
+                { text: "견적관리", value: "E1" },
+                { text: "수주보고", value: "E2" },
+                { text: "개발계획", value: "E3" },
+                { text: "공정", value: "E4" },
+                { text: "납품", value: "E5" },
+                { text: "결과보고", value: "E6" },
+                { text: "원가보고", value: "E7" }
+            ],
+            index: 0
+        });
+
         $("#consultDt").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -55,6 +74,7 @@ var camPrj = {
 
         var parameters = {
             busnClass : $("#busnClass").val(),
+            busnSubClass : $("#busnSubClass").val(),
             consultDt : $("#consultDt").val(),
             searchValue : $("#searchValue").val(),
             searchValue2 : $("#searchValue2").val(),
@@ -69,7 +89,18 @@ var camPrj = {
 
     gridReload : function (){
         $(".container").css("display", "none");
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+        var parameters = {
+            busnClass : $("#busnClass").val(),
+            busnSubClass : $("#busnSubClass").val(),
+            consultDt : $("#consultDt").val(),
+            searchValue : $("#searchValue").val(),
+            searchValue2 : $("#searchValue2").val(),
+            searchText : $("#searchText").val(),
+            deptSeq : $("#deptSeq").val(),
+            myEmpSeq : $("#myEmpSeq").val(),
+            myDeptSeq : $("#myDeptSeq").val()
+        }
+        camPrj.mainGrid("/project/getProjectList", parameters);
     },
 
     mainGrid: function (url, parameters){
@@ -113,63 +144,63 @@ var camPrj = {
             },
             dataBound : function (e){
                 var self = e.sender;
-                self.tbody.find("tr").click(function(e) {
-                    $(".container").css("display", "");
-                    $(".circle").each(function(){
-                        self.tbody.find("tr").css("background-color", "");
-                        $(this).removeClass("active")
-                        $(this).removeClass("ready")
-                        $(this).removeAttr("check");
-                        $(this).removeAttr("onClick");
-                    });
+                // self.tbody.find("tr").click(function(e) {
+                //     // $(".container").css("display", "");
+                //     // $(".circle").each(function(){
+                //     //     self.tbody.find("tr").css("background-color", "");
+                //     //     $(this).removeClass("active")
+                //     //     $(this).removeClass("ready")
+                //     //     $(this).removeAttr("check");
+                //     //     $(this).removeAttr("onClick");
+                //     // });
+                //
+                //     switch (self.dataItem(this).PJT_STEP) {
+                //         case "E0":
+                //             $("#ps0").attr("check", "Y");
+                //             break;
+                //         case "E1":
+                //             $("#ps1").attr("check", "Y");
+                //             break;
+                //         case "E2":
+                //             $("#ps2").attr("check", "Y");
+                //             break;
+                //         case "E3":
+                //             $("#ps3").attr("check", "Y");
+                //             break;
+                //         case "E4":
+                //             $("#ps4").attr("check", "Y");
+                //             break;
+                //         case "E5":
+                //             $("#ps5").attr("check", "Y");
+                //             break;
+                //         case "E6":
+                //             $("#ps6").attr("check", "Y");
+                //             break;
+                //         case "E7":
+                //             $("#ps7").attr("check", "Y");
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                //
+                //     var index = -1;
+                //
+                //     $(".circle").each(function(e){
+                //         if($(this).attr("check") == "Y"){
+                //             index = e;
+                //         }
+                //     });
+                //
+                //     for(var i = 0 ; i <= index ; i++){
+                //         $("#ps" + i).addClass("active");
+                //         // $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
+                //     }
+                //     $("#ps" + (index + 1)).addClass("ready");
+                //     // $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
+                //
+                //     $(this).css("background-color", "#a7e1fc");
 
-                    switch (self.dataItem(this).PJT_STEP) {
-                        case "E0":
-                            $("#ps0").attr("check", "Y");
-                            break;
-                        case "E1":
-                            $("#ps1").attr("check", "Y");
-                            break;
-                        case "E2":
-                            $("#ps2").attr("check", "Y");
-                            break;
-                        case "E3":
-                            $("#ps3").attr("check", "Y");
-                            break;
-                        case "E4":
-                            $("#ps4").attr("check", "Y");
-                            break;
-                        case "E5":
-                            $("#ps5").attr("check", "Y");
-                            break;
-                        case "E6":
-                            $("#ps6").attr("check", "Y");
-                            break;
-                        case "E7":
-                            $("#ps7").attr("check", "Y");
-                            break;
-                        default:
-                            break;
-                    }
-
-                    var index = -1;
-
-                    $(".circle").each(function(e){
-                        if($(this).attr("check") == "Y"){
-                            index = e;
-                        }
-                    });
-
-                    for(var i = 0 ; i <= index ; i++){
-                        $("#ps" + i).addClass("active");
-                        // $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
-                    }
-                    $("#ps" + (index + 1)).addClass("ready");
-                    // $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
-
-                    $(this).css("background-color", "#a7e1fc");
-
-                });
+                // });
             },
             columns: [
                 {

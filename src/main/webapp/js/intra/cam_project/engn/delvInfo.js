@@ -3,7 +3,7 @@ var delvInfo = {
 
     fn_defaultScript : function (){
         customKendo.fn_textBox(["pjtCd", "delvPjtNm", "delvCnt", "delvUnit", "delvLoc"
-            , "delvItem", "delvAmt", "pmName"]);
+            , "delvItem", "delvAmt", "pmName", "delvPay"]);
 
         customKendo.fn_datePicker("delvEstDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("delvDe", "depth", "yyyy-MM-dd", new Date());
@@ -11,6 +11,10 @@ var delvInfo = {
         $("#sumry, #specf, #delvAssu, #delvTest, #delvIssu").kendoTextArea({
             rows: 5,
         });
+
+        customKendo.fn_datePicker("pjtStrDt", "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("pjtEndDt", "depth", "yyyy-MM-dd", new Date());
+
 
         delvInfo.fn_setData();
     },
@@ -41,6 +45,9 @@ var delvInfo = {
                     $("#delvUnit").val(delvMap.DELV_UNIT);
                     $("#delvCnt").val(delvMap.DELV_CNT);
                     $("#delvIssu").val(delvMap.DELV_ISSU);
+                    $("#delvPay").val(delvMap.DELV_PAY);
+                    $("#pjtStrDt").val(delvMap.PJT_STR_DT);
+                    $("#pjtEndDt").val(delvMap.PJT_END_DT);
                     $("input[name='delvDept']").each(function (){
                         if(this.value == delvMap.DELV_DEPT){
                             $(this).prop("checked", true);
@@ -126,7 +133,9 @@ var delvInfo = {
             pmEmpSeq : $("#pmSeq").val(),
             empSeq : $("#empSeq").val(),
             estDe : $("#delvEstDe").val(),
-
+            pjtStrDt : $("#pjtStrDt").val(),
+            pjtEndDt : $("#pjtEndDt").val(),
+            delvPay : $("#delvPay").val(),
             step : $("#step").val(),
             stepColumn : $("#stepColumn").val(),
             nextStepColumn : $("#nextStepColumn").val(),

@@ -29,6 +29,12 @@ var regPrj = {
         var tab3Url = "/intra/cam_project/delvInfo.do";
         var tab4Url = "/intra/cam_project/devInfo.do";
         var tab5Url = "/intra/cam_project/processInfo.do";
+        var tab6Url = "/intra/cam_project/goodsInfo.do";
+        var tab7Url = "/intra/cam_project/resultInfo.do";
+        var tab8Url = "/intra/cam_project/costPriceInfo.do";
+
+        var tab9Url = "/intra/cam_project/teamInfo.do";
+        var tab10Url = "/intra/cam_project/buyInfo.do";
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -37,6 +43,11 @@ var regPrj = {
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
             tab5Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab6Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab7Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab8Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab9Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab10Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -45,6 +56,11 @@ var regPrj = {
             tab3Url += "&engnSn=" + setParameters.ENGN_SN;
             tab4Url += "&engnSn=" + setParameters.ENGN_SN;
             tab5Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab6Url += "?engnSn=" + setParameters.ENGN_SN;
+            tab7Url += "?engnSn=" + setParameters.ENGN_SN;
+            tab8Url += "?engnSn=" + setParameters.ENGN_SN;
+            tab9Url += "?engnSn=" + setParameters.ENGN_SN;
+            tab10Url += "?engnSn=" + setParameters.ENGN_SN;
         }
 
 
@@ -84,6 +100,14 @@ var regPrj = {
                     step = "E4";
                     stepColumn = "STEP5";
                     nextStepColumn = "STEP6";
+                } else if (tabName == "납품"){
+                    step = "E5";
+                    stepColumn = "STEP6";
+                    nextStepColumn = "STEP7";
+                } else if (tabName == "결과보고"){
+                    step = "E6";
+                    stepColumn = "STEP7";
+                    nextStepColumn = "STEP8";
                 }
 
                 $("#step").val(step);
@@ -97,11 +121,13 @@ var regPrj = {
                 {name: "출장정보", url: tab1Url},
                 {name: "견적관리", url: tab2Url},
                 {name: "수주보고", url: tab3Url},
-                {name: "개발계획", url: tab4Url},
+                {name: "계획서", url: tab4Url},
                 {name: "공정", url: tab5Url},
-                // {name: "납품", url: "#"},
-                // {name: "결과보고", url: "#"},
-                // {name: "원가보고", url: "#"},
+                {name: "납품", url: tab6Url},
+                {name: "결과보고", url: tab7Url},
+                {name: "원가보고", url: tab8Url},
+                {name: "협업관리", url: tab9Url},
+                {name: "구매관리", url: tab10Url}
             ],
         });
 

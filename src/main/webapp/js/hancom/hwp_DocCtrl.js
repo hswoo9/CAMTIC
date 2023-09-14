@@ -683,6 +683,9 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
             hwpDocCtrl.putFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
+            hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
+
+            hwpDocCtrl.putFieldText("DELV_PAY", delvMap.DELV_PAY);
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(delvMap.DELV_ISSU.replaceAll("\n", "<br>"), "html","insertfile");
             if(Number(delvMap.DELV_DEPT) == 0){
@@ -702,7 +705,6 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('CONT_ETC', map.CONT_ETC);
             hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
             hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
-
             hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
             hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT));
             hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
@@ -806,15 +808,10 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
             hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
-            // hwpDocCtrl.moveToField('ETC', true, true, false);
-            //
-            // hwpDocCtrl.setTextFile(delvMap.DELV_ISSU.replaceAll("\n", "<br>"), "html","insertfile");
-
-
-            console.log(1111111111111111111111111);
-
             hwpDocCtrl.moveToField('ETC', true, true, false);
-            hwpDocCtrl.setTextFile("dasdsa sdfafsda", "html", "insertfile");
+
+            hwpDocCtrl.setTextFile(dev.ETC.replaceAll("\n", "<br>"), "html","insertfile");
+
 
         }
     },

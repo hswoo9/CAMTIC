@@ -7,6 +7,18 @@
         SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
         ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        WHERE
+            1=1
+        <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass)'>
+        AND
+            A.PJT_STEP = #{busnSubClass}
+        AND
+            A.PJT_STOP = "N"
+        </if>
+        <if test='busnSubClass == "Y" or "Y".equals(busnSubClass)'>
+        AND
+            A.PJT_STOP = "Y"
+        </if>
     </select>
 
     <select id="getProjectStep" parameterType="map" resultType="map">
@@ -864,6 +876,9 @@
                 DELV_DEPT,
                 PM_EMP_SEQ,
                 PM_EMP_NM,
+                PJT_STR_DT,
+                PJT_END_DT,
+                DELV_PAY,
                 REG_EMP_SEQ
             )
         VALUES
@@ -879,6 +894,9 @@
                 #{delvDept},
                 #{pmEmpSeq},
                 #{pmEmpNm},
+                #{pjtStrDt},
+                #{pjtEndDt},
+                #{delvPay},
                 #{empSeq}
             )
 
@@ -902,6 +920,9 @@
             DELV_DEPT = #{delvDept},
             PM_EMP_SEQ = #{pmEmpSeq},
             PM_EMP_NM = #{pmEmpNm},
+            PJT_STR_DT = #{pjtStrDt},
+            PJT_END_DT = #{pjtEndDt},
+            DELV_PAY = #{delvPay},
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             DELV_SN = #{delvSn}

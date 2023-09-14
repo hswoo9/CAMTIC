@@ -11,7 +11,6 @@ var devInfo = {
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
         devInfo.global.devPjtVerList = rs;
 
-        console.log(rs.list);
         var html = "";
         for(var i = 0 ; i < rs.list.length ; i++){
             var date = new Date(rs.list[i].CONSULT_DT);
@@ -23,6 +22,7 @@ var devInfo = {
             var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
 
 
+            console.log();
             var pjtStepNm = "상담";
             if(rs.list[i].PJT_STEP == "E0"){
                 pjtStepNm = "상담";
@@ -44,6 +44,15 @@ var devInfo = {
 
             var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
             var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
+            if(rs.list[i].PJT_STEP == "E2"){
+                pjtStepNm = "";
+            } else {
+                if(rs.list[i].STATUS == "100"){
+                    pjtStepNm += " 완료";
+                } else {
+                    pjtStepNm += " 진행중";
+                }
+            }
             html += "<tr style='text-align: center'>";
             html += "   <td>Ver."+(i+1)+"</td>";
             html += "   <td>"+ docNo +"</td>";
@@ -51,7 +60,7 @@ var devInfo = {
             html += "   <td>0</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
             html += "   <td>"+devInfo.comma(invAmt)+"</td>";
-            html += "   <td>"+pjtStepNm+" 완료</td>";
+            html += "   <td>"+pjtStepNm+"</td>";
             html += "</tr>";
         }
 
@@ -95,7 +104,7 @@ var devInfo = {
             var status = rs[0].STATUS;
             var buttonHtml = "";
             if(status == "0"){
-                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
             }else if(status == "10"){
                 buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
@@ -127,6 +136,7 @@ var devInfo = {
                 var list = rs.list;
 
                 for(var i = 0 ; i < list.length ; i++){
+                    console.log(list);
                     var idx = i+1;
                     var html = "";
                     html += '<tr id="tr'+idx+'">';
@@ -137,10 +147,8 @@ var devInfo = {
                         '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value="'+list[i].PS_SN+'"/></span>' +
                         '       </td>';
                     html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
-                    html += '   <td><input type="text" id="psEmpNm'+idx+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" /></td>';
+                    html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'""/></td>';
                     html += '   <td style="text-align: center">';
-                    html += '       <button type="button" onclick="devInfo.fn_psSave('+idx+')" class="k-button k-button-solid-base btn'+idx+'">공정저장</button>';
-                    html += '       <button type="button" onclick="fn_userMultiSelectPop('+idx+')" class="k-button k-button-solid-base btn'+idx+'">추진담당</button>';
                     html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
                     html += '   </td>';
                     html += '</tr>';
@@ -205,7 +213,6 @@ var devInfo = {
                         '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
                         '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
                         '       <td style="text-align: center;">' +
-                        '           <button type="button" id="addBtn" onclick="devInfo.fn_saveInv('+idx+')" class="k-button k-button-solid-base">저장</button>' +
                         '           <button type="button" id="delBtn" onclick="devInfo.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
                         '       </td>';
                     html += '</tr>';
@@ -308,13 +315,13 @@ var devInfo = {
                             $(this).children("td").last().children("button").each(function(x){
                                 if(x == 0){
                                     $(this).removeAttr("onclick");
-                                    $(this).attr("onclick", "es3.fn_psSave("+idx+")");
+                                    $(this).attr("onclick", "devInfo.fn_psSave("+idx+")");
                                 } else if (x == 1){
                                     $(this).removeAttr("onclick");
                                     $(this).attr("onclick", "fn_userMultiSelectPop("+idx+")");
                                 } else {
                                     $(this).removeAttr("onclick");
-                                    $(this).attr("onclick", "es3.fn_delRow("+idx+")");
+                                    $(this).attr("onclick", "devInfo.fn_delRow("+idx+")");
                                 }
                             });
 
@@ -364,7 +371,13 @@ var devInfo = {
     },
 
     fn_addProcess: function (){
+
         if(!confirm("공정을 추가하시겠습니까?")){
+            return ;
+        }
+
+        if($("#psEmpSeq").val() == ""){
+            alert("담당자를 지정해주세요.");
             return ;
         }
 
@@ -388,7 +401,9 @@ var devInfo = {
             psPrepNm : $("#prepList").data("kendoDropDownList").text(),
             psNm : $("#psNm").val(),
             psStrDe : $("#psStrDe").val(),
-            psEndDe : $("#psEndDe").val()
+            psEndDe : $("#psEndDe").val(),
+            psEmpSeq : $("#psEmpSeq").val(),
+            psEmpNm : $("#psEmpNm").val()
         }
 
 
@@ -401,10 +416,8 @@ var devInfo = {
             '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value=""/></span>' +
             '       </td>';
         html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" value="'+inputData.psEndDe+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" value="'+inputData.psEndDe+'" /></td>';
-        html += '   <td><input type="text" id="psEmpNm'+idx+'" disabled /><input type="hidden" id="psEmpNm'+idx+'" /></td>';
+        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+inputData.psEmpNm+'" disabled /><input type="hidden" id="psEmpNm'+idx+' value="'+inputData.psEmpSeq+'" " /></td>';
         html += '   <td style="text-align: center">';
-        html += '       <button type="button" onclick="devInfo.fn_psSave('+idx+')" class="k-button k-button-solid-base btn'+idx+'">공정저장</button>';
-        html += '       <button type="button" onclick="fn_userMultiSelectPop('+idx+')" class="k-button k-button-solid-base btn'+idx+'">추진담당</button>';
         html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
         html += '   </td>';
         html += '</tr>';
@@ -441,8 +454,8 @@ var devInfo = {
             psNm : $("#psNm"+idx).val(),
             psStrDe : $("#psStrDe"+idx).val(),
             psEndDe : $("#psEndDe"+idx).val(),
-            psEmpSeq : $("#psEmpSeq"+idx).val(),
-            psEmpNm : $("#psEmpNm"+idx).val(),
+            psEmpSeq : $("#psEmpSeq").val(),
+            psEmpNm : $("#psEmpNm").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
 
@@ -454,6 +467,11 @@ var devInfo = {
             success : function(rs){
                 if(rs.code == 200){
                     $("#psSn" + idx).val(rs.rep.PS_SN);
+
+                    $("#psEmpSeq").val("");
+                    $("#psEmpNm").val("");
+                    $("#psNm").val("");
+                    $("#prepList").data("kendoDropDownList").select(0);
                 }
             }
         });
@@ -523,7 +541,6 @@ var devInfo = {
             '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" value="'+data.estOfc+'" /></td>\n' +
             '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" value="'+data.invEtc+'" /></td>\n' +
             '       <td style="text-align: center;">' +
-            '           <button type="button" id="addBtn" onclick="devInfo.fn_saveInv('+idx+')" class="k-button k-button-solid-base">저장</button>' +
             '           <button type="button" id="delBtn" onclick="devInfo.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
             '       </td>';
         html += '</tr>';
@@ -582,41 +599,49 @@ var devInfo = {
 
 
 
-    fn_saveInv : function (row){
-        var data = {
-            invSn : $("#invSn" + row).val(),
-            pjtSn : $("#pjtSn").val(),
-            invRow : row,
-            divCd : $("#divNm"+row).val(),
-            divNm : $("#divNm"+row).data("kendoDropDownList").text(),
-            invNm : $("#invNm"+row).val(),
-            invCnt : devInfo.uncomma($("#invCnt"+row).val()),
-            invUnit : $("#invUnit"+row).val(),
-            estTotAmt : devInfo.uncomma($("#estTotAmt"+row).val()),
-            estOfc : $("#estOfc"+row).val(),
-            invEtc : $("#invEtc"+row).val()
-        }
+    fn_saveInv : function (){
+        var invLength = $("#invTable > tr").length;
 
-        $.ajax({
-            url : "/project/updInvest",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                var idx = 0;
-                var totAmt = 0;
-                $("#invTable > tr").each(function(e){
-                    idx++;
-                    totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
-                    $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#delvAmt").val()) * 100));
-                });
-
-                if(rs.code = 200){
-                    alert("저장되었습니다.")
-                    $("#invAmt").val(devInfo.comma(totAmt));
+        if(invLength != 1) {
+            for(var row = 1 ; row < invLength ; row++){
+                var data = {
+                    invSn : $("#invSn" + row).val(),
+                    pjtSn : $("#pjtSn").val(),
+                    invRow : row,
+                    divCd : $("#divNm"+row).val(),
+                    divNm : $("#divNm"+row).data("kendoDropDownList").text(),
+                    invNm : $("#invNm"+row).val(),
+                    invCnt : devInfo.uncomma($("#invCnt"+row).val()),
+                    invUnit : $("#invUnit"+row).val(),
+                    estTotAmt : devInfo.uncomma($("#estTotAmt"+row).val()),
+                    estOfc : $("#estOfc"+row).val(),
+                    invEtc : $("#invEtc"+row).val()
                 }
+
+                $.ajax({
+                    url : "/project/updInvest",
+                    data : data,
+                    type : "post",
+                    dataType : "json",
+                    success : function (rs){
+                        var idx = 0;
+                        var totAmt = 0;
+                        $("#invTable > tr").each(function(e){
+                            idx++;
+                            totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
+                            $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#delvAmt").val()) * 100));
+                        });
+
+                        if(rs.code = 200){
+                            alert("저장되었습니다.")
+                            $("#invAmt").val(devInfo.comma(totAmt));
+
+                            window.location.reload();
+                        }
+                    }
+                });
             }
-        });
+        }
     },
 
     fn_delInv : function (i){
@@ -709,6 +734,7 @@ var devInfo = {
             return;
         }
 
+
         var data= {
             invAmt : devInfo.uncomma($("#invAmt").val()),
             invPer : $("#invPer").val(),
@@ -734,36 +760,43 @@ var devInfo = {
                 if(rs.code == 200){
                     opener.parent.camPrj.gridReload();
 
-                    location.reload();
+                    window.location.reload();
                 }
             }
         });
     },
 
     fn_psSave : function(row){
-        var data = {
-            psSn : $("#psSn" + row).val(),
-            psRow : row,
-            psPrep : $("#prepList"+row).val(),
-            psPrepNm : $("#prepList"+row).data("kendoDropDownList").text(),
-            psNm : $("#psNm"+row).val(),
-            psStrDe : $("#psStrDe"+row).val(),
-            psEndDe : $("#psEndDe"+row).val(),
-            psEmpSeq : $("#psEmpSeq"+row).val(),
-            psEmpNm : $("#psEmpNm"+row).val()
+        var psLength = $("#psTable > tr").length;
+
+        if(psLength != 1){
+            for(var row = 1 ; row < psLength ; row++){
+                var data = {
+                    psSn : $("#psSn" + row).val(),
+                    psRow : row,
+                    psPrep : $("#prepList"+row).val(),
+                    psPrepNm : $("#prepList"+row).data("kendoDropDownList").text(),
+                    psNm : $("#psNm"+row).val(),
+                    psStrDe : $("#psStrDe"+row).val(),
+                    psEndDe : $("#psEndDe"+row).val(),
+                    psEmpSeq : $("#psEmpSeq"+row).val(),
+                    psEmpNm : $("#psEmpNm"+row).val()
+                }
+
+                $.ajax({
+                    url : "/project/updProcess",
+                    data : data,
+                    type : "post",
+                    dataType : "json",
+                    success : function (rs){
+                        if(rs.code = 200){
+                            alert("저장되었습니다.")
+                        }
+                    }
+                });
+            }
         }
 
-        $.ajax({
-            url : "/project/updProcess",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                if(rs.code = 200){
-                    alert("저장되었습니다.")
-                }
-            }
-        });
     },
 
 }

@@ -142,9 +142,13 @@
                 <td><input type="text" class="prepList" id="prepList" /></td>
                 <td><input type="text" class="psNm" id="psNm" /> </td>
                 <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe" /></td>
-                <td><input type="text" id="psEmpNm" disabled style="width: 100%" /></td>
+                <td>
+                    <input type="text" id="psEmpNm" disabled style="width: 100%" />
+                    <input type="hidden" id="psEmpSeq" />
+                </td>
                 <td style="text-align: center">
                     <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess('${hashMap.PJT_SN}')">공정저장</button>
+                    <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>
                 </td>
             </tr>
             </tbody>
@@ -241,8 +245,8 @@
             psEmpSeq += arr[i].empSeq + ",";
             psEmpNm += arr[i].empName + ",";
         }
-        $("#psEmpNm" + idx).val(psEmpNm.slice(0, -1));
-        $("#psEmpSeq" + idx).val(psEmpSeq.slice(0, -1));
+        $("#psEmpNm").val(psEmpNm.slice(0, -1));
+        $("#psEmpSeq").val(psEmpSeq.slice(0, -1));
     }
 </script>
 </body>
