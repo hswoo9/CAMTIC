@@ -57,16 +57,16 @@ var devInfo = {
             html += "   <td>Ver."+(i+1)+"</td>";
             html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
-            html += "   <td>0</td>";
+            html += "   <td id='invAmt002'>"+devInfo.comma(invAmt)+"</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
-            html += "   <td>"+devInfo.comma(invAmt)+"</td>";
+            html += "   <td></td>";
             html += "   <td>"+pjtStepNm+"</td>";
             html += "</tr>";
         }
 
         $("#verTable").append(html);
 
-        $("#delvAmt").val(devInfo.comma($("#delvAmt").val()));
+        $("#devDelvAmt").val(devInfo.comma($("#devDelvAmt").val()));
 
         $("#prepList").kendoDropDownList({
             dataSource : [
@@ -84,7 +84,7 @@ var devInfo = {
         customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
 
         customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc", "devPjtNm",
-                                "devCrmInfo", "pm", "estDe", "delvAmt", "invAmt", "invPer"]);
+                                "devCrmInfo", "pm", "estDe", "devDelvAmt", "invAmt", "invPer"]);
         $("#divNm").kendoDropDownList({
             dataSource : [
                 {text : "구매", value : "1"},
@@ -147,7 +147,7 @@ var devInfo = {
                         '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value="'+list[i].PS_SN+'"/></span>' +
                         '       </td>';
                     html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
-                    html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'""/></td>';
+                    html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'" /></td>';
                     html += '   <td style="text-align: center">';
                     html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
                     html += '   </td>';
@@ -249,7 +249,7 @@ var devInfo = {
                 var invPer = 0;
 
 
-                $("#invPer").val(Math.round(Number( totAmt / devInfo.uncomma($("#delvAmt").val()) * 100)));
+                $("#invPer").val(Math.round(Number( totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100)));
             }
         });
 
@@ -412,7 +412,7 @@ var devInfo = {
             '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value=""/></span>' +
             '       </td>';
         html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" value="'+inputData.psEndDe+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" value="'+inputData.psEndDe+'" /></td>';
-        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+inputData.psEmpNm+'" disabled /><input type="hidden" id="psEmpNm'+idx+' value="'+inputData.psEmpSeq+'" " /></td>';
+        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+inputData.psEmpNm+'" disabled /><input type="hidden" id="psEmpNm'+idx+'" value="'+inputData.psEmpSeq+'" /></td>';
         html += '   <td style="text-align: center">';
         html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
         html += '   </td>';
@@ -572,8 +572,16 @@ var devInfo = {
                 if(rs.code == 200){
                     $("#invSn" + idx).val(rs.rep.INV_SN);
                     $("#invAmt").val(devInfo.comma(totAmt));
-                    $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#delvAmt").val()) * 100));
+                    $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100));
                 }
+
+
+                $("#estTotAmt").val("");
+                $("#invNm").val("");
+                $("#invCnt").val("");
+                $("#invUnit").val("");
+                $("#estOfc").val("");
+                $("#invEtc").val("");
             }
         });
 
@@ -625,7 +633,7 @@ var devInfo = {
                         $("#invTable > tr").each(function(e){
                             idx++;
                             totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
-                            $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#delvAmt").val()) * 100));
+                            $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100));
                         });
 
                         if(rs.code = 200){
@@ -715,7 +723,7 @@ var devInfo = {
 
                     if(rs.code = 200){
                         $("#invAmt").val(devInfo.comma(totAmt));
-                        $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#delvAmt").val()) * 100));
+                        $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100));
                     }
 
                 }
@@ -755,6 +763,14 @@ var devInfo = {
                 if(rs.code == 200){
                     opener.parent.camPrj.gridReload();
 
+                    var sum = 0;
+                    $(".estTotAmt").each(function(){
+                        if(this.value != ""){
+                            sum += Number(devInfo.uncomma($(this).val()));
+                        }
+                    });
+
+                    $("#invAmt002").text(devInfo.comma(sum));
                     devInfo.fn_psSave();
                 }
             }

@@ -93,7 +93,8 @@ const bustripExnpReq = {
 
                         let amt = $("#dayCost"+String(dayCostArr[i].empSeq)).val().replace(",", "");
                         console.log("amt", amt)
-                        $("#dayCost"+String(dayCostArr[i].empSeq)).val(fn_comma(costList[costN].COST_AMT + (Number(amt)+10000)));
+                        // $("#dayCost"+String(dayCostArr[i].empSeq)).val(fn_comma(costList[costN].COST_AMT + (Number(amt)+10000)));
+                        $("#dayCost"+String(dayCostArr[i].empSeq)).val(fn_comma(costList[costN].COST_AMT));
                         costN++;
                     }
                 }

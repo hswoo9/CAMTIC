@@ -96,7 +96,7 @@
                     <span class="red-star"></span>수주가격
                 </th>
                 <td>
-                    <input type="text" id="delvAmt" value="${hashMap.PJT_AMT}" style="text-align: right;width: 90%;" disabled> 원
+                    <input type="text" id="devDelvAmt" value="${hashMap.PJT_AMT}" style="text-align: right;width: 90%;" disabled> 원
                 </td>
             </tr>
             <tr>

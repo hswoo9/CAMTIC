@@ -777,7 +777,9 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('CONT_ETC', map.CONT_ETC);
             hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
             hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
+            hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
 
+            hwpDocCtrl.putFieldText("DELV_PAY", delvMap.DELV_PAY);
             hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
             hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT));
             hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
