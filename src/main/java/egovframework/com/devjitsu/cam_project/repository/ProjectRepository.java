@@ -271,4 +271,16 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updInv", params);
         update("project.updPs", params);
     }
+
+    public int checkAddVersion(Map<String, Object> params) {
+        return (int) selectOne("project.checkAddVersion", params);
+    }
+
+    public void updDevInfo(Map<String, Object> params) {
+        update("project.updDevInfo", params);
+    }
+
+    public Map<String, Object> getDevSn(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDevSn", params);
+    }
 }

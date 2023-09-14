@@ -148,9 +148,17 @@ public class ProjectServiceImpl implements ProjectService {
     public void setDevInfo(Map<String, Object> params) {
         int modCheck = projectRepository.checkModStep3(params);
 
-        projectRepository.insDevInfo(params);
+        int checkAddVersion = projectRepository.checkAddVersion(params);
+
+
+        if(checkAddVersion != 0){
+            projectRepository.updDevInfo(params);
+        } else {
+            projectRepository.insDevInfo(params);
+        }
 
         projectRepository.updInvAndPs(params);
+
 
         if(modCheck == 0) {
             // 전자결재 개발 완료 시 결재완료 시점으로 이동
