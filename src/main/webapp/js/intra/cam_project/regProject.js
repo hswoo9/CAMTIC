@@ -65,7 +65,7 @@ var regPrj = {
                     step = "E1";
                     stepColumn = "STEP2";
                     nextStepColumn = "STEP3";
-                } else if (tabName == "수주관리"){
+                } else if (tabName == "수주보고"){
                     step = "E2";
                     stepColumn = "STEP3";
                     nextStepColumn = "STEP4";
@@ -91,10 +91,10 @@ var regPrj = {
                 {name: "견적관리", url: tab2Url},
                 {name: "수주보고", url: tab3Url},
                 {name: "개발계획", url: tab4Url},
-                {name: "공정", url: tab4Url},
-                {name: "납품", url: tab4Url},
-                {name: "결과보고", url: tab4Url},
-                {name: "원가보고", url: tab4Url},
+                {name: "공정", url: "#"},
+                {name: "납품", url: "#"},
+                {name: "결과보고", url: "#"},
+                {name: "원가보고", url: "#"},
             ],
         });
 
