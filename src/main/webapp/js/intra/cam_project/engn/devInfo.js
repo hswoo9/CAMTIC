@@ -104,7 +104,6 @@ var devInfo = {
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', '"+rs[0].DOC_MENU_CD+"');\">열람</button>";
             } else {
-                alert(23);
                 buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"devInfo.fn_save()\">저장</button>";
             }
             $("#btnDiv").html(buttonHtml);
