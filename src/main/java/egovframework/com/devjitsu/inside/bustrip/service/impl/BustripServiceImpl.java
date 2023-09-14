@@ -194,7 +194,7 @@ public class BustripServiceImpl implements BustripService {
         params.put("empSeq", empSeq);
 
         Map<String, Object> histMap = bustripRepository.getBustripResultInfoR(params);
-        params.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID"));
+        params.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID").toString());
         if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
             bustripRepository.updateResApprStat(params);
             /* 첨부파일 업데이트 */
