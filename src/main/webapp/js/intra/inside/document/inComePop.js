@@ -22,7 +22,6 @@ var regisReq = {
         ]
         customKendo.fn_dropDownList("deptPart", deptPartArr, "text", "value", 2);
         $("#deptPart").data("kendoDropDownList").bind("change", regisReq.fn_toggleManger)
-        $("#deptPart").data("kendoDropDownList").trigger("change");
         $("#documentPartName, #documentPart, #empName, #effectiveDt, #shipmentDt").attr("readonly", true);
 
             var data = {};
@@ -217,7 +216,7 @@ var regisReq = {
 
     setInComeUpdate: function (formData) {
         $.ajax({
-            url : "/Inside/setInComeUpdate",
+            url : "/inside/setInComeUpdate",
             data : formData,
             type : "post",
             dataType : "json",
