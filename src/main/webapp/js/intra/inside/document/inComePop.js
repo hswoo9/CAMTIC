@@ -33,10 +33,7 @@ var regisReq = {
         let managerName = $("#empName").val();
         let documentTitleName = $("#documentTitleName").val();
         let deptPartType = $("#deptPart").val();
-        let deptPartText;
-        if (deptPartType != 6) {
-            deptPartText = $("#deptPart").data("kendoDropDownList").text();
-        }
+        let deptPartText = $("#deptPart").data("kendoDropDownList").text();
         let userSn = $("#userSn").val();
         let userText = $("#userText").val();
         let remarkCn = $("#remarkCn").val();
