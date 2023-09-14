@@ -50,6 +50,7 @@ var regPrj = {
                 }
             },
             select : function (e){
+                console.log($(e.item).attr("id").split("-")[2] - 1);
                 var tabName = $(e.item).find("> .k-link").text();
                 let step = "";
                 let stepColumn = "";
@@ -91,10 +92,10 @@ var regPrj = {
                 {name: "견적관리", url: tab2Url},
                 {name: "수주보고", url: tab3Url},
                 {name: "개발계획", url: tab4Url},
-                {name: "공정", url: "#"},
-                {name: "납품", url: "#"},
-                {name: "결과보고", url: "#"},
-                {name: "원가보고", url: "#"},
+                // {name: "공정", url: "#"},
+                // {name: "납품", url: "#"},
+                // {name: "결과보고", url: "#"},
+                // {name: "원가보고", url: "#"},
             ],
         });
 

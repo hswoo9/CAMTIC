@@ -68,7 +68,7 @@
                     <span class="red-star"></span>프로젝트 명
                 </th>
                 <td colspan="3">
-                    <input type="text" id="pjtCd" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
+                    <input type="text" id="devPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
                 </td>
             </tr>
             <tr>
@@ -76,7 +76,7 @@
                     <span class="red-star"></span>업체명
                 </th>
                 <td>
-                    <input type="text" id="crmNm" disabled value="${hashMap.CRM_NM}" style="width: 90%; text-align: left" />
+                    <input type="text" id="devCrmInfo" disabled value="${hashMap.CRM_NM}" style="width: 90%; text-align: left" />
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>PM

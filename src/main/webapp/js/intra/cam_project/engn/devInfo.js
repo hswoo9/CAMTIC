@@ -42,13 +42,14 @@ var devInfo = {
                 pjtStepNm = "원가보고";
             }
 
+            var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
             html += "<tr style='text-align: center'>";
             html += "   <td>Ver."+(i+1)+"</td>";
-            html += "   <td></td>";
+            html += "   <td>"+ rs.list[i].DOC_NO +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td>0</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
-            html += "   <td>"+devInfo.comma(rs.list[i].INV_AMT)+"</td>";
+            html += "   <td>"+devInfo.comma(invAmt)+"</td>";
             html += "   <td>"+pjtStepNm+" 완료</td>";
             html += "</tr>";
         }
@@ -72,8 +73,8 @@ var devInfo = {
         customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
 
-        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc", "pjtCd",
-                                "crmNm", "pm", "estDe", "delvAmt", "invAmt", "invPer"]);
+        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc", "devPjtNm",
+                                "devCrmInfo", "pm", "estDe", "delvAmt", "invAmt", "invPer"]);
         $("#divNm").kendoDropDownList({
             dataSource : [
                 {text : "구매", value : "1"},
@@ -93,7 +94,7 @@ var devInfo = {
             var status = rs[0].STATUS;
             var buttonHtml = "";
             if(status == "0"){
-                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
             }else if(status == "10"){
                 buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
@@ -104,7 +105,7 @@ var devInfo = {
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"canBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', '"+rs[0].DOC_MENU_CD+"');\">열람</button>";
             } else {
-                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"devInfo.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"saveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
             }
             $("#btnDiv").html(buttonHtml);
         }
