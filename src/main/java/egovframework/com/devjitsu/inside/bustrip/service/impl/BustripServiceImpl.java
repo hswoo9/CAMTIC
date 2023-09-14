@@ -217,26 +217,33 @@ public class BustripServiceImpl implements BustripService {
             bustripRepository.saveBustripResult(params);
         }
 
+        int count = bustripRepository.findCompanionKey(params);
         String compEmpSeq = "";
         String[] compEmpSeqArr;
-        if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
-            compEmpSeq = params.get("compEmpSeq").toString();
+        if(count == 0){
+            if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+                compEmpSeq = params.get("compEmpSeq").toString();
 
-            compEmpSeqArr = compEmpSeq.split(",");
+                compEmpSeqArr = compEmpSeq.split(",");
 
-            for(String str : compEmpSeqArr){
-                params.put("compEmpSeq", str);
-                params.put("empSeq", params.get("compEmpSeq"));
-                Map<String, Object> map = userRepository.getUserInfo(params);
-                params.put("compEmpName", map.get("EMP_NAME_KR"));
-                params.put("compDeptName", map.get("DEPT_NAME"));
-                params.put("compDeptSeq", map.get("DEPT_SEQ"));
-                params.put("compDutyName", map.get("DUTY_NAME"));
-                params.put("compPositionName", map.get("POSITION_NAME"));
+                for(String str : compEmpSeqArr){
+                    params.put("compEmpSeq", str);
+                    params.put("empSeq", params.get("compEmpSeq"));
+                    Map<String, Object> map = userRepository.getUserInfo(params);
+                    params.put("compEmpName", map.get("EMP_NAME_KR"));
+                    params.put("compDeptName", map.get("DEPT_NAME"));
+                    params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                    params.put("compDutyName", map.get("DUTY_NAME"));
+                    params.put("compPositionName", map.get("POSITION_NAME"));
 
-                bustripRepository.insBustripResCompanion(params);
+                    bustripRepository.insBustripResCompanion(params);
+                }
             }
+        } else {
+            bustripRepository.updBustripResCompanion(params);
         }
+
+
     }
 
     @Override
