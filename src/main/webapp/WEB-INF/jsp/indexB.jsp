@@ -308,8 +308,8 @@
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">캠스팟 즐겨찾기</h4>
             </div>
             <div class="panel-body" style="padding:5px;">
-                <div style="border:1px solid #eee; border-radius:10px; width:300px; height:230px; margin:10px auto; position:relative;">
-                    <div style="padding: 20px 0px 81px 20px;">
+                <div style="border:1px solid #eee; border-radius:10px; width:300px; height:195px; margin:10px auto; position:relative;">
+                    <div style="padding: 20px 0px 40px 20px;">
                         <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· 휴가관리</span></div>
                         <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 인사관리</span></div>
                         <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 자산관리</span></div>
@@ -323,7 +323,7 @@
         </div>
     </div>
     <div class="col-md-12 col-sm-12" style="padding-right:0;">
-        <div class="panel" style="margin-bottom:10px;">
+        <div class="panel" style="margin-bottom:10px; height:345px;">
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
             </div>
