@@ -196,6 +196,26 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public void setInComeInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        documentRepository.setInComeInsert(params);
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("documentSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+    }
+
+    @Override
     public void setDocuOrderInsert(Map<String, Object> params) {
         documentRepository.setDocuOrderInsert(params);
     }
@@ -402,10 +422,41 @@ public class DocumentServiceImpl implements DocumentService {
     public Map<String, Object> getInComeUpdateList(Map<String, Object> params) {
         return documentRepository.getInComeUpdateList(params);
     }
-    
+
     // 접수대장 팝업 수정
     @Override
-    public void setInComeUpdate(Map<String, Object> params) {documentRepository.setInComeUpdate(params);}
+    public Map<String, Object> setInComeUpdate(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        Map<String, Object> result = new HashMap<>();
 
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("documentSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
 
+        try {
+            documentRepository.setInComeUpdate(params);
+            result.put("message", "수정이 완료되었습니다.");
+
+        }catch (Exception e){
+            result.put("message", "수정 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+/*
+    @Override
+    public List<Map<String, Object>> getInComeUpdateFileList(Map<String, Object> params) {
+        return documentRepository.getInComeUpdateFileList(params);
+    }
+*/
 }
