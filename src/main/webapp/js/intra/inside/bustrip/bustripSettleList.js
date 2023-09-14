@@ -67,6 +67,13 @@ var bustripSettleList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" disabled onclick="gridReload()">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -93,6 +100,17 @@ var bustripSettleList = {
             dataBound: bustripSettleList.onDataBound,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : function(e){
+                        var chk = "";
+                        if(e.CHK > 0){
+                            chk = "checked";
+                        }
+
+                        return "<input type='checkbox' id='eval_" + e.RECRUIT_COMMISSIONER_INFO_SN + "' name='evalChk' value='" + e.RECRUIT_COMMISSIONER_INFO_SN + "' " + chk + "/>"
+                    },
+                    width: 50
+                }, {
                     field: "PROJECT",
                     title: "사업구분",
                     width: 60
