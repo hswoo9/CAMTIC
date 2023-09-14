@@ -101,7 +101,7 @@ var recruitAdminPop = {
                         if(e.DUPLICATION_CNT == "0"){
                             return e.DUPLICATION_CNT + "건"
                         }else{
-                            return '<a onclick="recruitAdminPop.duplicationCntPop(this)">' + e.DUPLICATION_CNT + "건</a>"
+                            return '<a onclick="recruitAdminPop.duplicationCntPop(this)" style="cursor: pointer;">' + e.DUPLICATION_CNT + "건</a>"
                         }
                     },
                     width : 80
