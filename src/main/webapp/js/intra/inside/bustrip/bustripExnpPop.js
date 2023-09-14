@@ -61,7 +61,8 @@ const bustripExnpReq = {
         let costList = customKendo.fn_customAjax("/bustrip/getBustripCostList", {
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        console.log(costList);
+        console.log("bustripInfo", bustripInfo);
+        console.log("costList", costList);
         if(type != "upd") {
             for(let i=0; i<costList.length; i++){
                 $("."+String(costList[i].EXNP_CODE)).val(fn_comma(costList[i].COST_AMT));
@@ -81,15 +82,19 @@ const bustripExnpReq = {
                 dayCostArr[i] = dayCost;
             });
 
-            console.log(dayCostArr);
+            console.log("dayCostArr", dayCostArr);
 
             for(let i=0; i<dayCostArr.length; i++){
+                var costN = 0;
                 if(dayCostArr[i].dayCost.replace(",", "") > 0){
                     $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
                 }else{
                     if(bustripInfo.TRIP_CODE == "3" && (bustripInfo.USE_TRSPT == "0" || bustripInfo.DRIVER_EMP_SEQ == dayCostArr[i].empSeq)){
+
                         let amt = $("#dayCost"+String(dayCostArr[i].empSeq)).val().replace(",", "");
-                        $("#dayCost"+String(dayCostArr[i].empSeq)).val(costList[i].COST_AMTNumber(amt)+10000);
+                        console.log("amt", amt)
+                        $("#dayCost"+String(dayCostArr[i].empSeq)).val(fn_comma(costList[costN].COST_AMT + (Number(amt)+10000)));
+                        costN++;
                     }
                 }
             }
@@ -105,7 +110,7 @@ const bustripExnpReq = {
                 empSeq: empSeq
             }).data;
 
-            console.log(costInfo);
+            console.log("costInfo", costInfo);
             console.log(bustripInfo);
             let realDis = Number(bustripInfo.MOVE_DST);
             let codeDis = Number(costInfo.DISTANCE);
