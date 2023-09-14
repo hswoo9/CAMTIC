@@ -59,7 +59,6 @@
                 USE_TRSPT,
                 PROJECT,
                 PROJECT_CD,
-                TRIP_SUBJECT
                 REG_EMP_SEQ,
                 REG_EMP_NAME
             )
@@ -842,7 +841,6 @@
                 CAR_CLASS_NAME,
                 IHBE.*,
                 (
-                    (CASE WHEN IHBE.OIL_CORP_YN = 'Y' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TRAF_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TOLL_CORP_YN = 'Y' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
@@ -850,6 +848,9 @@
                     (CASE WHEN IHBE.PARKING_CORP_YN = 'Y' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.ETC_CORP_YN = 'Y' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
                 ) AS CORP_SUM,
+                (
+                    (CASE WHEN IHBE.OIL_CORP_YN = 'Y' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)
+                ) AS CAR_SUM,
                 (
                     (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
