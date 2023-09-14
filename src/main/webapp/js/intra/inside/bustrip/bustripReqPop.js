@@ -83,6 +83,7 @@ const bustripReq = {
 
                     customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
                 } else {
+                    $("#project").kendoDropDownList();
                     $("#project").data("kendoDropDownList").wrapper.hide();
                     $("#busnLine").css("display", "none");
                 }
