@@ -900,6 +900,16 @@
         ) A
         GROUP BY HR_BIZ_REQ_RESULT_ID
     </select>
+
+    <update id="setBustripFileNum" parameterType="map">
+        /* setBustripFileNum */
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            PJT_SN = #{pjtSn}
+        WHERE
+            CONTENT_ID = #{hrBizReqId}
+        AND FILE_CD = 'bustripReq'
+    </update>
 </mapper>
 
 
