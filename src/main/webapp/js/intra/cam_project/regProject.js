@@ -49,6 +49,40 @@ var regPrj = {
                     effects: "fadeIn"
                 }
             },
+            select : function (e){
+                var tabName = $(e.item).find("> .k-link").text();
+                let step = "";
+                let stepColumn = "";
+                let nextStepColumn = "";
+                let stepValue = "";
+                let nextStepValue = "";
+
+                if(tabName == "업체정보"){
+                    step = "E0";
+                    stepColumn = "STEP1";
+                    nextStepColumn = "STEP2";
+                } else if (tabName == "견적관리"){
+                    step = "E1";
+                    stepColumn = "STEP2";
+                    nextStepColumn = "STEP3";
+                } else if (tabName == "수주관리"){
+                    step = "E2";
+                    stepColumn = "STEP3";
+                    nextStepColumn = "STEP4";
+                } else if (tabName == "개발계획"){
+                    step = "E3";
+                    stepColumn = "STEP4";
+                    nextStepColumn = "STEP5";
+                } else if (tabName == "공정"){
+                    step = "E4";
+                    stepColumn = "STEP5";
+                    nextStepColumn = "STEP6";
+                }
+
+                $("#step").val(step);
+                $("#stepColumn").val(stepColumn);
+                $("#nextStepColumn").val(nextStepColumn);
+            },
             dataTextField: "name",
             dataContentUrlField: "url",
             dataSource : [
@@ -99,7 +133,6 @@ var regPrj = {
         customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName"]);
 
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
-
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
         tabStrip.disable(tabStrip.tabGroup.children());
