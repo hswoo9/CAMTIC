@@ -412,6 +412,65 @@
             )
     </insert>
 
+    <insert id="setInComeInsert" parameterType="map">
+        /* setDocumentInsert */
+        INSERT INTO CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        (
+        DOCU_TYPE,
+        DOCUMENT_PART_TYPE,
+        DOCUMENT_PART_NAME,
+        EFFECTIVE_DT,
+        SHIPMENT_DT,
+        RECEIVE_NAME,
+        MANAGER_SN,
+        MANAGER_NAME,
+        DOCUMENT_TITLE_NAME,
+        <if test='"2".equals(docuType)'>
+            DEPT_PART_TYPE,
+            DEPT_PART_TEXT,
+            <if test='"6".equals(deptPartType)'>
+                USER_SN,
+                USER_TEXT,
+            </if>
+        </if>
+        REMARK_CN,
+        DOCUMENT_FIRST_NUMBER,
+        DOCUMENT_SECOND_NUMBER,
+        REG_EMP_SEQ,
+        REG_EMP_NAME,
+        REG_DT
+        )
+        VALUES
+        (
+        #{docuType},
+        #{documentPartType},
+        #{documentPartName},
+        #{effectiveDt},
+        #{shipmentDt},
+        #{receiveName},
+        #{managerSn},
+        #{managerName},
+        #{documentTitleName},
+        <if test='"2".equals(docuType)'>
+            #{deptPartType},
+            #{deptPartText},
+            <if test='"6".equals(deptPartType)'>
+                #{userSn},
+                #{userText},
+            </if>
+        </if>
+        #{remarkCn},
+        CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
+        (SELECT IFNULL(MAX(SCCD.DOCUMENT_SECOND_NUMBER), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.DOCUMENT_FIRST_NUMBER = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
+        #{regEmpSeq},
+        #{regEmpName},
+        NOW()
+        )
+        <selectKey keyProperty="documentSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_CAMTIC_DOCUMENT'
+        </selectKey>
+    </insert>
+
     <insert id="setDocuOrderInsert" parameterType="map">
         /* setDocuOrderInsert */
         INSERT INTO CAM_INSIDE.DJ_DOCUMENT_ORDER
@@ -815,7 +874,8 @@
         /*등록대장, 접수대장 임시 삭제*/
         UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
         SET DEL_STS = 10
-        WHERE DOCUMENT_SN = #{DOCUMENT_SN}
+        WHERE DOCUMENT_SN = #{DOCUMEN
+        T_SN}
     </update>
 
     <update id="delCancelDocumentList" parameterType="map">
@@ -896,15 +956,42 @@
         SELECT
             CCD.*,
             DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
-            DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
+            DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
         FROM
             CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON CCD.DOCUMENT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'inCome'
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
 
+
+
+    <select id="getInComeUpdateFileList" resultType="map" parameterType="map">
+        /* getInComeUpdateFileList */
+        SELECT
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
+        FROM
+            CAM_COMMON.DJ_FILE_INFO CFI
+        WHERE
+            CFI.CONTENT_ID = #{documentSn}
+          AND CFI.FILE_CD = 'inCome'
+    </select>
+
+
     <update id="setInComeUpdate" parameterType="map">
-        /*접수대장 팝업 수정*/
+        /*접수대장 팝업 수정 */
         UPDATE
             CAM_COMMON.DJ_CAMTIC_DOCUMENT
         SET

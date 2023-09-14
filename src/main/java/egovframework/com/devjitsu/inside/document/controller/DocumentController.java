@@ -81,11 +81,22 @@ public class DocumentController {
 
     //접수대장 - 문서접수 팝업창
     @RequestMapping("/Inside/pop/inComePop.do")
-    public String inComePop(HttpServletRequest request, Model model) {
+    public String inComePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        model.addAttribute("flag", "false");
+        if(params.containsKey("documentSn")){
+            Map<String, Object> data = documentService.getSnackOne(params);
+            model.addAttribute("documentSn", data.get("DOCUMENT_SN"));
+            model.addAttribute("status", data.get("STATUS"));
+            JSONObject jsonData =  new JSONObject(data);
+            model.addAttribute("data", jsonData);
+            model.addAttribute("flag", "true");
+            model.addAttribute("params", params);
+        }
         return "popup/inside/document/inComePop";
     }
 
@@ -316,6 +327,16 @@ public class DocumentController {
     @RequestMapping("/inside/setDocumentInsert")
     public String setDocumentInsert(@RequestParam Map<String, Object> params) {
         documentService.setDocumentInsert(params);
+
+        return "jsonView";
+    }
+
+    //접수대장 문서등록
+    @RequestMapping("/inside/setInComeInsert")
+    public String setInComeInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        MultipartFile[] file = request.getFiles("inComeFile").toArray(new MultipartFile[0]);
+        documentService.setInComeInsert(params, file, SERVER_DIR, BASE_DIR);
+
         return "jsonView";
     }
 
@@ -489,12 +510,32 @@ public class DocumentController {
         return "popup/inside/document/inComeUpdatePop";
     }
 
-    /** 접수대장 팝업 수정 */
-    @RequestMapping("/inside/setInComeUpdate")
-    public String setInComeUpdate(@RequestParam Map<String, Object> params, Model model) {
-        documentService.setInComeUpdate(params);
+   // 접수대장 수정 팝업 첨부파파일
+    @RequestMapping("/inside/getInComeUpdateList")
+    public String getInComeUpdateList(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = documentService.getInComeUpdateList(params);
+        model.addAttribute("data", data);
         return "jsonView";
     }
+
+    // 접수대장 팝업 수정
+    @RequestMapping("/inside/setInComeUpdate")
+    public String setInComeUpdate(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        MultipartFile[] file = request.getFiles("inComeFile").toArray(new MultipartFile[0]);
+        documentService.setInComeUpdate(params, file, SERVER_DIR, BASE_DIR);
+        model.addAttribute("documentSn", params.get("documentSn"));
+
+        return "jsonView";
+    }
+
+ /*
+    @RequestMapping("/inside/getInComeUpdateFileList")
+    public String getInComeUpdateFileList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> data = documentService.getInComeUpdateFileList(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+*/
 
 
 

@@ -71,6 +71,12 @@ public interface DocumentService {
     void setDocumentInsert(Map<String, Object> params);
 
     /**
+     * 접수대장 문서등록
+     * @param params
+     */
+    void setInComeInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+
+    /**
      * 개발사업수주대장 등록
      * @param params
      */
@@ -155,11 +161,14 @@ public interface DocumentService {
     */
     Map<String, Object> getInComeUpdateList(Map<String, Object> params);
 
+
+
     /**
      * 접수대장 팝업 수정
      */
-    void setInComeUpdate(Map<String, Object> params);
+    Map<String, Object> setInComeUpdate(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
 
+    /*List<Map<String, Object>> getInComeUpdateFileList(Map<String, Object> params);*/
 
 }
