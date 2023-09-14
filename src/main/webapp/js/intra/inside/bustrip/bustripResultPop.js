@@ -382,7 +382,9 @@ var bustripResultPop = {
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
-        if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+        if($("#tripCode").val() != 4 && $("#tripCode").val() != "") {
+            if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+        }
         if($("#realDriver").val() == ""){ alert("운행자를 선택해주세요."); return; }
         if($("#result").val() == ""){ alert("출장결과를 입력해주세요."); return; }
         if($("#moveDst").val() == ""){ alert("운행거리를 입력해주세요."); return; }

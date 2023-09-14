@@ -69,6 +69,21 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>사업기간
+                </th>
+                <td>
+                    <input type="text" id="pjtStrDt" style="width: 43%;"> ~
+                    <input type="text" id="pjtEndDt" style="width: 43%"/>
+                </td>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>입금형태
+                </th>
+                <td>
+                    <input type="text" id="delvPay" style="width: 90%;">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납품품목
                 </th>
                 <td>

@@ -229,8 +229,12 @@
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">사업구분</th>
-                        <td colspan="5">
+                        <td>
                             <input type="text" id="busnClass" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">진행단계</th>
+                        <td colspan="3">
+                            <input type="text" id="busnSubClass" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>
@@ -251,19 +255,19 @@
                     </tr>
                 </table>
 
-                <div class="container" style="display: none;">
-                    <div class="progress-container">
-                        <div class="progress" id="progress"></div>
-                        <div class="circle" id="ps0">상담</div>
-                        <div class="circle" id="ps1">견적</div>
-                        <div class="circle" id="ps2">수주보고</div>
-                        <div class="circle" id="ps3">개발계획</div>
-                        <div class="circle" id="ps4">공정</div>
-                        <div class="circle" id="ps5">납품</div>
-                        <div class="circle" id="ps6">결과보고</div>
-                        <div class="circle" id="ps7">원가보고</div>
-                    </div>
-                </div>
+<%--                <div class="container" style="display: none;">--%>
+<%--                    <div class="progress-container">--%>
+<%--                        <div class="progress" id="progress"></div>--%>
+<%--                        <div class="circle" id="ps0">상담</div>--%>
+<%--                        <div class="circle" id="ps1">견적</div>--%>
+<%--                        <div class="circle" id="ps2">수주보고</div>--%>
+<%--                        <div class="circle" id="ps3">개발계획</div>--%>
+<%--                        <div class="circle" id="ps4">공정</div>--%>
+<%--                        <div class="circle" id="ps5">납품</div>--%>
+<%--                        <div class="circle" id="ps6">결과보고</div>--%>
+<%--                        <div class="circle" id="ps7">원가보고</div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>

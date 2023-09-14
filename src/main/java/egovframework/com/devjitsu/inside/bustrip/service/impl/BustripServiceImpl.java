@@ -42,6 +42,7 @@ public class BustripServiceImpl implements BustripService {
 
         if(params.containsKey("hrBizReqId")){
             bustripRepository.updBustripReq(params);
+            bustripRepository.delBustripCompanion(params);
         } else {
             bustripRepository.insBustripReq(params);
         }
@@ -197,8 +198,6 @@ public class BustripServiceImpl implements BustripService {
         params.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID").toString());
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             bustripRepository.updateResApprStat(params);
-            /* 첨부파일 업데이트 */
-            bustripRepository.setBustripFileNum(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             bustripRepository.updateResApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
@@ -206,8 +205,6 @@ public class BustripServiceImpl implements BustripService {
             bustripRepository.updateResFinalApprStat(params);
             crmRepository.insCrmHist(histMap);
             if("101".equals(docSts)) {
-                /* 첨부파일 업데이트 */
-                bustripRepository.setBustripFileNum(params);
             }
         }
     }

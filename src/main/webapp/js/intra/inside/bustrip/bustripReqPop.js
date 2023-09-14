@@ -16,6 +16,12 @@ const bustripReq = {
         $("#bustObj").kendoTextArea();
         $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({enable: false});
         customKendo.fn_datePicker("date1", 'month', "yyyy-MM-dd", new Date());
+
+        $("#date1").on("change", function(){
+            if($(this).val() > $("#date2").val()){
+                $("#date2").val($(this).val());
+            }
+        })
         customKendo.fn_datePicker("date2", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_timePicker("time1", '10', "HH:mm", "09:00");
@@ -77,6 +83,7 @@ const bustripReq = {
 
                     customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
                 } else {
+                    $("#project").kendoDropDownList();
                     $("#project").data("kendoDropDownList").wrapper.hide();
                     $("#busnLine").css("display", "none");
                 }
@@ -100,6 +107,7 @@ const bustripReq = {
         waypointArr.push({WAYPOINT_NAME: "직접입력", HR_WAYPOINT_INFO_SN: "999"});
         customKendo.fn_dropDownList("visitLocCode", waypointArr, "WAYPOINT_NAME", "HR_WAYPOINT_INFO_SN", 3);
         $("#visitLocCode").data("kendoDropDownList").bind("change", function(){
+
             if($("#visitLocCode").val() == "999"){
                 $(".visitLocSub").show();
                 $(".visitMove").hide();
@@ -126,6 +134,8 @@ const bustripReq = {
                         distance = waypointArr[i].DISTANCE;
                     }
                 }
+                $("#moveDst").val(distance);
+
                 $(".visitMoveSpan").text(distance+" km");
                 if(pageName == "bustripResReq"){
                     $("#moveDst").attr("disabled", true);
@@ -286,7 +296,11 @@ const bustripReq = {
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
-        if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+
+        if($("#tripCode").val() != 4 && $("#tripCode").val() != ""){
+            if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+        }
+
 
         var formData = new FormData();
         formData.append("menuCd", "bustripReq");

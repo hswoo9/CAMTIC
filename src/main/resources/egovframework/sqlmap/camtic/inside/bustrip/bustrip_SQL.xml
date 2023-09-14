@@ -908,8 +908,14 @@
             DOC_ID = #{docId}
         WHERE
             CONTENT_ID = #{hrBizReqId}
-        AND FILE_CD = 'bustripReq'
+        AND FILE_CD = 'bustripReq' AND DOC_ID IS NULL
     </update>
+
+    <delete id="delBustripCompanion" parameterType="map">
+        DELETE FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </delete>
 </mapper>
 
 

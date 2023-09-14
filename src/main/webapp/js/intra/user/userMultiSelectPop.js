@@ -165,9 +165,7 @@ var userMultiSel = {
     gridChoose : function (e) {
         var tr = $(e).closest("tr");
         var row = $('#userList').data("kendoGrid").dataItem(tr);
-        console.log(row);
-        console.log(row.EMP_NAME_KR);
-        console.log(row.EMP_SEQ);
+
         opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
         opener.parent.$("#userName").val(row.EMP_NAME_KR);
         //emp_seq, dept_seq, dept_name
@@ -179,6 +177,26 @@ var userMultiSel = {
 
     newFavApprove : function(e){
         $("#approvalLineDataTb tbody tr").remove();
+    },
+
+    rowDblClick : function(e){
+        $(e).remove();
+
+        $.each($("#approvalLineDataTb tbody tr"), function(i, e){
+            $(e).find("#approveOrder").text(i+1);
+        })
+    },
+
+    rowsel : function(e){
+        // $(".apprLineTr").removeClass("active");
+        // $(e).addClass("active");
+        if($(e).is(":checked")){
+            $(e).prop("checked", false);
+            $(e).closest("tr").removeClass("active");
+        }else{
+            $(e).closest("tr").addClass("active");
+            $(e).prop("checked", true);
+        }
     },
 
     addTable : function(e, mode) {
@@ -209,7 +227,7 @@ var userMultiSel = {
 
                     if(flag){
                         if(result != null){
-                            htmlStr += "<tr ondblclick='appUser.rowDblClick(this)' onclick='appUser.rowsel(this)' style='cursor:pointer' class='apprLineTr newApprLine'>" +
+                            htmlStr += "<tr ondblclick='userMultiSel.rowDblClick(this)' onclick='userMultiSel.rowsel(this)' style='cursor:pointer' class='apprLineTr newApprLine'>" +
                                 "		<td>" +
                                 "			<input type='hidden' id='approveEmpSeq' name='approveEmpSeq' value='"+result.EMP_SEQ+"'>" +
                                 "			<input type='hidden' id='approveEmpName' name='approveEmpName' value='"+result.EMP_NAME_KR+"'>" +

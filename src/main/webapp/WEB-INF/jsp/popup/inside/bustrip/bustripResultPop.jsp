@@ -217,12 +217,14 @@
                                 <col width="50%">
                                 <col width="10%">
                                 <col width="30%">
+                                <col width="10%">
                             </colgroup>
                             <thead>
                             <tr class="text-center th-color">
                                 <th>파일명</th>
                                 <th>확장자</th>
                                 <th>용량</th>
+                                <th>기타</th>
                             </tr>
                             </thead>
                             <tbody id="fileGrid">

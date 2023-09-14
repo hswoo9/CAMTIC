@@ -233,6 +233,18 @@ public class BustripController {
         return "inside/bustrip/bustripSettleList";
     }
 
+    /** 출장 정산목록 페이지 */
+    @RequestMapping("/bustrip/bustripSettleList2.do")
+    public String bustripSettleList2(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/bustripSettleList2";
+    }
+
     /** 출장 정산목록 리스트 */
     @RequestMapping("/bustrip/getBustripSettleList")
     public String getBustripSettleList(@RequestParam Map<String, Object> params, Model model) {

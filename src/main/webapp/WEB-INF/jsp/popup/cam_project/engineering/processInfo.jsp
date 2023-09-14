@@ -155,7 +155,31 @@
 
 <script>
     processInfo.fn_defaultScript();
+    function addFileInfoTable(idx){
+        fCommon.global.attFiles = new Array();
+        for(var i = 0; i < $("input[name='fileList"+idx+"']")[0].files.length; i++){
+            fCommon.global.attFiles.push($("input[name='fileList"+idx+"']")[0].files[i]);
+        }
 
+        if(fCommon.global.attFiles.length > 0){
+            $("#fileGrid" + idx).find(".defultTr").remove();
+            $("#fileGrid" + idx).find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
+                html += '<tr style="text-align: center" class="addFile">';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid" + idx).append(html);
+        }
+    }
 </script>
 </body>
 </html>
