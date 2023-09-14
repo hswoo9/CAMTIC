@@ -198,6 +198,8 @@ var bustripResultPop = {
                 if($("#mod").val() == "mng"){
                     $("#saveBtn").css("display", "none");
                     var map = result.rs.map;
+                    console.log("여깁니다");
+                    console.log(map);
                     var html = "";
                     let oilCostTotal = 0;
                     let trafCostTotal = 0;
@@ -208,10 +210,23 @@ var bustripResultPop = {
                     let parkingCostTotal = 0;
                     let etcCostTotal = 0;
                     let totalCostTotal = 0;
+
+                    let oilCorpCostTotal = 0;
+                    let trafCorpCostTotal = 0;
+                    let trafDayCorpotal = 0;
+                    let tollCorpCostTotal = 0;
+                    let dayCorpCostTotal = 0;
+                    let eatCorpCostTotal = 0;
+                    let parkingCorpCostTotal = 0;
+                    let etcCorpCostTotal = 0;
+                    let totalCorpCostTotal = 0;
+
                     for(var i = 0 ; i < map.length ; i++){
+
                         if(map[i].DRIVER == "Y"){
                             $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
                         }
+
                         oilCostTotal += Number(map[i].OIL_COST.replace(",", ""));
                         trafCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
                         trafDayTotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
@@ -221,19 +236,99 @@ var bustripResultPop = {
                         parkingCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
                         etcCostTotal += Number(map[i].ETC_COST.replace(",", ""));
                         totalCostTotal += Number(map[i].TOT_COST.replace(",", ""));
+
+
                         html += "<tr style='text-align: right'>";
                         html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
-                        html += "   <td>"+map[i].OIL_COST+"</td>";
-                        html += "   <td>"+map[i].TRAF_COST+"</td>";
-                        html += "   <td>"+map[i].TRAF_DAY_COST+"</td>";
-                        html += "   <td>"+map[i].TOLL_COST+"</td>";
+                        if(map[i].OIL_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].OIL_COST+"</td>";
+                        }else{
+                            oilCorpCostTotal += Number(map[i].OIL_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+                        if(map[i].TRAF_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].TRAF_COST+"</td>";
+                        }else{
+                            trafCorpCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+                        if(map[i].TRAF_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].TRAF_DAY_COST+"</td>"
+                        }else{
+                            trafDayCorpotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+                        if(map[i].TOLL_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].TOLL_COST+"</td>";
+                        }else{
+                            tollCorpCostTotal += Number(map[i].TOLL_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
                         html += "   <td>"+map[i].DAY_COST+"</td>";
-                        html += "   <td>"+map[i].EAT_COST+"</td>";
-                        html += "   <td>"+map[i].PARKING_COST+"</td>";
-                        html += "   <td>"+map[i].ETC_COST+"</td>";
-                        html += "   <td>"+map[i].TOT_COST+"</td>";
+
+                        if(map[i].EAT_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].EAT_COST+"</td>";
+                        }else{
+                            eatCorpCostTotal += Number(map[i].EAT_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+                        if(map[i].PARKING_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].PARKING_COST+"</td>";
+                        }else{
+                            parkingCorpCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+                        if(map[i].ETC_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].ETC_COST+"</td>";
+                        }else{
+                            etcCorpCostTotal += Number(map[i].ETC_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+                        if(map[i].TOLL_CORP_YN != "Y"){
+                            html += "   <td>"+map[i].TOT_COST+"</td>";
+                            html += "   <td></td>";
+                        }else{
+                            totalCorpCostTotal += Number(map[i].TOT_COST.replace(",", ""));
+                            html += "   <td></td>";
+                        }
+
+
                         html += "</tr>";
                     }
+                    
+                    html += "<tr style='text-align: right'>";
+                    html += "   <td style='text-align: center'>법인카드</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>"+fn_comma(trafCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(trafDayCorpotal)+"</td>";
+                    html += "   <td>"+fn_comma(tollCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(dayCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(eatCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(parkingCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(etcCorpCostTotal)+"</td>";
+                    html += "   <td>"+fn_comma(trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal)+"</td>";
+                    html += "</tr>";
+
+                    html += "<tr style='text-align: right'>";
+                    html += "   <td style='text-align: center'>법인차량</td>";
+                    html += "   <td>"+fn_comma(oilCorpCostTotal)+"</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>0</td>";
+                    html += "   <td>"+fn_comma(oilCorpCostTotal)+"</td>";
+                    html += "</tr>";
+
                     html += "<tr style='text-align: right'>";
                     html += "   <td style='text-align: center'>합계</td>";
                     html += "   <td>"+fn_comma(oilCostTotal)+"</td>";
@@ -263,7 +358,7 @@ var bustripResultPop = {
 
     fn_saveBtn : function(e){
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
+        if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
