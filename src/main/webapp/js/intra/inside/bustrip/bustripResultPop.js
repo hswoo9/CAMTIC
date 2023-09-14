@@ -35,9 +35,26 @@ var bustripResultPop = {
             let resList = result.rs.resList;
             var fileInfo = result.rs.fileInfo;
 
-
             $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
-            $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
+            var prjCd = resInfo.PROJECT_CD;
+            var bcDsData = {
+                cmGroupCode : "BUSN_CLASS",
+            }
+            var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+            if(prjCd == "R" || prjCd == "S"){
+                $("#busnLgClass").data("kendoDropDownList").value(1);
+                $("#project").css("display", "");
+                customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
+                $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
+                $("#busnName").val(resInfo.BUSN_NAME);
+            }else if(prjCd == "R" || prjCd == "S" || prjCd == "S"){
+                $("#busnLgClass").data("kendoDropDownList").value(2);
+                $("#project").css("display", "");
+                customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
+                $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
+                $("#busnName").val(resInfo.BUSN_NAME);
+            }
+
             if($("#project").val() == 0 || $("#project").val() == ""){
                 $("#busnLine").css("display", "none");
             } else {
@@ -160,7 +177,6 @@ var bustripResultPop = {
             if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
                 $("#popEmpName").data("kendoTextBox").enable(false);
                 $("#tripCode").data("kendoDropDownList").enable(false);
-                $("#project").data("kendoDropDownList").enable(false);
                 $("#visitCrm").data("kendoTextBox").enable(false);
                 $("#visitLoc").data("kendoTextBox").enable(false);
                 $("#visitLocSub").data("kendoTextBox").enable(false);
@@ -235,6 +251,12 @@ var bustripResultPop = {
                 }
                 $("#realDriver").data("kendoDropDownList").enable(false);
                 $("#moveDst").data("kendoTextBox").enable(false);
+            }
+            $("#busnLgClass").data("kendoDropDownList").enable(false);
+
+            if(resInfo.PROJECT_CD != 0){
+                $("#busnName").data("kendoTextBox").enable(false);
+                $("#project").data("kendoDropDownList").enable(false);
             }
         }
     },

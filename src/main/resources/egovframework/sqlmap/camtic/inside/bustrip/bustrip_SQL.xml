@@ -59,6 +59,7 @@
                 USE_TRSPT,
                 PROJECT,
                 PROJECT_CD,
+                TRIP_SUBJECT
                 REG_EMP_SEQ,
                 REG_EMP_NAME
             )

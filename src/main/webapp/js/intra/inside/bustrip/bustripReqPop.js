@@ -60,7 +60,7 @@ const bustripReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
+                { text: "선택", value: "" },
                 { text: "정부사업", value: "1" },
                 { text: "민간사업", value: "2" }
             ],
@@ -144,7 +144,24 @@ const bustripReq = {
         var fileInfo = result.rs.fileInfo;
 
         $("#tripCode").data("kendoDropDownList").value(busInfo.TRIP_CODE);
-        $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
+        var prjCd = busInfo.PROJECT_CD;
+        var bcDsData = {
+            cmGroupCode : "BUSN_CLASS",
+        }
+        var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+        if(prjCd == "R" || prjCd == "S"){
+            $("#busnLgClass").data("kendoDropDownList").value(1);
+            $("#project").css("display", "");
+            customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
+            $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
+            $("#busnName").val(busInfo.BUSN_NAME);
+        }else if(prjCd == "R" || prjCd == "S" || prjCd == "S"){
+            $("#busnLgClass").data("kendoDropDownList").value(2);
+            $("#project").css("display", "");
+            customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
+            $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
+            $("#busnName").val(busInfo.BUSN_NAME);
+        }
         if($("#project").val() == 0 || $("#project").val() == ""){
             $("#busnLine").css("display", "none");
         } else {
@@ -191,6 +208,7 @@ const bustripReq = {
         $("#time1").val(busInfo.TRIP_TIME_FR);
         $("#time2").val(busInfo.TRIP_TIME_TO);
         $("#bustObj").val(busInfo.TITLE);
+        $("#crmSn").val(busInfo.CRM_SN);
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
         if(busInfo.USE_CAR == "Y"){
             $("#car2").prop("checked", true);
@@ -230,7 +248,6 @@ const bustripReq = {
         if((busInfo.STATUS != 0 && busInfo.STATUS != 30 && pageName == 'bustripReq') || $("#mod").val() == "mng"){
             $("#popEmpName").data("kendoTextBox").enable(false);
             $("#tripCode").data("kendoDropDownList").enable(false);
-            $("#project").data("kendoDropDownList").enable(false);
             $("#visitCrm").data("kendoTextBox").enable(false);
             $("#visitLoc").data("kendoTextBox").enable(false);
             $("#visitLocSub").data("kendoTextBox").enable(false);
@@ -251,6 +268,11 @@ const bustripReq = {
             if($("#mod").val() == "mng"){
                 $("#result").data("kendoTextBox").enable(false);
                 $("#saveBtn").css("display", "none");
+            }
+            $("#busnLgClass").data("kendoDropDownList").enable(false);
+            if(busInfo.PROJECT_CD != 0){
+                $("#busnName").data("kendoTextBox").enable(false);
+                $("#project").data("kendoDropDownList").enable(false);
             }
         }
     },

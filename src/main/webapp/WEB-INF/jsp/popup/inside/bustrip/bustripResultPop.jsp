@@ -85,14 +85,15 @@
                     </td>
                     <th><span class="red-star">*</span>관련사업</th>
                     <td>
-                        <input type="text" id="project" style="width: 80%;">
+                        <input type="text" id="busnLgClass" style="width: 45%"/>
+                        <input type="text" id="project" style="width: 45%; display:none;">
                     </td>
                 </tr>
                 <tr id="busnLine" style="display: none;">
                     <th><span class="red-star">*</span>사업명</th>
                     <td colspan="3">
-                        <input type="text" id="busnName" name="busnName" readonly style="width: 80%;">
-                        <button type="button" class="k-button k-button-solid-info" id="projectAddBtn">사업선택</button>
+                        <input type="text" id="busnName" name="busnName" style="width: 80%;">
+                        <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
                     </td>
                 </tr>
                 <tr>
