@@ -68,6 +68,11 @@
     font-weight: bold;
     color: black;
   }
+
+  a:hover {
+    text-decoration: underline !important;
+    color: blue !important;
+  }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
