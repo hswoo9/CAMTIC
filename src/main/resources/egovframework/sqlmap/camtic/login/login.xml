@@ -7,6 +7,7 @@
         /* actionLogin */
         SELECT
             HEI.LOGIN_ID AS id,
+            HEI.LOGIN_PASSWD AS password,
             HEI.EMP_NAME_KR AS name,
             HEI.EMP_SEQ AS uniqId,
             HEI.ERP_EMP_SEQ AS erpEmpCd,
@@ -46,5 +47,50 @@
             <otherwise>AND LOGIN_ID = #{id}</otherwise>
         </choose>
 
+    </select>
+
+    <select id="actionLoginMap" resultType="map" parameterType="map">
+        /* actionLoginMap */
+        SELECT
+            HEI.LOGIN_ID AS id,
+            HEI.LOGIN_PASSWD AS password,
+            HEI.EMP_NAME_KR AS name,
+            HEI.EMP_SEQ AS uniqId,
+            HEI.ERP_EMP_SEQ AS erpEmpCd,
+            HEI.DEPT_SEQ AS orgnztId,
+            HEI.DEPT_NAME AS orgnztNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS deptId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS teamId,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+
+            /* 직급 ex 수석연구원 */
+            HEI.POSITION_CODE AS positionCode,
+            HEI.POSITION_NAME AS positionNm,
+
+            /* 직책 ex 본부장 */
+            HEI.DUTY_CODE AS dutyCode,
+            HEI.DUTY_NAME AS dutyNm,
+
+            /* 등급 ex 1급 */
+            HEI.GRADE_CODE AS gradeCode,
+            HEI.GRADE_NAME AS gradeNm,
+
+            /* 담당직무 ex 설계전담 강사 */
+            HEI.JOB_DETAIL AS jobDetailNm
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            1=1
+        AND
+            ACTIVE = 'Y'
+        /*AND
+        WORK_STATUS_CODE = 'Y'*/
+        <choose>
+            <when test='uniqId != null and !"".equals(uniqId)'>AND EMP_SEQ = #{uniqId}</when>
+            <otherwise>AND LOGIN_ID = #{userId}</otherwise>
+        </choose>
     </select>
 </mapper>

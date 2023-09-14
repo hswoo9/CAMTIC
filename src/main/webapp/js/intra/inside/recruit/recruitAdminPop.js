@@ -102,10 +102,16 @@ var recruitAdminPop = {
                     },
                     width : 80
                 }, {
-                    field: "IN_AVOID2",
+                    field: "DOC_SCREEN_AVERAGE",
                     title: "서류심사",
                     width : 80,
-                    hidden : true,
+                    template : function(e){
+                        if(e.DOC_SCREEN_AVERAGE != null){
+                            return e.DOC_SCREEN_AVERAGE + "점";
+                        }else{
+                            return "심사전";
+                        }
+                    }
                 }, {
                     field: "IN_AVOID",
                     title: "면접불참",
@@ -137,6 +143,7 @@ var recruitAdminPop = {
             $("#mainGrid").data("kendoGrid").showColumn(12);
             $("#mainGrid").data("kendoGrid").showColumn(13);
         }else if($("div.circle.active").attr("searchType") == "I"){
+            $("#mainGrid").data("kendoGrid").hideColumn(13);
             $("#mainGrid").data("kendoGrid").showColumn(14);
             $("#mainGrid").data("kendoGrid").showColumn(15);
         }
@@ -153,18 +160,15 @@ var recruitAdminPop = {
 
     getEvalUrlSet : function(e){
         if(e == "doc"){
-            if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
-                alert("http://localhost:8090/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
-            }else if(location.host.indexOf("121.186.165.80") > -1){
-                alert("http://121.186.165.80:7075/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
-            }else{
-                alert("https://withyou.jiat.re.kr/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
-            }
+            var url = "/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e;
+            var name = "evalLogin";
+            var option = "width=500, height=275, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
         }else{
             if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
                 alert("http://localhost:9090/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
-            }else{
-                alert("https://withyou.jiat.re.kr/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
+            }else if(location.host.indexOf("218.158.231.186") > -1){
+                alert("http://218.158.231.186:8080/evaluation/evalLogin.do?recruitBoardId=" + $("#recruitBoardId").val() + "&type=" + e)
             }
         }
     },

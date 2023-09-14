@@ -233,9 +233,10 @@
     <select id="getRecruitAreaList" parameterType="map" resultType="map">
         /* getRecruitAreaList */
         SELECT
-            *
+            RAI.*,
+            CONCAT('근무부서 - [', RAI.DEPT_NAME, ' > ', RAI.TEAM_NAME, '] 채용부문 - [', RAI.JOB, '] 필요경력 - [', RAI.CAREER, ']') AS AREA_TITLE
         FROM
-            CAM_INSIDE.DJ_RECRUIT_AREA_INFO
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO RAI
         WHERE 1=1
         <choose>
             <when test='RECRUIT_INFO_SN != null and !"".equals(RECRUIT_INFO_SN)'>
@@ -277,9 +278,20 @@
                  ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전')
             END AS SAVE_DATE,
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE SAVE_TYPE = 'S' AND AM.APPLICATION_ID != APPLICATION_ID) AS DUPLICATION_CNT,
-            CASE WHEN AM.IN_AVOID = 'Y' THEN '서류'
-                ELSE '참'
-            END IN_AVOID2,
+            (
+                SELECT
+                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+                FROM
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+                JOIN
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
+                ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+                WHERE
+                    APPLICATION_ID = AM.APPLICATION_ID
+                AND
+                    EVAL_ITEM_ID != 'otherRmk'
+                GROUP BY APPLICATION_ID
+            ) AS DOC_SCREEN_AVERAGE,
             CASE WHEN AM.IN_AVOID = 'Y' THEN '불참'
                 ELSE ''
             END IN_AVOID,
@@ -312,7 +324,7 @@
             GROUP BY DAS.APPLICATION_ID
         )DAS
         ON AM.APPLICATION_ID = DAS.APPLICATION_ID
-        JOIN
+        LEFT JOIN
             CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY LA
         ON AM.APPLICATION_ID = LA.APPLICATION_ID
         JOIN
@@ -324,6 +336,10 @@
             AM.SAVE_TYPE = 'S'
         AND
             AM.APPLICATION_STAT = #{searchType}
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
+        AND
+            AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
         GROUP BY AM.APPLICATION_ID
     </select>
 

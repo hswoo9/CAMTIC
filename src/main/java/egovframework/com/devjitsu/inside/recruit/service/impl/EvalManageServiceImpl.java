@@ -86,6 +86,29 @@ public class EvalManageServiceImpl implements EvalManageService {
     }
 
     @Override
+    public Map<String, Object> setEvalSelectionEmpSeq(Map<String, Object> params) {
+        Map<String, Object> checkedMap = evalManageRepository.evalLoginChk(params);
+        Map<String, Object> returnMap = new HashMap<>();
+        boolean flag = false;
+
+        if(checkedMap == null){
+            evalManageRepository.setEvalSelectionEmpSeq(params);
+            returnMap = evalManageRepository.evalLoginChk(params);
+            flag = true;
+        }else{
+            returnMap = evalManageRepository.evalLoginChk(params);
+            if(checkedMap.get("EVAL_STATUS").equals("P")){
+                flag = true;
+            }else{
+                returnMap.put("message", "심사평가 종료된 평가위원입니다.");
+            }
+        }
+        returnMap.put("flag", flag);
+
+        return returnMap;
+    }
+
+    @Override
     public void setRecruitEvalSelSheet(Map<String, Object> params) {
         if(StringUtils.isEmpty(params.get("recruitEvalSheetId"))){
             evalManageRepository.setRecruitEvalSelSheet(params);

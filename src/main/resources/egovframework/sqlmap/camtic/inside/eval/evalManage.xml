@@ -169,9 +169,16 @@
             *
         FROM
             CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
-        WHERE
-            RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
-          AND
+        WHERE 1=1
+        <choose>
+            <when test='uniqId != null and !"".equals(uniqId)'>
+                AND ID = #{uniqId}
+            </when>
+            <otherwise>
+                AND RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
+            </otherwise>
+        </choose>
+        AND
             RECRUIT_INFO_SN = #{recruitInfoSn}
     </select>
 
@@ -199,5 +206,25 @@
             CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
         WHERE
             RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
+    </insert>
+
+    <insert id="setEvalSelectionEmpSeq" parameterType="map">
+        /* setEvalSelectionEmpSeq */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        (
+            RECRUIT_INFO_SN,
+            ID,
+            PWD,
+            NAME,
+            REG_ID
+        )
+        VALUES
+        (
+            #{recruitInfoSn},
+            #{uniqId},
+            #{password},
+            #{name},
+            #{uniqId}
+        )
     </insert>
 </mapper>

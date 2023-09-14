@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="eval">
+
+    <select id="getEvalLogin" parameterType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        WHERE
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+            ID = #{userId}
+        AND
+            PWD = #{userPassword}
+    </select>
+
+    <delete id="setApplicationEvalScreenDel" parameterType="map">
+        /* setApplicationEvalScreenDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD
+        WHERE
+            EVAL_LOGIN_ID = #{evalLoginId} AND APPLICATION_ID = #{applicationId} AND EVAL_SCREEN_TYPE = #{evalScreenType}
+    </delete>
+
+    <insert id="setApplicationEvalScreen" parameterType="map">
+        /* setApplicationEvalScreen */
+        INSERT INTO CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD
+            (
+                EVAL_LOGIN_ID,
+                APPLICATION_ID,
+                EVAL_ITEM_ID,
+                EVAL_ITEM_SCORE,
+                EVAL_SCREEN_TYPE,
+                REG_ID
+            )
+        VALUES
+        <foreach collection="evalArr" item="item" separator=",">
+            (
+            #{evalLoginId},
+            #{item.applicationId},
+            #{item.evalItemId},
+            #{item.evalItemScore},
+            #{item.evalScreenType},
+            #{evalLoginId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getApplicationScoreBoard" parameterType="map" resultType="map">
+        /* getApplicationScoreBoard */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD
+        WHERE
+            EVAL_LOGIN_ID = #{evalLoginId} AND EVAL_SCREEN_TYPE = #{evalScreenType}
+    </select>
+
+    <select id="setEvalEndChk" parameterType="map" resultType="boolean">
+        /* setEvalEndChk */
+        SELECT
+            CASE
+                WHEN (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = #{recruitInfoSn} AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'S') =
+                    (SELECT COUNT(*) FROM (SELECT * FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE EVAL_LOGIN_ID = #{evalLoginId} GROUP BY APPLICATION_ID)A)
+                THEN 1 ELSE 0
+            END
+        FROM
+            DUAL
+    </select>
+
+    <update id="setEvalEndUpd" parameterType="map">
+        /* setEvalEndUpd */
+        UPDATE
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        SET
+            EVAL_STATUS = 'E',
+            MOD_ID = #{evalLoginId}
+        WHERE
+            EVAL_LOGIN_ID = #{evalLoginId}
+    </update>
+</mapper>

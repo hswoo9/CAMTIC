@@ -92,7 +92,7 @@
 
       <div id="docPassBtnDiv" style="text-align: right">
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="recruitAdminPop.getEvalUrlSet('doc')">
-          <span>서류심사 URL 생성</span>
+          <span>서류심사 바로가기</span>
         </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="docPass" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
           <span>서류심사 합격</span>
