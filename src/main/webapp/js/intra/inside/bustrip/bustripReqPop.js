@@ -8,6 +8,7 @@ const bustripReq = {
         if(hrBizReqId != ""){
             bustripReq.dataSet(hrBizReqId);
         }
+        $("#visitCrm").attr("readonly", true);
     },
 
     pageSet: function(){
@@ -295,7 +296,9 @@ const bustripReq = {
         formData.append("deptName", $("#regDeptName").val());
         formData.append("tripCode", $("#tripCode").val());
         formData.append("projectCd", $("#project").val());
-        formData.append("project", $("#project").data("kendoDropDownList").text());
+        if($("#busnLgClass").val() != ""){
+            formData.append("project", $("#project").data("kendoDropDownList").text());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
