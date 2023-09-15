@@ -106,8 +106,8 @@
 
       <div id="inPassBtnDiv" style="display: none;text-align: right">
         <div>
-          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="docScreenPopBtn" value="S" onclick="recruitAdminPop.docScreenViewPopBtn()">
-            <span>서류심사 평가표</span>
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="docScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('doc')">
+            <span>서류심사 평가결과</span>
           </button>
           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="docPassCancel" value="S" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
             <span>서류심사 합격취소</span>
@@ -131,6 +131,9 @@
       </div>
 
       <div id="fPassBtnDiv" style="display: none;text-align: right">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('in')">
+          <span>면접심사 평가결과</span>
+        </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inPassCancel" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
           <span>면접심사 합격취소</span>
         </button>

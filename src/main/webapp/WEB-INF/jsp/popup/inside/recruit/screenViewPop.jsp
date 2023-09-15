@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/recruit/docScreenViewPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/screenViewPop.js?v=${today}"></script>
 <style>
   .k-grid-toolbar{
     justify-content: flex-end !important;
@@ -23,9 +23,18 @@
 <div class="col-lg-12 pop_sign_wrap" style="width:1000px;padding:0;">
   <div class="table-responsive">
     <div class="card-header pop-header">
-      <h3 class="card-title title_NM">채용 서류심사 평가결과</h3>
+      <h3 class="card-title title_NM">
+        <c:choose>
+          <c:when test="${params.type eq 'doc'}">
+            채용 서류심사 평가결과
+          </c:when>
+          <c:otherwise>
+            채용 면접심사 평가결과
+          </c:otherwise>
+        </c:choose>
+      </h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="docScreenViewPop.setInTimeSet();">저장</button>
+        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="">평가표 다운로드</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>
@@ -33,6 +42,7 @@
     <div class="panel-body">
       <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="">
       <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="">
+      <input type="hidden" id="type" name="type" value="${params.type}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 
       <table class="searchTable table table-bordered mb-0">
@@ -58,6 +68,6 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
-  docScreenViewPop.init(JSON.parse('${recruit}'));
+  screenViewPop.init(JSON.parse('${recruit}'));
 </script>
 </body>

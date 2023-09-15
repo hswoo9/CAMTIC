@@ -238,15 +238,16 @@ public class RecruitController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/pop/docScreenViewPop.do")
-    public String docScreenViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    @RequestMapping("/inside/pop/screenViewPop.do")
+    public String screenViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         model.addAttribute("recruit", new Gson().toJson(recruitService.getRecruit(params)));
 
-        return "popup/inside/recruit/docScreenViewPop";
+        return "popup/inside/recruit/screenViewPop";
     }
 
     /**

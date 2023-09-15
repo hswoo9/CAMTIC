@@ -1,4 +1,4 @@
-var docScreenViewPop = {
+var screenViewPop = {
     global : {
         searchAjaxData : "",
         saveAjaxData : "",
@@ -9,10 +9,10 @@ var docScreenViewPop = {
         $("#recruitInfoSn").val(recruit.RECRUIT_INFO_SN);
         $("#recruitTitle").text(recruit.RECRUIT_TITLE);
 
-        docScreenViewPop.gridReload();
+        screenViewPop.gridReload();
 
         customKendo.fn_dropDownList("recruitAreaInfoSn", recruit.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
-        $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", docScreenViewPop.gridReload);
+        $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", screenViewPop.gridReload);
     },
 
     mainGrid : function(url, params) {
@@ -39,6 +39,18 @@ var docScreenViewPop = {
                         return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
                     }
                 }, {
+                    field: "IN_TIME",
+                    title: "면접시각",
+                    width : 150,
+                    template : function(e){
+                        if(e.IN_TIME != null){
+                            return e.IN_TIME;
+                        }else{
+                            return "미설정";
+                        }
+                    },
+                    hidden : true
+                }, {
                     field: "USER_NAME",
                     title: "성명",
                     width : 80,
@@ -62,7 +74,7 @@ var docScreenViewPop = {
                     width : 100,
                     template : function(e){
                         if(e.WORK_DATE != null){
-                            return docScreenViewPop.fn_calculate(e.WORK_DATE);
+                            return screenViewPop.fn_calculate(e.WORK_DATE);
                         }else{
                             return "";
                         }
@@ -74,7 +86,8 @@ var docScreenViewPop = {
                 }, {
                     field: "LANG_NAME",
                     title: "외국어",
-                    width : 150
+                    width : 150,
+                    hidden : true
                 }, {
                     field: "DOC_SCREEN_AVERAGE",
                     title: "서류심사",
@@ -85,27 +98,48 @@ var docScreenViewPop = {
                         }else{
                             return "심사전";
                         }
-                    }
+                    },
+                    hidden : true
+                }, {
+                    field: "IN_SCREEN_AVERAGE",
+                    title: "면접심사",
+                    width : 80,
+                    template : function(e){
+                        if(e.IN_SCREEN_AVERAGE != null){
+                            return e.IN_SCREEN_AVERAGE + "점";
+                        }else{
+                            return "심사전";
+                        }
+                    },
+                    hidden : true
                 }
             ]
         }).data("kendoGrid");
+
+        if($("#type").val() == "doc"){
+            $("#mainGrid").data("kendoGrid").showColumn(8);
+            $("#mainGrid").data("kendoGrid").showColumn(9);
+        }else if($("#type").val() == "in"){
+            $("#mainGrid").data("kendoGrid").showColumn(1);
+            $("#mainGrid").data("kendoGrid").showColumn(10);
+        }
     },
 
     gridReload : function() {
-        docScreenViewPop.global.searchAjaxData = {
+        screenViewPop.global.searchAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
             notSearchType : "S"
         }
 
-        docScreenViewPop.mainGrid("/recruit/manage/eval/getApplicationScreenViewList.do", docScreenViewPop.global.searchAjaxData);
+        screenViewPop.mainGrid("/recruit/manage/eval/getApplicationScreenViewList.do", screenViewPop.global.searchAjaxData);
 
-        docScreenViewPop.fnResizeForm();
+        screenViewPop.fnResizeForm();
     },
 
     fn_calculate : function(e) {
         var ret_month = 0;
-        ret_month = docScreenViewPop.fn_chk_month(e);
+        ret_month = screenViewPop.fn_chk_month(e);
 
         return Math.floor(ret_month / 12) + "년" + parseInt(ret_month % 12) + "개월"
     },

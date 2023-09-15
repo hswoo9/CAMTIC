@@ -232,6 +232,7 @@
         /* getApplicationScreenViewList */
         SELECT
             AM.APPLICATION_ID,
+            IT.IN_TIME,
             AM.USER_EMAIL,
             AM.RECRUIT_INFO_SN,
             AM.RECRUIT_AREA_INFO_SN,
@@ -319,6 +320,9 @@
         LEFT JOIN
             CAM_INSIDE.DJ_APPLICATION_CAREER AC
         ON AM.APPLICATION_ID = AC.APPLICATION_ID
+        LEFT JOIN
+            CAM_INSIDE.DJ_APPLICATION_IN_TIME IT
+        ON AM.APPLICATION_ID = IT.APPLICATION_ID
         JOIN
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
