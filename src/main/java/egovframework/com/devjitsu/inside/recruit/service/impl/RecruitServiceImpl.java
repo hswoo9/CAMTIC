@@ -119,6 +119,8 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void setInAvoidUpd(Map<String, Object> params) {
         recruitRepository.setInAvoidUpd(params);
+        /** 불참자 평가 데이터 삭제 */
+//        recruitRepository.setInAvoidScoreBoardDel(params);
     }
 
     @Override

@@ -444,6 +444,11 @@
             APPLICATION_ID IN (${applicationId})
     </update>
 
+    <delete id="setInAvoidScoreBoardDel" parameterType="map">
+        /* setInAvoidScoreBoardDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE APPLICATION_ID IN (${applicationId})
+    </delete>
+
     <delete id="setApplicationInTimeDel" parameterType="map">
         /* setApplicationInTimeDel */
         DELETE FROM CAM_INSIDE.DJ_APPLICATION_IN_TIME WHERE RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}

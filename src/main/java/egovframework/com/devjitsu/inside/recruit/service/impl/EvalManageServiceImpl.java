@@ -116,4 +116,9 @@ public class EvalManageServiceImpl implements EvalManageService {
             evalManageRepository.setRecruitEvalSelSheetUpd(params);
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getApplicationScreenViewList(Map<String, Object> params) {
+        return evalManageRepository.getApplicationScreenViewList(params);
+    }
 }

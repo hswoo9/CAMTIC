@@ -59,7 +59,7 @@ var recruitAdminPop = {
                     title: "성명",
                     width : 80,
                     template : function(e){
-                        return '<a onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
+                        return '<a  style="cursor: pointer;" onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
                     }
                 }, {
                     field: "AGE",
@@ -273,6 +273,13 @@ var recruitAdminPop = {
             alert("처리되었습니다.");
             recruitAdminPop.gridReload();
         }
+    },
+
+    docScreenViewPopBtn : function(e){
+        var url = "/inside/pop/docScreenViewPop.do?recruitInfoSn=" + $("#recruitInfoSn").val();
+        var name = "docScreenViewPop";
+        var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     inTimeSetPop : function(){

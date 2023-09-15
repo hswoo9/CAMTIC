@@ -118,6 +118,18 @@ public class EvalManageController {
     }
 
     /**
+     * 채용관리 - 평가결과 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/recruit/manage/eval/getApplicationScreenViewList.do")
+    public String getApplicationScreenViewList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", evalManageService.getApplicationScreenViewList(params));
+        return "jsonView";
+    }
+
+    /**
      * 채용 심사 평가 관리 - 평가지 미리보기 팝업 ---- 미사용
      * @return
      */

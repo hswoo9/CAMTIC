@@ -25,4 +25,5 @@ public class EvalManageRepository extends AbstractDAO {
     public void setEvalSelectionEmpSeq(Map<String, Object> params){ insert("evalManage.setEvalSelectionEmpSeq", params);}
     public void setRecruitEvalSelSheet(Map<String, Object> params){ insert("evalManage.setRecruitEvalSelSheet", params);}
     public void setRecruitEvalSelSheetUpd(Map<String, Object> params){ update("evalManage.setRecruitEvalSelSheetUpd", params);}
+    public List<Map<String, Object>> getApplicationScreenViewList(Map<String, Object> params) { return selectList("evalManage.getApplicationScreenViewList", params);}
 }
