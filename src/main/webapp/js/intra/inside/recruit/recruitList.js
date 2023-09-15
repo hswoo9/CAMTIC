@@ -154,19 +154,42 @@ var recruitList = {
                 }, {
                     field: "",
                     title: "서류심사",
-                    template: function(row) {
-                        return "-";
+                    template: function(e) {
+                        if(e.STATUS == "3" && e.DOC_SCREEN_CNT == e.DOC_SCREEN_RESULT){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'doc\')">' +
+                                '	<span class="k-button-text">심사결과</span>' +
+                                '</button>';
+                        }else{
+                            return "";
+                        }
                     }
                 }, {
                     field: "",
                     title: "면접심사",
-                    template: function(row) {
-                        return "-";
+                    template: function(e) {
+                        if(e.STATUS == "3" && e.IN_SCREEN_CNT == e.IN_SCREEN_RESULT){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'in\')">' +
+                                '	<span class="k-button-text">심사결과</span>' +
+                                '</button>';
+                        }else{
+                            return "";
+                        }
                     }
                 }, {
-                    field: "RECRUIT_STATUS_TEXT",
+                    field: "RECRUIT_STATUS_SN",
                     title: "상태",
-                    width : 60
+                    width : 60,
+                    template : function(e){
+                        if(e.RECRUIT_STATUS_SN == "1"){
+                            return "작성중";
+                        }else if(e.RECRUIT_STATUS_SN == "2"){
+                            return "접수중";
+                        }else if(e.RECRUIT_STATUS_SN == "3"){
+                            return "심사중";
+                        }else if(e.RECRUIT_STATUS_SN == "4"){
+                            return "채용완료";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -229,13 +252,13 @@ var recruitList = {
                     field: "RECRUITMENT",
                     title: "채용인원",
                 }, {
-                    field: "",
+                    field: "APPLICATION_CNT",
                     title: "접수인원",
                 }, {
-                    field: "",
+                    field: "DOC_SCREEN_CNT",
                     title: "서류심사",
                 }, {
-                    field: "",
+                    field: "IN_SCREEN_CNT",
                     title: "면접심사",
                 }
             ]
@@ -247,5 +270,12 @@ var recruitList = {
         var name = "recruitDetailPop";
         var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    screenViewPop : function(sn, e){
+        var url = "/inside/pop/screenViewPop.do?recruitInfoSn=" + sn + "&type=" + e;
+        var name = "screenViewPop";
+        var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
 }
