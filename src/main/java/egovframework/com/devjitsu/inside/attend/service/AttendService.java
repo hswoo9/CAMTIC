@@ -12,4 +12,7 @@ public interface AttendService {
 
     /** 개인연차현황 리스트 조회*/
     List<Map<String, Object>> personAnnvMainList(Map<String, Object> params);
+
+    /** 개인연차현황 표 리스트 조회*/
+    List<Map<String, Object>> getPersonAnnvInfoList(Map<String, Object> params);
 }

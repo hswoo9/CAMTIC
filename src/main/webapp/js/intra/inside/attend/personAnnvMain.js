@@ -26,6 +26,7 @@ var personAnnvMain = {
                     return data.list;
                 },
                 total: function (data) {
+                    $("#totalCount").text(data.list.length);
                     return data.list.length;
                 },
             },
@@ -83,7 +84,7 @@ var personAnnvMain = {
                     title: "근태 항목",
                     width: "10%"
                 }, {
-                    field: "SUBHOLIDAY_USE_DAY",
+                    field: "BEF_USE_DAY",
                     title: "사용 일수",
                     width: "10%"
                 }, /*{
