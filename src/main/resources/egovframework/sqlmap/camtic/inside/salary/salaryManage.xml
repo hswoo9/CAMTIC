@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="salaryManage">
+
+    <select id="getSocialRateManageList" parameterType="map" resultType="map">
+        /* getSocialRateManageList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_SOCIAL_RATE
+        WHERE
+            ACTIVE = 'Y'
+    </select>
+
+    <insert id="setSocialRate" parameterType="map">
+        /* setSocialRate */
+        INSERT INTO CAM_INSIDE.DJ_SOCIAL_RATE
+        (
+            START_DATE,
+            END_DATE,
+            NATIONAL_PENSION,
+            LIMIT_AMT,
+            HEALTH_INSURANCE,
+            LONG_CARE_INSURANCE,
+            EMPLOY_INSURANCE,
+            ACCIDENT_INSURANCE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="newRateArr" item="item" separator=" , ">
+        (
+            #{item.startDate},
+            #{item.endDate},
+            #{item.nationalPension},
+            #{item.limitAmt},
+            #{item.healthInsurance},
+            #{item.longCareInsurance},
+            #{item.employInsurance},
+            #{item.accidentInsurance},
+            #{item.empSeq}
+        )
+        </foreach>
+    </insert>
+
+    <update id="setSocialRateUpd" parameterType="map">
+        /* setSocialRateUpd */
+        UPDATE
+            CAM_INSIDE.DJ_SOCIAL_RATE
+        SET
+            START_DATE = #{startDate},
+            END_DATE = #{endDate},
+            NATIONAL_PENSION = #{nationalPension},
+            LIMIT_AMT = #{limitAmt},
+            HEALTH_INSURANCE = #{healthInsurance},
+            LONG_CARE_INSURANCE = #{longCareInsurance},
+            EMPLOY_INSURANCE = #{employInsurance},
+            ACCIDENT_INSURANCE = #{accidentInsurance},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SOCIAL_RATE_SN = #{socialRateSn}
+    </update>
+
+    <update id="setSocialRateDel" parameterType="map">
+        /* setSocialRateDel */
+        UPDATE
+            CAM_INSIDE.DJ_SOCIAL_RATE
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SOCIAL_RATE_SN = #{socialRateSn}
+    </update>
+</mapper>
+
+
+

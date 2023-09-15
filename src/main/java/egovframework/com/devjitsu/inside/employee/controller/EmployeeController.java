@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class EmployeeController {
@@ -22,26 +24,6 @@ public class EmployeeController {
 
     @Autowired
     private UserService userService;
-
-    //직원급여관리
-    @RequestMapping("/Inside/employeeSalaryManage.do")
-    public String employeeSalaryManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/userManage/employeeSalaryManage";
-    }
-
-    //사대보험요율관리
-    @RequestMapping("/Inside/socialRateManage.do")
-    public String socialRateManage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "inside/userManage/socialRateManage";
-    }
 
     //참여율신청목록
     @RequestMapping("/Inside/participationRateList.do")
