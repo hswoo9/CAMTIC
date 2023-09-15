@@ -135,7 +135,7 @@ var docuList = {
                     title: "비고",
                     width: "5%",
                     template: function(row){
-                        if(row.ETC_CN != "") {
+                        if(row.REMARK_CN != "") {
                             return "<span onmouseover='docuList.showEtcDiv(\""+row.DOCUMENT_SN+"\")' onmouseout='docuList.hideEtcDiv(\""+row.DOCUMENT_SN+"\")'>보기</span>";
                         }
                     }
@@ -149,15 +149,15 @@ var docuList = {
         }).data("kendoGrid");
     },
 
-    showEtcDiv: function(documentSn){
-        console.log(documentSn);
+    showEtcDiv: function(DOCUMENT_SN){
+        console.log(DOCUMENT_SN);
 
         let html = "<div class=\"edcDiv\" style=\"width: 800px; height: 40px; border: 1px solid gray; background-color: aliceblue\"></div>";
         $(this).closest("tr").append(html);
     },
 
-    hideEtcDiv: function(documentSn){
-        console.log("outo");
+    hideEtcDiv: function(DOCUMENT_SN){
+        console.log("out");
     },
 
     documentPopup: function(){
@@ -253,5 +253,7 @@ var docuList = {
         var option = "width = 850, height = 400, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
+
+
 
 }
