@@ -117,7 +117,7 @@ input[type=file]::file-selector-button {
 .popTable > thead > tr > th, .popTable > tfoot > tr > th, .popTable > tfoot > tr > th{ background-color: #8fa1c04a;
 }
 /* 팝업창 테이블 첨부파일 선 색상*/
-.popTable > tbody > tr > td:first-child, .popTable > tfoot > tr > td:first-child{
+.popTable > tbody > tr > td:first-child, .popTable > tfoot > tr > td:first-child, .popTable> thead > tr > td:first-child{
     border:1px solid #ebebeb;
 }
 

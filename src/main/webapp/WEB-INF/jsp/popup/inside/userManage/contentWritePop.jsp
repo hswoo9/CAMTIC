@@ -45,7 +45,7 @@
                     </tr>--%>
                     <tr>
                         <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>면담내용1
+                            <span class="red-star"></span>면담일시
                         </th>
                         <td colspan="3">
                             <input type="text" id="content1" style="width: 100%;">
@@ -53,34 +53,72 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>면담내용2
+                            <span class="red-star"></span>피면담자
                         </th>
                         <td colspan="3">
-                            <input type="text" id="content2" style="width: 100%;">
+                            <input type="text" id="empName" style="width: 90%;" value="">
+                            <input type="hidden" id="empSeq" style="width: 50%;" value="">
+                            <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch();">
+                                검색
+                            </button>
                         </td>
+                    </tr>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>면담내용3
+                            <span class="red-star"></span>면담자
                         </th>
                         <td colspan="3">
                             <input type="text" id="content3" style="width: 100%;">
                         </td>
+                    </thead>
+                </table>
+                <table class="popTable table table-bordered mb-0" style="border-left: none;">
+                    <colgroup>
+                        <col width="13%">
+                        <col width="37%">
+                        <col width="13%">
+                        <col width="37%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>면담내용4
-                        </th>
-                        <td colspan="3">
-                            <input type="text" id="content4" style="width: 100%;">
+                        <td colspan="4">
+                            <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="contract" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">
-                            <span class="red-star"></span>면담내용5
-                        </th>
-                        <td colspan="3">
-                            <input type="text" id="content5" style="width: 100%;">
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="qualification" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="degreeT" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="career" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="military" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                         </td>
                     </tr>
                     </thead>

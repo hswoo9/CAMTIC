@@ -124,7 +124,7 @@ var employeeList = {
     contentWritePop: function(){
         var url = "/Inside/pop/contentWritePop.do";
         var name = "contentWritePop";
-        var option = "width = 850, height = 1100, top = 100, left = 200, location = no"
+        var option = "width = 850, height = 800, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 
