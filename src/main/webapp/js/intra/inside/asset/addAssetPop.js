@@ -143,12 +143,37 @@ var addAssetPop = {
             }
 
 
+
+
             var result = customKendo.fn_customFormDataAjax('/inside/setAssetInfo.do', formData);
+
+            console.log(result);
             if(result.flag){
-                alert("자산이 등록되었습니다.");
-                opener.parent.assetList.gridReload();
-                window.close();
+
+                var parameters = {
+                    prodName : result.params.astName,
+                    qrCd : result.params.astNo,
+                    prodName : result.params.astName,
+                    prodBuyDt : result.params.purcDate,
+                    modelNm : result.params.modelName,
+                    empSeq : result.params.regEmpSeq
+                }
+
+                parameters.data = JSON.stringify(parameters);
+
+                $.ajax({
+                    type : "POST",
+                    url : "/asset/qrCodeSet",
+                    data : parameters,
+                    async : false,
+                    success : function(rs){
+                        alert("자산이 등록되었습니다.");
+                        opener.parent.assetList.gridReload();
+                        window.close();
+                    }
+                });
             }
+
         }
     },
 
