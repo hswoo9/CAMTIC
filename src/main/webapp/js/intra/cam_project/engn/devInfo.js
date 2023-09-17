@@ -638,7 +638,6 @@ var devInfo = {
 
                         if(rs.code = 200){
                             $("#invAmt").val(devInfo.comma(totAmt));
-
                         }
                     }
                 });
@@ -777,6 +776,7 @@ var devInfo = {
         });
 
         alert("저장되었습니다.");
+        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
 
     },
 

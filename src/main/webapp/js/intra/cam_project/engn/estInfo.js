@@ -144,7 +144,9 @@ var estInfo = {
                         }
                     });
                     alert("저장되었습니다.");
-                    location.reload();
+
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+
                 }
             }
         })
