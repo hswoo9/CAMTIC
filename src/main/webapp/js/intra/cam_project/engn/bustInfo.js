@@ -24,7 +24,7 @@ var bustInfo = {
             success : function(rs){
                 var rs = rs.rs;
                 if(rs != null){
-                    $("#contEtc").val(rs.RESULT);
+                    // $("#contEtc").val(rs.RESULT);
                     var busnName = "";
                     var project = "";
                     if(rs.BUSN_NAME != "" && rs.BUSN_NAME != null && rs.BUSN_NAME != undefined){
@@ -42,6 +42,102 @@ var bustInfo = {
                 }
             }
         });
+
+        bustInfo.bustripMainGrid();
+    },
+
+    bustripMainGrid : function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/bustrip/getPopBustripList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.startDate = $("#start_date").val();
+                    data.endDate = $("#end_date").val();
+                    data.projectCd = $("#pjtSn").val();
+                    data.busnName = $("#busnName").val();
+                    data.empSeq = $("#regEmpSeq").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#bustripMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 480,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "사업명",
+                    width: 200,
+                    template: function(row){
+                        var busnName = "";
+                        var project = "";
+                        if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
+                            busnName = row.BUSN_NAME;
+                        }
+
+                        if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
+                            project = "(" + row.PROJECT + ") ";
+                        }
+                        return  project + busnName;
+                    }
+                }, {
+                    field: "EMP_NAME",
+                    title: "출장자",
+                    width: 80
+                }, {
+                    title: "출장지 (경유지)",
+                    template: function(row){
+                        if(row.VISIT_LOC_SUB != ""){
+                            return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        }else{
+                            return row.VISIT_CRM;
+                        }
+                    },
+                    width: 160
+                }, {
+                    title: "출발일시",
+                    template: function(row){
+                        return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
+                    },
+                    width: 100
+                }, {
+                    title: "복귀일시",
+                    template: function(row){
+                        return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
+                    },
+                    width: 100
+                }, {
+                    field: "CAR_CLASS_NAME",
+                    title: "차량",
+                    width: 80
+                }
+            ]
+        }).data("kendoGrid");
     },
 
     fn_popBustrip : function (){

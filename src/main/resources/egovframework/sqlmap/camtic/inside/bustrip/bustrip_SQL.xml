@@ -808,8 +808,16 @@
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         WHERE
             (STATUS = 100 OR STATUS = 101)
-        AND
-            PJT_SN IS NULL
+        <if test='projectCd != null and !"".equals(projectCd)'>
+            AND
+                PJT_SN = #{projectCd}
+        </if>
+        <if test='projectCd == null or "".equals(projectCd)'>
+            AND
+                PJT_SN IS NULL
+        </if>
+
+
     </select>
 
     <update id="updBustPjtsnReset" parameterType="map">

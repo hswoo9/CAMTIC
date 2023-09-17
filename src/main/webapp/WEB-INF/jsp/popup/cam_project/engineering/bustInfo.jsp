@@ -41,6 +41,10 @@
             </tr>
         </thead>
     </table>
+
+    <br>
+    <span style=""> ※ 출장 정보</span>
+    <div id="bustripMainGrid"></div>
 </div>
 
 <script>
