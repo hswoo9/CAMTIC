@@ -37,6 +37,8 @@ var bustrip = {
     /** 차량코드 세팅 */
     fn_carCodeSet: function(){
         const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
+        carArr.push({text: "자가", value: "10"});
+        carArr.push({text: "대중교통", value: "0"});
         customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
     },
 
@@ -56,7 +58,7 @@ var bustrip = {
                 $(".visitLocSub").show();
                 $(".visitMove").hide();
                 $(".visitMoveSpan").hide();
-                if(pageName == "bustripResReq"){
+                if(pageName == "bustripResultPop"){
                     $("#moveDst").attr("disabled", false);
                     $("#moveBtn").attr("disabled", false);
                 }
@@ -65,7 +67,7 @@ var bustrip = {
                 $(".visitLocSub").hide();
                 $(".visitMove").show();
                 $(".visitMoveSpan").hide();
-                if(pageName == "bustripResReq"){
+                if(pageName == "bustripResultPop"){
                     $("#moveDst").attr("disabled", false);
                     $("#moveBtn").attr("disabled", false);
                 }
@@ -85,7 +87,7 @@ var bustrip = {
                 $("#moveDst").val(distance);
 
                 $(".visitMoveSpan").text(distance+" km");
-                if(pageName == "bustripResReq"){
+                if(pageName == "bustripResultPop"){
                     $("#moveDst").attr("disabled", true);
                     $("#moveBtn").attr("disabled", true);
                 }
@@ -93,10 +95,29 @@ var bustrip = {
         });
     },
 
+    fn_realDriverSet: function(){
+        let hrBizReqId = $("#hrBizReqId").val();
+        let hrBizReqResultId = $("#hrBizReqResultId").val();
+        let url = "";
+        let data = {
+
+        }
+        if(hrBizReqResultId == ""){
+            url = "/bustrip/getBustripTotInfo";
+            data.hrBizReqId = hrBizReqId;
+        }else{
+            url = "/bustrip/getBustripResTotInfo";
+            data.hrBizReqResultId = hrBizReqResultId;
+        }
+        let ds = customKendo.fn_customAjax(url, data);
+        customKendo.fn_dropDownList("realDriver", ds.list, "EMP_NAME", "EMP_SEQ", "3");
+    },
+
     /** 출장기간 세팅 */
     fn_periodSet: function(){
         customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustrip.global.year, bustrip.global.month, 1));
         customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustrip.global.year, bustrip.global.afMonth, 0));
+        $("#start_date, #end_date").attr("readonly", true);
     },
 
     /** 출장신청기간 세팅 */
@@ -115,6 +136,7 @@ var bustrip = {
         });
         customKendo.fn_timePicker("time1", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("time2", '10', "HH:mm", "18:00");
+        $("#date1, #date2, #time1, #time2").attr("readonly", true);
     },
 
     /** 관련사업 세팅 */
@@ -160,5 +182,71 @@ var bustrip = {
                 }
             });
         });
+    },
+
+    settingCompanionDataInit: function(list){
+        let popEmpSeq = "" ;
+        let popEmpName = "";
+        let popDeptSeq = "";
+        let popDeptName = "";
+
+        for(let i=0; i<list.length; i++){
+            if(i != 0){
+                popEmpSeq += ",";
+                popEmpName += ",";
+                popDeptSeq += ",";
+                popDeptName += ",";
+            }
+            popEmpSeq += list[i].EMP_SEQ;
+            popEmpName += list[i].EMP_NAME;
+            popDeptSeq += list[i].DEPT_SEQ;
+            popDeptName += list[i].DEPT_NAME;
+        }
+
+        $("#popEmpSeq").val(popEmpSeq);
+        $("#popEmpName").val(popEmpName);
+        $("#popDeptSeq").val(popDeptSeq);
+        $("#popDeptName").val(popDeptName);
+    },
+
+    settingTempFileDataInit: function(e, p){
+        var html = '';
+
+        if(p == "result"){
+            if(e.length > 0){
+                for(var i = 0; i < e.length; i++){
+                    html += '<tr style="text-align: center">';
+                    html += '   <td>'+ e[i].file_org_name +'</td>';
+                    html += '   <td>'+ e[i].file_ext +'</td>';
+                    html += '   <td>'+ e[i].file_size +'</td>';
+                    html += '</tr>';
+                }
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        } else {
+            if(e.length > 0){
+                for(var i = 0; i < e.length; i++){
+                    html += '<tr style="text-align: center">';
+                    html += '   <td>'+ e[i].file_org_name +'</td>';
+                    html += '   <td>'+ e[i].file_ext +'</td>';
+                    html += '   <td>'+ e[i].file_size +'</td>';
+                    html += '   <td>';
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                        '			<span class="k-button-text">삭제</span>' +
+                        '		</button>';
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+                $("#fileGrid").html(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
     }
 }

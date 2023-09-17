@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${toDate}"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -101,9 +102,9 @@
             <tr>
                 <th><span class="red-star">*</span>방문지</th>
                 <td>
-                    <input id="visitCrm" style="width: 60%;">
+                    <input id="visitCrm" readonly style="width: 60%;">
                     <input type="hidden" id="crmSn" />
-                    <button type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
+                    <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>
