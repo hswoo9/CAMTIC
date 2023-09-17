@@ -14,7 +14,49 @@
             IRI.*,
             GROUP_CONCAT(DISTINCT AI.CAREER_TYPE separator '~') AS CAREER_TYPE,
             SUM(AI.RECRUITMENT) AS RECRUITMENT,
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+            (
+                SELECT
+                    COUNT(*)
+                FROM (
+                    SELECT
+                        SB.*,
+                        AM.RECRUIT_INFO_SN
+                    FROM
+                        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                    JOIN
+                        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+                    ON SB.APPLICATION_ID = AM.APPLICATION_ID
+                    WHERE
+                        SB.EVAL_SCREEN_TYPE = 'doc'
+                    GROUP BY
+                        SB.APPLICATION_ID
+                )A
+                WHERE
+                    IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+            ) AS DOC_SCREEN_RESULT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
+            (
+                SELECT
+                    COUNT(*)
+                FROM (
+                    SELECT
+                        SB.*,
+                        AM.RECRUIT_INFO_SN
+                    FROM
+                        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                    JOIN
+                        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+                    ON SB.APPLICATION_ID = AM.APPLICATION_ID
+                    WHERE
+                        SB.EVAL_SCREEN_TYPE = 'in' AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N'
+                    GROUP BY
+                        SB.APPLICATION_ID
+                )A
+                WHERE
+                    IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+            ) AS IN_SCREEN_RESULT
         FROM
             CAM_INSIDE.DJ_RECRUIT_INFO IRI
         JOIN
@@ -234,7 +276,10 @@
         /* getRecruitAreaList */
         SELECT
             RAI.*,
-            CONCAT('근무부서 - [', RAI.DEPT_NAME, ' > ', RAI.TEAM_NAME, '] 채용부문 - [', RAI.JOB, '] 필요경력 - [', RAI.CAREER, ']') AS AREA_TITLE
+            CONCAT('근무부서 - [', RAI.DEPT_NAME, ' > ', RAI.TEAM_NAME, '] 채용부문 - [', RAI.JOB, '] 필요경력 - [', RAI.CAREER, ']') AS AREA_TITLE,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT
         FROM
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO RAI
         WHERE 1=1
@@ -443,6 +488,11 @@
         WHERE
             APPLICATION_ID IN (${applicationId})
     </update>
+
+    <delete id="setInAvoidScoreBoardDel" parameterType="map">
+        /* setInAvoidScoreBoardDel */
+        DELETE FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE APPLICATION_ID IN (${applicationId})
+    </delete>
 
     <delete id="setApplicationInTimeDel" parameterType="map">
         /* setApplicationInTimeDel */

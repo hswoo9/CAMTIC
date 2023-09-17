@@ -26,6 +26,7 @@ public class RecruitRepository extends AbstractDAO {
     public List<Map<String, Object>> getUserDuplicationList(Map<String, Object> params) { return selectList("recruit.getUserDuplicationList", params); }
     public void setApplicationUpd(Map<String, Object> params) { update("recruit.setApplicationUpd", params);}
     public void setInAvoidUpd(Map<String, Object> params) { update("recruit.setInAvoidUpd", params);}
+    public void setInAvoidScoreBoardDel(Map<String, Object> params) { delete("recruit.setInAvoidScoreBoardDel", params);}
     public void setApplicationInTimeDel(Map<String, Object> params) { delete("recruit.setApplicationInTimeDel", params);}
     public void setApplicationInTime(List<Map<String, Object>> params) { insert("recruit.setApplicationInTime", params);}
     public List<Map<String, Object>> getInApplicationList(Map<String, Object> params) { return selectList("recruit.getInApplicationList", params); }

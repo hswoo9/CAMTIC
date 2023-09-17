@@ -226,8 +226,8 @@ img {max-width:100%;}
 #vis .lef .tit dl {color:#333;}
 /*폰트 사이즈 변경, tit 우측으로 이동*/
 #vis .lef .tit dl dt {font-size:30px;line-height:1.3;letter-spacing:-0.04em;margin-bottom:10px;margin-left: 30px;}
-/*tit 우측으로 이동*/
-#vis .lef .tit dl dd {font-size:65px;line-height:1.25;letter-spacing:-0.05em;font-weight:300;margin-left: 30px;}
+/*tit 우측으로 이동*//*2023-09-15 소타이틀과 비슷하게 보이게*/
+#vis .lef .tit dl dd {font-size:65px;line-height:1.25;letter-spacing:-0.05em;font-weight:300;margin-left: 25px;}
 #vis .lef .tit p {margin-top:10px;}
 #vis .lef .tit p span {display:inline-block;font-size:64px;font-weight:900;filter:drop-shadow(10px 10px 5px rgba(0,0,0,0.2));background:linear-gradient(to right,#00529c, #4bc1be);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;}
 #vis .lef .roll2,
@@ -291,7 +291,8 @@ img {max-width:100%;}
 	#vis .lef {height:auto;width:auto;padding:0;}
 	/*20230823 반응형 우측으로 이동*/
 	#vis .lef .tit dl dt {font-size:4vw;margin-bottom:2vw;margin-left: 20px;}
-	#vis .lef .tit dl dd {font-size:10vw;margin-left: 20px;}
+	/*20230915 반응형 이동 위 소타이틀과 비슷하게 보이게*/
+	#vis .lef .tit dl dd {font-size:10vw;margin-left: 18px;}
 	#vis .lef .tit p {margin-top:1vw;}
 	#vis .lef .tit p span {font-size:12vw;}
 	#vis .lef .roll2 {position:relative;}
@@ -913,7 +914,7 @@ img {max-width:100%;}
 }
 
 /*조직.연락처 좌우 마진 값 0으로 변경 타이틀 위치 네비위치와 비슷하게 수정- */
-.__organization {/*background:#f2fcfe;*/background:#fff;padding:60px 0px 100px;text-align:center;border-bottom:1px solid #ccc;}
+.__organization {/*background:#f2fcfe;*/background:#fff;padding:60px 0px 100px;text-align:center;/*border-bottom:1px solid #ccc;*/}
 .__organization .tit dt {font-size:46px;color:#111;font-weight:300;letter-spacing:-0.05em;}
 .__organization .tit dd {font-size:28px;color:#155996;font-weight:300;letter-spacing:-0.05em;margin-top:10px;}
 .__organization .img {margin-top:100px;}

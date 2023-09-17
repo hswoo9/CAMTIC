@@ -92,11 +92,25 @@
         }, {
           field: "DOC_SCREEN_AVERAGE",
           title: "서류심사(점수)",
-          width : 120
+          width : 120,
+          template : function(e){
+            if(e.DOC_SCREEN_AVERAGE != null){
+              return e.DOC_SCREEN_AVERAGE;
+            }else{
+              return "-"
+            }
+          }
         }, {
-          field: "SCHOOL_NAME",
+          field: "IN_SCREEN_AVERAGE",
           title: "면접심사(점수)",
-          width : 120
+          width : 120,
+          template : function(e){
+            if(e.IN_SCREEN_AVERAGE != null){
+              return e.IN_SCREEN_AVERAGE;
+            }else{
+              return "-"
+            }
+          }
         }
       ],
     }).data("kendoGrid");

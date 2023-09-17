@@ -139,7 +139,7 @@ var evalInApplicationList = {
                     if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
                         location.href = "http://localhost:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=in"
                     }else if(location.host.indexOf("218.158.231.186") > -1){
-                        location.href = "http://218.158.231.186:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=in"
+                        location.href = "http://218.158.231.186:8080/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=in"
                     }
                 }else{
                     alert("평가내용이 저장되지 않은 응시원서가 있습니다.");

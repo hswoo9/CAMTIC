@@ -238,6 +238,25 @@ public class RecruitController {
      * @param model
      * @return
      */
+    @RequestMapping("/inside/pop/screenViewPop.do")
+    public String screenViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("recruit", new Gson().toJson(recruitService.getRecruit(params)));
+
+        return "popup/inside/recruit/screenViewPop";
+    }
+
+    /**
+     * 채용공고 면접시간 설정 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/inside/pop/inTimeSetPop.do")
     public String inTimeSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

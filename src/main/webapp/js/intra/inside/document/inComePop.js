@@ -22,6 +22,7 @@ var regisReq = {
         ]
         customKendo.fn_dropDownList("deptPart", deptPartArr, "text", "value", 2);
         $("#deptPart").data("kendoDropDownList").bind("change", regisReq.fn_toggleManger)
+        $("#deptPart").data("kendoDropDownList").trigger("change");
         $("#documentPartName, #documentPart, #empName, #effectiveDt, #shipmentDt").attr("readonly", true);
 
             var data = {};
@@ -93,10 +94,11 @@ var regisReq = {
         let managerName = $("#empName").val();
         let documentTitleName = $("#documentTitleName").val();
         let deptPartType = $("#deptPart").val();
-        let deptPartText;
+        let deptPartText = $("#deptPart").data("kendoDropDownList").text();
+        /*let deptPartText;
         if (deptPartType != 6) {
             deptPartText = $("#deptPart").data("kendoDropDownList").text();
-        }
+        }*/
         let userSn = $("#userSn").val();
         let userText = $("#userText").val();
         let remarkCn = $("#remarkCn").val();

@@ -105,24 +105,35 @@
       </div>
 
       <div id="inPassBtnDiv" style="display: none;text-align: right">
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="docPassCancel" value="S" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
-          <span>서류심사 합격취소</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"onclick="recruitAdminPop.inTimeSetPop()">
-          <span>면접정보 설정</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inUrl" onclick="recruitAdminPop.getEvalUrlSet('in')">
-          <span>면접심사 URL 생성</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
-          <span>면접심사 합격</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inAvoid" value="I" onclick="recruitAdminPop.setInAvoidUpd()">
-          <span>면접불참</span>
-        </button>
+        <div>
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="docScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('doc')">
+            <span>서류심사 평가결과</span>
+          </button>
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="docPassCancel" value="S" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
+            <span>서류심사 합격취소</span>
+          </button>
+        </div>
+
+        <div class="mt10">
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base"onclick="recruitAdminPop.inTimeSetPop()">
+            <span>면접정보 설정</span>
+          </button>
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="inUrl" onclick="recruitAdminPop.getEvalUrlSet('in')">
+            <span>면접심사 URL 생성</span>
+          </button>
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
+            <span>면접심사 합격</span>
+          </button>
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inAvoid" value="I" onclick="recruitAdminPop.setInAvoidUpd()">
+            <span>면접불참</span>
+          </button>
+        </div>
       </div>
 
       <div id="fPassBtnDiv" style="display: none;text-align: right">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('in')">
+          <span>면접심사 평가결과</span>
+        </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inPassCancel" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'cancel')">
           <span>면접심사 합격취소</span>
         </button>

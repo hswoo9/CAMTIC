@@ -26,6 +26,7 @@ var personAnnvMain = {
                     return data.list;
                 },
                 total: function (data) {
+                    $("#totalCount").text(data.list.length);
                     return data.list.length;
                 },
             },

@@ -59,7 +59,7 @@ var recruitAdminPop = {
                     title: "성명",
                     width : 80,
                     template : function(e){
-                        return '<a onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
+                        return '<a  style="cursor: pointer;" onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
                     }
                 }, {
                     field: "AGE",
@@ -192,7 +192,7 @@ var recruitAdminPop = {
             if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
                 alert("http://localhost:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
             }else if(location.host.indexOf("218.158.231.186") > -1){
-                alert("http://218.158.231.186:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
+                alert("http://218.158.231.186:8080/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e)
             }
         }
     },
@@ -273,6 +273,13 @@ var recruitAdminPop = {
             alert("처리되었습니다.");
             recruitAdminPop.gridReload();
         }
+    },
+
+    screenViewPop : function(e){
+        var url = "/inside/pop/screenViewPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e;
+        var name = "screenViewPop";
+        var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     inTimeSetPop : function(){

@@ -93,6 +93,26 @@ public class EvaluationController {
         return "inside/userManage/employeeInterviewCard";
     }
 
+    //직원 면담 카드 - 면담내용 설정 팝업창
+    @RequestMapping("/Inside/pop/contentPop.do")
+    public String contentPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/contentPop";
+    }
+
+    //직원 면담 카드 - 직원 면담카드 작성 팝업창
+    @RequestMapping("/Inside/pop/contentWritePop.do")
+    public String contentWritePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/contentWritePop";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

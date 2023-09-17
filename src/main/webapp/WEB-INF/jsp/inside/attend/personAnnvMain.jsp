@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <style>
@@ -70,23 +71,25 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td style="text-align: center;">2023</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
+                                <td style="text-align: center;" id="applyDay">${annvList[0].APPLY_YEAR}</td>
+                                <td style="text-align: center;">${annvList[0].ST_APPLY_DATE}</td>
+                                <td style="text-align: center;">${annvList[0].EN_APPLY_DATE}</td>
+                                <td style="text-align: center;">${annvList[0].GRANT_DAY} 일</td>
+                                <td style="text-align: center;">${annvList[0].aefUseDay} 일</td>
+                                <td style="text-align: center;">${annvList[0].aef2UseDay} 일</td>
+                                <td style="text-align: center;">${annvList[0].GRANT_SUM} 일</td>
+                                <td style="text-align: center;" id="useDay">${annvList[0].USE_DAY} 일</td>
+                                <td style="text-align: center;">${annvList[0].befUseDay} 일</td>
+                                <td style="text-align: center;">${annvList[0].bef2UseDay} 일</td>
+                                <td style="text-align: center;">${annvList[0].USE_SUM} 일</td>
+                                <td style="text-align: center;">${annvList[0].REMAIN_VAC_1} 일</td>
                             </tr>
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
-                    <h4 class="panel-title">* 2023년도 상세 사용 일수 내역 (전체 건수 0 건 / 사용 일수 0 일)</h4>
+                    <h4 class="panel-title">* ${annvList[0].APPLY_YEAR} 년도 상세 사용 일수 내역
+                        (전체 건수 <%--<span id="totalCount">--%>${annvList[0].PART_COUNT}</span>건 /
+                        사용 일수 ${annvList[0].USE_DAY} 일)</h4>
                     <div id="mainGrid" style="margin:20px 0;"></div>
                 </div>
             </div>
