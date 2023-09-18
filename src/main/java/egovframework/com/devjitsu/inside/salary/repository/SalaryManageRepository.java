@@ -9,6 +9,7 @@ import java.util.Map;
 @Repository
 public class SalaryManageRepository extends AbstractDAO  {
 
+    public List<Map<String, Object>> getEmpSalaryManageList(Map<String, Object> params){ return selectList("salaryManage.getEmpSalaryManageList", params);}
     public List<Map<String, Object>> getSocialRateManageList(Map<String, Object> params){ return selectList("salaryManage.getSocialRateManageList", params);}
     public void setSocialRate(Map<String, Object> params) { insert("salaryManage.setSocialRate", params);}
     public void setSocialRateUpd(Map<String, Object> params) { insert("salaryManage.setSocialRateUpd", params);}

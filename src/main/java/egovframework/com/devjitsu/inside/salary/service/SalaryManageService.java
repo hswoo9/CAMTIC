@@ -5,6 +5,7 @@ import java.util.Map;
 
 public interface SalaryManageService {
 
+    List<Map<String, Object>> getEmpSalaryManageList(Map<String, Object> params);
     List<Map<String, Object>> getSocialRateManageList(Map<String, Object> params);
     void setSocialRate(Map<String, Object> params);
     void setSocialRateDel(Map<String, Object> params);

@@ -1,4 +1,5 @@
 var now = new Date();
+var record = 0;
 
 var assetList = {
 
@@ -33,8 +34,6 @@ var assetList = {
     },
 
     mainGrid : function(url, params) {
-        var record = 0;
-
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url,params),
             scrollable: true,
@@ -97,9 +96,7 @@ var assetList = {
                 }, {
                     title: "순번",
                     width: 50,
-                    template : function(e){
-                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
-                    }
+                    template: "#= --record #",
                 }, {
                     field: "AST_NO",
                     title: "자산 번호",
@@ -135,7 +132,10 @@ var assetList = {
                     field: "INSIDE_DT_CODE_NM",
                     title: "상태"
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){

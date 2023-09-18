@@ -35,7 +35,7 @@ public class SalaryManageController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/salaryManage/employeeSalaryManage.do")
+    @RequestMapping("/inside/salaryManage/empSalaryManage.do")
     public String employeeSalaryManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         menuSession(request, session);
@@ -43,7 +43,19 @@ public class SalaryManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "inside/salaryManage/employeeSalaryManage";
+        return "inside/salaryManage/empSalaryManage";
+    }
+
+    /**
+     * 직원급여관리 데이터 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/salaryManage/getEmpSalaryManageList.do")
+    public String getEmpSalaryManageList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", salaryManageService.getEmpSalaryManageList(params));
+        return "jsonView";
     }
 
     /**

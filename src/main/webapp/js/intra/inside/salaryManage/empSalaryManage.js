@@ -1,3 +1,4 @@
+var record = 0;
 var esm = {
     
     global : {
@@ -29,17 +30,17 @@ var esm = {
             index: 0
         });
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", esm.global.now);
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", esm.global.now);
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(esm.global.now.setFullYear(esm.global.now.getFullYear() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         $("#division").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "직원유형", value: "" },
-                { text: "정규직원", value: "j" },
-                { text: "계약직원", value: "q" },
-                { text: "인턴사원", value: "a" }
+                { text: "정규직원", value: "r" },
+                { text: "계약직원", value: "c" },
+                { text: "인턴사원", value: "i" }
             ],
             index: 0
         });
@@ -62,10 +63,8 @@ var esm = {
     },
 
     mainGrid : function(url, params){
-        var record = 0;
-
         var mainGrid = $("#mainGrid").kendoGrid({
-            height: 489,
+            height: 555,
             dataSource: customKendo.fn_gridDataSource2(url, params, 10),
             scrollable: true,
             pageable: {
@@ -99,38 +98,36 @@ var esm = {
                 {
                     title: "순번",
                     width: 50,
-                    template : function(e){
-                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
-                    }
+                    template: "#= --record #",
                 }, {
-                    field : "",
+                    field : "EMP_NAME_KR",
                     title : "이름",
                     width: 80,
                 }, {
-                    field : "",
+                    field : "RES_REGIS_NUM",
                     title : "주민등록번호",
                     width: 150,
                 }, {
-                    field : "",
+                    field : "JOIN_DAY",
                     title : "입사일",
                     width: 120,
                 }, {
-                    field : "",
+                    field : "DIVISION",
                     title : "직원유형",
                     width: 120,
                 }, {
-                    field : "",
+                    field : "DEPT_NAME",
                     title : "부서/팀",
-                    width: 250,
+                    width: 300,
                 }, {
                     title : "기본급여 적용기간",
                     columns : [
                         {
-                            field: "",
+                            field: "START_DT",
                             title: "시작일",
                             width: 120,
                         }, {
-                            field: "",
+                            field: "END_DT",
                             title: "종료일",
                             width: 120,
                         }
@@ -139,52 +136,140 @@ var esm = {
                     title : "기본급여",
                     columns : [
                         {
-                            field: "",
+                            field: "BASIC_SALARY",
                             title: "기본급",
                             width: 150,
+                            template : function(e){
+                                return e.BASIC_SALARY.toString().toMoney();
+                            }
                         }, {
-                            field: "",
+                            field: "EXTRA_PAY",
                             title: "수당",
                             width: 150,
+                            template : function(e){
+                                return e.EXTRA_PAY.toString().toMoney();
+                            }
                         }, {
-                            field: "",
+                            field: "BONUS",
                             title: "상여",
                             width: 150,
+                            template : function(e){
+                                return e.BONUS.toString().toMoney();
+                            }
                         }
                     ]
                 }, {
-                    field : "",
                     title : "국민연금",
                     width: 150,
+                    template : function(e){
+                        /** 국민연금 = (기본급 + 상여금)/ 국민연금요율(%) */
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+
+                        if(nationalPension > Number(e.LIMIT_AMT)){
+                            return e.LIMIT_AMT.toString().toMoney()
+                        }else{
+                            return nationalPension.toString().toMoney()
+                        }
+                    }
                 }, {
-                    field : "",
                     title : "건강보험",
                     width: 150,
+                    template : function(e){
+                        /** 건강보험 = (기본급 + 상여금) / 건강보험요율(%)*/
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        return (Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10).toString().toMoney()
+                    }
                 }, {
-                    field : "",
                     title : "장기요양보험",
                     width: 150,
+                    template : function(e){
+                        /** 장기요양보험 = (건강보험합계 / 장기요양보험요율(%))*/
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        var healthInsuranceCnt = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10;
+
+                        return (Math.floor(Math.floor(healthInsuranceCnt * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10).toString().toMoney()
+                    }
                 }, {
-                    field : "",
                     title : "고용보험",
                     width: 150,
+                    template : function(e){
+                        /** 고용보험 = (기본급 + 상여금) / 고용보험요율(%)*/
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        return (Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10).toString().toMoney()
+                    }
                 }, {
                     field : "",
                     title : "산재보험",
                     width: 150,
+                    template : function(e){
+                        /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        return (Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10).toString().toMoney()
+                    }
                 }, {
-                    field : "",
                     title : "사대보험<br>사업자부담분",
                     width: 150,
+                    template : function(e){
+                        /** 사대보험 사업자부담분 = 국민연금 + 건강보험 + 장기요양보험 +고용보험 + 산재보험 */
+
+                        /** 기본급 */
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+
+                        /** 국민연금 */
+                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                        if(nationalPension > Number(e.LIMIT_AMT)){
+                            nationalPension = e.LIMIT_AMT;
+                        }
+                        /** 건강보험 */
+                        var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+                        /** 장기요양보험 */
+                        var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+                        /** 고용보험 */
+                        var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
+                        /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
+                        var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
+
+                        return (nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance).toString().toMoney();
+                    }
                 }, {
-                    field : "",
                     title : "퇴직금 추계액",
                     width: 150,
+                    template : function(e){
+                        /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
+                    }
                 }, {
-                    field : "",
                     title : "기준급여",
                     width: 150,
-                }]
+                    template : function(e){
+                        /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
+                        /** 기본급 */
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+
+                        /** 국민연금 */
+                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                        if(nationalPension > Number(e.LIMIT_AMT)){
+                            nationalPension = e.LIMIT_AMT;
+                        }
+                        /** 건강보험 */
+                        var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+                        /** 장기요양보험 */
+                        var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+                        /** 고용보험 */
+                        var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
+                        /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
+                        var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
+
+                        var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
+
+                        return (Math.floor(sum/10) * 10).toString().toMoney();
+                    }
+                }],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
@@ -204,6 +289,6 @@ var esm = {
             searchText : $("#searchText").val(),
         }
 
-        esm.mainGrid("", esm.global.searchAjaxData);
+        esm.mainGrid("/salaryManage/getEmpSalaryManageList.do", esm.global.searchAjaxData);
     },
 }
