@@ -38,35 +38,7 @@ var regisList = {
     },
 
     mainGrid: function (url, params) {
-       /* var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : 'inside/getDocumentList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.docuType = 2;
-                    data.documentPart = $("#documentPart").val();
-                    data.deptPart = $("#deptPart").val();
-                    data.searchType = $("#searchType").val();
-                    data.searchText = $("#searchText").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });*/
         $("#mainGrid").kendoGrid({
-            /*dataSource: dataSource,*/
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
@@ -102,7 +74,6 @@ var regisList = {
             },
             columns: [
                 {
-                    /*field: "ROW_NUM",*/
                     template: "#= --record #",
                     title: "순번",
                     width: "5%"
@@ -187,7 +158,6 @@ var regisList = {
     },
 
     gridReload : function(){
-        // $("#mainGrid").data("kendoGrid").dataSource.read();
         regisList.global.searchAjaxData = {
             docuType : 2,
             documentPart : $("#documentPart").val(),
@@ -282,9 +252,4 @@ var regisList = {
         var option = "width = 850, height = 700, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
-
-
-
-
-
 }
