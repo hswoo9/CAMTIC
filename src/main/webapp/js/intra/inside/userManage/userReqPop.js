@@ -409,14 +409,14 @@ var userReqPop = {
             index: 0
         });
 
-        $("#homePageActive").kendoRadioGroup({
+      /*  $("#homePageActive").kendoRadioGroup({
             items: [
                 { label : "게시", value : "Y" },
                 { label : "비게시", value : "N" }
             ],
             layout : "horizontal",
             labelPosition : "after",
-        });
+        });*/
 
         $("#weddingActive").kendoRadioGroup({
             items: [
@@ -872,7 +872,7 @@ var userReqPop = {
             VISIONL : $("#vision1").val(), //좌시력
             VISIONR : $("#vision2").val(), //우시력
 
-            HOME_PAGE_ACTIVE : $("#homePageActive").getKendoRadioGroup().value(), //홈페이지 게시
+            /*HOME_PAGE_ACTIVE : $("#homePageActive").getKendoRadioGroup().value(), //홈페이지 게시*/
             WEDDING_ACTIVE : $("#weddingActive").getKendoRadioGroup().value(), //결혼 관계
             BLOOD_TYPE : $("#bloodType").getKendoRadioGroup().value(), //혈액형
             OCCUPATION_CODE : $("#occupationCode").val(),
