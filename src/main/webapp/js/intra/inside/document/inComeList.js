@@ -162,7 +162,7 @@ var regisList = {
     inComePopup : function(){
         var url = "/Inside/pop/inComePop.do";
         var name = "popup test";
-        var option = "width = 850, height = 400, top = 100, left = 200, location = no"
+        var option = "width = 850, height = 700, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -250,7 +250,7 @@ var regisList = {
             url = "/Inside/Pop/inComeUpdatePop.do?documentSn=" + key;
         }
         var name = "inComeUpdatePop";
-        var option = "width = 850, height = 400, top = 100, left = 200, location = no"
+        var option = "width = 850, height = 700, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
 
