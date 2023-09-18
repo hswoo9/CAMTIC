@@ -128,6 +128,8 @@ const bustripReq = {
     },
 
     fn_saveBtn: function(){
+        const hrBizReqId = $("#hrBizReqId").val();
+
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
         if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
@@ -276,12 +278,4 @@ function userDataSet(userArr){
     $("#popEmpName").val(userText);
     $("#popDeptSeq").val(userDeptSn);
     $("#popDeptName").val(userDeptText);
-
-    if(pageName == "bustripResReq"){
-        userArr.unshift({
-            empName : $("#regEmpName").val(),
-            empSeq : $("#regEmpSeq").val()
-        })
-        customKendo.fn_dropDownList("realDriver", userArr, "empName", "empSeq", "3");
-    }
 }

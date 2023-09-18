@@ -191,9 +191,6 @@
     </div>
 </div>
 <script>
-    const hrBizReqId = '${params.hrBizReqId}';
-    const hrBizReqResultId = '';
-    let pageName = 'bustripReq';
     bustripReq.init();
 </script>
 </body>

@@ -1,13 +1,13 @@
 var bustripResMngList = {
-    global: {
-        year: now.getFullYear(),
-        month: now.getMonth(),
-        afMonth: now.getMonth()+1
+    init: function(){
+        bustripResMngList.pageSet();
+        bustripResMngList.mainGrid();
     },
 
-    init: function(){
-        bustripResList.dataSet();
-        bustripResMngList.mainGrid();
+    pageSet: function(){
+        bustrip.fn_periodSet();
+        bustrip.fn_busnLgSet(2);
+        customKendo.fn_textBox(["busnName"]);
     },
 
     mainGrid : function() {

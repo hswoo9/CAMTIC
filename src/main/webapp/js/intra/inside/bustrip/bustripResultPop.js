@@ -351,3 +351,34 @@ var bustripResultPop = {
     },
 }
 
+function userDataSet(userArr){
+    let userText = "";
+    let userSn = "";
+    let userDeptText = "";
+    let userDeptSn = "";
+    for(let i=0; i<userArr.length; i++) {
+        if(userText != "") {
+            userText += ",";
+            userSn += ",";
+            userDeptText += ",";
+            userDeptSn += ",";
+        }
+        userText += userArr[i].empName;
+        userSn += userArr[i].empSeq;
+        userDeptText += userArr[i].deptName;
+        userDeptSn += userArr[i].deptSeq;
+    }
+
+    $("#popEmpSeq").val(userSn);
+    $("#popEmpName").val(userText);
+    $("#popDeptSeq").val(userDeptSn);
+    $("#popDeptName").val(userDeptText);
+
+    if(bustrip.global.pageName == "bustripResultPop"){
+        userArr.unshift({
+            empName : $("#regEmpName").val(),
+            empSeq : $("#regEmpSeq").val()
+        })
+        customKendo.fn_dropDownList("realDriver", userArr, "empName", "empSeq", "3");
+    }
+}

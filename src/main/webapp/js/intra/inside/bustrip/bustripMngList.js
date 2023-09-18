@@ -1,38 +1,13 @@
 var bustripMngList = {
-    global: {
-        year: now.getFullYear(),
-        month: now.getMonth(),
-        afMonth: now.getMonth()+1
-    },
-
     init: function(){
         bustripMngList.pageSet();
         bustripMngList.mainGrid();
     },
 
     pageSet: function(){
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustripMngList.global.year, bustripMngList.global.month, 1));
-        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustripMngList.global.year, bustripMngList.global.afMonth, 0));
-        $("#pjt_cd").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-            ],
-            index: 0,
-        });
-        let pjtCdDataSource = [
-            { text: "해당없음", value: "0" },
-            { text: "연구개발", value: "1" },
-            { text: "개발사업", value: "2" },
-            { text: "교육사업", value: "3" },
-            { text: "일자리사업", value: "4" },
-            { text: "지원사업", value: "5" },
-            { text: "평생학습", value: "6" },
-            { text: "캠스타트업", value: "7" }
-        ]
-        customKendo.fn_dropDownList("pjt_cd", pjtCdDataSource, "text", "value", 2);
-        $("#busnName").kendoTextBox();
+        bustrip.fn_periodSet();
+        bustrip.fn_busnLgSet(2);
+        customKendo.fn_textBox(["busnName"]);
     },
 
     mainGrid: function(){
