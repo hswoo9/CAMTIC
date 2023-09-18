@@ -3,6 +3,99 @@
 
 <mapper namespace="salaryManage">
 
+    <select id="getEmpSalaryManageList" parameterType="map" resultType="map">
+        /* getEmpSalaryManageList */
+        SELECT
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            EI.RES_REGIS_NUM,
+            DATE_FORMAT(EI.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
+            CASE WHEN EI.DIVISION = '0' THEN '정규직원'
+                WHEN EI.DIVISION = '4' AND EI.DIVISION_SUB = '1' THEN '계약직원'
+                WHEN EI.DIVISION = '4' AND EI.DIVISION_SUB = '2' THEN '인턴사원'
+            END AS DIVISION,
+            CONCAT(EI.DEPT_NAME, IF(EI.DEPT_TEAM_NAME != '', CONCAT('/', EI.DEPT_TEAM_NAME), '')) AS DEPT_NAME,
+            SM.START_DT,
+            SM.END_DT,
+            SM.BASIC_SALARY,
+            SM.EXTRA_PAY,
+            SM.BONUS,
+            RS.NATIONAL_PENSION,
+            RS.LIMIT_AMT,
+            RS.HEALTH_INSURANCE,
+            RS.LONG_CARE_INSURANCE,
+            RS.EMPLOY_INSURANCE,
+            RS.ACCIDENT_INSURANCE
+        FROM
+            CAM_INSIDE.DJ_SALARY_MANAGE SM
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SM.EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_INSIDE.DJ_SOCIAL_RATE RS
+        ON SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
+        WHERE 1=1
+        <if test='workStatusCode != null and !"".equals(workStatusCode)'>
+            AND EI.WORK_STATUS_CODE = #{workStatusCode}
+        </if>
+
+        <choose>
+            <when test='"j".equals(searchDateType)'>
+                <![CDATA[
+                AND
+                    DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(EI.JOIN_DAY, '%Y%m%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(EI.JOIN_DAY, '%Y%m%d')
+                ]]>
+            </when>
+            <when test='"q".equals(searchDateType)'>
+                <![CDATA[
+                AND
+                    DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(EI.RESIGN_DAY, '%Y%m%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(EI.RESIGN_DAY, '%Y%m%d')
+                ]]>
+            </when>
+            <when test='"a".equals(searchDateType)'>
+                <![CDATA[
+                AND (
+                        DATE_FORMAT(SM.START_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d') OR
+                        DATE_FORMAT(SM.END_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+                )
+                ]]>
+            </when>
+        </choose>
+
+        <if test='division != null and !"".equals(division)'>
+            <choose>
+                <when test='"r".equals(division)'>
+                    AND EI.DIVISION = '0'
+                </when>
+                <when test='"c".equals(division)'>
+                    AND EI.DIVISION = '4' AND EI.DIVISION_SUB = '1'
+                </when>
+                <when test='"i".equals(division)'>
+                    AND EI.DIVISION = '4' AND EI.DIVISION_SUB = '2'
+                </when>
+            </choose>
+        </if>
+
+        <choose>
+            <when test='"userName".equals(searchKeyWord)'>
+                AND EI.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='"deptName".equals(searchKeyWord)'>
+                AND EI.DEPT_NAME LIKE CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='"teamName".equals(searchKeyWord)'>
+                AND EI.DEPT_TEAM_NAME LIKE CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='"projectCnt".equals(searchKeyWord)'>
+                AND EI.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
+            </when>
+        </choose>
+    </select>
+
     <select id="getSocialRateManageList" parameterType="map" resultType="map">
         /* getSocialRateManageList */
         SELECT

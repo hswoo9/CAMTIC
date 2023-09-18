@@ -22,6 +22,11 @@ public class SalaryManageServiceImpl implements SalaryManageService {
     private SalaryManageRepository salaryManageRepository;
 
     @Override
+    public List<Map<String, Object>> getEmpSalaryManageList(Map<String, Object> params) {
+        return salaryManageRepository.getEmpSalaryManageList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getSocialRateManageList(Map<String, Object> params) {
         return salaryManageRepository.getSocialRateManageList(params);
     }

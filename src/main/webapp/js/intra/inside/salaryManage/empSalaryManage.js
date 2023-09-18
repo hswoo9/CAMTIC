@@ -1,3 +1,4 @@
+var record = 0;
 var esm = {
     
     global : {
@@ -29,17 +30,17 @@ var esm = {
             index: 0
         });
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", esm.global.now);
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", esm.global.now);
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(esm.global.now.setFullYear(esm.global.now.getFullYear() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         $("#division").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "직원유형", value: "" },
-                { text: "정규직원", value: "j" },
-                { text: "계약직원", value: "q" },
-                { text: "인턴사원", value: "a" }
+                { text: "정규직원", value: "r" },
+                { text: "계약직원", value: "c" },
+                { text: "인턴사원", value: "i" }
             ],
             index: 0
         });
@@ -62,10 +63,8 @@ var esm = {
     },
 
     mainGrid : function(url, params){
-        var record = 0;
-
         var mainGrid = $("#mainGrid").kendoGrid({
-            height: 489,
+            height: 555,
             dataSource: customKendo.fn_gridDataSource2(url, params, 10),
             scrollable: true,
             pageable: {
@@ -99,38 +98,36 @@ var esm = {
                 {
                     title: "순번",
                     width: 50,
-                    template : function(e){
-                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
-                    }
+                    template: "#= --record #",
                 }, {
-                    field : "",
+                    field : "EMP_NAME_KR",
                     title : "이름",
                     width: 80,
                 }, {
-                    field : "",
+                    field : "RES_REGIS_NUM",
                     title : "주민등록번호",
                     width: 150,
                 }, {
-                    field : "",
+                    field : "JOIN_DAY",
                     title : "입사일",
                     width: 120,
                 }, {
-                    field : "",
+                    field : "DIVISION",
                     title : "직원유형",
                     width: 120,
                 }, {
-                    field : "",
+                    field : "DEPT_NAME",
                     title : "부서/팀",
-                    width: 250,
+                    width: 300,
                 }, {
                     title : "기본급여 적용기간",
                     columns : [
                         {
-                            field: "",
+                            field: "START_DT",
                             title: "시작일",
                             width: 120,
                         }, {
-                            field: "",
+                            field: "END_DT",
                             title: "종료일",
                             width: 120,
                         }
@@ -139,17 +136,26 @@ var esm = {
                     title : "기본급여",
                     columns : [
                         {
-                            field: "",
+                            field: "BASIC_SALARY",
                             title: "기본급",
                             width: 150,
+                            template : function(e){
+                                return e.BASIC_SALARY.toString().toMoney();
+                            }
                         }, {
-                            field: "",
+                            field: "EXTRA_PAY",
                             title: "수당",
                             width: 150,
+                            template : function(e){
+                                return e.EXTRA_PAY.toString().toMoney();
+                            }
                         }, {
-                            field: "",
+                            field: "BONUS",
                             title: "상여",
                             width: 150,
+                            template : function(e){
+                                return e.BONUS.toString().toMoney();
+                            }
                         }
                     ]
                 }, {
@@ -184,7 +190,10 @@ var esm = {
                     field : "",
                     title : "기준급여",
                     width: 150,
-                }]
+                }],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
@@ -204,6 +213,6 @@ var esm = {
             searchText : $("#searchText").val(),
         }
 
-        esm.mainGrid("", esm.global.searchAjaxData);
+        esm.mainGrid("/salaryManage/getEmpSalaryManageList.do", esm.global.searchAjaxData);
     },
 }
