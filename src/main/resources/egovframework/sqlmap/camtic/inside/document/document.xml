@@ -26,7 +26,7 @@
                     AND CCD.DOCUMENT_PART_TYPE = #{documentPart}
                 </if>
                 <if test='deptPart != null and !"".equals(deptPart)'>
-                    AND CCD.DEPT_PART_TYPE = #{documentPart}
+                    AND CCD.DEPT_PART_TYPE = #{deptPart}
                 </if>
 
                 <choose>
@@ -48,7 +48,7 @@
                     <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
                         AND CCD.MANAGER_NAME like CONCAT('%', #{searchText}, '%')
                     </when>
-                    <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
+                    <when test='searchText != null and !"".equals(searchText) and "7".equals(searchType)'>
                         AND CCD.REMARK_CN like CONCAT('%', #{searchText}, '%')
                     </when>
                 </choose>

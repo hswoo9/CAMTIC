@@ -146,8 +146,8 @@ var regisList = {
                 }, {
                     title: "다운",
                     width: "5%",
-                    template: function(row){
-                        return "";
+                    template: function(row) {
+                        return ""
                     }
                 }, {
                     title: "삭제",
