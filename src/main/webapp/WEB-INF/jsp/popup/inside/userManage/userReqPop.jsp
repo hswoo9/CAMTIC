@@ -186,12 +186,12 @@
                 </tr>
                 <tr class="defaultCase defaultCaseC defaultCaseD">
                     <th>입사 일자</th>
-                    <td>
+                    <td <%--colspan="3"--%>>
                         <input type="text" id="regDate" style="width: 50%;">
                     </td>
-                    <th id="homePageActiveTh">홈페이지 게시</th>
+                    <th id="homePageActiveTh"><%--홈페이지 게시--%></th>
                     <td>
-                        <span type="text" id="homePageActive" name="homePageActive" style="width: 100%;"></span>
+                        <%--<span type="text" id="homePageActive" name="homePageActive" style="width: 100%;"></span>--%>
                     </td>
                 </tr>
                 <tr class="caseA" style="display: none">

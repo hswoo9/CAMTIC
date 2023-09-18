@@ -84,7 +84,7 @@ var personAnnvMain = {
                     title: "근태 항목",
                     width: "10%"
                 }, {
-                    field: "BEF_USE_DAY",
+                    field: "SUBHOLIDAY_USE_DAY",
                     title: "사용 일수",
                     width: "10%"
                 }, /*{

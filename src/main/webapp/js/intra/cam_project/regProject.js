@@ -9,9 +9,12 @@ var regPrj = {
     fn_defaultScript : function (setParameters) {
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
+        } else {
+            openModalSelect();
         }
 
         console.log(setParameters);
+
 
 
         var delvMap = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
@@ -56,13 +59,12 @@ var regPrj = {
             tab3Url += "&engnSn=" + setParameters.ENGN_SN;
             tab4Url += "&engnSn=" + setParameters.ENGN_SN;
             tab5Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab6Url += "?engnSn=" + setParameters.ENGN_SN;
-            tab7Url += "?engnSn=" + setParameters.ENGN_SN;
-            tab8Url += "?engnSn=" + setParameters.ENGN_SN;
-            tab9Url += "?engnSn=" + setParameters.ENGN_SN;
-            tab10Url += "?engnSn=" + setParameters.ENGN_SN;
+            tab6Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab7Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab8Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab9Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab10Url += "&engnSn=" + setParameters.ENGN_SN;
         }
-
 
 
         $("#tabstrip").kendoTabStrip({
@@ -158,7 +160,10 @@ var regPrj = {
                 busnDDL.bind("change", regPrj.fn_busnDDLChange);
 
             }
-        })
+        });
+
+
+        $("#busnLgClass").data("kendoDropDownList").wrapper.hide();
 
 
 
@@ -171,13 +176,18 @@ var regPrj = {
         tabStrip.disable(tabStrip.tabGroup.children());
 
 
-
         if(setParameters != null){
+
+            var tab = $("#tab").val();
+            if(tab != null && tab != ""){
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+            } else {
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+            }
 
             if(setParameters.PJT_SN){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
             }
 
             setParameters.ENGN_SN;
@@ -361,10 +371,6 @@ var regPrj = {
     },
 
     fn_stop : function(){
-
-
-
-
         var data = {
             pjtSn : $("#pjtSn").val(),
             pjtStopRs : $("#pjtStopRs").val()
@@ -381,6 +387,43 @@ var regPrj = {
         })
 
 
+    },
+
+    fn_startProject : function (){
+        if(!$("input[name='projectLg']").is(":checked")){
+            alert("사업을 선택해주세요.");
+            return;
+        }
+
+        if(!$("input[name='projectSm']").is(":checked")){
+            alert("사업을 선택해주세요.");
+            return;
+        }
+
+        var lgValue = $("input[name='projectLg']:checked").val();
+        var busnLgClass = $("#busnLgClass").data("kendoDropDownList");
+        if(lgValue == "1"){
+            busnLgClass.select(1);
+        } else {
+            busnLgClass.select(2);
+        }
+
+        busnLgClass.trigger("change");
+
+
+        var smValue =$("input[name='projectSm']:checked").val();
+        if(smValue == "D"){
+            var busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.select(1);
+        }
+
+
+        busnClass.trigger("change");
+
+        busnLgClass.wrapper.hide();
+        busnClass.wrapper.hide();
+
+        $("#pjtSelectModal").data("kendoWindow").close();
     }
 
 

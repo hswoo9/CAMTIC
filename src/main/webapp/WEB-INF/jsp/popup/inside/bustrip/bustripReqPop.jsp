@@ -6,8 +6,10 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${toDate}"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -20,7 +22,9 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="pageName" value="bustripReqPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
+<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="table-responsive">
     <div class="card-header pop-header">
@@ -48,45 +52,45 @@
             <tr>
                 <th>사번</th>
                 <td>
-                    <input type="text" id="empSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;">
+                    <input id="empSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;" disabled>
                 </td>
                 <th>성명</th>
                 <td>
-                    <input type="text" id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;">
+                    <input id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;" disabled>
                 </td>
             </tr>
             <tr>
                 <th>부서명</th>
                 <td>
-                    <input type="text" id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;">
+                    <input id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;" disabled>
                 </td>
                 <th>신청일</th>
                 <td>
-                    <input type="text" id="reqDate" name="reqDate" class="defaultVal" disabled style="width: 80%;">
+                    <input id="reqDate" name="reqDate" class="defaultVal" style="width: 80%;" disabled>
                 </td>
             </tr>
             <tr>
                 <th><span class="red-star">*</span>구분</th>
                 <td>
-                    <input type="text" id="tripCode" style="width: 80%;">
+                    <input id="tripCode" style="width: 80%;">
                 </td>
                 <th><span class="red-star">*</span>관련사업</th>
                 <td>
-                    <input type="text" id="busnLgClass" style="width: 45%"/>
-                    <input type="text" id="project" style="width: 45%; display:none;">
+                    <input id="busnLgClass" style="width: 45%"/>
+                    <input id="project" style="width: 45%; display:none;">
                 </td>
             </tr>
             <tr id="busnLine" style="display: none;">
                 <th><span class="red-star">*</span>사업명</th>
                 <td colspan="3">
-                    <input type="text" id="busnName" name="busnName" style="width: 80%;">
+                    <input id="busnName" name="busnName" style="width: 80%;">
                     <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
                 </td>
             </tr>
             <tr>
                 <th>동반자</th>
                 <td colspan="3">
-                    <input type="text" id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
+                    <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
                     <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
                     <div id="companionList">
                         <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
@@ -98,42 +102,42 @@
             <tr>
                 <th><span class="red-star">*</span>방문지</th>
                 <td>
-                    <input type="text" id="visitCrm" style="width: 60%;">
+                    <input id="visitCrm" readonly style="width: 60%;">
                     <input type="hidden" id="crmSn" />
-                    <button type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
+                    <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>
-                    <input type="text" id="visitLoc" style="width: 80%;">
+                    <input id="visitLoc" style="width: 80%;">
                 </td>
             </tr>
             <tr>
                 <th>경유지</th>
                 <td>
                     <div style="display: flex">
-                        <input type="text" id="visitLocCode" style="width: 180px;">
+                        <input id="visitLocCode" style="width: 180px;">
                         <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
                     </div>
                 </td>
                 <th class="visitLocSub" style="display: none"><span class="red-star">*</span>경유지명</th>
                 <td class="visitLocSub" style="display: none;">
-                    <input type="text" id="visitLocSub" style="width: 80%;"/>
+                    <input id="visitLocSub" style="width: 80%;"/>
                 </td>
             </tr>
             <tr>
                 <th><span class="red-star">*</span>출장일</th>
                 <td colspan="3">
-                    <input type="text" id="date1" style="width: 20%">
-                    <input type="text" id="time1" style="width: 13%"> ~
-                    <input type="text" id="date2" style="width: 20%">
-                    <input type="text" id="time2" style="width: 13%">
+                    <input id="date1" style="width: 20%">
+                    <input id="time1" style="width: 13%"> ~
+                    <input id="date2" style="width: 20%">
+                    <input id="time2" style="width: 13%">
                 </td>
             </tr>
             <tr id="carLine">
 
                 <th><span class="red-star">*</span>차량</th>
                 <td colspan="3">
-                    <input type="text" id="carList" style="width: 180px;">
+                    <input id="carList" style="width: 180px;">
                     <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.test()"/><br>
                 </td>
             </tr>

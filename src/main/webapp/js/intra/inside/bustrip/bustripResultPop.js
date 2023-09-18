@@ -1,380 +1,232 @@
 var bustripResultPop = {
 
     init : function(){
+        bustrip.fn_setPageName();
         bustripResultPop.pageSet();
-        bustripResultPop.dataSet();
-        $("#visitCrm").attr("readonly", true);
+
+        let hrBizReqId = $("#hrBizReqId").val();
+        let hrBizReqResultId = $("#hrBizReqResultId").val();
+
+        /** 출장결과보고 데이터 미작성 시 출장 신청 데이터 로드 */
+        if(hrBizReqResultId == ""){
+            bustripResultPop.reqDataSet();
+        }else{
+            bustripResultPop.resDataSet();
+        }
     },
 
     pageSet: function(){
-        let url;
-        let data = {
+        /** Kendo 위젯 세팅 */
+        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
+        customKendo.fn_textArea(["bustObj", "result"]);
+        customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
+        $("#visitCrm").attr("readonly", true);
 
-        }
-        if(hrBizReqResultId == ""){
-            bustripReq.init();
-            url = "/bustrip/getBustripTotInfo";
-            data.hrBizReqId = hrBizReqId;
-        }else{
-            bustripReq.pageSet();
-            url = "/bustrip/getBustripResTotInfo";
-            data.hrBizReqResultId = hrBizReqResultId;
-        }
-        let ds = customKendo.fn_customAjax(url, data);
-        customKendo.fn_dropDownList("realDriver", ds.list, "EMP_NAME", "EMP_SEQ", "3");
-        customKendo.fn_textArea(["result"]);
+        /** 출장코드 세팅 */
+        bustrip.fn_tripCodeSet();
+        /** 출장신청기간 세팅 */
+        bustrip.fn_reqDtSet();
+        /** 관련사업 세팅 */
+        bustrip.fn_busnLgSet();
+        /** 차량코드 세팅 */
+        bustrip.fn_carCodeSet();
+        /** 경유지코드 세팅 */
+        bustrip.fn_waypointCodeSet();
+        /** 운행자리스트 세팅 */
+        bustrip.fn_realDriverSet();
     },
 
-    dataSet : function() {
-        if(hrBizReqResultId != ""){
-            let result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
-                hrBizReqId: hrBizReqId,
-                hrBizReqResultId: hrBizReqResultId
-            });
+    reqDataSet: function (d, p){
+        const hrBizReqId = $("#hrBizReqId").val();
+        if(hrBizReqId == ""){return;}
 
-            let resInfo = result.rs.rsRes;
-            let resList = result.rs.resList;
-            var fileInfo = result.rs.fileInfo;
+        const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
+            hrBizReqId: hrBizReqId
+        });
+        const busInfo = result.rs.rs;
+        const list = result.rs.list;
+        const fileInfo = result.rs.fileInfo;
 
-            $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
-            var prjCd = resInfo.PROJECT_CD;
-            var bcDsData = {
-                cmGroupCode : "BUSN_CLASS",
-            }
-            var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
-            if(prjCd == "R" || prjCd == "S"){
-                $("#busnLgClass").data("kendoDropDownList").value(1);
-                $("#project").css("display", "");
-                customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE",1);
-                $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
-                $("#busnName").val(resInfo.BUSN_NAME);
-            }else if(prjCd == "R" || prjCd == "S" || prjCd == "S"){
-                $("#busnLgClass").data("kendoDropDownList").value(2);
-                $("#project").css("display", "");
-                customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE",1);
-                $("#project").data("kendoDropDownList").value(resInfo.PROJECT_CD);
-                $("#busnName").val(resInfo.BUSN_NAME);
-            }
+        /** 사번, 성명, 부서명, 신청일 */
+        $("#empSeq").val(busInfo.EMP_SEQ);
+        $("#empName").val(busInfo.EMP_NAME);
+        $("#deptName").val(busInfo.DEPT_NAME);
+        $("#reqDate").val(busInfo.REG_DATE);
 
-            if($("#project").val() == 0 || $("#project").val() == ""){
-                $("#busnLine").css("display", "none");
-            } else {
-                $("#busnLine").css("display", "");
-            }
+        /** 구분 */
+        $("#tripCode").data("kendoDropDownList").value(busInfo.TRIP_CODE);
 
-            $("#crmSn").val(resInfo.CRM_SN);
-            $("#visitCrm").val(resInfo.VISIT_CRM);
-            $("#visitLoc").val(resInfo.VISIT_LOC);
-            $("#visitLocCode").data("kendoDropDownList").value(resInfo.VISIT_LOC_CODE);
-            if($("#visitLocCode").val() == "999"){
-                $(".visitMove").hide();
-                $(".visitLocSub").show();
-                if(pageName == "bustripResReq"){
-                    $("#moveDst").attr("disabled", false);
-                    $("#moveBtn").attr("disabled", false);
-                }
-            }else if($("#visitLocCode").val() == ""){
-                $(".visitLocSub").hide();
-                $(".visitMove").show();
-                if(pageName == "bustripResReq"){
-                    $("#moveDst").attr("disabled", false);
-                    $("#moveBtn").attr("disabled", false);
-                }
-            }else{
-                $(".visitLocSub").hide();
-                $(".visitMove").show();
-                let code = $("#visitLocCode").data("kendoDropDownList").value();
-                let distance = 0;
-                for(let i=0; i<bustripReq.global.waypointArr.length; i++){
-                    let pk = bustripReq.global.waypointArr[i].HR_WAYPOINT_INFO_SN;
-                    if(pk == code){
-                        distance = bustripReq.global.waypointArr[i].DISTANCE;
-                    }
-                }
-                $(".visitMoveSpan").text(distance+" km");
-                if(pageName == "bustripResReq"){
-                    $("#moveDst").attr("disabled", true);
-                    $("#moveBtn").attr("disabled", true);
-                }
-            }
+        /** 관련사업, 프로젝트명 */
+        bustripInit.settingProjectDataInit(busInfo);
+
+        /** 동반자 */
+        bustripInit.settingCompanionDataInit(list);
+
+        /** 방문지 */
+        $("#crmSn").val(busInfo.CRM_SN);
+        $("#visitCrm").val(busInfo.VISIT_CRM);
+
+        /** 출장지역 */
+        $("#visitLoc").val(busInfo.VISIT_LOC);
+
+        /** 경유지, km, 경유지명*/
+        let visitLocCode = $("#visitLocCode").data("kendoDropDownList");
+        visitLocCode.value(busInfo.VISIT_LOC_CODE);
+        visitLocCode.trigger("change");
+        if($("#visitLocCode").val() == "999"){
+            $("#visitLocSub").val(busInfo.VISIT_LOC_SUB);
+        }
+
+        /** 출장일 */
+        $("#date1").val(busInfo.TRIP_DAY_FR);
+        $("#date2").val(busInfo.TRIP_DAY_TO);
+        $("#time1").val(busInfo.TRIP_TIME_FR);
+        $("#time2").val(busInfo.TRIP_TIME_TO);
+
+        /** 차량 */
+        $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
+        if(busInfo.USE_CAR == "Y"){
+            $("#car2").prop("checked", true);
+        } else {
+            $("#car1").prop("checked", true);
+        }
+
+        /** 출장목적 */
+        $("#bustObj").val(busInfo.TITLE);
+
+        /** 첨부파일 */
+        bustripInit.settingTempFileDataInit(fileInfo, p);
+    },
+
+    resDataSet: function() {
+        const hrBizReqId = $("#hrBizReqId").val();
+        const hrBizReqResultId = $("#hrBizReqResultId").val();
+        const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
+            hrBizReqId: hrBizReqId,
+            hrBizReqResultId: hrBizReqResultId
+        });
+
+        const map = result.rs.map;
+        const resInfo = result.rs.rsRes;
+        const resList = result.rs.resList;
+        const fileInfo = result.rs.fileInfo;
+
+        $("#empSeq").val(resInfo.EMP_SEQ);
+        $("#empName").val(resInfo.EMP_NAME);
+        $("#deptName").val(resInfo.DEPT_NAME);
+        $("#reqDate").val(resInfo.REG_DATE);
+
+        $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
+
+        /** 관련사업, 프로젝트명 */
+        bustripInit.settingProjectDataInit(resInfo);
+
+        /** 동반자 */
+        bustripInit.settingCompanionDataInit(resList);
+
+        /** 방문지 */
+        $("#crmSn").val(resInfo.CRM_SN);
+        $("#visitCrm").val(resInfo.VISIT_CRM);
+
+        /** 출장지역 */
+        $("#visitLoc").val(resInfo.VISIT_LOC);
+
+        /** 경유지, km, 경유지명*/
+        let visitLocCode = $("#visitLocCode").data("kendoDropDownList");
+        visitLocCode.value(resInfo.VISIT_LOC_CODE);
+        visitLocCode.trigger("change");
+        if($("#visitLocCode").val() == "999"){
             $("#visitLocSub").val(resInfo.VISIT_LOC_SUB);
-            $("#date1").val(resInfo.TRIP_DAY_FR);
-            $("#date2").val(resInfo.TRIP_DAY_TO);
-            $("#time1").val(resInfo.TRIP_TIME_FR);
-            $("#time2").val(resInfo.TRIP_TIME_TO);
-            $("#bustObj").val(resInfo.TITLE);
-            $("#carList").data("kendoDropDownList").value(resInfo.USE_TRSPT);
-            if(resInfo.USE_CAR == "Y"){
-                $("#car2").prop("checked", true);
-            } else {
-                $("#car1").prop("checked", true);
+        }
+
+        /** 출장일 */
+        $("#date1").val(resInfo.TRIP_DAY_FR);
+        $("#date2").val(resInfo.TRIP_DAY_TO);
+        $("#time1").val(resInfo.TRIP_TIME_FR);
+        $("#time2").val(resInfo.TRIP_TIME_TO);
+
+        /** 차량 */
+        $("#bustObj").val(resInfo.TITLE);
+        $("#carList").data("kendoDropDownList").value(resInfo.USE_TRSPT);
+        if(resInfo.USE_CAR == "Y"){
+            $("#car2").prop("checked", true);
+        } else {
+            $("#car1").prop("checked", true);
+        }
+
+        /** 출장목적 */
+        $("#bustObj").val(resInfo.TITLE);
+
+        /** 운행거리 */
+        $("#moveDst").val(resInfo.MOVE_DST);
+
+        /** 운행자 */
+        for(let i=0; i<map.length; i++){
+            if(map[i].DRIVER == "Y"){
+                $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ);
             }
+        }
 
-            var popEmpSeq = "" ;
-            var popEmpName = "";
-            var popDeptSeq = "";
-            var popDeptName = "";
-            for(var i = 0; i < resList.length; i++){
-                if(i!=0){
-                    popEmpSeq += ",";
-                    popEmpName += ",";
-                    popDeptSeq += ",";
-                    popDeptName += ",";
-                }
-                popEmpSeq += resList[i].EMP_SEQ;
-                popEmpName += resList[i].EMP_NAME;
-                popDeptSeq += resList[i].DEPT_SEQ;
-                popDeptName += resList[i].DEPT_NAME;
-            }
-            $("#popEmpSeq").val(popEmpSeq);
-            $("#popEmpName").val(popEmpName);
-            $("#popDeptSeq").val(popDeptSeq);
-            $("#popDeptName").val(popDeptName);
+        /** 출장 결과 */
+        $("#result").val(resInfo.RESULT);
 
-            bustripReq.settingTempFileDataInit(fileInfo, 'result');
+        /** 여비 표 */
+        bustripInit.settingExnpDataInit(map);
 
-            $("#empSeq").val(resInfo.EMP_SEQ);
-            $("#empName").val(resInfo.EMP_NAME);
-            $("#deptName").val(resInfo.DEPT_NAME);
-            $("#reqDate").val(resInfo.REG_DATE);
-            $("#moveDst").val(resInfo.MOVE_DST);
-            $("#result").val(resInfo.RESULT);
+        /** 첨부파일 */
+        bustripInit.settingTempFileDataInit(fileInfo, 'result');
 
-            $("#visitLocCode").data("kendoDropDownList").bind("change", function(){
-                if($("#visitLocCode").val() == "999"){
-                    $(".visitMove").hide();
-                    $(".visitLocSub").show();
-                    if(pageName == "bustripResReq"){
-                        $("#moveDst").attr("disabled", false);
-                        $("#moveBtn").attr("disabled", false);
-                    }
-                }else if($("#visitLocCode").val() == ""){
-                    $(".visitLocSub").hide();
-                    $(".visitMove").show();
-                    if(pageName == "bustripResReq"){
-                        $("#moveDst").attr("disabled", false);
-                        $("#moveBtn").attr("disabled", false);
-                    }
-                }else{
-                    $(".visitLocSub").hide();
-                    $(".visitMove").show();
-                    let code = $("#visitLocCode").data("kendoDropDownList").value();
-                    let distance = 0;
-                    for(let i=0; i<bustripReq.global.waypointArr.length; i++){
-                        let pk = bustripReq.global.waypointArr[i].HR_WAYPOINT_INFO_SN;
-                        if(pk == code){
-                            distance = bustripReq.global.waypointArr[i].DISTANCE;
-                        }
-                    }
-                    $(".visitMoveSpan").text(distance+" km");
-                    $("#moveDst").val(distance);
-                    if(pageName == "bustripResReq"){
-                        $("#moveDst").attr("disabled", true);
-                        $("#moveBtn").attr("disabled", true);
-                    }
-                }
-            });
-
-            if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
-                $("#popEmpName").data("kendoTextBox").enable(false);
-                $("#tripCode").data("kendoDropDownList").enable(false);
-                $("#visitCrm").data("kendoTextBox").enable(false);
-                $("#visitLoc").data("kendoTextBox").enable(false);
-                $("#visitLocSub").data("kendoTextBox").enable(false);
-                $("#visitLocCode").data("kendoDropDownList").enable(false);
-                $("#bustObj").data("kendoTextArea").enable(false);
-                $("#date1").data("kendoDatePicker").enable(false);
-                $("#date2").data("kendoDatePicker").enable(false);
-                $("#time1").data("kendoTimePicker").enable(false);
-                $("#time2").data("kendoTimePicker").enable(false);
-                $("#carList").data("kendoDropDownList").enable(false);
-                $("input[name='useCar']").attr("disabled", true);
-                $("#popEmpSeq").val(popEmpSeq.slice(0, -1));
-                $("#modBtn").css("display", "none");
-                $("#fileUpload").css("display", "none");
-                $("#addMemberBtn").attr("disabled", true);
-                $("#projectAddBtn").attr("disabled", true);
-                $("#carBtn").css("display", "none");
-                $("#result").data("kendoTextArea").enable(false);
-                if($("#mod").val() == "mng"){
-                    $("#saveBtn").css("display", "none");
-                    var map = result.rs.map;
-                    console.log("여깁니다");
-                    console.log(map);
-                    var html = "";
-                    let oilCostTotal = 0;
-                    let trafCostTotal = 0;
-                    let trafDayTotal = 0;
-                    let tollCostTotal = 0;
-                    let dayCostTotal = 0;
-                    let eatCostTotal = 0;
-                    let parkingCostTotal = 0;
-                    let etcCostTotal = 0;
-                    let totalCostTotal = 0;
-
-                    let oilCorpCostTotal = 0;
-                    let trafCorpCostTotal = 0;
-                    let trafDayCorpotal = 0;
-                    let tollCorpCostTotal = 0;
-                    let dayCorpCostTotal = 0;
-                    let eatCorpCostTotal = 0;
-                    let parkingCorpCostTotal = 0;
-                    let etcCorpCostTotal = 0;
-                    let totalCorpCostTotal = 0;
-
-                    for(var i = 0 ; i < map.length ; i++){
-
-                        if(map[i].DRIVER == "Y"){
-                            $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ)
-                        }
-
-                        var personTot = 0;
-
-                        oilCostTotal += Number(map[i].OIL_COST.replace(",", ""));
-                        trafCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
-                        trafDayTotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
-                        tollCostTotal += Number(map[i].TOLL_COST.replace(",", ""));
-                        dayCostTotal += Number(map[i].DAY_COST.replace(",", ""));
-                        eatCostTotal += Number(map[i].EAT_COST.replace(",", ""));
-                        parkingCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
-                        etcCostTotal += Number(map[i].ETC_COST.replace(",", ""));
-                        totalCostTotal += Number(map[i].TOT_COST.replace(",", ""));
-
-
-                        html += "<tr style='text-align: right'>";
-                        html += "   <td style='text-align: center'>"+map[i].EMP_NAME+"</td>";
-                        if(map[i].OIL_CORP_YN != "Y"){
-                            personTot += Number(map[i].OIL_COST.replace(",", ""));
-                            html += "   <td>"+map[i].OIL_COST+"</td>";
-                        }else{
-                            oilCorpCostTotal += Number(map[i].OIL_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        if(map[i].TRAF_CORP_YN != "Y"){
-                            personTot += Number(map[i].TRAF_COST.replace(",", ""));
-                            html += "   <td>"+map[i].TRAF_COST+"</td>";
-                        }else{
-                            trafCorpCostTotal += Number(map[i].TRAF_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        if(map[i].TRAF_DAY_CORP_YN != "Y"){
-                            personTot += Number(map[i].TRAF_DAY_COST.replace(",", ""));
-                            html += "   <td>"+map[i].TRAF_DAY_COST+"</td>"
-                        }else{
-                            trafDayCorpotal += Number(map[i].TRAF_DAY_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        if(map[i].TOLL_CORP_YN != "Y"){
-                            personTot += Number(map[i].TOLL_COST.replace(",", ""));
-                            html += "   <td>"+map[i].TOLL_COST+"</td>";
-                        }else{
-                            tollCorpCostTotal += Number(map[i].TOLL_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        personTot += Number(map[i].DAY_COST.replace(",", ""));
-                        html += "   <td>"+map[i].DAY_COST+"</td>";
-
-                        if(map[i].EAT_CORP_YN != "Y"){
-                            personTot += Number(map[i].EAT_COST.replace(",", ""));
-                            html += "   <td>"+map[i].EAT_COST+"</td>";
-                        }else{
-                            eatCorpCostTotal += Number(map[i].EAT_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        if(map[i].PARKING_CORP_YN != "Y"){
-                            personTot += Number(map[i].PARKING_COST.replace(",", ""));
-                            html += "   <td>"+map[i].PARKING_COST+"</td>";
-                        }else{
-                            parkingCorpCostTotal += Number(map[i].PARKING_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        if(map[i].ETC_CORP_YN != "Y"){
-                            personTot += Number(map[i].ETC_COST.replace(",", ""));
-                            html += "   <td>"+map[i].ETC_COST+"</td>";
-                        }else{
-                            etcCorpCostTotal += Number(map[i].ETC_COST.replace(",", ""));
-                            html += "   <td>0</td>";
-                        }
-
-                        html += "   <td>"+fn_numberWithCommas(personTot)+"</td>";
-
-
-                        html += "</tr>";
-                    }
-                    
-                    html += "<tr style='text-align: right'>";
-                    html += "   <td style='text-align: center'>법인카드</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>"+fn_comma(trafCorpCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(trafDayCorpotal)+"</td>";
-                    html += "   <td>"+fn_comma(tollCorpCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(dayCorpCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(eatCorpCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(parkingCorpCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(etcCorpCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal)+"</td>";
-                    html += "</tr>";
-
-                    html += "<tr style='text-align: right'>";
-                    html += "   <td style='text-align: center'>법인차량</td>";
-                    html += "   <td>"+fn_comma(oilCorpCostTotal)+"</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>0</td>";
-                    html += "   <td>"+fn_comma(oilCorpCostTotal)+"</td>";
-                    html += "</tr>";
-
-                    html += "<tr style='text-align: right'>";
-                    html += "   <td style='text-align: center'>합계</td>";
-                    html += "   <td>"+fn_comma(oilCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(trafCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(trafDayTotal)+"</td>";
-                    html += "   <td>"+fn_comma(tollCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(dayCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(eatCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(parkingCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(etcCostTotal)+"</td>";
-                    html += "   <td>"+fn_comma(totalCostTotal)+"</td>";
-                    html += "</tr>";
-
-                    html += "<tr style='text-align: right'>";
-                    html += "   <td style='text-align: center'>영수증</td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "   <td style='text-align: center'><b>다운로드</b></td>";
-                    html += "</tr>";
-                    $("#bustExnpBody").html(html);
-                    $("#bustExnpTb").show();
-                }
-                $("#realDriver").data("kendoDropDownList").enable(false);
-                $("#moveDst").data("kendoTextBox").enable(false);
-            }
+        /** 상황에 따른 켄도 위젯 할성화/비활성화 */
+        if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
+            $("#tripCode").data("kendoDropDownList").enable(false);
             $("#busnLgClass").data("kendoDropDownList").enable(false);
-
-            if(resInfo.PROJECT_CD != 0){
+            if(resInfo.PROJECT_CD != "" && resInfo.PROJECT_CD != null){
                 $("#busnName").data("kendoTextBox").enable(false);
                 $("#project").data("kendoDropDownList").enable(false);
             }
+            $("#projectAddBtn").css("display", "none");
+
+            $("#popEmpName").data("kendoTextBox").enable(false);
+            $("#addMemberBtn").css("display", "none");
+
+            $("#visitCrm").data("kendoTextBox").enable(false);
+            $("#visitLoc").data("kendoTextBox").enable(false);
+            $("#crmBtn").css("display", "none");
+
+            $("#visitLocCode").data("kendoDropDownList").enable(false);
+            if($("#visitLocCode").val() == "999"){
+                $("#visitLocSub").data("kendoTextBox").enable(false);
+            }
+            $("#date1").data("kendoDatePicker").enable(false);
+            $("#date2").data("kendoDatePicker").enable(false);
+            $("#time1").data("kendoTimePicker").enable(false);
+            $("#time2").data("kendoTimePicker").enable(false);
+
+            $("#carList").data("kendoDropDownList").enable(false);
+            $("#carBtn").css("display", "none");
+
+            $("#bustObj").data("kendoTextArea").enable(false);
+
+            $("#moveDst").data("kendoTextBox").enable(false);
+            $("#moveBtn").css("display", "none");
+            $("#highpassBtn").css("display", "none");
+
+            $("#realDriver").data("kendoDropDownList").enable(false);
+
+            $("#result").data("kendoTextArea").enable(false);
+
+            $("#fileUpload").css("display", "none");
+
+            if($("#mod").val() == "mng") {
+                $("#saveBtn").css("display", "none");
+            }
         }
     },
 
-    fn_saveBtn : function(e){
+    fn_saveBtn: function(){
+        const hrBizReqId = $("#hrBizReqId").val();
+        const hrBizReqResultId = $("#hrBizReqResultId").val();
+
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
         if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
@@ -396,11 +248,15 @@ var bustripResultPop = {
         formData.append("empName", $("#regEmpName").val());
         formData.append("deptSeq", $("#regDeptSeq").val());
         formData.append("deptName", $("#regDeptName").val());
+        formData.append("positionCode", $("#regPositionCode").val());
+        formData.append("dutyCode", $("#regDutyCode").val());
+        formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").val());
         formData.append("projectCd", $("#project").val());
         if($("#busnLgClass").val() != ""){
             formData.append("project", $("#project").data("kendoDropDownList").text());
         }
+        formData.append("busnName", $("#busnName").val());
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
@@ -416,15 +272,11 @@ var bustripResultPop = {
         formData.append("tripTimeTo", $("#time2").val());
         formData.append("useCar", "Y");
         formData.append("useTrspt", $("#carList").val());
-        formData.append("busnName", $("#busnName").val());
         formData.append("title", $("#bustObj").val());
-        formData.append("positionCode", $("#regPositionCode").val());
-        formData.append("dutyCode", $("#regDutyCode").val());
-
+        formData.append("moveDst", $("#moveDst").val());
         formData.append("driverEmpSeq", $("#realDriver").val());
         formData.append("realDriver", $("#realDriver").val());
         formData.append("result", $("#result").val());
-        formData.append("moveDst", $("#moveDst").val());
 
         if(hrBizReqResultId == ""){
             if(!confirm("출장 결과보고를 저장하고 다음단계로 넘어가시겠습니까?")){ return; }
@@ -460,20 +312,20 @@ var bustripResultPop = {
     },
 
     fn_setCertRep : function (p){
-        var message = "승인하시겠습니까?"
+        let message = "승인하시겠습니까?";
         if(p == 30){
-            message = "반려하시겠습니까?"
+            message = "반려하시겠습니까?";
         }
         if(!confirm(message)){
             return;
         }
-        var data = {
+        let data = {
             hrBizReqResultId : hrBizReqResultId,
             empSeq : $("#regEmpSeq").val(),
             status : p
         }
 
-        var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
+        const result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
 
         if(result.flag){
             if(p == 30){
@@ -484,7 +336,6 @@ var bustripResultPop = {
             opener.gridReload();
             window.close();
         }
-
     },
 
     fn_moveCheck: function(){
@@ -492,7 +343,7 @@ var bustripResultPop = {
         window.open('https://map.naver.com/');
     },
 
-    fn_popCamCrmList : function (){
+    fn_popCamCrmList: function(){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"

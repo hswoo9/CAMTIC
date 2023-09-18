@@ -1,36 +1,13 @@
 var bustripResList = {
-    global: {
-        year: now.getFullYear(),
-        month: now.getMonth(),
-        afMonth: now.getMonth()+1
-    },
-
     init: function(){
-        bustripResList.dataSet();
+        bustrip.fn_setPageName();
+        bustripResList.pageSet();
         bustripResList.mainGrid();
     },
 
-    dataSet: function(){
-        customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustripResList.global.year, bustripResList.global.month, 1));
-        customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustripResList.global.year, bustripResList.global.afMonth, 0));
-
-        $("#pjt_cd").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "해당없음", value: "0" },
-                { text: "연구개발", value: "1" },
-                { text: "개발사업", value: "2" },
-                { text: "교육사업", value: "3" },
-                { text: "일자리사업", value: "4" },
-                { text: "지원사업", value: "5" },
-                { text: "평생학습", value: "6" },
-                { text: "캠스타트업", value: "7" }
-            ],
-            index : 0,
-        });
-
+    pageSet: function(){
+        bustrip.fn_periodSet();
+        bustrip.fn_busnLgSet(2);
         customKendo.fn_textBox(["busnName"]);
     },
 
@@ -38,12 +15,12 @@ var bustripResList = {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
-                read : {
+                read: {
                     url : "/bustrip/getBustripReqCheck",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
                     data.startDate = $("#start_date").val();
                     data.endDate = $("#end_date").val();
                     data.projectCd = $("#pjt_cd").val();
@@ -53,7 +30,7 @@ var bustripResList = {
                     return data;
                 }
             },
-            schema : {
+            schema: {
                 data: function (data) {
                     return data.rs;
                 },
@@ -63,21 +40,22 @@ var bustripResList = {
             },
             pageSize: 10,
         });
+
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
             height: 525,
-            pageable : {
-                refresh : true,
+            pageable: {
+                refresh: true,
                 pageSizes: [10, 20, "ALL"],
-                buttonCount : 5
+                buttonCount: 5
             },
-            toolbar : [
+            toolbar: [
                 {
-                    name : 'button',
-                    template : function (e){
+                    name: 'button',
+                    template: function (){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResList.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -131,7 +109,7 @@ var bustripResList = {
                     width: 80
                 }, {
                     title: "업무차량",
-                    template : function(row){
+                    template: function(row){
                         if(row.USE_CAR == "Y"){
                             if(row.USE_TRSPT == 1){
                                 return "사용 (카니발)";
@@ -148,7 +126,7 @@ var bustripResList = {
                     width: 100
                 }, {
                     title: "결과보고",
-                    template : function(row){
+                    template: function(row){
                         if(row.STATUS == 100){
                             if(row.HR_BIZ_REQ_RESULT_ID == ""){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
@@ -161,8 +139,8 @@ var bustripResList = {
                     },
                     width: 80
                 }, {
-                    title : "결재",
-                    template : function(row){
+                    title: "결재",
+                    template: function(row){
                         if(row.EXP_STAT == 100){
                             if(row.RES_STATUS == 0){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResDrafting(\""+row.HR_BIZ_REQ_RESULT_ID+"\");'>" +
@@ -219,7 +197,7 @@ var bustripResList = {
         }).data("kendoGrid");
     },
 
-    popBustripRes : function(e, d) {
+    popBustripRes: function(e, d) {
         if(e == "N"){
             var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+d;
         }else{

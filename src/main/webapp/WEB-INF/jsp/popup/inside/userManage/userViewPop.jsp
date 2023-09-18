@@ -209,14 +209,14 @@
                     <td>
                         ${uprinfList.JOB_DETAIL}
                     </td>
-                    <th>홈페이지 게시</th>
+                    <th><%--홈페이지 게시--%></th>
                     <td>
-                        <c:if test="${uprinfList.HOME_PAGE_ACTIVE == 'Y'}">
+                       <%-- <c:if test="${uprinfList.HOME_PAGE_ACTIVE == 'Y'}">
                             게시
                         </c:if>
                         <c:if test="${uprinfList.HOME_PAGE_ACTIVE == 'N'}">
                             미게시
-                        </c:if>
+                        </c:if>--%>
                     </td>
                 </tr>
                 <tr>

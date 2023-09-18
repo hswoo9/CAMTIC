@@ -136,10 +136,13 @@ public class AssetController {
      * @return
      */
     @RequestMapping("/inside/setAssetInfo.do")
-    public String setAssetInfo(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request) {
+    public String setAssetInfo(@RequestParam Map<String,Object> params,Model model, MultipartHttpServletRequest request) {
         params.put("regEmpIp", request.getRemoteAddr());
 
         assetService.setAssetInfo(params, request, SERVER_DIR, BASE_DIR);
+
+        model.addAttribute("params", params);
+
         return "jsonView";
     }
 

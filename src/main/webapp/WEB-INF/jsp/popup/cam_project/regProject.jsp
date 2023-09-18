@@ -60,12 +60,15 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentContractSn}"/>
+
+<input type="hidden" id="tab" value="${params.tab}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
-                <input type="text" id="busnLgClass" style="width: 200px" />
+                <input type="text" id="busnLgClass" style="width: 200px;"  />
                 <input type="text" id="busnClass" style="width: 200px; display:none" />
                   <input type="hidden" id="pjtStep" value="E">
                 <input type="hidden" id="pjtStepNm" value="상담">
@@ -166,48 +169,6 @@
                 </div>
             </div>
         </div>
-
-
-
-<%--        <div id="commFileHtml" style="display: none;">--%>
-<%--            <form style="padding: 0px 30px;">--%>
-<%--                <div class="card-header" style="padding: 5px;">--%>
-<%--                    <h3 class="card-title">첨부파일</h3>--%>
-<%--                    <div class="card-options">--%>
-<%--                        <div class="filebox">--%>
-<%--                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">--%>
-<%--                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>--%>
-<%--                                <span class="k-button-text">파일첨부</span>--%>
-<%--                            </button>--%>
-<%--                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div class="table-responsive">--%>
-<%--                    <table class="popTable table table-bordered mb-0">--%>
-<%--                        <colgroup>--%>
-<%--                            <col width="50%">--%>
-<%--                            <col width="10%">--%>
-<%--                            <col width="30%">--%>
-<%--                            <col width="10%">--%>
-<%--                        </colgroup>--%>
-<%--                        <thead>--%>
-<%--                        <tr class="text-center th-color">--%>
-<%--                            <th>파일명</th>--%>
-<%--                            <th>확장자</th>--%>
-<%--                            <th>용량</th>--%>
-<%--                            <th>기타</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                        <tbody id="fileGrid">--%>
-<%--                        <tr class="defultTr">--%>
-<%--                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>--%>
-<%--                        </tr>--%>
-<%--                        </tbody>--%>
-<%--                    </table>--%>
-<%--                </div>--%>
-<%--            </form>--%>
-<%--        </div>--%>
     </div>
 </div>
 
@@ -215,7 +176,82 @@
 <div id="pjtStopModal">
     <input type="text" id="pjtStopRs" />
 </div>
+
+<div id="pjtSelectModal">
+</div>
 <script>
+
+    $("#pjtSelectModal").kendoWindow({
+        title : "프로젝트 등록",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="regPrj.fn_startProject()">등록</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#pjtSelectModal \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="30%">' +
+                '		<col width="50%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color" style="background-color: #4c7fbf; color : #ffffff"><span class="red-star">*</span>프로젝트 선택</th>' +
+                '			<td>' +
+                '				<input type="radio" id="projectDepthA" value="1" name="projectLg" style="position: relative; top: 3px;" />' +
+                '				<label for="projectDepthA" style="margin-right: 15px;">정부사업</label> <br>' +
+                '				<input type="radio" id="projectDepthB" value="2" name="projectLg" style="position: relative; top: 3px;" />' +
+                '				<label for="projectDepthB">민간사업</label>' +
+                '			</td>' +
+                '			<td>' +
+                '               <span id="deptA" style="display: none;">' +
+                '				    <input type="radio" id="R" value="R" name="projectSm" style="position: relative; top: 3px;" />' +
+                '				    <label for="R">R&D</label> <br>' +
+                '				    <input type="radio" id="S" value="S" name="projectSm" style="position: relative; top: 3px;" />' +
+                '				    <label for="S">비R&D</label>' +
+                '               </span>' +
+                '               <span id="deptB" style="display: none;">' +
+                '				    <input type="radio" id="D" value="D" name="projectSm" style="position: relative; top: 3px;" />' +
+                '				    <label for="D">엔지니어링</label> <br>' +
+                '				    <input type="radio" id="V" value="V" name="projectSm" style="position: relative; top: 3px;" />' +
+                '				    <label for="V">용역/기타</label>' +
+                '               </span>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#pjtSelectModal").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+
+            $("#projectDepthA").click(function (){
+                $("#deptA").css("display", "");
+                $("#deptB").css("display", "none");
+                $("input[name='projectSm']").prop("checked", false)
+            });
+
+            $("#projectDepthB").click(function(){
+                $("#deptB").css("display", "");
+                $("#deptA").css("display", "none");
+                $("input[name='projectSm']").prop("checked", false)
+            });
+
+
+            $("#pjtStopRs").kendoTextBox();
+        },
+        close: function () {
+            $("#pjSelect").empty();
+        }
+    });
 
     $("#pjtStopModal").kendoWindow({
         title : "프로젝트 중단 사유",
@@ -257,6 +293,10 @@
             $("#pjtStopModal").empty();
         }
     });
+
+    function openModalSelect(){
+        $("#pjtSelectModal").data("kendoWindow").open();
+    }
 
     function openModal(){
         $("#pjtStopModal").data("kendoWindow").open();
