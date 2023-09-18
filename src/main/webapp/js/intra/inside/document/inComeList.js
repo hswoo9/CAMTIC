@@ -1,7 +1,12 @@
+var record = 0;
+
 var regisList = {
+    global : {
+        searchAjaxData : ""
+    },
     init: function(){
         regisList.dataSet();
-        regisList.mainGrid();
+        regisList.gridReload();
     },
 
     dataSet: function(){
@@ -32,36 +37,9 @@ var regisList = {
         customKendo.fn_dropDownList("searchType", searchTypeArr, "text", "value", 1);
     },
 
-    mainGrid: function () {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : 'inside/getDocumentList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.docuType = 2;
-                    data.documentPart = $("#documentPart").val();
-                    data.deptPart = $("#deptPart").val();
-                    data.searchType = $("#searchType").val();
-                    data.searchText = $("#searchText").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
+    mainGrid: function (url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             height: 508,
@@ -96,7 +74,7 @@ var regisList = {
             },
             columns: [
                 {
-                    field: "ROW_NUM",
+                    template: "#= --record #",
                     title: "순번",
                     width: "5%"
                 }, {
@@ -146,8 +124,18 @@ var regisList = {
                 }, {
                     title: "다운",
                     width: "5%",
-                    template: function(row){
-                        return "";
+                    template: function(row) {
+                        if (row.file_no !== 0){
+                            var fileName = row.file_org_name;
+                            if (fileName.indexOf(".") > -1) {
+                            } else {
+                                fileName = row.file_org_name + "." + row.file_ext;
+                            }
+                            return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">다운로드</a>';
+
+                        }else if(row.file_no == 0){
+                            return "<span>없음</span>";
+                        }
                     }
                 }, {
                     title: "삭제",
@@ -155,7 +143,10 @@ var regisList = {
                     template: function(row){
                         return "<button type=\"button\" class=\"k-grid-button k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"regisList.tmpDel('" + row.DOCUMENT_SN + "', '" + row.DEL_STS + "','" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">삭제</button>";
                     }
-                }]
+                }],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -167,7 +158,15 @@ var regisList = {
     },
 
     gridReload : function(){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+        regisList.global.searchAjaxData = {
+            docuType : 2,
+            documentPart : $("#documentPart").val(),
+            deptPart : $("#deptPart").val(),
+            searchType : $("#searchType").val(),
+            searchText : $("#searchText").val()
+        }
+        regisList.mainGrid("/inside/getDocumentList.do", regisList.global.searchAjaxData);
+
     },
 
     tmpDel: function (docSn, delSts, docFirstNum, docSecondNum) {
@@ -253,9 +252,4 @@ var regisList = {
         var option = "width = 850, height = 700, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     }
-
-
-
-
-
 }

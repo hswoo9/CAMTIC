@@ -6,55 +6,55 @@
     <select id="getDocumentList" resultType="map" parameterType="map">
         /* getDocumentList */
         SELECT
-            RE.*
+            CCD.*,
+            DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
+            DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE,
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
         FROM
-            (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    CCD.*,
-                    DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
-                    DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE
-                FROM
-                    CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD,
-                    (SELECT @ROWNUM := 0) TMP
-                WHERE
-                CCD.DEL_STS != 999
-                <if test='docuType != null and !"".equals(docuType)'>
-                    AND CCD.DOCU_TYPE = #{docuType}
-                </if>
-                <if test='documentPart != null and !"".equals(documentPart)'>
-                    AND CCD.DOCUMENT_PART_TYPE = #{documentPart}
-                </if>
-                <if test='deptPart != null and !"".equals(deptPart)'>
-                    AND CCD.DEPT_PART_TYPE = #{documentPart}
-                </if>
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON CCD.DOCUMENT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'inCome'
+        WHERE
+            CCD.DEL_STS != 999
+            <if test='docuType != null and !"".equals(docuType)'>
+                AND CCD.DOCU_TYPE = #{docuType}
+            </if>
+            <if test='documentPart != null and !"".equals(documentPart)'>
+                AND CCD.DOCUMENT_PART_TYPE = #{documentPart}
+            </if>
+            <if test='deptPart != null and !"".equals(deptPart)'>
+                AND CCD.DEPT_PART_TYPE = #{deptPart}
+            </if>
 
-                <choose>
-                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
-                        AND CCD.DOCUMENT_TITLE_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
-                        AND CONCAT(CCD.DOCUMENT_FIRST_NUMBER,'-',CCD.DOCUMENT_SECOND_NUMBER) like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
-                        AND DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
-                        AND CCD.RECEIVE_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
-                        AND DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
-                        AND CCD.MANAGER_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
-                        AND CCD.REMARK_CN like CONCAT('%', #{searchText}, '%')
-                    </when>
-                </choose>
-                ORDER BY CCD.REG_DT
-            ) RE
-        ORDER BY RE.ROW_NUM DESC
+            <choose>
+                <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                    AND CCD.DOCUMENT_TITLE_NAME like CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                    AND CONCAT(CCD.DOCUMENT_FIRST_NUMBER,'-',CCD.DOCUMENT_SECOND_NUMBER) like CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                    AND DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                    AND CCD.RECEIVE_NAME like CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
+                    AND DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
+                    AND CCD.MANAGER_NAME like CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='searchText != null and !"".equals(searchText) and "7".equals(searchType)'>
+                    AND CCD.REMARK_CN like CONCAT('%', #{searchText}, '%')
+                </when>
+            </choose>
+        ORDER BY CCD.REG_DT DESC
     </select>
 
     <select id="getDocuOrderList" resultType="map" parameterType="map">
