@@ -16,7 +16,10 @@ var esm = {
                 { text: "재직", value: "Y" },
                 { text: "퇴직", value: "N" }
             ],
-            index: 0
+            index: 0,
+            change : function(){
+                esm.gridReload();
+            }
         });
 
         $("#searchDateType").kendoDropDownList({
@@ -27,7 +30,10 @@ var esm = {
                 { text: "퇴사일", value: "q" },
                 { text: "기준급여 적용일", value: "a" }
             ],
-            index: 0
+            index: 0,
+            change : function(){
+                esm.gridReload();
+            }
         });
 
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(esm.global.now.setFullYear(esm.global.now.getFullYear() - 2)));
@@ -42,7 +48,10 @@ var esm = {
                 { text: "계약직원", value: "c" },
                 { text: "인턴사원", value: "i" }
             ],
-            index: 0
+            index: 0,
+            change : function(){
+                esm.gridReload();
+            }
         });
 
         $("#searchKeyWord").kendoDropDownList({
@@ -54,7 +63,10 @@ var esm = {
                 { text: "팀명", value: "teamName" },
                 { text: "사업참여", value: "projectCnt" }
             ],
-            index: 0
+            index: 0,
+            change : function(){
+                esm.gridReload();
+            }
         });
 
         customKendo.fn_textBox(["searchText"]);
