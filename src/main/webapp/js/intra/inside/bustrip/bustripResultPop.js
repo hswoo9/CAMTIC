@@ -1,13 +1,9 @@
 var bustripResultPop = {
-
-    init : function(){
+    init: function(){
         bustrip.fn_setPageName();
         bustripResultPop.pageSet();
 
-        let hrBizReqId = $("#hrBizReqId").val();
-        let hrBizReqResultId = $("#hrBizReqResultId").val();
-
-        /** 출장결과보고 데이터 미작성 시 출장 신청 데이터 로드 */
+        /** 출장결과보고 미작성 시 출장신청 데이터 로드 */
         if(hrBizReqResultId == ""){
             bustripResultPop.reqDataSet();
         }else{
@@ -99,8 +95,6 @@ var bustripResultPop = {
     },
 
     resDataSet: function() {
-        const hrBizReqId = $("#hrBizReqId").val();
-        const hrBizReqResultId = $("#hrBizReqResultId").val();
         const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
             hrBizReqId: hrBizReqId,
             hrBizReqResultId: hrBizReqResultId
@@ -114,7 +108,7 @@ var bustripResultPop = {
         $("#empSeq").val(resInfo.EMP_SEQ);
         $("#empName").val(resInfo.EMP_NAME);
         $("#deptName").val(resInfo.DEPT_NAME);
-        $("#reqDate").val(resInfo.REG_DATE);
+        $("#reqDate").val(resInfo.REPORT_DATE);
 
         $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
 
@@ -161,11 +155,7 @@ var bustripResultPop = {
         $("#moveDst").val(resInfo.MOVE_DST);
 
         /** 운행자 */
-        for(let i=0; i<map.length; i++){
-            if(map[i].DRIVER == "Y"){
-                $("#realDriver").data("kendoDropDownList").value(map[i].EMP_SEQ);
-            }
-        }
+        $("#realDriver").data("kendoDropDownList").value(resInfo.DRIVER_EMP_SEQ);
 
         /** 출장 결과 */
         $("#result").val(resInfo.RESULT);
@@ -217,16 +207,13 @@ var bustripResultPop = {
 
             $("#fileUpload").css("display", "none");
 
-            if($("#mod").val() == "mng") {
+            if($("#mod").val() == "mng"){
                 $("#saveBtn").css("display", "none");
             }
         }
     },
 
     fn_saveBtn: function(){
-        const hrBizReqId = $("#hrBizReqId").val();
-        const hrBizReqResultId = $("#hrBizReqResultId").val();
-
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
         if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
@@ -313,12 +300,9 @@ var bustripResultPop = {
 
     fn_setCertRep : function (p){
         let message = "승인하시겠습니까?";
-        if(p == 30){
-            message = "반려하시겠습니까?";
-        }
-        if(!confirm(message)){
-            return;
-        }
+        if(p == 30){ message = "반려하시겠습니까?"; }
+        if(!confirm(message)){ return; }
+
         let data = {
             hrBizReqResultId : hrBizReqResultId,
             empSeq : $("#regEmpSeq").val(),

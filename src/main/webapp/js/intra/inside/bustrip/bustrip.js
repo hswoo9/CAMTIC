@@ -96,8 +96,6 @@ var bustrip = {
     },
 
     fn_realDriverSet: function(){
-        let hrBizReqId = $("#hrBizReqId").val();
-        let hrBizReqResultId = $("#hrBizReqResultId").val();
         let url = "";
         let data = {
 

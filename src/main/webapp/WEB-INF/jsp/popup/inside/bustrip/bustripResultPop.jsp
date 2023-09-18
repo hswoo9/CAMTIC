@@ -49,29 +49,21 @@
             </div>
         </div>
         <form id="inBustripReqPop" style="padding: 20px 30px;">
-            <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-            <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-            <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-            <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-            <table class="popTable table table-bordered mb-0" id="inBustripReqPopTb">
+            <table class="popTable table table-bordered mb-0" id="">
                 <colgroup>
-                    <col width="10%">
-                    <col width="30%">
-                    <col width="20%">
-                    <col width="30%">
+                    <col width="8%">
+                    <col width="25%">
+                    <col width="8%">
+                    <col width="24%">
+                    <col width="8%">
+                    <col width="24%">
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>사번</th>
-                    <td>
-                        <input id="empSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;" disabled>
-                    </td>
                     <th>성명</th>
                     <td>
                         <input id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;" disabled>
                     </td>
-                </tr>
-                <tr>
                     <th>부서명</th>
                     <td>
                         <input id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;" disabled>
@@ -81,6 +73,16 @@
                         <input id="reqDate" name="reqDate" class="defaultVal" style="width: 80%;" disabled>
                     </td>
                 </tr>
+                </thead>
+            </table>
+            <table class="popTable table table-bordered mb-0" id="bustripReqPopTb">
+                <colgroup>
+                    <col width="10%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="30%">
+                </colgroup>
+                <thead>
                 <tr>
                     <th><span class="red-star">*</span>구분</th>
                     <td>
@@ -100,7 +102,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>동반자</th>
+                    <th>출장자</th>
                     <td colspan="3">
                         <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
                         <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
@@ -110,6 +112,7 @@
                             <input type="hidden" id="popDeptName" name="companionDeptSeq" value="">
                         </div>
                     </td>
+
                 </tr>
                 <tr>
                     <th><span class="red-star">*</span>방문지</th>
@@ -238,6 +241,8 @@
     </div>
 </div>
 <script>
+    const hrBizReqId = $("#hrBizReqId").val();
+    const hrBizReqResultId = $("#hrBizReqResultId").val();
     bustripResultPop.init();
 </script>
 </body>
