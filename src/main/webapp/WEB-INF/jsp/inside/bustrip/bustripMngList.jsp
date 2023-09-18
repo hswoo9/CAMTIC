@@ -3,7 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripMngList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripMngList.js?v=${toDate}"/></script>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -31,9 +32,10 @@
                             ~
                             <input type="text" id="end_date" style="width: 110px;">
                         </td>
-                        <th class="text-center th-color">프로젝트</th>
+                        <th><span class="red-star">*</span>관련사업</th>
                         <td>
-                            <input type="text" id="pjt_cd" style="width: 120px;">
+                            <input id="busnLgClass" style="width: 45%"/>
+                            <input id="project" style="width: 45%; display:none;">
                         </td>
                         <th class="text-center th-color">사업명</th>
                         <td>

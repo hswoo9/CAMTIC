@@ -208,40 +208,32 @@
             </table>
         </form>
 
-
-
         <div>
             <form style="padding: 0px 30px;">
-                <div class="card-header" style="padding: 5px;">
-                    <h3 class="card-title">첨부파일</h3>
-                </div>
-                <div>
-                    <div class="table-responsive">
-                        <table class="popTable table table-bordered mb-0">
-                            <colgroup>
-                                <col width="50%">
-                                <col width="10%">
-                                <col width="30%">
-                                <col width="10%">
-                            </colgroup>
-                            <thead>
-                            <tr class="text-center th-color">
-                                <th>파일명</th>
-                                <th>확장자</th>
-                                <th>용량</th>
-                                <th>기타</th>
-                            </tr>
-                            </thead>
-                            <tbody id="fileGrid">
-                            <tr class="defultTr">
-                                <td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table class="popTable table table-bordered mb-0">
+                        <colgroup>
+                            <col width="50%">
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="10%">
+                        </colgroup>
+                        <thead>
+                        <tr class="text-center th-color">
+                            <th>파일명</th>
+                            <th>확장자</th>
+                            <th>용량</th>
+                            <th>기타</th>
+                        </tr>
+                        </thead>
+                        <tbody id="fileGrid">
+                        <tr class="defultTr">
+                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </form>
-            </div>
         </div>
     </div>
 </div>
