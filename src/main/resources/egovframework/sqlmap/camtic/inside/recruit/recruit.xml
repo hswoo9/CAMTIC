@@ -252,6 +252,7 @@
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
             (
                 ID,
+                PWD,
                 NAME,
                 FIRST_RRN_NAME,
                 SECOND_RRN_NAME,
@@ -267,6 +268,7 @@
         VALUE
             (
                 #{id},
+                #{pwd},
                 #{name},
                 #{firstRrnName},
                 #{secondRrnName},

@@ -48,9 +48,28 @@ var commissionerReq = {
             return;
         }
 
+        var userId0 = commissionerReq.securityEncrypt($("#id").val());
+        var userId1 = "";
+        var userId2 = "";
+
+        if(userId0.length > 50){
+            userId1 = userId0.substr(50);
+            userId0 = userId0.substr(0,50);
+
+            if(userId1.length > 50){
+                userId2 = userId1.substr(50);
+                userId1 = userId1.substr(0,50);
+            }
+        }
+
+        $("#userIdSub1").val(userId1);
+        $("#userIdSub2").val(userId2);
+
         commissionerReq.global.saveAjaxData = {
-            id: $("#id").val(),
-            pwd: $("#pwd").val(),
+            id: userId0,
+            userIdSub1 : $("#userIdSub1").val(),
+            userIdSub2 : $("#userIdSub2").val(),
+            pwd: securityEncUtil.securityEncrypt($("#pwd").val(), "0"),
             name: $("#name").val(),
             firstRrnName: $("#firstRrnName").val(),
             secondRrnName: $("#secondRrnName").val(),
@@ -64,6 +83,8 @@ var commissionerReq = {
             bmk : $("#bmk").val()
         }
 
+        console.log(commissionerReq.global.saveAjaxData);
+
         if(confirm("평가위원을 저장하시겠습니까?")){
             var result = customKendo.fn_customAjax("/inside/setCommissionerInsert", commissionerReq.global.saveAjaxData);
             if(result.flag){
@@ -73,5 +94,9 @@ var commissionerReq = {
             }
         }
     },
+
+    securityEncrypt : function(inputStr){
+        return securityEncUtil.securityEncrypt(inputStr, "0");
+    }
 }
 
