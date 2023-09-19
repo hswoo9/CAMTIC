@@ -17,8 +17,8 @@
 
         <div class="__clu1 mo">
           <dl class="tit">
-            <dt>“탄소 복합재 활용 공정기술 연구 및 개발 추진”</dt>
-            <dd>기업 연계 협력, 미래 핵심 차세대 공정기술 개발</dd>
+            <dt><span class="__nm">“</span><span class="mainCapyTitle">탄소 복합재 활용 공정기술 연구 및 개발 추진</span><span class="__nm">”</span></dt>
+            <dd><span class="subCapyTitle">기업 연계 협력, 미래 핵심 차세대 공정기술 개발</span></dd>
           </dl>
         </div>
 
@@ -26,7 +26,7 @@
           <div class="__fz20 fwb __black">기술개발</div>
 
           <div class="__icoBox pt0 __mt50">
-            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>--%>
             <h5>탄소섬유 테이프 자동적층 장치 개발(ATL)</h5>
             <ul class="__dotList bar __fz20 __black">
               <li>탄소섬유 테이프를 평편상에 다양한 각도로 다층 적층하기 위한 생산시스템 개발</li>
@@ -39,7 +39,7 @@
           </ul>
 
           <div class="__icoBox pt0 __mt100">
-            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>--%>
             <h5>탄소 복합재 고속 가열 및 Consolidation 시스템 개발</h5>
             <ul class="__dotList bar __fz20 __black">
               <li>NIR(근적외선 히터)를 이용하여 열가소성 및 열경화성 탄소섬유 프리프레그의 고속 가열하여 제품의 성형 및 고속경화하는 기술 연구</li>
@@ -52,13 +52,13 @@
 
         </div>
 
-        <div class="__tit1 __mt100 __mb20">
-          <h3><strong>익산고용안정일자리센터</strong> <span class="fwl" style="font-size:0.85em;">(www.jobiksan.or.kr)</span></h3>
-        </div>
+        <%--<div class="__tit1 __mt100 __mb20">
+        </div>--%>
         <div class="__root4">
 
           <div class="__icoBox pt0">
-            <div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>
+            <div class="__fz20 fwb __black">기업지원</div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-bio1-1.png" alt=""></span></div>--%>
             <h5>탄소 복합재를 활용하는 공정기술과 탄소 복합재 제조업의 미래 성장 발전에 핵심적인 차세대 공정기술로 사업을 영위하는 기업과의 연계 협력</h5>
             <ul class="__dotList bar __fz20 __black">
               <li>고강도 초경량 복합재 및 응용 부품 개발</li>

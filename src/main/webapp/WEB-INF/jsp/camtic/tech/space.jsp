@@ -17,15 +17,19 @@
 
         <div class="__drone3 m0">
           <div class="head">
-            <h4>우주·항공·방산의 고도화 및 글로벌 경쟁력 강화</h4>
+            <%--<h4>우주·항공·방산의 고도화 및 글로벌 경쟁력 강화</h4>--%>
             <dl>
-              <dt><span class="__nm">“</span><span class="m">AS9100 rev:D 인증보유 (ISO:9001)</span><span class="__nm">”</span></dt>
-              <dd>항공우주산업(KAI), 한화시스템 협력업체 등록.</dd>
+              <dl class="head">
+                <dt><span class="__nm">“</span><span class="mainCapyTitle">창의적인 기술력으로 신개념의 기술개발</span><span class="__nm">”</span></dt>
+                <dd><span class="subCapyTitle">우주/항공/방산/에너지 분야의 다양한 개발 경험과 노하우를 바탕으로 한 최고의 기술력</span></dd>
+              </dl>
+              <%--<dt><span class="__nm">“</span><span class="m">AS9100 rev:D 인증보유 (ISO:9001)</span><span class="__nm">”</span></dt>
+              <dd>항공우주산업(KAI), 한화시스템 협력업체 등록.</dd>--%>
             </dl>
           </div>
 
           <div class="__icoBox">
-            <ul class="img">
+            <ul class="img" style="display:flex !important;">
               <li><img src="/images/camtic/img-air2-1.jpg" alt=""></li>
               <li><img src="/images/camtic/img-air2-20.jpg" alt=""></li>
               <li><img src="/images/camtic/img-air2-2.jpg" alt=""></li>
@@ -62,7 +66,7 @@
         <div class="__bio3">
 
           <div class="__icoBox">
-            <div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
             <h5>지상지원장비(MGSE - Mechanical Ground Support Equipment)</h5>
             <div class="__fz18 __black __mt0">
               인공위성, 안테나등 우주산업에 필요한 조립/시험 장비의 설계/해석/제작/시험
@@ -93,7 +97,7 @@
 
 
           <div class="__icoBox __mt60">
-            <div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
             <h5>참여사업</h5>
             <ul class="__dotList bar __fz16 __black fwm">
               <li>KOMPSAT-3(아리랑 3호), KOMPSAT-5(아리랑 5호), COMS-1(천리안 1호), </li>
@@ -108,7 +112,7 @@
         <div class="__bio3">
 
           <div class="__icoBox">
-            <div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
 
             <div class="__fz18 __black __mt0">
               인공위성, 안테나등 우주산업에 필요한 조립/시험 장비의 설계/해석/제작/시험
@@ -139,7 +143,7 @@
 
 
           <div class="__icoBox __mt60">
-            <div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
             <h5>참여사업</h5>
             <ul class="__dotList bar __fz16 __black fwm">
               <li>KUH(수리온), 스마트 무인기 개발, 복합재 팬블레이드 시험 장치 개발. 100lbf급 엔진 개발.</li>
@@ -153,7 +157,7 @@
         <div class="__bio3">
 
           <div class="__icoBox">
-            <div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
 
             <div class="__fz18 __black __mt0">
               추진(연소)기관 관련 System 시험 Rig 제작 및 시험용역
@@ -175,7 +179,7 @@
 
 
           <div class="__icoBox __mt60">
-            <div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
             <h5>참여사업</h5>
             <ul class="__dotList bar __fz16 __black fwm">
               <li>군용 지상훈련장비(Simulator) 개발, KO-1, UH-60(조종석), 6축 모션(Payload 4톤</li>
@@ -188,7 +192,7 @@
         </div>
     </div>
   </div>
-  <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+    <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </body>
 </html>

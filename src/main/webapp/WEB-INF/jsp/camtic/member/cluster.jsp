@@ -17,8 +17,10 @@
 
         <div class="__clu1 mo">
           <dl class="tit">
-            <dt>“함께 성장하는 행복한 일터 조성”을 위하여</dt>
-            <dd>구성원간 상호 협력.연대 ⇒ 동반성장 도모!!</dd>
+            <%--<dt>“함께 성장하는 행복한 일터 조성”을 위하여</dt>
+            <dd>구성원간 상호 협력.연대 ⇒ 동반성장 도모!!</dd>--%>
+            <dt><span class="__nm">“</span><span class="mainCapyTitle">함께 성장하는 행복한 일터 조성</span><span class="__nm">”</span>을 위하여</dt>
+            <dd><span class="subCapyTitle">구성원간 상호 협력.연대 ⇒ 동반성장 도모!!</span></dd>
           </dl>
           <div class="img">
             <img src="/images/camtic/img-clu1-1.jpg" alt="">

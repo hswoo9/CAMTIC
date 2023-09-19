@@ -189,10 +189,10 @@
           <div class="area" style="margin-top: 20px;">
             <dl class="box box1">
               <dt><span>미션</span></dt>
-              <dd>드론분야 창의.주도적 메이커 활동 활성화</dd>
+              <dd>드론분야 창의·주도적 메이커 활동 활성화</dd>
             </dl>
             <dl class="box box5">
-              <dt><span>비젼.성과목표</span></dt>
+              <dt><span>비젼·성과목표</span></dt>
               <dd>
                 <dl>
                   <dt>상상실현 전주드론제작소 윙윙-스테이션</dt>
@@ -209,10 +209,10 @@
               <dt><span>추진전략</span></dt>
               <dd>
                 <ul>
-                  <li><span>선택.집중.확산</span></li>
+                  <li><span>선택·집중·확산</span></li>
                   <li><span>수요기반</span></li>
                   <li><span>사용자 역량기반</span></li>
-                  <li><span>연계.협력 및 제조창업지원</span></li>
+                  <li><span>연계·협력 및 제조창업지원</span></li>
                   <li><span>개방형 공간</span></li>
                 </ul>
               </dd>
@@ -315,7 +315,7 @@
         <div class="__space3">
 
           <div class="item">
-            <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
             <dl class="tit">
               <dt>메이커스페이스</dt>
               <dd>장비이용안내</dd>
@@ -365,7 +365,7 @@
           </div>
 
           <div class="item __mt80">
-            <div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
             <dl class="tit">
               <dt>메이커스페이스</dt>
               <dd>장비이용방법</dd>
@@ -399,7 +399,7 @@
           </div>
 
           <div class="item __mt80">
-            <div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>
+            <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
             <dl class="tit">
               <dt>메이커스페이스</dt>
               <dd>교육안내</dd>
