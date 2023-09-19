@@ -1,10 +1,10 @@
 var boardMa = {
 	global : {
-		/*dropDownDataSource : "",
+		dropDownDataSource : "",
 		boardCategoryArr : new Array(),
 		searchAjaxData : "",
 		saveAjaxData : "",
-		flag : false,*/
+		flag : false,
 	},
 
 	fnDefaultScript : function(){
