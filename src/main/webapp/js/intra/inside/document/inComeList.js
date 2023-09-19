@@ -53,7 +53,7 @@ var regisList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regisList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -165,8 +165,8 @@ var regisList = {
             searchType : $("#searchType").val(),
             searchText : $("#searchText").val()
         }
-        regisList.mainGrid("/inside/getDocumentList.do", regisList.global.searchAjaxData);
 
+        regisList.mainGrid("/inside/getDocumentList", regisList.global.searchAjaxData);
     },
 
     tmpDel: function (docSn, delSts, docFirstNum, docSecondNum) {

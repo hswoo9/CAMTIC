@@ -187,7 +187,13 @@ var bustripResList = {
                             }else {
                                 return "-";
                             }
-                        }else {
+                        }else if(row.EXP_STAT == 10){
+                            return "여비정산 승인요청 중";
+                        }else if(row.EXP_STAT == 30){
+                            return "여비정산 반려";
+                        }else if(row.EXP_STAT == 0){
+                            return "결과보고서 작성중";
+                        }else{
                             return "결과보고서 미작성";
                         }
                     },
