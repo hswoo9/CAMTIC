@@ -92,7 +92,7 @@ var boardMa = {
 	mainGrid : function(url, params){
 		var mainGrid = $("#mainGrid").kendoGrid({
 			dataSource: customKendo.fn_gridDataSource2(url, params, 10),
-			height: 454,
+			height: 590,
 			sortable: true,
 			scrollable: true,
 			pageable : {

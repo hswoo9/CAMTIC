@@ -34,7 +34,7 @@
 										게시판 목록
 									</li>
 								</ul>
-								<div id="gridForm2" style="height:560px;overflow: auto;border: 1px solid #dedfdf;">
+								<div id="gridForm2" style="height:670px;overflow: auto;border: 1px solid #dedfdf;">
 									<input type="text" id="searchColumn" name="searchColumn" style="width: 25%;" />
 									<input type="text" id="searchContent" style="width: 56%;" onkeypress="if(window.event.keyCode==13){boardMa.gridReload()}">
 									<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="boardMa.gridReload()">
