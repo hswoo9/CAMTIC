@@ -25,17 +25,17 @@
                         <col width="20%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">아이디</th>
+                        <td>
+                            <input type="text" id="id" style="width: 150px;">
+                        </td>
                         <th class="text-center th-color">성명</th>
                         <td>
-                            <input type="text" id="searchName" style="width: 150px;">
+                            <input type="text" id="name" name="name" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">기관명</th>
                         <td>
-                            <input type="text" id="searchComp" style="width: 200px;">
-                        </td>
-                        <th class="text-center th-color">전문분야</th>
-                        <td>
-                            <input type="text" id="expertise" style="width: 200px;">
+                            <input type="text" id="belong" style="width: 200px;">
                         </td>
                     </tr>
                 </table>

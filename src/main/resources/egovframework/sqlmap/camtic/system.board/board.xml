@@ -23,9 +23,9 @@
             <when test='searchColumn != null and !"".equals(searchColumn) and "b".equals(searchColumn)'>
                 AND BOARD_NAME LIKE CONCAT('%',#{searchContent},'%')
             </when>
-            <otherwise>
+            <when test='searchColumn != null and !"".equals(searchColumn) and !"b".equals(searchColumn)'>
                 AND BOARD_TYPE = #{searchColumn} AND BOARD_NAME LIKE CONCAT('%',#{searchContent},'%')
-            </otherwise>
+            </when>
         </choose>
     </select>
 

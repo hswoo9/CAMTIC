@@ -115,8 +115,7 @@
 														<span class="red-star">*</span>메뉴경로
 													</th>
 													<td colspan="3">
-<%--														TODO. 현재 게시판 유무 미정 --%>
-<%--														<input type="text" id="boardId" name="boardId" style="width: 19%">--%>
+														<input type="text" id="boardId" name="boardId" style="width: 19%">
 														<input type="text" id="menuPath" name="menuPath" style="width: 79%">
 													</td>
 												</tr>

@@ -2,9 +2,13 @@ var now = new Date();
 
 var commissionerManage = {
 
+    global : {
+        searchAjaxData : ""
+    },
+
     init : function(){
         commissionerManage.dataSet();
-        commissionerManage.mainGrid();
+        commissionerManage.gridReload();
     },
 
     dataSet() {
@@ -22,7 +26,7 @@ var commissionerManage = {
 
     },
 
-    mainGrid : function() {
+    mainGrid : function(url, params) {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -141,6 +145,16 @@ var commissionerManage = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    gridReload : function(){
+        commissionerManage.global.searchAjaxData = {
+            id : $("#id").val(),
+            name : $("#name").val(),
+            belong : $("#belong").val(),
+        }
+
+        commissionerManage.mainGrid("/inside/getCommissionerList", commissionerManage.global.searchAjaxData);
     },
 
     commissionerReqPop : function() {
