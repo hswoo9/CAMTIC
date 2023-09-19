@@ -176,7 +176,7 @@ var esm = {
                     template : function(e){
                         /** 국민연금 = (기본급 + 상여금)/ 국민연금요율(%) */
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                        var nationalPension = Math.floor(Math.floor(cnt * (e.NATIONAL_PENSION / 100))/10)*10;
 
                         if(nationalPension > Number(e.LIMIT_AMT)){
                             return e.LIMIT_AMT.toString().toMoney()
