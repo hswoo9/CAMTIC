@@ -18,12 +18,18 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
@@ -32,14 +38,26 @@
                             ~
                             <input type="text" id="end_date" style="width: 110px;">
                         </td>
-                        <th><span class="red-star">*</span>관련사업</th>
+                        <th class="text-center th-color">부서</th>
                         <td>
-                            <input id="busnLgClass" style="width: 45%"/>
-                            <input id="project" style="width: 45%; display:none;">
+                            <input type="text" id="dept" style="width: 140px;">
+                            <input type="text" id="team" style="width: 170px;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="tripCode" style="width: 90%"/>
+                        </td>
+                        <th class="text-center th-color">관련사업</th>
+                        <td>
+                            <input type="text" id="project" style="width: 90%"/>
                         </td>
                         <th class="text-center th-color">사업명</th>
                         <td>
-                            <input type="text" id="busnName" style="width: 150px;">
+                            <input type="text" id="busnName" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">입금상태</th>
+                        <td>
+                            <input type="text" id="depositStat" style="width: 90%;">
                         </td>
                     </tr>
                 </table>

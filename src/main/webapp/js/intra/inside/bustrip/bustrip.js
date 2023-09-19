@@ -154,5 +154,49 @@ var bustrip = {
                 $("#busnName").data("kendoTextBox").enable(false);
             }
         })
+    },
+
+    /** 출장코드 조회 필터 */
+    fn_tripCodeSet: function(){
+        let tripCodeDataSource = [
+            { text: "도내(시내)", value: "1" },
+            { text: "도내(시외)", value: "2" },
+            { text: "도외", value: "3" },
+            { text: "해외", value: "4" }
+        ]
+        customKendo.fn_dropDownList("tripCode", tripCodeDataSource, "text", "value", 1);
+    },
+
+    /** 관련사업 조회 필터 */
+    fn_projectSet: function(){
+        let projectDataSource = [
+            { text: "없음", value: "1" },
+            { text: "있음", value: "2" }
+        ]
+        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 1);
+    },
+
+    /** 입금현황 조회 필터 */
+    fn_depositStatSet: function(){
+        let depositStatDataSource = [
+            { text: "입금예정", value: "N" }
+        ]
+        customKendo.fn_dropDownList("depositStat", depositStatDataSource, "text", "value", 1);
+    },
+
+    /** 그리드 컬럼 - 출장구분 */
+    fn_getTripCodeText: function(row){
+        const tripCode = row.TRIP_CODE;
+        let tripCodeText = "";
+        if(tripCode == 1){
+            tripCodeText = "도내(시내)";
+        }else if(tripCode == 2){
+            tripCodeText = "도내(시외)";
+        }else if(tripCode == 3){
+            tripCodeText = "도외";
+        }else if(tripCode == 4){
+            tripCodeText = "해외";
+        }
+        return tripCodeText;
     }
 }

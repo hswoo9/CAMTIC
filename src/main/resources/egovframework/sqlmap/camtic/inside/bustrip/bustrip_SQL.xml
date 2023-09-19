@@ -16,15 +16,26 @@
             CAM_INSIDE.DJ_HR_CAR_CODE IHCC ON IHBR.USE_TRSPT = IHCC.CAR_CLASS_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON IHBR.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
         WHERE
             <![CDATA[
                 IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
             ]]>
-            <if test="projectCd != null and projectCd != ''">
-                AND PROJECT_CD = #{projectCd}
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
+                AND HEI.DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test="tripCode != null and tripCode != ''">
+                AND IHBR.TRIP_CODE = #{tripCode}
+            </if>
+            <if test='"1".equals(project)'>
+                AND (IHBR.BUSN_NAME IS NULL OR IHBR.BUSN_NAME = "")
+            </if>
+            <if test='"2".equals(project)'>
+                AND (IHBR.BUSN_NAME IS NOT NULL AND IHBR.BUSN_NAME != "")
             </if>
             <if test="busnName != null and busnName != ''">
-                AND BUSN_NAME like concat('%', #{busnName}, '%')
+                AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
             </if>
             <if test="empSeq != null and !''.equals(empSeq)">
                 AND IHBR.REG_EMP_SEQ = #{empSeq}
@@ -349,7 +360,7 @@
     <select id="getBustripReqCheck" parameterType="map" resultType="map">
         /* getBustripReqCheck */
         SELECT
-            A.*,
+            IHBR.*,
             IFNULL(B.HR_BIZ_REQ_RESULT_ID, "") AS HR_BIZ_REQ_RESULT_ID,
             B.STATUS AS RES_STATUS,
             B.EXP_STAT,
@@ -358,30 +369,38 @@
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ A
+            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
         LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
-        ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B ON IHBR.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI
-        ON B.DOC_ID = DI.DOC_ID
+            DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
         WHERE
-            A.STATUS IN ('100') AND
+            IHBR.STATUS IN ('100') AND
         <![CDATA[
-            A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
+            IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
         ]]>
-        <if test="projectCd != null and projectCd != ''">
-            AND
-            A.PROJECT_CD = #{projectCd}
+
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND HEI.DEPT_SEQ = #{deptSeq}
+        </if>
+        <if test="tripCode != null and tripCode != ''">
+            AND IHBR.TRIP_CODE = #{tripCode}
+        </if>
+        <if test='"1".equals(project)'>
+            AND (IHBR.BUSN_NAME IS NULL OR IHBR.BUSN_NAME = "")
+        </if>
+        <if test='"2".equals(project)'>
+            AND (IHBR.BUSN_NAME IS NOT NULL AND IHBR.BUSN_NAME != "")
         </if>
         <if test="busnName != null and busnName != ''">
-            AND
-            A.BUSN_NAME like concat('%', #{busnName}, '%')
+            AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
         </if>
         <if test="empSeq != null and !''.equals(empSeq)">
-            AND A.REG_EMP_SEQ = #{empSeq}
+            AND IHBR.REG_EMP_SEQ = #{empSeq}
         </if>
-        ORDER BY A.REG_DT DESC
+        ORDER BY IHBR.REG_DT DESC
     </select>
 
     <select id="getBustripTotInfo" parameterType="map" resultType="map">
@@ -746,6 +765,8 @@
                 START_DT,
                 DISTANCE,
                 COST_AMT,
+                PROJECT_CD,
+                PROJECT_NM,
                 REG_EMP_SEQ,
                 REG_EMP_NAME
             )
@@ -754,6 +775,8 @@
                 #{startDt},
                 #{distance},
                 #{costAmt},
+                #{projectCd},
+                #{projectText},
                 #{regEmpSeq},
                 #{regEmpName}
             )
@@ -765,7 +788,18 @@
             CAM_INSIDE.DJ_HR_FUEL_COST_INFO
         SET
             END_DT = DATE_SUB(#{startDt}, INTERVAL 1 DAY)
+        WHERE
+            1=1
+        AND PROJECT_CD = #{projectCd}
         ORDER BY HR_FUEL_COST_INFO_SN DESC LIMIT 1
+    </update>
+
+    <update id="setExchangeRateUpdate" parameterType="map">
+        /* setExchangeRateUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_HR_EXCHANGE_RATE
+        SET
+            EXCHANGE_RATE = #{exchangeRate}
     </update>
 
     <select id="getBustripFuelCostList" parameterType="map" resultType="map">
@@ -788,6 +822,17 @@
         WHERE
             1=1
         ORDER BY IHFCI.REG_DT DESC limit 1
+    </select>
+
+    <select id="getExchangeInfo" parameterType="map" resultType="map">
+        /* getExchangeInfo */
+        SELECT
+            IHER.*
+        FROM
+            CAM_INSIDE.DJ_HR_EXCHANGE_RATE IHER
+        WHERE
+            1=1
+        limit 1
     </select>
 
     <select id="getPopBustripList" parameterType="map" resultType="map">

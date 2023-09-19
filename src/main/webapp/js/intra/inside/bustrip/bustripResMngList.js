@@ -5,34 +5,49 @@ var bustripResMngList = {
     },
 
     pageSet: function(){
+        /** 출장기간 */
         bustrip.fn_periodSet();
-        bustrip.fn_busnLgSet(2);
+
+        /** 부서, 팀 */
+        fn_deptSetting();
+
+        /** 출장구분 */
+        bustrip.fn_tripCodeSet();
+
+        /** 관련사업 */
+        bustrip.fn_projectSet();
+
+        /** 입금상태 */
+        bustrip.fn_depositStatSet();
+
         customKendo.fn_textBox(["busnName"]);
     },
 
-    mainGrid : function() {
+    mainGrid: function(){
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
-                read : {
-                    url : "/bustrip/getBustripReqCheck",
-                    dataType : "json",
-                    type : "post"
+                read: {
+                    url: "/bustrip/getBustripReqCheck",
+                    dataType: "json",
+                    type: "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
                     data.startDate = $("#start_date").val();
                     data.endDate = $("#end_date").val();
-                    data.projectCd = $("#pjt_cd").val();
+                    data.deptSeq = $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val();
+                    data.tripCode = $("#tripCode").val();
+                    data.project = $("#project").val();
                     data.busnName = $("#busnName").val();
-
+                    data.depositStat = $("#depositStat").val();
                     return data;
                 }
             },
-            schema : {
-                data: function (data) {
+            schema: {
+                data: function (data){
                     return data.rs;
                 },
-                total: function (data) {
+                total: function (data){
                     return data.rs.length;
                 },
             },
@@ -65,6 +80,12 @@ var bustripResMngList = {
             dataBound : bustripResMngList.onDataBound,
             columns: [
                 {
+                    title: "출장구분",
+                    width: 50,
+                    template: function(row){
+                        return bustrip.fn_getTripCodeText(row);
+                    }
+                }, {
                     title: "사업명",
                     width: 200,
                     template : function(row){

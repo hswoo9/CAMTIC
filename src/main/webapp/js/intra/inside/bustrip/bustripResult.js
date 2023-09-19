@@ -7,7 +7,8 @@ var bustripResList = {
 
     pageSet: function(){
         bustrip.fn_periodSet();
-        bustrip.fn_busnLgSet(2);
+        bustrip.fn_projectSet();
+        bustrip.fn_tripCodeSet();
         customKendo.fn_textBox(["busnName"]);
     },
 
@@ -23,10 +24,9 @@ var bustripResList = {
                 parameterMap: function(data) {
                     data.startDate = $("#start_date").val();
                     data.endDate = $("#end_date").val();
-                    data.projectCd = $("#pjt_cd").val();
+                    data.tripCode = $("#tripCode").val();
+                    data.project = $("#project").val();
                     data.busnName = $("#busnName").val();
-                    data.empSeq = $("#regEmpSeq").val();
-
                     return data;
                 }
             },
@@ -67,6 +67,12 @@ var bustripResList = {
             },
             columns: [
                 {
+                    title: "출장구분",
+                    width: 50,
+                    template: function(row){
+                        return bustrip.fn_getTripCodeText(row);
+                    }
+                }, {
                     title: "사업명",
                     width: 200,
                     template : function(row){

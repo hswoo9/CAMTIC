@@ -295,6 +295,18 @@ public class BustripController {
         return "popup/inside/bustrip/bustripFuelCostReqPop";
     }
 
+    //환율 관리 팝업
+    @RequestMapping("/bustrip/pop/bustripExchangeMngPop.do")
+    public String bustripExchangeMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        Map<String, Object> data = bustripService.getExchangeInfo(params);
+        model.addAttribute("data", data);
+        return "popup/inside/bustrip/bustripExchangeMngPop";
+    }
+
     //국내출장여비 리스트 페이지
     @RequestMapping("/bustrip/bustripCostList.do")
     public String bustripCostList(HttpServletRequest request, Model model) {
@@ -542,6 +554,13 @@ public class BustripController {
         return "jsonView";
     }
 
+    //환율정보수정
+    @RequestMapping("/bustrip/setExchangeRateUpdate")
+    public String setExchangeRateUpdate(@RequestParam Map<String, Object> params, Model model){
+        bustripService.setExchangeRateUpdate(params);
+        return "jsonView";
+    }
+
     //경유지 리스트
     @RequestMapping("/bustrip/getWaypointCostList")
     public String getWaypointCostList(@RequestParam Map<String, Object> params, Model model){
@@ -585,6 +604,15 @@ public class BustripController {
     @RequestMapping("/bustrip/getBustripFuelCostInfo")
     public String getBustripFuelCostInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = bustripService.getBustripFuelCostInfo(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    //유류 기준정보 조회
+    @RequestMapping("/bustrip/getExchangeInfo")
+    public String getExchangeInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getExchangeInfo(params);
         model.addAttribute("data", data);
 
         return "jsonView";

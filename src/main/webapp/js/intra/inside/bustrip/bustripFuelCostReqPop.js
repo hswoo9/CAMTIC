@@ -7,6 +7,13 @@ const fuelCostReq = {
         customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date());
         $("#startDt").attr("readonly", true);
         customKendo.fn_textBox(["distance", "costAmt"]);
+
+        let projectDataSource = [
+            { text: "전체", value: "0" },
+            { text: "테스트 프로젝트 A", value: "1" },
+            { text: "테스트 프로젝트 B", value: "1" }
+        ]
+        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 3);
     },
 
     saveBtn: function(){
@@ -16,12 +23,17 @@ const fuelCostReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
 
+        let projectCd = $("#project").data("kendoDropDownList").value();
+        let projectText = $("#project").data("kendoDropDownList").text();
+
         let data = {
             startDt: startDt,
             distance: distance,
             costAmt: costAmt,
             regEmpSeq: regEmpSeq,
-            regEmpName: regEmpName
+            regEmpName: regEmpName,
+            projectCd: projectCd,
+            projectText: projectText
         }
 
         if(startDt == "") { alert("기준일이 작성되지 않았습니다."); return; }

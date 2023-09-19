@@ -285,6 +285,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public void setExchangeRateUpdate(Map<String, Object> params) {
+        bustripRepository.setExchangeRateUpdate(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getWaypointCostList(Map<String, Object> params) {
         return bustripRepository.getWaypointCostList(params);
     }
@@ -307,6 +312,11 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params) {
         return bustripRepository.getBustripFuelCostInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getExchangeInfo(Map<String, Object> params) {
+        return bustripRepository.getExchangeInfo(params);
     }
 
     @Override
