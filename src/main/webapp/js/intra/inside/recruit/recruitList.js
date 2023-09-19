@@ -134,8 +134,15 @@ var recruitList = {
                     title: "면접심사",
                     template: function(e) {
                         if(e.STATUS == "3" && e.IN_SCREEN_CNT == e.IN_SCREEN_RESULT){
+                            var str = "";
+                            if(e.RECRUIT_STATUS_SN == "5"){
+                                str = "심사결과";
+                            }else{
+                                str = "면접심사";
+                            }
+
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'in\')">' +
-                                '	<span class="k-button-text">심사결과</span>' +
+                                '	<span class="k-button-text">' + str + '</span>' +
                                 '</button>';
                         }else{
                             return "";
