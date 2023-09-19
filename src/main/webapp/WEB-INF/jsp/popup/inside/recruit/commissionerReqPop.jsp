@@ -94,7 +94,13 @@
         </tr>
       </table>
     </form>
+
+    <input type="hidden" id="userIdSub1" name="id_sub1" value="">
+    <input type="hidden" id="userIdSub2" name="id_sub2" value="">
 </div>
+
+<script src="/js/intra/common/securityEncUtil.js?v=1"></script>
+<script src="/js/intra/common/aes.js?v=1"></script>
 <script>
   commissionerReq.init();
 </script>

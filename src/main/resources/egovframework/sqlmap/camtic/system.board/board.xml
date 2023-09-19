@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+    <select id="getBoardList" parameterType="map" resultType="map">
+        /* getBoardList */
+        SELECT
+        BOARD_ID,
+        BOARD_NAME,
+        WRITER_AUTHORITY_ACTIVE,
+        WRITER_AUTHORITY_GROUP_ID,
+        ANONYMOUS_ACTIVE,
+        ATTACH_FILE_ACTIVE,
+        WRITER_TYPE,
+        REPLY_ACTIVE,
+        BOARD_TYPE,
+        BOARD_CATEGORY_ACTIVE,
+        ACTIVE
+        FROM
+        CAM_BOARD.DJ_BOARD
+        WHERE 1=1
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "b".equals(searchColumn)'>
+                AND BOARD_NAME LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and !"b".equals(searchColumn)'>
+                AND BOARD_TYPE = #{searchColumn} AND BOARD_NAME LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+        </choose>
+    </select>
+
+    <update id="setBoardUpd" parameterType="map">
+        /* setBoardUpd */
+        UPDATE
+            CAM_BOARD.DJ_BOARD
+        SET
+            BOARD_NAME = #{boardName},
+            ANONYMOUS_ACTIVE = #{anonymousActive},
+            ATTACH_FILE_ACTIVE = #{attachFileActive},
+            WRITER_TYPE = #{writerType},
+            REPLY_ACTIVE = #{replyActive},
+            BOARD_TYPE = #{boardType},
+            BOARD_CATEGORY_ACTIVE = #{boardCategoryActive},
+            ACTIVE = #{active},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            BOARD_ID = #{boardId}
+    </update>
+
+    <insert id="setBoard" parameterType="map">
+        /* setBoard */
+        INSERT INTO CAM_BOARD.DJ_BOARD
+        (
+        BOARD_NAME,
+        ANONYMOUS_ACTIVE,
+        ATTACH_FILE_ACTIVE,
+        WRITER_TYPE,
+        REPLY_ACTIVE,
+        BOARD_TYPE,
+        BOARD_CATEGORY_ACTIVE,
+        ACTIVE,
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        #{boardName},
+        #{anonymousActive},
+        #{attachFileActive},
+        #{writerType},
+        #{replyActive},
+        #{boardType},
+        #{boardCategoryActive},
+        #{active},
+        #{empSeq}
+        )
+
+        <selectKey keyProperty="boardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_BOARD'
+        </selectKey>
+    </insert>
+
+    <delete id="setBoardCategoryDel" parameterType="map">
+        /* setBoardCategoryDel */
+        DELETE FROM CAM_BOARD.DJ_BOARD_CATEGORY WHERE BOARD_ID = #{boardId}
+    </delete>
+
+    <insert id="setBoardCategory" parameterType="list">
+        /* setBoardCategory */
+        INSERT INTO CAM_BOARD.DJ_BOARD_CATEGORY
+        (
+        BOARD_ID,
+        BOARD_CATEGORY_NAME,
+        REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.boardId},
+            #{item.boardCategoryName},
+            #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+<!--    <select id="getBoardCategoryList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage" resultType="map">
+        SELECT
+            BC.BOARD_CATEGORY_ID,
+            BC.BOARD_CATEGORY_NAME,
+            DATE_FORMAT(BC.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            EI.EMP_NAME_KR
+        FROM
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
+                LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+            ON BC.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            BC.BOARD_ID = #{boardId}
+    </select>-->
+
+    <select id="getBoardType" parameterType="map" resultType="map">
+        /* getBoardType */
+        SELECT
+            BOARD_TYPE
+        FROM
+            CAM_BOARD.DJ_BOARD
+        WHERE
+            BOARD_ID = #{boardId}
+    </select>
+
+    <select id="getBoardActive" parameterType="map" resultType="map">
+        /* getBoardActive */
+        SELECT
+            ATTACH_FILE_ACTIVE,
+            BOARD_CATEGORY_ACTIVE
+        FROM
+            CAM_BOARD.DJ_BOARD
+        WHERE
+            BOARD_ID = #{boardId}
+    </select>
+
+</mapper>

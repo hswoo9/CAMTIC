@@ -67,7 +67,7 @@ public class EvalController {
         Boolean completeKeyFlag = false;
         params.put("uniqId", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
         params.put("userId", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
-        params.put("userPassword", AESCipher.AES128SCRIPT_Decode(params.get("userPassword").toString(), completeKeyFlag));
+        params.put("userPassword", passwordEncrypt(replacePasswd(AESCipher.AES128SCRIPT_Decode(params.get("userPassword").toString(), completeKeyFlag))));
 
         Map<String, Object> userMap = new HashMap<>();
         if(params.get("evalType").equals("doc")){
@@ -193,7 +193,7 @@ public class EvalController {
     public boolean checkPassword(Map<String, Object> user, Map<String, Object> params) throws Exception {
         boolean flag = false;
         // sha256 암호비교
-        if(user.get("PWD").equals(passwordEncrypt(replacePasswd(params.get("userPassword").toString())))) {
+        if(user.get("PWD").equals(params.get("userPassword").toString())) {
             flag = true;
         }
         return flag;

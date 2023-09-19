@@ -34,11 +34,18 @@
 										게시판 목록
 									</li>
 								</ul>
-								<div id="gridForm2" style="height:560px;overflow: auto;border: 1px solid #dedfdf;">
-									<input id="searchColumn" name="searchColumn" placeholder="게시판명 입력" style="width: 83%" onkeypress="if(window.event.keyCode==13){boardMa.gridReload()}"/>
-									<button type="button" style="padding: 2px 8px;" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="boardMa.gridReload()">
-										<span class="k-icon k-i-search k-button-icon">조회</span>
+								<div id="gridForm2" style="height:670px;overflow: auto;border: 1px solid #dedfdf;">
+									<input type="text" id="searchColumn" name="searchColumn" style="width: 25%;" />
+									<input type="text" id="searchContent" style="width: 56%;" onkeypress="if(window.event.keyCode==13){boardMa.gridReload()}">
+									<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="boardMa.gridReload()">
+										<span class="k-button-text">조회</span>
 									</button>
+									<%--
+									<input type="text" id="searchContent" placeholder="게시판명 입력" style="width: 83%;" onkeypress="if(window.event.keyCode==13){boardMa.gridReload()}">
+									<button type="button" style="padding: 2px 8px;" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="boardMa.gridReload()">
+										<span class="k-button-text">조회</span>
+									</button>
+									--%>
 									<div id="mainGrid" style="height:609px; width: 315px;overflow: auto;border: 1px solid #dedfdf;">
 										<%--<div id="menuTreeView">
 

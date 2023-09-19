@@ -24,14 +24,13 @@ var menuM = {
         menuM.makeTreeView();
         customKendo.fn_textBox(["menuSearch", "menuId", "menuName", "menuPath", "sort"]);
 
-        /** TODO. 현재 게시판 유무 미정 */
-        // var result = customKendo.fn_customAjax("/system/getBoardList.do", "");
-        // if(result.flag){
-        //     customKendo.fn_dropDownList("boardId", result.list, "BOARD_NAME", "BOARD_ID");
-        //
-        //     $("#boardId").data("kendoDropDownList").enable(false);
-        //     $("#boardId").data("kendoDropDownList").bind("change", menuM.boardDropDownChange);
-        // }
+        var result = customKendo.fn_customAjax("/system/getBoardList.do", "");
+        if(result.flag){
+            customKendo.fn_dropDownList("boardId", result.list, "BOARD_NAME", "BOARD_ID", 2);
+
+            $("#boardId").data("kendoDropDownList").enable(false);
+            $("#boardId").data("kendoDropDownList").bind("change", menuM.boardDropDownChange);
+        }
 
         $("#menuType").kendoDropDownList({
             dataTextField: "text",
@@ -44,17 +43,15 @@ var menuM = {
             index: 0,
             change : function(){
                 if(this.value() == "" || this.value() == "c"){
-                    /** TODO. 현재 게시판 유무 미정 */
-                    // $("#boardId").data("kendoDropDownList").value("");
+                    $("#boardId").data("kendoDropDownList").value("");
                     $("#menuPath").val("");
                     $("#menuPath").data("kendoTextBox").enable(true);
-                    // $("#boardId").data("kendoDropDownList").enable(false);
+                    $("#boardId").data("kendoDropDownList").enable(false);
                 }else{
-                    /** TODO. 현재 게시판 유무 미정 */
-                    // $("#boardId").data("kendoDropDownList").value("");
+                    $("#boardId").data("kendoDropDownList").value("");
                     $("#menuPath").val("");
                     $("#menuPath").data("kendoTextBox").enable(false);
-                    // $("#boardId").data("kendoDropDownList").enable(true);
+                    $("#boardId").data("kendoDropDownList").enable(true);
                 }
             }
         })
@@ -79,7 +76,6 @@ var menuM = {
         menuM.filter(dataSource, query);
     },
 
-    /** TODO. 현재 게시판 유무 미정 */
     boardDropDownChange : function(){
         if(this.value() == ""){
             $("#menuPath").data("kendoTextBox").enable(false);
@@ -315,9 +311,9 @@ var menuM = {
         $('#menuType').data("kendoDropDownList").value(v.MENU_TYPE);
         $('#menuType').data("kendoDropDownList").trigger("change");
         /** TODO. 현재 게시판 유무 미정 */
-        // if(v.MENU_TYPE == "b"){
-        //     $("#boardId").data("kendoDropDownList").value(v.MENU_PATH.slice(-1));
-        // }
+        if(v.MENU_TYPE == "b"){
+            $("#boardId").data("kendoDropDownList").value(v.MENU_PATH.split("=")[1]);
+        }
         $('#menuPath').val(v.MENU_PATH);
         $('#menuDepth').val(v.MENU_DEPTH);
         $('#sort').val(v.SORT);

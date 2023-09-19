@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.inside.recruit.controller;
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.utiles.AESCipher;
+import egovframework.com.devjitsu.doc.config.EgovFileScrty;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.recruit.service.EvalManageService;
@@ -392,6 +394,19 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setCommissionerDel")
+    public String setCommissionerDel(@RequestParam Map<String,Object> params) {
+        recruitService.setCommissionerDel(params);
+        return "jsonView";
+    }
+
+
+
+    /**
      * 평가위원등록 페이지
      * @param request
      * @param model
@@ -413,7 +428,12 @@ public class RecruitController {
      * @return
      */
     @RequestMapping("/inside/setCommissionerInsert")
-    public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) {
+    public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) throws Exception{
+        String inputLoginId = params.get("id").toString() + params.get("userIdSub1").toString() + params.get("userIdSub2").toString();
+        Boolean completeKeyFlag = false;
+        params.put("id", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
+        params.put("pwd", passwordEncrypt(replacePasswd(AESCipher.AES128SCRIPT_Decode(params.get("pwd").toString(), completeKeyFlag))));
+
         recruitService.setCommissionerInsert(params);
         return "jsonView";
     }
@@ -446,4 +466,25 @@ public class RecruitController {
         return formatter.format(today);
     }
 
+    public static String passwordEncrypt(String userPassword) throws Exception {
+        if(userPassword != null && !userPassword.equals("")){
+            return EgovFileScrty.encryptPassword(userPassword);
+        }else{
+            return "";
+        }
+    }
+
+    public String replacePasswd(String str){
+        if(str.indexOf("&nbsp;") != -1) {
+            str = str.replaceAll("&nbsp;", " ");}
+        if(str.indexOf("&amp;") != -1) {
+            str = str.replaceAll("&amp;", "&");}
+        if(str.indexOf("&lt;") != -1) {
+            str = str.replaceAll("&lt;", "<");}
+        if(str.indexOf("&gt;") != -1) {
+            str = str.replaceAll("&gt;", ">");}
+        if(str.indexOf("&quot;") != -1) {
+            str = str.replaceAll("&quot;", "\"");}
+        return str;
+    }
 }
