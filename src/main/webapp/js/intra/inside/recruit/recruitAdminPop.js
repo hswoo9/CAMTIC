@@ -296,6 +296,20 @@ var recruitAdminPop = {
         //var popup = window.open(url, name, option);
     },
 
+    setRecruitStatusUpd : function(t, e){
+        recruitAdminPop.global.saveAjaxData = {
+            recruitInfoSn : $("#recruitInfoSn").val(),
+            recruitStatusSn : e,
+            recruitStatusText : t
+        }
+
+        var result = customKendo.fn_customAjax("/inside/setRecruitStatusUpd.do", recruitAdminPop.global.saveAjaxData);
+        if(result.flag){
+            alert("처리되었습니다.");
+            recruitAdminPop.gridReload();
+        }
+    },
+
     duplicationCntPop : function(e){
         var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
 

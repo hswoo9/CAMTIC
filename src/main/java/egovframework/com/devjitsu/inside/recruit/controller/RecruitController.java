@@ -147,9 +147,22 @@ public class RecruitController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+        model.addAttribute("recruit", recruitService.getRecruit(params));
 
         return "popup/inside/recruit/recruitAdminPop";
     }
+
+    /**
+     * 채용공고 공고상태변경
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setRecruitStatusUpd.do")
+    public String setRecruitStatusUpd(@RequestParam Map<String,Object> params) {
+        recruitService.setRecruitStatusUpd(params);
+        return "jsonView";
+    }
+
 
     /**
      * 채용공고 응시자 리스트

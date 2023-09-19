@@ -179,8 +179,10 @@ var recruitList = {
                         }else if(e.RECRUIT_STATUS_SN == "2"){
                             return "접수중";
                         }else if(e.RECRUIT_STATUS_SN == "3"){
-                            return "심사중";
+                            return "심사중(서류심사)";
                         }else if(e.RECRUIT_STATUS_SN == "4"){
+                            return "심사중(면접심사)";
+                        }else if(e.RECRUIT_STATUS_SN == "5"){
                             return "채용완료";
                         }
                     }

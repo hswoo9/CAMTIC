@@ -28,7 +28,7 @@ public class BoardManagementController {
     @Autowired
     private CommonService commonService;
 
-    @RequestMapping("/system/boardManagement.do")
+    @RequestMapping("/system/board/boardManagement.do")
     public String boardManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());

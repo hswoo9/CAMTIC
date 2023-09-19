@@ -96,6 +96,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public void setRecruitStatusUpd(Map<String, Object> params) {
+        recruitRepository.setRecruitStatusUpd(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getApplicationList(Map<String, Object> params) {
         List<Map<String, Object>> list = recruitRepository.getApplicationList(params);
 
