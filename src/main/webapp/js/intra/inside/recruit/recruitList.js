@@ -96,13 +96,6 @@ var recruitList = {
                             '	<span class="k-button-text">채용공고등록</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop();">' +
-                            '	<span class="k-button-text">채용공고관리</span>' +
-                            '</button>';
-                    }
                 }
             ],
             noRecords: {
@@ -112,13 +105,7 @@ var recruitList = {
             detailInit: recruitList.detailInit,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    width: 50,
-                    template : function (e){
-                        return "<input type='checkbox' id='recChk" + e.RECRUIT_INFO_SN + "' name='recChk' value='"+e.RECRUIT_INFO_SN+"'/>";
-                    }
-                }, {
-                    field: "ROW_NUM",
+                    template: "#= --record #",
                     title: "순번",
                     width : 50
                 }, {
@@ -176,6 +163,13 @@ var recruitList = {
                         }
                     }
                 }, {
+                    title: "상태",
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop(' + e.RECRUIT_INFO_SN + ');">' +
+                            '	<span class="k-button-text">공고관리</span>' +
+                            '</button>';
+                    }
+                }, {
                     field: "RECRUIT_STATUS_SN",
                     title: "상태",
                     width : 60,
@@ -191,7 +185,10 @@ var recruitList = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -202,16 +199,8 @@ var recruitList = {
         var popup = window.open(url, name, option);
     },
 
-    recruitAdminPop : function() {
-        if($("input[name='recChk']:checked").length == 0){
-            alert("공고를 선택해주세요.");
-            return;
-        }else if($("input[name='recChk']:checked").length > 1){
-            alert("공고를 하나만 선택해주세요.");
-            return;
-        }
-
-        var url = "/inside/pop/recruitAdminPop.do?recruitInfoSn=" + $("input[name='recChk']:checked").val();
+    recruitAdminPop : function(e) {
+        var url = "/inside/pop/recruitAdminPop.do?recruitInfoSn=" + e;
         var name = "recruitAdminPop";
         var option = "width=1750, height=740, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

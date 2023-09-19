@@ -1,5 +1,4 @@
 const bustripReq = {
-
     init: function(){
         bustrip.fn_setPageName();
         bustripReq.pageSet();
@@ -25,8 +24,7 @@ const bustripReq = {
         bustrip.fn_waypointCodeSet();
     },
 
-    dataSet: function (d, p){
-        const hrBizReqId = $("#hrBizReqId").val();
+    dataSet: function(){
         if(hrBizReqId == ""){return;}
 
         const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
@@ -128,8 +126,6 @@ const bustripReq = {
     },
 
     fn_saveBtn: function(){
-        const hrBizReqId = $("#hrBizReqId").val();
-
         if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
         if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
         if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
