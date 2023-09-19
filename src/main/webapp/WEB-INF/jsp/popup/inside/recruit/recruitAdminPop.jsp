@@ -79,28 +79,10 @@
   <div class="table-responsive">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">채용공고 관리</h3>
-      <div class="btn-st popButton">
-        <c:choose>
-          <c:when test="${recruit.RECRUIT_STATUS_SN eq '1'}">
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('접수중', '2')">작성완료</button>
-          </c:when>
-          <c:when test="${recruit.RECRUIT_STATUS_SN eq '2'}">
-            <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('작성중', '1')">작성중</button>
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('심사중(서류심사)', '3')">접수완료</button>
-          </c:when>
-          <c:when test="${recruit.RECRUIT_STATUS_SN eq '3'}">
-            <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('접수중', '2')">접수중</button>
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('심사중(면접심사)', '4')">서류심사 완료</button>
-          </c:when>
-          <c:when test="${recruit.RECRUIT_STATUS_SN eq '4'}">
-            <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('심사중(서류심사)', '3')">심사중(서류심사)</button>
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('면접심사완료', '5')">면접심사완료</button>
-          </c:when>
-          <c:when test="${recruit.RECRUIT_STATUS_SN eq '5'}">
-            <button type="button" class="k-button k-button-solid-base" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('심사중(면접심사)', '4')">심사중(면접심사)</button>
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="recruitAdminPop.setRecruitStatusUpd('채용완료', 'E')">채용완료</button>
-          </c:when>
-        </c:choose>
+      <input type="hidden" id="recruitStatusSn" value="${recruit.RECRUIT_STATUS_SN}">
+      <div class="btn-st popButton" style="display: flex;gap: 5px;">
+        <div id="recruitStatusDiv">
+        </div>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>

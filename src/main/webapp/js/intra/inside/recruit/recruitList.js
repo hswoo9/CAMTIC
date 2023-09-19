@@ -2,10 +2,10 @@ var recruitList = {
 
     init : function(){
         recruitList.dataSet();
-        recruitList.mainGrid();
+        recruitList.gridReload();
     },
 
-    dataSet() {
+    dataSet : function() {
         $("#recruitYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
@@ -31,33 +31,9 @@ var recruitList = {
 
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : 'inside/getRecruitList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    console.log(data.list);
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid : function(url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -71,7 +47,7 @@ var recruitList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -110,7 +86,8 @@ var recruitList = {
                     width : 50
                 }, {
                     field: "RECRUIT_NUM",
-                    title: "공고번호"
+                    title: "공고번호",
+                    width : 100
                 }, {
                     field: "RECRUIT_TITLE",
                     title: "공고명",
@@ -128,16 +105,18 @@ var recruitList = {
                 }, {
                     field: "JOB_POSITION_ETC",
                     title: "모집분야",
-                    width: 240
+                    width: 200
                 }, {
                     field: "careerType",
                     title: "경력",
                 }, {
                     field : "RECRUITMENT",
                     title: "채용인원",
+                    width : 70
                 }, {
                     field : "APPLICATION_CNT",
                     title: "접수인원",
+                    width : 70
                 }, {
                     field: "",
                     title: "서류심사",
@@ -172,7 +151,7 @@ var recruitList = {
                 }, {
                     field: "RECRUIT_STATUS_SN",
                     title: "상태",
-                    width : 60,
+                    width : 120,
                     template : function(e){
                         if(e.RECRUIT_STATUS_SN == "1"){
                             return "작성중";
@@ -183,7 +162,13 @@ var recruitList = {
                         }else if(e.RECRUIT_STATUS_SN == "4"){
                             return "심사중(면접심사)";
                         }else if(e.RECRUIT_STATUS_SN == "5"){
-                            return "채용완료";
+                            return "면접심사완료";
+                        }else if(e.RECRUIT_STATUS_SN == "E"){
+                            if(e.IN_SCREEN_CNT > 0){
+                                return "채용완료";
+                            }else{
+                                return "미채용완료";
+                            }
                         }
                     }
                 }
@@ -192,6 +177,10 @@ var recruitList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    gridReload : function(){
+        recruitList.mainGrid("inside/getRecruitList", {})
     },
 
     recruitReqPop : function() {

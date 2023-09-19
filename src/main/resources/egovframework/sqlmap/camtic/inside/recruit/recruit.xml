@@ -277,8 +277,10 @@
         UPDATE
             CAM_INSIDE.DJ_RECRUIT_INFO
         SET
-            RECRUIT_STATUS_SN = ,
-            #{recruitStatusText}
+            RECRUIT_STATUS_SN = #{recruitStatusSn},
+            RECRUIT_STATUS_TEXT = #{recruitStatusText}
+        WHERE
+            RECRUIT_INFO_SN = #{recruitInfoSn}
     </update>
 
     <select id="getRecruitAreaList" parameterType="map" resultType="map">

@@ -97,6 +97,11 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public void setRecruitStatusUpd(Map<String, Object> params) {
+        if(params.get("recruitStatusSn").equals("2")){
+            /** 홈페이지 채용공고 insert */
+            
+        }
+
         recruitRepository.setRecruitStatusUpd(params);
     }
 
