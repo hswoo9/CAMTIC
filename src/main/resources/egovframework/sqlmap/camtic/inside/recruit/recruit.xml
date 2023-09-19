@@ -378,9 +378,10 @@
                     EVAL_SCREEN_TYPE = 'in'
                 GROUP BY APPLICATION_ID
             ) AS IN_SCREEN_AVERAGE,
+            AM.IN_AVOID,
             CASE WHEN AM.IN_AVOID = 'Y' THEN '불참'
                 ELSE ''
-            END IN_AVOID,
+            END IN_AVOID_TXT,
             AM.PRELIMINARY_PASS
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM

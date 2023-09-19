@@ -121,7 +121,11 @@ var recruitList = {
                     field: "",
                     title: "서류심사",
                     template: function(e) {
-                        if(e.STATUS == "3" && e.DOC_SCREEN_CNT == e.DOC_SCREEN_RESULT){
+                        if(e.RECRUIT_STATUS_SN == "3"){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.getEvalUrlSet(' + e.RECRUIT_INFO_SN + ',\'doc\')">' +
+                                '	<span class="k-button-text">서류심사</span>' +
+                                '</button>';
+                        }else if(e.RECRUIT_STATUS_SN > 3){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'doc\')">' +
                                 '	<span class="k-button-text">심사결과</span>' +
                                 '</button>';
@@ -133,16 +137,13 @@ var recruitList = {
                     field: "",
                     title: "면접심사",
                     template: function(e) {
-                        if(e.STATUS == "3" && e.IN_SCREEN_CNT == e.IN_SCREEN_RESULT){
-                            var str = "";
-                            if(e.RECRUIT_STATUS_SN == "5"){
-                                str = "심사결과";
-                            }else{
-                                str = "면접심사";
-                            }
-
+                        if(e.RECRUIT_STATUS_SN == "4"){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.getEvalUrlSet(' + e.RECRUIT_INFO_SN + ',\'in\')">' +
+                                '	<span class="k-button-text">면접심사</span>' +
+                                '</button>';
+                        }else if(e.RECRUIT_STATUS_SN > 4){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'in\')">' +
-                                '	<span class="k-button-text">' + str + '</span>' +
+                                '	<span class="k-button-text">심사결과</span>' +
                                 '</button>';
                         }else{
                             return "";
@@ -264,5 +265,20 @@ var recruitList = {
         var name = "screenViewPop";
         var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    getEvalUrlSet : function(r, e){
+        if(e == "doc"){
+            var url = "/evaluation/evalLogin.do?recruitInfoSn=" + r + "&type=" + e;
+            var name = "evalLogin";
+            var option = "width=500, height=275, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }else{
+            if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
+                alert("http://localhost:8090/evaluation/evalLogin.do?recruitInfoSn=" + r + "&type=" + e)
+            }else if(location.host.indexOf("218.158.231.186") > -1){
+                alert("http://218.158.231.186:8080/evaluation/evalLogin.do?recruitInfoSn=" + r + "&type=" + e)
+            }
+        }
     },
 }

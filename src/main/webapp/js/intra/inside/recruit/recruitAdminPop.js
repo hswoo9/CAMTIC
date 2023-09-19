@@ -117,57 +117,66 @@ var recruitAdminPop = {
                 }, {
                     field: "DOC_SCREEN_AVERAGE",
                     title: "서류심사",
-                    width : 80,
+                    width : 120,
                     template : function(e){
                         if(e.DOC_SCREEN_AVERAGE != null){
-                            return e.DOC_SCREEN_AVERAGE + "점";
+                            var str = "";
+                            if(Number(e.DOC_SCREEN_AVERAGE) >= 80){
+                                str = '합격';
+                            }else{
+                                str = '불합격';
+                            }
+
+                            return str + " (" + e.DOC_SCREEN_AVERAGE + "점)";
                         }else{
                             return "심사전";
                         }
-                    }
+                    },
                 }, {
                     field: "IN_SCREEN_AVERAGE",
                     title: "면접심사",
-                    width : 80,
-                    hidden : true,
+                    width : 120,
                     template : function(e){
-                        if(e.IN_SCREEN_AVERAGE != null){
-                            return e.IN_SCREEN_AVERAGE + "점";
+                        if(e.IN_AVOID != "Y"){
+                            if(e.IN_SCREEN_AVERAGE != null){
+                                var str = "";
+                                if(Number(e.IN_SCREEN_AVERAGE) >= 80){
+                                    str = '합격';
+                                }else{
+                                    str = '불합격';
+                                }
+
+                                return str + " (" + e.IN_SCREEN_AVERAGE + "점)";
+                            }else{
+                                return "심사전";
+                            }
                         }else{
-                            return "심사전";
+                            return e.IN_AVOID_TXT
                         }
                     }
-                }, {
-                    field: "IN_AVOID",
-                    title: "면접불참",
-                    width : 80,
-                    hidden : true,
                 }, {
                     field: "PRELIMINARY_PASS",
                     title: "예비합격",
                     width : 80,
-                    hidden : true,
                     template : function(e){
+                        var html = "";
+
                         var chk = "";
                         if(e.PRELIMINARY_PASS == "Y"){
                             chk = "checked";
                         }
 
-                        return "<input type='checkbox' id='preliminaryPass_" + e.APPLICATION_ID + "' name='preliminaryPass' value='" + e.APPLICATION_ID + "' " + chk + " onclick='recruitAdminPop.setPrePassAppl(this)'/>"
+                        if(e.IN_SCREEN_AVERAGE != null){
+                            if(Number(e.IN_SCREEN_AVERAGE) >= 80){
+                                html = "<input type='checkbox' id='preliminaryPass_" + e.APPLICATION_ID + "' name='preliminaryPass' value='" + e.APPLICATION_ID + "' " + chk + " onclick='recruitAdminPop.setPrePassAppl(this)'/>"
+                            }
+                        }
+
+                        return html;
                     }
                 }
             ],
         }).data("kendoGrid");
-
-        if($("div.circle.active").attr("searchType") == "D"){
-            $("#mainGrid").data("kendoGrid").showColumn(12);
-            $("#mainGrid").data("kendoGrid").showColumn(13);
-            $("#mainGrid").data("kendoGrid").showColumn(14);
-        }else if($("div.circle.active").attr("searchType") == "I"){
-            $("#mainGrid").data("kendoGrid").showColumn(13);
-            $("#mainGrid").data("kendoGrid").hideColumn(14);
-            $("#mainGrid").data("kendoGrid").showColumn(15);
-        }
 
         $("#checkAll").click(function(){
             if($(this).is(":checked")) $("input[name=aplChk]").prop("checked", true);
