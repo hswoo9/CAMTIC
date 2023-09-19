@@ -221,6 +221,14 @@ var customKendo = {
         });
     },
 
+    fn_radioGroup: function(id, dataSource, layout){
+        $("#" + id).kendoRadioGroup({
+            items: dataSource,
+            layout: layout,
+            labelPosition: "after"
+        });
+    },
+
     /**
      * Custom kendoDropDownTree
      * @param id

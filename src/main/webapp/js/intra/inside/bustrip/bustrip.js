@@ -17,13 +17,14 @@ var bustrip = {
     /** 출장코드 세팅 */
     fn_tripCodeSet: function(){
         let tripCodeDataSource = [
-            { text: "도내(시내)", value: "1" },
-            { text: "도내(시외)", value: "2" },
-            { text: "도외", value: "3" },
-            { text: "해외", value: "4" }
+            { label: "도내(시내)", value: "1" },
+            { label: "도내(시외)", value: "2" },
+            { label: "도외", value: "3" },
+            { label: "해외", value: "4" }
         ]
-        customKendo.fn_dropDownList("tripCode", tripCodeDataSource, "text", "value", 2);
-        $("#tripCode").data("kendoDropDownList").bind("change", function(){
+        customKendo.fn_radioGroup("tripCode", tripCodeDataSource, "horizontal");
+        $("#tripCode").data("kendoRadioGroup").value("1");
+        $("#tripCode").data("kendoRadioGroup").bind("change", function(){
             if($("#tripCode").val() == 4){
                 $("#carLine").css("display", "none");
                 $("#carList").data("kendoDropDownList").select(0);
@@ -140,111 +141,18 @@ var bustrip = {
     /** 관련사업 세팅 */
     fn_busnLgSet: function(){
         let busnLgDataSource = [
-            { text: "정부사업", value: "1" },
-            { text: "민간사업", value: "2" }
+            { label: "없음", value: "" },
+            { label: "있음", value: "2" }
         ]
-        customKendo.fn_dropDownList("busnLgClass", busnLgDataSource, "text", "value", 7);
-
-        $("#busnLgClass").data("kendoDropDownList").bind("change", function(){
-            let bcDsUrl = "/common/commonCodeList";
-            let bcDsData = {
-                cmGroupCode: "BUSN_CLASS"
-            }
-
-            const pageName = bustrip.global.pageName;
-            let type;
-            if(pageName == "bustripList"){
-                type = 1;
-            }else if(pageName == "bustripReqPop"){
-                type = 2;
-            }
-
-            const bcDs = customKendo.fn_customAjax(bcDsUrl, bcDsData);
-            if(this.value() == "1"){
-                $("#project").css("display", "");
-                customKendo.fn_dropDownList("project", bcDs.rs.splice(0, 2), "CM_CODE_NM", "CM_CODE", type);
-            }else if(this.value() == "2"){
-                $("#project").css("display", "");
-                customKendo.fn_dropDownList("project", bcDs.rs.splice(2, 3), "CM_CODE_NM", "CM_CODE", type);
+        customKendo.fn_radioGroup("project", busnLgDataSource, "horizontal");
+        $("#project").data("kendoRadioGroup").value("");
+        $("#project").data("kendoRadioGroup").bind("change", function(){
+            if($("#project").data("kendoRadioGroup").value() != ""){
+                $("#busnName").data("kendoTextBox").enable(true);
             }else{
-                $("#project").kendoDropDownList();
-                $("#project").data("kendoDropDownList").wrapper.hide();
-                $("#busnLine").css("display", "none");
+                $("#busnName").data("kendoTextBox").value("");
+                $("#busnName").data("kendoTextBox").enable(false);
             }
-
-            $("#project").data("kendoDropDownList").bind("change", function(){
-                if(this.value() == 0 || this.value() == ""){
-                    $("#busnLine").css("display", "none");
-                }else{
-                    $("#busnLine").css("display", "");
-                }
-            });
-        });
-    },
-
-    settingCompanionDataInit: function(list){
-        let popEmpSeq = "" ;
-        let popEmpName = "";
-        let popDeptSeq = "";
-        let popDeptName = "";
-
-        for(let i=0; i<list.length; i++){
-            if(i != 0){
-                popEmpSeq += ",";
-                popEmpName += ",";
-                popDeptSeq += ",";
-                popDeptName += ",";
-            }
-            popEmpSeq += list[i].EMP_SEQ;
-            popEmpName += list[i].EMP_NAME;
-            popDeptSeq += list[i].DEPT_SEQ;
-            popDeptName += list[i].DEPT_NAME;
-        }
-
-        $("#popEmpSeq").val(popEmpSeq);
-        $("#popEmpName").val(popEmpName);
-        $("#popDeptSeq").val(popDeptSeq);
-        $("#popDeptName").val(popDeptName);
-    },
-
-    settingTempFileDataInit: function(e, p){
-        var html = '';
-
-        if(p == "result"){
-            if(e.length > 0){
-                for(var i = 0; i < e.length; i++){
-                    html += '<tr style="text-align: center">';
-                    html += '   <td>'+ e[i].file_org_name +'</td>';
-                    html += '   <td>'+ e[i].file_ext +'</td>';
-                    html += '   <td>'+ e[i].file_size +'</td>';
-                    html += '</tr>';
-                }
-                $("#fileGrid").html(html);
-            }else{
-                $("#fileGrid").html('<tr>' +
-                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                    '</tr>');
-            }
-        } else {
-            if(e.length > 0){
-                for(var i = 0; i < e.length; i++){
-                    html += '<tr style="text-align: center">';
-                    html += '   <td>'+ e[i].file_org_name +'</td>';
-                    html += '   <td>'+ e[i].file_ext +'</td>';
-                    html += '   <td>'+ e[i].file_size +'</td>';
-                    html += '   <td>';
-                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                        '			<span class="k-button-text">삭제</span>' +
-                        '		</button>';
-                    html += '   </td>';
-                    html += '</tr>';
-                }
-                $("#fileGrid").html(html);
-            }else{
-                $("#fileGrid").html('<tr>' +
-                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                    '</tr>');
-            }
-        }
+        })
     }
 }

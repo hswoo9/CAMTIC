@@ -32,9 +32,8 @@ var bustripResultPop = {
         bustrip.fn_realDriverSet();
     },
 
-    reqDataSet: function (d, p){
-        const hrBizReqId = $("#hrBizReqId").val();
-        if(hrBizReqId == ""){return;}
+    reqDataSet: function (){
+        if(hrBizReqId == ""){ return; }
 
         const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
             hrBizReqId: hrBizReqId
@@ -91,7 +90,7 @@ var bustripResultPop = {
         $("#bustObj").val(busInfo.TITLE);
 
         /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo, p);
+        bustripInit.settingTempFileDataInit(fileInfo);
     },
 
     resDataSet: function() {
@@ -110,7 +109,7 @@ var bustripResultPop = {
         $("#deptName").val(resInfo.DEPT_NAME);
         $("#reqDate").val(resInfo.REPORT_DATE);
 
-        $("#tripCode").data("kendoDropDownList").value(resInfo.TRIP_CODE);
+        $("#tripCode").data("kendoRadioGroup").value(resInfo.TRIP_CODE);
 
         /** 관련사업, 프로젝트명 */
         bustripInit.settingProjectDataInit(resInfo);
@@ -167,13 +166,10 @@ var bustripResultPop = {
         bustripInit.settingTempFileDataInit(fileInfo, 'result');
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
-        if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
-            $("#tripCode").data("kendoDropDownList").enable(false);
-            $("#busnLgClass").data("kendoDropDownList").enable(false);
-            if(resInfo.PROJECT_CD != "" && resInfo.PROJECT_CD != null){
-                $("#busnName").data("kendoTextBox").enable(false);
-                $("#project").data("kendoDropDownList").enable(false);
-            }
+        if(resInfo.EXP_STAT == 100 || resInfo.STATUS == 100 || $("#mod").val() == "mng"){
+            $(':radio:not(:checked)').attr('disabled', true);
+
+            $("#busnName").data("kendoTextBox").enable(false);
             $("#projectAddBtn").css("display", "none");
 
             $("#popEmpName").data("kendoTextBox").enable(false);
@@ -239,10 +235,6 @@ var bustripResultPop = {
         formData.append("dutyCode", $("#regDutyCode").val());
         formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").val());
-        formData.append("projectCd", $("#project").val());
-        if($("#busnLgClass").val() != ""){
-            formData.append("project", $("#project").data("kendoDropDownList").text());
-        }
         formData.append("busnName", $("#busnName").val());
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());

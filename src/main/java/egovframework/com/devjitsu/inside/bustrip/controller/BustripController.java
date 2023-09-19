@@ -398,6 +398,18 @@ public class BustripController {
     }
 
     /**
+     * 여비리스트
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/inside/getBustripExnpInfo")
+    public String getBustripExnpInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getBustripExnpInfo(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /**
      * 출장신청서 결재 상태값에 따른 UPDATE 메서드
      * @param bodyMap
      * @return

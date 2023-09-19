@@ -26,218 +26,216 @@
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
-    <div class="table-responsive">
-        <div class="card-header pop-header">
-            <h3 class="card-title title_NM">출장결과보고</h3>
-            <div class="btn-st popButton">
-                <c:choose>
-                    <c:when test="${params.mode eq 'mng' && rs.EXP_STAT == 10}">
-                        <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
-                        <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
-                    </c:when>
-                    <c:when test="${rs.EXP_STAT == 100}">
-                        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
-                    </c:when>
-                    <c:when test="${rs.EXP_STAT != 10}">
-                        <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="다음단계" onclick="bustripResultPop.fn_saveBtn('${params.hrBizReqResultId}')" />
-                        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
-                    </c:when>
-                    <c:otherwise>
-                        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
-                    </c:otherwise>
-                </c:choose>
+<div class="table-responsive">
+    <div class="card-header pop-header">
+        <h3 class="card-title title_NM">출장결과보고</h3>
+        <div class="btn-st popButton">
+            <c:choose>
+                <c:when test="${params.mode eq 'mng' && rs.EXP_STAT == 10}">
+                    <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
+                    <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
+                </c:when>
+                <c:when test="${rs.EXP_STAT == 100}">
+                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
+                </c:when>
+                <c:when test="${rs.EXP_STAT != 10}">
+                    <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="다음단계" onclick="bustripResultPop.fn_saveBtn('${params.hrBizReqResultId}')" />
+                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
+                </c:when>
+                <c:otherwise>
+                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+    <form id="inBustripReqPop" style="padding: 20px 30px;">
+        <table class="popTable table table-bordered mb-0" id="">
+            <colgroup>
+                <col width="8%">
+                <col width="25%">
+                <col width="8%">
+                <col width="24%">
+                <col width="8%">
+                <col width="24%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>성명</th>
+                <td>
+                    <input id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;" disabled>
+                </td>
+                <th>부서명</th>
+                <td>
+                    <input id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;" disabled>
+                </td>
+                <th>신청일</th>
+                <td>
+                    <input id="reqDate" name="reqDate" class="defaultVal" style="width: 80%;" disabled>
+                </td>
+            </tr>
+            </thead>
+        </table>
+        <table class="popTable table table-bordered mb-0" id="bustripReqPopTb">
+            <colgroup>
+                <col width="10%">
+                <col width="40%">
+                <col width="10%">
+                <col width="40%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th><span class="red-star">*</span>구분</th>
+                <td>
+                    <span id="tripCode"></span>
+                </td>
+                <th><span class="red-star">*</span>관련사업</th>
+                <td>
+                    <span id="project"></span>
+                </td>
+            </tr>
+            <tr id="busnLine">
+                <th><span class="red-star">*</span>사업명</th>
+                <td colspan="3">
+                    <input id="busnName" name="busnName" disabled style="width: 80%;">
+                    <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
+                </td>
+            </tr>
+            <tr>
+                <th>출장자</th>
+                <td colspan="3">
+                    <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
+                    <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
+                    <div id="companionList">
+                        <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
+                        <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
+                        <input type="hidden" id="popDeptName" name="companionDeptSeq" value="">
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>방문지</th>
+                <td>
+                    <input id="visitCrm" readonly style="width: 60%;">
+                    <input type="hidden" id="crmSn" />
+                    <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
+                </td>
+                <th><span class="red-star">*</span>출장지역</th>
+                <td>
+                    <input id="visitLoc" style="width: 80%;">
+                </td>
+            </tr>
+            <tr>
+                <th>경유지</th>
+                <td>
+                    <div style="display: flex">
+                        <input id="visitLocCode" style="width: 180px;">
+                        <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
+                    </div>
+                </td>
+                <th class="visitLocSub" style="display: none"><span class="red-star">*</span>경유지명</th>
+                <td class="visitLocSub" style="display: none;">
+                    <input id="visitLocSub" style="width: 80%;"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>출장일</th>
+                <td colspan="3">
+                    <input id="date1" style="width: 20%">
+                    <input id="time1" style="width: 13%"> ~
+                    <input id="date2" style="width: 20%">
+                    <input id="time2" style="width: 13%">
+                </td>
+            </tr>
+            <tr id="carLine">
+
+                <th><span class="red-star">*</span>차량</th>
+                <td colspan="3">
+                    <input id="carList" style="width: 180px;">
+                    <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.test()"/><br>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>출장목적</th>
+                <td colspan="3">
+                    <textarea id="bustObj" style="width: 100%; height: 60px"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>운행거리</th>
+                <td colspan="3">
+                    <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
+                    <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리측정</button>
+                    <button type="button" class="k-button k-button-solid-base" id="highpassBtn" disabled>하이패스</button>
+                    ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
+                    [<a href="#">이용방법 보기</a>]
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>운행자</th>
+                <td>
+                    <input type="text" id="realDriver" />
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>출장결과</th>
+                <td colspan="3">
+                    <textarea id="result" style="width: 100%; height: 60px"></textarea>
+                </td>
+            </tr>
+            </thead>
+        </table>
+
+        <table class="popTable table table-bordered mb-0" id="bustExnpTb" style="display: none">
+            <colgroup>
+
+            </colgroup>
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>유류비</th>
+                <th>교통비</th>
+                <th>교통일비</th>
+                <th>통행료</th>
+                <th>일비</th>
+                <th>식비</th>
+                <th>주차비</th>
+                <th>기타</th>
+                <th>합계</th>
+            </tr>
+            </thead>
+            <tbody id="bustExnpBody">
+
+            </tbody>
+        </table>
+    </form>
+
+    <div>
+        <form style="padding: 0px 30px;">
+            <div class="table-responsive">
+                <table class="popTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="10%">
+                        <col width="30%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                    <tr class="text-center th-color">
+                        <th>파일명</th>
+                        <th>확장자</th>
+                        <th>용량</th>
+                        <th>기타</th>
+                    </tr>
+                    </thead>
+                    <tbody id="fileGrid">
+                    <tr class="defultTr">
+                        <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <form id="inBustripReqPop" style="padding: 20px 30px;">
-            <table class="popTable table table-bordered mb-0" id="">
-                <colgroup>
-                    <col width="8%">
-                    <col width="25%">
-                    <col width="8%">
-                    <col width="24%">
-                    <col width="8%">
-                    <col width="24%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>성명</th>
-                    <td>
-                        <input id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;" disabled>
-                    </td>
-                    <th>부서명</th>
-                    <td>
-                        <input id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;" disabled>
-                    </td>
-                    <th>신청일</th>
-                    <td>
-                        <input id="reqDate" name="reqDate" class="defaultVal" style="width: 80%;" disabled>
-                    </td>
-                </tr>
-                </thead>
-            </table>
-            <table class="popTable table table-bordered mb-0" id="bustripReqPopTb">
-                <colgroup>
-                    <col width="10%">
-                    <col width="30%">
-                    <col width="20%">
-                    <col width="30%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th><span class="red-star">*</span>구분</th>
-                    <td>
-                        <input id="tripCode" style="width: 80%;">
-                    </td>
-                    <th><span class="red-star">*</span>관련사업</th>
-                    <td>
-                        <input id="busnLgClass" style="width: 45%"/>
-                        <input id="project" style="width: 45%; display:none;">
-                    </td>
-                </tr>
-                <tr id="busnLine" style="display: none;">
-                    <th><span class="red-star">*</span>사업명</th>
-                    <td colspan="3">
-                        <input id="busnName" name="busnName" style="width: 80%;">
-                        <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>출장자</th>
-                    <td colspan="3">
-                        <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
-                        <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
-                        <div id="companionList">
-                            <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
-                            <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
-                            <input type="hidden" id="popDeptName" name="companionDeptSeq" value="">
-                        </div>
-                    </td>
-
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>방문지</th>
-                    <td>
-                        <input id="visitCrm" readonly style="width: 60%;">
-                        <input type="hidden" id="crmSn" />
-                        <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
-                    </td>
-                    <th><span class="red-star">*</span>출장지역</th>
-                    <td>
-                        <input id="visitLoc" style="width: 80%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th>경유지</th>
-                    <td>
-                        <div style="display: flex">
-                            <input id="visitLocCode" style="width: 180px;">
-                            <div class="visitMove" style="display: none; margin-left: 10px; margin-top: 5px"><span class="visitMoveSpan"></span></div>
-                        </div>
-                    </td>
-                    <th class="visitLocSub" style="display: none"><span class="red-star">*</span>경유지명</th>
-                    <td class="visitLocSub" style="display: none;">
-                        <input id="visitLocSub" style="width: 80%;"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>출장일</th>
-                    <td colspan="3">
-                        <input id="date1" style="width: 20%">
-                        <input id="time1" style="width: 13%"> ~
-                        <input id="date2" style="width: 20%">
-                        <input id="time2" style="width: 13%">
-                    </td>
-                </tr>
-                <tr id="carLine">
-
-                    <th><span class="red-star">*</span>차량</th>
-                    <td colspan="3">
-                        <input id="carList" style="width: 180px;">
-                        <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.test()"/><br>
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>출장목적</th>
-                    <td colspan="3">
-                        <textarea id="bustObj" style="width: 100%; height: 60px"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>운행거리</th>
-                    <td colspan="3">
-                        <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
-                        <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리측정</button>
-                        <button type="button" class="k-button k-button-solid-base" id="highpassBtn" disabled>하이패스</button>
-                        ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
-                        [<a href="#">이용방법 보기</a>]
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>운행자</th>
-                    <td>
-                        <input type="text" id="realDriver" />
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>출장결과</th>
-                    <td colspan="3">
-                        <textarea id="result" style="width: 100%; height: 60px"></textarea>
-                    </td>
-                </tr>
-                </thead>
-            </table>
-
-            <table class="popTable table table-bordered mb-0" id="bustExnpTb" style="display: none">
-                <colgroup>
-
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>유류비</th>
-                    <th>교통비</th>
-                    <th>교통일비</th>
-                    <th>통행료</th>
-                    <th>일비</th>
-                    <th>식비</th>
-                    <th>주차비</th>
-                    <th>기타</th>
-                    <th>합계</th>
-                </tr>
-                </thead>
-                <tbody id="bustExnpBody">
-
-                </tbody>
-            </table>
         </form>
-
-        <div>
-            <form style="padding: 0px 30px;">
-                <div class="table-responsive">
-                    <table class="popTable table table-bordered mb-0">
-                        <colgroup>
-                            <col width="50%">
-                            <col width="10%">
-                            <col width="30%">
-                            <col width="10%">
-                        </colgroup>
-                        <thead>
-                        <tr class="text-center th-color">
-                            <th>파일명</th>
-                            <th>확장자</th>
-                            <th>용량</th>
-                            <th>기타</th>
-                        </tr>
-                        </thead>
-                        <tbody id="fileGrid">
-                        <tr class="defultTr">
-                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 <script>
