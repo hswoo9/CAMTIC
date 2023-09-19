@@ -312,7 +312,7 @@ var menuM = {
         $('#menuType').data("kendoDropDownList").trigger("change");
         /** TODO. 현재 게시판 유무 미정 */
         if(v.MENU_TYPE == "b"){
-            $("#boardId").data("kendoDropDownList").value(v.MENU_PATH.slice(-1));
+            $("#boardId").data("kendoDropDownList").value(v.MENU_PATH.split("=")[1]);
         }
         $('#menuPath').val(v.MENU_PATH);
         $('#menuDepth').val(v.MENU_DEPTH);
