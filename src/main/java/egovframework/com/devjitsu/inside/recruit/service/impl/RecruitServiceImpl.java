@@ -68,6 +68,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public void setCommissionerDel(Map<String, Object> params) {
+        recruitRepository.setCommissionerDel(params);
+    }
+
+    @Override
     public void setRecruitInsert(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> area = gson.fromJson((String) params.get("areaArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());

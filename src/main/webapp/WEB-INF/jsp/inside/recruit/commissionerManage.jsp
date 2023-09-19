@@ -15,6 +15,7 @@
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
+                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
@@ -27,15 +28,15 @@
                     <tr>
                         <th class="text-center th-color">아이디</th>
                         <td>
-                            <input type="text" id="id" style="width: 150px;">
+                            <input type="text" id="searchId" name="searchId" style="width: 150px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
                         </td>
                         <th class="text-center th-color">성명</th>
                         <td>
-                            <input type="text" id="name" name="name" style="width: 150px;">
+                            <input type="text" id="searchName" name="searchName" style="width: 150px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
                         </td>
                         <th class="text-center th-color">기관명</th>
                         <td>
-                            <input type="text" id="belong" style="width: 200px;">
+                            <input type="text" id="searchComp" name="searchComp" style="width: 200px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
                         </td>
                     </tr>
                 </table>

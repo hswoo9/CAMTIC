@@ -5,12 +5,12 @@ import java.util.Map;
 
 public interface RecruitService {
 
-    /** 채용 */
     Map<String, Object> getRecruitNum();
     List<Map<String, Object>> getRecruitList(Map<String, Object> params);
     Map<String, Object> getRecruit(Map<String, Object> params);
     Map<String, Object> getRecruitArea(Map<String, Object> params);
     List<Map<String, Object>> getCommissionerList(Map<String, Object> params);
+    void setCommissionerDel(Map<String, Object> params);
     void setRecruitInsert(Map<String, Object> params);
     void setCommissionerInsert(Map<String, Object> params);
     void setRecruitStatusUpd(Map<String, Object> params);

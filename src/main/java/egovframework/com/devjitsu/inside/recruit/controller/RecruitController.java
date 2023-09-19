@@ -392,6 +392,19 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setCommissionerDel")
+    public String setCommissionerDel(@RequestParam Map<String,Object> params) {
+        recruitService.setCommissionerDel(params);
+        return "jsonView";
+    }
+
+
+
+    /**
      * 평가위원등록 페이지
      * @param request
      * @param model
