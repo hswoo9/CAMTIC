@@ -12,6 +12,7 @@
         padding-right: 5px !important;;
     }
 </style>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${toDate}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -153,39 +154,49 @@
             </colgroup>
             <thead>
             <tr>
-                <th>유류비</th>
                 <th>교통비</th>
                 <th>교통일비</th>
                 <th>통행료</th>
-                <th>일비</th>
                 <th>식비</th>
                 <th>주차비</th>
                 <th>기타</th>
             </tr>
             <tr>
                 <td>
-                    <input type="file" style="width: 98%;" />
+                    <input type="file" id="exnpTraf" multiple style="width: 98%;" />
+                    <div id="exnpTrafDiv">
+
+                    </div>
                 </td>
                 <td>
-                    <input type="file" style="width: 98%;" />
+                    <input type="file" id="exnpTrafDay" multiple style="width: 98%;" />
+                    <div id="exnpTrafDayDiv">
+
+                    </div>
                 </td>
                 <td>
-                    <input type="file" style="width: 98%;" />
+                    <input type="file" id="exnpToll" multiple style="width: 98%;" />
+                    <div id="exnpTollDiv">
+
+                    </div>
                 </td>
                 <td>
-                    <input type="file" style="width: 98%;" />
+                    <input type="file" id="exnpEat" multiple style="width: 98%;" />
+                    <div id="exnpEatDiv">
+
+                    </div>
                 </td>
                 <td>
-                    <input type="file" style="width: 98%;" />
+                    <input type="file" id="exnpParking" multiple style="width: 98%;" />
+                    <div id="exnpParkingDiv">
+
+                    </div>
                 </td>
                 <td>
-                    <input type="file" style="width: 98%;" />
-                </td>
-                <td>
-                    <input type="file" style="width: 98%;" />
-                </td>
-                <td>
-                    <input type="file" style="width: 98%;" />
+                    <input type="file" id="exnpEtc" multiple style="width: 98%;" />
+                    <div id="exnpEtcDiv">
+
+                    </div>
                 </td>
             </tr>
             </thead>

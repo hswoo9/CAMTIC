@@ -624,6 +624,22 @@ public class BustripController {
         return "popup/inside/bustrip/viewBustripList";
     }
 
+    /** 여비 첨부파일 저장 */
+    @RequestMapping("/bustrip/setExnpFile")
+    public String setExnpFile(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        MultipartFile[] file = request.getFiles("bustripFile").toArray(new MultipartFile[0]);
+        bustripService.setExnpFile(params, file, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    /** 여비 첨부파일 조회 */
+    @RequestMapping("/bustrip/getExnpFile")
+    public String getExnpFile(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getExnpFile(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");

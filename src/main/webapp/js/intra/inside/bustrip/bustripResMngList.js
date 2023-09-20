@@ -148,7 +148,7 @@ var bustripResMngList = {
                     title: "여비정산",
                     template : function(row){
                         console.log(row);
-                        if(row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0){
+                        if((row.RES_STATUS != 30 && row.RES_STATUS != null && row.RES_STATUS != 0) || row.HR_BIZ_REQ_RESULT_ID == undefined || row.HR_BIZ_REQ_RESULT_ID == ""){
                             return "-";
                         } else {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResMngList.popBustripRes('+row.HR_BIZ_REQ_ID+', '+row.HR_BIZ_REQ_RESULT_ID+')">여비정산</button>'
