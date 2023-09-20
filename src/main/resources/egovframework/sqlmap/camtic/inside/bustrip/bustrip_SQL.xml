@@ -968,9 +968,7 @@
         SET
             DOC_ID = #{docId}
         WHERE
-            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
-        AND CONTENT_ID = #{hrBizReqResultId}
-        AND DOC_ID IS NULL
+            file_no in (${text})
     </update>
 
     <delete id="delBustripCompanion" parameterType="map">
@@ -1004,6 +1002,17 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             FILE_CD = #{fileCd}
+        AND CONTENT_ID = #{hrBizReqResultId}
+    </select>
+
+    <select id="getExnpFileNum" parameterType="map" resultType="map">
+        /* getExnpFileNum */
+        SELECT
+            FILE_NO
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
         AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 </mapper>
