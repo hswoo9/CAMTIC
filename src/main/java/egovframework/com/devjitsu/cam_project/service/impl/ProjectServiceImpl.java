@@ -9,6 +9,7 @@ import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -430,6 +431,87 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void stopProject(Map<String, Object> params) {
         projectRepository.stopProject(params);
+    }
+
+    @Override
+    public void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, String serverDir, String baseDir) {
+
+        Map<String, Object> psPrepMap = new HashMap<>();
+
+        psPrepMap = projectRepository.getPsPrepInfo(params);
+
+        if(psPrepMap == null) {
+            projectRepository.insPsPrepInfo(params);
+        } else {
+            params.put("psFileSn", psPrepMap.get("PS_FILE_SN"));
+            projectRepository.updPsPrepInfo(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        if(fileList1.length > 0){
+            params.put("menuCd", "engnPsFile1");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList1, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("psFileSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+        if(fileList2.length > 0){
+            params.put("menuCd", "engnPsFile2");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList2, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("psFileSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+        if(fileList3.length > 0){
+            params.put("menuCd", "engnPsFile3");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList3, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("psFileSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+        projectRepository.updProject(params);
+        projectRepository.updEngn(params);
+    }
+
+    @Override
+    public Map<String, Object> getPsFile(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> psPrepMap = new HashMap<>();
+
+        psPrepMap = projectRepository.getPsPrepInfo(params);
+
+        params.put("psFileSn", psPrepMap.get("PS_FILE_SN"));
+
+        result.put("psFile1List", projectRepository.getPsFile1(params));
+        result.put("psFile2List", projectRepository.getPsFile2(params));
+        result.put("psFile3List", projectRepository.getPsFile3(params));
+        return result;
     }
 }
 
