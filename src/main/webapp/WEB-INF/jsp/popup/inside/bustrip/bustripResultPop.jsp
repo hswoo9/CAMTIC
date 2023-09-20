@@ -119,7 +119,7 @@
                 <td>
                     <input id="visitCrm" readonly style="width: 60%;">
                     <input type="hidden" id="crmSn" />
-                    <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripReq.fn_popCamCrmList()">업체선택</button>
+                    <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripResultPop.fn_popCamCrmList()">업체선택</button>
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>

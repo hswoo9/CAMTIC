@@ -27,8 +27,6 @@ public interface ProjectService {
 
     Map<String, Object> getStep1SubData(Map<String, Object> params);
 
-    Map<String, Object> getStep1EstData(Map<String, Object> params);
-
     void insStep2(Map<String, Object> params);
 
     void updProjectDelv(Map<String, Object> params);
@@ -108,4 +106,12 @@ public interface ProjectService {
     void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, String serverDir, String baseDir);
 
     Map<String, Object> getPsFile(Map<String, Object> params);
+
+    Map<String, Object> setGoodsInfo(Map<String, Object> params);
+
+    void setEstSubMod(Map<String, Object> params);
+
+    void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+
+    Map<String, Object> getResultInfo(Map<String, Object> params);
 }

@@ -38,6 +38,102 @@ const bustripExnpReq = {
         costData.css("text-align", "right");
         costData.bind("keyup", bustripExnpReq.fn_setTableSum);
         $(".eatCorpYn").bind("keyup", bustripExnpReq.fn_setTableSum);
+
+        let exnpTraf = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpTraf",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpTraf.length > 0){
+            var html = "";
+            for(let i=0; i<exnpTraf.length; i++){
+                let row = exnpTraf[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpTrafDiv").html(html);
+        }
+
+        let exnpTrafDay = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpTrafDay",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpTrafDay.length > 0){
+            var html = "";
+            for(let i=0; i<exnpTrafDay.length; i++){
+                let row = exnpTrafDay[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpTrafDayDiv").html(html);
+        }
+
+        let exnpToll = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpToll",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpToll.length > 0){
+            var html = "";
+            for(let i=0; i<exnpToll.length; i++){
+                let row = exnpToll[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpTollDiv").html(html);
+        }
+
+        let exnpEat = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpEat",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpEat.length > 0){
+            var html = "";
+            for(let i=0; i<exnpEat.length; i++){
+                let row = exnpEat[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpEatDiv").html(html);
+        }
+
+        let exnpParking = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpParking",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpParking.length > 0){
+            var html = "";
+            for(let i=0; i<exnpParking.length; i++){
+                let row = exnpParking[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpParkingDiv").html(html);
+        }
+
+        let exnpEtc = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpEtc",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpEtc.length > 0){
+            var html = "";
+            for(let i=0; i<exnpEtc.length; i++){
+                let row = exnpEtc[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpEtcDiv").html(html);
+        }
     },
 
     dataSet: function(type){
@@ -231,6 +327,87 @@ const bustripExnpReq = {
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
         }
+
+        /** 첨부파일 저장 프로세스 */
+
+        /** 교통비 파일 */
+        if($("#exnpTraf")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpTraf");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpTraf")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpTraf")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 교통일비 파일 */
+        if($("#exnpTrafDay")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpTrafDay");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpTrafDay")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpTrafDay")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 통행료 파일 */
+        if($("#exnpToll")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpToll");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpToll")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpToll")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 식비 파일 */
+        if($("#exnpEat")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpEat");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpEat")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpEat")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 주차비 파일 */
+        if($("#exnpParking")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpParking");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpParking")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpParking")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 주차비 파일 */
+        if($("#exnpEtc")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpEtc");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpEtc")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpEtc")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
 
         var data = {
             hrBizReqResultId : hrBizReqResultId,

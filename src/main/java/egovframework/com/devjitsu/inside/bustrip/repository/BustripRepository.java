@@ -54,6 +54,14 @@ public class BustripRepository extends AbstractDAO {
         delete("bustrip.delBustripCompnTarget", params);
     }
 
+    public List<Map<String, Object>> getExnpFile(Map<String, Object> params) {
+        return selectList("bustrip.getExnpFile", params);
+    }
+
+    public List<Map<String, Object>> getExnpFileNum(Map<String, Object> params) {
+        return selectList("bustrip.getExnpFileNum", params);
+    }
+
     public void updBustripResult(Map<String, Object> params) {
         update("bustrip.updBustripResReq", params);
         delete("bustrip.delBustripResCompnTarget", params);

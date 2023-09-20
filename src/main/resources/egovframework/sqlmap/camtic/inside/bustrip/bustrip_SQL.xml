@@ -102,7 +102,7 @@
         </selectKey>
     </insert>
 
-    <update id="saveBustripResult" parameterType="map">
+    <insert id="saveBustripResult" parameterType="map">
         /* saveBustripResult */
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
             (
@@ -169,7 +169,7 @@
         <selectKey keyProperty="hrBizReqResultId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ_RESULT'
         </selectKey>
-    </update>
+    </insert>
 
     <insert id="insBustripCompanion" parameterType="map">
         /* insBustripCompanion */
@@ -298,9 +298,8 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            CONTENT_ID = #{hrBizReqId}
-        AND
-            FILE_CD = #{fileCd}
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+        AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
     <update id="updBustripReq" parameterType="map">
@@ -358,6 +357,14 @@
     </delete>
 
     <delete id="delBustripExnpTarget" parameterType="map">
+        DELETE FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+        AND CONTENT_ID = IFNULL(#{hrBizReqResultId}, '')
+    </delete>
+
+    <delete id="delBustripExnpFile" parameterType="map">
         DELETE FROM
             CAM_INSIDE.DJ_HR_BIZ_EXNP
         WHERE
@@ -961,8 +968,7 @@
         SET
             DOC_ID = #{docId}
         WHERE
-            CONTENT_ID = #{hrBizReqId}
-        AND FILE_CD = 'bustripReq' AND DOC_ID IS NULL
+            file_no in (${text})
     </update>
 
     <delete id="delBustripCompanion" parameterType="map">
@@ -986,6 +992,28 @@
             CAM_INSIDE.DJ_HR_BIZ_COMPANION
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getExnpFile" parameterType="map" resultType="map">
+        /* getExnpFile */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = #{fileCd}
+        AND CONTENT_ID = #{hrBizReqResultId}
+    </select>
+
+    <select id="getExnpFileNum" parameterType="map" resultType="map">
+        /* getExnpFileNum */
+        SELECT
+            FILE_NO
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+        AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 </mapper>
 

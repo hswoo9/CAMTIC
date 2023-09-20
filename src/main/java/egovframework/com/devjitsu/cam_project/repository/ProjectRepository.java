@@ -58,7 +58,7 @@ public class ProjectRepository extends AbstractDAO {
         return selectList("project.getEstSubList", params);
     }
 
-    public Map<String, Object> getStep1EstData(Map<String, Object> params) {
+    public Map<String, Object> getEstData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getEstData", params);
     }
 
@@ -315,5 +315,45 @@ public class ProjectRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getPsFile3(Map<String, Object> params) {
         return selectList("project.getPsFile3", params);
+    }
+
+    public void updGoodsInfo(Map<String, Object> params) {
+        update("project.updGoodInfo", params);
+    }
+
+    public void delEstSub(Map<String, Object> params) {
+        delete("project.delEstSub", params);
+    }
+
+    public void updEstInfo(Map<String, Object> params) {
+        update("project.updEstInfo", params);
+    }
+
+    public Map<String, Object> getResultInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getResultInfo", params);
+    }
+
+    public void insResultInfo(Map<String, Object> params) {
+        insert("project.insResultInfo", params);
+    }
+
+    public void updResultInfo(Map<String, Object> params) {
+        update("project.updResultInfo", params);
+    }
+
+    public void updResultDesignFile(Map<String, Object> fileInsMap) {
+        update("project.updResultDesignFile", fileInsMap);
+    }
+
+    public void updResultProdFile(Map<String, Object> fileInsMap) {
+        update("project.updResultProdFile", fileInsMap);
+    }
+
+    public Map<String, Object> getDesignFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDesignFile", params);
+    }
+
+    public Map<String, Object> getProdFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProdFile", params);
     }
 }

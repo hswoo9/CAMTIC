@@ -104,6 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.insEngnEstSub(params);
     }
 
+
     @Override
     public Map<String, Object> getStep1SubData(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
@@ -111,11 +112,6 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("estSubList", projectRepository.getEstSubList(params));
 
         return result;
-    }
-
-    @Override
-    public Map<String, Object> getStep1EstData(Map<String, Object> params) {
-        return projectRepository.getStep1EstData(params);
     }
 
 
@@ -511,6 +507,98 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("psFile1List", projectRepository.getPsFile1(params));
         result.put("psFile2List", projectRepository.getPsFile2(params));
         result.put("psFile3List", projectRepository.getPsFile3(params));
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> setGoodsInfo(Map<String, Object> params) {
+        projectRepository.updGoodsInfo(params);
+
+        Map<String, Object> map =  projectRepository.getEstData(params);
+
+        params.put("estSn", map.get("EST_SN"));
+
+        projectRepository.updEstInfo(params);
+        projectRepository.delEstSub(params);
+
+        projectRepository.updProject(params);
+        projectRepository.updEngn(params);
+
+        return params;
+    }
+
+
+    @Override
+    public void setEstSubMod(Map<String, Object> params) {
+        projectRepository.insEngnEstSub(params);
+    }
+
+
+    @Override
+    public void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = projectRepository.getResultInfo(params);
+
+        if(map == null){
+            projectRepository.insResultInfo(params);
+        } else {
+            params.put("rsSn", map.get("RS_SN"));
+            projectRepository.updResultInfo(params);
+        }
+        params.put("menuCd", "engnRsFile");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile designImg = request.getFile("designImg");
+        MultipartFile prodImg = request.getFile("prodImg");
+
+        if(designImg != null){
+            if(!designImg.isEmpty()){
+                fileInsMap = mainLib.fileUpload(designImg, filePath(params, serverDir));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rsSn", params.get("rsSn"));
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updResultDesignFile(fileInsMap);
+            }
+        }
+
+        if(prodImg != null){
+            if(!prodImg.isEmpty()){
+                fileInsMap = mainLib.fileUpload(prodImg, filePath(params, serverDir));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rsSn", params.get("rsSn"));
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updResultProdFile(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getResultInfo(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, Object> map = projectRepository.getResultInfo(params);
+        result.put("map", map);
+        result.put("designFileList", projectRepository.getDesignFile(map));
+        result.put("prodFileList", projectRepository.getProdFile(map));
         return result;
     }
 }
