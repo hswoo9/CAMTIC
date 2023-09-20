@@ -124,7 +124,7 @@ const bustripReq = {
 
     fn_saveBtn: function(){
         if($("#tripCode").data("kendoRadioGroup").value() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#project").data("kendoRadioGroup").value() != 1 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
+        if($("#project").data("kendoRadioGroup").value() != "1" && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}

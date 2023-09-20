@@ -141,11 +141,11 @@ var bustrip = {
     /** 관련사업 세팅 */
     fn_busnLgSet: function(){
         let busnLgDataSource = [
-            { label: "없음", value: "" },
+            { label: "없음", value: "1" },
             { label: "있음", value: "2" }
         ]
         customKendo.fn_radioGroup("project", busnLgDataSource, "horizontal");
-        $("#project").data("kendoRadioGroup").value("");
+        $("#project").data("kendoRadioGroup").value("1");
         $("#project").data("kendoRadioGroup").bind("change", function(){
             if($("#project").data("kendoRadioGroup").value() != ""){
                 $("#busnName").data("kendoTextBox").enable(true);
