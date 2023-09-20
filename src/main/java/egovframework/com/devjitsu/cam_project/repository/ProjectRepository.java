@@ -58,7 +58,7 @@ public class ProjectRepository extends AbstractDAO {
         return selectList("project.getEstSubList", params);
     }
 
-    public Map<String, Object> getStep1EstData(Map<String, Object> params) {
+    public Map<String, Object> getEstData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getEstData", params);
     }
 
@@ -315,5 +315,17 @@ public class ProjectRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getPsFile3(Map<String, Object> params) {
         return selectList("project.getPsFile3", params);
+    }
+
+    public void updGoodsInfo(Map<String, Object> params) {
+        update("project.updGoodInfo", params);
+    }
+
+    public void delEstSub(Map<String, Object> params) {
+        delete("project.delEstSub", params);
+    }
+
+    public void updEstInfo(Map<String, Object> params) {
+        update("project.updEstInfo", params);
     }
 }

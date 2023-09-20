@@ -176,6 +176,13 @@ public class ProjectController {
         return "popup/cam_project/engineering/delvInfo";
     }
 
+    /**
+     * 프로젝트 등록, 수정 > 엔지니어링 > 계획서
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/intra/cam_project/devInfo.do")
     public String devInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -189,6 +196,13 @@ public class ProjectController {
         return "popup/cam_project/engineering/devInfo";
     }
 
+    /**
+     * 프로젝트 등록, 수정 > 엔지니어링 > 납품
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/intra/cam_project/processInfo.do")
     public String processInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -200,6 +214,19 @@ public class ProjectController {
         model.addAttribute(map);
 
         return "popup/cam_project/engineering/processInfo";
+    }
+
+    @RequestMapping("/intra/cam_project/goodsInfo.do")
+    public String goodsInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/goodsInfo";
     }
 
 
@@ -334,19 +361,6 @@ public class ProjectController {
     }
 
 
-    @RequestMapping("/project/insStep3")
-    public String insStep3(@RequestParam Map<String, Object> params, Model model){
-
-        try{
-            projectService.insStep3(params);
-            model.addAttribute("code", 200);
-        } catch( Exception e){
-            e.printStackTrace();
-        }
-
-        return "jsonView";
-    }
-
     @RequestMapping("/project/engn/setEstSub")
     public String setEstSub(@RequestParam Map<String, Object> params, Model model){
 
@@ -360,10 +374,29 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/getStep1Data")
-    public String getStep1Data(@RequestParam Map<String, Object> params, Model model){
+    @RequestMapping("/project/engn/setEstSubMod")
+    public String setEstSubMod(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setEstSubMod(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
-        model.addAttribute("result", projectService.getEstData(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setGoodsInfo")
+    public String setGoodsInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            Map<String, Object> map = projectService.setGoodsInfo(params);
+
+            model.addAttribute("rs", map);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
 
         return "jsonView";
     }
@@ -372,27 +405,6 @@ public class ProjectController {
     public String getStep1SubData(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("result", projectService.getStep1SubData(params));
-
-        return "jsonView";
-    }
-
-    @RequestMapping("/project/insStep2")
-    public String insStep2(@RequestParam Map<String, Object> params, Model model){
-
-        // 프로젝트 코드 생성 요기서 (나중에 전자결재 결재완료시 옮김)
-        
-        try{
-            projectService.insStep2(params);
-
-            // 추후 전자결재가 붙으면 결재완료 시 업데이트 되는거로 변경
-            projectService.updProjectDelv(params);
-
-
-            model.addAttribute("code", 200);
-            model.addAttribute("rep", params);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
 
         return "jsonView";
     }
