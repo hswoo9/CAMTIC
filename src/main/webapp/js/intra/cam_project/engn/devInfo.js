@@ -264,6 +264,16 @@ var devInfo = {
             type : "post",
             success : function(rs){
                 console.log(rs);
+                var devFile = rs.devFile;
+
+                if(devFile.devFile != null && devFile.devFile != ""){
+                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
+                }
+
+                if(devFile.estFile != null && devFile.estFile != ""){
+                    $("#estFileName").text(devFile.estFile.file_org_name + "." +devFile.estFile.file_ext);
+
+                }
                 if(rs.rs != null && rs.rs != ""){
                     $("#devSn").val(rs.rs.DEV_SN);
                     $("#depObj").val(rs.rs.DEP_OBJ);
@@ -752,11 +762,42 @@ var devInfo = {
             engnSn : $("#engnSn").val()
         }
 
+        var fd = new FormData();
+        fd.append("invAmt", data.invAmt);
+        fd.append("invPer", data.invPer);
+        fd.append("depObj", data.depObj);
+        fd.append("etc", data.etc);
+        fd.append("pjtSn", data.pjtSn);
+        fd.append("regEmpSeq", data.regEmpSeq);
+        fd.append("empSeq", data.regEmpSeq);
+        fd.append("step", data.step);
+        fd.append("stepColumn", data.stepColumn);
+        fd.append("nextStepColumn", data.nextStepColumn);
+        fd.append("stepValue", data.stepValue);
+        fd.append("nextStepValue", data.nextStepValue);
+        fd.append("engnSn", data.engnSn);
+
+        if($("#estFile")[0].files.length == 1){
+            fd.append("estFile", $("#estFile")[0].files[0]);
+        }
+
+        if($("#devFile")[0].files.length == 1){
+            fd.append("devFile", $("#devFile")[0].files[0]);
+        }
+
+        if($("#devFileName").text() == ""){
+            alert("납품서를 등록해주세요.");
+            return;
+        }
+
         $.ajax({
             url : "/project/engn/setDevInfo",
-            data : data,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
             async : false,
             success : function (rs){
                 if(rs.code == 200){
@@ -804,7 +845,6 @@ var devInfo = {
                     dataType : "json",
                     success : function (rs){
                         if(rs.code = 200){
-
                             devInfo.fn_saveInv();
                         }
                     }
@@ -812,6 +852,10 @@ var devInfo = {
             }
         }
 
+    },
+
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
     },
 
 }

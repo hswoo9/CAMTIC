@@ -113,6 +113,24 @@
                     <input type="text" id="invPer" style="width: 90%; text-align: right" disabled> %
                 </td>
             </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>견적서
+                </th>
+                <td>
+                    <label for="estFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="estFile" name="estFile" onchange="devInfo.fileChange(this)" style="display: none">
+                    <span id="estFileName"></span>
+                </td>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>납품서
+                </th>
+                <td>
+                    <label for="devFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="devFile" name="devFile" onchange="devInfo.fileChange(this)" style="display: none">
+                    <span id="devFileName"></span>
+                </td>
+            </tr>
             </thead>
         </table>
 

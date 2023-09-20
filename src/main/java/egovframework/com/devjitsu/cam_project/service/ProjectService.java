@@ -1,6 +1,5 @@
 package egovframework.com.devjitsu.cam_project.service;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -95,9 +94,9 @@ public interface ProjectService {
 
     Map<String, Object> getBustInfo(Map<String, Object> params);
 
-    void setDelvInfo(Map<String, Object> params);
+    void setDelvInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
-    void setDevInfo(Map<String, Object> params);
+    void setDevInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getDevData(Map<String, Object> params);
 
@@ -110,4 +109,12 @@ public interface ProjectService {
     Map<String, Object> setGoodsInfo(Map<String, Object> params);
 
     void setEstSubMod(Map<String, Object> params);
+
+    void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+
+    Map<String, Object> getResultInfo(Map<String, Object> params);
+
+    Map<String, Object> getDelvFile(Map<String, Object> params);
+
+    Map<String, Object> getDevFile(Map<String, Object> params);
 }

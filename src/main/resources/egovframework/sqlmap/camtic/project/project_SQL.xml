@@ -400,6 +400,33 @@
             PJT_SN = #{pjtSn} ORDER BY DELV_SN DESC LIMIT 1
     </select>
 
+    <select id="getDelvFile" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{DELV_FILE_SN}
+    </select>
+
+    <select id="getDevFile" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{DEV_FILE_SN}
+    </select>
+
+    <select id="getEstFile" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{EST_FILE_SN}
+    </select>
+
     <select id="groupCodeList" parameterType="map" resultType="map">
         SELECT
             *
@@ -1067,6 +1094,7 @@
             CAM_PJT_MNG.DJ_PJT_DEV
         WHERE
             PJT_SN = #{pjtSn}
+        ORDER BY DEV_SN DESC LIMIT 1
     </select>
 
     <update id="stopProject" parameterType="map">
@@ -1129,5 +1157,126 @@
             GOODS_ISS = #{goodsIss}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getResultInfo" parameterType="map" resultType="map">
+        /*getResultInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RESULT
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insResultInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_RESULT
+            (
+                PJT_SN,
+                PROTOTYPE,
+                SUP_CONT,
+                RS_ISS,
+                RS_ETC,
+                RS_STR_DT,
+                RS_END_DT,
+                RS_ACT_EQUIP,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{prototype},
+                #{supCont},
+                #{rsIss},
+                #{rsEtc},
+                #{rsStrDt},
+                #{rsEndDt},
+                #{rsActEquip},
+                #{empSeq}
+            )
+        <selectKey keyProperty="rsSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_RESULT'
+        </selectKey>
+    </insert>
+
+    <update id="updResultInfo" parameterType="map">
+        /*updResultInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            PROTOTYPE = #{prototype},
+            SUP_CONT = #{supCont},
+            RS_ISS = #{rsIss},
+            RS_ETC = #{rsEtc},
+            RS_STR_DT = #{rsStrDt},
+            RS_END_DT = #{rsEndDt},
+            RS_ACT_EQUIP = #{rsActEquip},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            RS_SN = #{rsSn}
+    </update>
+
+    <update id="updResultDesignFile" parameterType="map">
+        /*updResultDesignFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            DSGN_FILE_SN = #{file_no}
+        WHERE
+            RS_SN = #{rsSn}
+    </update>
+
+    <update id="updResultProdFile" parameterType="map">
+        /*updResultProdFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            PROD_FILE_SN = #{file_no}
+        WHERE
+            RS_SN = #{rsSn}
+    </update>
+
+    <select id="getDesignFile" parameterType="map" resultType="map">
+        /*getDesignFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{DSGN_FILE_SN}
+    </select>
+
+    <select id="getProdFile" parameterType="map" resultType="map">
+        /*getProdFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{PROD_FILE_SN}
+    </select>
+
+    <update id="updDelvFile" parameterType="map">
+        /*updDelvFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DELV
+        SET
+            DELV_FILE_SN = #{file_no}
+        WHERE
+            DELV_SN = #{delvSn}
+    </update>
+
+    <update id="updDevFile" parameterType="map">
+        /*updDevFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            DEV_FILE_SN = #{file_no}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
+
+    <update id="updDevEstFile" parameterType="map">
+        /*updDevEstFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            EST_FILE_SN = #{file_no}
+        WHERE
+            DEV_SN = #{devSn}
     </update>
 </mapper>

@@ -160,12 +160,20 @@
                             project = "(" + row.PROJECT + ") ";
                         }
                         var title =  project + busnName + " 출장지 : " + row.VISIT_LOC_SUB;
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripList.fn_selBustripInfo(\''+row.HR_BIZ_REQ_RESULT_ID+'\', \''+title+'\', \''+row.RESULT+'\');">선택</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_selBustripInfo(\''+row.HR_BIZ_REQ_RESULT_ID+'\', \''+title+'\', \''+row.RESULT+'\');">선택</button>';
                     },
                     width: 60
                 }
             ]
         }).data("kendoGrid");
+    }
+
+     function fn_selBustripInfo(d, title, result){
+        opener.parent.$("#contEtc").val(result);
+        opener.parent.$("#bustripReq").val(title)
+        opener.parent.$("#hrBizReqResultId").val(d);
+
+        window.close();
     }
 </script>
 </body>

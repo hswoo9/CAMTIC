@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -176,6 +177,34 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getCrmIndustry(Map<String, Object> params) {
+        return crmRepository.getCrmIndustry(params);
+    }
+
+    @Override
+    public void setCrmIndustry(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmIndustrySn"))){
+            crmRepository.setCrmIndustry(params);
+        }else{
+            crmRepository.setCrmIndustryUpd(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getCrmCert(Map<String, Object> params) {
+        return crmRepository.getCrmCert(params);
+    }
+
+    @Override
+    public void setCrmCert(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmCertSn"))){
+            crmRepository.setCrmCert(params);
+        }else{
+            crmRepository.setCrmCertUpd(params);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return crmRepository.getCrmHistList(params);
     }
@@ -188,5 +217,45 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public void setCrmHist(Map<String, Object> params) {
         crmRepository.insCrmHist(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {
+        return crmRepository.groupCodeList(params);
+    }
+
+    @Override
+    public void saveGroupCode(Map<String, Object> params) {
+        crmRepository.saveGroupCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> codeList(Map<String, Object> params) {
+        return crmRepository.codeList(params);
+    }
+
+    @Override
+    public void insSetLgCode(Map<String, Object> params) {
+        crmRepository.insSetLgCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> smCodeList(Map<String, Object> params) {
+        return crmRepository.smCodeList(params);
+    }
+
+    @Override
+    public void insCrmCode(Map<String, Object> params) {
+        crmRepository.insCrmCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selLgCode(Map<String, Object> params) {
+        return crmRepository.selLgCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
+        return crmRepository.selSmCode(params);
     }
 }

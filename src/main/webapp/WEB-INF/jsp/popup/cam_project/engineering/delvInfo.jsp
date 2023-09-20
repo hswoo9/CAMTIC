@@ -137,9 +137,17 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>수주금액
                 </th>
-                <td colspan="3">
-                    <input type="text" id="delvAmt" style="text-align: right; width: 30%;" onkeyup="delvInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
+                <td>
+                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="delvInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
                     <input type="hidden" id="delvExpAmt" />
+                </td>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>계약서
+                </th>
+                <td>
+                    <label for="delvFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="delvFile" name="delvFile" onchange="delvInfo.fileChange(this)" style="display: none">
+                    <span id="delvFileName"></span>
                 </td>
             </tr>
             <tr>
@@ -243,6 +251,11 @@
     });
 
     function openModal(){
+        if($("#delvFileName").text() == ""){
+            alert("계약서를 등록해주세요.");
+            return;
+        }
+
         $("#dialog").data("kendoWindow").open();
     }
 

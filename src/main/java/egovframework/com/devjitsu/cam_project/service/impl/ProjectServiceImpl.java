@@ -142,13 +142,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void setDevInfo(Map<String, Object> params) {
+    public void setDevInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         int modCheck = projectRepository.checkModStep3(params);
 
         int checkAddVersion = projectRepository.checkAddVersion(params);
 
+        Map<String, Object> map = new HashMap<>();
+
 
         if(checkAddVersion != 0){
+            map = projectRepository.getDevData(params);
+            params.put("devSn", map.get("DEV_SN"));
             projectRepository.updDevInfo(params);
         } else {
             projectRepository.insDevInfo(params);
@@ -162,6 +166,48 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updProject(params);
             projectRepository.updEngn(params);
         }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile estFile = request.getFile("estFile");
+        MultipartFile devFile = request.getFile("devFile");
+
+        if(estFile != null){
+            if(!estFile.isEmpty()){
+                params.put("menuCd", "devEstFile");
+                fileInsMap = mainLib.fileUpload(estFile, filePath(params, SERVER_DIR));
+                fileInsMap.put("devSn", params.get("devSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updDevEstFile(fileInsMap);
+            }
+        }
+
+        if(devFile != null){
+            if(!devFile.isEmpty()){
+                params.put("menuCd", "devFile");
+
+                fileInsMap = mainLib.fileUpload(devFile, filePath(params, SERVER_DIR));
+                fileInsMap.put("devSn", params.get("devSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updDevFile(fileInsMap);
+            }
+        }
+
     }
 
     @Override
@@ -193,6 +239,23 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Map<String, Object> getDelvData(Map<String, Object> params) {
         return projectRepository.getDelvData(params);
+    }
+
+    @Override
+    public Map<String, Object> getDelvFile(Map<String, Object> params) {
+        Map<String, Object> map = projectRepository.getDelvData(params);
+
+        return projectRepository.getDelvFile(map);
+    }
+
+    @Override
+    public Map<String, Object> getDevFile(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("devFile", projectRepository.getDevFile(params));
+        result.put("estFile", projectRepository.getEstFile(params));
+
+        return result;
     }
 
     @Override
@@ -331,7 +394,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void setDelvInfo(Map<String, Object> params) {
+    public void setDelvInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
 
         if(params.containsKey("delvSn")){
             projectRepository.updDelvInfo(params);
@@ -339,6 +402,27 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.insDelvInfo(params);
             projectRepository.updProject(params);
             projectRepository.updEngn(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile delvFile = request.getFile("delvFile");
+        params.put("menuCd", "delvFile");
+        if(delvFile != null){
+            if(!delvFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(delvFile, filePath(params, SERVER_DIR));
+                fileInsMap.put("delvSn", params.get("delvSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updDelvFile(fileInsMap);
+            }
         }
 
         if(params.containsKey("pjtTmpCd")){
@@ -502,6 +586,10 @@ public class ProjectServiceImpl implements ProjectService {
 
         psPrepMap = projectRepository.getPsPrepInfo(params);
 
+        if(psPrepMap == null) {
+            return null;
+        }
+
         params.put("psFileSn", psPrepMap.get("PS_FILE_SN"));
 
         result.put("psFile1List", projectRepository.getPsFile1(params));
@@ -531,6 +619,75 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void setEstSubMod(Map<String, Object> params) {
         projectRepository.insEngnEstSub(params);
+    }
+
+
+    @Override
+    public void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = projectRepository.getResultInfo(params);
+
+        if(map == null){
+            projectRepository.insResultInfo(params);
+        } else {
+            params.put("rsSn", map.get("RS_SN"));
+            projectRepository.updResultInfo(params);
+        }
+        params.put("menuCd", "engnRsFile");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile designImg = request.getFile("designImg");
+        MultipartFile prodImg = request.getFile("prodImg");
+
+        if(designImg != null){
+            if(!designImg.isEmpty()){
+                fileInsMap = mainLib.fileUpload(designImg, filePath(params, serverDir));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rsSn", params.get("rsSn"));
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updResultDesignFile(fileInsMap);
+            }
+        }
+
+        if(prodImg != null){
+            if(!prodImg.isEmpty()){
+                fileInsMap = mainLib.fileUpload(prodImg, filePath(params, serverDir));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rsSn", params.get("rsSn"));
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updResultProdFile(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getResultInfo(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, Object> map = projectRepository.getResultInfo(params);
+        result.put("map", map);
+        result.put("designFileList", projectRepository.getDesignFile(map));
+        result.put("prodFileList", projectRepository.getProdFile(map));
+        return result;
     }
 }
 

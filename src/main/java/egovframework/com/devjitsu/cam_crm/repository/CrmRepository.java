@@ -27,9 +27,27 @@ public class CrmRepository extends AbstractDAO {
     public List<Map<String, Object>> getCrmMemList(Map<String, Object> params) {return selectList("crm.getCrmMemList", params);}
     public void delCrmMemInfo(Map<String, Object> params) {delete("crm.delCrmMemInfo", params);}
     public Map<String, Object> getCrmMemInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmMemInfo", params);}
+    public Map<String, Object> getCrmIndustry(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmIndustry", params);}
+    public void setCrmIndustry(Map<String, Object> params) {insert("crm.setCrmIndustry", params);}
+    public void setCrmIndustryUpd(Map<String, Object> params) {insert("crm.setCrmIndustryUpd", params);}
+    public Map<String, Object> getCrmCert(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmCert", params);}
+    public void setCrmCert(Map<String, Object> params) {insert("crm.setCrmCert", params);}
+    public void setCrmCertUpd(Map<String, Object> params) {insert("crm.setCrmCertUpd", params);}
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {return selectList("crm.getCrmHistList", params);}
     public void setCrmHistDel(Map<String, Object> params) {delete("crm.setCrmHistDel", params);}
     public Map<String, Object> getRegCrmHist(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getRegCrmHist", params);}
     public void insCrmBustHist(Map<String, Object> params) {insert("crm.insCrmBustHist", params);}
     public void insCrmHist(Map<String, Object> params) {insert("crm.insCrmHist", params);}
+    public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {return selectList("crm.groupCodeList", params);}
+    public void saveGroupCode(Map<String, Object> params) {
+        insert("crm.insGroupCode", params);
+    }
+    public List<Map<String, Object>> codeList(Map<String, Object> params) {return selectList("crm.codeList", params);}
+    public void insSetLgCode(Map<String, Object> params) {
+        update("crm.insSetLgCode", params);
+    }
+    public List<Map<String, Object>> smCodeList(Map<String, Object> params) {return selectList("crm.smCodeList", params);}
+    public void insCrmCode(Map<String, Object> params) {insert("crm.insCrmCode", params);}
+    public List<Map<String, Object>> selLgCode(Map<String, Object> params) {return selectList("crm.selLgCode", params);}
+    public List<Map<String, Object>> selSmCode(Map<String, Object> params) {return selectList("crm.selSmCode", params);}
 }

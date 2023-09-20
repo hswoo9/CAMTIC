@@ -328,4 +328,56 @@ public class ProjectRepository extends AbstractDAO {
     public void updEstInfo(Map<String, Object> params) {
         update("project.updEstInfo", params);
     }
+
+    public Map<String, Object> getResultInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getResultInfo", params);
+    }
+
+    public void insResultInfo(Map<String, Object> params) {
+        insert("project.insResultInfo", params);
+    }
+
+    public void updResultInfo(Map<String, Object> params) {
+        update("project.updResultInfo", params);
+    }
+
+    public void updResultDesignFile(Map<String, Object> fileInsMap) {
+        update("project.updResultDesignFile", fileInsMap);
+    }
+
+    public void updResultProdFile(Map<String, Object> fileInsMap) {
+        update("project.updResultProdFile", fileInsMap);
+    }
+
+    public Map<String, Object> getDesignFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDesignFile", params);
+    }
+
+    public Map<String, Object> getProdFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProdFile", params);
+    }
+
+    public void updDelvFile(Map<String, Object> fileInsMap) {
+        update("project.updDelvFile", fileInsMap);
+    }
+
+    public void updDevFile(Map<String, Object> fileInsMap) {
+        update("project.updDevFile", fileInsMap);
+    }
+
+    public void updDevEstFile(Map<String, Object> fileInsMap) {
+        update("project.updDevEstFile", fileInsMap);
+    }
+
+    public Map<String, Object> getDelvFile(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("project.getDelvFile", map);
+    }
+
+    public Map<String, Object> getDevFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDevFile", params);
+    }
+
+    public Map<String, Object> getEstFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getEstFile", params);
+    }
 }
