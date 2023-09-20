@@ -26,6 +26,7 @@
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
+<input type="hidden" id="companionChangeCheck" value="N"/>
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">출장결과보고</h3>

@@ -32,7 +32,7 @@ var bustripResultPop = {
         bustrip.fn_realDriverSet();
     },
 
-    reqDataSet: function (){
+    reqDataSet: function(){
         if(hrBizReqId == ""){ return; }
 
         const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
@@ -49,7 +49,7 @@ var bustripResultPop = {
         $("#reqDate").val(busInfo.REG_DATE);
 
         /** 구분 */
-        $("#tripCode").data("kendoDropDownList").value(busInfo.TRIP_CODE);
+        $("#tripCode").data("kendoRadioGroup").value(busInfo.TRIP_CODE);
 
         /** 관련사업, 프로젝트명 */
         bustripInit.settingProjectDataInit(busInfo);
@@ -166,7 +166,7 @@ var bustripResultPop = {
         bustripInit.settingTempFileDataInit(fileInfo, 'result');
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
-        if(resInfo.EXP_STAT == 100 || resInfo.STATUS == 100 || $("#mod").val() == "mng"){
+        if(resInfo.EXP_STAT == 10 || resInfo.EXP_STAT == 100 || resInfo.STATUS == 100 || $("#mod").val() == "mng"){
             $(':radio:not(:checked)').attr('disabled', true);
 
             $("#busnName").data("kendoTextBox").enable(false);
@@ -210,14 +210,13 @@ var bustripResultPop = {
     },
 
     fn_saveBtn: function(){
-        if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
-        if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
+        if($("#tripCode").data("kendoRadioGroup").value() == ""){ alert("출장 구분을 선택해주세요."); return;}
+        if($("#project").data("kendoRadioGroup").value() != "1" && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
-        if($("#tripCode").val() != 4 && $("#tripCode").val() != "") {
+        if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#tripCode").data("kendoRadioGroup").value() != "") {
             if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
         }
         if($("#realDriver").val() == ""){ alert("운행자를 선택해주세요."); return; }
@@ -234,7 +233,7 @@ var bustripResultPop = {
         formData.append("positionCode", $("#regPositionCode").val());
         formData.append("dutyCode", $("#regDutyCode").val());
         formData.append("applyDate", $("#reqDate").val());
-        formData.append("tripCode", $("#tripCode").val());
+        formData.append("tripCode", $("#tripCode").data("kendoRadioGroup").value());
         formData.append("busnName", $("#busnName").val());
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
@@ -256,6 +255,8 @@ var bustripResultPop = {
         formData.append("driverEmpSeq", $("#realDriver").val());
         formData.append("realDriver", $("#realDriver").val());
         formData.append("result", $("#result").val());
+
+        formData.append("companionChangeCheck", $("#companionChangeCheck").val());
 
         if(hrBizReqResultId == ""){
             if(!confirm("출장 결과보고를 저장하고 다음단계로 넘어가시겠습니까?")){ return; }
@@ -357,4 +358,6 @@ function userDataSet(userArr){
         })
         customKendo.fn_dropDownList("realDriver", userArr, "empName", "empSeq", "3");
     }
+
+    $("#companionChangeCheck").val("Y");
 }

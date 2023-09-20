@@ -12,13 +12,13 @@ var bustripMngList = {
         fn_deptSetting();
 
         /** 출장구분 */
-        bustrip.fn_tripCodeSet();
+        bustrip.fn_tripCodeSearchSet();
 
         /** 관련사업 */
-        bustrip.fn_projectSet();
+        bustrip.fn_projectSearchSet();
 
         /** 입금상태 */
-        bustrip.fn_depositStatSet();
+        bustrip.fn_depositStatSearchSet();
 
         customKendo.fn_textBox(["busnName"]);
     },
@@ -36,7 +36,7 @@ var bustripMngList = {
                     data.startDate = $("#start_date").val();
                     data.endDate = $("#end_date").val();
                     data.deptSeq = $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val();
-                    data.tripCode = $("#tripCode").val();
+                    data.tripCode = $("#tripCode").data("kendoDropDownList").value();
                     data.project = $("#project").val();
                     data.busnName = $("#busnName").val();
                     data.depositStat = $("#depositStat").val();

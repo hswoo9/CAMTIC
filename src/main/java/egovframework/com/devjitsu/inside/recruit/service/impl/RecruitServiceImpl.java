@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.inside.recruit.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +134,13 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public void setInAvoidUpd(Map<String, Object> params) {
-        recruitRepository.setInAvoidUpd(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> appArr = gson.fromJson((String) params.get("appArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : appArr){
+            recruitRepository.setInAvoidUpd(map);
+        }
+
         /** 불참자 평가 데이터 삭제 */
 //        recruitRepository.setInAvoidScoreBoardDel(params);
     }

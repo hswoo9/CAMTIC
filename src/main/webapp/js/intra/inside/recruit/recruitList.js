@@ -201,7 +201,7 @@ var recruitList = {
     recruitAdminPop : function(e) {
         var url = "/inside/pop/recruitAdminPop.do?recruitInfoSn=" + e;
         var name = "recruitAdminPop";
-        var option = "width=1750, height=740, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1750, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
