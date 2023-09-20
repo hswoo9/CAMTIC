@@ -532,6 +532,75 @@ public class ProjectServiceImpl implements ProjectService {
     public void setEstSubMod(Map<String, Object> params) {
         projectRepository.insEngnEstSub(params);
     }
+
+
+    @Override
+    public void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = projectRepository.getResultInfo(params);
+
+        if(map == null){
+            projectRepository.insResultInfo(params);
+        } else {
+            params.put("rsSn", map.get("RS_SN"));
+            projectRepository.updResultInfo(params);
+        }
+        params.put("menuCd", "engnRsFile");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile designImg = request.getFile("designImg");
+        MultipartFile prodImg = request.getFile("prodImg");
+
+        if(designImg != null){
+            if(!designImg.isEmpty()){
+                fileInsMap = mainLib.fileUpload(designImg, filePath(params, serverDir));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rsSn", params.get("rsSn"));
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updResultDesignFile(fileInsMap);
+            }
+        }
+
+        if(prodImg != null){
+            if(!prodImg.isEmpty()){
+                fileInsMap = mainLib.fileUpload(prodImg, filePath(params, serverDir));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rsSn", params.get("rsSn"));
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updResultProdFile(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getResultInfo(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, Object> map = projectRepository.getResultInfo(params);
+        result.put("map", map);
+        result.put("designFileList", projectRepository.getDesignFile(map));
+        result.put("prodFileList", projectRepository.getProdFile(map));
+        return result;
+    }
 }
 
 

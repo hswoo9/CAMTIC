@@ -328,4 +328,32 @@ public class ProjectRepository extends AbstractDAO {
     public void updEstInfo(Map<String, Object> params) {
         update("project.updEstInfo", params);
     }
+
+    public Map<String, Object> getResultInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getResultInfo", params);
+    }
+
+    public void insResultInfo(Map<String, Object> params) {
+        insert("project.insResultInfo", params);
+    }
+
+    public void updResultInfo(Map<String, Object> params) {
+        update("project.updResultInfo", params);
+    }
+
+    public void updResultDesignFile(Map<String, Object> fileInsMap) {
+        update("project.updResultDesignFile", fileInsMap);
+    }
+
+    public void updResultProdFile(Map<String, Object> fileInsMap) {
+        update("project.updResultProdFile", fileInsMap);
+    }
+
+    public Map<String, Object> getDesignFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getDesignFile", params);
+    }
+
+    public Map<String, Object> getProdFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProdFile", params);
+    }
 }

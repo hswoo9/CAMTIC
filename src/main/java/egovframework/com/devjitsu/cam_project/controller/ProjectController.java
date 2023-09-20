@@ -197,7 +197,7 @@ public class ProjectController {
     }
 
     /**
-     * 프로젝트 등록, 수정 > 엔지니어링 > 납품
+     * 프로젝트 등록, 수정 > 엔지니어링 > 공정관리
      * @param params
      * @param model
      * @param request
@@ -216,6 +216,13 @@ public class ProjectController {
         return "popup/cam_project/engineering/processInfo";
     }
 
+    /**
+     * 프로젝트 등록, 수정 > 엔지니어링 > 납품관리
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/intra/cam_project/goodsInfo.do")
     public String goodsInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -227,6 +234,19 @@ public class ProjectController {
         model.addAttribute(map);
 
         return "popup/cam_project/engineering/goodsInfo";
+    }
+
+    @RequestMapping("/intra/cam_project/resultInfo.do")
+    public String resultInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/resultInfo";
     }
 
 
@@ -295,6 +315,18 @@ public class ProjectController {
 
         return "jsonView";
 
+    }
+
+    @RequestMapping("/project/engn/getResultInfo")
+    public String getResultInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getResultInfo(params);
+
+        model.addAttribute("result", map);
+
+        return "jsonView";
     }
 
     /**
@@ -392,6 +424,19 @@ public class ProjectController {
             Map<String, Object> map = projectService.setGoodsInfo(params);
 
             model.addAttribute("rs", map);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setResultInfo")
+    public String setResultInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            projectService.setResultInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

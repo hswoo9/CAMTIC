@@ -110,4 +110,8 @@ public interface ProjectService {
     Map<String, Object> setGoodsInfo(Map<String, Object> params);
 
     void setEstSubMod(Map<String, Object> params);
+
+    void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+
+    Map<String, Object> getResultInfo(Map<String, Object> params);
 }
