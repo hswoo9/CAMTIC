@@ -209,8 +209,10 @@ public class BustripServiceImpl implements BustripService {
             params.put("approveStatCode", 100);
             bustripRepository.updateResFinalApprStat(params);
             crmRepository.insCrmBustHist(histMap);
-            if("101".equals(docSts)) {
-            }
+        }
+
+        if("10".equals(docSts) || "101".equals(docSts)){
+            bustripRepository.setBustripFileNum(params);
         }
     }
 

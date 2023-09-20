@@ -968,8 +968,9 @@
         SET
             DOC_ID = #{docId}
         WHERE
-            CONTENT_ID = #{hrBizReqId}
-        AND FILE_CD = 'bustripReq' AND DOC_ID IS NULL
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+        AND CONTENT_ID = #{hrBizReqResultId}
+        AND DOC_ID IS NULL
     </update>
 
     <delete id="delBustripCompanion" parameterType="map">
