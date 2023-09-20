@@ -25,7 +25,7 @@ var bustrip = {
         customKendo.fn_radioGroup("tripCode", tripCodeDataSource, "horizontal");
         $("#tripCode").data("kendoRadioGroup").value("1");
         $("#tripCode").data("kendoRadioGroup").bind("change", function(){
-            if($("#tripCode").val() == 4){
+            if($("#tripCode").data("kendoRadioGroup").value() == 4){
                 $("#carLine").css("display", "none");
                 $("#carList").data("kendoDropDownList").select(0);
                 $("#car1").prop("checked", true);
@@ -157,7 +157,7 @@ var bustrip = {
     },
 
     /** 출장코드 조회 필터 */
-    fn_tripCodeSet: function(){
+    fn_tripCodeSearchSet: function(){
         let tripCodeDataSource = [
             { text: "도내(시내)", value: "1" },
             { text: "도내(시외)", value: "2" },
@@ -168,7 +168,7 @@ var bustrip = {
     },
 
     /** 관련사업 조회 필터 */
-    fn_projectSet: function(){
+    fn_projectSearchSet: function(){
         let projectDataSource = [
             { text: "없음", value: "1" },
             { text: "있음", value: "2" }
@@ -177,7 +177,7 @@ var bustrip = {
     },
 
     /** 입금현황 조회 필터 */
-    fn_depositStatSet: function(){
+    fn_depositStatSearchSet: function(){
         let depositStatDataSource = [
             { text: "입금예정", value: "N" }
         ]

@@ -150,9 +150,10 @@ public class BustripRepository extends AbstractDAO {
     public void setReqCert(Map<String, Object> params) {
         update("bustrip.setReqCert", params);
 
-        if(params.get("status") == "30" || "30".equals(params.get("status"))){
-            delete("bustrip.delExnpData", params);
-        }
+        //여비정산 반려시에 작성했던 출장결과보고서 데이터가 유지 되어야 한다고 함.
+        //if(params.get("status") == "30" || "30".equals(params.get("status"))){
+        //    delete("bustrip.delExnpData", params);
+        //}
     }
 
     public List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params) {

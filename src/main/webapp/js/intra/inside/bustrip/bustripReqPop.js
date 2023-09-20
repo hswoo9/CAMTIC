@@ -123,15 +123,14 @@ const bustripReq = {
     },
 
     fn_saveBtn: function(){
-        if($("#tripCode").val() == ""){ alert("출장 구분을 선택해주세요."); return;}
-        if($("#busnLgClass").val() != "" && $("#project").val() == ""){ alert("관련사업을 선택해주세요."); return;}
-        if($("#project").val() != 0 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
+        if($("#tripCode").data("kendoRadioGroup").value() == ""){ alert("출장 구분을 선택해주세요."); return;}
+        if($("#project").data("kendoRadioGroup").value() != 1 && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
         if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
 
-        if($("#tripCode").val() != 4 && $("#tripCode").val() != ""){
+        if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#tripCode").data("kendoRadioGroup").value() != ""){
             if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
         }
 
@@ -144,7 +143,7 @@ const bustripReq = {
         formData.append("positionCode", $("#regPositionCode").val());
         formData.append("dutyCode", $("#regDutyCode").val());
         formData.append("applyDate", $("#reqDate").val());
-        formData.append("tripCode", $("#tripCode").val());
+        formData.append("tripCode", $("#tripCode").data("kendoRadioGroup").value());
         formData.append("busnName", $("#busnName").val());
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
@@ -171,7 +170,7 @@ const bustripReq = {
         }
 
         /** 차량신청 체크 */
-        if($("#tripCode").val() != 4 && $("#carList").val() != "10" && $("#carList").val() != "0"){
+        if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#carList").val() != "10" && $("#carList").val() != "0"){
             let data = {
                 startDt : $("#date1").val(),
                 endDt : $("#date2").val(),

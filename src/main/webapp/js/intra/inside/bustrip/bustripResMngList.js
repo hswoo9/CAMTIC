@@ -12,13 +12,13 @@ var bustripResMngList = {
         fn_deptSetting();
 
         /** 출장구분 */
-        bustrip.fn_tripCodeSet();
+        bustrip.fn_tripCodeSearchSet();
 
         /** 관련사업 */
-        bustrip.fn_projectSet();
+        bustrip.fn_projectSearchSet();
 
         /** 입금상태 */
-        bustrip.fn_depositStatSet();
+        bustrip.fn_depositStatSearchSet();
 
         customKendo.fn_textBox(["busnName"]);
     },
@@ -36,7 +36,7 @@ var bustripResMngList = {
                     data.startDate = $("#start_date").val();
                     data.endDate = $("#end_date").val();
                     data.deptSeq = $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val();
-                    data.tripCode = $("#tripCode").val();
+                    data.tripCode = $("#tripCode").data("kendoDropDownList").value();
                     data.project = $("#project").val();
                     data.busnName = $("#busnName").val();
                     data.depositStat = $("#depositStat").val();
@@ -53,6 +53,7 @@ var bustripResMngList = {
             },
             pageSize: 10,
         });
+
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
@@ -60,7 +61,7 @@ var bustripResMngList = {
             selectable: "row",
             height: 525,
             pageable : {
-                refresh : true,
+                refresh: true,
                 pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },

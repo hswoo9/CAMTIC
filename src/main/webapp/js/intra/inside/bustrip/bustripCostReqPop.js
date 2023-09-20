@@ -30,8 +30,7 @@ const costReq = {
     saveBtn: function(){
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
-        let tripCode = $("#tripCode").val();
-        let tripText = $("#tripCode").data("kendoDropDownList").text();
+        let tripCode = $("#tripCode").data("kendoRadioGroup").value();
         let exnpCode = $("#exnpCode").val();
         let exnpText = $("#exnpCode").data("kendoDropDownList").text();
         let costAmt = $("#costAmt").val();
@@ -43,7 +42,6 @@ const costReq = {
             startDt: startDt,
             endDt: endDt,
             tripCode: tripCode,
-            tripText: tripText,
             exnpCode: exnpCode,
             exnpText: exnpText,
             costAmt: costAmt,
