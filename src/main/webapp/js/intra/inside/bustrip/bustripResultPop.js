@@ -256,6 +256,8 @@ var bustripResultPop = {
         formData.append("realDriver", $("#realDriver").val());
         formData.append("result", $("#result").val());
 
+        formData.append("companionChangeCheck", $("#companionChangeCheck").val());
+
         if(hrBizReqResultId == ""){
             if(!confirm("출장 결과보고를 저장하고 다음단계로 넘어가시겠습니까?")){ return; }
         }else{
@@ -356,4 +358,6 @@ function userDataSet(userArr){
         })
         customKendo.fn_dropDownList("realDriver", userArr, "empName", "empSeq", "3");
     }
+
+    $("#companionChangeCheck").val("Y");
 }

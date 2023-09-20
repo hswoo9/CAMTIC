@@ -57,6 +57,10 @@ public class BustripRepository extends AbstractDAO {
     public void updBustripResult(Map<String, Object> params) {
         update("bustrip.updBustripResReq", params);
         delete("bustrip.delBustripResCompnTarget", params);
+
+        if("Y".equals(params.get("companionChangeCheck"))) {
+            delete("bustrip.delBustripExnpTarget", params);
+        }
     }
 
     public List<Map<String, Object>> getBustripReqCheck(Map<String, Object> params) {
