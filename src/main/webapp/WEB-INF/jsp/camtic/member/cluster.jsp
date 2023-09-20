@@ -23,7 +23,8 @@
             <dd><span class="subCapyTitle">구성원간 상호 협력.연대 ⇒ 동반성장 도모!!</span></dd>
           </dl>
           <div class="img">
-            <img src="/images/camtic/img-clu1-1.jpg" alt="">
+            <%--<img src="/images/camtic/img-clu1-1.jpg" alt="">--%>
+            <img src="/images/camtic/img-clu1-1.png" alt="">
           </div>
         </div>
 
@@ -31,7 +32,8 @@
           <h3><strong>캠틱 클러스터 구성원</strong></h3>
         </div>
         <div class="__clu2">
-          <img src="/images/camtic/img-clu2-1.jpg" alt="">
+          <%--<img src="/images/camtic/img-clu2-1.jpg" alt="">--%>
+          <img src="/images/camtic/img-clu1-1.png" alt="">
         </div>
 
         <div class="__tit1 __mt100">

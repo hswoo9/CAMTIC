@@ -15,15 +15,20 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__root1 m0">
+        <%--<div class="__root1 m0">
           <dl class="head">
-            <dt><span class="__nm">“</span> 제조기술의 뿌리에서 혁신성장의 열매로 <span class="__nm">”</span></dt>
+            <dt><span class="__nm">“</span> 제조기술의 뿌리에서 혁신성장의 열매로<span class="__nm">”</span></dt>
             <dd>
               복합소재뿌리기술 상용화 기반 구축을 통한 복합소재 산업 활성화와 기업 기술의 육성 및 고도화
             </dd>
           </dl>
+        </div>--%>
+        <div class="__tit2 __mb50">
+          <dl class="head">
+            <dt><span class="__nm">“</span><span class="mainCapyTitle">제조기술의 뿌리에서 혁신성장의 열매로</span><span class="__nm">”</span></dt>
+            <dd><span class="subCapyTitle">복합소재뿌리기술 상용화 기반 구축을 통한 복합소재 산업 활성화와 기업 기술의 육성 및 고도화</span></dd>
+          </dl>
         </div>
-
 
         <div class="__tit1 __mt10 __mb0">
           <h3><strong>기술개발</strong></h3>
