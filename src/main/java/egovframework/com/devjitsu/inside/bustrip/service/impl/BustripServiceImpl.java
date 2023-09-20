@@ -235,10 +235,10 @@ public class BustripServiceImpl implements BustripService {
             bustripRepository.saveBustripResult(params);
         }
 
-        int count = bustripRepository.findCompanionKey(params);
         String compEmpSeq = "";
         String[] compEmpSeqArr;
-        if(count == 0){
+
+        if("Y".equals(params.get("companionChangeCheck"))) {
             if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
                 compEmpSeq = params.get("compEmpSeq").toString();
 
@@ -257,7 +257,7 @@ public class BustripServiceImpl implements BustripService {
                     bustripRepository.insBustripResCompanion(params);
                 }
             }
-        } else {
+        }else{
             bustripRepository.updBustripResCompanion(params);
         }
 

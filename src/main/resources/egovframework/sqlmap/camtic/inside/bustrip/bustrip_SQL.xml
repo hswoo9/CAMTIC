@@ -102,7 +102,7 @@
         </selectKey>
     </insert>
 
-    <update id="saveBustripResult" parameterType="map">
+    <insert id="saveBustripResult" parameterType="map">
         /* saveBustripResult */
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
             (
@@ -169,7 +169,7 @@
         <selectKey keyProperty="hrBizReqResultId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ_RESULT'
         </selectKey>
-    </update>
+    </insert>
 
     <insert id="insBustripCompanion" parameterType="map">
         /* insBustripCompanion */
