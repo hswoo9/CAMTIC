@@ -1,73 +1,25 @@
 var crmHist = {
 
+    global : {
+        now : new Date(),
+        searchAjaxData : "",
+    },
 
     fn_defaultScript : function(){
 
         customKendo.fn_textBox(["crmNm"])
-        $("#strDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#endDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-        $("#crmNm").on("keyup", function(key){
-            if(key.keyCode == 13){
-                crm.mainGrid();
-            }
-        });
+        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", crmHist.global.now);
+        customKendo.fn_datePicker("strDate", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
 
         fn_deptSetting();
-        crmHist.mainGrid();
+        crmHist.gridReload();
     },
 
-    gridReload : function(){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
-    },
-
-    mainGrid: function () {
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/crm/getCrmHistList",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    data.deptSeq = $("#dept").val();
-                    data.teamSeq = $("#team").val();
-                    data.strDate = $("#strDate").val();
-                    data.endDate = $("#endDate").val();
-                    data.crmNm = $("#crmNm").val();
-
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid: function (url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
-            height: "485",
+            height: 515,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -99,7 +51,7 @@ var crmHist = {
                     width: 120,
                     template: function(e){
                         $(this).closest('tr').append("<tr><td>asdfdfasfdsasdfa</td></tr>");
-                        return "<a href='javascript:void(0);' onclick='crmHist.fn_crmHistRegPop(\"" + e.CRM_HIST_SN + "\")'>" + e.CRM_NM + "</a>";
+                        return "<a href='javascript:void(0);' onclick='crmHist.fn_crmHistViewPop(\"" + e.CRM_HIST_SN + "\")'>" + e.CRM_NM + "</a>";
                     },
                 }, {
                     title: "팀명",
@@ -138,21 +90,37 @@ var crmHist = {
                 }
             ],
             detailTemplate: function (e){
-                return e.CRM_REL_CONT;
+                if(e.CRM_REL_CONT != null && e.CRM_REL_CONT != ""){
+                    return e.CRM_REL_CONT;
+                }else{
+                    return "관계내용 미입력";
+                }
             }
         }).data("kendoGrid");
 
     },
 
-    fn_crmHistRegPop: function (key){
-        var url = "/crm/pop/regCrmHistPop.do";
-
-        if(key != null && key != ""){
-            url = "/crm/pop/regCrmHistPop.do?crmHistSn=" + key
+    gridReload : function(){
+        crmHist.global.searchAjaxData = {
+            deptSeq : $("#dept").val(),
+            teamSeq : $("#team").val(),
+            strDate : $("#strDate").val(),
+            endDate : $("#endDate").val(),
+            crmNm : $("#crmNm").val()
         }
+        
+        crmHist.mainGrid("/crm/getCrmHistList", crmHist.global.searchAjaxData);
+    },
 
+    fn_crmHistRegPop: function (){
         var name = "_blank";
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    }
+        var popup = window.open("/crm/pop/regCrmHistPop.do", name, option);
+    },
+
+    fn_crmHistViewPop: function (e){
+        var name = "_blank";
+        var option = "width = 880, height = 750, top = 100, left = 400, location = no"
+        var popup = window.open("/crm/pop/regCrmHistViewPop.do?crmHistSn=" + e, name, option);
+    },
 }

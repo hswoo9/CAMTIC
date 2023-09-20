@@ -6,20 +6,12 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <body class="font-opensans" style="background-color:#fff;">
-<style>
-    .ck-editor__editable { height: 200px; }
-</style>
-<script type="text/javascript" src="/js/intra/cam_crm/regCrmHistPop.js?v=${today}"/></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
-<input type="hidden" id="crmSn" name="crmSn" />
-<input type="hidden" id="crmHistSn" value="${params.crmHistSn}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">고객관계이력 등록</span></h3>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">고객관계이력</span></h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="regCrmHist.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -27,10 +19,10 @@
         <div style="padding: 20px 30px;">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
-                    <col width="20%">
-                    <col width="30%">
-                    <col width="20%">
-                    <col width="30%">
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -38,14 +30,13 @@
                         <span class="red-star">*</span>업체명
                     </th>
                     <td>
-                        <input type="text" id="crmNm" style="width: 80%;" disabled>
-                        <button type="button" id="crmSelBtn" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popCamCrmList();">검색</button>
+                        ${rs.CRM_NM}
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>대표자
                     </th>
                     <td>
-                        <input type="text" id="crmCeo" style="width: 90%;" disabled>
+                        ${rs.CRM_CEO}
                     </td>
                 </tr>
                 <tr>
@@ -53,13 +44,13 @@
                         <span class="red-star">*</span>사업자 번호
                     </th>
                     <td>
-                        <input type="text" id="crmNo" style="width: 90%;" disabled>
+                        ${rs.CRM_NO}
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>설립일
                     </th>
                     <td>
-                        <input type="text" id="crmEstNo" style="width: 90%;" disabled>
+                        ${rs.CRM_EST_NO}
                     </td>
                 </tr>
                 <tr>
@@ -67,7 +58,14 @@
                         <span class="red-star">*</span>[우편번호] 주소
                     </th>
                     <td colspan="3">
-                        <input type="text" id="addr" style="width: 90%;" disabled>
+                        <c:choose>
+                            <c:when test="${rs.POST eq '' or rs.POST eq null}">
+                                ${rs.ADDR}
+                            </c:when>
+                            <c:otherwise>
+                                [${rs.POST}] ${rs.ADDR}
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>
@@ -75,26 +73,25 @@
                         <span class="red-star">*</span>전화번호
                     </th>
                     <td>
-                        <input type="text" id="telNum" style="width: 90%;" disabled>
+                        ${rs.TEL_NUM}
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>팩스번호
                     </th>
                     <td>
-                        <input type="text" id="fax" style="width: 90%;" disabled>
+                        ${rs.FAX}
                     </td>
                 </tr>
 
                 </thead>
             </table>
 
-            <span class="red-star" style="float: right; font-size: 12px; margin-top: 10px;">(*)는 필수 입력사항 입니다. </span>
-            <table class="popTable table table-bordered mb-0">
+            <table class="popTable table table-bordered mb-0 mt20">
                 <colgroup>
-                    <col width="20%">
-                    <col width="30%">
-                    <col width="20%">
-                    <col width="30%">
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -102,7 +99,7 @@
                         <span class="red-star">*</span>관계유형
                     </th>
                     <td colspan="3">
-                        <input type="text" id="crmRelTp" style="width: 15%;">
+                        ${rs.CRM_REL_TP}
                     </td>
                 </tr>
                 <tr>
@@ -110,9 +107,7 @@
                         <span class="red-star">*</span>일시
                     </th>
                     <td colspan="3">
-                        <input type="text" id="crmRelStrDt" style="width: 20%;">
-                        ~
-                        <input type="text" id="crmRelEndDt" style="width: 20%;">
+                        ${rs.CRM_REL_STR_DT} ~  ${rs.CRM_REL_END_DT}
                     </td>
                 </tr>
                 <tr>
@@ -120,20 +115,18 @@
                         컨텍포인트
                     </th>
                     <td>
-                        <input type="text" id="crmMemNm" style="width: 80%;" disabled>
-                        <input type="hidden" id="crmMemSn" />
-                        <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popCamCrmMemList();">검색</button>
+                        ${rs.CRM_MEM_NM}
                     </td>
                     <th scope="row" class="text-center th-color">
                         담당자 연락처
                     </th>
                     <td>
-                        <input type="text" id="crmMemPhn" style="width: 90%" disabled>
+                        ${rs.CRM_MEM_PHN}
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        관심분야 선택
+                        관심분야
                     </th>
                     <td colspan="3">
 
@@ -141,10 +134,10 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        관계사업 선택
+                        관계사업
                     </th>
                     <td colspan="3">
-                        <input type="text" id="crmRelPjt" style="width: 15%;">
+                        ${rs.CRM_REL_PJT_NM}
                     </td>
                 </tr>
                 <tr>
@@ -152,7 +145,7 @@
                         관계내용
                     </th>
                     <td colspan="3">
-                        <textarea type="text" id="crmRelCont" style="width: 100%;"></textarea>
+                        ${rs.CRM_REL_CONT}
                     </td>
                 </tr>
                 <tr>
@@ -160,13 +153,11 @@
                         관계내용 공유
                     </th>
                     <td colspan="3">
-                        <input type="text" id="crmShareEmpName" style="width: 30%;" disabled>
-                        <input type="hidden" id="crmShareEmp" />
-                        <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popUser();">검색</button>
+                        ${rs.EMP_NAME_KR}
                         <span style="position: relative; top: 3px;">
-                            <input type="checkbox" id="smsChk">
+                            <input type="checkbox" id="smsChk" <c:if test="${rs.SMS_CHK eq 'Y'}">checked</c:if> disabled>
                             <label for="smsChk" style="margin-right: 15px;">SMS발송</label>
-                            <input type="checkbox" id="mailChk">
+                            <input type="checkbox" id="mailChk" <c:if test="${rs.MAIL_CHK eq 'Y'}">checked</c:if> disabled>
                             <label for="mailChk">메일발송</label>
                         </span>
                     </td>
@@ -177,7 +168,7 @@
                     </th>
                     <td colspan="3">
                         <span style="position: relative; top: 3px;">
-                            <input type="checkbox" id="secChk">
+                            <input type="checkbox" id="secChk" <c:if test="${rs.SEC_CHK eq 'Y'}">checked</c:if> disabled>
                             <label for="secChk">보안글</label>
                             <span class="red-start" style="font-size: 12px;"> ※ 체크시 해당 팀장 이상에서만 조회 가능합니다. </span>
                         </span>
@@ -188,13 +179,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    regCrmHist.fn_defaultScript();
-
-    function userDataSet(arr, empNameAr, empSeqAr){
-        $("#crmShareEmpName").val(empNameAr.substring(0, empNameAr.length-1));
-        $("#crmShareEmp").val(empSeqAr.substring(0, empSeqAr.length-1));
-    }
-</script>
 </body>
 </html>

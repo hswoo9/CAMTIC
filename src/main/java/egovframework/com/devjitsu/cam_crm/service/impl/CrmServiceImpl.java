@@ -175,6 +175,11 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getRegCrmHist(Map<String, Object> params) {
+        return crmRepository.getRegCrmHist(params);
+    }
+
+    @Override
     public void setCrmHist(Map<String, Object> params) {
         crmRepository.insCrmHist(params);
     }

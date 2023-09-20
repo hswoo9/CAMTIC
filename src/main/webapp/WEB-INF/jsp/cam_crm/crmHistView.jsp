@@ -53,7 +53,7 @@
                         </td>
                         <th class="text-center th-color">업체명</th>
                         <td>
-                            <input type="text" id="crmNm" style="width: 90%;"/>
+                            <input type="text" id="crmNm" style="width: 90%;" onkeypress="if(window.event.keyCode==13){crmHist.gridReload();}"/>
                         </td>
                     </tr>
                 </table>
@@ -66,7 +66,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-
     crmHist.fn_defaultScript();
-
 </script>

@@ -187,6 +187,29 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 이력관리 상세보기 팝업
+     * @param request
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/pop/regCrmHistViewPop.do")
+    public String regCrmHistViewPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("rs", crmService.getRegCrmHist(params));
+        return "popup/cam_crm/regCrmHistViewPop";
+    }
+
+    /**
+     * 이력관리 등록 팝업
+     * @param request
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/pop/regCrmHistPop.do")
     public String regCrmHistPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();
