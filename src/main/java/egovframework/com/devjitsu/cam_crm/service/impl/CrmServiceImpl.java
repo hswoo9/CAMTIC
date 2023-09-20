@@ -46,6 +46,12 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public void setCrmDel(Map<String, Object> params) {
+        crmRepository.setCrmDel(params);
+        crmRepository.setCrmHistDel(params);
+    }
+
+    @Override
     public void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
 
         try{

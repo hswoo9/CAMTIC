@@ -20,6 +20,7 @@
     </select>
 
     <select id="getCrmList" parameterType="map" resultType="map">
+        /* getCrmList */
         SELECT
             *
         FROM
@@ -40,6 +41,11 @@
 
         </if>
     </select>
+
+    <update id="setCrmDel" parameterType="map">
+        /* setCrmDel */
+        DELETE FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN IN (${crmSn})
+    </update>
 
     <select id="getCrmInfo" parameterType="map" resultType="map">
         SELECT
@@ -317,6 +323,11 @@
             </if>
         ORDER BY A.REG_DT DESC
     </select>
+
+    <update id="setCrmHistDel" parameterType="map">
+        /* setCrmHistDel */
+        DELETE FROM CAM_CRM.DJ_CRM_HIST WHERE CRM_SN IN (${crmSn})
+    </update>
 
     <select id="getRegCrmHist" parameterType="map" resultType="map">
         /* getRegCrmHist */

@@ -48,15 +48,20 @@ public class CrmController {
 
     @RequestMapping("/crm/getCrmList")
     public String getCrmList(@RequestParam Map<String, Object> params, Model model){
-
         model.addAttribute("list", crmService.getCrmList(params));
-
         return "jsonView";
     }
 
+    @RequestMapping("/crm/setCrmDel.do")
+    public String setCrmDel(@RequestParam Map<String, Object> params, Model model){
+        crmService.setCrmDel(params);
+        return "jsonView";
+    }
+
+
+
     @RequestMapping("/crm/pop/popCrmList.do")
     public String popCrmList(Model model){
-
         return "popup/cam_crm/popCrmList";
     }
 
