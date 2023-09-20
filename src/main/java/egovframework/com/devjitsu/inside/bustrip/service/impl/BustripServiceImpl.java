@@ -229,36 +229,59 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void saveBustripResult(Map<String, Object> params) {
-        if(params.containsKey("hrBizReqResultId")){
-            bustripRepository.updBustripResult(params);
-        } else {
-            bustripRepository.saveBustripResult(params);
-        }
 
         String compEmpSeq = "";
         String[] compEmpSeqArr;
 
-        if("Y".equals(params.get("companionChangeCheck"))) {
-            if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
-                compEmpSeq = params.get("compEmpSeq").toString();
+        if(params.containsKey("hrBizReqResultId")){
+            bustripRepository.updBustripResult(params);
 
-                compEmpSeqArr = compEmpSeq.split(",");
+            if("Y".equals(params.get("companionChangeCheck"))) {
+                if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+                    compEmpSeq = params.get("compEmpSeq").toString();
 
-                for(String str : compEmpSeqArr){
-                    params.put("compEmpSeq", str);
-                    params.put("empSeq", params.get("compEmpSeq"));
-                    Map<String, Object> map = userRepository.getUserInfo(params);
-                    params.put("compEmpName", map.get("EMP_NAME_KR"));
-                    params.put("compDeptName", map.get("DEPT_NAME"));
-                    params.put("compDeptSeq", map.get("DEPT_SEQ"));
-                    params.put("compDutyName", map.get("DUTY_NAME"));
-                    params.put("compPositionName", map.get("POSITION_NAME"));
+                    compEmpSeqArr = compEmpSeq.split(",");
 
-                    bustripRepository.insBustripResCompanion(params);
+                    for(String str : compEmpSeqArr){
+                        params.put("compEmpSeq", str);
+                        params.put("empSeq", params.get("compEmpSeq"));
+                        Map<String, Object> map = userRepository.getUserInfo(params);
+                        params.put("compEmpName", map.get("EMP_NAME_KR"));
+                        params.put("compDeptName", map.get("DEPT_NAME"));
+                        params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                        params.put("compDutyName", map.get("DUTY_NAME"));
+                        params.put("compPositionName", map.get("POSITION_NAME"));
+
+                        bustripRepository.insBustripResCompanion(params);
+                    }
                 }
             }
+
         }else{
-            bustripRepository.updBustripResCompanion(params);
+            bustripRepository.saveBustripResult(params);
+
+            if("Y".equals(params.get("companionChangeCheck"))) {
+                if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+                    compEmpSeq = params.get("compEmpSeq").toString();
+
+                    compEmpSeqArr = compEmpSeq.split(",");
+
+                    for(String str : compEmpSeqArr){
+                        params.put("compEmpSeq", str);
+                        params.put("empSeq", params.get("compEmpSeq"));
+                        Map<String, Object> map = userRepository.getUserInfo(params);
+                        params.put("compEmpName", map.get("EMP_NAME_KR"));
+                        params.put("compDeptName", map.get("DEPT_NAME"));
+                        params.put("compDeptSeq", map.get("DEPT_SEQ"));
+                        params.put("compDutyName", map.get("DUTY_NAME"));
+                        params.put("compPositionName", map.get("POSITION_NAME"));
+
+                        bustripRepository.insBustripResCompanion(params);
+                    }
+                }
+            }else{
+                bustripRepository.updBustripResCompanion(params);
+            }
         }
 
 

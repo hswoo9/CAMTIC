@@ -185,14 +185,49 @@ const bustripExnpReq = {
                 if(dayCostArr[i].dayCost.replace(",", "") > 0){
                     $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
                 }else{
-                    if(bustripInfo.TRIP_CODE == "3" && (bustripInfo.USE_TRSPT == "0" || bustripInfo.DRIVER_EMP_SEQ == dayCostArr[i].empSeq)){
+                    if(bustripInfo.TRIP_CODE == "3") {
+                        alert(bustripInfo.USE_TRSPT);
+                        alert(bustripInfo.DRIVER_EMP_SEQ);
+                        if(bustripInfo.USE_TRSPT == "0"){
+                            for(let j=0; j<costList.length; j++){
+                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                }
+                            }
+                        }
+
+                        if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) == String(dayCostArr[i].empSeq)){
+                            for(let j=0; j<costList.length; j++){
+                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "2"){
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                }
+                            }
+                        }
+
+                        if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) != String(dayCostArr[i].empSeq)){
+                            for(let j=0; j<costList.length; j++){
+                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "3"){
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                }
+                            }
+                        }
+
+                        if(bustripInfo.USE_TRSPT != "0" && bustripInfo.USE_TRSPT != "10"){
+                            for(let j=0; j<costList.length; j++){
+                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "4"){
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                }
+                            }
+                        }
+                    }
+                    /*if(bustripInfo.TRIP_CODE == "3" && (bustripInfo.USE_TRSPT == "0" || bustripInfo.DRIVER_EMP_SEQ == dayCostArr[i].empSeq)){
 
                         let amt = $("#dayCost"+String(dayCostArr[i].empSeq)).val().replace(",", "");
                         console.log("amt", amt)
                         // $("#dayCost"+String(dayCostArr[i].empSeq)).val(fn_comma(costList[costN].COST_AMT + (Number(amt)+10000)));
                         $("#dayCost"+String(dayCostArr[i].empSeq)).val(fn_comma(costList[costN].COST_AMT));
                         costN++;
-                    }
+                    }*/
                 }
             }
         }

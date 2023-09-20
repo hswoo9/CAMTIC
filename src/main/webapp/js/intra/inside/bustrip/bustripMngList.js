@@ -14,12 +14,6 @@ var bustripMngList = {
         /** 출장구분 */
         bustrip.fn_tripCodeSearchSet();
 
-        /** 관련사업 */
-        bustrip.fn_projectSearchSet();
-
-        /** 입금상태 */
-        bustrip.fn_depositStatSearchSet();
-
         customKendo.fn_textBox(["busnName"]);
     },
 

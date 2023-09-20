@@ -77,7 +77,14 @@ var costList = {
                     }
                 }, {
                     field: "EXNP_TEXT",
-                    title: "여비 종류"
+                    title: "여비 종류",
+                    template: function(row){
+                        if(row.EXNP_CODE == "dayCost" && row.TRIP_CODE == "3"){
+                            return row.EXNP_TEXT + " - " + row.EXNP_DETAIL_TEXT
+                        }else{
+                            return row.EXNP_TEXT
+                        }
+                    }
                 }, {
                     title: "여비지급 금액",
                     template: function(row){

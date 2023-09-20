@@ -6,7 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripCostReqPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripCostReqPop.js?v=${toDate}"/></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -61,6 +62,14 @@
                 </th>
                 <td>
                     <input type="text" id="exnpCode" style="width: 100%;">
+                </td>
+            </tr>
+            <tr id="detailTr" style="display: none">
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>세부항목
+                </th>
+                <td>
+                    <input type="text" id="exnpDetailCode" style="width: 100%;">
                 </td>
             </tr>
             <tr>
