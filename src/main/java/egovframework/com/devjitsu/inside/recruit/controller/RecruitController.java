@@ -149,7 +149,7 @@ public class RecruitController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
-        model.addAttribute("recruit", recruitService.getRecruit(params));
+        model.addAttribute("recruit", new Gson().toJson(recruitService.getRecruit(params)));
 
         return "popup/inside/recruit/recruitAdminPop";
     }

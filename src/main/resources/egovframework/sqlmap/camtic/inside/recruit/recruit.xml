@@ -384,7 +384,8 @@
             CASE WHEN AM.IN_AVOID = 'Y' THEN '불참'
                 ELSE ''
             END IN_AVOID_TXT,
-            AM.PRELIMINARY_PASS
+            AM.PRELIMINARY_PASS,
+            AM.APPLICATION_STAT
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN (
@@ -426,11 +427,46 @@
             AM.RECRUIT_INFO_SN = #{recruitInfoSn}
         AND
             AM.SAVE_TYPE = 'S'
+        <if test='searchType != null and !"".equals(searchType)'>
         AND
             AM.APPLICATION_STAT = #{searchType}
+        </if>
         <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
         AND
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
+
+        <if test='docScreenType != null and !"".equals(docScreenType)'>
+            <choose>
+                <when test='"D".equals(docScreenType)'>
+                    AND
+                        (
+                            AM.APPLICATION_STAT = #{docScreenType} OR
+                            AM.APPLICATION_STAT = 'I' OR
+                            AM.APPLICATION_STAT = 'IF'
+                        )
+                </when>
+                <when test='"DF".equals(docScreenType)'>
+                    AND AM.APPLICATION_STAT = #{docScreenType}
+                </when>
+            </choose>
+        </if>
+
+        <if test='interViewType != null and !"".equals(interViewType)'>
+            <choose>
+                <when test='"preliminaryPass".equals(interViewType)'>
+                    AND
+                        AM.PRELIMINARY_PASS = 'Y'
+                </when>
+                <when test='"avoid".equals(interViewType)'>
+                    AND
+                        AM.IN_AVOID = 'Y'
+                </when>
+                <otherwise>
+                    AND
+                        AM.APPLICATION_STAT = #{interViewType}
+                </otherwise>
+            </choose>
         </if>
         GROUP BY AM.APPLICATION_ID
     </select>
@@ -505,11 +541,11 @@
         UPDATE
             CAM_INSIDE.DJ_APPLICATION_MAIN
         SET
-            IN_AVOID = 'Y',
+            IN_AVOID = #{inAvoid},
             MOD_ID = #{empSeq},
             MOD_DATE = NOW()
         WHERE
-            APPLICATION_ID IN (${applicationId})
+            APPLICATION_ID = #{applicationId}
     </update>
 
     <delete id="setInAvoidScoreBoardDel" parameterType="map">

@@ -2,31 +2,37 @@ var recruitAdminPop = {
     global : {
         searchAjaxData : "",
         saveAjaxData : "",
+        dropDownDataSource : "",
     },
 
-    init : function(){
+    init : function(recruit){
+
+        $("#recruitStatusSn").val(recruit.RECRUIT_STATUS_SN);
+
+        recruitAdminPop.kendoSetting(recruit);
+
         recruitAdminPop.gridReload();
 
         recruitAdminPop.recruitStatusBtnSet();
 
-        $("div.circle").click(function(){
-            $("div.circle").removeClass("active");
-            $(this).addClass("active");
-            $("#checkAll").prop("checked", false);
-            $("#docPassBtnDiv").hide();
-            $("#inPassBtnDiv").hide();
-            $("#fPassBtnDiv").hide();
-
-            recruitAdminPop.gridReload();
-
-            if($(this).attr("searchType") == "S"){
-                $("#docPassBtnDiv").show();
-            }else if($(this).attr("searchType") == "D"){
-                $("#inPassBtnDiv").show();
-            }else if($(this).attr("searchType") == "I"){
-                $("#fPassBtnDiv").show();
-            }
-        })
+        // $("div.circle").click(function(){
+        //     $("div.circle").removeClass("active");
+        //     $(this).addClass("active");
+        //     $("#checkAll").prop("checked", false);
+        //     $("#docPassBtnDiv").hide();
+        //     $("#inPassBtnDiv").hide();
+        //     $("#fPassBtnDiv").hide();
+        //
+        //     recruitAdminPop.gridReload();
+        //
+        //     if($(this).attr("searchType") == "S"){
+        //         $("#docPassBtnDiv").show();
+        //     }else if($(this).attr("searchType") == "D"){
+        //         $("#inPassBtnDiv").show();
+        //     }else if($(this).attr("searchType") == "I"){
+        //         $("#fPassBtnDiv").show();
+        //     }
+        // })
     },
 
     mainGrid : function(url, params) {
@@ -121,13 +127,15 @@ var recruitAdminPop = {
                     template : function(e){
                         if(e.DOC_SCREEN_AVERAGE != null){
                             var str = "";
-                            if(Number(e.DOC_SCREEN_AVERAGE) >= 80){
-                                str = '합격';
+                            if(e.APPLICATION_STAT == "D" || e.APPLICATION_STAT == "I" || e.APPLICATION_STAT == "IF"){
+                                str = '합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
+                            }else if(e.APPLICATION_STAT == "DF"){
+                                str = '불합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
                             }else{
-                                str = '불합격';
+                                str = e.DOC_SCREEN_AVERAGE + '점';
                             }
 
-                            return str + " (" + e.DOC_SCREEN_AVERAGE + "점)";
+                            return str;
                         }else{
                             return "심사전";
                         }
@@ -140,13 +148,16 @@ var recruitAdminPop = {
                         if(e.IN_AVOID != "Y"){
                             if(e.IN_SCREEN_AVERAGE != null){
                                 var str = "";
-                                if(Number(e.IN_SCREEN_AVERAGE) >= 80){
-                                    str = '합격';
+
+                                if(e.APPLICATION_STAT == "I"){
+                                    str = '합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
+                                }else if(e.APPLICATION_STAT == "IF"){
+                                    str = '불합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
                                 }else{
-                                    str = '불합격';
+                                    str = e.DOC_SCREEN_AVERAGE + '점';
                                 }
 
-                                return str + " (" + e.IN_SCREEN_AVERAGE + "점)";
+                                return str;
                             }else{
                                 return "심사전";
                             }
@@ -156,7 +167,7 @@ var recruitAdminPop = {
                     }
                 }, {
                     field: "PRELIMINARY_PASS",
-                    title: "예비합격",
+                    title: "후보처리",
                     width : 80,
                     template : function(e){
                         var html = "";
@@ -187,7 +198,9 @@ var recruitAdminPop = {
     gridReload : function() {
         recruitAdminPop.global.searchAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
-            searchType : $("div.circle.active").attr("searchType")
+            recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+            docScreenType : $("#docScreenType").val(),
+            interViewType : $("#interViewType").val(),
         }
 
         recruitAdminPop.mainGrid("/inside/getApplicationList", recruitAdminPop.global.searchAjaxData);
@@ -245,7 +258,7 @@ var recruitAdminPop = {
         if(type == "pass"){
             confirmTxt = "합격 처리 하시겠습니까?";
         }else{
-            confirmTxt = "합격 취소처리 하시겠습니까?";
+            confirmTxt = "합격 불합격처리 하시겠습니까?";
         }
 
         if(confirm(confirmTxt)){
@@ -265,19 +278,29 @@ var recruitAdminPop = {
 
     setInAvoidUpd : function(){
         if($("input[name='aplChk']:checked").length == 0){
-            alert("면접 불참자를 선택해주세요.");
+            alert("응시자를 선택해주세요.");
             return;
         }
 
-        var applicationId = "";
+        var appArr = new Array();
         $.each($("input[name='aplChk']:checked"), function(i, e){
-            applicationId += "," + $(this).val()
+            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+            var data = {
+                applicationId : dataItem.APPLICATION_ID,
+                empSeq : $("#empSeq").val()
+            }
+            if(dataItem.IN_AVOID == "Y"){
+                data.inAvoid = "N"
+            }else{
+                data.inAvoid = "Y"
+            }
+            appArr.push(data)
+
         })
 
-        if(confirm("선택한 응시자를 면접 불참처리 하시겠습니까?")){
+        if(confirm("선택한 응시자를 면접 불참처리 하시겠습니까?\n")){
             var data = {
-                empSeq : $("#empSeq").val(),
-                applicationId : applicationId.substring(1),
+                appArr : JSON.stringify(appArr)
             }
             var result = customKendo.fn_customAjax("/inside/setInAvoidUpd.do", data);
             if(result.flag){
@@ -332,17 +355,19 @@ var recruitAdminPop = {
     setRecruitStatusUpd : function(t, e){
         $("#recruitStatusSn").val(e);
 
-        recruitAdminPop.global.saveAjaxData = {
-            recruitInfoSn : $("#recruitInfoSn").val(),
-            recruitStatusSn : e,
-            recruitStatusText : t
-        }
+        if(confirm("공고 상태를 변경하시겠습니까?")){
+            recruitAdminPop.global.saveAjaxData = {
+                recruitInfoSn : $("#recruitInfoSn").val(),
+                recruitStatusSn : e,
+                recruitStatusText : t
+            }
 
-        var result = customKendo.fn_customAjax("/inside/setRecruitStatusUpd.do", recruitAdminPop.global.saveAjaxData);
-        if(result.flag){
-            alert("처리되었습니다.");
-            recruitAdminPop.recruitStatusBtnSet();
-            opener.parent.recruitList.gridReload();
+            var result = customKendo.fn_customAjax("/inside/setRecruitStatusUpd.do", recruitAdminPop.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                recruitAdminPop.recruitStatusBtnSet();
+                opener.parent.recruitList.gridReload();
+            }
         }
     },
 
@@ -352,6 +377,13 @@ var recruitAdminPop = {
         var url = "/inside/pop/duplicationPop.do?userName=" + dataItem.USER_NAME + "&userEmail=" + dataItem.USER_EMAIL + "&notRecruitInfoSn=" + dataItem.RECRUIT_INFO_SN;
         var name = "duplicationCntPop";
         var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    recruitDetailPop : function () {
+        var url = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + $("#recruitInfoSn").val();
+        var name = "recruitDetailPop";
+        var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
@@ -393,5 +425,39 @@ var recruitAdminPop = {
         }
 
         return ret_month;
+    },
+
+    kendoSetting : function(recruit){
+        customKendo.fn_dropDownList("recruitAreaInfoSn", recruit.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+        $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", recruitAdminPop.gridReload);
+
+        recruitAdminPop.global.dropDownDataSource = [
+            { text: "서류심사", value: "" },
+            { text: "서류심사 합격", value: "D" },
+            { text: "서류심사 불합격", value: "DF" }
+        ]
+
+        $("#docScreenType").kendoDropDownList({
+            dataSource : recruitAdminPop.global.dropDownDataSource,
+            dataTextField: "text",
+            dataValueField: "value",
+            change : recruitAdminPop.gridReload
+        });
+
+        recruitAdminPop.global.dropDownDataSource = [
+            { text: "면접심사", value: "" },
+            { text: "면접심사 합격", value: "I" },
+            { text: "면접심사 불합격", value: "if" },
+            { text: "후보", value: "preliminaryPass" },
+            { text: "불참", value: "avoid" }
+        ]
+
+        $("#interViewType").kendoDropDownList({
+            dataSource : recruitAdminPop.global.dropDownDataSource,
+            dataTextField: "text",
+            dataValueField: "value",
+            change : recruitAdminPop.gridReload
+        });
+        // recruitAreaInfoSn
     }
 }
