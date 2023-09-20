@@ -14,8 +14,13 @@ var crmReg = {
         });
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
+        tabStrip.disable(tabStrip.tabGroup.children());
+
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
-            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+            tabStrip.enable(tabStrip.tabGroup.children());
+            tabStrip.select(0);
+        }else{
+            tabStrip.select(-1);
         }
 
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){

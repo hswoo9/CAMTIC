@@ -123,18 +123,11 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        우편번호
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="post" style="width: 20%;">
-                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="userReqPop.addrSearch();"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
                         주소
                     </th>
-                    <td colspan="3">
+                    <td colspan="3" style="line-height: 30px">
+                        <input type="text" id="post" style="width: 20%;">
+                        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="userReqPop.addrSearch();"/>
                         <input type="text" id="addr" style="width: 90%;">
                     </td>
                 </tr>
@@ -164,7 +157,7 @@
             <div class="demo-section">
                 <div id="tabstrip">
                     <ul style="font-size: 12px;">
-                        <li class="k-state-active">
+                        <li>
                             부가정보
                         </li>
                         <li>
