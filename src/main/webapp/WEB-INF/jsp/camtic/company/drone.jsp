@@ -17,16 +17,17 @@
 
         <div class="__drone3 m0">
           <div class="head">
-            <h4>중·대형 드론산업의 고도화 및 글로벌 경쟁력 강화</h4>
+            <%--<h4>중·대형 드론산업의 고도화 및 글로벌 경쟁력 강화</h4>--%>
             <dl>
-              <dt><span class="__nm">“</span><span class="m">국내 드론산업의 활성화, 드론기업의</span><span class="__nm">”</span></dt>
-              <dd>글로벌 시장경쟁력 강화를 위한 혁신성장 플랫폼</dd>
+              <dt><span class="__nm">“</span><span class="mainCapyTitle">중·대형 드론산업의 고도화 및 글로벌 경쟁력 강화</span><span class="__nm">”</span></dt>
+              <dd><span class="subCapyTitle">국내 드론산업의 활성화, 드론기업의 글로벌 시장경쟁력 강화를 위한 혁신성장 플랫폼</span></dd>
             </dl>
           </div>
           <div class="foot">
-            <div class="__icoBox">
+            <div class="__icoBox1">
               <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
               <div class="__fz18 __black">
+                <div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>
                 <p>
                   우수한 기술력을 보유한 드론 관련기업, 연구소 및<br class="__p">
                   지원기관 입주를 통한 드론산업 클러스터 환경 마련
@@ -37,26 +38,26 @@
                 </p>
               </div>
             </div>
-            <div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>
+            <%--<div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>--%>
           </div>
         </div>
 
         <div class="__tit1 __mt100 __mb20">
           <%--캠틱 아이콘 이미지 추가--%>
-          <h3><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>드론 첨단장비 공동활용 지원</h3>
+          <h3><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>--%>드론 첨단장비 공동활용 지원</h3>
         </div>
         <div class="__drone4">
           <div class="head">
             <div class="box">
-              <h4><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>시제품제작 지원장비</h4>
+              <h4><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>--%>시제품제작 지원장비</h4>
               <div class="img"><img src="/images/camtic/img-ndrone4-1.jpg" alt=""></div>
             </div>
             <div class="box">
-              <h4><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>성능평가 지원장비</h4>
+              <h4><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>--%>성능평가 지원장비</h4>
               <div class="img"><img src="/images/camtic/img-ndrone4-2.jpg" alt=""></div>
             </div>
             <div class="box">
-              <h4><a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>AI 항공관제 지원장비</h4>
+              <h4><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>--%>AI 항공관제 지원장비</h4>
               <div class="img"><img src="/images/camtic/img-ndrone4-3.jpg" alt=""></div>
             </div>
           </div>

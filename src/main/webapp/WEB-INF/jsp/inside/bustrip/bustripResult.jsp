@@ -20,27 +20,32 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
                         <col width="20%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
                         <col width="10%">
                         <col width="25%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 110px;">
+                            <input type="text" id="start_date" style="width: 120px;">
                             ~
-                            <input type="text" id="end_date" style="width: 110px;">
+                            <input type="text" id="end_date" style="width: 120px;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="tripCode" style="width: 90%"/>
                         </td>
                         <th class="text-center th-color">관련사업</th>
                         <td>
-                            <input type="text" id="busnLgClass" style="width: 45%"/>
-                            <input type="text" id="project" style="width: 45%; display:none;">
+                            <input type="text" id="project" style="width: 90%"/>
                         </td>
                         <th class="text-center th-color">사업명</th>
                         <td>
-                            <input type="text" id="busnName" style="width: 150px;">
+                            <input type="text" id="busnName" style="width: 90%;">
                         </td>
                     </tr>
                 </table>

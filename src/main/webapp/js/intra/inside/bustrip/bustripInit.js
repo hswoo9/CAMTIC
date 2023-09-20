@@ -1,18 +1,8 @@
 var bustripInit = {
     /** 관련사업, 프로젝트 데이터 세팅 */
     settingProjectDataInit: function(busInfo){
-        const prjCd = busInfo.PROJECT_CD;
-        if(prjCd != "" && prjCd != null){
-            const busnLgClass = $("#busnLgClass").data("kendoDropDownList");
-            if(prjCd == "R" || prjCd == "S"){
-                busnLgClass.value("1");
-                busnLgClass.trigger("change");
-            }else if(prjCd == "R" || prjCd == "S" || prjCd == "S"){
-                busnLgClass.value("2");
-                busnLgClass.trigger("change");
-            }
-            $("#project").data("kendoDropDownList").value(busInfo.PROJECT_CD);
-            $("#project").data("kendoDropDownList").trigger("change");
+        const busnName = busInfo.BUSN_NAME;
+        if(busnName != "" && busnName != null){
             $("#busnName").val(busInfo.BUSN_NAME);
         }
     },
@@ -205,7 +195,8 @@ var bustripInit = {
     },
 
     /** 첨부파일 데이터 세팅 */
-    settingTempFileDataInit: function(e, p){
+    settingTempFileDataInit: function(e){
+        let p = bustrip.global.pageName;
         var html = '';
 
         if(p == "result"){
@@ -223,7 +214,7 @@ var bustripInit = {
                     '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
-        } else {
+        }else{
             if(e.length > 0){
                 for(var i = 0; i < e.length; i++){
                     html += '<tr style="text-align: center">';

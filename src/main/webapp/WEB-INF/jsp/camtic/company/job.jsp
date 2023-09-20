@@ -174,7 +174,7 @@
 
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>예비 취업자 양성 훈련</strong> <span class="fwl" style="font-size:0.85em;">(www.jumpjbjob.or.kr)</span></h3>
+          <h3><strong>전북 조선업도약센터</strong> <span class="fwl" style="font-size:0.85em;">(www.jumpjbjob.or.kr)</span></h3>
         </div>
         <div class="__job4">
           <div class="head"><span class="__nm">“</span><span class="m">조선업 취업, 군산 주력산업(전기차.이차전지 등) <strong style="font-weight:600;">취업 원스톱 지원</strong></span><span class="__nm">”</span></div>
@@ -192,7 +192,7 @@
           <div class="area">
             <div class="box">
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
                 <h5>구직자 고용서비스</h5>
                 <ul class="__dotList bar __fz20 __black">
                   <li>
@@ -204,7 +204,7 @@
             </div>
             <div class="box">
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-2.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-root2-2.png" alt=""></span></div>--%>
                 <h5>기업지원</h5>
                 <ul class="__dotList bar __fz20 __black">
                   <li>기업홍보지원 : 구인난을 겪고 있는 기업의 채용 및 홍보지원</li>
@@ -214,7 +214,7 @@
             </div>
             <div class="box">
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-root2-3.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-root2-3.png" alt=""></span></div>--%>
                 <h5>취업장려금</h5>
                 <ul class="__dotList bar __fz20 __black">
                   <li>지역 내 위기산업의 우수인적자원 확보 및 위기근로자의 취업 가능성 확대와 장기근속 독려를 위한 장려금 지원<span style="font-size:0.85em;">(구직자 대상)</span></li>

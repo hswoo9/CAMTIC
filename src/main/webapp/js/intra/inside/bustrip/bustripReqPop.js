@@ -25,7 +25,7 @@ const bustripReq = {
     },
 
     dataSet: function(){
-        if(hrBizReqId == ""){return;}
+        if(hrBizReqId == ""){ return; }
 
         const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
             hrBizReqId: hrBizReqId
@@ -41,7 +41,7 @@ const bustripReq = {
         $("#reqDate").val(busInfo.REG_DATE);
 
         /** 구분 */
-        $("#tripCode").data("kendoDropDownList").value(busInfo.TRIP_CODE);
+        $("#tripCode").data("kendoRadioGroup").value(busInfo.TRIP_CODE);
 
         /** 관련사업, 프로젝트명 */
         bustripInit.settingProjectDataInit(busInfo);
@@ -82,16 +82,13 @@ const bustripReq = {
         $("#bustObj").val(busInfo.TITLE);
 
         /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo, p);
+        bustripInit.settingTempFileDataInit(fileInfo);
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if((busInfo.STATUS != 0 && busInfo.STATUS != 30) || $("#mod").val() == "mng"){
-            $("#tripCode").data("kendoDropDownList").enable(false);
-            $("#busnLgClass").data("kendoDropDownList").enable(false);
-            if(busInfo.PROJECT_CD != "" && busInfo.PROJECT_CD != null){
-                $("#busnName").data("kendoTextBox").enable(false);
-                $("#project").data("kendoDropDownList").enable(false);
-            }
+            $(':radio:not(:checked)').attr('disabled', true);
+
+            $("#busnName").data("kendoTextBox").enable(false);
             $("#projectAddBtn").css("display", "none");
 
             $("#popEmpName").data("kendoTextBox").enable(false);
@@ -148,10 +145,6 @@ const bustripReq = {
         formData.append("dutyCode", $("#regDutyCode").val());
         formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").val());
-        formData.append("projectCd", $("#project").val());
-        if($("#busnLgClass").val() != ""){
-            formData.append("project", $("#project").data("kendoDropDownList").text());
-        }
         formData.append("busnName", $("#busnName").val());
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());

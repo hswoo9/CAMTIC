@@ -47,6 +47,13 @@ var fuelCostList = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fuelCostList.bustripExchangeMngPop();">' +
+                            '	<span class="k-button-text">환율</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="fuelCostList.bustripFuelCostReqPop();">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
@@ -72,15 +79,28 @@ var fuelCostList = {
                     template: function(row){
                         return row.DISTANCE+" KM";
                     }
+                }, {
+                    title: "적용 프로젝트",
+                    template: function(row){
+                        return row.PROJECT_NM;
+                    }
                 }
             ]
         }).data("kendoGrid");
     },
 
-    bustripFuelCostReqPop : function() {
+    bustripFuelCostReqPop: function(){
         const url = "/bustrip/pop/bustripFuelCostReqPop.do";
         const name = "bustripCostReqPop";
         const option = "width=555, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
+    },
+
+    bustripExchangeMngPop: function(){
+        const url = "/bustrip/pop/bustripExchangeMngPop.do";
+        const name = "bustripExchangeMngPop";
+        const option = "width=555, height=160, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+
     }
 }

@@ -25,7 +25,15 @@
               <span class="__nm">”</span>
             </dd>
           </dl>
+          <div class="__icoBox pt0" style="margin-top: 50px;">
+            <div class="__tit1 __mt100 __mb20">
+              <h3><strong>전기방사장치 - 나노 섬유 생산</strong></h3>
+            </div>
 
+            <div class="__fz18 __black">지름이 수십에서 수백 나노미터(1나노미터=10억분의 1m)에 불과한 초극세실을 말하며,
+              굵기가 머리카락의 5백분의 1정도에 불과한 첨단소재로 기계적, 화학적 성질이 우수하여
+              다양한 분야에 활용 됨</div>
+          </div>
           <div class="bot">
             <div class="box">
               <div class="img"><img src="/images/camtic/img-nsmart1-1.png" alt=""></div>
@@ -52,13 +60,15 @@
         </div>
 
 
-        <div class="__tit1 __mt100 __mb20">
+        <%--<div class="__tit1 __mt100 __mb20">
           <h3><strong>나노섬유 생산을 위한 전기방사 장비</strong></h3>
-        </div>
+        </div>--%>
         <div class="__bio5">
-
+          <div class="__tit1 __mt100 __mb20">
+            <h3><strong>나노섬유 생산을 위한 전기방사 장비</strong></h3>
+          </div>
           <div class="__icoBox pt0">
-            <div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+            <%--<div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
             <div class="__fz18 __gray fwb">방사 조건에 따라 적층 두께, 필라멘트의 두께, pore의 크기 등 다양한 샘플 제작</div>
             <div class="__fz18 __black">폭 1,000mm, 500mm, Lab type 장비를 통해 조건에 따른 다양한 나노 섬유 생산 가능</div>
           </div>
@@ -79,11 +89,13 @@
         </div>
 
 
-        <div class="__tit1 __mt100 __mb20">
+        <%--<div class="__tit1 __mt100 __mb20">
           <h3><strong>헬스케어</strong></h3>
-        </div>
+        </div>--%>
         <div class="__bio6">
-
+          <div class="__tit1 __mt100 __mb20">
+            <h3><strong>헬스케어</strong></h3>
+          </div>
           <dl class="head">
             <dt>
               <span class="__nm">“</span>
@@ -99,7 +111,7 @@
           <div class="area">
 
             <div class="__icoBox pt0">
-              <div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>
+              <%--<div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
               <h5>레일 플랫폼 기반의 동적 하네스 시스템</h5>
               <div class="__fz18 __black">고령자 및 뇌졸중 환자 등 보행 장애인의 조기재활 목적을 위한 하지관련일상 생활동작 및 재활 훈련 시스템 개발</div>
             </div>

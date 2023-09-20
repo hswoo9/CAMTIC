@@ -202,3 +202,20 @@ function fn_getRowNum(e, type){
         return 0;
     }
 }
+
+function fn_getNowDate(type){
+    const today = new Date();
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+
+    let toDate = ""
+    if(type == 1){
+        toDate = year+"년 "+month+"월 "+date+"일";
+    }else if(type == 2){
+        toDate = year+"-"+month+"-"+date+"-";
+    }else if(type == 3){
+        toDate = year+". "+month+". "+date+".";
+    }
+    return toDate;
+}

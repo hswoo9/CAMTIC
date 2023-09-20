@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${toDate}"></script>
+<body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -25,7 +26,6 @@
 <input type="hidden" id="pageName" value="bustripReqPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
-<body class="font-opensans" style="background-color:#fff;">
 <div class="table-responsive">
     <div class="card-header pop-header">
         <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
@@ -78,18 +78,17 @@
             <tr>
                 <th><span class="red-star">*</span>구분</th>
                 <td>
-                    <input id="tripCode" style="width: 80%;">
+                    <span id="tripCode"></span>
                 </td>
                 <th><span class="red-star">*</span>관련사업</th>
                 <td>
-                    <input id="busnLgClass" style="width: 45%"/>
-                    <input id="project" style="width: 45%; display:none;">
+                    <span id="project"></span>
                 </td>
             </tr>
-            <tr id="busnLine" style="display: none;">
+            <tr id="busnLine">
                 <th><span class="red-star">*</span>사업명</th>
                 <td colspan="3">
-                    <input id="busnName" name="busnName" style="width: 80%;">
+                    <input id="busnName" name="busnName" disabled style="width: 80%;">
                     <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
                 </td>
             </tr>

@@ -132,6 +132,9 @@ var popCrmList = {
         // opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
         // opener.parent.$("#crmPhNum").val(rs.PH_NUM);
         opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);
+        if(rs.ADDR != null && rs.ADDR != ""){
+            opener.parent.$("#visitLoc").val(rs.ADDR.split(" ")[0]+" "+rs.ADDR.split(" ")[1]);
+        }
         window.close();
     }
 

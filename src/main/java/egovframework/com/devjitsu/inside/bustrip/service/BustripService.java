@@ -54,6 +54,8 @@ public interface BustripService {
 
     void setBustripFuelCostInsert(Map<String, Object> params);
 
+    void setExchangeRateUpdate(Map<String, Object> params);
+
     List<Map<String, Object>> getWaypointCostList(Map<String, Object> params);
 
     void setWaypointCostInsert(Map<String, Object> params);
@@ -63,6 +65,8 @@ public interface BustripService {
     List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params);
 
     Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params);
+
+    Map<String, Object> getExchangeInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getPopBustripList(Map<String, Object> params);
 

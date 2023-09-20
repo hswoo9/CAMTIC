@@ -18,8 +18,10 @@
         <div class="__job3 m0">
           <div class="head">
             <dl>
-              <dt>“창업-혁신-성장으로 이어지는 혁신-제조창업 플랫폼!!”</dt>
-              <dd>Level-Up 맞춤 기업육성 지원!!</dd>
+              <dt><span class="__nm">“</span><span class="mainCapyTitle">창업-혁신-성장으로 이어지는 혁신-제조창업 플랫폼!!</span><span class="__nm">”</span></dt>
+              <dd><span class="subCapyTitle">Level-Up 맞춤 기업육성 지원!!</span></dd>
+              <%--<dt>“창업-혁신-성장으로 이어지는 혁신-제조창업 플랫폼!!”</dt>
+              <dd>Level-Up 맞춤 기업육성 지원!!</dd>--%>
             </dl>
           </div>
 
@@ -91,7 +93,7 @@
           <ul class="__flx flx2 gap30">
             <li>
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
                 <h5>선도기업 육성사업</h5>
                 <ul class="__dotList bar __fz16">
                   <li>최고경영자 혁신포럼 운영</li>
@@ -102,7 +104,7 @@
             </li>
             <li>
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
                 <h5>돋움기업 육성사업</h5>
                 <ul class="__dotList bar __fz16">
                   <li>중장기 성장전략 수립지원</li>
@@ -121,7 +123,7 @@
           <ul class="__flx flx2 gap30">
             <li>
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
                 <h5>지역특화산업육성(농생명바이오소재)</h5>
                 <ul class="__dotList bar __fz16">
                   <li>구매연계형 시제품제작 지원</li>
@@ -132,7 +134,7 @@
             </li>
             <li>
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
                 <h5>스마트특성화 기반구축사업(특수목적 모빌리티)</h5>
                 <ul class="__dotList bar __fz16">
                   <li>제조공정 고도화 지원</li>
@@ -151,7 +153,7 @@
           <ul class="__flx flx2 gap30">
             <li>
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
                 <h5>산업통상협력개발지원사업</h5>
                 <ul class="__dotList bar __fz16">
                   <li>에티오피아 농기계 R&D센터 조성사업</li>
@@ -161,7 +163,7 @@
             </li>
             <li>
               <div class="__icoBox">
-                <div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>
+                <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
                 <h5>EIPP우즈베키스탄 치르칙 농기계 클러스터 육성 R&D센터 설립 F/S</h5>
 
               </div>

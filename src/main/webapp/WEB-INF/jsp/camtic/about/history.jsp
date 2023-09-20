@@ -16,7 +16,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__history">
-          <div class="head"><strong>도약기 2020년부터 현재까지 </strong>캠틱종합기술원의 주요연혁</div>
+          <%--<div class="head"><strong>도약기 2020년부터 현재까지 </strong>캠틱종합기술원의 주요연혁</div>--%>
           <div class="area">
             <div class="box">
               <div class="top">

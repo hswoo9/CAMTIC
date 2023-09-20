@@ -213,12 +213,19 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 /*2023-09-05 지역과함께->전주첨단벤처단지 카피문구 추가*/
 .__tit2 .head {text-align:center; margin-bottom:100px;}
 .__tit2 .head dt {font-size:52px;font-weight:200;color:#111;letter-spacing:-0.05em;}
-.__tit2 .head dd {font-size:20px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:20px;}
+.__drone3 .head dt {font-size:52px;font-weight:200;color:#111;letter-spacing:-0.05em;}
+.__tit2 .head dd {font-size:20px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:15px;}
 .__tit2 h3 {color:#000;font-weight:300;letter-spacing:-0.05em;font-size:24px;line-height:1.2;}
+/*2023-09-19 캠틱소개 - 주요사업*/
+.__busi h3 {color:#000; margin-top: 100px; font-weight:300;letter-spacing:-0.05em;font-size:24px;line-height:1.2; text-align: left;}
 .__tit2 h3 strong {font-weight:600;}
 .__tit2 p {font-size:16px;font-weight:200;color:#000;letter-spacing:-0.05em;line-height:1.4;margin-top:7px;}
+.__busi h3 strong {font-weight:600;}
 
 @media all and (max-width:1024px){
+	/*2023-09-19 캠틱소개 - 주요사업*/
+	.__busi h3 {margin-top: 0px!important;}
+	.__tit2 .head {margin-bottom:35px!important;}
 	.__btn1 {min-width:0;height:40px;font-size:16px;padding:0 15px;}
 	.__btn1 ~ .__btn1 {margin-left:5px;}
 
@@ -547,7 +554,10 @@ textarea.__inp {padding:20px 25px;line-height:1.5;}
 	.__inp {height:34px;font-size:14px;padding-left:10px;}
 	textarea.__inp {padding:10px;line-height:1.45;}
 	textarea.__inp[style*='height:350px'] {height:150px !important;}
-	.__tit2 .head dt {font-size:24px;line-height:1.2;} /*2023-09-07*/
+	/*2023-09-07*/
+	.__tit2 .head dt {font-size:24px;line-height:1.2;}
+	/*2023-09-19*/
+	.__drone3 .head dt {font-size:24px;line-height:1.2;}
 
 }
 
