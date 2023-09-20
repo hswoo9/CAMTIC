@@ -68,6 +68,17 @@ public class InsideCodeController {
         return "popup/inside/bustrip/carPop";
     }
 
+    //차량 조회 팝업창
+    @RequestMapping("/Inside/pop/carViewPop.do")
+    public String carViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/bustrip/carViewPop";
+    }
+
     //차량 통계조회 팝업창
     @RequestMapping("/Inside/pop/carStatPop.do")
     public String carStatPop(HttpServletRequest request, Model model) {

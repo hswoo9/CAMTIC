@@ -235,6 +235,13 @@ const bustripReq = {
         opener.parent.open_in_frame('/Inside/carReq.do');
     },
 
+    carViewPop: function(){
+        const url = "/Inside/pop/carViewPop.do";
+        const name = "carViewPop";
+        const option = "width = 1200, height = 730, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
     // 업체정보 조회
     fn_popCamCrmList : function (){
         var url = "/crm/pop/popCrmList.do";
