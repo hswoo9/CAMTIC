@@ -198,6 +198,14 @@
         )
     </insert>
 
+    <update id="updEstInfo" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_EST
+        SET
+            EST_TOT_AMT = #{goodsTotAmt}
+        WHERE
+            EST_SN = #{estSn}
+    </update>
+
     <update id="updProjectStep" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
@@ -258,6 +266,11 @@
         ORDER BY EST_SN DESC LIMIT 1
     </select>
 
+    <delete id="delEstSub" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_EST_SUB
+        WHERE
+            EST_SN = #{estSn}
+    </delete>
     <insert id="insStep2" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
         (
@@ -1107,4 +1120,14 @@
         WHERE
             PS_FILE_SN = #{psFileSn}
     </insert>
+
+    <update id="updGoodInfo" parameterType="map">
+        /*updGoodInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_DE = #{delvDe},
+            GOODS_ISS = #{goodsIss}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

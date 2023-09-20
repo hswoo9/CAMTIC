@@ -104,6 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.insEngnEstSub(params);
     }
 
+
     @Override
     public Map<String, Object> getStep1SubData(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
@@ -111,11 +112,6 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("estSubList", projectRepository.getEstSubList(params));
 
         return result;
-    }
-
-    @Override
-    public Map<String, Object> getStep1EstData(Map<String, Object> params) {
-        return projectRepository.getStep1EstData(params);
     }
 
 
@@ -512,6 +508,29 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("psFile2List", projectRepository.getPsFile2(params));
         result.put("psFile3List", projectRepository.getPsFile3(params));
         return result;
+    }
+
+    @Override
+    public Map<String, Object> setGoodsInfo(Map<String, Object> params) {
+        projectRepository.updGoodsInfo(params);
+
+        Map<String, Object> map =  projectRepository.getEstData(params);
+
+        params.put("estSn", map.get("EST_SN"));
+
+        projectRepository.updEstInfo(params);
+        projectRepository.delEstSub(params);
+
+        projectRepository.updProject(params);
+        projectRepository.updEngn(params);
+
+        return params;
+    }
+
+
+    @Override
+    public void setEstSubMod(Map<String, Object> params) {
+        projectRepository.insEngnEstSub(params);
     }
 }
 
