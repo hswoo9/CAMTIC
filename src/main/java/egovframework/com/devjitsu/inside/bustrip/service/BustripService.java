@@ -73,4 +73,8 @@ public interface BustripService {
     List<Map<String, Object>> getBustripSettleList(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params);
+
+    void setExnpFile(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+
+    List<Map<String, Object>> getExnpFile(Map<String, Object> params);
 }

@@ -91,6 +91,49 @@ var bustripResultPop = {
 
         /** 첨부파일 */
         bustripInit.settingTempFileDataInit(fileInfo);
+
+        /** 상황에 따른 켄도 위젯 할성화/비활성화 */
+        if($("#mod").val() == "mng"){
+            $(':radio:not(:checked)').attr('disabled', true);
+
+            $("#busnName").data("kendoTextBox").enable(false);
+            $("#projectAddBtn").css("display", "none");
+
+            $("#popEmpName").data("kendoTextBox").enable(false);
+            $("#addMemberBtn").css("display", "none");
+
+            $("#visitCrm").data("kendoTextBox").enable(false);
+            $("#visitLoc").data("kendoTextBox").enable(false);
+            $("#crmBtn").css("display", "none");
+
+            $("#visitLocCode").data("kendoDropDownList").enable(false);
+            if($("#visitLocCode").val() == "999"){
+                $("#visitLocSub").data("kendoTextBox").enable(false);
+            }
+            $("#date1").data("kendoDatePicker").enable(false);
+            $("#date2").data("kendoDatePicker").enable(false);
+            $("#time1").data("kendoTimePicker").enable(false);
+            $("#time2").data("kendoTimePicker").enable(false);
+
+            $("#carList").data("kendoDropDownList").enable(false);
+            $("#carBtn").css("display", "none");
+
+            $("#bustObj").data("kendoTextArea").enable(false);
+
+            $("#moveDst").data("kendoTextBox").enable(false);
+            $("#moveBtn").css("display", "none");
+            $("#highpassBtn").css("display", "none");
+
+            $("#realDriver").data("kendoDropDownList").enable(false);
+
+            $("#result").data("kendoTextArea").enable(false);
+
+            $("#fileUpload").css("display", "none");
+
+            if($("#mod").val() == "mng"){
+                $("#saveBtn").css("display", "none");
+            }
+        }
     },
 
     resDataSet: function() {

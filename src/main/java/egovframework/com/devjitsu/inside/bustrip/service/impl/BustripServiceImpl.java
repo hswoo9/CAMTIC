@@ -117,6 +117,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpFile(Map<String, Object> params) {
+        return bustripRepository.getExnpFile(params);
+    }
+
+    @Override
     public Map<String, Object> getBustripOne(Map<String, Object> params) {
         return bustripRepository.getBustripResultInfoR(params);
     }
@@ -203,7 +208,7 @@ public class BustripServiceImpl implements BustripService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
             bustripRepository.updateResFinalApprStat(params);
-            crmRepository.insCrmHist(histMap);
+            crmRepository.insCrmBustHist(histMap);
             if("101".equals(docSts)) {
             }
         }
@@ -327,5 +332,22 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripSettleList(Map<String, Object> params) {
         return bustripRepository.getBustripSettleList(params);
+    }
+
+    @Override
+    public void setExnpFile(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("hrBizReqResultId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
     }
 }

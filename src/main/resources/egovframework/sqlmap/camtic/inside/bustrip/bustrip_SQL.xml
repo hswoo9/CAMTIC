@@ -298,9 +298,8 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            CONTENT_ID = #{hrBizReqId}
-        AND
-            FILE_CD = #{fileCd}
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+        AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
     <update id="updBustripReq" parameterType="map">
@@ -358,6 +357,14 @@
     </delete>
 
     <delete id="delBustripExnpTarget" parameterType="map">
+        DELETE FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+        AND CONTENT_ID = IFNULL(#{hrBizReqResultId}, '')
+    </delete>
+
+    <delete id="delBustripExnpFile" parameterType="map">
         DELETE FROM
             CAM_INSIDE.DJ_HR_BIZ_EXNP
         WHERE
@@ -986,6 +993,17 @@
             CAM_INSIDE.DJ_HR_BIZ_COMPANION
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getExnpFile" parameterType="map" resultType="map">
+        /* getExnpFile */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = #{fileCd}
+        AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 </mapper>
 

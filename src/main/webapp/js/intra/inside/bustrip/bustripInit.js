@@ -180,15 +180,119 @@ var bustripInit = {
 
         html += "<tr style='text-align: right'>";
         html += "   <td style='text-align: center'>영수증</td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
-        html += "   <td style='text-align: center'><b>다운로드</b></td>";
+        html += "   <td style='text-align: center'><b>-</b></td>";
+
+        let exnpTraf = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpTraf",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        html += "   <td style='text-align: center'>";
+        if(exnpTraf.length > 0){
+            for(let i=0; i<exnpTraf.length; i++){
+                let row = exnpTraf[i];
+                if(i != 0){
+                    html += "<br>";
+                }
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+            }
+        }else{
+            html += "<b>-</b>";
+        }
+        html += "</td>";
+
+        let exnpTrafDay = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpTrafDay",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        html += "   <td style='text-align: center'>";
+        if(exnpTrafDay.length > 0){
+            for(let i=0; i<exnpTrafDay.length; i++){
+                let row = exnpTrafDay[i];
+                if(i != 0){
+                    html += "<br>";
+                }
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+            }
+        }else{
+            html += "<b>-</b>";
+        }
+        html += "</td>";
+
+        let exnpToll = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpToll",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        html += "   <td style='text-align: center'>";
+        if(exnpToll.length > 0){
+            for(let i=0; i<exnpToll.length; i++){
+                let row = exnpToll[i];
+                if(i != 0){
+                    html += "<br>";
+                }
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+            }
+        }else{
+            html += "<b>-</b>";
+        }
+        html += "</td>";
+
+        html += "   <td style='text-align: center'><b>-</b></td>";
+
+        let exnpEat = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpEat",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        html += "   <td style='text-align: center'>";
+        if(exnpEat.length > 0){
+            for(let i=0; i<exnpEat.length; i++){
+                let row = exnpEat[i];
+                if(i != 0){
+                    html += "<br>";
+                }
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+            }
+        }else{
+            html += "<b>-</b>";
+        }
+        html += "</td>";
+
+        let exnpParking = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpParking",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        html += "   <td style='text-align: center'>";
+        if(exnpParking.length > 0){
+            for(let i=0; i<exnpParking.length; i++){
+                let row = exnpParking[i];
+                if(i != 0){
+                    html += "<br>";
+                }
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+            }
+        }else{
+            html += "<b>-</b>";
+        }
+        html += "</td>";
+
+        let exnpEtc = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpEtc",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        html += "   <td style='text-align: center'>";
+        if(exnpEtc.length > 0){
+            for(let i=0; i<exnpEtc.length; i++){
+                let row = exnpEtc[i];
+                if(i != 0){
+                    html += "<br>";
+                }
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+            }
+        }else{
+            html += "<b>-</b>";
+        }
+        html += "</td>";
+
+        html += "   <td style='text-align: center'><b>-</b></td>";
         html += "</tr>";
         $("#bustExnpBody").html(html);
         $("#bustExnpTb").show();

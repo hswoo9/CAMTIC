@@ -1,98 +1,54 @@
 var crm = {
 
+    global : {
+        dropDownDataSource : "",
+        searchAjaxData : "",
+        saveAjaxData : "",
+    },
 
     fn_defaultScript : function (){
 
-        $("#ctmGrade").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "우량고객", value: "1" },
-                { text: "일반고객", value: "2" },
-                { text: "휴면고객", value: "3" },
-                { text: "잠재고객", value: "4" },
-                { text: "신규고객", value: "5" }
-            ],
-            index: 0
-        });
+        crm.global.dropDownDataSource = [
+            { text: "우량고객", value: "1" },
+            { text: "일반고객", value: "2" },
+            { text: "휴면고객", value: "3" },
+            { text: "잠재고객", value: "4" },
+            { text: "신규고객", value: "5" }
+        ]
+        customKendo.fn_dropDownList("ctmGrade", crm.global.dropDownDataSource, "text", "value");
+        $("#ctmGrade").data("kendoDropDownList").bind("change", crm.gridReload);
 
-        $("#ctmType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "기업", value: "1" },
-                { text: "기관", value: "2" }
-            ],
-            index: 0
-        });
+        crm.global.dropDownDataSource = [
+            { text: "기업", value: "1" },
+            { text: "기관", value: "2" }
+        ]
+        customKendo.fn_dropDownList("ctmType", crm.global.dropDownDataSource, "text", "value");
+        $("#ctmType").data("kendoDropDownList").bind("change", crm.gridReload);
 
-        $("#searchKeyword").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "회사명", value: "CRM_NM" },
-                { text: "사업자번호", value: "CRM_NO" },
-                { text: "전화번호", value: "TEL_NUM" },
-                { text: "팩스번호", value: "FAX" },
-                { text: "대표자", value: "CRM_CEO" }
-            ],
-            index: 0,
-            change : function () {
-                if(this.value != ""){
-                    $("#searchValue").removeAttr("disabled");
-                } else {
-                    $("#searchValue").attr("disabled", "");
-                }
+        crm.global.dropDownDataSource = [
+            { text: "회사명", value: "CRM_NM" },
+            { text: "사업자번호", value: "CRM_NO" },
+            { text: "전화번호", value: "TEL_NUM" },
+            { text: "팩스번호", value: "FAX" },
+            { text: "대표자", value: "CRM_CEO" }
+        ]
+        customKendo.fn_dropDownList("searchKeyword", crm.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", function(){
+            if(this.value != ""){
+                $("#searchValue").removeAttr("disabled");
+            } else {
+                $("#searchValue").attr("disabled", "");
             }
         });
+
         customKendo.fn_textBox(["searchValue"]);
 
-
-        $("#searchValue").on("keyup", function(key){
-            if(key.keyCode == 13){
-                crm.mainGrid();
-            }
-        });
-        crm.mainGrid();
+        crm.gridReload();
     },
 
-    gridReload: function (){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
-    },
-
-    mainGrid: function(){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/crm/getCrmList",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    data.ctmType = $("#ctmType").val();
-                    data.ctmGrade = $("#ctmGrade").val();
-                    data.searchKeyword = $("#searchKeyword").val();
-                    data.searchValue = $("#searchValue").val();
-
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
             pageable: {
@@ -114,7 +70,7 @@ var crm = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="crm.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="crm.setCrmDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -128,7 +84,7 @@ var crm = {
                 }],
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="crm.fn_checkAll()" style="top: 3px; position: relative" />',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
                     template : "<input type='checkbox' id='crm#=CRM_SN#' name='crmSn' value='#=CRM_SN#' style=\"top: 3px; position: relative\" />",
                     title: "업태",
                     width: 30,
@@ -163,7 +119,6 @@ var crm = {
                     title: "관계이력",
                     width: 100,
                     template : function (e){
-                        console.log(e);
                         return "0 건";
                     }
                 }, {
@@ -185,19 +140,48 @@ var crm = {
                 }
             ]
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=crmSn]").prop("checked", true);
+            else $("input[name=crmSn]").prop("checked", false);
+        });
     },
 
-    fn_checkAll : function (){
-        if($("#checkAll").is(":checked")){
-            $("input[name='crmSn']").each(function(){
-                $(this).prop("checked", true);
-            });
-        } else {
-            $("input[name='crmSn']").each(function(){
-                $(this).prop("checked", false);
-            });
+    gridReload: function (){
+        crm.global.searchAjaxData = {
+            ctmType : $("#ctmType").val(),
+            ctmGrade : $("#ctmGrade").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val()
         }
 
+        crm.mainGrid("/crm/getCrmList", crm.global.searchAjaxData);
+    },
+
+    setCrmDel : function(){
+        if($("input[name='crmSn']:checked").length == 0){
+            alert("삭제할 고객을 선택해주세요.");
+            return
+        }
+
+        if(confirm("선택한 고객을 삭제하시겠습니까?")){
+            var crmSn = "";
+
+            $.each($("input[name='crmSn']:checked"), function(){
+                crmSn += "," + $(this).val()
+            })
+
+            crm.global.saveAjaxData = {
+                empSeq : $("#myEmpSeq").val(),
+                crmSn : crmSn.substring(1)
+            }
+
+            var result = customKendo.fn_customAjax("/crm/setCrmDel.do", crm.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                crm.gridReload();
+            }
+        }
     },
 
     fn_crmRegPopup : function (key){
