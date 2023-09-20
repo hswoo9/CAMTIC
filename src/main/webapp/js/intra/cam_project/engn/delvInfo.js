@@ -31,10 +31,14 @@ var delvInfo = {
             type : "post",
             dataType : "json",
             success : function(rs){
+                var delvFile = rs.delvFile;
                 var delvMap = rs.delvMap;
                 var map = rs.map;
                 var rs = rs.estMap.estList[rs.estMap.estList.length - 1];
 
+                if(delvFile != null && delvFile != ''){
+                    $("#delvFileName").text(delvFile.file_org_name + "." +delvFile.file_ext);
+                }
                 if(delvMap != null && delvMap != ''){
                     $("#delvAmt").val(delvInfo.comma(delvMap.DELV_AMT));
                     $("#delvExpAmt").val(delvInfo.comma(delvMap.DELV_AMT));
@@ -144,6 +148,37 @@ var delvInfo = {
             engnSn : $("#engnSn").val()
         }
 
+        var fd = new FormData();
+        fd.append("pjtSn", parameters.pjtSn);
+        fd.append("pjtTmpCd", parameters.pjtTmpCd);
+        fd.append("delvDe", parameters.delvDe);
+        fd.append("delvItem", parameters.delvItem);
+        fd.append("delvCnt", parameters.delvCnt);
+        fd.append("delvUnit", parameters.delvUnit);
+        fd.append("delvLoc", parameters.delvLoc);
+        fd.append("delvIssu", parameters.delvIssu);
+        fd.append("delvAmt", parameters.delvAmt);
+        fd.append("delvDept", parameters.delvDept);
+        fd.append("pmEmpNm", parameters.pmEmpNm);
+        fd.append("pmEmpSeq", parameters.pmEmpSeq);
+        fd.append("empSeq", parameters.empSeq);
+        fd.append("regEmpSeq", parameters.empSeq);
+
+        fd.append("estDe", parameters.estDe);
+        fd.append("pjtStrDt", parameters.pjtStrDt);
+        fd.append("pjtEndDt", parameters.pjtEndDt);
+        fd.append("delvPay", parameters.delvPay);
+        fd.append("step", parameters.step);
+        fd.append("stepColumn", parameters.stepColumn);
+        fd.append("nextStepColumn", parameters.nextStepColumn);
+        fd.append("stepValue", parameters.stepValue);
+        fd.append("nextStepValue", parameters.nextStepValue);
+        fd.append("engnSn", parameters.engnSn);
+
+        if($("#delvFile")[0].files.length == 1){
+            fd.append("delvFile", $("#delvFile")[0].files[0]);
+        }
+
         if($("#delvSn").val() != null && $("#delvSn").val() != ''){
             parameters.delvSn = $("#delvSn").val();
         }
@@ -158,9 +193,13 @@ var delvInfo = {
 
         $.ajax({
             url : "/project/engn/setDelvInfo",
-            data : parameters,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 alert("저장되었습니다.")
 
@@ -196,5 +235,10 @@ var delvInfo = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
     },
 }

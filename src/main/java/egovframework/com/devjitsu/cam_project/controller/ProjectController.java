@@ -294,11 +294,13 @@ public class ProjectController {
         Map<String, Object> estMap = projectService.getEstData(params);
         Map<String, Object> map = projectService.getProjectData(params);
         Map<String, Object> delvMap = projectService.getDelvData(params);
+        Map<String, Object> delvFile = projectService.getDelvFile(params);
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("estMap", estMap);
         model.addAttribute("map", map);
         model.addAttribute("delvMap", delvMap);
+        model.addAttribute("delvFile", delvFile);
 
         return "jsonView";
     }
@@ -356,10 +358,10 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/project/engn/setDelvInfo")
-    public String setDelvInfo(@RequestParam Map<String, Object> params, Model model){
+    public String setDelvInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request , Model model){
 
         try{
-            projectService.setDelvInfo(params);
+            projectService.setDelvInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("rep", params);
         } catch(Exception e){
@@ -370,9 +372,9 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/engn/setDevInfo")
-    public String setDevInfo(@RequestParam Map<String, Object> params, Model model){
+    public String setDevInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
-            projectService.setDevInfo(params);
+            projectService.setDevInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
         } catch( Exception e){
             e.printStackTrace();
@@ -442,6 +444,14 @@ public class ProjectController {
             e.printStackTrace();
         }
 
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getStep1Data")
+    public String getStep1Data(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("result", projectService.getEstData(params));
 
         return "jsonView";
     }
@@ -672,8 +682,9 @@ public class ProjectController {
     public String getDevelopPlan(@RequestParam Map<String, Object> params, Model model){
 
         Map<String, Object> map = projectService.getDevelopPlan(params);
-
+        Map<String, Object> devFile = projectService.getDevFile(map);
         model.addAttribute("rs", map);
+        model.addAttribute("devFile", devFile);
 
         return "jsonView";
     }
