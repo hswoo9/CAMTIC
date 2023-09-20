@@ -191,6 +191,20 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getCrmCert(Map<String, Object> params) {
+        return crmRepository.getCrmCert(params);
+    }
+
+    @Override
+    public void setCrmCert(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmCertSn"))){
+            crmRepository.setCrmCert(params);
+        }else{
+            crmRepository.setCrmCertUpd(params);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return crmRepository.getCrmHistList(params);
     }

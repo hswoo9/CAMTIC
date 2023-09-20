@@ -18,7 +18,8 @@ var crmReg = {
 
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
             tabStrip.enable(tabStrip.tabGroup.children());
-            tabStrip.select(0);
+            // tabStrip.select(0);
+            tabStrip.select(3);
         }else{
             tabStrip.select(-1);
         }

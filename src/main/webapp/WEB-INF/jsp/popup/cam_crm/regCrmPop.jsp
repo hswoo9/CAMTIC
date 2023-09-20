@@ -202,11 +202,10 @@
                         </jsp:include>
                     </div>
                     <div>
-                        <span class="cloudy">&nbsp;</span>
-                        <div class="weather">
-                            <h2>16<span>&ordm;C</span></h2>
-                            <p>Cloudy weather in Moscow.</p>
-                        </div>
+                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmCert.jsp" flush="true">
+                            <jsp:param name="crmSn" value="${params.crmSn}"/>
+                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
+                        </jsp:include>
                     </div>
                 </div>
             </div>

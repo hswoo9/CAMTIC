@@ -620,4 +620,61 @@
         AND
             CRM_SN = #{crmSn}
     </update>
+
+    <select id="getCrmCert" parameterType="map" resultType="map">
+        /* getCrmCert */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_CERT
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
+    <insert id="setCrmCert" parameterType="map">
+        /* setCrmCert */
+        INSERT INTO CAM_CRM.DJ_CRM_CERT
+        (
+            CRM_SN,
+            VENTURE,
+            VENTURE_TXT,
+            INNOBIZ,
+            INNOBIZ_TXT,
+            MAINBIZ,
+            MAINBIZ_TXT,
+            OTHER_CERT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{venture},
+            #{ventureTxt},
+            #{innobiz},
+            #{innobizTxt},
+            #{mainbiz},
+            #{mainbizTxt},
+            #{otherCert},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setCrmCertUpd" parameterType="map">
+        /* setCrmCertUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_CERT
+        SET
+            VENTURE = #{venture},
+            VENTURE_TXT = #{ventureTxt},
+            INNOBIZ = #{innobiz},
+            INNOBIZ_TXT = #{innobizTxt},
+            MAINBIZ = #{mainbiz},
+            MAINBIZ_TXT = #{mainbizTxt},
+            OTHER_CERT = #{otherCert},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CRM_CERT_SN = #{crmCertSn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
 </mapper>

@@ -165,18 +165,53 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 고객 산업분야 조회
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/getCrmIndustry.do")
     public String getCrmIndustry(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", crmService.getCrmIndustry(params));
         return "jsonView";
     }
 
+    /**
+     * 고객 산업분야 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/setCrmIndustry.do")
     public String setCrmIndustry(@RequestParam Map<String, Object> params, Model model){
         crmService.setCrmIndustry(params);
         return "jsonView";
     }
 
+    /**
+     * 고객 산업분야 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmCert.do")
+    public String getCrmCert(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmCert(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객 산업분야 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/setCrmCert.do")
+    public String setCrmCert(@RequestParam Map<String, Object> params, Model model){
+        crmService.setCrmCert(params);
+        return "jsonView";
+    }
 
     @RequestMapping("/crm/crmHistView.do")
     public String crmHistView(Model model, HttpServletRequest request){
