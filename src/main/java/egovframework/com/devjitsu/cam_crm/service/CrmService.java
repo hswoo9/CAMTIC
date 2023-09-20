@@ -7,28 +7,28 @@ import java.util.Map;
 
 public interface CrmService {
     List<Map<String, Object>> getPopCrmList(Map<String, Object> params);
-
     Map<String, Object> getCrmData(Map<String, Object> params);
-
     List<Map<String, Object>> getCrmList(Map<String, Object> params);
     void setCrmDel(Map<String, Object> params);
-
     Map<String, Object> getCrmInfo(Map<String, Object> params);
-
     void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
-
-
     Map<String, Object> getCrmFileInfo(Map<String, Object> params);
-
     void setCrmMemInfo(Map<String, Object> params);
-
     List<Map<String, Object>> getCrmMemList(Map<String, Object> params);
-
     void delCrmMemInfo(Map<String, Object> params);
-
     Map<String, Object> getCrmMemInfo(Map<String, Object> params);
-
+    Map<String, Object> getCrmIndustry(Map<String, Object> params);
+    void setCrmIndustry(Map<String, Object> params);
     List<Map<String, Object>> getCrmHistList(Map<String, Object> params);
     Map<String, Object> getRegCrmHist(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);
+    List<Map<String, Object>> groupCodeList(Map<String, Object> params);
+    void saveGroupCode(Map<String, Object> params);
+    List<Map<String, Object>> codeList(Map<String, Object> params);
+    void insSetLgCode(Map<String, Object> params);
+    List<Map<String, Object>> smCodeList(Map<String, Object> params);
+    void insCrmCode(Map<String, Object> params);
+    List<Map<String, Object>> selLgCode(Map<String, Object> params);
+    List<Map<String, Object>> selSmCode(Map<String, Object> params);
+
 }

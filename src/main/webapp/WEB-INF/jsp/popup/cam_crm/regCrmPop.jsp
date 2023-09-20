@@ -164,7 +164,7 @@
             <div class="demo-section">
                 <div id="tabstrip">
                     <ul style="font-size: 12px;">
-                        <li class="k-active">
+                        <li class="k-state-active">
                             부가정보
                         </li>
                         <li>
@@ -203,11 +203,10 @@
                         </div>
                     </div>
                     <div>
-                        <span class="sunny">&nbsp;</span>
-                        <div class="weather">
-                            <h2>21<span>&ordm;C</span></h2>
-                            <p>Sunny weather in London.</p>
-                        </div>
+                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmIndustry.jsp" flush="true">
+                            <jsp:param name="crmSn" value="${params.crmSn}"/>
+                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
+                        </jsp:include>
                     </div>
                     <div>
                         <span class="cloudy">&nbsp;</span>

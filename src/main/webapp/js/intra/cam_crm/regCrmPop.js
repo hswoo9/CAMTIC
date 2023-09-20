@@ -14,8 +14,6 @@ var crmReg = {
         });
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
-        tabStrip.disable(tabStrip.tabGroup.children());
-
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
         }
@@ -176,12 +174,8 @@ var crmReg = {
             enctype : 'multipart/form-data',
             async : false,
             success : function(rs){
-                console.log(rs);
                 var rs = rs.params;
-
-
                 alert("저장되었습니다.");
-
                 window.location.href="/crm/pop/regCrmPop.do?crmSn=" + rs.crmSn;
             }
         });
