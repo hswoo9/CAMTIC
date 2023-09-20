@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,13 +53,17 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 고객 삭제(이력 같이 삭제)
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/setCrmDel.do")
     public String setCrmDel(@RequestParam Map<String, Object> params, Model model){
         crmService.setCrmDel(params);
         return "jsonView";
     }
-
-
 
     @RequestMapping("/crm/pop/popCrmList.do")
     public String popCrmList(Model model){
@@ -68,26 +73,19 @@ public class CrmController {
     @RequestMapping("/crm/pop/popCrmMemList.do")
     public String popCrmMemList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("params", params);
-
         return "popup/cam_crm/popCrmMemList";
     }
 
-
     @RequestMapping("/crm/getPopCrmList")
     public String getPopCrmList(@RequestParam Map<String, Object> params, Model model){
-
         List<Map<String, Object>> list = crmService.getPopCrmList(params);
-
         model.addAttribute("list", list);
-
         return "jsonView";
     }
 
     @RequestMapping("/crm/getCrmData")
     public String getCrmData(@RequestParam Map<String, Object> params, Model model){
-
         model.addAttribute("rs", crmService.getCrmData(params));
-
         return "jsonView";
     }
 
@@ -146,7 +144,6 @@ public class CrmController {
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return "jsonView";
     }
 
@@ -165,9 +162,21 @@ public class CrmController {
     @RequestMapping("/crm/getCrmMemInfo")
     public String getCrmMemInfo(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", crmService.getCrmMemInfo(params));
-
         return "jsonView";
     }
+
+    @RequestMapping("/crm/getCrmIndustry.do")
+    public String getCrmIndustry(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmIndustry(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/setCrmIndustry.do")
+    public String setCrmIndustry(@RequestParam Map<String, Object> params, Model model){
+        crmService.setCrmIndustry(params);
+        return "jsonView";
+    }
+
 
     @RequestMapping("/crm/crmHistView.do")
     public String crmHistView(Model model, HttpServletRequest request){
@@ -234,8 +243,100 @@ public class CrmController {
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return "jsonView";
     }
 
+    /**
+     * crm 코드 관리
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/codeManagement.do")
+    public String codeManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_crm/codeManagement";
+    }
+
+    /**
+     * crm 그룹코드 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/groupCodeList")
+    public String groupCodeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.groupCodeList(params));
+        return "jsonView";
+    }
+
+    /**
+     * crm 코드 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/codeList")
+    public String codeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.codeList(params));
+        return "jsonView";
+    }
+
+    /**
+     * crm 그룹코드 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/saveGroupCode")
+    public String saveGroupCode(@RequestParam Map<String, Object> params, Model model){
+        crmService.saveGroupCode(params);
+        return "jsonView";
+    }
+
+    /**
+     * crm 하위 코드 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/insSetLgCode")
+    public String insSetLgCode(@RequestParam Map<String, Object> params, Model model){
+        crmService.insSetLgCode(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/smCodeList")
+    @ResponseBody
+    public List<Map<String, Object>> smCodeList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = crmService.smCodeList(params);
+        return list;
+    }
+
+    @RequestMapping("/crm/insCrmCode")
+    public String insCrmCode(@RequestParam Map<String, Object> params, Model model){
+        crmService.insCrmCode(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/selLgCode")
+    public String selLgCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", crmService.selLgCode(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/selSmCode")
+    public String selSmCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", crmService.selSmCode(params));
+        return "jsonView";
+    }
 }

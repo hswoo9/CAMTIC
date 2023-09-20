@@ -418,6 +418,7 @@
     </insert>
 
     <insert id="insCrmBustHist" parameterType="map">
+        /* insCrmBustHist */
         INSERT INTO CAM_CRM.DJ_CRM_HIST
             (
                 CRM_SN,
@@ -449,4 +450,174 @@
                 #{REG_EMP_SEQ}
             )
     </insert>
+
+    <select id="groupCodeList" parameterType="map" resultType="map">
+        /* groupCodeList */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_CD
+        GROUP BY GRP_SN
+    </select>
+
+    <insert id="insGroupCode" parameterType="map">
+        /* insGroupCode */
+        INSERT INTO CAM_CRM.DJ_CRM_CD
+        (
+            GRP_SN,
+            GRP_NM
+        )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm}
+            )
+    </insert>
+
+    <select id="codeList" resultType="map" parameterType="map">
+        /* codeList */
+        SELECT
+            A.*
+        FROM
+            CAM_CRM.DJ_CRM_CD A
+        WHERE
+            LG_CD IS NOT NULL
+        AND
+            CRM_CD IS NULL
+    </select>
+
+    <select id="selLgCode" resultType="map" parameterType="map">
+        /* selLgCode */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD is not null
+          AND
+            CRM_CD is null
+    </select>
+
+    <select id="selSmCode" resultType="map" parameterType="map">
+        /* selSmCode */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD is not null
+          AND
+            LG_CD = #{lgCd}
+          AND
+            CRM_CD is not null
+    </select>
+
+    <insert id="insSetLgCode" parameterType="map">
+        /* insSetLgCode */
+        INSERT INTO CAM_CRM.DJ_CRM_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM
+        )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCode},
+                #{lgCodeNm}
+            )
+    </insert>
+
+    <select id="smCodeList" parameterType="map" resultType="map">
+        /* smCodeList */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD = #{lgCd}
+          AND
+            CRM_CD IS NOT NULL
+    </select>
+
+    <insert id="insCrmCode" parameterType="map">
+        /* insCrmCode */
+        INSERT INTO CAM_CRM.DJ_CRM_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM,
+            CRM_CD,
+            CRM_CD_NM
+        )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCd},
+                #{lgCdNm},
+                #{crmCd},
+                #{crmCdNm}
+            )
+    </insert>
+
+    <select id="getCrmIndustry" parameterType="map" resultType="map">
+        /* getCrmIndustry */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INDUSTRY
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
+    <insert id="setCrmIndustry" parameterType="map">
+        /* setCrmIndustry */
+        INSERT INTO CAM_CRM.DJ_CRM_INDUSTRY
+        (
+            CRM_SN,
+            MAIN_CODE,
+            SUB_CODE,
+            COMPLEX_TYPE,
+            COMPLEX_NAME,
+            LABORATORY,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{mainCode},
+            #{subCode},
+            #{complexType},
+            #{complexName},
+            #{laboratory},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setCrmIndustryUpd" parameterType="map">
+        /* setCrmIndustryUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_INDUSTRY
+        SET
+            MAIN_CODE = #{mainCode},
+            SUB_CODE = #{subCode},
+            COMPLEX_TYPE = #{complexType},
+            COMPLEX_NAME = #{complexName},
+            LABORATORY = #{laboratory},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CRM_INDUSTRY_SN = #{crmIndustrySn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
 </mapper>
