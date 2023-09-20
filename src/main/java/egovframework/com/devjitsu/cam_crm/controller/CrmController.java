@@ -48,15 +48,20 @@ public class CrmController {
 
     @RequestMapping("/crm/getCrmList")
     public String getCrmList(@RequestParam Map<String, Object> params, Model model){
-
         model.addAttribute("list", crmService.getCrmList(params));
-
         return "jsonView";
     }
 
+    @RequestMapping("/crm/setCrmDel.do")
+    public String setCrmDel(@RequestParam Map<String, Object> params, Model model){
+        crmService.setCrmDel(params);
+        return "jsonView";
+    }
+
+
+
     @RequestMapping("/crm/pop/popCrmList.do")
     public String popCrmList(Model model){
-
         return "popup/cam_crm/popCrmList";
     }
 
@@ -187,6 +192,29 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 이력관리 상세보기 팝업
+     * @param request
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/pop/regCrmHistViewPop.do")
+    public String regCrmHistViewPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("rs", crmService.getRegCrmHist(params));
+        return "popup/cam_crm/regCrmHistViewPop";
+    }
+
+    /**
+     * 이력관리 등록 팝업
+     * @param request
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/pop/regCrmHistPop.do")
     public String regCrmHistPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();

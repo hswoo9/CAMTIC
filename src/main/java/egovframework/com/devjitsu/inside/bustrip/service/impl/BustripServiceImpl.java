@@ -208,7 +208,7 @@ public class BustripServiceImpl implements BustripService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
             bustripRepository.updateResFinalApprStat(params);
-            crmRepository.insCrmHist(histMap);
+            crmRepository.insCrmBustHist(histMap);
             if("101".equals(docSts)) {
             }
         }

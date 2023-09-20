@@ -46,6 +46,12 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public void setCrmDel(Map<String, Object> params) {
+        crmRepository.setCrmDel(params);
+        crmRepository.setCrmHistDel(params);
+    }
+
+    @Override
     public void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
 
         try{
@@ -172,6 +178,11 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return crmRepository.getCrmHistList(params);
+    }
+
+    @Override
+    public Map<String, Object> getRegCrmHist(Map<String, Object> params) {
+        return crmRepository.getRegCrmHist(params);
     }
 
     @Override
