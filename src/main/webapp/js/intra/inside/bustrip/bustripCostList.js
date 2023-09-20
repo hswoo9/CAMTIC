@@ -71,7 +71,10 @@ var costList = {
                     }
                 }, {
                     field: "TRIP_TEXT",
-                    title: "출장구분"
+                    title: "출장구분",
+                    template: function(row){
+                        return bustrip.fn_getTripCodeText(row);
+                    }
                 }, {
                     field: "EXNP_TEXT",
                     title: "여비 종류"

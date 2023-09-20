@@ -107,7 +107,7 @@
 
         </div>
 
-        <div class="__campus2">교육을 통한 소통 강화!</div>
+        <%--<div class="__campus2">교육을 통한 소통 강화!</div>--%>
 
       </div>
     </div>

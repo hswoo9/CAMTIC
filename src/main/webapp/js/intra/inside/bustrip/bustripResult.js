@@ -6,27 +6,34 @@ var bustripResList = {
     },
 
     pageSet: function(){
+        /** 출장기간 */
         bustrip.fn_periodSet();
-        bustrip.fn_projectSet();
-        bustrip.fn_tripCodeSet();
+
+        /** 출장구분 */
+        bustrip.fn_tripCodeSearchSet();
+
+        /** 관련사업 */
+        bustrip.fn_projectSearchSet();
+
         customKendo.fn_textBox(["busnName"]);
     },
 
-    mainGrid : function() {
+    mainGrid: function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read: {
-                    url : "/bustrip/getBustripReqCheck",
-                    dataType : "json",
-                    type : "post"
+                    url: "/bustrip/getBustripReqCheck",
+                    dataType: "json",
+                    type: "post"
                 },
                 parameterMap: function(data) {
                     data.startDate = $("#start_date").val();
                     data.endDate = $("#end_date").val();
-                    data.tripCode = $("#tripCode").val();
+                    data.tripCode = $("#tripCode").data("kendoDropDownList").value();
                     data.project = $("#project").val();
                     data.busnName = $("#busnName").val();
+                    data.empSeq = $("#regEmpSeq").val();
                     return data;
                 }
             },
@@ -75,7 +82,7 @@ var bustripResList = {
                 }, {
                     title: "사업명",
                     width: 200,
-                    template : function(row){
+                    template: function(row){
                         var busnName = "";
                         var project = "";
                         if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
@@ -133,7 +140,7 @@ var bustripResList = {
                 }, {
                     title: "결과보고",
                     template: function(row){
-                        if(row.STATUS == 100){
+                        if(row.STATUS == 100){console.log(row);
                             if(row.HR_BIZ_REQ_RESULT_ID == ""){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
                             }else{

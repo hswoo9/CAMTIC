@@ -291,4 +291,29 @@ public class ProjectRepository extends AbstractDAO {
     public void stopProject(Map<String, Object> params) {
         update("project.stopProject", params);
     }
+
+    public Map<String, Object> getPsPrepInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getPsPrepInfo", params);
+    }
+
+    public void insPsPrepInfo(Map<String, Object> params) {
+        insert("project.insPsPrepInfo", params);
+    }
+
+    public void updPsPrepInfo(Map<String, Object> psPrepMap) {
+        update("project.updPsPrepInfo", psPrepMap);
+    }
+
+
+    public List<Map<String, Object>> getPsFile1(Map<String, Object> params) {
+        return selectList("project.getPsFile1", params);
+    }
+
+    public List<Map<String, Object>> getPsFile2(Map<String, Object> params) {
+        return selectList("project.getPsFile2", params);
+    }
+
+    public List<Map<String, Object>> getPsFile3(Map<String, Object> params) {
+        return selectList("project.getPsFile3", params);
+    }
 }

@@ -1,8 +1,10 @@
 var fCommon = {
 
     global : {
-        attFiles : new Array()
-
+        attFiles : new Array(),
+        attFiles1 : new Array(),
+        attFiles2 : new Array(),
+        attFiles3 : new Array(),
     },
 
     addFileInfoTable : function(){

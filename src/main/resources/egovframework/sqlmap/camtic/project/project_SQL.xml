@@ -716,9 +716,49 @@
         SELECT
             *
         FROM
-            CAM_PJT_MNG.DJ_PJT_PS
+            CAM_PJT_MNG.DJ_PJT_PS A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PS_FILE B
+        ON
+            A.PJT_SN = B.PJT_SN
         WHERE
-            PJT_SN = #{pjtSn}
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getPsFile1" parameterType="map" resultType="map">
+        /*getPsFile1*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = "engnPsFile1"
+        AND
+            CONTENT_ID = #{psFileSn}
+    </select>
+
+    <select id="getPsFile2" parameterType="map" resultType="map">
+        /*getPsFile2*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = "engnPsFile2"
+          AND
+            CONTENT_ID = #{psFileSn}
+    </select>
+
+    <select id="getPsFile3" parameterType="map" resultType="map">
+        /*getPsFile3*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = "engnPsFile3"
+          AND
+            CONTENT_ID = #{psFileSn}
     </select>
 
     <update id="updStep5" parameterType="map">
@@ -1024,4 +1064,47 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <select id="getPsPrepInfo" parameterType="map" resultType="map">
+        /*getPsPrepInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS_FILE
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insPsPrepInfo" parameterType="map">
+        /*insPsPrepInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PS_FILE
+            (
+                PJT_SN,
+                FILE_ETC1,
+                FILE_ETC2,
+                FILE_ETC3
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{fileEtc1},
+                #{fileEtc2},
+                #{fileEtc3}
+            )
+
+        <selectKey keyProperty="psFileSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS_FILE'
+        </selectKey>
+    </insert>
+
+    <insert id="updPsPrepInfo" parameterType="map">
+        /*updPsPrepInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS_FILE
+        SET
+            FILE_ETC1 = #{fileEtc1},
+            FILE_ETC2 = #{fileEtc2},
+            FILE_ETC3 = #{fileEtc3}
+        WHERE
+            PS_FILE_SN = #{psFileSn}
+    </insert>
 </mapper>

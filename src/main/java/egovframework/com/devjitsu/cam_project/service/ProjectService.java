@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_project.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -103,4 +104,8 @@ public interface ProjectService {
     Map<String, Object> getDevData(Map<String, Object> params);
 
     void stopProject(Map<String, Object> params);
+
+    void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, String serverDir, String baseDir);
+
+    Map<String, Object> getPsFile(Map<String, Object> params);
 }

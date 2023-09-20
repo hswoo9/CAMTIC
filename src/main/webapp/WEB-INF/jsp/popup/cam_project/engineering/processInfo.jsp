@@ -27,10 +27,10 @@
 <input type="hidden" id="nextStepValue" value="R" />
 
 <div style="padding: 10px">
+    <div id="btnDiv">
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="processInfo.fn_save()">저장</button>
+    </div>
     <div class="table-responsive">
-        <div id="btnDiv">
-            <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="devInfo.fn_save()">저장</button>--%>
-        </div>
         <div id="commFileHtml1" style="margin-top:10px; display: none">
             <form style="padding: 0px 30px;">
                 <div class="card-header" style="padding: 5px;">
@@ -67,6 +67,8 @@
                         </tr>
                         </tbody>
                     </table>
+
+                    <textarea id="file1Etc" style="margin-top:5px;"></textarea>
                 </div>
             </form>
         </div>
@@ -107,6 +109,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    <textarea id="file2Etc" style="margin-top:5px;"></textarea>
                 </div>
             </form>
         </div>
@@ -147,6 +150,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    <textarea id="file3Etc" style="margin-top:5px;"></textarea>
                 </div>
             </form>
         </div>
@@ -156,29 +160,81 @@
 <script>
     processInfo.fn_defaultScript();
     function addFileInfoTable(idx){
-        fCommon.global.attFiles = new Array();
-        for(var i = 0; i < $("input[name='fileList"+idx+"']")[0].files.length; i++){
-            fCommon.global.attFiles.push($("input[name='fileList"+idx+"']")[0].files[i]);
-        }
-
-        if(fCommon.global.attFiles.length > 0){
-            $("#fileGrid" + idx).find(".defultTr").remove();
-            $("#fileGrid" + idx).find(".addFile").remove();
-
-            var html = '';
-            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
-                html += '<tr style="text-align: center" class="addFile">';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
-                html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
-                html += '   </td>';
-                html += '</tr>';
+        if(idx == 1){
+            fCommon.global.attFiles1 = new Array();
+            for(var i = 0; i < $("input[name='fileList"+idx+"']")[0].files.length; i++){
+                fCommon.global.attFiles1.push($("input[name='fileList"+idx+"']")[0].files[i]);
             }
 
-            $("#fileGrid" + idx).append(html);
+            if(fCommon.global.attFiles1.length > 0){
+                $("#fileGrid" + idx).find(".defultTr").remove();
+                $("#fileGrid" + idx).find(".addFile").remove();
+
+                var html = '';
+                for (var i = 0; i < fCommon.global.attFiles1.length; i++) {
+                    html += '<tr style="text-align: center" class="addFile">';
+                    html += '   <td>' + fCommon.global.attFiles1[i].name.split(".")[0] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles1[i].name.split(".")[1] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles1[i].size + '</td>';
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+
+                $("#fileGrid" + idx).append(html);
+            }
+        } else if(idx == 2){
+            fCommon.global.attFiles2 = new Array();
+            for(var i = 0; i < $("input[name='fileList"+idx+"']")[0].files.length; i++){
+                fCommon.global.attFiles2.push($("input[name='fileList"+idx+"']")[0].files[i]);
+            }
+
+            if(fCommon.global.attFiles2.length > 0){
+                $("#fileGrid" + idx).find(".defultTr").remove();
+                $("#fileGrid" + idx).find(".addFile").remove();
+
+                var html = '';
+                for (var i = 0; i < fCommon.global.attFiles2.length; i++) {
+                    html += '<tr style="text-align: center" class="addFile">';
+                    html += '   <td>' + fCommon.global.attFiles2[i].name.split(".")[0] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles2[i].name.split(".")[1] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles2[i].size + '</td>';
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+
+                $("#fileGrid" + idx).append(html);
+            }
+        } else if(idx == 3){
+            fCommon.global.attFiles3 = new Array();
+            for(var i = 0; i < $("input[name='fileList"+idx+"']")[0].files.length; i++){
+                fCommon.global.attFiles3.push($("input[name='fileList"+idx+"']")[0].files[i]);
+            }
+
+            if(fCommon.global.attFiles3.length > 0){
+                $("#fileGrid" + idx).find(".defultTr").remove();
+                $("#fileGrid" + idx).find(".addFile").remove();
+
+                var html = '';
+                for (var i = 0; i < fCommon.global.attFiles3.length; i++) {
+                    html += '<tr style="text-align: center" class="addFile">';
+                    html += '   <td>' + fCommon.global.attFiles3[i].name.split(".")[0] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles3[i].name.split(".")[1] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles3[i].size + '</td>';
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+
+                $("#fileGrid" + idx).append(html);
+            }
         }
+
+
     }
 </script>
 </body>

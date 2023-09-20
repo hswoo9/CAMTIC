@@ -357,6 +357,13 @@
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </delete>
 
+    <delete id="delBustripExnpTarget" parameterType="map">
+        DELETE FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </delete>
+
     <select id="getBustripReqCheck" parameterType="map" resultType="map">
         /* getBustripReqCheck */
         SELECT
@@ -685,7 +692,6 @@
                 START_DT,
                 END_DT,
                 TRIP_CODE,
-                TRIP_TEXT,
                 EXNP_CODE,
                 EXNP_TEXT,
                 COST_AMT,
@@ -698,7 +704,6 @@
                 #{startDt},
                 #{endDt},
                 #{tripCode},
-                #{tripText},
                 #{exnpCode},
                 #{exnpText},
                 #{costAmt},

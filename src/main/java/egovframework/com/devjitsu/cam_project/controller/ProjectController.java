@@ -322,6 +322,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setProcessInfo")
+    public String setProcessInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        MultipartFile[] fileList1 = request.getFiles("fileList1").toArray(new MultipartFile[0]);
+        MultipartFile[] fileList2 = request.getFiles("fileList2").toArray(new MultipartFile[0]);
+        MultipartFile[] fileList3 = request.getFiles("fileList3").toArray(new MultipartFile[0]);
+
+        projectService.setProcessInfo(params, fileList1, fileList2, fileList3, SERVER_DIR, BASE_DIR);
+
+        return "jsonView";
+    }
+
 
     @RequestMapping("/project/insStep3")
     public String insStep3(@RequestParam Map<String, Object> params, Model model){
@@ -488,9 +499,9 @@ public class ProjectController {
     @RequestMapping("/project/getPsList")
     public String getPsList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> psList = projectService.getPsList(params);
-
+        Map<String, Object> psFile = projectService.getPsFile(params);
         model.addAttribute("psList", psList);
-
+        model.addAttribute("psFileList", psFile);
         return "jsonView";
     }
 
