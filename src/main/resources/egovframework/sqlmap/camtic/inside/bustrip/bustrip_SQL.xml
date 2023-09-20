@@ -298,8 +298,19 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
-        AND CONTENT_ID = #{hrBizReqResultId}
+            CONTENT_ID = #{hrBizReqId}
+        AND
+            FILE_CD = #{fileCd}
+    </select>
+
+    <select id="getBustripReqFileInfoR" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+                FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+          AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
     <update id="updBustripReq" parameterType="map">

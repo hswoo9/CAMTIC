@@ -112,6 +112,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getBustripReqFileInfoR(Map<String, Object> params) {
+        return bustripRepository.getBustripReqFileInfoR(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
         return bustripRepository.getBustripExnpInfo(params);
     }
