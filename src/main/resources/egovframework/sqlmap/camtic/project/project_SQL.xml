@@ -400,6 +400,33 @@
             PJT_SN = #{pjtSn} ORDER BY DELV_SN DESC LIMIT 1
     </select>
 
+    <select id="getDelvFile" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{DELV_FILE_SN}
+    </select>
+
+    <select id="getDevFile" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{DEV_FILE_SN}
+    </select>
+
+    <select id="getEstFile" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{EST_FILE_SN}
+    </select>
+
     <select id="groupCodeList" parameterType="map" resultType="map">
         SELECT
             *
@@ -1067,6 +1094,7 @@
             CAM_PJT_MNG.DJ_PJT_DEV
         WHERE
             PJT_SN = #{pjtSn}
+        ORDER BY DEV_SN DESC LIMIT 1
     </select>
 
     <update id="stopProject" parameterType="map">
@@ -1224,4 +1252,31 @@
         WHERE
             FILE_NO = #{PROD_FILE_SN}
     </select>
+
+    <update id="updDelvFile" parameterType="map">
+        /*updDelvFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DELV
+        SET
+            DELV_FILE_SN = #{file_no}
+        WHERE
+            DELV_SN = #{delvSn}
+    </update>
+
+    <update id="updDevFile" parameterType="map">
+        /*updDevFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            DEV_FILE_SN = #{file_no}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
+
+    <update id="updDevEstFile" parameterType="map">
+        /*updDevEstFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            EST_FILE_SN = #{file_no}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
 </mapper>
