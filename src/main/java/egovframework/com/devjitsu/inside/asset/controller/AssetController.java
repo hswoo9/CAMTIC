@@ -943,6 +943,14 @@ public class AssetController {
         return "jsonView";
     }
 
+    //장비사용 마감
+    @RequestMapping("/asset/setEquipmenUseEndStat")
+    public String setEquipmenUseEndStat(@RequestParam(value = "eqmnUsePk[]") List<String> eqmnUsePk, Model model){
+        model.addAttribute("rs", assetService.setEquipmenUseEndStat(eqmnUsePk));
+        return "jsonView";
+    }
+
+
     //장비관리 (관리자) 결재창
     @RequestMapping("/Inside/pop/equipAppPop.do")
     public String equipAppPop(HttpServletRequest request, Model model) {

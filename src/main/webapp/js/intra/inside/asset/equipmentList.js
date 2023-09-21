@@ -198,6 +198,14 @@ var equipmentList = {
                 }, {
                     field: "PRTPCO_GBN_NAME",
                     title: "업체구분"
+                },{
+                    //나중에 필드 바꿔야 함
+                    field: "END_STAT",
+                    title: "마감상태",
+                    template: function (dataItem) {
+                        // END_STAT 값이 "Y"인 경우 "마감완료", 그 외의 경우 "-"
+                        return dataItem.END_STAT === "Y" ? "마감완료" : "-";
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -205,11 +213,24 @@ var equipmentList = {
         //장비사용 목록 리스트 더블 클릭시 수정 팝업창
         $("#mainGrid").on("dblclick", "tr.k-state-selected", function (e) {
             var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
+
+            var columnValue = selectedItem.END_STAT; //<나중에 마감관련 컬럼으로 교체
+            console.log(columnValue);
+
             console.log(selectedItem);
-            console.log(selectedItem.EQIPMN_USE_SN);
+            console.log(selectedItem.END_STAT);
             /*equipmentList.equipmentUsePopup(123);*/
+
+            if(columnValue !== "Y") {
+
             //pk
             equipmentList.equipmentUseUpdatePop(selectedItem.EQIPMN_USE_SN);
+
+
+            }else{
+            alert("마감 완료된 정보는 수정할 수 없습니다.");
+            }
+
 
 /*            $("#eqipmnGbnName").val(selectedItem.EQIPMN_GBN_NAME);
             $("#eqipmnGbnCmmnCdSn").val(selectedItem.EQIPMN_GBN_CMMN_CD_SN);*/
