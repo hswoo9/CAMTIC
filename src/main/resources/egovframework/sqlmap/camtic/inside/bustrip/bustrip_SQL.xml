@@ -887,7 +887,7 @@
         SET
             PJT_SN = NULL
         WHERE
-            PJT_SN = #{pjtSn}
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
     <update id="updBustPjtSn" parameterType="map">

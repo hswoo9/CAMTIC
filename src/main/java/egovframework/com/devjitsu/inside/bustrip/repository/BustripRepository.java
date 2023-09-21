@@ -208,4 +208,8 @@ public class BustripRepository extends AbstractDAO {
     public void updBustripResCompanion(Map<String, Object> params) {
         update("bustrip.updBustripResCompanion", params);
     }
+
+    public void delPjtBustrip(Map<String, Object> params) {
+        delete("bustrip.updBustPjtsnReset", params);
+    }
 }
