@@ -190,7 +190,7 @@ public class CrmController {
     }
 
     /**
-     * 고객 산업분야 조회
+     * 고객 인증정보 조회
      * @param params
      * @param model
      * @return
@@ -202,7 +202,7 @@ public class CrmController {
     }
 
     /**
-     * 고객 산업분야 저장/수정
+     * 고객 인증정보 저장/수정
      * @param params
      * @param model
      * @return
@@ -210,6 +210,29 @@ public class CrmController {
     @RequestMapping("/crm/setCrmCert.do")
     public String setCrmCert(@RequestParam Map<String, Object> params, Model model){
         crmService.setCrmCert(params);
+        return "jsonView";
+    }
+
+    /**
+     * 고객 회계정보 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmAccounting.do")
+    public String getCrmAccounting(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmAccounting(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객 회계정보 저장/수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/crm/setCrmAccounting.do")
+    public String setCrmAccounting(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request){
+        crmService.setCrmAccounting(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
