@@ -103,7 +103,7 @@
         </foreach>
     </insert>
 
-<!--    <select id="getBoardCategoryList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage" resultType="map">
+    <select id="getBoardCategoryList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage" resultType="map">
         SELECT
             BC.BOARD_CATEGORY_ID,
             BC.BOARD_CATEGORY_NAME,
@@ -116,7 +116,7 @@
             ON BC.REG_EMP_SEQ = EI.EMP_SEQ
         WHERE
             BC.BOARD_ID = #{boardId}
-    </select>-->
+    </select>
 
     <select id="getBoardType" parameterType="map" resultType="map">
         /* getBoardType */

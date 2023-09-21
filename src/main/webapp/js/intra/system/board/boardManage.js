@@ -92,6 +92,7 @@ var boardMa = {
 	mainGrid : function(url, params){
 		var mainGrid = $("#mainGrid").kendoGrid({
 			dataSource: customKendo.fn_gridDataSource2(url, params, 10),
+			width: 531,
 			height: 590,
 			sortable: true,
 			scrollable: true,
@@ -111,6 +112,7 @@ var boardMa = {
 				}, {
 					field: "BOARD_NAME",
 					title: "게시판명",
+					width: 200,
 					attributes : {
 						style : "text-align : left;"
 					}

@@ -207,6 +207,12 @@
                             <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
                         </jsp:include>
                     </div>
+                    <div>
+                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmAccounting.jsp" flush="true">
+                            <jsp:param name="crmSn" value="${params.crmSn}"/>
+                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
+                        </jsp:include>
+                    </div>
                 </div>
             </div>
         </div>

@@ -21,6 +21,8 @@ public interface CrmService {
     void setCrmIndustry(Map<String, Object> params);
     Map<String, Object> getCrmCert(Map<String, Object> params);
     void setCrmCert(Map<String, Object> params);
+    Map<String, Object> getCrmAccounting(Map<String, Object> params);
+    void setCrmAccounting(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     List<Map<String, Object>> getCrmHistList(Map<String, Object> params);
     Map<String, Object> getRegCrmHist(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);

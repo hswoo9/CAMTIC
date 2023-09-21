@@ -33,6 +33,10 @@ public class CrmRepository extends AbstractDAO {
     public Map<String, Object> getCrmCert(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmCert", params);}
     public void setCrmCert(Map<String, Object> params) {insert("crm.setCrmCert", params);}
     public void setCrmCertUpd(Map<String, Object> params) {insert("crm.setCrmCertUpd", params);}
+    public Map<String, Object> getCrmAccounting(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmAccounting", params);}
+    public void setCrmAccounting(Map<String, Object> params) {insert("crm.setCrmAccounting", params);}
+    public void setCrmAccountingUpd(Map<String, Object> params) {insert("crm.setCrmAccountingUpd", params);}
+    public void setCrmAccountingFileUpd(Map<String, Object> params) {insert("crm.setCrmAccountingFileUpd", params);}
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {return selectList("crm.getCrmHistList", params);}
     public void setCrmHistDel(Map<String, Object> params) {delete("crm.setCrmHistDel", params);}
     public Map<String, Object> getRegCrmHist(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getRegCrmHist", params);}

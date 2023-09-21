@@ -23,7 +23,7 @@
 			<div style="margin-bottom:10px;">
 				<table>
 					<colgroup>
-						<col width="20%">
+						<col width="40%">
 					</colgroup>
 					<tbody>
 					<tr>
@@ -36,7 +36,7 @@
 								</ul>
 								<div id="gridForm2" style="height:670px;overflow: auto;border: 1px solid #dedfdf;">
 									<input type="text" id="searchColumn" name="searchColumn" style="width: 25%;" />
-									<input type="text" id="searchContent" style="width: 56%;" onkeypress="if(window.event.keyCode==13){boardMa.gridReload()}">
+									<input type="text" id="searchContent" style="width: 64%;" onkeypress="if(window.event.keyCode==13){boardMa.gridReload()}">
 									<button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="boardMa.gridReload()">
 										<span class="k-button-text">조회</span>
 									</button>
@@ -55,7 +55,7 @@
 							</div>
 						</td>
 						<td style="vertical-align: top;">
-							<div id="boardEditorTabStrip">
+							<div id="boardEditorTabStrip" style="width:960px;">
 								<ul>
 									<li class="k-state-active">
 										게시판 등록/수정
