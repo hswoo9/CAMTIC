@@ -666,7 +666,6 @@
             PS_NM = #{psNm},
             PS_STR_DE = #{psStrDe},
             PS_END_DE = #{psEndDe},
-            PS_EMP_SEQ = #{psEmpSeq},
             PS_EMP_NM = #{psEmpNm}
         WHERE
             PS_SN = #{psSn}

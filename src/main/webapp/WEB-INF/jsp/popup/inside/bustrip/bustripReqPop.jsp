@@ -97,6 +97,7 @@
                 <td colspan="3">
                     <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
                     <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
+                    <button type="button" class="k-button k-button-solid-base" id="test" disabled>외부인력 추가</button>
                     <div id="companionList">
                         <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
                         <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
@@ -143,7 +144,7 @@
                 <th><span class="red-star">*</span>차량</th>
                 <td colspan="3">
                     <input id="carList" style="width: 180px;">
-                    <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.test()"/><br>
+                    <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.carViewPop()"/><br>
                 </td>
             </tr>
             <tr>

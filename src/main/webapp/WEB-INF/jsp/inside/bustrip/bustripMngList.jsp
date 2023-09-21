@@ -28,8 +28,6 @@
                         <col width="">
                         <col width="">
                         <col width="">
-                        <col width="">
-                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
@@ -54,10 +52,6 @@
                         <th class="text-center th-color">사업명</th>
                         <td>
                             <input type="text" id="busnName" style="width: 110px;">
-                        </td>
-                        <th class="text-center th-color">입금상태</th>
-                        <td>
-                            <input type="text" id="depositStat" style="width: 90%;">
                         </td>
                     </tr>
                 </table>

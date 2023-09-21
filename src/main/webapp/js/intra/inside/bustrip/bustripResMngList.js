@@ -20,6 +20,9 @@ var bustripResMngList = {
         /** 입금상태 */
         bustrip.fn_depositStatSearchSet();
 
+        /** 관련사업 */
+        bustrip.fn_projectSearchSet();
+
         customKendo.fn_textBox(["busnName"]);
     },
 
@@ -88,7 +91,7 @@ var bustripResMngList = {
                     }
                 }, {
                     title: "사업명",
-                    width: 200,
+                    width: 140,
                     template : function(row){
                         var busnName = "";
                         var project = "";
@@ -143,7 +146,31 @@ var bustripResMngList = {
                             return "사용안함";
                         }
                     },
-                    width: 100
+                    width: 80
+                }, {
+                    title: "운행거리",
+                    template: function(row){
+                        if(row.MOVE_DST == null){
+                            return "-";
+                        }
+                        return row.MOVE_DST+" km";
+                    },
+                    width: 50
+                }, {
+                    title: "여비",
+                    template: function(row){
+                        if(row.TOT_COST == null || row.TOT_COST == 0){
+                            return "-";
+                        }
+                        return fn_numberWithCommas(row.TOT_COST)+" 원";
+                    },
+                    width: 70
+                }, {
+                    title: "입금예정",
+                    template: function(row){
+                        return "-";
+                    },
+                    width: 50
                 }, {
                     title: "여비정산",
                     template : function(row){

@@ -298,8 +298,19 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
-        AND CONTENT_ID = #{hrBizReqResultId}
+            CONTENT_ID = #{hrBizReqId}
+        AND
+            FILE_CD = #{fileCd}
+    </select>
+
+    <select id="getBustripReqFileInfoR" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+                FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+          AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
     <update id="updBustripReq" parameterType="map">
@@ -358,17 +369,17 @@
 
     <delete id="delBustripExnpTarget" parameterType="map">
         DELETE FROM
-            CAM_COMMON.DJ_FILE_INFO
+            CAM_INSIDE.DJ_HR_BIZ_EXNP
         WHERE
-            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
-        AND CONTENT_ID = IFNULL(#{hrBizReqResultId}, '')
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </delete>
 
     <delete id="delBustripExnpFile" parameterType="map">
         DELETE FROM
-            CAM_INSIDE.DJ_HR_BIZ_EXNP
+            CAM_COMMON.DJ_FILE_INFO
         WHERE
-            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+                FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+          AND CONTENT_ID = IFNULL(#{hrBizReqResultId}, '')
     </delete>
 
     <select id="getBustripReqCheck" parameterType="map" resultType="map">
@@ -381,7 +392,9 @@
             B.SAVE_YN,
             B.DOC_ID AS RES_DOC_ID,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            B.MOVE_DST,
+            IFNULL((SELECT SUM(REPLACE(SB.TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_EXNP SB WHERE B.HR_BIZ_REQ_RESULT_ID = SB.HR_BIZ_REQ_RESULT_ID), 0) AS TOT_COST
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
         LEFT JOIN
@@ -701,6 +714,8 @@
                 TRIP_CODE,
                 EXNP_CODE,
                 EXNP_TEXT,
+                EXNP_DETAIL_CODE,
+                EXNP_DETAIL_TEXT,
                 COST_AMT,
                 REMARK_CN,
                 REG_EMP_SEQ,
@@ -713,6 +728,8 @@
                 #{tripCode},
                 #{exnpCode},
                 #{exnpText},
+                #{exnpDetailCode},
+                #{exnpDetailText},
                 #{costAmt},
                 #{remarkCn},
                 #{regEmpSeq},

@@ -488,7 +488,7 @@ public class BustripController {
         params.put("fileCd", "bustripReq");
         params.put("hrBizReqId", map.get("HR_BIZ_REQ_ID"));
 
-        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfo(params));
+        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfoR(params));
 
 
         return "jsonView";

@@ -23,6 +23,37 @@ const costReq = {
             { text: "기타", value: "etcCost" }
         ]
         customKendo.fn_dropDownList("exnpCode", exnpCodeDataSource, "text", "value", 2);
+
+        $("#tripCode").data("kendoDropDownList").bind("change", function(){
+            if($("#tripCode").data("kendoDropDownList").value() == "3" && $("#exnpCode").data("kendoDropDownList").value() == "dayCost"){
+                $("#detailTr").show();
+                let exnpCodeDetailDataSource = [
+                    { text: "대중교통", value: "1" },
+                    { text: "자가(운행시)", value: "2" },
+                    { text: "자가(동행시)", value: "3" },
+                    { text: "법인차량", value: "4" }
+                ]
+                customKendo.fn_dropDownList("exnpDetailCode", exnpCodeDetailDataSource, "text", "value", 2);
+            }else{
+                $("#detailTr").hide();
+            }
+        })
+
+        $("#exnpCode").data("kendoDropDownList").bind("change", function(){
+            if($("#tripCode").data("kendoDropDownList").value() == "3" && $("#exnpCode").data("kendoDropDownList").value() == "dayCost"){
+                $("#detailTr").show();
+                let exnpCodeDetailDataSource = [
+                    { text: "대중교통", value: "1" },
+                    { text: "자가(운행시)", value: "2" },
+                    { text: "자가(동행시)", value: "3" },
+                    { text: "법인차량", value: "4" }
+                ]
+                customKendo.fn_dropDownList("exnpDetailCode", exnpCodeDetailDataSource, "text", "value", 2);
+            }else{
+                $("#detailTr").hide();
+            }
+        })
+
         customKendo.fn_textBox(["costAmt"]);
         customKendo.fn_textArea(["remarkCn"]);
     },
@@ -30,9 +61,14 @@ const costReq = {
     saveBtn: function(){
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
-        let tripCode = $("#tripCode").data("kendoRadioGroup").value();
+        let tripCode = $("#tripCode").data("kendoDropDownList").value();
         let exnpCode = $("#exnpCode").val();
         let exnpText = $("#exnpCode").data("kendoDropDownList").text();
+        let exnpDetailCode = $("#exnpDetailCode").val();
+        let exnpDetailText = "";
+        if(exnpCode == "dayCost"){
+            exnpDetailText = $("#exnpDetailCode").data("kendoDropDownList").text();
+        }
         let costAmt = $("#costAmt").val();
         let remarkCn = $("#remarkCn").val();
         let regEmpSeq = $("#regEmpSeq").val();
@@ -44,6 +80,8 @@ const costReq = {
             tripCode: tripCode,
             exnpCode: exnpCode,
             exnpText: exnpText,
+            exnpDetailCode: exnpDetailCode,
+            exnpDetailText: exnpDetailText,
             costAmt: costAmt,
             remarkCn: remarkCn,
             regEmpSeq: regEmpSeq,
@@ -54,6 +92,7 @@ const costReq = {
         if(tripCode == "") { alert("출장구분이 선택되지 않았습니다."); return; }
         if(exnpCode == "") { alert("여비 종류가 선택되지 않았습니다."); return; }
         if(costAmt == "") { alert("금액을 작성하지 않았습니다."); return; }
+        if(exnpCode == "dayCost" && exnpDetailCode == "") { alert("세부항목이 선택되지 않았습니다."); return; }
 
         if($("#hrCostInfoSn").val() == "") {
             if(!confirm("여비를 등록하시겠습니까?")){

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="camsBoard">
+    <select id="getRecentBoardArticleList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getRecentBoardArticleList */
+        SELECT
+            BA.BOARD_ARTICLE_ID,
+            CASE WHEN BC.BOARD_CATEGORY_NAME IS NULL THEN BA.BOARD_ARTICLE_TITLE
+            ELSE CONCAT('[', BC.BOARD_CATEGORY_NAME,'] ', BA.BOARD_ARTICLE_TITLE)
+            END AS BOARD_ARTICLE_TITLE,
+            CASE WHEN B.ANONYMOUS_ACTIVE = 'N' THEN REGEXP_REPLACE(BA.REG_EMP_NAME, '[가-힣]', '*')
+                ELSE BA.REG_EMP_NAME
+            END AS REG_EMP_NAME,
+            DATE_FORMAT(BA.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            BA.BOARD_ARTICLE_VIEW_COUNT,
+            BA.BOARD_ARTICLE_GROUP,
+            BA.BOARD_ARTICLE_LEVEL,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            BA.PUBLIC_YN,
+            BA.PRIVATE_PASS_WORD,
+            (SELECT IF(COUNT(*) > 0, 'Y', 'N') FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS FILE_YN
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        JOIN
+            CAM_BOARD.DJ_BOARD B
+        ON BA.BOARD_ID = B.BOARD_ID
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
+        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
+        LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
+        WHERE
+            BA.ACTIVE = 'Y'
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+            AND
+                BA.BOARD_CATEGORY_ID = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+        AND
+            BA.REG_DATE > date_add(NOW(), INTERVAL -7 DAY)
+
+        ORDER BY BA.REG_DATE DESC, BA.BOARD_ARTICLE_GROUP DESC, BA.BOARD_ARTICLE_ID ASC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getRecentBoardArticleListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getRecentBoardArticleListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        JOIN
+            CAM_BOARD.DJ_BOARD B
+        ON BA.BOARD_ID = B.BOARD_ID
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
+        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
+        LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
+        WHERE
+            BA.ACTIVE = 'Y'
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+        AND
+            BA.BOARD_CATEGORY_ID = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+        AND
+            BA.REG_DATE > date_add(NOW(), INTERVAL -7 DAY)
+
+        ORDER BY BA.REG_DATE DESC, BA.BOARD_ARTICLE_GROUP DESC, BA.BOARD_ARTICLE_ID ASC
+    </select>
+
+    <select id="getBoardInfo" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage" resultType="map">
+        /* getBoardInfo */
+        SELECT
+            BOARD_ID,
+            ANONYMOUS_ACTIVE,
+            WRITER_AUTHORITY_ACTIVE,
+            WRITER_AUTHORITY_GROUP_ID,
+            WRITER_TYPE,
+            BOARD_CATEGORY_ACTIVE
+        FROM
+            CAM_BOARD.DJ_BOARD
+        WHERE
+            BOARD_ID = #{boardId}
+    </select>
+
+    <select id="getBoardArticleList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getBoardArticleList */
+        SELECT
+            BA.BOARD_ARTICLE_ID,
+            CASE WHEN BC.BOARD_CATEGORY_NAME IS NULL THEN BA.BOARD_ARTICLE_TITLE
+            ELSE CONCAT('[', BC.BOARD_CATEGORY_NAME,'] ', BA.BOARD_ARTICLE_TITLE)
+            END AS BOARD_ARTICLE_TITLE,
+            <choose>
+                <when test='anonymousActive != null and "N".equals(anonymousActive)'>
+                    REGEXP_REPLACE(BA.REG_EMP_NAME, '[가-힣]', '*') AS REG_EMP_NAME,
+                </when>
+                <otherwise>
+                    BA.REG_EMP_NAME,
+                </otherwise>
+            </choose>
+            DATE_FORMAT(BA.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            BA.BOARD_ARTICLE_VIEW_COUNT,
+            BA.BOARD_ARTICLE_GROUP,
+            BA.BOARD_ARTICLE_LEVEL,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            BA.PUBLIC_YN,
+            BA.PRIVATE_PASS_WORD,
+            (SELECT IF(COUNT(*) > 0, 'Y', 'N') FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS FILE_YN
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
+        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
+        LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
+        WHERE
+            BA.BOARD_ID = #{boardId}
+        AND
+            BA.ACTIVE = 'Y'
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+        AND
+            BA.BOARD_CATEGORY_ID = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND
+                    (
+                        BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                        BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                    )
+            </otherwise>
+        </choose>
+
+        ORDER BY BA.REG_DATE DESC, BA.BOARD_ARTICLE_GROUP DESC, BA.BOARD_ARTICLE_ID ASC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getBoardArticleListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getBoardArticleListCnt */
+        SELECT
+            count(*)
+        FROM
+        CAM_BOARD.DJ_BOARD_ARTICLE BA
+        LEFT JOIN
+        CAM_BOARD.DJ_BOARD_CATEGORY BC
+        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
+        LEFT JOIN
+        DJ_CAMTIC.V_EMP_INFO EI
+        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
+        WHERE
+        BA.BOARD_ID = #{boardId}
+        AND
+        BA.ACTIVE = 'Y'
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+            AND
+            BA.BOARD_CATEGORY_ID = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+
+        ORDER BY BA.BOARD_ARTICLE_GROUP DESC, BA.BOARD_ARTICLE_ID ASC
+    </select>
+
+    <update id="setBoardArticleViewCount" parameterType="map">
+        UPDATE
+            CAM_BOARD.DJ_BOARD_ARTICLE
+        SET
+            BOARD_ARTICLE_VIEW_COUNT = (BOARD_ARTICLE_VIEW_COUNT + 1)
+        WHERE
+            BOARD_ARTICLE_ID = #{boardArticleId}
+    </update>
+
+    <select id="getBoardArticleMaxGroup" parameterType="map" resultType="int">
+        SELECT
+            IFNULL(MAX(BA.BOARD_ARTICLE_GROUP), 0) + 1
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+    </select>
+
+    <select id="getBoardArticleMaxLevel" parameterType="map" resultType="int">
+        SELECT
+            IFNULL(MAX(BA.BOARD_ARTICLE_LEVEL), 0) + 1
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        WHERE
+            BOARD_ARTICLE_GROUP = #{boardArticleGroup}
+    </select>
+
+    <insert id="setBoardArticle" parameterType="map">
+        INSERT INTO
+            CAM_BOARD.DJ_BOARD_ARTICLE
+            (
+                BOARD_ID,
+                BOARD_CATEGORY_ID,
+                BOARD_ARTICLE_TITLE,
+                BOARD_ARTICLE_CONTENT,
+                BOARD_ARTICLE_VIEW_COUNT,
+                BOARD_ARTICLE_GROUP,
+                BOARD_ARTICLE_LEVEL,
+                <if test='boardArticleOriginId != null and !"".equals(boardArticleOriginId)'>
+                    BOARD_ARTICLE_ORIGIN_ID,
+                </if>
+                <if test='boardArticleMngSeq != null and !"".equals(boardArticleMngSeq)'>
+                    BOARD_ARTICLE_MNG_SEQ,
+                </if>
+                PUBLIC_YN,
+                PRIVATE_PASS_WORD,
+                REG_EMP_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{boardId},
+                #{boardCategoryId},
+                #{boardArticleTitle},
+                #{boardArticleContent},
+                0,
+                #{boardArticleGroup},
+                #{boardArticleLevel},
+                <if test='boardArticleOriginId != null and !"".equals(boardArticleOriginId)'>
+                #{boardArticleOriginId},
+                </if>
+                <if test='boardArticleMngSeq != null and !"".equals(boardArticleMngSeq)'>
+                #{boardArticleMngSeq},
+                </if>
+                #{publicYn},
+                #{privatePassWord},
+                #{empName},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_BOARD_ARTICLE'
+        </selectKey>
+    </insert>
+
+    <update id="setBoardArticleUpd" parameterType="map">
+        UPDATE
+            CAM_BOARD.DJ_BOARD_ARTICLE
+        SET
+            BOARD_CATEGORY_ID = #{boardCategoryId},
+            BOARD_ARTICLE_TITLE = #{boardArticleTitle},
+            BOARD_ARTICLE_CONTENT = #{boardArticleContent},
+            PUBLIC_YN = #{publicYn},
+            PRIVATE_PASS_WORD = #{privatePassWord},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            BOARD_ARTICLE_ID = #{boardArticleId}
+    </update>
+
+    <insert id="setArticleFileInfo" parameterType="list">
+        /* setArticleFileInfo */
+        INSERT INTO CAM_BOARD.DJ_BOARD_ARTICLE_FILE
+            (
+                BOARD_ARTICLE_ID,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                REG_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.boardArticleId},
+                #{item.fileUUID},
+                #{item.fileOrgName},
+                #{item.filePath},
+                #{item.fileSize},
+                #{item.fileExt},
+                #{item.empSeq}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getArticleInfo" parameterType="map" resultType="map">
+        SELECT
+            BA.BOARD_ARTICLE_ID,
+            B.BOARD_ID,
+            B.REPLY_ACTIVE,
+            B.BOARD_CATEGORY_ACTIVE,
+            BC.BOARD_CATEGORY_ID,
+            CASE WHEN BC.BOARD_CATEGORY_NAME IS NULL THEN BA.BOARD_ARTICLE_TITLE
+            ELSE CONCAT('[', BC.BOARD_CATEGORY_NAME,'] ', BA.BOARD_ARTICLE_TITLE)
+            END AS BOARD_ARTICLE_CONCAT_TITLE,
+            BA.BOARD_ARTICLE_TITLE,
+            BA.BOARD_ARTICLE_CONTENT,
+            BA.BOARD_ARTICLE_VIEW_COUNT,
+            BA.BOARD_ARTICLE_GROUP,
+            BA.BOARD_ARTICLE_LEVEL,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            BA.PUBLIC_YN,
+            BA.PRIVATE_PASS_WORD,
+            BA.REG_EMP_SEQ,
+            BA.REG_EMP_NAME,
+            DATE_FORMAT(BA.REG_DATE, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        JOIN
+            CAM_BOARD.DJ_BOARD B
+        ON BA.BOARD_ID = B.BOARD_ID
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
+        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
+        LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
+        WHERE
+            BA.BOARD_ARTICLE_ID = #{boardArticleId}
+    </select>
+
+    <select id="getArticleFileList" parameterType="map" resultType="map">
+        /* getArticleFileList */
+        SELECT
+            BA.BOARD_ARTICLE_TITLE,
+            BAF.*,
+            BAF.FILE_UUID AS fileUUID,
+            CONCAT(BAF.FILE_ORG_NAME, '.', BAF.FILE_EXT) AS filename
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE_FILE BAF
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        ON BAF.BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID
+        WHERE
+            BAF.BOARD_ARTICLE_ID = #{boardArticleId}
+    </select>
+
+    <update id="setArticleDel" parameterType="map">
+        UPDATE
+            CAM_BOARD.DJ_BOARD_ARTICLE
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            BOARD_ARTICLE_ID = #{boardArticleId}
+    </update>
+
+    <select id="getArticleFileOne" parameterType="map" resultType="map">
+        /* getArticleFileOne */
+        SELECT
+            FILE_UUID AS file_uuid,
+            FILE_PATH AS file_path
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE_FILE
+        WHERE
+            FILE_NO = #{fileNo}
+    </select>
+
+    <delete id="setArticleFileDelOne" parameterType="map">
+        /* setArticleFileDelOne */
+        DELETE FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE FILE_NO = #{fileNo}
+    </delete>
+
+    <select id="getArticleReplyList" parameterType="map" resultType="map">
+        /* getArticleReplyList */
+        SELECT
+            BAR.ARTICLE_REPLY_ID,
+            BAR.BOARD_ARTICLE_ID,
+            BAR.ARTICLE_REPLY_CONTENT,
+            BAR.ARTICLE_REPLY_GROUP,
+            BAR.ARTICLE_REPLY_ORIGIN_ID,
+            BAR.ARTICLE_REPLY_LEVEL,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            BAR.ARTICLE_REPLY_PUBLIC_YN,
+            BAR.PRIVATE_PASS_WORD,
+            BAR.REG_EMP_SEQ,
+            BAR.REG_EMP_NAME,
+            DATE_FORMAT(BAR.REG_DATE, '%Y-%m-%d %H:%i:%s') AS REG_DATE
+        FROM
+            CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
+        LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+        ON BAR.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            BAR.BOARD_ARTICLE_ID = #{boardArticleId}
+        AND
+            BAR.ACTIVE = 'Y'
+        ORDER BY BAR.ARTICLE_REPLY_GROUP ASC, BAR.ARTICLE_REPLY_STEP ASC
+    </select>
+
+    <insert id="setArticleReply" parameterType="map">
+        /* setArticleReply */
+        INSERT INTO CAM_BOARD.V_BOARD_ARTICLE_REPLY
+            (
+                BOARD_ARTICLE_ID,
+                ARTICLE_REPLY_CONTENT,
+                ARTICLE_REPLY_GROUP,
+                <if test='articleReplyOriginId != null and !"".equals(articleReplyOriginId)'>
+                    ARTICLE_REPLY_ORIGIN_ID,
+                </if>
+                ARTICLE_REPLY_STEP,
+                ARTICLE_REPLY_LEVEL,
+                ARTICLE_REPLY_PUBLIC_YN,
+                PRIVATE_PASS_WORD,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{boardArticleId},
+                #{articleReplyContent},
+                #{articleReplyGroup},
+                <if test='articleReplyOriginId != null and !"".equals(articleReplyOriginId)'>
+                #{articleReplyOriginId},
+                </if>
+                #{articleReplyStep},
+                #{articleReplyLevel},
+                #{articleReplyPublicYn},
+                #{privatePassWord},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setArticleReplyUpd" parameterType="map">
+        /* setArticleReplyUpd */
+        UPDATE
+            CAM_BOARD.V_BOARD_ARTICLE_REPLY
+        SET
+            ARTICLE_REPLY_CONTENT = #{articleReplyContent},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            ARTICLE_REPLY_ID = #{articleReplyId}
+    </update>
+
+    <update id="setArticleReplyActiveUpd" parameterType="map">
+        /* setArticleReplyActiveUpd */
+        UPDATE
+            CAM_BOARD.V_BOARD_ARTICLE_REPLY
+        SET
+            ACTIVE = "N",
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            ARTICLE_REPLY_ID = #{articleReplyId}
+    </update>
+
+    <select id="getArticleReplyMaxGroup" parameterType="map" resultType="int">
+        /* getArticleReplyMaxGroup */
+        SELECT
+            IFNULL(MAX(BAR.ARTICLE_REPLY_GROUP), 0) + 1
+        FROM
+            CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
+    </select>
+
+    <select id="getArticleReplyMaxStep" parameterType="map" resultType="int">
+        /* getArticleReplyMaxStep */
+        SELECT
+            CASE WHEN A.ARTICLE_REPLY_STEP > B.ARTICLE_REPLY_STEP THEN A.ARTICLE_REPLY_STEP
+            ELSE B.ARTICLE_REPLY_STEP END ARTICLE_REPLY_STEP
+        FROM
+            (
+                SELECT
+                    IFNULL(MAX(BAR.ARTICLE_REPLY_STEP), 0) + 1 AS ARTICLE_REPLY_STEP
+                FROM CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
+                WHERE ARTICLE_REPLY_GROUP = #{articleReplyGroup} AND ARTICLE_REPLY_ID = #{articleReplyOriginId}
+            )A,
+            (
+                SELECT
+                    IFNULL(MAX(BAR.ARTICLE_REPLY_STEP), 0) + 1 AS ARTICLE_REPLY_STEP
+                FROM CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
+                WHERE ARTICLE_REPLY_GROUP = #{articleReplyGroup} AND ARTICLE_REPLY_ORIGIN_ID = #{articleReplyOriginId}
+            )B
+    </select>
+
+    <update id="setArticleReplyStepUpd" parameterType="map">
+        UPDATE
+            CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
+        SET
+            ARTICLE_REPLY_STEP = (ARTICLE_REPLY_STEP + 1)
+        WHERE
+            ARTICLE_REPLY_STEP &gt;= #{articleReplyStep}
+        AND
+            BOARD_ARTICLE_ID = #{boardArticleId}
+    </update>
+
+    <select id="getArticleReplyMaxLevel" parameterType="map" resultType="int">
+        /* getArticleReplyMaxLevel */
+        SELECT
+            IFNULL(MAX(BAR.ARTICLE_REPLY_LEVEL), 0) + 1
+        FROM
+            CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
+        WHERE
+            ARTICLE_REPLY_GROUP = #{articleReplyGroup}
+        AND
+            ARTICLE_REPLY_ID = #{articleReplyOriginId}
+    </select>
+</mapper>
