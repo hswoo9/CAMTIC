@@ -1581,7 +1581,7 @@ img {max-width:100%;}
 .__icoBox .ico {position:absolute;left:10px;top:0;width:50px;}
 .__icoBox .ico span {display:block;border:3px solid #fff;background:#41ace0;border-radius:7px;box-shadow:10px 10px 10px rgba(0,0,0,0.12);overflow:hidden;}
 /*2023-09-20*/
-.__icoBox h5 {font-size:14px;font-weight:800;color:#959595;margin-bottom:6px; margin-top: 50px;}
+.__icoBox h5 {font-size:18px;font-weight:800;color:#959595;margin-bottom:6px;}
 .__icoBox .logos {display:flex;flex-wrap:wrap;padding:1px 0 0 1px;}
 .__icoBox .logos li {border:1px solid #d7d7d7;width:calc(100% / 6 + 1px);margin:-1px 0 0 -1px;background:#fff;text-align:center;}
 
@@ -2029,9 +2029,9 @@ img {max-width:100%;}
 .__bio2 {/*border-top:2px solid #111;*/padding:55px 100px;background:#fff;/*background:#f8f8f8;*/}
 
 /*배경색 변경 통일*/
-.__bio3 {border-top:2px solid #111;padding:40px 50px 65px;background:#fff;/*background:#f8f8f8;*/}
-.__bio3 .area {display:flex;flex-wrap:wrap;gap:85px 38px;}
-.__bio3 .area .box {width:calc(100% / 3 - (76px / 3));}
+.__bio3 {padding:40px 50px 65px;background:#fff;/*background:#f8f8f8;*/}
+.__bio3 .area {display:flex;flex-wrap:wrap;gap:35px 38px; justify-content: center; align-items: center;}
+.__bio3 .area .box {width:calc(100% / 3 - (76px / 3)); text-align: center;}
 .__bio3 .area .box .img img {display:block;width:100%;}
 .__bio3 .area .box .txt {font-size:16px;line-height:1.25;margin-top:13px;color:#222;letter-spacing:-0.05em;}
 
