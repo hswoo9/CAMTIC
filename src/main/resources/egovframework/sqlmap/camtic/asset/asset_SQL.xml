@@ -1176,6 +1176,24 @@
         ORDER BY RE.REG_DT DESC
     </select>
 
+
+
+    <select id="getIPList" parameterType="map" resultType="map">
+        /* getIPList */
+        SELECT
+            III.*
+        FROM
+            CAM_INSIDE.DJ_INVENTION_INFO III
+        WHERE
+            RPR_CLASS = 2
+        AND STATUS != 100
+        <![CDATA[
+            AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') >= DATE_FORMAT(#{startDt}, '%Y-%m-%d')
+            AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') <= DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+        ]]>
+        ORDER BY INVENTION_INFO_SN DESC
+    </select>
+
     <insert id="setInventionInsert" parameterType="map">
         /* setInventionInsert */
         INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
