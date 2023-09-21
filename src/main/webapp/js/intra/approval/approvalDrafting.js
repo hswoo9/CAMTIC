@@ -1087,5 +1087,18 @@ var draft = {
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
+        if(params.menuCd == "pjtRes") {
+            data.pjtSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                pjtSn: data.pjtSn
+            });
+            console.log(result);
+            let tempArr = [];
+            tempArr[0] = result.result.designFileList;
+            tempArr[1] = result.result.prodFileList;
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
     }
 }
