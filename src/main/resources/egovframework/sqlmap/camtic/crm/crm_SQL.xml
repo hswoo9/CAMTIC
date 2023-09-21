@@ -755,4 +755,76 @@
             CRM_ACCOUNTING_SN = #{crmAccountingSn}
         </if>
     </update>
+
+    <select id="getCrmMgScale" parameterType="map" resultType="map">
+        /* getCrmMgScale */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_MG_SCALE
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
+    <insert id="setCrmMgScale" parameterType="map">
+        /* setCrmMgScale */
+        INSERT INTO CAM_CRM.DJ_CRM_MG_SCALE
+        (
+            CRM_SN,
+            MG_SCALE_YEAR,
+            ASSET,
+            LIABILITIES,
+            LIABILITIES_RATIO,
+            CAPITAL_TOTAL,
+            CAPITAL,
+            CAPITAL_RATIO,
+            SALES,
+            NET_INCOME,
+            OPERAT_PROFIT,
+            OPERAT_PROFIT_RATIO,
+            EMP_CNT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{mgScaleYear},
+            #{asset},
+            #{liabilities},
+            #{liabilitiesRatio},
+            #{capitalTotal},
+            #{capital},
+            #{capitalRatio},
+            #{sales},
+            #{netIncome},
+            #{operatProfit},
+            #{operatProfitRatio},
+            #{empCnt},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setCrmMgScaleUpd" parameterType="map">
+        /* setCrmMgScaleUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_MG_SCALE
+        SET
+            MG_SCALE_YEAR = #{mgScaleYear},
+            ASSET = #{asset},
+            LIABILITIES = #{liabilities},
+            LIABILITIES_RATIO = #{liabilitiesRatio},
+            CAPITAL_TOTAL = #{capitalTotal},
+            CAPITAL = #{capital},
+            CAPITAL_RATIO = #{capitalRatio},
+            SALES = #{sales},
+            NET_INCOME = #{netIncome},
+            OPERAT_PROFIT = #{operatProfit},
+            OPERAT_PROFIT_RATIO = #{operatProfitRatio},
+            EMP_CNT = #{empCnt},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CRM_MG_SCALE_SN = #{crmMgScaleSn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
 </mapper>

@@ -236,6 +236,30 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 고객 최근경영규모 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmMgScale.do")
+    public String getCrmMgScale(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmMgScale(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객 최근경영규모 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/setCrmMgScale.do")
+    public String setCrmMgScale(@RequestParam Map<String, Object> params, Model model){
+        crmService.setCrmMgScale(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/crmHistView.do")
     public String crmHistView(Model model, HttpServletRequest request){
 

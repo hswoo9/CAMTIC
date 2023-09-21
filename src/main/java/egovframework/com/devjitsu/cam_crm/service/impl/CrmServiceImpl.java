@@ -263,6 +263,20 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getCrmMgScale(Map<String, Object> params) {
+        return crmRepository.getCrmMgScale(params);
+    }
+
+    @Override
+    public void setCrmMgScale(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmMgScaleSn"))){
+            crmRepository.setCrmMgScale(params);
+        }else{
+            crmRepository.setCrmMgScaleUpd(params);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return crmRepository.getCrmHistList(params);
     }

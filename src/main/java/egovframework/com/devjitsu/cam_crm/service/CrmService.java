@@ -23,6 +23,8 @@ public interface CrmService {
     void setCrmCert(Map<String, Object> params);
     Map<String, Object> getCrmAccounting(Map<String, Object> params);
     void setCrmAccounting(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+    Map<String, Object> getCrmMgScale(Map<String, Object> params);
+    void setCrmMgScale(Map<String, Object> params);
     List<Map<String, Object>> getCrmHistList(Map<String, Object> params);
     Map<String, Object> getRegCrmHist(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);
