@@ -359,6 +359,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public List<Map<String, Object>> getIPList(Map<String, Object> params) {
+        return assetRepository.getIPList(params);
+    }
+
+    @Override
     public void setInventionInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
         Gson gson = new Gson();
         List<Map<String, Object>> share = gson.fromJson((String) params.get("shareUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());

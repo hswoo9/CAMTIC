@@ -738,6 +738,15 @@ public class AssetController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    /** 포상급 지급 신청서 - 접수가능한 지식재산권 리스트 */
+    @RequestMapping("/inside/getIPList")
+    public String getIPList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = assetService.getIPList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //캠도큐먼트 - 직무발명신고서 신청폼 등록
     @RequestMapping("/inside/setInventionInsert")
     public String setInventionInsert(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {

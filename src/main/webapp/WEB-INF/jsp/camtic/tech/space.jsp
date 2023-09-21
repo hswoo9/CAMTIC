@@ -71,7 +71,7 @@
             <div class="__fz18 __black __mt0">
               인공위성, 안테나등 우주산업에 필요한 조립/시험 장비의 설계/해석/제작/시험
             </div>
-            <div class="__fz14 __black __mt5 fws">
+            <div class="__fz18 __black __mt5 fws">
               -  Lifting Device : 부품/위성체 이동 및 현수를 위한 장비<br>
               -  Adapter : 타 장비와 조립/호환성 확보<br>
               -  Platform : 부품/위성체 거치 및 이동 장비<br>
@@ -106,7 +106,7 @@
           </div>
         </div>
 
-        <div class="__tit1 __mt100 __mb20">
+        <div class="__tit1 __mt50 __mb20">
           <h3><strong>항공산업</strong></h3>
         </div>
         <div class="__bio3">
@@ -117,7 +117,7 @@
             <div class="__fz18 __black __mt0">
               인공위성, 안테나등 우주산업에 필요한 조립/시험 장비의 설계/해석/제작/시험
             </div>
-            <div class="__fz14 __black __mt5 fws">
+            <div class="__fz18 __black __mt5 fws">
               -  Wing 조립치구<br>
               -  풍동시험용 축소 모형 제작<br>
               -  무인기 모니터링 시스템
@@ -125,7 +125,7 @@
             <div class="__fz18 __black __mt40">
               항공기 부품 내구성 시험장비 제작
             </div>
-            <div class="__fz14 __black __mt5 fws">
+            <div class="__fz18 __black __mt5 fws">
               -  항공기 부품 내구성 시험장비 제작<br>
               -  피로시험 치구<br>
               -  DAS(Data Aquisition System)
@@ -151,7 +151,7 @@
           </div>
         </div>
 
-        <div class="__tit1 __mt100 __mb20">
+        <div class="__tit1 __mt50 __mb20">
           <h3><strong>방산</strong></h3>
         </div>
         <div class="__bio3">
@@ -162,7 +162,7 @@
             <div class="__fz18 __black __mt0">
               추진(연소)기관 관련 System 시험 Rig 제작 및 시험용역
             </div>
-            <div class="__fz14 __black __mt5 fws">
+            <div class="__fz18 __black __mt5 fws">
               -  초소형 터보제트엔진 연소기 시험 Rig<br>
               -  편향노즐 추력 측정시스템<br>
               -  Oil Cooler Ejector 시험 Rig<br>
