@@ -19,9 +19,7 @@ var crmReg = {
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
             tabStrip.enable(tabStrip.tabGroup.children());
             tabStrip.select(0);
-            // tabStrip.select(4);
-        }else{
-            tabStrip.select(-1);
+            // tabStrip.select(6);
         }
 
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
