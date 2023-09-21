@@ -956,9 +956,9 @@
             remark_Cn=#{remarkCn},
             document_first_number= CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
             document_second_number=(SELECT IFNULL(MAX(SCCD.document_second_number), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.document_first_number = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
-            reg_emp_seq=#{regEmpSeq},
-            reg_emp_name=#{regEmpName},
-            reg_dt = NOW()
+            MOD_EMP_SEQ=#{regEmpSeq},
+            MOD_EMP_NAME=#{regEmpName},
+            MOD_DT = NOW()
         WHERE
             DOCUMENT_SN = #{documentSn}
     </update>
@@ -1009,8 +1009,9 @@
         SET
             DEPT_PART_TYPE = #{deptPartType},
             DEPT_PART_TEXT = #{deptPartText},
-            REG_EMP_SEQ = #{regEmpSeq},
-            REG_EMP_NAME = #{regEmpName},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_EMP_NAME = #{regEmpName},
+            MOD_DT = NOW(),
             MANAGER_SN = #{managerSn},
             MANAGER_NAME = #{managerName},
             DOCUMENT_TITLE_NAME = #{documentTitleName},
