@@ -17,6 +17,19 @@ const searchRprPop = {
     dataSet: function(){
         customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
+        $("#startDt, #endDt").attr("readonly", true);
+        $("#startDt").on("change", function(){
+            if($(this).val() > $("#endDt").val()){
+                $("#endDt").val($(this).val());
+            }
+        });
+        $("#endDt").on("change", function(){
+            if($(this).val() < $("#startDt").val()){
+                $("#startDt").val($(this).val());
+            }
+        });
+        $("#startDt").data("kendoDatePicker").bind("change", gridReload);
+        $("#endDt").data("kendoDatePicker").bind("change", gridReload);
     },
 
     mainGrid: function(){
@@ -25,7 +38,7 @@ const searchRprPop = {
             pageSize: 10,
             transport: {
                 read : {
-                    url : "/inside/getRprReceiptList",
+                    url : "/inside/getIPList",
                     dataType : "json",
                     type : "post"
                 },
@@ -33,6 +46,8 @@ const searchRprPop = {
                     data.rprClass = 2;
                     data.resYn = "N";
                     data.beforeYn = "Y";
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
                     return data;
                 }
             },
@@ -60,6 +75,7 @@ const searchRprPop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: searchRprPop.onDataBound,
             columns: [
                 {
                     headerTemplate: '',
@@ -86,6 +102,15 @@ const searchRprPop = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").click(function(e){
+            const dataItem = grid.dataItem($(this));
+            const empSeq = dataItem.REG_EMP_SEQ;
+            $(this).find('.checkbox').trigger('click');
+        });
     },
 
     fn_selectChkUse: function(){

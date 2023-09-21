@@ -677,4 +677,154 @@
         AND
             CRM_SN = #{crmSn}
     </update>
+
+    <select id="getCrmAccounting" parameterType="map" resultType="map">
+        /* getCrmAccounting */
+        SELECT
+            CA.*,
+            FI.FILE_NO AS FILE1_NO,
+            CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS FILE1_NAME,
+            CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS FILE1_PATH,
+            FI2.FILE_NO AS FILE2_NO,
+            CONCAT(FI2.FILE_ORG_NAME, '.', FI2.FILE_EXT) AS FILE2_NAME,
+            CONCAT(FI2.FILE_PATH, FI2.FILE_UUID) AS FILE2_PATH
+        FROM
+            CAM_CRM.DJ_CRM_ACCOUNTING CA
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI
+        ON CA.FILE1 = FI.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI2
+        ON CA.FILE2 = FI2.FILE_NO
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
+    <insert id="setCrmAccounting" parameterType="map">
+        /* setCrmAccounting */
+        INSERT INTO CAM_CRM.DJ_CRM_ACCOUNTING
+        (
+            CRM_SN,
+            BANK_NAME,
+            ACCOUNTING_NUM,
+            ACCOUNTING_HOLDER,
+            ACCOUNTING_CHARGE_NM,
+            ACCOUNTING_CHARGE_EMAIL,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{bankName},
+            #{accountNum},
+            #{accountHolder},
+            #{accountChargeNm},
+            #{accountChargeEmail},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setCrmAccountingUpd" parameterType="map">
+        /* setCrmAccountingUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_ACCOUNTING
+        SET
+            BANK_NAME = #{bankName},
+            ACCOUNTING_NUM = #{accountNum},
+            ACCOUNTING_HOLDER = #{accountHolder},
+            ACCOUNTING_CHARGE_NM = #{accountChargeNm},
+            ACCOUNTING_CHARGE_EMAIL = #{accountChargeEmail},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CRM_ACCOUNTING_SN = #{crmAccountingSn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
+
+    <update id="setCrmAccountingFileUpd" parameterType="map">
+        /* setCrmAccountingFileUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_ACCOUNTING
+        SET
+            ${column} = #{value},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            CRM_SN = #{crmSn}
+        <if test='crmAccountingSn != null and !"".equals(crmAccountingSn)'>
+        AND
+            CRM_ACCOUNTING_SN = #{crmAccountingSn}
+        </if>
+    </update>
+
+    <select id="getCrmMgScale" parameterType="map" resultType="map">
+        /* getCrmMgScale */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_MG_SCALE
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
+    <insert id="setCrmMgScale" parameterType="map">
+        /* setCrmMgScale */
+        INSERT INTO CAM_CRM.DJ_CRM_MG_SCALE
+        (
+            CRM_SN,
+            MG_SCALE_YEAR,
+            ASSET,
+            LIABILITIES,
+            LIABILITIES_RATIO,
+            CAPITAL_TOTAL,
+            CAPITAL,
+            CAPITAL_RATIO,
+            SALES,
+            NET_INCOME,
+            OPERAT_PROFIT,
+            OPERAT_PROFIT_RATIO,
+            EMP_CNT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{mgScaleYear},
+            #{asset},
+            #{liabilities},
+            #{liabilitiesRatio},
+            #{capitalTotal},
+            #{capital},
+            #{capitalRatio},
+            #{sales},
+            #{netIncome},
+            #{operatProfit},
+            #{operatProfitRatio},
+            #{empCnt},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setCrmMgScaleUpd" parameterType="map">
+        /* setCrmMgScaleUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_MG_SCALE
+        SET
+            MG_SCALE_YEAR = #{mgScaleYear},
+            ASSET = #{asset},
+            LIABILITIES = #{liabilities},
+            LIABILITIES_RATIO = #{liabilitiesRatio},
+            CAPITAL_TOTAL = #{capitalTotal},
+            CAPITAL = #{capital},
+            CAPITAL_RATIO = #{capitalRatio},
+            SALES = #{sales},
+            NET_INCOME = #{netIncome},
+            OPERAT_PROFIT = #{operatProfit},
+            OPERAT_PROFIT_RATIO = #{operatProfitRatio},
+            EMP_CNT = #{empCnt},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CRM_MG_SCALE_SN = #{crmMgScaleSn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
 </mapper>

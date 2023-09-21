@@ -77,6 +77,7 @@ public class AssetRepository extends AbstractDAO {
     public Map<String, Object> getInventionInfo(Map<String,Object> params) { return (Map<String, Object>) selectOne("asset.getInventionInfo", params);}
     public List<Map<String,Object>> getInventionShareList(Map<String,Object> params) { return selectList("asset.getInventionShareList", params);}
     public List<Map<String, Object>> getRprReceiptList(Map<String, Object> params) { return selectList("asset.getRprReceiptList", params); }
+    public List<Map<String,Object>> getIPList(Map<String,Object> params) { return selectList("asset.getIPList", params);}
     public int setInventionInsert(Map<String, Object> params) { int result = (int)insert("asset.setInventionInsert", params); return result;}
     public int setRprResultInsert(Map<String, Object> params) { int result = (int)insert("asset.setRprResultInsert", params); return result;}
     public int setRprReceiptInsert(Map<String, Object> params) { int result = (int)insert("asset.setRprReceiptInsert", params); return result;}

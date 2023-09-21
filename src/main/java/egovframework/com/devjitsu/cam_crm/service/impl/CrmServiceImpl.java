@@ -205,6 +205,78 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getCrmAccounting(Map<String, Object> params) {
+        return crmRepository.getCrmAccounting(params);
+    }
+
+    @Override
+    public void setCrmAccounting(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        if(StringUtils.isEmpty(params.get("crmAccountingSn"))){
+            crmRepository.setCrmAccounting(params);
+        }else{
+            crmRepository.setCrmAccountingUpd(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        /** 사업자 등록증 */
+        MultipartFile file1 = request.getFile("file1");
+        if(file1 != null){
+            if(!file1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("crmAccountingSn", params.get("crmAccountingSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE1");
+                fileInsMap.put("crmSn", params.get("crmSn"));
+                crmRepository.setCrmAccountingFileUpd(fileInsMap);
+            }
+        }
+
+        /** 통장사본 */
+        MultipartFile file2 = request.getFile("file2");
+        if(file2 != null){
+            if(!file2.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("crmAccountingSn", params.get("crmAccountingSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE2");
+                fileInsMap.put("crmSn", params.get("crmSn"));
+
+                crmRepository.setCrmAccountingFileUpd(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getCrmMgScale(Map<String, Object> params) {
+        return crmRepository.getCrmMgScale(params);
+    }
+
+    @Override
+    public void setCrmMgScale(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmMgScaleSn"))){
+            crmRepository.setCrmMgScale(params);
+        }else{
+            crmRepository.setCrmMgScaleUpd(params);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return crmRepository.getCrmHistList(params);
     }

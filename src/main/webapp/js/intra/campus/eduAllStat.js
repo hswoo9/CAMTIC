@@ -1,9 +1,9 @@
 let sum=0;
-var snackList = {
+var eduAllStat = {
 
     init: function() {
-        snackList.dataSet();
-        snackList.mainGrid();
+        eduAllStat.dataSet();
+        eduAllStat.mainGrid();
     },
 
     dataSet: function(){
@@ -69,15 +69,8 @@ var snackList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : snackList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'empSeqPk\');" style="position : relative; top : 2px;" />',
-                    template : function (e){
-                        return "<input type='checkbox' id='empSeqPk"+ e.USER_PROOF_SN +"' name='empSeqPk' value='"+e.USER_PROOF_SN+"' class='empSeqPk' style='position : relative; top : 2px;' />";
-                    },
-                    width: 50,
-                }, {
                     field: "DEPT",
                     title: "부서"
                 }, {
@@ -136,46 +129,6 @@ var snackList = {
                 }
             ]
         }).data("kendoGrid");
-    },
-
-    onDataBound: function(){
-        const grid = this;
-        grid.tbody.find("tr").dblclick(function (e) {
-            const dataItem = grid.dataItem($(this));
-            const snackInfoSn = dataItem.SNACK_INFO_SN;
-            snackList.snackPopup(snackInfoSn);
-        });
-    },
-
-    snackPopup: function(snackInfoSn, mode){
-        let urlParams = "";
-        if(!isNaN(snackInfoSn)){
-            if(urlParams == "") {
-                urlParams += "?";
-            }else {
-                urlParams += "&";
-            }
-            urlParams += "snackInfoSn=" + snackInfoSn;
-        }
-        if(!isNaN(mode)){
-            if(urlParams == "") {
-                urlParams += "?";
-            }else {
-                urlParams += "&";
-            }
-            urlParams += "&mode=" + mode;
-        }
-        const url = "/Inside/pop/snackPop.do"+urlParams;
-        const name = "popup test";
-        const option = "width = 1000, height = 700, top = 100, left = 200, location = no";
-        window.open(url, name, option);
-    },
-
-    snackStatPopup: function(){
-        const url = "/Inside/pop/snackStatPop.do";
-        const name = "snackStatPop";
-        const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
-        window.open(url, name, option);
     }
 }
 

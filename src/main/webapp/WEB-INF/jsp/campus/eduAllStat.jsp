@@ -49,7 +49,7 @@
                         </td>
                         <th class="text-center th-color">퇴사자</th>
                         <td>
-                            <input type="text" id="active" class="searchInput" style="width: 70px;">
+                            <input type="text" id="active" class="searchInput" style="width: 100px;">
                         </td>
                     </tr>
                 </table>
@@ -60,5 +60,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    snackList.init();
+    eduAllStat.init();
 </script>
