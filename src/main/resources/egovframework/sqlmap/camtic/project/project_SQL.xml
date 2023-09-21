@@ -1274,15 +1274,6 @@
             DEV_SN = #{devSn}
     </update>
 
-    <update id="updDevEstFile" parameterType="map">
-        /*updDevEstFile*/
-        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
-        SET
-            EST_FILE_SN = #{file_no}
-        WHERE
-            DEV_SN = #{devSn}
-    </update>
-
     <update id="setDelvFileDocNm" parameterType="map">
         /* setDelvFileDocNm */
         UPDATE CAM_COMMON.DJ_FILE_INFO
