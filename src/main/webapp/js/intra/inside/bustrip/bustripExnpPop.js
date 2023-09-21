@@ -186,8 +186,6 @@ const bustripExnpReq = {
                     $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
                 }else{
                     if(bustripInfo.TRIP_CODE == "3") {
-                        alert(bustripInfo.USE_TRSPT);
-                        alert(bustripInfo.DRIVER_EMP_SEQ);
                         if(bustripInfo.USE_TRSPT == "0"){
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){

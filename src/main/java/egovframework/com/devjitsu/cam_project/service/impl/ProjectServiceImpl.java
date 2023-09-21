@@ -460,10 +460,84 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("approveStatCode", 100);
             projectRepository.updateDelvFinalApprStat(params);
         }
+
+        if("10".equals(docSts) || "101".equals(docSts)){
+            /** STEP1. pjtSn 으로 delvData 호출 */
+            Map<String, Object> delvMap = projectRepository.getDelvData(params);
+
+            /** STEP2. delvData 에서 DELV_FILE_SN 있으면 update */
+            if (delvMap != null && !delvMap.isEmpty()) {
+                if(delvMap.containsKey("DELV_FILE_SN") && delvMap.get("DELV_FILE_SN") != null){
+                    params.put("fileNo", delvMap.get("DELV_FILE_SN").toString());
+                    projectRepository.setDelvFileDocNm(params);
+                }
+            }
+        }
     }
 
     @Override
     public void updateDevDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("devSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            projectRepository.updateDevApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            projectRepository.updateDevApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            projectRepository.updateDevFinalApprStat(params);
+        }
+
+        if("10".equals(docSts) || "101".equals(docSts)){
+            /** STEP1. devSn 으로 pjtSn 찾기 */
+            Map<String, Object> pjtMap = projectRepository.getPjtSnToDev(params);
+            if (pjtMap != null && !pjtMap.isEmpty()) {
+                /** STEP2. pjtSn 으로 devData 호출 */
+                params.put("pjtSn", pjtMap.get("PJT_SN").toString());
+                Map<String, Object> devMap = projectRepository.getDevData(params);
+
+                /** STEP3. devData 에서 EST_FILE_SN, DEV_FILE_SN 찾기 */
+                if (devMap != null && !devMap.isEmpty()) {
+                    String text = "";
+                    if(devMap.containsKey("EST_FILE_SN") && devMap.get("EST_FILE_SN") != null){
+                        text += devMap.get("EST_FILE_SN").toString();
+                    }
+                    if(devMap.containsKey("DEV_FILE_SN") && devMap.get("DEV_FILE_SN") != null){
+                        if(!text.equals("")){
+                            text += ",";
+                        }
+                        text += devMap.get("DEV_FILE_SN").toString();
+                    }
+
+                    /** STEP3. EST_FILE_SN 이나 DEV_FILE_SN 있으면 update */
+                    if(!text.equals("")){
+                        params.put("fileNo", text);
+                        projectRepository.setDevFileDocNm(params);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateResDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
         String approKey = String.valueOf(bodyMap.get("approKey"));
@@ -484,12 +558,30 @@ public class ProjectServiceImpl implements ProjectService {
         params.put("empSeq", empSeq);
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
-            projectRepository.updateDevApprStat(params);
+            projectRepository.updateResApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
-            projectRepository.updateDevApprStat(params);
+            projectRepository.updateResApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
-            projectRepository.updateDevFinalApprStat(params);
+            projectRepository.updateResFinalApprStat(params);
+        }
+
+        if("10".equals(docSts) || "101".equals(docSts)){
+            /** STEP1. pjtSn 으로 resultData 호출 */
+            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+
+            /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
+            if (resultMap != null && !resultMap.isEmpty()) {
+                if(resultMap.containsKey("DSGN_FILE_SN")){
+                    params.put("fileNo", resultMap.get("DSGN_FILE_SN").toString());
+                    projectRepository.setResultFileDocNm(params);
+                }
+
+                if(resultMap.containsKey("PROD_FILE_SN")){
+                    params.put("fileNo", resultMap.get("PROD_FILE_SN").toString());
+                    projectRepository.setResultFileDocNm(params);
+                }
+            }
         }
     }
 
