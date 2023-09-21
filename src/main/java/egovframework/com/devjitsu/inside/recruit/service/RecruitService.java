@@ -8,6 +8,7 @@ public interface RecruitService {
     Map<String, Object> getRecruitNum();
     List<Map<String, Object>> getRecruitList(Map<String, Object> params);
     Map<String, Object> getRecruit(Map<String, Object> params);
+    List<Map<String, Object>> getRecruitAreaList(Map<String, Object> params);
     Map<String, Object> getRecruitArea(Map<String, Object> params);
     List<Map<String, Object>> getCommissionerList(Map<String, Object> params);
     void setCommissionerDel(Map<String, Object> params);

@@ -277,6 +277,20 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getCrmInterests(Map<String, Object> params) {
+        return crmRepository.getCrmInterests(params);
+    }
+
+    @Override
+    public void setCrmInterests(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmInterestsSn"))){
+            crmRepository.setCrmInterests(params);
+        }else{
+            crmRepository.setCrmInterestsUpd(params);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {
         return crmRepository.getCrmHistList(params);
     }

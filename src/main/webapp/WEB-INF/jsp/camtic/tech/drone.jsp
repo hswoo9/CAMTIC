@@ -16,38 +16,50 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__tdrone3 m0">
-          <h3>첨단 기술 선도를 통한 국내 드론산업의 육성,시장 성장 도모</h3>
           <div class="head">
-            <h4>
-              수요 제품개발,<br>
-              우수 기업육성,<br>
-              첨단 기술실증
-            </h4>
-            <div class="img"><img src="/images/camtic/img-ntdrone1-1.jpg" alt=""></div>
+            <dl>
+              <dl class="head">
+                <dt><span class="__nm">“</span><span class="mainCapyTitle">수요 제품개발, 우수 기업육성, 첨단 기술실증</span><span class="__nm">”</span></dt>
+                <dd><span class="subCapyTitle">첨단 기술 선도를 통한 국내 드론산업의 육성,시장 성장 도모</span></dd>
+              </dl>
+            </dl>
           </div>
-          <ul class="thm">
-            <li><img src="/images/camtic/img-ntdrone1-2.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-ntdrone1-3.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-ntdrone1-4.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-ntdrone1-5.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-ntdrone1-6.jpg" alt=""></li>
-          </ul>
-          <dl class="bot">
-            <dt>다양한 드론기반 임무수행이 가능한 산업용 드론(Multi-path)개발</dt>
-            <dd>
-              <ul class="__dotList bar">
-                <li>교육, 구호, 탐색, 배송, 방재 등 사용 용도에 따른 다양한 임무장비의 부착 및 활용</li>
-                <li>높은 정확도와 안전성으로 교육기관 및 특수목적고, 공공기관 등에서 사용</li>
-              </ul>
-            </dd>
-          </dl>
+        </div>
+
+        <div class="__tdrone4">
+          <div class="tit">
+            <h3>산업용 플랫폼 드론 개발</h3>
+            <dl>
+              <dt>
+                다양한 드론기반 임무수행이 가능한 산업용 드론(Multi-path)개발
+              </dt>
+              <dd>
+                <ul class="__dotList bar">
+                  <li>교육, 구호, 탐색, 배송, 방재 등 사용 용도에 따른 다양한 임무장비의 부착 및 활용</li>
+                  <li>높은 정확도와 안전성으로 교육기관 및 특수목적고, 공공기관 등에서 사용</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+
+          <div class="img" style="display: flex;">
+            <div class="img" style="display: flex; padding: 0 10px 0 0;">
+              <img src="/images/camtic/img-ntdrone1-1.jpg" alt="" style="height: 268.922px; border-radius: 5px;">
+            </div>
+            <ul class="thm">
+              <li><img src="/images/camtic/img-ntdrone1-2.jpg" alt=""></li>
+              <li><img src="/images/camtic/img-ntdrone1-3.jpg" alt=""></li>
+              <li><img src="/images/camtic/img-ntdrone1-4.jpg" alt=""></li>
+              <li><img src="/images/camtic/img-ntdrone1-5.jpg" alt=""></li>
+              <li><img src="/images/camtic/img-ntdrone1-6.jpg" alt=""></li>
+            </ul>
+          </div>
         </div>
 
         <div class="__tdrone4 __mt100">
           <div class="tit">
             <h3>
-              드론산업 활성화를<br class="__p">
-              위한 기업 육성
+              드론산업 활성화를 위한 기업 육성
             </h3>
             <dl>
               <dt>
@@ -82,7 +94,7 @@
           <div class="img"><img src="/images/camtic/img-ntdrone2-2.jpg" alt=""></div>
         </div>
 
-        <div class="__tdrone4 type2 __mt100">
+        <div class="__tdrone4 __mt100">
           <div class="tit">
             <h3>
               드론첨단 기술 실증
@@ -102,7 +114,9 @@
               </dd>
             </dl>
           </div>
-          <div class="img"><img src="/images/camtic/img-ntdrone2-3.jpg" alt=""></div>
+          <div class="img">
+            <img src="/images/camtic/img-ntdrone2-3.jpg" alt="">
+          </div>
         </div>
 
       </div>

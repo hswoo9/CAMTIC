@@ -420,6 +420,20 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/engn/delPjtBustrip")
+    public String delPjtBustrip(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.delPjtBustrip(params);
+
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/engn/setGoodsInfo")
     public String setGoodsInfo(@RequestParam Map<String, Object> params, Model model){
         try{

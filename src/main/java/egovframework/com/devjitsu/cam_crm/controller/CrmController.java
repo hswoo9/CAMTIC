@@ -260,6 +260,30 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 고객 관심분야 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmInterests.do")
+    public String getCrmInterests(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmInterests(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객 관심분야 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/setCrmInterests.do")
+    public String setCrmInterests(@RequestParam Map<String, Object> params, Model model){
+        crmService.setCrmInterests(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/crmHistView.do")
     public String crmHistView(Model model, HttpServletRequest request){
 

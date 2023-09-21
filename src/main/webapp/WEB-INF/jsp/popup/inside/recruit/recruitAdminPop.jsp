@@ -79,7 +79,7 @@
   <div class="table-responsive">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">채용공고 관리</h3>
-      <input type="hidden" id="recruitStatusSn" value="">
+      <input type="hidden" id="recruitStatusSn" value="${recruit.RECRUIT_STATUS_SN}">
       <div class="btn-st popButton" style="display: flex;gap: 5px;">
         <div id="recruitStatusDiv">
         </div>
@@ -162,6 +162,6 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
-  recruitAdminPop.init(JSON.parse('${recruit}'));
+  recruitAdminPop.init(JSON.parse('${recruitArea}'));
 </script>
 </body>
