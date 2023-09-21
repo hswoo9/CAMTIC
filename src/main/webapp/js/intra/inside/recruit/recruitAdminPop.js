@@ -5,11 +5,9 @@ var recruitAdminPop = {
         dropDownDataSource : "",
     },
 
-    init : function(recruit){
+    init : function(recruitArea){
 
-        $("#recruitStatusSn").val(recruit.RECRUIT_STATUS_SN);
-
-        recruitAdminPop.kendoSetting(recruit);
+        recruitAdminPop.kendoSetting(recruitArea);
 
         recruitAdminPop.gridReload();
 
@@ -427,8 +425,8 @@ var recruitAdminPop = {
         return ret_month;
     },
 
-    kendoSetting : function(recruit){
-        customKendo.fn_dropDownList("recruitAreaInfoSn", recruit.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+    kendoSetting : function(recruitArea){
+        customKendo.fn_dropDownList("recruitAreaInfoSn", recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", recruitAdminPop.gridReload);
 
         recruitAdminPop.global.dropDownDataSource = [

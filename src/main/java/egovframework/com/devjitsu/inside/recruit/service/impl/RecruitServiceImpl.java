@@ -59,6 +59,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public List<Map<String, Object>> getRecruitAreaList(Map<String, Object> params) {
+        return recruitRepository.getRecruitAreaList(params);
+    }
+
+    @Override
     public Map<String, Object> getRecruitArea(Map<String, Object> params) {
         return recruitRepository.getRecruitArea(params);
     }
