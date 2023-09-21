@@ -1950,17 +1950,21 @@ img {max-width:100%;}
 .__tdrone2 {border-top:2px solid #111;/*background:#f8f8f8;*/background:#fff;padding:55px 100px;}
 
 /*2023-09-20 배경색 제거 및 선 제거*/
-.__tdrone3 {/*background:#f2fcfe;*/padding:70px 100px 50px;/*border-bottom:1px solid #ccc;*/}
-.__tdrone3 h3 {font-size:24px;font-weight:500;color:#155996;letter-spacing:-0.05em;margin-bottom:25px;}
-.__tdrone3 .head {display:flex;justify-content:space-between;}
-.__tdrone3 .head h4 {font-size:56px;line-height:1.1;font-weight:200;letter-spacing:-0.05em;padding-top:30px;}
-.__tdrone3 .thm {display:flex;gap:5px;justify-content:space-between;margin-top:45px;}
-.__tdrone3 .bot {margin-top:50px;}
-.__tdrone3 .bot dt {font-size:22px;line-height:1.5;font-weight:300;color:#111;}
-.__tdrone3 .bot dd {font-size:18px;font-weight:300;line-height:1.6;color:#111;margin-top:20px;padding-left:25px;}
+.__tdrone3 {/*background:#f2fcfe;*/background:#fff; padding:0px 100px 55px;border-bottom:0px solid #ccc;}
+.__tdrone3 .head {text-align:center;margin-bottom:0px;}
+.__tdrone3 .head h4 {font-size:16px;font-weight:800;color:#363636;margin-bottom:15px;}
+.__tdrone3 .head dl {font-size:26px;line-height:1.25;letter-spacing:-0.05em;margin-bottom:15px;color:#000;font-weight:300;}
+.__tdrone3 .head dl .m {padding:0 15px;}
+.__tdrone3 .head dl dd {font-weight:500;}
+.__tdrone3 .head dt {font-size: 52px; font-weight: 200; color: #111; letter-spacing: -0.05em;}
+/*2023-09-19*/
+.__tdrone3 .__icoBox .img {/*display:flex;*/gap:30px;margin-top:70px;}
+.__tdrone3 .foot {display:flex;justify-content:space-between;gap:30px;}
+
+
 
 .__tdrone4 {/*display:flex;*/gap:9px;/*justify-content:space-between;*/}
-.__tdrone4 .tit {width:420px;/*border:1px solid #bfbfbf;border-radius:5px;padding:40px;*/}
+.__tdrone4 .tit {/*width:420px;*//*border:1px solid #bfbfbf;border-radius:5px;padding:40px;*/}
 .__tdrone4 .tit h3 {font-size:30px;line-height:1.25;color:#000;letter-spacing:-0.05em;}
 .__tdrone4 .tit dl {margin-top:50px;}
 .__tdrone4 .tit dl dt {font-size:20px;line-height:1.4;font-weight:600;color:#000;letter-spacing:-0.05em;}
