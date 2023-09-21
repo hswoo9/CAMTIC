@@ -71,6 +71,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void delPjtBustrip(Map<String, Object> params) {
+        bustripRepository.delPjtBustrip(params);
+    }
+
+    @Override
     public Map<String, Object> getProjectData(Map<String, Object> params) {
         return projectRepository.getProjectData(params);
     }

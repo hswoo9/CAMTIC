@@ -117,4 +117,6 @@ public interface ProjectService {
     Map<String, Object> getDelvFile(Map<String, Object> params);
 
     Map<String, Object> getDevFile(Map<String, Object> params);
+
+    void delPjtBustrip(Map<String, Object> params);
 }

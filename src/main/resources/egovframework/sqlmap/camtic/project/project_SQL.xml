@@ -31,10 +31,6 @@
             ON
                 A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
         LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
-            ON
-                A.PJT_SN = C.PJT_SN
-        LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
             ON
                 A.CRM_SN = D.CRM_SN
@@ -108,7 +104,6 @@
         SELECT
             A.*,
             B.*,
-            C.*,
             D.*,
             CM.*,
             EI.DEPT_NAME,
@@ -130,10 +125,6 @@
             CAM_HR.DJ_EMP_INFO EI
         ON
             DE.PM_EMP_SEQ = EI.EMP_SEQ
-        LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT C
-        ON
-            A.PJT_SN = C.PJT_SN
         LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
         ON
