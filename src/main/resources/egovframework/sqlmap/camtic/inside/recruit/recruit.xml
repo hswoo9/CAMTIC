@@ -72,6 +72,7 @@
         /* getRecruit */
         SELECT
             RI.*,
+            RES.RECRUIT_EVAL_SHEET_ID,
             RES.INTERVIEW_EVAL_SHEET
         FROM
             CAM_INSIDE.DJ_RECRUIT_INFO RI
@@ -297,21 +298,7 @@
     <select id="getRecruitAreaList" parameterType="map" resultType="map">
         /* getRecruitAreaList */
         SELECT
-            RAI.RECRUIT_AREA_INFO_SN,
-            RAI.RECRUIT_INFO_SN,
-            RAI.DEPT_SEQ,
-            RAI.DEPT_NAME,
-            RAI.TEAM_SEQ,
-            RAI.TEAM_NAME,
-            RAI.JOB,
-            RAI.RECRUITMENT,
-            RAI.CAREER_TYPE,
-            RAI.CAREER_TYPE_SN,
-            RAI.CAREER_TYPE_NAME,
-            RAI.DUTY,
-            RAI.CAREER,
-            RAI.WORK_TYPE,
-            REPLACE(REPLACE(RAI.QUALIFICATION, '\r', ''), '\n', '') AS QUALIFICATION,
+            RAI.*,
             CONCAT('근무부서 - [', RAI.DEPT_NAME, ' > ', RAI.TEAM_NAME, '] 채용부문 - [', RAI.JOB, '] 필요경력 - [', RAI.CAREER, ']') AS AREA_TITLE,
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
