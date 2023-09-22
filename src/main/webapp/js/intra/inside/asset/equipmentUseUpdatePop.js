@@ -154,15 +154,11 @@ var equipmentUseUpdatePop = {
                 $("#userName").val(rs.USER_NAME); //사용자명
                 $("#operCn").val(rs.OPER_CN); //작업내용
                 $("#useTime").val(rs.USE_TIME); //사용시간
-                $("#useAmt").val(equipmentUseUpdatePop.fn_comma(rs.USE_AMT)); //사용대금
+                $("#useAmt").val(rs.USE_AMT == 0 ? 0 : equipmentUseUpdatePop.fn_comma(rs.USE_AMT)); //사용대금
                 $("#prtpcoGbnName").data("kendoDropDownList").value(rs.PRTPCO_GBN_SN); //업체구분 공통코드sn
                 $("#regDe").val(rs.REG_DE); //작성일자
             }
         });
-
-        $("#useAmt").bind("keyup keydown", function() {
-            equipmentUseUpdatePop.inputNumberFormat(this)
-        })
     },
 
     fn_comma: function(str){
