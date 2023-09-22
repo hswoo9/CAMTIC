@@ -221,7 +221,7 @@
                 <tr>
                     <th>생년월일</th>
                     <td>
-                        <c:if test="${uprinfList.LUNAR_CAL eq 'N'}">${uprinfList.BDAY}</c:if>
+                        <c:if test="${uprinfList.LUNAR_CAL eq 'N'}">양력 ${uprinfList.BDAY}</c:if>
                         <c:if test="${uprinfList.LUNAR_CAL eq 'Y'}"><span id="lunarBday"></span></c:if>
                     </td>
                     <th>재직여부</th>

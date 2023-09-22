@@ -5,9 +5,9 @@ var recruitAdminPop = {
         dropDownDataSource : "",
     },
 
-    init : function(recruitArea){
+    init : function(){
 
-        recruitAdminPop.kendoSetting(recruitArea);
+        recruitAdminPop.kendoSetting();
 
         recruitAdminPop.gridReload();
 
@@ -332,7 +332,7 @@ var recruitAdminPop = {
     screenViewPop : function(e){
         var url = "/inside/pop/screenViewPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e;
         var name = "screenViewPop";
-        var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=180, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
@@ -425,8 +425,13 @@ var recruitAdminPop = {
         return ret_month;
     },
 
-    kendoSetting : function(recruitArea){
-        customKendo.fn_dropDownList("recruitAreaInfoSn", recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+    kendoSetting : function(){
+        recruitAdminPop.global.searchAjaxData = {
+            recruitInfoSn : $("#recruitInfoSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", recruitAdminPop.global.searchAjaxData);
+        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", recruitAdminPop.gridReload);
 
         recruitAdminPop.global.dropDownDataSource = [

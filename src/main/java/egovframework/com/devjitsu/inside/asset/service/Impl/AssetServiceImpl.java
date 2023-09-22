@@ -591,6 +591,27 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String, Object>> getEqipmnUseUpdateList(Map<String, Object> params) {
         return assetRepository.getEqipmnUseUpdateList(params);
     }
+
+
+    //장비사용 마감 수정
+    @Override
+    public Map<String, Object> setEquipmenUseEndStat(List<String> eqmnUsePk) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            assetRepository.setEquipmenUseEndStat(eqmnUsePk);
+
+            result.put("code", "200");
+            result.put("message", "장비사용 목록 마감이 완료되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "장비사용 목록 마감 중 에러가 발생했습니다.");
+        }
+
+        return result;
+    }
+
+
     @Override
     public List<Map<String,Object>> getAssetPlaceList() {
         return assetRepository.getAssetPlaceList();

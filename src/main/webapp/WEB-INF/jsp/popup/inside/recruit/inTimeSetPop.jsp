@@ -30,8 +30,8 @@
     </div>
 
     <div class="panel-body">
-      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="">
-      <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="">
+      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruit.RECRUIT_INFO_SN}">
+      <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="${recruit.RECRUIT_EVAL_SHEET_ID}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 
       <table class="searchTable table table-bordered mb-0">
@@ -41,7 +41,7 @@
         <tr>
           <th>공고명</th>
           <td>
-            <span id="recruitTitle"></span>
+            <span id="recruitTitle">${recruit.RECRUIT_TITLE}</span>
           </td>
         </tr>
         <tr>
@@ -57,6 +57,6 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
-  inTimeSetPop.init(JSON.parse('${recruit}'));
+  inTimeSetPop.init();
 </script>
 </body>

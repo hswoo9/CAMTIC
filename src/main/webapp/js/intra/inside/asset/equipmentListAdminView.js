@@ -133,6 +133,14 @@ var equipmentListAdminView = {
             toolbar : [
                 {
                     name: '',
+                    text: '마감',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.selectChkEnd();">' +
+                            '   <span class="k-button-text">마감</span>' +
+                            '</button>';
+                    }
+                },{
+                    name: '',
                     text: '조회',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.mainGrid();">' +
@@ -170,6 +178,11 @@ var equipmentListAdminView = {
             dataBound : equipmentListAdminView.onDataBound,
             columns: [
                 {
+                    //장비관리(관리자) 체크박스 - 김민주 추가
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="equipmentListAdminView.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#'/>",
+                    width: 50
+                },{
                     field: "EQIPMN_GBN_NAME",
                     title: "구분"
                 }, {
@@ -202,6 +215,14 @@ var equipmentListAdminView = {
                 }, {
                     field: "PRTPCO_GBN_NAME",
                     title: "업체구분"
+                },{
+                    //나중에 필드 바꿔야 함
+                    field: "END_STAT",
+                    title: "마감상태",
+                    template: function (dataItem) {
+                        // END_STAT 값이 "Y"인 경우 "마감완료", 그 외의 경우 "-"
+                        return dataItem.END_STAT === "Y" ? "마감완료" : "-";
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -226,6 +247,54 @@ var equipmentListAdminView = {
         const name = "equipStatPop";
         const option = "width = 1600, height = 640, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+
+    //선택한 장비 마감 - 김민주 추가
+
+
+    selectChkEnd : function (){
+        if($("input[name='eqmnUsePk']:checked").length == 0){
+            alert("마감할 장비목록을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 데이터를 마감 처리하시겠습니까?")){
+            return;
+        }
+
+        var eqmnUsePk = new Array();
+        $("input[name='eqmnUsePk']").each(function(){
+            if(this.checked){
+                eqmnUsePk.push(this.value);
+            }
+        })
+
+        $.ajax({
+            url : '/asset/setEquipmenUseEndStat',
+            data : {
+                eqmnUsePk : eqmnUsePk
+            },
+            dataType: "json",
+            type : "POST",
+            success : function (rs){
+                var rs = rs.rs;
+                alert(rs.message);
+                if(rs.code == "200"){
+                    gridReload();
+                }
+            }
+        });
+        location.reload();
+    },
+
+
+
+    //장비 관리(관리자) 메뉴 그리드 체크박스 - 김민주 추가
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='eqmnUsePk']").prop("checked", true);
+        }else{
+            $("input[name='eqmnUsePk']").prop("checked", false);
+        }
     },
 
     fn_comma : function (str){
