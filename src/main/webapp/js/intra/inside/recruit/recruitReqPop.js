@@ -15,7 +15,7 @@ var recruitReq = {
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "09:00"});
         $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});
-        $("#recruitNum, #uploadDt, #startDt, #endDt, #startTime, #endTime").attr("readonly", true);
+        $("#uploadDt, #startDt, #endDt, #startTime, #endTime").attr("readonly", true);
         let recruitStatusArr = [
             {text: "작성중", value: "1"},
             {text: "접수중", value: "2"},
@@ -29,6 +29,7 @@ var recruitReq = {
         $("#eligibilityEtc").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
         $("#workType").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
         $("#admission").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
+        $("#applicationDoc").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
         $("#receiptDocu").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
         $("#remark").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
 
@@ -117,6 +118,7 @@ var recruitReq = {
         let eligibilityEtc = $("#eligibilityEtc").val();
         let workType = $("#workType").val();
         let admission = $("#admission").val();
+        let applicationDoc = $("#applicationDoc").val();
         let receiptDocu = $("#receiptDocu").val();
         let remark = $("#remark").val();
         let recruitStatusSn = $("#recruitStatus").val();
@@ -157,6 +159,7 @@ var recruitReq = {
             eligibilityEtc: eligibilityEtc,
             workType: workType,
             admission: admission,
+            applicationDoc : applicationDoc,
             receiptDocu: receiptDocu,
             remark: remark,
             recruitStatusSn: recruitStatusSn,
@@ -297,6 +300,7 @@ var recruitReq = {
             $("#eligibilityEtc").val(recruit.ELIGIBILITY_ETC);
             $("#workType").val(recruit.WORK_TYPE);
             $("#admission").val(recruit.ADMISSION);
+            $("#applicationDoc").val(recruit.APPLICATION_DOC);
             $("#receiptDocu").val(recruit.RECEIPT_DOCU);
             $("#remark").val(recruit.REMARK);
             $("#recruitStatus").data("kendoDropDownList").value(recruit.STATUS);

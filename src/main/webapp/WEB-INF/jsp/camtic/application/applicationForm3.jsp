@@ -132,7 +132,7 @@
 
             <h4>
                 기타 외국어 능력 입력
-                <input type="checkbox" id="otherYn" name="otherYn" onclick="applicationForm3.checkBoxChk(this)"><span style="font-size: 12px">미대상 (여성 및 외국인 등)</span>
+                <input type="checkbox" id="otherYn" name="otherYn" onclick="applicationForm3.checkBoxChk(this)">
             </h4>
 
             <div id="otherDiv" style="display: none">

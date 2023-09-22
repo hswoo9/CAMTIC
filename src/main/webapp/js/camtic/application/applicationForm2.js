@@ -175,14 +175,14 @@ var applicationForm2 = {
                     if($(this).find("#schoolType").val() == "1"){
                         highSchoolFlag = true;
                     }
-
-                    if(!highSchoolFlag){
-                        alert("고등학교 학력은 필수사항입니다.");
-                        return highSchoolFlag;
-                    }
                 })
 
-                if(!flag || !highSchoolFlag){
+                if(!highSchoolFlag){
+                    alert("고등학교 학력은 필수사항입니다.");
+                    return highSchoolFlag;
+                }
+
+                if(!flag){
                     return;
                 }
 

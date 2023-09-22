@@ -120,6 +120,16 @@
         </tr>
         <tr>
           <th>
+            지원서류<br>
+            (온라인등록)
+          </th>
+          <td colspan="3">
+            <textarea id="applicationDoc"></textarea>
+          </td>
+        </tr>
+
+        <tr>
+          <th>
             원서접수
           </th>
           <td colspan="3">

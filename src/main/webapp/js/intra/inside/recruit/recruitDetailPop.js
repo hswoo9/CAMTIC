@@ -26,6 +26,7 @@ var rcDetailPop = {
 
             $("#workType").text(recruit.WORK_TYPE);
             $("#admission").text(recruit.ADMISSION);
+            $("#applicationDoc").text(recruit.APPLICATION_DOC);
             $("#receiptDocu").text(recruit.RECEIPT_DOCU);
             $("#remark").text(recruit.REMARK);
             $("#recruitStatus").text(recruit.RECRUIT_STATUS_TEXT);
