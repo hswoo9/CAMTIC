@@ -82,6 +82,12 @@ public class EvalController {
                 userMap.put("recruitInfoSn", params.get("recruitInfoSn"));
                 chkMap = evalManageService.setEvalSelectionEmpSeq(userMap);
             }else if(params.get("evalType").equals("in")){
+                if(userMap.get("eval") == null){
+                    returnMap.put("code", "999");
+                    model.addAttribute("rs", returnMap);
+
+                    return "jsonView";
+                }
                 chkMap = (Map<String, Object>) userMap.get("eval");
                 chkMap.put("flag", userMap.get("flag"));
             }

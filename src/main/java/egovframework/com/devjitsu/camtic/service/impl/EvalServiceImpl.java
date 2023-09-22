@@ -37,8 +37,6 @@ public class EvalServiceImpl implements EvalService {
         if(eval != null){
             if(eval.get("EVAL_STATUS").equals("P")){
                 flag = true;
-            }else{
-                returnMap.put("message", "심사평가 종료된 평가위원입니다.");
             }
         }
 
