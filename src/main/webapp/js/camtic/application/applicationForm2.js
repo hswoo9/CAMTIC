@@ -24,7 +24,7 @@ var applicationForm2 = {
         applicationForm2.global.createHtmlStr = "" +
             '<tr class="schoolInfo" id="school' + applicationForm2.global.schoolIndex + '">' +
                 '<td>' +
-                    '<input type="hidden" id="schoolBaseId' + applicationForm2.global.schoolIndex + '" name="schoolBaseId' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="hidden" id="schoolBaseId' + applicationForm2.global.schoolIndex + '" name="schoolBaseId' + applicationForm2.global.schoolIndex + '" class="schoolBaseId">' +
                     '<select id="schoolType">' +
                         '<option value="">선택</option>' +
                         '<option value="1">고등학교</option>' +
@@ -36,20 +36,20 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" style="width: 110px"> ~' +
-                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" style="width: 110px">' +
+                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" style="width: 110px"> ~' +
+                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" style="width: 110px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" style="width: 100px;">' +
+                    '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="schoolName" style="width: 100px;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="dept' + applicationForm2.global.schoolIndex + '" style="width: 100px;">' +
+                    '<input type="text" id="dept' + applicationForm2.global.schoolIndex + '" class="dept" style="width: 100px;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="major' + applicationForm2.global.schoolIndex + '" style="width: 110px;">' +
+                    '<input type="text" id="major' + applicationForm2.global.schoolIndex + '" class="major" style="width: 110px;">' +
                 '</td>' +
                 '<td>' +
-                    '<select id="graduateType' + applicationForm2.global.schoolIndex + '">' +
+                    '<select id="graduateType' + applicationForm2.global.schoolIndex + '" class="graduateType">' +
                         '<option value="">선택</option>' +
                         '<option value="1">졸업</option>' +
                         '<option value="2">졸업예정</option>' +
@@ -57,19 +57,22 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="grade' + applicationForm2.global.schoolIndex + '" style="width: 50px">' +
+                    '<input type="text" id="grade' + applicationForm2.global.schoolIndex + '" class="graduateType" style="width: 50px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="hidden" id="degreeFileNo' + applicationForm2.global.schoolIndex + '" name="degreeFileNo' + applicationForm2.global.schoolIndex + '">' +
-                    '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '"  style="width: 100px;">' +
-                    '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="file" id="degreeFile' + applicationForm2.global.schoolIndex + '" name="degreeFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
+                    '<input type="hidden" id="degreeFileNo' + applicationForm2.global.schoolIndex + '" class="degreeFileNo" name="degreeFileNo' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 100px;">' +
+                    '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFileLabel" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="file" id="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFile" name="degreeFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="hidden" id="sexualFileNo' + applicationForm2.global.schoolIndex + '" name="sexualFileNo' + applicationForm2.global.schoolIndex + '">' +
-                    '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" style="width: 100px;">' +
-                    '<label for="sexualFile' + applicationForm2.global.schoolIndex + '" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="file" id="sexualFile' + applicationForm2.global.schoolIndex + '" name="sexualFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
+                    '<input type="hidden" id="sexualFileNo' + applicationForm2.global.schoolIndex + '" class="sexualFileNo" name="sexualFileNo' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" class="sexualFileName" style="width: 100px;">' +
+                    '<label for="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="file" id="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFile" name="sexualFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" class="__btn3 red" onClick="applicationForm2.delRow(\'schoolInfo\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>';
 
@@ -92,36 +95,39 @@ var applicationForm2 = {
         applicationForm2.global.createHtmlStr = "" +
             '<tr class="careerInfo" id="career' + applicationForm2.global.careerIndex + '">' +
                 '<td>' +
-                    '<input type="hidden" id="careerBaseId' + applicationForm2.global.careerIndex + '" name="careerBaseId' + applicationForm2.global.careerIndex + '">' +
-                    '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '">' +
+                    '<input type="hidden" id="careerBaseId' + applicationForm2.global.careerIndex + '" name="careerBaseId' + applicationForm2.global.careerIndex + '" class="careerBaseId">' +
+                    '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="careerOrgName">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="period" style="width: 110px"> ~ ' +
-                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="period" style="width: 110px">' +
+                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" style="width: 110px"> ~ ' +
+                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" style="width: 110px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="position' + applicationForm2.global.careerIndex + '">' +
+                    '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="position">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="chargeWork' + applicationForm2.global.careerIndex + '">' +
+                    '<input type="text" id="chargeWork' + applicationForm2.global.careerIndex + '" class="chargeWork">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="retireSalary' + applicationForm2.global.careerIndex + '">' +
+                    '<input type="text" id="retireSalary' + applicationForm2.global.careerIndex + '" class="retireSalary">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="retireReason' + applicationForm2.global.careerIndex + '">' +
+                    '<input type="text" id="retireReason' + applicationForm2.global.careerIndex + '" class="retireReason">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="hidden" id="careerFileNo' + applicationForm2.global.careerIndex + '" name="careerFileNo' + applicationForm2.global.careerIndex + '">' +
-                    '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" style="width: 140px">' +
-                    '<label for="careerFile' + applicationForm2.global.careerIndex + '" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="file" id="careerFile' + applicationForm2.global.careerIndex + '" name="careerFile' + applicationForm2.global.careerIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
+                    '<input type="hidden" id="careerFileNo' + applicationForm2.global.careerIndex + '" name="careerFileNo' + applicationForm2.global.careerIndex + '" class="careerFileNo">' +
+                    '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 140px">' +
+                    '<label for="careerFile' + applicationForm2.global.careerIndex + '" class="careerFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="file" id="careerFile' + applicationForm2.global.careerIndex + '" class="careerFile" name="careerFile' + applicationForm2.global.careerIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" class="__btn3 red" onclick="applicationForm2.delRow(\'careerInfo\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>' +
             '<tr id="career' + applicationForm2.global.careerIndex + '_1" class="careerInfo_1">' +
                 '<th>담당업무 세부사항</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '"></textarea>' +
+                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -136,20 +142,76 @@ var applicationForm2 = {
         });
     },
 
-    delRow : function(c){
-        if(confirm("마지막 사항이 삭제됩니다.\n삭제하시겠습니까?")){
-            if($("." + c).length > 1){
-                if(c == "schoolInfo"){
-                    $("." + c + ":last-child").remove();
-                    applicationForm2.global.schoolIndex--;
-                }else if(c == "careerInfo"){
-                    $("." + c + ":last").remove();
-                    $("." + c + "_1:last").remove();
-                    applicationForm2.global.careerIndex--;
-                }
+    delRow : function(c, t){
+        if(confirm("삭제하시겠습니까?")){
+            if(c == "schoolInfo"){
+                $(t).closest("tr").remove();
+                applicationForm2.global.schoolIndex--;
+                applicationForm2.rowAttrOverride(c);
+            }else if(c == "careerInfo"){
+                $(t).closest("tr").remove();
+                $("#" + $(t).closest("tr").attr("id") + "_1").remove();
+                applicationForm2.global.careerIndex--;
+                applicationForm2.rowAttrOverride(c);
             }
         }
     },
+
+    rowAttrOverride : function(e){
+        $.each($("." + e), function(i, v){
+            console.log(e)
+            console.log(i)
+            if(e == "schoolInfo"){
+                $(this).attr("id", "school" + i);
+                $(this).find(".schoolBaseId").attr("id", "schoolBaseId" + i);
+                $(this).find(".schoolBaseId").attr("name", "schoolBaseId" + i);
+
+                $(this).find(".admissionDt").attr("id", "admissionDt" + i);
+                $(this).find(".graduationDt").attr("id", "graduationDt" + i);
+                $(this).find(".schoolName").attr("id", "schoolName" + i);
+                $(this).find(".dept").attr("id", "dept" + i);
+                $(this).find(".major").attr("id", "major" + i);
+                $(this).find(".graduateType").attr("id", "graduateType" + i);
+                $(this).find(".grade").attr("id", "grade" + i);
+
+                $(this).find(".degreeFileNo").attr("id", "degreeFileNo" + i);
+                $(this).find(".degreeFileNo").attr("name", "degreeFileNo" + i);
+                $(this).find(".degreeFileName").attr("id", "degreeFileName" + i);
+                $(this).find(".degreeFileLabel").attr("for", "degreeFile" + i);
+                $(this).find(".degreeFile").attr("id", "degreeFile" + i);
+                $(this).find(".degreeFile").attr("name", "degreeFile" + i);
+
+                $(this).find(".sexualFileNo").attr("id", "sexualFileNo" + i);
+                $(this).find(".sexualFileNo").attr("name", "sexualFileNo" + i);
+                $(this).find(".sexualFileName").attr("id", "sexualFileName" + i);
+                $(this).find(".sexualFileLabel").attr("for", "sexualFile" + i);
+                $(this).find(".sexualFile").attr("id", "sexualFile" + i);
+                $(this).find(".sexualFile").attr("name", "sexualFile" + i);
+            }else{
+                $("#" + $(this).attr("id") + "_1").attr("id", "career" + i + "_1")
+                $(this).attr("id", "career" + i);
+                $(this).find(".careerBaseId").attr("id", "careerBaseId" + i);
+                $(this).find(".careerBaseId").attr("name", "careerBaseId" + i);
+                $(this).find(".careerOrgName").attr("id", "careerOrgName" + i);
+                $(this).find(".workStDt").attr("id", "workStDt" + i);
+                $(this).find(".workEnDt").attr("id", "workEnDt" + i);
+
+                $(this).find(".position").attr("id", "position" + i);
+                $(this).find(".chargeWork").attr("id", "chargeWork" + i);
+                $(this).find(".retireSalary").attr("id", "retireSalary" + i);
+                $(this).find(".retireReason").attr("id", "retireReason" + i);
+
+                $(this).find(".careerFileNo").attr("id", "careerFileNo" + i);
+                $(this).find(".careerFileNo").attr("name", "careerFileNo" + i);
+                $(this).find(".careerFileName").attr("id", "careerFileName" + i);
+                $(this).find(".careerFileLabel").attr("for", "careerFile" + i);
+                $(this).find(".careerFile").attr("id", "careerFile" + i);
+                $(this).find(".careerFile").attr("name", "careerFile" + i);
+                $(this).find(".careerContent").attr("id", "careerContent" + i);
+            }
+        })
+    },
+
 
     setApplicationTempSave : function(type){
         if(type == "prev"){
@@ -377,7 +439,7 @@ var applicationForm2 = {
         //$('.pop_sign_wrap').css("overflow","auto");
         try{
             var childWindow = window.parent;
-            childWindow.resizeTo(1500, strHeight);
+            childWindow.resizeTo(1590, strHeight);
         }catch(exception){
             console.log('window resizing cat not run dev mode.');
         }

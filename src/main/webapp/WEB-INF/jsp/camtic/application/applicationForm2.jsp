@@ -13,7 +13,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="/js/camtic/application/applicationForm2.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-md-12 col-lg-12 dash-left pop_sign_wrap" style="width:1485px;padding: 50px;">
+<div class="col-md-12 col-lg-12 dash-left pop_sign_wrap" style="width:1590px;padding: 50px;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
     <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
@@ -44,7 +44,6 @@
                 <div>
                     <div class="__btWrap rig __mt10" style="text-align: right">
                         <button type="button" class="__btn3 blue" onclick="applicationForm2.addSchoolRow()"><span>추가</span></button>
-                        <button type="button" class="__btn3 red" onclick="applicationForm2.delRow('schoolInfo')"><span>삭제</span></button>
                     </div>
 
                     <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
@@ -59,13 +58,14 @@
                             <th>평점</th>
                             <th>학위 증빙</th>
                             <th>성적 증빙</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody id="schoolTb">
                         <tr class="schoolInfo" id="school0">
                             <td>
-                                <input type="hidden" id="schoolBaseId0" name="schoolBaseId0">
-                                <select id="schoolType">
+                                <input type="hidden" id="schoolBaseId0" name="schoolBaseId0" class="schoolBaseId">
+                                <select id="schoolType" class="schoolType">
                                     <option value="">선택</option>
                                     <option value="1">고등학교</option>
                                     <option value="2">전문대학</option>
@@ -76,20 +76,20 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" id="admissionDt0" style="width: 110px"> ~
-                                <input type="text" id="graduationDt0" style="width: 110px">
+                                <input type="text" id="admissionDt0" class="admissionDt" style="width: 110px"> ~
+                                <input type="text" id="graduationDt0" class="graduationDt" style="width: 110px">
                             </td>
                             <td>
-                                <input type="text" id="schoolName0" style="width: 100px;">
+                                <input type="text" id="schoolName0" class="schoolName" style="width: 100px;">
                             </td>
                             <td>
-                                <input type="text" id="dept0" style="width: 100px;">
+                                <input type="text" id="dept0" class="dept" style="width: 100px;">
                             </td>
                             <td>
-                                <input type="text" id="major0" style="width: 110px;">
+                                <input type="text" id="major0" class="major" style="width: 110px;">
                             </td>
                             <td>
-                                <select id="graduateType0">
+                                <select id="graduateType0" class="graduateType">
                                     <option value="">선택</option>
                                     <option value="1">졸업</option>
                                     <option value="2">졸업예정</option>
@@ -97,19 +97,22 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" id="grade0" style="width: 50px">
+                                <input type="text" id="grade0" class="grade" style="width: 50px">
                             </td>
                             <td>
-                                <input type="hidden" id="degreeFileNo0" name="degreeFileNo0">
-                                <input type="text" id="degreeFileName0" style="width: 100px;">
-                                <label for="degreeFile0" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
-                                <input type="file" id="degreeFile0" name="degreeFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
+                                <input type="hidden" id="degreeFileNo0" class="degreeFileNo" name="degreeFileNo0">
+                                <input type="text" id="degreeFileName0" class="degreeFileName" style="width: 100px;">
+                                <label for="degreeFile0" class="degreeFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
+                                <input type="file" id="degreeFile0" name="degreeFile0" class="degreeFile" style="display: none" onchange="applicationForm2.getFileName(this)">
                             </td>
                             <td>
-                                <input type="hidden" id="sexualFileNo0" name="sexualFileNo0">
-                                <input type="text" id="sexualFileName0" style="width: 100px;">
-                                <label for="sexualFile0" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
-                                <input type="file" id="sexualFile0" name="sexualFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
+                                <input type="hidden" id="sexualFileNo0" class="sexualFileNo" name="sexualFileNo0">
+                                <input type="text" id="sexualFileName0" class="sexualFileName" style="width: 100px;">
+                                <label for="sexualFile0" class="sexualFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
+                                <input type="file" id="sexualFile0" class="sexualFile" name="sexualFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
+                            </td>
+                            <td>
+                                <button type="button" class="__btn3 red" onClick="applicationForm2.delRow('schoolInfo', this)"><span>삭제</span></button>
                             </td>
                         </tr>
                         </tbody>
@@ -121,7 +124,6 @@
             <div id="careerDiv">
                 <div class="__btWrap rig __mt10" style="text-align: right">
                     <button type="button" class="__btn3 blue" onclick="applicationForm2.addCareerRow()"><span>추가</span></button>
-                    <button type="button" class="__btn3 red" onclick="applicationForm2.delRow('careerInfo')"><span>삭제</span></button>
                 </div>
                 <table class="table table-bordered mb-0" id="careerInfo0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <thead>
@@ -133,41 +135,45 @@
                             <th>퇴직시연봉</th>
                             <th>퇴직사유</th>
                             <th>경력 증빙</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="careerTb">
                     <tr class="careerInfo" id="career0">
                         <td>
-                            <input type="hidden" id="careerBaseId0" name="careerBaseId0">
-                            <input type="text" id="careerOrgName0">
+                            <input type="hidden" id="careerBaseId0" name="careerBaseId0" class="careerBaseId">
+                            <input type="text" id="careerOrgName0" class="careerOrgName">
                         </td>
                         <td>
-                            <input type="text" id="workStDt0" class="period" style="width: 110px"> ~
-                            <input type="text" id="workEnDt0" class="period" style="width: 110px">
+                            <input type="text" id="workStDt0" class="workStDt period" style="width: 110px"> ~
+                            <input type="text" id="workEnDt0" class="workEnDt period" style="width: 110px">
                         </td>
                         <td>
-                            <input type="text" id="position0">
+                            <input type="text" id="position0" class="position">
                         </td>
                         <td>
-                            <input type="text" id="chargeWork0">
+                            <input type="text" id="chargeWork0" class="chargeWork">
                         </td>
                         <td>
-                            <input type="text" id="retireSalary0">
+                            <input type="text" id="retireSalary0" class="retireSalary">
                         </td>
                         <td>
-                            <input type="text" id="retireReason0">
+                            <input type="text" id="retireReason0" class="retireReason">
                         </td>
                         <td>
-                            <input type="hidden" id="careerFileNo0" name="careerFileNo0">
-                            <input type="text" id="careerFileName0" style="width: 140px">
-                            <label for="careerFile0" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
-                            <input type="file" id="careerFile0" name="careerFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
+                            <input type="hidden" id="careerFileNo0" name="careerFileNo0" class="careerFileNo">
+                            <input type="text" id="careerFileName0" class="careerFileName" style="width: 140px">
+                            <label for="careerFile0" class="careerFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
+                            <input type="file" id="careerFile0" class="careerFile" name="careerFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
+                        </td>
+                        <td>
+                            <button type="button" class="__btn3 red" onclick="applicationForm2.delRow('careerInfo', this)"><span>삭제</span></button>
                         </td>
                     </tr>
                     <tr id="career0_1" class="careerInfo_1">
                         <th>담당업무 세부사항</th>
                         <td colspan="6">
-                            <textarea id="careerContent0"></textarea>
+                            <textarea id="careerContent0" class="careerContent"></textarea>
                         </td>
                     </tr>
                     </tbody>

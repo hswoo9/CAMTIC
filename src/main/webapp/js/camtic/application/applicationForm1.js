@@ -254,10 +254,10 @@ var applicationForm = {
             }
 
             if(e.ARMI_YN == "Y"){
-                $("#armiYn").prop("checked", true);
+                $("#armiYn").prop("checked", false);
                 applicationForm.checkBoxChk($("#armiYn"));
             }else{
-                $("#armiYn").prop("checked", false);
+                $("#armiYn").prop("checked", true);
             }
 
             $("#clsftCode").val(e.CLSFT_CODE).prop("selected", true);
