@@ -243,6 +243,13 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updateDevFinalApprStat", params);
     }
 
+    public void updateResApprStat(Map<String, Object> params) {
+        update("project.updateResApprStat", params);
+    }
+    public void updateResFinalApprStat(Map<String, Object> params) {
+        update("project.updateResFinalApprStat", params);
+    }
+
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getCrmInfo", params);
     }
@@ -379,5 +386,17 @@ public class ProjectRepository extends AbstractDAO {
 
     public Map<String, Object> getEstFile(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getEstFile", params);
+    }
+
+    public void setDelvFileDocNm(Map<String, Object> params) {
+        update("bustrip.setDelvFileDocNm", params);
+    }
+
+    public void setDevFileDocNm(Map<String, Object> params) {
+        update("bustrip.setDevFileDocNm", params);
+    }
+
+    public void setResultFileDocNm(Map<String, Object> params) {
+        update("bustrip.setResultFileDocNm", params);
     }
 }

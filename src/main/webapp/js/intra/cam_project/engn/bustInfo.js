@@ -86,6 +86,18 @@ var bustInfo = {
                 pageSizes: [ 10, 20, 30, 50, 100 ],
                 buttonCount: 5
             },
+            dataBound : function(e){
+                const grid = this;
+                grid.tbody.find("tr").click(function (e) {
+                    const dataItem = grid.dataItem($(this));
+                    console.log(dataItem);
+
+                    $("#contEtc").val(dataItem.RESULT);
+
+                    grid.tbody.css("background-color", "#ffffff");
+                    $(this).css("background-color", "#a7e1fc");
+                });
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -194,6 +206,12 @@ var bustInfo = {
     },
 
     fn_save : function (){
+
+        if($("#hrBizReqResultId").val() == ""){
+            alert("출장 내역을 선택해주세요.");
+            return ;
+        }
+
         var data ={
             contEtc : $("#contEtc").val(),
             hrBizReqResultId : $("#hrBizReqResultId").val(),

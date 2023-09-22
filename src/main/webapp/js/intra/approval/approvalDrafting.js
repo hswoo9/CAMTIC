@@ -1052,18 +1052,52 @@ var draft = {
         var data = {}
         if(params.menuCd == "bustripRes"){
             data.hrBizReqResultId = params.APPRO_KEY.split("_")[1];
-        }
-
-        console.log(data);
-
-        if(data.hrBizReqResultId != "") {
             let result = customKendo.fn_customAjax("/bustrip/getResultFileList", {
                 hrBizReqResultId: data.hrBizReqResultId
             });
             console.log(result);
             draft.getDocFileSet(result.fileInfo);
+            draft.setKendoUpload();
+        }
+        if(params.menuCd == "delv") {
+            data.pjtSn = params.APPRO_KEY.split("_")[1];
+            let result = customKendo.fn_customAjax("/project/engn/getDelvData", {
+                pjtSn: data.pjtSn
+            });
+            console.log(result);
+            let tempArr = [];
+            tempArr[0] = result.delvFile;
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
+        if(params.menuCd == "dev") {
+            data.devSn = params.APPRO_KEY.split("_")[1];
 
+            let pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {
+                devSn: data.devSn
+            }).rs.PJT_SN;
 
+            let result = customKendo.fn_customAjax("/project/getDevelopPlan", {
+                pjtSn: pjtSn
+            });
+            console.log(result);
+            let tempArr = [];
+            tempArr[0] = result.devFile.devFile;
+            tempArr[1] = result.devFile.estFile;
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
+        if(params.menuCd == "pjtRes") {
+            data.pjtSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                pjtSn: data.pjtSn
+            });
+            console.log(result);
+            let tempArr = [];
+            tempArr[0] = result.result.designFileList;
+            tempArr[1] = result.result.prodFileList;
+            draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
     }

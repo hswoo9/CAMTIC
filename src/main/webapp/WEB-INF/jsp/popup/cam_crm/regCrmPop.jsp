@@ -47,7 +47,18 @@
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">신규고객 등록</span></h3>
+            <h3 class="card-title title_NM">
+                <span style="position: relative; top: 3px;" id="pjtTitle">
+                    <c:choose>
+                        <c:when test="${params.crmSn eq null}">
+                            신규고객 등록
+                        </c:when>
+                        <c:otherwise>
+                            고객정보 수정
+                        </c:otherwise>
+                    </c:choose>
+                </span>
+            </h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="crmReg.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
@@ -215,6 +226,12 @@
                     </div>
                     <div>
                         <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmMgScale.jsp" flush="true">
+                            <jsp:param name="crmSn" value="${params.crmSn}"/>
+                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
+                        </jsp:include>
+                    </div>
+                    <div>
+                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmInterests.jsp" flush="true">
                             <jsp:param name="crmSn" value="${params.crmSn}"/>
                             <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
                         </jsp:include>

@@ -883,7 +883,7 @@
             STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
-            DEV_SN = #{pjtSn}
+            DEV_SN = #{devSn}
     </update>
 
     <update id="updateDevFinalApprStat" parameterType="map">
@@ -894,7 +894,28 @@
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
-            DEV_SN = #{pjtSn}
+            DEV_SN = #{devSn}
+    </update>
+
+    <update id="updateResApprStat" parameterType="map">
+        /* updateDevApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateResFinalApprStat" parameterType="map">
+        /* updateDevFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
     </update>
 
     <select id="getCrmInfo" parameterType="map" resultType="map">
@@ -1152,11 +1173,15 @@
     <select id="getResultInfo" parameterType="map" resultType="map">
         /*getResultInfo*/
         SELECT
-            *
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_PJT_MNG.DJ_PJT_RESULT
+            CAM_PJT_MNG.DJ_PJT_RESULT A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
-            PJT_SN = #{pjtSn}
+            A.PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insResultInfo" parameterType="map">
@@ -1268,5 +1293,35 @@
             EST_FILE_SN = #{file_no}
         WHERE
             DEV_SN = #{devSn}
+    </update>
+
+    <update id="setDelvFileDocNm" parameterType="map">
+        /* setDelvFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{fileNo}
+        AND file_cd = 'delvFile'
+    </update>
+
+    <update id="setDevFileDocNm" parameterType="map">
+        /* setDevFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no in (${fileNo})
+        AND file_cd in ('devEstFile', 'devFile')
+    </update>
+
+    <update id="setResultFileDocNm" parameterType="map">
+        /* setResultFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{fileNo}
+          AND file_cd = 'engnRsFile'
     </update>
 </mapper>

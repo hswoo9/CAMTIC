@@ -4,14 +4,15 @@ var inTimeSetPop = {
         saveAjaxData : "",
     },
 
-    init : function(recruit){
+    init : function(){
         inTimeSetPop.gridReload();
 
-        $("#recruitEvalSheetId").val(recruit.RECRUIT_EVAL_SHEET_ID);
-        $("#recruitInfoSn").val(recruit.RECRUIT_INFO_SN);
-        $("#recruitTitle").text(recruit.RECRUIT_TITLE);
+        inTimeSetPop.global.searchAjaxData = {
+            recruitInfoSn : $("#recruitInfoSn").val()
+        }
 
-        customKendo.fn_dropDownList("recruitAreaInfoSn", recruit.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
+        var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", inTimeSetPop.global.searchAjaxData);
+        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", inTimeSetPop.gridReload);
     },
 

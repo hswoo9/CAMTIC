@@ -127,8 +127,8 @@
         <if test='recruitEvalSheetId != null and !"".equals(recruitEvalSheetId)'>
             AND RECRUIT_EVAL_SHEET_ID = #{recruitEvalSheetId}
         </if>
-        <if test='recruitBoardId != null and !"".equals(recruitBoardId)'>
-            AND RECRUIT_BOARD_ID = #{recruitBoardId}
+        <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
+            AND RECRUIT_INFO_SN = #{recruitInfoSn}
         </if>
     </select>
 

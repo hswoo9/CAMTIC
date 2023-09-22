@@ -827,4 +827,46 @@
         AND
             CRM_SN = #{crmSn}
     </update>
+
+    <select id="getCrmInterests" parameterType="map" resultType="map">
+        /* getCrmInterests */
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INTERESTS
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
+    <insert id="setCrmInterests" parameterType="map">
+        /* setCrmInterests */
+        INSERT INTO CAM_CRM.DJ_CRM_INTERESTS
+        (
+            CRM_SN,
+            MAIN_DEPTH,
+            SUB_DEPTH,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{mainDepth},
+            #{subDepth},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setCrmInterestsUpd" parameterType="map">
+        /* setCrmInterestsUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_INTERESTS
+        SET
+            MAIN_DEPTH = #{mainDepth},
+            SUB_DEPTH = #{subDepth},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CRM_INTERESTS_SN = #{crmInterestsSn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
 </mapper>

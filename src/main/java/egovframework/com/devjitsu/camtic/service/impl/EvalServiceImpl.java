@@ -52,6 +52,7 @@ public class EvalServiceImpl implements EvalService {
     public Map<String, Object> getApplicationScoreBoard(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
         returnMap.put("evalScoreBoard", evalRepository.getApplicationScoreBoard(params));
+        returnMap.put("evalCnt", evalRepository.getApplicationScoreBoardEvalCnt(params));
 
         if(params.get("evalScreenType").equals("in")){
             returnMap.putAll(evalRepository.getInEvalItemMain(params));
