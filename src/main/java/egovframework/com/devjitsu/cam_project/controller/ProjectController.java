@@ -236,6 +236,14 @@ public class ProjectController {
         return "popup/cam_project/engineering/goodsInfo";
     }
 
+
+    /**
+     * TAB > 결과보고
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/intra/cam_project/resultInfo.do")
     public String resultInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -247,6 +255,19 @@ public class ProjectController {
         model.addAttribute(map);
 
         return "popup/cam_project/engineering/resultInfo";
+    }
+
+    @RequestMapping("/intra/cam_project/teamInfo.do")
+    public String teamInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/teamInfo";
     }
 
 

@@ -154,7 +154,6 @@
                 <th><span class="red-star">*</span>차량</th>
                 <td colspan="3">
                     <input id="carList" style="width: 180px;">
-                    <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.test()"/><br>
                 </td>
             </tr>
             <tr>

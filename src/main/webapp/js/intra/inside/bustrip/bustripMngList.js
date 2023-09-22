@@ -14,6 +14,9 @@ var bustripMngList = {
         /** 출장구분 */
         bustrip.fn_tripCodeSearchSet();
 
+        /** 관련사업 */
+        bustrip.fn_projectSearchSet();
+
         customKendo.fn_textBox(["busnName"]);
     },
 

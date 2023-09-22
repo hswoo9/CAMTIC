@@ -28,14 +28,11 @@
               <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
               <div class="__fz18 __black">
                 <div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>
-                <p>
-                  우수한 기술력을 보유한 드론 관련기업, 연구소 및<br class="__p">
-                  지원기관 입주를 통한 드론산업 클러스터 환경 마련
-                </p>
-                <p class="__mt30">
-                  드론 하드웨어/소프트웨어, 제어, 서비스 관련<br class="__p">
-                  우수기업 발굴 및 스케일-업을 위한 인프라 구축
-                </p>
+                <div class="foot __fz18 __black" style= "margin-top:30px">
+                  우수한 기술력을 보유한 드론 관련기업, 연구소 및 지원기관 입주를 통한 드론산업 클러스터 환경 마련
+                  <br class="__p">
+                  드론 하드웨어/소프트웨어, 제어, 서비스 관련 우수기업 발굴 및 스케일-업을 위한 인프라 구축
+                </div>
               </div>
             </div>
             <%--<div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>--%>
@@ -44,7 +41,7 @@
 
         <div class="__tit1 __mt100 __mb20">
           <%--캠틱 아이콘 이미지 추가--%>
-          <h3><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>--%>드론 첨단장비 공동활용 지원</h3>
+          <h3><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>--%><strong>드론 첨단장비 공동활용 지원</strong></h3>
         </div>
         <div class="__drone4">
           <div class="head">

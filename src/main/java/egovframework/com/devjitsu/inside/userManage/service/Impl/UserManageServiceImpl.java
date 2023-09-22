@@ -549,7 +549,7 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     //인사기록카드 - 학력사항 삭제
-    @Override
+    /*@Override
     public Map<String, Object> setEduDelete(List<String> eduChk) {
         Map<String, Object> result = new HashMap<>();
 
@@ -564,7 +564,7 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         return result;
-    }
+    }*/
 
     //인사기록카드 - 경력사항 삭제
     @Override

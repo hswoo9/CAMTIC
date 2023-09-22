@@ -135,6 +135,11 @@ var popCrmList = {
         if(rs.ADDR != null && rs.ADDR != ""){
             opener.parent.$("#visitLoc").val(rs.ADDR.split(" ")[0]+" "+rs.ADDR.split(" ")[1]);
         }
+
+        opener.parent.$("#teamCrmSn").val(rs.CRM_SN);
+        opener.parent.$("#teamCrmNm").val(rs.CRM_NM);
+
+
         window.close();
     }
 

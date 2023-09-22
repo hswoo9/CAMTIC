@@ -19,13 +19,15 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__support2 m0">
-          <div class="top">
+          <!--<div class="top">-->
 
             <div class="top">
-              <dl class="head">
-                <dt>지역기업  및 산업의 인력수요 기반</dt>
-                <dd>재직자 직무능력 향상, 예비 취업자 양성 훈련 실시</dd>
-              </dl>
+              <div class="head">
+                <dl>
+                  <dt><span class="__nm">“</span><span class="mainCapyTitle">지역기업  및 산업의 인력수요 기반</span><span class="__nm">”</span></dt>
+                  <dd><span class="subCapyTitle">재직자 직무능력 향상, 예비 취업자 양성 훈련 실시</span></dd>
+                </dl>
+              </div>
               <div class="inf">
                 <div class="img"><img src="/images/camtic/img-ntalent1-1.jpg" alt=""></div>
                 <div class="info">
@@ -42,10 +44,10 @@
             </div>
 
             <div class="__fz18 __black fwb __mt50">추진 사업</div>
-            <table class="__tblList bd1 bg3 respond2 __mt10">
+            <table class="__tblList bd1 bg3 respond2 __mt10" style="word-spacing: 0px;">
               <caption></caption>
               <colgroup class="__p">
-                <col style="width:350px;">
+                <col style="width:335px;">
                 <col>
               </colgroup>
               <colgroup class="__m">
@@ -86,7 +88,7 @@
               <tr>
                 <td class="fz18 __black">유급휴가훈련</td>
                 <td class="tal">
-                  사업주가 재직근로자에게 유급휴가(5일이상)를 부여하여 직무역량 향상 훈련을 실시할 수 있도록 지원하고, 훈련실시 기간 임금 지급<br>
+                  사업주가 재직근로자에게 유급휴가(5일이상)를 부여하여 직무역량 향상 훈련을 실시할 수 있도록 지원하고, 훈련실시 기간 임금 지급<br class="__m">
                   (주요분야 : 생산, 품질, 식품, 드론 등)
                 </td>
               </tr>
@@ -133,7 +135,7 @@
                 <p class="__fz18 __balck __mt10">산업맞춤형 전문기술인력양성상업</p>
               </li>
             </ul>
-          </div>
+          <!--</div>-->
 
         </div>
 

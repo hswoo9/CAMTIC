@@ -47,6 +47,39 @@ public class CampusController {
         return "campus/eduReq";
     }
 
+    /** 캠퍼스 개요 팝업 */
+    @RequestMapping("/Campus/pop/myStudy/campusGuide1Pop.do")
+    public String campusGuide1(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/campus/myStudy/campusGuide1Pop";
+    }
+
+    /** 역량/학습강화 팝업 */
+    @RequestMapping("/Campus/pop/myStudy/campusGuide2Pop.do")
+    public String campusGuide2Pop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/campus/myStudy/campusGuide2Pop";
+    }
+
+    /** 직무 학습체계도 사용자 팝업 */
+    @RequestMapping("/Campus/pop/myStudy/campusGuide3Pop.do")
+    public String campusGuide3Pop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", params);
+        return "popup/campus/myStudy/campusGuide3Pop";
+    }
+
     /** 학습신청 팝업 */
     @RequestMapping("/Campus/pop/eduReqPop.do")
     public String eduReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
