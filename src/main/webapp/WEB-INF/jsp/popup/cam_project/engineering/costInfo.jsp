@@ -13,9 +13,67 @@
 
 <div style="padding: 10px">
     <div id="resultBtnDiv">
-        <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>--%>
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>
     </div>
     <div class="table-responsive">
+        <span style="position: relative; top:10px; font-size: 12px;">◎ 비용상세내역</span>
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th><span class="red-star"></span>비용</th>
+                <th><span class="red-star"></span>원재료</th>
+                <th><span class="red-star"></span>외주비</th>
+                <th><span class="red-star"></span>노무비</th>
+                <th><span class="red-star"></span>경비</th>
+                <th><span class="red-star"></span>출장</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="text-align: center"><input type="text" disabled id="costAmt" class="costAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td style="text-align: center"><input type="text" disabled id="rawAmt" class="rawAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td style="text-align: center"><input type="text" disabled id="outsAmt" class="outsAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td style="text-align: center"><input type="text" disabled id="laborAmt" style="text-align: right; width: 90%" class="laborAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td style="text-align: center"><input type="text" disabled id="chargeAmt" class="chargeAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td style="text-align: center"><input type="text" disabled id="bustAmt" class="bustAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+                <col width="16.6%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th><span class="red-star"></span>작업명</th>
+                <th><span class="red-star"></span>직급</th>
+                <th><span class="red-star"></span>성명</th>
+                <th><span class="red-star"></span>노임단가</th>
+                <th><span class="red-star"></span>작업시간</th>
+                <th><span class="red-star"></span>합계</th>
+            </tr>
+            </thead>
+            <tbody id="costDetailTable">
+            <tr>
+                <td style="text-align: center" colspan="6">공정 내역이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
         <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="15%">
@@ -26,95 +84,10 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>프로젝트 코드
-                </th>
-                <td>
-                    <input type="text" id="rsPjtSn" disabled value="${hashMap.PJT_CD}" style="width: 90%; text-align: left" />
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>시제품 여부
-                </th>
-                <td>
-                    <input type="text" id="rsPrototype" style="width: 90%;">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>작업명
-                </th>
-                <td colspan="3">
-                    <input type="text" id="rsPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>실적률
-                </th>
-                <td colspan="3">
-                    <table>
-                        <tbody id="psTable">
-
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>지원내용
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="rsSupCont" style="width: 100%;"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>특이사항
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="rsIss" style="width: 100%;"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>비고
                 </th>
                 <td colspan="3">
-                    <textarea type="text" id="rsEtc" style="width: 100%;"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>기간
-                </th>
-                <td colspan="3">
-                    <input type="text" id="rsStrDt" style="width: 15%;"> ~
-                    <input type="text" id="rsEndDt" style="width: 15%;">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>설계이미지
-                </th>
-                <td>
-                    <label for="designImg" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="designImg" name="designImg" onchange="resultInfo.fileChange(this)" style="display: none">
-                    <span id="designImgName"></span>
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>제작이미지
-                </th>
-                <td>
-                    <label for="prodImg" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="prodImg" name="prodImg" onchange="resultInfo.fileChange(this)" style="display: none">
-                    <span id="prodImgName"></span>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>활용장비
-                </th>
-                <td colspan="3">
-                    <input type="text" id="rsActEquip" style="width: 90%;">
+                    <textarea type="text" id="costEtc" style="width: 100%;"></textarea>
                 </td>
             </tr>
             </thead>
@@ -123,7 +96,7 @@
 </div>
 
 <script>
-    resultInfo.fn_defaultScript();
+    costInfo.fn_defaultScript();
 </script>
 </body>
 </html>

@@ -745,7 +745,9 @@
 
     <select id="getPsList" parameterType="map" resultType="map">
         SELECT
-            *
+            A.*, B.*,
+            (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
+            (SELECT POSITION_NAME FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_NAME
         FROM
             CAM_PJT_MNG.DJ_PJT_PS A
         LEFT JOIN
