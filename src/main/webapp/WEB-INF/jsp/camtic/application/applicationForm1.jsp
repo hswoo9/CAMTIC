@@ -125,7 +125,7 @@
 
             <h4>
                 병역사항
-                <input type="checkbox" id="armiYn" name="armiYn" onclick="applicationForm.checkBoxChk(this)"><span style="font-size: 12px">미대상 (여성 및 외국인 등)</span>
+                <input type="checkbox" id="armiYn" name="armiYn" onclick="applicationForm.checkBoxChk(this)" checked><span style="font-size: 12px">미대상 (여성 및 외국인 등)</span>
             </h4>
 
             <div id="armiDiv" style="display: none">

@@ -157,6 +157,7 @@ var applicationForm2 = {
         }else{
             if(type == "next"){
                 var flag = true;
+                var highSchoolFlag = false;
                 $.each($(".schoolInfo"), function(i, v){
                     if($(this).find("#schoolType").val() != "" && $(this).find("#schoolType").val() != "1"){
                         if(!$(this).find("#degreeFileNo" + i).val() && $("#degreeFile" + i)[0].files.length == 0 && type == "next") {
@@ -170,11 +171,21 @@ var applicationForm2 = {
                             return flag;
                         }
                     }
+
+                    if($(this).find("#schoolType").val() == "1"){
+                        highSchoolFlag = true;
+                    }
+
+                    if(!highSchoolFlag){
+                        alert("고등학교 학력은 필수사항입니다.");
+                        return highSchoolFlag;
+                    }
                 })
 
-                if(!flag){
+                if(!flag || !highSchoolFlag){
                     return;
                 }
+
 
                 $.each($(".careerInfo"), function(i, v){
                     if($(this).find("#careerOrgName" + i).val() != ""){

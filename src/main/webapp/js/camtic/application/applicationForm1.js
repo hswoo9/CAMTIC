@@ -51,9 +51,9 @@ var applicationForm = {
 
     checkBoxChk : function(e){
         if($(e).is(":checked")){
-            $("#armiDiv").show();
-        }else{
             $("#armiDiv").hide();
+        }else{
+            $("#armiDiv").show();
         }
     },
 
@@ -120,7 +120,7 @@ var applicationForm = {
                 }
             }
 
-            if($("#armiYn").is(":checked")){
+            if(!$("#armiYn").is(":checked")){
                 if(!$("#clsftCode").val()){
                     alert("군별을 선택해주세요");
                     return;
@@ -191,8 +191,8 @@ var applicationForm = {
                 formData.append("veteransNum", $("#veteransNum").val());
             }
 
-            formData.append("armiYn", $("#armiYn").is(":checked") ? "Y" : "N");
-            if($("#armiYn").is(":checked")){
+            formData.append("armiYn", !$("#armiYn").is(":checked") ? "Y" : "N");
+            if(!$("#armiYn").is(":checked")){
                 formData.append("clsftCode", $("#clsftCode").val());
                 if($("#clsftCode").val() != "2"){
                     formData.append("militarySvcType", $("#militarySvcType").val());
