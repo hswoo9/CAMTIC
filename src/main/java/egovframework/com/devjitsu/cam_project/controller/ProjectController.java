@@ -257,6 +257,26 @@ public class ProjectController {
         return "popup/cam_project/engineering/resultInfo";
     }
 
+    @RequestMapping("/intra/cam_project/costPriceInfo.do")
+    public String costInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/costInfo";
+    }
+
+    /**
+     * TAB > 협업관리
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/intra/cam_project/teamInfo.do")
     public String teamInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
