@@ -2,8 +2,8 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="skip">
-  <a href="#header">메뉴</a>
-  <a href="#content">본문</a>
+  <a href="#header" style="font-size: 0">메뉴</a>
+  <a href="#content" style="font-size: 0">본문</a>
 </div>
 
 <header id="header">
