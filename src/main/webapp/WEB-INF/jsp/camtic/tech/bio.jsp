@@ -15,16 +15,17 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__bio4 m0">
+        <div class="__bio4 m0" style="word-spacing: 0px;">
 
-          <dl class="head">
-            <dt>인간 중심의 기술 연구를 위한 역량 강화</dt>
-            <dd>
-              <span class="__nm">“</span>
-              헬스케어, 전기방사장치, 시제품개발  분야 연구
-              <span class="__nm">”</span>
-            </dd>
-          </dl>
+          <div class="top">
+            <div class="head">
+              <dl>
+                <dt><span class="__nm">“</span><span class="mainCapyTitle">인간 중심의 기술 연구를 위한 역량 강화</span><span class="__nm">”</span></dt>
+                <dd><span class="subCapyTitle">헬스케어, 전기방사장치, 시제품개발  분야 연구</span></dd>
+              </dl>
+            </div>
+          </div>
+
           <div class="__icoBox pt0" style="margin-top: 50px;">
             <div class="__tit1 __mt100 __mb20">
               <h3><strong>전기방사장치 - 나노 섬유 생산</strong></h3>
@@ -78,7 +79,7 @@
             <li><img src="/images/camtic/img-nsmart2-3.jpg" alt=""></li>
           </ul>
           <div class="__fz18 __mt10 __black tac">( 양산형 500mm, Lab Type, 500mm Lab Type 전기방사장치 )</div>
-          <ul class="__flximg mwrap __mt80">
+          <ul class="__flximg mwrap __mt80" style="width: 800px; margin: 0 auto;">
             <li><img src="/images/camtic/img-nsmart3-1.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">정면, 10k 배율</div></li>
             <li><img src="/images/camtic/img-nsmart3-2.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">정면, 1k 배율</div></li>
             <li><img src="/images/camtic/img-nsmart3-3.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">측면, 10k 배율</div></li>
@@ -125,8 +126,8 @@
             <li><img src="/images/camtic/img-nsmart4-3.jpg" alt=""></li>
             <li><img src="/images/camtic/img-nsmart4-4.jpg" alt=""></li>
           </ul>
-          <ul class="__flximg mwrap __mt40">
-            <li><img src="/images/camtic/img-nsmart4-5.jpg" alt=""></li>
+          <ul class="__flximg mwrap __mt40" id="ulImg">
+            <li><img src="/images/camtic/img-nsmart4-5.jpg" alt="" style="height: 100%;"></li>
             <li><img src="/images/camtic/img-nsmart4-6.jpg" alt=""></li>
             <li><img src="/images/camtic/img-nsmart4-7.jpg" alt=""></li>
           </ul>

@@ -39,10 +39,10 @@
                   </dl>
                 </div>
               </div>
-              <div class="img">
+              <%--<div class="img">
                 <img src="/images/camtic/img-history1.jpg" alt="">
               </div>
-              <div class="txt">전주혁신창업허브 창업동 개관식</div>
+              <div class="txt">전주혁신창업허브 창업동 개관식</div>--%>
             </div>
             <div class="box">
               <div class="top">
@@ -81,10 +81,10 @@
                   </dl>
                 </div>
               </div>
-              <div class="img">
+              <%--<div class="img">
                 <img src="/images/camtic/img-history2.jpg" alt="">
               </div>
-              <div class="txt">캠틱클러스터 개인투자조합 1호 결성</div>
+              <div class="txt">캠틱클러스터 개인투자조합 1호 결성</div>--%>
             </div>
             <div class="box">
               <div class="top">
@@ -120,10 +120,10 @@
                   </dl>
                 </div>
               </div>
-              <div class="img">
+              <%--<div class="img">
                 <img src="/images/camtic/img-history3.jpg" alt="">
               </div>
-              <div class="txt">드론기술개발지원센터 개소식</div>
+              <div class="txt">드론기술개발지원센터 개소식</div>--%>
             </div>
           </div>
         </div>

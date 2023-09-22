@@ -179,7 +179,7 @@
         <div class="__job4">
           <div class="head"><span class="__nm">“</span><span class="m">조선업 취업, 군산 주력산업(전기차.이차전지 등) <strong style="font-weight:600;">취업 원스톱 지원</strong></span><span class="__nm">”</span></div>
           <div class="tac"><img src="/images/camtic/img-njob2-1.jpg" alt=""></div>
-          <div class="tac __mt70"><img src="/images/camtic/img-njob3-1.jpg" alt=""></div>
+          <div class="tac __mt70" style="width:800px; height:466px; margin: 0 auto;"><img src="/images/camtic/img-njob3-1.jpg" alt=""></div>
         </div>
 
 
@@ -222,7 +222,7 @@
               </div>
             </div>
           </div>
-          <div class="tac __mt70"><img src="/images/camtic/img-njob4-1.jpg" alt=""></div>
+          <div class="tac __mt70" style="width:800px; height:466px; margin: 0 auto;"><img src="/images/camtic/img-njob4-1.jpg" alt=""></div>
         </div>
 
       </div>
