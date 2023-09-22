@@ -14,4 +14,5 @@ public interface EvalManageService {
     Map<String, Object> setEvalSelectionEmpSeq(Map<String, Object> params);
     void setRecruitEvalSelSheet(Map<String, Object> params);
     List<Map<String, Object>> getApplicationScreenViewList(Map<String, Object> params);
+    List<Map<String, Object>> getApplicationInterViewList(Map<String, Object> params);
 }

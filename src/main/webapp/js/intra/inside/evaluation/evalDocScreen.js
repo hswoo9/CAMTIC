@@ -23,6 +23,8 @@ var evalDocScreen = {
     },
 
     getApplicationList : function(){
+        var careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
+
         evalDocScreen.global.saveAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val() == "" ? "All" : $("#recruitAreaInfoSn").val(),
@@ -31,26 +33,168 @@ var evalDocScreen = {
 
         var result = customKendo.fn_customAjax("/inside/getApplicationList", evalDocScreen.global.saveAjaxData);
         if(result.flag){
-            evalDocScreen.makeApplicationList(result.list);
-            evalDocScreen.fnResizeForm();
-        }
+            if(careerType == "1"){
+                evalDocScreen.makeType1ApplicationList(result.list);
+            }else if(careerType == "2"){
+                evalDocScreen.makeType2ApplicationList(result.list);
+            }
 
-        evalDocScreen.global.saveAjaxData = {
-            evalLoginId : $("#evalLoginId").val(),
-            evalScreenType : "doc",
-        }
+            evalDocScreen.global.saveAjaxData = {
+                evalLoginId : $("#evalLoginId").val(),
+                evalScreenType : "doc",
+            }
 
-        var result = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", evalDocScreen.global.saveAjaxData);
-        if(result.flag){
-            if(result.rs.length > 0){
-                evalDocScreen.applicationEvalDataSet(result.rs);
+            var result = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", evalDocScreen.global.saveAjaxData);
+            if(result.flag){
+                if(result.rs.length > 0){
+                    evalDocScreen.applicationEvalDataSet(result.rs);
+                }
             }
         }
+
+        evalDocScreen.fnResizeForm();
     },
 
-    makeApplicationList : function(e){
-        $("#applicationTb tr").remove();
+    makeType1ApplicationList : function(e){
+        $("#tableDiv *").remove();
         var html = "";
+        html += '' +
+            '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
+            '<colgroup>' +
+            '    <col style="width: 8%">' +
+            '    <col style="width: 8%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 11%">' +
+            '    <col>' +
+            '</colgroup>' +
+            '<tr>' +
+            '    <th rowSpan="2">번호</th>' +
+            '    <th rowSpan="2">성명</th>' +
+            '    <th colSpan="3">학력(20점)</th>' +
+            '    <th colSpan="3">경력(50점)</th>' +
+            '    <th colSpan="3">전문성(30점)</th>' +
+            '    <th rowSpan="2">평가점수(100점)</th>' +
+            '    <th rowspan="2">기타의견</th>' +
+            '</tr>' +
+            '<tr>' +
+            '    <th>上(20)</th>' +
+            '    <th>中(15)</th>' +
+            '    <th>下(10)</th>' +
+            '    <th>上(50)</th>' +
+            '    <th>中(40)</th>' +
+            '    <th>下(30)</th>' +
+            '    <th>上(30)</th>' +
+            '    <th>中(25)</th>' +
+            '    <th>下(20)</th>' +
+            '</tr>' +
+            '<tbody id="applicationTb">';
+        for(var i = 0; i < e.length; i++){
+            html += "" +
+                '<tr class="userEvalDocScreen">' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' +
+                        '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' + e[i].USER_NAME +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="15"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="10"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="50"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_1_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_2_' + e[i].APPLICATION_ID + '" value="25"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
+                    '</td>' +
+                '</tr>'
+        }
+
+        html += '</tbody>' +
+            '</table>';
+
+        $("#tableDiv").append(html);
+
+        $("input[name='sum']").kendoTextBox();
+        $("input[name='otherRmk']").kendoTextBox();
+
+        $(".evalRadio").click(function (e) {
+            var sum = 0;
+            var applicationId = $(this).attr("id").split("_")[3];
+            $.each($(".evalRadio:checked"), function(e, i){
+                if(applicationId == $(i).attr("id").split("_")[3]){
+
+                    sum += Number($(this).val());
+                }
+            });
+
+            $("#sum_" + applicationId).val(sum)
+        });
+    },
+
+    makeType2ApplicationList : function(e){
+        $("#tableDiv *").remove();
+        var html = "";
+        html += '' +
+            '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
+            '<colgroup>' +
+            '    <col style="width: 8%">' +
+            '    <col style="width: 8%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 6%">' +
+            '    <col style="width: 11%">' +
+            '    <col>' +
+            '</colgroup>' +
+            '<tr>' +
+            '    <th rowSpan="2">번호</th>' +
+            '    <th rowSpan="2">성명</th>' +
+            '    <th colSpan="3">학력/전공(40점)</th>' +
+            '    <th colSpan="3">서류충실도(60점)</th>' +
+            '    <th rowSpan="2">평가점수(100점)</th>' +
+            '    <th rowspan="2">기타의견</th>' +
+            '</tr>' +
+            '<tr>' +
+            '    <th>上(40)</th>' +
+            '    <th>中(30)</th>' +
+            '    <th>下(20)</th>' +
+            '    <th>上(60)</th>' +
+            '    <th>中(50)</th>' +
+            '    <th>下(40)</th>' +
+            '</tr>' +
+            '<tbody id="applicationTb">';
         for(var i = 0; i < e.length; i++){
             html += "" +
                 '<tr class="userEvalDocScreen">' +
@@ -84,7 +228,11 @@ var evalDocScreen = {
                     '</td>' +
                 '</tr>'
         }
-        $("#applicationTb").append(html);
+
+        html += '</tbody>' +
+            '</table>';
+
+        $("#tableDiv").append(html);
 
         $("input[name='sum']").kendoTextBox();
         $("input[name='otherRmk']").kendoTextBox();

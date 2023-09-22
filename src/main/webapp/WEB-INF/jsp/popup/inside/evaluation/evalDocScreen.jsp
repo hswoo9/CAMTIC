@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalDocScreen.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12 pop_sign_wrap" style="width:950px;padding:0;">
+<div class="col-lg-12 pop_sign_wrap" style="width:1200px;padding:0;">
   <div class="table-responsive">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">
@@ -43,39 +43,9 @@
         </tr>
       </table>
 
-      <table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">
-        <colgroup>
-          <col style="width: 8%">
-          <col style="width: 8%">
-          <col style="width: 7%">
-          <col style="width: 7%">
-          <col style="width: 7%">
-          <col style="width: 7%">
-          <col style="width: 7%">
-          <col style="width: 7%">
-          <col style="width: 15%">
-          <col>
-        </colgroup>
-        <tr>
-          <th rowspan="2">번호</th>
-          <th rowspan="2">성명</th>
-          <th colspan="3">학력/전공(40점)</th>
-          <th colspan="3">서류충실도(60점)</th>
-          <th rowspan="2">평가점수(100점)</th>
-          <th rowspan="2">기타의견</th>
-        </tr>
-        <tr>
-          <th>상(40)</th>
-          <th>중(30)</th>
-          <th>하(20)</th>
-          <th>상(60)</th>
-          <th>중(50)</th>
-          <th>하(40)</th>
-        </tr>
-        <tbody id="applicationTb">
+      <div id="tableDiv">
 
-        </tbody>
-      </table>
+      </div>
       <div class="btn-st popButton" style="text-align: right">
         <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="evalDocScreen.setEvalScoreBoard();">저장</button>
         <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="evalDocScreen.setEvalEnd();">평가종료</button>

@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.inside.recruit.controller;
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.camtic.service.EvalService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
@@ -28,6 +29,9 @@ public class EvalManageController {
 
     @Autowired
     private EvalManageService evalManageService;
+
+    @Autowired
+    private EvalService evalService;
 
     /**
      * 면접평가표 관리 페이지
@@ -126,6 +130,18 @@ public class EvalManageController {
     @RequestMapping("/recruit/manage/eval/getApplicationScreenViewList.do")
     public String getApplicationScreenViewList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", evalManageService.getApplicationScreenViewList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 채용관리 - 평가결과 데이터(면접심사)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/recruit/manage/eval/getApplicationInterViewList.do")
+    public String getApplicationInterViewList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", evalManageService.getApplicationInterViewList(params));
         return "jsonView";
     }
 

@@ -121,4 +121,9 @@ public class EvalManageServiceImpl implements EvalManageService {
     public List<Map<String, Object>> getApplicationScreenViewList(Map<String, Object> params) {
         return evalManageRepository.getApplicationScreenViewList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getApplicationInterViewList(Map<String, Object> params) {
+        return evalManageRepository.getApplicationInterViewList(params);
+    }
 }
