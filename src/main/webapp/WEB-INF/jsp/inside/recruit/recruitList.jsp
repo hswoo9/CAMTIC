@@ -21,6 +21,7 @@
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
+                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">

@@ -1,5 +1,9 @@
 var recruitList = {
 
+    global : {
+        saveAjaxData : ""
+    },
+
     init : function(){
         recruitList.dataSet();
         recruitList.gridReload();
@@ -54,6 +58,13 @@ var recruitList = {
                 }, {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="recruitList.setRecruitDel()">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
                             '	<span class="k-button-text">채용통계 조회</span>' +
                             '</button>';
@@ -81,6 +92,10 @@ var recruitList = {
             detailInit: recruitList.detailInit,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : "<input type='checkbox' id='recChk#=RECRUIT_INFO_SN#' name='recChk' value='#=RECRUIT_INFO_SN#'/>",
+                    width: 50
+                }, {
                     template: "#= --record #",
                     title: "순번",
                     width : 50
@@ -153,22 +168,23 @@ var recruitList = {
                     title: "상태",
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop(' + e.RECRUIT_INFO_SN + ');">' +
-                            '	<span class="k-button-text">공고관리</span>' +
+                            '	<span class="k-button-text">관리</span>' +
                             '</button>';
-                    }
+                    },
+                    width : 60
                 }, {
                     field: "RECRUIT_STATUS_SN",
                     title: "상태",
-                    width : 120,
+                    width : 90,
                     template : function(e){
                         if(e.RECRUIT_STATUS_SN == "1"){
                             return "작성중";
                         }else if(e.RECRUIT_STATUS_SN == "2"){
                             return "접수중";
                         }else if(e.RECRUIT_STATUS_SN == "3"){
-                            return "심사중(서류심사)";
+                            return "서류심사중";
                         }else if(e.RECRUIT_STATUS_SN == "4"){
-                            return "심사중(면접심사)";
+                            return "면접심사중";
                         }else if(e.RECRUIT_STATUS_SN == "5"){
                             return "면접심사완료";
                         }else if(e.RECRUIT_STATUS_SN == "E"){
@@ -185,6 +201,11 @@ var recruitList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=recChk]").prop("checked", true);
+            else $("input[name=recChk]").prop("checked", false);
+        });
     },
 
     gridReload : function(){
@@ -281,4 +302,30 @@ var recruitList = {
             }
         }
     },
+
+    setRecruitDel : function(){
+        if($("input[name='recChk']:checked").length == 0){
+            alert("삭제할 채용공고를 선택해주세요.");
+            return
+        }
+
+        if(confirm("선택한 채용공고를 삭제하시겠습니까?")){
+            var recruitInfoSn = "";
+
+            $.each($("input[name='recChk']:checked"), function(){
+                recruitInfoSn += "," + $(this).val()
+            })
+
+            recruitList.global.saveAjaxData = {
+                empSeq : $("#empSeq").val(),
+                recruitInfoSn : recruitInfoSn.substring(1)
+            }
+
+            var result = customKendo.fn_customAjax("/inside/setRecruitDel.do", recruitList.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                recruitList.gridReload();
+            }
+        }
+    }
 }

@@ -20,6 +20,7 @@ public class RecruitRepository extends AbstractDAO {
     public void setCommissionerDel(Map<String, Object> params) { update("recruit.setCommissionerDel", params);}
     public int setRecruitInsert(Map<String, Object> params) { int result = (int)insert("recruit.setRecruitInsert", params); return result;}
     public void setRecruitUpdate(Map<String, Object> params) { insert("recruit.setRecruitUpdate", params);}
+    public void setRecruitDel(Map<String, Object> params) { update("recruit.setRecruitDel", params);}
     public void setRecruitAreaDelete(Map<String, Object> params) { insert("recruit.setRecruitAreaDelete", params);}
     public void setRecruitAreaInsert(Map<String, Object> params) { insert("recruit.setRecruitAreaInsert", params);}
     public int setCommissionerInsert(Map<String, Object> params) { int result = (int)insert("recruit.setCommissionerInsert", params); return result;}

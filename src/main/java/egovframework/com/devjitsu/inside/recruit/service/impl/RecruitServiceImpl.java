@@ -102,6 +102,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public void setRecruitDel(Map<String, Object> params) {
+        recruitRepository.setRecruitDel(params);
+    }
+
+    @Override
     public void setCommissionerInsert(Map<String, Object> params) {
         recruitRepository.setCommissionerInsert(params);
     }

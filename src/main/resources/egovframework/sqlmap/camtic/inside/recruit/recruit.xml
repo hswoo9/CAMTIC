@@ -64,6 +64,8 @@
         ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
         WHERE
             1=1
+        AND
+            IRI.ACTIVE = 'Y'
         GROUP BY IRI.RECRUIT_INFO_SN
         ORDER BY IRI.REG_DT DESC
     </select>
@@ -208,6 +210,18 @@
             MOD_DATE = NOW()
         WHERE
             RECRUIT_INFO_SN = #{recruitInfoSn}
+    </update>
+
+    <update id="setRecruitDel" parameterType="map">
+        /* setRecruitDel */
+        UPDATE
+            CAM_INSIDE.DJ_RECRUIT_INFO
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            RECRUIT_INFO_SN IN (${recruitInfoSn})
     </update>
 
     <delete id="setRecruitAreaDelete" parameterType="map">

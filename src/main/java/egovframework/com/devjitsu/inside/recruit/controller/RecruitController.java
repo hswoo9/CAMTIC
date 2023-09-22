@@ -67,6 +67,17 @@ public class RecruitController {
     }
 
     /**
+     * 채용공고 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/setRecruitDel.do")
+    public String setRecruitDel(@RequestParam Map<String,Object> params) {
+        recruitService.setRecruitDel(params);
+        return "jsonView";
+    }
+
+    /**
      * 채용공고 상세보기
      * @param params
      * @param model
