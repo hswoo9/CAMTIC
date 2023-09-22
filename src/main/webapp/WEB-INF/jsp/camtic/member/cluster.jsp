@@ -24,7 +24,7 @@
           </dl>
           <div class="img">
             <%--<img src="/images/camtic/img-clu1-1.jpg" alt="">--%>
-            <img src="/images/camtic/img-clu1-1.png" alt="">
+            <img src="/images/camtic/img-clu1-1.jpg" alt="">
           </div>
         </div>
 
@@ -33,13 +33,13 @@
         </div>
         <div class="__clu2">
           <%--<img src="/images/camtic/img-clu2-1.jpg" alt="">--%>
-          <img src="/images/camtic/img-clu1-1.png" alt="">
+          <img src="/images/camtic/img-clu1-1.jpg" alt="">
         </div>
 
         <div class="__tit1 __mt100">
           <h3><strong>캠틱 클러스터 기본원칙</strong></h3>
         </div>
-        <div class="__clu3">
+       <%-- <div class="__clu3">
           <div class="area">
             <div class="box">
               <div class="img"><img src="/images/camtic/img-clu3-1.jpg" alt=""></div>
@@ -54,7 +54,7 @@
               <div class="txt">개인투자조합 활성화</div>
             </div>
           </div>
-        </div>
+        </div>--%>
 
       </div>
     </div>
