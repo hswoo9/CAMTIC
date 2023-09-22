@@ -150,7 +150,6 @@ public class RecruitController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         model.addAttribute("recruit", recruitService.getRecruit(params));
-        model.addAttribute("recruitArea", new Gson().toJson(recruitService.getRecruitAreaList(params)));
 
         return "popup/inside/recruit/recruitAdminPop";
     }
@@ -166,6 +165,16 @@ public class RecruitController {
         return "jsonView";
     }
 
+    /**
+     * 채용공고 모집분야 리스트
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getRecruitAreaList.do")
+    public String getRecruitAreaList(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("recruitArea", recruitService.getRecruitAreaList(params));
+        return "jsonView";
+    }
 
     /**
      * 채용공고 응시자 리스트
@@ -262,7 +271,6 @@ public class RecruitController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         model.addAttribute("recruit", recruitService.getRecruit(params));
-        model.addAttribute("recruitArea", new Gson().toJson(recruitService.getRecruitAreaList(params)));
 
         return "popup/inside/recruit/screenViewPop";
     }
@@ -280,7 +288,7 @@ public class RecruitController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", login);
-        model.addAttribute("recruit", new Gson().toJson(recruitService.getRecruit(params)));
+        model.addAttribute("recruit", recruitService.getRecruit(params));
 
         return "popup/inside/recruit/inTimeSetPop";
     }

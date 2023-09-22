@@ -71,6 +71,6 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
-  screenViewPop.init(JSON.parse('${recruitArea}'), '${nowH}');
+  screenViewPop.init('${nowH}');
 </script>
 </body>

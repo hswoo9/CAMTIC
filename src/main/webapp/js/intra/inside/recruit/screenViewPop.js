@@ -5,9 +5,15 @@ var screenViewPop = {
         nowH : ""
     },
 
-    init : function(recruitArea, nowH){
+    init : function(nowH){
         screenViewPop.global.nowH = nowH;
-        customKendo.fn_dropDownList("recruitAreaInfoSn", recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+
+        screenViewPop.global.searchAjaxData = {
+            recruitInfoSn : $("#recruitInfoSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", screenViewPop.global.searchAjaxData);
+        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", screenViewPop.makeTable);
     },
 

@@ -162,6 +162,6 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
-  recruitAdminPop.init(JSON.parse('${recruitArea}'));
+  recruitAdminPop.init();
 </script>
 </body>
