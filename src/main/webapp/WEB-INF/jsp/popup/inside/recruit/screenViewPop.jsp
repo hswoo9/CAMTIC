@@ -3,6 +3,8 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
+<c:set var="now" value="<%= new java.util.Date() %>" />
+<fmt:formatDate value="${now}" var="nowH" pattern="yyyy년MM월dd일" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
@@ -40,8 +42,8 @@
     </div>
 
     <div class="panel-body">
-      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="">
-      <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="">
+      <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruit.RECRUIT_INFO_SN}">
+      <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="${recruit.RECRUIT_EVAL_SHEET_ID}">
       <input type="hidden" id="type" name="type" value="${params.type}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 
@@ -52,7 +54,7 @@
         <tr>
           <th>공고명</th>
           <td>
-            <span id="recruitTitle"></span>
+            <span id="recruitTitle">${recruit.RECRUIT_TITLE}</span>
           </td>
         </tr>
         <tr>
@@ -63,11 +65,12 @@
         </tr>
       </table>
 
-      <div id="mainGrid" style="margin:20px 0;"></div>
+      <div id="tbDiv">
+      </div>
     </div>
   </div>
 </div><!-- col-md-9 -->
 <script>
-  screenViewPop.init(JSON.parse('${recruit}'));
+  screenViewPop.init(JSON.parse('${recruitArea}'), '${nowH}');
 </script>
 </body>

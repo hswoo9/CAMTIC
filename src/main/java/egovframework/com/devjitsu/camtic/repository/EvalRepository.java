@@ -11,6 +11,7 @@ public class EvalRepository extends AbstractDAO {
 
     public Map<String, Object> getEvalLogin(Map<String, Object> params) { return (Map<String, Object>)selectOne("eval.getEvalLogin", params);}
     public List<Map<String, Object>> getApplicationScoreBoard(Map<String, Object> params) { return selectList("eval.getApplicationScoreBoard", params);}
+    public List<Map<String, Object>> getApplicationScoreBoardEvalCnt(Map<String, Object> params) { return selectList("eval.getApplicationScoreBoardEvalCnt", params);}
     public Map<String, Object> getInEvalItemMain(Map<String, Object> params) { return (Map<String, Object>) selectOne("eval.getInEvalItemMain", params);}
     public List<Map<String, Object>> getInEvalItem(Map<String, Object> params) { return selectList("eval.getInEvalItem", params);}
     public void setApplicationEvalScreenDel(Map<String, Object> params) { delete("eval.setApplicationEvalScreenDel", params);}

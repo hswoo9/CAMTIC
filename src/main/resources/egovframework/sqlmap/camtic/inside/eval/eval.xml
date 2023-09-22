@@ -53,11 +53,46 @@
             *
         FROM
             CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD
-        WHERE
-            EVAL_LOGIN_ID = #{evalLoginId} AND EVAL_SCREEN_TYPE = #{evalScreenType}
+        WHERE 1=1
+        <choose>
+            <when test='applicationArr != null and !"".equals(applicationArr)'>
+                AND APPLICATION_ID IN (${applicationArr})
+            </when>
+            <otherwise>
+                AND EVAL_LOGIN_ID = #{evalLoginId}
+            </otherwise>
+        </choose>
+        AND
+            EVAL_SCREEN_TYPE = #{evalScreenType}
         <if test='applicationId != null and !"".equals(applicationId)'>
             AND APPLICATION_ID = #{applicationId}
         </if>
+    </select>
+
+    <select id="getApplicationScoreBoardEvalCnt" parameterType="map" resultType="map">
+        /* getApplicationScoreBoardEvalCnt */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+        JOIN
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
+        ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID
+        WHERE 1=1
+        <choose>
+            <when test='applicationArr != null and !"".equals(applicationArr)'>
+                AND A.APPLICATION_ID IN (${applicationArr})
+            </when>
+            <otherwise>
+                AND A.EVAL_LOGIN_ID = #{evalLoginId}
+            </otherwise>
+        </choose>
+        AND
+            A.EVAL_SCREEN_TYPE = #{evalScreenType}
+        <if test='applicationId != null and !"".equals(applicationId)'>
+            AND A.APPLICATION_ID = #{applicationId}
+        </if>
+        GROUP BY A.EVAL_LOGIN_ID
     </select>
 
     <select id="getInEvalItemMain" parameterType="map" resultType="map">
