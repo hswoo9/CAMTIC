@@ -2,8 +2,8 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script type="text/javascript" src="/js/intra/campus/campus.js?v=${todate}"/></script>
-<script type="text/javascript" src="/js/intra/campus/systemManagement.js?v=${todate}"/></script>
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/campus/systemManagement.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 

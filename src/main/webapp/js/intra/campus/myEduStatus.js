@@ -551,5 +551,26 @@ var myEdu = {
         const name = "commonEduReqPop";
         const option = "width = 1000, height = 489, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    campusGuide1Pop: function(){
+        let url = "/Campus/pop/myStudy/campusGuide1Pop.do";
+        const name = "campusGuide1Pop";
+        const option = "width = 860, height = 800, top = 100, left = 400, location = no";
+        window.open(url, name, option);
+    },
+
+    campusGuide2Pop: function(){
+        let url = "/Campus/pop/myStudy/campusGuide2Pop.do";
+        const name = "campusGuide1Pop";
+        const option = "width = 860, height = 800, top = 100, left = 400, location = no";
+        window.open(url, name, option);
+    },
+
+    campusGuide3Pop: function(){
+        let url = "/Campus/pop/myStudy/campusGuide3Pop.do";
+        const name = "campusGuide1Pop";
+        const option = "width = 1200, height = 800, top = 100, left = 400, location = no";
+        window.open(url, name, option);
     }
 }
