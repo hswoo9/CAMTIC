@@ -148,7 +148,7 @@ public class UserManageRepository extends AbstractDAO {
     public void setBasicInfo(Map<String, Object> params) { update("userManage.setBasicInfo", params);}
 
     //인사기록카드 - 학력사항 삭제
-    public void setEduDelete(List<String> eduChk) { update("userManage.setEduDelete", eduChk);}
+    /*public void setEduDelete(List<String> eduChk) { insert("userManage.setEduDelete", eduChk);}*/
 
     //인사기록카드 - 경력사항 삭제
     public void setCareerDelete(List<String> employChk) { update("userManage.setCareerDelete", employChk);}

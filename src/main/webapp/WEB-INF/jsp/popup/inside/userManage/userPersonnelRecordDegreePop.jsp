@@ -14,6 +14,8 @@
       <h3 class="card-title title_NM">학력 등록</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
@@ -180,6 +182,121 @@
 
   }
 
+  // 학력사항 수정
+  function fu_modifyInfo() {
+    var data = {
+      gubun : $("#gubun").val(),
+      sDate : $("#sDate").val(),
+      eDate : $("#eDate").val(),
+      school : $("#school").val(),
+      degree : $("#degree").val(),
+      graduation : $("#graduation").val(),
+      score : $("#score").val(),
+      bmk : $("#bmk").val(),
+      type : "degree",
+    }
+
+    var formData = new FormData();
+    formData.append("gubun", data.gubun);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("school", data.school);
+    formData.append("degree", data.degree);
+    formData.append("graduation", data.graduation);
+    formData.append("score", data.score);
+    formData.append("bmk", data.bmk);
+    formData.append("menuCd", "degree");
+    formData.append("type", "degree");
+
+    if($("#gradeFile")[0].files.length == 1){
+      formData.append("gradeFile", $("#gradeFile")[0].files[0]);
+    }
+
+    if($("#socreFile")[0].files.length == 1){
+      formData.append("socreFile", $("#socreFile")[0].files[0]);
+    }
+
+    /*if(data.gubun == "") { alert("구분이 선택되지 않았습니다."); return; }
+    if(data.sDate == "") { alert("기간이 선택되지 않았습니다."); return; }
+    if(data.eDate == "") { alert("기간이 선택되지 않았습니다."); return; }
+    if(data.school == "") { alert("학교 및 학과가 선택되지 않았습니다."); return; }
+    if(data.degree == "") { alert("학위가 선택되지 않았습니다."); return; }
+    if(data.graduation == "") { alert("졸업이 선택되지 않았습니다."); return; }
+    if(data.score == "") { alert("성적이 선택되지 않았습니다."); return; }*/
+
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("등록되었습니다.");
+        fn_windowClose();
+      }else{
+        alert("등록에 실패하였습니다.");
+      }
+    }else{
+      alert("등록에 실패하였습니다.");
+    }
+  }
+
+  // 학력사항 삭제
+  function fu_delInfo() {
+    var data = {
+      gubun : $("#gubun").val(),
+      sDate : $("#sDate").val(),
+      eDate : $("#eDate").val(),
+      school : $("#school").val(),
+      degree : $("#degree").val(),
+      graduation : $("#graduation").val(),
+      score : $("#score").val(),
+      bmk : $("#bmk").val(),
+      type : "degree",
+    }
+
+    var formData = new FormData();
+    formData.append("gubun", data.gubun);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("school", data.school);
+    formData.append("degree", data.degree);
+    formData.append("graduation", data.graduation);
+    formData.append("score", data.score);
+    formData.append("bmk", data.bmk);
+    formData.append("menuCd", "degree");
+    formData.append("type", "degree");
+
+    if($("#gradeFile")[0].files.length == 1){
+      formData.append("gradeFile", $("#gradeFile")[0].files[0]);
+    }
+
+    if($("#socreFile")[0].files.length == 1){
+      formData.append("socreFile", $("#socreFile")[0].files[0]);
+    }
+
+    /*if(data.gubun == "") { alert("구분이 선택되지 않았습니다."); return; }
+    if(data.sDate == "") { alert("기간이 선택되지 않았습니다."); return; }
+    if(data.eDate == "") { alert("기간이 선택되지 않았습니다."); return; }
+    if(data.school == "") { alert("학교 및 학과가 선택되지 않았습니다."); return; }
+    if(data.degree == "") { alert("학위가 선택되지 않았습니다."); return; }
+    if(data.graduation == "") { alert("졸업이 선택되지 않았습니다."); return; }
+    if(data.score == "") { alert("성적이 선택되지 않았습니다."); return; }*/
+
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("등록되었습니다.");
+        fn_windowClose();
+      }else{
+        alert("등록에 실패하였습니다.");
+      }
+    }else{
+      alert("등록에 실패하였습니다.");
+    }
+  }
+
+  // 학력사항 추가
   function fu_addInfo() {
     var data = {
       gubun : $("#gubun").val(),
@@ -235,6 +352,8 @@
       alert("등록에 실패하였습니다.");
     }
   }
+
+
   function fn_codeSet() {
     $.ajax({
       url : '/userManage/getCodeList',

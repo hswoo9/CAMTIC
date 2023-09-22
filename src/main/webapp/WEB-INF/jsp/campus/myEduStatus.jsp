@@ -13,6 +13,11 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <div id="btnDiv" style="text-align: right">
+                <button type="button" id="btn1" style="margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="myEdu.campusGuide1Pop()">캠-퍼스 개요</button>
+                <button type="button" id="btn2" style="margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="myEdu.campusGuide2Pop()">역량/학습체계</button>
+                <button type="button" id="btn3" style="margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="myEdu.campusGuide3Pop()">직무 학습체계도</button>
+            </div>
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered" style="border: 0; margin: 5px 0 25px 0; border: 1px solid #dedfdf;">
                     <colgroup>

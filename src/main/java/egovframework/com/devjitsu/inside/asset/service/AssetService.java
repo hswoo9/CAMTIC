@@ -92,6 +92,9 @@ public interface AssetService {
 
     List<Map<String,Object>> getAssetPlaceList();
 
+    //장비사용 마감
+    Map<String, Object> setEquipmenUseEndStat(List<String> eqmnUsePk);
+
     void setAssetCodePosition(Map<String,Object> map);
     void setAssetCodePositionDel(Map<String, Object> params);
     Map<String, Object> getClassDivision(Map<String, Object> params);

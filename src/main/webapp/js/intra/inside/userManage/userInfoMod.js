@@ -226,7 +226,7 @@ var userInfoMod = {
 
 	fn_openModDetail : function(e,n) {
 		var typeName = n;
-		var url = "/userManage/modDetailPop.do?typeName="+typeName + "&key=" + e.key + "&type=" + e.type + "&id=" + e.id;
+		var url = "/userManage/modDetailPop.do?typeName="+typeName + "&key=" + e.key + "&type=" + e.type +"_tmp" + "&id=" + e.id;
 		var name = "detail";
 		var option = "width = 600, height = 550, top = 100, left = 200, location = no"
 		var popup = window.open(url, name, option);
