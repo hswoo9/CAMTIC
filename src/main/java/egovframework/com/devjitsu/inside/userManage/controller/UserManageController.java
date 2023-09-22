@@ -1155,11 +1155,11 @@ public class UserManageController {
     /**
      * 인사기록카드 - 학력 사항 삭제
      */
-    @RequestMapping("/userManage/setEduDelete")
+    /*@RequestMapping("/userManage/setEduDelete")
     public String setEduDelete(@RequestParam(value = "eduChk[]") List<String> eduChk, Model model){
         model.addAttribute("rs", userManageService.setEduDelete(eduChk));
         return "jsonView";
-    }
+    }*/
 
     /**
      * 인사기록카드 - 경력 사항 삭제
