@@ -897,6 +897,27 @@
             DEV_SN = #{devSn}
     </update>
 
+    <update id="updateResApprStat" parameterType="map">
+        /* updateDevApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateResFinalApprStat" parameterType="map">
+        /* updateDevFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <select id="getCrmInfo" parameterType="map" resultType="map">
         /*getCrmInfo*/
         SELECT
@@ -1301,6 +1322,6 @@
             DOC_ID = #{docId}
         WHERE
             file_no = #{fileNo}
-          AND file_cd = 'delvFile'
+          AND file_cd = 'engnRsFile'
     </update>
 </mapper>
