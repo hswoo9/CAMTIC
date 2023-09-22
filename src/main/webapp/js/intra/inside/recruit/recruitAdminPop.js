@@ -332,7 +332,7 @@ var recruitAdminPop = {
     screenViewPop : function(e){
         var url = "/inside/pop/screenViewPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e;
         var name = "screenViewPop";
-        var option = "width=1000, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=180, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 
