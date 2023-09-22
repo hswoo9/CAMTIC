@@ -346,8 +346,10 @@ public class ProjectController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         Map<String, Object> map = projectService.getResultInfo(params);
+        List<Map<String, Object>> list = projectService.getPsList(params);
 
         model.addAttribute("result", map);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }

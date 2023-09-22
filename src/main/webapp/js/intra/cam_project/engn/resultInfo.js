@@ -29,37 +29,107 @@ var resultInfo = {
             dataType : "json",
             data : data,
             success : function(rs){
-                console.log(rs);
-                $("#rsIss").val(rs.result.map.RS_ISS);
-                $("#rsSupCont").val(rs.result.map.SUP_CONT);
-                $("#rsActEquip").val(rs.result.map.RS_ACT_EQUIP);
-                $("#rsEndDt").val(rs.result.map.RS_END_DT);
-                $("#rsStrDt").val(rs.result.map.RS_STR_DT);
-                $("#rsEtc").val(rs.result.map.RS_ETC);
-                $("#designImgName").text(rs.result.designFileList.file_org_name + "." +rs.result.designFileList.file_ext);
-                $("#prodImgName").text(rs.result.prodFileList.file_org_name + "." +rs.result.prodFileList.file_ext);
+                if(rs.result.map != null){
+                    $("#rsIss").val(rs.result.map.RS_ISS);
+                    $("#rsSupCont").val(rs.result.map.SUP_CONT);
+                    $("#rsActEquip").val(rs.result.map.RS_ACT_EQUIP);
+                    $("#rsEndDt").val(rs.result.map.RS_END_DT);
+                    $("#rsStrDt").val(rs.result.map.RS_STR_DT);
+                    $("#rsEtc").val(rs.result.map.RS_ETC);
+
+                }
+
+                if(rs.result.designFileList != null){
+                    $("#designImgName").text(rs.result.designFileList.file_org_name + "." +rs.result.designFileList.file_ext);
+                }
+
+                if(rs.result.prodFileList != null){
+                    $("#prodImgName").text(rs.result.prodFileList.file_org_name + "." +rs.result.prodFileList.file_ext);
+                }
 
                 /** 버튼 세팅 */
                 resultInfo.buttonSet(rs.result.map);
+
+                const ls = rs.list;
+                var html = "";
+                var type = "";
+
+                html += '<tr>';
+                for(var i = 0 ; i < ls.length ; i++) {
+                    html += '   <td colspan="2" style="text-align: center; background-color: #dee4ed">[' + ls[i].PS_PREP_NM + '] ' +ls[i].PS_EMP_NM+'</td>';
+                }
+                html += '</tr>';
+                html += '<tr>';
+                for(var i = 0 ; i < ls.length ; i++){
+                    var value = 0;
+                    var calcAmt = 0;
+                    var type = "";
+                    if(ls[i].PS_PREP == 1){
+                        type = "A";
+                        if(rs.result.map != undefined){
+                            if(rs.result.map.PREP_A != null && rs.result.map.PREP_A != ""){
+                                value = rs.result.map.PREP_A;
+                            }
+                        }
+                    } else if (ls[i].PS_PREP == 2){
+                        type = "B";
+                        if(rs.result.map != undefined) {
+                            if (rs.result.map.PREP_B != null && rs.result.map.PREP_B != "") {
+                                value = rs.result.map.PREP_B;
+                            }
+                        }
+                    } else if (ls[i].PS_PREP == 3){
+                        type = "C";
+                            if(rs.result.map != undefined) {
+                                if (rs.result.map.PREP_C != null && rs.result.map.PREP_C != "") {
+                                    value = rs.result.map.PREP_C;
+                                }
+                            }
+                    }
+                    calcAmt = Math.round(resultInfo.uncomma($("#expAmt").val()) * (value * 0.01));
+
+                    html += '   <td>';
+                    html += '       <input type="text" id="prepAmt'+type+'" onkeyup="resultInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled class="prepAmt" value="'+ resultInfo.comma(calcAmt) +'" style="text-align: right" />';
+                    html += '   </td>';
+                    html += '   <td style="text-align: right">';
+                    html += '       <input type="text" id="prep'+type+'" onkeyup="resultInfo.fn_calcPercent(this , \''+type+'\');" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
+                    html += '   </td>';
+                }
+                html += '</tr>';
+
+                $("#psTable").append(html);
+
+                $(".prepAmt, .prepCase").kendoTextBox();
             }
-        })
+        });
+    },
+
+    fn_calcPercent: function (obj, type){
+        $("#prepAmt" + type).val(resultInfo.comma(Math.round(resultInfo.uncomma($("#expAmt").val()) * (resultInfo.uncomma(obj.value) * 0.01))));
+
+        return resultInfo.inputNumberFormat(obj);
     },
 
     buttonSet: function(resMap){
         let buttonHtml = "";
-        if(resMap.STATUS == "0"){
-            buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
-        }else if(resMap.STATUS == "10"){
-            buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-        }else if(resMap.STATUS == "30" || resMap.STATUS == "40"){
-            buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+resMap.DOC_ID+'\', \''+resMap.DOC_MENU_CD+'\', \''+resMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-        }else if(resMap.STATUS == "100"){
-            buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', \''+resMap.DOC_MENU_CD+'\');">열람</button>';
-        }else{
+        if(resMap != null){
+            if(resMap.STATUS == "0"){
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
+            }else if(resMap.STATUS == "10"){
+                buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+            }else if(resMap.STATUS == "30" || resMap.STATUS == "40"){
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+resMap.DOC_ID+'\', \''+resMap.DOC_MENU_CD+'\', \''+resMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(resMap.STATUS == "100"){
+                buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', \''+resMap.DOC_MENU_CD+'\');">열람</button>';
+            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+            }
+        } else {
             buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
         }
+
         $("#resultBtnDiv").html(buttonHtml);
     },
 
@@ -84,6 +154,22 @@ var resultInfo = {
         }
 
         var fd = new FormData();
+
+
+        if($("#prepA").val() != undefined){
+            data.prepA = $("#prepA").val();
+            fd.append("prepA", data.prepA);
+        }
+        if($("#prepB").val() != undefined){
+            data.prepB = $("#prepB").val();
+            fd.append("prepB", data.prepB);
+        }
+        if($("#prepC").val() != undefined){
+            data.prepC = $("#prepC").val();
+            fd.append("prepC", data.prepC);
+        }
+
+
         fd.append("pjtSn", data.pjtSn);
         fd.append("prototype", data.prototype);
         fd.append("supCont", data.supCont);
@@ -139,5 +225,19 @@ var resultInfo = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    },
+
+    inputNumberFormat : function (obj){
+        obj.value = resultInfo.comma(resultInfo.uncomma(obj.value));
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
     },
 }

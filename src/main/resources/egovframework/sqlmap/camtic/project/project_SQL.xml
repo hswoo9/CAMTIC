@@ -19,6 +19,7 @@
         AND
             A.PJT_STOP = "Y"
         </if>
+        ORDER BY A.PJT_SN DESC
     </select>
 
     <select id="getProjectStep" parameterType="map" resultType="map">
@@ -1192,6 +1193,15 @@
                 SUP_CONT,
                 RS_ISS,
                 RS_ETC,
+                <if test='prepA != null and !"".equals(prepA)'>
+                    PREP_A,
+                </if>
+                <if test='prepB != null and !"".equals(prepB)'>
+                    PREP_B,
+                </if>
+                <if test='prepC != null and !"".equals(prepC)'>
+                    PREP_C,
+                </if>
                 RS_STR_DT,
                 RS_END_DT,
                 RS_ACT_EQUIP,
@@ -1204,6 +1214,15 @@
                 #{supCont},
                 #{rsIss},
                 #{rsEtc},
+                <if test='prepA != null and !"".equals(prepA)'>
+                    #{prepA},
+                </if>
+                <if test='prepB != null and !"".equals(prepB)'>
+                    #{prepB},
+                </if>
+                <if test='prepC != null and !"".equals(prepC)'>
+                    #{prepC},
+                </if>
                 #{rsStrDt},
                 #{rsEndDt},
                 #{rsActEquip},
@@ -1222,6 +1241,15 @@
             SUP_CONT = #{supCont},
             RS_ISS = #{rsIss},
             RS_ETC = #{rsEtc},
+            <if test='prepA != null and !"".equals.prepA'>
+                PREP_A = #{prepA},
+            </if>
+            <if test='prepB != null and !"".equals.prepB'>
+                PREP_B = #{prepB},
+            </if>
+            <if test='prepC != null and !"".equals.prepC'>
+                PREP_C = #{prepB},
+            </if>
             RS_STR_DT = #{rsStrDt},
             RS_END_DT = #{rsEndDt},
             RS_ACT_EQUIP = #{rsActEquip},

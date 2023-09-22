@@ -61,6 +61,18 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>실적률
+                </th>
+                <td colspan="3">
+                    <table>
+                        <tbody id="psTable">
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>지원내용
                 </th>
                 <td colspan="3">
