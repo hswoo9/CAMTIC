@@ -14,15 +14,14 @@
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
-
-        <div class="__space1 m0">
-          <dl class="head">
-            <dt>드론분야 창의/주도적 메이커활동 활성화 상상 실현</dt>
-            <dd>
-              전주드론제작소 윙윙- 스테이션
-              <img src="/images/camtic/logo-wing.png" alt="">
-            </dd>
-          </dl>
+          <div class="__clu1 mo">
+            <dl class="tit">
+              <dt><span class="__nm">“</span><span class="mainCapyTitle">드론분야 창의/주도적 메이커활동 활성화 상상 실현</span><span class="__nm">”</span></dt>
+              <dd><span class="subCapyTitle">전주드론제작소 윙윙- 스테이션
+              <img src="/images/camtic/logo-wing.png" alt="" style="height: 50px"></span></dd>
+            </dl>
+          </div>
+          <div class="__space1 m0">
           <dl class="what">
             <dt>전주드론제작소 윙윙스테이션이란?</dt>
             <dd>
