@@ -352,6 +352,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/engn/getTeamList")
+    public String getTeamList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> map = new ArrayList<>();
+
+        map = projectService.getTeamList(params);
+
+        model.addAttribute("list", map);
+
+        return "jsonView";
+    }
+
     /**
      * 프로젝트 > 엔지니어링 > 수주보고 Set Data
      * @param params
@@ -479,6 +490,24 @@ public class ProjectController {
             e.printStackTrace();
         }
 
+
+        return "jsonView";
+    }
+
+    /**
+     * 프로젝트 > 엔지니어링 > 협업 등록/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/project/engn/setTeamInfo")
+    public String setTeamInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setTeamInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

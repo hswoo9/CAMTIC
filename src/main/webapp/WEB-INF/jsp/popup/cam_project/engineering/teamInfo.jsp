@@ -14,7 +14,10 @@
 
 <div style="padding: 10px">
     <div id="btnDiv">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">협업요청</button>
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="teamInfo.fn_save()">협업요청</button>
+    </div>
+    <div id="btnDiv2" style="display: none">
+        <button type="button" id="resetBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="teamInfo.fn_reset()">초기화</button>
     </div>
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">
@@ -82,7 +85,7 @@
                     <span class="red-star"></span>배분금액
                 </th>
                 <td colspan="3">
-                    <input type="text" id="teamAmt" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
+                    <input type="text" id="teamAmt" value="0" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 40%; text-align: right" /> 원
                 </td>
             </tr>
             <tr>
@@ -90,13 +93,13 @@
                     <span class="red-star"></span>수주부서 예상잔액
                 </th>
                 <td>
-                    <input type="text" id="exptBalance" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
+                    <input type="text" id="exptBalance" disabled onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>수주부서 예상수익
                 </th>
                 <td>
-                    <input type="text" id="exptProfit" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
+                    <input type="text" id="exptProfit" value="0" disabled onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
                 </td>
             </tr>
             <tr>
@@ -104,17 +107,19 @@
                     <span class="red-star"></span>수주부서 예상수익률
                 </th>
                 <td>
-                    <input type="text" id="exptProfitPer" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right"> %
+                    <input type="text" id="exptProfitPer" value="0" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right"> %
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>수주부서 예상비용
                 </th>
                 <td>
-                    <input type="text" id="exptCost" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right"> 원
+                    <input type="text" id="exptCost" disabled onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right"> 원
                 </td>
             </tr>
             </thead>
         </table>
+
+        <div id="teamMainGrid" style="margin-top: 20px"></div>
     </div>
 </div>
 

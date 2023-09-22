@@ -122,4 +122,8 @@ public interface ProjectService {
     Map<String, Object> getDevFile(Map<String, Object> params);
 
     void delPjtBustrip(Map<String, Object> params);
+
+    void setTeamInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getTeamList(Map<String, Object> params);
 }

@@ -1324,4 +1324,52 @@
             file_no = #{fileNo}
           AND file_cd = 'engnRsFile'
     </update>
+
+    <insert id="insTeamInfo" parameterType="map">
+        /*insTeamInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                PJT_SN,
+                TM_DEPT_SEQ,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_CRM_SN,
+                TM_AMT,
+                TM_BALANCE,
+                TM_EXPT_PROFIT,
+                TM_EXPT_PER,
+                TM_EXPT_COST
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{tmDeptSeq},
+                #{tmTeamSeq},
+                #{tmPMSeq},
+                #{tmCrmSn},
+                #{tmAmt},
+                #{tmBalance},
+                #{tmExptProfit},
+                #{tmExptPer},
+                #{tmExptCost}
+            )
+    </insert>
+
+    <select id="getTeamList" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            B.*,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.TM_DEPT_SEQ) AS DEPT_NAME,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.TM_TEAM_SEQ) AS TEAM_NAME,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.TM_PM_SEQ) AS EMP_NAME,
+            (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = A.TM_CRM_SN) AS CRM_NM
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT B
+        ON
+            A.PJT_SN = B.PJT_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
 </mapper>

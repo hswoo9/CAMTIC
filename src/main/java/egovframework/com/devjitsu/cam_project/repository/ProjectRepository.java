@@ -399,4 +399,12 @@ public class ProjectRepository extends AbstractDAO {
     public void setResultFileDocNm(Map<String, Object> params) {
         update("bustrip.setResultFileDocNm", params);
     }
+
+    public void insTeamInfo(Map<String, Object> params) {
+        insert("project.insTeamInfo", params);
+    }
+
+    public List<Map<String, Object>> getTeamList(Map<String, Object> params) {
+        return selectList("project.getTeamList", params);
+    }
 }

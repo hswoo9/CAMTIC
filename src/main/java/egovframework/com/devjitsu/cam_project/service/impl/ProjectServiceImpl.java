@@ -774,6 +774,9 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.updResultProdFile(fileInsMap);
             }
         }
+
+        projectRepository.updProject(params);
+        projectRepository.updEngn(params);
     }
 
     @Override
@@ -785,6 +788,16 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("designFileList", projectRepository.getDesignFile(map));
         result.put("prodFileList", projectRepository.getProdFile(map));
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getTeamList(Map<String, Object> params) {
+        return projectRepository.getTeamList(params);
+    }
+
+    @Override
+    public void setTeamInfo(Map<String, Object> params) {
+        projectRepository.insTeamInfo(params);
     }
 }
 
