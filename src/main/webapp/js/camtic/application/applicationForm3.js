@@ -30,28 +30,31 @@ var applicationForm3 = {
         applicationForm3.global.certIndex++
 
         applicationForm3.global.createHtmlStr = "" +
-            '<tr class="certInfo" id="cert' + applicationForm3.global.certIndex + '">' +
+            '<tr class="cert" id="cert' + applicationForm3.global.certIndex + '">' +
                 '<td>' +
-                    '<input type="hidden" id="certBaseId' + applicationForm3.global.certIndex + '" name="certBaseId' + applicationForm3.global.certIndex + '">' +
-                    '<input type="text" id="certName' + applicationForm3.global.certIndex + '">' +
+                    '<input type="hidden" id="certBaseId' + applicationForm3.global.certIndex + '" name="certBaseId' + applicationForm3.global.certIndex + '" class="certBaseId">' +
+                    '<input type="text" id="certName' + applicationForm3.global.certIndex + '" class="certName">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="certClass' + applicationForm3.global.certIndex + '">' +
+                    '<input type="text" id="certClass' + applicationForm3.global.certIndex + '" class="certClass">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="certIssuer' + applicationForm3.global.certIndex + '">' +
+                    '<input type="text" id="certIssuer' + applicationForm3.global.certIndex + '" class="certIssuer">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="hidden" id="certFileNo' + applicationForm3.global.certIndex + '" name="certFileNo' + applicationForm3.global.certIndex + '">' +
-                    '<input type="text" id="certFileName' + applicationForm3.global.certIndex + '">' +
-                    '<label for="certFile' + applicationForm3.global.certIndex + '" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="file" id="certFile' + applicationForm3.global.certIndex + '" name="certFile' + applicationForm3.global.certIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
+                    '<input type="hidden" id="certFileNo' + applicationForm3.global.certIndex + '" name="certFileNo' + applicationForm3.global.certIndex + '" class="certFileNo">' +
+                    '<input type="text" id="certFileName' + applicationForm3.global.certIndex + '" class="certFileName">' +
+                    '<label for="certFile' + applicationForm3.global.certIndex + '" class="certFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="file" id="certFile' + applicationForm3.global.certIndex + '" class="certFile" name="certFile' + applicationForm3.global.certIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" class="__btn3 red" onclick="applicationForm3.delRow(\'cert\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>' +
-            '<tr id="cert' + applicationForm3.global.certIndex + '_1" class="certInfo_1">' +
+            '<tr id="cert' + applicationForm3.global.certIndex + '_1" class="cert_1">' +
                 '<th>활용능력</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="certContent' + applicationForm3.global.certIndex + '"></textarea>' +
+                    '<textarea id="certContent' + applicationForm3.global.certIndex + '" class="certContent"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -64,28 +67,31 @@ var applicationForm3 = {
         applicationForm3.global.langIndex++
 
         applicationForm3.global.createHtmlStr = "" +
-            '<tr class="langInfo" id="lang' + applicationForm3.global.langIndex + '">' +
+            '<tr class="lang" id="lang' + applicationForm3.global.langIndex + '">' +
                 '<td>' +
-                    '<input type="hidden" id="langBaseId' + applicationForm3.global.langIndex + '" name="langBaseId' + applicationForm3.global.langIndex + '">' +
-                    '<input type="text" id="langName' + applicationForm3.global.langIndex + '">' +
+                    '<input type="hidden" id="langBaseId' + applicationForm3.global.langIndex + '" name="langBaseId' + applicationForm3.global.langIndex + '" class="langBaseId">' +
+                    '<input type="text" id="langName' + applicationForm3.global.langIndex + '" class="langName">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="acquisitionDate' + applicationForm3.global.langIndex + '" class="period">' +
+                    '<input type="text" id="acquisitionDate' + applicationForm3.global.langIndex + '" class="acquisitionDate period">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="acquisitionScore' + applicationForm3.global.langIndex + '">' +
+                    '<input type="text" id="acquisitionScore' + applicationForm3.global.langIndex + '" class="acquisitionScore">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="hidden" id="langFileNo' + applicationForm3.global.langIndex + '" name="langFileNo' + applicationForm3.global.langIndex + '">' +
-                    '<input type="text" id="langFileName' + applicationForm3.global.langIndex + '" style="width: 140px">' +
-                    '<label for="langFile' + applicationForm3.global.langIndex + '" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="file" id="langFile' + applicationForm3.global.langIndex + '" name="langFile' + applicationForm3.global.langIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
+                    '<input type="hidden" id="langFileNo' + applicationForm3.global.langIndex + '" name="langFileNo' + applicationForm3.global.langIndex + '" class="langFileNo">' +
+                    '<input type="text" id="langFileName' + applicationForm3.global.langIndex + '" class="langFileName" style="width: 140px">' +
+                    '<label for="langFile' + applicationForm3.global.langIndex + '" class="langFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="file" id="langFile' + applicationForm3.global.langIndex + '" class="langFile" name="langFile' + applicationForm3.global.langIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" class="__btn3 red" onclick="applicationForm3.delRow(\'lang\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>' +
-            '<tr id="lang' + applicationForm3.global.langIndex + '_1" class="langInfo_1">' +
+            '<tr id="lang' + applicationForm3.global.langIndex + '_1" class="lang_1">' +
                 '<th>활용능력</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="langContent' + applicationForm3.global.langIndex + '"></textarea>' +
+                    '<textarea id="langContent' + applicationForm3.global.langIndex + '" class="langContent"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -100,21 +106,59 @@ var applicationForm3 = {
         });
     },
 
-    delRow : function(c){
-        if(confirm("마지막 사항이 삭제됩니다.\n삭제하시겠습니까?")){
-            if($("." + c).length > 1){
-                $("." + c + ":last-child").remove();
-                if(c == "certInfo"){
-                    $("." + c + ":last").remove();
-                    $("." + c + "_1:last").remove();
-                    applicationForm3.global.certIndex--;
-                }else if(c == "langInfo"){
-                    $("." + c + ":last").remove();
-                    $("." + c + "_1:last").remove();
-                    applicationForm3.global.langIndex--;
-                }
+    delRow : function(c, t){
+        if(confirm("삭제하시겠습니까?")){
+            $("#" + $(t).closest("tr").attr("id") + "_1").remove();
+            $(t).closest("tr").remove();
+            if(c == "cert"){
+                applicationForm3.global.certIndex--;
+                applicationForm3.rowAttrOverride(c);
+            }else if(c == "lang"){
+                applicationForm3.global.langIndex--;
+                applicationForm3.rowAttrOverride(c);
             }
         }
+    },
+
+    rowAttrOverride : function(e){
+        $.each($("." + e), function(i, v){
+            if(e == "cert"){
+                $("#" + $(this).attr("id") + "_1").find(".certContent").attr("id", "certContent" + i);
+                $("#" + $(this).attr("id") + "_1").attr("id", e + i + "_1");
+                $(this).attr("id", "cert" + i);
+                $(this).find(".certBaseId").attr("id", "certBaseId" + i);
+                $(this).find(".certBaseId").attr("name", "certBaseId" + i);
+                $(this).find(".certName").attr("id", "certName" + i);
+                $(this).find(".certClass").attr("id", "certClass" + i);
+                $(this).find(".certIssuer").attr("id", "certIssuer" + i);
+
+                $(this).find(".certFileNo").attr("id", "certFileNo" + i);
+                $(this).find(".certFileNo").attr("name", "certFileNo" + i);
+                $(this).find(".certFileName").attr("id", "certFileName" + i);
+
+                $(this).find(".certFileLabel").attr("for", "certFile" + i);
+                $(this).find(".certFile").attr("id", "certFile" + i);
+                $(this).find(".certFile").attr("name", "certFile" + i);
+
+            }else{
+                $("#" + $(this).attr("id") + "_1").find(".langContent").attr("id", "langContent" + i);
+                $("#" + $(this).attr("id") + "_1").attr("id", e + i + "_1");
+                $(this).attr("id", "lang" + i);
+                $(this).find(".langBaseId").attr("id", "langBaseId" + i);
+                $(this).find(".langBaseId").attr("name", "langBaseId" + i);
+                $(this).find(".langName").attr("id", "langName" + i);
+                $(this).find(".acquisitionDate").attr("id", "acquisitionDate" + i);
+                $(this).find(".acquisitionScore").attr("id", "acquisitionScore" + i);
+
+                $(this).find(".langFileNo").attr("id", "langFileNo" + i);
+                $(this).find(".langFileNo").attr("name", "langFileNo" + i);
+                $(this).find(".langFileName").attr("id", "langFileName" + i);
+                $(this).find(".langFileLabel").attr("for", "langFile" + i);
+                $(this).find(".langFile").attr("id", "langFile" + i);
+                $(this).find(".langFile").attr("name", "langFile" + i);
+
+            }
+        })
     },
 
     setApplicationTempSave : function(type){
@@ -123,7 +167,7 @@ var applicationForm3 = {
         }else{
             if(type == "next"){
                 var flag = true;
-                $.each($(".certInfo"), function(i, v){
+                $.each($(".cert"), function(i, v){
                     if($(this).find("#certName" + i).val() != ""){
                         if(!$(this).find("#certFileNo" + i).val() && $("#certFile" + i)[0].files.length == 0 && type == "next") {
                             flag = false;
@@ -140,7 +184,7 @@ var applicationForm3 = {
                     return;
                 }
 
-                $.each($(".langInfo"), function(i, v){
+                $.each($(".lang"), function(i, v){
                     if($(this).find("#langName" + i).val() != ""){
                         if(!$(this).find("#langFileNo" + i).val() && $("#langFile" + i)[0].files.length == 0 && type == "next") {
                             flag = false;
@@ -168,7 +212,7 @@ var applicationForm3 = {
             if(confirm(confirmText)){
                 var formData = new FormData();
                 var certArr = new Array();
-                $.each($(".certInfo"), function(i, v){
+                $.each($(".cert"), function(i, v){
                     if($(this).find("#certName" + i).val() != ""){
                         var arrData = {
                             certBaseId : $(this).find("#certBaseId" + i).val(),
@@ -190,7 +234,7 @@ var applicationForm3 = {
                 })
 
                 var langArr = new Array();
-                $.each($(".langInfo"), function(i, v){
+                $.each($(".lang"), function(i, v){
                     if($(this).find("#langName" + i).val() != ""){
                         var arrData = {
                             langBaseId : $(this).find("#langBaseId" + i).val(),

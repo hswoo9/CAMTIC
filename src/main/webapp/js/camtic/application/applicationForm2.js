@@ -159,8 +159,6 @@ var applicationForm2 = {
 
     rowAttrOverride : function(e){
         $.each($("." + e), function(i, v){
-            console.log(e)
-            console.log(i)
             if(e == "schoolInfo"){
                 $(this).attr("id", "school" + i);
                 $(this).find(".schoolBaseId").attr("id", "schoolBaseId" + i);
@@ -188,6 +186,7 @@ var applicationForm2 = {
                 $(this).find(".sexualFile").attr("id", "sexualFile" + i);
                 $(this).find(".sexualFile").attr("name", "sexualFile" + i);
             }else{
+                $("#" + $(this).attr("id") + "_1").find(".careerContent").attr("id", "careerContent" + i);
                 $("#" + $(this).attr("id") + "_1").attr("id", "career" + i + "_1")
                 $(this).attr("id", "career" + i);
                 $(this).find(".careerBaseId").attr("id", "careerBaseId" + i);
@@ -207,7 +206,7 @@ var applicationForm2 = {
                 $(this).find(".careerFileLabel").attr("for", "careerFile" + i);
                 $(this).find(".careerFile").attr("id", "careerFile" + i);
                 $(this).find(".careerFile").attr("name", "careerFile" + i);
-                $(this).find(".careerContent").attr("id", "careerContent" + i);
+
             }
         })
     },

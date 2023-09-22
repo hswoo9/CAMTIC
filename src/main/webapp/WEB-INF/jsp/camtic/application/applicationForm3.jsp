@@ -44,7 +44,6 @@
                 <div>
                     <div class="__btWrap rig __mt10" style="text-align: right">
                         <button type="button" class="__btn3 blue" onclick="applicationForm3.addCertRow()"><span>추가</span></button>
-                        <button type="button" class="__btn3 red" onclick="applicationForm3.delRow('certInfo')"><span>삭제</span></button>
                     </div>
 
                     <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
@@ -54,31 +53,35 @@
                             <th>등급</th>
                             <th>검정기관</th>
                             <th>증빙</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody id="certTb">
-                        <tr class="certInfo" id="cert0">
+                        <tr class="cert" id="cert0">
                             <td>
-                                <input type="hidden" id="certBaseId0" name="certBaseId0">
-                                <input type="text" id="certName0">
+                                <input type="hidden" id="certBaseId0" name="certBaseId0" class="certBaseId">
+                                <input type="text" id="certName0" class="certName">
                             </td>
                             <td>
-                                <input type="text" id="certClass0">
+                                <input type="text" id="certClass0" class="certClass">
                             </td>
                             <td>
-                                <input type="text" id="certIssuer0">
+                                <input type="text" id="certIssuer0" class="certIssuer">
                             </td>
                             <td>
-                                <input type="hidden" id="certFileNo0" name="certFileNo0">
-                                <input type="text" id="certFileName0">
-                                <label for="certFile0" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
-                                <input type="file" id="certFile0" name="certFile0" style="display: none" onchange="applicationForm3.getFileName(this)">
+                                <input type="hidden" id="certFileNo0" name="certFileNo0" class="certFileNo">
+                                <input type="text" id="certFileName0" class="certFileName">
+                                <label for="certFile0" class="certFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
+                                <input type="file" id="certFile0" name="certFile0" class="certFile" style="display: none" onchange="applicationForm3.getFileName(this)">
+                            </td>
+                            <td>
+                                <button type="button" class="__btn3 red" onclick="applicationForm3.delRow('cert', this)"><span>삭제</span></button>
                             </td>
                         </tr>
-                        <tr id="cert0_1" class="certInfo_1">
+                        <tr id="cert0_1" class="cert_1">
                             <th>활용능력</th>
                             <td colspan="6">
-                                <textarea id="certContent0"></textarea>
+                                <textarea id="certContent0" class="certContent"></textarea>
                             </td>
                         </tr>
                         </tbody>
@@ -90,7 +93,6 @@
             <div id="langDiv">
                 <div class="__btWrap rig __mt10" style="text-align: right">
                     <button type="button" class="__btn3 blue" onclick="applicationForm3.addLangRow()"><span>추가</span></button>
-                    <button type="button" class="__btn3 red" onclick="applicationForm3.delRow('langInfo')"><span>삭제</span></button>
                 </div>
                 <table class="table table-bordered mb-0" id="langInfo0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <thead>
@@ -99,31 +101,35 @@
                             <th>취득시기</th>
                             <th>취득점수</th>
                             <th>증빙</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="langTb">
-                    <tr class="langInfo" id="lang0">
+                    <tr class="lang" id="lang0">
                         <td>
-                            <input type="hidden" id="langBaseId0" name="langBaseId0">
-                            <input type="text" id="langName0">
+                            <input type="hidden" id="langBaseId0" name="langBaseId0" class="langBaseId">
+                            <input type="text" id="langName0" class="langName">
                         </td>
                         <td>
-                            <input type="text" id="acquisitionDate0" class="period">
+                            <input type="text" id="acquisitionDate0" class="acquisitionDate period">
                         </td>
                         <td>
-                            <input type="text" id="acquisitionScore0">
+                            <input type="text" id="acquisitionScore0" class="acquisitionScore">
                         </td>
                         <td>
-                            <input type="hidden" id="langFileNo0" name="langFileNo0">
-                            <input type="text" id="langFileName0" style="width: 140px">
-                            <label for="langFile0" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
-                            <input type="file" id="langFile0" name="langFile0" style="display: none" onchange="applicationForm3.getFileName(this)">
+                            <input type="hidden" id="langFileNo0" name="langFileNo0" class="langFileNo">
+                            <input type="text" id="langFileName0" class="langFileName" style="width: 140px">
+                            <label for="langFile0" class="langFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
+                            <input type="file" id="langFile0" name="langFile0" class="langFile" style="display: none" onchange="applicationForm3.getFileName(this)">
+                        </td>
+                        <td>
+                            <button type="button" class="__btn3 red" onclick="applicationForm3.delRow('lang', this)"><span>삭제</span></button>
                         </td>
                     </tr>
-                    <tr id="lang0_1" class="langInfo_1">
+                    <tr id="lang0_1" class="lang_1">
                         <th>활용능력</th>
                         <td colspan="6">
-                            <textarea id="langContent0"></textarea>
+                            <textarea id="langContent0" class="langContent"></textarea>
                         </td>
                     </tr>
                     </tbody>
