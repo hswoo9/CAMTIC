@@ -32,14 +32,14 @@
                 <td>
                     <input type="text" name="applyYear" id="applyYear" style="width: 200px;">
                 </td>
-                <%--<th class="text-center th-color">구분</th>
+                <th class="text-center th-color">구분</th>
                 <td>
                     <input type="text" name="searchType" id="searchType" style="width: 600px;">
-                </td>--%>
+                </td>
             </tr>
             <tr>
                 <th class="text-center th-color">장비</th>
-                <td colspan="3">
+                <td colspan="3" id="test">
                     <input type="text" name="searchEquip" id="searchEquip" style="width: 1200px;">
                 </td>
             </tr>

@@ -1444,6 +1444,9 @@
         <if test="eqipmnName != null and eqipmnName != ''">
             AND EQIPMN_NAME LIKE CONCAT('%', #{eqipmnName}, '%')
         </if>
+        <if test="eqipmnGbnCmmnCdSnArr != null and eqipmnGbnCmmnCdSnArr != ''">
+            AND eqipmn_gbn_cmmn_cd_sn in (${eqipmnGbnCmmnCdSnArr})
+        </if>
         AND ACTVT_YN = 'Y'
         ORDER BY SORT_SN ASC
     </select>
