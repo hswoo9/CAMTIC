@@ -94,6 +94,8 @@ const systemAdmin = {
                     console.log(systemAdmin.global.largeCategoryId);
                     console.log(systemAdmin.global.largeCategoryName);
                     gridReload("categoryGridB");
+                    systemAdmin.global.eduCategoryId = "";
+                    gridReload("categoryGridC");
                 });
             },
             columns: [
