@@ -16,15 +16,13 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__bio4 m0" style="word-spacing: 0px;">
-
-          <div class="top">
-            <div class="head">
-              <dl>
-                <dt><span class="__nm">“</span><span class="mainCapyTitle">인간 중심의 기술 연구를 위한 역량 강화</span><span class="__nm">”</span></dt>
-                <dd><span class="subCapyTitle">헬스케어, 전기방사장치, 시제품개발  분야 연구</span></dd>
-              </dl>
-            </div>
+          <div class="__clu1 mo">
+            <dl class="tit">
+              <dt><span class="__nm">“</span><span class="mainCapyTitle">인간 중심의 기술 연구를 위한 역량 강화</span><span class="__nm">”</span></dt>
+              <dd><span class="subCapyTitle">헬스케어, 전기방사장치, 시제품개발  분야 연구</span></dd>
+            </dl>
           </div>
+
 
           <div class="__icoBox pt0" style="margin-top: 50px;">
             <div class="__tit1 __mt100 __mb20">
