@@ -93,6 +93,9 @@ public interface ProjectService {
     /** 결과보고서 결재 상태값에 따른 UPDATE 메서드 */
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;
 
+    /** 원가보고서 결재 상태값에 따른 UPDATE 메서드 */
+    void updateCostDocState(Map<String, Object> bodyMap) throws Exception;
+
     Map<String, Object> getCrmInfo(Map<String, Object> params);
 
     Map<String, Object> getBustInfo(Map<String, Object> params);
