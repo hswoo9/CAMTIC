@@ -296,8 +296,36 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
-    public Map<String, Object> getRegCrmHist(Map<String, Object> params) {
-        return crmRepository.getRegCrmHist(params);
+    public Map<String, Object> getCrmHist(Map<String, Object> params) {
+        /**
+         * 기본정보
+         */
+        Map<String, Object> returnMap = crmRepository.getCrmInfo(params);
+
+        /**
+         * 분야별 거래내역(연구개발)
+         */
+
+        /**
+         * 분야별 거래내역(개발사업)
+         */
+
+        /**
+         * 분야별 거래내역(교육훈련)
+         */
+
+        /**
+         * 분야별 거래내역(구매)
+         */
+
+
+
+        return returnMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmHistDetailList(Map<String, Object> params) {
+        return crmRepository.getCrmHistList(params);
     }
 
     @Override
@@ -343,5 +371,18 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
         return crmRepository.selSmCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selLgSmCode(Map<String, Object> params) {
+        List<Map<String, Object>> lgSmList = crmRepository.selLgCode(params);
+        for(Map<String, Object> map : lgSmList){
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("grpSn", params.get("grpSn"));
+            searchMap.put("lgCd", map.get("LG_CD"));
+            map.put("smList", crmRepository.selSmCode(searchMap));
+        }
+
+        return lgSmList;
     }
 }

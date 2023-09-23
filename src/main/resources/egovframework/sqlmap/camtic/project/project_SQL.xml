@@ -904,7 +904,7 @@
     </update>
 
     <update id="updateResApprStat" parameterType="map">
-        /* updateDevApprStat */
+        /* updateResApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
         SET
             STATUS = #{approveStatCode},
@@ -914,8 +914,29 @@
     </update>
 
     <update id="updateResFinalApprStat" parameterType="map">
-        /* updateDevFinalApprStat */
+        /* updateResFinalApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateCostApprStat" parameterType="map">
+        /* updateCostApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_COST
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateCostFinalApprStat" parameterType="map">
+        /* updateCostFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_COST
         SET
             STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),

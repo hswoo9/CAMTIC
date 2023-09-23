@@ -314,13 +314,25 @@ public class CrmController {
      * @param model
      * @return
      */
-    @RequestMapping("/crm/pop/regCrmHistViewPop.do")
+    @RequestMapping("/crm/pop/crmHistViewPop.do")
     public String regCrmHistViewPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
-        model.addAttribute("rs", crmService.getRegCrmHist(params));
-        return "popup/cam_crm/regCrmHistViewPop";
+        model.addAttribute("rs", crmService.getCrmHist(params));
+        return "popup/cam_crm/crmHistViewPop";
+    }
+
+    /**
+     * 이력관리 관계이력 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmHistDetailList")
+    public String getCrmHistDetailList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getCrmHistDetailList(params));
+        return "jsonView";
     }
 
     /**
@@ -443,6 +455,12 @@ public class CrmController {
     @RequestMapping("/crm/selSmCode")
     public String selSmCode(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", crmService.selSmCode(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/selLgSmCode")
+    public String selLgSmCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", crmService.selLgSmCode(params));
         return "jsonView";
     }
 }

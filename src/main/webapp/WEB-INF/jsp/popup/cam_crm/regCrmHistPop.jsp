@@ -136,7 +136,12 @@
                         관심분야 선택
                     </th>
                     <td colspan="3">
+                        <table id="codeTable" class="table table-bordered mb-0">
+                            <colgroup>
+                                <col style="width: 15%">
+                            </colgroup>
 
+                        </table>
                     </td>
                 </tr>
                 <tr>

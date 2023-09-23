@@ -22,7 +22,6 @@ var codeC = {
     mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
-            height: 360,
             sortable: true,
             scrollable: true,
             toolbar: [

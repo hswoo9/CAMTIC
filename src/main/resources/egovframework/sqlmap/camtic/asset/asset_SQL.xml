@@ -31,43 +31,40 @@
         </if>
 
         <if test='assetPosition != null and !"".equals(assetPosition)'>
-            AND AST_CODE_COMPANY_ID = #{assetPosition}
+            AND AI.AST_CODE_COMPANY_ID = #{assetPosition}
         </if>
         <if test='assetType != null and !"".equals(assetType)'>
-            AND AST_TYPE_CODE = #{assetType}
+            AND AI.AST_TYPE_CODE = #{assetType}
         </if>
         <if test='categoryA != null and !"".equals(categoryA)'>
-            AND AST_CODE_ID_1 = #{categoryA}
+            AND AI.AST_CODE_ID_1 = #{categoryA}
         </if>
         <if test='categoryB != null and !"".equals(categoryB)'>
-            AND AST_CODE_ID_2 = #{categoryB}
+            AND AI.AST_CODE_ID_2 = #{categoryB}
         </if>
         <if test='categoryC != null and !"".equals(categoryC)'>
-            AND AST_CODE_ID_3 = #{categoryC}
+            AND AI.AST_CODE_ID_3 = #{categoryC}
         </if>
         <if test='assetStatus != null and !"".equals(assetStatus)'>
-            AND AST_STS_CODE = #{assetStatus}
+            AND AI.AST_STS_CODE = #{assetStatus}
         </if>
         <if test='assetPlace != null and !"".equals(assetPlace)'>
-            AND AST_PLACE_SN = #{assetPlace}
-        </if>
-        <if test='assetPlace != null and !"".equals(assetPlace)'>
-            AND AST_PLACE_SN = #{assetPlace}
+            AND AI.AST_PLACE_SN = #{assetPlace}
         </if>
         <if test='regStatus != null and !"".equals(regStatus)'>
-            AND REG_STATUS = #{regStatus}
+            AND AI.REG_STATUS = #{regStatus}
         </if>
         <if test='barcodeType != null and !"".equals(barcodeType)'>
-            AND BARCODE_TYPE = #{barcodeType}
+            AND AI.BARCODE_TYPE = #{barcodeType}
         </if>
 
         <if test='searchType != null and !"".equals(searchType)'>
             <choose>
                 <when test='"assetName".equals(searchType)'>AND AI.AST_NAME LIKE CONCAT ('%', #{searchContent},'%')  </when>
                 <when test='"assetCode".equals(searchType)'>AND AI.AST_NO LIKE CONCAT ('%', #{searchContent},'%')</when>
-                <when test='"modelSize".equals(searchType)'>AND MODEL_SIZE LIKE CONCAT ('%', #{searchContent},'%')</when>
-                <when test='"modelName".equals(searchType)'>AND MODEL_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
-                <when test='"empName".equals(searchType)'>AND EMP_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"modelSize".equals(searchType)'>AND AI.MODEL_SIZE LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"modelName".equals(searchType)'>AND AI.MODEL_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
+                <when test='"empName".equals(searchType)'>AND AI.EMP_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
             </choose>
         </if>
     </select>

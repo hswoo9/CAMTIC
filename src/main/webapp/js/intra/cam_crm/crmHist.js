@@ -3,15 +3,46 @@ var crmHist = {
     global : {
         now : new Date(),
         searchAjaxData : "",
+        dropDownDataSource : "",
     },
 
     fn_defaultScript : function(){
 
-        customKendo.fn_textBox(["crmNm"])
-        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", crmHist.global.now);
-        customKendo.fn_datePicker("strDate", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        crmHist.global.dropDownDataSource = [
+            { text: "우량고객", value: "1" },
+            { text: "일반고객", value: "2" },
+            { text: "휴면고객", value: "3" },
+            { text: "잠재고객", value: "4" },
+            { text: "신규고객", value: "5" }
+        ]
+        customKendo.fn_dropDownList("ctmGrade", crmHist.global.dropDownDataSource, "text", "value");
+        $("#ctmGrade").data("kendoDropDownList").bind("change", crmHist.gridReload);
 
-        fn_deptSetting();
+        crmHist.global.dropDownDataSource = [
+            { text: "기업", value: "1" },
+            { text: "기관", value: "2" }
+        ]
+        customKendo.fn_dropDownList("ctmType", crmHist.global.dropDownDataSource, "text", "value");
+        $("#ctmType").data("kendoDropDownList").bind("change", crmHist.gridReload);
+
+        crmHist.global.dropDownDataSource = [
+            { text: "회사명", value: "CRM_NM" },
+            { text: "사업자번호", value: "CRM_NO" },
+            { text: "전화번호", value: "TEL_NUM" },
+            { text: "팩스번호", value: "FAX" },
+            { text: "대표자", value: "CRM_CEO" }
+        ]
+        customKendo.fn_dropDownList("searchKeyword", crmHist.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", function(){
+            if(this.value != ""){
+                $("#searchValue").removeAttr("disabled");
+            } else {
+                $("#searchValue").attr("disabled", "");
+            }
+        });
+
+        customKendo.fn_textBox(["searchValue"]);
+
         crmHist.gridReload();
     },
 
@@ -19,7 +50,7 @@ var crmHist = {
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
-            height: 515,
+            selectable: "row",
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -46,70 +77,68 @@ var crmHist = {
                 }],
             columns: [
                 {
+                    title: "업태",
+                    field: "CRM_OCC",
+                    width: 100,
+                }, {
                     field: "CRM_NM",
                     title: "업체명",
                     width: 120,
                     template: function(e){
-                        $(this).closest('tr').append("<tr><td>asdfdfasfdsasdfa</td></tr>");
-                        return "<a href='javascript:void(0);' onclick='crmHist.fn_crmHistViewPop(\"" + e.CRM_HIST_SN + "\")'>" + e.CRM_NM + "</a>";
-                    },
-                }, {
-                    title: "팀명",
-                    field: "DEPT_NAME",
-                    width: 100,
-                }, {
-                    title: "등록자",
-                    field: "EMP_NAME_KR",
-                    width: 80
-                }, {
-                    title: "컨텍포인트",
-                    field: "",
-                    width: 100,
-                    template: function (e){
-                        var crmMemNm = "";
-                        if(e.CRM_MEM_SN != null && e.CRM_MEM_SN != ""){
-                            crmMemNm = e.CRM_MEM_NM;
-                        }
-                        return crmMemNm
+                        return "<a href='javascript:void(0);' onclick='crmHist.fn_crmHistViewPop(\"" + e.CRM_SN + "\")'>" + e.CRM_NM + "</a>";
                     }
                 }, {
-                    title: "상담일시",
-                    field: "START_DATETIME",
+                    title: "사업자번호",
+                    field: "CRM_NO",
                     width: 100
                 }, {
-                    title: "입력구분",
+                    title: "대표자",
+                    field: "CRM_CEO",
+                    width: 80
+                }, {
+                    title: "전화번호",
+                    field: "TEL_NUM",
+                    width: 100
+                }, {
+                    title: "팩스번호",
+                    field: "FAX",
+                    width: 100
+                }, {
+                    title: "관계이력",
                     width: 100,
                     template : function (e){
-                        var crmHistObj = "";
-
-                        if(e.CRM_HIST_OBJ != null && e.CRM_HIST_OBJ != ""){
-                            crmHistObj = e.CRM_HIST_OBJ;
+                        return "0 건";
+                    }
+                }, {
+                    title: "고객등급",
+                    width: 100,
+                    template: function(e){
+                        return "";
+                    }
+                }, {
+                    title: "최근수정일",
+                    width: 100,
+                    template:function(e){
+                        if(e.MOD_DT == null || e.MOD_DT == ''){
+                            return "";
+                        } else {
+                            return e.MOD_DT;
                         }
-                        return crmHistObj;
                     }
                 }
-            ],
-            detailTemplate: function (e){
-                if(e.CRM_REL_CONT != null && e.CRM_REL_CONT != ""){
-                    return e.CRM_REL_CONT;
-                }else{
-                    return "관계내용 미입력";
-                }
-            }
+            ]
         }).data("kendoGrid");
-
     },
 
     gridReload : function(){
         crmHist.global.searchAjaxData = {
-            deptSeq : $("#dept").val(),
-            teamSeq : $("#team").val(),
-            strDate : $("#strDate").val(),
-            endDate : $("#endDate").val(),
-            crmNm : $("#crmNm").val()
+            ctmType : $("#ctmType").val(),
+            ctmGrade : $("#ctmGrade").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val()
         }
         
-        crmHist.mainGrid("/crm/getCrmHistList", crmHist.global.searchAjaxData);
+        crmHist.mainGrid("/crm/getCrmList", crmHist.global.searchAjaxData);
     },
 
     fn_crmHistRegPop: function (){
@@ -121,6 +150,6 @@ var crmHist = {
     fn_crmHistViewPop: function (e){
         var name = "_blank";
         var option = "width = 880, height = 750, top = 100, left = 400, location = no"
-        var popup = window.open("/crm/pop/regCrmHistViewPop.do?crmHistSn=" + e, name, option);
+        var popup = window.open("/crm/pop/crmHistViewPop.do?crmSn=" + e, name, option);
     },
 }

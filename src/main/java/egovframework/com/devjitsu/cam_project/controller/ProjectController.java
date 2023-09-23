@@ -876,6 +876,18 @@ public class ProjectController {
         return "/popup/cam_project/approvalFormPopup/resApprovalPop";
     }
 
+    /** 원가보고서 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/costApprovalPop.do")
+    public String costApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("processList", projectService.getProcessList(params));
+        model.addAttribute("invList", projectService.getInvList(params));
+        return "/popup/cam_project/approvalFormPopup/costApprovalPop";
+    }
+
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/project/delvReqApp")
     public String delvReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -923,6 +935,25 @@ public class ProjectController {
         String resultMessage = "성공하였습니다.";
         try{
             projectService.updateResDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 원가보고서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/project/costReqApp")
+    public String costReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectService.updateCostDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

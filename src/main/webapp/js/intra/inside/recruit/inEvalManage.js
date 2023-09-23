@@ -53,6 +53,10 @@ var inEvalManage = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
                     template : "<input type='checkbox' id='eval_#=EVAL_ITEM_MAIN_ID#' name='evalChk' value='#=EVAL_ITEM_MAIN_ID#'/>",
                     width: 50
+                },{
+                    template: "#= --record #",
+                    title: "순번",
+                    width: 50
                 }, {
                     field: "EVAL_MANAGE_TITLE",
                     title: "관리명",
@@ -73,7 +77,10 @@ var inEvalManage = {
                     },
                     width: 80
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){

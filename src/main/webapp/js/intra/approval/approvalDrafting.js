@@ -428,14 +428,16 @@ var draft = {
         console.log("docFile", docFile);
         if(docFile.length > 0){
             for(var i = 0; i < docFile.length; i++){
-                var data = {
-                    fileNo : docFile[i].FILE_NO == null ? docFile[i].file_no : docFile[i].FILE_NO,
-                    name: docFile[i].filename == null ? docFile[i].file_org_name + "." + docFile[i].file_ext : docFile[i].filename,
-                    size: docFile[i].FILE_SIZE == null ? docFile[i].file_size : docFile[i].FILE_SIZE,
-                    extension: docFile[i].FILE_EXT == null ? "." + docFile[i].file_ext : "." + docFile[i].FILE_EXT
+                if(docFile[i] != null){
+                    var data = {
+                        fileNo : docFile[i].FILE_NO == null ? docFile[i].file_no : docFile[i].FILE_NO,
+                        name: docFile[i].filename == null ? docFile[i].file_org_name + "." + docFile[i].file_ext : docFile[i].filename,
+                        size: docFile[i].FILE_SIZE == null ? docFile[i].file_size : docFile[i].FILE_SIZE,
+                        extension: docFile[i].FILE_EXT == null ? "." + docFile[i].file_ext : "." + docFile[i].FILE_EXT
+                    }
+                    console.log("docFile data", data);
+                    draft.global.fileUploaded.push(data);
                 }
-                console.log("docFile data", data);
-                draft.global.fileUploaded.push(data);
             }
         }
     },

@@ -46,18 +46,18 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "143";
+        approvalParams.formId = "144";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "pjtRes";
+        approvalParams.menuCd = "pjtCost";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "13";
+        approvalParams.linkageProcessId = "14";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticPjtRes";
-        approvalParams.approKey = "camticPjtRes_${params.pjtSn}";
+        approvalParams.linkageProcessCode = "camticPjtCost";
+        approvalParams.approKey = "camticPjtCost_${params.pjtSn}";
 
         linkageProcessOn(approvalParams);
     }

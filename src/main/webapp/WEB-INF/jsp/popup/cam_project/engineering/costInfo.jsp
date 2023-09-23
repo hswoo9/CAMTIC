@@ -10,10 +10,16 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<form id="costDraftFrm" method="post">
+    <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="dev">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
 
 <div style="padding: 10px">
-    <div id="resultBtnDiv">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>
+    <div id="costBtnDiv">
+        <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>--%>
     </div>
     <div class="table-responsive">
         <span style="position: relative; top:10px; font-size: 12px;">◎ 비용상세내역</span>
