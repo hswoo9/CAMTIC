@@ -136,10 +136,12 @@ var teamInfo = {
             },
             dataBound: function (e){
                 const grid = this;
-                grid.tbody.find("tr").each(function (){
-                    $(this).css("background-color", "#ffffff");
-                });
+
                 grid.tbody.find("tr").click(function (e) {
+                    grid.tbody.find("tr").each(function (){
+                        $(this).css("background-color", "");
+                    });
+
                     const dataItem = grid.dataItem($(this));
                     $("#teamDept").data("kendoDropDownList").value(dataItem.TM_DEPT_SEQ);
                     $("#team").data("kendoDropDownList").value(dataItem.TM_TEAM_SEQ);

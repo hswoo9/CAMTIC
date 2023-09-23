@@ -4,7 +4,7 @@
 
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/devInfo.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="expAmt" value="${params.expAmt}" />

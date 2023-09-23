@@ -65,7 +65,7 @@
                 </th>
                 <td colspan="3">
                     <table>
-                        <tbody id="psTable">
+                        <tbody id="psRsTable">
 
                         </tbody>
                     </table>

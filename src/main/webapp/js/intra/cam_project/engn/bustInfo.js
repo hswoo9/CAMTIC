@@ -94,7 +94,10 @@ var bustInfo = {
 
                     $("#contEtc").val(dataItem.RESULT);
 
-                    grid.tbody.css("background-color", "#ffffff");
+                    grid.tbody.find("tr").each(function (){
+                        $(this).css("background-color", "");
+                    });
+
                     $(this).css("background-color", "#a7e1fc");
                 });
             },

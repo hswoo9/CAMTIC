@@ -52,8 +52,6 @@ var resultInfo = {
 
                 const ls = rs.list;
                 var html = "";
-                var type = "";
-
                 html += '<tr>';
                 for(var i = 0 ; i < ls.length ; i++) {
                     html += '   <td colspan="2" style="text-align: center; background-color: #dee4ed">[' + ls[i].PS_PREP_NM + '] ' +ls[i].PS_EMP_NM+'</td>';
@@ -97,7 +95,8 @@ var resultInfo = {
                 }
                 html += '</tr>';
 
-                $("#psTable").append(html);
+                console.log(html);
+                $("#psRsTable").append(html);
 
                 $(".prepAmt, .prepCase").kendoTextBox();
             }

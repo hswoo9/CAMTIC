@@ -551,16 +551,6 @@ public class ProjectController {
     }
 
 
-    @RequestMapping("/project/codeManagement.do")
-    public String codeManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
-
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
-
-        return "cam_project/codeManagement";
-    }
-
     @RequestMapping("/project/groupCodeList")
     public String groupCodeList(@RequestParam Map<String, Object> params, Model model){
 
@@ -692,7 +682,7 @@ public class ProjectController {
     public String updProcess(@RequestParam Map<String, Object> params, Model model){
 
         try{
-               projectService.updProcess(params);
+            projectService.updProcess(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
