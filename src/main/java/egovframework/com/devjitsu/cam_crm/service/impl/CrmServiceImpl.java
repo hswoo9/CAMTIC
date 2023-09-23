@@ -296,8 +296,34 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
-    public Map<String, Object> getRegCrmHist(Map<String, Object> params) {
-        return crmRepository.getRegCrmHist(params);
+    public Map<String, Object> getCrmHist(Map<String, Object> params) {
+        /**
+         * 기본정보
+         */
+        Map<String, Object> returnMap = crmRepository.getCrmInfo(params);
+
+        /**
+         * 분야별 거래내역(연구개발)
+         */
+
+        /**
+         * 분야별 거래내역(개발사업)
+         */
+
+        /**
+         * 분야별 거래내역(교육훈련)
+         */
+
+        /**
+         * 분야별 거래내역(구매)
+         */
+
+        /**
+         * 관계이력
+         */
+        returnMap.put("crmHist", crmRepository.getCrmHistList(params));
+
+        return returnMap;
     }
 
     @Override

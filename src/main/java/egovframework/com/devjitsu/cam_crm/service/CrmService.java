@@ -28,7 +28,7 @@ public interface CrmService {
     Map<String, Object> getCrmInterests(Map<String, Object> params);
     void setCrmInterests(Map<String, Object> params);
     List<Map<String, Object>> getCrmHistList(Map<String, Object> params);
-    Map<String, Object> getRegCrmHist(Map<String, Object> params);
+    Map<String, Object> getCrmHist(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);
     List<Map<String, Object>> groupCodeList(Map<String, Object> params);
     void saveGroupCode(Map<String, Object> params);

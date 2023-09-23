@@ -314,13 +314,13 @@ public class CrmController {
      * @param model
      * @return
      */
-    @RequestMapping("/crm/pop/regCrmHistViewPop.do")
+    @RequestMapping("/crm/pop/crmHistViewPop.do")
     public String regCrmHistViewPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
-        model.addAttribute("rs", crmService.getRegCrmHist(params));
-        return "popup/cam_crm/regCrmHistViewPop";
+        model.addAttribute("rs", crmService.getCrmHist(params));
+        return "popup/cam_crm/crmHistViewPop";
     }
 
     /**
