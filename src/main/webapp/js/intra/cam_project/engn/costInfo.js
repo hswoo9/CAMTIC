@@ -92,6 +92,14 @@ var costInfo = {
         obj.value = costInfo.comma(costInfo.uncomma(obj.value));
     },
 
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
     },
 
     buttonSet: function(costMap){
@@ -128,13 +136,5 @@ var costInfo = {
             this.target = '_self';
         }).trigger("submit");
     },
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
 
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    }
 }
