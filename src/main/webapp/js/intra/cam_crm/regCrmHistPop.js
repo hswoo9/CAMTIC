@@ -5,6 +5,8 @@ var regCrmHist = {
         dropDownDataSource : "",
         searchAjaxData : "",
         saveAjaxData : "",
+        htmlStr : "",
+        subHtmlStr : ""
     },
 
     fn_defaultScript : function (){
@@ -39,6 +41,10 @@ var regCrmHist = {
             cmGroupCode : "BUSN_CLASS",
         }
 
+        regCrmHist.global.radioDataSource = customKendo.fn_customAjax("/crm/selLgCode", {grpSn : "ITF"});
+        regCrmHist.mainCdChkBoxSetting(regCrmHist.global.radioDataSource.rs);
+
+
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", regCrmHist.global.searchAjaxData);
         customKendo.fn_dropDownList("crmRelPjt", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
@@ -47,10 +53,6 @@ var regCrmHist = {
         } ).then (newEditor => {
             regCrmHist.global.editor = newEditor;
         });
-
-        if($("#crmHistSn").val()){
-            regCrmHist.getRegCrmHist();
-        }
     },
 
     fn_save : function(){
@@ -75,6 +77,19 @@ var regCrmHist = {
             crmShareEmp : $("#crmShareEmp").val(),
             empSeq : $("#empSeq").val()
         }
+
+        var crmInterLg = "";
+        $.each($("input[name='crmInterLg']:checked"), function(){
+            crmInterLg += "," + $(this).attr("id") + "_" + $(this).attr("grpSn") + "_" + $(this).val()
+        })
+        regCrmHist.global.saveAjaxData.crmInterLg = crmInterLg.substring(1)
+
+        var crmInter = "";
+        $.each($("input[name='crmInter']:checked"), function(){
+            crmInter += "," + $(this).attr("id") + "_" + $(this).attr("grpSn") + "_" + $(this).attr("lgCd") + "_" + $(this).val()
+        })
+        regCrmHist.global.saveAjaxData.crmInter = crmInter.substring(1)
+
 
         if($("#secChk").is(":checked")){
             regCrmHist.global.saveAjaxData.secChk = "Y";
@@ -116,4 +131,51 @@ var regCrmHist = {
     fn_popUser : function (){
         window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     },
+
+    mainCdChkBoxSetting : function(e){
+        for(var i = 0; i < e.length; i++){
+            regCrmHist.global.htmlStr = "";
+            regCrmHist.global.htmlStr += "" +
+                '<tr>' +
+                    '<td>' +
+                        '<div>' +
+                            '<input type="checkbox" id="' + e[i].CRM_CD_SN + '" name="crmInterLg" style="margin-right: 5px" grpSn="' + e[i].GRP_SN + '" value="' + e[i].LG_CD + '" onchange="regCrmHist.mainCdChkBoxChange(this)">' +
+                            '<label for="' + e[i].CRM_CD_SN + '">' + e[i].LG_CD_NM +'</label>' +
+                        '</div>' +
+                    '</td>' +
+                    '<td id="crmInterTd_' + e[i].LG_CD + '">' +
+                        '<div id="crmInterDiv_' + e[i].LG_CD + '" style="display: none">' +
+                        '</div>' +
+                    '</td>' +
+                '</tr>';
+
+            $("#codeTable").append(regCrmHist.global.htmlStr);
+
+            var result = customKendo.fn_customAjax("/crm/smCodeList", {
+                grpSn : e[i].GRP_SN,
+                lgCd : e[i].LG_CD
+            });
+            regCrmHist.subCheckBoxSetting(result, "crmInterDiv_" + e[i].LG_CD);
+        }
+    },
+
+    mainCdChkBoxChange : function(e){
+        if($(e).is(":checked")){
+            $("#crmInterDiv_" + $(e).val()).show();
+        }else{
+            $("#crmInterDiv_" + $(e).val()).hide();
+        }
+    },
+
+    subCheckBoxSetting : function(e, id){
+        regCrmHist.global.subHtmlStr = "";
+
+        for(var i = 0; i < e.length; i++) {
+            regCrmHist.global.subHtmlStr += "" +
+                '<input type="checkbox" id="' + e[i].CRM_CD_SN + '" grpSn="' + e[i].GRP_SN + '" lgCd="' + e[i].LG_CD + '" name="crmInter"  style="margin-left: 5px;margin-right: 5px" value="' + e[i].CRM_CD + '">' +
+                '<label for="' + e[i].CRM_CD_SN + '">' + e[i].CRM_CD_NM + '</label>';
+        }
+
+        $("#" + id).append(regCrmHist.global.subHtmlStr);
+    }
 }

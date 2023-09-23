@@ -318,12 +318,14 @@ public class CrmServiceImpl implements CrmService {
          * 분야별 거래내역(구매)
          */
 
-        /**
-         * 관계이력
-         */
-        returnMap.put("crmHist", crmRepository.getCrmHistList(params));
+
 
         return returnMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmHistDetailList(Map<String, Object> params) {
+        return crmRepository.getCrmHistList(params);
     }
 
     @Override
@@ -369,5 +371,18 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public List<Map<String, Object>> selSmCode(Map<String, Object> params) {
         return crmRepository.selSmCode(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selLgSmCode(Map<String, Object> params) {
+        List<Map<String, Object>> lgSmList = crmRepository.selLgCode(params);
+        for(Map<String, Object> map : lgSmList){
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("grpSn", params.get("grpSn"));
+            searchMap.put("lgCd", map.get("LG_CD"));
+            map.put("smList", crmRepository.selSmCode(searchMap));
+        }
+
+        return lgSmList;
     }
 }

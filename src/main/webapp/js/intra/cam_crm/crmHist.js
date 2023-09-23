@@ -63,7 +63,7 @@ var crmHist = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="crmHist.fn_crmHistRegPop">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="crmHist.fn_crmHistRegPop()">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }

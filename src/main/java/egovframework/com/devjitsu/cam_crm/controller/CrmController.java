@@ -324,6 +324,18 @@ public class CrmController {
     }
 
     /**
+     * 이력관리 관계이력 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmHistDetailList")
+    public String getCrmHistDetailList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getCrmHistDetailList(params));
+        return "jsonView";
+    }
+
+    /**
      * 이력관리 등록 팝업
      * @param request
      * @param params
@@ -443,6 +455,12 @@ public class CrmController {
     @RequestMapping("/crm/selSmCode")
     public String selSmCode(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", crmService.selSmCode(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/selLgSmCode")
+    public String selLgSmCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", crmService.selLgSmCode(params));
         return "jsonView";
     }
 }

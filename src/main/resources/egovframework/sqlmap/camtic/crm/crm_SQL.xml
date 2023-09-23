@@ -367,8 +367,8 @@
                 #{crmRelStrDt},
                 #{crmRelEndDt},
                 "",
-                "",
-                "",
+                #{crmInterLg},
+                #{crmInter},
                 #{crmRelPjt},
                 #{crmRelPjtNm},
                 #{crmRelCont},
@@ -457,8 +457,16 @@
             CAM_CRM.DJ_CRM_CD
         WHERE
             GRP_SN = #{grpSn}
-          AND
-            LG_CD is not null
+        <choose>
+            <when test='lgCdArr != null and !"".equals(lgCdArr)'>
+                AND
+                    LG_CD in(${lgCdArr})
+            </when>
+            <otherwise>
+                AND
+                    LG_CD is not null
+            </otherwise>
+        </choose>
           AND
             CRM_CD is null
     </select>
@@ -471,11 +479,19 @@
             CAM_CRM.DJ_CRM_CD
         WHERE
             GRP_SN = #{grpSn}
-          AND
+        AND
             LG_CD is not null
-          AND
-            LG_CD = #{lgCd}
-          AND
+        <choose>
+            <when test='lgCdArr != null and !"".equals(lgCdArr)'>
+            AND
+                LG_CD in(${lgCdArr})
+            </when>
+            <otherwise>
+            AND
+                LG_CD = #{lgCd}
+            </otherwise>
+        </choose>
+        AND
             CRM_CD is not null
     </select>
 

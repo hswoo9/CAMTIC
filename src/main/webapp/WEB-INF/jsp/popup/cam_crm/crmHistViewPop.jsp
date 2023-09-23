@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="/js/intra/cam_crm/crmHistViewPop.js?v=${today}"/></script>
 <style>
     .subTitSt {
         font-weight: 600;
@@ -62,6 +63,7 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
+<input type="hidden" id="crmSn" name="crmSn" value="${rs.CRM_SN}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -244,29 +246,32 @@
                                 <th scope="row" class="text-center th-color">상담일시</th>
                                 <th scope="row" class="text-center th-color">입력구분</th>
                             </tr>
+                            </thead>
+                            <tbody id="histTb">
                             <c:forEach items="${rs.crmHist}" var="item" varStatus="status">
                                 <tr>
                                     <td>${status.index +1}</td>
                                     <td>${item.DEPT_NAME}</td>
                                     <td>${item.EMP_NAME_KR}</td>
-                                    <td>
-                                            ${item.CRM_MEM_NM}
-                                    </td>
+                                    <td>${item.CRM_MEM_NM}</td>
                                     <td>${item.START_DATETIME}</td>
                                     <td>${item.CRM_HIST_OBJ}</td>
                                 </tr>
                                 <tr>
-                                    <%-- TODO. 관심분야 코드 생성 후 삽입 --%>
-                                    <td></td>
-                                    <td colspan="5"></td>
+                                    <td>
+
+                                    </td>
+                                    <td colspan="5">
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="6">
-                                        ${item.CRM_REL_CONT}
+                                            ${item.CRM_REL_CONT}
                                     </td>
                                 </tr>
                             </c:forEach>
-                            </thead>
+                            </tbody>
                         </table>
                     </li>
                 </ul>
@@ -275,18 +280,7 @@
     </div>
 </div>
 <script>
-    $(".histTitleSpan").click(function(){
-        // height: 70px
-        var baseHeight = 40;
-
-        if($(this).hasClass("active")){
-            $(this).closest(".histListDiv").css("height", baseHeight);
-            $(this).removeClass("active");
-        }else{
-            $(this).addClass("active");
-            $(this).closest(".histListDiv").css("height", baseHeight + $(this).closest(".histListDiv").find(".childrenTable").height() + 10)
-        }
-    })
+    chv.fn_defaultScript();
 </script>
 </body>
 </html>
