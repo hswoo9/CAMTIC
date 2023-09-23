@@ -52,7 +52,12 @@ var chv = {
                     '<td>' + (i+1) + '</td>' +
                     '<td>' + e[i].DEPT_NAME + '</td>' +
                     '<td>' + e[i].EMP_NAME_KR + '</td>' +
-                    '<td>' + e[i].CRM_MEM_NM + '</td>' +
+                    '<td>';
+                    if(e[i].CRM_MEM_NM != null){
+                        chv.global.htmlStr += e[i].CRM_MEM_NM;
+                    }
+            chv.global.htmlStr += "" +
+                    '</td>' +
                     '<td>' + e[i].START_DATETIME + '</td>' +
                     '<td>' + e[i].CRM_HIST_OBJ + '</td>' +
                 '</tr>';

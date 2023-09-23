@@ -237,6 +237,11 @@
                     <li>
                         <span class="histTitleSpan" style="cursor: pointer">관계이력</span>
                         <table class="childrenTable popTable table table-bordered mb-0 text-center">
+                            <colgroup>
+                                <col style="width: 10%">
+                                <col style="width: 20%">
+                                <col style="width: 10%">
+                            </colgroup>
                             <thead>
                             <tr>
                                 <th scope="row" class="text-center th-color">순번</th>
@@ -248,29 +253,7 @@
                             </tr>
                             </thead>
                             <tbody id="histTb">
-                            <c:forEach items="${rs.crmHist}" var="item" varStatus="status">
-                                <tr>
-                                    <td>${status.index +1}</td>
-                                    <td>${item.DEPT_NAME}</td>
-                                    <td>${item.EMP_NAME_KR}</td>
-                                    <td>${item.CRM_MEM_NM}</td>
-                                    <td>${item.START_DATETIME}</td>
-                                    <td>${item.CRM_HIST_OBJ}</td>
-                                </tr>
-                                <tr>
-                                    <td>
 
-                                    </td>
-                                    <td colspan="5">
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6">
-                                            ${item.CRM_REL_CONT}
-                                    </td>
-                                </tr>
-                            </c:forEach>
                             </tbody>
                         </table>
                     </li>
