@@ -344,10 +344,10 @@ var recruitAdminPop = {
     },
 
     applicationInfo : function(e){
-        var url = "";
+        var url = "/inside/pop/applicationView.do?applicationId=" + e;
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        //var popup = window.open(url, name, option);
+        var popup = window.open(url, name, option);
     },
 
     setRecruitStatusUpd : function(t, e){
