@@ -3,6 +3,8 @@ package egovframework.com.devjitsu.inside.recruit.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.camtic.repository.ApplicationRepository;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class RecruitServiceImpl implements RecruitService {
+
     @Autowired
     private RecruitRepository recruitRepository;
+
+    @Autowired
+    private ApplicationRepository applicationRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public Map<String, Object> getRecruitNum(){
@@ -130,6 +140,65 @@ public class RecruitServiceImpl implements RecruitService {
 //        }
 
         return list;
+    }
+
+    @Override
+    public Map<String, Object> getApplication(Map<String, Object> params) {
+        Map<String, Object> searchMap = new HashMap<>();
+
+        /**
+         * 기본정보
+         */
+        Map<String, Object> returnMap = applicationRepository.getApplicationForm1(params);
+        searchMap.put("fileNo", returnMap.get("PHOTO_FILE"));
+        returnMap.put("photoFile", applicationRepository.getApplicationFileInfo(searchMap));
+        searchMap.put("fileNo", returnMap.get("ARMI_FILE"));
+        returnMap.put("armiFile", applicationRepository.getApplicationFileInfo(searchMap));
+
+
+        /**
+         * 학력/경력
+         */
+        List<Map<String, Object>> schoolList = applicationRepository.getApplicationSchool(params);
+        for(Map<String, Object> map : schoolList){
+            searchMap.put("fileNo", map.get("DEGREE_FILE"));
+            map.put("degreeFile", commonRepository.getContentFileOne(searchMap));
+            searchMap.put("fileNo", map.get("SEXUAL_FILE"));
+            map.put("sexualFile", commonRepository.getContentFileOne(searchMap));
+        }
+        returnMap.put("school", schoolList);
+
+        List<Map<String, Object>> careerList = applicationRepository.getApplicationCareer(params);
+        for(Map<String, Object> map : careerList){
+            searchMap.put("fileNo", map.get("CAREER_FILE"));
+            map.put("careerFile", commonRepository.getContentFileOne(searchMap));
+        }
+        returnMap.put("career", careerList);
+
+
+        /**
+         * 자격/면허
+         */
+        List<Map<String, Object>> certList = applicationRepository.getApplicationCert(params);
+        for(Map<String, Object> map : certList){
+            searchMap.put("fileNo", map.get("CERT_FILE"));
+            map.put("certFile", commonRepository.getContentFileOne(searchMap));
+        }
+        returnMap.put("cert", certList);
+
+        List<Map<String, Object>> langList = applicationRepository.getApplicationLang(params);
+        for(Map<String, Object> map : langList){
+            searchMap.put("fileNo", map.get("LANG_FILE"));
+            map.put("langFile", commonRepository.getContentFileOne(searchMap));
+        }
+        returnMap.put("lang", langList);
+
+        /**
+         * 자기소개서
+         */
+        returnMap.put("introduce", applicationRepository.getApplicationIntroduce(params));
+
+        return returnMap;
     }
 
     @Override

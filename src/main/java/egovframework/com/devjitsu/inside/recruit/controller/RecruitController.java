@@ -200,6 +200,26 @@ public class RecruitController {
     }
 
     /**
+     * 응시자 상세보기
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/applicationView.do")
+    public String applicationView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("data", recruitService.getApplication(params));
+
+        return "popup/inside/recruit/applicationView";
+    }
+
+    /**
      * 채용공고 응시자 중복지원 리스트 팝업
      * @param params
      * @param request

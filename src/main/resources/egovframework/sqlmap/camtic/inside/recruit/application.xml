@@ -96,7 +96,26 @@
     <select id="getApplicationForm1" parameterType="map" resultType="map">
         /* getApplicationForm1 */
         SELECT
-            *
+            AM.*,
+            RAI.*,
+            ROUND((TO_DAYS(NOW()) - TO_DAYS(AM.BDAY)) / 365, 0) AS AGE,
+            CASE WHEN AM.GENDER = 'M' THEN '남자'
+                 ELSE '여자'
+            END AS GENDER_TXT,
+            CASE WHEN AM.CLSFT_CODE = '1' THEN '미필'
+                 WHEN AM.CLSFT_CODE = '2' THEN '면제'
+                 WHEN AM.CLSFT_CODE = '3' THEN '군필'
+                 WHEN AM.CLSFT_CODE = '4' THEN '특례'
+            END AS CLSFT_CODE_TXT,
+            CASE WHEN AM.MILITARY_SVC_TYPE = '1' THEN '육군'
+                 WHEN AM.MILITARY_SVC_TYPE = '2' THEN '공군'
+                 WHEN AM.MILITARY_SVC_TYPE = '3' THEN '해군'
+                 WHEN AM.MILITARY_SVC_TYPE = '4' THEN '해병대'
+                 WHEN AM.MILITARY_SVC_TYPE = '5' THEN '전/의경'
+                 WHEN AM.MILITARY_SVC_TYPE = '6' THEN '공익'
+                 WHEN AM.MILITARY_SVC_TYPE = '7' THEN '상근'
+                 WHEN AM.MILITARY_SVC_TYPE = '8' THEN '카투사'
+            END AS MILITARY_SVC_TYPE_TXT
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
@@ -331,9 +350,20 @@
     <select id="getApplicationSchool" parameterType="map" resultType="map">
         /* getApplicationSchool */
         SELECT
-            *
+            A.*,
+            CASE WHEN A.SCHOOL_TYPE = 1 THEN '고등학교'
+                 WHEN A.SCHOOL_TYPE = 2 THEN '전문대학'
+                 WHEN A.SCHOOL_TYPE = 3 THEN '대학교1'
+                 WHEN A.SCHOOL_TYPE = 4 THEN '대학교2'
+                 WHEN A.SCHOOL_TYPE = 5 THEN '대학원(석사)'
+                 WHEN A.SCHOOL_TYPE = 6 THEN '대학원(박사)'
+            END AS SCHOOL_TYPE_TXT,
+            CASE WHEN A.GRADUATE_TYPE = 1 THEN '졸업'
+                 WHEN A.GRADUATE_TYPE = 2 THEN '졸업예정'
+                 WHEN A.GRADUATE_TYPE = 3 THEN '수료'
+                END AS GRADUATE_TYPE_TXT
         FROM
-            CAM_INSIDE.DJ_APPLICATION_SCHOOL
+            CAM_INSIDE.DJ_APPLICATION_SCHOOL A
         WHERE
             APPLICATION_ID = #{applicationId}
     </select>
