@@ -42,5 +42,61 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
         hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
+
+        /** 4. 구매(계획/실적) */
+        let invAmt = 0;
+        for(let i=0; i<invList.length; i++){
+            invAmt += invList[i].EST_TOT_AMT;
+        }
+        hwpDocCtrl.putFieldText('PLAN_AMT', fn_numberWithCommas(invAmt));
+        hwpDocCtrl.putFieldText('PERFORMANCE_AMT', fn_numberWithCommas((map.PJT_AMT == null ? 0 : map.PJT_AMT) - invAmt));
+
+
+        /** 5. 계획대비 실적표 */
+        hwpDocCtrl.putFieldText('PLAN_DELV_AMT', fn_numberWithCommas(map.PJT_AMT));
+        let planPer = Math.round(Number( invAmt / (map.PJT_AMT == null ? 0 : map.PJT_AMT) * 100));
+        hwpDocCtrl.putFieldText('PLAN_PER', planPer + "%");
+
+        hwpDocCtrl.putFieldText('REVENUE_AMT', fn_numberWithCommas((map.PJT_AMT == null ? 0 : map.PJT_AMT) - invAmt));
+        hwpDocCtrl.putFieldText('REVENUE_PER', (100 - planPer) + "%");
+
+        /** 5. 계획대비 실적률 */
+        alert(fn_numberWithCommas(map.EXP_AMT));
+        hwpDocCtrl.putFieldText('EXP_AMT', fn_numberWithCommas(map.EXP_AMT));
+        let rs = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
+        const ls = rs.list;
+        for(let i=0; i<ls.length; i++){
+            hwpDocCtrl.putFieldText('CELL'+(i+1), ls[i].PS_EMP_NM);
+
+            var value = 0;
+            var calcAmt = 0;
+            var type = "";
+            if(ls[i].PS_PREP == 1){
+                type = "A";
+                if(rs.result.map != undefined){
+                    if(rs.result.map.PREP_A != null && rs.result.map.PREP_A != ""){
+                        value = rs.result.map.PREP_A;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 2){
+                type = "B";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.PREP_B != null && rs.result.map.PREP_B != "") {
+                        value = rs.result.map.PREP_B;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 3){
+                type = "C";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.PREP_C != null && rs.result.map.PREP_C != "") {
+                        value = rs.result.map.PREP_C;
+                    }
+                }
+            }
+            calcAmt = Math.round((map.EXP_AMT == null ? 0 : map.EXP_AMT) * (value * 0.01));
+            console.log(calcAmt);
+            hwpDocCtrl.putFieldText('CELL_AMT'+(i+1), fn_numberWithCommas(calcAmt));
+            hwpDocCtrl.putFieldText('CELL_PER'+(i+1), value + "%");
+        }
     }
 }
