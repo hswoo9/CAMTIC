@@ -246,9 +246,12 @@ var regPrj = {
     fn_busnDDLChange: function(e){
         var value = this.value();
 
+        console.log(value);
         if(value == "D"){
             $("#vEngi").css("display", "");
             $("#commFileHtml").css("display", "");
+        } else if (value == "R") {
+            location.href="/projectRnd/pop/regProject.do";
         } else {
             $("#vEngi").css("display", "none");
             $("#commFileHtml").css("display", "none");
@@ -332,7 +335,7 @@ var regPrj = {
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
         }
-        $("#pjtTitle").text("프로젝트 수정 - " + p.BUSN_NM + pjtCode);
+        $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
         $("#expAmt").val(regPrj.comma(p.EXP_AMT));
         $("#contLoc").val(p.CONT_LOC);
@@ -413,7 +416,11 @@ var regPrj = {
 
 
         var smValue =$("input[name='projectSm']:checked").val();
+        console.log(smValue);
         if(smValue == "D"){
+            var busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.select(1);
+        } else if (smValue == "R") {
             var busnClass = $("#busnClass").data("kendoDropDownList");
             busnClass.select(1);
         }
