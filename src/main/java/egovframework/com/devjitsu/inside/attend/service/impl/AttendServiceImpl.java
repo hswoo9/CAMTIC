@@ -33,4 +33,19 @@ public class AttendServiceImpl implements AttendService {
     public List<Map<String, Object>> getPersonAnnvInfoList(Map<String, Object> params) {
         return attendRepository.getPersonAnnvInfoList(params);
     }
+
+    @Override
+    public Map<String, Object> getAttendAllCountMonthly(Map<String, Object> params) {
+        return attendRepository.getAttendAllCountMonthly(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAttendDeptCountMonthly(Map<String, Object> params) {
+        return attendRepository.getAttendDeptCountMonthly(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAttendPersonalCountMonthly(Map<String, Object> params) {
+        return attendRepository.getAttendPersonalCountMonthly(params);
+    }
 }

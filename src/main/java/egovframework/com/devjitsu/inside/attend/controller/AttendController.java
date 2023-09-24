@@ -125,7 +125,7 @@ public class AttendController {
         return "popup/inside/attend/personAttendStatPop";
     }
 
-    //월별근태보고
+    /** 월별 근태보고 */
     @RequestMapping("/Inside/monthAttendStat.do")
     public String monthAttendStat(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -134,6 +134,27 @@ public class AttendController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/monthAttendStat";
+    }
+
+    @RequestMapping("/inside/getAttendAllCountMonthly")
+    public String getAttendAllCount(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = attendService.getAttendAllCountMonthly(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/getAttendDeptCountMonthly")
+    public String getAttendDeptCountMonthly(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = attendService.getAttendDeptCountMonthly(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/getAttendPersonalCountMonthly")
+    public String getAttendPersonalCountMonthly(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = attendService.getAttendPersonalCountMonthly(params);
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
     //선택근로
