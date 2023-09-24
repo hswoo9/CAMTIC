@@ -849,6 +849,11 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updCostInfo(params);
         }
     }
+
+    @Override
+    public Map<String, Object> getProjectDocInfo(Map<String, Object> params) {
+        return projectRepository.getProjectDocInfo(params);
+    }
 }
 
 

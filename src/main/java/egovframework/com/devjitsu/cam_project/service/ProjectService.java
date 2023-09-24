@@ -131,4 +131,6 @@ public interface ProjectService {
     List<Map<String, Object>> getTeamList(Map<String, Object> params);
 
     void setCostInfo(Map<String, Object> params);
+
+    Map<String, Object> getProjectDocInfo(Map<String, Object> params);
 }
