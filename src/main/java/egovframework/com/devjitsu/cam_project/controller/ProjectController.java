@@ -74,6 +74,16 @@ public class ProjectController {
         return "popup/cam_project/regProject";
     }
 
+    @RequestMapping("/project/pop/projectDoc.do")
+    public String docViewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/projectDoc";
+    }
+
     @RequestMapping("/project/setProject")
     public String setProject(@RequestParam Map<String, Object> params, Model model){
         try{
@@ -849,6 +859,15 @@ public class ProjectController {
         } catch(Exception e){
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+    /** 프로젝트 결재문서 정보 조회 */
+    @RequestMapping("/project/getProjectDocInfo")
+    public String getProjectDocInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", projectService.getProjectDocInfo(params));
 
         return "jsonView";
     }
