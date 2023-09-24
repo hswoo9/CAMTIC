@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="manage">
+
+    <select id="getPurcReqManageList" parameterType="map" resultType="map">
+        /* getPurcReqManageList */
+        SELECT
+            MP.PURC_SN,
+            MP.DOC_NO,
+            DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
+            EI.EMP_NAME_KR,
+            MP.PURC_REQ_PURPOSE,
+            MP.STATUS
+        FROM
+            CAM_MNG.DJ_MNG_PURC MP
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+        WHERE 1=1
+
+        <if test='searchDept != null and !"".equals(searchDept)'>
+            AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
+                AND MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
+                AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
+                AND MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                    MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="setPurcReq" parameterType="map">
+        /* setApplicationSchool */
+        INSERT INTO CAM_MNG.DJ_MNG_PURC
+        (
+            PURC_REQ_DATE,
+            PURC_REQ_EMP_SEQ,
+            PURC_REQ_DEPT_SEQ,
+            DOC_NO,
+            PURC_REQ_PURPOSE,
+            PURC_TYPE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{purcReqDate},
+            #{purcReqEmpSeq},
+            #{purcReqDeptSeq},
+            #{docNo},
+            #{purcReqPurpose},
+            #{purcType},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="purcSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_MNG_PURC'
+        </selectKey>
+    </insert>
+
+    <update id="setPurcReqUpd" parameterType="map">
+        /* setPurcReqUpd */
+        UPDATE
+            CAM_MNG.DJ_MNG_PURC
+        SET
+            PURC_REQ_DATE = #{purcReqDate},
+            PURC_REQ_PURPOSE = #{purcReqDeptSeq},
+            PURC_TYPE = #{purcType},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
+
+    <insert id="setPurcItem" parameterType="map">
+        /* setPurcItem */
+        INSERT INTO CAM_MNG.DJ_MNG_PURC_ITEM
+        (
+            PURC_SN,
+            PURC_ITEM_TYPE,
+            PURC_ITEM_NAME,
+            PURC_ITEM_STD,
+            PURC_ITEM_UNIT_PRICE,
+            PURC_ITEM_QTY,
+            PURC_ITEM_UNIT,
+            PURC_ITEM_AMT,
+            CRM_SN,
+            RMK,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{purcSn},
+            #{purcItemType},
+            #{purcItemName},
+            #{purcItemStd},
+            #{purcItemUnitPrice},
+            #{purcItemQty},
+            #{purcItemUnit},
+            #{purcItemAmt},
+            #{crmSn},
+            #{rmk},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setPurcItemUpd" parameterType="map">
+        /* setPurcItemUpd */
+        UPDATE
+            CAM_MNG.DJ_MNG_PURC_ITEM
+        SET
+            PURC_ITEM_TYPE = #{purcItemType},
+            PURC_ITEM_NAME = #{purcItemName},
+            PURC_ITEM_STD = #{purcItemStd},
+            PURC_ITEM_UNIT_PRICE = #{purcItemUnitPrice},
+            PURC_ITEM_QTY = #{purcItemQty},
+            PURC_ITEM_UNIT = #{purcItemUnit},
+            PURC_ITEM_AMT = #{purcItemAmt},
+            CRM_SN = #{crmSn},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            PURC_ITEM_SN = #{purcItemSn}
+    </update>
+
+    <select id="getPurcReq" parameterType="map" resultType="map">
+        /* getPurcReq */
+        SELECT
+            MP.*,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            EI.DEPT_SEQ,
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME
+        FROM
+            CAM_MNG.DJ_MNG_PURC MP
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <select id="getPurcItemList" parameterType="map" resultType="map">
+        /* getPurcItemList */
+        SELECT
+            MPI.PURC_ITEM_SN,
+            MPI.PURC_ITEM_TYPE,
+            MPI.PURC_ITEM_NAME,
+            MPI.PURC_ITEM_STD,
+            MPI.PURC_ITEM_UNIT_PRICE,
+            MPI.PURC_ITEM_QTY,
+            MPI.PURC_ITEM_UNIT,
+            MPI.PURC_ITEM_AMT,
+            MPI.RMK,
+            CI.CRM_SN,
+            CI.CRM_NM
+        FROM
+            CAM_MNG.DJ_MNG_PURC_ITEM MPI
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON MPI.CRM_SN = CI.CRM_SN
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <select id="getPurcReqFileInfo" parameterType="map" resultType="map">
+        /* getPurcReqFileInfo */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{contentId}
+    </select>
+</mapper>

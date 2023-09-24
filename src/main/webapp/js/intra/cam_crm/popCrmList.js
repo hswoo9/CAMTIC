@@ -139,6 +139,7 @@ var popCrmList = {
         opener.parent.$("#teamCrmSn").val(rs.CRM_SN);
         opener.parent.$("#teamCrmNm").val(rs.CRM_NM);
 
+        opener.parent.$("#crmSn").change();
 
         window.close();
     }
