@@ -267,10 +267,6 @@ var devInfo = {
                 console.log(rs);
                 var devFile = rs.devFile;
 
-                if(devFile.devFile != null && devFile.devFile != ""){
-                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
-                }
-
                 if(devFile.estFile != null && devFile.estFile != ""){
                     $("#estFileName").text(devFile.estFile.file_org_name + "." +devFile.estFile.file_ext);
 
@@ -322,7 +318,7 @@ var devInfo = {
                             $(this).children("td").last().children("button").each(function(x){
                                 if(x == 0){
                                     $(this).removeAttr("onclick");
-                                    $(this).attr("onclick", "devInfo.fn_psSave("+idx+")");
+                                    $(this).attr("onclick", "devInfo.fn_delRow("+idx+")");
                                 } else if (x == 1){
                                     $(this).removeAttr("onclick");
                                     $(this).attr("onclick", "fn_userMultiSelectPop("+idx+")");
@@ -349,6 +345,7 @@ var devInfo = {
                                 data : updData,
                                 type : "post",
                                 dataType : "json",
+                                async : false,
                                 success : function(rs){
                                     console.log(rs);
                                     if(rs.code == 200){
@@ -359,7 +356,6 @@ var devInfo = {
                         }
                     });
                     alert("삭제하였습니다.");
-
                 }
             }
         });
@@ -423,7 +419,7 @@ var devInfo = {
             '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value=""/></span>' +
             '       </td>';
         html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" value="'+inputData.psEndDe+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" value="'+inputData.psEndDe+'" /></td>';
-        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+inputData.psEmpNm+'" disabled /><input type="hidden" id="psEmpNm'+idx+'" value="'+inputData.psEmpSeq+'" /></td>';
+        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+inputData.psEmpNm+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+inputData.psEmpSeq+'" /></td>';
         html += '   <td style="text-align: center">';
         html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
         html += '   </td>';
@@ -782,12 +778,8 @@ var devInfo = {
             fd.append("estFile", $("#estFile")[0].files[0]);
         }
 
-        if($("#devFile")[0].files.length == 1){
-            fd.append("devFile", $("#devFile")[0].files[0]);
-        }
-
-        if($("#devFileName").text() == ""){
-            alert("납품서를 등록해주세요.");
+        if($("#estFileName").text() == ""){
+            alert("견적서를 등록해주세요.");
             return;
         }
 
@@ -812,7 +804,8 @@ var devInfo = {
                     });
 
                     $("#invAmt002").text(devInfo.comma(sum));
-                    devInfo.fn_psSave();
+                    devInfo.fn_saveInv();
+
                 }
             }
         });
@@ -846,7 +839,7 @@ var devInfo = {
                     dataType : "json",
                     success : function (rs){
                         if(rs.code = 200){
-                            devInfo.fn_saveInv();
+                            // devInfo.fn_saveInv();
                         }
                     }
                 });

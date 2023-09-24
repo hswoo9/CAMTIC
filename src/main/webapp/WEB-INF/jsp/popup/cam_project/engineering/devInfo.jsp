@@ -4,7 +4,7 @@
 
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/devInfo.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
@@ -115,20 +115,12 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>견적서
+                    <span class="red-star">*</span>견적서
                 </th>
-                <td>
+                <td colspan="3">
                     <label for="estFile" class="k-button k-button-solid-base">파일첨부</label>
                     <input type="file" id="estFile" name="estFile" onchange="devInfo.fileChange(this)" style="display: none">
                     <span id="estFileName"></span>
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>납품서
-                </th>
-                <td>
-                    <label for="devFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="devFile" name="devFile" onchange="devInfo.fileChange(this)" style="display: none">
-                    <span id="devFileName"></span>
                 </td>
             </tr>
             </thead>

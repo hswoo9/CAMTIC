@@ -4,15 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/attend/monthAttendStat.js?v=${toDate}"/></script>
-
-<style>
-    .title-road{font-size: 11px; color: #999999; margin-top:10px;}
-</style>
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -30,7 +21,7 @@
                             <div style="display:flex; justify-content: space-between;">
                                 <div>
                                     <span>조회 기간</span>
-                                    <input type="text" id="datePicker" style="width: 50%; margin-left: 10px;">
+                                    <input id="applyMonth" style="width: 120px; margin-left: 10px;">
                                 </div>
                                 <div>
                                     <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
@@ -41,7 +32,7 @@
                         </td>
                     </tr>
                 </table>
-                <h3 class="panel-title" style="text-align: center;"> 2023년 5월 직원 근태현황</h3>
+                <h3 id="title" class="panel-title" style="text-align: center;">OOOO년 OO월 직원 근태현황</h3>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -82,21 +73,8 @@
                                 <th style="text-align: center;">건</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                            </tr>
+
+                            <tbody id="allStatTable">
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
@@ -145,22 +123,7 @@
                                 <th style="text-align: center;">건</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td style="text-align: center;">경영지원팀</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                            </tr>
+                            <tbody id="deptStatTable">
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
@@ -195,19 +158,7 @@
                                 <th>기타</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td style="text-align: center;">경영지원실</td>
-                                <td style="text-align: center;">경영지원팀</td>
-                                <td style="text-align: center;">유지연</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                            </tr>
+                            <tbody id="personalStatTable">
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->
@@ -220,5 +171,4 @@
 
 <script type="text/javascript">
     monthAttendStat.fn_defaultScript();
-    monthAttendStat.mainGrid();
 </script>

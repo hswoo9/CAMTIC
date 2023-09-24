@@ -332,10 +332,10 @@ var camPrj = {
                     title : "조회",
                     width: "5%",
                     template : function (e){
-                        return "<button type='button' class='k-button k-button-solid-base'>조회</button>"
+                        return "<button type='button' onclick='camPrj.projectDoc("+e.PJT_SN+")' class='k-button k-button-solid-base'>조회</button>"
                     }
                 }
-                ],
+            ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
@@ -486,8 +486,13 @@ var camPrj = {
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
+    },
+
+    projectDoc: function(key) {
+        var url = "/project/pop/projectDoc.do?pjtSn=" + key;
+        var name = "_blank";
+        var option = "width = 680, height = 200, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     }
-
-
-
 }

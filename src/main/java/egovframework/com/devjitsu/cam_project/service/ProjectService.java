@@ -112,7 +112,7 @@ public interface ProjectService {
 
     Map<String, Object> getPsFile(Map<String, Object> params);
 
-    Map<String, Object> setGoodsInfo(Map<String, Object> params);
+    Map<String, Object> setGoodsInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     void setEstSubMod(Map<String, Object> params);
 
@@ -129,4 +129,8 @@ public interface ProjectService {
     void setTeamInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getTeamList(Map<String, Object> params);
+
+    void setCostInfo(Map<String, Object> params);
+
+    Map<String, Object> getProjectDocInfo(Map<String, Object> params);
 }

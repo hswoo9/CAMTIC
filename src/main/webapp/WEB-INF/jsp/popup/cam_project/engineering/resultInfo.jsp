@@ -25,7 +25,7 @@
 <input type="hidden" id="nextStepValue" value="R" />
 
 <div style="padding: 10px">
-    <div id="costBtnDiv">
+    <div id="resultBtnDiv">
         <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>--%>
     </div>
     <div class="table-responsive">
@@ -65,7 +65,7 @@
                 </th>
                 <td colspan="3">
                     <table>
-                        <tbody id="psTable">
+                        <tbody id="psRsTable">
 
                         </tbody>
                     </table>

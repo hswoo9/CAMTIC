@@ -194,25 +194,6 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.updDevEstFile(fileInsMap);
             }
         }
-
-        if(devFile != null){
-            if(!devFile.isEmpty()){
-                params.put("menuCd", "devFile");
-
-                fileInsMap = mainLib.fileUpload(devFile, filePath(params, SERVER_DIR));
-                fileInsMap.put("devSn", params.get("devSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("file_no", fileInsMap.get("file_no"));
-                projectRepository.updDevFile(fileInsMap);
-            }
-        }
-
     }
 
     @Override
@@ -611,14 +592,14 @@ public class ProjectServiceImpl implements ProjectService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        /*if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             projectRepository.updateCostApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRepository.updateCostApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateCostFinalApprStat(params);
-        }*/
+        }
     }
 
     @Override
@@ -727,12 +708,37 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> setGoodsInfo(Map<String, Object> params) {
+    public Map<String, Object> setGoodsInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         projectRepository.updGoodsInfo(params);
 
         Map<String, Object> map =  projectRepository.getEstData(params);
 
         params.put("estSn", map.get("EST_SN"));
+        Map<String, Object> devMap = projectRepository.getDevData(params);
+        params.put("devSn", devMap.get("DEV_SN"));
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile devFile = request.getFile("devFile");
+
+        if(devFile != null){
+            if(!devFile.isEmpty()){
+                params.put("menuCd", "devFile");
+
+                fileInsMap = mainLib.fileUpload(devFile, filePath(params, SERVER_DIR));
+                fileInsMap.put("devSn", params.get("devSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRepository.updDevFile(fileInsMap);
+            }
+        }
+
 
         projectRepository.updEstInfo(params);
         projectRepository.delEstSub(params);
@@ -829,6 +835,24 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void setTeamInfo(Map<String, Object> params) {
         projectRepository.insTeamInfo(params);
+    }
+
+    @Override
+    public void setCostInfo(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = projectRepository.getCostData(params);
+
+        if(map == null){
+            projectRepository.insCostInfo(params);
+        } else {
+            projectRepository.updCostInfo(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getProjectDocInfo(Map<String, Object> params) {
+        return projectRepository.getProjectDocInfo(params);
     }
 }
 

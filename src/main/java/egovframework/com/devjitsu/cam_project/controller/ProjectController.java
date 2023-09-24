@@ -74,6 +74,16 @@ public class ProjectController {
         return "popup/cam_project/regProject";
     }
 
+    @RequestMapping("/project/pop/projectDoc.do")
+    public String docViewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/projectDoc";
+    }
+
     @RequestMapping("/project/setProject")
     public String setProject(@RequestParam Map<String, Object> params, Model model){
         try{
@@ -489,9 +499,9 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/engn/setGoodsInfo")
-    public String setGoodsInfo(@RequestParam Map<String, Object> params, Model model){
+    public String setGoodsInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
-            Map<String, Object> map = projectService.setGoodsInfo(params);
+            Map<String, Object> map = projectService.setGoodsInfo(params, request, SERVER_DIR, BASE_DIR);
 
             model.addAttribute("rs", map);
             model.addAttribute("code", 200);
@@ -550,16 +560,6 @@ public class ProjectController {
         return "jsonView";
     }
 
-
-    @RequestMapping("/project/codeManagement.do")
-    public String codeManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
-
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
-
-        return "cam_project/codeManagement";
-    }
 
     @RequestMapping("/project/groupCodeList")
     public String groupCodeList(@RequestParam Map<String, Object> params, Model model){
@@ -692,7 +692,7 @@ public class ProjectController {
     public String updProcess(@RequestParam Map<String, Object> params, Model model){
 
         try{
-               projectService.updProcess(params);
+            projectService.updProcess(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
@@ -846,6 +846,28 @@ public class ProjectController {
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setCostInfo")
+    public String setCostInfo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.setCostInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /** 프로젝트 결재문서 정보 조회 */
+    @RequestMapping("/project/getProjectDocInfo")
+    public String getProjectDocInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", projectService.getProjectDocInfo(params));
 
         return "jsonView";
     }

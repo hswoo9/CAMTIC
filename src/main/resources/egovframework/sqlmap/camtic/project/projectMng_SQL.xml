@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="projectMng">
+
+    <select id="getLaborList" parameterType="map" resultType="map">
+        /* getLaborList */
+        SELECT
+            A.CM_CODE,
+            A.CM_CODE_NM,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = C.REG_EMP_SEQ) AS EMP_NAME_KR,
+            C.*
+        FROM
+            CAM_COMMON.DJ_COM_CODE A
+        LEFT JOIN
+            CAM_COMMON.DJ_COM_GROUP_CODE B
+        ON
+            A.CM_GROUP_CODE_ID = B.CM_GROUP_CODE_ID
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LABOR_HIST C
+        ON
+            A.CM_CODE = C.POSITION_CD
+        WHERE
+            B.CM_GROUP_CODE = #{cmGroupCode}
+        ORDER BY LABOR_SN
+    </select>
+
+    <select id="getLaborData" parameterType="map" resultType="map">
+        /*getLaborHistList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LABOR
+        WHERE
+            POSITION_CD = #{positionCd}
+    </select>
+
+    <select id="getLaborHistData" parameterType="map" resultType="map">
+        /*getLaborHistData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LABOR_HIST
+        WHERE
+            POSITION_CD = #{positionCd}
+        ORDER BY LABOR_HIST_SN DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insLaborInfo" parameterType="map">
+        /*insLaborInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LABOR
+            (
+                POSITION_CD,
+                STR_DE,
+                END_DE,
+                LABOR_AMT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{positionCd},
+                #{strDe},
+                #{endDe},
+                #{laborAmt},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="laborSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LABOR'
+        </selectKey>
+    </insert>
+
+    <insert id="insLaborHistInfo" parameterType="map">
+        /*insLaborHistInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LABOR_HIST
+            (
+                LABOR_SN,
+                POSITION_CD,
+                STR_DE,
+                END_DE,
+                LABOR_AMT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{laborSn},
+                #{positionCd},
+                #{strDe},
+                #{endDe},
+                #{laborAmt},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updLaborInfo" parameterType="map">
+        /*updLaborInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_LABOR
+        SET
+            STR_DE = #{strDe},
+            END_DE = #{endDe},
+            LABOR_AMT = #{laborAmt},
+            REG_EMP_SEQ = #{empSeq}
+        WHERE
+            POSITION_CD = #{positionCd}
+    </update>
+
+    <update id="updLaborHistInfo" parameterType="map">
+        /*updLaborHistInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_LABOR_HIST
+        SET
+            STR_DE = #{strDe},
+            END_DE = #{endDe},
+            LABOR_AMT = #{laborAmt},
+            REG_EMP_SEQ = #{empSeq}
+        WHERE
+            LABOR_HIST_SN = #{laborHistSn}
+    </update>
+
+    <delete id="delLaborHistData" parameterType="map">
+        /*delLaborHistData*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_LABOR_HIST
+        WHERE
+            LABOR_HIST_SN = #{laborHistSn}
+    </delete>
+</mapper>
