@@ -280,6 +280,7 @@
         });
         $("#supDep").data("kendoDropDownList").bind("change", function(){
             data.lgCd = $("#supDep").val();
+            data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
@@ -295,6 +296,7 @@
         });
         $("#pjtStat").data("kendoDropDownList").bind("change", function(){
             data.lgCd = $("#pjtStat").val();
+            data.grpSn = "BUS_STAT";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
             customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });

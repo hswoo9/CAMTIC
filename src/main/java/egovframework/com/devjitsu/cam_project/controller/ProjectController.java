@@ -489,9 +489,9 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/engn/setGoodsInfo")
-    public String setGoodsInfo(@RequestParam Map<String, Object> params, Model model){
+    public String setGoodsInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
-            Map<String, Object> map = projectService.setGoodsInfo(params);
+            Map<String, Object> map = projectService.setGoodsInfo(params, request, SERVER_DIR, BASE_DIR);
 
             model.addAttribute("rs", map);
             model.addAttribute("code", 200);

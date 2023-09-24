@@ -90,7 +90,7 @@ var costInfo = {
             type : "post",
             dataType : "json",
             success : function(rs){
-                if(code == 200){
+                if(rs.code == 200){
                     alert("저장되었습니다.");
                     window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=8";
                 }
