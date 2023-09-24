@@ -757,7 +757,9 @@
                  B.FILE_ETC2,
                  B.FILE_ETC3,
                  (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
-                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM
+                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM,
+                 DI.APPRO_KEY,
+                 DI.DOC_MENU_CD
              FROM
                  CAM_PJT_MNG.DJ_PJT_PS A
                      LEFT JOIN
@@ -768,6 +770,10 @@
                  CAM_PJT_MNG.DJ_PJT_COST C
                  ON
                      A.PJT_SN = C.PJT_SN
+                     LEFT JOIN
+                 DJ_CAMTIC.A_DOC_INFO DI
+                 ON
+                     C.DOC_ID = DI.DOC_ID
              WHERE
                  A.PJT_SN = #{pjtSn}) M
     </select>

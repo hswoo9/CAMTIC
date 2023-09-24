@@ -186,5 +186,44 @@ var hwpInit = {
             hwpDocCtrl.putFieldText('CELL_AMT'+(i+1), fn_numberWithCommas(calcAmt));
             hwpDocCtrl.putFieldText('CELL_PER'+(i+1), value + "%");
         }
+
+        /** 5. 비용상세 내역 노임단가 */
+        if(ls != null){
+            let prepTime = 0;
+            let sum = 0;
+            for(let i=0; i<ls.length; i++){
+                if(ls[i].PS_PREP_NM == "설계"){
+                    prepTime = ls[i].PREP_A_TIME;
+                    hwpDocCtrl.putFieldText('PREP_A_POSITION', ls[i].POSITION_NAME);
+                    hwpDocCtrl.putFieldText('PREP_A_EMP_NAME', ls[i].PS_EMP_NM);
+                    hwpDocCtrl.putFieldText('PREP_A_LABOR_UNIT', fn_numberWithCommas(ls[i].LABOR_AMT));
+                    hwpDocCtrl.putFieldText('PREP_A_PREP_TIME', String(prepTime));
+                    hwpDocCtrl.putFieldText('PREP_A_COST_TOT', fn_numberWithCommas((ls[i].LABOR_AMT == null ? "0" : ls[i].LABOR_AMT) * prepTime));
+                }else if(ls[i].PS_PREP_NM == "제작"){
+                    prepTime = ls[i].PREP_B_TIME;
+                    hwpDocCtrl.putFieldText('PREP_B_POSITION', ls[i].POSITION_NAME);
+                    hwpDocCtrl.putFieldText('PREP_B_EMP_NAME', ls[i].PS_EMP_NM);
+                    hwpDocCtrl.putFieldText('PREP_B_LABOR_UNIT', fn_numberWithCommas(ls[i].LABOR_AMT));
+                    hwpDocCtrl.putFieldText('PREP_B_PREP_TIME', String(prepTime));
+                    hwpDocCtrl.putFieldText('PREP_B_COST_TOT', fn_numberWithCommas((ls[i].LABOR_AMT == null ? "0" : ls[i].LABOR_AMT) * prepTime));
+                }else if(ls[i].PS_PREP_NM == "품질"){
+                    prepTime = ls[i].PREP_C_TIME;
+                    hwpDocCtrl.putFieldText('PREP_C_POSITION', ls[i].POSITION_NAME);
+                    hwpDocCtrl.putFieldText('PREP_C_EMP_NAME', ls[i].PS_EMP_NM);
+                    hwpDocCtrl.putFieldText('PREP_C_LABOR_UNIT', fn_numberWithCommas(ls[i].LABOR_AMT));
+                    hwpDocCtrl.putFieldText('PREP_C_PREP_TIME', String(prepTime));
+                    hwpDocCtrl.putFieldText('PREP_C_COST_TOT', fn_numberWithCommas((ls[i].LABOR_AMT == null ? "0" : ls[i].LABOR_AMT) * prepTime));
+                }else{
+                    prepTime = ls[i].PREP_D_TIME;
+                    hwpDocCtrl.putFieldText('PREP_D_POSITION', ls[i].POSITION_NAME);
+                    hwpDocCtrl.putFieldText('PREP_D_EMP_NAME', ls[i].PS_EMP_NM);
+                    hwpDocCtrl.putFieldText('PREP_D_LABOR_UNIT', fn_numberWithCommas(ls[i].LABOR_AMT));
+                    hwpDocCtrl.putFieldText('PREP_D_PREP_TIME', String(prepTime));
+                    hwpDocCtrl.putFieldText('PREP_D_COST_TOT', fn_numberWithCommas((ls[i].LABOR_AMT == null ? "0" : ls[i].LABOR_AMT) * prepTime));
+                }
+                sum += (ls[i].LABOR_AMT == null ? "0" : ls[i].LABOR_AMT) * prepTime;
+            }
+            hwpDocCtrl.putFieldText('PREP_ALL_COST_TOT', fn_numberWithCommas(sum));
+        }
     }
 }
