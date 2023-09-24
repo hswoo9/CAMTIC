@@ -13,16 +13,22 @@ var costInfo = {
             pjtSn : $("#pjtSn").val(),
         }
 
+        var costMap = {};
+
         $.ajax({
             url : "/project/engn/getResultInfo",
             type : "post",
             dataType : "json",
+            async : false,
             data : data,
             success : function(rs){
                 const ls = rs.list;
                 console.log(ls);
                 var html = "";
                 if(ls != null){
+                    costMap = ls[0];
+                    $("#costEtc").val(ls[0].COST_ETC);
+
                     var prepTime = 0;
                     for(var i = 0 ; i < ls.length ; i++){
                         if(ls[i].PS_PREP_NM == "설계"){
@@ -57,12 +63,11 @@ var costInfo = {
                     customKendo.fn_textBox(["laborUnitAmt"+i,"costWorkTime"+i, "costTotAmt"+i]);
                 }
                 customKendo.fn_textBox(["costTotSumAmt"]);
-
-                /** 버튼 세팅 cost Table 이 없어 임시 추가 */
-                var tempMap = {STATUS: "0"}
-                costInfo.buttonSet(tempMap);
             }
         });
+
+        /** 버튼 세팅 */
+        costInfo.buttonSet(costMap);
     },
 
     fn_save: function (){
@@ -127,22 +132,20 @@ var costInfo = {
     },
 
     buttonSet: function(costMap){
+        console.log("costMap");
+        console.log(costMap);
         let buttonHtml = "";
-        if(costMap != null){
-            if(costMap.STATUS == "0"){
-                buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="costAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="costInfo.costDrafting()">상신</button>';
-            }else if(costMap.STATUS == "10"){
-                buttonHtml += '<button type="button" id="costCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+costMap.DOC_ID+'\', \''+costMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(costMap.STATUS == "30" || costMap.STATUS == "40"){
-                buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="costCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+costMap.DOC_ID+'\', \''+costMap.DOC_MENU_CD+'\', \''+costMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(costMap.STATUS == "100"){
-                buttonHtml += '<button type="button" id="costCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+costMap.DOC_ID+'\', \''+costMap.APPRO_KEY+'\', \''+costMap.DOC_MENU_CD+'\');">열람</button>';
-            }else{
-                buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
-            }
-        } else {
+        if(costMap.COST_STATUS == "0"){
+            buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
+            buttonHtml += '<button type="button" id="costAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="costInfo.costDrafting()">상신</button>';
+        }else if(costMap.COST_STATUS == "10"){
+            buttonHtml += '<button type="button" id="costCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+costMap.COST_DOC_ID+'\', \''+costMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+        }else if(costMap.COST_STATUS == "30" || costMap.COST_STATUS == "40"){
+            buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
+            buttonHtml += '<button type="button" id="costCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+costMap.COST_DOC_ID+'\', \''+costMap.DOC_MENU_CD+'\', \''+costMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+        }else if(costMap.COST_STATUS == "100"){
+            buttonHtml += '<button type="button" id="costCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+costMap.COST_DOC_ID+'\', \''+costMap.APPRO_KEY+'\', \''+costMap.DOC_MENU_CD+'\');">열람</button>';
+        }else{
             buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
         }
 
