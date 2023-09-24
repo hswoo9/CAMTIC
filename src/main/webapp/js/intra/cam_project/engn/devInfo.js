@@ -267,10 +267,6 @@ var devInfo = {
                 console.log(rs);
                 var devFile = rs.devFile;
 
-                if(devFile.devFile != null && devFile.devFile != ""){
-                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
-                }
-
                 if(devFile.estFile != null && devFile.estFile != ""){
                     $("#estFileName").text(devFile.estFile.file_org_name + "." +devFile.estFile.file_ext);
 
@@ -782,12 +778,8 @@ var devInfo = {
             fd.append("estFile", $("#estFile")[0].files[0]);
         }
 
-        if($("#devFile")[0].files.length == 1){
-            fd.append("devFile", $("#devFile")[0].files[0]);
-        }
-
-        if($("#devFileName").text() == ""){
-            alert("납품서를 등록해주세요.");
+        if($("#estFileName").text() == ""){
+            alert("견적서를 등록해주세요.");
             return;
         }
 

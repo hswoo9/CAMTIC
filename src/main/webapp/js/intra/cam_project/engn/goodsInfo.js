@@ -29,6 +29,23 @@ var goodsInfo = {
         console.log(rs);
         var estSubList = rs.result.estSubList;
 
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+        }
+
+        $.ajax({
+            url : "/project/getDevelopPlan",
+            data : data,
+            dataType : "json",
+            type : "post",
+            success : function(rs){
+                var devFile = rs.devFile;
+
+                if(devFile.devFile != null && devFile.devFile != ""){
+                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
+                }
+            }
+        })
 
         for(var idx = 0 ; idx < estSubList.length ; idx++){
             var html = "";
@@ -109,14 +126,43 @@ var goodsInfo = {
             stepValue : $("#stepValue").val(),
             nextStepValue : $("#nextStepValue").val(),
 
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+        }
+
+        var fd = new FormData();
+        fd.append("pjtSn", data.pjtSn);
+        fd.append("estSn", data.estSn);
+        fd.append("delvDe", data.delvDe);
+        fd.append("goodsTotAmt", data.goodsTotAmt);
+        fd.append("goodsIss", data.goodsIss);
+
+        fd.append("step", data.step);
+        fd.append("stepColumn", data.stepColumn);
+        fd.append("nextStepColumn", data.nextStepColumn);
+        fd.append("stepValue", data.stepValue);
+        fd.append("nextStepValue", data.nextStepValue);
+        fd.append("empSeq", data.empSeq);
+        fd.append("regEmpSeq", data.empSeq);
+
+
+        if($("#devFile")[0].files.length == 1){
+            fd.append("devFile", $("#devFile")[0].files[0]);
+        }
+
+        if($("#devFileName").text() == ""){
+            alert("납품서를 등록해주세요.");
+            return;
         }
 
         $.ajax({
             url : "/project/engn/setGoodsInfo",
-            data : data,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
             success:function (rs) {
                 if(rs.code == 200){
                     $("#goodsProductTb > tr").each(function (idx){
@@ -246,5 +292,9 @@ var goodsInfo = {
 
         goodsInfo.global.totAmt -= Number(goodsInfo.uncomma(inputData.goodsSupAmt));
         $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
+    },
+
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
     },
 }
