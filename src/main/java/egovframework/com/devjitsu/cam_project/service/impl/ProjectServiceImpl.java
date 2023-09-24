@@ -830,6 +830,19 @@ public class ProjectServiceImpl implements ProjectService {
     public void setTeamInfo(Map<String, Object> params) {
         projectRepository.insTeamInfo(params);
     }
+
+    @Override
+    public void setCostInfo(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = projectRepository.getCostData(params);
+
+        if(map == null){
+            projectRepository.insCostInfo(params);
+        } else {
+            projectRepository.updCostInfo(params);
+        }
+    }
 }
 
 

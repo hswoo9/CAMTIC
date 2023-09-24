@@ -23,14 +23,23 @@ var costInfo = {
                 console.log(ls);
                 var html = "";
                 if(ls != null){
-
+                    var prepTime = 0;
                     for(var i = 0 ; i < ls.length ; i++){
+                        if(ls[i].PS_PREP_NM == "설계"){
+                            prepTime = ls[i].PREP_A_TIME;
+                        } else if(ls[i].PS_PREP_NM == "제작"){
+                            prepTime = ls[i].PREP_B_TIME;
+                        } else if (ls[i].PS_PREP_NM == "품질"){
+                            prepTime = ls[i].PREP_C_TIME;
+                        } else {
+                            prepTime = ls[i].PREP_D_TIME;
+                        }
                         html += '<tr>' +
                             '       <td style="text-align: center" id="costPrepNm'+(i+1)+'">'+ls[i].PS_PREP_NM+'</td>' +
                             '       <td style="text-align: center">'+ls[i].POSITION_NAME+'</td>' +
                             '       <td style="text-align: center">'+ls[i].PS_EMP_NM+'</td>' +
                             '       <td style="text-align: center"><input type="text" id="laborUnitAmt'+(i+1)+'" value="'+costInfo.comma(ls[i].LABOR_AMT)+'" disabled class="laborUnitAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                            '       <td style="text-align: center"><input type="text" id="costWorkTime'+(i+1)+'" class="costWorkTime" style="text-align: right; width: 90%" onkeyup="costInfo.fn_calcAmt(this, '+(i+1)+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                            '       <td style="text-align: center"><input type="text" id="costWorkTime'+(i+1)+'" value="'+ prepTime +'" class="costWorkTime" style="text-align: right; width: 90%" onkeyup="costInfo.fn_calcAmt(this, '+(i+1)+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                             '       <td style="text-align: center"><input type="text" id="costTotAmt'+(i+1)+'" disabled class="costTotAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                             '    </tr>'
                     }
@@ -40,6 +49,8 @@ var costInfo = {
                         '    </tr>'
                     $("#costDetailTable").html("");
                     $("#costDetailTable").append(html);
+
+                    $(".costWorkTime").trigger("keyup");
                 }
 
                 for(var i = 1 ; i <= ls.length ; i++) {
@@ -56,22 +67,35 @@ var costInfo = {
 
     fn_save: function (){
         var data = {
-            prepATime : null,
-            prepBTime : null,
-            prepCTime : null
+            pjtSn : $("#pjtSn").val(),
+            empSeq : $("#empSeq").val(),
+            costEtc : $("#costEtc").val()
         }
         for(var i = 1 ; i <= $("#costDetailTable > tr").length -1 ; i++){
             if($("#costPrepNm" + i).text() == "설계"){
                 data.prepATime = $("#costWorkTime" + i).val()
             } else if ($("#costPrepNm" + i).text() == "제작"){
                 data.prepBTime = $("#costWorkTime" + i).val()
-            } else {
+            } else if ($("#costPrepNm" + i).text() == "품질"){
                 data.prepCTime = $("#costWorkTime" + i).val()
+            } else {
+                data.prepDTime = $("#costWorkTime" + i).val()
             }
         }
 
-        console.log(data);
 
+        $.ajax({
+            url : "/project/engn/setCostInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(code == 200){
+                    alert("저장되었습니다.");
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=8";
+                }
+            }
+        })
     },
 
     fn_calcAmt : function(obj, idx){

@@ -414,4 +414,16 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getTeamList(Map<String, Object> params) {
         return selectList("project.getTeamList", params);
     }
+
+    public Map<String, Object> getCostData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getCostData", params);
+    }
+
+    public void insCostInfo(Map<String, Object> params) {
+        insert("project.insCostInfo", params);
+    }
+
+    public void updCostInfo(Map<String, Object> params) {
+        update("project.updCostInfo", params);
+    }
 }

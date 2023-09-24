@@ -8,15 +8,15 @@
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
         ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
         WHERE
-            1=1
+        1=1
         <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass)'>
-        AND
+            AND
             A.PJT_STEP = #{busnSubClass}
-        AND
+            AND
             A.PJT_STOP = "N"
         </if>
         <if test='busnSubClass == "Y" or "Y".equals(busnSubClass)'>
-        AND
+            AND
             A.PJT_STOP = "Y"
         </if>
         ORDER BY A.PJT_SN DESC
@@ -27,18 +27,18 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN B
             ON
                 A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-        LEFT JOIN
+                LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
             ON
                 A.CRM_SN = D.CRM_SN
-        LEFT JOIN
+                LEFT JOIN
             CAM_CRM.DJ_CRM_MEM CM
-        ON
-            D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
+            ON
+                D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -47,27 +47,27 @@
         /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
         (
-            PJT_NM,
-            EMP_SEQ,
-            EMP_NAME,
-            DEPT_SEQ,
-            DEPT_NAME,
-            BUSN_CLASS,
-            BUSN_NM,
-            PJT_STEP,
-            PJT_STEP_NM,
-            CONSULT_DT
+        PJT_NM,
+        EMP_SEQ,
+        EMP_NAME,
+        DEPT_SEQ,
+        DEPT_NAME,
+        BUSN_CLASS,
+        BUSN_NM,
+        PJT_STEP,
+        PJT_STEP_NM,
+        CONSULT_DT
         ) VALUES (
-            #{pjtNm},
-            #{empSeq},
-            #{empName},
-            #{deptSeq},
-            #{deptName},
-            #{busnClass},
-            #{busnNm},
-            #{pjtStep},
-            #{pjtStepNm},
-            #{contDt}
+        #{pjtNm},
+        #{empSeq},
+        #{empName},
+        #{deptSeq},
+        #{deptName},
+        #{busnClass},
+        #{busnNm},
+        #{pjtStep},
+        #{pjtStepNm},
+        #{contDt}
         )
         <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
@@ -77,20 +77,20 @@
     <insert id="insPjtEngn" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_ENGN
         (
-            PJT_SN,
-            CONT_DT,
-            EXP_AMT,
-            CONT_LOC,
-            STEP1,
-            REG_EMP_SEQ
+        PJT_SN,
+        CONT_DT,
+        EXP_AMT,
+        CONT_LOC,
+        STEP1,
+        REG_EMP_SEQ
         ) VALUES
         (
-            #{PJT_SN},
-            #{contDt},
-            #{expAmt},
-            #{contLoc},
-            'R',
-            #{empSeq}
+        #{PJT_SN},
+        #{contDt},
+        #{expAmt},
+        #{contLoc},
+        'R',
+        #{empSeq}
         )
         <selectKey keyProperty="ENGN_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_ENGN'
@@ -114,26 +114,26 @@
             DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS PJT_END_DT
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN B
-        ON
-            A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-        LEFT JOIN
+            ON
+                A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_DELV DE
-        ON
-            A.PJT_SN = DE.PJT_SN
-        LEFT JOIN
+            ON
+                A.PJT_SN = DE.PJT_SN
+                LEFT JOIN
             CAM_HR.DJ_EMP_INFO EI
-        ON
-            DE.PM_EMP_SEQ = EI.EMP_SEQ
-        LEFT JOIN
+            ON
+                DE.PM_EMP_SEQ = EI.EMP_SEQ
+                LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
-        ON
-            A.CRM_SN = D.CRM_SN
-        LEFT JOIN
+            ON
+                A.CRM_SN = D.CRM_SN
+                LEFT JOIN
             CAM_CRM.DJ_CRM_MEM CM
-        ON
-            A.CRM_MEM_SN = CM.CRM_MEM_SN
+            ON
+                A.CRM_MEM_SN = CM.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -141,26 +141,26 @@
     <insert id="insEngnEstInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST
         (
-            PJT_SN,
-            EST_DE,
-            EST_NM,
-            CRM_NM,
-            CRM_MEM,
-            VAT,
-            EST_TOT_AMT,
-            EST_ISS,
-            REG_EMP_SEQ
+        PJT_SN,
+        EST_DE,
+        EST_NM,
+        CRM_NM,
+        CRM_MEM,
+        VAT,
+        EST_TOT_AMT,
+        EST_ISS,
+        REG_EMP_SEQ
         ) VALUES
         (
-            #{pjtSn},
-            #{estDe},
-            #{estNm},
-            #{crmNm},
-            #{crmMem},
-            #{vat},
-            #{estTotAmt},
-            #{estIss},
-            #{regEmpSeq}
+        #{pjtSn},
+        #{estDe},
+        #{estNm},
+        #{crmNm},
+        #{crmMem},
+        #{vat},
+        #{estTotAmt},
+        #{estIss},
+        #{regEmpSeq}
         )
 
         <selectKey keyProperty="EST_SN" resultType="Integer" order="BEFORE">
@@ -179,15 +179,15 @@
             SUP_AMT,
             ETC
         ) VALUES
-        (
-            #{estSn},
-            #{prodNm},
-            #{prodCnt},
-            #{unit},
-            #{unitAmt},
-            #{supAmt},
-            #{etc}
-        )
+            (
+                #{estSn},
+                #{prodNm},
+                #{prodCnt},
+                #{unit},
+                #{unitAmt},
+                #{supAmt},
+                #{etc}
+            )
     </insert>
 
     <update id="updEstInfo" parameterType="map">
@@ -210,20 +210,20 @@
     <update id="updProjectEngnStep" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
         SET
-            MOD_DT = sysdate(),
-            MOD_EMP_SEQ = #{regEmpSeq},
-            <choose>
-                <when test="step == 2">STEP2 = 'Y', STEP3 = 'R'</when>
-                <when test="step == 3">STEP3 = 'Y', STEP4 = 'R'</when>
-                <when test="step == 4">STEP4 = 'Y', STEP5 = 'R'</when>
-                <when test="step == 5">STEP5 = 'Y', STEP6 = 'R'</when>
-                <when test="step == 6">STEP6 = 'Y', STEP7 = 'R'</when>
-                <when test="step == 7">STEP7 = 'Y', STEP8 = 'R'</when>
-                <when test="step == 8">STEP8 = 'Y'</when>
-                <otherwise>PJT_SN = #{pjtSn}</otherwise>
-            </choose>
+        MOD_DT = sysdate(),
+        MOD_EMP_SEQ = #{regEmpSeq},
+        <choose>
+            <when test="step == 2">STEP2 = 'Y', STEP3 = 'R'</when>
+            <when test="step == 3">STEP3 = 'Y', STEP4 = 'R'</when>
+            <when test="step == 4">STEP4 = 'Y', STEP5 = 'R'</when>
+            <when test="step == 5">STEP5 = 'Y', STEP6 = 'R'</when>
+            <when test="step == 6">STEP6 = 'Y', STEP7 = 'R'</when>
+            <when test="step == 7">STEP7 = 'Y', STEP8 = 'R'</when>
+            <when test="step == 8">STEP8 = 'Y'</when>
+            <otherwise>PJT_SN = #{pjtSn}</otherwise>
+        </choose>
         WHERE
-            PJT_SN = #{pjtSn}
+        PJT_SN = #{pjtSn}
     </update>
 
     <select id="getStep1EstList" parameterType="map" resultType="map">
@@ -266,40 +266,40 @@
     <insert id="insStep2" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
         (
-            PJT_SN,
-            DELV_DE,
-            DELV_SUMR,
-            DELV_SPEC,
-            DELV_ITEM,
-            DELV_CNT,
-            DELV_UNIT,
-            DELV_LOC,
-            DELV_MEAN,
-            DELV_ASSU,
-            DELV_TEST,
-            DELV_AMT,
-            DELV_DEPT,
-            PM_EMP_SEQ,
-            PM_EMP_NM,
-            REG_EMP_SEQ
+        PJT_SN,
+        DELV_DE,
+        DELV_SUMR,
+        DELV_SPEC,
+        DELV_ITEM,
+        DELV_CNT,
+        DELV_UNIT,
+        DELV_LOC,
+        DELV_MEAN,
+        DELV_ASSU,
+        DELV_TEST,
+        DELV_AMT,
+        DELV_DEPT,
+        PM_EMP_SEQ,
+        PM_EMP_NM,
+        REG_EMP_SEQ
         ) VALUES
         (
-            #{pjtSn},
-            #{delvDe},
-            #{delvSumr},
-            #{delvSpec},
-            #{delvItem},
-            #{delvCnt},
-            #{delvUnit},
-            #{delvLoc},
-            #{delvMean},
-            #{delvAssu},
-            #{delvTest},
-            #{delvAmt},
-            #{delvDept},
-            #{pmEmpSeq},
-            #{pmEmpNm},
-            #{regEmpSeq}
+        #{pjtSn},
+        #{delvDe},
+        #{delvSumr},
+        #{delvSpec},
+        #{delvItem},
+        #{delvCnt},
+        #{delvUnit},
+        #{delvLoc},
+        #{delvMean},
+        #{delvAssu},
+        #{delvTest},
+        #{delvAmt},
+        #{delvDept},
+        #{pmEmpSeq},
+        #{pmEmpNm},
+        #{regEmpSeq}
         )
         <selectKey keyProperty="DELV_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
@@ -316,14 +316,14 @@
             ETC,
             REG_EMP_SEQ
         ) VALUES
-        (
-            #{pjtSn},
-            #{invAmt},
-            #{invPer},
-            #{depObj},
-            #{etc},
-            #{regEmpSeq}
-        )
+            (
+                #{pjtSn},
+                #{invAmt},
+                #{invPer},
+                #{depObj},
+                #{etc},
+                #{regEmpSeq}
+            )
     </insert>
 
     <insert id="insStep4" parameterType="map">
@@ -332,9 +332,9 @@
             PJT_SN
         )
         VALUES
-        (
-            #{pjtSn}
-        )
+            (
+                #{pjtSn}
+            )
     </insert>
 
     <select id="checkModStep4" parameterType="map" resultType="int">
@@ -371,7 +371,7 @@
             CAM_PJT_MNG.DJ_PROJECT
         WHERE
             PJT_SN = #{pjtSn}
-        AND
+          AND
             PJT_CD IS NOT NULL
     </select>
 
@@ -384,9 +384,9 @@
             A.STATUS AS DELV_STATUS
         FROM
             CAM_PJT_MNG.DJ_PJT_DELV A
-        LEFT JOIN
+                LEFT JOIN
             CAM_HR.DJ_EMP_INFO B ON A.PM_EMP_SEQ = B.EMP_SEQ
-        LEFT JOIN
+                LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             PJT_SN = #{pjtSn} ORDER BY DELV_SN DESC LIMIT 1
@@ -434,10 +434,10 @@
             GRP_NM
         )
         VALUES
-        (
-            #{grpSn},
-            #{grpNm}
-        )
+            (
+                #{grpSn},
+                #{grpNm}
+            )
     </insert>
 
     <select id="codeList" resultType="map" parameterType="map">
@@ -447,7 +447,7 @@
             CAM_PJT_MNG.DJ_PJT_CD
         WHERE
             LG_CD IS NOT NULL
-        AND
+          AND
             PJT_CD IS NULL
     </select>
 
@@ -458,9 +458,9 @@
             CAM_PJT_MNG.DJ_PJT_CD
         WHERE
             GRP_SN = #{grpSn}
-        AND
+          AND
             LG_CD is not null
-        AND
+          AND
             PJT_CD is null
     </select>
 
@@ -488,12 +488,12 @@
             LG_CD_NM
         )
         VALUES
-        (
-            #{grpSn},
-            #{grpNm},
-            #{lgCode},
-            #{lgCodeNm}
-        )
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCode},
+                #{lgCodeNm}
+            )
     </insert>
 
     <select id="smCodeList" parameterType="map" resultType="map">
@@ -503,9 +503,9 @@
             CAM_PJT_MNG.DJ_PJT_CD
         WHERE
             GRP_SN = #{grpSn}
-        AND
+          AND
             LG_CD = #{lgCd}
-        AND
+          AND
             PJT_CD IS NOT NULL
     </select>
 
@@ -520,14 +520,14 @@
             PJT_CD_NM
         )
         VALUES
-        (
-            #{grpSn},
-            #{grpNm},
-            #{lgCd},
-            #{lgCdNm},
-            #{pjtCd},
-            #{pjtCdNm}
-        )
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCd},
+                #{lgCdNm},
+                #{pjtCd},
+                #{pjtCdNm}
+            )
     </insert>
 
     <select id="cntProjectCode" parameterType="map" resultType="int">
@@ -573,7 +573,7 @@
             CAM_PJT_MNG.DJ_PJT_DEV
         WHERE
             PJT_SN = #{pjtSn}
-        AND
+          AND
             STATUS = 0
     </select>
 
@@ -583,18 +583,18 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN
+                LEFT JOIN
             (SELECT *
              FROM
                  CAM_PJT_MNG.DJ_PJT_EST
              WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1) B
             ON
                 A.PJT_SN = B.PJT_SN
-        LEFT JOIN
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_DEV C
-        ON
-            A.PJT_SN = C.PJT_SN
-        LEFT JOIN
+            ON
+                A.PJT_SN = C.PJT_SN
+                LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON C.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
@@ -612,28 +612,28 @@
     <insert id="insPjtPs" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
         (
-            PJT_SN,
-            PS_ROW,
-            PS_PREP,
-            PS_PREP_NM,
-            PS_NM,
-            PS_STR_DE,
-            PS_END_DE,
-            PS_EMP_SEQ,
-            PS_EMP_NM,
-            REG_EMP_SEQ
+        PJT_SN,
+        PS_ROW,
+        PS_PREP,
+        PS_PREP_NM,
+        PS_NM,
+        PS_STR_DE,
+        PS_END_DE,
+        PS_EMP_SEQ,
+        PS_EMP_NM,
+        REG_EMP_SEQ
         ) VALUES
         (
-            #{pjtSn},
-            #{psRow},
-            #{psPrep},
-            #{psPrepNm},
-            #{psNm},
-            #{psStrDe},
-            #{psEndDe},
-            #{psEmpSeq},
-            #{psEmpNm},
-            #{regEmpSeq}
+        #{pjtSn},
+        #{psRow},
+        #{psPrep},
+        #{psPrepNm},
+        #{psNm},
+        #{psStrDe},
+        #{psEndDe},
+        #{psEmpSeq},
+        #{psEmpNm},
+        #{regEmpSeq}
         )
         <selectKey keyProperty="PS_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS'
@@ -666,30 +666,30 @@
     <insert id="insInvData" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_INV
         (
-            PJT_SN,
-            INV_ROW,
-            DIV_CD,
-            DIV_NM,
-            INV_NM,
-            INV_CNT,
-            INV_UNIT,
-            EST_TOT_AMT,
-            EST_OFC,
-            INV_ETC,
-            REG_EMP_SEQ
+        PJT_SN,
+        INV_ROW,
+        DIV_CD,
+        DIV_NM,
+        INV_NM,
+        INV_CNT,
+        INV_UNIT,
+        EST_TOT_AMT,
+        EST_OFC,
+        INV_ETC,
+        REG_EMP_SEQ
         ) VALUES
         (
-            #{pjtSn},
-            #{invRow},
-            #{divCd},
-            #{divNm},
-            #{invNm},
-            #{invCnt},
-            #{invUnit},
-            #{estTotAmt},
-            #{estOfc},
-            #{invEtc},
-            #{regEmpSeq}
+        #{pjtSn},
+        #{invRow},
+        #{divCd},
+        #{divNm},
+        #{invNm},
+        #{invCnt},
+        #{invUnit},
+        #{estTotAmt},
+        #{estOfc},
+        #{invEtc},
+        #{regEmpSeq}
         )
         <selectKey keyProperty="INV_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_INV'
@@ -743,22 +743,33 @@
             (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_CODE = M.POSITION_CODE AND CM_GROUP_CODE_ID = 4) AS POSITION_NAME,
             (SELECT LABOR_AMT FROM CAM_PJT_MNG.DJ_PJT_LABOR WHERE POSITION_CD = M.POSITION_CODE) AS LABOR_AMT
         FROM
-        (SELECT
-            A.*,
-            B.PS_FILE_SN,
-            B.FILE_ETC1,
-            B.FILE_ETC2,
-            B.FILE_ETC3,
-            (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM
-         FROM
-            CAM_PJT_MNG.DJ_PJT_PS A
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_PS_FILE B
-        ON
-            A.PJT_SN = B.PJT_SN
-        WHERE
-            A.PJT_SN = #{pjtSn}) M
+            (SELECT
+                 A.*,
+                 C.PREP_A_TIME,
+                 C.PREP_B_TIME,
+                 C.PREP_C_TIME,
+                 C.PREP_D_TIME,
+                 C.COST_ETC,
+                 C.DOC_ID AS COST_DOC_ID,
+                 C.STATUS AS COST_STATUS,
+                 B.PS_FILE_SN,
+                 B.FILE_ETC1,
+                 B.FILE_ETC2,
+                 B.FILE_ETC3,
+                 (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
+                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM
+             FROM
+                 CAM_PJT_MNG.DJ_PJT_PS A
+                     LEFT JOIN
+                 CAM_PJT_MNG.DJ_PJT_PS_FILE B
+                 ON
+                     A.PJT_SN = B.PJT_SN
+                     LEFT JOIN
+                 CAM_PJT_MNG.DJ_PJT_COST C
+                 ON
+                     A.PJT_SN = C.PJT_SN
+             WHERE
+                 A.PJT_SN = #{pjtSn}) M
     </select>
 
     <select id="getPsFile1" parameterType="map" resultType="map">
@@ -769,7 +780,7 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             FILE_CD = "engnPsFile1"
-        AND
+          AND
             CONTENT_ID = #{psFileSn}
     </select>
 
@@ -845,7 +856,7 @@
             PJT_STEP = #{step}
         WHERE
             PJT_SN = #{pjtSn}
-        AND
+          AND
         <![CDATA[
             PJT_STEP < #{step}
         ]]>
@@ -951,18 +962,18 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT DP
-        LEFT JOIN
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN PE
-        ON
-            DP.PJT_SN = PE.PJT_SN
-        LEFT JOIN
+            ON
+                DP.PJT_SN = PE.PJT_SN
+                LEFT JOIN
             CAM_CRM.DJ_CRM_INFO CI
-        ON
-            DP.CRM_SN = CI.CRM_SN
-        LEFT JOIN
+            ON
+                DP.CRM_SN = CI.CRM_SN
+                LEFT JOIN
             CAM_CRM.DJ_CRM_MEM DM
-        ON
-            DP.CRM_MEM_SN = DM.CRM_MEM_SN
+            ON
+                DP.CRM_MEM_SN = DM.CRM_MEM_SN
         WHERE
             DP.PJT_SN = #{pjtSn}
     </select>
@@ -972,51 +983,51 @@
             *
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT HR
-        LEFT JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_REQ HRQ
-        ON
-            HR.HR_BIZ_REQ_ID = HRQ.HR_BIZ_REQ_ID
+            ON
+                HR.HR_BIZ_REQ_ID = HRQ.HR_BIZ_REQ_ID
         WHERE
             PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insDelvInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
-            (
-                PJT_SN,
-                DELV_DE,
-                DELV_ISSU,
-                DELV_ITEM,
-                DELV_CNT,
-                DELV_UNIT,
-                DELV_LOC,
-                DELV_AMT,
-                DELV_DEPT,
-                PM_EMP_SEQ,
-                PM_EMP_NM,
-                PJT_STR_DT,
-                PJT_END_DT,
-                DELV_PAY,
-                REG_EMP_SEQ
-            )
+        (
+        PJT_SN,
+        DELV_DE,
+        DELV_ISSU,
+        DELV_ITEM,
+        DELV_CNT,
+        DELV_UNIT,
+        DELV_LOC,
+        DELV_AMT,
+        DELV_DEPT,
+        PM_EMP_SEQ,
+        PM_EMP_NM,
+        PJT_STR_DT,
+        PJT_END_DT,
+        DELV_PAY,
+        REG_EMP_SEQ
+        )
         VALUES
-            (
-                #{pjtSn},
-                #{delvDe},
-                #{delvIssu},
-                #{delvItem},
-                #{delvCnt},
-                #{delvUnit},
-                #{delvLoc},
-                #{delvAmt},
-                #{delvDept},
-                #{pmEmpSeq},
-                #{pmEmpNm},
-                #{pjtStrDt},
-                #{pjtEndDt},
-                #{delvPay},
-                #{empSeq}
-            )
+        (
+        #{pjtSn},
+        #{delvDe},
+        #{delvIssu},
+        #{delvItem},
+        #{delvCnt},
+        #{delvUnit},
+        #{delvLoc},
+        #{delvAmt},
+        #{delvDept},
+        #{pmEmpSeq},
+        #{pmEmpNm},
+        #{pjtStrDt},
+        #{pjtEndDt},
+        #{delvPay},
+        #{empSeq}
+        )
 
         <selectKey keyProperty="delvSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
@@ -1048,23 +1059,23 @@
 
     <insert id="insDevInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
-            (
-                PJT_SN,
-                INV_AMT,
-                INV_PER,
-                DEP_OBJ,
-                ETC,
-                REG_EMP_SEQ
-            )
+        (
+        PJT_SN,
+        INV_AMT,
+        INV_PER,
+        DEP_OBJ,
+        ETC,
+        REG_EMP_SEQ
+        )
         VALUES
-            (
-                #{pjtSn},
-                #{invAmt},
-                #{invPer},
-                #{depObj},
-                #{etc},
-                #{regEmpSeq}
-            )
+        (
+        #{pjtSn},
+        #{invAmt},
+        #{invPer},
+        #{depObj},
+        #{etc},
+        #{regEmpSeq}
+        )
         <selectKey keyProperty="devSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
         </selectKey>
@@ -1157,19 +1168,19 @@
     <insert id="insPsPrepInfo" parameterType="map">
         /*insPsPrepInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS_FILE
-            (
-                PJT_SN,
-                FILE_ETC1,
-                FILE_ETC2,
-                FILE_ETC3
-            )
+        (
+        PJT_SN,
+        FILE_ETC1,
+        FILE_ETC2,
+        FILE_ETC3
+        )
         VALUES
-            (
-                #{pjtSn},
-                #{fileEtc1},
-                #{fileEtc2},
-                #{fileEtc3}
-            )
+        (
+        #{pjtSn},
+        #{fileEtc1},
+        #{fileEtc2},
+        #{fileEtc3}
+        )
 
         <selectKey keyProperty="psFileSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS_FILE'
@@ -1205,7 +1216,7 @@
             DI.DOC_MENU_CD
         FROM
             CAM_PJT_MNG.DJ_PJT_RESULT A
-        LEFT JOIN
+                LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
@@ -1213,47 +1224,47 @@
 
     <insert id="insResultInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_RESULT
-            (
-                PJT_SN,
-                PROTOTYPE,
-                SUP_CONT,
-                RS_ISS,
-                RS_ETC,
-                <if test='prepA != null and !"".equals(prepA)'>
-                    PREP_A,
-                </if>
-                <if test='prepB != null and !"".equals(prepB)'>
-                    PREP_B,
-                </if>
-                <if test='prepC != null and !"".equals(prepC)'>
-                    PREP_C,
-                </if>
-                RS_STR_DT,
-                RS_END_DT,
-                RS_ACT_EQUIP,
-                REG_EMP_SEQ
-            )
+        (
+        PJT_SN,
+        PROTOTYPE,
+        SUP_CONT,
+        RS_ISS,
+        RS_ETC,
+        <if test='prepA != null and !"".equals(prepA)'>
+            PREP_A,
+        </if>
+        <if test='prepB != null and !"".equals(prepB)'>
+            PREP_B,
+        </if>
+        <if test='prepC != null and !"".equals(prepC)'>
+            PREP_C,
+        </if>
+        RS_STR_DT,
+        RS_END_DT,
+        RS_ACT_EQUIP,
+        REG_EMP_SEQ
+        )
         VALUES
-            (
-                #{pjtSn},
-                #{prototype},
-                #{supCont},
-                #{rsIss},
-                #{rsEtc},
-                <if test='prepA != null and !"".equals(prepA)'>
-                    #{prepA},
-                </if>
-                <if test='prepB != null and !"".equals(prepB)'>
-                    #{prepB},
-                </if>
-                <if test='prepC != null and !"".equals(prepC)'>
-                    #{prepC},
-                </if>
-                #{rsStrDt},
-                #{rsEndDt},
-                #{rsActEquip},
-                #{empSeq}
-            )
+        (
+        #{pjtSn},
+        #{prototype},
+        #{supCont},
+        #{rsIss},
+        #{rsEtc},
+        <if test='prepA != null and !"".equals(prepA)'>
+            #{prepA},
+        </if>
+        <if test='prepB != null and !"".equals(prepB)'>
+            #{prepB},
+        </if>
+        <if test='prepC != null and !"".equals(prepC)'>
+            #{prepC},
+        </if>
+        #{rsStrDt},
+        #{rsEndDt},
+        #{rsActEquip},
+        #{empSeq}
+        )
         <selectKey keyProperty="rsSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_RESULT'
         </selectKey>
@@ -1263,25 +1274,25 @@
         /*updResultInfo*/
         UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
         SET
-            PROTOTYPE = #{prototype},
-            SUP_CONT = #{supCont},
-            RS_ISS = #{rsIss},
-            RS_ETC = #{rsEtc},
-            <if test='prepA != null and !"".equals.prepA'>
-                PREP_A = #{prepA},
-            </if>
-            <if test='prepB != null and !"".equals.prepB'>
-                PREP_B = #{prepB},
-            </if>
-            <if test='prepC != null and !"".equals.prepC'>
-                PREP_C = #{prepB},
-            </if>
-            RS_STR_DT = #{rsStrDt},
-            RS_END_DT = #{rsEndDt},
-            RS_ACT_EQUIP = #{rsActEquip},
-            MOD_EMP_SEQ = #{empSeq}
+        PROTOTYPE = #{prototype},
+        SUP_CONT = #{supCont},
+        RS_ISS = #{rsIss},
+        RS_ETC = #{rsEtc},
+        <if test='prepA != null and !"".equals.prepA'>
+            PREP_A = #{prepA},
+        </if>
+        <if test='prepB != null and !"".equals.prepB'>
+            PREP_B = #{prepB},
+        </if>
+        <if test='prepC != null and !"".equals.prepC'>
+            PREP_C = #{prepB},
+        </if>
+        RS_STR_DT = #{rsStrDt},
+        RS_END_DT = #{rsEndDt},
+        RS_ACT_EQUIP = #{rsActEquip},
+        MOD_EMP_SEQ = #{empSeq}
         WHERE
-            RS_SN = #{rsSn}
+        RS_SN = #{rsSn}
     </update>
 
     <update id="updResultDesignFile" parameterType="map">
@@ -1356,7 +1367,7 @@
             DOC_ID = #{docId}
         WHERE
             file_no = #{fileNo}
-        AND file_cd = 'delvFile'
+          AND file_cd = 'delvFile'
     </update>
 
     <update id="setDevFileDocNm" parameterType="map">
@@ -1366,7 +1377,7 @@
             DOC_ID = #{docId}
         WHERE
             file_no in (${fileNo})
-        AND file_cd in ('devEstFile', 'devFile')
+          AND file_cd in ('devEstFile', 'devFile')
     </update>
 
     <update id="setResultFileDocNm" parameterType="map">
@@ -1382,18 +1393,18 @@
     <insert id="insTeamInfo" parameterType="map">
         /*insTeamInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
-            (
-                PJT_SN,
-                TM_DEPT_SEQ,
-                TM_TEAM_SEQ,
-                TM_PM_SEQ,
-                TM_CRM_SN,
-                TM_AMT,
-                TM_BALANCE,
-                TM_EXPT_PROFIT,
-                TM_EXPT_PER,
-                TM_EXPT_COST
-            )
+        (
+            PJT_SN,
+            TM_DEPT_SEQ,
+            TM_TEAM_SEQ,
+            TM_PM_SEQ,
+            TM_CRM_SN,
+            TM_AMT,
+            TM_BALANCE,
+            TM_EXPT_PROFIT,
+            TM_EXPT_PER,
+            TM_EXPT_COST
+        )
         VALUES
             (
                 #{pjtSn},
@@ -1419,11 +1430,59 @@
             (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = A.TM_CRM_SN) AS CRM_NM
         FROM
             CAM_PJT_MNG.DJ_PJT_TEAM A
-        LEFT JOIN
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PROJECT B
-        ON
-            A.PJT_SN = B.PJT_SN
+            ON
+                A.PJT_SN = B.PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
+
+    <select id="getCostData" parameterType="map" resultType="map">
+        /*getCostData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_COST
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insCostInfo" parameterType="map">
+        /*insCostInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_COST
+        (
+            PJT_SN,
+            PREP_A_TIME,
+            PREP_B_TIME,
+            PREP_C_TIME,
+            PREP_D_TIME,
+            COST_ETC,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{pjtSn},
+                #{prepATime},
+                #{prepBTime},
+                #{prepCTime},
+                #{prepDTime},
+                #{costEtc},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updCostInfo" parameterType="map">
+        /*updCostInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_COST
+        SET
+            PREP_A_TIME = #{prepATime},
+            PREP_B_TIME = #{prepBTime},
+            PREP_C_TIME = #{prepCTime},
+            PREP_D_TIME = #{prepDTime},
+            COST_ETC = #{costEtc},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>
