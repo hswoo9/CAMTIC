@@ -212,23 +212,23 @@ var camPrj = {
                             return "<input type='checkbox' id='' name='pjtCheck' value='"+e.PJT_SN+"' class=''/>"
                         }
                     },
-                    width: "3%"
+                    width: "2%"
                 }, {
                     title: "연번",
                     template: "#= --record #",
-                    width: "3%"
+                    width: "2%"
                 }, {
                     field: "BUSN_NM",
                     title: "사업구분",
-                    width: "5%"
+                    width: "4%"
                 }, {
                     field: "PJT_CD",
                     title: "프로젝트 코드",
-                    width: "7%"
+                    width: "4%"
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트 명",
-                    width: "20%",
+                    width: "15%",
                     template: function(e){
                         return "<a href='javascript:void(0);' onclick='camPrj.fn_projectPopView("+e.PJT_SN+")'>" + e.PJT_NM + "</a>";
                     }
@@ -242,7 +242,7 @@ var camPrj = {
 
                     field: "STR_DT",
                     title: "수주일",
-                    width: "7%",
+                    width: "5%",
                     template: function(e){
 
                         if(e.STR_DT == null || e.STR_DT == ""){
@@ -277,7 +277,7 @@ var camPrj = {
                 , {
                     field: "END_DT",
                     title: "종료일자",
-                    width: "7%",
+                    width: "5%",
                     template: function(e){
                         if(e.END_DT == null || e.END_DT == ""){
                             return "";
@@ -293,18 +293,18 @@ var camPrj = {
                 }, {
                     field: "PJT_AMT",
                     title: "수주금액",
-                    width: "7%",
+                    width: "5%",
                     template: function(e){
                         return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
                     }
                 }, {
                     field: "PM",
                     title: "PM",
-                    width: "5%"
+                    width: "4%"
                 }, {
                     field: "PJT_STEP_NM",
                     title: "진행단계",
-                    width: "5%",
+                    width: "4%",
                     template: function(e){
                         var pjtStepNm = "상담";
                         if(e.PJT_STOP == "Y"){
@@ -330,12 +330,12 @@ var camPrj = {
                     }
                 }, {
                     title : "조회",
-                    width: "5%",
+                    width: "14%",
                     template : function (e){
-                        return "<button type='button' class='k-button k-button-solid-base'>조회</button>"
+                        return camPrj.docViewBtnSet(e);
                     }
                 }
-                ],
+            ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
@@ -344,6 +344,30 @@ var camPrj = {
         $("#mainGrid").data("kendoGrid").setOptions({
             selectable : true
         })
+    },
+
+    docViewBtnSet: function(e){
+        let html = "";
+        html += '<div style="text-align: left">';
+
+        if(e.DELV_DOC_ID != ""){
+            html += "<button type='button' style='margin-right: 5px' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DELV_DOC_ID+"\", \""+e.DELV_APPRO_KEY+"\", \""+e.DELV_DOC_MENU_CD+"\");'>수주보고</button>";
+        }
+
+        if(e.DEV_DOC_ID != ""){
+            html += "<button type='button' style='margin-right: 5px' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DEV_DOC_ID+"\", \""+e.DEV_APPRO_KEY+"\", \""+e.DEV_DOC_MENU_CD+"\");'>계획서보고</button>";
+        }
+
+        if(e.RESULT_DOC_ID != ""){
+            html += "<button type='button' style='margin-right: 5px' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.RESULT_DOC_ID+"\", \""+e.RESULT_APPRO_KEY+"\", \""+e.RESULT_DOC_MENU_CD+"\");'>결과보고</button>";
+        }
+
+        if(e.COST_DOC_ID != ""){
+            html += "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.COST_DOC_ID+"\", \""+e.COST_APPRO_KEY+"\", \""+e.COST_DOC_MENU_CD+"\");'>원가보고</button>";
+        }
+
+        html += '</div>';
+        return html;
     },
 
     fn_allCheck : function (e){
