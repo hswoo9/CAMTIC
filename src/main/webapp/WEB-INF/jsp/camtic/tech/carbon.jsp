@@ -66,8 +66,8 @@
             </ul>
           </div>
           <ul class="__flximg __mt30" style="width:800px; height: 223px; margin: 0 auto;">
-            <li><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-ncarbon1-2.jpg" alt=""><div class="__fz18 __black __mt10">쿼터 필라 Reinf 탄소복합소재 개발</div></li>
+            <%--<li><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""></li>--%>
+            <li><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""><div class="__fz18 __black __mt10">쿼터 필라 Reinf 탄소복합소재 개발</div></li>
           </ul>
         </div>
       </div>

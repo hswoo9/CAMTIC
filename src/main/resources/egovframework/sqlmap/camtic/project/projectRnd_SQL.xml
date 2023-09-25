@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="projectRnd">
+
+    <insert id="insSubjectInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT
+            (
+                BUSN_CLASS,
+                BUSN_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                SBJ_CLASS,
+                SBJ_CHAR,
+                SBJ_DEP,
+                SBJ_DEP_SUB,
+                STR_DT,
+                END_DT,
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                PJT_NM,
+                PJT_SUB_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{busnClass},
+                #{busnNm},
+                #{pjtStep},
+                #{pjtStepNm},
+                #{sbjClass},
+                #{sbjChar},
+                #{sbjDep},
+                #{sbjDepSub},
+                #{strDt},
+                #{endDt},
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{pjtNm},
+                #{pjtSubNm},
+                #{regEmpSeq}
+            )
+
+        <selectKey keyProperty="pjtSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        </selectKey>
+    </insert>
+</mapper>

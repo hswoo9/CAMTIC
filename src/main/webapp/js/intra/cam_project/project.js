@@ -230,7 +230,7 @@ var camPrj = {
                     title: "프로젝트 명",
                     width: "20%",
                     template: function(e){
-                        return "<a href='javascript:void(0);' onclick='camPrj.fn_projectPopView("+e.PJT_SN+")'>" + e.PJT_NM + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \""+e.BUSN_CLASS+"\")'>" + e.PJT_NM + "</a>";
                     }
                 }
                 // , {
@@ -480,8 +480,12 @@ var camPrj = {
 
 
     // project 상세페이지
-    fn_projectPopView : function (key){
+    fn_projectPopView : function (key, busnClass){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+
+        if(busnClass = "R"){
+            url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
+        }
         var name = "_blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
 

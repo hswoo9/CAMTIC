@@ -317,12 +317,14 @@ var userReqPop = {
 
         userReqPop.fn_setRegDateForm("regDate");
 
-        $("#bday").kendoDatePicker({
+
+
+
+        $("#bDay").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
         });
 
         $("#weddingDay").kendoDatePicker({
@@ -937,20 +939,20 @@ var userReqPop = {
 
         if($("#targetEmpSeq").val() != ""){
             //업데이트
-            if($("#lunarYn1").is(":checked")){
-                data.LUNAR_CAL = "Y"
-            }else {
-                data.LUNAR_CAL = "N"
-            }
-            data.BDAY = $("#bday").val();
-        }else{
-            //신규
             if($("#lunarYn").is(":checked")){
                 data.LUNAR_CAL = "Y"
             }else {
                 data.LUNAR_CAL = "N"
             }
-            data.BDAY = $("#bday").val(); //생년월일
+            data.BDAY = $("#bDay").val();
+        }else{
+            //신규
+            if($("#lunarYn1").is(":checked")){
+                data.LUNAR_CAL = "Y"
+            }else {
+                data.LUNAR_CAL = "N"
+            }
+            data.BDAY = $("#birthDay").val(); //생년월일
         }
 
         if($("#weddingActive").getKendoRadioGroup().value() == "Y"){

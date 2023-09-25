@@ -39,22 +39,27 @@
         <div class="__tit1 __mt100">
           <h3><strong>캠틱 클러스터 기본원칙</strong></h3>
         </div>
-       <%-- <div class="__clu3">
+        <div class="__clu3">
           <div class="area">
-            <div class="box">
+            <%--<div class="box">
               <div class="img"><img src="/images/camtic/img-clu3-1.jpg" alt=""></div>
               <div class="txt">연대와 협력, 복리증진</div>
-            </div>
-            <div class="box">
+            </div>--%>
+            <%--<div class="box">
               <div class="img"><img src="/images/camtic/img-clu3-2.jpg" alt=""></div>
               <div class="txt">분사창업사 성장 조력</div>
-            </div>
-            <div class="box">
+            </div>--%>
+            <%--<div class="box">
               <div class="img"><img src="/images/camtic/img-clu3-3.jpg" alt=""></div>
               <div class="txt">개인투자조합 활성화</div>
+            </div>--%>
+            <div class="box">
+              <div class="txt">&#9675 연대와 협력, 복리증진</div>
+              <div class="txt">&#9675 분사창업사 성장 조력</div>
+              <div class="txt">&#9675 개인투자조합 활성화</div>
             </div>
           </div>
-        </div>--%>
+        </div>
 
       </div>
     </div>
