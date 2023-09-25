@@ -18,6 +18,9 @@ import java.util.Map;
 public class ProjectRndController {
 
     @Autowired
+    private ProjectService projectService;
+
+    @Autowired
     private ProjectRndService projectRndService;
 
     @RequestMapping("/projectRnd/pop/regProject.do")
@@ -25,7 +28,11 @@ public class ProjectRndController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        Map<String, Object> map = projectService.getProjectStep(params);
+
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
         model.addAttribute("params", params);
 
         return "popup/cam_project/rnd/regProject";

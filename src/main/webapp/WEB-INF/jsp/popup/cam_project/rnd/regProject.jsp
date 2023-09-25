@@ -192,8 +192,8 @@
     <input type="text" id="pjtStopRs" />
 </div>
 <script>
-
-    regRnd.fn_defaultScript();
+    var inParameters = JSON.parse('${map}');
+    regRnd.fn_defaultScript(inParameters);
 
     $("#pjtStopModal").kendoWindow({
         title : "프로젝트 중단 사유",
