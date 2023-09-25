@@ -300,6 +300,19 @@ public class ProjectController {
         return "popup/cam_project/engineering/teamInfo";
     }
 
+    @RequestMapping("/intra/cam_project/purcInfo.do")
+    public String purcInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/purcInfo";
+    }
+
 
     /**
      * 프로젝트 등록 > 업체정보 Get Data

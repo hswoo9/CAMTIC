@@ -37,7 +37,7 @@ var regPrj = {
         var tab8Url = "/intra/cam_project/costPriceInfo.do";
 
         var tab9Url = "/intra/cam_project/teamInfo.do";         // 협업관리
-        var tab10Url = "/intra/cam_project/buyInfo.do";         // 구매관리
+        var tab10Url = "/intra/cam_project/purcInfo.do";         // 구매관리
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -206,6 +206,7 @@ var regPrj = {
                 if(setParameters.PJT_STEP >= "E1"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                 }
 
                 if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
