@@ -41,7 +41,7 @@ const historyPrintPop = {
         $.LoadingOverlay("hide", {});
     },
 
-    openCallBack(){
+    openCallBack: function(){
         console.log(data);
         var toDate = data.REG_DT.split("-")[0]+ "년 "+data.REG_DT.split("-")[1]+ "월 "+data.REG_DT.split("-")[2]+ "일";
         historyPrintPop.global.hwpCtrl.PutFieldText("toDate", toDate);
@@ -67,7 +67,7 @@ const historyPrintPop = {
         historyPrintPop.global.hwpCtrl.PutFieldText("regEmpName", data.REG_EMP_NAME);
     },
 
-    resize : function() {
+    resize: function() {
         if (document.getElementById("hwpctrl_frame") != null && typeof(document.getElementById("hwpctrl_frame")) != "undefined") {
             var pHeight = (window.innerHeight - 20) + "px";
             document.getElementById("hwpctrl_frame").style.width = "100%";

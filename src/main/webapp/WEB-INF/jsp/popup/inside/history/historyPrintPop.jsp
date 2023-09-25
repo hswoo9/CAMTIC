@@ -36,7 +36,6 @@
     let params = JSON.parse('${params}');
     let data = JSON.parse('${data}');
     historyPrintPop.init();
-    opener.gridReload();
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/history/historyView.js?v=${todate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/history/historyView.js?v=${toDate}"/></script>
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -27,7 +27,7 @@
                         </td>
                     </tr>
                 </table>
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="historyViewGrid" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>
