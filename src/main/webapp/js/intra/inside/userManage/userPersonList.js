@@ -3,6 +3,9 @@
  * 작성자 : 김은진
  * 내용 : 인사관리 - 직원조회목록
  */
+
+// <button type="button" className="k-button k-button-md k-button-solid k-button-solid-base" onClick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;bottom: 5px;">상세검색</button>
+
 var now = new Date();
 
 var userPersonList = {
@@ -597,9 +600,8 @@ var userPersonList = {
             searchDetail5 : JSON.stringify(testDropDownTree5.value()),
             searchDetail6 : JSON.stringify(testDropDownTree6.value()),
             searchDetail7 : JSON.stringify(testDropDownTree7.value()),
-            searchDetail8 : JSON.stringify(testDropDownTree8.value()),
+            searchDetail8 : JSON.stringify(testDropDownTree8.value())
         }
-
 
         console.log(JSON.stringify(userPersonList.global.searchAjaxData));
         userPersonList.mainGrid2('/userManage/getEmpInfoDetailList',userPersonList.global.searchAjaxData);

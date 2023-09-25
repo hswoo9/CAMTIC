@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.userManage.repository;
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getEmpInfoList", map);
     }
     public List<Map<String,Object>> getEmpInfoDetailList(Map<String,Object> map) {
+        List<String> searchDetail3 = new ArrayList<>();
         return selectList("userManage.getEmpInfoDetailList", map);
     }
     public void setUserReqDetailInsert(Map<String, Object> params) {

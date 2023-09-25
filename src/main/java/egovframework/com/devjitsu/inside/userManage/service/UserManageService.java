@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserManageService{
-    Map<String,Object> getUserPersonnelRecordList (Map<String,Object> map);
+    Map<String,Object>getUserPersonnelRecordList (Map<String,Object> map);
     List<Map<String,Object>> getEducationalList (Map<String,Object> map);
     Map<String,Object> getMilitarySvcInfo (Map<String,Object> map);
     Map<String,Object> getMilitaryInfo (Map<String,Object> map);
