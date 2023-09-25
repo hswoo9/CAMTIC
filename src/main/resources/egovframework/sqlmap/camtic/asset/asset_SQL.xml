@@ -1484,13 +1484,13 @@
         (
             eqipmn_mst_sn, use_pd_str_de, user_name, user_sn,
             oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn, prtpco_sn, client_prtpco_name,
-            reg_de, actvt_yn, create_dt, crtr_sn
+            reg_de, actvt_yn, create_dt, crtr_sn ,end_stat
         )
         VALUES
             (
                 #{eqipmnMstSn}, #{usePdStrDe}, #{userName}, #{userSn},
                 #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn}, #{prtpcoSn}, #{clientPrtpcoName},
-                #{regDe},'Y', NOW(), #{crtrSn}
+                #{regDe},'Y', NOW(), #{crtrSn} ,'N'
             )
     </insert>
 
@@ -1644,13 +1644,16 @@
         eqipmn_use_sn = #{pk}
 </update>
 
-    <!--장비사용 마감 수정 - 김민주-->
+    <!--장비사용 마감완료 - 김민주-->
     <update id="setEquipmenUseEndStat" parameterType="java.util.List">
         /* setEquipmenUseEndStat */
         UPDATE
         CAM_INSIDE.DJ_EQIPMN_USE
         SET
-        end_stat = 'Y'
+        end_stat = CASE
+        WHEN end_stat = 'Y' THEN 'N'
+        WHEN end_stat = 'N' THEN 'Y'
+        END
         WHERE
         eqipmn_use_sn IN
         (
@@ -1660,6 +1663,23 @@
         )
     </update>
 
+    <!-- 장비사용 마감상태 취소
+    <update id="setEquipmenUseEndStatCancel" parameterType="java.util.List">
+        /* setEquipmenUseEndStat */
+        UPDATE
+        CAM_INSIDE.DJ_EQIPMN_USE
+        SET
+        end_stat = 'N'
+        WHERE
+        eqipmn_use_sn IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+        AND end_stat = 'Y'
+    </update>
+    -->
 
     <!--장비사용 등록 수정 창 조회-->
     <select id="getEqipmnUseUpdateList" parameterType="map" resultType="map">
