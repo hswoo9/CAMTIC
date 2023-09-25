@@ -133,10 +133,10 @@ var equipmentListAdminView = {
             toolbar : [
                 {
                     name: '',
-                    text: '마감',
+                    text: '마감상태 변경',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.selectChkEnd();">' +
-                            '   <span class="k-button-text">마감</span>' +
+                            '   <span class="k-button-text">마감상태 변경</span>' +
                             '</button>';
                     }
                 },{
@@ -255,9 +255,9 @@ var equipmentListAdminView = {
 
     selectChkEnd : function (){
         if($("input[name='eqmnUsePk']:checked").length == 0){
-            alert("마감할 장비목록을 선택해주세요.");
+            alert("마감상태를 변경할 장비목록을 선택해주세요.");
             return;
-        }else if(!confirm("선택한 데이터를 마감 처리하시겠습니까?")){
+        }else if(!confirm("선택한 데이터의 마감상태를 변경하시겠습니까?")){
             return;
         }
 

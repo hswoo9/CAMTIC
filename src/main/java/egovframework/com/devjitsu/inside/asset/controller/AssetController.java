@@ -947,9 +947,9 @@ public class AssetController {
     @RequestMapping("/asset/setEquipmenUseEndStat")
     public String setEquipmenUseEndStat(@RequestParam(value = "eqmnUsePk[]") List<String> eqmnUsePk, Model model){
         model.addAttribute("rs", assetService.setEquipmenUseEndStat(eqmnUsePk));
+        //model.addAttribute("rs", assetService.setEquipmenUseEndStatCancel(eqmnUsePk));
         return "jsonView";
     }
-
 
     //장비관리 (관리자) 결재창
     @RequestMapping("/Inside/pop/equipAppPop.do")
