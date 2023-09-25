@@ -85,7 +85,7 @@
               </c:choose>
             </div>
 
-            <div class="txt_zone" style="line-height:25px;">
+            <div class="txt_zone pr_view_content" style="line-height:25px;">
               <c:if test="${categoryId eq 'photo'}" >
                 <div style="text-align:center">
                   <c:forEach var="file" items="${fileMap}" varStatus="status">

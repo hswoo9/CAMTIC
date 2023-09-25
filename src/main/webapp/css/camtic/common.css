@@ -9,7 +9,7 @@ sub,sup,tt,var,dl,dt,dd,ol,select,button,ul,li,fieldset,form,label,legend,captio
 body,input,select,textarea,button,img,fieldset {border:none;}
 dl,ul,ol,li {list-style:none;}
 input,select,textarea,button {font-family:inherit;}
-table {width:100%;border-spacing:0;border-collapse:collapse;}
+table:not(.pr_view_content > table) {width:100%;border-spacing:0;border-collapse:collapse;}
 address,cite,code,em,i {font-style:normal;font-weight:normal;}
 label,img,input,select,textarea,button,a {vertical-align:middle;}
 a {text-decoration:none;color:#666;}
