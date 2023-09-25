@@ -47,9 +47,9 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="9.5%" >
+                                <col width="9%" >
                                 <col width="8%" >
-                                <col width="9.5%" >
+                                <col width="9%" >
                                 <col width="6%" >
                                 <col width="5%" >
                                 <col width="5%" >
@@ -59,9 +59,9 @@
                                 <col width="5%" >
                                 <col width="6%" >
                                 <col width="6%" >
-                                <col width="6%" >
                                 <col width="5%" >
                                 <col width="6%" >
+                                <col width="7%" >
                                 <col width="6%" >
                             </colgroup>
                             <thead>
@@ -69,8 +69,10 @@
                                 <th>부서</th>
                                 <th>성명</th>
                                 <th>직위</th>
+
                                 <th>정상출근</th>
                                 <th>지각</th>
+
                                 <th>연가</th>
                                 <th>오전반차</th>
                                 <th>오후반차</th>
@@ -78,9 +80,11 @@
                                 <th>공가</th>
                                 <th>경조휴가</th>
                                 <th>출산휴가</th>
-                                <th>선택근로</th>
+
                                 <th>출장</th>
+
                                 <th>대체휴가</th>
+                                <th>근속포상휴가</th>
                                 <th>휴일근로</th>
                             </tr>
                             </thead>
@@ -89,19 +93,23 @@
                                 <td style="text-align: center;">${loginVO.teamNm}</td>
                                 <td style="text-align: center;">${loginVO.name}</td>
                                 <td style="text-align: center;">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
-                                <td style="text-align: center;">0일</td>
+
+                                <td id="normal" style="text-align: center;"></td>
+                                <td id="late" style="text-align: center;"></td>
+
+                                <td id="annual" style="text-align: center;"></td>
+                                <td id="morning" style="text-align: center;"></td>
+                                <td id="afternoon" style="text-align: center;"></td>
+                                <td id="sick" style="text-align: center;"></td>
+                                <td id="publicholi" style="text-align: center;"></td>
+                                <td id="condolences" style="text-align: center;"></td>
+                                <td id="maternity" style="text-align: center;"></td>
+
+                                <td id="hr" style="text-align: center;"></td>
+
+                                <td id="alternative" style="text-align: center;"></td>
+                                <td id="longaward" style="text-align: center;"></td>
+                                <td id="holidaywork" style="text-align: center;"></td>
                             </tr>
                             </tbody>
                         </table>

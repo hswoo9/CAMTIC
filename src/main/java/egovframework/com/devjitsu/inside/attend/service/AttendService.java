@@ -7,6 +7,12 @@ public interface AttendService {
     /** 개인근태리스트 */
     List<Map<String, Object>> getPersonAttendList(Map<String, Object> params);
 
+    /** 개인근태현황 - 출장 */
+    Map<String, Object> getPersonHrStatus(Map<String, Object> params);
+
+    /** 개인근태현황 - 휴가 */
+    Map<String, Object> getPersonHolidayStatus(Map<String, Object> params);
+
     /** 직원근태리스트 */
     List<Map<String, Object>> getPersonAttendStat(Map<String, Object> params);
 

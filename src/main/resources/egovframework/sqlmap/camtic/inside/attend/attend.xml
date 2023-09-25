@@ -71,7 +71,36 @@
                 APPLY_DATE AD
     </select>
 
-    <select id="getPersonLeaveStatus" parameterType="map" resultType="map">
+    <select id="getPersonHrStatus" parameterType="map" resultType="map">
+        /* getPersonHrStatus */
+        <![CDATA[
+        SELECT
+            SUM(DATEDIFF(TRIP_DAY_TO_2, TRIP_DAY_FR_2)+1) AS HR
+        FROM
+            (
+                WITH RECURSIVE REQUEST AS (
+                    SELECT
+                        #{startDt} AS START_DATE,
+                        #{endDt} AS END_DATE,
+                        #{empSeq} AS EMP_SEQ
+                )
+                SELECT
+                    IHR.TRIP_DAY_FR,
+                    IHR.TRIP_DAY_TO,
+                    CASE WHEN IHR.TRIP_DAY_FR < R.START_DATE THEN R.START_DATE ELSE IHR.TRIP_DAY_FR END AS TRIP_DAY_FR_2,
+                    CASE WHEN IHR.TRIP_DAY_TO > R.END_DATE THEN R.END_DATE ELSE IHR.TRIP_DAY_TO END AS TRIP_DAY_TO_2
+                FROM
+                    CAM_INSIDE.DJ_HR_BIZ_REQ IHR,
+                    REQUEST R
+                WHERE
+                    IHR.TRIP_DAY_TO > R.START_DATE
+                AND IHR.TRIP_DAY_FR < R.END_DATE
+            ) RR
+        ]]>
+    </select>
+
+    <select id="getPersonHolidayStatus" parameterType="map" resultType="map">
+        /* getPersonHolidayStatus */
         WITH RECURSIVE REQUEST AS (
             SELECT
                 #{startDt} AS START_DATE,
@@ -112,7 +141,7 @@
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 6
                AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS SICK,
+               AND APPR_STAT = 'Y') AS PUBLICHOLI,
 
             /** 7경조휴가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)

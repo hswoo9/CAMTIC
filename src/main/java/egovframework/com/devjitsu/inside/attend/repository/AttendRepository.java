@@ -12,6 +12,14 @@ public class AttendRepository extends AbstractDAO {
         return selectList("attend.getPersonAttendList", params);
     }
 
+    public Map<String, Object> getPersonHrStatus(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("attend.getPersonHrStatus", params);
+    }
+
+    public Map<String, Object> getPersonHolidayStatus(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("attend.getPersonHolidayStatus", params);
+    }
+
     public List<Map<String, Object>> getPersonAttendStat(Map<String, Object> params) {
         return selectList("attend.getPersonAttendStat", params);
     }

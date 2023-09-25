@@ -20,6 +20,16 @@ public class AttendServiceImpl implements AttendService {
     }
 
     @Override
+    public Map<String, Object> getPersonHrStatus(Map<String, Object> params) {
+        return attendRepository.getPersonHrStatus(params);
+    }
+
+    @Override
+    public Map<String, Object> getPersonHolidayStatus(Map<String, Object> params) {
+        return attendRepository.getPersonHolidayStatus(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPersonAttendStat(Map<String, Object> params) {
         return attendRepository.getPersonAttendStat(params);
     }
