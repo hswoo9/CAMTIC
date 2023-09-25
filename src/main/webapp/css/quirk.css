@@ -4080,7 +4080,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   cursor: default;
 }
 .nav-tabs.nav-justified {
-  width: 380px;
+  /*width: 380px;*/
   border-bottom: 0;
 }
 .nav-tabs.nav-justified > li {

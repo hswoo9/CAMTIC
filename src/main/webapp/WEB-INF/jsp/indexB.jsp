@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-
 <style>
     .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
     .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
@@ -87,8 +86,10 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#tab1" data-toggle="tab"><strong style="font-size:14px;">전체</strong></a></li>
-                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지</strong></a></li>
-                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">알림</strong></a></li>
+                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지사항</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무보고</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
+                     <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -335,7 +336,7 @@
     <div class="col-md-12 col-sm-12" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #505b72; padding:5px;">
-                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://teams.microsoft.com" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈</a></h3>
             </div>
         </div><!-- panel -->
     </div>
