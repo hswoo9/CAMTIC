@@ -44,6 +44,17 @@ public class AttendController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    /** 근태현황 */
+    @RequestMapping("/inside/getPersonStatus")
+    public String getPersonStatus(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> hrData = attendService.getPersonHrStatus(params);
+        Map<String, Object> holidayData = attendService.getPersonHolidayStatus(params);
+        model.addAttribute("hrData", hrData);
+        model.addAttribute("holidayData", holidayData);
+        return "jsonView";
+    }
+
     /** 직원근태 리스트 조회 */
     @RequestMapping("/inside/getPersonAttendStat")
     public String getPersonAttendStat(@RequestParam Map<String, Object> params, Model model) {

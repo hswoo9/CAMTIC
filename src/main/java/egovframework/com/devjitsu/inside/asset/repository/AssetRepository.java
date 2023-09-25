@@ -146,7 +146,10 @@ public class AssetRepository extends AbstractDAO {
 
     //장비사용 마감 업데이트
     public void setEquipmenUseEndStat(List<String> eqmnUsePk) { update("asset.setEquipmenUseEndStat", eqmnUsePk);}
-    
+
+    //장비사용 마감 취소
+    //public void setEquipmenUseEndStatCancel(List<String> eqmnUsePk) { update("asset.setEquipmenUseEndStatCancel", eqmnUsePk);}
+
     //장비 전자결재
     public List<Map<String, Object>> getLGCategoryMonthly(Map<String, Object> params) { return selectList("asset.getLGCategoryMonthly", params);}
     public List<Map<String, Object>> getMDCategoryMonthly(Map<String, Object> params) { return selectList("asset.getMDCategoryMonthly", params);}

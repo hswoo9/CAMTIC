@@ -107,9 +107,9 @@ public class UserManageController {
             map.put("empSeq", login.getUniqId());
         }
 
-        Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map);
-        List<Map<String,Object>> educationalList = userManageService.getEducationalList(map);
-        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map);
+        Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
+        List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병력 사항
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("uprList", userPersonnelRecordList);
@@ -414,6 +414,7 @@ public class UserManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
         return "popup/inside/employ/employmentReqPop";
     }
 

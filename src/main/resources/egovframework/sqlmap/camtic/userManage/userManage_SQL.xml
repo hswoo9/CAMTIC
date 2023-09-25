@@ -106,7 +106,7 @@
         ORDER BY A.FAMILY_ID DESC;
     </select>
 
-    <select id="getLicenceInfoList" parameterType="map" resultType="map">
+    <select id="getLicenceInfoList" parameterType="map" resultType="map">   
         SELECT
             *
         FROM
@@ -671,13 +671,12 @@
             </if>
             <if test='searchDetail3 != null and !"".equals(searchDetail3)'>
                 and
-                (A.DEPT_SEQ in (${searchDetail3})
-                <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
-                    or A.DEPT_SEQ in (${searchDetail4})
-                </if>
+                (A.DEPT_SEQ in (${searchDetail3})OR A.parent_dept_seq in (${searchDetail3})
+                     <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
+                        or A.DEPT_SEQ in (${searchDetail4})
+                     </if>
                 )
             </if>
-
         <if test='searchDetail4 != null and !"".equals(searchDetail4)'>
             <if test='searchDetail3 == null or "".equals(searchDetail3)'>
                 and

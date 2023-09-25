@@ -5,6 +5,7 @@ var personAttend = {
 
     init: function(){
         personAttend.pageSet();
+        personAttend.dataSet();
         personAttend.mainGrid();
     },
 
@@ -48,6 +49,38 @@ var personAttend = {
             ],
             index: 0
         });
+    },
+
+    dataSet: function(){
+        let url = "/inside/getPersonStatus";
+        const data = {
+            startDt: $("#startDt").val(),
+            endDt: $("#endDt").val(),
+            empSeq: $("#regEmpSeq").val()
+        };
+        let holidayData = customKendo.fn_customAjax(url, data).holidayData;
+        let hrData = customKendo.fn_customAjax(url, data).hrData;
+        console.log("hrData");
+        console.log(hrData);
+        console.log("holidayData");
+        console.log(holidayData);
+
+        $("#normal").text("0일");
+        $("#late").text("0일");
+
+        $("#annual").text(holidayData.ANNUAL+"일");
+        $("#morning").text(holidayData.MORNING+"일");
+        $("#afternoon").text(holidayData.AFTERNOON+"일");
+        $("#sick").text(holidayData.SICK+"일");
+        $("#publicholi").text(holidayData.PUBLICHOLI+"일");
+        $("#condolences").text(holidayData.CONDOLENCES+"일");
+        $("#maternity").text(holidayData.MATERNITY+"일");
+
+        $("#hr").text(hrData.HR+"일");
+
+        $("#alternative").text(holidayData.ALTERNATIVE+"일");
+        $("#longaward").text(holidayData.LONGAWARD+"일");
+        $("#holidaywork").text(holidayData.HOLIDAYWORK+"일");
     },
 
     mainGrid: function(){
