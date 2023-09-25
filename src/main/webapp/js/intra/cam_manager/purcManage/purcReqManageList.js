@@ -12,6 +12,7 @@ var prm = {
             { text: "내 구매만 조회", value: "empDept" },
         ]
         customKendo.fn_dropDownList("searchDept", prm.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").value("empDept");
         $("#searchDept").data("kendoDropDownList").bind("change", prm.gridReload);
 
         prm.global.dropDownDataSource = [
@@ -80,7 +81,10 @@ var prm = {
                     }
                 }, {
                     title: "구매",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        return e.CP_CNT + "건 / " + e.RP_CNT + "건"
+                    }
                 }, {
                     title: "외주",
                     width: 100

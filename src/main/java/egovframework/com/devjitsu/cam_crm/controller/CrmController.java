@@ -284,6 +284,12 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 고객 이력관리 페이지
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/crm/crmHistView.do")
     public String crmHistView(Model model, HttpServletRequest request){
 
@@ -296,6 +302,13 @@ public class CrmController {
         return "/cam_crm/crmHistView";
     }
 
+    /**
+     * 고객 이력관리 리스트
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/crm/getCrmHistList")
     public String getCrmHistList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -353,6 +366,12 @@ public class CrmController {
         return "popup/cam_crm/regCrmHistPop";
     }
 
+    /**
+     * 이력등록
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/setCrmHist")
     public String setCrmHist(@RequestParam Map<String, Object> params, Model model){
         try{
@@ -361,6 +380,59 @@ public class CrmController {
         } catch (Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    /**
+     * crm 제조업체총람 페이지
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/crm/mfOverview.do")
+    public String mfOverView(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        return "/cam_crm/mfOverview";
+    }
+
+    /**
+     * 제조업체총람 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getMfOverviewList")
+    public String getMfOverviewList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getMfOverviewList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 제조업체 총람 엑셀 업로드 팝업
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/crm/pop/mfExcelUploadPop.do")
+    public String mfExcelUploadPop(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        return "popup/cam_crm/mfExcelUploadPop";
+    }
+
+    /**
+     * crm 그룹코드 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/mfExcelUpload.do")
+    public String mfExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
+        crmService.mfExcelUpload(params, request);
         return "jsonView";
     }
 

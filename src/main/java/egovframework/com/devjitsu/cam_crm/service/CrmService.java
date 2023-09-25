@@ -31,6 +31,8 @@ public interface CrmService {
     Map<String, Object> getCrmHist(Map<String, Object> params);
     List<Map<String, Object>> getCrmHistDetailList(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);
+    List<Map<String, Object>> getMfOverviewList(Map<String, Object> params);
+    void mfExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     List<Map<String, Object>> groupCodeList(Map<String, Object> params);
     void saveGroupCode(Map<String, Object> params);
     List<Map<String, Object>> codeList(Map<String, Object> params);

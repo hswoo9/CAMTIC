@@ -11,12 +11,17 @@
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
             EI.EMP_NAME_KR,
             MP.PURC_REQ_PURPOSE,
+            COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
+            COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
             MP.STATUS
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_MNG.DJ_MNG_PURC_ITEM MPI
+        ON MP.PURC_SN = MPI.PURC_SN
         WHERE 1=1
 
         <if test='searchDept != null and !"".equals(searchDept)'>
@@ -41,10 +46,12 @@
                 )
             </otherwise>
         </choose>
+        GROUP BY MP.PURC_SN
+        ORDER BY MP.PURC_REQ_DATE DESC
     </select>
 
     <insert id="setPurcReq" parameterType="map">
-        /* setApplicationSchool */
+        /* setPurcReq */
         INSERT INTO CAM_MNG.DJ_MNG_PURC
         (
             PURC_REQ_DATE,
@@ -53,6 +60,7 @@
             DOC_NO,
             PURC_REQ_PURPOSE,
             PURC_TYPE,
+            STATUS,
             REG_EMP_SEQ
         )
         VALUES
@@ -63,6 +71,7 @@
             #{docNo},
             #{purcReqPurpose},
             #{purcType},
+            #{status},
             #{empSeq}
         )
 
@@ -77,9 +86,10 @@
             CAM_MNG.DJ_MNG_PURC
         SET
             PURC_REQ_DATE = #{purcReqDate},
-            PURC_REQ_PURPOSE = #{purcReqDeptSeq},
+            PURC_REQ_PURPOSE = #{purcReqPurpose},
             PURC_TYPE = #{purcType},
             MOD_EMP_SEQ = #{empSeq},
+            STATUS = #{status},
             MOD_DATE = NOW()
         WHERE
             PURC_SN = #{purcSn}
@@ -99,6 +109,7 @@
             PURC_ITEM_AMT,
             CRM_SN,
             RMK,
+            STATUS,
             REG_EMP_SEQ
         )
         VALUES
@@ -113,6 +124,7 @@
             #{purcItemAmt},
             #{crmSn},
             #{rmk},
+            #{status},
             #{empSeq}
         )
     </insert>
@@ -131,6 +143,7 @@
             PURC_ITEM_AMT = #{purcItemAmt},
             CRM_SN = #{crmSn},
             RMK = #{rmk},
+            STATUS = #{status},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
         WHERE

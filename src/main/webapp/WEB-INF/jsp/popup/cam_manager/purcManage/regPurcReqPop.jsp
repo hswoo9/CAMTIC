@@ -21,7 +21,9 @@
                 </span>
             </h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="prp.setPurcReq();">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="reqBtn" onclick="prp.setPurcReq('C');">요청하기</button>
+                <button type="button" class="k-button k-button-solid-info" id="reqCancelBtn" onclick="prp.setPurcReqStatusUpd('W');" style="display: none">요청취소</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="prp.setPurcReq('W');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>

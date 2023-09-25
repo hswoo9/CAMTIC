@@ -4,17 +4,23 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CrmServiceImpl implements CrmService {
@@ -334,6 +340,91 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public List<Map<String, Object>> getMfOverviewList(Map<String, Object> params) {
+        return crmRepository.getMfOverviewList(params);
+    }
+
+    @Override
+    public void mfExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        MultipartFile fileNm = request.getFile("mfFile");
+
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row;
+        XSSFCell col1;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        int rows = sheet.getPhysicalNumberOfRows();
+
+        String sheetNm = workbook.getSheetName(0);
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        Map<String, Object> tumpMap = null;
+        for(int i=3; i < rows; i++){
+            Map<String, Object> testList = new HashMap<>();
+            tumpMap = new HashMap<String, Object>();
+            row = sheet.getRow(i);
+            col1 = row.getCell(1);
+
+            if(row != null){
+                if(cellValueToString(col1).equals("")){
+                    return;
+                } else {
+                    int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+                    tumpMap.put("mfArea", cellValueToString(row.getCell(1)));
+                    tumpMap.put("active", cellValueToString(row.getCell(2)).equals("정상") ? "Y" : "N");
+                    tumpMap.put("mfName", cellValueToString(row.getCell(3)));
+                    tumpMap.put("mfNo", cellValueToString(row.getCell(4)));
+                    tumpMap.put("ceoName", cellValueToString(row.getCell(5)));
+                    tumpMap.put("ceoGender", cellValueToString(row.getCell(6)));
+                    tumpMap.put("addr", cellValueToString(row.getCell(7)));
+                    tumpMap.put("estDate", cellValueToString(row.getCell(8)));
+                    tumpMap.put("history", cellValueToString(row.getCell(9)));
+                    tumpMap.put("location", cellValueToString(row.getCell(10)));
+                    tumpMap.put("industry", cellValueToString(row.getCell(11)));
+                    tumpMap.put("industry2", cellValueToString(row.getCell(12)));
+                    tumpMap.put("mainProduct", cellValueToString(row.getCell(13)));
+                    tumpMap.put("amPart", cellValueToString(row.getCell(14)));
+                    tumpMap.put("amPartType", cellValueToString(row.getCell(15)));
+                    tumpMap.put("telNum", cellValueToString(row.getCell(16)));
+                    tumpMap.put("faxNum", cellValueToString(row.getCell(17)));
+                    tumpMap.put("homePage", cellValueToString(row.getCell(18)));
+                    tumpMap.put("email", cellValueToString(row.getCell(19)));
+                    tumpMap.put("capital", cellValueToString(row.getCell(20)));
+                    tumpMap.put("sales", cellValueToString(row.getCell(21)));
+                    tumpMap.put("salesAmt", String.valueOf(row.getCell(22)));
+                    tumpMap.put("salesRatioProv", String.valueOf(row.getCell(23)));
+                    tumpMap.put("salesRatioOtProv", String.valueOf(row.getCell(24)));
+                    tumpMap.put("empCnt", cellValueToString(row.getCell(25)));
+                    tumpMap.put("empForeign", cellValueToString(row.getCell(26)));
+                    tumpMap.put("foreignCnt", cellValueToString(row.getCell(27)));
+                    tumpMap.put("exportYn", cellValueToString(row.getCell(28)));
+                    tumpMap.put("laboratoryYn", cellValueToString(row.getCell(29)));
+                    tumpMap.put("carbonYn", cellValueToString(row.getCell(30)));
+                    tumpMap.put("rprYn", cellValueToString(row.getCell(31)));
+                    tumpMap.put("newProductYn", cellValueToString(row.getCell(32)));
+                    tumpMap.put("facilityInvestYn", cellValueToString(row.getCell(33)));
+                    tumpMap.put("highlySatField", cellValueToString(row.getCell(34)));
+                    tumpMap.put("needField", cellValueToString(row.getCell(35)));
+                    tumpMap.put("agreeYn", cellValueToString(row.getCell(36)));
+                    tumpMap.put("agree2Yn", cellValueToString(row.getCell(37)));
+                    tumpMap.put("ceoTelNum", cellValueToString(row.getCell(38)));
+                    tumpMap.put("chargeName", cellValueToString(row.getCell(39)));
+                    tumpMap.put("chargeTelNum", cellValueToString(row.getCell(40)));
+                    tumpMap.put("regEmpSeq", params.get("empSeq"));
+
+                    crmRepository.setMfOverview(tumpMap);
+
+                }
+            }
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {
         return crmRepository.groupCodeList(params);
     }
@@ -384,5 +475,22 @@ public class CrmServiceImpl implements CrmService {
         }
 
         return lgSmList;
+    }
+
+    public String cellValueToString(XSSFCell cell){
+        String txt = "";
+
+        try {
+            if(cell.getCellType() == XSSFCell.CELL_TYPE_STRING){
+                txt = cell.getStringCellValue();
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
+                txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
+                txt = cell.getRawValue();
+            }
+        } catch (Exception e) {
+
+        }
+        return txt;
     }
 }

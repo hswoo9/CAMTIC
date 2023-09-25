@@ -8,7 +8,7 @@ var prp = {
         searchAjaxData : "",
         crmSnId : "",
         crmNmId : "",
-
+        saveAjaxData : "",
     },
 
     fn_defaultScript : function (){
@@ -37,7 +37,7 @@ var prp = {
         }
     },
 
-    setPurcReq : function(){
+    setPurcReq : function(e){
         var formData = new FormData()
         formData.append("purcSn", $("#purcSn").val());
         formData.append("menuCd", "manage");
@@ -46,6 +46,7 @@ var prp = {
         formData.append("purcReqDeptSeq", $("#purcReqDeptSeq").val());
         formData.append("purcReqPurpose", $("#purcReqPurpose").val());
         formData.append("purcType", $("#purcType").data("kendoRadioGroup").value());
+        formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
 
         if($("#file1")[0].files.length == 1){
@@ -69,6 +70,7 @@ var prp = {
                 purcItemAmt : prp.uncomma($("#purcItemAmt" + i).val()),
                 crmSn : $("#crmSn" + i).val(),
                 rmk : $("#rmk" + i).val(),
+                status : e,
                 empSeq : $("#purcReqEmpSeq").val(),
             }
 
@@ -80,6 +82,20 @@ var prp = {
         var result = customKendo.fn_customFormDataAjax("/manage/setPurcReq.do", formData);
         if(result.flag){
             alert("저장되었습니다.");
+            opener.parent.prm.gridReload();
+            window.close();
+        }
+    },
+
+    setPurcReqStatusUpd : function(e){
+        prp.global.saveAjaxData = {
+            purcSn : $("#purcSn").val(),
+            status : e
+        }
+
+        var result = customKendo.fn_customFormDataAjax("/manage/setPurcReqStatusUpd.do", prp.global.saveAjaxData);
+        if(result.flag){
+            alert("처리되었습니다.");
             opener.parent.prm.gridReload();
             window.close();
         }
@@ -192,6 +208,12 @@ var prp = {
             $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
 
             prp.purcItemDataSet(data.itemList);
+
+            if(data.STATUS == "C"){
+                $("#reqBtn").hide();
+                $("#saveBtn").hide();
+                $("#reqCancelBtn").show();
+            }
         }
     },
 
