@@ -2213,7 +2213,7 @@ __icoBox1
 .__campus1 .mid dt {font-size:26px;font-weight:600;color:#333;}
 .__campus1 .mid dd {font-size:20px;color:#363636;margin-top:7px;font-weight:300;letter-spacing:-0.05em;}
 .__campus1 .img {text-align:center;margin-top:45px;}
-.__campus2 {position:relative;margin-top:30px;border:1px solid #00aeef;border-radius:5px;background:url(/images/camtic/img-campus1-3.jpg) no-repeat 50% 50% / cover;display:flex;align-items:center;justify-content:center;text-align:center;height:110px;color:#fff;font-size:30px;font-weight:bold;text-shadow:3px 3px 10px rgba(0,0,0,0.15);}
+.__campus2 {position:relative;margin-top:30px;/*border:1px solid #00aeef;*/ border: 1px solid #ccc;border-radius:5px;/*background:url(/images/camtic/img-campus1-3.jpg) no-repeat 50% 50% / cover;*/display:flex;align-items:center;justify-content:center;text-align:center;height:110px;color:#000;font-size:30px;font-weight:bold;text-shadow:3px 3px 10px rgba(0,0,0,0.15);}
 .__campus2:before {content:"";display:block;width:1px;height:30px;position:absolute;left:50%;bottom:100%;margin-bottom:1px;background:#d7d7d7;}
 
 @media all and (max-width:1200px){
@@ -2789,10 +2789,10 @@ __icoBox1
 /*배경색 변경 통일*//*2023-09-20*/
 .__clu2 {/*border-top:2px solid #000;*//*background:#f8f8f8;*/background:#fff;padding:50px 15px;text-align:center;}
 /*배경색 변경 통일*/
-.__clu3 {/*border-top:2px solid #000;*//*background:#f8f8f8;*/background:#fff;padding:50px 100px;text-align:center;}
-.__clu3 .area {display:flex;justify-content:space-between;gap:20px;}
+.__clu3 {/*border-top:2px solid #000;*//*background:#f8f8f8;*/background:#fff;padding:0px 30px;text-align:center;}
+.__clu3 .area {display:flex;justify-content:space-between;gap:20px; text-align: left;}
 .__clu3 .area .box {}
-.__clu3 .area .box .txt {margin-top:15px;font-size:15px;color:#000;letter-spacing:-0.05em;padding-left:10px;}
+.__clu3 .area .box .txt {margin-top:15px;font-size:26px; line-height: 1.27; font-weight: 300; color:#000;letter-spacing:-0.05em;padding-left:10px;}
 
 @media all and (max-width:1024px){
 	.__clu1 {padding:20px 15px;}

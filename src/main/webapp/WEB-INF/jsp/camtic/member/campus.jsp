@@ -17,8 +17,7 @@
 
         <div class="__campus1 m0">
           <dl class="head">
-            <dt><span class="__nm">“</span><span class="mainCapyTitle">창의적으로 사고하고, 용기있게 도전하며,
-              즐겁게 소통하는 인재</span><span class="__nm">”</span></dt>
+            <dt><span class="__nm">“</span><span class="mainCapyTitle" style="font-size: 43px !important; word-spacing: -0.3rem;">창의적으로 사고하고, 용기있게 도전하며, 즐겁게 소통하는 인재</span><span class="__nm">”</span></dt>
             <%--<dt>캠 + 퍼스 <img src="/images/camtic/img-campus1-1.jpg" alt=""></dt>
             <dd>캠틱 + 캠퍼스의 약칭으로 학습하고,만나며,나누고,성장하는 <strong> "학습과 소통의 장"</strong> 의미</dd>--%>
           </dl>
@@ -107,7 +106,7 @@
 
         </div>
 
-        <%--<div class="__campus2">교육을 통한 소통 강화!</div>--%>
+        <div class="__campus2">교육을 통한 소통 강화!</div>
 
       </div>
     </div>

@@ -116,22 +116,22 @@
             </div>
           </div>
 
-          <ul class="__flximg mwrap __mt60">
+          <ul class="__flximg mwrap __mt60" style="width:820px; margin:0 auto;">
             <li><img src="/images/camtic/img-nsmart4-1.jpg" alt=""></li>
             <li><img src="/images/camtic/img-nsmart4-2.jpg" alt=""></li>
           </ul>
-          <ul class="__flximg mwrap __mt20">
+          <ul class="__flximg mwrap __mt20" style="width:820px; margin:0 auto;">
             <li><img src="/images/camtic/img-nsmart4-3.jpg" alt=""></li>
             <li><img src="/images/camtic/img-nsmart4-4.jpg" alt=""></li>
           </ul>
-          <ul class="__flximg mwrap __mt40" id="ulImg">
+          <ul class="__flximg mwrap __mt40" style="width:820px; margin:0 auto;">
             <li><img src="/images/camtic/img-nsmart4-5.jpg" alt="" style="height: 100%;"></li>
             <li><img src="/images/camtic/img-nsmart4-6.jpg" alt=""></li>
             <li><img src="/images/camtic/img-nsmart4-7.jpg" alt=""></li>
           </ul>
 
-          <div class="__fz20 __black fwb __mt50">시제품 제작 지원 사례</div>
-          <ul class="__flximg mwrap __mt15">
+          <div class="__fz20 __black fwb __mt50" >시제품 제작 지원 사례</div>
+          <ul class="__flximg mwrap __mt15" style="width:820px; margin:0 auto;">
             <li><img src="/images/camtic/img-nsmart5-1.jpg" alt=""><div class="__fz16 __mt10 __black fwm">개인 맞춤형척추 건강관리 IoT서비스를 적용한 척추 이완 기기</div></li>
             <li><img src="/images/camtic/img-nsmart5-2.jpg" alt=""><div class="__fz16 __mt10 __black fwm">척추 / 관절 진단 및 수술용 다기능 카본테이블</div></li>
           </ul>
