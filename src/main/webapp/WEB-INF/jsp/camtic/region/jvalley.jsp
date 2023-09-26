@@ -87,7 +87,7 @@
                   CATIA(3D) 등
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt="" style="margin-top: 28px;"></div>
             </div>
             <div class="box">
               <dl class="info" style="margin-top:30px;">
@@ -97,7 +97,7 @@
                   SMT 제조시설 등
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt="" style="margin-top: 28px;"></div>
             </div>
             <div class="box">
               <dl class="info" style="margin-top:40px;">
@@ -108,7 +108,7 @@
                   드론산업혁신지원센터
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt="" style="margin-top: 4px;"></div>
             </div>
             <div class="box">
               <dl class="info" style="margin-top:50px;">
@@ -120,7 +120,7 @@
                   기술창업성장지원센터
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt="" style="margin-top: 28px;"></div>
             </div>
             <div class="box">
               <dl class="info" style="margin-top:60px;">
@@ -133,7 +133,7 @@
                   목형·방전가공기 등
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-5.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-5.jpg" alt="" style="margin-top: 28px;"></div>
             </div>
           </div>
           <h5><span>S/W</span></h5>

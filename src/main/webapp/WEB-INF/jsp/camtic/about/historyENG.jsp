@@ -8,15 +8,13 @@
   .__history .area .box .top:before {background: none;}
   .__history .area .box:nth-child(1) .top:after {background:#636363;}
   .__history .area .box .top{display: flex; justify-content: space-between; flex-direction: row;}
-  .__history .area .box .top .con dl{width:800px;}
-  .__history .area .box .top .con dt{line-height:30px; font-weight: bold;}
-  .__history .area .box .top .con dd{line-height:30px;}
-  .__history .area .box .top .img{width: 350px; margin-top: 0px;}
+  .__history .area .box .top .con dl{width:700px;}
+  .__history .area .box .top .con dt{line-height:20px; font-weight: bold; width: 38px;}
+  .__history .area .box .top .con dd{line-height:20px;}
+  .__history .area .box .top .img{width: 300px; margin-top: 0px; display: flex; flex-direction: row; flex-wrap: wrap;}
   .__history .area .box .top .img img{padding: 5px;}
   .__history .area .box h4 span{display: inline-block;color: #fff;font-size: 13px;font-weight: 600;line-height: 20px;border-radius: 20px; padding: 0 20px;margin-bottom: 30px;text-align: center;}
-  .img {display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;}
+  .__history {max-width:1130px;margin:0 auto;}
 </style>
 </head>
 
@@ -30,7 +28,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
         <div class="__history">
           <div class="__tit1 __mt0">
-            <h3><strong>History</strong></h3>
+            <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>History</strong></h4>
           </div>
           <div class="area">
             <div class="box">
@@ -74,9 +72,9 @@
                   </dl>
                 </div>
                 <div class="img">
-                  <img src="/images/camtic/history1-1.jpg" style="width:350px;">
-                  <img src="/images/camtic/history1-2.jpg" style="width:175px;">
-                  <img src="/images/camtic/history1-3.jpg" style="width:175px;">
+                  <img src="/images/camtic/history1-1.jpg" style="width:300px;">
+                  <img src="/images/camtic/history1-2.jpg" style="width:150px;">
+                  <img src="/images/camtic/history1-3.jpg" style="width:150px;">
                 </div>
               </div>
 
@@ -90,7 +88,7 @@
                 <div class="con">
                   <dl>
                     <dt>2011</dt>
-                    <dd>JUN Jeonju City Government and Jeonju Advanced Venture Complex signed a two-phased agreement (5 years)</dd>
+                    <dd <%--style="width:800px;"--%>>JUN Jeonju City Government and Jeonju Advanced Venture Complex signed a two-phased agreement (5 years)</dd>
                   </dl>
                   <dl>
                     <dt>2012</dt>
@@ -135,11 +133,11 @@
                       OCT Selected as an excellent job competence training agency by MOEL (for 3 years)
                     </dd>
                   </dl>
-                  <div class="img">
-                    <img src="/images/camtic/history2-1.jpg">
-                    <img src="/images/camtic/history2-2.jpg">
-                  </div>
                 </div>
+                  <div class="img" style="margin-top: 200px;">
+                    <img src="/images/camtic/history2-1.jpg" style="width:300px;">
+                    <img src="/images/camtic/history2-2.jpg" style="width:300px;">
+                  </div>
               </div>
             </div>
            </div>
@@ -154,14 +152,24 @@
                       <dd>MAR Jeonju Advanced Venture Complex designated as Jeonbuk R&D Special District<br>
                         APR Acquired the highest grade at 2019 Work-Study Performance Evaluation<br>
                         AUG Completed the construction of Jeonju Innovation Startup Hub Startup Building and started operation<br>
-                        Jeonju Advanced Venture Complex selected as a successful community-led innovation and growth case (MOEL)
+                      </dd>
+                    </dl>
+                    <dl>
+                      <dt></dt>
+                      <dd>
+                        DEC Jeonju Advanced Venture Complex selected as a successful community-led innovation and growth case (MOEL)
                       </dd>
                     </dl>
                     <dl>
                       <dt>2021</dt>
                       <dd>MAR Selected for the support project for distribution of national standards of ICT smart farm equipment (Ministry of Agriculture, Food and Rural Affairs)<br>
                         MAY Selected for the AI learning data construction project (Ministry of Science and ICT (MSIT))<br>
-                        AUG Selected for official development assistance project for Ethiopia (MOTIE)<br>
+                        AUG Selected for official development assistance project for Ethiopia (MOTIE)
+                      </dd>
+                    </dl>
+                    <dl>
+                      <dt></dt>
+                      <dd>
                         OCT Formed CAMTIC Cluster Individual Investment Association No. 1<br>
                         NOV Founded EDIM from spin-off<br>
                         DEC Commenced the working design of Jeonju Advanced Venture Complex Technology Startup Growth Support Center (Growth Building)
@@ -171,17 +179,28 @@
                       <dt>2022</dt>
                       <dd>JAN Jeonju City Government selected Jeonju Advanced Venture Complex as a private outsourcing agency<br>
                         MAR Completed the working design of Jeonju Advanced Venture Complex Technology Startup Growth Support Center (Growth Building)<br>
-                        MAR Opened MOLIT-designated Drone Industry Innovation Support Center<br>
+                      </dd>
+                    </dl>
+                    <dl>
+                      <dt></dt>
+                      <dd>
+                        MAR Opened MOLIT-designated Drone Industry Innovation Support Center
+                      </dd>
+                    </dl>
+                    <dl>
+                      <dt></dt>
+                      <dd>
                         APR Selected as MSS Maker Space Lab “Jeonju Drone Workshop Wing-Wing Station”<br>
                         MAY Construction commencement of Jeonju Advanced Venture Complex Technology Startup Growth Support Center (Growth Building) (scheduled)
                       </dd>
                     </dl>
-                    <div class="img">
-                      <img src="/images/camtic/history3-1.jpg">
-                      <img src="/images/camtic/history3-2.jpg">
-                      <img src="/images/camtic/history3-3.jpg">
-                    </div>
                   </div>
+                    <div class="img">
+                      <img src="/images/camtic/history3-1.jpg" style="width:300px;">
+                      <img src="/images/camtic/history3-2.jpg" style="width:300px;">
+                      <img src="/images/camtic/history3-3.jpg" style="width:300px;">
+                    </div>
+
                 </div>
               </div>
             </div>
