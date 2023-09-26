@@ -23,13 +23,14 @@ var mov = {
 
     mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource(url, params),
             sortable: true,
             selectable: "row",
+            serverPaging: true,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
+                buttonCount: 5,
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -72,7 +73,7 @@ var mov = {
                 }, {
                     title: "번호",
                     width: 50,
-                    template: "#= --record #"
+                    template: "#= record-- #"
                 }, {
                     title: "지역",
                     field: "MF_AREA",
@@ -308,8 +309,8 @@ var mov = {
                     width: 100,
                 }
             ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+            dataBinding: function() {
+                record = record - ((this.dataSource.page() -1) * this.dataSource.pageSize());
             }
         }).data("kendoGrid");
 
