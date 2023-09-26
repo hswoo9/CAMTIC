@@ -139,4 +139,16 @@ public class HomepageController {
     //찾아오시는길
     @RequestMapping("/camtic/etc/email.do")
     public String email(){ return "camtic/etc/email"; }
+
+    @RequestMapping("/camtic/about/greetingENG.do")
+    public String AgreetingENG(){ return "camtic/about/greetingENG"; }
+
+    @RequestMapping("/camtic/about/businessENG.do")
+    public String AbusinessENG(){ return "camtic/about/businessENG"; }
+
+    @RequestMapping("/camtic/about/historyENG.do")
+    public String AhistoryENG(){ return "camtic/about/historyENG"; }
+
+    @RequestMapping("/camtic/about/visionENG.do")
+    public String AvisionENG(){ return "camtic/about/visionENG"; }
 }

@@ -70,11 +70,11 @@
             </div>
           </div>
 
-        </div>
+
 
         <div class="__jvalley3 __mt100">
           <div class="__tit1 line __mb20">
-            <h3><strong>캠틱종합기술원 역할</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>캠틱종합기술원 역할</strong></h3>
           </div>
           <h4>청년ㆍ기술ㆍ디지털 <strong>창업 플랫폼</strong></h4>
           <h5><span>H/W</span></h5>
@@ -200,7 +200,7 @@
 
         <div class="__jvalley4 __mt100">
           <div class="__tit1 line mb0">
-            <h3><strong>제조창업 플랫폼</strong>(J-Valley) <strong>성장 로드맵</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>제조창업 플랫폼</strong>(J-Valley) <strong>성장 로드맵</strong></h3>
           </div>
           <div class="area">
             <img src="/images/camtic/img-jvalley4-1.jpg" alt="">
@@ -577,7 +577,7 @@
             </div>
           </div>
         </div>--%>
-
+        </div>
       </div>
     </div>
   </div>

@@ -24,7 +24,7 @@
 
         <div class="__root3 m0">
           <div class="__tit1 __mt50 __mb20">
-            <h3><strong>기술개발</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기술개발</strong></h3>
           </div>
 
           <div class="__icoBox pt0 __mt50">
@@ -55,7 +55,7 @@
 
         <div class="__root3 m0">
           <div class="__tit1 __mt100 __mb20">
-            <h3><strong>기업지원</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기업지원</strong></h3>
           </div>
           <div class="__icoBox pt0 __mt50">
             <h5>탄소 복합재를 활용하는 공정기술과 탄소 복합재 제조업의 미래 성장 발전에 핵심적인 차세대 공정기술로 사업을 영위하는 기업과의 연계 협력</h5>
@@ -67,7 +67,7 @@
           </div>
           <ul class="__flximg __mt30" style="width:800px; height: 223px; margin: 0 auto;">
             <%--<li><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""></li>--%>
-            <li><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""><div class="__fz18 __black __mt10">쿼터 필라 Reinf 탄소복합소재 개발</div></li>
+            <li><img src="/images/camtic/img-ncarbon1-5.jpg" alt=""><div class="__fz18 __black __mt10" style="text-align: center;">쿼터 필라 Reinf 탄소복합소재 개발</div></li>
           </ul>
         </div>
       </div>

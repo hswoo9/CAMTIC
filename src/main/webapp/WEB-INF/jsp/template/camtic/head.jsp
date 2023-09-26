@@ -9,6 +9,7 @@
 <header id="header">
   <div class="top">
     <ul class="link">
+      <li><a href="/camtic/about/greetingENG.do"><span>ENG</span></a></li>
       <li><a href="#"><span>통합페이지</span></a></li>
       <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>
       <li><a href="#"><span>전주첨단벤처단지</span></a></li>

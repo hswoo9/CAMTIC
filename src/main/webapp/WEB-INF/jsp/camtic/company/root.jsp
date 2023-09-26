@@ -23,6 +23,7 @@
             </dd>
           </dl>
         </div>--%>
+        <div class="__root1">
         <div class="__tit2 __mb50">
           <dl class="head">
             <dt><span class="__nm">“</span><span class="mainCapyTitle">제조기술의 뿌리에서 혁신성장의 열매로</span><span class="__nm">”</span></dt>
@@ -31,7 +32,7 @@
         </div>
 
         <div class="__tit1 __mt10 __mb0">
-          <h3><strong>기술개발</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기술개발</strong></h3>
         </div>
         <div class="__root2">
           <dl class="head">
@@ -46,7 +47,7 @@
 
         <div class="__tdrone4 __mt20">
           <div class="tit">
-            <h3>설계/해석</h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">설계/해석</h3>
             <dl>
               <dt>사출제품 및 사출금형 설계를 위한 해석 시뮬레이션</dt>
               <dd>
@@ -61,7 +62,7 @@
 
         <div class="__tdrone4 __mt60">
           <div class="tit">
-            <h3>금형제작/사출성형</h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">금형제작/사출성형</h3>
             <dl>
               <dd>
                 - 복합소재부품 양산 성형기술 및 금형제작<br>
@@ -74,7 +75,7 @@
 
         <div class="__tdrone4 __mt60">
           <div class="tit">
-            <h3>시제품</h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">시제품</h3>
             <dl>
               <dd>
                 - 복합소재 부품의 제조생산 시스템 개발<br>
@@ -88,7 +89,7 @@
 
         <div class="__tdrone4 __mt60">
           <div class="tit">
-            <h3>장비개발</h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">장비개발</h3>
             <dl>
               <dd>
                 - 현장수요형 기술개발 R&D<br>
@@ -100,7 +101,7 @@
         </div>
 
         <div class="__tit1 __mt80 __mb0">
-          <h3><strong>기업지원</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기업지원</strong></h3>
         </div>
 
         <div class="__ipjTab2 __mt0 _tab1">
@@ -368,6 +369,7 @@
           </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
