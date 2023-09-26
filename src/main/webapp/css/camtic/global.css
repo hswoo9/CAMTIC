@@ -6,7 +6,7 @@ __icoBox1
 @media all and (min-width:1025px){
 	#wrap {padding-top:150px;}
 
-	#header {border-bottom:1px solid #e5e7ee;position:absolute;left:0;top:0;width:100%;z-index:200;background:#fff;transition:0.3s;height:150px;overflow:hidden;}
+	#header {/*border-bottom:1px solid #e5e7ee;*/position:absolute;left:0;top:0;width:100%;z-index:200;background:#fff;transition:0.3s;height:150px;overflow:hidden;}
 	#header .top {background:linear-gradient(to right, #007bb0 0%,#1bb1de 100%);position:relative;height:50px;}
 	/*#header .top .link {display:flex;position:absolute;right:170px;top:50%;margin-top:-7px;}20230907 카카오톡 이미지 삭제로 인한 수정 */
 	#header .top .link {display:flex;position:absolute;right:130px;top:50%;margin-top:-7px;}
@@ -23,7 +23,9 @@ __icoBox1
 	#header .bot {padding:0 40px;height:99px; background-color: white;}
 	#header .bot .inner {position:relative;padding:0 40px 0 183px;}
 	#header .bot .logo {position:absolute;left:0;top:24px;}
+	#header .bot .logoENG {position:absolute;left:0;top:24px;}
 	#header .bot .logo a {display:block;width:183px;height:48px;background:url(/images/camtic/logo.png) no-repeat 0 50%;text-indent:-9999px;}
+	#header .bot .logoENG a {display:block;width:183px;height:48px;background:url(/images/camtic/logoENG1.png) no-repeat 0 50%;text-indent:-9999px; background-size: contain;}
 	#header .bot .gnb {display:flex;justify-content:center;}
 	#header .bot .gnb > li {position:relative;}
 	#header .bot .gnb > li > a {height:99px;display:flex;align-items:center;font-size:20px;color:#000;font-weight:500;padding:0 43px;}
@@ -31,11 +33,11 @@ __icoBox1
 	/*2023-09-05 서브메뉴바 죄측정렬*/
 	#header .bot .gnb > li > ul {position:absolute;left:40px;top:100%;width:90%;text-align:left;padding-top:5px;}
 	#header .bot .gnb > li > ul > li {padding:5px 0;}
-	#header .bot .gnb > li > ul > li > a {font-size:15px; color:#999;line-height:1.25;letter-spacing:-0.07em;}
+	#header .bot .gnb > li > ul > li > a {font-size:15px; color:#999;line-height:1.25;letter-spacing:-0.07em; font-stretch: ultra-expanded;}
 	#header .bot .gnb > li > ul > li > a span {white-space:nowrap;}
 	#header .bot .gnb > li > ul > li > a:focus-visible,
 	#header .bot .gnb > li > ul > li:hover > a,
-	#header .bot .gnb > li > ul > li.active > a {color:#0082ba; font-stretch: ultra-expanded;}
+	#header .bot .gnb > li > ul > li.active > a {color:#0082ba;}
 	#header .bot .gnb > li > ul > li > ul {display:none;}
 	#header .bot .mnu {width:40px;height:40px;position:absolute;right:0;top:50%;margin-top:-20px;border:none;background:none;font-size:0;}
 	#header .bot .mnu i {display:block;width:21px;height:2px;background:#000;position:absolute;left:50%;margin-left:-8px;top:50%;margin-top:-1px;transition:0.3s;}
@@ -639,7 +641,7 @@ __icoBox1
 	.__privacy table tr > * {padding:5px;font-size:13px;line-height:1.4;letter-spacing:-0.05em;}
 }
 
-.__welfare {display:flex;flex-wrap:wrap;gap:60px 30px; width:1080px; margin: 0 auto;}
+.__welfare {display:flex;flex-wrap:wrap;gap:60px 30px; width:1034px; margin: 0 auto;}
 .__welfare .box {width:calc(50% - 15px);display:flex;}
 .__welfare .box .img {width:250px; height:150px;}
 .__welfare .box .info {width:0;flex-grow:1;padding:20px 0 0 15px;}
@@ -662,7 +664,7 @@ __icoBox1
 }
 
 /*배경색 변경 통일*/
-.__jobStep {/*background:#f2f2f2;*/background:#fff;padding:85px 15px 70px;text-align:center;}
+.__jobStep {/*background:#f2f2f2;*/background:#fff;padding:85px 100px 70px;text-align:center;}
 .__jobStep .top .box .txt {margin-top:15px;font-size:22px;color:#2e2e2e;line-height:1.3;letter-spacing:-0.03em;}
 .__jobStep .bot {display:flex;justify-content:center;gap:100px;margin-top:50px;}
 .__jobStep .bot .box {width:180px;}
@@ -705,7 +707,7 @@ __icoBox1
 .__vision1 .area .box3 > dd ul {display:flex;gap:10px;}
 .__vision1 .area .box3 > dd ul li {width:0;flex-grow:1;height:62px;display:flex;align-items:center;justify-content:center;text-align:center;background:#fff;border:3px solid #305c9a;border-radius:25px;color:#305c9a;font-size:22px;font-weight:600;letter-spacing:-0.05em;}
 .__vision1 .area .box4 > dd ul {display:flex;gap:10px;}
-.__vision1 .area .box4 > dd ul li {width:0;flex-grow:1;background:#24e1cd;border-radius:10px;color:#fff;font-size:22px;font-weight:600;letter-spacing:-0.05em;}
+.__vision1 .area .box4 > dd ul li {width:0;flex-grow:1;background:#24e1cd;border-radius:10px;color:#fff;font-size:22px;font-weight:600;letter-spacing:-0.05em; }
 .__vision1 .area .box4 > dd ul li h4 {text-align:center;padding:18px 0;}
 .__vision1 .area .box4 > dd ul li dl {background:#fff;border-radius:6px;padding:15px;margin:0 15px 15px;}
 /*자간 변경 2023-09-07*/
@@ -1169,7 +1171,7 @@ __icoBox1
 .__jvalley4 .area {background:/*#f3f1f1;*/#fff;padding:55px 15px;text-align:center;}
 
 /*배경색 변경 통일*/
-.__jvalley5 {background:/*#f3f1f1;*/#fff;padding:0px 70px;}
+.__jvalley5 {background:/*#f3f1f1;*/#fff;padding:0px 100px 55px;}
 .__jvalley5 .one {display:flex;}
 .__jvalley5 .one .arr {width:0;flex-grow:1;display:flex;align-items:center;justify-content:center;}
 .__jvalley5 .one .arr i {width:51px;height:85px;display:block;background:url(/images/camtic/ico-arr.png) no-repeat 50% 50% / contain;}
@@ -1251,7 +1253,7 @@ __icoBox1
 	.__jvalley1 .tbl .box:nth-child(2) > dd {gap:20px;}
 	.__jvalley1 .tbl .box:nth-child(2) > dd dl dd {font-size:16px;}
 
-	.__jvalley2 {padding:20px 15px;}
+	.__jvalley2 {padding:0px 100px 55px;}
 	.__jvalley2 .tit {margin-bottom:20px;}
 	.__jvalley2 .tit h3 {font-size:14px;}
 	.__jvalley2 .tit p {font-size:18px;margin-top:7px;line-height:1.3;}
@@ -1450,7 +1452,7 @@ __icoBox1
 
 /*배경색 변경 통일*/
 /*2023-09-19 통일성 변경*/
-.__root1 {/*background:#f2fcfe;*/background:#fff;padding:0px 100px 55px;/*border-bottom:1px solid #ccc;*/text-align:center;}
+.__root1 {/*background:#f2fcfe;*/background:#fff;padding:0px 100px 55px;/*border-bottom:1px solid #ccc;*//*text-align:center;*/}
 .__root1 .head dt {font-size:52px;font-weight:200;color:#111;letter-spacing:-0.05em;}
 /*2023-09-06 통일성 변경*/
 .__root1 .head dd {font-size:22.5px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:20px;}
@@ -1783,7 +1785,7 @@ __icoBox1
 .__support1 .bot .box .txt {font-size:18px;color:#000;letter-spacing:-0.05em;margin-top:10px;}
 
 /*배경색 변경 통일*//*2023-09-20 타이틀 패딩값 변경*/
-.__support2 {/*background:#f2fcfe;*/background:#fff;padding:0px 50px 60px;border-bottom:1px solid #ccc;}
+.__support2 {/*background:#f2fcfe;*/background:#fff;padding:0px 100px 55px;border-bottom:1px solid #ccc;}
 .__support2 .top {padding:0 50px;}
 .__support2 .top .head {text-align:center;color:#000;}
 .__support2 .top .head dt {font-size:46px;font-weight:300;}
@@ -1867,7 +1869,7 @@ __icoBox1
 
 /*배경색 변경 통일*/
 /*2023-09-20 타이틀 패딩값 변경*/
-.__job3 {/*background:#f2fcfe;*/background:#fff; padding:0px 45px 5px;border-bottom:0px solid #ccc;}
+.__job3 {/*background:#f2fcfe;*/background:#fff; padding:0px 100px 55px;border-bottom:0px solid #ccc;}
 .__job3 .head {text-align:center;}
 .__job3 .head dl {font-size:46px;line-height:1.09;font-weight:200;color:#000;letter-spacing:-0.05em;}
 .__job3 .head p {font-size:20px;font-weight:600;color:#155996;margin-top:10px;}
@@ -2065,9 +2067,9 @@ __icoBox1
 .__bio4 .bot .box:nth-child(5) .img:before {border-color:rgba(91,174,60,0.2);}
 
 /*2023-09-20 배경색 제거및 선 제거*/
-.__bio5 {/*border-top:2px solid #111;*/padding:50px 100px 65px;/*background:#f8f8f8;*/}
+.__bio5 {/*border-top:2px solid #111;*/padding:50px 0px 65px;/*background:#f8f8f8;*/}
 /*2023-09-20 배경색 제거및 선 제거*/
-.__bio6 {/*border-top:2px solid #111;*/padding:50px 100px 65px;/*background:#f8f8f8;*/}
+.__bio6 {/*border-top:2px solid #111;*/padding:50px 0px 65px;/*background:#f8f8f8;*/}
 .__bio6 .head {text-align:center;font-size:26px;line-height:1.27;color:#000;}
 .__bio6 .head dt {display:inline-block;position:relative;padding:0 30px;font-weight:600;}
 .__bio6 .head dt span {position:absolute;font-size:46px;color:#000;font-weight:normal;top:0;}
@@ -2075,7 +2077,7 @@ __icoBox1
 .__bio6 .head dt span:last-child {right:0;}
 .__bio6 .area {margin-top:20px;padding-top:20px;border-top:1px dashed #aaa;}
 
-.__bio7 {/*border-top:2px solid #111;*/padding:50px 100px 65px;/*background:#f8f8f8;*/}
+.__bio7 {/*border-top:2px solid #111;*/padding:50px 0px 65px;/*background:#f8f8f8;*/}
 .__bio7 .area {display:flex;}
 .__bio7 .area .box {width:0;flex-grow:1;text-align:center;padding:0 10px;}
 .__bio7 .area .box ~ .box {border-left:1px dashed #aaa;}
@@ -2205,7 +2207,7 @@ __icoBox1
 }
 
 /*배경색 변경 통일*//*2023-09-20 선 제거*/
-.__campus1 {/*background:#f2fcfe;*/background:#fff;padding:0px 100px 120px;/*border-bottom:1px solid #ccc;*/}
+.__campus1 {/*background:#f2fcfe;*/background:#fff;padding:0px 100px 55px;/*border-bottom:1px solid #ccc;*/}
 .__campus1 .head dt {font-size:56px;font-weight:300;color:#111;letter-spacing:-0.05em;}
 .__campus1 .head dd {font-size:20px;font-weight:300;color:#111;letter-spacing:-0.05em;margin-top:10px;}
 .__campus1 .head dd strong {font-size:32px;font-weight:600;color:#00529c;}
@@ -2263,7 +2265,7 @@ __icoBox1
 	.__memStep .area .arr {display:none;}
 }
 
-.__welfare2 {background:#f2fcfe;padding:85px 66px 140px;border-bottom:1px solid #ccc;display:flex;flex-wrap:wrap;gap:85px 33px;}
+.__welfare2 {background:#f2fcfe;padding:85px 100px 55px;border-bottom:1px solid #ccc;display:flex;flex-wrap:wrap;gap:85px 33px;}
 .__welfare2 .box {width:calc((100% / 3) - (66px / 3));}
 .__welfare2 .box dl {margin-top:20px;}
 .__welfare2 .box dl dt {font-size:18px;font-weight:600;color:#000;}
@@ -2714,7 +2716,7 @@ __icoBox1
 }
 
 /*2023-09-20 선 제거*/
-.__clu1 {background:#f2fcfe;padding:75px 90px 130px;/*border-bottom:1px solid #ccc;*/text-align:center;}
+.__clu1 {background:#f2fcfe;padding:0px 100px 55px;/*border-bottom:1px solid #ccc;*/text-align:center;}
 .__clu1 dt {font-size:42px;color:#111;font-weight:300;letter-spacing:-0.05em;}
 .__clu1 dd {font-size:36px;font-weight:300;color:#155996;margin-top:10px;}
 .__clu1 .img {margin-top:75px;}

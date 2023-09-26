@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${toDate}"></script>
 <body class="font-opensans" style="background-color:#fff;">
@@ -94,14 +95,23 @@
             </tr>
             <tr>
                 <th>출장자</th>
-                <td colspan="3">
-                    <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
+                <td>
+                    <input id="popEmpName" name="bustripAdd" readonly style="width: 335px;">
                     <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
-                    <button type="button" class="k-button k-button-solid-base" id="test" disabled>외부인력 추가</button>
                     <div id="companionList">
                         <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
                         <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
                         <input type="hidden" id="popDeptName" name="companionDeptSeq" value="">
+                    </div>
+                </td>
+                <th>외부인력</th>
+                <td>
+                    <input id="externalName" name="bustripAdd" readonly style="width: 325px;">
+                    <button type="button" class="k-button k-button-solid-info" onclick="bustripPop.addExternalWorkforcePop();">외부인력 추가</button>
+                    <div id="externalList">
+                        <input type="hidden" id="externalBelong" name="externalEmpSeq" value="">
+                        <input type="hidden" id="externalSpot" name="companionDeptSeq" value="">
+                        <input type="hidden" id="externalEtc" name="companionDeptSeq" value="">
                     </div>
                 </td>
             </tr>

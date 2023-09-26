@@ -30,7 +30,7 @@ var processInfo = {
 
                         for(var i = 0; i < pf1.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td>'+ pf1[i].file_org_name +'</td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf1[i].file_path+pf1[i].file_uuid+'\', \''+pf1[i].file_org_name+'.'+pf1[i].file_ext+'\')">'+pf1[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf1[i].file_ext +'</td>';
                             html += '   <td>'+ pf1[i].file_size +'</td>';
                             html += '   <td>' +
@@ -52,7 +52,7 @@ var processInfo = {
 
                         for(var i = 0; i < pf2.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td>'+ pf2[i].file_org_name +'</td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf2[i].file_path+pf2[i].file_uuid+'\', \''+pf2[i].file_org_name+'.'+pf2[i].file_ext+'\')">'+pf2[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf2[i].file_ext +'</td>';
                             html += '   <td>'+ pf2[i].file_size +'</td>';
                             html += '   <td>' +
@@ -74,7 +74,7 @@ var processInfo = {
 
                         for(var i = 0; i < pf3.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td>'+ pf3[i].file_org_name +'</td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf3[i].file_path+pf3[i].file_uuid+'\', \''+pf3[i].file_org_name+'.'+pf3[i].file_ext+'\')">'+pf3[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf3[i].file_ext +'</td>';
                             html += '   <td>'+ pf3[i].file_size +'</td>';
                             html += '   <td>' +

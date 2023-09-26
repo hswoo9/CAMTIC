@@ -104,15 +104,26 @@
                     </td>
                 </tr>
                 <tr>
-                <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>
                     <td>
                         <input type="text" id="supDep" name="supDep" style="width: 90%"/>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>전담기관</th>                    <td>
-                    <input type="text" id="supDepSub" name="supDepSub" style="width: 90%"/>
-                </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>전담기관</th>
+                    <td>
+                        <input type="text" id="supDepSub" name="supDepSub" style="width: 90%"/>
+                    </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>주관기관</th>
+                    <td>
+                        <input type="text" id="rndCrmNm" name="rndCrmNm" style="width: 90%"/>
+                        <input type="hidden" id="rndCrmSn" name="rndCrmSn" />
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>위탁기관</th>
+                    <td>
+                        <input type="text" id="rndConCrmNm" name="rndConCrmNm" style="width: 90%"/>
+                        <input type="hidden" id="rndConCrmSn" name="rndConCrmSn" />
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">

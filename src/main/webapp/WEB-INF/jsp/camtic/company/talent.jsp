@@ -137,10 +137,10 @@
             </ul>
           <!--</div>-->
 
-        </div>
+
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>예비 취업자 양성 훈련</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>예비 취업자 양성 훈련</strong></h3>
         </div>
 
         <div class="__support3">
@@ -205,7 +205,7 @@
             </li>
           </ul>
         </div>
-
+        </div>
       </div>
     </div>
   </div>

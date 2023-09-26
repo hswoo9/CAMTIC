@@ -56,7 +56,7 @@
             </div>
           </div>
 
-        </div>
+
 
 
         <%--<div class="__tit1 __mt100 __mb20">
@@ -93,7 +93,7 @@
         </div>--%>
         <div class="__bio6">
           <div class="__tit1 __mt100 __mb20">
-            <h3><strong>헬스케어</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>헬스케어</strong></h3>
           </div>
           <dl class="head">
             <dt>
@@ -130,7 +130,9 @@
             <li><img src="/images/camtic/img-nsmart4-7.jpg" alt=""></li>
           </ul>
 
-          <div class="__fz20 __black fwb __mt50" >시제품 제작 지원 사례</div>
+          <div class="__fz20 __black fwb __mt50">
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">시제품 제작 지원 사례</h3>
+          </div>
           <ul class="__flximg mwrap __mt15" style="width:820px; margin:0 auto;">
             <li><img src="/images/camtic/img-nsmart5-1.jpg" alt=""><div class="__fz16 __mt10 __black fwm">개인 맞춤형척추 건강관리 IoT서비스를 적용한 척추 이완 기기</div></li>
             <li><img src="/images/camtic/img-nsmart5-2.jpg" alt=""><div class="__fz16 __mt10 __black fwm">척추 / 관절 진단 및 수술용 다기능 카본테이블</div></li>
@@ -139,7 +141,7 @@
         </div>
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>시제품제작</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>시제품제작</strong></h3>
         </div>
         <div class="__bio7">
           <div class="tac __fz26 fwb __black">제품개발 프로세스</div>
@@ -233,7 +235,7 @@
             </li>
           </ul>
         </div>
-
+        </div>
       </div>
     </div>
   </div>

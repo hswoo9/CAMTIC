@@ -605,7 +605,10 @@
        var bday = $("#bday").val();
        if(lunarCal == "Y"){
            $("#lunarYn").prop("checked", true);
-           var lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+           var lunarDay = "";
+           if(bday != null){
+               lunarDay = solarToLunar(bday.split("-")[0], bday.split("-")[1], bday.split("-")[2]);
+           }
            $("#lunarBday").text(lunarDay);
        } else {
            $("#lunarYn").val("N");
@@ -759,7 +762,7 @@
         $("#degreeCodeA").data("kendoDropDownList").value("${uprinfList.DEGREE_CODE}");
 
         //홈페이지 게시
-        $("#homePageActive").data("kendoRadioGroup").value("${uprinfList.HOME_PAGE_ACTIVE}");
+        <%-- $("#homePageActive").data("kendoRadioGroup").value("${uprinfList.HOME_PAGE_ACTIVE}"); --%>
         //입사 일자
         $("#regDate").val("${uprinfList.JOIN_DAY}");
         $("#regDateCaseA").val("${uprinfList.JOIN_DAY}"); /*계약직원 - 경비/환경*/

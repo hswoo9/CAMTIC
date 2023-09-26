@@ -24,11 +24,11 @@
               </dl>
             </dl>
           </div>
-        </div>
+
 
         <div class="__tdrone4">
           <div class="tit">
-            <h3>산업용 플랫폼 드론 개발</h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; margin-top: 70px;">산업용 플랫폼 드론 개발</h3>
             <dl>
               <dt>
                 다양한 드론기반 임무수행이 가능한 산업용 드론(Multi-path)개발
@@ -58,7 +58,7 @@
 
         <div class="__tdrone4 __mt100">
           <div class="tit">
-            <h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">
               드론산업 활성화를 위한 기업 육성
             </h3>
             <dl>
@@ -77,7 +77,7 @@
 
         <div class="__tdrone4 __mt100">
           <div class="tit">
-            <h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">
               드론축구 개발 및 육성
             </h3>
             <dl>
@@ -96,7 +96,7 @@
 
         <div class="__tdrone4 __mt100">
           <div class="tit">
-            <h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">
               드론첨단 기술 실증
             </h3>
             <dl>
@@ -118,7 +118,7 @@
             <img src="/images/camtic/img-ntdrone2-3.jpg" alt="">
           </div>
         </div>
-
+        </div>
       </div>
     </div>
   </div>

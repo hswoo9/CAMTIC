@@ -34,9 +34,9 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__newsListhead">
-          <div class="newboxHead">
+          <%--<div class="newboxHead">
             <div class="img"><i style="background-image:url(https://fakeimg.pl/408x238/f3f3f3);"></i></div>
-          </div>
+          </div>--%>
           <div class="newboxHead">
             <div class="img"><i style="background-image:url(https://fakeimg.pl/408x238/f3f3f3);"></i></div>
           </div>

@@ -15,7 +15,7 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
-        <div class="__tit1">
+        <div class="__tit1" style="padding: 0px 100px;">
           <h3><strong>복리후생</strong></h3>
         </div>
         <div class="__welfare">
