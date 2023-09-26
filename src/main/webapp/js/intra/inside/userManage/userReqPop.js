@@ -1,12 +1,6 @@
-var now = new Date();
-var docContent = "";
-
 var userReqPop = {
 
     global : {
-        codeDropDownDept : [],
-        codeDropDownDept2 : [],
-        openerParams : [],
         dropDownDataSource : ""
     },
 
@@ -14,7 +8,7 @@ var userReqPop = {
         userReqPop.dataSet();
     },
 
-    dataSet : function() {
+    dataSet : function(){
         $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
         $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
             rows : 5
@@ -839,9 +833,9 @@ var userReqPop = {
             division : $("#divis").val(), //직원구분
             divisionSub : $("#divisDet").val(), //직원구분
             DEPT_SEQ : $("#deptName").val(), //부서
-            DEPT_NAME : $("#deptName").data("kendoDropDownList").text(),
+            DEPT_NAME : $("#deptName").val() == "" ? "" : $("#deptName").data("kendoDropDownList").text(),
             DEPT_TEAM_SEQ : $("#deptTeamName").val(), //팀
-            DEPT_TEAM_NAME : $("#deptTeamName").data("kendoDropDownList").text(),
+            DEPT_TEAM_NAME : $("#deptTeamName").val() == "" ? "" : $("#deptTeamName").data("kendoDropDownList").text(),
             JOB_DETAIL : $("#jobDetail").val(), //직무사항
             BEFOR_CAREER : $("#beforCareer").val(), //전직경력
             BS_ELAPSED_YEAR : $("#elapsedYear1").val(),
@@ -1045,6 +1039,9 @@ var userReqPop = {
             }
             data.GRADE_NAME = gradeName;
             data.POSITION_NAME = positionName;
+        }else{
+            data.GRADE_NAME = "";
+            data.POSITION_NAME = "";
         }
 
         var urlType = "";
