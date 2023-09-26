@@ -95,6 +95,19 @@ public class BustripController {
         return "inside/bustrip/bustripResult";
     }
 
+    /** 외부인력 추가 팝업 */
+    @RequestMapping("/bustrip/pop/addExternalWorkforcePop.do")
+    public String addExternalWorkforcePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripOne(params));
+        model.addAttribute("params", params);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/addExternalWorkforcePop";
+    }
+
     /** 출장결과보고 리스트 관리자 페이지 */
     @RequestMapping("/bustrip/bustripResMngList.do")
     public String bustripResMngList(HttpServletRequest request, Model model) {

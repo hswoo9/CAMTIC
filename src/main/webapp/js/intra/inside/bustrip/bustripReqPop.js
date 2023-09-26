@@ -7,7 +7,7 @@ const bustripReq = {
 
     pageSet: function(){
         /** Kendo 위젯 세팅 */
-        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
+        customKendo.fn_textBox(["busnName", "popEmpName", "externalName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
         customKendo.fn_textArea(["bustObj"]);
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         $("#visitCrm").attr("readonly", true);
@@ -236,7 +236,7 @@ const bustripReq = {
     },
 
     carViewPop: function(){
-        const url = "/Inside/pop/carViewPop.do";
+        let url = "/Inside/pop/carViewPop.do";
         const name = "carViewPop";
         const option = "width = 1200, height = 730, top = 100, left = 200, location = no";
         window.open(url, name, option);
@@ -248,7 +248,7 @@ const bustripReq = {
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
-    },
+    }
 }
 
 function userDataSet(userArr){
