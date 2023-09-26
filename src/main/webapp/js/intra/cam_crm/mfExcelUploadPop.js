@@ -30,10 +30,9 @@ var meu = {
             var result = customKendo.fn_customFormDataAjax("/crm/mfExcelUpload.do", formData);
             if(result.flag){
                 alert("처리되었습니다.");
+                opener.parent.mov.gridReload();
                 window.close();
             }
         }
-
-
     }
 }

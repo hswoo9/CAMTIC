@@ -27,10 +27,10 @@
             <dd>창의적으로 사고하는,용기있게 도전하며,즐겁게 소통하는 인재</dd>--%>
           </dl>
           <div class="img"><img src="/images/camtic/img-campus1-2.jpg" alt=""></div>
-        </div>
+
 
         <div class="__tit1 __mt100">
-          <h3><strong>역량별 학습 추진체계</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>역량별 학습 추진체계</strong></h3>
         </div>
 
         <div class="__vision2">
@@ -107,7 +107,7 @@
         </div>
 
         <div class="__campus2">교육을 통한 소통 강화!</div>
-
+        </div>
       </div>
     </div>
   </div>

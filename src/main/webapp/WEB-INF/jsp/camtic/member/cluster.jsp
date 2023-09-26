@@ -26,10 +26,10 @@
             <%--<img src="/images/camtic/img-clu1-1.jpg" alt="">--%>
             <img src="/images/camtic/img-clu1-1.jpg" alt="">
           </div>
-        </div>
+
 
         <div class="__tit1 __mt100">
-          <h3><strong>캠틱 클러스터 구성원</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; text-align: left;"><strong>캠틱 클러스터 구성원</strong></h3>
         </div>
         <div class="__clu2">
           <%--<img src="/images/camtic/img-clu2-1.jpg" alt="">--%>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="__tit1 __mt100">
-          <h3><strong>캠틱 클러스터 기본원칙</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; text-align: left;"><strong>캠틱 클러스터 기본원칙</strong></h3>
         </div>
         <div class="__clu3">
           <div class="area">
@@ -60,7 +60,7 @@
             </div>
           </div>
         </div>
-
+        </div>
       </div>
     </div>
   </div>

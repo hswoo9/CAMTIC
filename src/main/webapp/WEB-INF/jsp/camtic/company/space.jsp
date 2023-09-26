@@ -139,7 +139,7 @@
             </tr>
             </tbody>
           </table>--%>
-        </div>
+
 
         <%--<div class="__tit1 __mt100 __mb20">
           <h3><strong>전주드론제작소 윙윙 - 스테이션</strong> ( Wing-Wing Station )</h3>
@@ -308,7 +308,7 @@
         </div>
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>윙윙스테이션에 이용방법</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>윙윙스테이션에 이용방법</strong></h3>
         </div>
 
         <div class="__space3">
@@ -418,7 +418,7 @@
           </div>
 
         </div>
-
+          </div>
       </div>
     </div>
   </div>

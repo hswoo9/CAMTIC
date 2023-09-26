@@ -37,11 +37,11 @@
             </div>
             <%--<div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>--%>
           </div>
-        </div>
+
 
         <div class="__tit1 __mt100 __mb20">
           <%--캠틱 아이콘 이미지 추가--%>
-          <h3><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>--%><strong>드론 첨단장비 공동활용 지원</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>--%><strong>드론 첨단장비 공동활용 지원</strong></h3>
         </div>
         <div class="__drone4">
           <div class="head">
@@ -66,7 +66,7 @@
         </div>
 
         <div class="__tit1 __mt100 __mb20">
-          <h3><strong>드론기업 경쟁력 강화 지원</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>드론기업 경쟁력 강화 지원</strong></h3>
         </div>
         <div class="__drone5">
           <div class="__icoBox pt0">
@@ -82,7 +82,7 @@
           </div>
           <div class="img"><img src="/images/camtic/img-ndrone5-1.jpg" alt=""></div>
         </div>
-
+        </div>
       </div>
     </div>
   </div>

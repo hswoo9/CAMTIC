@@ -5,6 +5,8 @@ import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -383,10 +385,18 @@ public class CrmServiceImpl implements CrmService {
                     tumpMap.put("ceoGender", cellValueToString(row.getCell(6)));
                     tumpMap.put("addr", cellValueToString(row.getCell(7)));
                     tumpMap.put("estDate", cellValueToString(row.getCell(8)));
-                    tumpMap.put("history", cellValueToString(row.getCell(9)));
+
+                    LocalDate now = LocalDate.now();
+                    String estYear = row.getCell(8) == null ? String.valueOf(now.getYear()) : cellValueToString(row.getCell(8));
+
+                    if(!estYear.equals("알수없음")){
+                        estYear = String.valueOf(now.getYear() - Integer.parseInt(estYear.substring(0, 4)));
+                    }
+
+                    tumpMap.put("history", estYear);
                     tumpMap.put("location", cellValueToString(row.getCell(10)));
                     tumpMap.put("industry", cellValueToString(row.getCell(11)));
-                    tumpMap.put("industry2", cellValueToString(row.getCell(12)));
+                    tumpMap.put("industry2", cellValueToString(row.getCell(11)).substring(0, 2));
                     tumpMap.put("mainProduct", cellValueToString(row.getCell(13)));
                     tumpMap.put("amPart", cellValueToString(row.getCell(14)));
                     tumpMap.put("amPartType", cellValueToString(row.getCell(15)));
@@ -396,7 +406,22 @@ public class CrmServiceImpl implements CrmService {
                     tumpMap.put("email", cellValueToString(row.getCell(19)));
                     tumpMap.put("capital", cellValueToString(row.getCell(20)));
                     tumpMap.put("sales", cellValueToString(row.getCell(21)));
-                    tumpMap.put("salesAmt", String.valueOf(row.getCell(22)));
+
+                    String salesRatioProv = String.valueOf(row.getCell(23));
+                    String salesRatioOtProv = String.valueOf(row.getCell(24));
+
+                    if((salesRatioProv.equals("미응답") || salesRatioProv.equals("")) && (salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals(""))){
+                        tumpMap.put("salesAmt", "0");
+                    }else {
+                        if((salesRatioProv.equals("미응답") || salesRatioProv.equals("")) && !salesRatioOtProv.equals("미응답") && !salesRatioOtProv.equals("")){
+                            tumpMap.put("salesAmt", Double.parseDouble(salesRatioOtProv));
+                        }else if((salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("")) && !salesRatioProv.equals("미응답") && !salesRatioProv.equals("")){
+                            tumpMap.put("salesAmt", Double.parseDouble(salesRatioProv));
+                        }else {
+                            tumpMap.put("salesAmt", String.valueOf(Double.parseDouble(salesRatioProv) + Double.parseDouble(salesRatioOtProv)));
+                        }
+                    }
+
                     tumpMap.put("salesRatioProv", String.valueOf(row.getCell(23)));
                     tumpMap.put("salesRatioOtProv", String.valueOf(row.getCell(24)));
                     tumpMap.put("empCnt", cellValueToString(row.getCell(25)));
@@ -486,7 +511,7 @@ public class CrmServiceImpl implements CrmService {
             }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
                 txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
             }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
-                txt = cell.getRawValue();
+                txt = cell.getCellFormula();
             }
         } catch (Exception e) {
 

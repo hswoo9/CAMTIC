@@ -36,7 +36,7 @@
             </ul>
           </div>
 
-        </div>
+
 
 
         <!--<div class="__tit1 __mt100 __mb20">
@@ -61,7 +61,7 @@
         </div>-->
 
         <div class="__tit1 __mt50 __mb20">
-          <h3><strong>우주산업</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>우주산업</strong></h3>
         </div>
         <div class="__bio3">
 
@@ -107,7 +107,7 @@
         </div>
 
         <div class="__tit1 __mt50 __mb20">
-          <h3><strong>항공산업</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>항공산업</strong></h3>
         </div>
         <div class="__bio3">
 
@@ -152,7 +152,7 @@
         </div>
 
         <div class="__tit1 __mt50 __mb20">
-          <h3><strong>방산</strong></h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>방산</strong></h3>
         </div>
         <div class="__bio3">
 
@@ -188,7 +188,7 @@
 
 
 
-
+        </div>
         </div>
     </div>
   </div>
