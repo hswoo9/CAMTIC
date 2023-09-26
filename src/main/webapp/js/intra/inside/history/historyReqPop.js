@@ -623,18 +623,23 @@ const historyReq = {
                 bfJobDetail       : dataItem.JOB_DETAIL,
 
                 afDeptSeq         : $(v).find('#afDept'+empSeq).data("kendoDropDownList").value(),
-                afDeptName        : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text(),
+                afDeptName        : $(v).find('#afDept'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text(),
+
                 afTeamSeq         : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-                afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
+                afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
+
                 afPositionCode    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value(),
-                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
-                afGradeName       : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[1].trim(),
+                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
+
                 afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
-                afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
+                afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
+
+                afGradeName       : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[1].trim(),
+
                 afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),
 
                 deptSeq           : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-                position          : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text() == "선택" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[0].trim(),
+                position          : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[0].trim(),
 
                 afEtc             : $(v).find('#afEtc'+empSeq).val(),
 
