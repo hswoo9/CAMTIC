@@ -129,6 +129,9 @@ var popCrmList = {
         opener.parent.$("#telNum").val(rs.TEL_NUM);
         opener.parent.$("#fax").val(rs.FAX);
 
+        opener.parent.$("#purcCrmSn").val(rs.CRM_SN);
+        opener.parent.$("#purcCrmNm").val(rs.CRM_NM);
+
         // opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
         // opener.parent.$("#crmPhNum").val(rs.PH_NUM);
         opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);
@@ -140,6 +143,8 @@ var popCrmList = {
         opener.parent.$("#teamCrmNm").val(rs.CRM_NM);
 
         opener.parent.$("#crmSn").change();
+
+        opener.parent.purcInfo.crmInfoChange();
 
         window.close();
     }

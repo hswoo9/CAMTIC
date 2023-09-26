@@ -31,7 +31,7 @@
             CAM_PJT_MNG.DJ_PJT_ENGN B
             ON
                 A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-                LEFT JOIN
+            LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
             ON
                 A.CRM_SN = D.CRM_SN

@@ -480,10 +480,10 @@ var camPrj = {
 
 
     // project 상세페이지
-    fn_projectPopView : function (key, busnClass){
+    fn_projectPopView : function (key, cs){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
-        if(busnClass = "R"){
+        if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
         }
         var name = "_blank";

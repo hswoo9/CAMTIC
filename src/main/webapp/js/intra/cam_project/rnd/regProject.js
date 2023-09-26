@@ -4,6 +4,8 @@ var regRnd = {
     fn_defaultScript : function (setParameters){
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
+
+            console.log(setParameters);
         }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm"]);
@@ -166,7 +168,7 @@ var regRnd = {
             }
 
             setParameters.ENGN_SN;
-            regPrj.fn_setData(setParameters);
+            regRnd.fn_setData(setParameters);
 
             if(setParameters.PJT_STEP == "E"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
@@ -183,25 +185,6 @@ var regRnd = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                 }
 
-                if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                }
-
-                if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
-                }
-
-                if(setParameters.PJT_STEP >= "E4"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
-                }
-
-                if(setParameters.PJT_STEP >= "E5"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
-                }
-
-                if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
-                }
             } else {
                 $("#modBtn").css("display", "none");
                 alert("중단사유 : " + setParameters.PJT_STOP_RS);
@@ -215,10 +198,49 @@ var regRnd = {
 
     },
 
+    fn_setData: function (e){
+        $("#pjtTitle").text("프로젝트 - R&D");
+
+        $("#saveBtn").css("display", "none");
+        $("#modBtn").css("display", "");
+
+        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+        $("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
+        $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
+        $("#supDep").data("kendoDropDownList").trigger("change");
+        $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
+        $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
+        $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
+
+        $("#deptName").val(e.DEPT_NAME);
+        $("#empName").val(e.EMP_NAME);
+        $("#empSeq").val(e.EMP_SEQ);
+        $("#deptSeq").val(e.DEPT_SEQ);
+
+        $("#pjtNm").val(e.PJT_NM);
+        $("#pjtSubNm").val(e.PJT_SUB_NM);
+
+
+        if(e.SBJ_SEP != undefined){
+            if(e.SBJ_SEP == "Y"){
+                $("#sbjSepY").prop("checked", true);
+            } else {
+                $("#sbjSepN").prop("checked", true);
+            }
+        }
+
+        if(e.SBJ_STAT_YN != undefined){
+            if(e.SBJ_STAT_YN == "Y"){
+                $("#rndStatYn").prop("checked", true);
+            }
+        }
+
+    },
+
     fn_save : function (){
         var parameters = {
             busnClass : "R",
-            busnNm : "RND",
+            busnNm : "R&D",
             sbjClass : $("#sbjClass").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
