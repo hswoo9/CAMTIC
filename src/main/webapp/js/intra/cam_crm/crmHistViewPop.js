@@ -10,20 +10,198 @@ var chv = {
     },
 
     fn_defaultScript : function (){
-        $(".histTitleSpan").click(function(){
-            // height: 70px
-            var baseHeight = 40;
-
-            if($(this).hasClass("active")){
-                $(this).closest(".histListDiv").css("height", baseHeight);
-                $(this).removeClass("active");
-            }else{
-                $(this).addClass("active");
-                $(this).closest(".histListDiv").css("height", baseHeight + $(this).closest(".histListDiv").find(".childrenTable").height() + 10)
+        $("#histDiv").kendoTabStrip({
+            animation:  {
+                open: {
+                    effects: "fadeIn"
+                }
             }
-        })
+        });
+
+        chv.mainGrid1();
+        chv.mainGrid2();
+        chv.mainGrid3();
+        chv.mainGrid4();
 
         chv.getCrmHistDetailList();
+    },
+
+    mainGrid1 : function(){
+        $("#mainGrid1").kendoGrid({
+            /** TODO. 추후 변경해야함 (이력조회) */
+            // dataSource: customKendo.fn_gridDataSource2("", params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    template: "#= --record #",
+                    title: "순번",
+                    width : 50
+                }, {
+                    field: "",
+                    title: "과제구분",
+                }, {
+                    field: "",
+                    title: "건명",
+                }, {
+                    title: "연구 기간",
+                }, {
+                    field: "",
+                    title: "총 연구비",
+                }, {
+                    field: "",
+                    title: "담당자",
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    mainGrid2 : function(){
+        $("#mainGrid2").kendoGrid({
+            /** TODO. 추후 변경해야함 (이력조회) */
+            // dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    template: "#= --record #",
+                    title: "순번",
+                    width : 50
+                }, {
+                    field: "",
+                    title: "개발명",
+                }, {
+                    field: "",
+                    title: "수주일",
+                }, {
+                    title: "수주금액",
+                }, {
+                    field: "",
+                    title: "PM",
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    mainGrid3 : function(){
+        $("#mainGrid3").kendoGrid({
+            /** TODO. 추후 변경해야함 (이력조회) */
+            // dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    template: "#= --record #",
+                    title: "순번",
+                    width : 50
+                }, {
+                    field: "",
+                    title: "과목",
+                }, {
+                    field: "",
+                    title: "기간",
+                }, {
+                    title: "직원명",
+                }, {
+                    field: "",
+                    title: "부서명",
+                }, {
+                    field: "",
+                    title: "직책",
+                }, {
+                    field: "",
+                    title: "수강료(계산서)",
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    mainGrid4 : function(){
+        $("#mainGrid4").kendoGrid({
+            /** TODO. 추후 변경해야함 (이력조회) */
+            // dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    template: "#= --record #",
+                    title: "순번",
+                    width : 50
+                }, {
+                    field: "",
+                    title: "문서번호",
+                    width : 100
+                }, {
+                    field: "",
+                    title: "구분",
+                }, {
+                    title: "구매일",
+                    width: 240
+                }, {
+                    field: "",
+                    title: "건명",
+                    width: 200
+                }, {
+                    field: "",
+                    title: "담당자",
+                }, {
+                    field: "",
+                    title: "금액",
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
     },
 
     getCrmHistDetailList : function(){
@@ -33,8 +211,6 @@ var chv = {
 
         var result = customKendo.fn_customAjax("/crm/getCrmHistDetailList", chv.global.searchAjaxData);
         if(result.flag){
-            console.log();
-
             chv.makeTable(result.list)
         }
     },

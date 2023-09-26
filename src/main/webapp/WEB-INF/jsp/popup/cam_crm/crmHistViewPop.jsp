@@ -11,55 +11,6 @@
         text-align: left;
         font-size: 13px;
     }
-
-    #histDiv {
-        font-size: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-    }
-    .histListDiv{
-        border-bottom: 1px solid #e5e7ee;
-        position: relative;
-        left: 0;
-        top: 0;
-        z-index: 200;
-        background: #fff;
-        transition: 0.3s;
-        height: 40px;
-        overflow: hidden;
-    }
-
-    .codeIdCla{
-        z-index: 350;
-    }
-    .histListUl{
-        padding: 10px;
-        background: #f3f3f3;
-        color: #000;
-        font-weight: normal;
-    }
-
-    .histListUl li{
-        position: relative;
-    }
-
-    .histListUl li ul{
-        position: absolute;
-        left: 0;
-        top: 100%;
-        width: 100%;
-        padding-top: 18px;
-        font-size: 1.5rem;
-        z-index: 300;
-        line-height: 3.5rem;
-    }
-    ul, li {
-        list-style: none;
-    }
-    .histTitleSpan {
-        font-weight: bold;
-    }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
@@ -145,119 +96,59 @@
                 </thead>
             </table>
 
-            <div style="display:flex; justify-content: space-between;" class="mt-20">
-                <div class="subTitSt">· 분야별 거래내역</div>
-            </div>
-            <div id="histDiv" class="mt-20">
-                <div class="histListDiv">
-                    <ul class="histListUl">
-                        <li>
-                            <span class="histTitleSpan" style="cursor: pointer">연구개발</span>
-                            <table class="childrenTable popTable table table-bordered mb-0">
-                                <thead>
-                                <tr>
-                                    <th scope="row" class="text-center th-color">연번</th>
-                                    <th scope="row" class="text-center th-color">과제구분</th>
-                                    <th scope="row" class="text-center th-color">건명</th>
-                                    <th scope="row" class="text-center th-color">연구 기간</th>
-                                    <th scope="row" class="text-center th-color">총 연구비</th>
-                                    <th scope="row" class="text-center th-color">위탁 연구비(천원)</th>
-                                    <th scope="row" class="text-center th-color">담당자</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </li>
-                    </ul>
-                </div>
-                <div class="histListDiv">
-                    <ul class="histListUl">
-                        <li>
-                            <span class="histTitleSpan" style="cursor: pointer">개발사업</span>
-                            <table class="childrenTable popTable table table-bordered mb-0">
-                                <thead>
-                                <tr>
-                                    <th scope="row" class="text-center th-color">연번</th>
-                                    <th scope="row" class="text-center th-color">개발명</th>
-                                    <th scope="row" class="text-center th-color">수주일</th>
-                                    <th scope="row" class="text-center th-color">수주금액</th>
-                                    <th scope="row" class="text-center th-color">PM</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </li>
-                    </ul>
-                </div>
-                <div class="histListDiv">
-                    <ul class="histListUl">
-                        <li>
-                            <span class="histTitleSpan" style="cursor: pointer">교육훈련</span>
-                            <table class="childrenTable popTable table table-bordered mb-0">
-                                <thead>
-                                <tr>
-                                    <th scope="row" class="text-center th-color">연번</th>
-                                    <th scope="row" class="text-center th-color">과목</th>
-                                    <th scope="row" class="text-center th-color">기간</th>
-                                    <th scope="row" class="text-center th-color">직원명</th>
-                                    <th scope="row" class="text-center th-color">부서명</th>
-                                    <th scope="row" class="text-center th-color">직책</th>
-                                    <th scope="row" class="text-center th-color">수강료(계산서)</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </li>
-                    </ul>
-                </div>
-                <div class="histListDiv">
-                    <ul class="histListUl">
-                        <li>
-                            <span class="histTitleSpan" style="cursor: pointer">구매</span>
-                            <table class="childrenTable popTable table table-bordered mb-0">
-                                <thead>
-                                <tr>
-                                    <th scope="row" class="text-center th-color">연번</th>
-                                    <th scope="row" class="text-center th-color">문서번호</th>
-                                    <th scope="row" class="text-center th-color">구분</th>
-                                    <th scope="row" class="text-center th-color">구매일</th>
-                                    <th scope="row" class="text-center th-color">건명</th>
-                                    <th scope="row" class="text-center th-color">담당자</th>
-                                    <th scope="row" class="text-center th-color">금액</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div style="display:flex; justify-content: space-between;" class="mt-20">
-                <div class="subTitSt">· 관계이력</div>
-            </div>
-            <div class="histListDiv mt-20">
-                <ul class="histListUl">
+            <div id="histDiv" class="mt-20" style="margin-top: 20px">
+                <ul style="font-size: 12px;">
+                    <li >
+                        연구개발
+                    </li>
                     <li>
-                        <span class="histTitleSpan" style="cursor: pointer">관계이력</span>
-                        <table class="childrenTable popTable table table-bordered mb-0 text-center">
-                            <colgroup>
-                                <col style="width: 10%">
-                                <col style="width: 20%">
-                                <col style="width: 10%">
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th scope="row" class="text-center th-color">순번</th>
-                                <th scope="row" class="text-center th-color">팀명</th>
-                                <th scope="row" class="text-center th-color">등록자</th>
-                                <th scope="row" class="text-center th-color">컨텍포인트</th>
-                                <th scope="row" class="text-center th-color">상담일시</th>
-                                <th scope="row" class="text-center th-color">입력구분</th>
-                            </tr>
-                            </thead>
-                            <tbody id="histTb">
-
-                            </tbody>
-                        </table>
+                        개발사업
+                    </li>
+                    <li>
+                        교육훈련
+                    </li>
+                    <li>
+                        구매
+                    </li>
+                    <li>
+                        관계이력
                     </li>
                 </ul>
+                <div class="histListDiv">
+                    <div id="mainGrid1"></div>
+                </div>
+                <div class="histListDiv">
+                    <div id="mainGrid2"></div>
+                </div>
+                <div class="histListDiv">
+                    <div id="mainGrid3"></div>
+                </div>
+                <div class="histListDiv">
+                    <div id="mainGrid4"></div>
+                </div>
+
+                <div class="histListDiv">
+                    <table class="childrenTable popTable table table-bordered mb-0 text-center" style="width: 99%;">
+                        <colgroup>
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="row" class="text-center th-color">순번</th>
+                            <th scope="row" class="text-center th-color">팀명</th>
+                            <th scope="row" class="text-center th-color">등록자</th>
+                            <th scope="row" class="text-center th-color">컨텍포인트</th>
+                            <th scope="row" class="text-center th-color">상담일시</th>
+                            <th scope="row" class="text-center th-color">입력구분</th>
+                        </tr>
+                        </thead>
+                        <tbody id="histTb">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

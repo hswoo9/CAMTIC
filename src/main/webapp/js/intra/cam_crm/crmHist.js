@@ -149,7 +149,7 @@ var crmHist = {
 
     fn_crmHistViewPop: function (e){
         var name = "_blank";
-        var option = "width = 880, height = 750, top = 100, left = 400, location = no"
+        var option = "width = 880, height = 905, top = 0, left = 400, location = no"
         var popup = window.open("/crm/pop/crmHistViewPop.do?crmSn=" + e, name, option);
     },
 }
