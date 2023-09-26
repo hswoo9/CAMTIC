@@ -9,38 +9,13 @@ var mov = {
     fn_defaultScript : function (){
 
         mov.global.dropDownDataSource = [
-            { text: "우량고객", value: "1" },
-            { text: "일반고객", value: "2" },
-            { text: "휴면고객", value: "3" },
-            { text: "잠재고객", value: "4" },
-            { text: "신규고객", value: "5" }
-        ]
-        customKendo.fn_dropDownList("ctmGrade", mov.global.dropDownDataSource, "text", "value");
-        $("#ctmGrade").data("kendoDropDownList").bind("change", mov.gridReload);
-
-        mov.global.dropDownDataSource = [
-            { text: "기업", value: "1" },
-            { text: "기관", value: "2" }
-        ]
-        customKendo.fn_dropDownList("ctmType", mov.global.dropDownDataSource, "text", "value");
-        $("#ctmType").data("kendoDropDownList").bind("change", mov.gridReload);
-
-        mov.global.dropDownDataSource = [
-            { text: "회사명", value: "CRM_NM" },
-            { text: "사업자번호", value: "CRM_NO" },
-            { text: "전화번호", value: "TEL_NUM" },
-            { text: "팩스번호", value: "FAX" },
-            { text: "대표자", value: "CRM_CEO" }
+            { text: "지역", value: "MF_AREA" },
+            { text: "사업체명", value: "MF_NAME" },
+            { text: "사업자번호", value: "MF_NO" },
+            { text: "대표자", value: "CEO_NAME" },
+            { text: "주생산품", value: "MAIN_PRODUCT" }
         ]
         customKendo.fn_dropDownList("searchKeyword", mov.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", function(){
-            if(this.value != ""){
-                $("#searchValue").removeAttr("disabled");
-            } else {
-                $("#searchValue").attr("disabled", "");
-            }
-        });
-
         customKendo.fn_textBox(["searchValue"]);
 
         mov.gridReload();
@@ -130,7 +105,7 @@ var mov = {
                 }, {
                     title: "주소",
                     field: "ADDR",
-                    width: 350,
+                    width: 380,
                 }, {
                     title: "설립일",
                     field: "EST_DATE",
@@ -138,10 +113,14 @@ var mov = {
                 }, {
                     title: "업력",
                     field: "HISTORY",
-                    width: 60,
+                    width: 100,
                     template : function(e){
                         if(e.HISTORY != null && e.HISTORY != ""){
-                            return e.HISTORY + "년";
+                            if(!isNaN(e.HISTORY)){
+                                return e.HISTORY + "년";
+                            }else{
+                                return e.HISTORY;
+                            }
                         }else{
                             return "0년";
                         }
@@ -342,8 +321,6 @@ var mov = {
 
     gridReload: function (){
         mov.global.searchAjaxData = {
-            ctmType : $("#ctmType").val(),
-            ctmGrade : $("#ctmGrade").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }

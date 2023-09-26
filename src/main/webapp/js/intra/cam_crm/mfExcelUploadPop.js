@@ -33,7 +33,5 @@ var meu = {
                 window.close();
             }
         }
-
-
     }
 }
