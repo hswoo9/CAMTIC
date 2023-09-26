@@ -41,7 +41,7 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/intra/cam_project/crmInfo.do";
+        var tab0Url = "/projectRnd/crmInfo.do";                // 주관기관 설정
         var tab1Url = "/intra/cam_project/bustInfo.do";
         var tab2Url = "/intra/cam_project/estInfo.do";
         var tab3Url = "/intra/cam_project/delvInfo.do";
@@ -97,32 +97,32 @@ var regRnd = {
                 let stepValue = "";
                 let nextStepValue = "";
 
-                if(tabName == "업체정보"){
-                    step = "E0";
+                if(tabName == "주관기관"){
+                    step = "R0";
                     stepColumn = "STEP1";
                     nextStepColumn = "STEP2";
-                } else if (tabName == "견적관리"){
-                    step = "E1";
+                } else if (tabName == "연구원관리"){
+                    step = "R1";
                     stepColumn = "STEP2";
                     nextStepColumn = "STEP3";
-                } else if (tabName == "수주보고"){
-                    step = "E2";
+                } else if (tabName == "개발계획"){
+                    step = "R2";
                     stepColumn = "STEP3";
                     nextStepColumn = "STEP4";
-                } else if (tabName == "계획서"){
-                    step = "E3";
+                } else if (tabName == "개발일정"){
+                    step = "R3";
                     stepColumn = "STEP4";
                     nextStepColumn = "STEP5";
-                } else if (tabName == "공정"){
-                    step = "E4";
+                } else if (tabName == "입출금대장관리"){
+                    step = "R4";
                     stepColumn = "STEP5";
                     nextStepColumn = "STEP6";
-                } else if (tabName == "납품"){
-                    step = "E5";
+                } else if (tabName == "예산관리"){
+                    step = "R5";
                     stepColumn = "STEP6";
                     nextStepColumn = "STEP7";
-                } else if (tabName == "결과보고"){
-                    step = "E6";
+                } else if (tabName == "연구비신청"){
+                    step = "R6";
                     stepColumn = "STEP7";
                     nextStepColumn = "STEP8";
                 }
@@ -170,17 +170,17 @@ var regRnd = {
             setParameters.ENGN_SN;
             regRnd.fn_setData(setParameters);
 
-            if(setParameters.PJT_STEP == "E"){
+            if(setParameters.PJT_STEP == "R"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
             if(setParameters.PJT_STOP != "Y"){
-                if(setParameters.PJT_STEP >= "E0"){
+                if(setParameters.PJT_STEP >= "R0"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(2));
                 }
 
-                if(setParameters.PJT_STEP >= "E1"){
+                if(setParameters.PJT_STEP >= "R1"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                 }
