@@ -342,8 +342,11 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
-    public List<Map<String, Object>> getMfOverviewList(Map<String, Object> params) {
-        return crmRepository.getMfOverviewList(params);
+    public Map<String, Object> getMfOverviewList(Map<String, Object> params) {
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("list", crmRepository.getMfOverviewList(params));
+        returnMap.put("totalCount", crmRepository.getMfOverviewListCnt(params));
+        return returnMap;
     }
 
     @Override

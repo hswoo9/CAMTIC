@@ -406,7 +406,7 @@ public class CrmController {
      */
     @RequestMapping("/crm/getMfOverviewList")
     public String getMfOverviewList(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("list", crmService.getMfOverviewList(params));
+        model.addAttribute("data", crmService.getMfOverviewList(params));
         return "jsonView";
     }
 

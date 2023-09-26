@@ -45,10 +45,10 @@ var customKendo = {
             },
             schema : {
                 data: function (data) {
-                    return data.list;
+                    return data.data.list;
                 },
                 total: function (data) {
-                    record = data.totalCount;
+                    record = data.data.totalCount;
 
                     return record;
                 },
