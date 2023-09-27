@@ -2,12 +2,6 @@ var regRnd = {
 
 
     fn_defaultScript : function (setParameters){
-        console.log(setParameters);
-        if(setParameters != null && setParameters.PJT_SN != null){
-            setParameters.pjtSn = setParameters.PJT_SN;
-
-            console.log(setParameters);
-        }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"]);
 
@@ -42,7 +36,7 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/intra/cam_project/bustInfo.do";         // 연구원관리
+        var tab0Url = "/projectRnd/researcherInfo.do";         // 연구원관리
         var tab1Url = "/intra/cam_project/bustInfo.do";
         var tab2Url = "/intra/cam_project/estInfo.do";
         var tab3Url = "/intra/cam_project/delvInfo.do";
@@ -68,20 +62,6 @@ var regRnd = {
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
         }
-        if(setParameters != null && setParameters.ENGN_SN != null) {
-            tab0Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab1Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab2Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab3Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab4Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab5Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab6Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab7Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab8Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab9Url += "&engnSn=" + setParameters.ENGN_SN;
-            tab10Url += "&engnSn=" + setParameters.ENGN_SN;
-        }
-
 
         $("#tabstrip").kendoTabStrip({
             animation:  {
@@ -100,37 +80,21 @@ var regRnd = {
 
                 if(tabName == "연구원관리"){
                     step = "R0";
-                    stepColumn = "STEP1";
-                    nextStepColumn = "STEP2";
                 } else if (tabName == "개발계획"){
                     step = "R1";
-                    stepColumn = "STEP2";
-                    nextStepColumn = "STEP3";
                 } else if (tabName == "개발일정"){
                     step = "R2";
-                    stepColumn = "STEP3";
-                    nextStepColumn = "STEP4";
                 } else if (tabName == "입출금대장관리"){
                     step = "R3";
-                    stepColumn = "STEP4";
-                    nextStepColumn = "STEP5";
                 } else if (tabName == "예산관리"){
                     step = "R4";
-                    stepColumn = "STEP5";
-                    nextStepColumn = "STEP6";
                 } else if (tabName == "연구비신청"){
                     step = "R5";
-                    stepColumn = "STEP6";
-                    nextStepColumn = "STEP7";
                 } else if (tabName == "연구비정산"){
                     step = "R6";
-                    stepColumn = "STEP7";
-                    nextStepColumn = "STEP8";
                 }
 
                 $("#step").val(step);
-                $("#stepColumn").val(stepColumn);
-                $("#nextStepColumn").val(nextStepColumn);
             },
             dataTextField: "name",
             dataContentUrlField: "url",
@@ -150,57 +114,18 @@ var regRnd = {
         });
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
-        tabStrip.disable(tabStrip.tabGroup.children());
+        tabStrip.select(0);
 
-
-        if(setParameters != null){
-
-            var tab = $("#tab").val();
-            if(tab != null && tab != ""){
-                tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
-            } else {
-                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
-            }
-
-            if(setParameters.PJT_SN){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            }
-
-            setParameters.ENGN_SN;
+        if(setParameters != null && setParameters.PJT_SN != null){
+            setParameters.pjtSn = setParameters.PJT_SN;
             regRnd.fn_setData(setParameters);
-
-            if(setParameters.PJT_STEP == "R"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            }
-
-            if(setParameters.PJT_STOP != "Y"){
-                if(setParameters.PJT_STEP >= "R0"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(2));
-                }
-
-                if(setParameters.PJT_STEP >= "R1"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(3));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(9));
-                }
-
-            } else {
-                $("#modBtn").css("display", "none");
-                alert("중단사유 : " + setParameters.PJT_STOP_RS);
-            }
-
         }
-
-        // tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-
-
-
     },
 
     fn_setData: function (e){
         $("#pjtTitle").text("프로젝트 - R&D");
 
+        console.log(e);
         $("#saveBtn").css("display", "none");
         $("#modBtn").css("display", "");
 

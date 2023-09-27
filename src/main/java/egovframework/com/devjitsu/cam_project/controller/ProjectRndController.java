@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -46,6 +47,106 @@ public class ProjectRndController {
             model.addAttribute("params", params);
             model.addAttribute("code", 200);
         } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /**
+     * 프로젝트 > TAB > 연구원관리
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/projectRnd/researcherInfo.do")
+    public String researcherInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/researcherInfo";
+    }
+
+    /**
+     * 전체 연구원 조회 팝업
+     * @return
+     */
+    @RequestMapping("/projectRnd/pop/popRschList.do")
+    public String popRschList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/rschList";
+    }
+
+
+    /**
+     * 프로젝트 RND > Tab0 > 등록된 연구원 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/getRschInfo")
+    public String getRschInfo(@RequestParam Map<String, Object> params, Model model){
+
+
+        model.addAttribute("list", projectRndService.getPjtRschInfo(params));
+        return "jsonView";
+    }
+
+
+    /**
+     * 연구원데이터 전체 조회
+     * @param model
+     * @param params
+     * @return
+     */
+    @RequestMapping("/projectRnd/getPopRschList")
+    public String getPopRschList(Model model, @RequestParam Map<String, Object> params){
+
+        model.addAttribute("list", projectRndService.getPopRschList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/getRschData")
+    public String getRschData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = new HashMap<>();
+        map = projectRndService.getRschData(params);
+
+        int validRschCnt = projectRndService.getRschCount(map);
+
+        model.addAttribute("cnt", validRschCnt);
+
+        return "jsonView";
+    }
+
+    /**
+     * 프로젝트 연구원 등록
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/setRschData")
+    public String setRschData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            Map<String, Object> map = new HashMap<>();
+            map = projectRndService.getRschData(params);
+            map.put("pjtSn", params.get("pjtSn"));
+            map.put("empSeq", params.get("empSeq"));
+            projectRndService.setRschData(map);
+        } catch (Exception e){
             e.printStackTrace();
         }
 

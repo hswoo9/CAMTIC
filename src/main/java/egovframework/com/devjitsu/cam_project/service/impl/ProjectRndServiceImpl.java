@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,6 +23,31 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updSubjectInfo(params);
         }
 
+    }
+
+    @Override
+    public List<Map<String, Object>> getPopRschList(Map<String, Object> params) {
+        return projectRndRepository.getPopRschList(params);
+    }
+
+    @Override
+    public Map<String, Object> getRschData(Map<String, Object> params) {
+        return projectRndRepository.getRschData(params);
+    }
+
+    @Override
+    public void setRschData(Map<String, Object> params) {
+        projectRndRepository.insRschData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtRschInfo(Map<String, Object> params) {
+        return projectRndRepository.getPjtRschInfo(params);
+    }
+
+    @Override
+    public int getRschCount(Map<String, Object> params) {
+        return projectRndRepository.getRschCount(params);
     }
 }
 

@@ -76,4 +76,65 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <select id="getPopRschList" parameterType="map" resultType="map">
+        /*getPopRschList*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_RSCH_INFO
+    </select>
+
+    <select id="getRschData" parameterType="map" resultType="map">
+        /*getRschData*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_RSCH_INFO
+        WHERE
+            RSCH_SN = #{rschSn}
+    </select>
+
+    <insert id="insPjtRschData" parameterType="map">
+        /*insPjtRschData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_RSCH
+            (
+                PJT_SN,
+                PJT_RSCH_EMP_SEQ,
+                PJT_RSCH_COMP,
+                PJT_RSCH_NM,
+                PJT_RSCH_POSITION,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{EMP_SEQ},
+                #{RSCH_COMP},
+                #{RSCH_NM},
+                #{RSCH_POSITION},
+                #{empSeq}
+            )
+
+    </insert>
+
+    <select id="getPjtRschInfo" parameterType="map" resultType="map">
+        /*getPjtRschInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RSCH
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getRschCount" parameterType="map" resultType="int">
+        /*getRschCount*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RSCH
+        WHERE
+            PJT_RSCH_EMP_SEQ = #{EMP_SEQ}
+    </select>
 </mapper>
