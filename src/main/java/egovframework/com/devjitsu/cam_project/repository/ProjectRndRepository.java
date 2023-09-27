@@ -37,4 +37,12 @@ public class ProjectRndRepository extends AbstractDAO {
     public int getRschCount(Map<String, Object> params) {
         return (int) selectOne("projectRnd.getRschCount", params);
     }
+
+    public void delRschData(Map<String, Object> params) {
+        delete("projectRnd.delRschData", params);
+    }
+
+    public void insDevPjtVer(Map<String, Object> params) {
+        insert("projectRnd.insDevPjtVer", params);
+    }
 }

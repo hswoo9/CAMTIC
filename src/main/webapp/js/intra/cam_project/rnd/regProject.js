@@ -37,7 +37,7 @@ var regRnd = {
         });
 
         var tab0Url = "/projectRnd/researcherInfo.do";         // 연구원관리
-        var tab1Url = "/intra/cam_project/bustInfo.do";
+        var tab1Url = "/projectRnd/rndDevPlan.do";
         var tab2Url = "/intra/cam_project/estInfo.do";
         var tab3Url = "/intra/cam_project/delvInfo.do";
         var tab4Url = "/intra/cam_project/devInfo.do";
@@ -125,7 +125,6 @@ var regRnd = {
     fn_setData: function (e){
         $("#pjtTitle").text("프로젝트 - R&D");
 
-        console.log(e);
         $("#saveBtn").css("display", "none");
         $("#modBtn").css("display", "");
 

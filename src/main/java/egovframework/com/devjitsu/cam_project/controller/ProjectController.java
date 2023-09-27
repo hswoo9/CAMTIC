@@ -1022,4 +1022,11 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/updPjtDevTotAmt")
+    public String updPjtDevTotAmt(@RequestParam Map<String, Object> params){
+        projectService.updPjtDevTotAmt(params);
+
+        return "jsonView";
+    }
+
 }

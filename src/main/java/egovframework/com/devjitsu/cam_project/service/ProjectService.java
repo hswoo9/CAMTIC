@@ -133,4 +133,6 @@ public interface ProjectService {
     void setCostInfo(Map<String, Object> params);
 
     Map<String, Object> getProjectDocInfo(Map<String, Object> params);
+
+    void updPjtDevTotAmt(Map<String, Object> params);
 }

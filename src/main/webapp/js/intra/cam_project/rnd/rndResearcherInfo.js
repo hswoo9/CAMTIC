@@ -55,6 +55,13 @@ var rndRschInfo = {
                             '	    <span class="k-button-text">등록</span>' +
                             '   </button>';
                     }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" disabled>' +
+                            '	    <span class="k-button-text">지급신청</span>' +
+                            '   </button>';
+                    }
                 }
             ],
             dataBound : function(e){
@@ -113,7 +120,6 @@ var rndRschInfo = {
                     title : "",
                     width: 100,
                     template: function(e){
-                        console.log(e);
                         return '<button type="button" class="k-button k-button-solid-error" onclick="rndRschInfo.fn_del('+e.PJT_RSCH_SN+')">삭제</button>'
                     }
                 }
@@ -131,13 +137,13 @@ var rndRschInfo = {
         });
     },
 
-    fn_delPjtBustrip : function (key){
+    fn_del : function (key){
         var data= {
-            hrBizReqResultId : key
+            pjtRschSn : key
         }
 
         $.ajax({
-            url : "/project/engn/delPjtBustrip",
+            url : "/projectRnd/delRschData",
             data : data,
             type : "post",
             dataType : "json",

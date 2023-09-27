@@ -15,4 +15,8 @@ public interface ProjectRndService {
     List<Map<String, Object>> getPjtRschInfo(Map<String, Object> params);
 
     int getRschCount(Map<String, Object> params);
+
+    void delRschData(Map<String, Object> params);
+
+    void setDevPjtVer(Map<String, Object> params);
 }

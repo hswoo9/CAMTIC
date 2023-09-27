@@ -137,4 +137,28 @@
         WHERE
             PJT_RSCH_EMP_SEQ = #{EMP_SEQ}
     </select>
+
+    <delete id="delRschData" parameterType="map">
+        /*delRschData*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_RSCH
+        WHERE
+            PJT_RSCH_SN = #{pjtRschSn}
+    </delete>
+
+    <insert id="insDevPjtVer" parameterType="map">
+        /*insDevPjtVer*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
+            (
+                PJT_SN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{empSeq}
+            )
+        <selectKey keyProperty="devSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
+        </selectKey>
+    </insert>
 </mapper>

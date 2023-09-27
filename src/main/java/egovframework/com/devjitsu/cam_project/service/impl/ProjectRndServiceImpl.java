@@ -49,5 +49,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public int getRschCount(Map<String, Object> params) {
         return projectRndRepository.getRschCount(params);
     }
+
+    @Override
+    public void delRschData(Map<String, Object> params) {
+        projectRndRepository.delRschData(params);
+    }
+
+    @Override
+    public void setDevPjtVer(Map<String, Object> params) {
+        projectRndRepository.insDevPjtVer(params);
+    }
 }
 

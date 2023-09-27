@@ -54,7 +54,7 @@ public class ProjectRndController {
     }
 
     /**
-     * 프로젝트 > TAB > 연구원관리
+     * 프로젝트 > TAB0 > 연구원관리
      * @param params
      * @param model
      * @param request
@@ -73,6 +73,28 @@ public class ProjectRndController {
         model.addAttribute("params", params);
 
         return "popup/cam_project/rnd/researcherInfo";
+    }
+
+    /**
+     * 프로젝트 > TAB1 > 개발계획
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/rndDevPlan.do")
+    public String rndDevPlan(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/devPlanInfo";
     }
 
     /**
@@ -146,6 +168,40 @@ public class ProjectRndController {
             map.put("pjtSn", params.get("pjtSn"));
             map.put("empSeq", params.get("empSeq"));
             projectRndService.setRschData(map);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /**
+     * 연구원관리 > 삭제 처리
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/delRschData")
+    public String delRschData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.delRschData(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setDevPjtVer")
+    public String setDevPjtVer(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.setDevPjtVer(params);
+            model.addAttribute("params", params);
+
+            model.addAttribute("rs", projectService.getDevPjtVerList(params));
+            model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
         }

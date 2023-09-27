@@ -30,3 +30,17 @@ function fn_popRschList(key) {
     var option = "width = 900, height = 580, top = 200, left = 400, location = no"
     var popup = window.open(url, name, option);
 }
+
+function inputNumberFormat (obj){
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
