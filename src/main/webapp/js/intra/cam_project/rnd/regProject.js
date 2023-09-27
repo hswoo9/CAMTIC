@@ -2,6 +2,7 @@ var regRnd = {
 
 
     fn_defaultScript : function (setParameters){
+        console.log(setParameters);
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
 
@@ -41,7 +42,7 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/crmInfo.do";                // 주관기관 설정
+        var tab0Url = "/intra/cam_project/bustInfo.do";         // 연구원관리
         var tab1Url = "/intra/cam_project/bustInfo.do";
         var tab2Url = "/intra/cam_project/estInfo.do";
         var tab3Url = "/intra/cam_project/delvInfo.do";
@@ -97,31 +98,31 @@ var regRnd = {
                 let stepValue = "";
                 let nextStepValue = "";
 
-                if(tabName == "주관기관"){
+                if(tabName == "연구원관리"){
                     step = "R0";
                     stepColumn = "STEP1";
                     nextStepColumn = "STEP2";
-                } else if (tabName == "연구원관리"){
+                } else if (tabName == "개발계획"){
                     step = "R1";
                     stepColumn = "STEP2";
                     nextStepColumn = "STEP3";
-                } else if (tabName == "개발계획"){
+                } else if (tabName == "개발일정"){
                     step = "R2";
                     stepColumn = "STEP3";
                     nextStepColumn = "STEP4";
-                } else if (tabName == "개발일정"){
+                } else if (tabName == "입출금대장관리"){
                     step = "R3";
                     stepColumn = "STEP4";
                     nextStepColumn = "STEP5";
-                } else if (tabName == "입출금대장관리"){
+                } else if (tabName == "예산관리"){
                     step = "R4";
                     stepColumn = "STEP5";
                     nextStepColumn = "STEP6";
-                } else if (tabName == "예산관리"){
+                } else if (tabName == "연구비신청"){
                     step = "R5";
                     stepColumn = "STEP6";
                     nextStepColumn = "STEP7";
-                } else if (tabName == "연구비신청"){
+                } else if (tabName == "연구비정산"){
                     step = "R6";
                     stepColumn = "STEP7";
                     nextStepColumn = "STEP8";
@@ -134,18 +135,17 @@ var regRnd = {
             dataTextField: "name",
             dataContentUrlField: "url",
             dataSource : [
-                {name: "주관기관", url: tab0Url},
-                {name: "연구원관리", url: tab1Url},
-                {name: "개발계획", url: tab2Url},
-                {name: "개발일정", url: tab3Url},
-                {name: "개발일지", url: tab4Url},
-                {name: "입출금대장관리", url: tab7Url}, // 연구비 입금처리와 같이 사용
-                {name: "예산관리", url: tab6Url},
-                {name: "연구비신청", url: tab7Url},
-                {name: "연구비정산", url: tab6Url}, // 지출내역조회와 같이 사용
-                {name: "참여율관리", url: tab8Url},
-                {name: "협업관리", url: tab9Url},
-                {name: "구매관리", url: tab10Url}
+                {name: "연구원관리", url: tab0Url},
+                {name: "개발계획", url: tab1Url},
+                {name: "개발일정", url: tab2Url},
+                {name: "개발일지", url: tab3Url},
+                {name: "입출금대장관리", url: tab4Url},
+                {name: "예산관리", url: tab7Url}, // 연구비 입금처리와 같이 사용
+                {name: "연구비신청", url: tab6Url},
+                {name: "연구비정산", url: tab7Url},
+                {name: "참여율관리", url: tab6Url}, // 지출내역조회와 같이 사용
+                {name: "협업관리", url: tab8Url},
+                {name: "구매관리", url: tab9Url}
             ],
         });
 
@@ -212,6 +212,14 @@ var regRnd = {
         $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
         $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
 
+        $("#rndCrmNm").val(e.CRM_NM);
+        $("#rndCrmSn").val(e.CRM_SN);
+
+        if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
+            $("#rndConCrmNm").val(e.CRM_CON_SN);
+            $("#rndConCrmSn").val(e.CRM_CON_NM);
+        }
+
         $("#deptName").val(e.DEPT_NAME);
         $("#empName").val(e.EMP_NAME);
         $("#empSeq").val(e.EMP_SEQ);
@@ -254,6 +262,8 @@ var regRnd = {
             regEmpSeq : $("#regEmpSeq").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSubNm : $("#pjtSubNm").val(),
+            crmConSn : $("#rndConCrmSn").val(),
+            crmSn : $("#rndCrmSn").val(),
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
@@ -272,6 +282,64 @@ var regRnd = {
         }
 
 
+
+        if(parameters.sbjClass == ""){
+            alert("과제구분을 선택해주세요.");
+            return;
+        }
+        if(parameters.sbjChar == ""){
+            alert("과제성격을 선택해주세요.");
+            return;
+        }
+        if(parameters.supDep == ""){
+            alert("지원부처를 선택해주세요.");
+            return;
+        }
+        if(parameters.supDepSub == ""){
+            alert("전담기관을 선택해주세요.");
+            return;
+        }
+        if(parameters.pjtNm == ""){
+            alert("과제명을 입력해주세요.");
+            return;
+        }
+        if(parameters.pjtNmSub == ""){
+            alert("과제명(약칭) 입력해주세요.");
+            return;
+        }
+
+        $.ajax({
+            url : "/projectRnd/setSubjectInfo",
+            data : parameters,
+            type: "post",
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
+                }
+            }
+        });
+    },
+
+    fn_mod : function (){
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+            sbjClass : $("#sbjClass").val(),
+            sbjChar : $("#sbjChar").val(),
+            sbjDep : $("#supDep").val(),
+            sbjDepSub : $("#supDepSub").val(),
+            strDt : $("#sbjStrDe").val(),
+            endDt : $("#sbjEndDe").val(),
+            empSeq : $("#empSeq").val(),
+            empName : $("#empName").val(),
+            deptSeq : $("#deptSeq").val(),
+            deptName : $("#deptName").val(),
+            regEmpSeq : $("#regEmpSeq").val(),
+            pjtNm : $("#pjtNm").val(),
+            pjtSubNm : $("#pjtSubNm").val(),
+            crmConSn : $("#rndConCrmSn").val(),
+            crmSn : $("#rndCrmSn").val(),
+        }
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");

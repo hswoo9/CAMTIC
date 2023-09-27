@@ -16,7 +16,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
 
-        projectRndRepository.insSubjectInfo(params);
+        if(!params.containsKey("pjtSn")){
+            projectRndRepository.insSubjectInfo(params);
+        } else {
+            projectRndRepository.updSubjectInfo(params);
+        }
 
     }
 }

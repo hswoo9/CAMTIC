@@ -4,6 +4,7 @@
 <mapper namespace="projectRnd">
 
     <insert id="insSubjectInfo" parameterType="map">
+        /* insSubjectInfo */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
             (
                 BUSN_CLASS,
@@ -22,6 +23,8 @@
                 DEPT_NAME,
                 PJT_NM,
                 PJT_SUB_NM,
+                CRM_SN,
+                CRM_CON_SN,
                 REG_EMP_SEQ
             )
         VALUES
@@ -42,6 +45,8 @@
                 #{deptName},
                 #{pjtNm},
                 #{pjtSubNm},
+                #{crmSn},
+                #{crmConSn},
                 #{regEmpSeq}
             )
 
@@ -49,4 +54,26 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
         </selectKey>
     </insert>
+
+    <update id="updSubjectInfo" parameterType="map">
+        /*updSubjectInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            SBJ_CLASS = #{sbjClass},
+            SBJ_CHAR = #{sbjChar},
+            SBJ_DEP = #{sbjDep},
+            SBJ_DEP_SUB = #{sbjDepSub},
+            STR_DT = #{strDt},
+            END_DT = #{endDt},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            PJT_NM = #{pjtNm},
+            PJT_SUB_NM = #{pjtSubNm},
+            CRM_SN = #{crmSn},
+            CRM_CON_SN = #{crmConSn}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

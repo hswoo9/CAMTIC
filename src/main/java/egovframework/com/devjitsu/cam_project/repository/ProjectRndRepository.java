@@ -12,4 +12,8 @@ public class ProjectRndRepository extends AbstractDAO {
     public void insSubjectInfo(Map<String, Object> params) {
         insert("projectRnd.insSubjectInfo", params);
     }
+
+    public void updSubjectInfo(Map<String, Object> params) {
+        update("projectRnd.updSubjectInfo", params);
+    }
 }

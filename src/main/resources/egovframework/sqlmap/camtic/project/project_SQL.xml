@@ -27,18 +27,22 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
-                LEFT JOIN
+        LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN B
-            ON
-                A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-            LEFT JOIN
+        ON
+            A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
-            ON
-                A.CRM_SN = D.CRM_SN
-                LEFT JOIN
+        ON
+            A.CRM_SN = D.CRM_SN
+        LEFT JOIN
+            (SELECT CRM_NM as CRM_CON_NM, CRM_SN as CRM_CON_SN FROM CAM_CRM.DJ_CRM_INFO) DA
+        ON
+            A.CRM_CON_SN = DA.CRM_CON_SN
+        LEFT JOIN
             CAM_CRM.DJ_CRM_MEM CM
-            ON
-                D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
+        ON
+            D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
