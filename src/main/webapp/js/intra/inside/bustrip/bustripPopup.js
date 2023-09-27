@@ -3,7 +3,7 @@ var bustripPop = {
     addExternalWorkforcePop: function(){
         let url = "/bustrip/pop/addExternalWorkforcePop.do";
         const name = "addExternalWorkforcePop";
-        const option = "width = 750, height = 200, top = 200, left = 300, location = no";
+        const option = "width = 1000, height = 510, top = 200, left = 300, location = no";
         window.open(url, name, option);
     }
 }

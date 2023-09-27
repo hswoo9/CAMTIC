@@ -24,45 +24,73 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pageName" value="externalWorkforcePop"/>
 <div class="card-header pop-header">
-    <h3 class="card-title title_NM">외부인력 추가</h3>
+    <h3 class="card-title title_NM">외부인력 관리</h3>
     <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" id="modBtn" onclick="bustripReq.externalReq();">저장</button>
+        <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="" disabled>저장</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
     </div>
 </div>
 
-<form id="externalWorkforceReqPop" style="padding: 20px 30px;">
-    <table class="popTable table table-bordered mb-0" id="externalWorkforceTb">
-        <colgroup>
-            <col width="15%">
-            <col width="35%">
-            <col width="15%">
-            <col width="35%">
-        </colgroup>
-        <thead>
-        <tr>
-            <th>소속</th>
-            <td>
-                <input id="belong" style="width: 100%;">
-            </td>
-            <th>직위</th>
-            <td>
-                <input id="spot" style="width: 100%;">
-            </td>
-        </tr>
-        <tr id="busnLine">
-            <th><span class="red-star">*</span>이름</th>
-            <td>
-                <input id="name" style="width: 100%;">
-            </td>
-            <th>비고</th>
-            <td>
-                <input id="etc" style="width: 100%;">
-            </td>
-        </tr>
-        </thead>
-    </table>
-</form>
+<div class="col-md-12 col-lg-12 dash-left">
+    <div class="col-md-4 col-lg-4">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h4 class="mt20">· 외부인력 추가</h4>
+            <button type="button" class="k-button k-button-solid-info" id="addBtn" onclick="externalReq.fn_saveBtn();">저장</button>
+        </div>
+        <table class="table table-bordered mb-0" id="externalWorkforceReqTb">
+            <colgroup>
+                <col width="30%">
+                <col width="70%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>소속</th>
+                <td>
+                    <input id="belong" style="width: 100%;">
+                </td>
+            </tr>
+            <tr>
+                <th>직위</th>
+                <td>
+                    <input id="spot" style="width: 100%;">
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red-star">*</span>성명</th>
+                <td>
+                    <input id="name" style="width: 100%;">
+                </td>
+            </tr>
+            <tr>
+                <th>비고</th>
+                <td>
+                    <input id="etc" style="width: 100%;">
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="col-md-8 col-lg-8">
+        <h4 class="mt20">· 외부인력 관리</h4>
+        <table class="table table-bordered mb-0" id="externalWorkforceViewTb">
+            <colgroup>
+                <col width="21%">
+                <col width="21%">
+                <col width="21%">
+                <col width="21%">
+                <col width="16%">
+            </colgroup>
+            <thead id="externalThead">
+            <tr>
+                <th>소속</th>
+                <th>직위</th>
+                <th>성명</th>
+                <th>비고</th>
+                <th>처리명령</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 <script>
     externalReq.init();
