@@ -7,7 +7,7 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/popCrmList.js?v=${today}"/></script>
-
+<input type="hidden" id="status" value="${hashMap.status}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">

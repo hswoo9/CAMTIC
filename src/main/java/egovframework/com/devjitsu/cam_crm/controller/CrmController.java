@@ -66,7 +66,10 @@ public class CrmController {
     }
 
     @RequestMapping("/crm/pop/popCrmList.do")
-    public String popCrmList(Model model){
+    public String popCrmList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("params", params);
+
         return "popup/cam_crm/popCrmList";
     }
 
