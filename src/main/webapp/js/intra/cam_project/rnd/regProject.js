@@ -8,7 +8,7 @@ var regRnd = {
             console.log(setParameters);
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -308,6 +308,6 @@ var regRnd = {
                     location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }
             }
-        })
+        });
     }
 }
