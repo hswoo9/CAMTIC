@@ -41,14 +41,14 @@ var regRnd = {
         var tab2Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
         var tab3Url = "/projectRnd/rndDevJob.do";               // 개발일지
 
-        var tab4Url = "/intra/cam_project/devInfo.do";
+        var tab4Url = "/projectRnd/payMvInfo.do";          // 입출금대장관리
         var tab5Url = "/intra/cam_project/processInfo.do";
         var tab6Url = "/intra/cam_project/goodsInfo.do";
         var tab7Url = "/intra/cam_project/resultInfo.do";
         var tab8Url = "/intra/cam_project/costPriceInfo.do";
 
         var tab9Url = "/intra/cam_project/teamInfo.do";         // 협업관리
-        var tab10Url = "/intra/cam_project/buyInfo.do";         // 구매관리
+        var tab10Url = "/intra/cam_project/purcInfo.do";        // 구매관리
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -109,8 +109,8 @@ var regRnd = {
                 {name: "연구비신청", url: tab6Url},
                 {name: "연구비정산", url: tab7Url},
                 {name: "참여율관리", url: tab6Url}, // 지출내역조회와 같이 사용
-                {name: "협업관리", url: tab8Url},
-                {name: "구매관리", url: tab9Url}
+                {name: "협업관리", url: tab9Url},
+                {name: "구매관리", url: tab10Url}
             ],
         });
 

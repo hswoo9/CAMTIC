@@ -105,7 +105,7 @@
 <script type="text/javascript">
 
     $(function (){
-        customKendo.fn_textBox([ "devSchTitle"]);
+        customKendo.fn_textBox(["devSchTitle"]);
         customKendo.fn_datePicker("schEndDe", "month", "yyyy-MM-dd", new Date());
 
         $("#devSchCont").kendoTextArea({

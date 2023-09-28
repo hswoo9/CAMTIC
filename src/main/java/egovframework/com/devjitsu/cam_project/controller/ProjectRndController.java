@@ -34,6 +34,9 @@ public class ProjectRndController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
+
+    /* View Line ==================================================== */
+
     @RequestMapping("/projectRnd/pop/regProject.do")
     public String regProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -151,8 +154,30 @@ public class ProjectRndController {
         return "popup/cam_project/rnd/devJobInfo";
     }
 
+    /**
+     * 프로젝트 R&D > TAB4 > 입출금대장관리
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/payMvInfo.do")
+    public String payMvInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-    /* Popup Line */
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/payMoveInfo";
+    }
+
+
+    /* Popup Line =================================================== */
 
     /**
      * 전체 연구원 조회 팝업
