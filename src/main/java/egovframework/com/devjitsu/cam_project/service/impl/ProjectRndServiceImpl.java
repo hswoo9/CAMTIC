@@ -1,10 +1,16 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +19,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private ProjectRndRepository projectRndRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -73,6 +82,60 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setDevSchData(Map<String, Object> params) {
         projectRndRepository.insDevSchData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRndDevJobList(Map<String, Object> params) {
+        return projectRndRepository.getRndDevJobList(params);
+    }
+
+    @Override
+    public void setDevJobInfo(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR) {
+
+        if(!params.containsKey("devSchSn")){
+            Map<String, Object> map = new HashMap<>();
+
+            map = projectRndRepository.getDevJobData(params);
+
+            params.put("devSchSn", map.get("DEV_SCH_SN"));
+        }
+
+        projectRndRepository.updDevJobInfo(params);
+
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        if(fileList.length > 0){
+            params.put("menuCd", "devSchJob");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("devSchSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getDevSchInfo(Map<String, Object> params) {
+        return projectRndRepository.getDevSchInfo(params);
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
+
     }
 }
 

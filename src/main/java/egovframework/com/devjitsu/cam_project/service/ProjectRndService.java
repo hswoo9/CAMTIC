@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_project.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,4 +28,9 @@ public interface ProjectRndService {
 
     void setDevSchData(Map<String, Object> params);
 
+    List<Map<String, Object>> getRndDevJobList(Map<String, Object> params);
+
+    void setDevJobInfo(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);
+
+    List<Map<String, Object>> getDevSchInfo(Map<String, Object> params);
 }

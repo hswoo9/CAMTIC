@@ -1,20 +1,21 @@
-var rndDS = {
+var rndDJ = {
 
-    fn_defaultScript: function(){
 
-        rndDS.rndDSMainGrid();
+    fn_defaultScript: function (){
+
+        rndDJ.rndDJMainGrid();
     },
 
     gridReload : function (){
-        $("#rndDSMainGrid").data("kendoGrid").dataSource.read();
+        $("#rndDJMainGrid").data("kendoGrid").dataSource.read();
     },
 
-    rndDSMainGrid : function () {
+    rndDJMainGrid : function () {
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/projectRnd/getRndDevScheduleList",
+                    url: "/projectRnd/getRndDevJobList",
                     dataType: "json",
                     type: "post"
                 },
@@ -34,7 +35,7 @@ var rndDS = {
             pageSize: 10,
         });
 
-        $("#rndDSMainGrid").kendoGrid({
+        $("#rndDJMainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
@@ -54,43 +55,36 @@ var rndDS = {
                     title: "번호",
                     width : 80
                 }, {
-                    field: "DEV_SCH_CD",
-                    title: "코드번호",
-                    width: 80
+                    field: "DEV_SCH_TITLE",
+                    title: "제목",
+                    width: 500,
+                    template: function(e){
+                        return '<div style="font-weight: bold; cursor: pointer;" onclick="rndDJ.fn_popAddJob('+e.DEV_SCH_SN+')">'+e.DEV_SCH_TITLE+'</div>';
+                    }
                 }, {
-                    title: "업무내용",
-                    field: "DEV_SCH_NM",
-                    width: 150
+                    title: "개발일정",
+                    width: 150,
+                    template: function(e){
+                        return "[" + e.DEV_SCH_CD + "] " + e.DEV_SCH_NM;
+                    }
                 }, {
-                    title: "예정일",
-                    field: "SCH_STR_DE",
+                    title: "완료여부",
                     width: 180,
+                    template: function(e){
+                        if(e.SCH_STAT == "Y"){
+                            return "완료";
+                        } else {
+                            return "진행중";
+                        }
+                    }
                 }, {
-                    title: "처리일",
+                    title: "날짜",
                     field: "SCH_END_DE",
                     width: 180
                 }, {
-                    title: "처리자",
+                    title: "작성자",
                     field: "EMP_NAME_KR",
                     width: 180
-                }, {
-                    title: "파일명",
-                    field: "",
-                    width: 180
-                }, {
-                    title: "비고",
-                    field: "DEV_SCH_ETC",
-                    width: 180
-                }, {
-                    title: "상태",
-                    width: 100,
-                    template: function(e){
-                        if(e.SCH_STAT == "Y"){
-                            return "<div style='color : blue'>완료</div>";
-                        } else {
-                            return "<div style='color: red'>예정</div>";
-                        }
-                    }
                 }
             ],
 
@@ -100,23 +94,18 @@ var rndDS = {
         }).data("kendoGrid");
     },
 
-    fn_popDevSch : function (){
-        var data = {
-            pjtSn : $("#pjtSn").val()
-        }
-        var url = "/projectRnd/pop/popDevSch.do?pjtSn="+data.pjtSn;
-        var name = "_blank";
-        var option = "width = 900, height = 500, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    },
+    fn_popAddJob : function (key){
 
-    fn_popTotDevSch : function (){
         var data = {
             pjtSn : $("#pjtSn").val()
         }
-        var url = "/projectRnd/pop/popTotDevSch.do?pjtSn="+data.pjtSn;
+        var url = "/projectRnd/pop/popDevJob.do?pjtSn="+data.pjtSn;
+
+        if(key != null && key != ""){
+            url = "/projectRnd/pop/popDevJob.do?pjtSn="+data.pjtSn + "&devSchSn=" + key;
+        }
         var name = "_blank";
-        var option = "width = 900, height = 540, top = 200, left = 400, location = no"
+        var option = "width = 900, height = 800, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
 }

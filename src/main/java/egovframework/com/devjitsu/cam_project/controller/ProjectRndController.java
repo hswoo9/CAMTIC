@@ -5,10 +5,13 @@ import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +26,13 @@ public class ProjectRndController {
 
     @Autowired
     private ProjectRndService projectRndService;
+
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     @RequestMapping("/projectRnd/pop/regProject.do")
     public String regProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -120,6 +130,31 @@ public class ProjectRndController {
     }
 
     /**
+     * 프로젝트 R&D > TAB3 > 개발일지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/rndDevJob.do")
+    public String rndDevJob(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/devJobInfo";
+    }
+
+
+    /* Popup Line */
+
+    /**
      * 전체 연구원 조회 팝업
      * @return
      */
@@ -151,6 +186,13 @@ public class ProjectRndController {
         return "popup/cam_project/devSch";
     }
 
+    /**
+     * 개발일정 일괄등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/projectRnd/pop/popTotDevSch.do")
     public String popTotDevSch(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -161,6 +203,19 @@ public class ProjectRndController {
         return "popup/cam_project/totDevSch";
     }
 
+    @RequestMapping("/projectRnd/pop/popDevJob.do")
+    public String popDevJob(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/devJob";
+    }
+
+
+    /* Get Data Line */
 
     /**
      * 프로젝트 RND > Tab0 > 등록된 연구원 조회
@@ -191,6 +246,12 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    /**
+     * 연구원등록 Valid 체크
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/projectRnd/getRschData")
     public String getRschData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = new HashMap<>();
@@ -203,6 +264,12 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    /**
+     * 개발일정 전체 조회
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/projectRnd/getRndDevScheduleList")
     public String getRndDevScheduleList(@RequestParam Map<String, Object> params, Model model){
 
@@ -210,6 +277,22 @@ public class ProjectRndController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/projectRnd/getRndDevJobList")
+    public String getRndDevJobList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectRndService.getRndDevJobList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/getDevSchInfo")
+    public String getDevSchInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", projectRndService.getDevSchInfo(params));
+
+        return "jsonView";
+    }
+
+    /* Set Data Line */
 
     /**
      * 프로젝트 연구원 등록
@@ -292,6 +375,21 @@ public class ProjectRndController {
             projectRndService.setDevSchData(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setDevJobInfo")
+    public String setDevJobInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            projectRndService.setDevJobInfo(params, fileList, SERVER_DIR, BASE_DIR);
+
+            model.addAttribute("code", 200);
+        } catch (Exception e){
             e.printStackTrace();
         }
 
