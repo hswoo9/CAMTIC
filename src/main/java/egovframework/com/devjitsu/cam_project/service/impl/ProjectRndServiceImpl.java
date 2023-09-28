@@ -64,5 +64,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void setDevInfo(Map<String, Object> params) {
         projectRndRepository.updDevInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getRndDevScheduleList(Map<String, Object> params) {
+        return projectRndRepository.getRndDevScheduleList(params);
+    }
+
+    @Override
+    public void setDevSchData(Map<String, Object> params) {
+        projectRndRepository.insDevSchData(params);
+    }
 }
 

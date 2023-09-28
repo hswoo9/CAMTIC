@@ -641,6 +641,7 @@ public class ProjectController {
     public String selLgCode(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("rs", projectService.selLgCode(params));
+        model.addAttribute("list", projectService.selLgCode(params));
 
         return "jsonView";
     }

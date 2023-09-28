@@ -134,6 +134,33 @@ public class ProjectRndController {
         return "popup/cam_project/rschList";
     }
 
+    /**
+     * 개발일정 등록 개별 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/pop/popDevSch.do")
+    public String popDevSch(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/devSch";
+    }
+
+    @RequestMapping("/projectRnd/pop/popTotDevSch.do")
+    public String popTotDevSch(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/totDevSch";
+    }
+
 
     /**
      * 프로젝트 RND > Tab0 > 등록된 연구원 조회
@@ -172,6 +199,14 @@ public class ProjectRndController {
         int validRschCnt = projectRndService.getRschCount(map);
 
         model.addAttribute("cnt", validRschCnt);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/getRndDevScheduleList")
+    public String getRndDevScheduleList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectRndService.getRndDevScheduleList(params));
 
         return "jsonView";
     }
@@ -238,9 +273,27 @@ public class ProjectRndController {
     }
 
 
+    /**
+     * 개발 계획 > 특이사항 작성
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/projectRnd/setDevInfo")
     public String setDevInfo(@RequestParam Map<String, Object> params, Model model){
         projectRndService.setDevInfo(params);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setDevSchData")
+    public String setDevSchData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.setDevSchData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

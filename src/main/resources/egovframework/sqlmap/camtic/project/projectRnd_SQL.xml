@@ -171,4 +171,40 @@
         WHERE
             DEV_SN = #{devSn}
     </update>
+
+    <select id="getRndDevScheduleList" parameterType="map" resultType="map">
+        /*getRndDevScheduleList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.REG_EMP_SEQ = B.EMP_SEQ
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insDevSchData" parameterType="map">
+        /*insDevSchData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV_SCH
+            (
+                PJT_SN,
+                DEV_SCH_CD,
+                DEV_SCH_NM,
+                SCH_STR_DE,
+                DEV_SCH_ETC,
+                REG_EMP_SEQ
+            )
+        VALUE
+            (
+                #{pjtSn},
+                #{devSchCd},
+                #{devSchNm},
+                #{schStrDe},
+                #{devSchEtc},
+                #{empSeq}
+            )
+    </insert>
 </mapper>

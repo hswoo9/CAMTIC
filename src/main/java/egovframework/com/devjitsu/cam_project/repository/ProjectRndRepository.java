@@ -49,4 +49,12 @@ public class ProjectRndRepository extends AbstractDAO {
     public void updDevInfo(Map<String, Object> params) {
         update("projectRnd.updDevInfo", params);
     }
+
+    public List<Map<String, Object>> getRndDevScheduleList(Map<String, Object> params) {
+        return selectList("projectRnd.getRndDevScheduleList", params);
+    }
+
+    public void insDevSchData(Map<String, Object> params) {
+        insert("projectRnd.insDevSchData", params);
+    }
 }

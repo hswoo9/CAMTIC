@@ -21,4 +21,9 @@ public interface ProjectRndService {
     void setDevPjtVer(Map<String, Object> params);
 
     void setDevInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getRndDevScheduleList(Map<String, Object> params);
+
+    void setDevSchData(Map<String, Object> params);
+
 }

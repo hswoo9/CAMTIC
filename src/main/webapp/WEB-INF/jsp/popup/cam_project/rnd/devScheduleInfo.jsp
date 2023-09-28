@@ -13,9 +13,8 @@
 <input type="hidden" id="devSn" value="" />
 <div style="padding: 10px">
     <div class="table-responsive">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDS.fn_save()">저장</button>
-
-
+        <button type="button" id="totBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="rndDS.fn_popTotDevSch()">공통설정</button>
+        <button type="button" id="addBtn" style="float: right; margin-bottom: 5px; margin-right : 5px;" class="k-button k-button-solid-base" onclick="rndDS.fn_popDevSch()">등록</button>
         <br><br>
         <div id="rndDSMainGrid"></div>
 
@@ -23,5 +22,5 @@
 </div>
 
 <script>
-    rndDP.fn_defaultScript();
+    rndDS.fn_defaultScript();
 </script>

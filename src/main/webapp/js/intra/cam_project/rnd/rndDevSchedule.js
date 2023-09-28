@@ -5,6 +5,9 @@ var rndDS = {
         rndDS.rndDSMainGrid();
     },
 
+    gridReload : function (){
+        $("#rndDSMainGrid").data("kendoGrid").dataSource.read();
+    },
 
     rndDSMainGrid : function () {
         let dataSource = new kendo.data.DataSource({
@@ -16,7 +19,7 @@ var rndDS = {
                     type: "post"
                 },
                 parameterMap: function(data){
-
+                    data.pjtSn = $("#pjtSn").val();
                     return data;
                 }
             },
@@ -51,23 +54,24 @@ var rndDS = {
                     title: "번호",
                     width : 80
                 }, {
-                    field: "",
+                    field: "DEV_SCH_CD",
                     title: "코드번호",
                     width: 80
                 }, {
                     title: "업무내용",
-                    width: 100
+                    field: "DEV_SCH_NM",
+                    width: 150
                 }, {
                     title: "예정일",
-                    field: "",
-                    width: 180
+                    field: "SCH_STR_DE",
+                    width: 180,
                 }, {
                     title: "처리일",
-                    field: "",
+                    field: "SCH_END_DE",
                     width: 180
                 }, {
                     title: "처리자",
-                    field: "",
+                    field: "EMP_NAME_KR",
                     width: 180
                 }, {
                     title: "파일명",
@@ -75,11 +79,18 @@ var rndDS = {
                     width: 180
                 }, {
                     title: "비고",
-                    field: "",
+                    field: "DEV_SCH_ETC",
                     width: 180
                 }, {
                     title: "상태",
-                    width: 100
+                    width: 100,
+                    template: function(e){
+                        if(e.DEV_SCH_FILE_SN == null || e.DEV_SCH_FILE_SN == "" || e.DEV_SCH_FILE_SN == undefined){
+                            return "<div style='color: red'>예정</div>";
+                        } else {
+                            return "<div style='color : blue'>완료</div>";
+                        }
+                    }
                 }
             ],
 
@@ -88,4 +99,24 @@ var rndDS = {
             }
         }).data("kendoGrid");
     },
+
+    fn_popDevSch : function (){
+        var data = {
+            pjtSn : $("#pjtSn").val()
+        }
+        var url = "/projectRnd/pop/popDevSch.do?pjtSn="+data.pjtSn;
+        var name = "_blank";
+        var option = "width = 900, height = 500, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_popTotDevSch : function (){
+        var data = {
+            pjtSn : $("#pjtSn").val()
+        }
+        var url = "/projectRnd/pop/popTotDevSch.do?pjtSn="+data.pjtSn;
+        var name = "_blank";
+        var option = "width = 900, height = 540, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 }
