@@ -36,10 +36,11 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/researcherInfo.do";         // 연구원관리
-        var tab1Url = "/projectRnd/rndDevPlan.do";
-        var tab2Url = "/intra/cam_project/estInfo.do";
-        var tab3Url = "/intra/cam_project/delvInfo.do";
+        var tab0Url = "/projectRnd/researcherInfo.do";          // 연구원관리
+        var tab1Url = "/projectRnd/rndDevPlan.do";              // 개발계획
+        var tab2Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
+        var tab3Url = "/projectRnd/rndDevJob.do";               // 개발일지
+
         var tab4Url = "/intra/cam_project/devInfo.do";
         var tab5Url = "/intra/cam_project/processInfo.do";
         var tab6Url = "/intra/cam_project/goodsInfo.do";

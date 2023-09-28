@@ -374,4 +374,15 @@ var rndDP = {
             }
         });
     },
+
+    fn_save : function (){
+
+        var data = {
+            devSn : $("#devSn").val(),
+            devPlanCont : $("#devPlanCont").val(),
+            devPlanIss : $("#devPlanIss").val()
+        }
+
+        customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
+    }
 }

@@ -98,6 +98,28 @@ public class ProjectRndController {
     }
 
     /**
+     * 프로젝트 R&D > TAB2 > 개발일정
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/rndDevSchedule.do")
+    public String rndDevSchedule(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/devScheduleInfo";
+    }
+
+    /**
      * 전체 연구원 조회 팝업
      * @return
      */
@@ -194,6 +216,12 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    /**
+     * 개발계획 > 버전 변경 및 확인
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/projectRnd/setDevPjtVer")
     public String setDevPjtVer(@RequestParam Map<String, Object> params, Model model){
         try{
@@ -205,6 +233,14 @@ public class ProjectRndController {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/projectRnd/setDevInfo")
+    public String setDevInfo(@RequestParam Map<String, Object> params, Model model){
+        projectRndService.setDevInfo(params);
 
         return "jsonView";
     }

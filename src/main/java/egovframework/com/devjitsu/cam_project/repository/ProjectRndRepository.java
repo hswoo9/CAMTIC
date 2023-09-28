@@ -45,4 +45,8 @@ public class ProjectRndRepository extends AbstractDAO {
     public void insDevPjtVer(Map<String, Object> params) {
         insert("projectRnd.insDevPjtVer", params);
     }
+
+    public void updDevInfo(Map<String, Object> params) {
+        update("projectRnd.updDevInfo", params);
+    }
 }

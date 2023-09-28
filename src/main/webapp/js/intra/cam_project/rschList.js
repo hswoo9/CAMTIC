@@ -58,7 +58,7 @@ var popRschList = {
             },
             columns: [
                 {
-                    template: "#= --record #",
+                    template: "#= ++record #",
                     title: "번호",
                     width : 80
                 }, {
@@ -89,8 +89,8 @@ var popRschList = {
                 }
             ],
 
-            dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
     },

@@ -90,7 +90,7 @@ var rndRschInfo = {
                     },
                     width: 50
                 }, {
-                    template: "#= --record #",
+                    template: "#= ++record #",
                     title: "순번",
                     width : 80
                 }, {
@@ -125,8 +125,8 @@ var rndRschInfo = {
                 }
             ],
 
-            dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
 

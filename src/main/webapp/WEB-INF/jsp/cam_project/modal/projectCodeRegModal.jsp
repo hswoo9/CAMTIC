@@ -4,13 +4,13 @@
 <!-- 시스템 페이지 자바스크립트 -->
 <%--<script type="text/javascript" src="<c:url value='/js/intra/system/system.js'/>"></script>--%>
 <style>
-    #cmCodeRegistM, #grpcodePodal { overflow: hidden !important;}
+    #cmCodeRegistM, #grpCodeModal { overflow: hidden !important;}
 </style>
 <div id="cmCodeRegistM" class="pop_wrap_dir">
 
 </div>
 
-<div id="grpcodePodal" class="pop_wrap_dir">
+<div id="grpCodeModal" class="pop_wrap_dir">
 
 </div>
 <!-- 모달 스크립트 -->
@@ -30,7 +30,7 @@
                 '<input type="hidden" id="cmGroupCodeIdM" name="cmGroupCodeIdM">' +
                 '<div class="mb-10" style="text-align: right;">' +
                 '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="saveGrpCode()">저장</button>' +
-                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#grpcodePodal\').data(\'kendoWindow\').close()">닫기</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#grpCodeModal\').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
                 '	<colgroup>' +
@@ -53,12 +53,12 @@
                 '	</tbody>' +
                 '</table>';
 
-            $("#grpcodePodal").html(htmlStr);
+            $("#grpCodeModal").html(htmlStr);
 
             modalKendoSetCmCodeCM();
         },
         close: function () {
-            $("#grpcodePodal").empty();
+            $("#grpCodeModal").empty();
         }
     });
 
@@ -133,7 +133,7 @@
             type : "post",
             dataType : "json",
             success : function (){
-                $("#grpcodePodal").close();
+                $("#grpCodeModal").close();
             }
         });
     }
