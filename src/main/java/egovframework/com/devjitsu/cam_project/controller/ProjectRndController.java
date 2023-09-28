@@ -176,6 +176,73 @@ public class ProjectRndController {
         return "popup/cam_project/rnd/payMoveInfo";
     }
 
+    /**
+     * 프로젝트 R&D > TAB5 > 예산관리
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/budgetInfo.do")
+    public String budgetInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/budgetInfo";
+    }
+
+    /**
+     * 프로젝트 R&D > TAB6 > 연구비신청
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/rschPayReqInfo.do")
+    public String rschPayReqInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/rschPayReqInfo";
+    }
+
+
+    /**
+     * 프로젝트 R&D > TAB7 > 연구비정산
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/rschPayRepInfo.do")
+    public String rschPayRepInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/rschPayRepInfo";
+    }
+
 
     /* Popup Line =================================================== */
 
@@ -239,8 +306,20 @@ public class ProjectRndController {
         return "popup/cam_project/devJob";
     }
 
+    @RequestMapping("/projectRnd/pop/popBudget.do")
+    public String popBudget(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
 
-    /* Get Data Line */
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/budget";
+    }
+
+
+    /* Get Data Line =====================================================*/
 
     /**
      * 프로젝트 RND > Tab0 > 등록된 연구원 조회
