@@ -11,8 +11,12 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <div style="padding: 10px">
     <div class="table-responsive">
-        <button type="button" id="" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" disabled onclick="">인쇄</button>
+        <button type="button" id="payReqSaveBtn" style="float: right; margin-bottom: 5px;" disabled class="k-button k-button-solid-info" onclick="">신청완료</button>
+        <button type="button" id="payReqPrintBtn" style="float: right; margin-bottom: 5px; margin-right: 5px;" disabled class="k-button k-button-solid-base" onclick="">인쇄</button>
+        <button type="button" id="payReqAddBtn" style="float: right; margin-bottom: 5px; margin-right: 5px;" disabled class="k-button k-button-solid-base" onclick="">등록</button>
         <br><br>
+
+        <div id="payReqMainGrid"></div>
 
     </div>
 </div>

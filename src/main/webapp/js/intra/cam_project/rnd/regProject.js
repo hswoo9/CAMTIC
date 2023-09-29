@@ -44,7 +44,7 @@ var regRnd = {
         var tab4Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
         var tab5Url = "/projectRnd/budgetInfo.do";              // 예산관리
         var tab6Url = "/projectRnd/rschPayReqInfo.do";          // 연구비신청
-        var tab7Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산
+        var tab7Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
 
         var tab8Url = "/intra/cam_project/b.do";
 
@@ -117,6 +117,7 @@ var regRnd = {
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
         tabStrip.select(0);
+        tabStrip.disable(tabStrip.tabGroup.children().eq(7));
 
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
