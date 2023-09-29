@@ -45,7 +45,9 @@
         overflow-x: hidden !important;
     }
 </style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/regProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -68,20 +70,19 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
-                <input type="text" id="busnLgClass" style="width: 200px;"  />
-                <input type="text" id="busnClass" style="width: 200px; display:none" />
-                  <input type="hidden" id="pjtStep" value="E">
-                <input type="hidden" id="pjtStepNm" value="상담">
+                <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+                <input type="hidden" id="pjtStep" value="R">
+                <input type="hidden" id="pjtStepNm" value="과제등록">
             </h3>
 
             <div class="btn-st popButton">
-                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regPrj.fn_stopModal()" /> 중단</button>
-                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regPrj.fn_save()">저장</button>
-                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regPrj.fn_mod()">수정</button>
+                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regRnd.fn_stopModal()" /> 중단</button>
+                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regRnd.fn_save()">저장</button>
+                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regRnd.fn_mod()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
-        <div id="vEngi" style="padding: 20px 30px;display: none;">
+        <div id="vRnd" style="padding: 20px 30px;">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="15%">
@@ -92,37 +93,70 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>상담코드
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="contCd" style="width: 30%;" value="${data.PJT_CD}" disabled>
-                    </td>
-
-
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>상담일자
+                        <span class="red-star">*</span>과제구분
                     </th>
                     <td>
-                        <input type="text" id="consultDt" style="width: 90%;">
+                        <input type="text" id="sbjClass" style="width: 90%;" value="">
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>면담자
+                        <span class="red-star">*</span>과제성격
                     </th>
                     <td>
-                        <input type="text" id="deptName" style="width: 40%" value="${loginVO.orgnztNm}" disabled>
-                        <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}" disabled>
-                        <input type="text" id="empName" style="width: 30%" value="${loginVO.name}" disabled>
-                        <input type="hidden" id="empSeq" value="${loginVO.uniqId}">
-<%--                        <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch();">--%>
-<%--                            검색--%>
-<%--                        </button>--%>
+                        <input type="text" id="sbjChar" style="width: 90%;" value="">
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>
+                    <td>
+                        <input type="text" id="supDep" name="supDep" style="width: 90%"/>
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>전담기관</th>
+                    <td>
+                        <input type="text" id="supDepSub" name="supDepSub" style="width: 90%"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>주관기관</th>
+                    <td>
+                        <input type="text" id="rndCrmNm" name="rndCrmNm" style="width: 80%"/>
+                        <input type="hidden" id="rndCrmSn" name="rndCrmSn" />
+                        <button type="button" id="s" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList()">
+                            조회
+                        </button>
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>위탁기관</th>
+                    <td>
+                        <input type="text" id="rndConCrmNm" name="rndConCrmNm" value="${data.CRM_CON_NM}" style="width: 80%"/>
+                        <input type="hidden" id="rndConCrmSn" name="rndConCrmSn" value="${data.CRM_CON_SN}" />
+                        <button type="button" id="s2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('con')">
+                            조회
+                        </button>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>제목
+                        <span class="red-star">*</span>연구 시작/종료일
+                    </th>
+                    <td>
+                        <input type="text" id="sbjStrDe" style="width: 40%;"> ~
+                        <input type="text" id="sbjEndDe" style="width: 40%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>과제담당자
+                    </th>
+                    <td>
+                        <input type="text" id="deptName" style="width: 40%" disabled>
+                        <input type="hidden" id="deptSeq" disabled>
+                        <input type="text" id="empName" style="width: 30%" disabled>
+                        <input type="hidden" id="empSeq">
+                        <button type="button" id="staffSelect" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch();">
+                            검색
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>과제명
                     </th>
                     <td colspan="3">
                         <input type="text" id="pjtNm" style="width: 95%;">
@@ -130,16 +164,30 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>예상견적가
+                        <span class="red-star">*</span>과제명(약칭)
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="pjtSubNm" style="width: 95%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>사업비 분리사용 유무
                     </th>
                     <td>
-                        <input type="text" id="expAmt" style="width: 90%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
+                        <span>
+                            <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
+                            <label for="sbjSepN">없음</label>
+                            <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
+                            <label for="sbjSepY">있음</label>
+                        </span>
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>장소
+                        <span class="red-star"></span>3책 5공
                     </th>
                     <td>
-                        <input type="text" id="contLoc" style="width: 90%;">
+                        <input type="checkbox" id="rndStatYn" name="rndStatYn" style="position: relative; top: 3px;">
+                        <label for="rndStatYn">적용</label>
                     </td>
                 </tr>
                 </thead>
@@ -162,82 +210,9 @@
 <div id="pjtStopModal">
     <input type="text" id="pjtStopRs" />
 </div>
-
-<div id="pjtSelectModal">
-</div>
 <script>
-
-    $("#pjtSelectModal").kendoWindow({
-        title : "프로젝트 등록",
-        width: "700px",
-        visible: false,
-        modal: true,
-        position : {
-            top : 200,
-            left : 400
-        },
-        open : function (){
-            var htmlStr =
-                '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="regPrj.fn_startProject()">등록</button>' +
-                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#pjtSelectModal \').data(\'kendoWindow\').close()">닫기</button>' +
-                '</div>' +
-                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
-                '	<colgroup>' +
-                '		<col width="20%">' +
-                '		<col width="30%">' +
-                '		<col width="50%">' +
-                '	</colgroup>' +
-                '	<tbody>' +
-                '		<tr>' +
-                '			<th scope="row" class="text-center th-color" style="background-color: #4c7fbf; color : #ffffff"><span class="red-star">*</span>프로젝트 선택</th>' +
-                '			<td>' +
-                '				<input type="radio" id="projectDepthA" value="1" name="projectLg" style="position: relative; top: 3px;" />' +
-                '				<label for="projectDepthA" style="margin-right: 15px;">정부사업</label> <br>' +
-                '				<input type="radio" id="projectDepthB" value="2" name="projectLg" style="position: relative; top: 3px;" />' +
-                '				<label for="projectDepthB">민간사업</label>' +
-                '			</td>' +
-                '			<td>' +
-                '               <span id="deptA">' +
-                '				    <input type="radio" id="R" value="R" name="projectSm" style="position: relative; top: 3px;" />' +
-                '				    <label for="R">R&D</label> <br>' +
-                '				    <input type="radio" id="S" value="S" name="projectSm" style="position: relative; top: 3px;" />' +
-                '				    <label for="S">비R&D</label> <br>' +
-                '               </span>' +
-                '               <span id="deptB">' +
-                '				    <input type="radio" id="D" value="D" name="projectSm" style="position: relative; top: 3px;" />' +
-                '				    <label for="D">엔지니어링</label> <br>' +
-                '				    <input type="radio" id="V" value="V" name="projectSm" style="position: relative; top: 3px;" />' +
-                '				    <label for="V">용역/기타</label>' +
-                '               </span>' +
-                '			</td>' +
-                '		</tr>' +
-                '	</tbody>' +
-                '</table>';
-
-            $("#pjtSelectModal").html(htmlStr);
-
-            // modalKendoSetCmCodeCM();
-
-            $("#projectDepthA").click(function (){
-                $("#deptA").css("display", "");
-                $("#deptB").css("display", "none");
-                $("input[name='projectSm']").prop("checked", false)
-            });
-
-            $("#projectDepthB").click(function(){
-                $("#deptB").css("display", "");
-                $("#deptA").css("display", "none");
-                $("input[name='projectSm']").prop("checked", false)
-            });
-
-
-            $("#pjtStopRs").kendoTextBox();
-        },
-        close: function () {
-            $("#pjSelect").empty();
-        }
-    });
+    var inParameters = JSON.parse('${map}');
+    regUnRnd.fn_defaultScript(inParameters);
 
     $("#pjtStopModal").kendoWindow({
         title : "프로젝트 중단 사유",
@@ -279,19 +254,6 @@
             $("#pjtStopModal").empty();
         }
     });
-
-    function openModalSelect(){
-        $("#pjtSelectModal").data("kendoWindow").open();
-    }
-
-    function openModal(){
-        $("#pjtStopModal").data("kendoWindow").open();
-    }
-
-    var inParameters = JSON.parse('${map}');
-
-
-    regPrj.fn_defaultScript(inParameters);
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");

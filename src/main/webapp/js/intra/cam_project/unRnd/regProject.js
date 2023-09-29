@@ -1,4 +1,4 @@
-var regRnd = {
+var regUnRnd = {
 
 
     fn_defaultScript : function (setParameters){
@@ -36,20 +36,20 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/researcherInfo.do";          // 연구원관리
-        var tab1Url = "/projectRnd/rndDevPlan.do";              // 개발계획
-        var tab2Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
-        var tab3Url = "/projectRnd/rndDevJob.do";               // 개발일지
+        var tab0Url = "/projectRnd/researcherInfo.do";          // 사업정보
+        var tab1Url = "/projectRnd/rndDevPlan.do";              //
+        var tab2Url = "/projectRnd/rndDevSchedule.do";          //
+        var tab3Url = "/projectRnd/rndDevJob.do";               //
 
-        var tab4Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
-        var tab5Url = "/projectRnd/budgetInfo.do";              // 예산관리
-        var tab6Url = "/projectRnd/rschPayReqInfo.do";          // 연구비신청
-        var tab7Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
+        var tab4Url = "/projectRnd/payMvInfo.do";               //
+        var tab5Url = "/projectRnd/budgetInfo.do";              //
+        var tab6Url = "/projectRnd/rschPayReqInfo.do";          //
+        var tab7Url = "/projectRnd/rschPayRepInfo.do";          //
 
-        var tab8Url = "/intra/cam_project/b.do";                // 참여율 -- 인사이드 참여율 완성 후 작업
+        var tab8Url = "/intra/cam_project/b.do";                //
 
-        var tab9Url = "/intra/cam_project/teamInfo.do";         // 협업관리
-        var tab10Url= "/intra/cam_project/purcInfo.do";         // 구매관리
+        var tab9Url = "/intra/cam_project/teamInfo.do";         //
+        var tab10Url= "/intra/cam_project/purcInfo.do";         //
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -80,7 +80,7 @@ var regRnd = {
                 let stepValue = "";
                 let nextStepValue = "";
 
-                if(tabName == "연구원관리"){
+                if(tabName == "사업정보"){
                     step = "R0";
                 } else if (tabName == "개발계획"){
                     step = "R1";
@@ -101,14 +101,11 @@ var regRnd = {
             dataTextField: "name",
             dataContentUrlField: "url",
             dataSource : [
-                {name: "연구원관리", url: tab0Url},
-                {name: "개발계획", url: tab1Url},
-                {name: "개발일정", url: tab2Url},
-                {name: "개발일지", url: tab3Url},
-                {name: "입출금대장관리", url: tab4Url},
-                {name: "예산관리", url: tab5Url}, // 연구비 입금처리와 같이 사용
-                {name: "연구비신청", url: tab6Url},
-                {name: "연구비정산", url: tab7Url},
+                {name: "사업정보", url: tab0Url},
+                {name: "사업수행계획", url: tab1Url},
+                {name: "단위사업", url: tab2Url},
+                {name: "현장교육", url: tab3Url},
+                {name: "EDU매니저", url: tab4Url},
                 {name: "참여율관리", url: tab8Url}, // 지출내역조회와 같이 사용
                 {name: "협업관리", url: tab9Url},
                 {name: "구매관리", url: tab10Url}
@@ -125,8 +122,6 @@ var regRnd = {
             tabStrip.enable(tabStrip.tabGroup.children());
 
             tabStrip.select(0);
-            tabStrip.disable(tabStrip.tabGroup.children().eq(7));
-            tabStrip.disable(tabStrip.tabGroup.children().eq(8));
             regRnd.fn_setData(setParameters);
         }
     },

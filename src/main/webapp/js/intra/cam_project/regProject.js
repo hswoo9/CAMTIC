@@ -253,6 +253,8 @@ var regPrj = {
             $("#commFileHtml").css("display", "");
         } else if (value == "R") {
             location.href="/projectRnd/pop/regProject.do";
+        } else if (value == "S") {
+            location.href="/projectUnRnd/pop/regProject.do";
         } else {
             $("#vEngi").css("display", "none");
             $("#commFileHtml").css("display", "none");
@@ -424,6 +426,9 @@ var regPrj = {
         } else if (smValue == "R") {
             var busnClass = $("#busnClass").data("kendoDropDownList");
             busnClass.select(1);
+        } else if (smValue == "S"){
+            var busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.select(2);
         }
 
 
