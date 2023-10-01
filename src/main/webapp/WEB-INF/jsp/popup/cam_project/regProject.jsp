@@ -198,13 +198,13 @@
                 '				<label for="projectDepthB">민간사업</label>' +
                 '			</td>' +
                 '			<td>' +
-                '               <span id="deptA" style="display: none;">' +
+                '               <span id="deptA">' +
                 '				    <input type="radio" id="R" value="R" name="projectSm" style="position: relative; top: 3px;" />' +
                 '				    <label for="R">R&D</label> <br>' +
                 '				    <input type="radio" id="S" value="S" name="projectSm" style="position: relative; top: 3px;" />' +
-                '				    <label for="S">비R&D</label>' +
+                '				    <label for="S">비R&D</label> <br>' +
                 '               </span>' +
-                '               <span id="deptB" style="display: none;">' +
+                '               <span id="deptB">' +
                 '				    <input type="radio" id="D" value="D" name="projectSm" style="position: relative; top: 3px;" />' +
                 '				    <label for="D">엔지니어링</label> <br>' +
                 '				    <input type="radio" id="V" value="V" name="projectSm" style="position: relative; top: 3px;" />' +

@@ -695,16 +695,16 @@ var devInfo = {
                             });
 
                             var updData = {
-                                invSn : $("#invSn" + row).val(),
-                                invRow : row,
-                                divCd : $("#divNm"+row).val(),
-                                divNm : $("#divNm"+row).data("kendoDropDownList").text(),
-                                invNm : $("#invNm"+row).val(),
-                                invCnt : devInfo.uncomma($("#invCnt"+row).val()),
-                                invUnit : $("#invUnit"+row).val(),
-                                estTotAmt : devInfo.uncomma($("#estTotAmt"+row).val()),
-                                estOfc : $("#estOfc"+row).val(),
-                                invEtc : $("#invEtc"+row).val()
+                                invSn : $("#invSn" + idx).val(),
+                                invRow : idx,
+                                divCd : $("#divNm"+idx).val(),
+                                divNm : $("#divNm"+idx).data("kendoDropDownList").text(),
+                                invNm : $("#invNm"+idx).val(),
+                                invCnt : devInfo.uncomma($("#invCnt"+idx).val()),
+                                invUnit : $("#invUnit"+idx).val(),
+                                estTotAmt : devInfo.uncomma($("#estTotAmt"+idx).val()),
+                                estOfc : $("#estOfc"+idx).val(),
+                                invEtc : $("#invEtc"+idx).val()
                             }
 
                             $.ajax({

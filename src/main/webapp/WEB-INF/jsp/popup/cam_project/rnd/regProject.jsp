@@ -45,6 +45,7 @@
         overflow-x: hidden !important;
     }
 </style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/regProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -116,13 +117,19 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>주관기관</th>
                     <td>
-                        <input type="text" id="rndCrmNm" name="rndCrmNm" style="width: 90%"/>
+                        <input type="text" id="rndCrmNm" name="rndCrmNm" style="width: 80%"/>
                         <input type="hidden" id="rndCrmSn" name="rndCrmSn" />
+                        <button type="button" id="s" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList()">
+                            조회
+                        </button>
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star"></span>위탁기관</th>
                     <td>
-                        <input type="text" id="rndConCrmNm" name="rndConCrmNm" style="width: 90%"/>
-                        <input type="hidden" id="rndConCrmSn" name="rndConCrmSn" />
+                        <input type="text" id="rndConCrmNm" name="rndConCrmNm" value="${data.CRM_CON_NM}" style="width: 80%"/>
+                        <input type="hidden" id="rndConCrmSn" name="rndConCrmSn" value="${data.CRM_CON_SN}" />
+                        <button type="button" id="s2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('con')">
+                            조회
+                        </button>
                     </td>
                 </tr>
                 <tr>

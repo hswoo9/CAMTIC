@@ -27,18 +27,22 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
-                LEFT JOIN
+        LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN B
-            ON
-                A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
-            LEFT JOIN
+        ON
+            A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
+        LEFT JOIN
             CAM_CRM.DJ_CRM_INFO D
-            ON
-                A.CRM_SN = D.CRM_SN
-                LEFT JOIN
+        ON
+            A.CRM_SN = D.CRM_SN
+        LEFT JOIN
+            (SELECT CRM_NM as CRM_CON_NM, CRM_SN as CRM_CON_SN FROM CAM_CRM.DJ_CRM_INFO) DA
+        ON
+            A.CRM_CON_SN = DA.CRM_CON_SN
+        LEFT JOIN
             CAM_CRM.DJ_CRM_MEM CM
-            ON
-                D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
+        ON
+            D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -580,21 +584,25 @@
     <select id="getDevPjtVerList" parameterType="map" resultType="map">
         /*getDevPjtVerList*/
         SELECT
-            *
+            *,
+            C.REG_DT AS INV_DT
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
-                LEFT JOIN
+        LEFT JOIN
             (SELECT *
              FROM
                  CAM_PJT_MNG.DJ_PJT_EST
              WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1) B
-            ON
-                A.PJT_SN = B.PJT_SN
-                LEFT JOIN
+        ON
+            A.PJT_SN = B.PJT_SN
+        LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_DEV C
-            ON
-                A.PJT_SN = C.PJT_SN
-                LEFT JOIN
+        ON
+            A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO D
+        ON C.REG_EMP_SEQ = D.EMP_SEQ
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON C.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
@@ -666,30 +674,32 @@
     <insert id="insInvData" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_INV
         (
-        PJT_SN,
-        INV_ROW,
-        DIV_CD,
-        DIV_NM,
-        INV_NM,
-        INV_CNT,
-        INV_UNIT,
-        EST_TOT_AMT,
-        EST_OFC,
-        INV_ETC,
-        REG_EMP_SEQ
+            PJT_SN,
+            DEV_SN,
+            INV_ROW,
+            DIV_CD,
+            DIV_NM,
+            INV_NM,
+            INV_CNT,
+            INV_UNIT,
+            EST_TOT_AMT,
+            EST_OFC,
+            INV_ETC,
+            REG_EMP_SEQ
         ) VALUES
         (
-        #{pjtSn},
-        #{invRow},
-        #{divCd},
-        #{divNm},
-        #{invNm},
-        #{invCnt},
-        #{invUnit},
-        #{estTotAmt},
-        #{estOfc},
-        #{invEtc},
-        #{regEmpSeq}
+            #{pjtSn},
+            #{devSn},
+            #{invRow},
+            #{divCd},
+            #{divNm},
+            #{invNm},
+            #{invCnt},
+            #{invUnit},
+            #{estTotAmt},
+            #{estOfc},
+            #{invEtc},
+            #{regEmpSeq}
         )
         <selectKey keyProperty="INV_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_INV'
@@ -706,7 +716,6 @@
     <update id="updInvest" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_INV
         SET
-            PJT_SN = #{pjtSn},
             INV_ROW = #{invRow},
             DIV_CD = #{divCd},
             DIV_NM = #{divNm},
@@ -1528,4 +1537,13 @@
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
+
+    <update id="updPjtDevTotAmt" parameterType="map">
+        /*updPjtDevTotAmt*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            INV_AMT = #{totAmt}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
 </mapper>

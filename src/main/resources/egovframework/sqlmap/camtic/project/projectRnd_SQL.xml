@@ -4,6 +4,7 @@
 <mapper namespace="projectRnd">
 
     <insert id="insSubjectInfo" parameterType="map">
+        /* insSubjectInfo */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
             (
                 BUSN_CLASS,
@@ -22,6 +23,8 @@
                 DEPT_NAME,
                 PJT_NM,
                 PJT_SUB_NM,
+                CRM_SN,
+                CRM_CON_SN,
                 REG_EMP_SEQ
             )
         VALUES
@@ -42,6 +45,8 @@
                 #{deptName},
                 #{pjtNm},
                 #{pjtSubNm},
+                #{crmSn},
+                #{crmConSn},
                 #{regEmpSeq}
             )
 
@@ -49,4 +54,214 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
         </selectKey>
     </insert>
+
+    <update id="updSubjectInfo" parameterType="map">
+        /*updSubjectInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            SBJ_CLASS = #{sbjClass},
+            SBJ_CHAR = #{sbjChar},
+            SBJ_DEP = #{sbjDep},
+            SBJ_DEP_SUB = #{sbjDepSub},
+            STR_DT = #{strDt},
+            END_DT = #{endDt},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            PJT_NM = #{pjtNm},
+            PJT_SUB_NM = #{pjtSubNm},
+            CRM_SN = #{crmSn},
+            CRM_CON_SN = #{crmConSn}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getPopRschList" parameterType="map" resultType="map">
+        /*getPopRschList*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_RSCH_INFO
+    </select>
+
+    <select id="getRschData" parameterType="map" resultType="map">
+        /*getRschData*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_RSCH_INFO
+        WHERE
+            RSCH_SN = #{rschSn}
+    </select>
+
+    <insert id="insPjtRschData" parameterType="map">
+        /*insPjtRschData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_RSCH
+            (
+                PJT_SN,
+                PJT_RSCH_EMP_SEQ,
+                PJT_RSCH_COMP,
+                PJT_RSCH_NM,
+                PJT_RSCH_POSITION,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{EMP_SEQ},
+                #{RSCH_COMP},
+                #{RSCH_NM},
+                #{RSCH_POSITION},
+                #{empSeq}
+            )
+
+    </insert>
+
+    <select id="getPjtRschInfo" parameterType="map" resultType="map">
+        /*getPjtRschInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RSCH
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getRschCount" parameterType="map" resultType="int">
+        /*getRschCount*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RSCH
+        WHERE
+            PJT_RSCH_EMP_SEQ = #{EMP_SEQ}
+    </select>
+
+    <delete id="delRschData" parameterType="map">
+        /*delRschData*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_RSCH
+        WHERE
+            PJT_RSCH_SN = #{pjtRschSn}
+    </delete>
+
+    <insert id="insDevPjtVer" parameterType="map">
+        /*insDevPjtVer*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV
+            (
+                PJT_SN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{empSeq}
+            )
+        <selectKey keyProperty="devSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
+        </selectKey>
+    </insert>
+
+    <update id="updDevInfo" parameterType="map">
+        /*updDevInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            DEP_OBJ = #{devPlanCont},
+            ETC = #{devPlanIss}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
+
+    <select id="getRndDevScheduleList" parameterType="map" resultType="map">
+        /*getRndDevScheduleList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.REG_EMP_SEQ = B.EMP_SEQ
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insDevSchData" parameterType="map">
+        /*insDevSchData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_DEV_SCH
+            (
+                PJT_SN,
+                DEV_SCH_CD,
+                DEV_SCH_NM,
+                SCH_STR_DE,
+                DEV_SCH_ETC,
+                REG_EMP_SEQ
+            )
+        VALUE
+            (
+                #{pjtSn},
+                #{devSchCd},
+                #{devSchNm},
+                #{schStrDe},
+                #{devSchEtc},
+                #{empSeq}
+            )
+    </insert>
+
+    <select id="getRndDevJobList" parameterType="map" resultType="map">
+        /*getRndDevJobList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.REG_EMP_SEQ = B.EMP_SEQ
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            SCH_END_DE IS NOT NULL
+    </select>
+
+    <select id="getDevJobData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH
+        WHERE
+            PJT_SN = #{pjtSn} AND DEV_SCH_CD = #{devSchCd}
+    </select>
+
+    <update id="updDevJobInfo" parameterType="map">
+        /*updDevJobInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV_SCH
+        SET
+            DEV_SCH_TITLE = #{devSchTitle},
+            DEV_SCH_CONT = #{devSchCont},
+            SCH_END_DE = #{schEndDe}
+        <if test='schStat != null and !"".equals(schStat)'>
+            , SCH_STAT = #{schStat}
+        </if>
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            DEV_SCH_CD = #{devSchCd}
+    </update>
+
+    <select id="getDevSchInfo" parameterType="map" resultType="map">
+        /*getDevSchInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH A
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO B
+        ON
+            A.DEV_SCH_SN = B.CONTENT_ID
+        WHERE
+            A.DEV_SCH_SN = #{devSchSn}
+        AND
+            B.FILE_CD = #{devSchJob}
+    </select>
 </mapper>

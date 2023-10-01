@@ -641,6 +641,7 @@ public class ProjectController {
     public String selLgCode(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("rs", projectService.selLgCode(params));
+        model.addAttribute("list", projectService.selLgCode(params));
 
         return "jsonView";
     }
@@ -1018,6 +1019,13 @@ public class ProjectController {
         } catch(Exception e){
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/updPjtDevTotAmt")
+    public String updPjtDevTotAmt(@RequestParam Map<String, Object> params){
+        projectService.updPjtDevTotAmt(params);
 
         return "jsonView";
     }

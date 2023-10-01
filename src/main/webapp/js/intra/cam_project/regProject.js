@@ -253,6 +253,8 @@ var regPrj = {
             $("#commFileHtml").css("display", "");
         } else if (value == "R") {
             location.href="/projectRnd/pop/regProject.do";
+        } else if (value == "S") {
+            location.href="/projectUnRnd/pop/regProject.do";
         } else {
             $("#vEngi").css("display", "none");
             $("#commFileHtml").css("display", "none");
@@ -338,7 +340,7 @@ var regPrj = {
         }
         $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
-        $("#expAmt").val(regPrj.comma(p.EXP_AMT));
+        $("#expAmt").val(regPrj.comma(p.PJT_AMT));
         $("#contLoc").val(p.CONT_LOC);
         $("#deptName").val(p.DEPT_NAME);
         $("#empName").val(p.EMP_NAME);
@@ -424,6 +426,9 @@ var regPrj = {
         } else if (smValue == "R") {
             var busnClass = $("#busnClass").data("kendoDropDownList");
             busnClass.select(1);
+        } else if (smValue == "S"){
+            var busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.select(2);
         }
 
 
