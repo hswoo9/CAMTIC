@@ -148,11 +148,11 @@ var recruitAdminPop = {
                                 var str = "";
 
                                 if(e.APPLICATION_STAT == "I"){
-                                    str = '합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
+                                    str = '합격 (' + e.IN_SCREEN_AVERAGE + "점)";
                                 }else if(e.APPLICATION_STAT == "IF"){
-                                    str = '불합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
+                                    str = '불합격 (' + e.IN_SCREEN_AVERAGE + "점)";
                                 }else{
-                                    str = e.DOC_SCREEN_AVERAGE + '점';
+                                    str = e.IN_SCREEN_AVERAGE + '점';
                                 }
 
                                 return str;
