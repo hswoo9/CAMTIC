@@ -44,18 +44,6 @@ public class EvalController {
     @Autowired
     private RecruitService recruitService;
 
-    @Autowired
-    private LoginService loginService;
-
-    /**
-     * 심사 - 로그인 페이지
-     */
-    @RequestMapping("/evaluation/evalLogin.do")
-    public String evalLogin(@RequestParam Map<String, Object> params, Model model) {
-        model.addAttribute("params", params);
-        return "popup/inside/evaluation/evalLogin";
-    }
-
     /**
      * 사용자 체크
      * @return
