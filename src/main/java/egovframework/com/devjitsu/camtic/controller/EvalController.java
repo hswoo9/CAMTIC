@@ -134,37 +134,4 @@ public class EvalController {
         model.addAttribute("rs", evalService.setEvalEnd(params));
         return "jsonView";
     }
-
-
-
-    public static String passwordEncrypt(String userPassword) throws Exception {
-        if(userPassword != null && !userPassword.equals("")){
-            return EgovFileScrty.encryptPassword(userPassword);
-        }else{
-            return "";
-        }
-    }
-
-    public String replacePasswd(String str){
-        if(str.indexOf("&nbsp;") != -1) {
-            str = str.replaceAll("&nbsp;", " ");}
-        if(str.indexOf("&amp;") != -1) {
-            str = str.replaceAll("&amp;", "&");}
-        if(str.indexOf("&lt;") != -1) {
-            str = str.replaceAll("&lt;", "<");}
-        if(str.indexOf("&gt;") != -1) {
-            str = str.replaceAll("&gt;", ">");}
-        if(str.indexOf("&quot;") != -1) {
-            str = str.replaceAll("&quot;", "\"");}
-        return str;
-    }
-
-    public boolean checkPassword(Map<String, Object> user, Map<String, Object> params) throws Exception {
-        boolean flag = false;
-        // sha256 암호비교
-        if(user.get("PWD").equals(params.get("userPassword").toString())) {
-            flag = true;
-        }
-        return flag;
-    }
 }

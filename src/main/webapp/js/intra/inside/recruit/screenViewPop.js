@@ -461,7 +461,7 @@ const pdfMake = () => {
                 curHeight += 10;
             }
 
-            if (curHeight + sortedHeight > 150 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
+            if (curHeight + sortedHeight - 20 > 100 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
                 doc.addPage(734, 425); // 페이지를 추가함
                 curHeight = 20; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
                 doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
