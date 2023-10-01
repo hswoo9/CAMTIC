@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.recruit.service.EvalManageService;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class RecruitController {
     private static final Logger logger = LoggerFactory.getLogger(RecruitController.class);
 
     @Autowired
+    private UserManageService userManageService;
+
+    @Autowired
     private RecruitService recruitService;
 
     @Autowired
@@ -38,7 +42,7 @@ public class RecruitController {
     private UserService userService;
 
     /**
-     * 채용관리 리스트 페이지
+     * 채용관리 리스트 페이지(관리자)
      * @param request
      * @param model
      * @return
@@ -51,6 +55,38 @@ public class RecruitController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/recruit/recruitList";
+    }
+
+    /**
+     * 채용관리 리스트 페이지(팀장)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/recruitListTl.do")
+    public String recruitListTl(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/recruit/recruitListTl";
+    }
+
+    /**
+     * 채용관리 리스트 페이지(평가위원)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/recruitListEval.do")
+    public String recruitListEval(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/recruit/recruitListEval";
     }
 
     /**
@@ -361,15 +397,16 @@ public class RecruitController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/pop/selInEvalPop.do")
+    @RequestMapping("/inside/pop/selEvalPop.do")
     public String selInEvalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+        model.addAttribute("recruit", recruitService.getRecruit(params));
 
-        return "popup/inside/recruit/selInEvalPop";
+        return "popup/inside/recruit/selEvalPop";
     }
 
     /**
@@ -405,6 +442,24 @@ public class RecruitController {
         return "jsonView";
     }
 
+
+    /**
+     * 채용관리 리스트 페이지(평가위원)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/recruitEvalSel.do")
+    public String recruitEvalSel(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/recruit/recruitEvalSel";
+    }
+
+
     /**
      * 평가위원관리 페이지
      * @param request
@@ -439,9 +494,9 @@ public class RecruitController {
      * @param params
      * @return
      */
-    @RequestMapping("/inside/setCommissionerDel")
+    @RequestMapping("/inside/setCommissionerEmpInfoDel")
     public String setCommissionerDel(@RequestParam Map<String,Object> params) {
-        recruitService.setCommissionerDel(params);
+        recruitService.setCommissionerEmpInfoDel(params);
         return "jsonView";
     }
 
@@ -468,14 +523,15 @@ public class RecruitController {
      * @param model
      * @return
      */
-    @RequestMapping("/inside/setCommissionerInsert")
-    public String setCommissionerInsert(@RequestParam Map<String, Object> params, Model model) throws Exception{
-        String inputLoginId = params.get("id").toString() + params.get("userIdSub1").toString() + params.get("userIdSub2").toString();
+    @RequestMapping("/inside/setCommissionerEmpInfo")
+    public String setCommissionerEmpInfo(@RequestParam Map<String, Object> params, Model model) throws Exception{
+        String inputLoginId = params.get("LOGIN_ID").toString() + params.get("userIdSub1").toString() + params.get("userIdSub2").toString();
         Boolean completeKeyFlag = false;
-        params.put("id", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
-        params.put("pwd", passwordEncrypt(replacePasswd(AESCipher.AES128SCRIPT_Decode(params.get("pwd").toString(), completeKeyFlag))));
+        params.put("LOGIN_ID", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
+        params.put("LOGIN_PASSWD", passwordEncrypt(replacePasswd(AESCipher.AES128SCRIPT_Decode(params.get("LOGIN_PASSWD").toString(), completeKeyFlag))));
+        params.put("loginId", params.get("LOGIN_ID"));
 
-        recruitService.setCommissionerInsert(params);
+        recruitService.setEvalEmpInfo(params);
         return "jsonView";
     }
 

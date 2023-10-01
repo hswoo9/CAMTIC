@@ -61,4 +61,8 @@
 
 <script>
 	menuGM.fn_defaultScript();
+
+	function userDataSet(e){
+		menuGM.userMultiplePopClose(e);
+	}
 </script>

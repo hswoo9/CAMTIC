@@ -12,6 +12,7 @@ var evalInApplicationList = {
     getRecruitInfo : function(){
         evalInApplicationList.global.saveAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
+            evalEmpSeq : $("#evalEmpSeq").val(),
         }
 
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", evalInApplicationList.global.saveAjaxData);
@@ -59,7 +60,10 @@ var evalInApplicationList = {
                 }, {
                     field: "USER_NAME",
                     title: "성명",
-                    width : 100
+                    width : 100,
+                    template : function(e){
+                        return '<a style="cursor: pointer;" onclick="evalInApplicationList.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
+                    }
                 }, {
                     field: "AGE_GENDER",
                     title: "나이(성별)",
@@ -105,10 +109,17 @@ var evalInApplicationList = {
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
             searchType : "D",
             evalType : "in",
-            evalLoginId : $("#evalLoginId").val()
+            evalEmpSeq : $("#evalEmpSeq").val()
         }
 
         evalInApplicationList.mainGrid("/inside/getInApplicationList.do", evalInApplicationList.global.searchAjaxData);
+    },
+
+    applicationInfo : function(e){
+        var url = "/inside/pop/applicationView.do?applicationId=" + e;
+        var name = "recruitReqPop";
+        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     evalInScreenPop : function(e){
@@ -127,7 +138,7 @@ var evalInApplicationList = {
     setEvalEnd : function(){
         if(confirm("면접심사평가에 참여해 주셔서 진심으로 감사드립니다.\n면접심사평가를 종료합니다.")){
             evalInApplicationList.global.saveAjaxData = {
-                evalLoginId : $("#evalLoginId").val(),
+                evalEmpSeq : $("#evalEmpSeq").val(),
                 recruitInfoSn : $("#recruitInfoSn").val(),
                 applicationStat : "D",
                 evalScreenType : "in"
@@ -136,11 +147,7 @@ var evalInApplicationList = {
             if(result.flag){
                 if(result.rs.chk){
                     alert("평가가 종료되었습니다.");
-                    if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
-                        location.href = "http://localhost:8090/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=in"
-                    }else if(location.host.indexOf("218.158.231.186") > -1){
-                        location.href = "http://218.158.231.186:8080/evaluation/evalLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=in"
-                    }
+                    window.close();
                 }else{
                     alert("평가내용이 저장되지 않은 응시원서가 있습니다.");
                 }

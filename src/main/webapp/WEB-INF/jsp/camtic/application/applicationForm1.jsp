@@ -35,8 +35,10 @@
                             지원분야
                         </th>
                         <td colspan="4">
-                            <select id="recruitAreaInfoSn" name="recruitAreaInfoSn">
-                            </select>
+                            <div id="careerType">
+                                <select id="recruitAreaInfoSn" name="recruitAreaInfoSn" onchange="applicationForm.careerType()">
+                                </select>
+                            </div>
                         </td>
                     </tr>
                     <tr>

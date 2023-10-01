@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalInApplicationList.js?v=${today}"></script>
+<style>
+  a:hover {
+    text-decoration: underline !important;
+    color: blue !important;
+  }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12">
   <div class="table-responsive">
@@ -15,15 +21,17 @@
         채용 면접심사 평가
       </h3>
       <div class="btn-st popButton">
+        <c:if test="${eval ne null}">
         <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="evalInApplicationList.setEvalEnd();">심사종료</button>
+        </c:if>
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
       </div>
     </div>
 
     <div class="panel-body">
       <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
-      <input type="hidden" id="evalLoginId" name="evalLoginId" value="${eval.EVAL_LOGIN_ID}">
+      <input type="hidden" id="evalEmpSeq" name="evalEmpSeq" value="${params.uniqId}">
       <input type="hidden" id="evalType" name="evalType" value="doc">
-
 
       <table class="searchTable table table-bordered mb-0">
         <colgroup>

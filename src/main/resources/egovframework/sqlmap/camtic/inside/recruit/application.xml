@@ -141,6 +141,7 @@
             (
                 RECRUIT_INFO_SN,
                 RECRUIT_AREA_INFO_SN,
+                CAREER_TYPE,
                 USER_EMAIL,
                 USER_NAME,
                 USER_NAME_EN,
@@ -171,6 +172,7 @@
             (
                 #{recruitInfoSn},
                 #{recruitAreaInfoSn},
+                #{careerType},
                 #{userEmail},
                 #{userName},
                 #{userNameEn},
@@ -209,6 +211,7 @@
             CAM_INSIDE.DJ_APPLICATION_MAIN
         SET
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn},
+            CAREER_TYPE = #{careerType},
             USER_EMAIL = #{userEmail},
             USER_NAME = #{userName},
             USER_NAME_EN = #{userNameEn},

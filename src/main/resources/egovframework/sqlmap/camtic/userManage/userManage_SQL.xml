@@ -415,6 +415,9 @@
         HEIGHT,
         VISIONL,
         VISIONR,
+        <if test="genderCode != null and genderCode != ''">
+            GENDER_CODE,
+        </if>
         WEDDING_ACTIVE,
         <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
             WEDDING_DAY,
@@ -489,6 +492,9 @@
         #{HEIGHT},
         #{VISIONL},
         #{VISIONR},
+        <if test="genderCode != null and genderCode != ''">
+            #{genderCode},
+        </if>
         #{WEDDING_ACTIVE},
         <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
             #{WEDDING_DAY},
@@ -527,6 +533,10 @@
         #{BDAY},
         #{TEMP_DIVISION}
         )
+
+        <selectKey keyProperty="empSeq" resultType="Integer" order="BEFORE">
+            SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A
+        </selectKey>
     </insert>
 
     <select id="getCodeList" parameterType="map" resultType="map">

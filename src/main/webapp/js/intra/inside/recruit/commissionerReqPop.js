@@ -9,7 +9,7 @@ var commissionerReq = {
     },
 
     dataSet : function(){
-        customKendo.fn_textBox(["id", "pwd", "name", "firstRrnName", "secondRrnName", "telNum", "email", "belong", "dutyPosition", "bmk"]);
+        customKendo.fn_textBox(["id", "pwd", "name", "firstRrnName", "secondRrnName", "telNum", "email", "belong", "dutyPosition", "rmk"]);
 
         $("#gender").kendoRadioGroup({
             items: [
@@ -66,27 +66,32 @@ var commissionerReq = {
         $("#userIdSub2").val(userId2);
 
         commissionerReq.global.saveAjaxData = {
-            id: userId0,
+            authorityGroupId : "14",
+            LOGIN_ID: userId0,
             userIdSub1 : $("#userIdSub1").val(),
             userIdSub2 : $("#userIdSub2").val(),
-            pwd: securityEncUtil.securityEncrypt($("#pwd").val(), "0"),
-            name: $("#name").val(),
-            firstRrnName: $("#firstRrnName").val(),
-            secondRrnName: $("#secondRrnName").val(),
-            telNum: $("#telNum").val(),
-            email: $("#email").val(),
-            belong: $("#belong").val(),
+            LOGIN_PASSWD : securityEncUtil.securityEncrypt($("#pwd").val(), "0"),
+            EMP_NAME_KR : $("#name").val(),
+            empName : $("#name").val(),
+            RES_REGIS_NUM: $("#firstRrnName").val() + "-" + $("#secondRrnName").val(),
+            MOBILE_TEL_NUM: $("#telNum").val(),
+            EMAIL_ADDR: $("#email").val(),
+            DEPT_NAME: $("#belong").val(),
+            deptName: $("#belong").val(),
+            genderCode : $("#gender").data("kendoRadioGroup").value(),
+            POSITION_NAME : $("#dutyPosition").val(),
+            dutyName : "",
+            positionName : "",
+            SIGNIFICANT : $("#rmk").val(),
+            TEMP_DIVISION : "E",
+            ACTIVE : "Y",
+            active : "Y",
             regEmpSeq: $("#regEmpSeq").val(),
             regEmpName: $("#regEmpName").val(),
-            gender : $("#gender").data("kendoRadioGroup").value(),
-            dutyPosition : $("#dutyPosition").val(),
-            bmk : $("#bmk").val()
         }
 
-        console.log(commissionerReq.global.saveAjaxData);
-
         if(confirm("평가위원을 저장하시겠습니까?")){
-            var result = customKendo.fn_customAjax("/inside/setCommissionerInsert", commissionerReq.global.saveAjaxData);
+            var result = customKendo.fn_customAjax("/inside/setCommissionerEmpInfo", commissionerReq.global.saveAjaxData);
             if(result.flag){
                 alert("등록되었습니다.");
                 opener.parent.commissionerManage.gridReload();

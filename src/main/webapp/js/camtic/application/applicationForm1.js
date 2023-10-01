@@ -12,10 +12,32 @@ var applicationForm = {
 
         applicationForm.getSelectBoxSetting();
         applicationForm.getKendoSetting();
+        applicationForm.careerType();
 
         if($("#applicationId").val() != ""){
             applicationForm.applicationDataSet($("#applicationId").val());
         }
+    },
+
+    careerType : function(){
+        var html = "";
+        if($("#recruitAreaInfoSn option:selected").attr("career") == "1,2"){
+            html += '' +
+                '<input type="radio" id="careerType1" name="careerType" class="careerType" value="1">' +
+                '<label for="careerType1" class="careerType">경력</label>' +
+                '<input type="radio" id="careerType2" name="careerType" class="careerType" value="2">' +
+                '<label for="careerType2" class="careerType">신입</label>';
+        }else if($("#recruitAreaInfoSn option:selected").attr("career") == "1"){
+            html += '' +
+                '<input type="radio" id="careerType1" name="careerType" class="careerType" value="1" checked>' +
+                '<label for="careerType1" class="careerType">경력</label>';
+        }else {
+            html += '' +
+                '<input type="radio" id="careerType2" name="careerType" value="2" class="careerType" checked>' +
+                '<label for="careerType2" class="careerType">신입</label>';
+        }
+        $("#careerType .careerType").remove()
+        $("#careerType").append(html);
     },
 
     addrSearch : function(){
@@ -59,7 +81,10 @@ var applicationForm = {
 
     setApplicationTempSave : function(type){
         if(type == "next"){
-            if(!$("#userName").val()){
+            if($("input[name='careerType']:checked").val() == null){
+                alert("지원분야를 선택해주세요.");
+                return;
+            }else if(!$("#userName").val()){
                 alert("이름(한글)을 입력해주세요.");
                 $("#userName").focus();
                 return;
@@ -167,6 +192,7 @@ var applicationForm = {
             formData.append("applicationId", $("#applicationId").val());
             formData.append("recruitInfoSn", $("#recruitInfoSn").val());
             formData.append("recruitAreaInfoSn", $("#recruitAreaInfoSn").val());
+            formData.append("careerType", $("input[name='careerType']:checked").val());
 
             formData.append("userEmail", $("#userEmail2").val());
             formData.append("userName", $("#userName").val());
@@ -313,7 +339,7 @@ var applicationForm = {
         if(e.length > 0){
             var html = "";
             for(var j = 0; j < e.length; j++){
-                html += "<option value='" + e[j].RECRUIT_AREA_INFO_SN + "'>" + e[j].JOB + "</option>"
+                html += "<option value='" + e[j].RECRUIT_AREA_INFO_SN + "' career='" + e[j].CAREER_TYPE + "'>" + e[j].JOB + "</option>"
             }
             $("#recruitAreaInfoSn").append(html);
         }

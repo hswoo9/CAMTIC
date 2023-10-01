@@ -119,8 +119,40 @@
         /* setEvalEndChk */
         SELECT
             CASE
-                WHEN (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = #{recruitInfoSn} AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = #{applicationStat} <if test='"in".equals(evalScreenType)'>AND AM.IN_AVOID = 'N'</if>) =
-                    (SELECT COUNT(*) FROM (SELECT * FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE EVAL_LOGIN_ID = #{evalLoginId} AND EVAL_SCREEN_TYPE = #{evalScreenType} GROUP BY APPLICATION_ID)A)
+                WHEN (
+                    SELECT
+                        COUNT(*)
+                    FROM
+                        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+                    JOIN
+                        CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+                    ON EL.EMP_SEQ = #{evalEmpSeq} AND AM.RECRUIT_AREA_INFO_SN = EL.RECRUIT_AREA_INFO_SN
+                    WHERE
+                        AM.RECRUIT_INFO_SN = #{recruitInfoSn}
+                    AND
+                        AM.SAVE_TYPE = 'S'
+                    AND
+                        AM.APPLICATION_STAT = #{applicationStat}
+                    <if test='"in".equals(evalScreenType)'>
+                    AND
+                        AM.IN_AVOID = 'N'
+                    </if>
+                    ) = (
+                        SELECT
+                            COUNT(*)
+                        FROM (
+                            SELECT
+                                SB.*
+                            FROM
+                                CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                            JOIN
+                                CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+                            ON EL.EVAL_LOGIN_ID = SB.EVAL_LOGIN_ID AND EL.EMP_SEQ = #{evalEmpSeq}
+                            WHERE
+                                EVAL_SCREEN_TYPE = #{evalScreenType}
+                            GROUP BY APPLICATION_ID
+                        )A
+                    )
                 THEN 1 ELSE 0
             END
         FROM
@@ -133,8 +165,10 @@
             CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
         SET
             EVAL_STATUS = 'E',
-            MOD_ID = #{evalLoginId}
+            MOD_ID = #{evalEmpSeq}
         WHERE
-            EVAL_LOGIN_ID = #{evalLoginId}
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+            EMP_SEQ = #{evalEmpSeq}
     </update>
 </mapper>

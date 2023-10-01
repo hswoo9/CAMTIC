@@ -12,7 +12,7 @@
         /* getRecruitList */
         SELECT
             IRI.*,
-            GROUP_CONCAT(DISTINCT AI.CAREER_TYPE separator '~') AS CAREER_TYPE,
+            GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
             SUM(AI.RECRUITMENT) AS RECRUITMENT,
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
@@ -62,6 +62,18 @@
         JOIN
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
+        <if test='page != null and !"".equals(page)'>
+            <choose>
+                <when test='"tl".equals(page)'>
+                    AND (AI.TEAM_SEQ = #{deptSeq} OR AI.DEPT_SEQ = #{deptSeq})
+                </when>
+                <when test='"eval".equals(page)'>
+                    JOIN
+                        CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+                    ON EL.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AI.RECRUIT_AREA_INFO_SN = EL.RECRUIT_AREA_INFO_SN AND EMP_SEQ = #{empSeq}
+                </when>
+            </choose>
+        </if>
         WHERE
             1=1
         AND
@@ -88,7 +100,7 @@
     <select id="getCommissionerList" parameterType="map" resultType="map">
         /*getCommissionerList*/
         SELECT
-            IRCI.*
+            EI.*
             <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
             ,(
                 SELECT
@@ -96,39 +108,63 @@
                 FROM
                     CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
                 WHERE
-                    RECRUIT_COMMISSIONER_INFO_SN = IRCI.RECRUIT_COMMISSIONER_INFO_SN
+                    EMP_SEQ = EI.EMP_SEQ
                 AND
                     RECRUIT_INFO_SN = #{recruitInfoSn}
+                AND
+                    RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+                <if test='evalType != null and !"".equals(evalType)'>
+                AND
+                    EVAL_TYPE = #{evalType}
+                </if>
             ) AS CHK
             </if>
         FROM
-            CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO IRCI
+            CAM_HR.DJ_EMP_INFO EI
         WHERE
             1=1
         AND
-            ACTIVE = 'Y'
-        <if test='searchId != null and !"".equals(searchId)'>
-            AND IRCI.ID LIKE CONCAT('%', #{searchId}, '%')
+            EI.TEMP_DIVISION = #{tempDivision}
+        AND
+            EI.ACTIVE = 'Y'
+        <if test='loginId != null and !"".equals(loginId)'>
+            AND EI.LOGIN_ID LIKE CONCAT('%', #{loginId}, '%')
         </if>
-        <if test='searchName != null and !"".equals(searchName)'>
-            AND IRCI.NAME LIKE CONCAT('%', #{searchName}, '%')
+        <if test='empNameKr != null and !"".equals(empNameKr)'>
+            AND EI.EMP_NAME_KR LIKE CONCAT('%', #{empNameKr}, '%')
         </if>
-        <if test='searchComp != null and !"".equals(searchComp)'>
-            AND IRCI.BELONG LIKE CONCAT('%', #{searchComp}, '%')
+        <if test='deptName != null and !"".equals(deptName)'>
+            AND EI.DEPT_NAME LIKE CONCAT('%', #{deptName}, '%')
         </if>
-        ORDER BY IRCI.REG_DT
+
+        <if test='searchKeyWord != null and !"".equals(searchKeyWord)'>
+            <choose>
+                <when test='!"all".equals(searchKeyWord)'>
+                    AND ${searchKeyWord} LIKE CONCAT('%', #{searchContent}, '%')
+                </when>
+                <otherwise>
+                    AND (
+                        EI.LOGIN_ID LIKE CONCAT('%', #{searchContent}, '%') OR
+                        EI.EMP_NAME_KR LIKE CONCAT('%', #{searchContent}, '%') OR
+                        EI.DEPT_NAME LIKE CONCAT('%', #{searchContent}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+
+        ORDER BY EI.REG_DATE DESC
     </select>
 
-    <delete id="setCommissionerDel" parameterType="map">
-        /* setCommissionerDel */
+    <delete id="setCommissionerEmpInfoDel" parameterType="map">
+        /* setCommissionerEmpInfoDel */
         UPDATE
-            CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
+            CAM_HR.DJ_EMP_INFO
         SET
-            ACTIVE = 'N',
+            TEMP_DIVISION = 'ED',
             MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
         WHERE
-            RECRUIT_COMMISSIONER_INFO_SN IN (${recruitCommissionerInfoSn})
+            EMP_SEQ IN (${evalEmpSeq})
     </delete>
 
     <insert id="setRecruitInsert" parameterType="map">
@@ -265,42 +301,6 @@
         </foreach>
     </insert>
 
-    <insert id="setCommissionerInsert" parameterType="map">
-        /* setCommissionerInsert */
-        INSERT INTO CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
-            (
-                ID,
-                PWD,
-                NAME,
-                FIRST_RRN_NAME,
-                SECOND_RRN_NAME,
-                TEL_NUM,
-                EMAIL,
-                BELONG,
-                REG_EMP_SEQ,
-                REG_EMP_NAME,
-                GENDER,
-                DUTY_POSITION,
-                BMK
-            )
-        VALUE
-            (
-                #{id},
-                #{pwd},
-                #{name},
-                #{firstRrnName},
-                #{secondRrnName},
-                #{telNum},
-                #{email},
-                #{belong},
-                #{regEmpSeq},
-                #{regEmpName},
-                #{gender},
-                #{dutyPosition},
-                #{bmk}
-            )
-    </insert>
-
     <update id="setRecruitStatusUpd" parameterType="map">
         /* setRecruitStatusUpd */
         UPDATE
@@ -322,17 +322,22 @@
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT
         FROM
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO RAI
+        <if test='evalEmpSeq != null and !"".equals(evalEmpSeq)'>
+        JOIN
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+        ON EL.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND EL.RECRUIT_INFO_SN = #{recruitInfoSn} AND EMP_SEQ = #{evalEmpSeq}
+        </if>
         WHERE 1=1
         <choose>
             <when test='RECRUIT_INFO_SN != null and !"".equals(RECRUIT_INFO_SN)'>
-                AND RECRUIT_INFO_SN = #{RECRUIT_INFO_SN}
+                AND RAI.RECRUIT_INFO_SN = #{RECRUIT_INFO_SN}
             </when>
             <when test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
-                AND RECRUIT_INFO_SN = #{recruitInfoSn}
+                AND RAI.RECRUIT_INFO_SN = #{recruitInfoSn}
             </when>
         </choose>
 
-        ORDER BY REG_DT DESC
+        ORDER BY RAI.REG_DT DESC
     </select>
 
     <select id="getRecruitArea" parameterType="map" resultType="map">
@@ -352,6 +357,7 @@
             AM.USER_EMAIL,
             AM.RECRUIT_INFO_SN,
             AM.RECRUIT_AREA_INFO_SN,
+            AM.CAREER_TYPE,
             AM.USER_NAME,
             ROUND((TO_DAYS(NOW()) - TO_DAYS(AM.BDAY)) / 365, 0) AS AGE,
             CASE WHEN AM.GENDER = 'M' THEN '남자'
@@ -619,13 +625,30 @@
             REPLACE(SUBSTRING_INDEX(REPLACE(AM.ADDR, ' ', '_'), '_', 2), '_', ' ') AS ADDR,
             IT.RMK
             <if test='evalType != null and !"".equals(evalType) and "in".equals(evalType)'>
-            ,(SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE EVAL_LOGIN_ID = #{evalLoginId} AND AM.APPLICATION_ID = APPLICATION_ID) AS INSCREEN_YN
+            ,(
+                SELECT
+                    CASE WHEN COUNT(*) > 0 THEN 1
+                    ELSE 0 END
+                FROM
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                JOIN
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+                ON
+                    EL.EVAL_LOGIN_ID = SB.EVAL_LOGIN_ID AND EL.EMP_SEQ = #{evalEmpSeq}
+                WHERE
+                    AM.APPLICATION_ID = APPLICATION_ID
+            ) AS INSCREEN_YN
             </if>
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
+        <if test='evalLoginId != null and !"".equals(evalLoginId)'>
+            JOIN
+                CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+            ON EL.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN AND EVAL_LOGIN_ID = #{evalLoginId}
+        </if>
         JOIN (
             SELECT
                 DAS.APPLICATION_ID,

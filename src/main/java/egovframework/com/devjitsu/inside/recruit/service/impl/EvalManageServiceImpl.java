@@ -61,24 +61,30 @@ public class EvalManageServiceImpl implements EvalManageService {
     }
 
     @Override
+    public Map<String, Object> evalLoginChk(Map<String, Object> params) {
+        return evalManageRepository.evalLoginChk(params);
+    }
+
+    @Override
     public String setEvalSelection(Map<String, Object> params) {
-        String[] recruitCommissionerInfoSn = params.get("recruitCommissionerInfoSn").toString().split(",");
+        String[] evalEmpSeq = params.get("evalEmpSeq").toString().split(",");
         String duplicationTxt = "";
 
-        for(int i = 0; i < recruitCommissionerInfoSn.length; i++) {
+        for(int i = 0; i < evalEmpSeq.length; i++) {
             Map<String, Object> map = new HashMap<>();
             map.put("recruitInfoSn", params.get("recruitInfoSn"));
-            map.put("recruitCommissionerInfoSn", recruitCommissionerInfoSn[i]);
+            map.put("recruitAreaInfoSn", params.get("recruitAreaInfoSn"));
+            map.put("evalType", params.get("evalType"));
+            map.put("evalEmpSeq", evalEmpSeq[i]);
 
             Map<String, Object> checkedMap = evalManageRepository.evalLoginChk(map);
             if(checkedMap == null){
-                map.put("recruitInfoSn", params.get("recruitInfoSn"));
                 map.put("empSeq", params.get("empSeq"));
-                map.put("recruitCommissionerInfoSn", recruitCommissionerInfoSn[i]);
+                map.put("evalEmpSeq", evalEmpSeq[i]);
 
                 evalManageRepository.setEvalSelection(map);
             }else{
-                duplicationTxt += ", " + checkedMap.get("NAME");
+                duplicationTxt += ", " + checkedMap.get("EMP_NAME_KR");
             }
         }
 

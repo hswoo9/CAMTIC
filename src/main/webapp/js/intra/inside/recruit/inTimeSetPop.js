@@ -149,11 +149,4 @@ var inTimeSetPop = {
         var option = "width=1000, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
-
-    selInEvalPop : function(){
-        var url = "/inside/pop/selInEvalPop.do?recruitInfoSn=" + $("#recruitInfoSn").val();
-        var name = "selInEvalItemPop";
-        var option = "width=1000, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    },
 }

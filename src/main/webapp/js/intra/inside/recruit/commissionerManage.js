@@ -8,7 +8,7 @@ var commissionerManage = {
     },
 
     init : function(){
-        customKendo.fn_textBox(["searchId", "searchName", "searchComp"]);
+        customKendo.fn_textBox(["loginId", "empNameKr", "deptName"]);
         commissionerManage.gridReload();
     },
 
@@ -35,7 +35,7 @@ var commissionerManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="commissionerManage.setCommissionerDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="commissionerManage.setCommissionerEmpInfoDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -71,28 +71,28 @@ var commissionerManage = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : "<input type='checkbox' id='comChk#=RECRUIT_COMMISSIONER_INFO_SN#' name='comChk' value='#=RECRUIT_COMMISSIONER_INFO_SN#'/>",
+                    template : "<input type='checkbox' id='comChk#=EMP_SEQ#' name='comChk' value='#=EMP_SEQ#'/>",
                     width: 50
                 }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 80
                 }, {
-                    field: "ID",
+                    field: "LOGIN_ID",
                     title: "아이디",
                     width: 150
                 }, {
-                    field: "NAME",
+                    field: "EMP_NAME_KR",
                     title: "성명",
                     width: 150
                 }, {
-                    field: "GENDER",
+                    field: "GENDER_CODE",
                     title: "성별",
                     template: function(e){
-                        if(e.GENDER != null){
-                            if(e.GENDER == "M"){
+                        if(e.GENDER_CODE != null){
+                            if(e.GENDER_CODE == "M"){
                                 return "남";
-                            }else if(e.GENDER == "F"){
+                            }else if(e.GENDER_CODE == "F"){
                                 return "여";
                             }
                         }else{
@@ -101,19 +101,19 @@ var commissionerManage = {
                     },
                     width : 120
                 }, {
-                    field: "BELONG",
+                    field: "DEPT_NAME",
                     title: "기관(소속)",
                     width : 300
                 }, {
-                    field: "DUTY_POSITION",
+                    field: "POSITION_NAME",
                     title: "직급(직책)",
                     width : 150
                 }, {
-                    field: "TEL_NUM",
+                    field: "MOBILE_TEL_NUM",
                     title: "휴대폰",
                     width : 150
                 }, {
-                    field: "BMK",
+                    field: "SIGNIFICANT",
                     title: "비고"
                 }
             ],
@@ -133,9 +133,10 @@ var commissionerManage = {
 
     gridReload : function(){
         commissionerManage.global.searchAjaxData = {
-            searchId : $("#searchId").val(),
-            searchName : $("#searchName").val(),
-            searchComp : $("#searchComp").val(),
+            loginId : $("#loginId").val(),
+            empNameKr : $("#empNameKr").val(),
+            deptName : $("#deptName").val(),
+            tempDivision : "E"
         }
 
         commissionerManage.mainGrid("/inside/getCommissionerList", commissionerManage.global.searchAjaxData);
@@ -148,25 +149,25 @@ var commissionerManage = {
         var popup = window.open(url, name, option);
     },
 
-    setCommissionerDel : function(){
+    setCommissionerEmpInfoDel : function(){
         if($("input[name='comChk']:checked").length == 0){
             alert("삭제할 평가위원을 선택해주세요.");
             return
         }
 
         if(confirm("선택한 평가위원을 삭제하시겠습니까?")){
-            var recruitCommissionerInfoSn = "";
+            var evalEmpSeq = "";
 
             $.each($("input[name='comChk']:checked"), function(){
-                recruitCommissionerInfoSn += "," + $(this).val()
+                evalEmpSeq += "," + $(this).val()
             })
 
             commissionerManage.global.saveAjaxData = {
-                recruitCommissionerInfoSn : recruitCommissionerInfoSn.substring(1),
+                evalEmpSeq : evalEmpSeq.substring(1),
                 empSeq : $("#empSeq").val()
             }
 
-            var result = customKendo.fn_customAjax("/inside/setCommissionerDel", commissionerManage.global.saveAjaxData);
+            var result = customKendo.fn_customAjax("/inside/setCommissionerEmpInfoDel", commissionerManage.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
                 commissionerManage.gridReload();
