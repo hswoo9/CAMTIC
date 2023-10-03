@@ -67,6 +67,7 @@ public class BoardController {
         int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
 
         articlePage.setSearchCategory((String) param.get("categoryId"));
+        articlePage.setSearchInput((String) param.get("searchInput"));
         articlePage.setRecordSize(recordSize);
 
         PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);

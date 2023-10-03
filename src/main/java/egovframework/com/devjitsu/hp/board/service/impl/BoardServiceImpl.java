@@ -55,6 +55,10 @@ public class BoardServiceImpl implements BoardService {
     public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
         return boardRepository.selectMainList(params);
     }
+    @Override
+    public List<Map<String, Object>> selectBsnsMainList(Map<String, Object> params) {
+        return boardRepository.selectBsnsMainList(params);
+    }
 
     @Override
     public Object selectBoardListCnt(ArticlePage articlePage) {

@@ -6,6 +6,7 @@ public class PostResponse {
 
 
     private Long BOARD_ARTICLE_ID;                       // PK
+    private String BOARD_ID;
     private String BOARD_ARTICLE_TITLE;                  // 제목
     private String REG_EMP_NAME;                 // 작성자
     private String BOARD_ARTICLE_CONTENT;                 // 작성 내용
@@ -21,11 +22,16 @@ public class PostResponse {
     private String BOARD_ARTICLE_CONTENT_URL;
     private String BOARD_ARTICLE_HASHTAG;
 
+    private String STATE;
+
 
     public Long getBOARD_ARTICLE_ID() {
         return BOARD_ARTICLE_ID;
     }
 
+    public String getBOARD_ID() {
+        return BOARD_ID;
+    }
     public String getBOARD_ARTICLE_TITLE() {
         return BOARD_ARTICLE_TITLE;
     }
@@ -65,4 +71,5 @@ public class PostResponse {
     public String getFIle_PATH() {
         return FILE_PATH;
     }
+    public String getSTATE() { return STATE; }
 }

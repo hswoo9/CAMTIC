@@ -6,7 +6,8 @@
         SELECT
             *,
             (case when (select count(fr_key) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{searchCategory}) != 0 then 'Y'
-                  else 'n' end) AS FILE_YN
+                  else 'n' end) AS FILE_YN,
+            (case when <![CDATA[ now() between start_dt AND end_dt THEN '진행 중' when start_dt > now() then '공고 전' else '마감' end ]]>) as state
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE
@@ -59,6 +60,26 @@
             LIMIT 3
     </select>
 
+    <select id="selectBsnsMainList" resultType="map" parameterType="map">
+        SELECT
+             BOARD_ARTICLE_ID
+             ,BOARD_ID
+             ,BOARD_ARTICLE_TITLE
+             ,IFNULL(DATE_FORMAT(START_DT, '%Y-%m-%d %H:%i'), "-") as startDt
+             ,IFNULL(DATE_FORMAT(END_DT, '%Y-%m-%d %H:%i'), "-") as endDt
+             ,IFNULL(DATE_FORMAT(END_DT, '%Y-%m-%d'), "-") as endDay
+             ,(case when now() between start_dt AND end_dt THEN '진행 중'
+                    when start_dt > now() then '공고 전'
+                    else '마감' end ) as state
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID = 'business'
+        AND
+            ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+    </select>
+
     <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         SELECT
             COUNT(*)
@@ -85,6 +106,10 @@
             WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterKey',
             (SELECT BOARD_ARTICLE_TITLE FROM CAM_COMMON.DJ_BOARD_ARTICLE
             WHERE <![CDATA[BOARD_ARTICLE_ID > #{boardArticleId}]]> AND BOARD_CATEGORY_ID = #{category} AND ACTIVE = 'Y' ORDER BY BOARD_ARTICLE_ID asc LIMIT 1) as 'afterName'
+            <if test="category == 'business'">
+            ,DATE_FORMAT(START_DT, '%Y-%m-%d %H:%i') as startDt
+            ,DATE_FORMAT(END_DT, '%Y-%m-%d %H:%i') as endDt
+            </if>
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
@@ -118,9 +143,9 @@
 
     <insert id="insertBoard" parameterType="map">
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
-            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, BOARD_ARTICLE_HASHTAG, REG_EMP_NAME)
+            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, BOARD_ARTICLE_HASHTAG, REG_EMP_NAME, START_DT, END_DT)
         VALUE
-            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{hashText}, #{writer})
+            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{hashText}, #{writer}, #{startDt}, #{endDt})
 
         <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_BOARD_ARTICLE'
@@ -133,7 +158,9 @@
             BOARD_ARTICLE_TITLE = #{noticeTitle},
             BOARD_ARTICLE_CONTENT_URL = #{urlText},
             BOARD_ARTICLE_CONTENT = #{content},
-            BOARD_ARTICLE_HASHTAG = #{hashText}
+            BOARD_ARTICLE_HASHTAG = #{hashText},
+            START_DT = #{startDt},
+            END_DT = #{endDt}
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND

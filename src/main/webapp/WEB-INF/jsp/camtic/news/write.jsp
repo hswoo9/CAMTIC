@@ -7,7 +7,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <style>
-  input[type="text"] {
+  input[type="text"], input[type="datetime-local"]{
     width: 50%;
     height: 34px;
     display: inline-block;
@@ -95,6 +95,16 @@
                     <input type="text" id="writeDate" class="inputText" value="" disabled/>
                   </td>
                 </tr>
+                <c:if test="${categoryId eq 'business'}">
+                  <tr style="border-top: 1px solid #ccc;">
+                    <th>사업기간</th>
+                    <td>
+                      <input type="datetime-local" id="startDate" style="width: 20%;" value="" />
+                      ~
+                      <input type="datetime-local" id="endDate" style="width: 20%;" value="" />
+                    </td>
+                  </tr>
+                </c:if>
               </table>
             </div>
           </div>
@@ -171,11 +181,15 @@
     let year = today.getFullYear();
     let month = today.getMonth() + 1;
     let date = today.getDate();
+    let date2 = today.getDate() + 1;
     let formattedMonth = String(month).padStart(2, '0');
     let formattedDay = String(date).padStart(2, '0');
+    let formattedDay2 = String(date2).padStart(2, '0');
 
     //$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
     $("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
+    $("#startDate").val(year + "-" + formattedMonth + "-" + formattedDay);
+    $("#endDate").val(year + "-" + formattedMonth + "-" + formattedDay2);
 
     CKEDITOR.replace('contents', {
       height: 500
@@ -190,7 +204,49 @@
     }else if(categoryId == "partner"){
       $(".categoryName").text("유관기관소식");
     }
+
+    /*addTimeOptions('startTime');
+    addTimeOptions('endTime');*/
+
+    setDefaultTime('startDate');
+    setDefaultTime('endDate');
   });
+
+  function setDefaultTime(e) {
+    const datetimeInput = document.getElementById(e);
+
+    const currentDate = new Date();
+
+    if(e == 'startDate'){
+      currentDate.setHours(18, 0, 0);
+    }else{
+      currentDate.setHours(27, 0, 0);
+    }
+
+    const formattedDate = currentDate.toISOString().slice(0, 16);
+    datetimeInput.value = formattedDate;
+  }
+
+
+  function addTimeOptions(e) {
+    var selectElement = document.getElementById(e);
+
+    for (var i = 0; i <= 23; i++) {
+      var option = document.createElement("option");
+      var hour = i < 10 ? "0" + i : i.toString(); // 시간을 두 자리 숫자로 포맷팅
+      option.value = hour;
+      option.text = hour + " 시";
+
+      if (hour === "09" && e == "startTime") {
+        option.selected = true;
+      }else if(hour === "18" && e == "endTime"){
+        option.selected = true;
+      }
+
+      selectElement.appendChild(option);
+    }
+
+  }
 
   function fn_goList(){
 
@@ -226,6 +282,8 @@
     formData.append("menuCd", categoryId);
     formData.append("noticeTitle", $("#noticeTitle").val());
     formData.append("writer", $("#writer").val().toString());
+    formData.append("startDt", $("#startDate").val());
+    formData.append("endDt", $("#endDate").val());
     formData.append("content", content);
 
     //첨부파일
