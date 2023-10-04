@@ -27,7 +27,7 @@ var popCrmList = {
                     type: "post"
                 },
                 parameterMap: function(data){
-
+                    data.crmName = $("#crmName").val();
                     return data;
                 }
             },
@@ -60,11 +60,18 @@ var popCrmList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<div><span class="k-button-text">업체검색 <span>' +
+                            '<input type="text" id="crmName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){popCrmList.popGridReload();}"></div>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="popCrmList.popGridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
             columns: [
                 {
                     title: "업태",
