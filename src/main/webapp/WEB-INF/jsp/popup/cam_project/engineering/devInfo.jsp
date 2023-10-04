@@ -218,7 +218,7 @@
                 <col width="35%">
             </colgroup>
             <thead>
-            <tr>
+            <tr style="display: none">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>추진방향
                 </th>
@@ -228,7 +228,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>기타
+                    <span class="red-star"></span>방향 및 기타
                 </th>
                 <td colspan="3">
                     <textarea type="text" id="etc" value="" style="width: 100%; text-align: left"></textarea>
