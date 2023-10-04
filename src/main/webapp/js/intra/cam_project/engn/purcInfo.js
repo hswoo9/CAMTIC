@@ -17,12 +17,10 @@ var purcInfo = {
             "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0"]);
 
         purcInfo.global.radioGroupData = [
-            { label: "법인운영", value: "1" },
-            { label: "교육사업", value: "2" },
-            { label: "일자리사업", value: "3" },
-            { label: "기능보간", value: "4" },
-            { label: "지원사업", value: "5" },
-            { label: "협의회", value: "6" },
+            { label: "R&D", value: "R" },
+            { label: "비R&D", value: "S" },
+            { label: "엔지니어링", value: "D" },
+            { label: "용역/기타", value: "V" },
         ]
         customKendo.fn_radioGroup("purcType", purcInfo.global.radioGroupData, "horizontal");
 

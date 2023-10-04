@@ -28,7 +28,7 @@ var costInfo = {
                 if(ls != null){
                     costMap = ls[0];
                     $("#costEtc").val(ls[0].COST_ETC);
-
+                    var teamCostAmt = 0;
                     var prepTime = 0;
                     for(var i = 0 ; i < ls.length ; i++){
                         if(ls[i].PS_PREP_NM == "설계"){
@@ -48,6 +48,7 @@ var costInfo = {
                             '       <td style="text-align: center"><input type="text" id="costWorkTime'+(i+1)+'" value="'+ prepTime +'" class="costWorkTime" style="text-align: right; width: 90%" onkeyup="costInfo.fn_calcAmt(this, '+(i+1)+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                             '       <td style="text-align: center"><input type="text" id="costTotAmt'+(i+1)+'" disabled class="costTotAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                             '    </tr>'
+                        teamCostAmt += ls[i].TEAM_COST_AMT;
                     }
                     html += '<tr>' +
                         '       <td colspan="5" style="text-align: center; font-weight: bold; background-color: #dee4ed"><span style="position: relative; top:5px;">노무비합계</span></td>' +
@@ -55,7 +56,9 @@ var costInfo = {
                         '    </tr>'
                     $("#costDetailTable").html("");
                     $("#costDetailTable").append(html);
+                    $("#chargeAmt").val(costInfo.comma(teamCostAmt));
 
+                    $("#costAmt").val(costInfo.comma(Number(costInfo.uncomma($("#rawAmt").val())) + Number(costInfo.uncomma($("#outsAmt").val())) + Number(costInfo.uncomma($("#laborAmt").val())) + Number(costInfo.uncomma($("#chargeAmt").val())) + Number(costInfo.uncomma($("#bustAmt").val()))));
                     $(".costWorkTime").trigger("keyup");
                 }
 
@@ -114,6 +117,8 @@ var costInfo = {
 
         $("#costTotSumAmt").val(costInfo.comma(totSumAmt));
         $("#laborAmt").val(costInfo.comma(totSumAmt));
+
+        $("#costAmt").val(costInfo.comma(Number(costInfo.uncomma($("#rawAmt").val())) + Number(costInfo.uncomma($("#outsAmt").val())) + Number(costInfo.uncomma($("#laborAmt").val())) + Number(costInfo.uncomma($("#chargeAmt").val())) + Number(costInfo.uncomma($("#bustAmt").val()))));
         return costInfo.inputNumberFormat(obj);
     },
 

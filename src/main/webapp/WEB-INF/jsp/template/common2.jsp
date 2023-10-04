@@ -12,6 +12,8 @@
 
     <title>CAM's Pot - CAMTIC</title>
 
+
+
     <link rel="stylesheet" href="/lib/Hover/hover.css">
     <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
     <link rel="stylesheet" href="/lib/weather-icons/css/weather-icons.css">
@@ -67,4 +69,15 @@
     <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js?${toDate}'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${toDate}'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/intra/common/linkageProcessUtil.js?${toDate}'/>"></script>
+
+    <style>
+        .k-state-active>.k-link {
+            background-color: #00397f;
+            color : white;
+        }
+
+        .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-state-active {
+            border: 0px solid white !important;
+        }
+    </style>
 </head>

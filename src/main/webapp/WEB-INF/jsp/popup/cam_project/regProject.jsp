@@ -44,6 +44,8 @@
     .table-responsive {
         overflow-x: hidden !important;
     }
+
+
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
