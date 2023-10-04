@@ -340,7 +340,15 @@ var regPrj = {
         }
         $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
-        $("#expAmt").val(regPrj.comma(p.EXP_AMT));
+
+        if(p.PJT_AMT != null && p.PJT_AMT != "" && p.PJT_AMT != undefined){
+            $("#expAmt").val(regPrj.comma(p.PJT_AMT));
+        } else {
+            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
+        }
+
+
+
         $("#contLoc").val(p.CONT_LOC);
         $("#deptName").val(p.DEPT_NAME);
         $("#empName").val(p.EMP_NAME);
