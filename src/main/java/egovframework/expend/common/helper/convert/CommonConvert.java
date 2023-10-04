@@ -394,7 +394,8 @@ public class CommonConvert {
 
         result.put(commonCode.id, CommonConvert.CommonGetStr(loginVo.getId())); /* 로그인 아이디 */
         result.put(commonCode.groupSeq, CommonConvert.CommonGetStr(loginVo.getGroupSeq())); /* 그룹시퀀스 */
-        result.put(commonCode.compSeq, CommonConvert.CommonGetStr(loginVo.getCompSeq())); /* 회사시퀀스 */
+//        result.put(commonCode.compSeq, CommonConvert.CommonGetStr(loginVo.getCompSeq())); /* 회사시퀀스 */
+        result.put(commonCode.compSeq, "1212"); /* 회사시퀀스 */
         result.put(commonCode.bizSeq, CommonConvert.CommonGetStr(loginVo.getBizSeq())); /* 사업장시퀀스 */
         result.put(commonCode.deptSeq, CommonConvert.CommonGetStr(loginVo.getOrgnztId())); /* 부서시퀀스 */
         result.put(commonCode.empSeq, CommonConvert.CommonGetStr(loginVo.getUniqId())); /* 사원시퀀스 */

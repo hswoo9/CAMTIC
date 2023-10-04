@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -396,7 +397,7 @@ public class ProjectRndController {
         return "jsonView";
     }
 
-    /* Set Data Line */
+    /* Set Data Line ==================================================== */
 
     /**
      * 프로젝트 연구원 등록

@@ -73,4 +73,5 @@ public class ProjectRndRepository extends AbstractDAO {
     public List<Map<String, Object>> getDevSchInfo(Map<String, Object> params) {
         return selectList("projectRnd.getDevSchInfo", params);
     }
+
 }

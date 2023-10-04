@@ -104,7 +104,5 @@ var rndBg = {
         var popup = window.open(url, name, option);
     },
 
-    fn_getProject: function (){
 
-    }
 }
