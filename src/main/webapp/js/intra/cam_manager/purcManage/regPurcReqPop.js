@@ -233,12 +233,28 @@ var prp = {
         }
     },
 
-    purcBtnSet : function(data){
-        if(data.STATUS == "C"){
-            $("#reqBtn").hide();
-            $("#saveBtn").hide();
-            $("#reqCancelBtn").show();
+    purcBtnSet : function(purcMap){
+        let buttonHtml = "";
+        if(purcMap != null){
+            if(purcMap.DOC_STATUS == "0"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.purcDrafting()">상신</button>';
+            }else if(purcMap.DOC_STATUS == "10"){
+                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+            }else if(purcMap.DOC_STATUS == "30" || purcMap.DOC_STATUS == "40"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+purcMap.DOC_ID+'\', \''+purcMap.DOC_MENU_CD+'\', \''+purcMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(purcMap.DOC_STATUS == "100"){
+                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', \''+purcMap.DOC_MENU_CD+'\');">열람</button>';
+            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+            }
+        }else{
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
         }
+        buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
+
+        $("#purcBtnDiv").html(buttonHtml);
     },
 
     fileChange : function(e){

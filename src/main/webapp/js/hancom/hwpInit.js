@@ -225,5 +225,38 @@ var hwpInit = {
             }
             hwpDocCtrl.putFieldText('PREP_ALL_COST_TOT', fn_numberWithCommas(sum));
         }
+    },
+
+    purcInit: function(purcSn){
+        let data = {
+            purcSn: purcSn
+        }
+
+        const result = customKendo.fn_customAjax("/manage/getPurcReq.do", data).data;
+        console.log(result);
+
+        /** 1. 구매요청서 데이터 */
+        hwpDocCtrl.putFieldText('DOC_NUM', "");
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+        hwpDocCtrl.putFieldText('DEPT_NAME', result.DEPT_NAME);
+        hwpDocCtrl.putFieldText('EMP_NAME', result.EMP_NAME_KR);
+        hwpDocCtrl.putFieldText('PURC_REQ_PURPOSE', result.PURC_REQ_PURPOSE);
+
+        const purcType = result.PURC_TYPE;
+        let purcTypeText = "";
+        if(purcType == "1"){
+            purcTypeText = "법인운영";
+        }else if(purcType == "2"){
+            purcTypeText = "교육사업";
+        }else if(purcType == "3"){
+            purcTypeText = "일자리사업";
+        }else if(purcType == "4"){
+            purcTypeText = "기능보간";
+        }else if(purcType == "5"){
+            purcTypeText = "지원사업";
+        }else if(purcType == "6"){
+            purcTypeText = "협의회";
+        }
+        hwpDocCtrl.putFieldText('PURC_TYPE', purcTypeText);
     }
 }

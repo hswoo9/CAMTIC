@@ -14,8 +14,11 @@ public class ManageRepository extends AbstractDAO {
     public void setPurcItem(Map<String, Object> params) { insert("manage.setPurcItem", params);}
     public void setPurcItemUpd(Map<String, Object> params) { update("manage.setPurcItemUpd", params);}
     public Map<String, Object> getPurcReq(Map<String, Object> params) { return (Map<String, Object>) selectOne("manage.getPurcReq", params);}
-    public Map<String, Object> getPurcReqFileInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("manage.getPurcReqFileInfo", params);}
     public List<Map<String, Object>> getPurcItemList(Map<String, Object> params) { return selectList("manage.getPurcItemList", params);}
+    public Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params) { return (Map<String, Object>) selectOne("manage.getPurcItemAmtTotal", params);}
+    public Map<String, Object> getPurcReqFileInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("manage.getPurcReqFileInfo", params);}
+    public void updatePurcApprStat(Map<String, Object> params) { update("manage.updatePurcApprStat", params); }
+    public void updatePurcFinalApprStat(Map<String, Object> params) { update("manage.updatePurcFinalApprStat", params); }
 
 
 }
