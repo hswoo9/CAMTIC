@@ -13,6 +13,7 @@ public interface RecruitService {
     List<Map<String, Object>> getCommissionerList(Map<String, Object> params);
     void setEvalEmpInfo(Map<String, Object> params);
     void setCommissionerEmpInfoDel(Map<String, Object> params);
+    List<Map<String, Object>> getEvalHistoryList(Map<String, Object> params);
     void setRecruitInsert(Map<String, Object> params);
     void setRecruitDel(Map<String, Object> params);
     void setRecruitStatusUpd(Map<String, Object> params);
