@@ -49,14 +49,14 @@ var commissionerManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalSetExcelFormDown()">' +
                             '	<span class="k-button-text">등록양식 다운로드</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalExcelUploadPop()">' +
                             '	<span class="k-button-text">등록양식 업로드</span>' +
                             '</button>';
                     }
@@ -180,6 +180,19 @@ var commissionerManage = {
                 commissionerManage.gridReload();
             }
         }
+    },
+
+    evalSetExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/inside/evalSetExcelFormDown.do"
+        });
+    },
+
+    evalExcelUploadPop : function(){
+        var url = "/inside/pop/evalExcelUploadPop.do";
+        var name = "evalExcelUploadPop";
+        var option = "width = 500, height = 180, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     evalHistoryPop : function(e){

@@ -1,5 +1,9 @@
 package egovframework.com.devjitsu.inside.recruit.service;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +17,9 @@ public interface RecruitService {
     List<Map<String, Object>> getCommissionerList(Map<String, Object> params);
     void setEvalEmpInfo(Map<String, Object> params);
     void setCommissionerEmpInfoDel(Map<String, Object> params);
+    void evalSetExcelFormDown(HttpServletRequest request, HttpServletResponse response);
+    List<Map<String, Object>> evalExcelUploadData(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
+    void setEvalExcelUploadData(Map<String, Object> params) throws Exception;
     List<Map<String, Object>> getEvalHistoryList(Map<String, Object> params);
     void setRecruitInsert(Map<String, Object> params);
     void setRecruitDel(Map<String, Object> params);

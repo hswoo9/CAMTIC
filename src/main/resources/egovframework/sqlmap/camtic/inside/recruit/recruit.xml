@@ -384,6 +384,7 @@
             </when>
         </choose>
 
+        GROUP BY RAI.RECRUIT_AREA_INFO_SN
         ORDER BY RAI.REG_DT DESC
     </select>
 
@@ -684,6 +685,8 @@
                     EL.EVAL_LOGIN_ID = SB.EVAL_LOGIN_ID AND EL.EMP_SEQ = #{evalEmpSeq}
                 WHERE
                     AM.APPLICATION_ID = APPLICATION_ID
+                AND
+                    SB.EVAL_SCREEN_TYPE = 'in'
             ) AS INSCREEN_YN
             </if>
         FROM
