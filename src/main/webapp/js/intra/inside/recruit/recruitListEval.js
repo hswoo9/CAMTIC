@@ -224,14 +224,18 @@ var recruitListEval = {
 
         var chk = customKendo.fn_customAjax("/evaluation/evalChk.do", recruitListEval.global.searchAjaxData);
         if(chk.flag){
-            if(chk.eval.EVAL_STATUS == "P"){
-                var url = "/evaluation/evalInApplicationList.do?recruitInfoSn=" + r + "&type=in";
-                var name = "evalInApplicationList";
-                var option = "width=1100, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-                var popup = window.open(url, name, option);
-            }else if(chk.eval.EVAL_STATUS == "E"){
-                alert("심사가 종료된 평가위원입니다.");
-                return;
+            if(chk.eval != null){
+                if(chk.eval.EVAL_STATUS == "P"){
+                    var url = "/evaluation/evalInApplicationList.do?recruitInfoSn=" + r + "&type=in";
+                    var name = "evalInApplicationList";
+                    var option = "width=1100, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+                    var popup = window.open(url, name, option);
+                }else if(chk.eval.EVAL_STATUS == "E"){
+                    alert("심사가 종료된 평가위원입니다.");
+                    return;
+                }
+            }else{
+                alert("면접심사 대상 평가위원이 아닙니다.");
             }
         }
     },

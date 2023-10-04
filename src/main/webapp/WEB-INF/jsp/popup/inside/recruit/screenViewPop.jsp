@@ -40,7 +40,15 @@
         </c:choose>
       </h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake()">평가표 다운로드</button>
+        <c:choose>
+          <c:when test="${params.type eq 'doc'}">
+            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake()">평가표 다운로드</button>
+          </c:when>
+          <c:otherwise>
+            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake2()">평가표 다운로드</button>
+          </c:otherwise>
+        </c:choose>
+
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>

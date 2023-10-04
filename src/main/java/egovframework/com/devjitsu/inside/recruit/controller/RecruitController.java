@@ -15,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -490,6 +492,55 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 등록양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/inside/evalSetExcelFormDown.do")
+    public void evalSetExcelFormDown(HttpServletRequest request, HttpServletResponse response){
+        recruitService.evalSetExcelFormDown(request, response);
+    }
+
+    /**
+     * 평가위원 엑셀업로드 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/evalExcelUploadPop.do")
+    public String evalExcelUploadPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/evalExcelUploadPop";
+    }
+
+    /**
+     * 평가위원 엑셀 업로드 데이터
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/evalExcelUploadData.do")
+    public String evalExcelUploadData(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
+        model.addAttribute("list", recruitService.evalExcelUploadData(params, request));
+        return "jsonView";
+    }
+
+    /**
+     * 평가위원 엑셀 업로드 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setEvalExcelUploadData.do")
+    public String setEvalExcelUploadData(@RequestParam Map<String, Object> params, Model model) throws Exception{
+        recruitService.setEvalExcelUploadData(params);
+        return "jsonView";
+    }
+
+    /**
      * 평가위원 평가이력 페이지
      * @param request
      * @param model
@@ -544,6 +595,22 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 상세보기
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/commissionerInfoPop.do")
+    public String commissionerInfoPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", userManageService.getUserPersonnelinformList(params));
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/commissionerInfoPop";
+    }
+
+    /**
      * 평가위원 저장
      * @param params
      * @param model
@@ -560,6 +627,8 @@ public class RecruitController {
         recruitService.setEvalEmpInfo(params);
         return "jsonView";
     }
+
+
 
     /**
      * 외부의원 면접심사 페이지

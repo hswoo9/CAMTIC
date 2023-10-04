@@ -49,14 +49,14 @@ var commissionerManage = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalSetExcelFormDown()">' +
                             '	<span class="k-button-text">등록양식 다운로드</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalExcelUploadPop()">' +
                             '	<span class="k-button-text">등록양식 업로드</span>' +
                             '</button>';
                     }
@@ -84,7 +84,10 @@ var commissionerManage = {
                 }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
-                    width: 150
+                    width: 150,
+                    template : function(e){
+                        return '<a style="cursor: pointer;" onclick="commissionerManage.commissionerInfoPop(' + e.EMP_SEQ + ')">' + e.EMP_NAME_KR + '</a>'
+                    }
                 }, {
                     field: "GENDER_CODE",
                     title: "성별",
@@ -156,6 +159,13 @@ var commissionerManage = {
         var popup = window.open(url, name, option);
     },
 
+    commissionerInfoPop : function(e) {
+        var url = "/inside/pop/commissionerInfoPop.do?empSeq=" + e;
+        var name = "recruitReqPop";
+        var option = "width=900, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
     setCommissionerEmpInfoDel : function(){
         if($("input[name='comChk']:checked").length == 0){
             alert("삭제할 평가위원을 선택해주세요.");
@@ -180,6 +190,19 @@ var commissionerManage = {
                 commissionerManage.gridReload();
             }
         }
+    },
+
+    evalSetExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/inside/evalSetExcelFormDown.do"
+        });
+    },
+
+    evalExcelUploadPop : function(){
+        var url = "/inside/pop/evalExcelUploadPop.do";
+        var name = "evalExcelUploadPop";
+        var option = "width = 500, height = 180, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     evalHistoryPop : function(e){

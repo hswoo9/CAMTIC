@@ -5,14 +5,29 @@ import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.camtic.repository.ApplicationRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.common.utiles.AESCipher;
+import egovframework.com.devjitsu.doc.config.EgovFileScrty;
 import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.system.repository.MenuManagementRepository;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +115,124 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void setCommissionerEmpInfoDel(Map<String, Object> params) {
         recruitRepository.setCommissionerEmpInfoDel(params);
+    }
+
+    @Override
+    public void evalSetExcelFormDown(HttpServletRequest request, HttpServletResponse response) {
+        String localPath = "/downloadFile/";
+        String fileName = "평가위원 등록 양식.xlsx";
+        String viewFileNm = "평가위원 등록 양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath("/downloadFile/" + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                response.setContentType("application/octet-stream; charset=utf-8");
+                response.setContentLength((int) reFile.length());
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                OutputStream out = response.getOutputStream();
+                FileInputStream fis = null;
+                fis = new FileInputStream(reFile);
+                FileCopyUtils.copy(fis, out);
+                if (fis != null)
+                    fis.close();
+                out.flush();
+                out.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> evalExcelUploadData(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception{
+        List<Map<String, Object>> evalList = recruitRepository.getCommissionerList(params);
+        MultipartFile fileNm = request.getFile("evalFile");
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row; // 로우값
+        XSSFCell col1;// 서고
+        XSSFCell col2;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0); // 첫번째 시트
+        int rows = sheet.getPhysicalNumberOfRows();
+
+        String sheetNm = workbook.getSheetName(0);
+
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        Map<String, Object> evalMap = null;
+        for (int i = 5; i < rows; i++) {
+            evalMap = new HashMap<String, Object>();
+            row = sheet.getRow(i);
+            col1 = row.getCell(0);
+            col2 = row.getCell(1);
+
+            if (row != null) {
+                if (cellValueToString(col1).equals("") || cellValueToString(col2).equals("")){
+                    return dataList;
+                } else {    // 각 행의 필수값인 1, 2열이 공란이 아닐때 진행
+                    int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+                    evalMap.put("loginId", cellValueToString(row.getCell(0))); //임시아이디
+                    evalMap.put("loginPassWd", cellValueToString(row.getCell(1))); //임시비밀번호
+                    evalMap.put("empNameKr", cellValueToString(row.getCell(2))); //성명
+                    evalMap.put("resRegisNum", cellValueToString(row.getCell(3))); //주민등록번호
+                    evalMap.put("mobileTelNum", cellValueToString(row.getCell(4))); //휴대전화
+                    evalMap.put("emailAddr", cellValueToString(row.getCell(5))); //전자우편
+                    evalMap.put("deptName", cellValueToString(row.getCell(6))); //소속
+                    evalMap.put("genderCode", cellValueToString(row.getCell(7))); //성별
+                    evalMap.put("positionName", cellValueToString(row.getCell(8))); //직급(직책)
+                    evalMap.put("significant", cellValueToString(row.getCell(9))); //비고
+                }
+            }
+            dataList.add(evalMap);
+        }
+
+        try {
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        dest.delete();
+        inputStream.close();
+
+        List<Map<String, Object>> finalList = new ArrayList<>();
+        for(int j = 0; j < dataList.size(); j++){
+            boolean flag = true;
+            for(int i = 0; i < evalList.size(); i ++){
+                if(evalList.get(i).get("LOGIN_ID").equals(dataList.get(j).get("loginId"))){
+                    flag = false;
+                }
+            }
+
+            if(flag){
+                finalList.add(dataList.get(j));
+            }
+        }
+
+        return finalList;
+    }
+
+    @Override
+    public void setEvalExcelUploadData(Map<String, Object> params) throws Exception{
+        Gson gson = new Gson();
+        List<Map<String, Object>> empArr = gson.fromJson((String) params.get("empArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        for(Map<String, Object> map : empArr){
+            String inputLoginId = map.get("LOGIN_ID").toString() + map.get("userIdSub1").toString() + map.get("userIdSub2").toString();
+            Boolean completeKeyFlag = false;
+            map.put("LOGIN_ID", AESCipher.AES128SCRIPT_Decode(inputLoginId, completeKeyFlag));
+            map.put("LOGIN_PASSWD", passwordEncrypt(replacePasswd(AESCipher.AES128SCRIPT_Decode(map.get("LOGIN_PASSWD").toString(), completeKeyFlag))));
+            map.put("loginId", map.get("LOGIN_ID"));
+
+            userManageRepository.setUserReqDetailInsert(map);
+            menuManagementRepository.setAuthorityGroupUser(map);
+        }
     }
 
     @Override
@@ -255,5 +388,85 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void setPrePassAppl(Map<String, Object> params) {
         recruitRepository.setPrePassAppl(params);
+    }
+
+    public String cellValueToString(XSSFCell cell){
+        String txt = "";
+
+        try {
+            if(cell.getCellType() == XSSFCell.CELL_TYPE_STRING){
+                txt = cell.getStringCellValue();
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
+                txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
+                txt = cell.getRawValue();
+            }
+        } catch (Exception e) {
+
+        }
+        return txt;
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) { // IE 11
+            return "MSIE";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        }
+        return "Firefox";
+    }
+
+    private String setDisposition(String filename, String browser) throws Exception {
+        String dispositionPrefix = "attachment; filename=";
+        String encodedFilename = null;
+
+        if (browser.equals("MSIE")) {
+            encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
+        } else if (browser.equals("Opera")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < filename.length(); i++) {
+                char c = filename.charAt(i);
+                if (c > '~') {
+                    sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                } else {
+                    sb.append(c);
+                }
+            }
+            encodedFilename = sb.toString();
+        } else {
+
+        }
+        return dispositionPrefix + encodedFilename;
+    }
+
+    public static String passwordEncrypt(String userPassword) throws Exception {
+        if(userPassword != null && !userPassword.equals("")){
+            return EgovFileScrty.encryptPassword(userPassword);
+        }else{
+            return "";
+        }
+    }
+
+    public String replacePasswd(String str){
+        if(str.indexOf("&nbsp;") != -1) {
+            str = str.replaceAll("&nbsp;", " ");}
+        if(str.indexOf("&amp;") != -1) {
+            str = str.replaceAll("&amp;", "&");}
+        if(str.indexOf("&lt;") != -1) {
+            str = str.replaceAll("&lt;", "<");}
+        if(str.indexOf("&gt;") != -1) {
+            str = str.replaceAll("&gt;", ">");}
+        if(str.indexOf("&quot;") != -1) {
+            str = str.replaceAll("&quot;", "\"");}
+        return str;
     }
 }
