@@ -101,7 +101,8 @@
                 <input type="hidden" id="crmMemSn" />
                 <button type="button" class="k-button k-button-solid-base" onclick="crmInfo.fn_popCamCrmMemList();">검색</button>
 <%--                <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="javascript:alert('업체를 선택해주세요.')">--%>
-<%--                    조회--%>
+<%--
+   조회--%>
 <%--                </button>--%>
             </td>
             <th scope="row" class="text-center th-color">
