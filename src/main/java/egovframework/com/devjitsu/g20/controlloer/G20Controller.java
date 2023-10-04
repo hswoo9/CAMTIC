@@ -32,11 +32,34 @@ public class G20Controller {
         return "popup/g20/projectView";
     }
 
+    @RequestMapping("/g20/getSubjectView")
+    public String getSubjectView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/g20/subjectView";
+    }
+
 
     @RequestMapping("/g20/getProjectList")
     public String getProject(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = g20Service.getProjectList(params);
 
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/g20/getSubjectList")
+    public String getSubjectList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("erpCompSeq", "1212");
+        List<Map<String, Object>> list = g20Service.getSubjectList(params);
 
         model.addAttribute("list", list);
         return "jsonView";

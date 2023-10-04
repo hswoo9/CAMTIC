@@ -48,27 +48,100 @@
         ]]>
     </select>
 
-    <select id="getBgtList" parameterType="map" resultType="map"><![CDATA[
+    <select id="getCommonGisuInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        /* mssql/iCUBE/common/procedure/G20ProcedureSQL - g20Procedure.selectCommonGisuInfo */
+        /* 사용자 기수정보 상세 조회 */
+        /* 원본 프로시저 [1.0] -  [dbo].[P_GWG20_COMMON_GISU_INFO] */
+        /* params[ erpCompSeq, baseDate(yyyyMMdd) ] */
+
+        DECLARE
+        @CO_CD		NVARCHAR(4)
+			, @DATE		NVARCHAR(8)
+			, @FR_DT	NVARCHAR(8)
+			, @TO_DT 	NVARCHAR(8)
+			, @GI_SU	SMALLINT
+			, @I 		SMALLINT
+        SELECT
+            @CO_CD		= '${erpCompSeq}'
+             , @DATE		= '${baseDate}'
+
+        /************************************************************/
+
+        BEGIN
+		  SET NOCOUNT ON
+				DECLARE @GISU		INT
+						, @GI_SU_N	SMALLINT
+						, @diff 	SMALLINT
+        SELECT
+            @GI_SU = GISU
+             , @FR_DT = FR_DT
+             , @TO_DT = TO_DT
+        FROM	SCO WITH(NOLOCK)
+        WHERE	CO_CD = @CO_CD
+
+            WHILE 0 &lt; 1
+        BEGIN
+					SET @i = 0 ;
+					IF	@DATE &lt; @FR_DT
+						SET @i = -1
+					ELSE IF	@DATE &gt; @TO_DT
+						SET @i = 1
+					ELSE
+						BREAK     /* 현재 기수의 경우 LOOP 종료 */
+
+					/* 기수와 기수시작일 데이터 변경 */
+					SET		@GI_SU	= @GI_SU + @i
+        SELECT	@FR_DT	= CONVERT(NVARCHAR(8), DATEADD(yy,@i,CONVERT(DATETIME,@FR_DT)),112)
+        SELECT	@TO_DT	= CONVERT(NVARCHAR(8), DATEADD(yy,@i,CONVERT(DATETIME,@TO_DT)),112)
+
+                      /* under/over flow 처리 */
+                      IF (@GI_SU &lt; 1) OR (@GI_SU &gt; 19999)
+						BREAK;
+        END
+
+        SELECT	@GI_SU_N 	= GISU
+             , @FR_DT 	= FR_DT
+             , @TO_DT 	= TO_DT
+        FROM	SCO WITH(NOLOCK)
+        WHERE	CO_CD = @CO_CD
+
+        SET @diff = @GI_SU - @GI_SU_N
+
+        SELECT
+            @GI_SU																	AS gisu
+             , CONVERT(NVARCHAR(8), DATEADD(yy,@diff,CONVERT(DATETIME,FR_DT)),112) 	AS fromDate
+             , CONVERT(NVARCHAR(8), DATEADD(yy,@diff,CONVERT(DATETIME,TO_DT)),112) 	AS toDate
+        FROM	SCO WITH(NOLOCK)
+        WHERE	CO_CD = @CO_CD
+
+        SET NOCOUNT OFF
+        END
+
+    </select>
+
+    <select id="getBgtList" parameterType="map" resultType="map">
+        <![CDATA[
         /* mssql/iCUBE/common/procedure/G20ProcedureSQL - g20Procedure.selectBgtList */
         /* 예산과목 리스트 조회 */
         /* params[ erpCompSeq, gisu, frDate, toDate, grFg, divSeqs, mgtSeqs, bottomSeqs, bottomSeqs, bgtSeq, bgtName, opt01, opt02, opt03, bgtFrDate,  ] */
-        EXEC	USP_COMMON_ACC_CUSTOMHELP_SBGTCD_SELECT
+        EXEC USP_COMMON_ACC_CUSTOMHELP_SBGTCD_SELECT
 			@CO_CD			= '1212'		/* ERP 회사 코드 */
 			,@GISU			= '${gisu}'				/* ERP 기수 */
-			,@FR_DT			= '${frDate}'			/* 기수 시작일 */
+			,@FR_DT			= '${fromDate}'			/* 기수 시작일 */
 			,@TO_DT			= '${toDate}'			/* 기수 종료일 */
-			,@GR_FG			= '${grFg}'				/*  */
-			,@DIV_CDS		= '${erpDivSeq}'		/* 회계통제단위 구분값 '|' */
-			,@MGT_CDS		= '${erpMgtSeq}'		/* 예산통제단위 구분값 '|' */
-			,@BOTTOM_CDS	= '${erpBottomSeq}'		/* 하위 사업 코드 구분값 '|' */
-			,@BGT_CD		= '${bgtSeq}'			/* 검색 예산과목 코드 */
-			,@BGT_NM		= '${bgtName}'			/* 예산과목 명 */
+			,@GR_FG			= '2'				    /*  */
+			,@DIV_CDS		= ''		            /* 회계통제단위 구분값 '|' */
+			,@MGT_CDS		= '${mgtSeq}'		    /* 예산통제단위 구분값 '|' */
+			,@BOTTOM_CDS	= ''		            /* 하위 사업 코드 구분값 '|' */
+			,@BGT_CD		= ''			        /* 검색 예산과목 코드 */
+			,@BGT_NM		= ''			        /* 예산과목 명 */
 			,@OPT_01		= '${opt01}'			/* 1: 모든 예산과목, 2: 당기편성, 3: 프로젝트 기간 예산 */
 			,@OPT_02		= '${opt02}'			/* 1: 모두표시, 2: 사용기한결과분 숨김 */
 			,@OPT_03		= '${opt03}'
-			,@BGT_FR_DT		= '${bgtFrDate}'		/* 오늘 날짜 */
+			,@BGT_FR_DT		= '${baseDate}'		/* 오늘 날짜 */
 			,@GROUP_CD		= ''
 			,@LANGKIND		= 'KOR'
-        ]]></select>
+        ]]>
+    </select>
 
 </mapper>

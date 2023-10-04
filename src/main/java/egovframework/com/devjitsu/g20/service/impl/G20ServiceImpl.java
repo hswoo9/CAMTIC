@@ -18,4 +18,19 @@ public class G20ServiceImpl implements G20Service {
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return g20Repository.getProjectList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getSubjectList(Map<String, Object> params) {
+        List<Map<String, Object>> listMap = g20Repository.getCommonGisuInfo(params);
+
+        params.put("gisu", listMap.get(0).get("gisu"));
+        params.put("fromDate", listMap.get(0).get("fromDate"));
+        params.put("toDate", listMap.get(0).get("toDate"));
+
+        params.put("mgtSeq", params.get("pjtSeq") + "|");
+
+        List<Map<String, Object>> subjectList = g20Repository.getSubjectList(params);
+
+        return null;
+    }
 }

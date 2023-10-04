@@ -5,4 +5,6 @@ import java.util.Map;
 
 public interface G20Service {
     List<Map<String, Object>> getProjectList(Map<String, Object> params);
+
+    List<Map<String, Object>> getSubjectList(Map<String, Object> params);
 }
