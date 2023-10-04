@@ -57,7 +57,19 @@
               </dd>
             </dl>
           </div>
-          <div class="img"><img src="/images/camtic/img-root_new01.png" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-root_new01.png" alt=""> -->
+						<ul class="__imgdr1">
+							<li><img src="/images/camtic/img-rootn1-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-rootn1-2.png" alt=""></li>
+							<li><img src="/images/camtic/img-rootn1-3.png" alt=""></li>
+						</ul>
+						<ul class="__imgdr1">
+							<li><img src="/images/camtic/img-rootn1-4.png" alt=""></li>
+							<li><img src="/images/camtic/img-rootn1-5.png" alt=""></li>
+							<li><img src="/images/camtic/img-rootn1-6.png" alt=""></li>
+						</ul>
+					</div>
         </div>
 
         <div class="__tdrone4 __mt60">
@@ -70,7 +82,22 @@
               </dd>
             </dl>
           </div>
-          <div class="img"><img src="/images/camtic/img-root_new02.png" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-root_new02.png" alt=""> -->
+						<div class="__imgW __imgW8">
+							<div class="wrap">
+								<img src="/images/camtic/img-root_new02.jpg" alt="">
+								<div class="iw iw1"><span>오버몰딩 사출 및 시트 로딩 대기</span></div>
+								<div class="iw iw2"><span>시트 히터로<br>이동 및 예열</span></div>
+								<div class="iw iw3"><span>탄소섬유 시트 로딩 대기</span></div>
+								<div class="iw iw4"><span>오버몰딩 사출 및 시트 가열</span></div>
+								<div class="iw iw5"><span>사출완료(시제품 성형)/<br>형개 및 제품 취출</span></div>
+								<div class="iw iw6"><span>금형 내 시트 장입</span></div>
+								<div class="iw iw7"><span>로봇 후퇴 및 금형 형폐</span></div>
+							</div>
+						</div>
+
+					</div>
         </div>
 
         <div class="__tdrone4 __mt60">
@@ -83,7 +110,13 @@
               </dd>
             </dl>
           </div>
-          <div class="img"><img src="/images/camtic/img-root_new03.png" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-root_new03.png" alt=""> -->
+						<ul class="__imgdr1">
+							<li><img src="/images/camtic/img-rootn2-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-rootn2-2.png" alt=""></li>
+						</ul>
+					</div>
         </div>
 
 

@@ -139,7 +139,13 @@
               <li>공정표준화 및 유연제조</li>
             </ul>
           </div>
-          <div class="img"><img src="/images/camtic/img-nsmart1-1.jpg" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-nsmart1-1.jpg" alt=""> -->
+						<ul class="__imgJobBox3">
+							<li><img src="/images/camtic/img-nsmart1-1-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-nsmart1-1-2.png" alt=""></li>
+						</ul>
+					</div>
         </div>
 
         <div class="__smart2 __mt100">
@@ -153,7 +159,13 @@
             </ul>
           </div>
 
-          <div class="img"><img src="/images/camtic/img-nsmart1-2.jpg" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-nsmart1-2.jpg" alt=""> -->
+						<ul class="__imgJobBox3">
+							<li><img src="/images/camtic/img-nsmart1-2-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-nsmart1-2-2.png" alt=""></li>
+						</ul>
+					</div>
         </div>
         <div class="__smart2 __mt100">
           <div class="__icoBox pt0 __mt50">
@@ -165,7 +177,13 @@
               <li>제조데이터 플랫폼 구축</li>
             </ul>
           </div>
-          <div class="img"><img src="/images/camtic/img-nsmart1-3.jpg" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-nsmart1-3.jpg" alt=""> -->
+						<ul class="__imgJobBox3">
+							<li><img src="/images/camtic/img-nsmart1-3-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-nsmart1-3-2.png" alt=""></li>
+						</ul>
+					</div>
         </div>
         <div class="__smart2 __mt100">
           <div class="__icoBox pt0 __mt50">
@@ -176,7 +194,13 @@
               <li>데이터기반 검사프로그램</li>
             </ul>
           </div>
-          <div class="img"><img src="/images/camtic/img-nsmart1-4.jpg" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-nsmart1-4.jpg" alt=""> -->
+						<ul class="__imgJobBox3">
+							<li><img src="/images/camtic/img-nsmart1-4-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-nsmart1-4-2.png" alt=""></li>
+						</ul>
+					</div>
         </div>
         </div>
       </div>
