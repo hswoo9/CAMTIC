@@ -167,6 +167,53 @@
             EMP_SEQ IN (${evalEmpSeq})
     </delete>
 
+    <select id="getEvalHistoryList" parameterType="map" resultType="map">
+        /* getEvalHistoryList */
+        SELECT
+            EL.EMP_SEQ,
+            EL.EMP_NAME_KR,
+            RI.RECRUIT_TITLE,
+            CONCAT('근무부서 - [', RAI.DEPT_NAME, ' > ', RAI.TEAM_NAME, '] 채용부문 - [', RAI.JOB, '] 필요경력 - [', RAI.CAREER, ']') AS AREA_TITLE,
+            AM.APPLICATION_ID,
+            AM.USER_NAME,
+            (
+                SELECT
+                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+                FROM
+                    CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+                WHERE
+                    APPLICATION_ID = AM.APPLICATION_ID
+                AND
+                    A.EVAL_LOGIN_ID = EL.EVAL_LOGIN_ID
+                AND
+                    EL.EVAL_STATUS = 'E'
+                AND
+                    EVAL_ITEM_ID != 'opinion'
+                AND
+                    EVAL_SCREEN_TYPE = 'in'
+                GROUP BY APPLICATION_ID
+            ) AS IN_SCREEN_AVERAGE
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+        JOIN
+            CAM_INSIDE.DJ_RECRUIT_INFO RI
+        ON RI.RECRUIT_INFO_SN = EL.RECRUIT_INFO_SN
+        JOIN
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO RAI
+        ON RI.RECRUIT_INFO_SN = RAI.RECRUIT_INFO_SN
+        JOIN
+            CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+        ON EL.EVAL_LOGIN_ID = SB.EVAL_LOGIN_ID
+        JOIN
+            CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        ON SB.APPLICATION_ID = AM.APPLICATION_ID
+        WHERE
+            EL.EVAL_TYPE = 'in'
+        AND
+            EL.EMP_SEQ = #{empSeq}
+        GROUP BY AM.APPLICATION_ID
+    </select>
+
     <insert id="setRecruitInsert" parameterType="map">
         /* setRecruitInsert */
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_INFO
@@ -371,7 +418,7 @@
             CASE WHEN INSTR(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM') > 0 THEN REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM', '오후')
                  ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전')
             END AS SAVE_DATE,
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE SAVE_TYPE = 'S' AND AM.APPLICATION_ID != APPLICATION_ID AND AM.USER_EMAIL = USER_EMAIL) AS DUPLICATION_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE SAVE_TYPE = 'S' AND AM.RECRUIT_INFO_SN != RECRUIT_INFO_SN AND AM.APPLICATION_ID != APPLICATION_ID AND AM.USER_EMAIL = USER_EMAIL) AS DUPLICATION_CNT,
             (
                 SELECT
                     TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)

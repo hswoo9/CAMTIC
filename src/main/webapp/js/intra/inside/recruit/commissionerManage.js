@@ -115,6 +115,13 @@ var commissionerManage = {
                 }, {
                     field: "SIGNIFICANT",
                     title: "비고"
+                }, {
+                    title: "평가이력",
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalHistoryPop(' + e.EMP_SEQ + ')">' +
+                            '	<span class="k-button-text">평가이력</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBinding: function(){
@@ -173,5 +180,12 @@ var commissionerManage = {
                 commissionerManage.gridReload();
             }
         }
+    },
+
+    evalHistoryPop : function(e){
+        var url = "/inside/pop/evalHistoryPop.do?empSeq=" + e;
+        var name = "evalHistoryPop";
+        var option = "width=900, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }

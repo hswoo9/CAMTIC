@@ -490,6 +490,34 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 평가이력 페이지
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/evalHistoryPop.do")
+    public String evalHistoryPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("empInfo", userManageService.getUserPersonnelinformList(params));
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/evalHistoryPop";
+    }
+
+    /**
+     * 평가위원 평가이력 리스트 ( 평균 값 )
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/getEvalHistoryList.do")
+    public String getEvalHistoryList(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("list", recruitService.getEvalHistoryList(params));
+        return "jsonView";
+    }
+
+    /**
      * 평가위원 삭제
      * @param params
      * @return
@@ -499,8 +527,6 @@ public class RecruitController {
         recruitService.setCommissionerEmpInfoDel(params);
         return "jsonView";
     }
-
-
 
     /**
      * 평가위원등록 페이지

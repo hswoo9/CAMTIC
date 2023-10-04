@@ -103,6 +103,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public List<Map<String, Object>> getEvalHistoryList(Map<String, Object> params) {
+        return recruitRepository.getEvalHistoryList(params);
+    }
+
+    @Override
     public void setRecruitInsert(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> area = gson.fromJson((String) params.get("areaArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
