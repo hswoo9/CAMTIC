@@ -8,7 +8,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <style>
-  input[type="text"] {
+  input[type="text"], input[type="datetime-local"]{
     width: 50%;
     height: 34px;
     display: inline-block;
@@ -95,6 +95,15 @@
                     <input type="text" id="writeDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
                   </td>
                 </tr>
+                <c:if test="${categoryId eq 'business'}">
+                  <tr style="border-top: 1px solid #ccc;">
+                    <th>사업기간</th>
+                    <td>
+                      <input type="datetime-local" id="startDate" style="width: 20%;" value="${map.START_DT}" > ~
+                      <input type="datetime-local" id="endDate" style="width: 20%;" value="${map.END_DT}" >
+                    </td>
+                  </tr>
+                </c:if>
               </table>
             </div>
           </div>
@@ -187,10 +196,6 @@
     /*CKEDITOR.instances.contents.setData($("#prevContent").val());*/
 
     fnDefaultScript();
-
-
-
-
     });
 
   function fnDefaultScript() {
@@ -290,6 +295,8 @@
     formData.append("menuCd", categoryId);
     formData.append("noticeTitle", $("#noticeTitle").val());
     formData.append("writer", $("#writer").val().toString());
+    formData.append("startDt", $("#startDate").val());
+    formData.append("endDt", $("#endDate").val());
     formData.append("content", content);
 
     //첨부파일

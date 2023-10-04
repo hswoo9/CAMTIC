@@ -65,7 +65,7 @@
           <th>
             <span class="red-star"></span>휴대폰
           </th>
-          <td><input type="text" id="telNum" style="width: 80%"></td>
+          <td><input type="text" id="telNum" style="width: 80%" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event);telFilter(this)" maxlength="13"></td>
           <th>
             <span class="red-star"></span>이메일
           </th>
@@ -89,7 +89,7 @@
           <th>
             <span class="red-star"></span>비고
           </th>
-          <td><input type="text" id="bmk" style="width: 80%"></td>
+          <td><input type="text" id="rmk" style="width: 80%"></td>
 
         </tr>
       </table>

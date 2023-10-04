@@ -7,6 +7,8 @@ import egovframework.com.devjitsu.camtic.repository.ApplicationRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
+import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
+import egovframework.com.devjitsu.system.repository.MenuManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,12 @@ import java.util.Map;
 
 @Service
 public class RecruitServiceImpl implements RecruitService {
+
+    @Autowired
+    private UserManageRepository userManageRepository;
+
+    @Autowired
+    private MenuManagementRepository menuManagementRepository;
 
     @Autowired
     private RecruitRepository recruitRepository;
@@ -45,7 +53,7 @@ public class RecruitServiceImpl implements RecruitService {
 
                 String careerType = recruitList.get(i).get("CAREER_TYPE") == null ? "" : recruitList.get(i).get("CAREER_TYPE").toString();
                 if(!StringUtils.isEmpty(careerType)){
-                    if(careerType.indexOf("~") > -1){
+                    if(careerType.indexOf(",") > -1){
                         careerType = "신입~경력";
                     }else{
                         if(careerType == "1"){
@@ -84,8 +92,14 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
-    public void setCommissionerDel(Map<String, Object> params) {
-        recruitRepository.setCommissionerDel(params);
+    public void setEvalEmpInfo(Map<String, Object> params) {
+        userManageRepository.setUserReqDetailInsert(params);
+        menuManagementRepository.setAuthorityGroupUser(params);
+    }
+
+    @Override
+    public void setCommissionerEmpInfoDel(Map<String, Object> params) {
+        recruitRepository.setCommissionerEmpInfoDel(params);
     }
 
     @Override
@@ -114,11 +128,6 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void setRecruitDel(Map<String, Object> params) {
         recruitRepository.setRecruitDel(params);
-    }
-
-    @Override
-    public void setCommissionerInsert(Map<String, Object> params) {
-        recruitRepository.setCommissionerInsert(params);
     }
 
     @Override

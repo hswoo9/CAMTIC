@@ -137,9 +137,7 @@ var recruitList = {
                     title: "서류심사",
                     template: function(e) {
                         if(e.RECRUIT_STATUS_SN == "3"){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.getEvalUrlSet(' + e.RECRUIT_INFO_SN + ',\'doc\')">' +
-                                '	<span class="k-button-text">서류심사</span>' +
-                                '</button>';
+                            return '서류심사중';
                         }else if(e.RECRUIT_STATUS_SN > 3){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'doc\')">' +
                                 '	<span class="k-button-text">심사결과</span>' +
@@ -153,9 +151,7 @@ var recruitList = {
                     title: "면접심사",
                     template: function(e) {
                         if(e.RECRUIT_STATUS_SN == "4"){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.getEvalUrlSet(' + e.RECRUIT_INFO_SN + ',\'in\')">' +
-                                '	<span class="k-button-text">면접심사</span>' +
-                                '</button>';
+                            return '면접심사중';
                         }else if(e.RECRUIT_STATUS_SN > 4){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'in\')">' +
                                 '	<span class="k-button-text">심사결과</span>' +
@@ -165,7 +161,7 @@ var recruitList = {
                         }
                     }
                 }, {
-                    title: "상태",
+                    title: "관리",
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop(' + e.RECRUIT_INFO_SN + ');">' +
                             '	<span class="k-button-text">관리</span>' +
@@ -284,7 +280,7 @@ var recruitList = {
     screenViewPop : function(sn, e){
         var url = "/inside/pop/screenViewPop.do?recruitInfoSn=" + sn + "&type=" + e;
         var name = "screenViewPop";
-        var option = "width=1000, height=180, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=300, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 

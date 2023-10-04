@@ -67,7 +67,10 @@ var rcDetailPop = {
                             '<td>' +
                                 '<div style="display:flex; justify-content: space-between; align-items: center">' +
                                     '경력 : ';
-                            if(e[i].CAREER_TYPE == "1"){
+
+                            if(e[i].CAREER_TYPE == "1,2"){
+                                html += '신입,경력'
+                            }else if(e[i].CAREER_TYPE == "1"){
                                 html += '경력'
                             }else if(e[i].CAREER_TYPE == "2"){
                                 html += '신입'

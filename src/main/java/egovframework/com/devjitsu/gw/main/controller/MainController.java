@@ -61,8 +61,9 @@ public class MainController {
     public String getMainList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
 
         List<Map<String, Object>> response = boardService.selectMainList(param);
+        List<Map<String, Object>> response2 = boardService.selectBsnsMainList(param);
 
-        model.addAttribute("list", response);
+        model.addAttribute("list", response).addAttribute("list2", response2);
         return "jsonView";
     }
 

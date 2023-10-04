@@ -232,102 +232,8 @@
           </div>
         </div>
         <div class="area">
-          <div class="swiper-wrapper">
-            <a href="/camtic/news/view.do?boardArticleId=53&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
-              <div class="head">
-                <div class="ico">진행</div>
-                <dl>
-                  <dt>마감일</dt>
-                  <dd>2023-08-31</dd>
-                </dl>
-              </div>
-              <div class="cont">
-                <div class="txt">지역 사회 발전을 위한 창의적 아이디어 공모전</div>
-                <div class="date">
-                  <i class="axi axi-clock" aria-hidden="true"></i>
-                  <p>
-                    2023-08-01 00:00:00 ~<br>
-                    2023-08-31 00:00:00
-                  </p>
-                </div>
-              </div>
-            </a>
-            <a href="/camtic/news/view.do?boardArticleId=37&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
-              <div class="head">
-                <div class="ico">진행</div>
-                <dl>
-                  <dt>마감일</dt>
-                  <dd>2023-06-21</dd>
-                </dl>
-              </div>
-              <div class="cont">
-                <div class="txt">[전북바이오융합산업진흥원] 바이오헬스 기업지원 모집공고</div>
-                <div class="date">
-                  <i class="axi axi-clock" aria-hidden="true"></i>
-                  <p>
-                    2023-06-19 00:00:00 ~<br>
-                    2023-06-21 00:00:00
-                  </p>
-                </div>
-              </div>
-            </a>
-            <a href="/camtic/news/view.do?boardArticleId=33466&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
-              <div class="head">
-                <div class="ico">진행</div>
-                <dl>
-                  <dt>마감일</dt>
-                  <dd>2023-07-31</dd>
-                </dl>
-              </div>
-              <div class="cont">
-                <div class="txt">2023년 R&D 혁신밸리 창업지원 초기 글로벌 사업화 지원 2차 안내</div>
-                <div class="date">
-                  <i class="axi axi-clock" aria-hidden="true"></i>
-                  <p>
-                    2023-07-17 00:00:00 ~<br>
-                    2023-07-31 00:00:00
-                  </p>
-                </div>
-              </div>
-            </a>
-            <a href="/camtic/news/view.do?boardArticleId=33463&category=business" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
-              <div class="head">
-                <div class="ico">진행</div>
-                <dl>
-                  <dt>마감일</dt>
-                  <dd>2023-07-21</dd>
-                </dl>
-              </div>
-              <div class="cont">
-                <div class="txt">[공고] 2023 K-AAM eVTOL 기술개발 경연대회 참가자 모집</div>
-                <div class="date">
-                  <i class="axi axi-clock" aria-hidden="true"></i>
-                  <p>
-                    2023-07-10 00:00:00 ~<br>
-                    2023-07-21 00:00:00
-                  </p>
-                </div>
-              </div>
-            </a>
-            <a href="#" class="box swiper-slide" style="width: 385px; margin-right: 20px;">
-              <div class="head">
-                <div class="ico">진행</div>
-                <dl>
-                  <dt>마감일</dt>
-                  <dd>2023-12-31</dd>
-                </dl>
-              </div>
-              <div class="cont">
-                <div class="txt">옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화옛 대한방직 부지관련 시민공론화 옛 대한방직 부지관련 시민공론화</div>
-                <div class="date">
-                  <i class="axi axi-clock" aria-hidden="true"></i>
-                  <p>
-                    2023-07-24 00:00:00 ~<br>
-                    2023-07-24 00:00:00
-                  </p>
-                </div>
-              </div>
-            </a>
+          <div id="bsnsTable" class="swiper-wrapper">
+
           </div>
         </div>
       </div>
@@ -488,12 +394,13 @@
       </ul>
     </div>
   </div>
-  <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
+<jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 <script>
   vis.init();
   snsMain.init();
   midMain.init();
+  sauMain.init();
 
   var data = {
     category : "notice"
@@ -502,11 +409,13 @@
   var viewUrl = "";
 
   var resultData;
+  var resultData2;
 
   $(function () {
     fnDefaultScript();
 
     drawTable();
+    drawTable2();
   });
 
   function goList(e){
@@ -524,8 +433,8 @@
       dataType : "json",
       async: false,
       success: function(rs) {
-        console.log(rs.list);
         resultData = rs.list;
+        resultData2 = rs.list2;
       }
     });
   }
@@ -559,6 +468,36 @@
 
     /*tableBody.innerHTML = html;*/
     $(".sec").append(html);
+  }
+
+  //사업공고 게시글 리스트 그리기
+  function drawTable2() {
+
+    let linkUrl = "/camtic/news/view.do?category=business&boardArticleId="
+
+    $("#bsnsTable").html('');
+
+    let html = "";
+
+    resultData2.forEach((item, index) => {
+
+      html += "<a href='"+ linkUrl +item.BOARD_ARTICLE_ID+" ' class='box swiper-slide' style='width: 385px; margin-right: 20px;'>";
+
+      html += '<div class="head">';
+      html += '<div class="ico">'+ item.state +'</div>';
+      html += '<dl><dt>마감일</dt><dd>'+ item.endDay +'</dd></dl>';
+      html += '</div>';
+
+      html += '<div class="cont">';
+      html += '<div class="txt">'+ item.BOARD_ARTICLE_TITLE +'</div>';
+      html += '<div class="date">';
+      html += '<i class="axi axi-clock" aria-hidden="true"></i>'
+      html += '<p>'+ item.startDt +' ~<br>'+ item.endDt +'</p>'
+      html += '</div></div></a>';
+    });
+
+
+    $("#bsnsTable").append(html);
   }
 </script>
 </body>

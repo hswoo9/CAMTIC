@@ -2,7 +2,8 @@ var screenViewPop = {
     global : {
         searchAjaxData : "",
         saveAjaxData : "",
-        nowH : ""
+        nowH : "",
+        careerType : ""
     },
 
     init : function(nowH){
@@ -22,7 +23,7 @@ var screenViewPop = {
     },
 
     makeDocScreenTable : function() {
-        var careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
+        screenViewPop.global.careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
 
         screenViewPop.global.searchAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
@@ -45,14 +46,18 @@ var screenViewPop = {
         if(result2.flag){
             $("#tbDiv *").remove();
 
-            if(careerType == "1"){
+            if(screenViewPop.global.careerType == "1"){
                 screenViewPop.makeType1ApplicationList(result.list, result2.rs.evalCnt);
-            }else if(careerType == "2"){
+            }else if(screenViewPop.global.careerType == "2"){
                 screenViewPop.makeType2ApplicationList(result.list, result2.rs.evalCnt);
+            }else if(screenViewPop.global.careerType == "1,2"){
+                screenViewPop.makeType1ApplicationList(result.list.filter(element => element.CAREER_TYPE == "1"), result2.rs.evalCnt);
+                screenViewPop.makeType2ApplicationList(result.list.filter(element => element.CAREER_TYPE == "2"), result2.rs.evalCnt);
             }
 
-
             if(result2.rs.evalScoreBoard.length > 0){
+
+                console.log(result2.rs.evalScoreBoard);
                 screenViewPop.applicationEvalDataSet(result2.rs.evalScoreBoard);
             }
         }
@@ -62,171 +67,250 @@ var screenViewPop = {
 
     makeType1ApplicationList : function(e, cnt){
         var html = "";
+        var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
         for(var i = 0; i < cnt.length; i++){
             html += '' +
-                '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
-                '<colgroup>' +
-                '    <col style="width: 8%">' +
-                '    <col style="width: 8%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 11%">' +
-                '    <col>' +
-                '</colgroup>' +
-                '<tr>' +
-                '    <th rowSpan="2">번호</th>' +
-                '    <th rowSpan="2">성명</th>' +
-                '    <th colSpan="3">학력(20점)</th>' +
-                '    <th colSpan="3">경력(50점)</th>' +
-                '    <th colSpan="3">전문성(30점)</th>' +
-                '    <th rowSpan="2">평가점수(100점)</th>' +
-                '    <th rowspan="2">기타의견</th>' +
-                '</tr>' +
-                '<tr>' +
-                '    <th>上(40)</th>' +
-                '    <th>中(30)</th>' +
-                '    <th>下(20)</th>' +
-                '    <th>上(60)</th>' +
-                '    <th>中(50)</th>' +
-                '    <th>下(40)</th>' +
-                '    <th>上(30)</th>' +
-                '    <th>中(25)</th>' +
-                '    <th>下(20)</th>' +
-                '</tr>' +
-                '<tbody id="applicationTb">';
-            for(var j = 0; j < e.length; j++){
+                '<div class="pdf_page mt-20">' +
+                    '<h2 class="text-center">채용 서류심사 평가표(신입)</h2>' +
+                    '<table class="searchTable table table-bordered mb-0 mt-20">' +
+                        '<colgroup>' +
+                            '<col style="width: 10%">' +
+                        '</colgroup>' +
+                        '<tr>' +
+                            '<th>근무부서</th>' +
+                            '<td>' +
+                                area.DEPT_NAME + ' - ' + area.TEAM_NAME +
+                            '</td>' +
+                            '<th>채용부문</th>' +
+                            '<td>' +
+                                area.JOB +
+                            '</td>' +
+                            '<th>필요경력</th>' +
+                            '<td>' +
+                                area.CAREER +
+                            '</td>' +
+                            '<th>채용직급</th>' +
+                            '<td>' +
+                                area.DUTY +
+                            '</td>' +
+                        '</tr>' +
+                    '</table>' +
+                    '<table class="searchTable table table-bordered mb-0" style="text-align: center">' +
+                        '<colgroup>' +
+                        '    <col style="width: 8%">' +
+                        '    <col style="width: 8%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 6%">' +
+                        '    <col style="width: 11%">' +
+                        '    <col>' +
+                        '</colgroup>' +
+                        '<tr>' +
+                        '    <th rowSpan="2">번호</th>' +
+                        '    <th rowSpan="2">성명</th>' +
+                        '    <th colSpan="3">학력(20점)</th>' +
+                        '    <th colSpan="3">경력(50점)</th>' +
+                        '    <th colSpan="3">전문성(30점)</th>' +
+                        '    <th rowSpan="2">평가점수(100점)</th>' +
+                        '    <th rowspan="2">기타의견</th>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '    <th>上(20)</th>' +
+                        '    <th>中(15)</th>' +
+                        '    <th>下(10)</th>' +
+                        '    <th>上(50)</th>' +
+                        '    <th>中(40)</th>' +
+                        '    <th>下(30)</th>' +
+                        '    <th>上(30)</th>' +
+                        '    <th>中(25)</th>' +
+                        '    <th>下(20)</th>' +
+                        '</tr>' +
+                        '<tbody id="applicationTb">';
+            if(e != null && e.length > 0){
+                for(var j = 0; j < e.length; j++){
+                    html += "" +
+                            '<tr class="userEvalDocScreen">' +
+                                '<td>' + (j + 1) + '</td>' +
+                                '<td>' +
+                                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[j].APPLICATION_ID + '">' + e[j].USER_NAME +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_1_' + e[j].APPLICATION_ID + '" score="20"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_2_' + e[j].APPLICATION_ID + '" score="15"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_3_' + e[j].APPLICATION_ID + '" score="10"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_1_' + e[j].APPLICATION_ID + '" score="50"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_2_' + e[j].APPLICATION_ID + '" score="40"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_3_' + e[j].APPLICATION_ID + '" score="30"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc3_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc3_1_' + e[j].APPLICATION_ID + '" score="30"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc3_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc3_2_' + e[j].APPLICATION_ID + '" score="25"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc3_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc3_3_' + e[j].APPLICATION_ID + '" score="20"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span id="sum_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="sum"></span>점 ' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span id="otherRmk_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
+                                '</td>' +
+                            '</tr>';
+                }
+            }else{
                 html += "" +
-                    '<tr class="userEvalDocScreen">' +
-                    '<td>' + (j + 1) + '</td>' +
-                    '<td>' +
-                        '<input type="hidden" id="applicationId" name="applicationId" value="' + e[j].APPLICATION_ID + '">' + e[j].USER_NAME +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_1_' + e[j].APPLICATION_ID + '" score="40"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_2_' + e[j].APPLICATION_ID + '" score="30"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_3_' + e[j].APPLICATION_ID + '" score="20"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_1_' + e[j].APPLICATION_ID + '" score="60"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_2_' + e[j].APPLICATION_ID + '" score="50"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_3_' + e[j].APPLICATION_ID + '" score="40"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc3_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc3_1_' + e[j].APPLICATION_ID + '" score="60"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc3_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc3_2_' + e[j].APPLICATION_ID + '" score="50"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span class="evalRadio" name="evalItemVal_doc3_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc3_3_' + e[j].APPLICATION_ID + '" score="40"></span>' +
-                    '</td>' +
-                    '<td>' +
-                        '<span id="sum_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="sum"></span> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<span id="otherRmk_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
-                    '</td>' +
-                    '</tr>';
+                            '<tr>' +
+                                '<td colspan="13">데이터가 없습니다.</td>' +
+                            '</tr>'
             }
 
-            html += '</tbody>' +
-                '</table>' +
-                '<div style="text-align: right;font-size: 12px">' +
-                screenViewPop.global.nowH + "<br>" +
-                "심사위원 : " + cnt[i].NAME + "(인)"
-            '</div>';
+            html +=     '</tbody>' +
+                    '</table>' +
+                    '<p style="font-size: 14px;text-align: center" class="mt-20">' +
+                        '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
+                        '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
+                        '△전문성(30점)-응시분야 직무에 대한 전문지식' +
+                    '</p>' +
+                    '<div style="text-align: right;font-size: 12px" class="mt-60">' +
+                        screenViewPop.global.nowH + "<br>" +
+                        "심사위원 : " + cnt[i].EMP_NAME_KR + "(인)" +
+                    '</div>' +
+                '</div>';
         }
         $("#tbDiv").append(html)
     },
 
     makeType2ApplicationList : function(e, cnt){
         var html = "";
+        var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
         for(var i = 0; i < cnt.length; i++){
             html += '' +
-                '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
-                '<colgroup>' +
-                '    <col style="width: 8%">' +
-                '    <col style="width: 8%">' +
-                '    <col style="width: 7%">' +
-                '    <col style="width: 7%">' +
-                '    <col style="width: 7%">' +
-                '    <col style="width: 7%">' +
-                '    <col style="width: 7%">' +
-                '    <col style="width: 7%">' +
-                '    <col style="width: 15%">' +
-                '    <col>' +
-                '</colgroup>' +
-                '<tr>' +
-                '    <th rowSpan="2">번호</th>' +
-                '    <th rowSpan="2">성명</th>' +
-                '    <th colSpan="3">학력/전공(40점)</th>' +
-                '    <th colSpan="3">서류충실도(60점)</th>' +
-                '    <th rowSpan="2">평가점수(100점)</th>' +
-                '    <th rowspan="2">기타의견</th>' +
-                '</tr>' +
-                '<tr>' +
-                '    <th>上(40)</th>' +
-                '    <th>中(30)</th>' +
-                '    <th>下(20)</th>' +
-                '    <th>上(60)</th>' +
-                '    <th>中(50)</th>' +
-                '    <th>下(40)</th>' +
-                '</tr>' +
-                '<tbody id="applicationTb">';
-            for(var j = 0; j < e.length; j++){
-                html += "" +
-                    '<tr class="userEvalDocScreen">' +
-                        '<td>' + (j + 1) + '</td>' +
-                        '<td>' +
-                            '<input type="hidden" id="applicationId" name="applicationId" value="' + e[j].APPLICATION_ID + '">' + e[j].USER_NAME +
-                        '</td>' +
-                        '<td>' +
-                            '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_1_' + e[j].APPLICATION_ID + '" score="40"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_2_' + e[j].APPLICATION_ID + '" score="30"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_3_' + e[j].APPLICATION_ID + '" score="20"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_1_' + e[j].APPLICATION_ID + '" score="60"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_2_' + e[j].APPLICATION_ID + '" score="50"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_3_' + e[j].APPLICATION_ID + '" score="40"></span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="sum_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="sum"></span> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="otherRmk_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
-                        '</td>' +
-                    '</tr>';
-            }
+                '<div class="pdf_page mt-20">' +
+                    '<h2 class="text-center">채용 서류심사 평가표(경력)</h2>' +
+                    '<table class="searchTable table table-bordered mb-0 mt-20">' +
+                        '<colgroup>' +
+                            '<col style="width: 10%">' +
+                        '</colgroup>' +
+                        '<tr>' +
+                            '<th>근무부서</th>' +
+                            '<td>' +
+                                area.DEPT_NAME + ' - ' + area.TEAM_NAME +
+                            '</td>' +
+                            '<th>채용부문</th>' +
+                            '<td>' +
+                                area.JOB +
+                            '</td>' +
+                            '<th>필요경력</th>' +
+                            '<td>' +
+                                area.CAREER +
+                            '</td>' +
+                            '<th>채용직급</th>' +
+                            '<td>' +
+                                area.DUTY +
+                            '</td>' +
+                        '</tr>' +
+                    '</table>' +
+                    '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
+                        '<colgroup>' +
+                        '    <col style="width: 8%">' +
+                        '    <col style="width: 8%">' +
+                        '    <col style="width: 7%">' +
+                        '    <col style="width: 7%">' +
+                        '    <col style="width: 7%">' +
+                        '    <col style="width: 7%">' +
+                        '    <col style="width: 7%">' +
+                        '    <col style="width: 7%">' +
+                        '    <col style="width: 15%">' +
+                        '    <col>' +
+                        '</colgroup>' +
+                        '<tr>' +
+                        '    <th rowSpan="2">번호</th>' +
+                        '    <th rowSpan="2">성명</th>' +
+                        '    <th colSpan="3">학력/전공(40점)</th>' +
+                        '    <th colSpan="3">서류충실도(60점)</th>' +
+                        '    <th rowSpan="2">평가점수(100점)</th>' +
+                        '    <th rowspan="2">기타의견</th>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '    <th>上(40)</th>' +
+                        '    <th>中(30)</th>' +
+                        '    <th>下(20)</th>' +
+                        '    <th>上(60)</th>' +
+                        '    <th>中(50)</th>' +
+                        '    <th>下(40)</th>' +
+                        '</tr>' +
+                        '<tbody id="applicationTb">';
+                if(e != null && e.length > 0){
+                    for(var j = 0; j < e.length; j++){
+                        html += "" +
+                            '<tr class="userEvalDocScreen">' +
+                                '<td>' + (j + 1) + '</td>' +
+                                '<td>' +
+                                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[j].APPLICATION_ID + '">' + e[j].USER_NAME +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_1_' + e[j].APPLICATION_ID + '" score="40"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_2_' + e[j].APPLICATION_ID + '" score="30"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc1_3_' + e[j].APPLICATION_ID + '" score="20"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_1_' + e[j].APPLICATION_ID + '" score="60"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_2_' + e[j].APPLICATION_ID + '" score="50"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[j].APPLICATION_ID + '_' + cnt[i].EVAL_LOGIN_ID + '" id="itemScore_doc2_3_' + e[j].APPLICATION_ID + '" score="40"></span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span id="sum_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="sum"></span>점 ' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span id="otherRmk_' + e[j].APPLICATION_ID  + '_' + cnt[i].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
+                                '</td>' +
+                            '</tr>';
+                    }
+                }else{
+                    html += "" +
+                            '<tr>' +
+                                '<td colspan="10">데이터가 없습니다.</td>' +
+                            '</tr>'
+                }
 
-            html += '</tbody>' +
-                '</table>' +
-                '<div style="text-align: right;font-size: 12px">' +
-                    screenViewPop.global.nowH + "<br>" +
-                    "심사위원 : " + cnt[i].NAME + "(인)"
+
+                html += '</tbody>' +
+                    '</table>' +
+                    '<p style="font-size: 14px;text-align: center" class="mt-20">' +
+                        '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
+                        '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
+                        '△전문성(30점)-응시분야 직무에 대한 전문지식' +
+                    '</p>' +
+                    '<div style="text-align: right;font-size: 12px" class="mt-60">' +
+                        screenViewPop.global.nowH + "<br>" +
+                        "심사위원 : " + cnt[i].EMP_NAME_KR + "(인)" +
+                    '</div>' +
                 '</div>';
         }
         $("#tbDiv").append(html)
@@ -281,7 +365,7 @@ var screenViewPop = {
                 html += '' +
                     '<tr>' +
                         '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
-                        '<td>' + result.list[i].NAME + '</td>' +
+                        '<td>' + result.list[i].EMP_NAME_KR + '</td>' +
                         '<td>' + result.list[i].SUM_SCORE + '</td>' +
                         '<td>' + result.list[i].OPINION + '</td>' +
                         '<td></td>' +
@@ -322,7 +406,7 @@ var screenViewPop = {
     applicationEvalDataSet : function(e){
         var sum = 0;
         for(var i = 0; i < e.length; i ++){
-            if(e[i].EVAL_ITEM_ID == "doc1" || e[i].EVAL_ITEM_ID == "doc2"){
+            if(e[i].EVAL_ITEM_ID == "doc1" || e[i].EVAL_ITEM_ID == "doc2" || e[i].EVAL_ITEM_ID == "doc3"){
                 $("span[name='evalItemVal_" + e[i].EVAL_ITEM_ID + "_" + e[i].APPLICATION_ID + "_" + e[i].EVAL_LOGIN_ID + "'][score=" + e[i].EVAL_ITEM_SCORE + "]").text("O");
 
                 sum += Number(e[i].EVAL_ITEM_SCORE);
@@ -336,7 +420,7 @@ var screenViewPop = {
 
     fnResizeForm : function() {
         var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth) + 18;
-        var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 10;
+        var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 200;
 
         try{
             var childWindow = window.parent;
@@ -345,4 +429,73 @@ var screenViewPop = {
             console.log('window resizing cat not run dev mode.');
         }
     },
+}
+
+var renderedImg = new Array;
+var contWidth = 240, // 너비(mm) (a4에 맞춤)
+    padding = 10; //상하좌우 여백(mm)
+const pdfMake = () => {
+
+    var lists = document.querySelectorAll(".pdf_page"),
+        deferreds = [],
+        doc = new jsPDF("l", "mm", [425, 734]),
+        listsLeng = lists.length;
+    for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
+        var deferred = $.Deferred();
+        deferreds.push(deferred.promise());
+        generateCanvas(i, doc, deferred, lists[i]);
+    }
+
+    $.when.apply($, deferreds).then(function () { // 이미지 렌더링이 끝난 후
+        var sorted = renderedImg.sort(function (a, b) {
+                return a.num < b.num ? -1 : 1;
+            }), // 순서대로 정렬
+            curHeight = 20, //위 여백 (이미지가 들어가기 시작할 y축)
+            sortedLeng = sorted.length;
+
+        for (var i = 0; i < sortedLeng; i++) {
+            var sortedHeight = sorted[i].height, //이미지 높이
+                sortedImage = sorted[i].image; //이미지w
+
+            if(i != 0){
+                curHeight += 10;
+            }
+
+            if (curHeight + sortedHeight - 20 > 100 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
+                doc.addPage(734, 425); // 페이지를 추가함
+                curHeight = 20; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
+                doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
+                curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
+            } else { // 페이지에 남은 공간보다 이미지가 작으면 페이지 추가하지 않음
+                doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
+                curHeight += sortedHeight; // y축 = 기존y축 + 새로들어간 이미지 높이
+            }
+
+            var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+            doc.addFileToVFS('myFont.ttf', fontJs);
+            doc.addFont('myFont.ttf', 'myFont', 'normal');
+            doc.setFont('myFont');
+            doc.text("(사)캠틱종합기술원", 10, pageHeight  - 10, {align: 'left'});
+
+            curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
+        }
+        doc.save( $("#userName").text() + '.pdf'); //pdf 저장
+        curHeight = padding; //y축 초기화
+        renderedImg = new Array; //이미지 배열 초기화
+    });
+}
+
+function generateCanvas(i, doc, deferred, curList){ //페이지를 이미지로 만들기
+    var pdfWidth = $(curList).outerWidth() * 0.2645, //px -> mm로 변환
+        pdfHeight = $(curList).outerHeight() * 0.2645,
+        heightCalc = contWidth * pdfHeight / pdfWidth; //비율에 맞게 높이 조절
+
+    html2canvas( curList ).then(
+        function (canvas) {
+            var img = canvas.toDataURL('image/jpeg', 1.0); //이미지 형식 지정
+            renderedImg.push({num:i, image:img, height:heightCalc}); //renderedImg 배열에 이미지 데이터 저장(뒤죽박죽 방지)
+            deferred.resolve(); //결과 보내기
+        }
+    );
 }

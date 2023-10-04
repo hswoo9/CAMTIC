@@ -222,33 +222,16 @@ var menuGM = {
         }
 
         /** TODO. 사용자 선택 팝업 없는 것 같음 */
-        menuGM.global.windowPopUrl = getContextPath() + "/common/userMultiplePop.do";
-        menuGM.global.popName = "userMultiplePop";
-        menuGM.global.popStyle ="width=1365, height=647, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var url = "/user/pop/userMultiSelectPop.do";
+        var name = "userMultiSelectPop";
+        var option = "width=1365, height=647, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
 
-        // window.open(windowPopUrl, popName, popStyle);
+        window.open(url, name, option);
     },
 
-    userMultiplePopClose : function(){
+    userMultiplePopClose : function(e){
+        menuGM.global.usersArr = e;
         /** 부서별 메뉴 권한 추가는 예약기능을 사용할 수 없음 */
-        // $("#subGrid").data("kendoGrid").dataSource.data([]);
-        //
-        // for(var i = 0; i < usersArr.length; i++){
-        // 	if(usersArr[i].seqType != "d"){
-        // 		if(authorityUserArr.filter(element => element.empSeq === usersArr[i].empSeq).length == 0){
-        // 			usersArr[i].authorityGrantId = "";
-        // 			usersArr[i].authorityGroupId = $("#authorityGroupId").val();
-        // 			authorityUserArr.push(usersArr[i]);
-        // 		}
-        // 	}else{
-        // 		if(authorityUserArr.filter(element => element.deptSeq === usersArr[i].deptSeq).length == 0){
-        // 			usersArr[i].authorityGrantId = "";
-        // 			usersArr[i].authorityGroupId = $("#authorityGroupId").val();
-        // 			authorityUserArr.push(usersArr[i]);
-        // 		}
-        // 	}
-        //
-        // }
 
         for(var i = 0; i < menuGM.global.usersArr.length; i++){
             if(menuGM.global.authorityUserArr.filter(element => element.empSeq === menuGM.global.usersArr[i].empSeq).length == 0){

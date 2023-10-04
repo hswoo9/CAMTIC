@@ -57,9 +57,16 @@ var recruitReq = {
             html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
             html += '       채용인원<div style="text-align: right;width: 153px"><input type="text" id="recruitment'+i+'" class="recruitment" oninput="onlyNumber(this)" style="width: 30%">명</div>';
             html += '   </div></td>';
-            html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-            html += '       경력<input type="text" id="careerType'+i+'" class="careerType" style="width: 30%"> 직급 <input type="text" id="duty'+i+'" class="duty" style="width: 40%">';
-            html += '   </div></td>';
+            html += '   <td>' +
+                            '<div style="display:flex; justify-content: space-between; align-items: center">' +
+                                '<input type="checkbox" id="careerType_1_'+i+'" class="careerType">' +
+                                '<label for="careerType_1_'+i+'">경력</label>' +
+                                '<input type="checkbox" id="careerType_2_'+i+'" class="careerType">' +
+                                '<label for="careerType_2_'+i+'">신입</label>' +
+                                '직급 ' +
+                                '<input type="text" id="duty'+i+'" class="duty" style="width: 40%">' +
+                            '</div>' +
+                        '</td>';
             html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
             html += '       필요경력<input type="text" id="career'+i+'" class="career" oninput="onlyNumber(this)" style="width: 20%"> 년 근무형태 <input type="text" id="workType'+i+'" class="workType" style="width: 20%">';
             html += '   </div></td>';
@@ -86,18 +93,6 @@ var recruitReq = {
                 customKendo.fn_dropDownList("team"+i, ds.rs, "dept_name", "dept_seq", 2);
             });
             customKendo.fn_dropDownList("team"+i, [], "dept_name", "dept_seq", 2);
-
-            $("#careerType"+i).kendoDropDownList({
-                dataTextField: "text",
-                dataValueField: "value",
-                dataSource: [
-                    { text: "선택", value: "" },
-                    { text: "경력", value: "1" },
-                    { text: "신입", value: "2" }
-                ],
-                index: 0
-            });
-
 
             customKendo.fn_textBox(["job"+i, "recruitment"+i, "career"+i, "qualification"+i, "duty"+i, "workType"+i]);
         }
@@ -134,13 +129,23 @@ var recruitReq = {
                 teamSeq    					: $(v).find('#team'+i).val(),
                 teamName   					: $(v).find('#team'+i).data("kendoDropDownList").text(),
                 job         				: $(v).find('#job'+i).val(),
-                recruitment   				: $(v).find('#recruitment'+i).val(),
-                careerType                  : $(v).find('#careerType'+i).val(),
+                recruitment   				: $(v).find('#recruitment'+i).val() == "" ? 0 : $(v).find('#recruitment'+i).val(),
                 duty   		        		: $(v).find('#duty'+i).val(),
-                career   		        	: $(v).find('#career'+i).val(),
+                career   		        	: $(v).find('#career'+i).val() == "" ? 0 : $(v).find('#career'+i).val(),
                 workType   		        	: $(v).find('#workType'+i).val(),
                 qualification   		    : $(v).find('#qualification'+i).val(),
             }
+
+            var careerType = "";
+            if($(v).find('#careerType_1_'+i).is(":checked")){
+                careerType += ",1"
+            }
+
+            if($(v).find('#careerType_2_'+i).is(":checked")){
+                careerType += ",2"
+            }
+            areaInfo.careerType = careerType.substring(1);
+
             areaArr.push(areaInfo);
         });
 
@@ -239,9 +244,16 @@ var recruitReq = {
         html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
         html += '       채용인원<div style="text-align: right;width: 153px"><input type="text" id="recruitment'+rowNumber+'" class="recruitment" oninput="onlyNumber(this)" style="width: 30%">명</div>';
         html += '   </div></td>';
-        html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
-        html += '       경력<input type="text" id="careerType'+rowNumber+'" class="careerType" style="width: 30%"> 직급 <input type="text" id="duty'+rowNumber+'" class="duty" style="width: 40%">';
-        html += '   </div></td>';
+        html += '   <td>' +
+                        '<div style="display:flex; justify-content: space-between; align-items: center">' +
+                            '<input type="checkbox" id="careerType_1_'+rowNumber+'" class="careerType"> ';
+        html +=             '<label for="careerType_1_'+rowNumber+'">경력</label>' +
+                            '<input type="checkbox" id="careerType_2_'+rowNumber+'" class="careerType">' +
+                            '<label for="careerType_2_'+rowNumber+'">신입</label>' +
+                            '직급 ' +
+                            '<input type="text" id="duty'+rowNumber+'" class="duty" style="width: 40%">';
+        html +=         '</div>' +
+                    '</td>';
         html += '   <td><div style="display:flex; justify-content: space-between; align-items: center">';
         html += '       필요경력<input type="text" id="career'+rowNumber+'" class="career" oninput="onlyNumber(this)" style="width: 15%"> 년 근무형태 <input type="text" id="workType'+rowNumber+'" class="workType" style="width: 30%">';
         html += '   </div></td>';
@@ -267,17 +279,6 @@ var recruitReq = {
             customKendo.fn_dropDownList("team"+rowNumber, ds.rs, "dept_name", "dept_seq", 2);
         });
         customKendo.fn_dropDownList("team"+rowNumber, [], "dept_name", "dept_seq", 2);
-
-        $("#careerType"+rowNumber).kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택", value: "" },
-                { text: "경력", value: "1" },
-                { text: "신입", value: "2" }
-            ],
-            index: 0
-        });
 
         customKendo.fn_textBox(["job"+rowNumber, "recruitment"+rowNumber, "career"+rowNumber, "qualification"+rowNumber, "duty"+rowNumber, "workType"+rowNumber]);
     },
@@ -318,7 +319,16 @@ var recruitReq = {
             $("#team" + i).data("kendoDropDownList").value(e[i].TEAM_SEQ);
             $("#job" + i).val(e[i].JOB);
             $("#recruitment" + i).val(e[i].RECRUITMENT);
-            $("#careerType" + i).data("kendoDropDownList").value(e[i].CAREER_TYPE);
+
+            if(e[i].CAREER_TYPE.indexOf("1") > -1){
+                $("#careerType_1_" + i).prop("checked", true)
+            }
+
+            if(e[i].CAREER_TYPE.indexOf("2") > -1){
+                $("#careerType_2_" + i).prop("checked", true)
+            }
+
+
             $("#duty" + i).val(e[i].DUTY);
             $("#career" + i).val(e[i].CAREER);
             $("#workType" + i).val(e[i].WORK_TYPE);

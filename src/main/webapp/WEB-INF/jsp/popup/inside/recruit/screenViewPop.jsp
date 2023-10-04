@@ -9,6 +9,10 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/screenViewPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/fontJs.js?v=${today}"></script>
+
+<script type="text/javascript" src="/js/jspdf.min.js"></script>
+<script type="text/javascript" src="/js/html2canvas.min.js"></script>
 <style>
   .k-grid-toolbar{
     justify-content: flex-end !important;
@@ -36,7 +40,7 @@
         </c:choose>
       </h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="">평가표 다운로드</button>
+        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake()">평가표 다운로드</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>

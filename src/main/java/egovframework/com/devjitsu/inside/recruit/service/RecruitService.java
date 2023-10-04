@@ -11,10 +11,10 @@ public interface RecruitService {
     List<Map<String, Object>> getRecruitAreaList(Map<String, Object> params);
     Map<String, Object> getRecruitArea(Map<String, Object> params);
     List<Map<String, Object>> getCommissionerList(Map<String, Object> params);
-    void setCommissionerDel(Map<String, Object> params);
+    void setEvalEmpInfo(Map<String, Object> params);
+    void setCommissionerEmpInfoDel(Map<String, Object> params);
     void setRecruitInsert(Map<String, Object> params);
     void setRecruitDel(Map<String, Object> params);
-    void setCommissionerInsert(Map<String, Object> params);
     void setRecruitStatusUpd(Map<String, Object> params);
     List<Map<String, Object>> getApplicationList(Map<String, Object> params);
     Map<String, Object> getApplication(Map<String, Object> params);

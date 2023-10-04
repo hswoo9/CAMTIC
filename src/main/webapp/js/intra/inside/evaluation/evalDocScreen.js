@@ -2,6 +2,8 @@ var evalDocScreen = {
     global : {
         searchAjaxData : "",
         saveAjaxData : "",
+        careerType : "",
+        test : ""
     },
 
     fn_defaultScript : function(){
@@ -12,6 +14,7 @@ var evalDocScreen = {
     getRecruitInfo : function(){
         evalDocScreen.global.saveAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
+            evalEmpSeq : $("#evalEmpSeq").val(),
         }
 
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", evalDocScreen.global.saveAjaxData);
@@ -23,7 +26,7 @@ var evalDocScreen = {
     },
 
     getApplicationList : function(){
-        var careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
+        evalDocScreen.global.careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
 
         evalDocScreen.global.saveAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
@@ -33,10 +36,15 @@ var evalDocScreen = {
 
         var result = customKendo.fn_customAjax("/inside/getApplicationList", evalDocScreen.global.saveAjaxData);
         if(result.flag){
-            if(careerType == "1"){
+            $("#tableDiv *").remove();
+            evalDocScreen.global.test = result.list;
+            if(evalDocScreen.global.careerType == "1"){
                 evalDocScreen.makeType1ApplicationList(result.list);
-            }else if(careerType == "2"){
+            }else if(evalDocScreen.global.careerType == "2"){
                 evalDocScreen.makeType2ApplicationList(result.list);
+            }else if(evalDocScreen.global.careerType == "1,2"){
+                evalDocScreen.makeType1ApplicationList(result.list.filter(element => element.CAREER_TYPE == "1"));
+                evalDocScreen.makeType2ApplicationList(result.list.filter(element => element.CAREER_TYPE == "2"));
             }
 
             evalDocScreen.global.saveAjaxData = {
@@ -46,8 +54,8 @@ var evalDocScreen = {
 
             var result = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", evalDocScreen.global.saveAjaxData);
             if(result.flag){
-                if(result.rs.length > 0){
-                    evalDocScreen.applicationEvalDataSet(result.rs);
+                if(result.rs.evalScoreBoard.length > 0){
+                    evalDocScreen.applicationEvalDataSet(result.rs.evalScoreBoard);
                 }
             }
         }
@@ -56,7 +64,6 @@ var evalDocScreen = {
     },
 
     makeType1ApplicationList : function(e){
-        $("#tableDiv *").remove();
         var html = "";
         html += '' +
             '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
@@ -96,47 +103,55 @@ var evalDocScreen = {
             '    <th>下(20)</th>' +
             '</tr>' +
             '<tbody id="applicationTb">';
-        for(var i = 0; i < e.length; i++){
+        if(e != null && e.length > 0){
+            for(var i = 0; i < e.length; i++){
+                html += "" +
+                    '<tr class="userEvalDocScreen careerType1">' +
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td>' +
+                            '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
+                            '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="15"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="10"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="50"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_1_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_2_' + e[i].APPLICATION_ID + '" value="25"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
+                        '</td>' +
+                    '</tr>'
+            }
+        }else{
             html += "" +
-                '<tr class="userEvalDocScreen">' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' +
-                        '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' + e[i].USER_NAME +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="20"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="15"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="10"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="50"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="40"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="30"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_1_' + e[i].APPLICATION_ID + '" value="30"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_2_' + e[i].APPLICATION_ID + '" value="25"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
-                    '</td>' +
-                '</tr>'
+                '<tr>' +
+                    '<td colspan="13">데이터가 없습니다.</td>' +
+                '</tr>';
         }
 
         html += '</tbody>' +
@@ -162,7 +177,6 @@ var evalDocScreen = {
     },
 
     makeType2ApplicationList : function(e){
-        $("#tableDiv *").remove();
         var html = "";
         html += '' +
             '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
@@ -195,38 +209,46 @@ var evalDocScreen = {
             '    <th>下(40)</th>' +
             '</tr>' +
             '<tbody id="applicationTb">';
-        for(var i = 0; i < e.length; i++){
+        if(e != null && e.length > 0){
+            for(var i = 0; i < e.length; i++){
+                html += "" +
+                    '<tr class="userEvalDocScreen">' +
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td>' +
+                            '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
+                            '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="60"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="50"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
+                        '</td>' +
+                    '</tr>'
+            }
+        }else{
             html += "" +
-                '<tr class="userEvalDocScreen">' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' +
-                        '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' + e[i].USER_NAME +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="40"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="30"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="60"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="50"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="40"> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
-                    '</td>' +
-                    '<td>' +
-                        '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
-                    '</td>' +
-                '</tr>'
+                '<tr>' +
+                    '<td colspan="10">데이터가 없습니다.</td>' +
+                '</tr>';
         }
 
         html += '</tbody>' +
@@ -251,11 +273,18 @@ var evalDocScreen = {
         });
     },
 
+    applicationInfo : function(e){
+        var url = "/inside/pop/applicationView.do?applicationId=" + e;
+        var name = "recruitReqPop";
+        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
     applicationEvalDataSet : function(e){
         var sum = 0;
 
         for(var i = 0; i < e.length; i ++){
-            if(e[i].EVAL_ITEM_ID == "doc1" || e[i].EVAL_ITEM_ID == "doc2"){
+            if(e[i].EVAL_ITEM_ID == "doc1" || e[i].EVAL_ITEM_ID == "doc2" || e[i].EVAL_ITEM_ID == "doc3"){
                 $("input[name='evalItemVal_" + e[i].EVAL_ITEM_ID + "_" + e[i].APPLICATION_ID + "'][value=" + e[i].EVAL_ITEM_SCORE + "]").prop("checked", true);
 
                 sum += Number(e[i].EVAL_ITEM_SCORE);
@@ -285,6 +314,13 @@ var evalDocScreen = {
                     return flag;
                 }
 
+                if($(".careerType1").length > 0){
+                    if($("input[type='radio'][name='evalItemVal_doc3_" + $(this).find("#applicationId").val() + "']:checked").val() == null){
+                        flag = false;
+                        return flag;
+                    }
+                }
+
                 var data = {};
                 data = {
                     evalLoginId : $("#evalLoginId").val(),
@@ -305,6 +341,18 @@ var evalDocScreen = {
                 }
 
                 evalArr.push(data);
+
+                if($(".careerType1").length > 0){
+                    data = {
+                        evalLoginId : $("#evalLoginId").val(),
+                        applicationId : $(this).find("#applicationId").val(),
+                        evalItemId : "doc3",
+                        evalItemScore : $(this).find("input[type='radio'][name='evalItemVal_doc3_" + $(this).find("#applicationId").val() + "']:checked").val(),
+                        evalScreenType : "doc"
+                    }
+
+                    evalArr.push(data);
+                }
 
                 data = {
                     evalLoginId : $("#evalLoginId").val(),
@@ -345,7 +393,7 @@ var evalDocScreen = {
         if(confirm("심사평가에 참여해 주셔서 진심으로 감사드립니다.\n" +
             "종료 이후에는 평가 내역을 수정 할 수 없습니다. 종료 하시겠습니까?")){
             evalDocScreen.global.saveAjaxData = {
-                evalLoginId : $("#evalLoginId").val(),
+                evalEmpSeq : $("#evalEmpSeq").val(),
                 recruitInfoSn : $("#recruitInfoSn").val(),
                 applicationStat : "S",
                 evalScreenType : "doc"
@@ -354,6 +402,7 @@ var evalDocScreen = {
             if(result.flag){
                 if(result.rs.chk){
                     alert("평가가 종료되었습니다.");
+                    opener.parent.recruitListTl.gridReload();
                     window.close();
                 }else{
                     alert("평가내용이 저장되지 않은 응시원서가 있습니다.");
@@ -363,12 +412,11 @@ var evalDocScreen = {
     },
 
     fnResizeForm : function() {
-        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth) + 18;
         var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 10;
 
         try{
             var childWindow = window.parent;
-            childWindow.resizeTo((strWidth), strHeight);
+            childWindow.resizeTo(1200, strHeight);
         }catch(exception){
             console.log('window resizing cat not run dev mode.');
         }

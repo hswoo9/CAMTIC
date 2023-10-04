@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalDocScreen.js?v=${today}"></script>
+<style>
+  a:hover {
+    text-decoration: underline !important;
+    color: blue !important;
+  }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12 pop_sign_wrap" style="width:1200px;padding:0;">
   <div class="table-responsive">
@@ -21,6 +27,7 @@
 
     <div class="panel-body">
       <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
+      <input type="hidden" id="evalEmpSeq" name="evalEmpSeq" value="${params.uniqId}">
       <input type="hidden" id="evalLoginId" name="evalLoginId" value="${eval.EVAL_LOGIN_ID}">
       <input type="hidden" id="evalType" name="evalType" value="doc">
 

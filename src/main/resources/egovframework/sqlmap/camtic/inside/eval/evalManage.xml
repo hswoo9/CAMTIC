@@ -172,40 +172,56 @@
         WHERE 1=1
         <choose>
             <when test='uniqId != null and !"".equals(uniqId)'>
-                AND ID = #{uniqId}
+                AND EMP_SEQ = #{uniqId}
             </when>
             <otherwise>
-                AND RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
+                AND EMP_SEQ = #{evalEmpSeq}
             </otherwise>
         </choose>
         AND
             RECRUIT_INFO_SN = #{recruitInfoSn}
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
+        AND
+            RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
+        <if test='evalType != null and !"".equals(evalType)'>
+        AND
+            EVAL_TYPE = #{evalType}
+        </if>
+        <if test='"Y".equals(group)'>
+            GROUP BY EMP_SEQ
+        </if>
     </select>
+
 
     <insert id="setEvalSelection" parameterType="map">
         /* setEvalSelection */
         INSERT INTO CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
         (
-            RECRUIT_COMMISSIONER_INFO_SN,
+            EMP_SEQ,
             RECRUIT_INFO_SN,
-            BELONG,
-            ID,
-            PWD,
-            NAME,
+            RECRUIT_AREA_INFO_SN,
+            DEPT_SEQ,
+            LOGIN_ID,
+            LOGIN_PASSWD,
+            EMP_NAME_KR,
+            EVAL_TYPE,
             REG_ID
         )
         SELECT
-            RECRUIT_COMMISSIONER_INFO_SN,
+            EMP_SEQ,
             #{recruitInfoSn},
-            BELONG,
-            ID,
-            PWD,
-            NAME,
+            #{recruitAreaInfoSn},
+            DEPT_SEQ,
+            LOGIN_ID,
+            LOGIN_PASSWD,
+            EMP_NAME_KR,
+            #{evalType},
             #{empSeq}
         FROM
-            CAM_INSIDE.DJ_RECRUIT_COMMISSIONER_INFO
+            CAM_HR.DJ_EMP_INFO
         WHERE
-            RECRUIT_COMMISSIONER_INFO_SN = #{recruitCommissionerInfoSn}
+            EMP_SEQ = #{evalEmpSeq}
     </insert>
 
     <insert id="setEvalSelectionEmpSeq" parameterType="map">
@@ -236,6 +252,7 @@
             AM.USER_EMAIL,
             AM.RECRUIT_INFO_SN,
             AM.RECRUIT_AREA_INFO_SN,
+            AM.CAREER_TYPE,
             AM.USER_NAME,
             ROUND((TO_DAYS(NOW()) - TO_DAYS(AM.BDAY)) / 365, 0) AS AGE,
             CASE WHEN AM.GENDER = 'M' THEN '남자'
@@ -365,7 +382,7 @@
             SELECT
                 A.APPLICATION_ID,
                 B.EVAL_LOGIN_ID,
-                B.NAME,
+                B.EMP_NAME_KR,
                 TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1) AS SUM_SCORE,
                 (
                     SELECT

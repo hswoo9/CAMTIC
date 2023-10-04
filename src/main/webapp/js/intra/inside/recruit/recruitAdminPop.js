@@ -65,7 +65,7 @@ var recruitAdminPop = {
                     title: "성명",
                     width : 80,
                     template : function(e){
-                        return '<a  style="cursor: pointer;" onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
+                        return '<a style="cursor: pointer;" onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
                     }
                 }, {
                     field: "AGE",
@@ -148,11 +148,11 @@ var recruitAdminPop = {
                                 var str = "";
 
                                 if(e.APPLICATION_STAT == "I"){
-                                    str = '합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
+                                    str = '합격 (' + e.IN_SCREEN_AVERAGE + "점)";
                                 }else if(e.APPLICATION_STAT == "IF"){
-                                    str = '불합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
+                                    str = '불합격 (' + e.IN_SCREEN_AVERAGE + "점)";
                                 }else{
-                                    str = e.DOC_SCREEN_AVERAGE + '점';
+                                    str = e.IN_SCREEN_AVERAGE + '점';
                                 }
 
                                 return str;
@@ -332,7 +332,7 @@ var recruitAdminPop = {
     screenViewPop : function(e){
         var url = "/inside/pop/screenViewPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=" + e;
         var name = "screenViewPop";
-        var option = "width=1000, height=180, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1000, height=300, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 

@@ -28,15 +28,15 @@
                     <tr>
                         <th class="text-center th-color">아이디</th>
                         <td>
-                            <input type="text" id="searchId" name="searchId" style="width: 150px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
+                            <input type="text" id="loginId" name="loginId" style="width: 150px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
                         </td>
                         <th class="text-center th-color">성명</th>
                         <td>
-                            <input type="text" id="searchName" name="searchName" style="width: 150px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
+                            <input type="text" id="empNameKr" name="empNameKr" style="width: 150px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
                         </td>
                         <th class="text-center th-color">기관명</th>
                         <td>
-                            <input type="text" id="searchComp" name="searchComp" style="width: 200px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
+                            <input type="text" id="deptName" name="deptName" style="width: 200px;" onkeypress="if(window.event.keyCode==13){commissionerManage.gridReload();}">
                         </td>
                     </tr>
                 </table>
