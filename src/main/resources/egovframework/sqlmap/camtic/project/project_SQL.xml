@@ -859,7 +859,10 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             CRM_SN = #{crmSn},
-            CRM_MEM_SN = #{crmMemSn}
+            <if test='crmMemSn != null and !"".equals(crmMemSn)'>
+                CRM_MEM_SN = #{crmMemSn},
+            </if>
+            CRM_MEM_TEMP_NM = #{crmReqMem}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
