@@ -48,6 +48,8 @@ public class CrmRepository extends AbstractDAO {
     public Map<String, Object> getCrmHist(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmHist", params);}
     public void insCrmBustHist(Map<String, Object> params) {insert("crm.insCrmBustHist", params);}
     public void insCrmHist(Map<String, Object> params) {insert("crm.insCrmHist", params);}
+    public Map<String, Object> getMfOverviewInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getMfOverviewInfo", params);}
+    public List<Map<String, Object>> getMfOverviewAreaStat(Map<String, Object> params) {return selectList("crm.getMfOverviewAreaStat", params);}
     public List<Map<String, Object>> getMfOverviewList(Map<String, Object> params) {return selectList("crm.getMfOverviewList", params);}
     public int getMfOverviewListCnt(Map<String, Object> params) {return (int)selectOne("crm.getMfOverviewListCnt", params);}
     public void setMfOverview(Map<String, Object> params) {insert("crm.setMfOverview", params);}

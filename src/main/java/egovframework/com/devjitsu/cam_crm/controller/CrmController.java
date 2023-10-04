@@ -47,6 +47,12 @@ public class CrmController {
         return "/cam_crm/crmView";
     }
 
+    /**
+     * 고객 리스트
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/crm/getCrmList")
     public String getCrmList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", crmService.getCrmList(params));
@@ -399,6 +405,47 @@ public class CrmController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         return "/cam_crm/mfOverview";
+    }
+
+    /**
+     * crm 제조업체총람 상세보기
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/crm/pop/mfOverviewPop.do")
+    public String mfOverviewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("data", crmService.getMfOverviewInfo(params));
+        model.addAttribute("params", params);
+
+        return "popup/cam_crm/mfOverviewPop";
+    }
+
+    /**
+     * 제조업체총람 상세보기 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getMfOverviewInfo")
+    public String getMfOverviewInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getMfOverviewInfo(params));
+        return "jsonView";
+    }
+
+    /**
+     * 제조업체총람 지역별 통계
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getMfOverviewAreaStat")
+    public String getMfOverviewAreaStat(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getMfOverviewAreaStat(params));
+        return "jsonView";
     }
 
     /**
