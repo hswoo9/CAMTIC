@@ -45,8 +45,17 @@ function uncomma(str) {
     return str.replace(/[^\d]+/g, '');
 }
 
-function fn_getProject(){
-    fnCommonCodePop('project', '', 'projectCallback');
+function fn_getProject(key){
+    var data = {
+
+    }
+
+    var url = "/g20/getProjectView";
+    var name = "_blank";
+    var option = "width = 900, height = 580, top = 200, left = 400, location = no"
+    var popup = window.open(url, name, option);
+    // customKendo.fn_customAjax("/projectRnd/getProject", data);
+    // fnCommonCodePop('project', '', 'projectCallback');
 }
 
 function fnCommonCodePop(code, obj, callback, data) {

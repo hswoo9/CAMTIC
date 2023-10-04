@@ -40,6 +40,13 @@
           <div class="head">
             <h2>${map.BOARD_ARTICLE_TITLE}</h2>
             <ul class="info">
+              <c:if test="${categoryId eq 'business'}">
+                <c:choose>
+                  <c:when test="${!empty map.START_DT}"><li>사업기간 : ${map.startDt} ~ ${map.endDt}</li></c:when>
+                  <c:otherwise><li>사업기간 : -</li></c:otherwise>
+                </c:choose>
+
+              </c:if>
               <li>작성자 : ${map.REG_EMP_NAME}</li>
               <li>작성일 : <fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/></li>
               <li>조회수 : ${map.BOARD_ARTICLE_VIEW_COUNT}</li>

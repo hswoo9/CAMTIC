@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="g20">
+
+    <select id="getProjectList" resultType="java.util.Map" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT
+            A.PJT_CD    					AS pjtSeq
+             , ISNULL(PJT_NM, A.PJT_NMK) 	AS pjtName
+             , A.PROG_FG    					AS progFg
+             , CASE WHEN A.FR_DT IN ('00000000', '99991231') THEN '' ELSE CONVERT(NVARCHAR(10), CONVERT(DATETIME, A.FR_DT), 120) END AS pjtFromDate
+             , CASE WHEN A.TO_DT IN ('00000000', '99991231') THEN '' ELSE CONVERT(NVARCHAR(10), CONVERT(DATETIME, A.TO_DT), 120) END AS pjtToDate
+             , ISNULL(ISNULL(B.DEPT_NM, B.DEPT_NMK), 0) AS pjtDeptName
+             , ISNULL(ISNULL(C.KOR_NM, C.KOR_NMK), 0)	AS pjtName
+             , ISNULL(T.ATTR_NM, 0)			AS atTrName
+             , ISNULL(T.BA_NB, 0)   		AS bankNumber
+             , ISNULL(T.TR_CD, 0)			AS trSeq
+             , (SELECT COUNT(1) FROM DZICUBE.dbo.IT_BUSINESSLINK I WHERE I.CO_CD = '1212' AND A.PJT_CD = I.PJT_CD) AS itBusinessLink,
+            A.FR_DT
+        FROM DZICUBE.dbo.SPJT A WITH(NOLOCK)
+		LEFT OUTER JOIN DZICUBE.dbo.SDEPT B WITH(NOLOCK)
+            ON (B.CO_CD = '1212' AND A.DEPT_CD = B.DEPT_CD)
+        LEFT OUTER JOIN DZICUBE.dbo.SEMP C WITH(NOLOCK)
+            ON (C.CO_CD = '1212' AND A.EMP_CD = C.EMP_CD)
+        LEFT OUTER JOIN DZICUBE.dbo.STRADE T WITH(NOLOCK)
+            ON (T.CO_CD = '1212' AND A.TR_CD = T.TR_CD)
+        WHERE A.CO_CD = '1212'
+            AND charindex((CASE '1,0' WHEN '' THEN ' ' ELSE prog_fg END), '1,0') > 0
+            AND ISNULL(A.PJT_NM, PJT_NMK) LIKE '%'+ '' +'%'
+            AND (
+                CASE
+                WHEN A.PJT_AUTH ='0' THEN (
+                    CASE
+                    WHEN '' + '' + '' IN (
+                        SELECT	EMP_CD
+                        FROM DZICUBE.dbo.SPJT_D
+                        WHERE CO_CD = A.CO_CD
+                        AND	PJT_CD = A.PJT_CD
+                    ) THEN '1'
+                    ELSE '0'
+                    END
+                )
+                ELSE '1'
+                END
+            ) = '1'
+        AND A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
+        ]]>
+    </select>
+
+    <select id="getBgtList" parameterType="map" resultType="map"><![CDATA[
+        /* mssql/iCUBE/common/procedure/G20ProcedureSQL - g20Procedure.selectBgtList */
+        /* 예산과목 리스트 조회 */
+        /* params[ erpCompSeq, gisu, frDate, toDate, grFg, divSeqs, mgtSeqs, bottomSeqs, bottomSeqs, bgtSeq, bgtName, opt01, opt02, opt03, bgtFrDate,  ] */
+        EXEC	USP_COMMON_ACC_CUSTOMHELP_SBGTCD_SELECT
+			@CO_CD			= '1212'		/* ERP 회사 코드 */
+			,@GISU			= '${gisu}'				/* ERP 기수 */
+			,@FR_DT			= '${frDate}'			/* 기수 시작일 */
+			,@TO_DT			= '${toDate}'			/* 기수 종료일 */
+			,@GR_FG			= '${grFg}'				/*  */
+			,@DIV_CDS		= '${erpDivSeq}'		/* 회계통제단위 구분값 '|' */
+			,@MGT_CDS		= '${erpMgtSeq}'		/* 예산통제단위 구분값 '|' */
+			,@BOTTOM_CDS	= '${erpBottomSeq}'		/* 하위 사업 코드 구분값 '|' */
+			,@BGT_CD		= '${bgtSeq}'			/* 검색 예산과목 코드 */
+			,@BGT_NM		= '${bgtName}'			/* 예산과목 명 */
+			,@OPT_01		= '${opt01}'			/* 1: 모든 예산과목, 2: 당기편성, 3: 프로젝트 기간 예산 */
+			,@OPT_02		= '${opt02}'			/* 1: 모두표시, 2: 사용기한결과분 숨김 */
+			,@OPT_03		= '${opt03}'
+			,@BGT_FR_DT		= '${bgtFrDate}'		/* 오늘 날짜 */
+			,@GROUP_CD		= ''
+			,@LANGKIND		= 'KOR'
+        ]]></select>
+
+</mapper>

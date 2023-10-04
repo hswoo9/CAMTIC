@@ -14,6 +14,7 @@ public interface BoardService {
     PagingResponse<PostResponse> selectBoardList(ArticlePage params);
 
     List<Map<String, Object>> selectMainList(Map<String, Object> param);
+    List<Map<String, Object>> selectBsnsMainList(Map<String, Object> param);
 
     Object selectBoardListCnt(ArticlePage params);
 
