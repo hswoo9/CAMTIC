@@ -10,6 +10,20 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
 <input type="hidden" id="devSchSn" value="${params.devSchSn}" />
+
+
+<form name="g20Form">
+    <input type="hidden" name="atTrName" id="atTrName" value="" />
+    <input type="hidden" name="bankNumber" id="bankNumber" value="" />
+    <input type="hidden" name="isBusinessLink" id="isBusinessLink" value="" />
+    <input type="hidden" name="pjtDeptName" id="pjtDeptName" value="" />
+    <input type="hidden" name="pjtName" id="pjtName" value="" />
+    <input type="hidden" name="pjtSeq" id="pjtSeq" value="" />
+    <input type="hidden" name="progFg" id="progFg" value="" />
+    <input type="hidden" name="trSeq" id="trSeq" value="" />
+    <input type="hidden" name="uid" id="uid" value="" />
+</form>
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -28,19 +42,20 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>지원부처(기관)
+                    <span class="red-star"></span>프로젝트
                 </th>
                 <td colspan="3">
-                    <input type="text" disabled id="devSchTitle" style="width: 40%; text-align: left" />
+                    <input type="text" disabled id="g20Proejct" style="width: 40%; text-align: left" />
                     <button type="button" class="k-button k-button-solid-base" onclick="fn_getProject()">조회</button>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>구분
+                    <span class="red-star"></span>예산과목
                 </th>
                 <td colspan="3">
-                    <input type="text" id="schEndDe" style="width: 25%; text-align: left">
+                    <input type="text" disabled id="g20Subject" style="width: 40%; text-align: left" />
+                    <button type="button" class="k-button k-button-solid-base" onclick="fn_getSubject()">조회</button>
                 </td>
             </tr>
             <tr>

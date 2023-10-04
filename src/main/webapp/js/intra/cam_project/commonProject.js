@@ -58,6 +58,29 @@ function fn_getProject(key){
     // fnCommonCodePop('project', '', 'projectCallback');
 }
 
+
+function fn_getSubject(key){
+
+    // var params = JSON.stringify(data);
+
+    var url = "/g20/getSubjectView";
+    var option = "width = 900, height = 580, top = 200, left = 400, location = no"
+
+    window.open("","g20Form", option);
+
+    var g20Form = document.g20Form;
+
+    g20Form.action = url;
+    g20Form.target = "g20Form";
+    g20Form.method = "post";
+
+
+    g20Form.submit();
+
+    // customKendo.fn_customAjax("/projectRnd/getProject", data);
+    // fnCommonCodePop('project', '', 'projectCallback');
+}
+
 function fnCommonCodePop(code, obj, callback, data) {
     /* [ parameter ] */
     /*   - obj : 전송할 파라미터 */
