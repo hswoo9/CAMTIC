@@ -132,7 +132,7 @@ var prp = {
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="crmSn' + prp.global.itemIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + prp.global.itemIndex + '" class="crmNm" style="width: 70%">' +
+                    '<input type="text" id="crmNm' + prp.global.itemIndex + '" class="crmNm" style="width: 70%"> ' +
                     '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" class="crmSelBtn" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">업체 선택</button>' +
                 '</td>' +
                 '<td>' +
@@ -209,11 +209,7 @@ var prp = {
 
             prp.purcItemDataSet(data.itemList);
 
-            if(data.STATUS == "C"){
-                $("#reqBtn").hide();
-                $("#saveBtn").hide();
-                $("#reqCancelBtn").show();
-            }
+            prp.purcBtnSet(data);
         }
     },
 
@@ -237,6 +233,14 @@ var prp = {
         }
     },
 
+    purcBtnSet : function(data){
+        if(data.STATUS == "C"){
+            $("#reqBtn").hide();
+            $("#saveBtn").hide();
+            $("#reqCancelBtn").show();
+        }
+    },
+
     fileChange : function(e){
         $(e).next().text($(e)[0].files[0].name);
     },
@@ -253,5 +257,17 @@ var prp = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    purcDrafting: function() {
+        $("#purcDraftFrm").one("submit", function() {
+            var url = "/popup/cam_manager/approvalFormPopup/purcApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_manager/approvalFormPopup/purcApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 }
