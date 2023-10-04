@@ -8,6 +8,11 @@
             *
         FROM
             CAM_CRM.DJ_CRM_INFO
+        WHERE
+            1=1
+        <if test="crmName != null and crmName != ''">
+            AND CRM_NM LIKE CONCAT('%', #{crmName}, '%')
+        </if>
     </select>
 
     <select id="getCrmData" parameterType="map" resultType="map">
