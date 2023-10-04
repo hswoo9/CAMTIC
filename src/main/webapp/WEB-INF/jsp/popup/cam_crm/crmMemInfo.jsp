@@ -105,7 +105,3 @@
 
     <div id="memGrid" style="margin-top: 5px;"></div>
 </div>
-
-<script>
-    crmMi.fn_defaultScript();
-</script>

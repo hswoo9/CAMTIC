@@ -118,6 +118,3 @@
         </thead>
     </table>
 </div>
-<script>
-    crmA.fn_defaultScript();
-</script>

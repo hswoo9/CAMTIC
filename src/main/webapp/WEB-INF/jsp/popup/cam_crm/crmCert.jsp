@@ -69,6 +69,3 @@
         </thead>
     </table>
 </div>
-<script>
-    crmCert.fn_defaultScript();
-</script>

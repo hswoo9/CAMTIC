@@ -119,6 +119,3 @@
         </thead>
     </table>
 </div>
-<script>
-    crmMgScale.fn_defaultScript();
-</script>
