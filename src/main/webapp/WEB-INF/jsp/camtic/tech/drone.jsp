@@ -72,7 +72,14 @@
               </dd>
             </dl>
           </div>
-          <div class="img"><img src="/images/camtic/img-ntdrone2-1.jpg" alt=""></div>
+          <div class="img">
+						<!-- <img src="/images/camtic/img-ntdrone2-1.jpg" alt=""> -->
+						<ul class="__imgJobBox2">
+							<li><img src="/images/camtic/img-ntdrone2-1-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-ntdrone2-1-2.png" alt=""></li>
+							<li><img src="/images/camtic/img-ntdrone2-1-3.png" alt=""></li>
+						</ul>
+					</div>
         </div>
 
         <div class="__tdrone4 __mt100">
@@ -115,7 +122,11 @@
             </dl>
           </div>
           <div class="img">
-            <img src="/images/camtic/img-ntdrone2-3.jpg" alt="">
+            <!-- <img src="/images/camtic/img-ntdrone2-3.jpg" alt=""> -->
+						<ul class="__imgJobBox2">
+							<li><img src="/images/camtic/img-ntdrone2-3-1.png" alt=""></li>
+							<li><img src="/images/camtic/img-ntdrone2-3-2.png" alt=""></li>
+						</ul>
           </div>
         </div>
         </div>

@@ -53,11 +53,15 @@ var resultInfo = {
                 const ls = rs.list;
                 var html = "";
                 html += '<tr>';
+                html += '   <td style="text-align: center; background-color: #dee4ed">총금액</td>';
                 for(var i = 0 ; i < ls.length ; i++) {
                     html += '   <td colspan="2" style="text-align: center; background-color: #dee4ed">[' + ls[i].PS_PREP_NM + '] ' +ls[i].PS_EMP_NM+'</td>';
                 }
                 html += '</tr>';
                 html += '<tr>';
+                html += '   <td>' +
+                    '           <input type="text" disabled id="resultTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />' +
+                    '       </td>';
                 for(var i = 0 ; i < ls.length ; i++){
                     var value = 0;
                     var calcAmt = 0;
@@ -95,16 +99,40 @@ var resultInfo = {
                 }
                 html += '</tr>';
 
-                console.log(html);
                 $("#psRsTable").append(html);
 
-                $(".prepAmt, .prepCase").kendoTextBox();
+                $(".prepAmt, .prepCase, #resultTotAmt").kendoTextBox();
+                var invAmt = 0;
+                for(var i = 0; i < rs.invInfo.length ; i++){
+                    invAmt += rs.invInfo[i].EST_TOT_AMT;
+                }
+
+                $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invAmt))
             }
         });
     },
 
     fn_calcPercent: function (obj, type){
-        $("#prepAmt" + type).val(resultInfo.comma(Math.round(resultInfo.uncomma($("#expAmt").val()) * (resultInfo.uncomma(obj.value) * 0.01))));
+        var A = $("#prepA").val();
+        var B = $("#prepB").val();
+        var C = $("#prepC").val();
+
+        if(A == undefined){
+            A = 0;
+        }
+        if(B == undefined){
+            B = 0;
+        }
+        if(C == undefined){
+            C = 0;
+        }
+
+        if((Number(A) + Number(B) + Number(C)) > 100){
+            alert("실적률이 100%를 초과하였습니다.");
+            return;
+        }
+
+        $("#prepAmt" + type).val(resultInfo.comma(Math.round(resultInfo.uncomma($("#resultTotAmt").val()) * (resultInfo.uncomma(obj.value) * 0.01))));
 
         return resultInfo.inputNumberFormat(obj);
     },
@@ -133,6 +161,25 @@ var resultInfo = {
     },
 
     fn_save : function (){
+
+        var A = $("#prepA").val();
+        var B = $("#prepB").val();
+        var C = $("#prepC").val();
+
+        if(A == undefined){
+            A = 0;
+        }
+        if(B == undefined){
+            B = 0;
+        }
+        if(C == undefined){
+            C = 0;
+        }
+
+        if((Number(A) + Number(B) + Number(C)) > 100){
+            alert("실적률이 100%를 초과하였습니다.");
+            return;
+        }
 
         var data = {
             pjtSn : $("#pjtSn").val(),

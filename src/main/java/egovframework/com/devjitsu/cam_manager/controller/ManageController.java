@@ -105,7 +105,7 @@ public class ManageController {
     }
 
     /**
-     *  작성페이지
+     * 구매요청서 전자결재 양식 페이지
      * @param params
      * @param model
      * @return
@@ -117,10 +117,28 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
-        //model.addAttribute("list", manageService.getPurcReq(params));
+        model.addAttribute("purcItemList", manageService.getPurcItemList(params));
+        Map<String, Object> data = manageService.getPurcItemAmtTotal(params);
+        model.addAttribute("TOTAL_SUM_COMMA", data.get("TOTAL_SUM_COMMA"));
 
         return "popup/cam_manager/approvalFormPopup/purcApprovalPop";
     }
 
-
+    /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/manage/purcReqApp")
+    public String purcReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            manageService.updatePurcDocState(bodyMap);
+        }catch(Exception e){
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
 }

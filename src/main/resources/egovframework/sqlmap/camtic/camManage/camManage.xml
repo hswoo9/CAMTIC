@@ -180,12 +180,27 @@
             MPI.PURC_ITEM_AMT,
             MPI.RMK,
             CI.CRM_SN,
-            CI.CRM_NM
+            CI.CRM_NM,
+            FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,
+            FORMAT(PURC_ITEM_AMT , 0) AS PURC_ITEM_AMT_COMMA
         FROM
             CAM_MNG.DJ_MNG_PURC_ITEM MPI
         LEFT JOIN
             CAM_CRM.DJ_CRM_INFO CI
         ON MPI.CRM_SN = CI.CRM_SN
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <select id="getPurcItemAmtTotal" parameterType="map" resultType="map">
+        /* getPurcItemList */
+        SELECT
+            IFNULL(FORMAT(SUM(PURC_ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA
+        FROM
+            CAM_MNG.DJ_MNG_PURC_ITEM MPI
+                LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+            ON MPI.CRM_SN = CI.CRM_SN
         WHERE
             PURC_SN = #{purcSn}
     </select>
@@ -199,4 +214,26 @@
         WHERE
             CONTENT_ID = #{contentId}
     </select>
+
+    <update id="updatePurcApprStat" parameterType="map">
+        /* updatePurcApprStat */
+        UPDATE CAM_MNG.DJ_MNG_PURC
+        SET
+            STATUS = 'C',
+            DOC_STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updatePurcFinalApprStat" parameterType="map">
+        /* updatePurcFinalApprStat */
+        UPDATE CAM_MNG.DJ_MNG_PURC
+        SET
+            DOC_STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
 </mapper>

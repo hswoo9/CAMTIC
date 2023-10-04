@@ -94,7 +94,8 @@ var processInfo = {
 
                 var rs = rs.psList;
 
-                for(var i = 0 ; i < rs.length ; i++){
+                //공정 첨부파일 전부 다 보이게 변경
+                /*for(var i = 0 ; i < rs.length ; i++){
                     if(rs[i].PS_EMP_SEQ == null || rs[i].PS_EMP_SEQ == ""){
                         $("#commFileHtml" + Number(rs[i].PS_PREP)).css("display", "none");
                     } else {
@@ -109,7 +110,7 @@ var processInfo = {
                             $("#commFileHtml" + Number(rs[i].PS_PREP)).css("display", "");
                         }
                     }
-                }
+                }*/
 
                 $("#file1Etc").val(rs[0].FILE_ETC1);
                 $("#file2Etc").val(rs[0].FILE_ETC2);
