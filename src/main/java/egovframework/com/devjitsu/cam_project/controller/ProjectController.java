@@ -391,6 +391,8 @@ public class ProjectController {
         Map<String, Object> map = projectService.getResultInfo(params);
         List<Map<String, Object>> list = projectService.getPsList(params);
 
+        model.addAttribute("pjtInfo", projectService.getProjectData(params));
+        model.addAttribute("invInfo", projectService.getInvList(params));
         model.addAttribute("result", map);
         model.addAttribute("list", list);
 
