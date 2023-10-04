@@ -136,7 +136,10 @@
                         관심분야 선택
                     </th>
                     <td colspan="3">
-                        <table id="codeTable" class="table table-bordered mb-0">
+                        <div style="text-align: left">
+                            <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.codeTableExpand(this)">▼</button>
+                        </div>
+                        <table id="codeTable" class="table table-bordered mb-0 mt-10" style="display: none">
                             <colgroup>
                                 <col style="width: 15%">
                             </colgroup>

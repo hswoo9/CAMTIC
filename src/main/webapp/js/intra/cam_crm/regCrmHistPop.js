@@ -177,5 +177,17 @@ var regCrmHist = {
         }
 
         $("#" + id).append(regCrmHist.global.subHtmlStr);
+    },
+
+    codeTableExpand : function(e){
+        if($(e).hasClass("active")){
+            $(e).text("▼");
+            $(e).removeClass("active");
+            $("#codeTable").hide();
+        }else{
+            $(e).text("▲");
+            $(e).addClass("active");
+            $("#codeTable").show();
+        }
     }
 }
