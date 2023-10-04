@@ -104,5 +104,23 @@ public class ManageController {
         return "jsonView";
     }
 
+    /**
+     *  작성페이지
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/popup/cam_manager/approvalFormPopup/purcApprovalPop.do")
+    public String purcApprovalPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        //model.addAttribute("list", manageService.getPurcReq(params));
+
+        return "popup/cam_manager/approvalFormPopup/purcApprovalPop";
+    }
+
 
 }

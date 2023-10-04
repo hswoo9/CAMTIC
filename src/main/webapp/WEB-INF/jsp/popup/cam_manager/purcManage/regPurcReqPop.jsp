@@ -10,10 +10,15 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_manager/purcManage/regPurcReqPop.js?v=${today}'/>"></script>
 
+<form id="purcDraftFrm" method="post">
+    <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
+    <input type="hidden" id="menuCd" name="menuCd" value="purc">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <div style="padding:0;">
     <div class="table-responsive">
-        <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
-
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
@@ -21,7 +26,7 @@
                 </span>
             </h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="reqBtn" onclick="prp.setPurcReq('C');">요청하기</button>
+                <button type="button" class="k-button k-button-solid-info" id="reqBtn" onclick="prp.purcDrafting();">요청하기</button>
                 <button type="button" class="k-button k-button-solid-info" id="reqCancelBtn" onclick="prp.setPurcReqStatusUpd('W');" style="display: none">요청취소</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="prp.setPurcReq('W');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
