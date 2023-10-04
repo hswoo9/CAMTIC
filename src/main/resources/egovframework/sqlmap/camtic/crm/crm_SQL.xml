@@ -565,6 +565,11 @@
         FROM
             CAM_CRM.DJ_CRM_MF_OVERVIEW
         WHERE 1=1
+
+        <if test='searchYear != null and !"".equals(searchYear)'>
+            AND BASE_DATE LIKE CONCAT('%', #{searchYear}, '%')
+        </if>
+
         <choose>
             <when test='!"".equals(searchKeyword)'>
                 AND ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')

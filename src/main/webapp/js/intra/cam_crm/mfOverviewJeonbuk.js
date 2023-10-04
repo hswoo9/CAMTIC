@@ -85,7 +85,7 @@ var movJb = {
                 }
 
                 if(data.EMP_CNT != null && data.EMP_CNT != ""){
-                    $("#empCnt").text(data.empCnt + "명");
+                    $("#empCnt").text(data.EMP_CNT + "명");
                 }else{
                     $("#empCnt").text("0명");
                 }
@@ -93,7 +93,7 @@ var movJb = {
                 $("#empForeign").text(data.EMP_FOREIGN);
 
                 if(data.FOREIGN_CNT != null && data.FOREIGN_CNT != ""){
-                    $("#foreignCnt").text(data.foreignCnt + "명");
+                    $("#foreignCnt").text(data.FOREIGN_CNT + "명");
                 }else{
                     $("#foreignCnt").text("0명");
                 }
