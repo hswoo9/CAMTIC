@@ -84,7 +84,10 @@ var commissionerManage = {
                 }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
-                    width: 150
+                    width: 150,
+                    template : function(e){
+                        return '<a style="cursor: pointer;" onclick="commissionerManage.commissionerInfoPop(' + e.EMP_SEQ + ')">' + e.EMP_NAME_KR + '</a>'
+                    }
                 }, {
                     field: "GENDER_CODE",
                     title: "성별",
@@ -151,6 +154,13 @@ var commissionerManage = {
 
     commissionerReqPop : function() {
         var url = "/Inside/pop/commissionerReqPop.do";
+        var name = "recruitReqPop";
+        var option = "width=900, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    commissionerInfoPop : function(e) {
+        var url = "/inside/pop/commissionerInfoPop.do?empSeq=" + e;
         var name = "recruitReqPop";
         var option = "width=900, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

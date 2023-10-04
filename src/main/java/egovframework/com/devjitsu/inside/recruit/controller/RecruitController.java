@@ -595,6 +595,22 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 상세보기
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/commissionerInfoPop.do")
+    public String commissionerInfoPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("data", userManageService.getUserPersonnelinformList(params));
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/commissionerInfoPop";
+    }
+
+    /**
      * 평가위원 저장
      * @param params
      * @param model
