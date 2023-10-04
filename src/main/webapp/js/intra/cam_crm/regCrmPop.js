@@ -25,6 +25,14 @@ var crmReg = {
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
             crmReg.fn_setData()
         }
+
+        crmSi.fn_defaultScript();
+        crmMi.fn_defaultScript();
+        crmIndustry.fn_defaultScript();
+        crmCert.fn_defaultScript();
+        crmA.fn_defaultScript();
+        crmMgScale.fn_defaultScript();
+        crmI.fn_defaultScript();
     },
 
     fn_setData: function (){

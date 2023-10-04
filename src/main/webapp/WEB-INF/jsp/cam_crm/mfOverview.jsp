@@ -5,7 +5,12 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_crm/mfOverView.js?v=${today}'/>"></script>
-
+<style>
+    a:hover{
+        text-decoration: underline !important;
+        color: blue;
+    }
+</style>
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -24,15 +29,32 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
+                        <col width="7%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">대상부서</th>
+                        <th class="text-center th-color">기준년도</th>
+                        <td>
+                            <input type="text" id="searchYear"/>
+                        </td>
+                        <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 10%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){mov.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
+
+                <div id="statGrid" style="margin:20px 0;">
+                    <table class="searchTable table table-bordered mb-0">
+                        <tr id="areaTr">
+
+                        </tr>
+                        <tr id="statTr">
+
+                        </tr>
+                    </table>
+                </div>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>

@@ -166,7 +166,3 @@
         </thead>
     </table>
 </div>
-
-<script>
-    crmSi.fn_defaultScript();
-</script>

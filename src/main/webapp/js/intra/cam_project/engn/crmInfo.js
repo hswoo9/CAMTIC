@@ -34,8 +34,13 @@ var crmInfo = {
                     $("#crmAddr").val(rs.ADDR);
                     $("#crmCallNum").val(rs.TEL_NUM);
                     $("#crmFax").val(rs.FAX);
-                    $("#crmReqMem").val(rs.CRM_MEM_NM);
-                    $("#crmMemSn").val(rs.CRM_MEM_SN);
+                    //의뢰인 선택안하고 직접 입력시 프로젝트 테이블에서 임시데이터 호출
+                    if(rs.CRM_MEM_SN != null){
+                        $("#crmMemSn").val(rs.CRM_MEM_SN);
+                        $("#crmReqMem").val(rs.CRM_MEM_NM);
+                    }else{
+                        $("#crmReqMem").val(rs.CRM_MEM_TEMP_NM);
+                    }
                     $("#crmPhNum").val(rs.CRM_MEM_PHN);
                     $("#crmHp").val(rs.HOMEPAGE);
                     $("#crmMail").val(rs.CRM_MEM_EMAIL);

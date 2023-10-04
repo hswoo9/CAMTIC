@@ -83,6 +83,3 @@
         </thead>
     </table>
 </div>
-<script>
-    crmI.fn_defaultScript();
-</script>

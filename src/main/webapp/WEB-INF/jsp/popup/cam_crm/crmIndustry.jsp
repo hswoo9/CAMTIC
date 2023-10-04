@@ -71,6 +71,3 @@
         </thead>
     </table>
 </div>
-<script>
-    crmIndustry.fn_defaultScript();
-</script>

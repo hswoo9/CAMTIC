@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -342,6 +343,16 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public Map<String, Object> getMfOverviewInfo(Map<String, Object> params) {
+        return crmRepository.getMfOverviewInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMfOverviewAreaStat(Map<String, Object> params) {
+        return crmRepository.getMfOverviewAreaStat(params);
+    }
+
+    @Override
     public Map<String, Object> getMfOverviewList(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
         returnMap.put("list", crmRepository.getMfOverviewList(params));
@@ -364,8 +375,7 @@ public class CrmServiceImpl implements CrmService {
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         int rows = sheet.getPhysicalNumberOfRows();
-
-        String sheetNm = workbook.getSheetName(0);
+        String baseDate = cellValueToString(sheet.getRow(0).getCell(2));
         List<Map<String, Object>> dataList = new ArrayList<>();
 
         Map<String, Object> tumpMap = null;
@@ -380,6 +390,7 @@ public class CrmServiceImpl implements CrmService {
                     return;
                 } else {
                     int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+                    tumpMap.put("baseDate", baseDate);
                     tumpMap.put("mfArea", cellValueToString(row.getCell(1)));
                     tumpMap.put("active", cellValueToString(row.getCell(2)).equals("정상") ? "Y" : "N");
                     tumpMap.put("mfName", cellValueToString(row.getCell(3)));
@@ -512,7 +523,12 @@ public class CrmServiceImpl implements CrmService {
             if(cell.getCellType() == XSSFCell.CELL_TYPE_STRING){
                 txt = cell.getStringCellValue();
             }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
-                txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+                if( DateUtil.isCellDateFormatted(cell)) {
+                    Date date = cell.getDateCellValue();
+                    txt = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                }else{
+                    txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+                }
             }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
                 txt = cell.getCellFormula();
             }
