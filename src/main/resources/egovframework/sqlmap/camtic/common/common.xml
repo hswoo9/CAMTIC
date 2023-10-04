@@ -299,4 +299,13 @@
         WHERE
             CONTENT_ID = #{originId}
     </update>
+
+    <select id="teamList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_DEPT_INFO
+        WHERE
+            DEPT_LEVEL = 2
+    </select>
 </mapper>

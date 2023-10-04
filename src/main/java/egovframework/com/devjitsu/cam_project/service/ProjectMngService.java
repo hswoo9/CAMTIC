@@ -17,4 +17,10 @@ public interface ProjectMngService {
     Map<String, Object> getLaborHistData(Map<String, Object> params);
 
     void delLaborHistData(Map<String, Object> params);
+
+    List<Map<String, Object>> getTeamCostList(Map<String, Object> params);
+
+    void insTeamCostHistInfo(Map<String, Object> params);
+
+    void setTeamInfo(Map<String, Object> params);
 }

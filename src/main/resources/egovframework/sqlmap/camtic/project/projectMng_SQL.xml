@@ -25,6 +25,23 @@
         ORDER BY LABOR_SN
     </select>
 
+    <select id="getTeamCostList" parameterType="map" resultType="map">
+        /* getLaborList */
+        SELECT
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = C.REG_EMP_SEQ) AS EMP_NAME_KR,
+            C.*,
+            a.*
+        FROM
+            CAM_HR.DJ_DEPT_INFO A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_TEAM_COST_HIST C
+        ON
+            A.DEPT_SEQ = C.DEPT_CD
+        WHERE
+            A.DEPT_LEVEL = 2
+        ORDER BY DEPT_SEQ
+    </select>
+
     <select id="getLaborData" parameterType="map" resultType="map">
         /*getLaborHistList*/
         SELECT
@@ -33,6 +50,16 @@
             CAM_PJT_MNG.DJ_PJT_LABOR
         WHERE
             POSITION_CD = #{positionCd}
+    </select>
+
+    <select id="getTeamCostData" parameterType="map" resultType="map">
+        /*getTeamCostData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_COST
+        WHERE
+            DEPT_CD = #{deptCd}
     </select>
 
     <select id="getLaborHistData" parameterType="map" resultType="map">
@@ -93,6 +120,28 @@
             )
     </insert>
 
+    <insert id="insTeamCostHistInfo" parameterType="map">
+        /*insTeamCostHistInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_COST_HIST
+            (
+                TEAM_COST_SN,
+                DEPT_CD,
+                STR_DE,
+                END_DE,
+                TEAM_COST_AMT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{teamCostSn},
+                #{deptCd},
+                #{strDe},
+                #{endDe},
+                #{teamCostAmt},
+                #{empSeq}
+            )
+    </insert>
+
     <update id="updLaborInfo" parameterType="map">
         /*updLaborInfo*/
         UPDATE CAM_PJT_MNG.DJ_PJT_LABOR
@@ -103,6 +152,30 @@
             REG_EMP_SEQ = #{empSeq}
         WHERE
             POSITION_CD = #{positionCd}
+    </update>
+
+    <update id="updTeamCostInfo" parameterType="map">
+        /*updTeamCostInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM_COST
+        SET
+            STR_DE = #{strDe},
+            END_DE = #{endDe},
+            TEAM_COST_AMT = #{teamCostAmt},
+            REG_EMP_SEQ = #{empSeq}
+        WHERE
+            deptCd = #{deptCd}
+    </update>
+
+    <update id="updTeamCostHistInfo" parameterType="map">
+        /*updTeamCostHistInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM_COST_HIST
+        SET
+            STR_DE = #{strDe},
+            END_DE = #{endDe},
+            TEAM_COST_AMT = #{teamCostAmt},
+            REG_EMP_SEQ = #{empSeq}
+        WHERE
+            TEAM_COST_HIST_SN = #{teamCostHistSn}
     </update>
 
     <update id="updLaborHistInfo" parameterType="map">
@@ -123,4 +196,28 @@
         WHERE
             LABOR_HIST_SN = #{laborHistSn}
     </delete>
+
+    <insert id="insTeamCostInfo" parameterType="map">
+        /*insTeamCostInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_COST
+        (
+            DEPT_CD,
+            STR_DE,
+            END_DE,
+            TEAM_COST_AMT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{deptCd},
+            #{strDe},
+            #{endDe},
+            #{teamCostAmt},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="teamCostSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM_COST'
+        </selectKey>
+    </insert>
 </mapper>
