@@ -8,6 +8,14 @@ var mov = {
 
     fn_defaultScript : function (){
 
+        $("#searchYear").kendoDatePicker({
+            start: "decade",
+            depth: "decade",
+            culture : "ko-KR",
+            format : "yyyy",
+            value : new Date()
+        });
+
         mov.global.dropDownDataSource = [
             { text: "지역", value: "MF_AREA" },
             { text: "사업체명", value: "MF_NAME" },
@@ -19,6 +27,32 @@ var mov = {
         customKendo.fn_textBox(["searchValue"]);
 
         mov.gridReload();
+    },
+
+    statGrid : function(url, param){
+        var result = customKendo.fn_customAjax(url, param);
+        $("#areaTr *").remove();
+        $("#statTr *").remove();
+
+        if(result.flag){
+            var areaTd = "";
+            var statTd = "";
+            var sum = 0;
+
+            for(var i = 0; i < result.data.length; i++){
+                sum += Number(result.data[i].STAT);
+                areaTd += '<th>' + result.data[i].MF_AREA + '</th>';
+                statTd += '<td class="text-right">' + mov.comma(result.data[i].STAT) + '</td>';
+
+                if((i+1) == result.data.length){
+                    areaTd = '<th>합계</th>' + areaTd;
+                    statTd = '<td class="text-right">' + mov.comma(sum) + '</td>' + statTd;
+                }
+            }
+
+            $("#areaTr").append(areaTd);
+            $("#statTr").append(statTd);
+        }
     },
 
     mainGrid: function(url, params){
@@ -85,7 +119,10 @@ var mov = {
                 }, {
                     title: "사업체명",
                     field: "MF_NAME",
-                    width: 200
+                    width: 200,
+                    template: function(e){
+                        return "<a href='javascript:void(0);' onclick=\"mov.mfOverViewPopup(" + e.CRM_MF_SN + ")\">" + e.MF_NAME + "</a>";
+                    }
                 }, {
                     title: "사업자번호",
                     field: "MF_NO",
@@ -142,7 +179,7 @@ var mov = {
                     title: "주생산품",
                     field: "MAIN_PRODUCT",
                     width: 300,
-                }, {
+                }/*, {
                     title: "자동차부품",
                     field: "AM_PART",
                     width: 80,
@@ -307,7 +344,7 @@ var mov = {
                     title: "담당자 휴대폰",
                     field: "CHARGE_TEL_NUM",
                     width: 100,
-                }
+                }*/
             ],
             dataBinding: function() {
                 record = record - ((this.dataSource.page() -1) * this.dataSource.pageSize());
@@ -322,10 +359,12 @@ var mov = {
 
     gridReload: function (){
         mov.global.searchAjaxData = {
+            searchYear : $("#searchYear").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }
 
+        mov.statGrid("/crm/getMfOverviewAreaStat", mov.global.searchAjaxData);
         mov.mainGrid("/crm/getMfOverviewList", mov.global.searchAjaxData);
     },
 
@@ -358,7 +397,7 @@ var mov = {
     fn_mfExcelUploadPop : function (){
         var url = "/crm/pop/mfExcelUploadPop.do";
         var name = "_blank";
-        var option = "width = 500, height = 180, top = 100, left = 400, location = no"
+        var option = "width = 500, height = 230, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -371,4 +410,11 @@ var mov = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+
+    mfOverViewPopup : function (e){
+        var url = "/crm/pop/mfOverviewPop.do?crmMfSn=" + e;
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 }
