@@ -155,7 +155,6 @@ var regRnd = {
                 $("#rndStatYn").prop("checked", true);
             }
         }
-
     },
 
     fn_save : function (){
@@ -190,10 +189,10 @@ var regRnd = {
             }
         });
 
-        if($("#rndStatYn").is("checked")){
-            parameters.rndStatYn = "Y";
+        if($("#rndStatYn").is(":checked")){
+            parameters.sbjStatYn = "Y";
         } else {
-            parameters.rndStatYn = "N";
+            parameters.sbjStatYn = "N";
         }
 
 
@@ -247,6 +246,7 @@ var regRnd = {
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
+
             strDt : $("#sbjStrDe").val(),
             endDt : $("#sbjEndDe").val(),
             empSeq : $("#empSeq").val(),
@@ -257,7 +257,21 @@ var regRnd = {
             pjtNm : $("#pjtNm").val(),
             pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
+            crmPartSn : $("#crmPartSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            pjtExpAmt : uncomma($("#pjtExpAmt").val())
+        }
+
+        $("input[name='sbjSepYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.sbjSep = this.value;
+            }
+        });
+
+        if($("#rndStatYn").is(":checked")){
+            parameters.sbjStatYn = "Y";
+        } else {
+            parameters.sbjStatYn = "N";
         }
 
         if(parameters.sbjClass == ""){
@@ -291,6 +305,7 @@ var regRnd = {
             type: "post",
             dataType : "json",
             success : function (rs){
+                console.log(rs);
                 if(rs.code == 200){
                     location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }
