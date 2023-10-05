@@ -19,8 +19,9 @@ var crm = {
         $("#ctmGrade").data("kendoDropDownList").bind("change", crm.gridReload);
 
         crm.global.dropDownDataSource = [
-            { text: "기업", value: "1" },
-            { text: "기관", value: "2" }
+            { text : "기업", value : "1" },
+            { text : "기관", value : "2" },
+            { text : "기타", value : "3" }
         ]
         customKendo.fn_dropDownList("ctmType", crm.global.dropDownDataSource, "text", "value");
         $("#ctmType").data("kendoDropDownList").bind("change", crm.gridReload);

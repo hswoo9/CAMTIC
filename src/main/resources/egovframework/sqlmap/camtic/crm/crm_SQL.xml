@@ -29,22 +29,33 @@
         SELECT
             *
         FROM
-            CAM_CRM.DJ_CRM_INFO
+            CAM_CRM.DJ_CRM_INFO CI
         WHERE
             1 = 1
-        <if test="searchKeyword != null and searchKeyword != ''">
+        <if test='ctmType != null and !"".equals(ctmType)'>
             AND
-                ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                CI.CRM_CLASS = #{ctmType}
         </if>
-        <if test="ctmType != null and ctmType != ''">
+
+        <if test='ctmGrade != null and !"".equals(ctmGrade)'>
 
         </if>
-        <if test="ctmGrade != null and ctmGrade != ''">
 
-        </if>
-        <if test="ctmCare != null and ctmCare != ''">
-
-        </if>
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND
+                    ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    CI.CRM_NM LIKE CONCAT('%', #{searchValue}, '%') OR
+                    CI.CRM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    CI.TEL_NUM LIKE CONCAT('%', #{searchValue}, '%') OR
+                    CI.FAX LIKE CONCAT('%', #{searchValue}, '%') OR
+                    CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </otherwise>
+        </choose>
     </select>
 
     <update id="setCrmDel" parameterType="map">

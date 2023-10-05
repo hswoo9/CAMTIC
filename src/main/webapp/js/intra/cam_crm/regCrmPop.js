@@ -111,7 +111,7 @@ var crmReg = {
                     $("#miCl").prop("checked", true);
                 }
 
-                if(rs.STAT == null || rs.CRM_STAT == ""){
+                if(rs.CRM_STAT == null || rs.CRM_STAT == ""){
                     rs.CRM_STAT = 1;
                 }
                 $("#crmStat").data("kendoDropDownList").value(rs.CRM_STAT);

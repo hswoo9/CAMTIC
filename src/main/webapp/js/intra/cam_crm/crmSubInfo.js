@@ -11,9 +11,9 @@ var crmSi = {
 
 
         var dataSource = [
-            {text : "기업", value : "기업" },
-            {text : "기관", value : "기관" },
-            {text : "기타", value : "기타" }
+            {text : "기업", value : "1" },
+            {text : "기관", value : "2" },
+            {text : "기타", value : "3" }
         ];
         $("#crmClass").kendoDropDownList({
             dataTextField: "text",
@@ -31,16 +31,16 @@ var crmSi = {
 
                 if(this.value() == "기관"){
                     var dataSource2 = [
-                        {text : "중앙부처", value : "중앙부처" },
-                        {text : "지자체", value : "지자체" },
-                        {text : "기술지원 및 진흥기관", value : "기술지원 및 진흥기관" },
-                        {text : "교육기관", value : "교육기관" },
-                        {text : "금융지원기관", value : "금융지원기관" },
-                        {text : "경제진흥기관", value : "경제진흥기관" },
-                        {text : "협회", value : "협회" },
-                        {text : "대학", value : "대학" },
-                        {text : "연구소(원)", value : "연구소(원)" },
-                        {text : "기타", value : "기타" }
+                        {text : "중앙부처", value : "1" },
+                        {text : "지자체", value : "2" },
+                        {text : "기술지원 및 진흥기관", value : "3" },
+                        {text : "교육기관", value : "4" },
+                        {text : "금융지원기관", value : "5" },
+                        {text : "경제진흥기관", value : "6" },
+                        {text : "협회", value : "7" },
+                        {text : "대학", value : "8" },
+                        {text : "연구소(원)", value : "9" },
+                        {text : "기타", value : "10" }
                     ]
 
                     $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
@@ -48,11 +48,11 @@ var crmSi = {
                 } else if(this.value() == "기업"){
 
                     var dataSource2= [
-                        {text : "고객사", value : "고객사" },
-                        {text : "협력사", value : "협력사" }
+                        {text : "고객사", value : "1" },
+                        {text : "협력사", value : "2" }
                     ]
                     $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
-                    $("#crmSubClass").data("kendoDropDownList").select(1);
+                    $("#crmSubClass").data("kendoDropDownList").select(0);
                 }
             }
         });
@@ -61,8 +61,8 @@ var crmSi = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text : "고객사", value : "고객사" },
-                {text : "협력사", value : "협력사" }
+                {text : "고객사", value : "1" },
+                {text : "협력사", value : "2" }
             ],
             valuePrimitive: true
         });
