@@ -111,11 +111,12 @@ var crmReg = {
                     $("#miCl").prop("checked", true);
                 }
 
-                if(rs.STAT == null || rs.CRM_STAT == ""){
+                if(rs.CRM_STAT == null || rs.CRM_STAT == ""){
                     rs.CRM_STAT = 1;
                 }
                 $("#crmStat").data("kendoDropDownList").value(rs.CRM_STAT);
 
+                $("#etc").val(rs.ETC);
                 if(file.bnCp[0] != null && file.bnCp[0] != ""){
                     $("#bnCpText").text(file.bnCp[0].file_org_name + "." + file.bnCp[0].file_ext);
                 }

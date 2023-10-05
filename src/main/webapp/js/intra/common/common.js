@@ -182,11 +182,14 @@ function fn_searchBind(){
     });
 }
 
-function fn_getSpot(position, duty){
-    if(duty == "" || duty == undefined || duty == null){
+/** 캠틱 직위 : 직책이 있으면 직책이 보여지고 없으면 직급이 보여짐 */
+function fn_getSpot(duty, position){
+    if(duty != "" && duty != undefined && duty != null){
+        return duty;
+    }else if(position != "" && position != undefined && position != null){
         return position;
     }else{
-        return duty;
+        return "";
     }
 }
 

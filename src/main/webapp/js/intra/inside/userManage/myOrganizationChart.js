@@ -111,8 +111,8 @@ var orgChart = {
                     title : "부서"
                 }, {
                     title : "직위",
-                    template: function(e){
-                        return fn_getSpot(e.POSITION_NAME, e.DUTY_NAME);
+                    template: function(row){
+                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
                     }
                 }, {
                     field : 'OFFICE_TEL_NUM',
