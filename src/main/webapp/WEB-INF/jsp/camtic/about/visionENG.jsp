@@ -6,11 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
   .__jvalley3 .hw .box { display: flex;  flex-direction: column;  justify-content: space-between;}
-
-  @media all and (max-width: 1200px) {
-/*    .hw .box:nth-child(1) .img{margin-top: 33px;}
-    .hw .box:nth-child(3) .img{margin-top: 6px;}*/
-  }
 </style>
 </head>
 <body>
@@ -114,7 +109,7 @@
             <dd><span class="subCapyTitle">seeking growth with</span></dd>
             <dd><span class="subCapyTitle">communities/enterprises/technology/employees</span></dd>
           </dl>
-          <img src="/images/camtic/cluster_mission3.png" alt="">
+          <img src="/images/camtic/cluster_mission3.png" alt="" style="width: 800px; height: 320px;">
         </div>
 
 
