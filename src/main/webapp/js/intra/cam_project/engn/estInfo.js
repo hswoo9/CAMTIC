@@ -189,6 +189,10 @@ var estInfo = {
                 html += "   <td style='text-align: right'>" + sdfDate + "</td>";
                 html += "   <td style='text-align: right'>" + rs.result.estList[i].EMP_NAME + "</td>";
                 html += "</tr>";
+
+                if(i+1 == len){
+                    $("#version").val(rs.result.estList[i].EST_SN);
+                }
             }
 
             $("#productTb2").append(html);
@@ -242,6 +246,9 @@ var estInfo = {
             $("#estExpAmt").val(estInfo.comma(rs.result.estList[len - 1].EST_TOT_AMT));
             estInfo.global.totAmt = Number(estInfo.uncomma($("#estExpAmt").val()));
             $("#vat" + rs.result.estList[len - 1].VAT).prop("checked", true);
+        }
+        if($("#version").val() == ""){
+            $("#printBtn").hide();
         }
     },
 
@@ -298,6 +305,9 @@ var estInfo = {
     },
 
     fn_versionClick: function (k){
+        $("#version").val(k);
+        $("#printBtn").show();
+
         $("#productTb2 > tr").each(function(){
             $(this).css("background-color", "#ffffff");
         });
@@ -388,4 +398,12 @@ var estInfo = {
         return str.replace(/[^\d]+/g, '');
     },
 
+    estPrintPop: function(){
+        let pjtSn = $("#pjtSn").val();
+        let estSn = $("#version").val();
+        var url = "/project/pop/estPrintPop.do?pjtSn="+pjtSn+"&estSn="+estSn;
+        var name = "estPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
 }

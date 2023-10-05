@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.inside.bustrip.controller.BustripController;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -1030,6 +1034,27 @@ public class ProjectController {
         projectService.updPjtDevTotAmt(params);
 
         return "jsonView";
+    }
+
+    @RequestMapping("/project/pop/estPrintPop.do")
+    public String estPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+        return "popup/cam_project/estPrintPop";
     }
 
 }

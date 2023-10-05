@@ -16,10 +16,12 @@
 <input type="hidden" id="stepValue" value="Y" />
 <input type="hidden" id="nextStepValue" value="R" />
 
+<input type="hidden" id="version" value="" />
+
 <div style="padding: 10px">
     <div class="table-responsive">
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-info" onclick="estInfo.fn_save()">저장</button>
-        <button type="button" id="printBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="/*window.print()*/">인쇄</button>
+        <button type="button" id="printBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="estInfo.estPrintPop()">인쇄</button>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="15%">
