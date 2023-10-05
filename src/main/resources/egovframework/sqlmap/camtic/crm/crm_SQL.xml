@@ -430,6 +430,11 @@
             )
     </insert>
 
+    <update id="setMfOverviewDel" parameterType="map">
+        /* setMfOverviewDel */
+        DELETE FROM CAM_CRM.DJ_CRM_MF_OVERVIEW WHERE CRM_MF_SN IN (${mf})
+    </update>
+
     <select id="getMfOverviewInfo" parameterType="map" resultType="map">
         /* getMfOverviewInfo */
         SELECT
@@ -571,6 +576,9 @@
                 )
             </otherwise>
         </choose>
+        <if test='searchArea != null and !"".equals(searchArea)'>
+            AND MF_AREA = #{searchArea}
+        </if>
         LIMIT ${skip} , ${pageSize}
     </select>
 

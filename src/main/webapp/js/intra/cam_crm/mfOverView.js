@@ -42,7 +42,7 @@ var mov = {
             for(var i = 0; i < result.data.length; i++){
                 sum += Number(result.data[i].STAT);
                 areaTd += '<th>' + result.data[i].MF_AREA + '</th>';
-                statTd += '<td class="text-right">' + mov.comma(result.data[i].STAT) + '</td>';
+                statTd += '<td class="text-right"><a onclick="mov.gridReload(\'' + result.data[i].MF_AREA + '\')">' + mov.comma(result.data[i].STAT) + '</a></td>';
 
                 if((i+1) == result.data.length){
                     areaTd = '<th>합계</th>' + areaTd;
@@ -80,8 +80,15 @@ var mov = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="mov.setCrmDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="mov.setMfOverviewDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mov.setMfOverviewByCrmInfoUpd()">' +
+                            '	<span class="k-button-text">고객정보 최신화</span>' +
                             '</button>';
                     }
                 }, {
@@ -357,40 +364,55 @@ var mov = {
         });
     },
 
-    gridReload: function (){
+    gridReload: function (e){
+        if(e != null){
+            $("#searchArea").val(e);
+        }else{
+            $("#searchArea").val("");
+        }
+
         mov.global.searchAjaxData = {
             searchYear : $("#searchYear").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            searchArea : $("#searchArea").val()
         }
 
         mov.statGrid("/crm/getMfOverviewAreaStat", mov.global.searchAjaxData);
         mov.mainGrid("/crm/getMfOverviewList", mov.global.searchAjaxData);
     },
 
-    setCrmDel : function(){
-        if($("input[name='crmSn']:checked").length == 0){
+    setMfOverviewDel : function(){
+        if($("input[name='mf']:checked").length == 0){
             alert("삭제할 고객을 선택해주세요.");
             return
         }
 
         if(confirm("선택한 고객을 삭제하시겠습니까?")){
-            var crmSn = "";
+            var mf = "";
 
-            $.each($("input[name='crmSn']:checked"), function(){
-                crmSn += "," + $(this).val()
+            $.each($("input[name='mf']:checked"), function(){
+                mf += "," + $(this).val()
             })
 
             mov.global.saveAjaxData = {
                 empSeq : $("#myEmpSeq").val(),
-                crmSn : crmSn.substring(1)
+                mf : mf.substring(1)
             }
 
-            var result = customKendo.fn_customAjax("/crm/setCrmDel.do", mov.global.saveAjaxData);
+            var result = customKendo.fn_customAjax("/crm/setMfOverviewDel.do", mov.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
                 mov.gridReload();
             }
+        }
+    },
+
+    setMfOverviewByCrmInfoUpd : function(){
+        var result = customKendo.fn_customAjax("/crm/setMfOverviewByCrmInfoUpd.do", {empSeq : $("#myEmpSeq").val()});
+        if(result.flag){
+            alert("처리되었습니다.");
+            mov.gridReload();
         }
     },
 

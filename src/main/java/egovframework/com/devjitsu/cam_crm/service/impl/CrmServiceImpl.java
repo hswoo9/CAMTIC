@@ -343,6 +343,11 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public void setMfOverviewDel(Map<String, Object> params) {
+        crmRepository.setMfOverviewDel(params);
+    }
+
+    @Override
     public Map<String, Object> getMfOverviewInfo(Map<String, Object> params) {
         return crmRepository.getMfOverviewInfo(params);
     }

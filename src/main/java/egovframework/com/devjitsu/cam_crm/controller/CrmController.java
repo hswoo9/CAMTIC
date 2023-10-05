@@ -408,6 +408,18 @@ public class CrmController {
     }
 
     /**
+     * 제조업체총람 데이터 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/setMfOverviewDel.do")
+    public String setMfOverviewDel(@RequestParam Map<String, Object> params, Model model){
+        crmService.setMfOverviewDel(params);
+        return "jsonView";
+    }
+
+    /**
      * crm 제조업체총람 상세보기
      * @param model
      * @param request

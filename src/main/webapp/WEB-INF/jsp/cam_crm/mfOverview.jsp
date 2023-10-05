@@ -6,7 +6,12 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_crm/mfOverView.js?v=${today}'/>"></script>
 <style>
+    a {
+        color : black;
+    }
+
     a:hover{
+        cursor: pointer;
         text-decoration: underline !important;
         color: blue;
     }
@@ -39,6 +44,7 @@
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
+                            <input type="hidden" id="searchArea" name="searchArea">
                             <input type="text" id="searchKeyword" style="width: 10%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){mov.gridReload()}"/>
                         </td>
