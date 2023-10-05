@@ -84,10 +84,10 @@ var regRnd = {
                 {name: "개발계획", url: tab2Url},
                 {name: "개발일정", url: tab3Url},
                 {name: "개발일지", url: tab4Url},
-                {name: "입출금대장관리", url: tab5Url},
-                {name: "예산관리", url: tab6Url},        // 연구비 입금처리와 같이 사용
-                {name: "연구비신청", url: tab7Url},
-                {name: "연구비정산", url: tab8Url},
+                // {name: "입출금대장관리", url: tab5Url},
+                {name: "예산현황", url: tab6Url},        // 연구비 입금처리와 같이 사용
+                {name: "지급관리", url: tab7Url},
+                // {name: "연구비정산", url: tab8Url},
                 {name: "참여율관리", url: tab9Url},      // 지출내역조회와 같이 사용
                 {name: "협업관리", url: tab10Url},
                 {name: "구매관리", url: tab11Url}
