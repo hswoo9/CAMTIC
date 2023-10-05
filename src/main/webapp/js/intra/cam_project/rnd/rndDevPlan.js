@@ -18,27 +18,29 @@ var rndDP = {
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
 
         var html = "";
-        for(var i = 0 ; i < rs.list.length ; i++){
-            var date = new Date(rs.list[i].INV_DT);
-            var yyyy = date.getFullYear();
-            var mm = date.getMonth()+1;
-            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-            var dd = date.getDate();
-            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-            var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
+        if(rs.list[0].INV_DT != null && rs.list[0].INV_DT != "" && rs.list[0].INV_DT != undefined){
+            for(var i = 0 ; i < rs.list.length ; i++){
+                var date = new Date(rs.list[i].INV_DT);
+                var yyyy = date.getFullYear();
+                var mm = date.getMonth()+1;
+                mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                var dd = date.getDate();
+                dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
 
-            var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
-            var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
+                var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
+                var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
 
-            html += "<tr style='text-align: center'>";
-            html += "   <td>Ver."+(i+1)+"</td>";
-            html += "   <td>"+ docNo +"</td>";
-            html += "   <td><div onclick='rndDP.fn_viewVersion("+rs.list[i].DEV_SN+");' style='cursor : pointer; font-weight: bold'>"+ sdfDate +"</div></td>";
-            html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
-            html += "   <td>"+rs.list[i].EMP_NAME_KR+"</td>";
-            html += "   <td></td>";
-            html += "   <td>개발계획 작성중</td>";
-            html += "</tr>";
+                html += "<tr style='text-align: center'>";
+                html += "   <td>Ver."+(i+1)+"</td>";
+                html += "   <td>"+ docNo +"</td>";
+                html += "   <td><div onclick='rndDP.fn_viewVersion("+rs.list[i].DEV_SN+");' style='cursor : pointer; font-weight: bold'>"+ sdfDate +"</div></td>";
+                html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
+                html += "   <td>"+rs.list[i].EMP_NAME_KR+"</td>";
+                html += "   <td></td>";
+                html += "   <td>개발계획 작성중</td>";
+                html += "</tr>";
+            }
         }
 
         $("#verTable").append(html);
