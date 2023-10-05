@@ -56,23 +56,36 @@ var selEvalPop = {
             },
             toolbar : [
                 {
+                    template : function (){
+                        return '' +
+                            '<div style="width: 100%;justify-content: space-between;">' +
+                                '<div>' +
+                                    '<input type="checkbox" name="dutyCode" class="k-checkbox" id="dutyCode2" value="2" onchange="selEvalPop.gridReload()"><label for="dutyCode2">본부장</label>' +
+                                    '<input type="checkbox" name="dutyCode" class="k-checkbox" id="dutyCode4" value="4" style="margin-left: 5px" onchange="selEvalPop.gridReload()"><label for="dutyCode4">센터장</label>' +
+                                    '<input type="checkbox" name="dutyCode" class="k-checkbox" id="dutyCode5" value="5" style="margin-left: 5px" onchange="selEvalPop.gridReload()"><label for="dutyCode5">팀장</label>' +
+                                '</div>';
+                    }
+                }, {
                     template : function (e){
-                        return '<input type="radio" name="evalType" id="evalTypeDoc" value="doc" checked onchange="selEvalPop.gridReload()"><label for="evalTypeDoc">서류</label>' +
-                            '<input type="radio" name="evalType" id="evalTypeIn" value="in" onchange="selEvalPop.gridReload()"><label for="evalTypeIn">면접</label>';
+                        return '<div>' +
+                                '<input type="radio" name="evalType" id="evalTypeDoc" value="doc" checked onchange="selEvalPop.gridReload()"><label for="evalTypeDoc">서류</label>' +
+                                '<input type="radio" name="evalType" id="evalTypeIn" value="in" onchange="selEvalPop.gridReload()" style="margin-left: 5px"><label for="evalTypeIn">면접</label>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="selEvalPop.setInEvalLogin();">' +
-                            '	<span class="k-button-text">평가위원 선발</span>' +
-                            '</button>';
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px" onclick="selEvalPop.setInEvalLogin();">' +
+                                '	<span class="k-button-text">평가위원 선발</span>' +
+                                '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="selEvalPop.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
+                        return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 5px" onclick="selEvalPop.gridReload()">' +
+                                '	<span class="k-button-text">조회</span>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>';
                     }
                 }
             ],
@@ -116,10 +129,11 @@ var selEvalPop = {
                     }
                 }, {
                     field: "DEPT_NAME",
-                    title: "기관(소속)"
+                    title: "기관(소속)",
+                    width : 180
                 }, {
-                    field: "POSITION_NAME",
-                    title: "직급(직책)"
+                    field: "DUTY_NAME",
+                    title: "직위"
                 }, {
                     field: "MOBILE_TEL_NUM",
                     title: "휴대폰"
@@ -140,13 +154,27 @@ var selEvalPop = {
     },
 
     gridReload : function() {
+        var dutyCode = "";
+        if($("#dutyCode2").is(":checked")){
+            dutyCode += "," + $("#dutyCode2").val()
+        }
+
+        if($("#dutyCode4").is(":checked")){
+            dutyCode += "," + $("#dutyCode4").val()
+        }
+
+        if($("#dutyCode5").is(":checked")){
+            dutyCode += "," + $("#dutyCode5").val()
+        }
+
         selEvalPop.global.searchAjaxData = {
             tempDivision : $("#searchType").val() == "emp" ? "N" : "E",
             searchKeyWord : $("#searchKeyWord").val(),
             searchContent : $("#searchContent").val(),
             recruitInfoSn : $("#recruitInfoSn").val(),
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-            evalType : $("input[name='evalType']:checked").val() == null ? "doc" : $("input[name='evalType']:checked").val()
+            evalType : $("input[name='evalType']:checked").val() == null ? "doc" : $("input[name='evalType']:checked").val(),
+            dutyCode : dutyCode.substr(1)
         }
 
         selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData);

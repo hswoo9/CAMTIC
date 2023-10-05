@@ -8,10 +8,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/selEvalPop.js?v=${today}"></script>
 <style>
-  .k-grid-toolbar{
-    justify-content: flex-end !important;
-  }
-
   .k-grid-norecords{
     justify-content: space-around;
   }
