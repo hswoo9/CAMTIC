@@ -100,7 +100,8 @@
     <select id="getCommissionerList" parameterType="map" resultType="map">
         /*getCommissionerList*/
         SELECT
-            EI.*
+            EI.*,
+            (SELECT B.CM_CODE_NM FROM CAM_COMMON.dj_com_code B WHERE B.CM_GROUP_CODE_ID = '3' AND B.CM_CODE = EI.DUTY_CODE) AS DUTY_NAME
             <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
             ,(
                 SELECT
@@ -127,6 +128,9 @@
             EI.TEMP_DIVISION = #{tempDivision}
         AND
             EI.ACTIVE = 'Y'
+        <if test='dutyCode != null and !"".equals(dutyCode)'>
+            AND EI.DUTY_CODE IN(${dutyCode})
+        </if>
         <if test='loginId != null and !"".equals(loginId)'>
             AND EI.LOGIN_ID LIKE CONCAT('%', #{loginId}, '%')
         </if>

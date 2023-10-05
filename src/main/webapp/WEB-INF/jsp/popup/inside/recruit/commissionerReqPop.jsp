@@ -41,7 +41,10 @@
           <th>
             <span class="red-star"></span>임시아이디
           </th>
-          <td><input type="text" id="id" style="width: 80%"></td>
+          <td>
+            <input type="text" id="id" style="width: 52%">
+            <button type="button" class="k-button k-button-solid-base" id="idCheck">중복확인</button>
+          </td>
           <th>
             <span class="red-star"></span>임시비밀번호
           </th>

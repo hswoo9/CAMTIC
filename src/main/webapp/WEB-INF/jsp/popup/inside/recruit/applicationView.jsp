@@ -50,7 +50,7 @@
 
       <table class="popTable table table-bordered mb-0 mt10" id="recruitReqPop">
         <colgroup>
-          <col width="12%">
+          <col width="14%">
           <col>
           <col width="10%">
         </colgroup>

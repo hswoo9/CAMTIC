@@ -382,6 +382,12 @@ public class UserManageServiceImpl implements UserManageService {
     public void setUpdateUserInfoReturnN(Map<String,Object> map) {
         userManageRepository.setUpdateUserInfoReturnN(map);
     }
+
+    @Override
+    public void setCommissionerPassWdUpd(Map<String, Object> map) {
+        userManageRepository.setCommissionerPassWdUpd(map);
+    }
+
     @Override
     public List<Map<String, Object>> getDeptList(Map<String, Object> params){
         return userManageRepository.getDeptList(params);
