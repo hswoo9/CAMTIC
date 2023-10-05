@@ -1570,6 +1570,19 @@
           and
             ${KEY} = #{ID}
     </update>
+
+    <update id="setCommissionerPassWdUpd" parameterType="map">
+        /* setCommissionerPassWdUpd */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            LOGIN_PASSWD = #{loginPassWd},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            EMP_SEQ in (${evalEmpSeq})
+    </update>
+
     <select id="getUserPersonnelinformList" parameterType="map" resultType="map">
         /* getUserPersonnelinformList */
         SELECT

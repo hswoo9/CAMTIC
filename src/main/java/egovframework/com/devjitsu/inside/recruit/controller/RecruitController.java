@@ -595,6 +595,19 @@ public class RecruitController {
     }
 
     /**
+     * 평가위원 비밀번호 초기화
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/setCommissionerPassWdUpd.do")
+    public String setCommissionerPassWdUpd(@RequestParam Map<String, Object> params, Model model) throws Exception{
+        userManageService.setCommissionerPassWdUpd(params);
+        return "jsonView";
+    }
+
+
+    /**
      * 평가위원 상세보기
      * @param request
      * @param model

@@ -49,6 +49,13 @@ var commissionerManage = {
                 }, {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.setCommissionerPassWdUpd()">' +
+                            '	<span class="k-button-text">비밀번호 초기화</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalSetExcelFormDown()">' +
                             '	<span class="k-button-text">등록양식 다운로드</span>' +
                             '</button>';
@@ -157,6 +164,33 @@ var commissionerManage = {
         var name = "recruitReqPop";
         var option = "width=900, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    setCommissionerPassWdUpd : function(){
+        if($("input[name='comChk']:checked").length == 0){
+            alert("초기화할 평가위원을 선택해주세요.");
+            return
+        }
+
+        if(confirm("초기화 진행하시겠습니까?")){
+            var evalEmpSeq = "";
+
+            $.each($("input[name='comChk']:checked"), function(){
+                evalEmpSeq += "," + $(this).val()
+            })
+
+            commissionerManage.global.saveAjaxData = {
+                evalEmpSeq : evalEmpSeq.substring(1),
+                loginPassWd : "kbTRQoI/fSDF8I32kSLeQ/NfBXqYjZYZ9tMThIXJogM=",
+                empSeq : $("#empSeq").val()
+            }
+
+            var result = customKendo.fn_customAjax("/inside/setCommissionerPassWdUpd.do", commissionerManage.global.saveAjaxData)
+            if(result.flag){
+                alert("처리되었습니다.");
+                commissionerManage.gridReload();
+            }
+        }
     },
 
     commissionerInfoPop : function(e) {
