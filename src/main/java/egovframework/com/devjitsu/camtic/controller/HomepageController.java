@@ -151,4 +151,7 @@ public class HomepageController {
 
     @RequestMapping("/camtic/about/visionENG.do")
     public String AvisionENG(){ return "camtic/about/visionENG"; }
+
+    @RequestMapping("/camtic/about/locationENG.do")
+    public String AlocationENG(){ return "camtic/about/locationENG"; }
 }
