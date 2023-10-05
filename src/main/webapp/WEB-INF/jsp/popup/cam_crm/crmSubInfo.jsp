@@ -98,62 +98,62 @@
 <%--                <input type="file" name="file" id="crmFile" style="width: 90%;">--%>
             </td>
         </tr>
-        <tr>
-            <th scope="row" class="text-center th-color">
-                은행명
-            </th>
-            <td>
-                <input type="text" id="crmBn" style="width: 90%;">
-            </td>
-            <th scope="row" class="text-center th-color">
-                계좌번호
-            </th>
-            <td>
-                <input type="text" id="crmBnNum" style="width: 90%;">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center th-color">
-                예금주
-            </th>
-            <td>
-                <input type="text" id="bnDepo" style="width: 90%;">
-            </td>
-            <th scope="row" class="text-center th-color">
-                회계담당자
-            </th>
-            <td>
-                <input type="text" id="acntNm" style="width: 90%;">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center th-color">
-                회계담당자 이메일
-            </th>
-            <td colspan="3">
-                <input type="text" id="acntEmail" style="width: 90%;">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center th-color">
-                사업자등록증
-            </th>
-            <td>
-                <label for="crmLics" class="k-button k-button-clear-info">파일 선택</label>
-                <span id="crmLicsText">선택된 파일 없음</span>
-                <input type="file" id="crmLics" style="display: none" onchange="crmSi.fn_fileChange(this)">
+<%--        <tr>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                은행명--%>
+<%--            </th>--%>
+<%--            <td>--%>
+<%--                <input type="text" id="crmBn" style="width: 90%;">--%>
+<%--            </td>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                계좌번호--%>
+<%--            </th>--%>
+<%--            <td>--%>
+<%--                <input type="text" id="crmBnNum" style="width: 90%;">--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                예금주--%>
+<%--            </th>--%>
+<%--            <td>--%>
+<%--                <input type="text" id="bnDepo" style="width: 90%;">--%>
+<%--            </td>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                회계담당자--%>
+<%--            </th>--%>
+<%--            <td>--%>
+<%--                <input type="text" id="acntNm" style="width: 90%;">--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                회계담당자 이메일--%>
+<%--            </th>--%>
+<%--            <td colspan="3">--%>
+<%--                <input type="text" id="acntEmail" style="width: 90%;">--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                사업자등록증--%>
+<%--            </th>--%>
+<%--            <td>--%>
+<%--                <label for="crmLics" class="k-button k-button-clear-info">파일 선택</label>--%>
+<%--                <span id="crmLicsText">선택된 파일 없음</span>--%>
+<%--                <input type="file" id="crmLics" style="display: none" onchange="crmSi.fn_fileChange(this)">--%>
 <%--                <input type="file" name="file" id="crmLics" style="width: 90%;">--%>
-            </td>
-            <th scope="row" class="text-center th-color">
-                통장사본
-            </th>
-            <td>
-                <label for="bnCp" class="k-button k-button-clear-info">파일 선택</label>
-                <span id="bnCpText">선택된 파일 없음</span>
-                <input type="file" id="bnCp" style="display: none" onchange="crmSi.fn_fileChange(this)">
+<%--            </td>--%>
+<%--            <th scope="row" class="text-center th-color">--%>
+<%--                통장사본--%>
+<%--            </th>--%>
+<%--            <td>--%>
+<%--                <label for="bnCp" class="k-button k-button-clear-info">파일 선택</label>--%>
+<%--                <span id="bnCpText">선택된 파일 없음</span>--%>
+<%--                <input type="file" id="bnCp" style="display: none" onchange="crmSi.fn_fileChange(this)">--%>
 <%--                <input type="file" name="file" id="bnCp" style="width: 90%;">--%>
-            </td>
-        </tr>
+<%--            </td>--%>
+<%--        </tr>--%>
         <tr>
             <th scope="row" class="text-center th-color">
                 비고
