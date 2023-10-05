@@ -4,6 +4,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
+<style>
+
+</style>
 </head>
 
 <body>
@@ -33,7 +36,7 @@
               <div class="box">
                 <dl>
                   <dt>Adress</dt>
-                  <dd>#67, Yusang-ro, Dukjin-gu, Jeonju, Jeollabuk-do. 54852, Republic of Korea</dd>
+                  <dd style="font-size: 24px;">#67, Yusang-ro, Dukjin-gu, Jeonju, Jeollabuk-do. 54852, Republic of Korea</dd>
                 </dl>
               </div>
               <div class="box">
