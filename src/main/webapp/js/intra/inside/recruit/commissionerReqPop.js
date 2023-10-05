@@ -6,6 +6,23 @@ var commissionerReq = {
 
     init : function(){
         commissionerReq.dataSet();
+
+        // 아이디 중복체크
+        $("#idCheck").click(function(){
+            var data = {
+                loginId : $("#id").val()
+            }
+
+            var rs = customKendo.fn_customAjax("/user/getIdCheck", data);
+
+            if(rs.rs == null || rs.rs == "" || rs.rs == undefined){
+                idFlag = true;
+                alert("등록이 가능한 아이디입니다.");
+            } else {
+                alert("중복 등록된 아이디입니다.");
+            }
+        });
+
     },
 
     dataSet : function(){
