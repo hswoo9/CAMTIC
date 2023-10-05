@@ -29,7 +29,7 @@ var movJb = {
                 $("#area").text(data.MF_AREA);
                 $("#active").text(data.ACTIVE);
                 $("#mfName").text(data.MF_NAME);
-                $("#mfNo2").text(data.MF_NO);
+                $("#mfNo2").text(data.MF_NO.substring(0, 3) + "-" + data.MF_NO.substring(3, 5) + "-" + data.MF_NO.substring(5));
                 $("#ceoName").text(data.CEO_NAME + "(" + data.CEO_GENDER + ")");
                 $("#ceoTelNum").text(data.CEO_TEL_NUM);
                 $("#addr").text(data.ADDR);

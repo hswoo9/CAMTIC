@@ -435,6 +435,24 @@
         DELETE FROM CAM_CRM.DJ_CRM_MF_OVERVIEW WHERE CRM_MF_SN IN (${mf})
     </update>
 
+    <update id="setMfOverviewByCrmInfoUpd" parameterType="map">
+        /* setMfOverviewByCrmInfoUpd */
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO A,
+            (SELECT * FROM CAM_CRM.DJ_CRM_MF_OVERVIEW WHERE BASE_DATE = (SELECT MAX(BASE_DATE) FROM CAM_CRM.DJ_CRM_MF_OVERVIEW))B
+        SET
+            A.CRM_NM = B.MF_NAME,
+            A.CRM_CEO = B.CEO_NAME,
+            A.EMAIL = B.EMAIL,
+            A.TEL_NUM = B.TEL_NUM,
+            A.PH_NUM = B.CEO_TEL_NUM,
+            A.FAX = B.FAX_NUM,
+            A.CRM_EST_NO = B.EST_DATE,
+            A.ADDR = B.ADDR
+        WHERE
+            REPLACE(A.CRM_NO, '-', '') = B.MF_NO
+    </update>
+
     <select id="getMfOverviewInfo" parameterType="map" resultType="map">
         /* getMfOverviewInfo */
         SELECT
@@ -608,6 +626,10 @@
                 )
             </otherwise>
         </choose>
+
+        <if test='searchArea != null and !"".equals(searchArea)'>
+            AND MF_AREA = #{searchArea}
+        </if>
     </select>
 
     <insert id="setMfOverview" parameterType="map">

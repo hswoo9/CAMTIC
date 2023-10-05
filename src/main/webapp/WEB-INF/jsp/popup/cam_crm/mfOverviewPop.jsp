@@ -83,7 +83,7 @@
                         <span class="red-star">*</span>사업자 번호
                     </th>
                     <td>
-                        ${data.MF_NO}
+                        ${fn:substring(data.MF_NO, 0, 3)}-${fn:substring(data.MF_NO, 3, 5)}-${fn:substring(data.MF_NO, 5, fn:length(data.MF_NO))}
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>대표자 이메일

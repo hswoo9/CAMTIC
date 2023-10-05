@@ -420,6 +420,18 @@ public class CrmController {
     }
 
     /**
+     * 고객관리 데이터 실태조사 테이블로 최신화
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/setMfOverviewByCrmInfoUpd.do")
+    public String setMfOverviewByCrmInfoUpd(@RequestParam Map<String, Object> params, Model model){
+        crmService.setMfOverviewByCrmInfoUpd(params);
+        return "jsonView";
+    }
+
+    /**
      * crm 제조업체총람 상세보기
      * @param model
      * @param request
