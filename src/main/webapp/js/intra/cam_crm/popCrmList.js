@@ -117,7 +117,7 @@ var popCrmList = {
 
         var rs = rs.rs;
 
-        if($("#status").val() == undefined || $("#status").val() == "undefined") {
+        if($("#status").val() == undefined || $("#status").val() == "undefined" || $("#status").val() == "") {
             opener.parent.$("#crmSn").val(rs.CRM_SN);
             opener.parent.$("#visitCrm").val(rs.CRM_NM);
             opener.parent.$("#crmLoc").val(rs.CRM_LOC);
