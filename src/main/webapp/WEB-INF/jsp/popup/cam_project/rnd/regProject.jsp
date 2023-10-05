@@ -133,6 +133,20 @@
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>참여기관</th>
+                    <td>
+                        <input type="text" id="crmPartNm" name="crmPartNm" style="width: 80%" value="${data.CRM_PART_NM}" />
+                        <input type="hidden" id="crmPartSn" name="crmPartSn" value="${data.CRM_PART_SN}" />
+                        <button type="button" id="s3" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('part')">
+                            조회
+                        </button>
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>예상수주금액</th>
+                    <td>
+                        <input type="text" id="pjtExpAmt" name="pjtExpAmt" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>연구 시작/종료일
                     </th>

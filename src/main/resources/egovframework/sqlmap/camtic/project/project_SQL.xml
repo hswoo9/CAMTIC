@@ -40,6 +40,10 @@
         ON
             A.CRM_CON_SN = DA.CRM_CON_SN
         LEFT JOIN
+            (SELECT CRM_NM as CRM_PART_NM, CRM_SN as CRM_PART_SN FROM CAM_CRM.DJ_CRM_INFO) DB
+        ON
+            A.CRM_PART_SN = DB.CRM_PART_SN
+        LEFT JOIN
             CAM_CRM.DJ_CRM_MEM CM
         ON
             D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN

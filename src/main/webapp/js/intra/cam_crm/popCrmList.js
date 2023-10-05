@@ -117,7 +117,7 @@ var popCrmList = {
 
         var rs = rs.rs;
 
-        if($("#status").val() != "con") {
+        if($("#status").val() == undefined || $("#status").val() == "undefined") {
             opener.parent.$("#crmSn").val(rs.CRM_SN);
             opener.parent.$("#visitCrm").val(rs.CRM_NM);
             opener.parent.$("#crmLoc").val(rs.CRM_LOC);
@@ -157,9 +157,12 @@ var popCrmList = {
             opener.parent.$("#crmSn").change();
 
             opener.parent.$("#purcCrmSn").change();
-        } else {
+        } else if($("#status").val() == "con") {
             opener.parent.$("#rndConCrmNm").val(rs.CRM_NM);
             opener.parent.$("#rndConCrmSn").val(rs.CRM_SN);
+        } else if ($("#status").val() == "part"){
+            opener.parent.$("#crmPartNm").val(rs.CRM_NM);
+            opener.parent.$("#crmPartSn").val(rs.CRM_SN);
         }
 
 
