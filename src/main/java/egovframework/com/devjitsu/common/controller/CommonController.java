@@ -141,4 +141,12 @@ public class CommonController {
         commonService.setDeptInfoDel(params);
         return "jsonView";
     }
+
+    @RequestMapping("/common/teamList")
+    public String teamList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", commonService.teamList(params));
+
+        return "jsonView";
+    }
 }

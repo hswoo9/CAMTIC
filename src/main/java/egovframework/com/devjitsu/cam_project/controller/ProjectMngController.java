@@ -79,11 +79,36 @@ public class ProjectMngController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectMng/getTeamCostList")
+    public String getTeamCostList(@RequestParam Map<String, Object> params, Model model){
+        params.put("cmGroupCode", "POSITION");
+
+        List<Map<String, Object>> list = projectMngService.getTeamCostList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/projectMng/setLaborInfo")
     public String setLaborInfo(@RequestParam Map<String, Object> params, Model model){
 
         try{
             projectMngService.setLaborInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectMng/setTeamInfo")
+    public String setTeamInfo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectMngService.setTeamInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -115,6 +140,19 @@ public class ProjectMngController {
 
         try{
             projectMngService.insLaborHistInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectMng/insTeamCostHistInfo")
+    public String insTeamCostHistInfo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectMngService.insTeamCostHistInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

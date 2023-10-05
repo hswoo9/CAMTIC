@@ -294,4 +294,9 @@ public class CommonServiceImpl implements CommonService {
     public void setDeptInfoDel(Map<String, Object> params) {
         commonRepository.setDeptInfoDel(params);
     }
+
+    @Override
+    public List<Map<String, Object>> teamList(Map<String, Object> params) {
+        return commonRepository.teamList(params);
+    }
 }

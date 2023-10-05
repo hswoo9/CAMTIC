@@ -34,6 +34,15 @@ public class ProjectMngRepository extends AbstractDAO {
         update("projectMng.updLaborHistInfo", params);
     }
 
+    public void updTeamCostInfo(Map<String, Object> params) {
+        update("projectMng.updTeamCostInfo", params);
+    }
+
+    public void updTeamCostHistInfo(Map<String, Object> params) {
+        update("projectMng.updTeamCostHistInfo", params);
+    }
+
+
     public Map<String, Object> getLaborHistData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("projectMng.getLaborHistData", params);
     }
@@ -41,4 +50,22 @@ public class ProjectMngRepository extends AbstractDAO {
     public void delLaborHistData(Map<String, Object> params) {
         delete("projectMng.delLaborHistData", params);
     }
+
+    public List<Map<String, Object>> getTeamCostList(Map<String, Object> params) {
+        return selectList("projectMng.getTeamCostList", params);
+    }
+
+    public Map<String, Object> getTeamCostData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectMng.getTeamCostData", params);
+    }
+
+    public void insTeamCostInfo(Map<String, Object> params) {
+        insert("projectMng.insTeamCostInfo", params);
+    }
+
+    public void insTeamCostHistInfo(Map<String, Object> params) {
+        insert("projectMng.insTeamCostHistInfo", params);
+    }
+
+
 }

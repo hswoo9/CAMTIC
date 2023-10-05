@@ -38,6 +38,22 @@ public class ProjectMngServiceImpl implements ProjectMngService {
     }
 
     @Override
+    public void setTeamInfo(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+        map = projectMngRepository.getTeamCostData(params);
+
+        if(map == null){
+            projectMngRepository.insTeamCostInfo(params);
+
+            projectMngRepository.insTeamCostHistInfo(params);
+        } else {
+            projectMngRepository.updTeamCostInfo(params);
+
+            projectMngRepository.updTeamCostHistInfo(params);
+        }
+    }
+
+    @Override
     public Map<String, Object> getLaborData(Map<String, Object> params) {
         return projectMngRepository.getLaborData(params);
     }
@@ -45,6 +61,11 @@ public class ProjectMngServiceImpl implements ProjectMngService {
     @Override
     public List<Map<String, Object>> getLaborList(Map<String, Object> params) {
         return projectMngRepository.getLaborList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTeamCostList(Map<String, Object> params) {
+        return projectMngRepository.getTeamCostList(params);
     }
 
     @Override
@@ -68,5 +89,18 @@ public class ProjectMngServiceImpl implements ProjectMngService {
     @Override
     public void delLaborHistData(Map<String, Object> params) {
         projectMngRepository.delLaborHistData(params);
+    }
+
+    @Override
+    public void insTeamCostHistInfo(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = projectMngRepository.getTeamCostData(params);
+
+        if(map == null){
+            projectMngRepository.insTeamCostInfo(params);
+        }
+
+        projectMngRepository.insTeamCostHistInfo(params);
     }
 }

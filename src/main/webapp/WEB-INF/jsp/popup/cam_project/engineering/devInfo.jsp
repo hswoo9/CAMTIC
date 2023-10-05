@@ -90,7 +90,7 @@
                     <span class="red-star"></span>수주일자
                 </th>
                 <td>
-                    <input type="text" id="estDe" style="width: 90%;" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${hashMap.STR_DT}" />" disabled>
+                    <input type="text" id="estDe" class="k-input k-textbox k-disabled k-input-solid k-input-md k-rounded-md" style="width: 90%;" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${hashMap.STR_DT}" />" disabled>
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>수주가격

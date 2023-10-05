@@ -5,10 +5,9 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
-
+  .__jvalley3 .hw .box { display: flex;  flex-direction: column;  justify-content: space-between;}
 </style>
 </head>
-
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/headENG.jsp" flush="false"/>
@@ -16,7 +15,7 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
+        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
 
         <div class="__vision1 m0">
           <div><span class="since">Since 1999</span></div><br>
@@ -91,7 +90,7 @@
                     </dl>
                   </li>
                   <li>
-                    <p style="/*word-spacing:-0.5rem;*/ font-size: 14px; letter-spacing: 0.1px; line-height: 3rem;">
+                    <p style="font-size: 14px; letter-spacing: 0.1px; line-height: 3rem; padding: 0 5px;">
                       Over 10 subsidiaries<br>
                       Over 100 family companies<br>
                       Over KRW 1 trillion in sales<br>
@@ -110,7 +109,7 @@
             <dd><span class="subCapyTitle">seeking growth with</span></dd>
             <dd><span class="subCapyTitle">communities/enterprises/technology/employees</span></dd>
           </dl>
-          <img src="/images/camtic/cluster_mission.png" alt="">
+          <img src="/images/camtic/cluster_mission3.png" alt="" style="width: 800px; height: 320px;">
         </div>
 
 
@@ -121,7 +120,7 @@
             &#183 A hardware accelerating platform for successful business foundation</h4>
           <div class="hw">
             <div class="box">
-              <dl class="info" style="margin-top:20px;">
+              <dl class="info">
                 <dt>Design</dt>
                 <dd>
                   CAD(2D)<br>
@@ -131,7 +130,7 @@
               <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin-top:50px;">
+              <dl class="info">
                 <dt>Prototype making</dt>
                 <dd>
                   3D printers (small to large)<br>
@@ -141,7 +140,7 @@
               <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin-top:16px;">
+              <dl class="info">
                 <dt>Space for hardware acceleration</dt>
                 <dd>
                   Spaces for prototype making,<br>
@@ -152,7 +151,7 @@
               <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin:50px 0px 40px;">
+              <dl class="info">
                 <dt>Business incubation</dt>
                 <dd>
                   Chaoreum Village<br>
@@ -162,7 +161,7 @@
               <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin:47px 0px 29px;">
+              <dl class="info">
                 <dt>Assistance for mass production</dt>
                 <dd>
                   High-speed injection molding machine<br>

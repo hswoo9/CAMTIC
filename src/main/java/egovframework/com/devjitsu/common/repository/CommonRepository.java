@@ -46,4 +46,8 @@ public class CommonRepository extends AbstractDAO {
     public void setTeamInfoUpd(Map<String, Object> params) { update("common.setTeamInfoUpd", params);}
     public void setDeptInfoDel(Map<String, Object> params) { update("common.setDeptInfoDel", params);}
     public void setContentIdUpd(Map<String, Object> params) { update("common.setContentIdUpd", params);}
+
+    public List<Map<String, Object>> teamList(Map<String, Object> params) {
+        return selectList("common.teamList", params);
+    }
 }

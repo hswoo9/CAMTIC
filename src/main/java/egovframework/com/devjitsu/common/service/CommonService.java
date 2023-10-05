@@ -43,4 +43,6 @@ public interface CommonService {
 
     void setDeptInfo(Map<String, Object> params);
     void setDeptInfoDel(Map<String, Object> params);
+
+    List<Map<String, Object>> teamList(Map<String, Object> params);
 }
