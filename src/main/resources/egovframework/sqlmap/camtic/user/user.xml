@@ -96,6 +96,7 @@
             HEI.EMP_NAME_KR,
             IFNULL(HEI.POSITION_CODE, "") AS POSITION_CODE,
             HEI.POSITION_NAME,
+            HEI.GRADE_NAME,
             IFNULL(HEI.DUTY_CODE, "") AS DUTY_CODE,
             HEI.DUTY_NAME,
             HEI.JOB_DETAIL

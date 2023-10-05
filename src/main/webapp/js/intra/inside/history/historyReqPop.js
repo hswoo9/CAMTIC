@@ -227,7 +227,7 @@ const historyReq = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position: relative; top: 2px;" />',
-                    template : function (e){
+                    template: function (e){
                         if(e.APNT_SN != null){
                             return "<input type='hidden' id='apntSn"+e.EMP_SEQ+"' name='apntSn' value='"+e.APNT_SN+"'/>" +
                                 "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>";
@@ -274,7 +274,14 @@ const historyReq = {
                         }, {
                             field: "POSITION_NAME",
                             title: "직급/등급",
-                            width: 100
+                            width: 120,
+                            template: function(row){
+                                if(row.GRADE_NAME != null && row.GRADE_NAME != ""){
+                                    return row.POSITION_NAME + " / " + row.GRADE_NAME;
+                                }else{
+                                    return row.POSITION_NAME;
+                                }
+                            }
                         }, {
                             field: "DUTY_NAME",
                             title: "직책",
