@@ -186,9 +186,10 @@
                         <li>
                             최근 경영규모
                         </li>
-                        <li>
-                            관심분야
-                        </li>
+                        <%-- TODO. 관심분야 삭제--%>
+<%--                        <li>--%>
+<%--                            관심분야--%>
+<%--                        </li>--%>
                     </ul>
                     <div>
                         <div>
@@ -230,12 +231,13 @@
                             <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
                         </jsp:include>
                     </div>
-                    <div>
-                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmInterests.jsp" flush="true">
-                            <jsp:param name="crmSn" value="${params.crmSn}"/>
-                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>
-                        </jsp:include>
-                    </div>
+                    <%-- TODO. 관심분야 삭제--%>
+<%--                    <div>--%>
+<%--                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/crmInterests.jsp" flush="true">--%>
+<%--                            <jsp:param name="crmSn" value="${params.crmSn}"/>--%>
+<%--                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>--%>
+<%--                        </jsp:include>--%>
+<%--                    </div>--%>
                 </div>
             </div>
         </div>

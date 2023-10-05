@@ -24,7 +24,6 @@ var movJb = {
 
         var result = customKendo.fn_customAjax("/crm/getMfOverviewInfo", movJb.global.searchAjaxData);
         if(result.flag){
-            console.log(result);
             var data = result.data;
             if(data != null){
                 $("#area").text(data.MF_AREA);
@@ -109,6 +108,8 @@ var movJb = {
                 $("#needField").text(data.NEED_FIELD);
                 $("#agreeYn").text(data.AGREE_YN);
                 $("#agree2Yn").text(data.AGREE2_YN);
+            }else {
+                $(".textTd").text("");
             }
         }
     },

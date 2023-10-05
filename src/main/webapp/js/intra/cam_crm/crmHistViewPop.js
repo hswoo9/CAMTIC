@@ -216,12 +216,14 @@ var chv = {
     },
 
     makeTable : function(e){
-        var crmInterLg = "";
-        var crmInter = "";
+        /** TODO. 관심분야 삭제 */
+        // var crmInterLg = "";
+        // var crmInter = "";
 
         for(var i = 0; i < e.length; i++){
-            crmInterLg = e[i].CRM_INTER_LG.split(",");
-            crmInter = e[i].CRM_INTER.split(",");
+            /** TODO. 관심분야 삭제 */
+            // crmInterLg = e[i].CRM_INTER_LG.split(",");
+            // crmInter = e[i].CRM_INTER.split(",");
             chv.global.htmlStr = "";
             chv.global.htmlStr += "" +
                 '<tr>' +
@@ -238,7 +240,8 @@ var chv = {
                     '<td>' + e[i].CRM_HIST_OBJ + '</td>' +
                 '</tr>';
 
-            chv.mainCdChkBoxSetting(crmInterLg);
+            /** TODO. 관심분야 삭제 */
+            // chv.mainCdChkBoxSetting(crmInterLg);
 
             chv.global.htmlStr += '' +
                 '<tr>' +
@@ -247,13 +250,14 @@ var chv = {
 
             $("#histTb").append(chv.global.htmlStr);
 
-            for(var c = 0; c < crmInterLg.length; c++){
-                $("input[id='" + crmInterLg[c].split("_")[0] + "']").prop("checked", true)
-            }
-
-            for(var c = 0; c < crmInter.length; c++){
-                $("input[id='" + crmInter[c].split("_")[0] + "']").prop("checked", true)
-            }
+            /** TODO. 관심분야 삭제 */
+            // for(var c = 0; c < crmInterLg.length; c++){
+            //     $("input[id='" + crmInterLg[c].split("_")[0] + "']").prop("checked", true)
+            // }
+            //
+            // for(var c = 0; c < crmInter.length; c++){
+            //     $("input[id='" + crmInter[c].split("_")[0] + "']").prop("checked", true)
+            // }
         }
 
     },

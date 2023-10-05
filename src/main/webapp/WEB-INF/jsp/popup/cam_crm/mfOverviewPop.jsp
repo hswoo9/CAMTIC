@@ -47,7 +47,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="pjtTitle">
-                    제조업체총람
+                    실태조사
                 </span>
             </h3>
             <div class="btn-st popButton">

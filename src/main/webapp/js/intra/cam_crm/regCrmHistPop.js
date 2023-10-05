@@ -41,9 +41,9 @@ var regCrmHist = {
             cmGroupCode : "BUSN_CLASS",
         }
 
-        regCrmHist.global.radioDataSource = customKendo.fn_customAjax("/crm/selLgCode", {grpSn : "ITF"});
-        regCrmHist.mainCdChkBoxSetting(regCrmHist.global.radioDataSource.rs);
-
+        /** TODO. 관심분야 삭제 */
+        // regCrmHist.global.radioDataSource = customKendo.fn_customAjax("/crm/selLgCode", {grpSn : "ITF"});
+        // regCrmHist.mainCdChkBoxSetting(regCrmHist.global.radioDataSource.rs);
 
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", regCrmHist.global.searchAjaxData);
         customKendo.fn_dropDownList("crmRelPjt", bcDs.rs, "CM_CODE_NM", "CM_CODE");

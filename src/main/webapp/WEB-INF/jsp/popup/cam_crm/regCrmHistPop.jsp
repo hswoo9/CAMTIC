@@ -131,22 +131,23 @@
                         <input type="text" id="crmMemPhn" style="width: 90%" disabled>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        관심분야 선택
-                    </th>
-                    <td colspan="3">
-                        <div style="text-align: left">
-                            <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.codeTableExpand(this)">▼</button>
-                        </div>
-                        <table id="codeTable" class="table table-bordered mb-0 mt-10" style="display: none">
-                            <colgroup>
-                                <col style="width: 15%">
-                            </colgroup>
+                <%-- TODO. 관심분야 삭제--%>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        관심분야 선택--%>
+<%--                    </th>--%>
+<%--                    <td colspan="3">--%>
+<%--                        <div style="text-align: left">--%>
+<%--                            <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.codeTableExpand(this)">▼</button>--%>
+<%--                        </div>--%>
+<%--                        <table id="codeTable" class="table table-bordered mb-0 mt-10" style="display: none">--%>
+<%--                            <colgroup>--%>
+<%--                                <col style="width: 15%">--%>
+<%--                            </colgroup>--%>
 
-                        </table>
-                    </td>
-                </tr>
+<%--                        </table>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         관계사업 선택

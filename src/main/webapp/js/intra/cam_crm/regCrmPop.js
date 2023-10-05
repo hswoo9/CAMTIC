@@ -32,7 +32,8 @@ var crmReg = {
         crmCert.fn_defaultScript();
         crmA.fn_defaultScript();
         crmMgScale.fn_defaultScript();
-        crmI.fn_defaultScript();
+        /** TODO. 관심분야 삭제 */
+        // crmI.fn_defaultScript();
     },
 
     fn_setData: function (){

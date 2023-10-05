@@ -20,8 +20,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">제조업체총람</h4>
-            <div class="title-road">캠CRM > CRM관리 &gt; 제조업체총람</div>
+            <h4 class="panel-title">실태조사</h4>
+            <div class="title-road">캠CRM > CRM관리 &gt; 실태조사</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
