@@ -41,11 +41,11 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
 
         <div class="__busi m0" style="padding: 0px 52px">
-          <div class="__tit1 __mt0">
+          <div class="__tit1 __mt0" style="display: flex;">
             <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>Major Business Areas</strong></h4>
           </div>
           <div class="__vision50" style="border: none; margin-bottom: 0px;">
-            <img src="/images/camtic/bg-aside.png" alt="" style="margin-bottom: 100px;">
+            <img src="/images/camtic/symbol.png" alt="" style="margin-bottom: 100px; width:100px; height: 150px;">
             <div class="__busiA">
               <div class="__busiArea" style="color:#305c9a;">
                 <h2>Business Growth <br>Support</h2>
@@ -77,10 +77,10 @@
               </div>
             </div>
           </div>
-          <div class="__tit1 __mt0">
+          <div class="__tit1 __mt0" >
             <h3><strong>Research & Business Development</strong></h3>
           </div>
-          <div class="__vision50">
+          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_01ENG.png" alt="">
           </div>
         </div>
@@ -130,10 +130,10 @@
         </div>
 
         <div class="__busi m0" style="padding: 0px 52px">
-          <div class="__tit1 __mt50">
+          <div class="__tit1 __mt50" >
             <h3><strong>Business Growth Support</strong> </h3>
           </div>
-          <div class="__vision50">
+          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_02ENG.png" alt="">
           </div>
         </div>
@@ -302,10 +302,10 @@
 
 
 
-          <div class="__tit1 __mt50">
+          <div class="__tit1 __mt50" >
             <h3><strong>Commercialization of key technologies</strong></h3>
           </div>
-          <div class="__vision50">
+          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_03ENG.png" alt="">
           </div>
 

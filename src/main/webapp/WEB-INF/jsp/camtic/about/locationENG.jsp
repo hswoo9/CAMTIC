@@ -18,6 +18,12 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
 
+        <div class="__busi m0" style="padding: 0px 52px">
+          <div class="__tit1 __mt0" style="display: flex;">
+            <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>Contect</strong></h4>
+          </div>
+        </div>
+
         <div class="__loc">
           <div class="inner">
             <div class="loc">

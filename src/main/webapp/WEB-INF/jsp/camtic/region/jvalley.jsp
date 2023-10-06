@@ -87,20 +87,20 @@
                   CATIA(3D) 등
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt="" style="margin-top: 28px;"></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-1.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin-top:30px;">
+              <dl class="info">
                 <dt>시제품 제작</dt>
                 <dd>
                   3D프린터(소~대형)<br>
                   SMT 제조시설 등
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt="" style="margin-top: 28px;"></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-2.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin-top:40px;">
+              <dl class="info">
                 <dt>H/W 엑셀러레이터 공간</dt>
                 <dd>
                   상품화지원동<br>
@@ -108,10 +108,10 @@
                   드론산업혁신지원센터
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt="" style="margin-top: 4px;"></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-3.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin-top:50px;">
+              <dl class="info">
                 <dt>창업.성장공간</dt>
                 <dd>
                   메이커스페이스<br>
@@ -120,10 +120,10 @@
                   기술창업성장지원센터
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt="" style="margin-top: 28px;"></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-4.jpg" alt=""></div>
             </div>
             <div class="box">
-              <dl class="info" style="margin-top:60px;">
+              <dl class="info">
                 <dt>시장출시제품 지원</dt>
                 <dd>
                   고속·대형 사출성형기<br>
@@ -133,7 +133,7 @@
                   목형·방전가공기 등
                 </dd>
               </dl>
-              <div class="img"><img src="/images/camtic/img-jvalley3-5.jpg" alt="" style="margin-top: 28px;"></div>
+              <div class="img"><img src="/images/camtic/img-jvalley3-5.jpg" alt=""></div>
             </div>
           </div>
           <h5><span>S/W</span></h5>

@@ -8,7 +8,7 @@
     <li class="about about_history"><a href="/camtic/about/historyENG.do">History</a></li>
     <li class="about about_business"><a href="/camtic/about/businessENG.do">Major Business Areas</a></li>
     <li class="about about_vision"><a href="/camtic/about/visionENG.do">CAMTIC Mission & Vision 2030</a></li>
-    <li class="about about_location"><a href="/camtic/about/locationENG.do">Contact</a></li>
+    <li class="about about_location"><a href="/camtic/about/locationENG.do">Contect</a></li>
   </ul>
 </div>
 

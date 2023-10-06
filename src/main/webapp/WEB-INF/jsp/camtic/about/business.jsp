@@ -24,53 +24,53 @@
 							신사업을 적극 추진하고 있습니다.
 						</dd>
 					</dl>--%>
-							<dl class="head">
-								<dt><span class="__nm">“</span><span class="mainCapyTitle">지역전략산업 및 기업의 혁신/성장을 위한 시설, 공간, 장비 등</span><span class="__nm">”</span></dt>
-								<dd><span class="subCapyTitle">인프라를 기반으로 중소·벤처기업의 성장 지원</span></dd>
-							</dl>
-						<%--<img src="/images/camtic/img-busi.jpg" alt="다음 내용 참조">--%>
-						<h3><strong></strong></h3>
-						<div class="hide">
-							<ul>
-								<li>
-									<h4>01</h4>
-									<dl>
-										<dt>기업성장지원 분야</dt>
-										<dd>BUSINESS GROWTH SUPPORT</dd>
-									</dl>
-									<ul>
-										<li>- 지역산업육성</li>
-										<li>- 국제개발협력(ODA)</li>
-										<li>- 인재개발/인재양성</li>
-										<li>- 일자리·창업지원</li>
-									</ul>
-								</li>
-								<li>
-									<h4>02</h4>
-									<dl>
-										<dt>R&BD 분야</dt>
-										<dd>Research & Business Development</dd>
-									</dl>
-									<ul>
-										<li>- 스마트팩토리 / 로봇</li>
-										<li>- 스마트헬스케어 / 스마트팜</li>
-										<li>- 탄소 복합재 개발</li>
-									</ul>
-								</li>
-								<li>
-									<h4>03</h4>
-									<dl>
-										<dt>사업부 분야</dt>
-										<dd>Business for Commercialization</dd>
-									</dl>
-									<ul>
-										<li>- 항공우주</li>
-										<li>- 드론사업</li>
-										<li>- 스마트제조</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
+					<dl class="head">
+						<dt><span class="__nm">“</span><span class="mainCapyTitle">지역전략산업 및 기업의 혁신/성장을 위한 시설, 공간, 장비 등</span><span class="__nm">”</span></dt>
+						<dd><span class="subCapyTitle">인프라를 기반으로 중소·벤처기업의 성장 지원</span></dd>
+					</dl>
+					<%--<img src="/images/camtic/img-busi.jpg" alt="다음 내용 참조">--%>
+					<h3><strong></strong></h3>
+					<div class="hide">
+						<ul>
+							<li>
+								<h4>01</h4>
+								<dl>
+									<dt>기업성장지원 분야</dt>
+									<dd>BUSINESS GROWTH SUPPORT</dd>
+								</dl>
+								<ul>
+									<li>- 지역산업육성</li>
+									<li>- 국제개발협력(ODA)</li>
+									<li>- 인재개발/인재양성</li>
+									<li>- 일자리·창업지원</li>
+								</ul>
+							</li>
+							<li>
+								<h4>02</h4>
+								<dl>
+									<dt>R&BD 분야</dt>
+									<dd>Research & Business Development</dd>
+								</dl>
+								<ul>
+									<li>- 스마트팩토리 / 로봇</li>
+									<li>- 스마트헬스케어 / 스마트팜</li>
+									<li>- 탄소 복합재 개발</li>
+								</ul>
+							</li>
+							<li>
+								<h4>03</h4>
+								<dl>
+									<dt>사업부 분야</dt>
+									<dd>Business for Commercialization</dd>
+								</dl>
+								<ul>
+									<li>- 항공우주</li>
+									<li>- 드론사업</li>
+									<li>- 스마트제조</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</div>
 
 
