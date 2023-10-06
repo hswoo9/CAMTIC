@@ -329,7 +329,11 @@ var camPrj = {
                                 pjtStepNm = "원가보고";
                             }
                         } else if (e.BUSN_CLASS = "R") {
-                            var pjtStepNm = "예상수주";
+                            if(e.PJT_STEP == "R"){
+                                pjtStepNm = "예상수주";
+                            } else if(e.PJT_STEP == "R2"){
+                                pjtStepNm = "수주보고";
+                            }
                         }
 
                         return pjtStepNm;

@@ -357,4 +357,23 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <update id="setDelvApprove" parameterType="map">
+        /*setDelvApprove*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            STATUS = 100
+        WHERE
+            RND_SN = #{rndSn}
+    </update>
+
+    <update id="updRndProjectInfo" parameterType="map">
+        /*updRndProjectInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = "R2",
+            PJT_STEP_NM = "수주보고"
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

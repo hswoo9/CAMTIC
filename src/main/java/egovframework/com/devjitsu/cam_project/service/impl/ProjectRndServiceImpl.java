@@ -151,5 +151,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updRndDetail(params);
         }
     }
+
+    @Override
+    public void setDelvApprove(Map<String, Object> params) {
+        projectRndRepository.setDelvApprove(params);
+        projectRndRepository.updRndProjectInfo(params);
+    }
 }
 

@@ -427,6 +427,8 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+
+
     /* Set Data Line ==================================================== */
 
     /**
@@ -541,6 +543,17 @@ public class ProjectRndController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setDelvApprove")
+    public String setDelvApprove(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.setDelvApprove(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 

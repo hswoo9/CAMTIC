@@ -88,6 +88,11 @@ var rndDetail = {
 
         var rs = result.map;
 
+        if(rs.STATUS == 100){
+            $("#aBtn").css("display", "");
+        } else if(rs.RND_SN != "" && rs.RND_SN != null && rs.RND_SN != undefined){
+            $("#approveBtn").css("display", "");
+        }
 
         $("#rndSn").val(rs.RND_SN);
         $("#mngDeptName").val(rs.MNG_DEPT_NAME);
@@ -116,5 +121,28 @@ var rndDetail = {
         $("#delvDay").val(rs.DELV_DAY);
         $("#resDay").val(rs.RES_DAY);
 
+    },
+    fn_approve : function() {
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+            rndSn : $("#rndSn").val(),
+            pjtExpAmt : $("#pjtExpAmt").val()
+        }
+
+        if(!confirm("수주확정을 하시겠습니까?")){
+            return ;
+        }
+
+        $.ajax({
+            url : "/projectRnd/setDelvApprove",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    location.reload();
+                }
+            }
+        });
     }
 }

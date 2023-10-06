@@ -37,4 +37,6 @@ public interface ProjectRndService {
     Map<String, Object> getRndDetail(Map<String, Object> params);
 
     void setRndDetail(Map<String, Object> params);
+
+    void setDelvApprove(Map<String, Object> params);
 }

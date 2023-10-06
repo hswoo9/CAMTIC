@@ -12,7 +12,10 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="rndSn" value=""/>
 <div style="padding: 10px">
+
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>
+    <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="rndDetail.fn_approve()">결재</button>
+    <button type="button" id="aBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="">열람</button>
 
     <br><br>
 
