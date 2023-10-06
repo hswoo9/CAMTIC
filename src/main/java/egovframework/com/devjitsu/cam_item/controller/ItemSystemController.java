@@ -1,0 +1,148 @@
+package egovframework.com.devjitsu.cam_item.controller;
+
+import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class ItemSystemController {
+
+    @Autowired
+    private ItemSystemService itemSystemService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
+
+    /** 캠아이템 > 시스템관리 > 시스템 */
+
+    /**
+     * item 고객관리 (crm 고객관리 페이지와 동일)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/customerMaList.do")
+    public String customerMaList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/system/customer/customerMaList";
+    }
+
+    /**
+     * item 코드 관리
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/codeManagement.do")
+    public String codeManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/system/baseCode/codeManagement";
+    }
+
+    /**
+     * item 그룹코드 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/groupCodeList")
+    public String groupCodeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemSystemService.groupCodeList(params));
+        return "jsonView";
+    }
+
+    /**
+     * item 코드 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/codeList")
+    public String codeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemSystemService.codeList(params));
+        return "jsonView";
+    }
+
+    /**
+     * item 그룹코드 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/saveGroupCode")
+    public String saveGroupCode(@RequestParam Map<String, Object> params, Model model){
+        itemSystemService.saveGroupCode(params);
+        return "jsonView";
+    }
+
+    /**
+     * item 하위 코드 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/insSetLgCode")
+    public String insSetLgCode(@RequestParam Map<String, Object> params, Model model){
+        itemSystemService.insSetLgCode(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/smCodeList")
+    @ResponseBody
+    public List<Map<String, Object>> smCodeList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = itemSystemService.smCodeList(params);
+        return list;
+    }
+
+    @RequestMapping("/item/insItemCode")
+    public String insitemCode(@RequestParam Map<String, Object> params, Model model){
+        itemSystemService.insItemCode(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/selLgCode")
+    public String selLgCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.selLgCode(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/selSmCode")
+    public String selSmCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.selSmCode(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/selLgSmCode")
+    public String selLgSmCode(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.selLgSmCode(params));
+        return "jsonView";
+    }
+}

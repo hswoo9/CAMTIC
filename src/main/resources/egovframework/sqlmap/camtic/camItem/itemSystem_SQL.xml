@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="itemSystem">
+
+    <select id="groupCodeList" parameterType="map" resultType="map">
+        /* groupCodeList */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CD
+        GROUP BY GRP_SN
+    </select>
+
+    <insert id="insGroupCode" parameterType="map">
+        /* insGroupCode */
+        INSERT INTO CAM_ITEM.DJ_ITEM_CD
+        (
+            GRP_SN,
+            GRP_NM
+        )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm}
+            )
+    </insert>
+
+    <select id="codeList" resultType="map" parameterType="map">
+        /* codeList */
+        SELECT
+            A.*
+        FROM
+            CAM_ITEM.DJ_ITEM_CD A
+        WHERE
+            LG_CD IS NOT NULL
+        AND
+            ITEM_CD IS NULL
+    </select>
+
+    <select id="selLgCode" resultType="map" parameterType="map">
+        /* selLgCode */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CD
+        WHERE
+            GRP_SN = #{grpSn}
+        <choose>
+            <when test='lgCdArr != null and !"".equals(lgCdArr)'>
+                AND
+                    LG_CD in(${lgCdArr})
+            </when>
+            <otherwise>
+                AND
+                    LG_CD is not null
+            </otherwise>
+        </choose>
+          AND
+            ITEM_CD is null
+    </select>
+
+    <select id="selSmCode" resultType="map" parameterType="map">
+        /* selSmCode */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CD
+        WHERE
+            GRP_SN = #{grpSn}
+        AND
+            LG_CD is not null
+        <choose>
+            <when test='lgCdArr != null and !"".equals(lgCdArr)'>
+            AND
+                LG_CD in(${lgCdArr})
+            </when>
+            <otherwise>
+            AND
+                LG_CD = #{lgCd}
+            </otherwise>
+        </choose>
+        AND
+            ITEM_CD is not null
+    </select>
+
+    <insert id="insSetLgCode" parameterType="map">
+        /* insSetLgCode */
+        INSERT INTO CAM_ITEM.DJ_ITEM_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM
+        )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCode},
+                #{lgCodeNm}
+            )
+    </insert>
+
+    <select id="smCodeList" parameterType="map" resultType="map">
+        /* smCodeList */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD = #{lgCd}
+          AND
+            ITEM_CD IS NOT NULL
+    </select>
+
+    <insert id="insItemCode" parameterType="map">
+        /* insItemCode */
+        INSERT INTO CAM_ITEM.DJ_ITEM_CD
+        (
+            GRP_SN,
+            GRP_NM,
+            LG_CD,
+            LG_CD_NM,
+            ITEM_CD,
+            ITEM_CD_NM
+        )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCd},
+                #{lgCdNm},
+                #{itemCd},
+                #{itemCdNm}
+            )
+    </insert>
+</mapper>

@@ -47,13 +47,15 @@
                     ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
-                AND (
-                    CI.CRM_NM LIKE CONCAT('%', #{searchValue}, '%') OR
-                    CI.CRM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    CI.TEL_NUM LIKE CONCAT('%', #{searchValue}, '%') OR
-                    CI.FAX LIKE CONCAT('%', #{searchValue}, '%') OR
-                    CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%')
-                )
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        CI.CRM_NM LIKE CONCAT('%', #{searchValue}, '%') OR
+                        CI.CRM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        CI.TEL_NUM LIKE CONCAT('%', #{searchValue}, '%') OR
+                        CI.FAX LIKE CONCAT('%', #{searchValue}, '%') OR
+                        CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
             </otherwise>
         </choose>
     </select>

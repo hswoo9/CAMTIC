@@ -48,7 +48,7 @@ public class CommonExcel {
 			for ( Map.Entry<String, Object> entry : header.entrySet( ) ) {
 				Cell cell = headerRow.createCell( cellIdx++ );
 				cell.setCellValue( entry.getValue( ).toString( ) );
-				CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
+//				CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
 			}
 			/* 데이터 개수만큼 반복 실행 */
 			/* cell style과 cell format을 뺀 이유는 최대 생성개수가 정해져 있기 때문에 최초 한번만 생성. */
@@ -80,7 +80,7 @@ public class CommonExcel {
 							} else{
 								cell.setCellValue( Double.parseDouble( map.get( cellData.getKey( ) ).toString( ) ) );	
 							}
-							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_RIGHT);
+//							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_RIGHT);
 						}
 						else if ( cellData.getKey( ).toLowerCase( ).indexOf( "date" ) > -1 ) {
 							/* 년-월-일 설정 (2017-09-15) */
@@ -100,7 +100,7 @@ public class CommonExcel {
 								cell.setCellValue( CommonConvert.NullToString( map.get( cellData.getKey( ) ) ) );
 							}
 							
-							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
+//							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
 						}
 						else if ( cellData.getKey( ).toLowerCase( ).indexOf( "time" ) > -1 ) {
 							/* 시간설정 (11:00:00) */
@@ -126,7 +126,7 @@ public class CommonExcel {
 								cell.setCellValue( map.get( cellData.getKey( ) ).toString( ) );
 							}
 							
-							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
+//							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_CENTER);
 						}
 						else {
 							if( map.get( cellData.getKey( ) ) == null ){
@@ -135,7 +135,7 @@ public class CommonExcel {
 								cell.setCellValue( map.get( cellData.getKey( ) ).toString( ) );	
 							}
 
-							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_LEFT);
+//							CellUtil.setAlignment(cell, wb, CellStyle.ALIGN_LEFT);
 						}
 					}
 					else {
