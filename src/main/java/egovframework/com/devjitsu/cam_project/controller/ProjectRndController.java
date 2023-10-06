@@ -112,6 +112,36 @@ public class ProjectRndController {
         return "popup/cam_project/rnd/researcherInfo";
     }
 
+    @RequestMapping("/projectRnd/partRate.do")
+    public String partRate(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/partRateInfo";
+    }
+
+    @RequestMapping("/projectRnd/reqPartRate.do")
+    public String reqPartRate(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/reqPartRateInfo";
+    }
+
     /**
      * 프로젝트 > TAB2 > 개발계획
      * @param params

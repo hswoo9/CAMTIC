@@ -126,7 +126,7 @@ var rndDetail = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             rndSn : $("#rndSn").val(),
-            pjtExpAmt : $("#pjtExpAmt").val()
+            pjtExpAmt : uncomma($("#pjtExpAmt").val())
         }
 
         if(!confirm("수주확정을 하시겠습니까?")){

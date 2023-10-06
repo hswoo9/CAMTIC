@@ -496,7 +496,7 @@ var camPrj = {
         if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
         }
-        var name = "_blank";
+        var name = "blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);

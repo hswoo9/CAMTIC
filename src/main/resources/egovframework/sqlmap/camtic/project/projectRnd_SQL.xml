@@ -372,7 +372,8 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             PJT_STEP = "R2",
-            PJT_STEP_NM = "수주보고"
+            PJT_STEP_NM = "수주보고",
+            PJT_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
