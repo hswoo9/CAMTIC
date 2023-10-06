@@ -68,6 +68,7 @@ public class CommonController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("params", params);
         model.addAttribute("loginVO", loginVO);
 
         return "popup/common/deptListPop";

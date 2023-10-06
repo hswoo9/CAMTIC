@@ -140,23 +140,29 @@ var deptListPop = {
     gridChoose : function (e) {
         var tr = $(e).closest("tr");
         var row = $('#userList').data("kendoGrid").dataItem(tr);
-        console.log(row);
-        console.log(row.EMP_NAME_KR);
-        console.log(row.EMP_SEQ);
-        opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
-        opener.parent.$("#userName").val(row.EMP_NAME_KR);
-        opener.parent.$("#empName").val(row.EMP_NAME_KR);
-        opener.parent.$("#pmName").val(row.EMP_NAME_KR);
-        //emp_seq, dept_seq, dept_name
-        opener.parent.$("#empSeq").val(row.EMP_SEQ);
-        opener.parent.$("#pmSeq").val(row.EMP_SEQ);
 
-        opener.parent.$("#teamPMNm").val(row.EMP_NAME_KR);
-        opener.parent.$("#teamPMSeq").val(row.EMP_SEQ);
+        if($("#status").val() == "mng"){
+            opener.parent.$("#mngDeptName").val(row.DEPT_NAME);
+            opener.parent.$("#mngDeptSeq").val(row.DEPT_SEQ);
+            opener.parent.$("#mngEmpName").val(row.EMP_NAME_KR);
+            opener.parent.$("#mngEmpSeq").val(row.EMP_SEQ);
+        } else {
+            opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
+            opener.parent.$("#userName").val(row.EMP_NAME_KR);
+            opener.parent.$("#empName").val(row.EMP_NAME_KR);
+            opener.parent.$("#pmName").val(row.EMP_NAME_KR);
+            //emp_seq, dept_seq, dept_name
+            opener.parent.$("#empSeq").val(row.EMP_SEQ);
+            opener.parent.$("#pmSeq").val(row.EMP_SEQ);
 
-        opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
-        opener.parent.$("#deptName").val(row.DEPT_NAME);
-        opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
+            opener.parent.$("#teamPMNm").val(row.EMP_NAME_KR);
+            opener.parent.$("#teamPMSeq").val(row.EMP_SEQ);
+
+            opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
+            opener.parent.$("#deptName").val(row.DEPT_NAME);
+            opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
+        }
+
         window.close();
     }
 

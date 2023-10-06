@@ -82,7 +82,8 @@
             </div>
         </div>
         <div id="vRnd" style="padding: 20px 30px;">
-            <table class="popTable table table-bordered mb-0">
+            <input type="hidden" id="viewStat" value="Y" />
+            <table class="popTable table table-bordered mb-0" id="mainTable">
                 <colgroup>
                     <col width="15%">
                     <col width="35%">

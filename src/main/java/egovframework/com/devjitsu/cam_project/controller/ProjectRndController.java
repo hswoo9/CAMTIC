@@ -67,8 +67,31 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+
     /**
-     * 프로젝트 > TAB0 > 연구원관리
+     * 프로젝트 R&D > TAB0 > 등록정보
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/projectRnd/detailInfo.do")
+    public String detailInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/rnd/detailInfo";
+    }
+
+    /**
+     * 프로젝트 > TAB1 > 연구원관리
      * @param params
      * @param model
      * @param request
@@ -90,7 +113,7 @@ public class ProjectRndController {
     }
 
     /**
-     * 프로젝트 > TAB1 > 개발계획
+     * 프로젝트 > TAB2 > 개발계획
      * @param params
      * @param request
      * @param model
@@ -397,6 +420,13 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/getRndDetail")
+    public String getRndDetail(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("map", projectRndService.getRndDetail(params));
+
+        return "jsonView";
+    }
+
     /* Set Data Line ==================================================== */
 
     /**
@@ -494,6 +524,19 @@ public class ProjectRndController {
             projectRndService.setDevJobInfo(params, fileList, SERVER_DIR, BASE_DIR);
 
             model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setRndDetail")
+    public String setRndDetail(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.setRndDetail(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rs", params);
         } catch (Exception e){
             e.printStackTrace();
         }

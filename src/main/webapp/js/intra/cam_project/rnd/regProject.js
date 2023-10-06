@@ -36,7 +36,7 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/researcherInfo.do";          // 연구원관리
+        var tab0Url = "/projectRnd/detailInfo.do";              // 상세정보 (수주)
         var tab1Url = "/projectRnd/researcherInfo.do";          // 연구원관리
         var tab2Url = "/projectRnd/rndDevPlan.do";              // 개발계획
         var tab3Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
@@ -108,6 +108,17 @@ var regRnd = {
             tabStrip.disable(tabStrip.tabGroup.children().eq(8));
             regRnd.fn_setData(setParameters);
         }
+
+        $(".k-tabstrip-items").on("dblclick", function(){
+            if($("#viewStat").val() == "Y"){
+                $("#mainTable").css("display", "none");
+                $("#viewStat").val("N");
+            }else{
+                $("#mainTable").css("display", "");
+                $("#viewStat").val("Y");
+            }
+
+        });
     },
 
     fn_setData: function (e){

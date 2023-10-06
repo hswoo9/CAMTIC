@@ -276,4 +276,85 @@
         AND
             B.FILE_CD = #{devSchJob}
     </select>
+
+    <select id="getRndDetail" parameterType="map" resultType="map">
+        /*getRndDetail*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RND
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insRndDetail" parameterType="map">
+        /*insRndDetail*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_RND
+            (
+                PJT_SN,
+                MNG_DEPT_SEQ,
+                MNG_DEPT_NAME,
+                MNG_EMP_SEQ,
+                MNG_EMP_NAME,
+                BANK_SN,
+                BANK_NM,
+                BANK_NO,
+                ACC_HOLD,
+                ALL_RES_COST,
+                PEO_RES_COST,
+                PEO_RES_ITEM,
+                TOT_RES_COST,
+                RES_CARD_CHECK,
+                RES_CARD_NO,
+                DELV_DAY,
+                RES_DAY
+            )
+        VALUE
+            (
+                #{pjtSn},
+                #{mngDeptSeq},
+                #{mngDeptName},
+                #{mngEmpSeq},
+                #{mngEmpName},
+                #{bankSn},
+                #{bankNm},
+                #{bankNo},
+                #{accHold},
+                #{allResCost},
+                #{peoResCost},
+                #{peoResItem},
+                #{totResCost},
+                #{resCardCheck},
+                #{resCardNo},
+                #{delvDay},
+                #{resDay}
+            )
+        <selectKey keyProperty="rndSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_PJT_RND'
+        </selectKey>
+    </insert>
+
+    <update id="updRndDetail" parameterType="map">
+        /*updRndDetail*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            MNG_DEPT_SEQ = #{mngDeptSeq},
+            MNG_DEPT_NAME = #{mngDeptName},
+            MNG_EMP_SEQ = #{mngEmpSeq},
+            MNG_EMP_NAME = #{mngEmpName},
+            BANK_SN = #{bankSn},
+            BANK_NM = #{bankNm},
+            BANK_NO = #{bankNo},
+            ACC_HOLD = #{accHold},
+            ALL_RES_COST = #{allResCost},
+            PEO_RES_COST = #{peoResCost},
+            PEO_RES_ITEM = #{peoResItem},
+            TOT_RES_COST = #{totResCost},
+            RES_CARD_CHECK = #{resCardCheck},
+            RES_CARD_NO = #{resCardNo},
+            DELV_DAY = #{delvDay},
+            RES_DAY = #{resDay}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>
