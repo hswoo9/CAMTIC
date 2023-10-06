@@ -43,84 +43,84 @@
 					</div>
 
 
-				<div class="__tit1 __mt100">
-					<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>역량별 학습 추진체계</strong></h3>
-				</div>
-
-				<div class="__vision2">
-
-					<div class="box">
-						<dl class="top">
-							<dt>공통 역량</dt>
-							<dd>
-								<ul>
-									<li>미션,비전,인재상,조직문화</li>
-									<li>캠틱클러스터 철학,공통원칙</li>
-									<li>신입직원,승진자 교육</li>
-								</ul>
-								<p>비전,핵심가치 기반</p>
-							</dd>
-						</dl>
-						<dl class="bot">
-							<dt>공통학습(캠.화.지)</dt>
-							<dd>
-								<p>신입직원 교육</p>
-							</dd>
-							<dd>
-								<p>승진자 교육</p>
-							</dd>
-						</dl>
+					<div class="__tit1 __mt100">
+						<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>역량별 학습 추진체계</strong></h3>
 					</div>
 
-					<div class="box">
-						<dl class="top">
-							<dt>리더십 역량</dt>
-							<dd>
-								<ul>
-									<li>계층별 리더십,코칭 역량</li>
-									<li>기업가 정신 함양</li>
-									<li>핵심 리더 양성</li>
-								</ul>
-								<p>리더십 역량 기반</p>
-							</dd>
-						</dl>
-						<dl class="bot">
-							<dt>마스터 리더 교육(부서장/CEO)</dt>
-							<dd>
-								<p>프로 리더 교육 <span>(책임/팀장/수석)</span></p>
-							</dd>
-							<dd>
-								<p>셀프 리더 교육 <span>(원/선입금)</span></p>
-							</dd>
-						</dl>
+					<div class="__vision2">
+
+						<div class="box">
+							<dl class="top">
+								<dt>공통 역량</dt>
+								<dd>
+									<ul>
+										<li>미션,비전,인재상,조직문화</li>
+										<li>캠틱클러스터 철학,공통원칙</li>
+										<li>신입직원,승진자 교육</li>
+									</ul>
+									<p>비전,핵심가치 기반</p>
+								</dd>
+							</dl>
+							<dl class="bot">
+								<dt>공통학습(캠.화.지)</dt>
+								<dd>
+									<p>신입직원 교육</p>
+								</dd>
+								<dd>
+									<p>승진자 교육</p>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="box">
+							<dl class="top">
+								<dt>리더십 역량</dt>
+								<dd>
+									<ul>
+										<li>계층별 리더십,코칭 역량</li>
+										<li>기업가 정신 함양</li>
+										<li>핵심 리더 양성</li>
+									</ul>
+									<p>리더십 역량 기반</p>
+								</dd>
+							</dl>
+							<dl class="bot">
+								<dt>마스터 리더 교육(부서장/CEO)</dt>
+								<dd>
+									<p>프로 리더 교육 <span>(책임/팀장/수석)</span></p>
+								</dd>
+								<dd>
+									<p>셀프 리더 교육 <span>(원/선입금)</span></p>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="box">
+							<dl class="top">
+								<dt>직무 역량</dt>
+								<dd>
+									<ul>
+										<li>직무별 공통 교육</li>
+										<li>직무 Level별 학습 추진</li>
+										<li>직무별 최고 전문가 양성</li>
+									</ul>
+									<p>직무 역량 기반</p>
+								</dd>
+							</dl>
+							<dl class="bot">
+								<dt>직무교육</dt>
+								<dd>
+									<p>OJT/직무 공통 교육</p>
+								</dd>
+								<dd>
+									<p>부서/개인별 직무 교육</p>
+								</dd>
+							</dl>
+						</div>
+
 					</div>
 
-					<div class="box">
-						<dl class="top">
-							<dt>직무 역량</dt>
-							<dd>
-								<ul>
-									<li>직무별 공통 교육</li>
-									<li>직무 Level별 학습 추진</li>
-									<li>직무별 최고 전문가 양성</li>
-								</ul>
-								<p>직무 역량 기반</p>
-							</dd>
-						</dl>
-						<dl class="bot">
-							<dt>직무교육</dt>
-							<dd>
-								<p>OJT/직무 공통 교육</p>
-							</dd>
-							<dd>
-								<p>부서/개인별 직무 교육</p>
-							</dd>
-						</dl>
-					</div>
-
-				</div>
-
-				<div class="__campus2">교육을 통한 소통 강화!</div>
+					<div class="__campus2">교육을 통한 소통 강화!</div>
 				</div>
 			</div>
 		</div>

@@ -43,7 +43,7 @@
                 </div>
               </div>
             </div>
-            <div class="rig" style="width: 600px; padding-top: 93px;">
+            <div class="rig" style="width: 600px; padding-top: 150px;">
               <img src="/images/camtic/greetingTest3.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 460px;" alt="원장 노상흡">
             </div>
           </div>

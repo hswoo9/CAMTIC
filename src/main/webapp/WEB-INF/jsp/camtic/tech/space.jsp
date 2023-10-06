@@ -67,7 +67,7 @@
 
           <div class="__icoBox">
             <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
-            <h5>지상지원장비(MGSE - Mechanical Ground Support Equipment)</h5>
+            <h5 style="font-size:20px; color: #666;">지상지원장비(MGSE - Mechanical Ground Support Equipment)</h5>
             <div class="__fz18 __black __mt0">
               인공위성, 안테나등 우주산업에 필요한 조립/시험 장비의 설계/해석/제작/시험
             </div>
@@ -98,8 +98,8 @@
 
           <div class="__icoBox __mt60">
             <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
-            <h5>참여사업</h5>
-            <ul class="__dotList bar __fz16 __black fwm">
+            <h5 style="font-size:20px; color: #666;">참여사업</h5>
+            <ul class="__dotList bar __fz18 __black fwm">
               <li>KOMPSAT-3(아리랑 3호), KOMPSAT-5(아리랑 5호), COMS-1(천리안 1호), </li>
               <li>CAS500(차세대 중형위성1,2단계), KPLO(다누리), EOIR, K7, 425.달착륙선 랜딩기어, 큐브위성. 스페이스 챌린지(접이식 안테나 개발)</li>
             </ul>
@@ -144,8 +144,8 @@
 
           <div class="__icoBox __mt60">
             <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
-            <h5>참여사업</h5>
-            <ul class="__dotList bar __fz16 __black fwm">
+            <h5 style="font-size:20px; color: #666;">참여사업</h5>
+            <ul class="__dotList bar __fz18 __black fwm">
               <li>KUH(수리온), 스마트 무인기 개발, 복합재 팬블레이드 시험 장치 개발. 100lbf급 엔진 개발.</li>
             </ul>
           </div>
@@ -180,8 +180,8 @@
 
           <div class="__icoBox __mt60">
             <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
-            <h5>참여사업</h5>
-            <ul class="__dotList bar __fz16 __black fwm">
+            <h5 style="font-size:20px; color: #666;">참여사업</h5>
+            <ul class="__dotList bar __fz18 __black fwm">
               <li>군용 지상훈련장비(Simulator) 개발, KO-1, UH-60(조종석), 6축 모션(Payload 4톤</li>
             </ul>
           </div>

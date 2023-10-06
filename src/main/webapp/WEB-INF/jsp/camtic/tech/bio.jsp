@@ -68,7 +68,7 @@
           </div>
           <div class="__icoBox pt0">
             <%--<div class="ico "><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
-            <div class="__fz18 __gray fwb">방사 조건에 따라 적층 두께, 필라멘트의 두께, pore의 크기 등 다양한 샘플 제작</div>
+            <div class="__fz20  fwb">방사 조건에 따라 적층 두께, 필라멘트의 두께, pore의 크기 등 다양한 샘플 제작</div>
             <div class="__fz18 __black">폭 1,000mm, 500mm, Lab type 장비를 통해 조건에 따른 다양한 나노 섬유 생산 가능</div>
           </div>
           <ul class="__flximg __mt40">
@@ -76,14 +76,14 @@
             <li><img src="/images/camtic/img-nsmart2-2.jpg" alt=""></li>
             <li><img src="/images/camtic/img-nsmart2-3.jpg" alt=""></li>
           </ul>
-          <div class="__fz18 __mt10 __black tac">( 양산형 500mm, Lab Type, 500mm Lab Type 전기방사장치 )</div>
+          <div class="__fz15 __mt10 __black tac">( 양산형 500mm, Lab Type, 500mm Lab Type 전기방사장치 )</div>
           <ul class="__flximg mwrap __mt80" style="width: 800px; margin: 0 auto;">
             <li><img src="/images/camtic/img-nsmart3-1.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">정면, 10k 배율</div></li>
             <li><img src="/images/camtic/img-nsmart3-2.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">정면, 1k 배율</div></li>
             <li><img src="/images/camtic/img-nsmart3-3.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">측면, 10k 배율</div></li>
             <li><img src="/images/camtic/img-nsmart3-4.jpg" alt=""><div class="__fz16 __mt10 __black tac fwm">측면, 1k 배율</div></li>
           </ul>
-          <div class="__fz18 __mt20 __black tac">( CTS-1000 실제 출력물 샘플 )</div>
+          <div class="__fz15 __mt20 __black tac">( CTS-1000 실제 출력물 샘플 )</div>
 
         </div>
 
@@ -106,7 +106,7 @@
             </dd>
           </dl>
 
-          <div class="__fz18 __black fwb __mt70">재활로봇 및 개인 맞춤형 건강관리 플랫폼 기술</div>
+          <div class="__fz20 __black fwb __mt70">재활로봇 및 개인 맞춤형 건강관리 플랫폼 기술</div>
           <div class="area">
 
             <div class="__icoBox pt0">
@@ -134,8 +134,8 @@
             <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">시제품 제작 지원 사례</h3>
           </div>
           <ul class="__flximg mwrap __mt15" style="width:820px; margin:0 auto;">
-            <li><img src="/images/camtic/img-nsmart5-1.jpg" alt=""><div class="__fz16 __mt10 __black fwm">개인 맞춤형척추 건강관리 IoT서비스를 적용한 척추 이완 기기</div></li>
-            <li><img src="/images/camtic/img-nsmart5-2.jpg" alt=""><div class="__fz16 __mt10 __black fwm">척추 / 관절 진단 및 수술용 다기능 카본테이블</div></li>
+            <li><img src="/images/camtic/img-nsmart5-1.jpg" alt=""><div class="__fz15 __mt10 __black fwm">개인 맞춤형척추 건강관리 IoT서비스를 적용한 척추 이완 기기</div></li>
+            <li><img src="/images/camtic/img-nsmart5-2.jpg" alt=""><div class="__fz15 __mt10 __black fwm">척추 / 관절 진단 및 수술용 다기능 카본테이블</div></li>
           </ul>
 
         </div>
@@ -204,34 +204,30 @@
             </div>
           </div>
           <div class="tac __fz26 fwb __black __mt60">시제품 제작 지원 사례</div>
-          <ul class="flx __mt20">
+          <ul class="flx __mt20" style="text-align: center;">
             <li>
               <img src="/images/camtic/img-nsmart7-1.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">유아용 발열쿠션 컨트롤러</div>
+              <div class="__fz15 __mt10 __black fwm">유아용 발열쿠션 컨트롤러</div>
             </li>
             <li>
               <img src="/images/camtic/img-nsmart7-2.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">수면 무호흡 측정기</div>
+              <div class="__fz15 __mt10 __black fwm">수면 무호흡 측정기</div>
             </li>
             <li>
               <img src="/images/camtic/img-nsmart7-3.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">스마트 디퓨져</div>
+              <div class="__fz15 __mt10 __black fwm">스마트 디퓨져</div>
             </li>
             <li>
               <img src="/images/camtic/img-nsmart7-4.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">유아용 발열쿠션 컨트롤러</div>
+              <div class="__fz15 __mt10 __black fwm">통합헬스케어기기</div>
             </li>
             <li>
               <img src="/images/camtic/img-nsmart7-5.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">수면 무호흡 측정기</div>
+              <div class="__fz15 __mt10 __black fwm">LED 구강부 치료기</div>
             </li>
             <li>
               <img src="/images/camtic/img-nsmart7-6.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">스마트 디퓨져</div>
-            </li>
-            <li>
-              <img src="/images/camtic/img-nsmart7-7.jpg" alt="">
-              <div class="__fz16 __mt10 __black fwm">스마트 환풍기</div>
+              <div class="__fz15 __mt10 __black fwm">LED 비강부 치료기</div>
             </li>
           </ul>
         </div>

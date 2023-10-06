@@ -47,11 +47,11 @@
 					</div>
 
 
-				<div class="__tit1 __mt100">
-					<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; text-align: left;"><strong>캠틱 클러스터 구성원</strong></h3>
-				</div>
-				<div class="__clu2">
-					<%--<img src="/images/camtic/img-clu2-1.jpg" alt="">--%>
+					<div class="__tit1 __mt100">
+						<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; text-align: left;"><strong>캠틱 클러스터 구성원</strong></h3>
+					</div>
+					<div class="__clu2">
+						<%--<img src="/images/camtic/img-clu2-1.jpg" alt="">--%>
 						<!-- <img src="/images/camtic/img-clu2-1.jpg" alt=""> -->
 						<div class="__imgW __imgW5">
 							<div class="wrap">
@@ -91,18 +91,18 @@
 							<div class="img"><img src="/images/camtic/img-clu3-3.jpg" alt=""></div>
 							<div class="txt">개인투자조합 활성화</div>
 						</div>--%>
-						<div class="box">
-							<div class="txt">&#9675 연대와 협력, 복리증진</div>
-							<div class="txt">&#9675 분사창업사 성장 조력</div>
-							<div class="txt">&#9675 개인투자조합 활성화</div>
+						<div class="box" style="display: flex; margin: 0 auto; gap: 80px;">
+							<div class="txt" style="font-size: 22px;">ㆍ 연대와 협력, 복리증진</div>
+							<div class="txt" style="font-size: 22px;">ㆍ 분사창업사 성장 조력</div>
+							<div class="txt" style="font-size: 22px;">ㆍ 개인투자조합 활성화</div>
 						</div>
 					</div>
-				</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
+</div>
+<jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
 </body>
 </html>

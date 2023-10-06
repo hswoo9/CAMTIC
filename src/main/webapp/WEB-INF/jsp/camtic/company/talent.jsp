@@ -25,7 +25,7 @@
               <div class="head">
                 <dl>
                   <dt><span class="__nm">“</span><span class="mainCapyTitle">지역기업  및 산업의 인력수요 기반</span><span class="__nm">”</span></dt>
-                  <dd><span class="subCapyTitle">재직자 직무능력 향상, 예비 취업자 양성 훈련 실시</span></dd>
+                  <dd style="margin-top: 15px;"><span class="subCapyTitle">재직자 직무능력 향상, 예비 취업자 양성 훈련 실시</span></dd>
                 </dl>
               </div>
               <div class="inf">
@@ -155,7 +155,7 @@
           <table class="__tblList bd1 bg3 respond2 __mt10">
             <caption></caption>
             <colgroup class="__p">
-              <col style="width:350px;">
+              <col style="width:340px;">
               <col>
             </colgroup>
             <colgroup class="__m">
