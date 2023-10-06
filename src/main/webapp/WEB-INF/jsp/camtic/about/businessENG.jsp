@@ -77,11 +77,66 @@
               </div>
             </div>
           </div>
+
           <div class="__tit1 __mt0" >
             <h3><strong>Research & Business Development</strong></h3>
           </div>
-          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_01ENG.png" alt="">
+          </div>--%>
+          <div class="__vision50">
+            <div class="__imgW __imgW1">
+              <div class="wrap">
+                <img src="/images/camtic/img-busi_01.png" alt="">  <!--영어 이미지로 변경-->
+                <div class="iw iw1"><span>Enterprise</span></div>
+                <div class="iw iw2"><span>R<br>&<br>B<br>D</span></div>
+                <div class="iw iw3"><span>R&D</span></div>
+                <div class="iw iw4" style="font-size: 14px;"><span>Prototype<br>manufacturing</span></div>
+                <div class="iw iw5" style="font-size: 14px;"><span>Product<br>development</span></div>
+                <div class="iw iw6" style="font-size: 14px;"><span>Testing/<br>Certification</span></div>
+
+                <div class="iw iw7" style="font-size: 22px;"><span>Sales and employment growth<br>Productivity enhancement<br>Product/Technology development</span></div>
+                <div class="iw iw8" style="font-size:30px;"><span>Non<br>-<br>R<br>&<br>D</span></div>
+                <div class="iw iw9" style="font-size: 14px;"><span>Engineering</span></div>
+                <div class="iw iw10" style="font-size: 14px;"><span>Mass production</span></div>
+                <div class="iw iw11" style="font-size: 14px;"><span>Utilization of equipment</span></div>
+                <div class="iw iw12" style="font-size: 14px;"><span>Support projects</span></div>
+
+                <div class="iw iw13" style="font-size: 13px;"><span>Specialized technology</span></div>
+                <div class="iw iw14 dot tal" style="font-size: 12px;">
+                  <ul>
+                    <li>Injection mold</li>
+                    <li>Multi-processed mold</li>
+                    <li>Green vehicle lightweighting technology</li>
+                    <li>Automated production of carbon composites</li>
+                  </ul>
+                </div>
+
+                <div class="iw iw15" style="font-size: 13px;"><span>Specialized technology</span></div>
+                <div class="iw iw16 dot tal" style="font-size: 13px;">
+                  <ul>
+                    <li>Smart healthcare</li>
+                    <li>Manufactured intelligent robots</li>
+                    <li>Smart farms & aerofarms</li>
+                    <li>Nanofibers</li>
+                  </ul>
+                </div>
+
+                <div class="iw iw17" style="font-size: 13px;"><span>Specialized technology</span></div>
+                <div class="iw iw18 dot tal" style="font-size: 13px;">
+                  <ul>
+                    <li>Smart factories</li>
+                    <li>Process automation</li>
+                    <li>
+                      System Integration<br>(Mechatronics Automatives)
+                    </li>
+                  </ul>
+                </div>
+                <div class="iw iw19" style="font-size: 15px;"><span>Composite materials</span></div>
+                <div class="iw iw20" style="font-size: 15px;"><span>New technology convergence</span></div>
+                <div class="iw iw21" style="font-size: 15px;"><span>Manufacturing innovation</span></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -133,9 +188,77 @@
           <div class="__tit1 __mt50" >
             <h3><strong>Business Growth Support</strong> </h3>
           </div>
-          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_02ENG.png" alt="">
+          </div>--%>
+          <div class="__vision50">
+
+            <div class="__imgW __imgW2">
+              <div class="wrap">
+                <img src="/images/camtic/img-busi_02.png" alt="">
+                <div class="iw iw1" style="font-size: 22px;"><span>Foundation/innovation/<br>growth<br>by business growth phase</span></div>
+                <div class="iw iw2" style="font-size: 22px;"><span>Foundation/technology/<br>management<br>Business growth by field</span></div>
+                <div class="iw iw3" style="font-size: 14px;"><span>HR development</span></div>
+                <div class="iw iw4" style="font-size: 14px;"><span>Local industrial development</span></div>
+                <div class="iw iw5" style="font-size: 14px;"><span>Job creation</span></div>
+                <div class="iw iw6" style="font-size: 14px;"><span>Foundation</span></div>
+
+                <div class="iw iw7" style="font-size: 13px;"><span>HR development</span></div>
+                <div class="iw iw8 dot tal" style="font-size:10px;">
+                  <ul>
+                    <li>HR cultivation</li>
+                    <li>Work-study balance/Paid leave</li>
+                    <li>Employer training</li>
+                    <li>Job competence building for employees</li>
+                    <li>Technical workforce training for college students</li>
+                  </ul>
+                </div>
+
+                <div class="iw iw9" style="font-size: 13px;"><span>Local industrial development</span></div>
+                <div class="iw iw10 dot tal" style="font-size: 13px;">
+                  <ul>
+                    <li>Technology commercialization support</li>
+                    <li>Growth ladder support</li>
+                    <li>AI data projects</li>
+                    <li>ODA projects</li>
+                  </ul>
+                </div>
+
+                <div class="iw iw11" style="font-size: 13px;"><span>Job creation</span></div>
+                <div class="iw iw12 dot tal" style="font-size: 11px;">
+                  <ul>
+                    <li>Job support program for youth</li>
+                    <li>Support for employment</li>
+                    <li>Employment Crisis Support Center</li>
+                    <li>Preemptive response for job security</li>
+                  </ul>
+                </div>
+
+                <div class="iw iw13" style="font-size: 13px;"><span>Foundation</span></div>
+                <div class="iw iw14 dot tal" style="font-size: 13px;">
+                  <ul>
+                    <li>Support for business foundation in specialized fields</li>
+                    <li>Maker Space</li>
+                    <li>Network of startup-associated institutions</li>
+                  </ul>
+                </div>
+                <div class="iw iw15" style="font-size: 22px;"><span>Gr<br>ow<br>th<br>ass<br>is<br>tan<br>ce</span></div>
+                <div class="iw iw16" style="font-size: 22px;"><span>Co<br>op<br>er<br>at<br>ion</span></div>
+                <div class="iw iw17" style="font-size: 8px;"><span>Employe training</span></div>
+                <div class="iw iw18" style="font-size: 8px;"><span>Startup assistance</span></div>
+                <div class="iw iw19" style="font-size: 8px;"><span>Support for commercialization</span></div>
+                <div class="iw iw20" style="font-size: 8px;"><span>Employment support</span></div>
+                <div class="iw iw21" style="font-size: 8px;"><span>Marketing</span></div>
+                <div class="iw iw22" style="font-size: 8px;"><span>Technical assistance</span></div>
+                <div class="iw iw23" style="font-size: 8px;"><span>Consulting</span></div>
+
+              </div>
+            </div>
           </div>
+
+
+
+
         </div>
 
         <div class="__bio3">
@@ -149,36 +272,6 @@
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-3.jpg" alt=""></div><div class="txt">ODA project for Ethiopia</div></div>
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-4.jpg" alt=""></div><div class="txt">ODA project for Indonesia</div></div>
           </div>
-          <!--ppt17-->
-            <%--<h4>Support for development of local industries</h4>--%>
-            <%--<div class="__drone5">--%>
-              <%--<div class="__icoBox pt0">
-                <dl class="__dotList bar __fz20 __black">
-                  <dt>Project for the establishment of a foundation for smart specialization (Specialized field: Transport equipment)</dt>
-                  <dd>- Support details: Technical assistance (process enhancement and technical guidance) and training for equipment operators<br>
-                    - Support performance (2021): Eight cases for five enterprises
-                  </dd>
-
-                  <dt>Support project for regional specialized (non-R&D) businesses (Specialized field: Intelligent machine parts)</dt>
-                  <dd>- Support details: Prototype making, testing/analysis, certification, connection to experts, and support for resolving technical difficulties<br>
-                    - Support performance (2021): 13 cases for eight enterprises
-                  </dd>
-
-                  <dt>Jeollabuk-do growth ladder project</dt>
-                  <dd>- Jeollabuk-do startup support project (business diagnosis, growth strategy making, etc.)<br>
-                    - Jeollabuk-do promising business support project (IR competence strengthening, identifying the global demand for R&D, etc.)<br>
-                    - Jeollabuk-do leading business support project (customized consulting, global innovation competence strengthening, etc.)
-                  </dd>
-
-                  <dt>ODA</dt>
-                  <dd>- ODA project for New Southern Region/Indonesia (machine tools)<br>
-                    - ODA project for New Northern Region/Uzbekistan (agricultural machinery, smart farm)<br>
-                    - ODA project for Ethiopia (agricultural machinery)<br>
-                    - Export–Import Bank of Korea (Uzbekistan; agricultural machinery)
-
-                  </dd>
-                </dl>
-              </div>--%>
         </div>
 
         <div class="__bio3">
@@ -194,31 +287,7 @@
         </div>
 
         <div class="__bio3">
-  <!--ppt18-->
           <h4>HR development/Job competence training</h4>
-          <%--<div class="__drone5">--%>
-            <%--<div class="__icoBox pt0">
-              <dl class="__dotList bar __fz20 __black">
-                <dt>CEO/Executives</dt>
-                <dd>- Innovative Leaders' Forum – Leadership training for CEOs and executives in the Jeollabuk-do area</dd>
-
-                <dt>Job competence improvement training for employees</dt>
-                <dd>- Jeollabuk-do Innovative Leaders' Forum (2006–2019, held for a total of 115 sessions)<br>
-                  - Local industry-customized HR development project (MOEL, since 2015)<br>
-                  - Work-study balance project (MOEL, since 2014)<br>
-                  - Employer training and paid leave training (MOEL, since 2016)<br>
-                  - Industry-customized specialized workforce cultivation project (MOTIE; carbon materials, parts, and equipment; since 2022)
-                </dd>
-
-                <dt>Training for college students/unemployed college graduates</dt>
-                <dd>- Local industry-customized HR development project (MOEL, since 2015)<br>
-                  - Training for workforce of natural sciences and engineering (MSIT, since 2011)<br>
-                  - Technical workforce training for college students in the province including Jeonbuk National University<br>
-                </dd>
-
-                <dt>Drones, design, big data, smart factories, etc.</dt>
-              </dl>
-            </div>--%>
           <div class="area __mt20">
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG4-1.jpg" alt=""></div><div class="txt">Training for employees</div></div>
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG4-2.jpg" alt=""></div><div class="txt">Paid leave and employer training</div></div>
@@ -230,32 +299,7 @@
         </div>
 
         <div class="__bio3">
-          <!--ppt19-->
           <h4>Employment support project</h4>
-          <%--<div class="__drone5">--%>
-           <%-- <div class="__icoBox pt0">
-              <dl class="__dotList bar __fz20 __black">
-                <dt>Job support programs for youth</dt>
-                <dd>- Natural sciences and engineering: Cultivation of specialized workforce; training including automated facilities, control, and CATIA; and job placement-based support<br>
-                  - Job club: Customized job support for young people’s job clubs, job consulting, etc.<br>
-                  - Hope for youth: Company tours, job placement, youth talk concert, mentoring for competence development, etc.<br>
-                </dd>
-
-                <dt>Support for enterprises’ employment</dt>
-                <dd>- Management and operation of Jeollabuk-do recruitment platforms, operation of leading enterprises’ analysis competition, etc.
-                </dd>
-
-                <dt>• Gunsan Employment Support Center</dt>
-                <dd>- Support for Gunsan’s employment promotion programs, demand-customized job training, and job support
-                </dd>
-
-                <dt>Support project for the preemptive response package for regions facing an employment crisis</dt>
-                <dd>- Provision of subsidies for domestic logistics costs and support for overseas market expansion to diversify customers<br>
-                  - Provision of employment incentives to vitalize newly growing industries such as hydrogen vehicles<br>
-                  - Corporate growth support project to encourage enterprises to employ job seekers
-                </dd>
-              </dl>
-            </div>--%>
           <div class="area __mt20">
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG5-1.jpg" alt=""></div><div class="txt">Job interview</div></div>
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG5-2.jpg" alt=""></div><div class="txt">Jeollabuk-do leading enterprises’ analysis competition</div></div>
@@ -267,29 +311,7 @@
         </div>
 
         <div class="__bio3">
-          <!--ppt20-->
           <h4>Startup assistance</h4>
-          <%--<div class="__drone5">--%>
-            <%--<div class="__icoBox pt0">
-              <dl class="__dotList bar __fz20 __black">
-                <dt>Support project for startups of specialized fields (carbon, future batteries, etc.)</dt>
-                <dd>- Discovery of outstanding ideas (items) of carbon materials (composite materials) and provision of support for business foundation and commercialization<br>
-                  - Carbon-Startup Hacker Road, Startup item contest<br>
-                  - Provision of a commercialization package for outstanding (aspiring) business starters in future battery materials and parts
-                </dd>
-
-                <dt>Maker Space (Jeonju Drone Workshop Wing-Wing Station)</dt>
-                <dd>- Operation of educational and specialized programs to encourage creative/leading maker activities in the drone industry<br>
-                  - Equipment owned: Drones, FUSION 360, 3D printers (FDM, SLA), 3D scanners, etc.
-                </dd>
-
-                <dt>Startup networking program</dt>
-                <dd>- Active exchanges and networking in the startup ecosystem<br>
-                  *Exchange day of startup-associated institutions, IR mastering, crowdfunding program, etc.<br>
-                  - CAMTIC Startup Festival (business starters’ product display, performance exchanges)
-                </dd>
-              </dl>
-            </div>--%>
           <div class="area __mt20">
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG6-1.jpg" alt=""></div><div class="txt">Carbon-Startup Hacker Road</div></div>
             <div class="box"><div class="img"><img src="/images/camtic/businesseENG6-2.jpg" alt=""></div><div class="txt">Startup lecture</div></div>
@@ -305,9 +327,60 @@
           <div class="__tit1 __mt50" >
             <h3><strong>Commercialization of key technologies</strong></h3>
           </div>
-          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_03ENG.png" alt="">
+          </div>--%>
+        <div class="__vision50">
+          <div class="__imgW __imgW3">
+            <div class="wrap">
+              <img src="/images/camtic/img-busi_03.png" alt="">
+              <div class="iw iw1" style="font-size: 22px;"><span>Expertise/Experience in key technology</span></div>
+              <div class="iw iw2" style="font-size: 22px;"><span>Profit making</span></div>
+              <div class="iw iw3" style="font-size: 22px;"><span>Key<br>tech<br>nolo<br>gy</span></div>
+              <div class="iw iw4" style="font-size: 22px;"><span>Com<br>merc<br>ializa<br>tion</span></div>
+              <div class="iw iw5"><span>Drone</span></div>
+              <div class="iw iw6" style="font-size: 16px;"><span>Smart manufacturing</span></div>
+              <div class="iw iw7"><span>Aerospace</span></div>
+
+              <div class="iw iw8" style="font-size: 13px;"><span>Key technology</span></div>
+              <div class="iw iw9 dot tal" style="font-size: 13px;">
+                <ul>
+                  <li>Drone Industry Innovation Support Center</li>
+                  <li>Industrial drone platform</li>
+                  <li>Drone R&D / Product discovery</li>
+                  <li>Drone soccer and contents</li>
+                </ul>
+              </div>
+
+              <div class="iw iw10" style="font-size: 13px;"><span>Key technology</span></div>
+              <div class="iw iw11 dot tal" style="font-size: 13px;">
+                <ul>
+                  <li>Production/Quality innovation</li>
+                  <li>Smart factory</li>
+                  <li>Real-time data monitoring</li>
+                  <li>Optimized adaptive control</li>
+                </ul>
+              </div>
+
+              <div class="iw iw12" style="font-size: 13px;"><span>Key technology</span></div>
+              <div class="iw iw13 dot tal" style="font-size: 12px;">
+                <ul>
+                  <li>Space/Aviation/Defense/<br>Energy</li>
+                  <li>MGSE manufacturing</li>
+                  <li>Aircraft test parts/assembly</li>
+                  <li>Combustion test rig manufacturing</li>
+                </ul>
+              </div>
+
+              <div class="iw iw14"><span>Drone</span></div>
+              <div class="iw iw15" style="font-size: 15px;"><span>Smart manufacturing</span></div>
+              <div class="iw iw16" style="font-size: 15px;"><span>Aerospace</span></div>
+            </div>
           </div>
+        </div>
+
+
+
 
         <div class="__bio3">
           <h4>Aerospace</h4>

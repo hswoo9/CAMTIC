@@ -155,7 +155,7 @@
           <table class="__tblList bd1 bg3 respond2 __mt10">
             <caption></caption>
             <colgroup class="__p">
-              <col style="width:350px;">
+              <col style="width:340px;">
               <col>
             </colgroup>
             <colgroup class="__m">

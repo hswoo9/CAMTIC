@@ -5,24 +5,24 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
-  .__history .area  {margin-top: 50px;}
-  .__history .area .box .top:before {background: none;}
-  .__history .area .box:nth-child(1) .top:after {background:#636363;}
-  .__history .area .box .top{display: flex; justify-content: space-between; flex-direction: row;}
-  .__history .area .box .top .con dl{width:700px;}
-  .__history .area .box .top .con dt{line-height:20px; font-weight: bold; width: 38px;}
-  .__history .area .box .top .con dd{line-height:20px;}
-  .__history .area .box .top .img{width: 300px; margin-top: 0px; display: flex; flex-direction: row; flex-wrap: wrap;}
-  .__history .area .box .top .img img{padding: 5px;}
-  .__history .area .box h4 span{display: inline-block;color: #fff;font-size: 13px;font-weight: 600;line-height: 20px;border-radius: 20px; padding: 0 20px;margin-bottom: 30px;text-align: center;}
+  .__history1 .area  {margin-top: 50px;}
+  .__history1 .area .box .top:before {background: none;}
+  .__history1 .area .box:nth-child(1) .top:after {background:#636363;}
+  .__history1 .area .box .top{display: flex; justify-content: space-between; flex-direction: row;}
+  .__history1 .area .box .top .con dl{width:700px;}
+  .__history1 .area .box .top .con dt{line-height:20px; font-weight: bold; width: 38px;}
+  .__history1 .area .box .top .con dd{line-height:20px;}
+  .__history1 .area .box .top .img{width: 300px; margin-top: 0px; display: flex; flex-direction: row; flex-wrap: wrap;}
+  .__history1 .area .box .top .img img{padding: 5px;}
+  .__history1 .area .box h4 span{display: inline-block;color: #fff;font-size: 13px;font-weight: 600;line-height: 20px;border-radius: 20px; padding: 0 20px;margin-bottom: 30px;text-align: center;}
   .__history {max-width:1130px;margin:0 auto;}
   @media all and (max-width: 1200px) {
-    .__history .area{padding:20px 15px;}
-    .__history .area .box {}
-    .__history .area .box .top {display: grid}
-    .__history .area .box .top .con {width: 100%;}
-    .__history .area .box .top .con dl{width:340px;}
-    .__history .area .box .top .img{margin: 0 auto;}
+    .__history1 .area{padding:20px 15px;}
+    .__history1 .area .box {}
+    .__history1 .area .box .top {display: grid}
+    .__history1 .area .box .top .con {width: 100%;}
+    .__history1 .area .box .top .con dl{width:340px;}
+    .__history1 .area .box .top .img{margin: 0 auto;}
   }
 </style>
 </head>
@@ -35,7 +35,7 @@
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
-        <div class="__history">
+        <div class="__history1">
           <div class="__tit1 __mt0">
             <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>History</strong></h4>
           </div>

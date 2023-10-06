@@ -921,6 +921,46 @@ img {max-width:100%;}
 	.__history .area .box .top:after {display:none !important;}
 }
 
+.__history1 .head {margin-bottom:120px;background:#41ace0;color:#fff;font-size:22px;font-weight:600;letter-spacing:-0.05em;text-align:center;line-height:1.2;padding:13px;border-radius:26px;font-weight:200;}
+.__history1 .area {display:flex;}
+.__history1 .area .box {width:0;flex-grow:1;}
+.__history1 .area .box .top {border-right:1px solid #ccc;position:relative;padding:0 15px 70px;height:380px;display:flex;flex-direction:column;justify-content:space-between;}
+.__history1 .area .box .top:before {content:"";display:block;width:16px;height:16px;border-radius:50%;position:absolute;right:-8px;bottom:-8px;background:#305c9a;}
+
+.__history1 .area .box .top h4 span {display:inline-block;color:#fff;font-size:13px;font-weight:600;background:#41ace0;line-height:20px;border-radius:10px;padding:0 10px;}
+.__history1 .area .box .con dl {display:flex;font-size:16px;line-height:1.2;color:#252525;letter-spacing:-0.05em;}
+.__history1 .area .box .con dl ~ dl {margin-top:20px;}
+.__history1 .area .box .con dl dt {margin-right:5px;}
+.__history1 .area .box .con dl dd {width:0;flex-grow:1;}
+.__history1 .area .box .con .blue {font-size:18px;font-weight:600;color:#305c9a;}
+.__history1 .area .box .img {margin-top:40px;}
+.__history1 .area .box .img img {display:block;width:100%;}
+.__history1 .area .box .txt {margin-top:13px;font-size:18px;font-weight:500;color:#111;letter-spacing:-0.05em;}
+
+.__history1 .area .box:nth-child(1) .top {border-left:1px solid #ccc;}
+.__history1 .area .box:nth-child(1) .top:after {content:"";display:block;width:16px;height:16px;border-radius:50%;position:absolute;left:-8px;bottom:-8px;background:#41ace0;}
+.__history1 .area .box:nth-child(2) .top:before {background:#25dfce;}
+.__history1 .area .box:nth-child(3) .top:before {background:#636363;}
+.__history1 .area .box:nth-child(2) .top h4 span {background:#305c9a;}
+.__history1 .area .box:nth-child(3) .top h4 span {background:#24e1cd;}
+
+@media all and (max-width:1024px){
+	.__history1 .head {margin-bottom:30px;font-size:16px;padding:10px;border-radius:0;}
+	.__history1 .head strong {display:block;}
+	.__history1 .area {display:block;}
+	.__history1 .area .box {width:auto;}
+	.__history1 .area .box ~ .box {margin-top:30px;}
+	.__history1 .area .box .top {border:none !important;padding:0;height:auto;display:block;}
+	.__history1 .area .box .top:before {display:none !important;}
+	.__history1 .area .box .con {margin-top:15px;}
+	.__history1 .area .box .con dl {font-size:13px;}
+	.__history1 .area .box .con dl ~ dl {margin-top:10px;}
+	.__history1 .area .box .con .blue {font-size:15px;}
+	.__history1 .area .box .img {margin-top:20px;}
+	.__history1 .area .box .txt {margin-top:10px;font-size:14px;}
+	.__history1 .area .box:nth-child(1) .top:after {display:none;}
+	}
+
 /*조직.연락처 좌우 마진 값 0으로 변경 타이틀 위치 네비위치와 비슷하게 수정- */
 .__organization {/*background:#f2fcfe;*/background:#fff;padding:60px 0px 100px;text-align:center;/*border-bottom:1px solid #ccc;*/}
 .__organization .tit dt {font-size:46px;color:#111;font-weight:300;letter-spacing:-0.05em;}
@@ -1978,7 +2018,7 @@ img {max-width:100%;}
 .__tdrone4 .tit h3 {font-size:30px;line-height:1.25;color:#000;letter-spacing:-0.05em;}
 .__tdrone4 .tit dl {margin-top:50px;}
 .__tdrone4 .tit dl dt {font-size:20px;line-height:1.4;font-weight:600;color:#000;letter-spacing:-0.05em;}
-.__tdrone4 .tit dl dd {font-size:18px;line-height:1.33;font-weight:200;margin-top:15px;letter-spacing:-0.05em;}
+.__tdrone4 .tit dl dd {font-size:18px;color:#000;line-height:1.33;margin-top:15px;letter-spacing:-0.05em;}
 .__tdrone4 .img {width:850px; margin:0 auto; padding-top:50px; /*text-align:center;*/}
 /*.__tdrone4 .img img {display:block;width:100%;}*/
 .__tdrone4.type2 .tit {padding:30px 40px;}
