@@ -26,7 +26,7 @@ public class EmployeeController {
     private UserService userService;
 
     //참여율신청목록
-    @RequestMapping("/Inside/participationRateList.do")
+    @RequestMapping("/inside/participationRateList.do")
     public String participationRateList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");

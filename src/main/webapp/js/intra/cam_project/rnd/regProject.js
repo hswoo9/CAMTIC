@@ -105,9 +105,13 @@ var regRnd = {
             var tabStrip = $("#tabstrip").data("kendoTabStrip");
             tabStrip.enable(tabStrip.tabGroup.children());
 
-            tabStrip.select(0);
+            if($("#tab").val() != null && $("#tab").val() != ""){
+                tabStrip.select($("#tab").val());
+            } else {
+                tabStrip.select(0);
+            }
             tabStrip.disable(tabStrip.tabGroup.children().eq(7));
-            tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+            // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
             regRnd.fn_setData(setParameters);
         }
 

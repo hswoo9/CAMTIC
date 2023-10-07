@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.common.repository.CommonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -156,6 +157,54 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void setDelvApprove(Map<String, Object> params) {
         projectRndRepository.setDelvApprove(params);
         projectRndRepository.updRndProjectInfo(params);
+    }
+
+    @Override
+    public void setReqPartRateData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+
+        if(!params.containsKey("partRateSn")){
+            projectRndRepository.insReqPartRateData(params);
+            projectRndRepository.insReqPartRateVerData(params);
+        } else {
+            projectRndRepository.updReqPartRateData(params);
+        }
+
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        if(fileList.length > 0){
+            params.put("menuCd", "rndPartRate");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("partRateSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getReqPartRateData(Map<String, Object> params) {
+        return projectRndRepository.getReqPartRateData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getFileList(Map<String, Object> params) {
+        params.put("contentId", params.get("PART_RATE_SN"));
+        params.put("fileCd", "rndPartRate");
+
+        return commonRepository.getFileList(params);
+    }
+
+    @Override
+    public void setPartRateRequest(Map<String, Object> params) {
+        projectRndRepository.setPartRateRequest(params);
     }
 }
 

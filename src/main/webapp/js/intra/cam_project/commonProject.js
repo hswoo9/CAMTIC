@@ -168,3 +168,9 @@ function fnDirectSearchCommonCode(params, paramData){
         }
     });
 }
+
+function fileDown(filePath, fileName){
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
+}
