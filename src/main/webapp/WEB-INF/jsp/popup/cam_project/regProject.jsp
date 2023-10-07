@@ -77,10 +77,10 @@
             </h3>
 
             <div class="btn-st popButton">
-                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regPrj.fn_stopModal()" /> 중단</button>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regPrj.fn_save()">저장</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regPrj.fn_mod()">수정</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
+                <button type="button" id="stopBtn" class="k-button k-button-solid-error" style="display: none;" onclick="regPrj.fn_stopModal()"> 중단</button>
+                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
         <div id="vEngi" style="padding: 20px 30px;display: none;">

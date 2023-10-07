@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/deptListPop.js?v=6'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/deptListPop.js?v=7'/>"></script>
 <%--<script type="text/javascript" src="<c:url value='/js/intra/common/popup/deptMultiPop.js?v="${toDate}"'/>"></script>--%>
 <link rel="stylesheet" href="/css/intra/popup/approvalLineSettingPop.css">
 
@@ -13,6 +13,7 @@
 	<a href="#n" class="clo"><img src="<c:url value='/images/btn/btn_pop_clo01.png'/>" alt=""></a>
 </div>
 <div style="padding: 20px">
+    <input type="hidden" id="status" name="status" value="${params.params}" />
 	<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 	<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 	<table style="padding: 20px;">

@@ -74,4 +74,23 @@ public class ProjectRndRepository extends AbstractDAO {
         return selectList("projectRnd.getDevSchInfo", params);
     }
 
+    public Map<String, Object> getRndDetail(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectRnd.getRndDetail", params);
+    }
+
+    public void insRndDetail(Map<String, Object> params) {
+        insert("projectRnd.insRndDetail", params);
+    }
+
+    public void updRndDetail(Map<String, Object> params) {
+        update("projectRnd.updRndDetail", params);
+    }
+
+    public void setDelvApprove(Map<String, Object> params) {
+        update("projectRnd.setDelvApprove", params);
+    }
+
+    public void updRndProjectInfo(Map<String, Object> params) {
+        update("projectRnd.updRndProjectInfo", params);
+    }
 }

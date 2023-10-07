@@ -119,15 +119,15 @@
                             <col width="11%">
                         </colgroup>
                         <tr>
-                            <td colspan="6" style="text-align: center; background-color: #FCF5E7">정부사업</td>
-                            <td colspan="6" style="text-align: center; background-color: #FCF5E7">민간사업</td>
-                            <td colspan="2" rowspan="3" style="text-align: center; background-color: #EFF6E7">합계</td>
+                            <td colspan="6" style="text-align: center; background-color: #FCF5E7"><b>정부사업</b></td>
+                            <td colspan="6" style="text-align: center; background-color: #FCF5E7"><b>민간사업</b></td>
+                            <td colspan="2" rowspan="3" style="text-align: center; background-color: #EFF6E7"><b>합계</b></td>
                         </tr>
                         <tr>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">R&D</td>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">비R&D</td>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">엔지니어링</td>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7">용역/기타</td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>R&D</b></td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>비R&D</b></td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>엔지니어링</b></td>
+                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>용역/기타</b></td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: center; background-color: #FFFFFF">정부/지자체 R&D</td>
@@ -152,8 +152,8 @@
                             <td style="text-align: right; background-color: #FFFFFF">3건</td>
                             <td style="text-align: right; background-color: #FFFFFF">481백만원</td>
 
-                            <td style="text-align: right; background-color: #EFF6E7">11건</td>
-                            <td style="text-align: right; background-color: #EFF6E7">10,565백만원</td>
+                            <td style="text-align: right; background-color: #EFF6E7"><b>11건</b></td>
+                            <td style="text-align: right; background-color: #EFF6E7"><b>10,565백만원</b></td>
                         </tr>
                         <tr>
                             <td style="text-align: center; background-color: #FFFFFF">진행</td>
@@ -172,8 +172,8 @@
                             <td style="text-align: right; background-color: #FFFFFF">3건</td>
                             <td style="text-align: right; background-color: #FFFFFF">1714백만원</td>
 
-                            <td style="text-align: right; background-color: #EFF6E7">71건</td>
-                            <td style="text-align: right; background-color: #EFF6E7">18,703백만원</td>
+                            <td style="text-align: right; background-color: #EFF6E7"><b>71건</b></td>
+                            <td style="text-align: right; background-color: #EFF6E7"><b>18,703백만원</b></td>
                         </tr>
                         <tr>
                             <td style="text-align: center; background-color: #FFFFFF">완료</td>
@@ -192,28 +192,28 @@
                             <td style="text-align: right; background-color: #FFFFFF">1건</td>
                             <td style="text-align: right; background-color: #FFFFFF">58백만원</td>
 
-                            <td style="text-align: right; background-color: #EFF6E7">28건</td>
-                            <td style="text-align: right; background-color: #EFF6E7">1,814백만원</td>
+                            <td style="text-align: right; background-color: #EFF6E7"><b>28건</b></td>
+                            <td style="text-align: right; background-color: #EFF6E7"><b>1,814백만원</b></td>
                         </tr>
                         <tr>
-                            <td style="text-align: center; background-color: #F4DDED">합계</td>
-                            <td style="text-align: right; background-color: #F4DDED">43건</td>
-                            <td style="text-align: right; background-color: #F4DDED">6,821백만원</td>
+                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>43건</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"></b>6,821백만원<b></td>
 
-                            <td style="text-align: center; background-color: #F4DDED">합계</td>
-                            <td style="text-align: right; background-color: #F4DDED">13건</td>
-                            <td style="text-align: right; background-color: #F4DDED">10,614백만원</td>
+                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>13건</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>10,614백만원</b></td>
 
-                            <td style="text-align: center; background-color: #F4DDED">합계</td>
-                            <td style="text-align: right; background-color: #F4DDED">47건</td>
-                            <td style="text-align: right; background-color: #F4DDED">9,638백만원</td>
+                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>47건</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>9,638백만원</b></td>
 
-                            <td style="text-align: center; background-color: #F4DDED">합계</td>
-                            <td style="text-align: right; background-color: #F4DDED">7건</td>
-                            <td style="text-align: right; background-color: #F4DDED">2,195백만원</td>
+                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>7건</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>2,195백만원</b></td>
 
-                            <td style="text-align: right; background-color: #F4DDED">110건</td>
-                            <td style="text-align: right; background-color: #F4DDED">31,082백만원</td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>110건</b></td>
+                            <td style="text-align: right; background-color: #F4DDED"><b>31,082백만원</b></td>
                         </tr>
                     </thead>
                 </table>

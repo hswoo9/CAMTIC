@@ -329,7 +329,11 @@ var camPrj = {
                                 pjtStepNm = "원가보고";
                             }
                         } else if (e.BUSN_CLASS = "R") {
-                            var pjtStepNm = "예상수주";
+                            if(e.PJT_STEP == "R"){
+                                pjtStepNm = "예상수주";
+                            } else if(e.PJT_STEP == "R2"){
+                                pjtStepNm = "수주보고";
+                            }
                         }
 
                         return pjtStepNm;
@@ -492,7 +496,7 @@ var camPrj = {
         if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
         }
-        var name = "_blank";
+        var name = "blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);

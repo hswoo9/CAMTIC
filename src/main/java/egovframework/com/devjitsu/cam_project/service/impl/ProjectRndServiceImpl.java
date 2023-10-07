@@ -137,5 +137,25 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         return path;
 
     }
+
+    @Override
+    public Map<String, Object> getRndDetail(Map<String, Object> params) {
+        return projectRndRepository.getRndDetail(params);
+    }
+
+    @Override
+    public void setRndDetail(Map<String, Object> params) {
+        if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
+            projectRndRepository.insRndDetail(params);
+        } else {
+            projectRndRepository.updRndDetail(params);
+        }
+    }
+
+    @Override
+    public void setDelvApprove(Map<String, Object> params) {
+        projectRndRepository.setDelvApprove(params);
+        projectRndRepository.updRndProjectInfo(params);
+    }
 }
 

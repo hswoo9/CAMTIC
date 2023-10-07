@@ -36,18 +36,19 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/researcherInfo.do";          // 연구원관리
+        var tab0Url = "/projectRnd/detailInfo.do";              // 상세정보 (수주)
         var tab1Url = "/projectRnd/researcherInfo.do";          // 연구원관리
-        var tab2Url = "/projectRnd/rndDevPlan.do";              // 개발계획
-        var tab3Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
-        var tab4Url = "/projectRnd/rndDevJob.do";               // 개발일지
+        var tab2Url = "/projectRnd/reqPartRate.do";             // 참여율요청
+        var tab3Url = "/projectRnd/partRate.do";                // 참여율관리
 
-        var tab5Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
-        var tab6Url = "/projectRnd/budgetInfo.do";              // 예산관리
-        var tab7Url = "/projectRnd/rschPayReqInfo.do";          // 연구비신청
-        var tab8Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
+        var tab4Url = "/projectRnd/rndDevPlan.do";              // 개발계획
+        var tab5Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
+        var tab6Url = "/projectRnd/rndDevJob.do";               // 개발일지
 
-        var tab9Url = "/intra/cam_project/b.do";                // 참여율 -- 인사이드 참여율 완성 후 작업
+        var tab7Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
+        var tab8Url = "/projectRnd/budgetInfo.do";              // 예산관리
+        var tab9Url = "/projectRnd/rschPayReqInfo.do";          // 연구비신청
+        // var tab9Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
 
         var tab10Url = "/intra/cam_project/teamInfo.do";         // 협업관리
         var tab11Url= "/intra/cam_project/purcInfo.do";         // 구매관리
@@ -81,14 +82,15 @@ var regRnd = {
             dataSource : [
                 {name: "등록정보", url: tab0Url},
                 {name: "연구원관리", url: tab1Url},
-                {name: "개발계획", url: tab2Url},
-                {name: "개발일정", url: tab3Url},
-                {name: "개발일지", url: tab4Url},
+                {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
+                {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
+                {name: "개발계획", url: tab4Url},
+                {name: "개발일정", url: tab5Url},
+                {name: "개발일지", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
-                {name: "예산현황", url: tab6Url},        // 연구비 입금처리와 같이 사용
-                {name: "지급관리", url: tab7Url},
+                {name: "예산현황", url: tab7Url},        // 연구비 입금처리와 같이 사용
+                {name: "지급관리", url: tab8Url},
                 // {name: "연구비정산", url: tab8Url},
-                {name: "참여율관리", url: tab9Url},      // 지출내역조회와 같이 사용
                 {name: "협업관리", url: tab10Url},
                 {name: "구매관리", url: tab11Url}
             ],
@@ -108,6 +110,17 @@ var regRnd = {
             tabStrip.disable(tabStrip.tabGroup.children().eq(8));
             regRnd.fn_setData(setParameters);
         }
+
+        $(".k-tabstrip-items").on("dblclick", function(){
+            if($("#viewStat").val() == "Y"){
+                $("#mainTable").css("display", "none");
+                $("#viewStat").val("N");
+            }else{
+                $("#mainTable").css("display", "");
+                $("#viewStat").val("Y");
+            }
+
+        });
     },
 
     fn_setData: function (e){
