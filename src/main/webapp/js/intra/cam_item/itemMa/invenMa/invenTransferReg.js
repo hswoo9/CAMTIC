@@ -10,7 +10,6 @@ var invenTr = {
     },
     
     fn_defaultScript : function(){
-        invenTr.global.wTDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WT", lgCd : "WT"});
         invenTr.global.wCDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
 
         // invenTr.setMakeTable();
@@ -51,33 +50,35 @@ var invenTr = {
         html = "" +
             '<tr class="itransInfo ' + e + 'ItransInfo" id="it' + invenTr.global.invenTransferIndex + '">' +
                 '<td style="text-align: right">' +
+                    '<input type="hidden" id="invenTransSn' + invenTr.global.invenTransferIndex + '" class="invenTransSn">' +
                     '<input type="hidden" id="invenSn' + invenTr.global.invenTransferIndex + '" class="invenSn">' +
                     '<input type="hidden" id="itemNo' + invenTr.global.invenTransferIndex + '" class="itemNo">' +
                     '<input type="hidden" id="itemName' + invenTr.global.invenTransferIndex + '" class="itemName">' +
                     '<input type="hidden" id="currentInven' + invenTr.global.invenTransferIndex + '" class="currentInven">' +
-                    '<div id="itemNoTxt' + invenTr.global.invenTransferIndex + '" name="itemNoTxt' + invenTr.global.invenTransferIndex + '" style="float: left;margin-top: 5px;"></div>' +
-                    '<button type="button" id="itemSelBtn' + invenTr.global.invenTransferIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">선택</button>' +
+                    '<input type="hidden" id="forwardingWhCd' + invenTr.global.invenTransferIndex + '" class="forwardingWhCd">' +
+                    '<div id="itemNoTxt' + invenTr.global.invenTransferIndex + '" class="itemNoTxt" style="float: left;margin-top: 5px;"></div>' +
+                    '<button type="button" id="itemSelBtn' + invenTr.global.invenTransferIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<span id="itemNameTxt' + invenTr.global.invenTransferIndex + '" name="itemNameTxt' + invenTr.global.invenTransferIndex + '"></span>' +
+                    '<span id="itemNameTxt' + invenTr.global.invenTransferIndex + '" class="itemNameTxt"></span>' +
                 '</td>' +
                 '<td style="text-align: right">' +
-                    '<span id="currentInvenTxt' + invenTr.global.invenTransferIndex + '" name="currentInvenTxt' + invenTr.global.invenTransferIndex + '"></span>' +
+                    '<span id="currentInvenTxt' + invenTr.global.invenTransferIndex + '" class="currentInvenTxt"></span>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="transferQty' + invenTr.global.invenTransferIndex + '" name="transferQty' + invenTr.global.invenTransferIndex + '" class="numBerInput" style="text-align: right" value="0" oninput="invenTr.maxCurrentInvenChk(this, ' + invenTr.global.invenTransferIndex + ')">' +
+                    '<input type="text" id="transferQty' + invenTr.global.invenTransferIndex + '" class="transferQty numBerInput" style="text-align: right" value="0" oninput="invenTr.maxCurrentInvenChk(this, ' + invenTr.global.invenTransferIndex + ')">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="forwardingWhCd' + invenTr.global.invenTransferIndex + '" name="forwardingWhCd' + invenTr.global.invenTransferIndex + '">' +
+                    '<span id="forwardingWhCdTxt' + invenTr.global.invenTransferIndex + '" class="forwardingWhCdTxt"></span>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="receivingWhCd' + invenTr.global.invenTransferIndex + '" name="receivingWhCd' + invenTr.global.invenTransferIndex + '">' +
+                    '<input type="text" id="receivingWhCd' + invenTr.global.invenTransferIndex + '" class="receivingWhCd">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="rmk' + invenTr.global.invenTransferIndex + '" name="rmk' + invenTr.global.invenTransferIndex + '">' +
+                    '<input type="text" id="rmk' + invenTr.global.invenTransferIndex + '" class="rmk">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="k-button k-button-solid-error" inventransNum="' + invenTr.global.invenTransferIndex + '" onclick="invenTr.delRow(this)">삭제</button>' +
+                    '<button type="button" class="k-button k-button-solid-error inventransNum" inventransNum="' + invenTr.global.invenTransferIndex + '" onclick="invenTr.delRow(this)">삭제</button>' +
                 '</td>' +
             '</tr>';
 
@@ -89,10 +90,40 @@ var invenTr = {
             $(this).val(invenTr.comma(invenTr.uncomma($(this).val())));
         });
 
-        customKendo.fn_dropDownList("forwardingWhCd" + invenTr.global.invenTransferIndex, invenTr.global.wCDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
         customKendo.fn_dropDownList("receivingWhCd" + invenTr.global.invenTransferIndex, invenTr.global.wCDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
 
         invenTr.global.invenTransferIndex++;
+    },
+
+    delRow : function(e){
+        if(confirm("삭제하시겠습니까?")){
+            $(e).closest("tr").remove();
+            invenTr.global.invenTransferIndex--;
+            invenTr.rowAttrOverride();
+        }
+    },
+
+    rowAttrOverride : function(){
+        $.each($(".itransInfo"), function(i, v){
+            $(this).attr("id", "it" + i);
+            $(this).find(".invenTransSn").attr("id", "invenTransSn" + i);
+            $(this).find(".invenSn").attr("id", "invenSn" + i);
+            $(this).find(".itemNo").attr("id", "itemNo" + i);
+            $(this).find(".itemName").attr("id", "itemName" + i);
+            $(this).find(".currentInven").attr("id", "currentInven" + i);
+            $(this).find(".forwardingWhCd").attr("id", "forwardingWhCd" + i);
+            $(this).find(".itemNoTxt").attr("id", "itemNoTxt" + i);
+
+            $(this).find(".itemSelBtn").attr("id", "itemSelBtn" + i);
+            $(this).find(".itemNameTxt").attr("id", "itemNameTxt" + i);
+            $(this).find(".currentInvenTxt").attr("id", "currentInvenTxt" + i);
+            $(this).find("input.transferQty").attr("id", "transferQty" + i);
+            $(this).find(".forwardingWhCdTxt").attr("id", "forwardingWhCdTxt" + i);
+
+            $(this).find("input.receivingWhCd").attr("id", "receivingWhCd" + i);
+            $(this).find(".rmk").attr("id", "rmk" + i);
+            $(this).find(".inventransNum").attr("inventransNum", i);
+        })
     },
 
     maxCurrentInvenChk : function(i, e){
@@ -126,17 +157,17 @@ var invenTr = {
                     var list = result.list;
                     for(var i = 0; i < list.length; i++){
                         invenTr.addRow('new');
-                        $("#it" + i).find("#crmSn" + i).val(list[i].crmSn);
-                        $("#it" + i).find("#crmNm" + i).val(list[i].crmNm);
-                        $("#it" + i).find("#itemNo" + i).val(list[i].itemNo);
-                        $("#it" + i).find("#itemName" + i).val(list[i].itemName);
-                        $("#it" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].whType);
-                        $("#it" + i).find("#whVolume" + i).val(invenTr.comma(list[i].whVolume));
-                        $("#it" + i).find("#whWeight" + i).val(invenTr.comma(list[i].whWeight));
-                        $("#it" + i).find("#unitPrice" + i).val(invenTr.comma(list[i].unitPrice));
-                        $("#it" + i).find("#amt" + i).val(invenTr.comma(list[i].amt));
-                        $("#it" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].whCd);
-                        $("#it" + i).find("#rmk" + i).val(list[i].rmk);
+                        // $("#it" + i).find("#crmSn" + i).val(list[i].crmSn);
+                        // $("#it" + i).find("#crmNm" + i).val(list[i].crmNm);
+                        // $("#it" + i).find("#itemNo" + i).val(list[i].itemNo);
+                        // $("#it" + i).find("#itemName" + i).val(list[i].itemName);
+                        // $("#it" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].whType);
+                        // $("#it" + i).find("#whVolume" + i).val(invenTr.comma(list[i].whVolume));
+                        // $("#it" + i).find("#whWeight" + i).val(invenTr.comma(list[i].whWeight));
+                        // $("#it" + i).find("#unitPrice" + i).val(invenTr.comma(list[i].unitPrice));
+                        // $("#it" + i).find("#amt" + i).val(invenTr.comma(list[i].amt));
+                        // $("#it" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].whCd);
+                        // $("#it" + i).find("#rmk" + i).val(list[i].rmk);
                     }
                 }
             }
@@ -151,9 +182,9 @@ var invenTr = {
 
         var flag = true;
         $.each($(".itransInfo"), function(i, v){
-            if(!$(this).find("#crmSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#whType" + i).val()
-                || !$(this).find("#whVolume" + i).val() || !$(this).find("#whWeight" + i).val() || !$(this).find("#whCd" + i).val() || !$(this).find("#unitPrice" + i).val()
-                || !$(this).find("#amt" + i).val()){
+
+            if(!$(this).find("#invenSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#currentInven" + i).val()
+                || !$(this).find("#forwardingWhCd" + i).val() || !$(this).find("#transferQty" + i).val() || !$(this).find("#receivingWhCd" + i).val()){
                 flag = false;
             }
 
@@ -171,24 +202,22 @@ var invenTr = {
             var newRateArr = new Array();
             var oldRateArr = new Array();
 
-            $.each($(".whInfo"), function(i, v){
+            $.each($(".itransInfo"), function(i, v){
                 var arrData = {
-                    crmSn : $(this).find("#crmSn" + i).val(),
-                    itemWhSn : $(this).find("#itemWhSn" + i).val(),
+                    forwardingDate : $("#forwardingDate").val(),
+                    invenTransSn : $(this).find("#invenTransSn" + i).val(),
+                    invenSn : $(this).find("#invenSn" + i).val(),
                     itemNo : $(this).find("#itemNo" + i).val(),
                     itemName : $(this).find("#itemName" + i).val(),
-                    whType : $(this).find("#whType" + i).val(),
-                    whVolume : invenTr.uncomma($(this).find("#whVolume" + i).val()),
-                    whWeight : invenTr.uncomma($(this).find("#whWeight" + i).val()),
-                    whCd : $(this).find("#whCd" + i).val(),
-                    whDt : $("#whDt").val(),
-                    unitPrice : invenTr.uncomma($(this).find("#unitPrice" + i).val()),
-                    amt : invenTr.uncomma($(this).find("#amt" + i).val()),
+                    currentInven : $(this).find("#currentInven" + i).val(),
+                    transferQty : invenTr.uncomma($(this).find("#transferQty" + i).val()),
+                    forwardingWhCd : $(this).find("#forwardingWhCd" + i).val(),
+                    receivingWhCd : $(this).find("#receivingWhCd" + i).val(),
                     rmk : $(this).find("#rmk" + i).val(),
                     empSeq : $("#regEmpSeq").val()
                 }
 
-                if($(this).hasClass("newWhInfo")){
+                if($(this).hasClass("newItransInfo")){
                     newRateArr.push(arrData);
                 }else{
                     oldRateArr.push(arrData);
@@ -200,7 +229,7 @@ var invenTr = {
                 oldRateArr : JSON.stringify(oldRateArr)
             }
 
-            var result = customKendo.fn_customAjax("/item/setReceivingReg.do", invenTr.global.saveAjaxData)
+            var result = customKendo.fn_customAjax("/item/setInvenTransferReg.do", invenTr.global.saveAjaxData)
             if(result.flag){
                 alert("저장되었습니다.");
                 invenTr.global.invenTransferIndex = 0;
@@ -223,10 +252,12 @@ var invenTr = {
         $("#itemNo" + invenTr.global.invenSnIndex).val($("#itemNo").val())
         $("#itemName" + invenTr.global.invenSnIndex).val($("#itemName").val())
         $("#currentInven" + invenTr.global.invenSnIndex).val($("#currentInven").val())
+        $("#forwardingWhCd" + invenTr.global.invenSnIndex).val($("#whCd").val())
 
         $("#itemNoTxt" + invenTr.global.invenSnIndex).text($("#itemNo").val())
         $("#itemNameTxt" + invenTr.global.invenSnIndex).text($("#itemName").val())
         $("#currentInvenTxt" + invenTr.global.invenSnIndex).text(invenTr.comma($("#currentInven").val()))
+        $("#forwardingWhCdTxt" + invenTr.global.invenSnIndex).text($("#whCdNm").val())
 
         $("#invenSn").val("")
         $("#itemNo").val("")

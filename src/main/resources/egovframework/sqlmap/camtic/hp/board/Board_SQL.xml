@@ -120,6 +120,23 @@
             ACTIVE = 'Y'
     </select>
 
+    <select id="selectNewsBoard" resultType="map" parameterType="map">
+        SELECT
+            DNB.*
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
+        LEFT JOIN
+            CAM_COMMON.DJ_NEWS_BOARD DNB
+        ON DBA.BOARD_ARTICLE_ID = DNB.FR_KEY
+        WHERE
+            BOARD_CATEGORY_ID = 'news'
+          AND
+            BOARD_ARTICLE_ID = #{boardArticleId}
+          AND
+            ACTIVE = 'Y'
+        ORDER BY DNB.INDEX_NUM
+    </select>
+
     <select id="selectBoardFile" resultType="map" parameterType="map">
         SELECT
             *
@@ -143,9 +160,13 @@
 
     <insert id="insertBoard" parameterType="map">
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
-            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, BOARD_ARTICLE_HASHTAG, REG_EMP_NAME, START_DT, END_DT)
+            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME
+            <if test="category == 'business'">, START_DT, END_DT</if>
+            )
         VALUE
-            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{hashText}, #{writer}, #{startDt}, #{endDt})
+            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{writer}
+            <if test="category == 'business'">, #{startDt}, #{endDt}</if>
+            )
 
         <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_BOARD_ARTICLE'
@@ -158,7 +179,6 @@
             BOARD_ARTICLE_TITLE = #{noticeTitle},
             BOARD_ARTICLE_CONTENT_URL = #{urlText},
             BOARD_ARTICLE_CONTENT = #{content},
-            BOARD_ARTICLE_HASHTAG = #{hashText},
             START_DT = #{startDt},
             END_DT = #{endDt}
         WHERE
@@ -180,4 +200,24 @@
           AND
             BOARD_CATEGORY_ID = #{category}
     </update>
+
+    <select id="checkNews" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_COMMON.DJ_NEWS_BOARD
+        WHERE
+            FR_KEY = #{frKey}
+    </select>
+
+    <insert id="insertNews" parameterType="map">
+        INSERT INTO CAM_COMMON.DJ_NEWS_BOARD
+            (FR_KEY, GROUP_KEY, LINK_KEY, INDEX_NUM, CONTENT, TITLE, LINK)
+        VALUES
+            (#{frKey}, #{groupKey}, #{linkKey}, #{index}, #{contents}, #{title}, #{link})
+    </insert>
+
+    <delete id="deleteNews" parameterType="map">
+        DELETE FROM CAM_COMMON.DJ_NEWS_BOARD WHERE FR_KEY = #{frKey}
+    </delete>
 </mapper>

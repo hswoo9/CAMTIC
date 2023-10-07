@@ -95,14 +95,16 @@ var popItemInvenList = {
         if(result.flag){
             var rs = result.rs;
             console.log(rs);
-
             opener.parent.$("#invenSn").val(rs.INVEN_SN);
             opener.parent.$("#itemNo").val(rs.ITEM_NO);
             opener.parent.$("#itemName").val(rs.ITEM_NAME);
             opener.parent.$("#currentInven").val(rs.CURRENT_INVEN);
+            opener.parent.$("#whCd").val(rs.WH_CD);
+            opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
+
             opener.parent.$("#invenSn").change();
 
-            // window.close();
+            window.close();
         }
     },
 

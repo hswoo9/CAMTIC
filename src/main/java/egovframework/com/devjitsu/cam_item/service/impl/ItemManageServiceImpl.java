@@ -213,6 +213,22 @@ public class ItemManageServiceImpl implements ItemManageService {
         return itemManageRepository.getItemInven(params);
     }
 
+    @Override
+    public void setInvenTransferReg(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> newRateArr = gson.fromJson((String) params.get("newRateArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(newRateArr.size() > 0){
+            params.put("newRateArr", newRateArr);
+            itemManageRepository.setInvenTransferReg(params);
+        }
+        List<Map<String, Object>> oldRateArr = gson.fromJson((String) params.get("oldRateArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oldRateArr.size() > 0){
+            for(Map<String, Object> map : oldRateArr){
+                itemManageRepository.setInvenTransferRegUpd(map);
+            }
+        }
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 
