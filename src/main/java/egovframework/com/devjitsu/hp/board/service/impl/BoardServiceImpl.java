@@ -2,6 +2,8 @@ package egovframework.com.devjitsu.hp.board.service.impl;
 
 
 import dev_jitsu.MainLib;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.hp.board.repository.BoardRepository;
@@ -18,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -142,6 +145,7 @@ public class BoardServiceImpl implements BoardService {
     public void updateBoard(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
+
         boardRepository.updateBoard(params);
 
         /*List<Map<String, Object>> chkList = boardRepository.selectBoardFile(params);
@@ -166,13 +170,16 @@ public class BoardServiceImpl implements BoardService {
             commonRepository.insFileInfo(list);
         }
 
+
         //뉴스게시판 업데이트는 DELETE --> INSERT로 이루어진다.
-        /*if(params.get("menuCd").equals("news")){
+        if(params.get("menuCd").equals("news")){
             Map<String, Object> frKeyMap = new HashMap<>();
             frKeyMap.put("frKey", params.get("boardArticleId"));
 
             boardRepository.deleteNews(frKeyMap);
 
+            /*Gson gson = new Gson();
+            List<Map<String, Object>> linkInfo = gson.fromJson((String) params.get("linkInfo"), new TypeToken<List<Map<String, Object>>>() {}.getType());*/
             int cnt = Integer.parseInt(String.valueOf(params.get("num")));
 
             for(int x=1; x <= cnt; x++){
@@ -187,7 +194,7 @@ public class BoardServiceImpl implements BoardService {
 
                 boardRepository.insertNews(newsMap);
             }
-        }*/
+        }
 
     }
 

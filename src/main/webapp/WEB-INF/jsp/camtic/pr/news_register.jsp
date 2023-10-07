@@ -497,13 +497,7 @@
   //저장
   function fn_updNotice(){
     var content = CKEDITOR.instances.contents.getData();
-    var saveFlag = false;
     var linkFlag = true;
-
-    var linkLst = [];
-    var contentLst = [];
-    var data = {};
-    var data2 = {};
 
     if($("#noticeTitle").val() == ""){
       alert("제목을 입력해주세요.");
@@ -542,42 +536,31 @@
     }
 
 
+    var cnt = 0;
     $("div[name='linkDiv']").each(function(){
-
+      cnt += 1;
       let number = $(this).data("number");
 
-        var instanceName = "linkText" + number;
-        var instanceName2 = "linkKey" + number;
-        var instanceLink = $("#" + instanceName).val();
-        var instanceLinkKey = $("#" + instanceName2).val();
+      var instanceLinkKey = "linkText" + cnt;
+      var instanceLinkKey2 = "linkKey" + cnt;
+      var instanceLinkValue = $("#linkText" + number).val();
+      var instanceLinkValue2 = $("#linkKey" + number).val();
 
-        if(instanceLink == ""){
-          $("#" + instanceName).focus();
-          linkFlag = false;
-          return false;
-        }
+      if(instanceLinkValue == ""){
+        $("#" + instanceLinkKey).focus();
+        linkFlag = false;
+        return false;
+      }
 
-        data = {};
-        data[instanceName] = instanceLink;
-        data[instanceName2] = instanceLinkKey;
+      formData.append(instanceLinkKey, instanceLinkValue);
+      formData.append(instanceLinkKey2, instanceLinkValue2);
 
-        linkLst.push(data);
+      var instanceContentKey = "contents" + cnt;
+      var instanceContent = "contents" + number;
+      var instanceContentValue = CKEDITOR.instances[instanceContent].getData();
 
-        // formData.append(instanceName, instanceLink);
-        // formData.append(instanceName2, instanceLinkKey);
-
-        var instanceContentName = "contents" + number;
-        var instanceContent = CKEDITOR.instances[instanceContentName].getData();
-
-        data2 ={};
-        data2[instanceContentName] = instanceContent;
-
-        contentLst.push(data2);
-        // formData.append(instanceContentName, instanceContent);
+      formData.append(instanceContentKey, instanceContentValue);
     });
-
-    formData.append("linkInfo", JSON.stringify(linkLst));
-    formData.append("contents", contentLst);
 
     if(!linkFlag){alert("링크를 생성해주세요."); return false;}
 
