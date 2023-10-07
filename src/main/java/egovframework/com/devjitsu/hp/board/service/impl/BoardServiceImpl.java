@@ -69,6 +69,11 @@ public class BoardServiceImpl implements BoardService {
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return boardRepository.selectBoard(params);
     }
+
+    @Override
+    public List<Map<String, Object>> selectNewsBoard(Map<String, Object> params) {
+        return boardRepository.selectNewsBoard(params);
+    }
     @Override
     public List<Map<String, Object>> selectBoardFile(Map<String, Object> params) {
         return boardRepository.selectBoardFile(params);
@@ -93,6 +98,44 @@ public class BoardServiceImpl implements BoardService {
             }
             commonRepository.insFileInfo(list);
         }
+    }
+
+    @Override
+    public void insNews(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        boardRepository.insertBoard(params);
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, listFilePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("frKey", params.get("boardArticleId"));
+                list.get(i).put("empSeq", "1");
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+
+        int cnt = Integer.parseInt(String.valueOf(params.get("num")));
+
+        for(int x=1; x <= cnt; x++){
+            Map<String, Object> newsMap = new HashMap<>();
+            newsMap.put("frKey", params.get("boardArticleId"));
+            newsMap.put("groupKey", params.get("groupKey"));
+            newsMap.put("linkKey", params.get("linkKey" + x));
+            newsMap.put("link", params.get("linkText" + x));
+            newsMap.put("index", x);
+            newsMap.put("contents", params.get("contents" + x));
+            newsMap.put("title", params.get("noticeTitle"));
+
+            boardRepository.insertNews(newsMap);
+        }
+
     }
 
     @Override
@@ -122,6 +165,29 @@ public class BoardServiceImpl implements BoardService {
             }
             commonRepository.insFileInfo(list);
         }
+
+        //뉴스게시판 업데이트는 DELETE --> INSERT로 이루어진다.
+        /*if(params.get("menuCd").equals("news")){
+            Map<String, Object> frKeyMap = new HashMap<>();
+            frKeyMap.put("frKey", params.get("boardArticleId"));
+
+            boardRepository.deleteNews(frKeyMap);
+
+            int cnt = Integer.parseInt(String.valueOf(params.get("num")));
+
+            for(int x=1; x <= cnt; x++){
+                Map<String, Object> newsMap = new HashMap<>();
+                newsMap.put("frKey", params.get("boardArticleId"));
+                newsMap.put("groupKey", params.get("groupKey"));
+                newsMap.put("linkKey", params.get("linkKey" + x));
+                newsMap.put("link", params.get("linkText" + x));
+                newsMap.put("index", x);
+                newsMap.put("contents", params.get("contents" + x));
+                newsMap.put("title", params.get("noticeTitle"));
+
+                boardRepository.insertNews(newsMap);
+            }
+        }*/
 
     }
 

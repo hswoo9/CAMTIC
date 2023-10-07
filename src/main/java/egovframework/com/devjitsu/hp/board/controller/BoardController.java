@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -291,6 +292,16 @@ public class BoardController {
     }
 
     /**
+     * 뉴스레터 게시글 작성 페이지
+     * */
+    @RequestMapping("/camtic/pr/news_write.do")
+    public String bsnsWrite(Model model, @RequestParam Map<String, Object> params){
+
+        model.addAttribute("categoryId", params.get("category"));
+        return "camtic/pr/news_write";
+    }
+
+    /**
      * 멀티미디어 게시글 수정 페이지
      * */
     @RequestMapping("/camtic/pr/pr_register.do")
@@ -317,5 +328,40 @@ public class BoardController {
         return "camtic/pr/pr_view";
     }
 
+    /**
+     * 뉴스레터 게시판 등록
+     * */
+    @RequestMapping("/camtic/news/insNews.do")
+    public String insNews(Model model, @RequestParam Map<String, Object> params, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("boardFile").toArray(new MultipartFile[0]);
+        //MultipartFile oneFile = request.getFile("boardFile");
+        boardService.insNews(params, file, SERVER_DIR, BASE_DIR);
 
+        model.addAttribute("rs", "sc");
+        return "jsonView";
+    }
+    /**
+     * 뉴스레터 게시글 수정 페이지
+     * */
+    @RequestMapping("/camtic/pr/news_register.do")
+    public String newsBoardRegister(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        Map<String, Object> map = boardService.selectBoard(params);
+        List<Map<String, Object>> linkInfo = boardService.selectNewsBoard(params);
+
+        Map<String, Object> firstLinkInfo = linkInfo.get(0);
+
+        model.addAttribute("categoryId", params.get("category"));
+        model.addAttribute("map", map)
+             .addAttribute("firstLinkInfo", firstLinkInfo);
+        return "camtic/pr/news_register";
+    }
+
+    @RequestMapping("/camtic/pr/getRetrunNewsData.do")
+    public String getRetrunNewsData(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        List<Map<String, Object>> linkInfo = boardService.selectNewsBoard(params);
+        model.addAttribute("list", linkInfo);
+        return "jsonView";
+    }
 }
