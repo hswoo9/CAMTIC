@@ -206,5 +206,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void setPartRateRequest(Map<String, Object> params) {
         projectRndRepository.setPartRateRequest(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params) {
+        return projectRndRepository.getReqPartRateVerList(params);
+    }
 }
 

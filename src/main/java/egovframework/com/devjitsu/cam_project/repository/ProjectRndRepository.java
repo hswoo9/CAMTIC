@@ -112,5 +112,10 @@ public class ProjectRndRepository extends AbstractDAO {
 
     public void setPartRateRequest(Map<String, Object> params) {
         update("projectRnd.setPartRateRequest", params);
+        update("projectRnd.updPartRateVerReqDate", params);
+    }
+
+    public List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params) {
+        return selectList("projectRnd.getReqPartRateVerList", params);
     }
 }

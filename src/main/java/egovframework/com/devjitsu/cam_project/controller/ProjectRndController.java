@@ -471,6 +471,13 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/getReqPartRateVerList")
+    public String getReqPartRateVerList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectRndService.getReqPartRateVerList(params));
+
+        return "jsonView";
+    }
+
 
 
     /* Set Data Line ==================================================== */

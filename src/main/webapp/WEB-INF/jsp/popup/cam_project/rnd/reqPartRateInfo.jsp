@@ -9,6 +9,7 @@
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="partRateSn" value=""/>
 <div style="padding: 10px">
     <div class="table-responsive">
@@ -16,7 +17,41 @@
         <button type="button" id="changeBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_changePartRate()">변경요청</button>
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
         <br><br>
-
+        <div class="table-responsive">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>버전</th>
+                        <th>요청자</th>
+                        <th>인건비 예산</th>
+                        <th>요청일</th>
+                        <th>참여율 작성일</th>
+                        <th>확정일</th>
+                        <th>담당자 코멘트</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody id="partRateVersion">
+                    <tr>
+                        <td colspan="9" style="text-align: center">
+                            <span class="red-star"></span>작성된 참여율이 없습니다.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="table-responsive">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -95,7 +130,7 @@
 
         <div class="table-responsive">
             <div id="commFileHtml" style="margin-top:10px;">
-                <form style="padding: 0 30px;">
+                <form>
                     <div class="card-header" style="padding: 5px;">
                         <h3 class="card-title">설계관리</h3>
                         <div class="card-options">

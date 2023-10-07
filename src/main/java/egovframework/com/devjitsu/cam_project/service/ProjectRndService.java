@@ -48,4 +48,6 @@ public interface ProjectRndService {
     List<Map<String, Object>> getFileList(Map<String, Object> params);
 
     void setPartRateRequest(Map<String, Object> params);
+
+    List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params);
 }

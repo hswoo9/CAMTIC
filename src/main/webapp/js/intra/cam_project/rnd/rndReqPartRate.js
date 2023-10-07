@@ -10,6 +10,8 @@ var rndRPR = {
         });
 
         rndRPR.fn_setData();
+
+        rndRPR.fn_setVersion();
     },
 
     fn_setData : function (){
@@ -34,6 +36,7 @@ var rndRPR = {
             if(rs.STAT == "N"){
                 $("#reqBtn").css("display", "");
             }else {
+                $("#saveBtn").css("display", "none");
                 $("#changeBtn").css("display", "");
             }
         }
@@ -117,8 +120,8 @@ var rndRPR = {
         }
 
         var parameters = {
-            partRateSn : $("#partRateSn").val()
-
+            partRateSn : $("#partRateSn").val(),
+            empName : $("#empName").val()
         }
 
         var rs = customKendo.fn_customAjax("/projectRnd/setPartRateRequest", parameters);
@@ -129,5 +132,53 @@ var rndRPR = {
         } else {
             alert("오류가 발생하였습니다. 관리자에게 문의바랍니다.");
         }
+    },
+
+    fn_setVersion : function (){
+        var parameters = {
+            partRateSn : $("#partRateSn").val(),
+            pjtSn : $("#pjtSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/projectRnd/getReqPartRateVerList", parameters);
+        var ls = result.list;
+
+        if(ls != null){
+            var html = '';
+            for(var i = 0; i < ls.length; i++){
+                $("#partRateVersion").html("");
+                var mngStat = "";
+                if(ls[i].MNG_STAT == "S"){
+                    mngStat = "설정완료";
+                } else if (ls[i].MNG_STAT == "C"){
+                    mngStat = "참여율확정";
+                } else {
+                    mngStat = "검토중"
+                }
+
+                html += '<tr style="text-align: center">';
+                html += '   <td>신규</td>';
+                html += '   <td>';
+                html += '       <span style="cursor : pointer;" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ')">ver.' + (i+1) + '</span>';
+                html += '   </td>';
+                html += '   <td>'+ ls[i].REQ_EMP_NM +'</td>';
+                html += '   <td style="text-align: right">' + comma(Number(ls[i].PAY_BUDGET) + Number(ls[i].ITEM_BUDGET)) + '</td>';
+                html += '   <td>'+ new Date(ls[i].REQ_DATE).toISOString().replace('T', ' ').slice(0, -5) +'</td>';
+                html += '   <td></td>';
+                html += '   <td></td>';
+                html += '   <td></td>';
+                html += '   <td>'+mngStat+'</td>';
+                html += '</tr>';
+            }
+            $("#partRateVersion").append(html);
+        }
+    },
+
+    versionClickEvt: function (key){
+        alert(key)
+    },
+
+    fn_changePartRate: function (){
+        alert("변경요청");
     }
 }

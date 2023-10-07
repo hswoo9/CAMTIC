@@ -474,8 +474,34 @@
         /*setPartRateRequest*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
         SET
-            STAT = "Y"
+            STAT = "Y",
+            MNG_STAT = "R"
         WHERE
             PART_RATE_SN = #{partRateSn}
     </update>
+
+    <update id="updPartRateVerReqDate" parameterType="map">
+        /*updPartRateVerReqDate*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            MNG_STAT = "R",
+            REQ_DATE = NOW(),
+            REQ_EMP_NM = #{empName}
+        WHERE
+            PART_RATE_SN = #{partRateSn}
+    </update>
+
+    <select id="getReqPartRateVerList" parameterType="map" resultType="map">
+        /*getReqPartRateVerList*/
+        SELECT
+            A.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PART_RATE B
+        ON
+            A.PART_RATE_SN = B.PART_RATE_SN
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>
