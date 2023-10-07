@@ -9,6 +9,10 @@
         ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
         WHERE
         1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND
+            A.BUSN_CLASS = #{busnClass}
+        </if>
         <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass)'>
             AND
             A.PJT_STEP = #{busnSubClass}

@@ -9,6 +9,7 @@ var regPrj = {
     fn_defaultScript : function (setParameters) {
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
+            $("#stopBtn").show();
         } else {
             openModalSelect();
         }
