@@ -208,6 +208,11 @@ public class ItemManageServiceImpl implements ItemManageService {
         return itemManageRepository.getItemInvenList(params);
     }
 
+    @Override
+    public Map<String, Object> getItemInven(Map<String, Object> params) {
+        return itemManageRepository.getItemInven(params);
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 

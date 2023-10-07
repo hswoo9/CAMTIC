@@ -165,4 +165,18 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="getItemInven" parameterType="map" resultType="map">
+        /* getItemInvenList */
+        SELECT
+            II.*,
+            WHC.ITEM_CD_NM AS WH_CD_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        WHERE
+            II.INVEN_SN = #{invenSn}
+    </select>
 </mapper>

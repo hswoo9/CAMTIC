@@ -182,7 +182,6 @@ public class ItemManageController {
         return "cam_item/itemMa/invenMa/invenStatus";
     }
 
-
     /**
      * 재고현황 리스트
      * @param params
@@ -193,6 +192,47 @@ public class ItemManageController {
     public String getItemInvenList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", itemManageService.getItemInvenList(params));
         return "jsonView";
+    }
+
+    /**
+     * 재고 조회(단일)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemInven.do")
+    public String getItemInvenData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getItemInven(params));
+        return "jsonView";
+    }
+
+    /**
+     * 재고이동등록
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/invenTransferReg.do")
+    public String invenTransferReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_item/itemMa/invenMa/invenTransferReg";
+    }
+
+    /**
+     * 재고선택팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popItemInvenList.do")
+    public String popCrmList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/cam_item/popItemInvenList";
     }
 
     /** 캠아이템 > 아이템관리 > 마감관리 */
