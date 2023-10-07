@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="/js/intra/cam_crm/crmHistViewPop.js?v=${today}"/></script>
+<script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 <style>
     .subTitSt {
         font-weight: 600;

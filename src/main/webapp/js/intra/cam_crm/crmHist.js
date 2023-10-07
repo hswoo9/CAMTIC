@@ -74,7 +74,15 @@ var crmHist = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "CRM 고객목록.xlsx",
+                filterable : true
+            },
             columns: [
                 {
                     title: "업태",
@@ -118,6 +126,7 @@ var crmHist = {
                 }, {
                     title: "최근수정일",
                     width: 100,
+                    field : "MOD_DT",
                     template:function(e){
                         if(e.MOD_DT == null || e.MOD_DT == ''){
                             return "";

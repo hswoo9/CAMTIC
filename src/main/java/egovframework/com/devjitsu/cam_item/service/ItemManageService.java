@@ -15,4 +15,5 @@ public interface ItemManageService {
     void setReceivingReg(Map<String, Object> params);
     List<Map<String, Object>> getItemWhInfoList(Map<String, Object> params);
     void setInspectionUpd(Map<String, Object> params);
+    List<Map<String, Object>> getItemInvenList(Map<String, Object> params);
 }

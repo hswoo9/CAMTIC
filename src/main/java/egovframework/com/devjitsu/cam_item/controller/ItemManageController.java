@@ -165,7 +165,35 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > 재고관리 */
 
+    /**
+     * 재고현황
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/invenStatus.do")
+    public String invenStatus(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
 
+        return "cam_item/itemMa/invenMa/invenStatus";
+    }
+
+
+    /**
+     * 재고현황 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemInvenList.do")
+    public String getItemInvenList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getItemInvenList(params));
+        return "jsonView";
+    }
 
     /** 캠아이템 > 아이템관리 > 마감관리 */
 

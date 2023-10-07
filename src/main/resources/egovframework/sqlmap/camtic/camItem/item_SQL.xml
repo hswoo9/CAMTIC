@@ -138,4 +138,31 @@
         WHERE
             ITEM_WH_SN = #{itemWhSn}
     </update>
+
+    <select id="getItemInvenList" parameterType="map" resultType="map">
+        /* getItemInvenList */
+        SELECT
+            II.*,
+            WHC.ITEM_CD_NM AS WH_CD_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND II.WH_CD = #{whCd}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND II.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    II.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    II.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

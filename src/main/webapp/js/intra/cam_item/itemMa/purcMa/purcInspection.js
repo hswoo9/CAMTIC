@@ -55,7 +55,15 @@ var purcIns = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "구매검수 목록.xlsx",
+                filterable : true
+            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
@@ -102,6 +110,7 @@ var purcIns = {
                 }, {
                     title: "단가",
                     width: 100,
+                    field: "UNIT_PRICE",
                     template : function (e){
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
                             return purcIns.comma(e.UNIT_PRICE) + "원";
@@ -115,6 +124,7 @@ var purcIns = {
                 }, {
                     title: "금액",
                     width: 100,
+                    field: "AMT",
                     template: function(e){
                         if(e.AMT != null && e.AMT != ""){
                             return purcIns.comma(e.AMT) + "원";

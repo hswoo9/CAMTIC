@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_crm/crmHist.js?v=${today}'/>"></script>
+<script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 
 <style>
     .k-detail-row {

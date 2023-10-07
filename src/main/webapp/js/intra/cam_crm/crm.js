@@ -82,12 +82,19 @@ var crm = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "CRM 고객목록.xlsx",
+                filterable : true
+            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
                     template : "<input type='checkbox' id='crm#=CRM_SN#' name='crmSn' value='#=CRM_SN#' style=\"top: 3px; position: relative\" />",
-                    title: "업태",
                     width: 30,
                 }, {
                     title: "업태",
@@ -131,6 +138,7 @@ var crm = {
                 }, {
                     title: "최근수정일",
                     width: 100,
+                    field : "MOD_DT",
                     template:function(e){
                         if(e.MOD_DT == null || e.MOD_DT == ''){
                             return "";

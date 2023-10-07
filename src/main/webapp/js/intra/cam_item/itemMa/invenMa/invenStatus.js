@@ -1,4 +1,4 @@
-var rvSt = {
+var invenSt = {
 
     global : {
         dropDownDataSource : "",
@@ -7,24 +7,20 @@ var rvSt = {
     },
 
     fn_defaultScript : function (){
-        rvSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WT", lgCd : "WT"});
-        customKendo.fn_dropDownList("whType", rvSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whType").data("kendoDropDownList").bind("change", rvSt.gridReload);
+        invenSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", invenSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", invenSt.gridReload);
 
-        rvSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", rvSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", rvSt.gridReload);
-
-        rvSt.global.dropDownDataSource = [
+        invenSt.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" }
         ]
-        customKendo.fn_dropDownList("searchKeyword", rvSt.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", rvSt.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", invenSt.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", invenSt.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        rvSt.gridReload();
+        invenSt.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -44,7 +40,7 @@ var rvSt = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rvSt.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenSt.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -54,8 +50,8 @@ var rvSt = {
                 }
             ],
             excel : {
-                fileName : "입고현황.xlsx",
-                allPages: true
+                fileName : "재고현황.xlsx",
+                filterable : true
             },
             columns: [
                 {
@@ -63,8 +59,8 @@ var rvSt = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "거래처",
-                    field: "CRM_NM",
+                    title: "창고",
+                    field: "WH_CD_NM",
                     width: 120,
                 }, {
                     title: "품번",
@@ -75,23 +71,45 @@ var rvSt = {
                     field: "ITEM_NAME",
                     width: 150
                 }, {
-                    title: "입고일자",
+                    title: "규격",
                     field: "WH_DT",
                     width: 80
                 }, {
-                    title: "입고형태",
-                    field: "WH_TYPE_NM",
-                    width: 100
-                }, {
-                    title: "입고량",
-                    field: "WH_VOLUME",
+                    title: "재고",
+                    field: "CURRENT_INVEN",
                     width: 100,
                     template : function (e){
-                        if(e.WH_VOLUME != null && e.WH_VOLUME != ""){
-                            return rvSt.comma(e.WH_VOLUME) + "";
-                        }else{
-                            return "0";
-                        }
+                        return invenSt.comma(e.CURRENT_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "입고",
+                    field: "RECEIVING_INVEN",
+                    width: 100,
+                    template : function (e){
+                        return invenSt.comma(e.RECEIVING_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "출고",
+                    width: 100,
+                    field: "FORWARDING_INVEN",
+                    template : function (e){
+                        return invenSt.comma(e.FORWARDING_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "재고조정",
+                    width: 100,
+                    field: "INVEN_AJM",
+                    template : function (e){
+                        return invenSt.comma(e.INVEN_AJM);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -100,26 +118,18 @@ var rvSt = {
                     title: "단가",
                     width: 100,
                     field: "UNIT_PRICE",
-                    template : function (e){
-                        if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return rvSt.comma(e.UNIT_PRICE) + "원";
-                        }else{
-                            return "0원";
-                        }
+                    template: function(e){
+                        return invenSt.comma(e.UNIT_PRICE) + "원";
                     },
                     attributes : {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "금액",
+                    title: "재고금액",
                     width: 100,
-                    field: "AMT",
+                    field: "INVEN_AMT",
                     template: function(e){
-                        if(e.AMT != null && e.AMT != ""){
-                            return rvSt.comma(e.AMT) + "원";
-                        }else{
-                            return "0원";
-                        }
+                        return invenSt.comma(e.INVEN_AMT) + "원";
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -138,15 +148,14 @@ var rvSt = {
     },
 
     gridReload: function (){
-        rvSt.global.searchAjaxData = {
-            whType : $("#whType").val(),
+        invenSt.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             inspection : "Y"
         }
 
-        rvSt.mainGrid("/item/getItemWhInfoList.do", rvSt.global.searchAjaxData);
+        invenSt.mainGrid("/item/getItemInvenList.do", invenSt.global.searchAjaxData);
     },
 
     comma: function(str) {

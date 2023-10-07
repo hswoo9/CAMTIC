@@ -5,7 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_crm/crm.js?v=${today}'/>"></script>
-
+<script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -54,7 +54,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-
     crm.fn_defaultScript();
-
 </script>
