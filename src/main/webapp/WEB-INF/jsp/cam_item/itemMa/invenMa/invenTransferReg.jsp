@@ -27,7 +27,7 @@
         </div>
         <div class="panel-body">
             <div>
-                <input type="hidden" id="whDt" name="whDt" value="${nowHyphen}">
+                <input type="hidden" id="forwardingDate" name="forwardingDate" value="${nowHyphen}">
                 <input type="file" id="file" name="file" onchange="invenTr.fileChange(this)" style="display: none">
             </div>
             <div class="btn-st popButton" style="text-align: right">
@@ -69,6 +69,8 @@
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">
             <input type="hidden" id="currentInven">
+            <input type="hidden" id="whCd">
+            <input type="hidden" id="whCdNm">
         </div>
     </div>
 </div><!-- col-md-9 -->

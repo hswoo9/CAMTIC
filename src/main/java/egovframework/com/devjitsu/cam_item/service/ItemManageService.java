@@ -17,4 +17,5 @@ public interface ItemManageService {
     void setInspectionUpd(Map<String, Object> params);
     List<Map<String, Object>> getItemInvenList(Map<String, Object> params);
     Map<String, Object> getItemInven(Map<String, Object> params);
+    void setInvenTransferReg(Map<String, Object> params);
 }

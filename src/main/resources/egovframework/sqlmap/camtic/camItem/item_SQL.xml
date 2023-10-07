@@ -167,7 +167,7 @@
     </select>
 
     <select id="getItemInven" parameterType="map" resultType="map">
-        /* getItemInvenList */
+        /* getItemInven */
         SELECT
             II.*,
             WHC.ITEM_CD_NM AS WH_CD_NM
@@ -179,4 +179,56 @@
         WHERE
             II.INVEN_SN = #{invenSn}
     </select>
+
+    <insert id="setInvenTransferReg" parameterType="map">
+        /* setInvenTransferReg */
+        INSERT INTO CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER
+        (
+            FORWARDING_DATE,
+            INVEN_SN,
+            ITEM_NO,
+            ITEM_NAME,
+            CURRENT_INVEN,
+            TRANSFER_QTY,
+            FORWARDING_WH_CD,
+            RECEIVING_WH_CD,
+            RMK,
+            REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="newRateArr" item="item" separator=" , ">
+        (
+            #{item.forwardingDate},
+            #{item.invenSn},
+            #{item.itemNo},
+            #{item.itemName},
+            #{item.currentInven},
+            #{item.transferQty},
+            #{item.forwardingWhCd},
+            #{item.receivingWhCd},
+            #{item.rmk},
+            #{item.empSeq}
+        )
+        </foreach>
+    </insert>
+
+    <update id="setInvenTransferRegUpd" parameterType="map">
+        /* setInvenTransferRegUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER
+        SET
+            FORWARDING_DATE = #{forwardingDate},
+            INVEN_SN = #{invenSn},
+            ITEM_NO = #{itemNo},
+            ITEM_NAME = #{itemName},
+            CURRENT_INVEN = #{currentInven},
+            TRANSFER_QTY = #{transferQty},
+            FORWARDING_WH_CD = #{forwardingWhCd},
+            RECEIVING_WH_CD = #{receivingWhCd},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            INVEN_TRANS_SN = #{invenTransSn}
+    </update>
 </mapper>

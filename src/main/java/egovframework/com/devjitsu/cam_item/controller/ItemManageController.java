@@ -195,6 +195,18 @@ public class ItemManageController {
     }
 
     /**
+     * 재고선택팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popItemInvenList.do")
+    public String popCrmList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/cam_item/popItemInvenList";
+    }
+
+    /**
      * 재고 조회(단일)
      * @param params
      * @param model
@@ -224,15 +236,15 @@ public class ItemManageController {
     }
 
     /**
-     * 재고선택팝업
+     * 재고이동등록 데이터 저장
      * @param params
      * @param model
      * @return
      */
-    @RequestMapping("/item/pop/popItemInvenList.do")
-    public String popCrmList(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("params", params);
-        return "popup/cam_item/popItemInvenList";
+    @RequestMapping("/item/setInvenTransferReg.do")
+    public String setInvenTransferReg(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setInvenTransferReg(params);
+        return "jsonView";
     }
 
     /** 캠아이템 > 아이템관리 > 마감관리 */
