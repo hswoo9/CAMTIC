@@ -7,6 +7,8 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/mngPartRate.js?v=${today}'/>"></script>
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
@@ -18,11 +20,37 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="60%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="busnClass" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">프로젝트명</th>
+                        <td colspan="2">
+                            <input type="text" id="pjtNm" style="width: 150px;">
+                        </td>
 
+                    </tr>
+                </table>
+
+
+                <div id="mainGrid" style="margin:20px 0;"></div>
+            </div>
         </div>
+
 
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    mngPartRate.fn_defaultScript();
 </script>

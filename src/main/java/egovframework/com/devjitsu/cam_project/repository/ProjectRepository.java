@@ -434,4 +434,8 @@ public class ProjectRepository extends AbstractDAO {
     public void updPjtDevTotAmt(Map<String, Object> params) {
         update("project.updPjtDevTotAmt", params);
     }
+
+    public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
+        return selectList("project.getPartRateVersionList", params);
+    }
 }

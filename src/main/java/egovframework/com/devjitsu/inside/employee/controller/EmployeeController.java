@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.employee.controller;
 
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -25,14 +27,28 @@ public class EmployeeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ProjectService projectService;
+
     //참여율신청목록
-    @RequestMapping("/Inside/participationRateList.do")
+    @RequestMapping("/inside/participationRateList.do")
     public String participationRateList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/userManage/participationRateList";
+    }
+
+    @RequestMapping("/project/getPartRateVersionList")
+    public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String,Object>> list = projectService.getPartRateVersionList(params);
+
+        model.addAttribute("list", list);
+
+
+        return "jsonView";
     }
 
     //직원별참여현황

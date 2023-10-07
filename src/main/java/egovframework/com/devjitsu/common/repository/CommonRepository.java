@@ -50,4 +50,8 @@ public class CommonRepository extends AbstractDAO {
     public List<Map<String, Object>> teamList(Map<String, Object> params) {
         return selectList("common.teamList", params);
     }
+
+    public List<Map<String, Object>> getFileList(Map<String, Object> params) {
+        return selectList("common.getFileList", params);
+    }
 }

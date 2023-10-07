@@ -377,4 +377,131 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <select id="getReqPartRateData" parameterType="map" resultType="map">
+        /*getReqPartRateData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="insReqPartRateData" parameterType="map">
+        /*insReqPartRateData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PART_RATE
+            (
+                PJT_SN,
+                JOIN_MEM_SN,
+                JOIN_MEM_NM,
+                MON_PAY_CRT,
+                MIN_PART_RATE,
+                MAX_PART_RATE,
+                PART_ETC,
+                PAY_BUDGET,
+                ITEM_BUDGET,
+                REG_EMP_SEQ
+            )
+        VALUE
+            (
+                #{pjtSn},
+                #{joinMemSn},
+                #{joinMemNm},
+                #{monPayCrt},
+                #{minPartRate},
+                #{maxPartRate},
+                #{partEtc},
+                #{payBudget},
+                #{itemBudget},
+                #{empSeq}
+            )
+        <selectKey keyProperty="partRateSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PART_RATE'
+        </selectKey>
+    </insert>
+
+    <update id="updReqPartRateData" parameterType="map">
+        /*updReqPartRateData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
+        SET
+            JOIN_MEM_SN = #{joinMemSn},
+            JOIN_MEM_NM = #{joinMemNm},
+            MON_PAY_CRT = #{monPayCrt},
+            MIN_PART_RATE = #{minPartRate},
+            MAX_PART_RATE = #{maxPartRate},
+            PART_ETC = #{partEtc},
+            PAY_BUDGET = #{payBudget},
+            ITEM_BUDGET = #{itemBudget},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            PART_RATE_SN = #{partRateSn}
+    </update>
+
+    <insert id="insReqPartRateVerData" parameterType="map">
+        /*insReqPartRateVerData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+            (
+                PART_RATE_SN,
+                PJT_SN,
+                JOIN_MEM_SN,
+                JOIN_MEM_NM,
+                MON_PAY_CRT,
+                MIN_PART_RATE,
+                MAX_PART_RATE,
+                PART_ETC,
+                PAY_BUDGET,
+                ITEM_BUDGET,
+                REG_EMP_SEQ
+            )
+        VALUE
+            (
+                #{partRateSn},
+                #{pjtSn},
+                #{joinMemSn},
+                #{joinMemNm},
+                #{monPayCrt},
+                #{minPartRate},
+                #{maxPartRate},
+                #{partEtc},
+                #{payBudget},
+                #{itemBudget},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="setPartRateRequest" parameterType="map">
+        /*setPartRateRequest*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
+        SET
+            STAT = "Y",
+            MNG_STAT = "R"
+        WHERE
+            PART_RATE_SN = #{partRateSn}
+    </update>
+
+    <update id="updPartRateVerReqDate" parameterType="map">
+        /*updPartRateVerReqDate*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            MNG_STAT = "R",
+            REQ_DATE = NOW(),
+            REQ_EMP_NM = #{empName}
+        WHERE
+            PART_RATE_SN = #{partRateSn}
+    </update>
+
+    <select id="getReqPartRateVerList" parameterType="map" resultType="map">
+        /*getReqPartRateVerList*/
+        SELECT
+            A.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PART_RATE B
+        ON
+            A.PART_RATE_SN = B.PART_RATE_SN
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>

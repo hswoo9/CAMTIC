@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.cam_project.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -39,4 +40,14 @@ public interface ProjectRndService {
     void setRndDetail(Map<String, Object> params);
 
     void setDelvApprove(Map<String, Object> params);
+
+    void setReqPartRateData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+
+    Map<String, Object> getReqPartRateData(Map<String, Object> params);
+
+    List<Map<String, Object>> getFileList(Map<String, Object> params);
+
+    void setPartRateRequest(Map<String, Object> params);
+
+    List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params);
 }

@@ -457,6 +457,27 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/getReqPartRateData")
+    public String getReqPartRateData(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> map = projectRndService.getReqPartRateData(params);
+        model.addAttribute("map", map);
+
+        if(map != null){
+            List<Map<String, Object>> fileList = projectRndService.getFileList(map);
+
+            model.addAttribute("fileList", fileList);
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/getReqPartRateVerList")
+    public String getReqPartRateVerList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectRndService.getReqPartRateVerList(params));
+
+        return "jsonView";
+    }
+
 
 
     /* Set Data Line ==================================================== */
@@ -584,6 +605,33 @@ public class ProjectRndController {
         } catch (Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setReqPartRateData")
+    public String setReqPartRateData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
+        try{
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            projectRndService.setReqPartRateData(params, fileList, SERVER_DIR, BASE_DIR);
+
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/setPartRateRequest")
+    public String setPartRateRequest(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.setPartRateRequest(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         return "jsonView";
     }
 

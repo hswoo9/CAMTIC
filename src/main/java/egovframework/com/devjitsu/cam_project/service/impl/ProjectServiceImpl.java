@@ -859,6 +859,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectDocInfo(Map<String, Object> params) {
         return projectRepository.getProjectDocInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
+        return projectRepository.getPartRateVersionList(params);
+    }
 }
 
 

@@ -308,4 +308,16 @@
         WHERE
             DEPT_LEVEL = 2
     </select>
+
+    <select id="getFileList" parameterType="map" resultType="map">
+        /*getFileList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = #{fileCd}
+          AND
+            CONTENT_ID = #{contentId}
+    </select>
 </mapper>
