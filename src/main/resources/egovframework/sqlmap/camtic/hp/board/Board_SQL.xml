@@ -3,6 +3,7 @@
 
 <mapper namespace="boardCt">
     <select id="selectBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*selectBoardList*/
         SELECT
             *,
             (case when (select count(fr_key) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{searchCategory}) != 0 then 'Y'
@@ -23,6 +24,7 @@
     </select>
 
     <select id="selectPrBoardList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*selectPrBoardList*/
         SELECT
             *,
             (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{searchCategory}) AS FILE_PATH
@@ -41,6 +43,7 @@
     </select>
 
     <select id="selectMainList" resultType="map" parameterType="map">
+        /*selectMainList*/
         SELECT
             BOARD_ARTICLE_ID
              ,BOARD_ID
@@ -61,6 +64,7 @@
     </select>
 
     <select id="selectBsnsMainList" resultType="map" parameterType="map">
+        /*selectBsnsMainList*/
         SELECT
              BOARD_ARTICLE_ID
              ,BOARD_ID
@@ -81,6 +85,7 @@
     </select>
 
     <select id="selectBoardListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*selectBoardListCount*/
         SELECT
             COUNT(*)
         FROM
@@ -96,6 +101,7 @@
     </select>
 
     <select id="selectBoard" resultType="map" parameterType="map">
+        /*selectBoard*/
         SELECT
             *,
             (SELECT BOARD_ARTICLE_ID FROM CAM_COMMON.DJ_BOARD_ARTICLE
@@ -121,6 +127,7 @@
     </select>
 
     <select id="selectNewsBoard" resultType="map" parameterType="map">
+        /*selectNewsBoard*/
         SELECT
             DNB.*
         FROM
@@ -138,6 +145,7 @@
     </select>
 
     <select id="selectBoardFile" resultType="map" parameterType="map">
+        /*selectBoardFile*/
         SELECT
             *
         FROM
@@ -150,6 +158,7 @@
     </select>
 
     <update id="setBoardArticleViewCount" parameterType="map">
+        /*setBoardArticleViewCount*/
         UPDATE
             CAM_COMMON.DJ_BOARD_ARTICLE
         SET
@@ -159,6 +168,7 @@
     </update>
 
     <insert id="insertBoard" parameterType="map">
+        /*insertBoard*/
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
             (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME
             <if test="category == 'business'">, START_DT, END_DT</if>
@@ -174,6 +184,7 @@
     </insert>
 
     <update id="updateBoard" parameterType="map">
+        /*updateBoard*/
         UPDATE CAM_COMMON.DJ_BOARD_ARTICLE
         SET
             BOARD_ARTICLE_TITLE = #{noticeTitle},
@@ -190,6 +201,7 @@
     </update>
 
     <update id="deleteBoard" parameterType="map">
+        /*deleteBoard*/
         UPDATE CAM_COMMON.DJ_BOARD_ARTICLE
         SET
             ACTIVE = 'N'
@@ -202,6 +214,7 @@
     </update>
 
     <select id="checkNews" parameterType="map" resultType="int">
+        /*checkNews*/
         SELECT
             COUNT(*)
         FROM
@@ -211,6 +224,7 @@
     </select>
 
     <insert id="insertNews" parameterType="map">
+        /*insertNews*/
         INSERT INTO CAM_COMMON.DJ_NEWS_BOARD
             (FR_KEY, GROUP_KEY, LINK_KEY, INDEX_NUM, CONTENT, TITLE, LINK)
         VALUES
@@ -218,6 +232,32 @@
     </insert>
 
     <delete id="deleteNews" parameterType="map">
+        /*deleteNews*/
         DELETE FROM CAM_COMMON.DJ_NEWS_BOARD WHERE FR_KEY = #{frKey}
     </delete>
+
+    <select id="selectNewsPop" parameterType="map" resultType="map">
+        /*selectNewsPop*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_NEWS_BOARD
+        WHERE
+            GROUP_KEY = #{groupKey}
+        AND
+            LINK_KEY = #{linkKey}
+    </select>
+
+    <select id="selectNewsView" parameterType="map" resultType="map">
+        /*selectNewsView*/
+        SELECT
+            BOARD_ARTICLE_TITLE as title
+            ,BOARD_ARTICLE_CONTENT as content
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_ID = 'news'
+        AND
+            BOARD_ARTICLE_ID = #{boardArticleId}
+    </select>
 </mapper>

@@ -41,4 +41,8 @@ public interface BoardService {
 
     /** 게시글 조회수 증가 */
     void setBoardArticleViewCount(Map<String, Object> params);
+    /** 뉴스레터 팝업조회 */
+    Map<String, Object> selectNewsPop(Map<String, Object> params);
+    /** 뉴스레터 게시판 상세보기*/
+    Map<String, Object> selectNewsView(Map<String, Object> params);
 }

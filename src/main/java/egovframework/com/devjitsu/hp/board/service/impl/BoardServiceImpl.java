@@ -263,4 +263,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void setBoardArticleViewCount(Map<String, Object> params) { boardRepository.setBoardArticleViewCount(params); }
+
+    @Override
+    public Map<String, Object> selectNewsPop(Map<String, Object> params) {
+        return boardRepository.selectNewsPop(params);
+    }
+    @Override
+    public Map<String, Object> selectNewsView(Map<String, Object> params) {
+        return boardRepository.selectNewsView(params);
+    }
 }
