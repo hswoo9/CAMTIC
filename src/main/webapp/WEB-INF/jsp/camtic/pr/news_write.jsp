@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
+
+<script type="text/javascript" src="/lib/bootstrap/js/bootstrap.min.js"></script>
 <style>
     input[type="text"] {
         width: 50%;
@@ -78,12 +80,63 @@
     .file-and-table-container2 .notStyle_div{
         display: flex;
         width: 100%;
+        justify-content: space-between;
     }
 
     .file-and-table-container2 .linkInfo{
 	    width: 100%;
         margin-top: 5px;
         padding-top: 5px;
+    }
+
+    [class*='__btn'].grayLine[disabled]{
+        background: #e0e0e0;
+    }
+
+    /*툴팁 추가*/
+    .custom-tooltip {
+        position: relative;
+    }
+    .custom-tooltip div{
+        border: 1px solid #ccc;
+	    border-radius: 50%;
+	    width:25px;
+	    height:25px;
+	    text-align: center;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+    }
+    /* 툴팁 텍스트를 숨김 */
+    .tooltip-text {
+        display: none;
+        position: absolute;
+        top: 50%;
+        right: calc(100% + 10px); /* 오른쪽으로 이동하도록 수정 */
+        transform: translateY(-50%);
+        background-color: white;
+        color: #333;
+        padding: 25px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        z-index: 1;
+        max-width: 900px; /* 툴팁의 최대 너비 설정 */
+    }
+    /* 아이콘에 호버 시 툴팁 텍스트 표시 */
+    .custom-tooltip:hover .tooltip-text {
+        display: block;
+    }
+    /* 말풍선 모양 스타일 */
+    .tooltip-text::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        margin-top: -5px; /* 말풍선 위치 조정 */
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent;
+        border-right-color: #ccc; /* 말풍선 색상 설정 */
     }
 
 </style>
@@ -182,7 +235,24 @@
 
 						<form id="linkTbl">
 							<div class="file-and-table-container2" id="linkDiv1" name="linkDiv" data-number="1">
-								<div class="notStyle_div"><span>링크 생성</span></div>
+								<div class="notStyle_div">
+									<span>링크 생성</span>
+
+
+									<a href='javascript:void(0)' class="custom-tooltip">
+										<div style=""><span>?</span></div>
+										<span class="tooltip-text" style="width: 370px;">
+		                                    <strong>링크 생성 안내</strong><br>
+		                                    1. 그룹 생성 버튼 클릭(최초 1회)<br>
+		                                    2. 링크 생성<br>
+											3. 복사 후 원하는 a태그의 href에<br>
+											복사 된 내용 삽입<br>
+											3-1. 링크 생성 상단 에디터 내용이<br>
+											링크의 목적지가 된다.<br>
+											4. 추가 후 위 내용 반복
+                                        </span>
+									</a>
+								</div>
 
 								<textarea class="txt_area_01" id="contents1"></textarea>
 
@@ -196,10 +266,10 @@
 
 										<input type="hidden" id="linkKey1" value="" />
 										<input type="text" id="linkText1" name="linkText" style="width: 50%; margin: 0 5px 0 5px;" value="" readonly />
-										<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate(1)">
+										<button type="button" id="groupFlag1" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate(1)">
 											<span class="__btn1 grayLine">링크 생성</span>
 										</button>
-										<button type="button" class="addBtn"  onclick="addLinkDiv()">
+										<button type="button" id="groupFlag2" class="addBtn"  onclick="addLinkDiv()">
 											<span class="__btn1 grayLine">추가</span>
 										</button>
 									</div>
@@ -251,6 +321,14 @@
             weight: 700,
             height: 200
         });
+
+        $("#groupFlag1").attr("disabled", true);
+        $("#groupFlag2").attr("disabled", true);
+
+        $("#groupFlag1 span").attr("disabled", "disabled");
+        $("#groupFlag2 span").attr("disabled", "disabled");
+
+        $("[data-toggle='tooltip']").tooltip();
     });
 
 	//링크 테이블 추가
@@ -324,6 +402,12 @@
         $("#groupKey").val(random);
         groupKey = random;
         groupFlag = true;
+
+        $("#groupFlag1").attr("disabled", false);
+        $("#groupFlag1 span").removeAttr("disabled");
+
+        $("#groupFlag2").attr("disabled", false);
+        $("#groupFlag2 span").removeAttr("disabled");
     }
     //링크 생성
     function linkCreate(num){
