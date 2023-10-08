@@ -236,9 +236,9 @@
             <table class="popTable table table-bordered mb-0">
                 <thead>
                 <tr>
-                    <th>구분</th>
-                    <th>성명</th>
-                    <th>기준급여</th>
+                    <th style="width: 5%">구분</th>
+                    <th style="width: 5%">성명</th>
+                    <th style="width: 5%">기준급여</th>
                     <th style="width: 7%">기준급여<br>변경</th>
                     <th style="width: 8%">참여시작</th>
                     <th style="width: 8%">참여종료</th>
