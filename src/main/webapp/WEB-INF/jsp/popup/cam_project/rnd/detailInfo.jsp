@@ -14,7 +14,7 @@
 <div style="padding: 10px">
 
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>
-    <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="rndDetail.fn_approve()">결재</button>
+    <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="openModal()">결재</button>
     <button type="button" id="aBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="">열람</button>
 
     <br><br>
@@ -111,11 +111,112 @@
         </table>
     </div>
 </div>
-
+<div id="dialog"></div>
 <script>
     rndDetail.fn_defaultScript();
 
+    $("#dialog").kendoWindow({
+        title : "프로젝트 분류",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rndDetail.fn_approve()">저장</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="35%">' +
+                '		<col width="15%">' +
+                '		<col width="30%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>프로젝트 구분</th>' +
+                '			<td colspan="3">' +
+                '				<input type="text" id="pjCode" name="pjCode" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>사업성격</th>' +
+                '			<td>' +
+                '				<input type="text" id="pjtStat" name="pjtStat" style="width: 90%"/>' +
+                '			</td>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>사업성격2</th>' +
+                '			<td>' +
+                '				<input type="text" id="pjtStatSub" name="pjtStatSub" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#dialog").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+            modalSetData()
+        },
+        close: function () {
+            $("#dialog").empty();
+        }
+    });
+
     function userSearch(p) {
         window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
+    }
+
+    function openModal(){
+
+        $("#dialog").data("kendoWindow").open();
+    }
+
+    function modalSetData(){
+        var data= {
+            cmGroupCode : "BUSN_CLASS"
+        }
+        var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+
+        $("#pjCode").data("kendoDropDownList").select(1);
+
+        data.grpSn = "SUP_DEP";
+        var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
+        customKendo.fn_dropDownList("supDep", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+
+        $("#supDepSub").kendoDropDownList({
+            dataSource : [{text : "선택", value : ""}],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+        $("#supDep").data("kendoDropDownList").bind("change", function(){
+            data.lgCd = $("#supDep").val();
+            data.grpSn = "SUP_DEP";
+            var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
+            customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+        });
+
+        data.grpSn = "BUS_STAT";
+        var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+
+        $("#pjtStatSub").kendoDropDownList({
+            dataSource : [{text : "선택", value : ""}],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+        $("#pjtStat").data("kendoDropDownList").bind("change", function(){
+            data.lgCd = $("#pjtStat").val();
+            data.grpSn = "BUS_STAT";
+            var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+        });
+
+        $("#dialog").css("overflow", "hidden");
     }
 </script>

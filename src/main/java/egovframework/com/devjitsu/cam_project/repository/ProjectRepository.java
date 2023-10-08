@@ -446,4 +446,8 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getProjectManagerInfo(Map<String, Object> map) {
         return (Map<String, Object>) selectOne("project.getProjectManagerInfo", map);
     }
+
+    public Map<String, Object> getProjectMemberInfo(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("project.getProjectMemberInfo", map);
+    }
 }

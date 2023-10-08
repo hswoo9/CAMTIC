@@ -1636,4 +1636,33 @@
             A.PJT_SN = C.PJT_SN
         ]]>
     </select>
+
+    <select id="getProjectMemberInfo" parameterType="map" resultType="map">
+        <![CDATA[
+        /*getProjectManagerInfo*/
+        SELECT
+            A.*,
+            B.*,
+            DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DT,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+        LEFT JOIN
+            (SELECT
+                 *
+             FROM
+                 CAM_INSIDE.DJ_SALARY_MANAGE
+             WHERE
+                 DATE(START_DT) < (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+            AND
+            IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31')) >= (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+            ) B
+        ON
+            B.EMP_SEQ = #{MEMBER_SEQ}
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            A.PJT_SN = C.PJT_SN
+        ]]>
+    </select>
 </mapper>
