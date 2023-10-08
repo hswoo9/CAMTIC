@@ -438,4 +438,12 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
         return selectList("project.getPartRateVersionList", params);
     }
+
+    public Map<String, Object> getPartRateVer(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getPartRateVer", params);
+    }
+
+    public Map<String, Object> getProjectManagerInfo(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("project.getProjectManagerInfo", map);
+    }
 }

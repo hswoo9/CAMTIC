@@ -864,6 +864,20 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
         return projectRepository.getPartRateVersionList(params);
     }
+
+    @Override
+    public Map<String, Object> getPartRateVer(Map<String, Object> params) {
+        return projectRepository.getPartRateVer(params);
+    }
+
+    @Override
+    public Map<String, Object> getMngPartRate(Map<String, Object> map) {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("projectManagerInfo", projectRepository.getProjectManagerInfo(map));
+
+        return result;
+    }
 }
 
 
