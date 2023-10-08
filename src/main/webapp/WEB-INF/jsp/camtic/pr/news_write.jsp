@@ -181,7 +181,7 @@
 						</form>
 
 						<form id="linkTbl">
-							<div class="file-and-table-container2" id="linkDiv1">
+							<div class="file-and-table-container2" id="linkDiv1" name="linkDiv" data-number="1">
 								<div class="notStyle_div"><span>링크 생성(테스트)</span></div>
 
 								<textarea class="txt_area_01" id="contents1"></textarea>
@@ -229,6 +229,7 @@
 	var groupKey;
     var groupFlag = false;
 	var num = 1;
+	var totalNum = 1;
 
     $(function () {
         let today = new Date();
@@ -252,37 +253,6 @@
         });
     });
 
-    function textInput(num){
-        let editorId = 'contents' + num;
-		let ckeditorDiv = 'ckeditorDiv' + num;
-
-        let $ckeditorContainer = $('<div>', {
-            id: ckeditorDiv,
-            class: 'file-and-table-container3',
-            html: '└&nbsp;'
-        }).insertAfter('#linkDiv' + num);
-
-        $('<textarea>', {
-            id: editorId,
-            class: 'txt_area_01',
-        }).appendTo($ckeditorContainer);
-
-        CKEDITOR.replace(editorId, {
-            weight: 700,
-            height: 200
-        });
-
-        $("#textInput"+num).css("display","none");
-        $("#textCancle"+num).css("display","");
-    }
-
-    function textCancle(num){
-		$("#ckeditorDiv"+num).remove();
-
-        $("#textInput"+num).css("display","");
-        $("#textCancle"+num).css("display","none");
-    }
-
 	//링크 테이블 추가
     function addLinkDiv(){
         if(!$("#groupKey").val()){
@@ -297,6 +267,7 @@
         let group = groupKey;
 
         num += 1;
+		totalNum += 1;
 
         if(number == num){
             num += 1;
@@ -304,7 +275,7 @@
 
         let html = "";
 
-        html += '<div class="file-and-table-container2" id="linkDiv'+num+'">';
+        html += '<div class="file-and-table-container2" id="linkDiv'+num+'" name="linkDiv" data-number="'+num+'">';
 			html += '<div class="linkInfo">';
 		        html += '<div class="filebox2">';
 				    html += '└&nbsp;<input type="text" id="groupKey" name="groupKey" style="width: 10%;margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
@@ -337,9 +308,11 @@
     }
 
     //링크 테이블 삭제
-    function delLinkDiv(num){
-        $("#linkDiv" + num).remove();
-        num -= 1;
+    function delLinkDiv(number){
+		num -= 1;
+		totalNum += 1;
+
+        $("#linkDiv" + number).remove();
     }
 
     //그룹 생성
@@ -416,7 +389,7 @@
         formData.append("noticeTitle", $("#noticeTitle").val());
         formData.append("writer", $("#writer").val().toString());
         formData.append("content", content);
-        formData.append("num", num);
+        formData.append("num", totalNum);
         formData.append("groupKey", $("#groupKey").val());
 
         if(fCommon.global.attFiles.length != 0){
@@ -434,7 +407,7 @@
             formData.append("boardFile", fCommon.global.attFiles[0]);
         }
 
-        for(var x=1; x <= num; x++){
+        /*for(var x=1; x <= num; x++){
             var instanceName = "linkText" + x;
             var instanceName2 = "linkKey" + x;
             var instanceLink = $("#" + instanceName).val();
@@ -456,7 +429,33 @@
             var instanceContent = CKEDITOR.instances[instanceName].getData();
             console.log(instanceContent);
             formData.append(instanceName, instanceContent);
-        }
+        }*/
+
+		var cnt = 0;
+		$("div[name='linkDiv']").each(function(){
+			cnt += 1;
+			let number = $(this).data("number");
+
+			var instanceLinkKey = "linkText" + cnt;
+			var instanceLinkKey2 = "linkKey" + cnt;
+			var instanceLinkValue = $("#linkText" + number).val();
+			var instanceLinkValue2 = $("#linkKey" + number).val();
+
+			if(instanceLinkValue == ""){
+				$("#" + instanceLinkKey).focus();
+				linkFlag = false;
+				return false;
+			}
+
+			formData.append(instanceLinkKey, instanceLinkValue);
+			formData.append(instanceLinkKey2, instanceLinkValue2);
+
+			var instanceContentKey = "contents" + cnt;
+			var instanceContent = "contents" + number;
+			var instanceContentValue = CKEDITOR.instances[instanceContent].getData();
+
+			formData.append(instanceContentKey, instanceContentValue);
+		});
 
         console.log("총 링크 수 ::" + num);
         if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
