@@ -2,6 +2,8 @@ package egovframework.com.devjitsu.hp.board.service.impl;
 
 
 import dev_jitsu.MainLib;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.hp.board.repository.BoardRepository;
@@ -18,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -69,6 +72,11 @@ public class BoardServiceImpl implements BoardService {
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return boardRepository.selectBoard(params);
     }
+
+    @Override
+    public List<Map<String, Object>> selectNewsBoard(Map<String, Object> params) {
+        return boardRepository.selectNewsBoard(params);
+    }
     @Override
     public List<Map<String, Object>> selectBoardFile(Map<String, Object> params) {
         return boardRepository.selectBoardFile(params);
@@ -96,8 +104,47 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public void insNews(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        boardRepository.insertBoard(params);
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, listFilePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("frKey", params.get("boardArticleId"));
+                list.get(i).put("empSeq", "1");
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+
+        int cnt = Integer.parseInt(String.valueOf(params.get("num")));
+
+        for(int x=1; x <= cnt; x++){
+            Map<String, Object> newsMap = new HashMap<>();
+            newsMap.put("frKey", params.get("boardArticleId"));
+            newsMap.put("groupKey", params.get("groupKey"));
+            newsMap.put("linkKey", params.get("linkKey" + x));
+            newsMap.put("link", params.get("linkText" + x));
+            newsMap.put("index", x);
+            newsMap.put("contents", params.get("contents" + x));
+            newsMap.put("title", params.get("noticeTitle"));
+
+            boardRepository.insertNews(newsMap);
+        }
+
+    }
+
+    @Override
     public void updateBoard(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
 
         boardRepository.updateBoard(params);
 
@@ -121,6 +168,32 @@ public class BoardServiceImpl implements BoardService {
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
             }
             commonRepository.insFileInfo(list);
+        }
+
+
+        //뉴스게시판 업데이트는 DELETE --> INSERT로 이루어진다.
+        if(params.get("menuCd").equals("news")){
+            Map<String, Object> frKeyMap = new HashMap<>();
+            frKeyMap.put("frKey", params.get("boardArticleId"));
+
+            boardRepository.deleteNews(frKeyMap);
+
+            /*Gson gson = new Gson();
+            List<Map<String, Object>> linkInfo = gson.fromJson((String) params.get("linkInfo"), new TypeToken<List<Map<String, Object>>>() {}.getType());*/
+            int cnt = Integer.parseInt(String.valueOf(params.get("num")));
+
+            for(int x=1; x <= cnt; x++){
+                Map<String, Object> newsMap = new HashMap<>();
+                newsMap.put("frKey", params.get("boardArticleId"));
+                newsMap.put("groupKey", params.get("groupKey"));
+                newsMap.put("linkKey", params.get("linkKey" + x));
+                newsMap.put("link", params.get("linkText" + x));
+                newsMap.put("index", x);
+                newsMap.put("contents", params.get("contents" + x));
+                newsMap.put("title", params.get("noticeTitle"));
+
+                boardRepository.insertNews(newsMap);
+            }
         }
 
     }
@@ -190,4 +263,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void setBoardArticleViewCount(Map<String, Object> params) { boardRepository.setBoardArticleViewCount(params); }
+
+    @Override
+    public Map<String, Object> selectNewsPop(Map<String, Object> params) {
+        return boardRepository.selectNewsPop(params);
+    }
+    @Override
+    public Map<String, Object> selectNewsView(Map<String, Object> params) {
+        return boardRepository.selectNewsView(params);
+    }
 }

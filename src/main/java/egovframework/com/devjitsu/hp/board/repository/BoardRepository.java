@@ -28,9 +28,11 @@ public class BoardRepository extends AbstractDAO {
     public Object selectBoardListCount(ArticlePage articlePage) {
         return (int) selectOne("boardCt.selectBoardListCount", articlePage);
     }
-
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("boardCt.selectBoard", params);
+    }
+    public List<Map<String, Object>> selectNewsBoard(Map<String, Object> params) {
+        return selectList("boardCt.selectNewsBoard", params);
     }
     public List<Map<String, Object>> selectBoardFile(Map<String, Object> params) {
         return selectList("boardCt.selectBoardFile", params);
@@ -39,6 +41,16 @@ public class BoardRepository extends AbstractDAO {
     public void insertBoard(Map<String, Object> params) {
         insert("boardCt.insertBoard", params);
     }
+
+    public void insertNews(Map<String, Object> params) {
+        insert("boardCt.insertNews", params);
+    }
+
+    public Object checkNews(Map<String, Object> param) {
+        return (int) selectOne("boardCt.checkNews", param);
+    }
+
+    public void deleteNews(Map<String, Object> params) { delete("boardCt.deleteNews", params);}
 
     public void updateBoard(Map<String, Object> params) {
         update("boardCt.updateBoard", params);
@@ -49,4 +61,11 @@ public class BoardRepository extends AbstractDAO {
     }
 
     public void setBoardArticleViewCount(Map<String, Object> params) { update("boardCt.setBoardArticleViewCount", params);}
+    public Map<String, Object> selectNewsPop(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("boardCt.selectNewsPop", params);
+    }
+    public Map<String, Object> selectNewsView(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("boardCt.selectNewsView", params);
+    }
+
 }

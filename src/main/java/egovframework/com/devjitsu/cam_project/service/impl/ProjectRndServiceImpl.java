@@ -164,7 +164,6 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
         if(!params.containsKey("partRateSn")){
             projectRndRepository.insReqPartRateData(params);
-            projectRndRepository.insReqPartRateVerData(params);
         } else {
             projectRndRepository.updReqPartRateData(params);
         }
@@ -205,6 +204,17 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setPartRateRequest(Map<String, Object> params) {
         projectRndRepository.setPartRateRequest(params);
+
+        Map<String, Object> map = projectRndRepository.getReqPartRateData(params);
+
+        int partRateCnt = projectRndRepository.getPartRateVerCount(map);
+
+        map.put("PART_RATE_VER", (partRateCnt + 1));
+        map.put("EMP_NAME", params.get("empName"));
+        map.put("EMP_SEQ", params.get("empSeq"));
+        map.put("REQ_SORT", params.get("reqSort"));
+
+        projectRndRepository.insReqPartRateVerData(map);
     }
 
     @Override

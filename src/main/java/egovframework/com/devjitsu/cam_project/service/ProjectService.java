@@ -137,4 +137,8 @@ public interface ProjectService {
     void updPjtDevTotAmt(Map<String, Object> params);
 
     List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params);
+
+    Map<String, Object> getPartRateVer(Map<String, Object> params);
+
+    Map<String, Object> getMngPartRate(Map<String, Object> map);
 }

@@ -438,55 +438,12 @@
             PART_RATE_SN = #{partRateSn}
     </update>
 
-    <insert id="insReqPartRateVerData" parameterType="map">
-        /*insReqPartRateVerData*/
-        INSERT INTO CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
-            (
-                PART_RATE_SN,
-                PJT_SN,
-                JOIN_MEM_SN,
-                JOIN_MEM_NM,
-                MON_PAY_CRT,
-                MIN_PART_RATE,
-                MAX_PART_RATE,
-                PART_ETC,
-                PAY_BUDGET,
-                ITEM_BUDGET,
-                REG_EMP_SEQ
-            )
-        VALUE
-            (
-                #{partRateSn},
-                #{pjtSn},
-                #{joinMemSn},
-                #{joinMemNm},
-                #{monPayCrt},
-                #{minPartRate},
-                #{maxPartRate},
-                #{partEtc},
-                #{payBudget},
-                #{itemBudget},
-                #{empSeq}
-            )
-    </insert>
-
     <update id="setPartRateRequest" parameterType="map">
         /*setPartRateRequest*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
         SET
             STAT = "Y",
             MNG_STAT = "R"
-        WHERE
-            PART_RATE_SN = #{partRateSn}
-    </update>
-
-    <update id="updPartRateVerReqDate" parameterType="map">
-        /*updPartRateVerReqDate*/
-        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
-        SET
-            MNG_STAT = "R",
-            REQ_DATE = NOW(),
-            REQ_EMP_NM = #{empName}
         WHERE
             PART_RATE_SN = #{partRateSn}
     </update>
@@ -502,6 +459,58 @@
         ON
             A.PART_RATE_SN = B.PART_RATE_SN
         WHERE
-            PJT_SN = #{pjtSn}
+            A.PJT_SN = #{pjtSn}
     </select>
+
+    <select id="getPartRateVerCount" parameterType="map" resultType="int">
+        /*getPartRateVerCount*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        WHERE
+            PART_RATE_SN = #{PART_RATE_SN}
+    </select>
+
+    <insert id="insReqPartRateVerData" parameterType="map">
+        /*insReqPartRateVerData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+            (
+                PART_RATE_SN,
+                PJT_SN,
+                PART_RATE_VER,
+                JOIN_MEM_SN,
+                JOIN_MEM_NM,
+                MON_PAY_CRT,
+                MIN_PART_RATE,
+                MAX_PART_RATE,
+                PART_ETC,
+                PAY_BUDGET,
+                ITEM_BUDGET,
+                MNG_STAT,
+                REQ_SORT,
+                REQ_DATE,
+                REQ_EMP_NM,
+                REG_EMP_SEQ
+            )
+            VALUE
+            (
+                #{PART_RATE_SN},
+                #{PJT_SN},
+                #{PART_RATE_VER},
+                #{JOIN_MEM_SN},
+                #{JOIN_MEM_NM},
+                #{MON_PAY_CRT},
+                #{MIN_PART_RATE},
+                #{MAX_PART_RATE},
+                #{PART_ETC},
+                #{PAY_BUDGET},
+                #{ITEM_BUDGET},
+                "R",
+                #{REQ_SORT},
+                NOW(),
+                #{EMP_NAME},
+                #{EMP_SEQ}
+            )
+    </insert>
 </mapper>

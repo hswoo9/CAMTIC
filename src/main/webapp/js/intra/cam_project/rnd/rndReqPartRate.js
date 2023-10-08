@@ -120,8 +120,11 @@ var rndRPR = {
         }
 
         var parameters = {
+            pjtSn : $("#pjtSn").val(),
             partRateSn : $("#partRateSn").val(),
-            empName : $("#empName").val()
+            empName : $("#empName").val(),
+            empSeq : $("#empSeq").val(),
+            reqSort : "신규"
         }
 
         var rs = customKendo.fn_customAjax("/projectRnd/setPartRateRequest", parameters);

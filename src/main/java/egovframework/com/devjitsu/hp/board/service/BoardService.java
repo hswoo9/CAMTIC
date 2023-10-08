@@ -20,12 +20,18 @@ public interface BoardService {
 
     /** 게시글 상세조회 */
     Map<String, Object> selectBoard(Map<String, Object> params);
-    
+
+    /** 뉴스레터 게시글 상세조회 */
+    List<Map<String, Object>> selectNewsBoard(Map<String, Object> params);
+
     /** 게시글 상세조회(파일) */
     List<Map<String, Object>> selectBoardFile(Map<String, Object> params);
 
     /** 게시글 작성 */
     void insertBoard(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+
+    /** 뉴스레터 게시글 작성 */
+    void insNews(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /** 게시글 수정 */
     void updateBoard(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
@@ -35,4 +41,8 @@ public interface BoardService {
 
     /** 게시글 조회수 증가 */
     void setBoardArticleViewCount(Map<String, Object> params);
+    /** 뉴스레터 팝업조회 */
+    Map<String, Object> selectNewsPop(Map<String, Object> params);
+    /** 뉴스레터 게시판 상세보기*/
+    Map<String, Object> selectNewsView(Map<String, Object> params);
 }
