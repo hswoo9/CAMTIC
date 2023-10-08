@@ -12,6 +12,7 @@ var regRv = {
         regRv.global.wTDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WT", lgCd : "WT"});
         regRv.global.wCDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
 
+        regRv.addRow('new');
         // regRv.setMakeTable();
     },
 
@@ -26,20 +27,25 @@ var regRv = {
         if(result.flag){
             var list = result.list;
             $("#listTb tr").remove();
-            for(var i = 0; i < list.length; i++){
-                regRv.addRow('old');
 
-                $("#wh" + i).find("#itemWhSn" + i).val(list[i].ITEM_WH_SN)
-                $("#wh" + i).find("#itemNo" + i).val(list[i].ITEM_NO)
-                $("#wh" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
-                $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].WH_TYPE)
-                $("#wh" + i).find("#whVolume" + i).val(regRv.comma(list[i].WH_VOLUME))
-                $("#wh" + i).find("#whWeight" + i).val(regRv.comma(list[i].WH_WEIGHT))
-                $("#wh" + i).find("#unitPrice" + i).val(regRv.comma(list[i].UNIT_PRICE))
-                $("#wh" + i).find("#amt" + i).val(regRv.comma(list[i].AMT))
-                $("#wh" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].WH_CD)
-                $("#wh" + i).find("#rmk" + i).val(list[i].RMK)
+            if(list.length == 0){
+                regRv.addRow('new');
+            }else{
+                for(var i = 0; i < list.length; i++){
+                    regRv.addRow('old');
 
+                    $("#wh" + i).find("#itemWhSn" + i).val(list[i].ITEM_WH_SN)
+                    $("#wh" + i).find("#itemNo" + i).val(list[i].ITEM_NO)
+                    $("#wh" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
+                    $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].WH_TYPE)
+                    $("#wh" + i).find("#whVolume" + i).val(regRv.comma(list[i].WH_VOLUME))
+                    $("#wh" + i).find("#whWeight" + i).val(regRv.comma(list[i].WH_WEIGHT))
+                    $("#wh" + i).find("#unitPrice" + i).val(regRv.comma(list[i].UNIT_PRICE))
+                    $("#wh" + i).find("#amt" + i).val(regRv.comma(list[i].AMT))
+                    $("#wh" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].WH_CD)
+                    $("#wh" + i).find("#rmk" + i).val(list[i].RMK)
+
+                }
             }
         }
     },
@@ -49,9 +55,11 @@ var regRv = {
 
         html = "" +
             '<tr class="whInfo ' + e + 'WhInfo" id="wh' + regRv.global.itemWhIndex + '">' +
-                '<td>' +
-                    '<input type="hidden" id="crmSn' + regRv.global.itemWhIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + regRv.global.itemWhIndex + '" class="crmNm" style="width: 75%">' +
+                '<td style="text-align: right">' +
+                    '<div style="float: left;margin-top: 5px;">' +
+                        '<input type="hidden" id="crmSn' + regRv.global.itemWhIndex + '" class="crmSn">' +
+                        '<span id="crmNm' + regRv.global.itemWhIndex + '" class="crmNm" style="width: 71%" readonly onclick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');"></span>' +
+                    '</div>' +
                     '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');">선택</button>' +
                 '</td>' +
                 '<td>' +
@@ -71,7 +79,8 @@ var regRv = {
                     '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
+                    '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right;width: 63%">' +
+                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popUnitPriceList(\'unitPrice\', ' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
@@ -83,7 +92,7 @@ var regRv = {
                     '<input type="text" id="rmk' + regRv.global.itemWhIndex + '" name="rmk' + regRv.global.itemWhIndex + '">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="k-button k-button-solid-error" whNum="' + regRv.global.itemWhIndex + '" onclick="regRv.delRow(this)">삭제</button>' +
+                    '<button type="button" class="k-button k-button-solid-error" whNum="' + regRv.global.itemWhIndex + '" onclick="regRv.delRow(this)">X</button>' +
                 '</td>' +
             '</tr>';
 
@@ -135,9 +144,11 @@ var regRv = {
                 var result = customKendo.fn_customFormDataAjax("/item/receivingExcelUpload.do", formData);
                 if(result.flag){
                     var list = result.list;
-                    console.log(list);
                     for(var i = 0; i < list.length; i++){
-                        regRv.addRow('new');
+                        if(i > 0){
+                            regRv.addRow('new');
+                        }
+
                         $("#wh" + i).find("#crmSn" + i).val(list[i].crmSn);
                         $("#wh" + i).find("#crmNm" + i).val(list[i].crmNm);
                         $("#wh" + i).find("#itemNo" + i).val(list[i].itemNo);
@@ -234,10 +245,32 @@ var regRv = {
 
     crmInfoChange : function(){
         $("#" + regRv.global.crmSnId).val($("#crmSn").val())
-        $("#" + regRv.global.crmNmId).val($("#crmNm").val())
+        $("#" + regRv.global.crmNmId).text($("#crmNm").val())
 
         $("#crmSn").val("")
         $("#crmNm").val("")
+    },
+
+    fn_popUnitPriceList : function(unitPriceId, i){
+        if(!$("#crmSn" + i).val()){
+            alert("업체를 선택해주세요.");
+            return;
+        }else if(!$("#itemNo" + i).val()){
+            alert("품번을 입력해주세요.");
+            return;
+        }
+
+        regRv.global.unitPriceId = unitPriceId + i;
+
+        var url = "/item/pop/popUnitPriceList.do?crmSn=" + $("#crmSn" + i).val() + "&itemNo=" + $("#itemNo" + i).val();
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    unitPriceChange : function(){
+        $("#" + regRv.global.unitPriceId).val($("#unitPrice").val())
+        $("#unitPrice").val("")
     },
 
     comma: function(str) {

@@ -184,7 +184,9 @@
         /* setInvenTransferReg */
         INSERT INTO CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER
         (
+            TRANSFER_TYPE,
             FORWARDING_DATE,
+            FORWARDER,
             INVEN_SN,
             ITEM_NO,
             ITEM_NAME,
@@ -198,7 +200,9 @@
         VALUES
         <foreach collection="newRateArr" item="item" separator=" , ">
         (
+            #{item.transferType},
             #{item.forwardingDate},
+            #{item.forwarder},
             #{item.invenSn},
             #{item.itemNo},
             #{item.itemName},
@@ -217,7 +221,9 @@
         UPDATE
             CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER
         SET
+            TRANSFER_TYPE = #{transferType},
             FORWARDING_DATE = #{forwardingDate},
+            FORWARDER = #{forwarder},
             INVEN_SN = #{invenSn},
             ITEM_NO = #{itemNo},
             ITEM_NAME = #{itemName},
@@ -231,4 +237,62 @@
         WHERE
             INVEN_TRANS_SN = #{invenTransSn}
     </update>
+
+    <select id="getInvenTransferHistoryList" parameterType="map" resultType="map">
+        SELECT
+            IT.*,
+            EI.EMP_NAME_KR,
+            TFT.ITEM_CD_NM AS TRANSFER_TYPE_NM,
+            FWH.ITEM_CD_NM AS FORWARDING_WH_CD_NM,
+            RWH.ITEM_CD_NM AS RECEIVING_WH_CD_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER IT
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON IT.FORWARDER = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD TFT
+        ON TFT.LG_CD = 'TFT' AND IT.TRANSFER_TYPE = TFT.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD FWH
+        ON FWH.LG_CD = 'WH' AND IT.FORWARDING_WH_CD = FWH.ITEM_CD
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_CD RWH
+        ON RWH.LG_CD = 'WH' AND IT.RECEIVING_WH_CD = RWH.ITEM_CD
+        WHERE 1=1
+
+        <if test='transferType != null and !"".equals(transferType)'>
+            AND IT.TRANSFER_TYPE = #{transferType}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+        <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(IT.FORWARDING_DATE, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(IT.FORWARDING_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <if test='forwardingWhCd != null and !"".equals(forwardingWhCd)'>
+            AND IT.FORWARDING_WH_CD = #{forwardingWhCd}
+        </if>
+
+        <if test='receivingWhCd != null and !"".equals(receivingWhCd)'>
+            AND IT.RECEIVING_WH_CD = #{receivingWhCd}
+        </if>
+
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IT.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    IT.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IT.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

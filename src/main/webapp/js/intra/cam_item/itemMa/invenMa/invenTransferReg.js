@@ -5,13 +5,16 @@ var invenTr = {
         invenSnIndex : "",
         now : new Date(),
         saveAjaxData : "",
+        dropDownDataSource : "",
         wTDataSource : "",
         wCDataSource : "",
     },
     
     fn_defaultScript : function(){
+        invenTr.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "TF", lgCd : "TFT"});
         invenTr.global.wCDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
 
+        invenTr.addRow('new');
         // invenTr.setMakeTable();
     },
 
@@ -26,20 +29,24 @@ var invenTr = {
         if(result.flag){
             var list = result.list;
             $("#listTb tr").remove();
-            for(var i = 0; i < list.length; i++){
-                invenTr.addRow('old');
-
-                $("#wh" + i).find("#itemWhSn" + i).val(list[i].ITEM_WH_SN)
-                $("#wh" + i).find("#itemNo" + i).val(list[i].ITEM_NO)
-                $("#wh" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
-                $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].WH_TYPE)
-                $("#wh" + i).find("#whVolume" + i).val(invenTr.comma(list[i].WH_VOLUME))
-                $("#wh" + i).find("#whWeight" + i).val(invenTr.comma(list[i].WH_WEIGHT))
-                $("#wh" + i).find("#unitPrice" + i).val(invenTr.comma(list[i].UNIT_PRICE))
-                $("#wh" + i).find("#amt" + i).val(invenTr.comma(list[i].AMT))
-                $("#wh" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].WH_CD)
-                $("#wh" + i).find("#rmk" + i).val(list[i].RMK)
-
+            if(list.length == 0){
+                    invenTr.addRow('new');
+            }else{
+                for(var i = 0; i < list.length; i++){
+                    if(i > 0){
+                        invenTr.addRow('old');
+                    }
+                    // $("#wh" + i).find("#itemWhSn" + i).val(list[i].ITEM_WH_SN)
+                    // $("#wh" + i).find("#itemNo" + i).val(list[i].ITEM_NO)
+                    // $("#wh" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
+                    // $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].WH_TYPE)
+                    // $("#wh" + i).find("#whVolume" + i).val(invenTr.comma(list[i].WH_VOLUME))
+                    // $("#wh" + i).find("#whWeight" + i).val(invenTr.comma(list[i].WH_WEIGHT))
+                    // $("#wh" + i).find("#unitPrice" + i).val(invenTr.comma(list[i].UNIT_PRICE))
+                    // $("#wh" + i).find("#amt" + i).val(invenTr.comma(list[i].AMT))
+                    // $("#wh" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].WH_CD)
+                    // $("#wh" + i).find("#rmk" + i).val(list[i].RMK)
+                }
             }
         }
     },
@@ -49,6 +56,9 @@ var invenTr = {
 
         html = "" +
             '<tr class="itransInfo ' + e + 'ItransInfo" id="it' + invenTr.global.invenTransferIndex + '">' +
+                '<td>' +
+                    '<input type="text" id="transferType' + invenTr.global.invenTransferIndex + '" class="transferType">' +
+                '</td>' +
                 '<td style="text-align: right">' +
                     '<input type="hidden" id="invenTransSn' + invenTr.global.invenTransferIndex + '" class="invenTransSn">' +
                     '<input type="hidden" id="invenSn' + invenTr.global.invenTransferIndex + '" class="invenSn">' +
@@ -84,13 +94,13 @@ var invenTr = {
 
         $("#listTb").append(html);
 
+        customKendo.fn_dropDownList("transferType" + invenTr.global.invenTransferIndex, invenTr.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
         customKendo.fn_textBox(["transferQty" + invenTr.global.invenTransferIndex, "rmk" + invenTr.global.invenTransferIndex])
+        customKendo.fn_dropDownList("receivingWhCd" + invenTr.global.invenTransferIndex, invenTr.global.wCDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
 
         $(".numBerInput").keyup(function(){
             $(this).val(invenTr.comma(invenTr.uncomma($(this).val())));
         });
-
-        customKendo.fn_dropDownList("receivingWhCd" + invenTr.global.invenTransferIndex, invenTr.global.wCDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
 
         invenTr.global.invenTransferIndex++;
     },
@@ -106,6 +116,7 @@ var invenTr = {
     rowAttrOverride : function(){
         $.each($(".itransInfo"), function(i, v){
             $(this).attr("id", "it" + i);
+            $(this).find("input.transferType").attr("id", "transferType" + i);
             $(this).find(".invenTransSn").attr("id", "invenTransSn" + i);
             $(this).find(".invenSn").attr("id", "invenSn" + i);
             $(this).find(".itemNo").attr("id", "itemNo" + i);
@@ -204,7 +215,9 @@ var invenTr = {
 
             $.each($(".itransInfo"), function(i, v){
                 var arrData = {
+                    transferType : $(this).find("#transferType" + i).val(),
                     forwardingDate : $("#forwardingDate").val(),
+                    forwarder : $("#regEmpSeq").val(),
                     invenTransSn : $(this).find("#invenTransSn" + i).val(),
                     invenSn : $(this).find("#invenSn" + i).val(),
                     itemNo : $(this).find("#itemNo" + i).val(),

@@ -39,6 +39,7 @@
             </div>
             <table class="searchTable table table-bordered mb-0 mt10">
                 <colgroup>
+                    <col style="width: 10%">
                     <col>
                     <col>
                     <col style="width: 10%">
@@ -50,6 +51,7 @@
                 </colgroup>
                 <thead>
                     <tr>
+                        <th>이동구분</th>
                         <th>품번</th>
                         <th>품명</th>
                         <th>현재재고</th>

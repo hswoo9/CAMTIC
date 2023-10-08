@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_item.controller;
 
+import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.cam_item.service.ItemManageService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -28,6 +29,9 @@ public class ItemManageController {
 
     @Autowired
     private ItemSystemService itemSystemService;
+
+    @Autowired
+    private CrmService crmService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -68,6 +72,19 @@ public class ItemManageController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         return "cam_item/itemMa/purcMa/receivingReg";
+    }
+
+    /**
+     * 단가이력팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popUnitPriceList.do")
+    public String popUnitPriceList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmInfo(params));
+        model.addAttribute("params", params);
+        return "popup/cam_item/popUnitPriceList";
     }
 
     /**
@@ -244,6 +261,35 @@ public class ItemManageController {
     @RequestMapping("/item/setInvenTransferReg.do")
     public String setInvenTransferReg(@RequestParam Map<String, Object> params, Model model){
         itemManageService.setInvenTransferReg(params);
+        return "jsonView";
+    }
+
+    /**
+     * 재고이동현황
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/invenTransferHistory.do")
+    public String invenTransferHistory(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_item/itemMa/invenMa/invenTransferHistory";
+    }
+
+    /**
+     * 재고이동현황 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getInvenTransferHistoryList.do")
+    public String getInvenTransferHistoryList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getInvenTransferHistoryList(params));
         return "jsonView";
     }
 

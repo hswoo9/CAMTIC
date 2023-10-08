@@ -229,6 +229,11 @@ public class ItemManageServiceImpl implements ItemManageService {
         }
     }
 
+    @Override
+    public List<Map<String, Object>> getInvenTransferHistoryList(Map<String, Object> params) {
+        return itemManageRepository.getInvenTransferHistoryList(params);
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 
