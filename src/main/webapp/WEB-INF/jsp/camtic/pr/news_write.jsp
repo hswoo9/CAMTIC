@@ -182,7 +182,7 @@
 
 						<form id="linkTbl">
 							<div class="file-and-table-container2" id="linkDiv1" name="linkDiv" data-number="1">
-								<div class="notStyle_div"><span>링크 생성(테스트)</span></div>
+								<div class="notStyle_div"><span>링크 생성</span></div>
 
 								<textarea class="txt_area_01" id="contents1"></textarea>
 
@@ -287,7 +287,7 @@
                     html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate('+num+')">';
                     html += '<span class="__btn1 grayLine">링크 생성</span></button>';
 			        html += '<button type="button" class="addBtn" onclick="delLinkDiv('+num+')" >';
-			        html += '<span class="__btn1 grayLine">삭제</span></button>';
+			        html += '<span class="__btn1 grayLine" style="margin-left: 4px;">삭제</span></button>';
 				html += '</div>';
 			html += '</div>';
 	    html += '</div>';
@@ -330,12 +330,19 @@
         if(!groupFlag){alert("그룹을 생성해주세요."); return false; }
 
 		let random = new Date().getTime().toString(16);
-		let html = '<button type="button" id="copyBtn'+num+'" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
 
         $("#linkKey" + num).val(random);
-        $("#linkText" + num).val('http://218.158.231.186:8080/newsPopup.do?groupKey='+ groupKey + '&linkKey=' + random);
+        //$("#linkText" + num).val('onclick="openPopup("'+ groupKey +'","' +random + '")"');
+        $("#linkText" + num).val('javascript:openPopup('+ groupKey +',' +random + ')');
 
-        $("#linkText" + num).after(html);
+        if(document.getElementById("copyBtn" + num)){
+        }else{
+            let html = '<button type="button" id="copyBtn'+num+'" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
+            $("#linkText" + num).after(html);
+        }
+
+
+
     }
 
     //링크 복사

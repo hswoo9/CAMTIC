@@ -357,11 +357,36 @@ public class BoardController {
         return "camtic/pr/news_register";
     }
 
+    /**
+     * 뉴스레터 수정 페이지 리턴데이터
+     * */
     @RequestMapping("/camtic/pr/getRetrunNewsData.do")
     public String getRetrunNewsData(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
 
         List<Map<String, Object>> linkInfo = boardService.selectNewsBoard(params);
         model.addAttribute("list", linkInfo);
         return "jsonView";
+    }
+
+    /**
+     * 뉴스레터 게시글 상세보기 데이터
+     * */
+    @RequestMapping("/camtic/pr/news_view.do")
+    public String newsView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        boardService.setBoardArticleViewCount(params);
+
+        model.addAttribute("map", boardService.selectNewsView(params));
+        return "jsonView";
+    }
+
+    /**
+     * 뉴스레터 팝업 데이터
+     * */
+    @RequestMapping("/newsPopup.do")
+    public String newsPopup(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+
+        model.addAttribute("map", boardService.selectNewsPop(params));
+        return "camtic/pr/popup/newsPop";
     }
 }
