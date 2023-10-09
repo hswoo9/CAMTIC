@@ -121,4 +121,16 @@ public class ProjectRndRepository extends AbstractDAO {
     public int getPartRateVerCount(Map<String, Object> map) {
         return (int) selectOne("projectRnd.getPartRateVerCount", map);
     }
+
+    public Map<String, Object> getPartRateDetail(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectRnd.getPartRateDetail", params);
+    }
+
+    public void insPartRateDetail(Map<String, Object> params) {
+        insert("projectRnd.insPartRateDetail", params);
+    }
+
+    public void delPartRateDetail(Map<String, Object> params) {
+        delete("projectRnd.delPartRateDetail", params);
+    }
 }

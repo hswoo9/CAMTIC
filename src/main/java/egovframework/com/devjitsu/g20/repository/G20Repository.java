@@ -20,4 +20,12 @@ public class G20Repository extends AbstractDAO {
     public List<Map<String, Object>> getSubjectList(Map<String, Object> params) {
         return selectListMs("g20.getBgtList", params);
     }
+
+    public int getProjectCount(Map<String, Object> params) {
+        return (int) selectOneMs("g20.getProjectCount", params);
+    }
+
+    public void insProject(Map<String, Object> params) {
+        insertMs("g20.insProject", params);
+    }
 }

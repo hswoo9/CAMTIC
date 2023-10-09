@@ -48,6 +48,40 @@
         ]]>
     </select>
 
+    <select id="getProjectCount" parameterType="map" resultType="int">
+        <![CDATA[
+        SELECT
+            COUNT(*) as cnt
+        FROM DZICUBE.dbo.SPJT A WITH(NOLOCK)
+		LEFT OUTER JOIN DZICUBE.dbo.SDEPT B WITH(NOLOCK)
+        ON (B.CO_CD = '1212' AND A.DEPT_CD = B.DEPT_CD)
+            LEFT OUTER JOIN DZICUBE.dbo.SEMP C WITH(NOLOCK)
+        ON (C.CO_CD = '1212' AND A.EMP_CD = C.EMP_CD)
+            LEFT OUTER JOIN DZICUBE.dbo.STRADE T WITH(NOLOCK)
+        ON (T.CO_CD = '1212' AND A.TR_CD = T.TR_CD)
+        WHERE A.CO_CD = '1212'
+            AND charindex((CASE '1,0' WHEN '' THEN ' ' ELSE prog_fg END), '1,0') > 0
+            AND ISNULL(A.PJT_NM, PJT_NMK) LIKE '%'+ '' +'%'
+            AND (
+                CASE
+                WHEN A.PJT_AUTH ='0' THEN (
+                    CASE
+                    WHEN '' + '' + '' IN (
+                        SELECT	EMP_CD
+                        FROM DZICUBE.dbo.SPJT_D
+                        WHERE CO_CD = A.CO_CD
+                        AND	PJT_CD = A.PJT_CD
+                    ) THEN '1'
+                    ELSE '0'
+                    END
+                )
+                ELSE '1'
+                END
+            ) = '1'
+        AND A.PJT_CD LIKE CONCAT('%', #{pjtTmpCd} ,'%')
+        ]]>
+    </select>
+
     <select id="getCommonGisuInfo" parameterType="java.util.Map" resultType="java.util.Map">
         /* mssql/iCUBE/common/procedure/G20ProcedureSQL - g20Procedure.selectCommonGisuInfo */
         /* 사용자 기수정보 상세 조회 */
@@ -144,4 +178,21 @@
         ]]>
     </select>
 
+    <update id="insProject" parameterType="map">
+        /*insProject*/
+        EXEC USP_SAUTOABDOCU_PJT_DML
+            '1212'              /* 하드코딩 고정값 */
+            , #{pType}          /*등록이면 I, 조회해서 카운트 된게 있으면 U*/
+            , #{pProjectCD}     /*DZI 코드 ex) Ra1b223011, Ra1b223012*/
+            , #{pProjectNM}     /*프로젝트 명*/
+            , #{pState}         /*상태 (등록이면 고정값 1, 조회해서 카운트 된게 있으면 조회한 값 pState 가져옴 )*/
+            , #{pProjectNMEx}   /*요약 프로젝트 명*/
+            , ''                /*(공백)*/
+            , #{pSDate}         /*프로젝트 시작일 20200101*/
+            , #{pEDate}         /*프로젝트 종료일 20201231*/
+            , '1'               /*하드코딩 고정값*/
+            , ''                /*(공백)*/
+            , ''                /*(공백)*/
+            , ''                /*(공백)*/
+    </update>
 </mapper>

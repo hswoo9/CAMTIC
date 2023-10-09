@@ -1615,7 +1615,20 @@
             A.*,
             B.*,
             DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DT,
-            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            D.CHNG_SAL,
+            D.PART_DET_STR_DT,
+            D.PART_DET_END_DT,
+            D.PART_EMP_NM,
+            D.PART_EMP_SEQ,
+            D.PAY_RATE,
+            D.ITEM_RATE,
+            D.MON_SAL,
+            D.MON_DIFF,
+            D.TOT_PAY_BUDG,
+            D.TOT_ITEM_BUDG,
+            D.TOT_RATE,
+            D.PAY_TOTAL
         FROM
             CAM_PJT_MNG.DJ_PJT_RND A
         LEFT JOIN
@@ -1634,6 +1647,10 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PART_RATE_DET D
+        ON
+            D.PART_RATE_VER_SN = #{PART_RATE_VER_SN} AND D.PART_EMP_SEQ = A.MNG_EMP_SEQ AND D.PJT_SN = #{PJT_SN}
         ]]>
     </select>
 
@@ -1644,7 +1661,20 @@
             A.*,
             B.*,
             DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DT,
-            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            D.CHNG_SAL,
+            D.PART_DET_STR_DT,
+            D.PART_DET_END_DT,
+            D.PART_EMP_NM,
+            D.PART_EMP_SEQ,
+            D.PAY_RATE,
+            D.ITEM_RATE,
+            D.MON_SAL,
+            D.MON_DIFF,
+            D.TOT_PAY_BUDG,
+            D.TOT_ITEM_BUDG,
+            D.TOT_RATE,
+            D.PAY_TOTAL
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
         LEFT JOIN
@@ -1663,6 +1693,28 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PART_RATE_DET D
+        ON
+            A.PART_RATE_VER_SN = D.PART_RATE_VER_SN AND D.PART_EMP_SEQ = #{MEMBER_SEQ} AND D.PJT_SN = #{PJT_SN}
         ]]>
     </select>
+
+    <update id="updTmpProjectCode" parameterType="map">
+        /*updTmpProjectCode*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_TMP_CD = #{pjtCd}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updProjectCode" parameterType="map">
+        /*updProjectCode*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_CD = #{pjtCd}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

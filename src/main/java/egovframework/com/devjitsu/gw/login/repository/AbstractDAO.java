@@ -32,6 +32,16 @@ public class AbstractDAO {
         return sqlSession.insert(queryId, params);
     }
 
+    public Object insertMs(String queryId){
+        printQueryId(queryId);
+        return sqlSessionMs.insert(queryId);
+    }
+
+    public Object insertMs(String queryId, Object params){
+        printQueryId(queryId);
+        return sqlSessionMs.insert(queryId, params);
+    }
+
     public Object update(String queryId, Object params){
         printQueryId(queryId);
         return sqlSession.update(queryId, params);
